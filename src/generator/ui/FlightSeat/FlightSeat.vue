@@ -1,0 +1,95 @@
+<!-- src/MainGenerator/ui/FlightSeat/FlightSeat.vue -->
+<template>
+  <CenteringWrapper>
+    <SeatSelector
+      :color="settings.color"
+      :seats="seats"
+      :kind="settings.component"
+      :customLayout="parsedCustomLayout"
+      :statKey="localStatKey"
+      :totalSeats="totalSeats"
+      @click="toggleStatKey"
+    />
+
+    <!-- デバッグログ -->
+    <template v-if="isDev && 0">
+      <FlightSeatDebug
+        :occupiedSeats="occupiedSeats"
+        :totalSeats="totalSeats"
+        :debugLog="debugLog"
+      />
+    </template>
+  </CenteringWrapper>
+</template>
+
+<script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { storeToRefs } from "pinia";
+import { isDev, statKeyNum, StatKeyNum } from "@/types";
+import { FlightSeatSchema, flightComponentDefaults } from "@/types";
+import SeatSelector from "./parts/FlightSeatSelector.vue";
+import FlightSeatDebug from "./FlightSeatDebug.vue";
+import { useSeatManager } from "./composables/useSeatManager.js";
+import {
+  calculateTotalSeats,
+  parseCustomLayout,
+} from "./composables/seatLayoutUtils.js";
+import { useAppStore } from "@/generator/stores/useAppStore.js";
+import CenteringWrapper from "@main/ui/common/CenteringWrapper.vue";
+import { useVisibilityAccess } from "@/generator/scripts/FeatureAccess/useAccessCheckerMain.js";
+
+const appStore = useAppStore();
+const { data } = storeToRefs(appStore);
+const settings = computed(
+  () => data.value.components.settings.flightSeat ?? FlightSeatSchema.parse({}),
+);
+
+const { isComment } = useVisibilityAccess();
+const localStatKey = ref<StatKeyNum | null>(settings.value.statKey);
+
+// defaults が唯一の座席数の定義元、customLayout があれば上書き
+const defaultValue = computed(
+  () => flightComponentDefaults[settings.value.component],
+);
+const totalSeats = computed(() =>
+  calculateTotalSeats(defaultValue.value, settings.value.customLayout),
+);
+
+// string型のdefaultまたはcustomLayoutを行配列に変換してSeatSelectorへ渡す
+const parsedCustomLayout = computed(() =>
+  parseCustomLayout(defaultValue.value, settings.value.customLayout),
+);
+
+const { seats, occupiedSeats, debugLog, registerUser } = useSeatManager(
+  totalSeats,
+  (userId) => appStore.userSession.stats.get(userId),
+);
+
+const toggleStatKey = () => {
+  const order = [null, ...statKeyNum] as const;
+  const current = localStatKey.value;
+  const next = order[(order.indexOf(current) + 1) % order.length];
+  localStatKey.value = next;
+};
+watch(
+  () => settings.value.statKey,
+  (v) => (localStatKey.value = v),
+);
+
+let unsubscribe: (() => void) | null = null;
+
+onMounted(() => {
+  if (isComment.value && settings.value.targetEventKey) {
+    unsubscribe = appStore.userSession.visits.onVisit(
+      settings.value.targetEventKey,
+      registerUser,
+    );
+  } else {
+    unsubscribe = appStore.userSession.stats.onUpdate(registerUser);
+  }
+});
+
+onUnmounted(() => {
+  if (unsubscribe) unsubscribe();
+});
+</script>

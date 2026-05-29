@@ -1,0 +1,12 @@
+- [おみくじ BOT ストロベリーショコラ OmikujiBot StrawberryChocolate README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/full/StrawberryChocolate/README.md)
+- [おみくじ BOT ゆっくり霊夢&魔理沙 OmikujiBot ReimuMarisa README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/full/ReimuMarisa/README.md)
+- [おみくじ BOT みんなのずんだもん OmikujiBot Everyone Zunda README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/full/EveryoneZunda/README.md)
+- [おみくじ BOT 高飛車な四国めたん OmikujiBot Diva Metan README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/full/DivaMetan/README.md)
+- [おみくじ BOT じゃんけん OmikujiBot HondaJanken README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/solo/HondaJanken/README.md)
+- [おみくじ BOT カード駅 OmikujiBot CardStation README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/solo/CardStation/README.md)
+- [おみくじ BOT 超おみくじ OmikujiBot BigBangFortune README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/solo/BigBangFortune/README.md)
+- [おみくじ BOT タロットカード OmikujiBot TarotCard README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/solo/TarotCard/README.md)
+- [おみくじ BOT スイカジェネレーター + カボチャ&クジラ OmikujiBot GouseiSuika README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/solo/GouseiSuika/README.md)
+- [おみくじ BOT ボンバースロット OmikujiBot BomberSpin](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/solo/BomberSpin/README.md)
+- [どこでもドラちゃん Bot OmikujiBot 5percent_Dora README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/solo/5percent_Dora/README.md)
+

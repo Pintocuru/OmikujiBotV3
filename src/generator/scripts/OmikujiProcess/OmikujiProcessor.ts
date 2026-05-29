@@ -1,0 +1,202 @@
+// src/MainGenerator/scripts/OmikujiProcess/OmikujiProcessor.ts
+import {
+  OmikujiSetType,
+  ActionSetType,
+  DefaultPlaceholdersCommentSchema,
+  DefaultPlaceholdersMetaSchema,
+  EventCategoryType,
+} from "@/types";
+import { BotMessageType } from "@/types/MainGenerator/BotMessageSchema";
+import { OmikujiResultProcessor } from "@/generator/scripts/OmikujiResult/OmikujiResultProcessor";
+import { useAppStore } from "@/generator/stores/useAppStore";
+import { OmikenCommentType, ServiceMetaCondition } from "@shared/types";
+import { postSystemMessage } from "@shared/sdk/post/PostOneComme";
+import { drawOmikuji } from "@shared/utils/omikuji/DrawOmikuji";
+
+export class OmikujiProcessor {
+  private readonly store = useAppStore();
+  private readonly omikujiResult: OmikujiResultProcessor;
+
+  constructor() {
+    this.omikujiResult = new OmikujiResultProcessor(
+      this.store.data,
+      this.store.scriptManager.playScript,
+      this.store.placeholderVariable,
+    );
+  }
+
+  /**
+   * おみくじ抽選 & 実行 (本番用)
+   */
+  async executeOmikuji(
+    eventKey: string,
+    omikujiSet: OmikujiSetType,
+    category: EventCategoryType,
+    omiken?: OmikenCommentType,
+  ): Promise<BotMessageType[]> {
+    return this.runFlow(eventKey, omikujiSet, category, omiken, false);
+  }
+
+  /**
+   * おみくじ抽選 & 実行 (スロット演出用)
+   */
+  async executeDummyOmikuji(
+    eventKey: string,
+    omikujiSet: OmikujiSetType,
+    category: EventCategoryType,
+    omiken?: OmikenCommentType,
+  ): Promise<BotMessageType[]> {
+    return this.runFlow(eventKey, omikujiSet, category, omiken, true);
+  }
+
+  /**
+   * 共通の実行フロー
+   */
+  private async runFlow(
+    eventKey: string,
+    omikujiSet: OmikujiSetType,
+    category: EventCategoryType,
+    omiken?: OmikenCommentType,
+    isDummy: boolean = false,
+  ): Promise<BotMessageType[]> {
+    const actionItem = this.lotteryOmikujiItem(omikujiSet);
+    if (!actionItem || actionItem.type === "special") return [];
+
+    const defaultPlaceholders = this.getDefaultPlaceholders(omiken);
+
+    // isDummyによって呼び出すメソッドを切り替える
+    const messages = isDummy
+      ? await this.omikujiResult.processDummy(
+          actionItem,
+          defaultPlaceholders,
+          omiken,
+        )
+      : await this.omikujiResult.process(
+          actionItem,
+          defaultPlaceholders,
+          omiken,
+        );
+
+    return this.attachSource(
+      messages,
+      category,
+      eventKey,
+      actionItem.key,
+      omiken,
+    );
+  }
+
+  /**
+   * おみくじ抽選。
+   * criteria フィルタが必要な場合は呼び出し側で事前に適用すること
+   * (コメントイベントは RuleCommentProcessor.lotteryWithCriteria を使用)。
+   */
+  lotteryOmikujiItem(omikujiSet: OmikujiSetType): ActionSetType | null {
+    try {
+      if (!omikujiSet.length) return null;
+      return (drawOmikuji(omikujiSet) as ActionSetType) ?? null;
+    } catch (error) {
+      const msg = `おみくじ実行エラー ${error}`;
+      console.error(msg);
+      postSystemMessage(msg);
+      return null;
+    }
+  }
+
+  async executeActionItem(
+    eventKey: string,
+    actionItem: ActionSetType,
+    category: EventCategoryType,
+    omiken?: OmikenCommentType,
+  ): Promise<BotMessageType[]> {
+    if (actionItem.type === "special") return [];
+    const defaultPlaceholders = this.getDefaultPlaceholders(omiken);
+    const messages = await this.omikujiResult.process(
+      actionItem,
+      defaultPlaceholders,
+      omiken,
+    );
+    return this.attachSource(
+      messages,
+      category,
+      eventKey,
+      actionItem.key,
+      omiken,
+    );
+  }
+
+  /** source / origin を付与する共通処理 */
+  private attachSource(
+    messages: BotMessageType[],
+    category: EventCategoryType,
+    eventKey: string,
+    omikujiKey: string,
+    omiken?: OmikenCommentType,
+  ): BotMessageType[] {
+    return messages.map((m) => ({
+      ...m,
+      source: { category, eventKey, omikujiKey },
+      origin: omiken,
+    }));
+  }
+
+  /**
+   * comment用デフォルトのプレースホルダー情報を設定
+   */
+  private getDefaultPlaceholders(
+    omiken?: OmikenCommentType,
+  ): Record<string, string | number> {
+    const basePlaceholders = this.getBasePlaceholders();
+
+    if (!omiken) return basePlaceholders;
+
+    return DefaultPlaceholdersCommentSchema.parse({
+      ...basePlaceholders,
+      user: `{{icon ${omiken.userId}}}${omiken.userName}`,
+      userId: this.sanitizeKey(omiken.userId),
+      price: omiken.giftPrice,
+      lc: omiken.meta.lc,
+      tc: omiken.meta.tc,
+      draws: omiken.omikuji?.draws,
+    });
+  }
+
+  // 変数プレースホルダー用のuserId変換器
+  private sanitizeKey(raw: string): string {
+    let h = 0;
+    for (let i = 0; i < raw.length; i++) {
+      h = (h * 31 + raw.charCodeAt(i)) >>> 0;
+    }
+    return `v${h.toString(36)}`;
+  }
+
+  /**
+   * デフォルトのプレースホルダー情報を設定
+   */
+  private getBasePlaceholders(): Record<ServiceMetaCondition, string | number> {
+    const meta = this.store.serviceMetaStore.getCurrent();
+    const { userSession, streamStats } = this.store;
+
+    const uniqueCount = userSession.stats.getUniqueCount();
+    const { liveComments, syoken } = streamStats.getStats();
+    const { winners } = userSession.stats.drawWinners(1);
+    const firstWinner = winners[0];
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, "0");
+    const m = String(now.getMinutes()).padStart(2, "0");
+
+    return DefaultPlaceholdersMetaSchema.parse({
+      viewer: meta?.viewer ?? 0,
+      upVote: meta?.upVote ?? 0,
+      follower: meta?.follower ?? 0,
+      lc: liveComments,
+      commenter: uniqueCount,
+      syoken,
+      winner: firstWinner
+        ? `{{icon ${firstWinner.userId}}}${firstWinner.userName}`
+        : "Null",
+      winnerId: firstWinner ? this.sanitizeKey(firstWinner.userId) : "Null",
+      clock: `${h}時${m}分`,
+    });
+  }
+}
