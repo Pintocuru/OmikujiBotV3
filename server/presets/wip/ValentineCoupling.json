@@ -1,0 +1,217 @@
+{
+  "meta": {
+    "id": "ValentineCoupling-ver2026.03.18-2.9.0-beta4",
+    "name": "おみくじBOT バレンタイン・カップリング OmikujiBot ValentineCoupling",
+    "description": "test",
+    "version": "ver2026.03.18-2.9.0-beta4",
+    "generatorName": "omikuji-bot",
+    "generatorVersion": "2.9.0-beta4",
+    "dataVersion": 2.20090002004,
+    "author": "Pintocuru(せすじピンとしてます)",
+    "tags": [
+      "バレンタイン・カップリング",
+      "ラッキーメンバーズ"
+    ],
+    "license": "CC-BY 4.0",
+    "url": "https://pintocuru.booth.pm/items/7432682",
+    "banner": ""
+  },
+  "jsonMerge": [],
+  "comments": {
+    "ValentineCoupling": {
+      "id": "1724f07a-b46d-4833-8d38-56063b1a4b38",
+      "key": "ValentineCoupling",
+      "name": "バレンタイン・カップリング",
+      "description": "コメントしたユーザーの中から、ランダムに2名を表示します。",
+      "createdAt": "2026-02-11T14:15:32.212Z",
+      "updatedAt": "2026-02-13T01:30:02.872Z",
+      "order": 1,
+      "isEnabled": true,
+      "editorColor": "#CE93D8",
+      "tags": [
+        "ラッキーメンバーズ"
+      ],
+      "accessLevel": "basic",
+      "omikuji": [
+        {
+          "id": "7f36837e-08f6-4535-852a-0a020dc525b3",
+          "key": "e13f8adc-4d01-4f0a-85bf-8157fa936581",
+          "name": "カップリング",
+          "createdAt": "2026-02-11T14:15:23.918Z",
+          "updatedAt": "2026-02-11T14:15:23.918Z",
+          "order": 0,
+          "tags": [],
+          "accessLevel": "basic",
+          "type": "gameScripts",
+          "postActions": [
+            {
+              "delaySeconds": 0,
+              "actionType": "message",
+              "characterKey": "",
+              "iconKey": "default",
+              "sound": "",
+              "message": {
+                "bubble": "<<user>>さんの運勢は【大吉】",
+                "isToast": false
+              }
+            }
+          ],
+          "gameScripts": {
+            "scriptId": "WinnerGroup",
+            "queryString": "count=2&label=今日のカップリング",
+            "characterKey": "chocolate"
+          },
+          "special": "return",
+          "weight": 1,
+          "isPriority": false,
+          "criteria": null
+        }
+      ],
+      "ruleType": "comments",
+      "trigger": {
+        "conditions": [
+          "comment"
+        ],
+        "userName": [],
+        "access": [],
+        "gift": [],
+        "comment": [
+          "^カップ",
+          "^かっぷ",
+          "^coupling",
+          "^ペア",
+          "^ぺあ",
+          "^pear"
+        ]
+      },
+      "limits": {
+        "cooldownSeconds": 3,
+        "cooldownMessage": null,
+        "isRepeatAllowed": 0,
+        "repeatMessage": null
+      }
+    }
+  },
+  "timers": {},
+  "metas": {},
+  "actionSets": {},
+  "placeholders": {},
+  "characters": {},
+  "components": {
+    "conditions": [
+      {
+        "slot": "extra",
+        "kind": "winnerGroup"
+      },
+      {
+        "slot": "secondary",
+        "kind": "toast"
+      }
+    ],
+    "commonStyle": {
+      "fontFamily": "default",
+      "defaultColor": {
+        "isTheme": true,
+        "daisyUiTheme": "dark",
+        "backFrom": "primary",
+        "backTo": "secondary",
+        "nameColor": "#212121",
+        "textColor": "#212121",
+        "backgroundColor": "#FAFAFA"
+      }
+    },
+    "settings": {
+      "bubble": {
+        "showCharacters": {
+          "center": [
+            "chocolate",
+            "cafelatte",
+            "honjoFox",
+            "omiken",
+            "omiken_2"
+          ],
+          "slot1": [],
+          "slot2": [],
+          "slot3": [],
+          "slot4": []
+        },
+        "characterSize": 48,
+        "bubbleMotionEnter": "slideUp",
+        "bubbleTextAnimate": false,
+        "bubbleTextSpeed": 50
+      },
+      "toast": {
+        "showToastsOnRight": true,
+        "showToastsCharacter": false,
+        "showThumbnail": []
+      },
+      "ranking": {
+        "targetScriptKeys": [
+          "basicList"
+        ],
+        "title": "🍉スイカランキング🍉",
+        "color": "lofi",
+        "limit": 5,
+        "sortOrder": "new",
+        "component": "rankStandard"
+      },
+      "counter": {
+        "component": "counterUser",
+        "ruleKey": "",
+        "target": "draw",
+        "label": "Counter",
+        "color": {
+          "daisyUiTheme": "dark",
+          "backFrom": "primary",
+          "backTo": "secondary"
+        }
+      },
+      "winnerGroup": {
+        "component": "valentineCoupling",
+        "ruleKey": "",
+        "label": "バレンタイン・カップリング",
+        "color": "valentine",
+        "queryString": "count=2&label=今日のカップリング"
+      },
+      "flightSeat": {
+        "slotType": "extra",
+        "layout": "square",
+        "rows": 5,
+        "cols": 6,
+        "circleSeats": 12,
+        "customLayout": "[1,2,3,4,5]",
+        "label": "🛫 8時間フライト、どの席に座る？",
+        "color": "synthwave",
+        "allowReseating": false,
+        "historyLimit": 10
+      }
+    }
+  },
+  "featureUsage": {
+    "usage": {
+      "comments": "basic",
+      "timers": "none",
+      "metas": "none",
+      "actionSets": "none",
+      "placeholders": "none",
+      "characters": "none"
+    },
+    "components": [
+      "bubble",
+      "toast",
+      "winnerGroup"
+    ],
+    "gameScripts": [
+      "WinnerGroup"
+    ],
+    "developer": {
+      "licenseVisible": "basic",
+      "jsonMergeSettings": "none"
+    }
+  },
+  "settings": {
+    "commentType": "OneComme",
+    "licenseKeyHash": "2c26b46b68ffc68ff99b453c1d304134",
+    "daisyUiTheme": "valentine"
+  }
+}
