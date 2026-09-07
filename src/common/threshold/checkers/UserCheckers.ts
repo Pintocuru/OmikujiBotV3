@@ -1,6 +1,6 @@
 // shared/utils/threshold/checkers/UserCheckers.ts
 import { Comment } from '@onecomme.com/onesdk/types/Comment'
-import { AccessCondition, SyokenCondition } from '../../../types/Threshold/'
+import { AccessCondition, SyokenCondition } from '../../../types/Threshold'
 import { getCommentMeta, isCommentTester } from '../ThresholdHelpers'
 
 /**

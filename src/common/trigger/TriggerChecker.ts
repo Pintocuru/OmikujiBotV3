@@ -10,7 +10,7 @@ import { checkTimeRange } from '../threshold/ThresholdHelpers'
 import { OmikenCommentType } from '../../types/OmikenComment/OmikenCommentSchema'
 import { GiftCondition, SyokenCondition } from '../../types/Threshold'
 import { AccessConditionTrigger, TriggerCondition } from '../../types/trigger'
-import { CountConditionTriggerType } from '../../types/trigger/CountConditionTrigger'
+import { CountConditionTriggerType } from '../../types/trigger/CountCondition'
 
 /**
  * 複合条件チェッカー

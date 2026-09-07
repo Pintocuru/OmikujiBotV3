@@ -2,7 +2,7 @@
 import { OmikenCommentType } from '../../../types/OmikenComment/OmikenCommentSchema'
 import { GiftCondition, SyokenCondition } from '../../../types/Threshold'
 import { AccessConditionTrigger } from '../../../types/trigger'
-import { CountConditionTriggerType } from '../../../types/trigger/CountConditionTrigger'
+import { CountConditionTriggerType } from '../../../types/trigger/CountCondition'
 import { compareValue, getGiftTier } from '../../../utils/threshold/ThresholdHelpers'
 
 /**

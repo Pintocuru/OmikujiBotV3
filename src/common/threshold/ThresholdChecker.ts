@@ -7,7 +7,7 @@ import {
   GiftCondition,
   SyokenCondition,
   ThresholdCondition,
-} from '../../types/Threshold/'
+} from '../../types/Threshold'
 import { checkTimeRange } from './ThresholdHelpers'
 import {
   checkSyoken,

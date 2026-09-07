@@ -1,53 +1,61 @@
 // shared/sdk/subscribe/GetMetas.ts
-import { api } from '../../http/client'
-import { PingOneSDK } from '../connection/PingOneSDK'
-import { Service, ServiceMeta } from '@onecomme.com/onesdk/types/Service'
+import { api } from "../client";
+import { PingOneSDK } from "../connection/PingOneSDK";
+import { Service, ServiceMeta } from "@onecomme.com/onesdk/types/Service";
 
-type MetaResult = { ok: true; data: ServiceMeta | null } | { ok: false; error: unknown }
+type MetaResult =
+  | { ok: true; data: ServiceMeta[] }
+  | { ok: false; error: unknown };
 
 export class ServiceMetaWatcher {
-  private metaCache: ServiceMeta | null = null
-  private pollingInterval: ReturnType<typeof setInterval> | null = null
-  private isInitialized = false
-  private static instance: ServiceMetaWatcher | null = null
+  private metaCache: ServiceMeta[] = [];
+  private pollingInterval: ReturnType<typeof setInterval> | null = null;
+  private isInitialized = false;
+  private static instance: ServiceMetaWatcher | null = null;
 
   static getInstance() {
-    if (!this.instance) this.instance = new ServiceMetaWatcher()
-    return this.instance
+    if (!this.instance) this.instance = new ServiceMetaWatcher();
+    return this.instance;
   }
-
-  private constructor() {}
 
   /**
    * ライブ配信中のメタ情報を取得
    */
   private async fetchLiveMeta(): Promise<MetaResult> {
     try {
-      const services = await api.get<Service[]>('/services').then((r) => r.data)
-      const live = services?.filter((s) => s.meta?.isLive) || []
-      return { ok: true, data: live[0]?.meta ?? null }
+      const services = await api
+        .get<Service[]>("/services")
+        .then((r) => r.data);
+
+      const live = services?.filter((s) => s.meta?.isLive) || [];
+
+      // 配列で返す
+      return { ok: true, data: live.map((s) => s.meta!) };
     } catch (error) {
-      return { ok: false, error }
+      return { ok: false, error };
     }
   }
 
   /**
    * ポーリングを開始（0.5秒ごとに最新のメタ情報を取得）
    */
-  private startPolling(callback: (meta: ServiceMeta | null) => void) {
-    this.stopPolling()
+  private startPolling(callback: (meta: ServiceMeta[]) => void) {
+    this.stopPolling();
 
     this.pollingInterval = setInterval(async () => {
-      const result = await this.fetchLiveMeta()
+      const result = await this.fetchLiveMeta();
 
       if (!result.ok) {
-        callback(null) // もしくは error 用コールバック
-        return
+        callback([]); // エラー時は空配列
+        return;
       }
 
-      this.metaCache = result.data
-      callback(result.data)
-    }, 500)
+      // 配列でキャッシュ
+      this.metaCache = result.data;
+
+      // 配列で返す
+      callback(result.data);
+    }, 500);
   }
 
   /**
@@ -55,30 +63,30 @@ export class ServiceMetaWatcher {
    */
   stopPolling() {
     if (this.pollingInterval) {
-      clearInterval(this.pollingInterval)
-      this.pollingInterval = null
+      clearInterval(this.pollingInterval);
+      this.pollingInterval = null;
     }
   }
 
   /**
    * メタ情報の取得を開始（必要であれば PingOneSDK を初期化）
    */
-  async fetchMeta(callback: (meta: ServiceMeta | null) => void) {
+  async fetchMeta(callback: (meta: ServiceMeta[]) => void) {
     if (!this.isInitialized) {
-      const ok = await PingOneSDK()
-      if (!ok) return { ok: false }
+      const ok = await PingOneSDK();
+      if (!ok) return { ok: false };
 
-      this.isInitialized = true
+      this.isInitialized = true;
     }
 
-    this.startPolling(callback)
-    return { ok: true }
+    this.startPolling(callback);
+    return { ok: true };
   }
 
   /**
    * 現在キャッシュされているメタ情報を取得
    */
   getCurrentMeta() {
-    return this.metaCache
+    return this.metaCache;
   }
 }

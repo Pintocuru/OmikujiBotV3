@@ -33,7 +33,7 @@
         "./src/*"
       ],
       "@main/*": [
-        "src/generator/*"
+        "./src/generator/*"
       ],
       "@config/*": [
         "./src/ConfigMaker/*"
@@ -46,7 +46,10 @@
       ],
       "@migrations/*": [
         "./src/common/migrations/*"
-      ]
+      ],
+      "@types/*": [
+        "./src/types/*"
+      ],
     }
   },
   "include": [

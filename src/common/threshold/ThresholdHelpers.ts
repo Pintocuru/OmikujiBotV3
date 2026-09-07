@@ -1,6 +1,6 @@
 // shared/utils/threshold/ThresholdHelpers.ts
-import { GiftCondition } from '../../types/Threshold/'
-import { CountComparisonCondition } from '../../types/trigger/CountConditionTrigger'
+import { GiftCondition } from '../../types/Threshold'
+import { CountComparisonCondition } from '../../types/trigger/CountCondition'
 import { BaseCommentMeta, Comment } from '@onecomme.com/onesdk/types/Comment'
 
 /**
