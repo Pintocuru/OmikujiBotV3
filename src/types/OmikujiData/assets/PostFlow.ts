@@ -6,17 +6,11 @@ import { soundKeys } from './SoundKey'
 /**
  * PostFlow タイプのUI表示情報
  */
-export const PostFlowKindMaps = {
-  message: { label: 'メッセージ', icon: 'MessageSquare' },
-  sound: { label: 'サウンド', icon: 'Volume2' },
-  wordParty: { label: 'WordParty', icon: 'PartyPopper' },
-  variable: { label: '評価ブロック', icon: 'Brackets' },
-  bot: { label: 'BOTちゃん', icon: 'Bot' },
-  flowCall: { label: 'アクションセット', icon: 'MessagesSquare' },
-} as const
+export const postFlowKinds = ['message', 'sound', 'wordParty', 'variable', 'bot', 'flowCall'] as const
 
-// アクションタイプの定義
-export type PostFlowKind = keyof typeof PostFlowKindMaps
+// スキーマと型の定義
+export const PostFlowKindSchema = z.enum(postFlowKinds).default('message').catch('message')
+export type PostFlowKind = z.infer<typeof PostFlowKindSchema>
 
 /**
  * PostFlow

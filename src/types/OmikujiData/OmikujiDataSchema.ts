@@ -1,17 +1,13 @@
 // src/types/OmikujiData/OmikujiDataSchema.ts
 import { z } from 'zod'
-import { PlaceholderSchema } from './PlaceholderSchema'
-import { CharacterSchema } from './CharacterSchema'
-import { CommentEventSchema, ReactionEventSchema, ServiceEventSchema, TimerEventSchema } from './EventSchema'
-
+import { PlaceholderSchema, CharacterSchema, OmikujiBoxSchema, ActionSetSchema } from './assets'
+import { CommentEventSchema, ReactionEventSchema, ServiceEventSchema, TimerEventSchema } from './events'
+import { UiSchema } from './ui'
 import { JsonMergeSchema } from './JsonMergeType'
-import { UiSchema } from './UiSchema'
 import { FlagsSchema } from './FlagsSchema'
 import { SettingsSchema } from './SettingsSchema'
 import { normalizedRecord, normalizedObject, normalizedArray } from './ParsedDefault'
 import { PackageJsonSchema } from '../core/MetaDataSchema'
-import { OmikujiBoxSchema } from './OmikujiBoxSchema'
-import { ActionSetSchema } from './ActionSet'
 
 /**
  * おみくじデータ全体のメインスキーマ
@@ -34,6 +30,7 @@ export const OmikujiDataSchema = PackageJsonSchema.extend({
   }),
 
   ui: normalizedObject(UiSchema),
+  // TODO:廃止予定
   flags: normalizedObject(FlagsSchema),
   jsonMerge: JsonMergeSchema.catch([]),
   settings: normalizedObject(SettingsSchema),

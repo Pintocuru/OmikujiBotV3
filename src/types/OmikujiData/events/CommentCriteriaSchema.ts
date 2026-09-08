@@ -1,6 +1,6 @@
 // src/types/OmikujiData/CriteriaThresholdSchema.ts
 import { z } from 'zod'
-import { AccessConditionSchema, CountConditionSchema, GiftConditionSchema, SyokenConditionSchema } from '../trigger'
+import { AccessConditionSchema, CountConditionSchema, GiftConditionSchema, SyokenConditionSchema } from '../../trigger'
 
 /**
  * criteria Threshold

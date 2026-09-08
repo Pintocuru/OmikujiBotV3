@@ -1,5 +1,5 @@
 // src/MainGenerator/stores/ReactionManager/ReactionStatsManager.ts
-import { reactionKeys } from '@/types/OmikujiData/ReactionTriggerSchema'
+import { reactionKeys } from '@/types/OmikujiData/events/ReactionTriggerSchema'
 
 export interface BurstState {
   level: number // 現在のバーストレベル (0〜3)

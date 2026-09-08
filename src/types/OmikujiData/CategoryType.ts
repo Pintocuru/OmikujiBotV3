@@ -1,7 +1,7 @@
 // src/types/OmikujiData/CategoryType.ts
-import { ActionSetSchema, ActionSetType } from './PostFlow'
-import { PlaceholderSchema, PlaceholderType } from './PlaceholderSchema'
-import { CharacterSchema, CharacterType } from './CharacterSchema'
+import { z } from 'zod'
+import { PlaceholderSchema, PlaceholderType } from './assets/PlaceholderSchema'
+import { CharacterSchema, CharacterType } from './assets/CharacterSchema'
 import {
   CommentEventSchema,
   CommentEventType,
@@ -13,8 +13,8 @@ import {
   TimerEventType,
   ReactionEventType,
   ReactionEventSchema,
-} from './EventSchema'
-import { categoryMap } from '../MetaMaps'
+} from './events/EventSchema'
+import { ActionSetSchema, ActionSetType } from './assets/ActionSet'
 
 /**
  * RecordCategory
@@ -67,5 +67,20 @@ export type SettingsCategoryType = (typeof settingsCategoryLabel)[number]
 /**
  * CategoryType
  */
-export const categoryTypeLabel = Object.keys(categoryMap) as CategoryType[]
-export type CategoryType = keyof typeof categoryMap
+export const categories = [
+  'jsonMerge',
+  'comments',
+  'timers',
+  'metas',
+  'reactions',
+  'actionSets',
+  'placeholders',
+  'characters',
+  'components',
+  'appInfo',
+  'dataPacks',
+] as const
+
+// スキーマと型の定義
+export const CategorySchema = z.enum(categories)
+export type CategoryType = z.infer<typeof CategorySchema>

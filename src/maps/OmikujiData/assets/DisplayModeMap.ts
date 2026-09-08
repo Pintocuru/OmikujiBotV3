@@ -1,17 +1,9 @@
 //
-import { z } from 'zod'
+import { DisplayModeType } from '@/types/OmikujiData'
 
 /**
- * displayModes
+ * displayModes BOTコメント表現方法
  */
-export const displayModes = ['comment', 'voice', 'none'] as const
-
-// スキーマと型の定義
-export const DisplayModeSchema = z.enum(displayModes).default('comment').catch('comment')
-
-export type DisplayModeType = z.infer<typeof DisplayModeSchema>
-
-// Map定義
 export const displayModeMap: Record<DisplayModeType, { label: string; description: string }> = {
   comment: {
     label: 'わんコメでの表示+読み上げ',

@@ -1,7 +1,7 @@
 // src/types/OmikujiData/CharacterSchema.ts
 import { z } from 'zod'
-import { normalizedObject } from './ParsedDefault'
-import { BaseRecordSchema } from '../core/BaseSchema'
+import { normalizedObject } from '../ParsedDefault'
+import { BaseRecordSchema } from '../../core/BaseSchema'
 import { loopMotions } from './LoopMotionsSchema'
 import { displayModes } from './DisplayModeSchema'
 

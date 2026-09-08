@@ -1,16 +1,9 @@
 //
-import { z } from 'zod'
+import { CharacterEmotionType } from '@/types/OmikujiData'
 
 /**
- * CharacterEmotion 感情ラベル
+ * CharacterEmotion ジェネレーター用画像設定
  */
-export const characterEmotions = ['default', 'happy', 'surprised', 'sad', 'angry', 'thinking'] as const
-
-// スキーマと型の定義
-export const CharacterEmotionSchema = z.enum(characterEmotions).default('default').catch('default')
-export type CharacterEmotionType = z.infer<typeof CharacterEmotionSchema>
-
-// Map定義
 export const characterEmotionMap: Record<CharacterEmotionType, { label: string; description: string }> = {
   default: {
     label: 'デフォルト',

@@ -1,6 +1,6 @@
 // src/ConfigMaker/components/placeholders/composables/usePlaceholderFilter.ts
 import { computed, ref, Ref, watch } from 'vue'
-import { PlaceholderType } from '@/types/OmikujiData/PlaceholderSchema'
+import { PlaceholderType } from '@/types/OmikujiData/assets/PlaceholderSchema'
 
 /**
  * プレースホルダーのフィルター機能を管理するcomposable

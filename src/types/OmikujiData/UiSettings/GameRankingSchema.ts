@@ -1,6 +1,6 @@
 // src/types/OmikujiData/UiSettings/GameRankingSchema.ts
 import { z } from 'zod'
-import { ScriptGameExtendedKeySchema } from '../PostFlow'
+import { ScriptGameExtendedKeySchema } from '../assets/PostFlow'
 import { themes } from '@shared/styles/DaisyUiTheme'
 
 /**

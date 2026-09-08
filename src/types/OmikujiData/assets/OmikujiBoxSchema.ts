@@ -1,7 +1,7 @@
 // src/types/OmikujiData/OmikujiSchema.ts
 import { z } from 'zod'
 import { OmikujiItemSchema } from './OmikujiItemSchema'
-import { BaseRecordSchema } from '../core/BaseSchema'
+import { BaseRecordSchema } from '../../core/BaseSchema'
 
 /**
  * みくじ箱 OmikujiBoxSchema

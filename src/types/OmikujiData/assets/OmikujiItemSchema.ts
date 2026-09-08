@@ -1,47 +1,18 @@
 // src/types/OmikujiData/OmikujiSchema.ts
 import { z } from 'zod'
-import { CriteriaThresholdSchema } from './CommentCriteriaSchema'
+import { CriteriaThresholdSchema } from '../events/CommentCriteriaSchema'
 import { PostFlowArraySchema } from './PostFlow'
-import { normalizedObject } from './ParsedDefault'
-import { BaseSchema } from '../core/BaseSchema'
+import { normalizedObject } from '../ParsedDefault'
+import { BaseSchema } from '../../core/BaseSchema'
 
 /**
- * omikujiItem カテゴリのUI表示情報
+ * omikujiItemKinds カテゴリのUI表示情報
  */
 export const omikujiItemKinds = ['postFlow', 'return', 'continue', 'reset', 'log'] as const
 
 // スキーマと型の定義
 export const OmikujiItemKindSchema = z.enum(omikujiItemKinds)
 export type OmikujiItemKind = z.infer<typeof OmikujiItemKindSchema>
-
-// Map定義 (Lucide Icon名を追加)
-export const omikujiItemKindMap: Record<OmikujiItemKind, { label: string; description: string; icon: string }> = {
-  postFlow: {
-    label: 'BOTアクション',
-    description: '下記の内容をわんコメやジェネレーターで表示します',
-    icon: 'Bot',
-  },
-  return: {
-    label: '処理を終了する(return)',
-    description: 'BOTアクションを何もせず、このイベントで処理を終了します。',
-    icon: 'CornerDownLeft',
-  },
-  continue: {
-    label: '次のイベントへ進む(continue)',
-    description: 'BOTアクションを何もせず、次のイベントへ処理を進めます。',
-    icon: 'ArrowRight',
-  },
-  reset: {
-    label: 'おみくじ回数をリセットする(reset)',
-    description: 'おみくじの抽選回数をリセットします。',
-    icon: 'RotateCcw',
-  },
-  log: {
-    label: 'ユーザー状態を出力する(logUserState)',
-    description: 'コメントをしたユーザーの情報を、わんコメのコメントとして出力します。',
-    icon: 'FileText',
-  },
-}
 
 /**
  * おみくじアイテム

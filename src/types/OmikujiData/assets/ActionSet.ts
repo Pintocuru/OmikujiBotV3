@@ -1,5 +1,6 @@
 // src/types/OmikujiData/ActionSet.ts
-import { BaseRecordSchema } from '../core/BaseSchema'
+import { z } from 'zod'
+import { BaseRecordSchema } from '../../core/BaseSchema'
 import { PostFlowArraySchema } from './PostFlow'
 
 /**
@@ -8,3 +9,4 @@ import { PostFlowArraySchema } from './PostFlow'
 export const ActionSetSchema = BaseRecordSchema.extend({
   postFlows: PostFlowArraySchema,
 })
+export type ActionSetType = z.infer<typeof ActionSetSchema>
