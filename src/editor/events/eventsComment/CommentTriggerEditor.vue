@@ -57,8 +57,8 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
 
   import ThresholdComment from '@shared/components/threshold/ThresholdComment.vue'
   import ThresholdGift from '@shared/components/threshold/ThresholdGift.vue'

@@ -24,7 +24,7 @@
 <script setup lang="ts">
   import { ref, watch } from 'vue'
   import { VueDraggable } from 'vue-draggable-plus'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
 
   const props = defineProps<{ modelValue?: string[] }>()
   const emit = defineEmits<{ 'update:modelValue': [value: string[]] }>()

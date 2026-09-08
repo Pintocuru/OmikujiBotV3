@@ -12,7 +12,7 @@
 <script setup lang="ts">
   import { GameScriptsType, PostFlowType } from '@/types/OmikujiData/'
   import PostActionsTabs from './tooltab/PostActionsTabs.vue'
-  import OmikujiItemToolbar from '@config/components/postAction/tooltab/OmikujiItemToolbar.vue'
+  import OmikujiItemToolbar from '@/editor/components/postAction/tooltab/OmikujiItemToolbar.vue'
 
   defineProps<{
     modelValue: PostFlowType[]

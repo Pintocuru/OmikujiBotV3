@@ -49,12 +49,12 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { isDev, PostFlowMessageType, systemBotMap } from '@/types'
-  import IconSelector from '@config/components/postAction/IconSelector/IconSelector.vue'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import { useVisibilityAccess } from '@config/scripts/useAccessCheckerConfig'
-  import { useCharacterManager } from '@config/scripts/CharacterManager/useCharacterManager'
+  import IconSelector from '@/editor/components/postAction/IconSelector/IconSelector.vue'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import { useVisibilityAccess } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useCharacterManager } from '@/editor/scripts/CharacterManager/useCharacterManager'
   import MessageTextDialog from './MessageTextDialog.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SoundSettings from '../Sounds/SoundSettings.vue'
 
   const props = defineProps<{

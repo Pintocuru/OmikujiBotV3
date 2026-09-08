@@ -2,7 +2,7 @@
 import { computed, Ref } from 'vue'
 import { defaultPlaceholdersShortLabels, DefaultPlaceholders } from '@/types'
 import { PlaceholderSchema, PlaceholderType, PostFlowType } from '@/types/OmikujiData/'
-import { useGetRecordData } from '@config/stores/useGetRecordData'
+import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 import { defaultPlaceholderMap } from '@/types'
 import {} from '@/types/MainGenerator/'
 

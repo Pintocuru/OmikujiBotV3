@@ -99,9 +99,9 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { OmikujiLimitsType } from '@/types/OmikujiData/'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
   const props = defineProps<{
     modelValue: OmikujiLimitsType

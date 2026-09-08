@@ -1,8 +1,8 @@
 // src/editor/events/placeholders/composables/usePlaceholderValues.ts
 import { ref, computed } from 'vue'
 import { WeightValuesArrayType, WeightValueSchema } from '@/types'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-import { useGetRecordData } from '@config/stores/useGetRecordData'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
 export function usePlaceholderValues(placeholderId: string) {
   // Pinia store

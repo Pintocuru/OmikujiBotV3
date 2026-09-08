@@ -23,8 +23,8 @@
   import FlagsUsage from './FlagsUsageSettings.vue'
   import FlagsGames from './FlagsGamesSettings.vue'
   import FlagsDeveloper from './FlagsDeveloperSettings.vue'
-  import { useSettingMode } from '@config/scripts/useAccessCheckerConfig'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
   const { updateFlags } = useOmikujiStore()
   const { isGod } = useSettingMode()

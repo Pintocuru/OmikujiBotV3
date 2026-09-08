@@ -71,8 +71,8 @@
   import { computed } from 'vue'
   import { serviceTriggerConditionMap, ServiceTriggerCondition, ServiceTriggerType } from '@/types'
   import TriggerMetaCondition from './ServiceTriggerCondition.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
   import InformationCard from '@shared/components/parts/InformationCard.vue'
 
   const props = defineProps<{

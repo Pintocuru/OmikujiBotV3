@@ -1,10 +1,10 @@
 // src/editor/events/postAction/Message/usePlaceholderEditor.ts
 import { computed, Ref, ref } from 'vue'
 import { PlaceholderSchema, PlaceholderType, handelNormalizedValues } from '@/types'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-import { useGetRecordData } from '@config/stores/useGetRecordData'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 import { defaultBasePlaceholderLabel, defaultPlaceholderMap } from '@/types/MetaMaps/DefaultPlaceholderMaps'
-import { useVisibilityAccess } from '@config/scripts/useAccessCheckerConfig'
+import { useVisibilityAccess } from '@/editor/scripts/useAccessCheckerConfig'
 
 const PLACEHOLDER_PATTERN = /<<([^>]+)>>/g
 const PLACEHOLDER_ID_PATTERN = /^[a-zA-Z0-9_]+$/

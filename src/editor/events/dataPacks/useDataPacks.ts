@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import axios from 'axios'
 import type { MetaDataType } from '@shared/types/core/MetaDataSchema'
 import type { AccessLevelType } from '@shared/types/core/AccessLevelSchema'
-import { useSettingMode } from '@config/scripts/useAccessCheckerConfig'
+import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
 
 // 型定義
 export interface DataPackEntry {

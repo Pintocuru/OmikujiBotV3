@@ -33,10 +33,10 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { Code, Settings, Tag, ExternalLink } from 'lucide-vue-next'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import { useVersionCheck } from '@config/components/appItems/useVersionCheck'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import ExternalLinkButton from '@config/components/parts/ExternalLinkButton.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useVersionCheck } from '@/editor/components/appItems/useVersionCheck'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import ExternalLinkButton from '@/editor/components/parts/ExternalLinkButton.vue'
 
   // Store
   const omikujiStore = useOmikujiStore()

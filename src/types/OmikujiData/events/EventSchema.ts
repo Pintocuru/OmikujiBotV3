@@ -21,12 +21,6 @@ export const OmikujiLimitsSchema = z.object({
 export type OmikujiLimitsType = z.infer<typeof OmikujiLimitsSchema>
 
 /**
- * Events のカテゴリ定数セット
- */
-export const eventCategoryLabel = ['comments', 'timers', 'metas', 'reactions'] as const
-export type EventCategoryType = (typeof eventCategoryLabel)[number]
-
-/**
  * Events 共通部分のスキーマ
  */
 export const BaseEventSchema = BaseRecordSchema.extend({

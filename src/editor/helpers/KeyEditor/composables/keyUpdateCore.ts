@@ -1,8 +1,8 @@
 // src/editor/helpers/KeyEditor/composables/keyUpdateCore.ts
-import { useNavigationStore } from '@config/stores/useNavigationStore'
-import { useGetRecordData } from '@config/stores/useGetRecordData'
+import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 import { RecordCategoryType } from '@/types/OmikujiData/'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
 /**
  * 汎用イベントKey更新処理（BaseRecordSchema対応）

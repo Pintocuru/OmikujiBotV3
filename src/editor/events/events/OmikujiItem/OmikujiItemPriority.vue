@@ -46,8 +46,8 @@
   import { OmikujiItemType, CriteriaThresholdSchema } from '@/types/OmikujiData/'
   import OmikujiItemCriteria from './OmikujiItemCriteria.vue'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
   const props = defineProps<{
     selectedItemKey: string | null

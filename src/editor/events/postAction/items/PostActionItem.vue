@@ -57,7 +57,7 @@
   import ActionSetSettings from '../ActionSet/ActionSetSettings.vue'
   import PostActionPreview from '../preview/PostActionPreview.vue'
   import BotSettings from '../Bot/BotSettings.vue'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/ConfigMaker/stores/useOmikujiStore'
 
   // Props

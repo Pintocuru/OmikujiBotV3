@@ -4,10 +4,7 @@
     <!-- メッセージアクション -->
     <div v-if="action.actionType === 'message'" class="w-full">
       <!-- フキダシ -->
-      <div
-        v-if="!enableSecondary || action.message.isToast !== true"
-        class="space-y-8 flex flex-col items-center"
-      >
+      <div v-if="!enableSecondary || action.message.isToast !== true" class="space-y-8 flex flex-col items-center">
         <CommentBubbleItem
           :key="messageKey"
           :botName="character ? character.displayName : null"
@@ -43,19 +40,13 @@
     </div>
 
     <!-- WordPartyアクション -->
-    <div
-      v-else-if="action.actionType === 'wordParty'"
-      class="w-full text-center"
-    >
+    <div v-else-if="action.actionType === 'wordParty'" class="w-full text-center">
       <PartyPopper :size="80" class="mx-auto text-purple-500" />
       <p class="text-sm opacity-70 mt-2">WordParty</p>
     </div>
 
     <!-- アクションセット -->
-    <div
-      v-else-if="action.actionType === 'actionSet'"
-      class="w-full text-center"
-    >
+    <div v-else-if="action.actionType === 'actionSet'" class="w-full text-center">
       <MessagesSquare :size="80" class="mx-auto text-red-500" />
       <p class="text-sm opacity-70 mt-2">アクションセット</p>
     </div>
@@ -77,10 +68,7 @@
         :repeat="action.repeat"
       />
       <SoundTestButton
-        v-if="
-          soundEnabled &&
-          (action.actionType === 'sound' || action.actionType === 'message')
-        "
+        v-if="soundEnabled && (action.actionType === 'sound' || action.actionType === 'message')"
         :sound="action.sound"
         :soundPath="action.soundPath"
       />
@@ -89,78 +77,69 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { storeToRefs } from "pinia";
-import { PostFlowType, CommentBubbleSchema, ToastWidgetsSchema } from "@/types";
-import { useOmikujiStore } from "@config/stores/useOmikujiStore";
-import SoundTestButton from "./SoundTestButton.vue";
-import { processTestPlaceholder } from "./TestPlaceholderProcessor.js";
-import WordPartyTestButton from "./WordPartyTestButton.vue";
-import { useVisibilityAccess } from "@config/scripts/useAccessCheckerConfig";
-import CommentBubbleItem from "@main/ui/CommentBubble/parts/CommentBubbleItem.vue";
-import ToastBubbleItem from "@main/ui/ToastWidgets/parts/ToastBubbleItem.vue";
-import LayerImage from "@/common/LayerImage/LayerImage.vue";
-import {
-  Volume2,
-  PartyPopper,
-  MessagesSquare,
-  Settings,
-} from "lucide-vue-next";
+  import { computed, ref } from 'vue'
+  import { storeToRefs } from 'pinia'
+  import { PostFlowType, CommentBubbleSchema, ToastWidgetsSchema } from '@/types'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import SoundTestButton from './SoundTestButton.vue'
+  import { processTestPlaceholder } from './TestPlaceholderProcessor.js'
+  import WordPartyTestButton from './WordPartyTestButton.vue'
+  import { useVisibilityAccess } from '@/editor/scripts/useAccessCheckerConfig'
+  import CommentBubbleItem from '@main/ui/CommentBubble/parts/CommentBubbleItem.vue'
+  import ToastBubbleItem from '@main/ui/ToastWidgets/parts/ToastBubbleItem.vue'
+  import LayerImage from '@/common/LayerImage/LayerImage.vue'
+  import { Volume2, PartyPopper, MessagesSquare, Settings } from 'lucide-vue-next'
 
-const props = defineProps<{
-  action: PostFlowType;
-}>();
+  const props = defineProps<{
+    action: PostFlowType
+  }>()
 
-const omikujiStore = useOmikujiStore();
-const { data } = storeToRefs(omikujiStore);
-const { isCharacter } = useVisibilityAccess();
-const soundEnabled = computed(() => data.value.settings.soundEnabled);
+  const omikujiStore = useOmikujiStore()
+  const { data } = storeToRefs(omikujiStore)
+  const { isCharacter } = useVisibilityAccess()
+  const soundEnabled = computed(() => data.value.settings.soundEnabled)
 
-const enableSecondary = computed(() => data.value.components.enableSecondary);
-const characters = computed(() => data.value.characters);
-const bubbleSettings = computed(
-  () => data.value.components.settings.bubble ?? CommentBubbleSchema.parse({}),
-);
-const toastSettings = computed(
-  () => data.value.components.settings.toast ?? ToastWidgetsSchema.parse({}),
-);
-const commonStyle = computed(() => data.value.components.commonStyle);
+  const enableSecondary = computed(() => data.value.components.enableSecondary)
+  const characters = computed(() => data.value.characters)
+  const bubbleSettings = computed(() => data.value.components.settings.bubble ?? CommentBubbleSchema.parse({}))
+  const toastSettings = computed(() => data.value.components.settings.toast ?? ToastWidgetsSchema.parse({}))
+  const commonStyle = computed(() => data.value.components.commonStyle)
 
-// キャラクター取得
-const character = computed(() => {
-  if (!isCharacter.value || props.action.actionType !== "message") return null;
-  const key = props.action.characterKey;
-  return key !== null ? characters.value[key] : null;
-});
+  // キャラクター取得
+  const character = computed(() => {
+    if (!isCharacter.value || props.action.actionType !== 'message') return null
+    const key = props.action.characterKey
+    return key !== null ? characters.value[key] : null
+  })
 
-// メッセージ処理
-const processedMessage = computed(() => {
-  const _ = messageKey.value;
+  // メッセージ処理
+  const processedMessage = computed(() => {
+    const _ = messageKey.value
 
-  if (props.action.actionType !== "message") return "(不正な処理です)";
-  const content = props.action.message.bubble;
-  if (!content) return "(メッセージなし)";
-  const processed = processTestPlaceholder(content, data.value.placeholders);
-  if (!processed) return "(このメッセージは表示されません)";
-  return transformIconPlaceholdersPreview(processed.text);
-});
+    if (props.action.actionType !== 'message') return '(不正な処理です)'
+    const content = props.action.message.bubble
+    if (!content) return '(メッセージなし)'
+    const processed = processTestPlaceholder(content, data.value.placeholders)
+    if (!processed) return '(このメッセージは表示されません)'
+    return transformIconPlaceholdersPreview(processed.text)
+  })
 
-// リフレッシュキー
-const messageKey = ref(0);
-const refreshMessage = () => messageKey.value++;
+  // リフレッシュキー
+  const messageKey = ref(0)
+  const refreshMessage = () => messageKey.value++
 
-function transformIconPlaceholdersPreview(raw: string): string {
-  return raw.replace(/\{\{icon\s+([^\}]+)\}\}/g, (_, userId) => {
-    // userId の頭文字を使った placeholder
-    const initial = String(userId).charAt(0).toUpperCase();
+  function transformIconPlaceholdersPreview(raw: string): string {
+    return raw.replace(/\{\{icon\s+([^\}]+)\}\}/g, (_, userId) => {
+      // userId の頭文字を使った placeholder
+      const initial = String(userId).charAt(0).toUpperCase()
 
-    return `
+      return `
       <span class="avatar placeholder mr-1 inline-flex">
         <span class="bg-neutral text-neutral-content w-6 h-6 rounded-full flex items-center justify-center text-sm">
           ${initial}
         </span>
       </span>
-    `;
-  });
-}
+    `
+    })
+  }
 </script>

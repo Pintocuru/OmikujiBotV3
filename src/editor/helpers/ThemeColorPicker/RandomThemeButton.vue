@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
   import { Palette, Droplet, Dices } from 'lucide-vue-next'
-  import { useSettingMode } from '@config/scripts/useAccessCheckerConfig'
+  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
   import { themes, daisyUIColor, type DaisyUiThemeFieldsType } from '@shared/styles/DaisyUiTheme'
 
   const emit = defineEmits<{

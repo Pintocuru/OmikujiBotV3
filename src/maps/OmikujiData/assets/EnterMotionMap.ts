@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/assets/EnterMotionMap.ts
 import { EnterMotionConfig, EnterMotionType } from '@/types/OmikujiData'
 
 /**

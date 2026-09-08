@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ConflictInfo } from './ImportTypes'
+  import { ConflictInfo } from '../../types/helpers/presetsImportType'
 
   interface Props {
     conflicts: ConflictInfo[]

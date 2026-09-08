@@ -1,7 +1,7 @@
 // src/editor/helpers/RecordTabs/composables/useRuleState.ts
 import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useNavigationStore } from '@config/stores/useNavigationStore'
+import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 
 /** フィルター設定の型定義 */
 export interface FilterOptions {

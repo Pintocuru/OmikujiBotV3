@@ -34,8 +34,8 @@
 <script setup lang="ts">
   import { ref, onMounted, computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { configApi } from '@/PresetManager/services/configApi'
 
   const props = defineProps<{

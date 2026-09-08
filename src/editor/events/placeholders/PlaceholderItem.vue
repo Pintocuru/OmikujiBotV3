@@ -86,9 +86,9 @@
 <script setup lang="ts">
   import { computed, ref, onMounted } from 'vue'
   import { PlaceholderType } from '@/types'
-  import CopyButton from '@config/components/parts/CopyButton.vue'
+  import CopyButton from '@/editor/components/parts/CopyButton.vue'
   import { ArrowRight } from 'lucide-vue-next'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 
   // Props
   const props = defineProps<{

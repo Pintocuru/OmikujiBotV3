@@ -1,8 +1,8 @@
 // src/editor/events/appItems/navigation/useSidebarSectionMap.ts
 import { ComputedRef, computed } from 'vue'
 import { CategoryType } from '@/types/OmikujiData/'
-import { uiItemMap } from '@config/UiEditor/useUiItemMap'
-import { useUiVisibility } from '@config/UiEditor/conditions/useUiVisibility'
+import { uiItemMap } from '@/editor/UiEditor/useUiItemMap'
+import { useUiVisibility } from '@/editor/UiEditor/conditions/useUiVisibility'
 import { SidebarSectionItem, staticSectionMap } from './StaticSectionMap'
 
 // ─────────────────────────────────────────────────────────

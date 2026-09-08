@@ -34,8 +34,8 @@
   import { computed } from 'vue'
   import { RecordCategoryType } from '@/types/OmikujiData/'
   import BaseTagEditor from './BaseTagEditor.vue'
-  import KeyEditor from '@config/components/KeyEditor/KeyEditor.vue'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import KeyEditor from '@/editor/components/KeyEditor/KeyEditor.vue'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
   import { BaseRecordType } from '@shared/types'
 
   const props = withDefaults(

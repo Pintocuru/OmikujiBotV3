@@ -39,7 +39,7 @@
   import { CategoryType, RecordCategoryType } from '@/types/OmikujiData/'
   import { BaseRecordType } from '@shared/types'
   import { getSidebarSections } from './useSidebarSectionMap'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SidebarSubItem from './SidebarSubItem.vue'
   import SidebarItemMenu from './SidebarItemMenu.vue'
 

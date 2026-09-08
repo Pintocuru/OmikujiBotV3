@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
   import { useFlagsSettings } from './useFlagsSettings'
   import { gameMetaMap } from '@/types/MetaMaps/'

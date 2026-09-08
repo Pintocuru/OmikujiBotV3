@@ -32,14 +32,14 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import PlaceholderValuesEditor from './PlaceholderValuesEditor.vue'
-  import BaseSettingsEditor from '@config/components/common/BaseSettingsEditor.vue'
-  import RecordTabs from '@config/components/RecordTabs/RecordTabs.vue'
+  import BaseSettingsEditor from '@/editor/components/common/BaseSettingsEditor.vue'
+  import RecordTabs from '@/editor/components/RecordTabs/RecordTabs.vue'
   import SectionCard from '@shared/components/parts/SectionCard.vue'
   import { storeToRefs } from 'pinia'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
-  import { useGetRecordData } from '@config/stores/useGetRecordData'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
   import { staticSectionMap } from '../appItems/navigation/StaticSectionMap'
 
   const s = (key: string) => staticSectionMap.placeholders.find((i) => i.section === key)

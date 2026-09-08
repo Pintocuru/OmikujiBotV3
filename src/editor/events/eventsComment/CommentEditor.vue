@@ -4,7 +4,7 @@
   <div class="flex justify-end gap-2">
     <!-- 全体キャラ変更 -->
     <GlobalCharacterChanger category="comments" />
-     <IconKeyChanger category="comments" />  
+    <IconKeyChanger category="comments" />
   </div>
 
   <!-- タブ部分 -->
@@ -75,16 +75,16 @@
   import { CommentEventType } from '@/types/OmikujiData/'
   import CommentTriggerEditor from './CommentTriggerEditor.vue'
   import OmikujiLimitsEditor from './OmikujiLimitsEditor.vue'
-  import BaseSettingsEditor from '@config/components/common/BaseSettingsEditor.vue'
-  import OmikujiSetEditor from '@config/components/events/OmikujiSetEditor.vue'
-  import GlobalCharacterChanger from '@config/components/events/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@config/components/events/IconKeyChanger/IconKeyChanger.vue'
-  import RecordTabs from '@config/components/RecordTabs/RecordTabs.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import BaseSettingsEditor from '@/editor/components/common/BaseSettingsEditor.vue'
+  import OmikujiSetEditor from '@/editor/components/events/OmikujiSetEditor.vue'
+  import GlobalCharacterChanger from '@/editor/components/events/CharacterChanger/CharacterChanger.vue'
+  import IconKeyChanger from '@/editor/components/events/IconKeyChanger/IconKeyChanger.vue'
+  import RecordTabs from '@/editor/components/RecordTabs/RecordTabs.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import InformationCard from '@shared/components/parts/InformationCard.vue'
   import SectionCard from '@shared/components/parts/SectionCard.vue'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
-  import { useGetRecordData } from '@config/stores/useGetRecordData'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
   import { staticSectionMap } from '../appItems/navigation/StaticSectionMap'
 
   // アクティブなセクションの管理

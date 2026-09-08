@@ -29,7 +29,7 @@
   import { useImportManager } from './composables/useImportManager'
   import CategoryModeSelector from './CategoryModeSelector.vue'
   import ConflictsList from './ConflictsList.vue'
-  import { CategoryImportConfig } from './ImportTypes'
+  import { CategoryImportConfig } from '../../types/helpers/presetsImportType'
 
   const props = defineProps<{
     category: RecordCategoryType

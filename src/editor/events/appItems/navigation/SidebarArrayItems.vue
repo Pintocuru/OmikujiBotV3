@@ -18,7 +18,7 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
   import { CategoryType } from '@/types/OmikujiData/'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SidebarSubItem from './SidebarSubItem.vue'
 
   defineProps<{

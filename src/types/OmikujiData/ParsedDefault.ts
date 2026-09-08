@@ -14,5 +14,5 @@ export function normalizedRecord<T extends z.ZodType>(itemSchema: T) {
 
 //
 export function normalizedArray<T extends z.ZodType>(itemSchema: T) {
-  return (z.array(itemSchema) as any).default([]).catch([])
+  return z.array(itemSchema).default([]).catch([])
 }

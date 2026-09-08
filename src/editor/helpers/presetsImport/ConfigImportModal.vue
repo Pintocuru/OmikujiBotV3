@@ -56,11 +56,11 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { UiKind } from '@/types'
-  import { ComponentImportConfig } from './ImportTypes'
+  import { ComponentImportConfig } from '../../types/helpers/presetsImportType'
   import { useImportManager } from './composables/useImportManager'
   import CategoryConfigSection from './CategoryConfigSection.vue'
   import ComponentConfigSection from './ComponentConfigSection.vue'
-  import ModalFooterActions from '@config/components/parts/ModalFooterActions.vue'
+  import ModalFooterActions from '@/editor/components/parts/ModalFooterActions.vue'
   import SectionCard from '@shared/components/parts/SectionCard.vue'
 
   const props = defineProps<{

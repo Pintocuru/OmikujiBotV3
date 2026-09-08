@@ -1,10 +1,10 @@
 // src/editor/helpers/KeyEditor/composables/useKeyEditor.ts
 import { ref, computed, readonly } from 'vue'
-import { categoryMap, RecordCategoryType, eventCategoryLabel } from '@/types'
+import { categoryMap, RecordCategoryType, eventCategory } from '@/types'
 import { validateKey as validateKeyUtil } from './keyEditorValidation'
 import { updateStrategies } from './keyUpdateStrategies'
 import { CharacterUsage, UpdateResult } from './keyEditorTypes'
-import { useGetRecordData } from '@config/stores/useGetRecordData'
+import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
 export function useKeyEditor() {
   // リアクティブ状態
@@ -26,7 +26,7 @@ export function useKeyEditor() {
     const usage: CharacterUsage = { comments: [], timers: [], metas: [], reactions: [] }
     const { getCategoryMap } = useGetRecordData()
 
-    eventCategoryLabel.forEach((category) => {
+    eventCategory.forEach((category) => {
       const categoryData = getCategoryMap(category)
 
       Object.entries(categoryData).forEach(([ruleKey, rule]) => {

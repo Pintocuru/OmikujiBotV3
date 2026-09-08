@@ -1,9 +1,9 @@
 // src/editor/helpers/RecordTabs/composables/useRuleOperations.ts
 import { RecordCategoryType, RecordCategoryItemTypeMap } from '@/types/OmikujiData/'
 import type { useRuleState } from './useRuleState'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { BaseRecordType } from '@shared/types'
-import { useNavigationStore } from '@config/stores/useNavigationStore'
+import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 
 export const useRuleOperations = (ruleState: ReturnType<typeof useRuleState>) => {

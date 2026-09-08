@@ -1,5 +1,5 @@
 // tools/JsonMerge/merger.ts
-import { OmikujiDataType, eventCategoryLabel, EventCategoryType, FlagsUsageType } from '@/types'
+import { OmikujiDataType, eventCategory, EventCategoryType, FlagsUsageType } from '@/types'
 import { ACCESS_LEVEL_PRIORITY } from '@/ConfigMaker/stores/composables/useDataMergeHelpers'
 import { AccessLevelType } from '@shared/types'
 
@@ -50,7 +50,7 @@ export function mergeOmikujiData(...dataArray: OmikujiDataType[]): OmikujiDataTy
 
   for (const data of dataArray) {
     // Rulesカテゴリを網羅マージ
-    for (const category of eventCategoryLabel) {
+    for (const category of eventCategory) {
       mergeRecordCategory(result, data, category)
     }
     // Record型をマージ

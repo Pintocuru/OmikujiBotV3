@@ -3,7 +3,7 @@
   <!-- 便利ボタン群 -->
   <div class="flex justify-end gap-2">
     <GlobalCharacterChanger category="metas" />
-     <IconKeyChanger category="metas" />  
+    <IconKeyChanger category="metas" />
   </div>
 
   <!-- タブ部分 -->
@@ -63,14 +63,14 @@
   import { storeToRefs } from 'pinia'
   import { ServiceEventType } from '@/types/OmikujiData/'
   import CommentTriggerEditor from './ServiceTrigger.vue'
-  import GlobalCharacterChanger from '@config/components/events/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@config/components/events/IconKeyChanger/IconKeyChanger.vue'
-  import OmikujiSetEditor from '@config/components/events/OmikujiSetEditor.vue'
-  import RecordTabs from '@config/components/RecordTabs/RecordTabs.vue'
-  import BaseSettingsEditor from '@config/components/common/BaseSettingsEditor.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
-  import { useGetRecordData } from '@config/stores/useGetRecordData'
+  import GlobalCharacterChanger from '@/editor/components/events/CharacterChanger/CharacterChanger.vue'
+  import IconKeyChanger from '@/editor/components/events/IconKeyChanger/IconKeyChanger.vue'
+  import OmikujiSetEditor from '@/editor/components/events/OmikujiSetEditor.vue'
+  import RecordTabs from '@/editor/components/RecordTabs/RecordTabs.vue'
+  import BaseSettingsEditor from '@/editor/components/common/BaseSettingsEditor.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
   import InformationCard from '@shared/components/parts/InformationCard.vue'
   import SectionCard from '@shared/components/parts/SectionCard.vue'
   import { staticSectionMap } from '../appItems/navigation/StaticSectionMap'

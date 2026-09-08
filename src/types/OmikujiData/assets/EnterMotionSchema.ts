@@ -1,4 +1,4 @@
-// shared/types/motion/EnterMotion.ts
+// src/types/OmikujiData/assets/EnterMotionSchema.ts
 import { z } from 'zod'
 
 /**

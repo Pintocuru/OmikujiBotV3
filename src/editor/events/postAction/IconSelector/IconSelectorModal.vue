@@ -15,8 +15,8 @@
 
 <script setup lang="ts">
   import { ref, computed, type Ref } from 'vue'
-  import { useCharacterManager } from '@config/scripts/CharacterManager/useCharacterManager'
-  import EmotionGrid from '@config/components/characters/CharacterImage/EmotionGrid.vue'
+  import { useCharacterManager } from '@/editor/scripts/CharacterManager/useCharacterManager'
+  import EmotionGrid from '@/editor/components/characters/CharacterImage/EmotionGrid.vue'
 
   const props = defineProps<{
     characterKey: string

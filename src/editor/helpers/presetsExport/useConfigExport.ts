@@ -1,6 +1,6 @@
 // src/editor/helpers/presetsExport/useConfigExport.ts
 import { ref } from 'vue'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { generateJsContent, generateJsonContent } from './generateContent'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 

@@ -7,8 +7,8 @@ import {
   handelNormalizedValues,
   WeightValuesArrayType,
 } from '@/types/OmikujiData/assets/PlaceholderSchema'
-import { useWeightCalculation } from '@config/components/events/composables/useWeightCalculation'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { useWeightCalculation } from '@/editor/components/events/composables/useWeightCalculation'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { checkCircularReference } from '@main/scripts/OmikujiProcess/ActionSetValidator'
 
 /**

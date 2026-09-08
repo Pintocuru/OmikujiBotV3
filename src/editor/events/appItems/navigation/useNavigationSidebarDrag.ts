@@ -3,9 +3,9 @@ import { Ref, ref, watch, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 import { CategoryType, RecordCategoryType } from '@/types/OmikujiData/'
 import { BaseRecordType } from '@shared/types'
-import { useNavigationStore } from '@config/stores/useNavigationStore'
-import { useGetRecordData } from '@config/stores/useGetRecordData'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
 export type DraggableSubItem = {
   key: string

@@ -54,7 +54,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useRecordTabsStore } from './RecordTabsStore'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import type { BaseRecordType } from '@shared/types'
   import { Plus, Palette, Type, ListChecks } from 'lucide-vue-next'
 

@@ -1,7 +1,7 @@
 // src/editor/helpers/presetsImport/composables/importHelpers.ts
 import { OmikujiDataType, RecordCategoryType, recordCategoryLabel, RecordCategoryDataMap } from '@/types/OmikujiData/'
 import { UiKind } from '@/types'
-import { CategoryImportConfig, ComponentImportConfig, ConflictInfo } from '../ImportTypes'
+import { CategoryImportConfig, ComponentImportConfig, ConflictInfo } from '../../../types/helpers/presetsImportType'
 
 /**
  * アイテムの名前を取得

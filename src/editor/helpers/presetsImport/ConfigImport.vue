@@ -21,8 +21,8 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useImportManager } from './composables/useImportManager'
-  import { useSettingMode } from '@config/scripts/useAccessCheckerConfig'
-  import ConfigImportModal from '@config/components/presetsImport/ConfigImportModal.vue'
+  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import ConfigImportModal from '@/editor/helpers/presetsImport/ConfigImportModal.vue'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 
   const { isPro } = useSettingMode()

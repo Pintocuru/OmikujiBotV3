@@ -46,12 +46,12 @@
 
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
   import { categoryMap, recordCategoryLabel, RecordCategoryType } from '@/types'
   import { AccessLevelLabels } from '@shared/types'
   import { useFlagsSettings } from './useFlagsSettings'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
   import type { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'
 

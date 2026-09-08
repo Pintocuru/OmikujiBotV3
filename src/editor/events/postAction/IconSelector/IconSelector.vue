@@ -33,7 +33,7 @@
   import { ref, computed, Ref } from 'vue'
   import { characterEmotionMap } from '@/types/MetaMaps/CharacterMaps'
   import IconSelectorModal from './IconSelectorModal.vue'
-  import { useCharacterManager } from '@config/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterManager } from '@/editor/scripts/CharacterManager/useCharacterManager'
   import { User } from 'lucide-vue-next'
   import { useVisibilityAccess } from '@/ConfigMaker/scripts/useAccessCheckerConfig'
 

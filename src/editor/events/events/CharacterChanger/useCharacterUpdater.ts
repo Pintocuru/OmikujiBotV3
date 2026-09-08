@@ -1,6 +1,6 @@
 // src/editor/events/events/CharacterChanger/useCharacterUpdater.ts
 import { ComputedRef } from 'vue'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { EventType } from '@/types/OmikujiData/'
 import { ActionSetType, OmikujiItemType } from '@/types/OmikujiData/'
 import { TargetCategoryType } from './useDataExtractor'

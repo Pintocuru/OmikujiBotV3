@@ -1,6 +1,6 @@
 // src/editor/helpers/RecordTabs/composables/useDragAndDrop.ts
 import { ref, computed } from 'vue'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { BaseRecordType } from '@shared/types'
 import { useRecordTabsStore } from '../RecordTabsStore'
 import { storeToRefs } from 'pinia'

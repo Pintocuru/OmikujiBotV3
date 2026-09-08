@@ -19,7 +19,7 @@
 <script setup lang="ts">
   import { User, Zap, Crown, Sparkles } from 'lucide-vue-next'
   import { getKey } from '@/common/FeatureAccess/SettingMode'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { AccessLevelType } from '@shared/types'
 
   const store = useOmikujiStore()

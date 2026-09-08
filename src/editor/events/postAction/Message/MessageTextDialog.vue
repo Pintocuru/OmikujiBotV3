@@ -89,7 +89,7 @@
 
 <script setup lang="ts">
   import { computed, ref, nextTick } from 'vue'
-  import BaseEditDialog from '@config/components/common/BaseDialog/BaseEditDialog.vue'
+  import BaseEditDialog from '@/editor/components/common/BaseDialog/BaseEditDialog.vue'
   import PlaceholderPanel from './PlaceholderPanel.vue'
   import MessagePreviewPanel from './MessagePreviewPanel.vue'
   import InlinePlaceholderDialog from './InlinePlaceholderDialog.vue'

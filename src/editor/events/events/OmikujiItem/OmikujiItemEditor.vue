@@ -54,14 +54,14 @@
   import { computed, watch } from 'vue'
   import { ActionSetKind, actionSetKindMap, PostFlowType } from '@/types'
   import OmikujiItemHeader from './OmikujiItemHeader.vue'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import PostActionsEditor from '@config/components/postAction/PostActionsEditor.vue'
-  import GameScriptsEditor from '@config/components/gameScripts/GameScriptsEditor.vue'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import PostActionsEditor from '@/editor/components/postAction/PostActionsEditor.vue'
+  import GameScriptsEditor from '@/editor/components/gameScripts/GameScriptsEditor.vue'
   import SpecialActionEditor from './SpecialActionEditor.vue'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { EventCategoryType } from '@/types/OmikujiData/'
-  import { useGetRecordData } from '@config/stores/useGetRecordData'
+  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
   const props = defineProps<{
     category: EventCategoryType

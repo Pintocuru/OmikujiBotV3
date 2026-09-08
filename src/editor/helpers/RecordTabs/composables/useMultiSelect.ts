@@ -1,11 +1,11 @@
 // src/editor/helpers/RecordTabs/composables/useMultiSelect.ts
 import { ref, watch } from 'vue'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { RecordCategoryType } from '@/types/OmikujiData/'
 import type { useRuleState } from './useRuleState'
 import { BaseRecordType, AccessLevelType } from '@shared/types'
 import { storeToRefs } from 'pinia'
-import { useNavigationStore } from '@config/stores/useNavigationStore'
+import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 
 /*

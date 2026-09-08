@@ -73,8 +73,8 @@
   import { storeToRefs } from 'pinia'
   import { categoryMap, uiKindMap, gameMetaMap, UiKind } from '@/types'
   import FeatureCard from './FeatureCard.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import { useSettingMode } from '@config/scripts/useAccessCheckerConfig'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
   import type { AccessLevelType } from '@shared/types'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
 

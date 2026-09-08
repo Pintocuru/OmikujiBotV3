@@ -1,0 +1,38 @@
+<!-- src/PresetManager/DevConfigs.vue -->
+<template>
+  <div id="section-presetManager" class="card bg-gradient-to-r from-primary to-secondary">
+    <div class="card-body px-4 py-2">
+      <!-- ヘッダー -->
+      <DevHeader />
+
+      <!-- 読み込みセクション -->
+      <DevFileList v-if="(isPro || isDev) && devStore.isServerConnected" />
+
+      <!-- 接続ステータス -->
+      <div class="text-xs flex items-center text-primary-content gap-2">
+        <div class="status" :class="devStore.isServerConnected ? 'status-info' : 'status-error'" />
+        <span>{{
+          !devStore.isServerConnected ? 'サーバー未接続' : isExpressMode ? '開発サーバー接続' : 'プラグインサーバー接続'
+        }}</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { onMounted } from 'vue'
+  import { storeToRefs } from 'pinia'
+  import { isDev } from '@/types'
+  import DevHeader from './components/DevHeader.vue'
+  import DevFileList from './components/DevFileList.vue'
+  import { useDevStore } from '@/PresetManager/stores/useDevStore'
+  import { useSettingMode } from '@/config/scripts/useAccessCheckerConfig'
+
+  const devStore = useDevStore()
+  const { isExpressMode } = storeToRefs(devStore)
+  const { isPro } = useSettingMode()
+
+  onMounted(() => {
+    devStore.fetchFileList()
+  })
+</script>

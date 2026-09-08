@@ -1,6 +1,6 @@
 // src/editor/events/events/IconKeyChanger/useIconKeyUpdater.ts
 import { ComputedRef } from 'vue'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { EventType, ActionSetType, OmikujiItemType } from '@/types/OmikujiData/'
 import { TargetCategoryType } from '../CharacterChanger/useDataExtractor'
 import { usePostActionCharacters } from '../CharacterChanger/usePostActionCharacters'

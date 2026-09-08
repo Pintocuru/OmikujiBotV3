@@ -1,7 +1,7 @@
 // src/editor/events/appItems/navigation/useSidebarSubItems.ts
 import { storeToRefs } from 'pinia'
 import { CategoryType, SettingsCategoryType } from '@/types/OmikujiData/'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useComponentsSections, getSidebarSections } from './useSidebarSectionMap'
 import { SidebarSectionItem } from './StaticSectionMap'
 

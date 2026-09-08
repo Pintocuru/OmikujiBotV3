@@ -53,10 +53,10 @@
   import { GameScriptsType, PostFlowType } from '@/types/OmikujiData/'
   import { PostFlowArraySchema } from '@/types/OmikujiData/ActionSet'
   import DelaySecondsAdjuster from './DelaySecondsAdjuster.vue'
-  import { useTestPost } from '@config/scripts/useTestPost'
-  import { useJsonClipboard } from '@config/scripts/JsonClipboard/useJsonClipboard'
+  import { useTestPost } from '@/editor/scripts/useTestPost'
+  import { useJsonClipboard } from '@/editor/scripts/JsonClipboard/useJsonClipboard'
   import { Send, ClipboardCopy, ClipboardPaste } from 'lucide-vue-next'
-  import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast.js'
 
   // Props
   const props = defineProps<{

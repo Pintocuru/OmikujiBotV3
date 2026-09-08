@@ -3,7 +3,7 @@
   <!-- 便利ボタン群 -->
   <div class="flex justify-end gap-2">
     <GlobalCharacterChanger category="reactions" />
-     <IconKeyChanger category="reactions" />  
+    <IconKeyChanger category="reactions" />
   </div>
 
   <!-- タブ部分 -->
@@ -67,17 +67,17 @@
   import { computed } from 'vue'
   import { ReactionEventType } from '@/types/OmikujiData/'
   import GlobalCharacterChanger from '../events/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@config/components/events/IconKeyChanger/IconKeyChanger.vue'
+  import IconKeyChanger from '@/editor/components/events/IconKeyChanger/IconKeyChanger.vue'
   import ReactionTriggerEditor from './ReactionTriggerEditor.vue'
-  import OmikujiSetEditor from '@config/components/events/OmikujiSetEditor.vue'
-  import RecordTabs from '@config/components/RecordTabs/RecordTabs.vue'
-  import BaseSettingsEditor from '@config/components/common/BaseSettingsEditor.vue'
+  import OmikujiSetEditor from '@/editor/components/events/OmikujiSetEditor.vue'
+  import RecordTabs from '@/editor/components/RecordTabs/RecordTabs.vue'
+  import BaseSettingsEditor from '@/editor/components/common/BaseSettingsEditor.vue'
   import InformationCard from '@shared/components/parts/InformationCard.vue'
   import SectionCard from '@shared/components/parts/SectionCard.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { storeToRefs } from 'pinia'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
-  import { useGetRecordData } from '@config/stores/useGetRecordData'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
   import { staticSectionMap } from '../appItems/navigation/StaticSectionMap'
 
   const s = (key: string) => staticSectionMap.reactions.find((i) => i.section === key)

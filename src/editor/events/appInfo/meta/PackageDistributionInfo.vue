@@ -18,9 +18,9 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import ExternalLinkButton from '@config/components/parts/ExternalLinkButton.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import ExternalLinkButton from '@/editor/components/parts/ExternalLinkButton.vue'
   import { storeToRefs } from 'pinia'
 
   // Store

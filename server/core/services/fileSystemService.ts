@@ -2,7 +2,7 @@
 import fs from 'fs/promises'
 import path from 'path'
 import { FileItem } from '../types'
-import { generateJsContent } from '@config/components/presetsExport/generateContent'
+import { generateJsContent } from '@/editor/components/presetsExport/generateContent'
 import { ensureDirectory } from './directoryService'
 import { DIR } from '../../constants'
 

@@ -28,7 +28,7 @@
   import HoverPopup from '../preview/HoverPopup.vue'
   import { staticSectionPreviewMap } from '../preview/staticSectionPreviewMap'
   import { CategoryType, isRecordCategory } from '@/types'
-  import { useGetRecordData } from '@config/stores/useGetRecordData'
+  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
   const props = defineProps<{
     category: CategoryType

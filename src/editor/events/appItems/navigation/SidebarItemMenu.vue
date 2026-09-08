@@ -59,10 +59,10 @@
 
 <script setup lang="ts">
   import { Eye, EyeOff, Copy, Trash2, MoreHorizontal, ClipboardCopy, ClipboardPaste } from 'lucide-vue-next'
-  import { RecordCategoryType, RecordCategorySchemaMap, eventCategoryLabel } from '@/types/OmikujiData/'
+  import { RecordCategoryType, RecordCategorySchemaMap, eventCategory } from '@/types/OmikujiData/'
   import { BaseRecordType } from '@shared/types'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 
   const props = defineProps<{
@@ -126,7 +126,7 @@
     const sourceCategory = (parsed.ruleType as RecordCategoryType | undefined) ?? props.category
 
     // カテゴリ互換性チェック
-    const isEventCategory = (c: string) => (eventCategoryLabel as readonly string[]).includes(c)
+    const isEventCategory = (c: string) => (eventCategory as readonly string[]).includes(c)
     const isSameCategory = sourceCategory === props.category
     const isCrossEvent = !isSameCategory && isEventCategory(sourceCategory) && isEventCategory(props.category)
     const isIncompatible = !isSameCategory && !isCrossEvent

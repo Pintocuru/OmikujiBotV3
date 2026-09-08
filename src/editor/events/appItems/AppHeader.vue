@@ -37,9 +37,9 @@
   import { onMounted, computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useVersionCheck } from './useVersionCheck'
-  import LicenseBadge from '@config/components/parts/LicenseBadge.vue'
-  import { useSettingMode } from '@config/scripts/useAccessCheckerConfig'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import LicenseBadge from '@/editor/components/parts/LicenseBadge.vue'
+  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { DATA_SOURCE_MAP } from '@/types'
 
   const { isAdv, isPro, isGod } = useSettingMode()

@@ -32,7 +32,7 @@
 <script setup lang="ts">
   import { RecordCategoryType } from '@/types/OmikujiData/'
   import { useImportManager } from './composables/useImportManager'
-  import { ImportMode } from './ImportTypes'
+  import { ImportMode } from '../../types/helpers/presetsImportType'
 
   const props = defineProps<{
     category: RecordCategoryType

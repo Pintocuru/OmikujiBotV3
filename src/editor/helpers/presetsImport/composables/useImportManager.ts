@@ -2,8 +2,8 @@
 import { ref, computed } from 'vue'
 import { UiKind } from '@/types'
 import { RecordCategoryType, OmikujiDataType } from '@/types/OmikujiData/'
-import { CategoryImportConfig, ComponentImportConfig, ImportPreview } from '../ImportTypes'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { CategoryImportConfig, ComponentImportConfig, ImportPreview } from '../../../types/helpers/presetsImportType'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { normalizeData } from '@/common/migrations'
 import { generateCategoryPreview, generateComponentPreview } from './importHelpers'
 

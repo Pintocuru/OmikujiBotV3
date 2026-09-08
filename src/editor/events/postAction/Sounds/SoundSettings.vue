@@ -22,7 +22,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { PostFlowMessageType, PostFlowSoundType, soundMap } from '@/types'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
 
   const props = defineProps<{
     action: PostFlowMessageType | PostFlowSoundType

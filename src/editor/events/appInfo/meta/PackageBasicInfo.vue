@@ -36,11 +36,11 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { RefreshCw } from 'lucide-vue-next'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
   import { storeToRefs } from 'pinia'
-  import { generateId } from '@shared/types/core/BaseSchema'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { generateId } from '@/types'
 
   // Store
   const omikujiStore = useOmikujiStore()

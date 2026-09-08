@@ -74,13 +74,13 @@
   import { categoryMap, isDev, SettingsSchema } from '@/types'
   import LicenseSwitch from './LicenseSwitch.vue'
   import { resolveSettingMode } from '@/common/FeatureAccess/SettingMode'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import { useSettingMode, useVisibilityAccess } from '@config/scripts/useAccessCheckerConfig'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import { useSettingMode, useVisibilityAccess } from '@/editor/scripts/useAccessCheckerConfig'
   import { themes } from '@shared/styles/DaisyUiTheme'
   import type { SettingsType } from '@/types/OmikujiData/SettingsSchema'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
-  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast.js'
   import Swal from 'sweetalert2'
 
   const omikujiStore = useOmikujiStore()

@@ -8,7 +8,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { PostFlowVariableType } from '@/types'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/components/parts/SettingItem.vue'
   import MessageTextDialog from '../Message/MessageTextDialog.vue'
 
   const props = defineProps<{

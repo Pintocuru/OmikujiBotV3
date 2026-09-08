@@ -1,7 +1,7 @@
 // src/editor/events/appInfo/FlagsSettings/useFlagsSettings.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { FlagsDeveloperType, FlagsUsageType, RecordCategoryType } from '@/types'
 
 export function useFlagsSettings() {

@@ -45,7 +45,7 @@
   import { useRecordTabsStore } from './RecordTabsStore'
   import ColorPicker from './ColorPicker.vue'
   import RecordContextMenuActions from './RecordContextMenuActions.vue'
-  import { useSettingMode } from '@config/scripts/useAccessCheckerConfig'
+  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
   import { AccessLevelType, AccessLevelLabels } from '@shared/types'
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 

@@ -1,8 +1,8 @@
 // src/editor/helpers/KeyEditor/composables/keyUpdateReferences.ts
 import type { PostFlowType } from '@/types/OmikujiData/'
-import { eventCategoryLabel } from '@/types/OmikujiData/'
-import { useGetRecordData } from '@config/stores/useGetRecordData'
-import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+import { eventCategory } from '@/types/OmikujiData/'
+import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
 /**
  * イベントカテゴリ（comments, timers）のpostActions更新
@@ -11,7 +11,7 @@ function updateRuleCategoriesPostActions(updateFn: (action: PostFlowType) => Pos
   const { updateItem } = useOmikujiStore()
   const { getCategoryMap } = useGetRecordData()
 
-  eventCategoryLabel.forEach((category) => {
+  eventCategory.forEach((category) => {
     const categoryData = getCategoryMap(category)
     Object.entries(categoryData).forEach(([ruleKey, rule]) => {
       const updatedOmikuji = rule.omikuji.map((omikujiSet) => ({

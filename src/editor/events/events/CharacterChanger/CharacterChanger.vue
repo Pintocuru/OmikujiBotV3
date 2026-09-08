@@ -10,15 +10,9 @@
         : 'すべてのイベントのキャラクターを一括変更する'
     "
   >
-    <button
-      :class="[
-        'btn',
-        hasInvalidCharacters ? 'btn-error animate-pulse' : 'btn-secondary',
-      ]"
-      @click="openModal"
-    >
+    <button :class="['btn', hasInvalidCharacters ? 'btn-error animate-pulse' : 'btn-secondary']" @click="openModal">
       <Users class="w-4 h-4" />
-      {{ changeScope === "single" ? "キャラ変更" : "全体キャラ変更" }}
+      {{ changeScope === 'single' ? 'キャラ変更' : '全体キャラ変更' }}
       <span v-if="hasInvalidCharacters" class="ml-1">⚠️</span>
     </button>
   </div>
@@ -26,9 +20,7 @@
   <!-- モーダル -->
   <div v-if="isModalOpen" class="modal modal-open">
     <div class="modal-box max-w-3xl max-h-[90vh] overflow-y-auto">
-      <h3 class="font-bold text-lg mb-4">
-        {{ scopeLabel }}のキャラクター一括変更
-      </h3>
+      <h3 class="font-bold text-lg mb-4">{{ scopeLabel }}のキャラクター一括変更</h3>
 
       <div class="space-y-4">
         <!-- 統計情報（カテゴリ全体の場合のみ表示） -->
@@ -41,10 +33,7 @@
         />
 
         <!-- 現在のキャラクター情報 -->
-        <CurrentCharacterList
-          :character-keys="uniqueCharacterKeys"
-          :usage-count="characterUsageCount"
-        />
+        <CurrentCharacterList :character-keys="uniqueCharacterKeys" :usage-count="characterUsageCount" />
 
         <!-- エラー警告 -->
         <InvalidCharacterAlert v-if="hasInvalidCharacters" />
@@ -81,91 +70,86 @@
 </template>
 
 <script setup lang="ts">
-import CharacterStatistics from "./CharacterStatistics.vue";
-import CurrentCharacterList from "./CurrentCharacterList.vue";
-import InvalidCharacterAlert from "./InvalidCharacterAlert.vue";
-import CharacterMappingEditor from "./CharacterMappingEditor.vue";
-import MappingPreview from "./MappingPreview.vue";
-import { TargetCategoryType, useDataExtractor } from "./useDataExtractor.js";
-import { useCharacterStats } from "./useCharacterStats.js";
-import { useModalState } from "./useModalState.js";
-import { useCharacterUpdater } from "./useCharacterUpdater.js";
-import { useCharacterManager } from "@config/scripts/CharacterManager/useCharacterManager";
-import ModalFooterActions from "@config/components/parts/ModalFooterActions.vue";
-import { useVisibilityAccess } from "@config/scripts/useAccessCheckerConfig";
-import { Users } from "lucide-vue-next";
+  import CharacterStatistics from './CharacterStatistics.vue'
+  import CurrentCharacterList from './CurrentCharacterList.vue'
+  import InvalidCharacterAlert from './InvalidCharacterAlert.vue'
+  import CharacterMappingEditor from './CharacterMappingEditor.vue'
+  import MappingPreview from './MappingPreview.vue'
+  import { TargetCategoryType, useDataExtractor } from './useDataExtractor.js'
+  import { useCharacterStats } from './useCharacterStats.js'
+  import { useModalState } from './useModalState.js'
+  import { useCharacterUpdater } from './useCharacterUpdater.js'
+  import { useCharacterManager } from '@/editor/scripts/CharacterManager/useCharacterManager'
+  import ModalFooterActions from '@/editor/components/parts/ModalFooterActions.vue'
+  import { useVisibilityAccess } from '@/editor/scripts/useAccessCheckerConfig'
+  import { Users } from 'lucide-vue-next'
 
-const props = defineProps<{
-  category: TargetCategoryType;
-  selectedId?: string;
-}>();
+  const props = defineProps<{
+    category: TargetCategoryType
+    selectedId?: string
+  }>()
 
-// キャラクターデータ
-const { isCharacter } = useVisibilityAccess();
-const { getCharacterName } = useCharacterManager();
+  // キャラクターデータ
+  const { isCharacter } = useVisibilityAccess()
+  const { getCharacterName } = useCharacterManager()
 
-// データ抽出（selectedIdがある場合は単一イベントのみ対象）
-const { changeScope, scopeLabel, allItems, allActionSets, totalItems } =
-  useDataExtractor(props.category, props.selectedId);
+  // データ抽出（selectedIdがある場合は単一イベントのみ対象）
+  const { changeScope, scopeLabel, allItems, allActionSets, totalItems } = useDataExtractor(
+    props.category,
+    props.selectedId
+  )
 
-// キャラクター統計
-const {
-  uniqueCharacterKeys,
-  characterUsageCount,
-  invalidCharacterCount,
-  hasInvalidCharacters,
-} = useCharacterStats(allActionSets);
+  // キャラクター統計
+  const { uniqueCharacterKeys, characterUsageCount, invalidCharacterCount, hasInvalidCharacters } =
+    useCharacterStats(allActionSets)
 
-// モーダル状態
-const {
-  isModalOpen,
-  characterMappings,
-  openModal: openModalBase,
-  updateMapping,
-  closeModal,
-  clearAllMappings,
-  hasChanges,
-} = useModalState();
+  // モーダル状態
+  const {
+    isModalOpen,
+    characterMappings,
+    openModal: openModalBase,
+    updateMapping,
+    closeModal,
+    clearAllMappings,
+    hasChanges,
+  } = useModalState()
 
-// キャラクター更新処理
-const { applyMappingsToAllItems } = useCharacterUpdater(
-  props.category,
-  allItems,
-);
+  // キャラクター更新処理
+  const { applyMappingsToAllItems } = useCharacterUpdater(props.category, allItems)
 
-/**
- * モーダルを開く（未定義キャラクターは初期選択状態に）
- */
-const openModal = () => {
-  const initialMappings: Record<string, string> = {};
-  uniqueCharacterKeys.value.forEach((charKey) => {
-    if (!getCharacterName(charKey)) initialMappings[charKey] = "";
-  });
-  openModalBase(initialMappings);
-};
+  /**
+   * モーダルを開く（未定義キャラクターは初期選択状態に）
+   */
+  const openModal = () => {
+    const initialMappings: Record<string, string> = {}
+    uniqueCharacterKeys.value.forEach((charKey) => {
+      if (!getCharacterName(charKey)) initialMappings[charKey] = ''
+    })
+    openModalBase(initialMappings)
+  }
 
-/**
- * キャラクター変更を実行
- */
-const executeCharacterChange = () => {
-  if (!hasChanges.value) return;
-  applyMappingsToAllItems(characterMappings.value);
-  closeModal();
-};
+  /**
+   * キャラクター変更を実行
+   */
+  const executeCharacterChange = () => {
+    if (!hasChanges.value) return
+    applyMappingsToAllItems(characterMappings.value)
+    closeModal()
+  }
 </script>
 
 <style scoped>
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
   }
-  50% {
-    opacity: 0.7;
-  }
-}
 
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
 </style>

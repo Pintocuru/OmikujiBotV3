@@ -2,7 +2,7 @@
 import fs from 'fs'
 import path from 'path'
 import { getKey } from '@/common/FeatureAccess/SettingMode'
-import { generateJsContent } from '@config/components/presetsExport/generateContent'
+import { generateJsContent } from '@/editor/components/presetsExport/generateContent'
 import { generateAccessLevelData } from './processJsonData'
 import { processMerge } from '../JsonMerge/JsonMergeProcessor'
 import { APP_VERSION, BUILD_DATE } from '@/version'

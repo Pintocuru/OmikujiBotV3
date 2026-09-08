@@ -19,7 +19,7 @@
   import { CategoryType } from '@/types/OmikujiData/'
   import { useSidebarContext } from './useSidebarContext'
   import { useSidebarSubItems } from './useSidebarSubItems'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SidebarSectionList from './SidebarSectionList.vue'
 
   const props = defineProps<{

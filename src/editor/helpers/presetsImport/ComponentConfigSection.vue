@@ -44,7 +44,7 @@ span<!-- src/ConfigMaker/components/presetsImport/ComponentConfigSection.vue -->
 <script setup lang="ts">
   import { uiKindMap, UiKind } from '@/types'
   import { useImportManager } from './composables/useImportManager'
-  import { ComponentImportConfig } from './ImportTypes'
+  import { ComponentImportConfig } from '../../types/helpers/presetsImportType'
 
   const props = defineProps<{
     componentKey: UiKind

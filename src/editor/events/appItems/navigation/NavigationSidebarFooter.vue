@@ -1,8 +1,6 @@
 <!-- src/editor/events/appItems/navigation/NavigationSidebarFooter.vue -->
 <template>
-  <div
-    class="sticky bottom-2 left-0 w-full flex flex-col items-center space-y-2"
-  >
+  <div class="sticky bottom-2 left-0 w-full flex flex-col items-center space-y-2">
     <!-- 開発者モード -->
     <template v-if="isDev">
       <template v-if="saveFileName">
@@ -14,7 +12,7 @@
           @click="devStore.overwriteConfig(saveFileName)"
         >
           <Save class="w-4 h-4" />
-          {{ saveFileName.replace(".json", "") }} の保存
+          {{ saveFileName.replace('.json', '') }} の保存
         </button>
       </template>
 
@@ -24,12 +22,7 @@
 
     <!-- 通常モード -->
     <template v-else>
-      <span
-        v-if="hasChanged"
-        class="indicator-item badge badge-secondary badge-sm"
-      >
-        変更あり
-      </span>
+      <span v-if="hasChanged" class="indicator-item badge badge-secondary badge-sm"> 変更あり </span>
       <button
         @click="exportFile('config')"
         class="btn btn-primary tooltip tooltip-top truncate"
@@ -37,10 +30,7 @@
         data-tip="設定ファイルを出力します。保存する場合は必ずこのボタンを押してください。"
         :disabled="isExporting"
       >
-        <span
-          v-if="isExporting"
-          class="loading loading-spinner loading-sm mr-2"
-        ></span>
+        <span v-if="isExporting" class="loading loading-spinner loading-sm mr-2"></span>
         設定を出力(js)
       </button>
     </template>
@@ -51,22 +41,22 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { isDev } from "@/types";
-import { useOmikujiStore } from "@config/stores/useOmikujiStore";
-import { useDevStore } from "@/PresetManager/stores/useDevStore";
-import { useConfigExport } from "../../../helpers/presetsExport/useConfigExport";
+  import { storeToRefs } from 'pinia'
+  import { isDev } from '@/types'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useDevStore } from '@/PresetManager/stores/useDevStore'
+  import { useConfigExport } from '../../../helpers/presetsExport/useConfigExport'
 
-import LicenseSwitch from "@config/components/appInfo/settings/LicenseSwitch.vue";
-import LicenseBadge from "@config/components/parts/LicenseBadge.vue";
-import { Save } from "lucide-vue-next";
+  import LicenseSwitch from '@/editor/components/appInfo/settings/LicenseSwitch.vue'
+  import LicenseBadge from '@/editor/components/parts/LicenseBadge.vue'
+  import { Save } from 'lucide-vue-next'
 
-// store
-const omikujiStore = useOmikujiStore();
-const { hasChanged } = storeToRefs(omikujiStore);
+  // store
+  const omikujiStore = useOmikujiStore()
+  const { hasChanged } = storeToRefs(omikujiStore)
 
-const devStore = useDevStore();
-const { saveFileName } = storeToRefs(devStore);
+  const devStore = useDevStore()
+  const { saveFileName } = storeToRefs(devStore)
 
-const { isExporting, exportFile } = useConfigExport();
+  const { isExporting, exportFile } = useConfigExport()
 </script>

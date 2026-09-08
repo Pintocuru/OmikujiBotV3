@@ -45,9 +45,9 @@
   import { computed } from 'vue'
   import { PlaceholderSchema } from '@/types'
   import { defaultPlaceholders } from '@/types/MainGenerator/DefaultPlaceholders'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
-  import { useGetRecordData } from '@config/stores/useGetRecordData'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
   import { Plus, AlertCircle } from 'lucide-vue-next'
 
   // Props

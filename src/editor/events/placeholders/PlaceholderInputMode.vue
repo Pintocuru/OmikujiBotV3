@@ -45,9 +45,9 @@
 </template>
 
 <script setup lang="ts">
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { WeightValuesArrayType } from '@/types/OmikujiData/PlaceholderSchema'
-  import { useWeightValueManagement } from '@config/components/postAction/ActionSet/useWeightValueManagement'
+  import { useWeightValueManagement } from '@/editor/components/postAction/ActionSet/useWeightValueManagement'
   import NoParamsCard from '@shared/components/parts/NoParamsCard.vue'
   import MenuDropdown from '@shared/components/parts/MenuDropdown.vue'
 

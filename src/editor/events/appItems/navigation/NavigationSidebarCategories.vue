@@ -55,7 +55,7 @@
   import { storeToRefs } from 'pinia'
   import { CategoryType } from '@/types/OmikujiData/'
   import { useCategoryUtils } from './useCategoryUtils'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { resolveLucideIcon } from '@shared/utils/LucideIcon/useLucideIcon'
   import { useNavigationSidebarDrag } from './useNavigationSidebarDrag'
   import { useSidebarSubItems } from './useSidebarSubItems'

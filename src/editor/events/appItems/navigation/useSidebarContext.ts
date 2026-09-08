@@ -1,7 +1,7 @@
 // src/editor/events/appItems/navigation/useSidebarContext.ts
 import { provide, inject, Ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useNavigationStore } from '@config/stores/useNavigationStore'
+import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 
 // ─────────────────────────────────────────────────────────
 // Symbol キー

@@ -1,0 +1,16 @@
+/* assets\styles\DaisyUiAllObs.css */
+@import 'tailwindcss/index.css';
+@import './safeList.css';
+
+@plugin "daisyui" {
+  themes: dark --default;
+}
+
+/* theme transparent : 背景色を透明化 */
+:root {
+  --color-base-100: transparent !important;
+}
+
+.bg-base-100.transparent-bg {
+  background-color: transparent !important;
+}

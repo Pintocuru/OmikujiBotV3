@@ -23,14 +23,11 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "preserve",
     "paths": {
-      "@shared/*": [
-        "../../shared/*"
+      "@/*": [
+        "./src/*"
       ],
       "@assets/*": [
         "./assets/*"
-      ],
-      "@/*": [
-        "./src/*"
       ],
       "@main/*": [
         "./src/generator/*"
@@ -47,15 +44,9 @@
       "@migrations/*": [
         "./src/common/migrations/*"
       ],
-      "@types/*": [
-        "./src/types/*"
-      ],
     }
   },
   "include": [
-    "../../shared/**/*.ts",
-    "../../shared/**/*.d.ts",
-    "../../shared/**/*.vue",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.vue",

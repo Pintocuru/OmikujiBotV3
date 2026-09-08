@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { processTestPlaceholder } from '../preview/TestPlaceholderProcessor'
 
   const props = defineProps<{
