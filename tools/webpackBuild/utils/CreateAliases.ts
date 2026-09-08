@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/utils/CreateAliases.ts
+// tools/webpackBuild/utils/CreateAliases.ts
 import path from 'path'
 
 // tsconfig.json の paths を Vite の resolve.alias 形式に変換する関数

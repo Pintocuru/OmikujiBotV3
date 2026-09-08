@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/EventProcess/CommentProcessor.ts
+// src/engine/scripts/EventProcess/CommentProcessor.ts
 import {
   BotMessageEmptySchema,
   BotMessageType,

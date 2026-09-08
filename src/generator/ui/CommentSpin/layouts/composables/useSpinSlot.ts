@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/CommentSpin/layouts/composables/useSpinSlot.ts
+// src/generator/ui/CommentSpin/layouts/composables/useSpinSlot.ts
 import { ref, computed, watch, nextTick, onUnmounted } from 'vue'
 import type { BotMessageBubbleType, spinAnimation } from '@/types'
 

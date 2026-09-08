@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/postAction/Message/usePlaceholderEditor.ts
+// src/editor/events/postAction/Message/usePlaceholderEditor.ts
 import { computed, Ref, ref } from 'vue'
 import { PlaceholderSchema, PlaceholderType, handelNormalizedValues } from '@/types'
 import { useOmikujiStore } from '@config/stores/useOmikujiStore'

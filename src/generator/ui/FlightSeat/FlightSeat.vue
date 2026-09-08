@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/FlightSeat/FlightSeat.vue -->
+<!-- src/generator/ui/FlightSeat/FlightSeat.vue -->
 <template>
   <CenteringWrapper>
     <SeatSelector

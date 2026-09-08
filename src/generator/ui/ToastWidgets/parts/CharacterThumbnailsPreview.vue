@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/ToastWidgets/parts/CharacterThumbnailsPreview.vue -->
+<!-- src/generator/ui/ToastWidgets/parts/CharacterThumbnailsPreview.vue -->
 <template>
   <div
     :class="{ 'opacity-0': !isVisible && hoverVisibility }"

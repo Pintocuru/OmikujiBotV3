@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/assets/OmikujiItemKindMap.ts
 import { OmikujiItemKind } from '@/types/OmikujiData'
 
 /**

@@ -1,4 +1,4 @@
-<!-- shared/components/error/ConnectionStatusIndicator.vue -->
+<!-- src/common/ErrorInfo/ConnectionStatusIndicator.vue -->
 <template>
   <Transition name="fade">
     <div

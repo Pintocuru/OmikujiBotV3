@@ -1,4 +1,4 @@
-// shared/sdk/service/DetectService.ts
+// src/sdk/service/DetectService.ts
 import { ServiceType } from '@onecomme.com/onesdk/types/Service'
 
 // サービスマップの定数化

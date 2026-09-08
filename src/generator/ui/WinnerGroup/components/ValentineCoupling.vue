@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/WinnerGroup/components/ValentineCoupling.vue -->
+<!-- src/generator/ui/WinnerGroup/components/ValentineCoupling.vue -->
 <template>
   <!-- 枠線（absolute 背景） -->
   <div class="absolute inset-0 rounded-2xl border-2 border-primary/30 pointer-events-none"></div>

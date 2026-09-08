@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/ToastWidgets/ViewBotToast.vue -->
+<!-- src/generator/ui/ToastWidgets/ViewBotToast.vue -->
 <template>
   <div :class="!toastSettings.showToastsOnRight ? 'self-start' : 'self-end'">
     <div

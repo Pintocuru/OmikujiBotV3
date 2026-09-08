@@ -1,4 +1,4 @@
-// src/types/GameScript/GameScriptTypes.ts
+// src/games/types/GameScriptTypes.ts
 import { PostFlowType } from '../OmikujiData'
 import { BotMessageExtraType } from '../MainGenerator'
 import { GameStateType } from './GameStateSchema'

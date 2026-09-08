@@ -1,4 +1,4 @@
-// src/types/OmikujiData/ServiceTriggerSchema.ts
+// src/types/OmikujiData/events/ServiceTriggerSchema.ts
 import { z } from 'zod'
 
 /**

@@ -1,4 +1,4 @@
-// shared/sdk/subscribe/GetUserComments.ts
+// src/sdk/subscribe/GetUserComments.disabled.ts
 // !使用しない
 import { ref } from 'vue'
 import { GetComments } from './GetComments'

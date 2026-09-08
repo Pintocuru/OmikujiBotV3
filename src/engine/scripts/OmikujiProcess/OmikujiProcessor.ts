@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/OmikujiProcess/OmikujiProcessor.ts
+// src/engine/scripts/OmikujiProcess/OmikujiProcessor.ts
 import {
   OmikujiSetType,
   ActionSetType,

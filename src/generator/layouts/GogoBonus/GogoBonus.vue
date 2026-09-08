@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/layouts/GogoBonus/GogoBonus.vue -->
+<!-- src/generator/layouts/GogoBonus/GogoBonus.vue -->
 <template>
   <div class="flex flex-col items-center space-y-4">
     <DraggableWrapper>

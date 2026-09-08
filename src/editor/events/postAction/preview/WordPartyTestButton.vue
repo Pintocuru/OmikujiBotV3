@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/preview/WordPartyTestButton.vue -->
+<!-- src/editor/events/postAction/preview/WordPartyTestButton.vue -->
 <template>
   <button @click="handleClick" :disabled="!pattern && !id" class="btn btn-xs btn-secondary">
     WordPartyのテスト実行

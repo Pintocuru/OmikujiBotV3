@@ -1,4 +1,4 @@
-// src/types/GameScript/GameStateSchema.ts
+// src/games/types/GameStateSchema.ts
 import { idSchema } from '@shared/types'
 import { z } from 'zod'
 

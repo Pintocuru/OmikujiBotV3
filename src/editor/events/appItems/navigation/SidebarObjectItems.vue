@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/appItems/navigation/SidebarObjectItems.vue -->
+<!-- src/editor/events/appItems/navigation/SidebarObjectItems.vue -->
 <!--
   appInfo / components 用のセクションリスト。
   theme / activeSection は SidebarSectionList の props として渡す必要があるため

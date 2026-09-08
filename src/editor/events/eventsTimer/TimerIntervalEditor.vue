@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/eventsTimer/TimerIntervalEditor.vue -->
+<!-- src/editor/events/eventsTimer/TimerIntervalEditor.vue -->
 <template>
   <!-- isBaseZero トグル -->
   <SettingItem label="モード" description="タイマーを「起動時のみ」か「一定間隔で継続実行」かを選びます">

@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/RecordTabs/RecordFilter.vue -->
+<!-- src/editor/helpers/RecordTabs/RecordFilter.vue -->
 <template>
   <div class="alert alert-info alert-outline">
     <div class="p-2 space-y-2">

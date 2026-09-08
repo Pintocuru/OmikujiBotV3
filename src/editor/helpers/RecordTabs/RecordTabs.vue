@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/RecordTabs/RecordTabs.vue -->
+<!-- src/editor/helpers/RecordTabs/RecordTabs.vue -->
 <template>
   <!-- フィルターコンポーネント -->
   <RecordFilter />

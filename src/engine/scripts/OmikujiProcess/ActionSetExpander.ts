@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/OmikujiProcess/ActionSetExpander.ts
+// src/engine/scripts/OmikujiProcess/ActionSetExpander.ts
 import { ActionSetType, handelNormalizedValues, PostFlowCallType, PostFlowType } from '@/types/OmikujiData/'
 import { postSystemMessage } from '@shared/sdk/post/PostOneComme'
 import { drawOmikuji } from '@shared/utils/omikuji/DrawOmikuji'

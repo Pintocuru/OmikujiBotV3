@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/UserManager/UserVisitManager.ts
+// src/generator/stores/UserManager/UserVisitManager.ts
 
 import { UserVisitRecord, UserVisitRecordSchema } from '@/types'
 import { UserNameType } from '@shared/types'

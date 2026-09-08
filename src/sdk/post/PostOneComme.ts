@@ -1,4 +1,4 @@
-// shared/sdk/postMessage/PostOneComme.ts
+// src/sdk/post/PostOneComme.ts
 import { api } from "../client";
 import {
   SendCommentType,

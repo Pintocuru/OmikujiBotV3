@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CookieCounter/parts/CookieCounterSelector.vue -->
+<!-- src/generator/ui/CookieCounter/parts/CookieCounterSelector.vue -->
 <template>
   <div class="w-full bg-base-100 transparent-bg" :data-theme="settings.color.daisyUiTheme">
     <component

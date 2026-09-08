@@ -1,4 +1,4 @@
-// shared/sdk/connection/PingOneSDK.ts
+// src/sdk/connection/PingOneSDK.ts
 import { api } from "../client";
 
 const MAX_RETRIES = 3;

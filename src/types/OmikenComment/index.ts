@@ -1,4 +1,4 @@
-// shared/types/OmikenComment/OmikenCommentSchema.ts
+// src/types/OmikenComment/index.ts
 import { z } from 'zod'
 import { idSchema } from '../core/BaseSchema'
 

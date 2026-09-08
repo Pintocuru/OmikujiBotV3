@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/CommentBubble/composables/useBotDisplay.ts
+// src/generator/ui/CommentBubble/composables/useBotDisplay.ts
 import { ref, computed, Ref } from 'vue'
 import { BotMessageBubbleType } from '@/types'
 

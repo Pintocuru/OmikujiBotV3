@@ -1,4 +1,4 @@
-//
+// src/maps/trigger/CountConditionMap.ts
 import { CountComparisonCondition, CountUnitCondition } from '@/types/trigger'
 
 /**

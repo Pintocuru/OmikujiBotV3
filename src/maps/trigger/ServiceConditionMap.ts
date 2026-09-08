@@ -1,4 +1,4 @@
-//
+// src/maps/trigger/ServiceConditionMap.ts
 import { EnabledServiceType, ServiceMetaCondition } from '@/types/trigger'
 
 // Map定義

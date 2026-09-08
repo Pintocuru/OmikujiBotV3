@@ -1,4 +1,4 @@
-// shared/utils/trigger/TriggerChecker.ts
+// src/common/trigger/TriggerChecker.ts
 import { checkComment, checkUserIdCondition, checkUsername } from '../threshold/checkers'
 import {
   checkAccessTrigger,

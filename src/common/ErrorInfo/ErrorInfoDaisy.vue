@@ -1,4 +1,4 @@
-<!-- shared/components/error/ErrorInfoDaisy.vue -->
+<!-- src/common/ErrorInfo/ErrorInfoDaisy.vue -->
 <template>
   <div ref="rootEl" class="w-full h-full">
     <div

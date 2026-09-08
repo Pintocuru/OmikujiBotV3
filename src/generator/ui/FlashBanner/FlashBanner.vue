@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/FlashBanner/FlashBanner.vue -->
+<!-- src/generator/ui/FlashBanner/FlashBanner.vue -->
 <template>
   <CenteringWrapper>
     <FlashBannerSelector

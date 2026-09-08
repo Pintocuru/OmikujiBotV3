@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/DeadAir/DeadAir.vue -->
+<!-- src/generator/ui/DeadAir/DeadAir.vue -->
 <template>
   <CenteringWrapper>
     <DeadAirSelector

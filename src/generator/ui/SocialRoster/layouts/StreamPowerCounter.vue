@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/SocialRoster/layouts/StreamPowerCounter.vue -->
+<!-- src/generator/ui/SocialRoster/layouts/StreamPowerCounter.vue -->
 <template>
   <div class="flex items-center justify-center gap-1 font-bold">
     <div

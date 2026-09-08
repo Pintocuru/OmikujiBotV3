@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/StreamCounter/StreamCounter.vue -->
+<!-- src/generator/ui/StreamCounter/StreamCounter.vue -->
 <template>
   <CenteringWrapper>
     <StreamCounterSelector

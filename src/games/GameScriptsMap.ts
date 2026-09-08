@@ -1,4 +1,4 @@
-// src/GameScripts/GameScriptsMap.ts
+// src/games/GameScriptsMap.ts
 import { ScriptClass, ScriptGameKey } from '@/types'
 
 /**

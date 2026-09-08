@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/FontFamilyMap.ts
 import { FontFamilyType } from '@/types/OmikujiData/fontFamily'
 
 /**

@@ -1,4 +1,4 @@
-// shared/sdk/subscribe/GetComments.ts
+// src/sdk/subscribe/GetComments.ts
 import { PingOneSDK } from "../connection/PingOneSDK";
 import OneSDK from "@onecomme.com/onesdk";
 import { Comment } from "@onecomme.com/onesdk/types/Comment";

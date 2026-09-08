@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/parts/ExternalLinkButton.vue -->
+<!-- src/editor/helpers/NavigateButton/ExternalLinkButton.vue -->
 <template>
   <button v-if="isValidUrl(url)" @click="openUrl" class="btn btn-primary btn-outline" :title="title">
     <ExternalLink class="w-4 h-4" />

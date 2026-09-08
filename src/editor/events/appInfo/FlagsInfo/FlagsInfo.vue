@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/appInfo/FlagsInfo/FlagsInfo.vue -->
+<!-- src/editor/events/appInfo/FlagsInfo/FlagsInfo.vue -->
 <template>
   <div class="space-y-4">
     <!-- 基本機能 -->

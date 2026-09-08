@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/eventsTimer/TimerEditor.vue -->
+<!-- src/editor/events/eventsTimer/TimerEditor.vue -->
 <template>
   <!-- 便利ボタン群 -->
   <div class="flex justify-end gap-2">

@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/KujibikiPanel/KujibikiPanel.vue -->
+<!-- src/generator/ui/KujibikiPanel/KujibikiPanel.vue -->
 <template>
   <CenteringWrapper>
     <KujibikiPanelSelector :settings="settings" :messages="activeMessages" />

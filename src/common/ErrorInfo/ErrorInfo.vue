@@ -1,4 +1,4 @@
-<!-- shared/components/error/ErrorInfo.vue -->
+<!-- src/common/ErrorInfo/ErrorInfo.vue -->
 <template>
   <div class="bg-white border border-red-300 rounded-lg shadow-lg overflow-hidden">
     <!-- ヘッダー -->

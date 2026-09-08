@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/common/HudPreview/HudPreview.vue -->
+<!-- src/editor/helpers/HudPreview/HudPreview.vue -->
 <template>
   <div :class="[heightClass, 'overflow-hidden relative']">
     <div :style="bgStyle" class="w-full h-full">

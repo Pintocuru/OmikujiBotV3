@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/processors/PostBuildProcessor.ts
+// tools/webpackBuild/processors/PostBuildProcessor.ts
 import path from 'path'
 import { ResolvedPackageBuildConfig } from '../BuildTypes'
 import { TemplateJsonProcessor } from './template/TemplateJsonProcessor'

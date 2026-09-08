@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/buildOptions/moduleRules.ts
+// tools/webpackBuild/buildOptions/moduleRules.ts
 import webpack from 'webpack'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 

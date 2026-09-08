@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/OmikujiResult/BotMessageGenerator.ts
+// src/engine/scripts/OmikujiResult/BotMessageGenerator.ts
 import { BotMessageType, ProcessedPostAction } from "@/types";
 import {
   PostFlowType,

@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/VariablePlaceholder/PatternMatcher.ts
+// src/engine/scripts/VariablePlaceholder/PatternMatcher.ts
 import { RAND_PATTERN, RESERVED_KEYS, VAR_DECLARATION_PATTERN } from './ReservedKeys'
 
 /**

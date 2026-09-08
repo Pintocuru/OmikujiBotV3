@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/GoogolClover/sub/utils.ts
+// src/games/scripts/GoogolClover/sub/utils.ts
 import { DECIMAL_PLACES } from './constants'
 
 /**

@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/appItems/preview/ActionSetPreview.vue -->
+<!-- src/editor/events/appItems/preview/ActionSetPreview.vue -->
 <template>
   <div class="space-y-1.5 min-w-[180px] max-w-[260px]">
     <!-- ヘッダー -->

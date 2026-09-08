@@ -1,4 +1,4 @@
-// src/types/MainGenerator/DefaultPlaceholders.ts
+// src/generator/types/MainGenerator/DefaultPlaceholders.ts
 import z from 'zod'
 import { defaultPlaceholderMap } from '../MetaMaps'
 

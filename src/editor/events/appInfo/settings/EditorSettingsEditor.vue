@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/appInfo/settings/EditorSettingsEditor.vue -->
+<!-- src/editor/events/appInfo/settings/EditorSettingsEditor.vue -->
 <template>
   <!-- コンフィグエディター設定 -->
   <SubSectionHeader

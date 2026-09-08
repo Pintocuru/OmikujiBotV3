@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/MultiplyBonanza/params.ts
+// src/games/scripts/MultiplyBonanza/params.ts
 import { z } from 'zod'
 
 /**

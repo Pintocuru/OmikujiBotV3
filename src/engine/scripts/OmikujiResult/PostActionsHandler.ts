@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/OmikujiResult/PostActionsHandler.ts
+// src/engine/scripts/OmikujiResult/PostActionsHandler.ts
 import { BotMessageType, ProcessedPostAction } from "@/types";
 import { ActionSetType, OmikujiDataType } from "@/types/OmikujiData/";
 import { ContentPlaceholder } from "@/generator/scripts/ContentPlaceholder/processor";

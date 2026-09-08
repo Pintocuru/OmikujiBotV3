@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/SocialRoster/SocialRoster.vue -->
+<!-- src/generator/ui/SocialRoster/SocialRoster.vue -->
 <template>
   <CenteringWrapper>
     <SocialRosterSelector

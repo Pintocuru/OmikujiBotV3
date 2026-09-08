@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/useAppStatus.ts
+// src/generator/stores/useAppStatus.ts
 import { ref } from 'vue'
 import { AppStatus } from '@shared/types/core/AppStatus'
 

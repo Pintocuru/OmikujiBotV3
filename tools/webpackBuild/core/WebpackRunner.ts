@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/core/WebpackRunner.ts
+// tools/webpackBuild/core/WebpackRunner.ts
 import webpack from 'webpack'
 
 /**

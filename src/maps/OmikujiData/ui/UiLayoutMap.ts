@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/ui/UiLayoutMap.ts
 import { UiKind, UiLayoutType } from '@/types/OmikujiData'
 
 /**

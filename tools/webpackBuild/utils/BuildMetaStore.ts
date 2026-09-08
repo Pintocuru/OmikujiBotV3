@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/utils/BuildMetaStore.ts
+// tools/webpackBuild/utils/BuildMetaStore.ts
 import fs from 'fs'
 import path from 'path'
 import { BuildMeta } from '../BuildTypes'

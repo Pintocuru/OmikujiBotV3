@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/VariablePlaceholder/VariableProcessor.ts
+// src/engine/scripts/VariablePlaceholder/VariableProcessor.ts
 import { VariablePlaceholderResult } from "@/types/MainGenerator/OmikujiResultTypes";
 import { ExpressionEngine } from "@/generator/stores/PlaceholderVariable/ExpressionEngine";
 import {

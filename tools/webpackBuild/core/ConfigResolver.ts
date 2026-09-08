@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/core/ConfigResolver.ts
+// tools/webpackBuild/core/ConfigResolver.ts
 import {
   ProjectConfig,
   CoreBuildTarget,

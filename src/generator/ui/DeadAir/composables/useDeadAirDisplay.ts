@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/DeadAir/composables/useDeadAirDisplay.ts
+// src/generator/ui/DeadAir/composables/useDeadAirDisplay.ts
 import { computed } from 'vue'
 
 /**

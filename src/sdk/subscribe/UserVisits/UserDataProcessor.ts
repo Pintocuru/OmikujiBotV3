@@ -1,4 +1,4 @@
-// shared/sdk/subscribe/UserVisits/UserDataProcessor.ts
+// src/sdk/subscribe/UserVisits/UserDataProcessor.ts
 import { Comment } from '@onecomme.com/onesdk/types/Comment'
 import { ServiceVisitType, UserVisitSchema, UserVisitType } from '../../../types/subscribe/UserVisitSchema'
 import { convertToJPY } from '../../../utils/threshold/ThresholdHelpers'

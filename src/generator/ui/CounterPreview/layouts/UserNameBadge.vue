@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CounterPreview/layouts/UserNameBadge.vue -->
+<!-- src/generator/ui/CounterPreview/layouts/UserNameBadge.vue -->
 <template>
   <li class="badge badge-xl badge-warning">
     <div class="avatar">

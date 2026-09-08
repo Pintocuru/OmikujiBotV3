@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/App.vue -->
+<!-- src/editor/App.vue -->
 <template>
   <div class="flex min-h-screen" :data-theme="daisyUiTheme">
     <!-- サイドバー -->

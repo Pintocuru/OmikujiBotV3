@@ -1,4 +1,4 @@
-// shared/sdk/subscribe/UserVisits/ServiceVisitManager.ts
+// src/sdk/subscribe/UserVisits/ServiceVisitManager.ts
 import { ServiceVisitSchema, ServiceVisitType } from '../../../types/subscribe/UserVisitSchema'
 import { detectServiceFromUrl } from '../../service/DetectService'
 import { Service } from '@onecomme.com/onesdk/types/Service'

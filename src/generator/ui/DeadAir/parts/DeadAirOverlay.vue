@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/DeadAir/parts/DeadAirOverlay.vue -->
+<!-- src/generator/ui/DeadAir/parts/DeadAirOverlay.vue -->
 <template>
   <!-- 暗転オーバーレイ（ライフ減少に応じて徐々に暗くなる） -->
   <div class="dead-overlay" :style="{ opacity: darknessOpacity }" aria-hidden="true" />

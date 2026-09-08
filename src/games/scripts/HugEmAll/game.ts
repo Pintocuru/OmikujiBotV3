@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/HugEmAll/game.ts
+// src/games/scripts/HugEmAll/game.ts
 import {
   MAX_WIN,
   ATTACKS_PER_TURN,

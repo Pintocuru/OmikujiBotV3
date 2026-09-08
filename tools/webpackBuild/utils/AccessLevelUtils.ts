@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/utils/AccessLevelUtils.ts
+// tools/webpackBuild/utils/AccessLevelUtils.ts
 import { AccessLevelType } from '../../../types'
 import { ProjectConfig, ResolvedPackageBuildConfig } from '../BuildTypes'
 

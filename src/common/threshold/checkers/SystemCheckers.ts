@@ -1,4 +1,4 @@
-// shared/utils/threshold/checkers/SystemCheckers.ts
+// src/common/threshold/checkers/SystemCheckers.ts
 import { Comment } from '@onecomme.com/onesdk/types/Comment'
 import { EnabledServiceType } from '../../../types/Threshold'
 

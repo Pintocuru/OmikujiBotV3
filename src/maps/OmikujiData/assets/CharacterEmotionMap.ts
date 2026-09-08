@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/assets/CharacterEmotionMap.ts
 import { CharacterEmotionType } from '@/types/OmikujiData'
 
 /**

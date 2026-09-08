@@ -1,4 +1,4 @@
-//
+// src/maps/trigger/SyokenConditionMap.ts
 import { SyokenCondition } from '@/types/trigger'
 
 // Map定義

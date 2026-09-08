@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/processors/json/UpdateJsonMetadata.ts
+// tools/webpackBuild/processors/json/UpdateJsonMetadata.ts
 import fs from 'fs'
 import path from 'path'
 import { ResolvedPackageBuildConfig } from '../../BuildTypes'

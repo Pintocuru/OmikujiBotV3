@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/CommentSpin/composables/usePopupVisibility.ts
+// src/generator/ui/CommentSpin/composables/usePopupVisibility.ts
 import { ref, watch } from 'vue'
 import type { BotMessageBubbleType } from '@/types'
 

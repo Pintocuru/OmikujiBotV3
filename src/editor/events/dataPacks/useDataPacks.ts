@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/dataPacks/useDataPacks.ts
+// src/editor/events/dataPacks/useDataPacks.ts
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import type { MetaDataType } from '@shared/types/core/MetaDataSchema'

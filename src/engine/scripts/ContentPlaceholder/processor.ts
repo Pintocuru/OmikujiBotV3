@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/ContentPlaceholder/processor.ts
+// src/engine/scripts/ContentPlaceholder/processor.ts
 import {
   PostFlowType,
   PlaceholderType,

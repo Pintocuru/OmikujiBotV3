@@ -1,4 +1,4 @@
-// src/types/MainGenerator/OmikujiResultTypes.ts
+// src/generator/types/MainGenerator/OmikujiResultTypes.ts
 import { PostFlowType, ScriptGameExtendedKeyType } from '@/types/OmikujiData/'
 import { ExtraListsType, ExtraSlotsType } from '@/types/MainGenerator/BotMessageSchema'
 

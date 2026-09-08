@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/UserManager/UserStatsManager.ts
+// src/generator/stores/UserManager/UserStatsManager.ts
 import { UserStatsRecord } from '@/types'
 import { OmikenCommentType } from '@shared/types'
 

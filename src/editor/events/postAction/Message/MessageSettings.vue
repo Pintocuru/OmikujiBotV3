@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/Message/MessageSettings.vue -->
+<!-- src/editor/events/postAction/Message/MessageSettings.vue -->
 <template>
   <template v-if="showCharacterSettings">
     <SettingItem

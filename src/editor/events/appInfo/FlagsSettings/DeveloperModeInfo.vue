@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/appInfo/FlagsSettings/DeveloperModeInfo.vue -->
+<!-- src/editor/events/appInfo/FlagsSettings/DeveloperModeInfo.vue -->
 <template>
   <!-- 補足説明 -->
   <InformationCard class="mt-4">

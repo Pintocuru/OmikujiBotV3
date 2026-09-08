@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/FlashBanner/composables/useDelayedBlink.ts
+// src/generator/ui/FlashBanner/composables/useDelayedBlink.ts
 import { ref, watch } from 'vue'
 
 export interface UseDelayedBlinkOptions {

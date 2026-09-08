@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CookieCounter/layouts/Sakura.vue -->
+<!-- src/generator/ui/CookieCounter/layouts/Sakura.vue -->
 <template>
   <div class="flex justify-center items-center pt-30">
     <!-- メイン花びら（サブの absolute 基準） -->

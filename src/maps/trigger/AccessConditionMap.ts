@@ -1,4 +1,4 @@
-//
+// src/maps/trigger/AccessConditionMap.ts
 import { AccessConditionTrigger } from '@/types/trigger'
 
 // Map定義

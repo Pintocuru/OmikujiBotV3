@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/appItems/useVersionCheck.ts
+// src/editor/events/appItems/useVersionCheck.ts
 import { ref, computed, Ref } from 'vue'
 import Swal from 'sweetalert2'
 

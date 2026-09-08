@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/WebpackBuilder.ts
+// tools/webpackBuild/WebpackBuilder.ts
 import {
   ProjectConfig,
   CoreBuildTarget,

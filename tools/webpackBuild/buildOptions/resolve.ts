@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/buildOptions/resolve.ts
+// tools/webpackBuild/buildOptions/resolve.ts
 import path from 'path'
 import webpack from 'webpack'
 

@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/EventProcess/ServiceProcessor.ts
+// src/engine/scripts/EventProcess/ServiceProcessor.ts
 import { evaluateServiceTrigger } from "./ServiceTriggerEvaluator";
 import { MetaUpdateEvent } from "@/generator/stores/MetaState/MetaStateService";
 import { OmikujiProcessor } from "@/generator/scripts/OmikujiProcess/OmikujiProcessor";

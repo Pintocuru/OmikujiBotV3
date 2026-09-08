@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/appInfo/settings/LicenseSwitch.vue -->
+<!-- src/editor/events/appInfo/settings/LicenseSwitch.vue -->
 <template>
   <span class="space-x-1">
     <button class="btn btn-sm btn-primary" @click="set('basic')">

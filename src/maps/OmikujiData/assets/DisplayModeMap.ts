@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/assets/DisplayModeMap.ts
 import { DisplayModeType } from '@/types/OmikujiData'
 
 /**

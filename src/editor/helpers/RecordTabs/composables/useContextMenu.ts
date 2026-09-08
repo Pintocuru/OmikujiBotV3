@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/RecordTabs/composables/useContextMenu.ts
+// src/editor/helpers/RecordTabs/composables/useContextMenu.ts
 import { ref } from 'vue'
 import { BaseRecordType } from '@shared/types'
 

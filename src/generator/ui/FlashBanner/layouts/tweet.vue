@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/FlashBanner/layouts/tweet.vue -->
+<!-- src/generator/ui/FlashBanner/layouts/tweet.vue -->
 <template>
   <div
     class="flex items-end gap-2 p-4"

@@ -1,4 +1,4 @@
-// src/GameScripts/scriptsEngine/LogRank/execute.ts
+// src/games/scriptsEngine/LogRank/execute.ts
 import { GameStateType, GameStateSchema, GameLogType, UserStatsType } from '@/types/GameScript/'
 import { GameParams, GameParamsSchema } from './types'
 import { updateUserStats, createGameRecord } from './services/UserStatsService'

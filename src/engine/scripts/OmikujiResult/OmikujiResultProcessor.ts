@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/OmikujiResult/OmikujiResultProcessor.ts
+// src/engine/scripts/OmikujiResult/OmikujiResultProcessor.ts
 import { BotMessageType } from "@/types";
 import { OmikujiDataType, ActionSetType } from "@/types/OmikujiData/";
 import { PlaceholderVariableType } from "@/generator/stores/PlaceholderVariable/PlaceholderVariable";

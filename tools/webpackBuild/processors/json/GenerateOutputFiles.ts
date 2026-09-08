@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/processors/json/GenerateOutputFiles.ts
+// tools/webpackBuild/processors/json/GenerateOutputFiles.ts
 import fs from 'fs'
 import path from 'path'
 import { ResolvedPackageBuildConfig, PackageType } from '../../BuildTypes'

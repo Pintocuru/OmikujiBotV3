@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/CommentSpin/composables/useCommentSpinMessages.ts
+// src/generator/ui/CommentSpin/composables/useCommentSpinMessages.ts
 import { computed, watch } from "vue";
 import type { ComputedRef } from "vue";
 import type { BotMessageBubbleType } from "@/types";

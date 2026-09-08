@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/KeyEditor/KeyEditor.vue -->
+<!-- src/editor/helpers/KeyEditor/KeyEditor.vue -->
 <template>
   <!-- Keyエディタボタン -->
   <button

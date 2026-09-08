@@ -1,4 +1,4 @@
-// shared/types/Threshold/GiftCondition.ts
+// src/types/trigger/GiftCondition.ts
 import { z } from 'zod'
 
 /**

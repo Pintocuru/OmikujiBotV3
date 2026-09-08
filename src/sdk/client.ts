@@ -1,4 +1,4 @@
-// shared/http/client.ts
+// src/sdk/client.ts
 import { POST_SETTINGS } from "./PostSettings";
 import axios, { AxiosError } from "axios";
 

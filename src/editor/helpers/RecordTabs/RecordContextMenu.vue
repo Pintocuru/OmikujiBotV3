@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/RecordTabs/RecordContextMenu.vue -->
+<!-- src/editor/helpers/RecordTabs/RecordContextMenu.vue -->
 <template>
   <!-- 右クリックコンテキストメニュー -->
   <div

@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CommentSpin/CommentSpin.vue -->
+<!-- src/generator/ui/CommentSpin/CommentSpin.vue -->
 <template>
   <CenteringWrapper>
     <CommentSpinSelector

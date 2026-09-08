@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSchema.ts
+// src/types/OmikujiData/ui/UiKindSchema.ts
 import { z } from 'zod'
 
 /**

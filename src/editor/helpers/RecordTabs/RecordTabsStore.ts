@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/RecordTabs/RecordTabsStore.ts
+// src/editor/helpers/RecordTabs/RecordTabsStore.ts
 import { defineStore } from 'pinia'
 import { useRuleState } from './composables/useRuleState'
 import { useRuleOperations } from './composables/useRuleOperations'

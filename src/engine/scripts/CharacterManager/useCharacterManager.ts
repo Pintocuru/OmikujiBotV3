@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/CharacterManager/useCharacterManager.ts
+// src/engine/scripts/CharacterManager/useCharacterManager.ts
 import { computed } from "vue";
 import { useAppStore } from "@/generator/stores/useAppStore";
 import { CharacterManager } from "./CharacterManager";

@@ -1,4 +1,4 @@
-// src/MainGenerator/composables/useAppInitializer.ts
+// src/generator/composables/useAppInitializer.ts
 import { EventCommentProcessor } from "@/generator/scripts/EventProcess/CommentProcessor";
 import { useVisibilityAccess } from "@/generator/scripts/FeatureAccess/useAccessCheckerMain";
 import { useAppStore } from "@/generator/stores/useAppStore";

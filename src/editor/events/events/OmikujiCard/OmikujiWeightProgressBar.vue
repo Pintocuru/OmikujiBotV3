@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/events/OmikujiCard/OmikujiWeightProgressBar.vue -->
+<!-- src/editor/events/events/OmikujiCard/OmikujiWeightProgressBar.vue -->
 <template>
   <div v-if="items.length > 0">
     <div class="space-y-2">

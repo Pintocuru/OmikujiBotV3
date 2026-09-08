@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/assets/PostFlowKindMap.ts
 import { PostFlowKind } from '@/types/OmikujiData'
 
 /**

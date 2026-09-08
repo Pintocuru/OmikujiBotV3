@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/common/BaseDialog/BaseEditDialog.vue -->
+<!-- src/editor/helpers/BaseDialog/BaseEditDialog.vue -->
 
 <template>
   <dialog ref="dialogRef" class="modal modal-bottom sm:modal-middle">

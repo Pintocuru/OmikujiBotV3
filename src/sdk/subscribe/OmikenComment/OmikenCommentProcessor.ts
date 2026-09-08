@@ -1,4 +1,4 @@
-// shared/sdk/subscribe/OmikenComment/OmikenCommentProcessor.ts
+// src/sdk/subscribe/OmikenComment/OmikenCommentProcessor.ts
 import {
   CommentMetaSchema,
   OmikenCommentSchema,

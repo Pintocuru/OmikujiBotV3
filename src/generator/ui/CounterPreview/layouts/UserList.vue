@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CounterPreview/layouts/UserList.vue -->
+<!-- src/generator/ui/CounterPreview/layouts/UserList.vue -->
 <template>
   <CounterCardBase :counter-setting="counterSetting" :is-bouncing="isBouncing">
     <div class="drop-shadow-md">

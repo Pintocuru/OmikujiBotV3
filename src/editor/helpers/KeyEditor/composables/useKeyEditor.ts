@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/KeyEditor/composables/useKeyEditor.ts
+// src/editor/helpers/KeyEditor/composables/useKeyEditor.ts
 import { ref, computed, readonly } from 'vue'
 import { categoryMap, RecordCategoryType, eventCategoryLabel } from '@/types'
 import { validateKey as validateKeyUtil } from './keyEditorValidation'

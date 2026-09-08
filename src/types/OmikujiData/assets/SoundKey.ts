@@ -1,4 +1,4 @@
-// src/types/OmikujiData/SoundKey.ts
+// src/types/OmikujiData/assets/SoundKey.ts
 import { z } from 'zod'
 
 /**

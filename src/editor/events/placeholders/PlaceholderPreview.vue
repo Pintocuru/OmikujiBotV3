@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/placeholders/PlaceholderPreview.vue -->
+<!-- src/editor/events/placeholders/PlaceholderPreview.vue -->
 <template>
   <div class="tooltip tooltip-bottom" data-tip="わんコメを起動すると、投稿の確認ができます">
     <button @click="handleDraw" class="btn btn-info" :disabled="!values.length">

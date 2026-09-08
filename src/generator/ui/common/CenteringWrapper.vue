@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/common/CenteringWrapper.vue -->
+<!-- src/generator/ui/common/CenteringWrapper.vue -->
 <template>
   <div :class="containerClass">
     <slot />

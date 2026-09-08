@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/Message/MessageTextDialog.vue -->
+<!-- src/editor/events/postAction/Message/MessageTextDialog.vue -->
 <template>
   <!-- 1行インライン表示 -->
   <div class="flex gap-2 items-center w-full">

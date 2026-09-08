@@ -1,4 +1,4 @@
-//
+// src/sdk/types/onesdk/Service.ts
 import z from "zod";
 
 // @onecomme.com/onesdk/types/Service

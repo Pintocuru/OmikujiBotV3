@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/PlaceholderVariable/PlaceholderVariable.ts
+// src/generator/stores/PlaceholderVariable/PlaceholderVariable.ts
 import { ExpressionEngine } from './ExpressionEngine'
 
 export interface PlaceholderVariableType {

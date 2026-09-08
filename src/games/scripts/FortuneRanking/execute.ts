@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/FortuneRanking/execute.ts
+// src/games/scripts/FortuneRanking/execute.ts
 import { DEFAULT_FRUITS, DEFAULT_KEY_MAP } from './params'
 import { ScriptClass, GameStateType, PostFlowMessageSchema, ScriptResult } from '@/types'
 import { LogRankScript } from '@game/scriptsEngine/LogRank/execute'

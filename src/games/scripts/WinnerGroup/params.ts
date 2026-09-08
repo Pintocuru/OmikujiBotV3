@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/WinnerGroup/params.ts
+// src/games/scripts/WinnerGroup/params.ts
 import { z } from 'zod'
 
 /**

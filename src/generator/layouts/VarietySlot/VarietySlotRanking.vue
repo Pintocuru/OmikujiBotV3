@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/layouts/VarietySlot/VarietySlotRanking.vue -->
+<!-- src/generator/layouts/VarietySlot/VarietySlotRanking.vue -->
 <template>
   <div class="flex flex-col items-center space-y-4">
     <DraggableWrapper>

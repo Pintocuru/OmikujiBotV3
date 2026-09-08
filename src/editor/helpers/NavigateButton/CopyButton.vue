@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/parts/CopyButton.vue -->
+<!-- src/editor/helpers/NavigateButton/CopyButton.vue -->
 <template>
   <button
     @click="handleCopy"

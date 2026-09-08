@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/WinnerGroup/game.ts
+// src/games/scripts/WinnerGroup/game.ts
 import { generateDummyWinnerUsers } from '@/common/MockUser/MockGenerators'
 import { UserManager } from '@main/stores/UserManager/UserManager'
 import { UserNameSchema, UserNameType } from '@shared/types'

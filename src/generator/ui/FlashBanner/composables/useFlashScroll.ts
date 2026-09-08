@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/FlashBanner/composables/useFlashScroll.ts
+// src/generator/ui/FlashBanner/composables/useFlashScroll.ts
 import { ref, watchEffect, onMounted, onUnmounted, nextTick } from 'vue'
 import { FlashBannerType } from '@/types'
 

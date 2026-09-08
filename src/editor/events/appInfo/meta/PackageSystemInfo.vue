@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/appInfo/meta/PackageSystemInfo.vue -->
+<!-- src/editor/events/appInfo/meta/PackageSystemInfo.vue -->
 <template>
   <!-- ジェネレータ名 (読み取り専用) -->
   <SettingItem label="アプリ名" description="このパッケージを生成したアプリ名">

@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/DeadAir/layouts/DeadAirBombWidget.vue -->
+<!-- src/generator/ui/DeadAir/layouts/DeadAirBombWidget.vue -->
 <template>
   <div
     class="relative flex items-center justify-center w-[400px] h-[400px]"

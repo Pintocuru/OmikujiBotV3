@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CounterPreview/layouts/UserCardScroller.vue -->
+<!-- src/generator/ui/CounterPreview/layouts/UserCardScroller.vue -->
 <template>
   <CounterCardBase :counter-setting="counterSetting">
     <div v-if="counterSetting.label !== ''" class="text-xl mb-2">

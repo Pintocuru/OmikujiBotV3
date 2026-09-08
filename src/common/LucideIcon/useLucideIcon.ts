@@ -1,4 +1,4 @@
-// shared/utils/LucideIcon/useLucideIcon.ts
+// src/common/LucideIcon/useLucideIcon.ts
 import type { Component } from 'vue'
 
 // 使うアイコンだけ import

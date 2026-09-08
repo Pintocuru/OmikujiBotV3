@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CommentBubble/CommentBubblePersistent.vue -->
+<!-- src/generator/ui/CommentBubble/CommentBubblePersistent.vue -->
 <template>
   <div class="relative pointer-events-auto -mx-4" :style="characterStyle">
     <div class="relative flex flex-col items-center">

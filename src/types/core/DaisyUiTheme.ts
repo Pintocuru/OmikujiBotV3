@@ -1,4 +1,4 @@
-// shared/styles/DaisyUiTheme.ts
+// src/types/core/DaisyUiTheme.ts
 import z from "zod";
 
 // TODO:DaisyUi のテーマカラーについては、v3では削る方針(軽量化のため。light & dark のみでよい)

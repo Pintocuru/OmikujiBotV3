@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/buildOptions/buildOptions.ts
+// tools/webpackBuild/buildOptions/buildOptions.ts
 import webpack from 'webpack'
 import path from 'path'
 import fs from 'fs'

@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/ComponentMaps.ts
+// src/generator/ui/ComponentMaps.ts
 import { UiKind } from '@/types'
 
 // 静的COMPONENT_MAPを廃止し、動的importに変換

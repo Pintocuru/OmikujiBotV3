@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/common/usePlaceholderResolver.ts
+// src/generator/ui/common/usePlaceholderResolver.ts
 import { DefaultPlaceholdersMetaSchema } from "@/types";
 import { useAppStore } from "@/generator/stores/useAppStore";
 import { ContentPlaceholder } from "@/generator/scripts/ContentPlaceholder/processor";

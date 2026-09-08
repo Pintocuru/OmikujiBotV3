@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/GoogolClover/sub/constants.ts
+// src/games/scripts/GoogolClover/sub/constants.ts
 
 /** 目標桁数 */
 export const GOAL_EXPONENT = 100

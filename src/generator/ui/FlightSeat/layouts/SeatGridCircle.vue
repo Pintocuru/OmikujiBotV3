@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/FlightSeat/layouts/SeatGridCircle.vue -->
+<!-- src/generator/ui/FlightSeat/layouts/SeatGridCircle.vue -->
 <template>
   <div class="relative mx-auto" :style="{ width: diameter + 'px', height: diameter + 'px' }">
     <!-- 回転する外輪（座席ごと） -->

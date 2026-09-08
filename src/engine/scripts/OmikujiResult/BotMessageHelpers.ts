@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/OmikujiResult/BotMessageHelpers.ts
+// src/engine/scripts/OmikujiResult/BotMessageHelpers.ts
 import {
   BotMessageBubbleSchema,
   BotMessageExtraSchema,

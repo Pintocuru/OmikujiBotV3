@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/FlashBanner/layouts/arcade.vue -->
+<!-- src/generator/ui/FlashBanner/layouts/arcade.vue -->
 <template>
   <div
     class="flex items-center min-h-18 overflow-hidden gap-4 px-4"

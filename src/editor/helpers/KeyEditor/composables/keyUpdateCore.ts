@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/KeyEditor/composables/keyUpdateCore.ts
+// src/editor/helpers/KeyEditor/composables/keyUpdateCore.ts
 import { useNavigationStore } from '@config/stores/useNavigationStore'
 import { useGetRecordData } from '@config/stores/useGetRecordData'
 import { RecordCategoryType } from '@/types/OmikujiData/'

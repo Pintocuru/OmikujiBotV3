@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/KujibikiPanel/layouts/flower.vue -->
+<!-- src/generator/ui/KujibikiPanel/layouts/flower.vue -->
 <template>
   <div class="relative flex items-center justify-center">
     <!-- レターカード -->

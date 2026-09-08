@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/CookieCounter/composables/useCookieLabelResolver.ts
+// src/generator/ui/CookieCounter/composables/useCookieLabelResolver.ts
 import { LIVER_TEXT_LABELS } from "@/generator/ui/StreamCounter/composables/DefaultLabels";
 import type { StreamDefaultKey } from "@/types";
 

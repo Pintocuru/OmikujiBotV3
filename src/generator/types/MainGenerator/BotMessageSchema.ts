@@ -1,4 +1,4 @@
-// src/types/MainGenerator/BotMessageSchema.ts
+// src/generator/types/MainGenerator/BotMessageSchema.ts
 import { z } from 'zod'
 import { ScriptGameExtendedKeySchema, eventCategoryLabel } from '../OmikujiData'
 import { OmikenCommentSchema, UserNameSchema } from '@shared/types/OmikenComment/OmikenCommentSchema'

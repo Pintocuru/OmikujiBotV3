@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/preview/SoundTestButton.vue -->
+<!-- src/editor/events/postAction/preview/SoundTestButton.vue -->
 <template>
   <button @click="handleClick" :disabled="!sound && !soundPath" class="btn btn-xs btn-secondary">
     サウンドのテスト実行

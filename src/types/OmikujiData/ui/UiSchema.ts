@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSchema.ts
+// src/types/OmikujiData/ui/UiSchema.ts
 import { z } from 'zod'
 import { normalizedObject } from '../ParsedDefault'
 import { CommentBubbleSchema } from '../UiSettings/CommentBubbleSchema'

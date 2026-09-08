@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/DeadAir/layouts/DeadAirBomb.vue -->
+<!-- src/generator/ui/DeadAir/layouts/DeadAirBomb.vue -->
 <template>
   <!-- ルート：背景色・固定レイアウト -->
   <div class="fixed inset-0 overflow-hidden" :class="settings.obstacle === 'white' ? 'bg-white' : 'bg-black'">

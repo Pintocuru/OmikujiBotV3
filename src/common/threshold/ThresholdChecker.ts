@@ -1,4 +1,4 @@
-// shared/utils/threshold/ThresholdChecker.ts
+// src/common/threshold/ThresholdChecker.ts
 import { Comment } from '@onecomme.com/onesdk/types/Comment'
 import {
   AccessCondition,

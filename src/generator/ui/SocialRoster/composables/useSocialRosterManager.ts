@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/SocialRoster/composables/useSocialRosterManager.ts
+// src/generator/ui/SocialRoster/composables/useSocialRosterManager.ts
 import { ref, computed, type Ref } from "vue";
 import { UserNameType } from "@shared/types";
 import { SocialRosterCounts, UserStatsRecord } from "@/types";

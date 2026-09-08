@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/presetsImport/ImportTypes.ts
+// src/editor/helpers/presetsImport/ImportTypes.ts
 import { UiKind } from '@/types'
 import { RecordCategoryType } from '@/types/OmikujiData/'
 

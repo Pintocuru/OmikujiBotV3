@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/FeatureAccess/useAccessCheckerMain.ts
+// src/engine/scripts/FeatureAccess/useAccessCheckerMain.ts
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useAppStore } from "@/generator/stores/useAppStore";

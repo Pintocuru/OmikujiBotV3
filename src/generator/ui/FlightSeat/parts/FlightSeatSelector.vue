@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/FlightSeat/parts/FlightSeatSelector.vue -->
+<!-- src/generator/ui/FlightSeat/parts/FlightSeatSelector.vue -->
 <template>
   <div
     class="flex"

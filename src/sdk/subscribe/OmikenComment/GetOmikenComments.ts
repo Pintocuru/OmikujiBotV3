@@ -1,4 +1,4 @@
-// shared/sdk/subscribe/OmikenComment/GetOmikenComments.ts
+// src/sdk/subscribe/OmikenComment/GetOmikenComments.ts
 import { OmikenCommentType } from "@/types/OmikenComment/";
 import { GetComments } from "../GetComments";
 import { processOmikenComments } from "./OmikenCommentProcessor";

@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/App.vue -->
+<!-- src/generator/App.vue -->
 <template>
   <div class="bg-base-100 transparent-bg overflow-hidden">
     <!-- 接続状態インジケーター（全状態で常時マウント） -->

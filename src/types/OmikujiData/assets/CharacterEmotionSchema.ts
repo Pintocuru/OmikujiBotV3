@@ -1,4 +1,4 @@
-//
+// src/types/OmikujiData/assets/CharacterEmotionSchema.ts
 import { z } from 'zod'
 
 /**

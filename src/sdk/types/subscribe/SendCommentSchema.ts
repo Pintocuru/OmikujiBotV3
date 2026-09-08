@@ -1,4 +1,4 @@
-// shared/types/subscribe/SendCommentSchema.ts
+// src/sdk/types/subscribe/SendCommentSchema.ts
 // わんコメにpostする際の型定義
 import { z } from "zod";
 import { serviceTypeValues } from "../onesdk/Service";

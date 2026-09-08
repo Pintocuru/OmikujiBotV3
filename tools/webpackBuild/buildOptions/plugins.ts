@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/buildOptions/plugins.ts
+// tools/webpackBuild/buildOptions/plugins.ts
 import webpack from 'webpack'
 import { ResolvedCoreBuildConfig } from '../BuildTypes'
 import { VueLoaderPlugin } from 'vue-loader'

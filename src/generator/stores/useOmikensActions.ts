@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/useOmikensActions.ts
+// src/generator/stores/useOmikensActions.ts
 import { ref, computed } from 'vue'
 import { OmikenCommentType } from '@shared/types/OmikenComment/OmikenCommentSchema'
 

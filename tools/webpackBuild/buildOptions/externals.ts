@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/buildOptions/externals.ts
+// tools/webpackBuild/buildOptions/externals.ts
 import webpack from 'webpack'
 
 /**

@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/utils/BuildFingerprint.ts
+// tools/webpackBuild/utils/BuildFingerprint.ts
 import crypto from 'crypto'
 import { ResolvedCoreBuildConfig } from '../BuildTypes'
 

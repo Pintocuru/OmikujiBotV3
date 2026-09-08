@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/MetaState/MetaStateService.ts
+// src/generator/stores/MetaState/MetaStateService.ts
 import { ServiceMetaWatcher } from '@shared/sdk/subscribe/GetMetas'
 import { ServiceMeta } from '@onecomme.com/onesdk/types/Service'
 import { postSystemMessage } from '@shared/sdk/post/PostOneComme'

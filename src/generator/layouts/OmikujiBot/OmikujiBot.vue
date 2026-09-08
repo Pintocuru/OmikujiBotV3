@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/layouts/OmikujiBot/OmikujiBot.vue -->
+<!-- src/generator/layouts/OmikujiBot/OmikujiBot.vue -->
 <template>
   <!-- フキダシ・トーストは専用uiとしてこのままにする -->
   <DraggableWrapper>

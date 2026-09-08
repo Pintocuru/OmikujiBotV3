@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/Message/InlinePlaceholderDialog.vue -->
+<!-- src/editor/events/postAction/Message/InlinePlaceholderDialog.vue -->
 <!--
   簡易プレースホルダー入力ダイアログ
   << '候補1', '候補2', '候補3' >> 形式のテキストを生成して挿入する

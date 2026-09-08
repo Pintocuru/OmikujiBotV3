@@ -1,4 +1,4 @@
-// shared/types/Threshold/ServiceCondition.ts
+// src/types/trigger/ServiceCondition.ts
 import z from 'zod'
 
 /**

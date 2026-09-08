@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CommentSpin/parts/CommentSpinSelector.vue -->
+<!-- src/generator/ui/CommentSpin/parts/CommentSpinSelector.vue -->
 <template>
   <div class="bg-base-100 transparent-bg" :data-theme="color.daisyUiTheme" :style="wrapperStyle">
     <component

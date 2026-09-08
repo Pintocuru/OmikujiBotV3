@@ -1,4 +1,4 @@
-// shared/types/subscribe/SendCommentSchema.ts
+// src/types/subscribe/SendCommentSchema.ts
 // わんコメにpostする際の型定義
 import { z } from 'zod'
 import { idSchema } from '../core/BaseSchema'

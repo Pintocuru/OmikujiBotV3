@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/HugEmAll/params.ts
+// src/games/scripts/HugEmAll/params.ts
 import { z } from 'zod'
 
 /**

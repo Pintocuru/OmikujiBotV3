@@ -1,4 +1,4 @@
-//
+// src/types/OmikujiData/assets/DisplayModeSchema.ts
 import { z } from 'zod'
 
 /**

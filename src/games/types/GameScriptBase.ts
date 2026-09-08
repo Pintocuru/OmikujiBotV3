@@ -1,4 +1,4 @@
-// src/types/GameScript/GameScriptBase.ts
+// src/games/types/GameScriptBase.ts
 import { UserManager } from '@main/stores/UserManager/UserManager'
 
 // store のマネージャ呼び出し

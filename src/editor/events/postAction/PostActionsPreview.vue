@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/PostActionsPreview.vue -->
+<!-- src/editor/events/postAction/PostActionsPreview.vue -->
 <template>
   <div class="bg-base-200 rounded p-3 text-sm relative">
     <div v-if="actions.length !== 0" class="space-y-0">

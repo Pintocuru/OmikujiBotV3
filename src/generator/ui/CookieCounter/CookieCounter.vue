@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CookieCounter/CookieCounter.vue -->
+<!-- src/generator/ui/CookieCounter/CookieCounter.vue -->
 <template>
   <CenteringWrapper>
     <CookieCounterSelector

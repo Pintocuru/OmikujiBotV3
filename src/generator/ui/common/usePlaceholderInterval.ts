@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/common/usePlaceholderInterval.ts
+// src/generator/ui/common/usePlaceholderInterval.ts
 import { ref, onMounted, onUnmounted } from "vue";
 import { usePlaceholderResolver } from "@/generator/ui/common/usePlaceholderResolver";
 

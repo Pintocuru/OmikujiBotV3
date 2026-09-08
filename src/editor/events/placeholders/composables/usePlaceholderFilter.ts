@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/placeholders/composables/usePlaceholderFilter.ts
+// src/editor/events/placeholders/composables/usePlaceholderFilter.ts
 import { computed, ref, Ref, watch } from 'vue'
 import { PlaceholderType } from '@/types/OmikujiData/assets/PlaceholderSchema'
 

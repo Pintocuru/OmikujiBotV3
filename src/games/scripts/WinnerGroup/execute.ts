@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/WinnerGroup/execute.ts
+// src/games/scripts/WinnerGroup/execute.ts
 import { ScriptClass, ScriptResult, PostFlowType, BotMessageExtraType, BotMessageExtraSchema } from '@/types'
 import { parseQueryString } from '@game/parseQueryString'
 import { PostFlowMessageSchema } from '@/types'

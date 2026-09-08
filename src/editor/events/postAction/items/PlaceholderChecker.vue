@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/items/PlaceholderChecker.vue -->
+<!-- src/editor/events/postAction/items/PlaceholderChecker.vue -->
 <!-- !使用しない -->
 <template>
   <div class="space-y-2">

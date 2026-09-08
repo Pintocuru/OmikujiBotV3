@@ -1,4 +1,4 @@
-// shared/sdk/subscribe/UserVisits/UserVisitsProcessor.ts
+// src/sdk/subscribe/UserVisits/UserVisitsProcessor.ts
 import { Comment } from '@onecomme.com/onesdk/types/Comment'
 import { ServiceAPI } from '../../service/ServiceAPI'
 import { ServiceVisitType } from '../../../types/subscribe/UserVisitSchema'

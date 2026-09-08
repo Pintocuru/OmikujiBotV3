@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CommentSpin/layouts/FlipCalendar.vue -->
+<!-- src/generator/ui/CommentSpin/layouts/FlipCalendar.vue -->
 <template>
   <div
     class="relative rounded-xl shadow-lg border-4 overflow-hidden bg-base-200 flex items-center justify-center"

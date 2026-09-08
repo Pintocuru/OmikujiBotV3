@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/placeholders/PlaceholderList.vue -->
+<!-- src/editor/events/placeholders/PlaceholderList.vue -->
 <!-- !使用しない -->
 <template>
   <div class="card card-body p-4 bg-base-200">

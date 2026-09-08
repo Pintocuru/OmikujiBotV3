@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/processors/file/FileCopier.ts
+// tools/webpackBuild/processors/file/FileCopier.ts
 import { promises } from 'fs'
 import fs from 'fs-extra'
 import path from 'path'

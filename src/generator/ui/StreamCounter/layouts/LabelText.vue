@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/StreamCounter/layouts/LabelText.vue -->
+<!-- src/generator/ui/StreamCounter/layouts/LabelText.vue -->
 <template>
   <!-- アイコン -->
   <component :is="label" v-if="isComponent" class="w-8 h-8" />

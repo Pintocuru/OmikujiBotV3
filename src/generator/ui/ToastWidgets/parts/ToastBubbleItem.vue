@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/ToastWidgets/parts/ToastBubbleItem.vue -->
+<!-- src/generator/ui/ToastWidgets/parts/ToastBubbleItem.vue -->
 <template>
   <div :class="showToastsOnRight ? 'chat chat-end' : 'chat chat-start'">
     <!-- アイコン -->

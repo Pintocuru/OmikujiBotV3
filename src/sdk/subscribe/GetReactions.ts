@@ -1,4 +1,4 @@
-// shared/sdk/subscribe/GetReactions.ts
+// src/sdk/subscribe/GetReactions.ts
 import { reactionMap } from '@/types'
 import { PingOneSDK } from '../connection/PingOneSDK'
 import OneSDK from '@onecomme.com/onesdk'

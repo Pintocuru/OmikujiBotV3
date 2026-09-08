@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/LiveClock/layouts/SoundPlayer.vue -->
+<!-- src/generator/ui/LiveClock/layouts/SoundPlayer.vue -->
 <template>
   <div class="w-md transition-all duration-500 ease-out">
     <div class="cyber-frame relative bg-base-200 border px-4 overflow-hidden" :class="`border-${backFrom}`">

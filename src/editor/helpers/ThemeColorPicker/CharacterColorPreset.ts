@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/common/ThemeColorPicker/CharacterColorPreset.ts
+// src/editor/helpers/ThemeColorPicker/CharacterColorPreset.ts
 import { CharacterColorType } from '@/types'
 
 // デフォルトキャラクター用のカラーテーマ（マテリアルカラーベース、可読性重視）

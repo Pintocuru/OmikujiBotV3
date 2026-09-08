@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/OmikujiProcess/SpecialActionProcessor.ts
+// src/engine/scripts/OmikujiProcess/SpecialActionProcessor.ts
 import { ActionSetType } from "@/types/OmikujiData/";
 import { useAppStore } from "@/generator/stores/useAppStore";
 import { UserNameType } from "@shared/types/OmikenComment/OmikenCommentSchema";

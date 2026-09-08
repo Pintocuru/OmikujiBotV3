@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/DeadAir/parts/DeadAirSelector.vue -->
+<!-- src/generator/ui/DeadAir/parts/DeadAirSelector.vue -->
 <template>
   <component
     :is="currentLayout"

@@ -1,4 +1,4 @@
-// src/types/OmikujiData/ReactionTriggerSchema.ts
+// src/types/OmikujiData/events/ReactionTriggerSchema.ts
 import { z } from 'zod'
 
 /**

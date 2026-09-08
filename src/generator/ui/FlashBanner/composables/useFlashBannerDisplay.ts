@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/FlashBanner/composables/useFlashBannerDisplay.ts
+// src/generator/ui/FlashBanner/composables/useFlashBannerDisplay.ts
 import { computed, ref, type Ref } from 'vue'
 import { BotMessageBubbleType } from '@/types'
 

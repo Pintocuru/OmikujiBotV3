@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/PostOmikuji/PostOmikujiService.ts
+// src/engine/scripts/PostOmikuji/PostOmikujiService.ts
 import {
   PostFlowType,
   CharacterType,

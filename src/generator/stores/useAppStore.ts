@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/useAppStore.ts
+// src/generator/stores/useAppStore.ts
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { OmikujiDataType } from '@/types'

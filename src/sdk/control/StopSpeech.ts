@@ -1,4 +1,4 @@
-// shared/sdk/control/StopSpeech.ts
+// src/sdk/control/StopSpeech.ts
 import { api } from "../client";
 
 /**

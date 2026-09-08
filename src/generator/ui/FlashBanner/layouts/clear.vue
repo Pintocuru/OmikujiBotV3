@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/FlashBanner/layouts/clear.vue -->
+<!-- src/generator/ui/FlashBanner/layouts/clear.vue -->
 <template>
   <div
     class="flex items-center min-h-12 rounded-xl overflow-hidden gap-3 p-2 border border-2 border-base-content/70"

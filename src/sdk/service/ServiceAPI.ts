@@ -1,4 +1,4 @@
-// shared/sdk/service/ServiceAPI.ts
+// src/sdk/service/ServiceAPI.ts
 import { z } from 'zod'
 import { api } from '../../http/client'
 import { Service } from '@onecomme.com/onesdk/types/Service'

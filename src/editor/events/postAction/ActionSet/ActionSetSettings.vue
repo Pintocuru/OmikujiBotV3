@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/ActionSet/ActionSetSettings.vue -->
+<!-- src/editor/events/postAction/ActionSet/ActionSetSettings.vue -->
 <template>
   <div>
     <!-- 重み付きリスト表示 -->

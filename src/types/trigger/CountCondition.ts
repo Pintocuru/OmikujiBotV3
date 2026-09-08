@@ -1,4 +1,4 @@
-// shared/types/trigger/CountConditionTrigger.ts
+// src/types/trigger/CountCondition.ts
 import { z } from 'zod'
 
 /**

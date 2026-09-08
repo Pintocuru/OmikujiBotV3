@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/RecordTabs/composables/useMultiSelect.ts
+// src/editor/helpers/RecordTabs/composables/useMultiSelect.ts
 import { ref, watch } from 'vue'
 import { useOmikujiStore } from '@config/stores/useOmikujiStore'
 import { RecordCategoryType } from '@/types/OmikujiData/'

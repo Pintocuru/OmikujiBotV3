@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/DeadAir/composables/useDeadAirSelector.ts
+// src/generator/ui/DeadAir/composables/useDeadAirSelector.ts
 import { ref, computed, watch, onUnmounted } from 'vue'
 import type { DeadAirType, DeadEventRuleType } from '@/types/OmikujiData/UiSettings/DeadAirSchema'
 

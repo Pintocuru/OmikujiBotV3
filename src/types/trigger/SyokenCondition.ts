@@ -1,4 +1,4 @@
-// shared/types/Threshold/SyokenCondition.ts
+// src/types/trigger/SyokenCondition.ts
 import { z } from 'zod'
 
 /**

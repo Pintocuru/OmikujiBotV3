@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/KeyEditor/composables/keyEditorTypes.ts
+// src/editor/helpers/KeyEditor/composables/keyEditorTypes.ts
 import { EventCategoryType } from '@/types/OmikujiData/'
 
 export type CharacterUsage = { [K in EventCategoryType]: string[] }

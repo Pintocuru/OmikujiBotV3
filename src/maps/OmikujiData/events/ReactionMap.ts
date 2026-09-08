@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/events/ReactionMap.ts
 
 /**
  * リアクションマップ（プラットフォーム別）

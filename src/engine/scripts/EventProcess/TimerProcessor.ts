@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/EventProcess/TimerProcessor.ts
+// src/engine/scripts/EventProcess/TimerProcessor.ts
 import { TimerEventType } from "@/types/OmikujiData/";
 import { OmikujiProcessor } from "@/generator/scripts/OmikujiProcess/OmikujiProcessor";
 import { useAppStore } from "@/generator/stores/useAppStore";

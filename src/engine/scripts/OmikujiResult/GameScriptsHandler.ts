@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/OmikujiResult/GameScriptsHandler.ts
+// src/engine/scripts/OmikujiResult/GameScriptsHandler.ts
 import { BotMessageType } from "@/types";
 import { ActionSetType } from "@/types/OmikujiData/";
 import { GameScriptManager } from "@/generator/stores/GameScript/GameScriptManager";

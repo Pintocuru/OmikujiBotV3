@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/utils/CreateShimsVue.ts
+// tools/webpackBuild/utils/CreateShimsVue.ts
 import path from 'path'
 import fs from 'fs/promises'
 

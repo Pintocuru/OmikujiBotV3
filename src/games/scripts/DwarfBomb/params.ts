@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/DwarfBomb/params.ts
+// src/games/scripts/DwarfBomb/params.ts
 import { z } from 'zod'
 
 /**

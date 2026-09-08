@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/ContentPlaceholder/parser.ts
+// src/engine/scripts/ContentPlaceholder/parser.ts
 
 /**
  * ネストを考慮して、対応する閉じ括弧 >> の位置を返す

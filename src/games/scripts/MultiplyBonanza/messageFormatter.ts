@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/MultiplyBonanza/messageFormatter.ts
+// src/games/scripts/MultiplyBonanza/messageFormatter.ts
 import { GAME_CONFIG, SYMBOLS, WIN_MESSAGES, GameResult } from './gameConfig'
 
 /**

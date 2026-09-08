@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/buildOptions/optimization.ts
+// tools/webpackBuild/buildOptions/optimization.ts
 import webpack from 'webpack'
 import TerserPlugin from 'terser-webpack-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'

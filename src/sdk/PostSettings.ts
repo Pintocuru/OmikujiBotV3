@@ -1,4 +1,4 @@
-// shared/sdk/PostSettings.ts
+// src/sdk/PostSettings.ts
 
 // 設定オブジェクト
 export const POST_SETTINGS = {

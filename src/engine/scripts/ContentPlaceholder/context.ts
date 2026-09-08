@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/ContentPlaceholder/context.ts
+// src/engine/scripts/ContentPlaceholder/context.ts
 import { KeyValueMap } from "@/generator/scripts/KeyValue/KeyValueMap";
 
 /**

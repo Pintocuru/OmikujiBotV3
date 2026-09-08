@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/SocialRoster/layouts/Grid.vue -->
+<!-- src/generator/ui/SocialRoster/layouts/Grid.vue -->
 <template>
   <div class="relative flex items-center justify-center">
     <div

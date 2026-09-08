@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/KujibikiPanel/layouts/omikuji.vue -->
+<!-- src/generator/ui/KujibikiPanel/layouts/omikuji.vue -->
 <template>
   <div class="flex items-center justify-center overflow-visible">
     <!-- 家紋風 -->

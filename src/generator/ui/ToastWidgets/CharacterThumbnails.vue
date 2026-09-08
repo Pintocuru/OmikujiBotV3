@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/ToastWidgets/CharacterThumbnails.vue -->
+<!-- src/generator/ui/ToastWidgets/CharacterThumbnails.vue -->
 <template>
   <div
     class="flex gap-4 mt-2"

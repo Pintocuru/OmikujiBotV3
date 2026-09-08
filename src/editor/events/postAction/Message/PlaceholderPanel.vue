@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/Message/PlaceholderPanel.vue -->
+<!-- src/editor/events/postAction/Message/PlaceholderPanel.vue -->
 <template>
   <div class="w-64 shrink-0 flex flex-col bg-base-100">
     <!-- ヘッダー -->

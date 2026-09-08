@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/parts/SettingItem.vue -->
+<!-- src/editor/helpers/SettingItem/SettingItem.vue -->
 <template>
   <SettingItem
     :label="label"

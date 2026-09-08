@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/UserManager/UserManager.ts
+// src/generator/stores/UserManager/UserManager.ts
 import { UserStatsManager } from './UserStatsManager'
 import { UserVisitManager } from './UserVisitManager'
 

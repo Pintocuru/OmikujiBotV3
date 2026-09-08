@@ -1,4 +1,4 @@
-// shared/utils/omikuji/DrawOmikuji.ts
+// src/engine/scripts/omikuji/DrawOmikuji.ts
 
 import { HighQualityRandom } from './HighQualityRandom'
 

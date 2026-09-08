@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/postAction/composables/usePostActionsTab.ts
+// src/editor/events/postAction/composables/usePostActionsTab.ts
 import { computed, Ref, ref, watch } from 'vue'
 import { PostFlowMessageSchema, PostFlowMessageType, PostFlowType } from '@/types/OmikujiData/'
 import { useCharacterManager } from '@config/scripts/CharacterManager/useCharacterManager'

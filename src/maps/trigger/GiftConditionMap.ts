@@ -1,4 +1,4 @@
-//
+// src/maps/trigger/GiftConditionMap.ts
 import { GiftCondition } from '@/types/trigger'
 
 // Map定義

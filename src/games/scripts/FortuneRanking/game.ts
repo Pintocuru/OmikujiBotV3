@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/FortuneRanking/game.ts
+// src/games/scripts/FortuneRanking/game.ts
 
 // ゲーム結果のインターフェース定義
 interface GameResult {

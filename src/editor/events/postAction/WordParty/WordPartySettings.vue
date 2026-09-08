@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/WordParty/WordPartySettings.vue -->
+<!-- src/editor/events/postAction/WordParty/WordPartySettings.vue -->
 <template>
   <div class="space-y-2">
     <!-- WordParty 入力方法選択 -->

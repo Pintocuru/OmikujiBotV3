@@ -1,4 +1,4 @@
-// shared/types/trigger/TriggerCondition.ts
+// src/types/trigger/TriggerCondition.ts
 import { z } from 'zod'
 
 /**

@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CommentBubble/CommentBubbleZero.vue -->
+<!-- src/generator/ui/CommentBubble/CommentBubbleZero.vue -->
 <template>
   <div class="h-screen">
     <!-- 0番地キャラクターのコメント表示エリア（中央上部） -->

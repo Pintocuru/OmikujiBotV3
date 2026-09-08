@@ -1,4 +1,4 @@
-// shared/types/trigger/AccessConditionTrigger.ts
+// src/types/trigger/AccessCondition.ts
 import { z } from 'zod'
 
 /**

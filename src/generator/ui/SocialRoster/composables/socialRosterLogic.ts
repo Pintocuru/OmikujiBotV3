@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/SocialRoster/composables/socialRosterLogic.ts
+// src/generator/ui/SocialRoster/composables/socialRosterLogic.ts
 import { UserStatsRecord, SocialSortKey } from '@/types'
 
 export function getSortValue(user: UserStatsRecord, key: SocialSortKey): number {

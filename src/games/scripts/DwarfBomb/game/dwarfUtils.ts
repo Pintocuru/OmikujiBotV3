@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/DwarfBomb/game/dwarfUtils.ts
+// src/games/scripts/DwarfBomb/game/dwarfUtils.ts
 import { Dwarf, GAME_CONFIG } from './gameConfigs'
 
 export function createDwarfs(mode: string): Dwarf[] {

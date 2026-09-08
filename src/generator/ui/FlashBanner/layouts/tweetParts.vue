@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/FlashBanner/layouts/tweetParts.vue -->
+<!-- src/generator/ui/FlashBanner/layouts/tweetParts.vue -->
 <template>
   <div class="flex flex-col" :class="alignClass">
     <!-- 本体 -->

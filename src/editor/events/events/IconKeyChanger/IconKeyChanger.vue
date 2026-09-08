@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/events/IconKeyChanger/IconKeyChanger.vue -->
+<!-- src/editor/events/events/IconKeyChanger/IconKeyChanger.vue -->
 <template>
   <div
     v-if="isCharacter"

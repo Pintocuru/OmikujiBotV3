@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/dataPacks/DataPacks.vue -->
+<!-- src/editor/events/dataPacks/DataPacks.vue -->
 <template>
   <!-- ローディング -->
   <div v-if="loading" class="flex items-center gap-2 py-6 justify-center text-base-content/60">

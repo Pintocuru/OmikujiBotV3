@@ -1,4 +1,4 @@
-// src/MainGenerator/composables/useRuleProcessor.ts
+// src/generator/composables/useRuleProcessor.ts
 import { watch, onUnmounted } from "vue";
 import { useAppStore } from "@/generator/stores/useAppStore";
 import { EventTimerProcessor } from "@/generator/scripts/EventProcess/TimerProcessor";

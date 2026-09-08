@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/GouseiSuika/execute.ts
+// src/games/scripts/GouseiSuika/execute.ts
 import { GameParams, GameParamsSchema } from './params'
 import { ScriptClass, PostFlowType, GameStateType, PostFlowMessageSchema, ScriptResult } from '@/types'
 import { GachaGame } from './game'

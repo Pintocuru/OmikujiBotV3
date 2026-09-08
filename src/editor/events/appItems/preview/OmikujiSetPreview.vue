@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/appItems/preview/OmikujiSetPreview.vue -->
+<!-- src/editor/events/appItems/preview/OmikujiSetPreview.vue -->
 <template>
   <div class="space-y-1.5 min-w-[180px] max-w-[240px]">
     <!-- ヘッダー -->

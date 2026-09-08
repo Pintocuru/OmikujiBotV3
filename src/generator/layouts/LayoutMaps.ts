@@ -1,4 +1,4 @@
-// src/MainGenerator/layouts/LayoutMaps.ts
+// src/generator/layouts/LayoutMaps.ts
 import { UiSpecialSetType } from '@/types'
 
 export const SPECIAL_SET_LAYOUT_LOADER: Record<UiSpecialSetType, () => Promise<any>> = {

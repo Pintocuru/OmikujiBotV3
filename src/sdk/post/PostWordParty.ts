@@ -1,4 +1,4 @@
-// shared/sdk/postMessage/PostWordParty.ts
+// src/sdk/post/PostWordParty.ts
 import { postWordParty, postWordPartyId } from './PostOneComme'
 
 export type ExecuteWordPartyParams = {

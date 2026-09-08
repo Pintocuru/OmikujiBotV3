@@ -1,4 +1,4 @@
-// shared/utils/trigger/checkers/UserCheckersTrigger.ts
+// src/common/trigger/checkers/UserCheckersTrigger.ts
 import { OmikenCommentType } from '../../../types/OmikenComment/OmikenCommentSchema'
 import { GiftCondition, SyokenCondition } from '../../../types/Threshold'
 import { AccessConditionTrigger } from '../../../types/trigger'

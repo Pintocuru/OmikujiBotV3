@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/VariablePlaceholder/ReservedKeys.ts
+// src/engine/scripts/VariablePlaceholder/ReservedKeys.ts
 
 export const RESERVED_KEYS = [
   'name',

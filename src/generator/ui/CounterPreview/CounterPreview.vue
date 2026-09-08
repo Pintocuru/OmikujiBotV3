@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CounterPreview/CounterPreview.vue -->
+<!-- src/generator/ui/CounterPreview/CounterPreview.vue -->
 <template>
   <CenteringWrapper>
     <CounterPreviewSelector

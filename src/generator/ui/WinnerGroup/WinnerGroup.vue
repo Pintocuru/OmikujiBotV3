@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/WinnerGroup/WinnerGroup.vue -->
+<!-- src/generator/ui/WinnerGroup/WinnerGroup.vue -->
 <template>
   <CenteringWrapper>
     <!-- 履歴ボタン -->

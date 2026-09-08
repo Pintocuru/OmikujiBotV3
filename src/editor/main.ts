@@ -1,4 +1,4 @@
-// src/ConfigMaker/main.ts
+// src/editor/main.ts
 import App from './App.vue'
 import { createAppNotOneSDK } from '../core'
 

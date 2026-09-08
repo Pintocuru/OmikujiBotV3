@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/GameRanking/GameRanking.vue -->
+<!-- src/generator/ui/GameRanking/GameRanking.vue -->
 <template>
   <CenteringWrapper>
     <GameRankingSelector

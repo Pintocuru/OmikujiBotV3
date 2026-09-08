@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/MultiplyBonanza/payoutCalculator.ts
+// src/games/scripts/MultiplyBonanza/payoutCalculator.ts
 import { GAME_CONFIG, SYMBOLS, GameResult } from './gameConfig'
 
 /**

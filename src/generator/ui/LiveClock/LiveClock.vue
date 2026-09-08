@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/LiveClock/LiveClock.vue -->
+<!-- src/generator/ui/LiveClock/LiveClock.vue -->
 <template>
   <CenteringWrapper>
     <LiveClockSelector

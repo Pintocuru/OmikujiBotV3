@@ -1,4 +1,4 @@
-// src/types/OmikujiData/ActionSet.ts
+// src/types/OmikujiData/assets/PostFlow.ts
 import { z } from 'zod'
 import { WeightValuesArraySchema } from './PlaceholderSchema'
 import { soundKeys } from './SoundKey'

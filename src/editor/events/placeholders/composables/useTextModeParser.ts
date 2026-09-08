@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/placeholders/composables/useTextModeParser.ts
+// src/editor/events/placeholders/composables/useTextModeParser.ts
 import { ref, computed } from 'vue'
 import { WeightValuesArrayType, WeightValueSchema } from '@/types'
 

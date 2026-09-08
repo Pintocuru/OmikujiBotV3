@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/FlightSeat/layouts/SeatFlightSeat.vue -->
+<!-- src/generator/ui/FlightSeat/layouts/SeatFlightSeat.vue -->
 <template>
   <div class="flex flex-col items-center gap-1">
     <!-- ファースト -->

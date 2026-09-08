@@ -1,4 +1,4 @@
-// src/MainGenerator/main.ts
+// src/generator/main.ts
 import App from './App.vue'
 import { createAppOneSDK } from '../core'
 

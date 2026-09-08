@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/processors/template/TemplateJsonProcessor.ts
+// tools/webpackBuild/processors/template/TemplateJsonProcessor.ts
 import fs from 'fs'
 import path from 'path'
 import { ResolvedCoreBuildConfig, ResolvedPackageBuildConfig, PackageType } from '../../BuildTypes'

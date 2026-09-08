@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/StreamStats/StreamStatsManager.ts
+// src/generator/stores/StreamStats/StreamStatsManager.ts
 import { OmikenCommentType } from '@shared/types'
 
 export interface StreamStats {

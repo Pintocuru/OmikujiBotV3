@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/events/CharacterChanger/usePostActionCharacters.ts
+// src/editor/events/events/CharacterChanger/usePostActionCharacters.ts
 import { useCharacterManager } from '@config/scripts/CharacterManager/useCharacterManager'
 import { PostFlowType, ActionSetType } from '@/types/OmikujiData/'
 

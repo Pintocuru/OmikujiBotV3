@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/ReactionManager/ReactionStatsManager.ts
+// src/generator/stores/ReactionManager/ReactionStatsManager.ts
 import { reactionKeys } from '@/types/OmikujiData/events/ReactionTriggerSchema'
 
 export interface BurstState {

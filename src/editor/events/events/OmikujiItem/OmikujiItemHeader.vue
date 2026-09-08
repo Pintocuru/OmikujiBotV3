@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/events/OmikujiItem/OmikujiItemHeader.vue -->
+<!-- src/editor/events/events/OmikujiItem/OmikujiItemHeader.vue -->
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
     <!-- 名前 -->

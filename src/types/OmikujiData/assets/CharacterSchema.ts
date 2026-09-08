@@ -1,4 +1,4 @@
-// src/types/OmikujiData/CharacterSchema.ts
+// src/types/OmikujiData/assets/CharacterSchema.ts
 import { z } from 'zod'
 import { normalizedObject } from '../ParsedDefault'
 import { BaseRecordSchema } from '../../core/BaseSchema'

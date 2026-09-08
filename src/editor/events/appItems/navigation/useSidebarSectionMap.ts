@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/appItems/navigation/useSidebarSectionMap.ts
+// src/editor/events/appItems/navigation/useSidebarSectionMap.ts
 import { ComputedRef, computed } from 'vue'
 import { CategoryType } from '@/types/OmikujiData/'
 import { uiItemMap } from '@config/UiEditor/useUiItemMap'

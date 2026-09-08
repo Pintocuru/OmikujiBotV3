@@ -1,4 +1,4 @@
-// src/types/OmikujiData/OmikujiSchema.ts
+// src/types/OmikujiData/assets/OmikujiBoxSchema.ts
 import { z } from 'zod'
 import { OmikujiItemSchema } from './OmikujiItemSchema'
 import { BaseRecordSchema } from '../../core/BaseSchema'

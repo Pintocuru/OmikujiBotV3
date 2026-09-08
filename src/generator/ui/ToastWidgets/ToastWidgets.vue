@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/ToastWidgets/ToastWidgets.vue -->
+<!-- src/generator/ui/ToastWidgets/ToastWidgets.vue -->
 <template>
   <div
     class="fixed bottom-4 flex flex-col z-10"

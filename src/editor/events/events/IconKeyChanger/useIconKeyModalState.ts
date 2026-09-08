@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/events/IconKeyChanger/useIconKeyModalState.ts
+// src/editor/events/events/IconKeyChanger/useIconKeyModalState.ts
 import { ref, computed } from 'vue'
 
 /**

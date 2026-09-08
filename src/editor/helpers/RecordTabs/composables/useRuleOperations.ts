@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/RecordTabs/composables/useRuleOperations.ts
+// src/editor/helpers/RecordTabs/composables/useRuleOperations.ts
 import { RecordCategoryType, RecordCategoryItemTypeMap } from '@/types/OmikujiData/'
 import type { useRuleState } from './useRuleState'
 import { useOmikujiStore } from '@config/stores/useOmikujiStore'

@@ -1,4 +1,4 @@
-// src/types/OmikujiData/CommentTriggerSchema.ts
+// src/types/OmikujiData/events/CommentTriggerSchema.ts
 import { z } from 'zod'
 import { AccessConditionSchema, GiftConditionSchema } from '../../trigger'
 

@@ -1,4 +1,4 @@
-// src/types/MetaMaps/FontFamilyMaps.ts
+// src/types/OmikujiData/fontFamily.ts
 import { z } from 'zod'
 
 /**

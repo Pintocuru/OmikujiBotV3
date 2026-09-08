@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/Bot/BotSettings.vue -->
+<!-- src/editor/events/postAction/Bot/BotSettings.vue -->
 <template>
   <!-- BOTの名前 -->
   <SettingItem label="🤖 BOTの名前" description="空白時はランダムになります">

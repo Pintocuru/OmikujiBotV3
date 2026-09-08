@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/placeholders/PlaceholderTextMode.vue -->
+<!-- src/editor/events/placeholders/PlaceholderTextMode.vue -->
 <template>
   <div>
     <!-- 入力形式の説明 -->

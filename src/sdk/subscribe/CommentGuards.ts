@@ -1,4 +1,4 @@
-// shared/sdk/subscribe/CommentGuards.ts
+// src/sdk/subscribe/CommentGuards.ts
 import { Comment } from "@onecomme.com/onesdk/types/Comment";
 
 export function useCommentGuards() {

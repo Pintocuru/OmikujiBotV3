@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/items/VariableDeclarationChecker.vue -->
+<!-- src/editor/events/postAction/items/VariableDeclarationChecker.vue -->
 <!-- !使用しない -->
 <template>
   <div class="space-y-2">

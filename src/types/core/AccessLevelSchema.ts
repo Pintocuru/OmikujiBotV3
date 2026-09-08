@@ -1,4 +1,4 @@
-// shared/types/core/AccessLevelSchema.ts
+// src/types/core/AccessLevelSchema.ts
 import { z } from 'zod'
 
 // 製品アクセスレベル

@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/GoogolClover/sub/slotExecution.ts
+// src/games/scripts/GoogolClover/sub/slotExecution.ts
 import { SPINS, REWARD_TABLE, FAILURE_RATE } from './constants'
 import type { SlotExecutionResult, UserState } from './types'
 

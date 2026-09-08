@@ -1,8 +1,5 @@
-// shared/types/trigger/index.ts
+// src/maps/OmikujiData/events/index.ts
 
-export * from './AccessCondition'
-export * from './CountCondition'
-export * from './GiftCondition'
-export * from './ServiceCondition'
-export * from './SyokenCondition'
-export * from './TriggerCondition'
+export * from './ReactionConditionMap'
+export * from './ReactionMap'
+export * from './ServiceTriggerMap'

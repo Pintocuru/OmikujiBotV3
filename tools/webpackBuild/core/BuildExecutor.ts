@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/core/BuildExecutor.ts
+// tools/webpackBuild/core/BuildExecutor.ts
 import { ResolvedCoreBuildConfig, ResolvedPackageBuildConfig } from '../BuildTypes'
 import { processPostBuild } from '../processors/PostBuildProcessor'
 import { runWebpack } from './WebpackRunner'

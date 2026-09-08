@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CommentSpin/layouts/Standard.vue -->
+<!-- src/generator/ui/CommentSpin/layouts/Standard.vue -->
 <template>
   <div>
     <!-- タイトルロゴ -->

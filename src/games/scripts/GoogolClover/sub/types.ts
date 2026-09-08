@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/GoogolClover/sub/types.ts
+// src/games/scripts/GoogolClover/sub/types.ts
 
 /**
  * スロット実行結果

@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/postAction/preview/TestPlaceholderProcessor.ts
+// src/editor/events/postAction/preview/TestPlaceholderProcessor.ts
 import { ContentPlaceholder } from '@main/scripts/ContentPlaceholder/processor'
 import { PlaceholderContext } from '@main/scripts/ContentPlaceholder/context'
 import { VariablePlaceholderProcessor } from '@main/scripts/VariablePlaceholder/VariableProcessor'

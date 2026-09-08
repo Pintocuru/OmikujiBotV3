@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/ui/UiKindMap.ts
 import { UiKind } from '@/types/OmikujiData'
 
 // Map定義

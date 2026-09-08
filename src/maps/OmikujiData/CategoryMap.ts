@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/CategoryMap.ts
 import { CategoryType } from '@/types/OmikujiData'
 
 // Map定義 (Lucide Icon名を含む)

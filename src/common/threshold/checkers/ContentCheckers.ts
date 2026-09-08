@@ -1,4 +1,4 @@
-// shared/utils/threshold/checkers/ContentCheckers.ts
+// src/common/threshold/checkers/ContentCheckers.ts
 import { Comment } from '@onecomme.com/onesdk/types/Comment'
 import { GiftCondition, CountConditionType } from '../../../types/Threshold'
 import { getCommentMeta, convertToJPY, getGiftTier, compareValue } from '../ThresholdHelpers'

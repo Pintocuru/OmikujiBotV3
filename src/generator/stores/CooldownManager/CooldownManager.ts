@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/CooldownManager/CooldownManager.ts
+// src/generator/stores/CooldownManager/CooldownManager.ts
 /**
  * クールダウン管理クラス
  */

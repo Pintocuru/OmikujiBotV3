@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/postAction/Message/MessagePreviewPanel.vue -->
+<!-- src/editor/events/postAction/Message/MessagePreviewPanel.vue -->
 <template>
   <div class="flex-1 overflow-y-auto p-1 flex flex-col gap-2 items-center justify-start">
     <div class="w-full">

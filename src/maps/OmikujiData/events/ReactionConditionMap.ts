@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/events/ReactionConditionMap.ts
 import { ReactionConditionType } from '@/types/OmikujiData'
 
 // Map定義

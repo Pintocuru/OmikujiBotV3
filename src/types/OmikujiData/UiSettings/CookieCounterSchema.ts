@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { DaisyUiThemeFieldsSchema } from '@shared/styles/DaisyUiTheme'
 import { normalizedObject } from '../ParsedDefault'
 import { streamDefaultKeyLabels } from './StreamCounterSchema'
-import { idSchema } from '@shared/types'
+import { idSchema } from '@/types/core/BaseSchema'
 
 /**
  * ライブクロック LiveClock

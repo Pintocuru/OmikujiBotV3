@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/PlaceholderVariable/ExpressionEngine.ts
+// src/generator/stores/PlaceholderVariable/ExpressionEngine.ts
 import { Parser } from "expr-eval-fork";
 import { KeyValueMap } from "@/generator/scripts/KeyValue/KeyValueMap";
 

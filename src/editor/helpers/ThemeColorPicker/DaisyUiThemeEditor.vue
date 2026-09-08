@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/common/ThemeColorPicker/DaisyUiThemeEditor.vue -->
+<!-- src/editor/helpers/ThemeColorPicker/DaisyUiThemeEditor.vue -->
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- ======= シンプルモード ======= -->

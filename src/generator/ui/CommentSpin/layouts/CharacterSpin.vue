@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CommentSpin/layouts/CharacterSpin.vue -->
+<!-- src/generator/ui/CommentSpin/layouts/CharacterSpin.vue -->
 <template>
   <div
     class="relative rounded-xl shadow-lg border-4 overflow-hidden bg-base-200"

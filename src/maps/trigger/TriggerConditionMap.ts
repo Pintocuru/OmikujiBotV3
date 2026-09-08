@@ -1,4 +1,4 @@
-//
+// src/maps/trigger/TriggerConditionMap.ts
 import { TriggerCondition } from '@/types/trigger'
 
 // Map定義

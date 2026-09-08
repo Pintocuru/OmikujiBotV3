@@ -1,4 +1,4 @@
-// shared/types/trigger/index.ts
+// src/maps/trigger/index.ts
 
 export * from './AccessCondition'
 export * from './CountCondition'

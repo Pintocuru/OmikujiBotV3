@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/common/ThemeColorPicker/RandomThemeButton.vue -->
+<!-- src/editor/helpers/ThemeColorPicker/RandomThemeButton.vue -->
 <template>
   <div class="flex gap-2">
     <!-- テーマランダム -->

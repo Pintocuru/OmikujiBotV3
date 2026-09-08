@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/FlashBanner/parts/FlashBannerSelector.vue -->
+<!-- src/generator/ui/FlashBanner/parts/FlashBannerSelector.vue -->
 <template>
   <div v-if="message" class="w-full bg-base-100 transparent-bg" :data-theme="color?.daisyUiTheme">
     <component

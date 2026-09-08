@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/BuildTypes.ts
+// tools/webpackBuild/BuildTypes.ts
 import { AccessLevelType, PackageJsonType } from '../../types'
 
 /**

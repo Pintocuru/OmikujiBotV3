@@ -1,4 +1,4 @@
-// src/GameScripts/scripts/GouseiSuika/gameConfigs.ts
+// src/games/scripts/GouseiSuika/gameConfigs.ts
 import { PostFlowWordPartyType } from '@/types'
 
 /**

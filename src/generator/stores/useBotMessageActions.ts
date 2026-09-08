@@ -1,4 +1,4 @@
-// src/MainGenerator/stores/useBotMessageActions.ts
+// src/generator/stores/useBotMessageActions.ts
 import { ref } from 'vue'
 import { type BotMessageType } from '@/types'
 

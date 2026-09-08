@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/events/ServiceTriggerMap.ts
 import { ServiceComparisonConditionType, ServiceTriggerCondition } from '@/types/OmikujiData'
 
 /**

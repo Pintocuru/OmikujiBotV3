@@ -1,7 +1,7 @@
 // src/types/OmikujiData/UiSettings/CommentBubbleSchema.ts
 import { z } from 'zod'
 import { normalizedObject } from '../ParsedDefault'
-import { enterMotionMap } from '@/types/MetaMaps/enterMotionMaps'
+import { enterMotions } from '../assets'
 
 /**
  * フキダシ・キャラクター
@@ -17,14 +17,10 @@ export const ShowCharactersSchema = z.object({
 })
 export type ShowCharacters = z.infer<typeof ShowCharactersSchema>
 
-//
-export const enterMotionKeys = Object.keys(enterMotionMap) as EnterMotionType[]
-export type EnterMotionType = keyof typeof enterMotionMap
-
 export const CommentBubbleSchema = z.object({
   showCharacters: normalizedObject(ShowCharactersSchema),
   characterSize: z.number().default(48).catch(48), // キャラクターの横幅
-  bubbleMotionEnter: z.enum(enterMotionKeys).default('slideUp').catch('slideUp'), // フキダシのアニメーション(開始・表示中)
+  bubbleMotionEnter: z.enum(enterMotions).default('slideUp').catch('slideUp'), // フキダシのアニメーション(開始・表示中)
   bubbleTextAnimate: z.boolean().default(false).catch(false), // フキダシの文字表示をアニメーションさせるか
   bubbleTextSpeed: z.number().min(10).max(200).default(50).catch(50), // 文字送りの速度
 })

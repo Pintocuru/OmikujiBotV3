@@ -1,4 +1,4 @@
-// src/ConfigMaker/components/KeyEditor/composables/keyEditorValidation.ts
+// src/editor/helpers/KeyEditor/composables/keyEditorValidation.ts
 import { RecordCategoryType } from '@/types'
 import { useGetRecordData } from '@config/stores/useGetRecordData'
 

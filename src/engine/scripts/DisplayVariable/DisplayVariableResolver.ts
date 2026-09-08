@@ -1,4 +1,4 @@
-// src/MainGenerator/scripts/DisplayVariable/DisplayVariableResolver.ts
+// src/engine/scripts/DisplayVariable/DisplayVariableResolver.ts
 import { hasPostFlowMessage, PostFlowType } from "@/types";
 import { PlaceholderVariableType } from "@/generator/stores/PlaceholderVariable/PlaceholderVariable";
 

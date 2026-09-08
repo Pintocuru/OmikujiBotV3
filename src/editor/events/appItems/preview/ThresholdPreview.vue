@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/appItems/preview/ThresholdPreview.vue -->
+<!-- src/editor/events/appItems/preview/ThresholdPreview.vue -->
 <template>
   <div class="space-y-1.5 min-w-[180px] max-w-[240px]">
     <!-- ヘッダー -->

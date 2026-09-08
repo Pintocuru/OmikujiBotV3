@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/FlashBanner/layouts/glass.vue -->
+<!-- src/generator/ui/FlashBanner/layouts/glass.vue -->
 <template>
   <div
     class="flex items-center min-h-12 rounded-full overflow-hidden gap-3 px-4 py-2"

@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/processors/template/ReadmeTxtProcessor.ts
+// tools/webpackBuild/processors/template/ReadmeTxtProcessor.ts
 import fs from 'fs'
 import path from 'path'
 import { PackageType, ProjectConfig, ResolvedCoreBuildConfig, ResolvedPackageBuildConfig } from '../../BuildTypes'

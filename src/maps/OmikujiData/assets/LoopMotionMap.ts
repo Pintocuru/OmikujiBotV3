@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/assets/LoopMotionMap.ts
 import { LoopMotionType } from '@/types/OmikujiData'
 
 // Map定義

@@ -1,4 +1,4 @@
-// shared/utils/webpackBuild/utils/ZipBuilder.ts
+// tools/webpackBuild/utils/ZipBuilder.ts
 import fs from 'fs'
 import path from 'path'
 import archiver from 'archiver'

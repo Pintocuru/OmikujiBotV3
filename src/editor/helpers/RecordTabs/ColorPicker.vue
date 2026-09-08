@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/components/RecordTabs/ColorPicker.vue -->
+<!-- src/editor/helpers/RecordTabs/ColorPicker.vue -->
 <template>
   <div class="px-4 py-2">
     <div class="text-sm text-base-content/70 mb-2">カラー設定</div>

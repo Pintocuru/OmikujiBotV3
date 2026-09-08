@@ -1,4 +1,4 @@
-//
+// src/maps/OmikujiData/SoundMap.ts
 import { SoundKeyType } from '@/types/OmikujiData'
 
 // Map定義

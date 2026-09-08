@@ -1,4 +1,4 @@
-// shared/types/core/BaseSchema.ts
+// src/types/core/BaseSchema.ts
 import { z } from "zod";
 import { DaisyUIColorSchema } from "./DaisyUiTheme";
 import { nanoid } from "nanoid";
