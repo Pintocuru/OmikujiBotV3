@@ -3,6 +3,7 @@
   <SubSectionHeader icon="Palette" title="Recordアイテム表示" description="アイテムの表示・非表示を制御" />
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <!-- TODO: assetCategory eventCategory をつかうこと -->
     <SettingItem
       v-for="category in recordCategoryLabel"
       :key="category"

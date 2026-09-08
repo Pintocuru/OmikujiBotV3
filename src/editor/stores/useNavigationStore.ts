@@ -23,6 +23,7 @@ export const useNavigationStore = defineStore('navigation', () => {
    */
 
   // RecordCategory かどうかの型ガード */
+  // TODO: assetCategory eventCategory をつかうこと
   const isRecordCategory = (category: CategoryType): category is RecordCategoryType =>
     recordCategoryLabel.includes(category as RecordCategoryType)
 

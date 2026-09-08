@@ -150,6 +150,7 @@
     }
 
     try {
+      // TODO:RecordCategorySchemaMap の廃止
       const schema = RecordCategorySchemaMap[props.category]
       const { id: _id, key: _key, ruleType: _ruleType, ...rest } = parsed
       const validated = schema.parse(rest)

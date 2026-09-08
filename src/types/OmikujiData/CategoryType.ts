@@ -7,20 +7,27 @@ import {
   CommentEventType,
   ServiceEventSchema,
   ServiceEventType,
-  eventCategoryLabel,
-  EventCategoryType,
   TimerEventSchema,
   TimerEventType,
   ReactionEventType,
   ReactionEventSchema,
 } from './events/EventSchema'
 import { ActionSetSchema, ActionSetType } from './assets/ActionSet'
+import { assetCategory } from './assets'
+import { eventCategory } from './events'
 
 /**
  * RecordCategory
+ * TODO:event/assetsで分けたので廃止
  */
+
+/** @deprecated 新バージョンでは使用不可です */
 export const recordCategoryLabel = [...eventCategoryLabel, 'actionSets', 'placeholders', 'characters'] as const
+
+/** @deprecated 新バージョンでは使用不可です */
 export type RecordCategoryType = (typeof recordCategoryLabel)[number]
+
+/** @deprecated 新バージョンでは使用不可です */
 export type RecordCategoryDataMap = {
   comments: Record<string, CommentEventType>
   timers: Record<string, TimerEventType>
@@ -30,6 +37,8 @@ export type RecordCategoryDataMap = {
   placeholders: Record<string, PlaceholderType>
   characters: Record<string, CharacterType>
 }
+
+/** @deprecated 新バージョンでは使用不可です */
 export type RecordCategoryItemTypeMap = {
   comments: CommentEventType
   timers: TimerEventType
@@ -41,6 +50,7 @@ export type RecordCategoryItemTypeMap = {
 }
 
 // カテゴリ更新用のスキーママップ
+/** @deprecated 新バージョンでは使用不可です */
 export const RecordCategorySchemaMap = {
   comments: CommentEventSchema,
   timers: TimerEventSchema,
@@ -51,9 +61,7 @@ export const RecordCategorySchemaMap = {
   characters: CharacterSchema,
 } as const
 
-export const isRulesCategory = (category: CategoryType): category is EventCategoryType => {
-  return eventCategoryLabel.includes(category as EventCategoryType)
-}
+/** @deprecated 新バージョンでは使用不可です */
 export const isRecordCategory = (category: CategoryType): category is RecordCategoryType => {
   return (recordCategoryLabel as readonly string[]).includes(category)
 }
@@ -61,25 +69,13 @@ export const isRecordCategory = (category: CategoryType): category is RecordCate
 /**
  * settingsCategory
  */
-export const settingsCategoryLabel = ['jsonMerge', 'components', 'appInfo'] as const
+export const settingsCategoryLabel = ['jsonMerge', 'ui', 'appInfo'] as const
 export type SettingsCategoryType = (typeof settingsCategoryLabel)[number]
 
 /**
  * CategoryType
  */
-export const categories = [
-  'jsonMerge',
-  'comments',
-  'timers',
-  'metas',
-  'reactions',
-  'actionSets',
-  'placeholders',
-  'characters',
-  'components',
-  'appInfo',
-  'dataPacks',
-] as const
+export const categories = ['jsonMerge', ...eventCategory, ...assetCategory, 'ui', 'appInfo'] as const
 
 // スキーマと型の定義
 export const CategorySchema = z.enum(categories)

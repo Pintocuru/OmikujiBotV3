@@ -17,6 +17,7 @@ export function useRecordCRUD(data: Ref<OmikujiDataType>, hasChanged: Ref<boolea
     category: C,
     item: Partial<RecordCategoryItemTypeMap[C]> = {}
   ): string => {
+    // TODO:RecordCategorySchemaMap の廃止
     const schema = RecordCategorySchemaMap[category]
     const parseItem = { ...item }
 
@@ -73,6 +74,7 @@ export function useRecordCRUD(data: Ref<OmikujiDataType>, hasChanged: Ref<boolea
 
   // カテゴリデータ更新
   const updateCategoryData = (category: RecordCategoryType, newData: Record<string, any>) => {
+    // TODO: assetCategory eventCategory をつかうこと
     if (!recordCategoryLabel.includes(category)) {
       console.warn(`Invalid category: ${category}`)
       return

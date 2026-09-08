@@ -2,6 +2,7 @@
 
 // 各型定義の公開
 export * from './ActionSet'
+export * from './AssetCategorySchema'
 export * from './CharacterEmotionSchema'
 export * from './CharacterSchema'
 export * from './DisplayModeSchema'

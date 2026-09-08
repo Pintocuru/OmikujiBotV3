@@ -36,6 +36,7 @@ export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => 
   watch(
     [selectedCategory, isExpanded],
     ([cat, expanded]) => {
+      // TODO:isRecordCategory の廃止
       if (!expanded || !isRecordCategory(cat)) return
       draggableItems.value[cat] = buildDraggableItems(cat)
     },
@@ -46,11 +47,13 @@ export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => 
   watch(
     () => {
       const cat = selectedCategory.value
+      // TODO:isRecordCategory の廃止
       if (!isRecordCategory(cat)) return null
       return getCategoryArray(cat)
     },
     () => {
       const cat = selectedCategory.value
+      // TODO:isRecordCategory の廃止
       if (!isRecordCategory(cat)) return
       draggableItems.value[cat] = buildDraggableItems(cat)
     },

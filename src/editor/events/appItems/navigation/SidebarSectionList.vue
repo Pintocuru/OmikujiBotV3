@@ -71,6 +71,7 @@
   const hoveredItem = computed(() => {
     if (!hoveredSection.value || !props.itemKey) return null
 
+    // TODO:isRecordCategory の廃止
     if (isRecordCategory(props.category)) {
       return getItem(props.category, props.itemKey)
     }

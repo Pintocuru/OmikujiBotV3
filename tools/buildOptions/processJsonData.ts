@@ -11,6 +11,7 @@ export const generateAccessLevelData = (data: OmikujiDataType, targetLevel?: Acc
   const targetIndex = AccessLevelLabels.indexOf(targetLevel)
 
   const filtered = Object.fromEntries(
+    // TODO: assetCategory eventCategory をつかうこと
     recordCategoryLabel.map((category) => [category, filterItems(data[category], targetIndex)])
   ) as Pick<OmikujiDataType, RecordCategoryType>
 

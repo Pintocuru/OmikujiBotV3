@@ -1,10 +1,5 @@
 // src/ConfigMaker/stores/composables/useDataMergeHelpers.ts
-import {
-  EventCategoryDataMap,
-  EventCategoryType,
-  RecordCategoryDataMap,
-  RecordCategoryType,
-} from '@/types/OmikujiData/'
+import { EventCategoryDataMap, EventCategoryType, AssetCategoryDataMap, RecordCategoryType } from '@/types/OmikujiData/'
 import { ImportMode } from '@/editor/types/helpers/presetsImportType'
 import { AccessLevelType } from '@shared/types'
 
@@ -89,10 +84,10 @@ export function useDataMergeHelpers() {
    * カテゴリごとのデータマージ処理
    */
   const mergeCategoryData = <C extends RecordCategoryType>(
-    currentItems: RecordCategoryDataMap[C],
-    importItems: RecordCategoryDataMap[C],
+    currentItems: AssetCategoryDataMap[C],
+    importItems: AssetCategoryDataMap[C],
     mode: ImportMode
-  ): RecordCategoryDataMap[C] => {
+  ): AssetCategoryDataMap[C] => {
     switch (mode) {
       case 'full-replace':
         // 全体上書き（全データ置き換え）

@@ -1,5 +1,5 @@
 // tools/JsonMerge/transforms.ts
-import { RecordCategoryDataMap, recordCategoryLabel, RecordCategoryType } from '@/types/OmikujiData'
+import { AssetCategoryDataMap, recordCategoryLabel, RecordCategoryType } from '@/types/OmikujiData'
 import type { OmikujiDataType } from '@/types/OmikujiData/'
 import type { AccessLevelType } from '@shared/types'
 
@@ -9,6 +9,7 @@ import type { AccessLevelType } from '@shared/types'
 export function applyAccessLevel(data: OmikujiDataType, level: AccessLevelType): OmikujiDataType {
   const result = { ...data }
 
+  // TODO: assetCategory eventCategory をつかうこと
   for (const category of recordCategoryLabel) {
     applyAccessLevelToCategory(result, data, category, level)
   }
@@ -21,17 +22,17 @@ function applyAccessLevelToCategory<K extends RecordCategoryType>(
   category: K,
   level: AccessLevelType
 ) {
-  const obj = source[category] as RecordCategoryDataMap[K]
+  const obj = source[category] as AssetCategoryDataMap[K]
 
   // 存在しないならスキップ
   if (!obj) {
-    ;(target as any)[category] = {} as RecordCategoryDataMap[K]
+    ;(target as any)[category] = {} as AssetCategoryDataMap[K]
     return
   }
 
-  const updated: RecordCategoryDataMap[K] = Object.fromEntries(
+  const updated: AssetCategoryDataMap[K] = Object.fromEntries(
     Object.entries(obj).map(([k, v]) => [k, { ...v, accessLevel: level }])
-  ) as RecordCategoryDataMap[K]
+  ) as AssetCategoryDataMap[K]
 
   ;(target as any)[category] = updated
 }
@@ -43,6 +44,7 @@ function applyAccessLevelToCategory<K extends RecordCategoryType>(
 export function applyOrderOffset(data: OmikujiDataType, offset: number): OmikujiDataType {
   const result = { ...data }
 
+  // TODO: assetCategory eventCategory をつかうこと
   for (const category of recordCategoryLabel) {
     applyOrderOffsetToCategory(result, data, category, offset)
   }
@@ -56,9 +58,9 @@ function applyOrderOffsetToCategory<K extends RecordCategoryType>(
   category: K,
   offset: number
 ) {
-  const obj = source[category] as RecordCategoryDataMap[K]
+  const obj = source[category] as AssetCategoryDataMap[K]
 
-  const shifted = {} as RecordCategoryDataMap[K]
+  const shifted = {} as AssetCategoryDataMap[K]
 
   for (const key in obj) {
     const value = obj[key]
