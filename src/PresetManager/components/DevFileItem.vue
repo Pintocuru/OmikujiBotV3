@@ -73,13 +73,13 @@
 <script setup lang="ts">
   import { ref, nextTick } from 'vue'
   import { isDev } from '@/types'
-  import type { FileItem } from '../devTypes'
+  import type { FileItem } from '../types'
   import FileMenuDropdown from './FileMenuDropdown.vue'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'
   import ConfigImportModal from '@/editor/helpers/presetsImport/ConfigImportModal.vue'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { Download, FileText, Edit } from 'lucide-vue-next'
 
   const props = defineProps<{

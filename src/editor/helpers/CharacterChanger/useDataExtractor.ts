@@ -2,7 +2,6 @@
 import { computed, ComputedRef } from 'vue'
 import { EventCategoryType, EventType, ActionSetType, PostFlowType, OmikujiItemType } from '@/types/OmikujiData/'
 import { categoryMap } from '@/types'
-import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
 /**
  * カテゴリタイプ（rules系とactionSets）

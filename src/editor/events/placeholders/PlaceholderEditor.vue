@@ -34,13 +34,13 @@
   import { computed } from 'vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import PlaceholderValuesEditor from './PlaceholderValuesEditor.vue'
-  import BaseSettingsEditor from '@/editor/components/common/BaseSettingsEditor.vue'
-  import RecordTabs from '@/editor/components/RecordTabs/RecordTabs.vue'
-  import SectionCard from '@shared/components/parts/SectionCard.vue'
+  import BaseSettingsEditor from '@/editor/common/BaseSettings/BaseSettingsEditor.vue'
+
+  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
   import { storeToRefs } from 'pinia'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
-  import { staticSectionMap } from '../appItems/navigation/StaticSectionMap'
+
+  import { staticSectionMap } from '@/editor/maps/category/StaticSectionMap'
 
   const s = (key: string) => staticSectionMap.placeholders.find((i) => i.section === key)
 

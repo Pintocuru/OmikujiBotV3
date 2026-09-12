@@ -1,6 +1,6 @@
 // src/editor/events/appItems/navigation/StaticSectionMap.ts
 import { CategoryType } from '@/types'
-import { LucideIconName } from '@shared/utils/LucideIcon/useLucideIcon'
+import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
 /**
  * サイドバーのサブアイテム下に表示するセクション項目
@@ -21,6 +21,7 @@ export type SidebarSectionItem = {
 /**
  * Record カテゴリ・appInfo 用の固定セクション項目
  * UiEditor のような動的なものはここに含めない
+ * staticSectionMap > categorySectionMap
  */
 export const staticSectionMap: Record<CategoryType, SidebarSectionItem[]> = {
   // ── ルール系 ───────────────────────────────────────────
@@ -77,7 +78,7 @@ export const staticSectionMap: Record<CategoryType, SidebarSectionItem[]> = {
       component: 'omikujiSet',
     },
   ],
-  metas: [
+  services: [
     {
       section: 'baseSettings',
       label: '基本設定',
@@ -125,7 +126,7 @@ export const staticSectionMap: Record<CategoryType, SidebarSectionItem[]> = {
   ],
 
   // ── リソース系 ─────────────────────────────────────────
-  actionSets: [
+  actions: [
     {
       section: 'baseSettings',
       label: '基本設定',

@@ -50,8 +50,8 @@
                     <li v-if="characterUsage.timers.length > 0">
                       タイマーイベント: <span class="font-bold">{{ characterUsage.timers.length }}箇所</span>
                     </li>
-                    <li v-if="characterUsage.metas.length">
-                      配信数値イベント: <span class="font-bold">{{ characterUsage.metas.length }}箇所</span>
+                    <li v-if="characterUsage.services.length">
+                      配信数値イベント: <span class="font-bold">{{ characterUsage.services.length }}箇所</span>
                     </li>
                     <li v-if="characterUsage.comments.length === 0 && characterUsage.timers.length === 0">
                       使用されていません
@@ -93,13 +93,13 @@
 </template>
 
 <script setup lang="ts">
-  import { RecordCategoryType } from '@/types'
+  import { AssetCategoryType } from '@/types/OmikujiData'
   import { useKeyEditor } from './composables/useKeyEditor'
-  import ModalFooterActions from '@/editor/components/parts/ModalFooterActions.vue'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
 
   defineProps<{
-    category: RecordCategoryType
+    category: AssetCategoryType
     currentKey: string
   }>()
 

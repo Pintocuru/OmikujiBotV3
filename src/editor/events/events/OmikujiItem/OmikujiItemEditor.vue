@@ -54,14 +54,13 @@
   import { computed, watch } from 'vue'
   import { ActionSetKind, actionSetKindMap, PostFlowType } from '@/types'
   import OmikujiItemHeader from './OmikujiItemHeader.vue'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import PostActionsEditor from '@/editor/components/postAction/PostActionsEditor.vue'
   import GameScriptsEditor from '@/editor/components/gameScripts/GameScriptsEditor.vue'
   import SpecialActionEditor from './SpecialActionEditor.vue'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { EventCategoryType } from '@/types/OmikujiData/'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
   const props = defineProps<{
     category: EventCategoryType
@@ -70,7 +69,7 @@
   }>()
 
   // Pinia store
-  const { data, updateOmikujiByIndex, updateRecordProperty } = useOmikujiStore()
+  const { data, updateOmikujiByIndex, updateEventProperty } = useOmikujiStore()
   const { getItem } = useGetRecordData()
 
   // Computed
@@ -120,7 +119,7 @@
           ...updatedOmikuji[props.index],
           postActions: newActions,
         }
-        updateRecordProperty(props.category, props.selectedItemKey, 'omikuji', updatedOmikuji)
+        updateEventProperty(props.category, props.selectedItemKey, 'omikuji', updatedOmikuji)
       }
     },
   })

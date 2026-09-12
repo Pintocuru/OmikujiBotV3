@@ -1,6 +1,6 @@
 // src/editor/helpers/KeyEditor/composables/keyUpdateCore.ts
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+
 import { RecordCategoryType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 

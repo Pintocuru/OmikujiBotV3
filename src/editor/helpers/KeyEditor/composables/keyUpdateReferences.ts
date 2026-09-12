@@ -1,7 +1,7 @@
 // src/editor/helpers/KeyEditor/composables/keyUpdateReferences.ts
 import type { PostFlowType } from '@/types/OmikujiData/'
 import { eventCategory } from '@/types/OmikujiData/'
-import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
 /**

@@ -1,6 +1,6 @@
 // src/PresetManager/stores/useDevConfigGetters.ts
 import { computed } from 'vue'
-import { DevConfigStateType } from '../devTypes'
+import { DevConfigStateType } from '@/PresetManager/types'
 
 export function useDevConfigGetters(state: DevConfigStateType) {
   // ソート済みファイル一覧

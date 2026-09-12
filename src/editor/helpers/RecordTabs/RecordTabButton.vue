@@ -44,7 +44,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useRecordTabsStore } from './RecordTabsStore'
-  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { storeToRefs } from 'pinia'
   import { BaseRecordType } from '@shared/types'

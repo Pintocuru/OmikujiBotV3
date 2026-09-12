@@ -43,16 +43,16 @@
   import { computed } from 'vue'
   import { ActionSetType } from '@/types'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import BaseSettingsEditor from '@/editor/components/common/BaseSettingsEditor.vue'
+  import BaseSettingsEditor from '@/editor/common/BaseSettings/BaseSettingsEditor.vue'
   import PostActionsEditor from '@/editor/components/postAction/PostActionsEditor.vue'
-  import CharacterChanger from '@/editor/components/events/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@/editor/components/events/IconKeyChanger/IconKeyChanger.vue'
-  import RecordTabs from '@/editor/components/RecordTabs/RecordTabs.vue'
-  import SectionCard from '@shared/components/parts/SectionCard.vue'
+  import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
+  import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
+
+  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
   import { storeToRefs } from 'pinia'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
-  import { staticSectionMap } from '../appItems/navigation/StaticSectionMap'
+
+  import { staticSectionMap } from '../../maps/category/StaticSectionMap'
 
   const s = (key: string) => staticSectionMap.actionSets.find((i) => i.section === key)
 

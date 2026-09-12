@@ -1,7 +1,11 @@
-<!-- src/editor/helpers/BaseSettings/BaseSettingsEditor.vue -->
+<!-- src/editor/common/BaseSettings/BaseSettingsEditor.vue -->
 <template>
   <!-- Key表示 -->
-  <SettingItem v-if="isKey" label="キーの名前を変更する" description="他のデータと区別できるよう名前を付けます">
+  <SettingItem
+    v-if="isAssetCategory(category)"
+    :label="t('baseSettings.key.label')"
+    :description="t('baseSettings.key.description')"
+  >
     <div class="flex gap-2 items-center">
       <div class="w-full px-4 py-2 rounded bg-base-200 text-gray-600 overflow-x-auto whitespace-nowrap">
         {{ key }}
@@ -12,17 +16,25 @@
   </SettingItem>
 
   <!-- 有効・無効の切り替えボタン -->
-  <SettingItem v-if="isIsEnabled" label="イベントを有効にする" description="有効にすると、おみくじができます">
+  <SettingItem
+    v-if="isIsEnabled"
+    :label="t('baseSettings.isEnabled.label')"
+    :description="t('baseSettings.isEnabled.description')"
+  >
     <input type="checkbox" v-model="isEnabled" class="toggle toggle-primary" />
   </SettingItem>
 
   <!-- イベント名 -->
-  <SettingItem label="イベント名" description="識別しやすい名前">
+  <SettingItem :label="t('baseSettings.eventName.label')" :description="t('baseSettings.eventName.description')">
     <input type="text" v-model="name" class="input w-full" />
   </SettingItem>
 
   <!-- 説明 -->
-  <SettingItem v-if="isDescription" label="説明" description="このデータの紹介文">
+  <SettingItem
+    v-if="isDescription"
+    :label="t('baseSettings.description.label')"
+    :description="t('baseSettings.description.description')"
+  >
     <input type="text" v-model="description" class="input w-full" />
   </SettingItem>
 
@@ -32,23 +44,25 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { RecordCategoryType } from '@/types/OmikujiData/'
+  import { useI18n } from 'vue-i18n'
+  import { BaseRecordType } from '@/types/core'
+  import { assetCategory, AssetCategoryType, EventCategoryType } from '@/types/OmikujiData/'
   import BaseTagEditor from './BaseTagEditor.vue'
-  import KeyEditor from '@/editor/components/KeyEditor/KeyEditor.vue'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
-  import { BaseRecordType } from '@shared/types'
+  import KeyEditor from '@/editor/helpers/KeyEditor/KeyEditor.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+
+  // vue-i18n の初期化
+  const { t } = useI18n()
 
   const props = withDefaults(
     defineProps<{
       modelValue: BaseRecordType
-      category: RecordCategoryType | null
-      isKey?: boolean
+      category: EventCategoryType | AssetCategoryType | null
       isIsEnabled?: boolean
       isDescription?: boolean
       isAccessLevel?: boolean
     }>(),
     {
-      isKey: true,
       isIsEnabled: true,
       isDescription: true,
       isAccessLevel: true,
@@ -58,6 +72,9 @@
   const emit = defineEmits<{
     'update:modelValue': [value: BaseRecordType]
   }>()
+
+  const isAssetCategory = (c: EventCategoryType | AssetCategoryType | null): c is AssetCategoryType =>
+    c !== null && assetCategory.includes(c as AssetCategoryType)
 
   // 各プロパティのcomputed getter/setter
   const createComputed = <T extends keyof BaseRecordType>(key: T) =>

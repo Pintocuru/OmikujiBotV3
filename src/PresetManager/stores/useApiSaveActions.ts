@@ -1,14 +1,12 @@
 // src/PresetManager/stores/useApiSaveActions.ts
-import { DevConfigStateType } from '@/PresetManager/devTypes'
+import { DevConfigStateType } from '@/PresetManager/types'
 import { configApi } from '@/PresetManager/services/configApi'
 import { generatorApi } from '@/PresetManager/services/generatorApi'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { AsyncActionHandler } from './useApiCore'
 
-export function useSaveActions(
-  state: DevConfigStateType,
-  handleAsyncAction: (action: () => Promise<any>, loadingKey: keyof DevConfigStateType) => Promise<any>
-) {
+export function useSaveActions(state: DevConfigStateType, handleAsyncAction: AsyncActionHandler) {
   // サーバチェック
   const checkServer = async (): Promise<boolean> => {
     return await configApi.getHealth()
@@ -23,7 +21,7 @@ export function useSaveActions(
   }
 
   // 名前指定で保存
-  const saveConfig = async (fileName: string): Promise<boolean> => {
+  const saveConfig = async (fileName: string): Promise<boolean | null> => {
     const omikujiStore = useOmikujiStore()
     const trimmedFileName = fileName.trim()
     if (!trimmedFileName) return false

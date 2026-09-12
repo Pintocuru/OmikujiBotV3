@@ -4,7 +4,6 @@ import { categoryMap, RecordCategoryType, eventCategory } from '@/types'
 import { validateKey as validateKeyUtil } from './keyEditorValidation'
 import { updateStrategies } from './keyUpdateStrategies'
 import { CharacterUsage, UpdateResult } from './keyEditorTypes'
-import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
 export function useKeyEditor() {
   // リアクティブ状態

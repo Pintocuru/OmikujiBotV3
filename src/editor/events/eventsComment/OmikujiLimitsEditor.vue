@@ -1,4 +1,5 @@
 <!-- src/editor/events/eventsComment/OmikujiLimitsEditor.vue -->
+<!-- !廃止 -->
 <template>
   <SubSectionHeader
     icon="Ban"
@@ -99,7 +100,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { OmikujiLimitsType } from '@/types/OmikujiData/'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
@@ -109,7 +110,7 @@
   }>()
 
   // Pinia store
-  const { updateRecordProperty, data } = useOmikujiStore()
+  const { updateEventProperty, data } = useOmikujiStore()
   const enableSecondary = computed(() => data.components.enableSecondary)
 
   // 各プロパティのcomputed getter/setter
@@ -119,7 +120,7 @@
       set: (value) => {
         if (!props.selectedItemKey) return
         const updatedLimits = { ...props.modelValue, [key]: value }
-        updateRecordProperty('comments', props.selectedItemKey, 'limits', updatedLimits)
+        updateEventProperty('comments', props.selectedItemKey, 'limits', updatedLimits)
       },
     })
 

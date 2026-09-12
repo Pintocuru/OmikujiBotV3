@@ -10,5 +10,6 @@ export const AccessLevelLabels = [
   'godMode', // 内部用
 ] as const
 
+/** @deprecated isDev 以外のライセンス状態は削除されます */
 export type AccessLevelType = (typeof AccessLevelLabels)[number]
 export const AccessLevelSchema = z.enum(AccessLevelLabels)

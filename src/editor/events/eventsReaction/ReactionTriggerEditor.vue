@@ -68,7 +68,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import { reactionMap, reactionConditionMap } from '@/types/MetaMaps'
   import { ReactionTriggerType, ReactionReaction } from '@/types/OmikujiData/ReactionTriggerSchema'
   import { VolumeX, Volume2, Dot } from 'lucide-vue-next'
@@ -78,7 +78,7 @@
     selectedItemKey: string | null
   }>()
 
-  const { updateRecordProperty } = useOmikujiStore()
+  const { updateEventProperty } = useOmikujiStore()
 
   const createComputed = <T extends keyof ReactionTriggerType>(key: T) =>
     computed({
@@ -86,7 +86,7 @@
       set: (value) => {
         if (!props.selectedItemKey) return
         const updated = { ...props.modelValue, [key]: value }
-        updateRecordProperty('reactions', props.selectedItemKey, 'trigger', updated)
+        updateEventProperty('reactions', props.selectedItemKey, 'trigger', updated)
       },
     })
 

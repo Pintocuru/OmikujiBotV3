@@ -67,7 +67,7 @@
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import NoParamsCard from '@shared/components/parts/NoParamsCard.vue'
+  import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
   import { OmikujiDataType } from '@/types'
 
   const { packs, loading, error, isEmpty, fetchAll, allTags, selectedTags, toggleTag, clearTags } = useDataPacks()

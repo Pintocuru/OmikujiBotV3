@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
   import { categoryMap, recordCategoryLabel, RecordCategoryType } from '@/types'
   import { AccessLevelLabels } from '@shared/types'

@@ -72,8 +72,8 @@
   import { serviceTriggerConditionMap, ServiceTriggerCondition, ServiceTriggerType } from '@/types'
   import TriggerMetaCondition from './ServiceTriggerCondition.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
-  import InformationCard from '@shared/components/parts/InformationCard.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
 
   const props = defineProps<{
     modelValue: ServiceTriggerType
@@ -81,7 +81,7 @@
   }>()
 
   // Pinia store
-  const { updateRecordProperty } = useOmikujiStore()
+  const { updateEventProperty } = useOmikujiStore()
 
   // 共通 computed
   const createComputed = <T extends keyof ServiceTriggerType>(key: T) =>
@@ -90,7 +90,7 @@
       set: (value) => {
         if (!props.selectedItemKey) return
         const updated = { ...props.modelValue, [key]: value }
-        updateRecordProperty('metas', props.selectedItemKey, 'trigger', updated)
+        updateEventProperty('metas', props.selectedItemKey, 'trigger', updated)
       },
     })
 

@@ -12,11 +12,9 @@
       <!-- プリセット管理 -->
       <PresetTool v-if="isServerConnected" />
 
-      <!-- 設定読み込み・書き出し -->
+      <!-- 設定書き出し -->
       <div class="flex justify-between">
-        <ConfigImport />
         <ConfigExport />
-        <ConfigImportModal v-if="importManager.showPreviewModal.value" :import-manager="importManager" />
       </div>
 
       <!-- 開発版の起動時に「開発者用プリセット管理」を目立たせるためのダミー -->
@@ -36,9 +34,7 @@
   import AppDevWorld from './events/appItems/AppDevWorld.vue'
   import NavigationSidebar from './events/appItems/navigation/NavigationSidebar.vue'
   import ContentArea from './events/appItems/ContentArea.vue'
-  import ConfigImport from './helpers/presetsImport/ConfigImport.vue'
   import ConfigExport from './helpers/presetsExport/ConfigExport.vue'
-  import ConfigImportModal from './helpers/presetsImport/ConfigImportModal.vue'
   import { useImportManager } from './helpers/presetsImport/composables/useImportManager'
   import { useOmikujiStore } from './stores/useOmikujiStore'
   import PresetTool from '@/PresetManager//DevConfigs.vue'
@@ -51,17 +47,14 @@
   // stores
   const omikujiStore = useOmikujiStore()
   const devStore = useDevStore()
-  const { data } = storeToRefs(omikujiStore)
+  const { data, dataSource } = storeToRefs(omikujiStore)
   const { isServerConnected } = storeToRefs(devStore)
   const navigationStore = useNavigationStore()
 
   // インポートマネージャー
   const importManager = useImportManager()
-
-  const daisyUiTheme = computed(() => data.value.settings.daisyUiTheme)
-  const isDevWorld = computed(
-    () => isDev && Object.keys(data.value.comments).length === 0 && daisyUiTheme.value === 'dark'
-  )
+  const daisyUiTheme = computed(() => (isDev ? data.value.settings.developer.daisyUiTheme : 'dark'))
+  const isDevWorld = computed(() => dataSource.value === 'unknown')
 
   // スクロール監視
   useScrollToSection()
@@ -75,6 +68,7 @@
       console.warn('Health check failed:', e)
     }
 
+    const initialCategory = data.value.settings.editor.initialCategory
     if (isHealth) {
       isServerConnected.value = true
       if (isDev) return // devならデータを読まない
@@ -82,7 +76,7 @@
         const lowData = (await generatorApi.loadGeneratorConfig()) as OmikujiDataType
         if (lowData) {
           omikujiStore.loadData(lowData)
-          navigationStore.selectCategory(data.value.settings.initialCategory)
+          navigationStore.selectCategory(initialCategory)
           swalToast.success({
             title: '読み込み完了',
             text: `${lowData.meta.name} を読み込みました`,
@@ -96,7 +90,7 @@
 
     // ローカルを読む
     omikujiStore.openLocalOmikujiData()
-    navigationStore.selectCategory(data.value.settings.initialCategory)
+    navigationStore.selectCategory(initialCategory)
     swalToast.success({
       title: '読み込み完了',
       text: 'omikujiData.js を読み込みました。',

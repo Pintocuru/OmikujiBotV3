@@ -3,9 +3,8 @@ import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { categoryMap, CategoryType } from '@/types'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { useAccessChecker } from '@/editor/scripts/useAccessCheckerConfig'
+import { useAccessChecker } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
 import { isDev } from '@/types'
-import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
 export const useCategoryUtils = () => {
   const omikujiStore = useOmikujiStore()
@@ -35,7 +34,7 @@ export const useCategoryUtils = () => {
     if (!isDev || !hasAccess(developer.jsonMergeSettings)) excludeKeys.push('jsonMerge') // 開発者のみの機能
     if (!hasAccess(usage.comments)) excludeKeys.push('comments')
     if (!hasAccess(usage.timers)) excludeKeys.push('timers')
-    if (!hasAccess(usage.metas)) excludeKeys.push('metas')
+    if (!hasAccess(usage.services)) excludeKeys.push('metas')
     if (!hasAccess(usage.reactions)) excludeKeys.push('reactions')
     // if (!hasAccess(usage.queues)) excludeKeys.push('queues') // TODO:queues(order、参加型管理)の実装
 

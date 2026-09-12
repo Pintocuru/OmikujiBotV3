@@ -23,12 +23,12 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { LucideIconName, resolveLucideIcon } from '@shared/utils/LucideIcon/useLucideIcon'
-  import { SidebarSectionItem } from './StaticSectionMap'
+  import { SidebarSectionItem } from '@/editor/maps/category/StaticSectionMap'
   import HoverPopup from '../preview/HoverPopup.vue'
   import { staticSectionPreviewMap } from '../preview/staticSectionPreviewMap'
   import { CategoryType, isRecordCategory } from '@/types'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+  import { useGetRecordData } from '@/editor/stores/useGetRecordData.js'
+  import { LucideIconName } from '@/common/LucideIcon/useLucideIcon.js'
 
   const props = defineProps<{
     category: CategoryType

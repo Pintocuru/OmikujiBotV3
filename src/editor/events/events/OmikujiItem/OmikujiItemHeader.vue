@@ -37,7 +37,7 @@
   import { OmikujiItemType } from '@/types/OmikujiData/'
   import OmikujiItemPriority from './OmikujiItemPriority.vue'
   import { EventCategoryType } from '@/types/OmikujiData/'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
   const props = defineProps<{

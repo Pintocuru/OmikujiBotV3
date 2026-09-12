@@ -84,7 +84,7 @@
   import SoundTestButton from './SoundTestButton.vue'
   import { processTestPlaceholder } from './TestPlaceholderProcessor.js'
   import WordPartyTestButton from './WordPartyTestButton.vue'
-  import { useVisibilityAccess } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import CommentBubbleItem from '@main/ui/CommentBubble/parts/CommentBubbleItem.vue'
   import ToastBubbleItem from '@main/ui/ToastWidgets/parts/ToastBubbleItem.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'

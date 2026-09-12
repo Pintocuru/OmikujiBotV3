@@ -63,19 +63,19 @@
   import { storeToRefs } from 'pinia'
   import { ServiceEventType } from '@/types/OmikujiData/'
   import CommentTriggerEditor from './ServiceTrigger.vue'
-  import GlobalCharacterChanger from '@/editor/components/events/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@/editor/components/events/IconKeyChanger/IconKeyChanger.vue'
-  import OmikujiSetEditor from '@/editor/components/events/OmikujiSetEditor.vue'
-  import RecordTabs from '@/editor/components/RecordTabs/RecordTabs.vue'
-  import BaseSettingsEditor from '@/editor/components/common/BaseSettingsEditor.vue'
+  import GlobalCharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
+  import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
+  import OmikujiSetEditor from '@/editor/helpers/OmikujiSetEditor/OmikujiSetEditor.vue'
+
+  import BaseSettingsEditor from '@/editor/common/BaseSettings/BaseSettingsEditor.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
-  import InformationCard from '@shared/components/parts/InformationCard.vue'
-  import SectionCard from '@shared/components/parts/SectionCard.vue'
-  import { staticSectionMap } from '../appItems/navigation/StaticSectionMap'
 
-  const s = (key: string) => staticSectionMap.metas.find((i) => i.section === key)
+  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
+  import { staticSectionMap } from '@/editor/maps/category/StaticSectionMap'
+
+  const s = (key: string) => staticSectionMap.services.find((i) => i.section === key)
 
   // アクティブなセクションの管理
   type SectionType = 'baseSettings' | 'trigger' | 'omikujiSet' | null

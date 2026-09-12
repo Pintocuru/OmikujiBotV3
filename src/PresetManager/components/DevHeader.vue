@@ -76,7 +76,7 @@
   import { generatorApi } from '@/PresetManager/services/generatorApi'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { Download, Save } from 'lucide-vue-next'

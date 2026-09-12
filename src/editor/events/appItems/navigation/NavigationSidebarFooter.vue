@@ -48,7 +48,7 @@
   import { useConfigExport } from '../../../helpers/presetsExport/useConfigExport'
 
   import LicenseSwitch from '@/editor/components/appInfo/settings/LicenseSwitch.vue'
-  import LicenseBadge from '@/editor/components/parts/LicenseBadge.vue'
+  import LicenseBadge from '@/editor/helpers/LicenseBadge/LicenseBadge.vue'
   import { Save } from 'lucide-vue-next'
 
   // store

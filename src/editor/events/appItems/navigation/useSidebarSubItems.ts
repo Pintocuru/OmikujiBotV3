@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { CategoryType, SettingsCategoryType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useComponentsSections, getSidebarSections } from './useSidebarSectionMap'
-import { SidebarSectionItem } from './StaticSectionMap'
+import { SidebarSectionItem } from '@/editor/maps/category/StaticSectionMap'
 
 // ─────────────────────────────────────────────────────────
 // 定数

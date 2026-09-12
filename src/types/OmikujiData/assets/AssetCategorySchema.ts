@@ -12,10 +12,15 @@ import { PlaceholderSchema } from './PlaceholderSchema'
 export const assetCategory = ['box', 'actions', 'placeholders', 'characters'] as const
 export type AssetCategoryType = (typeof assetCategory)[number]
 
+// カテゴリごとのアセットアイテム型
 export type AssetCategoryDataMap = {
-  [K in AssetCategoryType]: OmikujiDataAssetsType[K]
+  box: z.infer<typeof OmikujiBoxSchema>
+  actions: z.infer<typeof ActionSetSchema>
+  placeholders: z.infer<typeof PlaceholderSchema>
+  characters: z.infer<typeof CharacterSchema>
 }
 
+// カテゴリごとのスキーマ
 export const AssetCategorySchemaMap = {
   box: OmikujiBoxSchema,
   actions: ActionSetSchema,
@@ -23,6 +28,7 @@ export const AssetCategorySchemaMap = {
   characters: CharacterSchema,
 } as const
 
+// Asset データ全体
 export const AssetCategorySchema = z.object({
   box: normalizedRecord(OmikujiBoxSchema),
   actions: normalizedRecord(ActionSetSchema),

@@ -1,6 +1,5 @@
 // src/editor/helpers/KeyEditor/composables/keyEditorValidation.ts
 import { RecordCategoryType } from '@/types'
-import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
 /**
  * Keyの基本フォーマットバリデーション

@@ -7,9 +7,6 @@
     <IconKeyChanger category="comments" />
   </div>
 
-  <!-- タブ部分 -->
-  <RecordTabs />
-
   <template v-if="selectedItem">
     <!-- 基本設定セクション -->
     <SectionCard
@@ -36,19 +33,11 @@
         <CommentTriggerEditor v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
       </SectionCard>
 
-      <!-- おみくじ制限設定セクション -->
-      <SectionCard
-        id="section-limits"
-        :icon="s('limits')?.icon"
-        :isOpen="activeSection === 'limits'"
-        @toggle="toggleSection('limits')"
-        :title="s('limits')?.label"
-        :description="s('limits')?.description"
-      >
-        <OmikujiLimitsEditor v-model="selectedItem.limits" :selectedItemKey="selectedItemKey" />
-      </SectionCard>
+      <!-- みくじ箱選択セクション -->
+      <!-- TODO:新規作成 -->
 
       <!-- おみくじ設定セクション -->
+      <!-- TODO:みくじ箱を選択したときに表示する -->
       <SectionCard
         id="section-omikujiSet"
         :icon="s('omikujiSet')?.icon"
@@ -74,18 +63,16 @@
   import { storeToRefs } from 'pinia'
   import { CommentEventType } from '@/types/OmikujiData/'
   import CommentTriggerEditor from './CommentTriggerEditor.vue'
-  import OmikujiLimitsEditor from './OmikujiLimitsEditor.vue'
-  import BaseSettingsEditor from '@/editor/components/common/BaseSettingsEditor.vue'
-  import OmikujiSetEditor from '@/editor/components/events/OmikujiSetEditor.vue'
-  import GlobalCharacterChanger from '@/editor/components/events/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@/editor/components/events/IconKeyChanger/IconKeyChanger.vue'
-  import RecordTabs from '@/editor/components/RecordTabs/RecordTabs.vue'
+  import BaseSettingsEditor from '@/editor/common/BaseSettings/BaseSettingsEditor.vue'
+  import OmikujiSetEditor from '@/editor/helpers/OmikujiSetEditor/OmikujiSetEditor.vue'
+  import GlobalCharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
+  import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import InformationCard from '@shared/components/parts/InformationCard.vue'
-  import SectionCard from '@shared/components/parts/SectionCard.vue'
+  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
-  import { staticSectionMap } from '../appItems/navigation/StaticSectionMap'
+  import { staticSectionMap } from '@/editor/maps/category/StaticSectionMap'
+  import { useGetEventData } from '@/editor/stores/useGetEventData.js'
 
   // アクティブなセクションの管理
   type SectionType = 'baseSettings' | 'threshold' | 'limits' | 'scriptGame' | 'omikujiSet' | null
@@ -101,17 +88,17 @@
   const s = (key: string) => staticSectionMap.comments.find((i) => i.section === key)
 
   // Pinia store
-  const { updateItem } = useOmikujiStore()
-  const { getItem } = useGetRecordData()
+  const { updateEvent } = useOmikujiStore()
+  const { getEvent } = useGetEventData()
 
   // v-modelを使用したselectedCharacterの実装
   const selectedItem = computed({
     get: () => {
       if (!selectedItemKey.value) return null
-      return getItem('comments', selectedItemKey.value)
+      return getEvent('comments', selectedItemKey.value)
     },
     set: (value: CommentEventType) => {
-      updateItem('comments', value.key, value)
+      updateEvent('comments', value.key, value)
     },
   })
 </script>

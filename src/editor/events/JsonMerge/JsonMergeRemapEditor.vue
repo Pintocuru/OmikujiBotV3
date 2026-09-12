@@ -52,7 +52,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import { JsonMergeRemapType } from '@/types/OmikujiData/JsonMergeType'
   import { CharacterType, characterEmotionMap } from '@/types'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

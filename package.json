@@ -24,7 +24,6 @@
     "daisyui": "^5.7.28",
     "emoji-regex": "^10.6.0",
     "expr-eval-fork": "^3.0.3",
-    "i18next": "^26.4.1",
     "lucide-vue-next": "^1.0.0",
     "nanoid": "^5.1.16",
     "pinia": "^3.0.4",
@@ -32,6 +31,7 @@
     "theme-change": "^2.5.2",
     "vue": "^3.5.42",
     "vue-draggable-plus": "^0.6.1",
+    "vue-i18n": "^9.14.5",
     "vue-sweetalert2": "^5.0.11",
     "zod": "^4.5.4"
   },

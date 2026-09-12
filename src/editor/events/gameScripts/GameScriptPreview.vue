@@ -30,8 +30,8 @@
   import CommentBubbleItem from '@main/ui/CommentBubble/parts/CommentBubbleItem.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { GameScriptManager } from '@main/stores/GameScript/GameScriptManager'
-  import NoParamsCard from '@shared/components/parts/NoParamsCard.vue'
-  import { useVisibilityAccess } from '@/editor/scripts/useAccessCheckerConfig'
+  import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
+  import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
 
   const props = defineProps<{
     gameScripts: GameScriptsType | null

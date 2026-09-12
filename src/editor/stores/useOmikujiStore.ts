@@ -1,14 +1,16 @@
-// src/ConfigMaker/stores/useOmikujiStore.ts
+// src/ConfigMaker/stores/useOmikujiStore
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData/'
 import { useDataIO } from './composables/useDataIO'
 import { useDataMerge } from './composables/useDataMerge'
-import { useRecordCRUD } from './composables/useRecordCRUD'
-import { useRecordProperties } from './composables/useRecordProperties'
+import { useAssetCRUD } from './composables/useAssetCRUD'
+import { useEventCRUD } from './composables/useEventCRUD'
 import { useRecordSort } from './composables/useRecordSort'
 import { useSettingsOperations } from './composables/useSettingsOperations'
 import { DataSource } from '@/editor/types'
+import { useEventProperties } from './composables/useEventProperties'
+import { useAssetProperties } from './composables/useAssetProperties'
 
 /**
  * おみくじデータの中心的なstore
@@ -28,9 +30,14 @@ export const useOmikujiStore = defineStore('omikuji', () => {
   const dataIO = useDataIO(data, dataSource)
   const dataMerge = useDataMerge(data, hasChanged)
 
-  // レコード操作
-  const recordCRUD = useRecordCRUD(data, hasChanged)
-  const recordProperties = useRecordProperties(data, recordCRUD)
+  // Assets操作
+  const eventCRUD = useEventCRUD(data, hasChanged)
+  const assetCRUD = useAssetCRUD(data, hasChanged)
+
+  const eventProperties = useEventProperties(data, eventCRUD)
+  const assetProperties = useAssetProperties(data, assetCRUD)
+
+  // 並び替え
   const recordSort = useRecordSort(data, hasChanged)
 
   // 設定操作
@@ -47,10 +54,16 @@ export const useOmikujiStore = defineStore('omikuji', () => {
     ...dataIO,
     ...dataMerge,
 
-    // レコード操作
-    ...recordCRUD, // CRUD操作
-    ...recordProperties, // プロパティ更新
-    ...recordSort, // 並び替え
-    ...settingsOps, // 設定操作
+    // Events操作
+    ...eventCRUD,
+    ...eventProperties,
+
+    // Assets操作
+    ...assetCRUD,
+    ...assetProperties,
+
+    // その他
+    ...recordSort,
+    ...settingsOps,
   }
 })

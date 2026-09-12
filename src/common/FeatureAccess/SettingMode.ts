@@ -1,5 +1,5 @@
 // src/common/FeatureAccess/SettingMode.ts
-import { AccessLevelType } from '@shared/types'
+import { AccessLevelType } from '@/types/core'
 import { computed, Ref } from 'vue'
 
 // 判定テーブル
@@ -27,14 +27,18 @@ export function useSettingModeFromHash(licenseKeyHashRef: Ref<string | undefined
   const PRO_MODES = ['pro', 'godMode']
   const GOD_MODES = ['godMode']
 
+  /** @deprecated isDev 以外のライセンス状態は削除されます */
   const isAdv = computed(() => ADV_MODES.includes(accessMode.value))
+  /** @deprecated isDev 以外のライセンス状態は削除されます */
   const isPro = computed(() => PRO_MODES.includes(accessMode.value))
+  /** @deprecated isDev 以外のライセンス状態は削除されます */
   const isGod = computed(() => GOD_MODES.includes(accessMode.value))
 
   return { accessMode, isAdv, isPro, isGod }
 }
 
 // 利用しやすい関数群
+/** @deprecated isDev 以外のライセンス状態は削除されます */
 export function getKey(mode: AccessLevelType): string {
   return MODE_KEY[mode] ?? ''
 }

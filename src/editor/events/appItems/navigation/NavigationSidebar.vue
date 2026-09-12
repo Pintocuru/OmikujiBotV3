@@ -1,7 +1,7 @@
 <!-- src/editor/events/appItems/navigation/NavigationSidebar.vue -->
 <template>
   <div
-    class="sticky top-0 h-screen flex flex-col border-r overflow-y-auto transition-all duration-200 shrink-0 relative overflow-x-hidden"
+    class="sticky top-0 h-screen flex flex-col border-r overflow-y-auto transition-all duration-200 shrink-0 overflow-x-hidden"
     :class="sidebarBorderClass"
     :style="{ width: isExpanded ? '220px' : '72px' }"
   >
@@ -35,7 +35,7 @@
   import { ref, computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { isDev } from '@/types'
-  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
   import NavigationSidebarCategories from './NavigationSidebarCategories.vue'

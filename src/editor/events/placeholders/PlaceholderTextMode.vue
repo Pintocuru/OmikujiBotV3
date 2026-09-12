@@ -47,8 +47,8 @@
 <script setup lang="ts">
   import { ref, computed, onMounted } from 'vue'
   import { WeightValuesArrayType, WeightValueSchema } from '@/types/OmikujiData/PlaceholderSchema'
-  import ModalFooterActions from '@/editor/components/parts/ModalFooterActions.vue'
-  import InformationCard from '@shared/components/parts/InformationCard.vue'
+  import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
+  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
 
   const props = defineProps<{
     initialValues: WeightValuesArrayType

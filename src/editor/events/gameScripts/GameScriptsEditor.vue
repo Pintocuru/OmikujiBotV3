@@ -92,10 +92,10 @@
   import { computed } from 'vue'
   import { EventCategoryType, ScriptGameKey } from '@/types/OmikujiData/'
   import GameScriptPreview from './GameScriptPreview.vue'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useVisibilityAccess } from '@/editor/scripts/useAccessCheckerConfig'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+  import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
+
   import { gameMetaMap } from '@/types/MetaMaps/'
 
   const props = defineProps<{

@@ -3,7 +3,7 @@ import { ComputedRef, computed } from 'vue'
 import { CategoryType } from '@/types/OmikujiData/'
 import { uiItemMap } from '@/editor/UiEditor/useUiItemMap'
 import { useUiVisibility } from '@/editor/UiEditor/conditions/useUiVisibility'
-import { SidebarSectionItem, staticSectionMap } from './StaticSectionMap'
+import { SidebarSectionItem, staticSectionMap } from '@/editor/maps/category/StaticSectionMap'
 
 // ─────────────────────────────────────────────────────────
 // 動的マップ（components）

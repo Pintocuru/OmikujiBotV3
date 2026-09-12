@@ -47,7 +47,7 @@
   import { defaultPlaceholders } from '@/types/MainGenerator/DefaultPlaceholders'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+
   import { Plus, AlertCircle } from 'lucide-vue-next'
 
   // Props

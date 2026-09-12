@@ -48,10 +48,9 @@
 </template>
 
 <script setup lang="ts">
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { EventCategoryType, OmikujiItemType } from '@/types/OmikujiData/'
-  import MenuDropdown from '@shared/components/parts/MenuDropdown.vue'
+  import MenuDropdown from '@/editor/parts/MenuDropdown/MenuDropdown.vue'
   import { generateId } from '@shared/types'
   import { GripVertical } from 'lucide-vue-next'
 
@@ -76,7 +75,7 @@
     }
   }
 
-  const { updateRecordProperty } = useOmikujiStore()
+  const { updateEventProperty } = useOmikujiStore()
   const { getItem } = useGetRecordData()
 
   const duplicate = () => {
@@ -99,7 +98,7 @@
     const newList = [...record.omikuji]
     newList.splice(index + 1, 0, duplicated)
 
-    updateRecordProperty(props.category, props.selectedItemKey, 'omikuji', newList)
+    updateEventProperty(props.category, props.selectedItemKey, 'omikuji', newList)
   }
 
   const remove = () => {
@@ -110,6 +109,6 @@
 
     const newList = record.omikuji.filter((v) => v.id !== props.item.id)
 
-    updateRecordProperty(props.category, props.selectedItemKey, 'omikuji', newList)
+    updateEventProperty(props.category, props.selectedItemKey, 'omikuji', newList)
   }
 </script>

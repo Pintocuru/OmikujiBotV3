@@ -1,7 +1,7 @@
 // src/PresetManager/services/configApi.ts
 import { BaseApiClient } from './baseApiClient'
 import { ensureJsonExtension } from './apiServiceUtils'
-import type { FileItem } from '../devTypes'
+import type { FileItem } from '../types'
 
 /**
  * 設定ファイル関連のAPI

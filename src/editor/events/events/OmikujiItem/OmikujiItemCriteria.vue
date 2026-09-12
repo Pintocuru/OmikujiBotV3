@@ -90,12 +90,12 @@
     CriteriaThresholdSchema,
     CriteriaThresholdType,
   } from '@/types'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
-  import NoParamsCard from '@shared/components/parts/NoParamsCard.vue'
+  import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
   import ThresholdGift from '@shared/components/threshold/ThresholdGift.vue'
-  import InformationCard from '@shared/components/parts/InformationCard.vue'
+  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
   import ThresholdComment from '@shared/components/threshold/ThresholdComment.vue'
   import TriggerAccess from '@shared/components/trigger/TriggerAccess.vue'
   import ThresholdSyoken from '@shared/components/threshold/ThresholdSyoken.vue'

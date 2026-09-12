@@ -1,17 +1,13 @@
 // src/PresetManager/stores/useApiCore.ts
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
-import { DevConfigStateType } from '../devTypes'
+import { DevConfigStateType } from '@/PresetManager/types'
+
+export type AsyncActionHandler = <T>(
+  action: () => Promise<T>,
+  loadingKey: keyof DevConfigStateType
+) => Promise<T | null>
 
 export function useApiCore(state: DevConfigStateType) {
-  // エラーハンドリング
-  const handleApiError = (error: Error) => {
-    console.error('API Error:', error)
-    state.isServerConnected.value = false
-
-    const message = `${error.message}\n開発サーバーが起動していることを確認してください。`
-    swalModal.error({ title: '接続エラー', text: message })
-  }
-
   // 非同期アクションのラッパー
   const handleAsyncAction = async <T>(
     action: () => Promise<T>,
@@ -26,7 +22,9 @@ export function useApiCore(state: DevConfigStateType) {
     try {
       return await action()
     } catch (error) {
-      handleApiError(error as Error)
+      const err = error as Error
+      const message = `${err.message}\n開発サーバーが起動していることを確認してください。`
+      swalModal.error({ title: '接続エラー', text: message })
       return null
     } finally {
       target.value = false
@@ -34,7 +32,6 @@ export function useApiCore(state: DevConfigStateType) {
   }
 
   return {
-    handleApiError,
     handleAsyncAction,
   }
 }

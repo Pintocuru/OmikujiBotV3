@@ -1,8 +1,9 @@
 // src/maps/OmikujiData/CategoryMap.ts
+import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import { CategoryType } from '@/types/OmikujiData'
 
 // Map定義 (Lucide Icon名を含む)
-export const categoryMap: Record<CategoryType, { label: string; description: string; icon: string }> = {
+export const categoryMap: Record<CategoryType, { label: string; description: string; icon: LucideIconName }> = {
   jsonMerge: {
     label: 'JSONマージ(Dev)',
     description: 'ビルド時、jsonファイルをマージして出力します',
@@ -18,7 +19,7 @@ export const categoryMap: Record<CategoryType, { label: string; description: str
     description: '指定した時間経過で、自動的におみくじを発動します',
     icon: 'Timer',
   },
-  metas: {
+  services: {
     label: '配信数値イベント',
     description: '配信の視聴数・高評価の変動でおみくじを発動します',
     icon: 'ThumbsUp',
@@ -28,7 +29,12 @@ export const categoryMap: Record<CategoryType, { label: string; description: str
     description: '視聴者のリアクション（❤ 😄 🎉 😳 💯）でおみくじを発動します',
     icon: 'Smile',
   },
-  actionSets: {
+  box: {
+    label: 'みくじ箱',
+    description: 'おみくじの内容を作成します',
+    icon: 'Package',
+  },
+  actions: {
     label: 'アクションセット',
     description: 'BOTのコメント・WordPartyの指定のプリセットを作成します',
     icon: 'Zap',
@@ -43,7 +49,7 @@ export const categoryMap: Record<CategoryType, { label: string; description: str
     description: 'BOTメッセージのキャラクターや吹き出し・トーストの色を設定します',
     icon: 'Users',
   },
-  components: {
+  ui: {
     label: 'アイテム',
     description: 'ジェネレーターで表示できる、アイテムの設定を行います',
     icon: 'LayoutGrid',
@@ -52,10 +58,5 @@ export const categoryMap: Record<CategoryType, { label: string; description: str
     label: 'アプリ情報',
     description: 'ライセンスや使用できる機能を確認できます',
     icon: 'Info',
-  },
-  dataPacks: {
-    label: 'データパック(Beta)',
-    description: 'テンプレートデータを外部サーバから読み込みます',
-    icon: 'Package',
   },
 }

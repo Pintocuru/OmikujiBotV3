@@ -34,19 +34,6 @@
         設定を出力(js)
       </button>
     </div>
-
-    <!-- Pro テンプレートを出力(json) -->
-    <template v-if="isPro">
-      <button
-        @click="exportFile('template')"
-        class="btn btn-success tooltip tooltip-top truncate"
-        data-tip="テンプレート(JSONファイル)を出力します"
-        :disabled="isExporting"
-      >
-        <span v-if="isExporting" class="loading loading-spinner loading-sm mr-2"></span>
-        テンプレート出力(json)
-      </button>
-    </template>
   </div>
 </template>
 
@@ -55,7 +42,6 @@
   import { useConfigExport } from './useConfigExport'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { Save } from 'lucide-vue-next'
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
@@ -69,12 +55,11 @@
   const { saveFileName } = storeToRefs(devStore)
 
   // コンポーザブル
-  const { isPro } = useSettingMode()
   const { isExporting, exportFile } = useConfigExport()
 
   const handleOpenLocalOmikujiData = () => {
     omikujiStore.openLocalOmikujiData()
-    navigationStore.selectCategory(data.value.settings.initialCategory)
+    navigationStore.selectCategory(data.value.settings.editor.initialCategory)
     swalToast.success({ title: '読み込み完了', text: 'omikujiData.js を読み込みました。' })
   }
 </script>

@@ -80,8 +80,8 @@
   import { useModalState } from './useModalState.js'
   import { useCharacterUpdater } from './useCharacterUpdater.js'
   import { useCharacterManager } from '@/editor/scripts/CharacterManager/useCharacterManager'
-  import ModalFooterActions from '@/editor/components/parts/ModalFooterActions.vue'
-  import { useVisibilityAccess } from '@/editor/scripts/useAccessCheckerConfig'
+  import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
+  import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { Users } from 'lucide-vue-next'
 
   const props = defineProps<{

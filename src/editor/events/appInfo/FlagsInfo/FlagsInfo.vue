@@ -74,7 +74,7 @@
   import { categoryMap, uiKindMap, gameMetaMap, UiKind } from '@/types'
   import FeatureCard from './FeatureCard.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import type { AccessLevelType } from '@shared/types'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
 

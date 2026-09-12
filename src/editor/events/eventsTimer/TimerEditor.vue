@@ -6,9 +6,6 @@
     <IconKeyChanger category="timers" />
   </div>
 
-  <!-- タブ部分 -->
-  <RecordTabs />
-
   <!-- イベント編集エリア -->
   <template v-if="selectedItem">
     <!-- 基本設定セクション -->
@@ -60,20 +57,21 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { TimerEventType } from '@/types/OmikujiData/'
-  import GlobalCharacterChanger from '../events/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@/editor/components/events/IconKeyChanger/IconKeyChanger.vue'
-  import TimerIntervalEditor from './TimerIntervalEditor.vue'
-  import OmikujiSetEditor from '@/editor/components/events/OmikujiSetEditor.vue'
-  import RecordTabs from '@/editor/components/RecordTabs/RecordTabs.vue'
-  import BaseSettingsEditor from '@/editor/components/common/BaseSettingsEditor.vue'
-  import InformationCard from '@shared/components/parts/InformationCard.vue'
-  import SectionCard from '@shared/components/parts/SectionCard.vue'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { storeToRefs } from 'pinia'
+  import { TimerEventType } from '@/types/OmikujiData/'
+  import { staticSectionMap } from '@/editor/maps/category/StaticSectionMap'
+
+  import TimerIntervalEditor from './TimerIntervalEditor.vue'
+
+  import GlobalCharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
+  import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
+  import OmikujiSetEditor from '@/editor/helpers/OmikujiSetEditor/OmikujiSetEditor.vue'
+  import BaseSettingsEditor from '@/editor/common/BaseSettings/BaseSettingsEditor.vue'
+  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
-  import { staticSectionMap } from '../appItems/navigation/StaticSectionMap'
+  import { useGetEventData } from '@/editor/stores/useGetEventData.js'
 
   // アクティブなセクションの管理
   type SectionType = 'baseSettings' | 'timerInterval' | 'omikujiSet' | null
@@ -88,16 +86,16 @@
   const s = (key: string) => staticSectionMap.timers.find((i) => i.section === key)
 
   // Pinia store
-  const { updateItem } = useOmikujiStore()
-  const { getItem } = useGetRecordData()
+  const { updateEvent } = useOmikujiStore()
+  const { getEvent } = useGetEventData()
 
   const selectedItem = computed({
     get: () => {
       if (!selectedItemKey.value) return null
-      return getItem('timers', selectedItemKey.value)
+      return getEvent('timers', selectedItemKey.value)
     },
     set: (value: TimerEventType) => {
-      updateItem('timers', value.key, value)
+      updateEvent('timers', value.key, value)
     },
   })
 </script>

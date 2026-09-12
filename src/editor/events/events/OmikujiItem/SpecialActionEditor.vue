@@ -100,10 +100,10 @@
     actionSpecialMap,
     LOG_FORMAT_DEFAULT,
   } from '@/types'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
-  import InformationCard from '@shared/components/parts/InformationCard.vue'
+
+  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
 
   const props = defineProps<{
     index: number

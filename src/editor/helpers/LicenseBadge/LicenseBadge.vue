@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
 
   const { isAdv, isPro, isGod } = useSettingMode()
 

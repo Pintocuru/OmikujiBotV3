@@ -3,7 +3,6 @@
   <div class="flex-1">
     <input ref="fileInputRef" type="file" accept=".json" @change="handleFileSelection" class="hidden" />
     <button
-      v-if="isPro"
       @click="fileInputRef?.click()"
       class="btn btn-success tooltip tooltip-top truncate"
       data-tip="ダウンロード、またはテンプレート出力したjsonファイルを読み込みます"
@@ -21,11 +20,9 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useImportManager } from './composables/useImportManager'
-  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
   import ConfigImportModal from '@/editor/helpers/presetsImport/ConfigImportModal.vue'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 
-  const { isPro } = useSettingMode()
   const importManager = useImportManager()
   const fileInputRef = ref<HTMLInputElement | null>(null)
 

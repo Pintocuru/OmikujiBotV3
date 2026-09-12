@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
   import { useFlagsSettings } from './useFlagsSettings'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import { AccessLevelLabels } from '@shared/types'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
   import { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'

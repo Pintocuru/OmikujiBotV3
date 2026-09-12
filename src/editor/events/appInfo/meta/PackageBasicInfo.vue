@@ -37,7 +37,7 @@
   import { computed } from 'vue'
   import { RefreshCw } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import { storeToRefs } from 'pinia'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { generateId } from '@/types'

@@ -24,7 +24,7 @@
   import { CharacterColorType } from '@/types/OmikujiData/'
   import DaisyUiThemeEditor from './DaisyUiThemeEditor.vue'
   import LegacyColorPicker from './LegacyColorPicker.vue'
-  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast.js'
 
   const props = defineProps<{

@@ -1,13 +1,11 @@
 // src/PresetManager/stores/useApiFileActions.ts
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-import { DevConfigStateType } from '@/PresetManager/devTypes'
+import { DevConfigStateType } from '@/PresetManager/types'
 import { configApi } from '@/PresetManager/services/configApi'
 import { ensureJsonExtension, toFileItem } from '../services/apiServiceUtils'
+import { AsyncActionHandler } from './useApiCore'
 
-export function useFileActions(
-  state: DevConfigStateType,
-  handleAsyncAction: (action: () => Promise<any>, loadingKey: keyof DevConfigStateType) => Promise<any>
-) {
+export function useFileActions(state: DevConfigStateType, handleAsyncAction: AsyncActionHandler) {
   // ファイル一覧取得
   const fetchFileList = async () => {
     return await handleAsyncAction(async () => {

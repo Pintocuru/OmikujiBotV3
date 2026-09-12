@@ -7,26 +7,23 @@
       ユーザーのギフト有無やチャット数などを基にイベント発動を制御します。
     </p>
     <p>条件が複数ある場合は、すべて満たしたときのみ発動します。(ANDのみ対応)</p>
-    <p class="text-xs opacity-70">
-      ※ 初見判定ちゃん・チャット数は v2 以降非推奨となりました。代わりに「追加発動条件」で設定できます。
-    </p>
   </InformationCard>
 
   <!-- 条件タイプ選択 -->
   <SettingItem label="適用する発動条件" description="トリガーの種類を選択">
     <div class="flex flex-wrap gap-2">
-      <label v-for="condition in conditionTypes" :key="condition.value" class="cursor-pointer">
+      <label v-for="condition in commentTriggerCondition" :key="condition" class="cursor-pointer">
         <input
           type="checkbox"
           class="hidden"
-          :checked="conditions.includes(condition.value)"
-          @change="toggleCondition(condition.value)"
+          :checked="conditions.includes(condition)"
+          @change="toggleCondition(condition)"
         />
         <span
           class="badge badge-lg select-none"
-          :class="conditions.includes(condition.value) ? 'badge-primary' : 'badge-ghost'"
+          :class="conditions.includes(condition) ? 'badge-primary' : 'badge-ghost'"
         >
-          {{ condition.label }}
+          {{ triggerConditionMap[condition].label }}
         </span>
       </label>
     </div>
@@ -34,22 +31,16 @@
 
   <!-- 各条件の詳細設定 -->
   <!-- チャットワード条件 -->
-  <ThresholdComment v-if="conditions.includes('comment')" v-model="comment" />
+  <TriggerComment v-if="conditions.includes('comment')" v-model="comment" />
 
   <!-- アクセスレベル条件 -->
   <TriggerAccess v-if="conditions.includes('access')" v-model="access" />
 
   <!-- ギフト条件 -->
-  <ThresholdGift v-if="conditions.includes('gift')" v-model="gift" />
+  <TriggerGift v-if="conditions.includes('gift')" v-model="gift" />
 
   <!-- ユーザーネーム条件 -->
-  <ThresholdUsername v-if="conditions.includes('username')" v-model="userName" />
-
-  <!-- 初見条件 -->
-  <ThresholdSyoken v-if="syoken && conditions.includes('syoken')" v-model="syoken" />
-
-  <!-- カウント条件 -->
-  <TriggerCount v-if="count && conditions.includes('count')" v-model="count" />
+  <TriggerUsername v-if="conditions.includes('username')" v-model="userName" />
 
   <!-- 条件未記入ですべてのコメントで適用 -->
   <NoParamsCard v-if="conditions.length === 0" message="すべてのコメントで適用されます" />
@@ -57,25 +48,18 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { CommentTriggerCondition, commentTriggerCondition, CommentTriggerType } from '@/types/OmikujiData'
+  import { triggerConditionMap } from '@/maps/trigger/TriggerConditionMap'
+
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import TriggerComment from '@/editor/events/trigger/TriggerComment.vue'
+  import TriggerAccess from '@/editor/events/trigger/TriggerAccess.vue'
+  import TriggerGift from '@/editor/events/trigger/TriggerGift.vue'
+  import TriggerUsername from '@/editor/events/trigger/TriggerUsername.vue'
 
-  import ThresholdComment from '@shared/components/threshold/ThresholdComment.vue'
-  import ThresholdGift from '@shared/components/threshold/ThresholdGift.vue'
-  import ThresholdUsername from '@shared/components/threshold/ThresholdUsername.vue'
-
-  import TriggerAccess from '@shared/components/trigger/TriggerAccess.vue'
-  import ThresholdSyoken from '@shared/components/threshold/ThresholdSyoken.vue'
-  import TriggerCount from '@shared/components/trigger/TriggerCount.vue'
-
-  import InformationCard from '@shared/components/parts/InformationCard.vue'
-  import {
-    commentTriggerCondition,
-    CommentTriggerCondition,
-    commentTriggerConditionMap,
-    CommentTriggerType,
-  } from '@/types'
-  import NoParamsCard from '@shared/components/parts/NoParamsCard.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
+  import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
 
   const props = defineProps<{
     modelValue: CommentTriggerType
@@ -83,7 +67,7 @@
   }>()
 
   // Pinia store
-  const { updateRecordProperty } = useOmikujiStore()
+  const { updateEventProperty } = useOmikujiStore()
 
   // 各プロパティのcomputed getter/setter
   const createComputed = <T extends keyof CommentTriggerType>(key: T) =>
@@ -92,7 +76,7 @@
       set: (value) => {
         if (!props.selectedItemKey) return
         const updated = { ...props.modelValue, [key]: value }
-        updateRecordProperty('comments', props.selectedItemKey, 'trigger', updated)
+        updateEventProperty('comments', props.selectedItemKey, 'trigger', updated)
       },
     })
 
@@ -102,39 +86,6 @@
   const access = createComputed('access')
   const gift = createComputed('gift')
   const userName = createComputed('userName')
-  const syoken = createComputed('syoken')
-  const count = createComputed('count')
-
-  // 条件タイプの選択肢
-  const baseConditionTypes = commentTriggerCondition
-    .filter((key) => key !== 'syoken' && key !== 'count')
-    .map((key) => ({
-      value: key,
-      label: commentTriggerConditionMap[key].label,
-      description: commentTriggerConditionMap[key].description,
-    }))
-
-  const deprecatedConditions = ['syoken', 'count'] as const
-
-  type ConditionOption = {
-    value: CommentTriggerCondition
-    label: string
-  }
-
-  const conditionTypes = computed<ConditionOption[]>(() => {
-    const list: ConditionOption[] = [...baseConditionTypes]
-
-    for (const key of deprecatedConditions) {
-      if (props.modelValue[key] !== undefined) {
-        list.push({
-          value: key,
-          label: commentTriggerConditionMap[key].label,
-        })
-      }
-    }
-
-    return list
-  })
 
   // Utils
   const toggleInArray = <T,>(array: T[], value: T): T[] => {

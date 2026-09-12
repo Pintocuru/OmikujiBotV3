@@ -66,19 +66,19 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { ReactionEventType } from '@/types/OmikujiData/'
-  import GlobalCharacterChanger from '../events/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@/editor/components/events/IconKeyChanger/IconKeyChanger.vue'
+  import GlobalCharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
+  import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
   import ReactionTriggerEditor from './ReactionTriggerEditor.vue'
-  import OmikujiSetEditor from '@/editor/components/events/OmikujiSetEditor.vue'
-  import RecordTabs from '@/editor/components/RecordTabs/RecordTabs.vue'
-  import BaseSettingsEditor from '@/editor/components/common/BaseSettingsEditor.vue'
-  import InformationCard from '@shared/components/parts/InformationCard.vue'
-  import SectionCard from '@shared/components/parts/SectionCard.vue'
+  import OmikujiSetEditor from '@/editor/helpers/OmikujiSetEditor/OmikujiSetEditor.vue'
+
+  import BaseSettingsEditor from '@/editor/common/BaseSettings/BaseSettingsEditor.vue'
+  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { storeToRefs } from 'pinia'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
-  import { staticSectionMap } from '../appItems/navigation/StaticSectionMap'
+
+  import { staticSectionMap } from '@/editor/maps/category/StaticSectionMap'
 
   const s = (key: string) => staticSectionMap.reactions.find((i) => i.section === key)
 

@@ -69,7 +69,7 @@
   import { PostFlowType } from '@/types'
   import { usePlaceholders } from './composables/usePlaceholders'
   import PlaceholderItem from './PlaceholderItem.vue'
-  import NoParamsCard from '@shared/components/parts/NoParamsCard.vue'
+  import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
 
   // Props
   const props = defineProps<{

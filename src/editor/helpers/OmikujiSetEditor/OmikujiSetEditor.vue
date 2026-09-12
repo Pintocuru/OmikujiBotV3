@@ -60,21 +60,21 @@
   import { computed, ref, watch } from 'vue'
   import { OmikujiItemSchema, OmikujiItemType, EventCategoryType } from '@/types/OmikujiData/'
   import OmikujiWeightProgressBar from './OmikujiCard/OmikujiWeightProgressBar.vue'
-  import CharacterChanger from '@/editor/components/events/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@/editor/components/events/IconKeyChanger/IconKeyChanger.vue'
-  import OmikujiItemEditor from '@/editor/components/events/OmikujiItem/OmikujiItemEditor.vue'
+  import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
+  import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
+  import OmikujiItemEditor from '@/editor/events/OmikujiItem/OmikujiItemEditor.vue'
   import { useTestPost } from '@/editor/scripts/useTestPost'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+
   import { Dices, Plus } from 'lucide-vue-next'
-  import { getColorForIndex, updateItemWeight } from './OmikujiCard/useOmikujiWeight.js'
+  import { getColorForIndex, updateItemWeight } from '../../events/events/OmikujiCard/useOmikujiWeight.js'
 
   const props = defineProps<{
     category: EventCategoryType
     selectedItemKey: string | null
   }>()
 
-  const { updateRecordProperty } = useOmikujiStore()
+  const { updateEventProperty } = useOmikujiStore()
   const { getItem } = useGetRecordData()
   const { postTestOmikuji } = useTestPost()
 
@@ -90,7 +90,7 @@
     },
     set: (value: OmikujiItemType[]) => {
       if (!props.selectedItemKey) return
-      updateRecordProperty(props.category, props.selectedItemKey, 'omikuji', value)
+      updateEventProperty(props.category, props.selectedItemKey, 'omikuji', value)
     },
   })
 

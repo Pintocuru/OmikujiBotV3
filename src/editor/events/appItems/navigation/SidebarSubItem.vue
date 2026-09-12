@@ -41,7 +41,7 @@
   import { CategoryType } from '@/types'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useSidebarContext } from './useSidebarContext'
-  import { SidebarSectionItem } from './StaticSectionMap'
+  import { SidebarSectionItem } from '@/editor/maps/category/StaticSectionMap'
   import SidebarSectionList from './SidebarSectionList.vue'
 
   defineProps<{

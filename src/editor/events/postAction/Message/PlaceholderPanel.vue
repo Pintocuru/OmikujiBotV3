@@ -143,7 +143,7 @@
 
 <script setup lang="ts">
   import { Plus, ChevronRight, CornerDownLeft, Trash2, Braces, Lock } from 'lucide-vue-next'
-  import { useVisibilityAccess } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { usePlaceholderEditor } from './usePlaceholderEditor'
   import { toRef } from 'vue'
   import { handelNormalizedValues } from '@/types'

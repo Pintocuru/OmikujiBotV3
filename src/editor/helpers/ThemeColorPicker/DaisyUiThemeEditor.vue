@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import RandomThemeButton from './RandomThemeButton.vue'
   import {
     daisyUIColor,
@@ -81,7 +81,7 @@
     type DaisyUiThemeFieldsType,
     type DaisyUiThemePresetType,
   } from '@shared/styles/DaisyUiTheme'
-  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
 
   const props = defineProps<{
     modelValue: DaisyUiThemeFieldsType

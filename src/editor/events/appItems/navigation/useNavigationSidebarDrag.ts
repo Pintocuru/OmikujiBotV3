@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import { CategoryType, RecordCategoryType } from '@/types/OmikujiData/'
 import { BaseRecordType } from '@shared/types'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
 export type DraggableSubItem = {

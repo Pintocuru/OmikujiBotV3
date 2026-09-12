@@ -96,7 +96,7 @@
   import { storeToRefs } from 'pinia'
   import { SettingsSchema, SoundKeyType, soundMap } from '@/types'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SettingItem from '@/editor/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import type { SettingsType } from '@/types/OmikujiData/SettingsSchema'
   import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
   import MessageTextEditor from '@/editor/components/postAction/Message/MessageTextEditor.vue'

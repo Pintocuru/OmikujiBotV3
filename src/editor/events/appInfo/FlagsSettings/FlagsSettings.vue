@@ -23,7 +23,7 @@
   import FlagsUsage from './FlagsUsageSettings.vue'
   import FlagsGames from './FlagsGamesSettings.vue'
   import FlagsDeveloper from './FlagsDeveloperSettings.vue'
-  import { useSettingMode } from '@/editor/scripts/useAccessCheckerConfig'
+  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
   const { updateFlags } = useOmikujiStore()
