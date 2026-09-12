@@ -1,4 +1,4 @@
-<!-- shared/components/parts/MenuDropdown.vue -->
+<!-- src/editor/parts/MenuDropdown/MenuDropdown.vue -->
 <template>
   <div class="dropdown dropdown-end">
     <label tabindex="0" class="btn btn-ghost btn-sm">

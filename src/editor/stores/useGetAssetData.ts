@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/composables/useGetAssetData.ts
+// src/editor/stores/useGetAssetData.ts
 import { storeToRefs } from 'pinia'
 import type { AssetCategoryType, AssetCategoryDataMap } from '@/types/OmikujiData/assets'
 import { useOmikujiStore } from './useOmikujiStore'

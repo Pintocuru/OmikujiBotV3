@@ -1,4 +1,4 @@
-// src/PresetManager/devTypes.ts
+// src/PresetManager/types/index.ts
 import { Ref } from 'vue'
 
 /**

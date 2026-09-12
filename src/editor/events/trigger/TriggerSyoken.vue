@@ -1,4 +1,4 @@
-<!-- shared/components/threshold/ThresholdSyoken.vue -->
+<!-- src/editor/events/trigger/TriggerSyoken.vue -->
 <template>
   <SettingItem label="初見判定ちゃん" description="初見ユーザー、または配信枠の1コメを判定">
     <div class="flex flex-wrap gap-2">

@@ -1,4 +1,4 @@
-<!-- shared/components/trigger/TriggerAccess.vue -->
+<!-- src/editor/events/trigger/TriggerAccess.vue -->
 <template>
   <SettingItem label="ユーザーの役職" description="メンバー限定の発動条件はここです!">
     <div class="flex flex-wrap gap-2">

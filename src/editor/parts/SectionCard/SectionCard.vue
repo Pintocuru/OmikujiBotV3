@@ -1,4 +1,4 @@
-<!-- shared/components/parts/SectionCard.vue -->
+<!-- src/editor/parts/SectionCard/SectionCard.vue -->
 <template>
   <div class="collapse collapse-arrow transition-all bg-base-200">
     <!-- 親から制御される開閉状態 -->

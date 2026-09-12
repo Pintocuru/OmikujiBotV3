@@ -1,4 +1,4 @@
-// src/types/index.ts
+// src/editor/types/index.ts
 
 // export * from './events'
 export * from './helpers'

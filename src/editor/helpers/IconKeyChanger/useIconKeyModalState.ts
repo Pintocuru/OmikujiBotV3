@@ -1,4 +1,4 @@
-// src/editor/events/events/IconKeyChanger/useIconKeyModalState.ts
+// src/editor/helpers/IconKeyChanger/useIconKeyModalState.ts
 import { ref, computed } from 'vue'
 
 /**

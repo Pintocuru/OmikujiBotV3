@@ -1,4 +1,4 @@
-<!-- shared/components/parts/InformationCard.vue -->
+<!-- src/editor/parts/InformationCard/InformationCard.vue -->
 <template>
   <div class="alert w-full" :class="headerClass">
     <component :is="resolvedIcon" class="w-6 h-6" />

@@ -1,4 +1,4 @@
-<!-- shared/components/parts/SettingItem.vue -->
+<!-- src/editor/parts/SettingItem/SettingItem.vue -->
 <template>
   <div
     class="flex items-center gap-4 px-4 py-2 rounded-md shadow-lg bg-base-300 text-base-content"

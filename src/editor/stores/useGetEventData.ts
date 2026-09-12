@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/composables/useGetEventData.ts
+// src/editor/stores/useGetEventData.ts
 import { storeToRefs } from 'pinia'
 import type { EventCategoryType, EventCategoryDataMap } from '@/types/OmikujiData'
 import { useOmikujiStore } from './useOmikujiStore'

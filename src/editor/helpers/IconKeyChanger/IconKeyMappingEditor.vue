@@ -1,4 +1,4 @@
-<!-- src/editor/events/events/IconKeyChanger/IconKeyMappingEditor.vue -->
+<!-- src/editor/helpers/IconKeyChanger/IconKeyMappingEditor.vue -->
 <template>
   <div class="space-y-3">
     <div class="flex items-center justify-between">

@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/composables/useAssetProperties.ts
+// src/editor/stores/composables/useAssetProperties.ts
 import { Ref } from 'vue'
 import {
   OmikujiDataType,

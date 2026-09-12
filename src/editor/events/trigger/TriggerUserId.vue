@@ -1,4 +1,4 @@
-<!-- shared/components/threshold/ThresholdUserId.vue -->
+<!-- src/editor/events/trigger/TriggerUserId.vue -->
 <template>
   <SettingItem
     label="適用するユーザーID"

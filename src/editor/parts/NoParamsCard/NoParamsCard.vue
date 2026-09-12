@@ -1,4 +1,4 @@
-<!-- shared/components/parts/NoParamsCard.vue -->
+<!-- src/editor/parts/NoParamsCard/NoParamsCard.vue -->
 <template>
   <div class="card bg-base-200 p-4 flex flex-col items-center justify-center space-y-2">
     <component :is="icon" class="w-8 h-8 text-base-content/60" />

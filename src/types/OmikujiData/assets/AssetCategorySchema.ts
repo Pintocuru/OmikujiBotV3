@@ -1,4 +1,4 @@
-//
+// src/types/OmikujiData/assets/AssetCategorySchema.ts
 import { z } from 'zod'
 import { normalizedRecord } from '../ParsedDefault'
 import { ActionSetSchema } from './ActionSet'

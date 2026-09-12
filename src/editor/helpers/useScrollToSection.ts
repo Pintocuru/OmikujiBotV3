@@ -1,4 +1,4 @@
-// src/ConfigMaker/scripts/useScrollToSection.ts
+// src/editor/helpers/useScrollToSection.ts
 import { watch, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'

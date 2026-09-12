@@ -1,4 +1,4 @@
-<!-- src/editor/events/events/CharacterChanger/CharacterChanger.vue -->
+<!-- src/editor/helpers/CharacterChanger/CharacterChanger.vue -->
 <template>
   <!-- トリガーボタン -->
   <div

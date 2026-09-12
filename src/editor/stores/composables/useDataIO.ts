@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/composables/useDataIO.ts
+// src/editor/stores/composables/useDataIO.ts
 import { Ref } from 'vue'
 import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
 import { DataSource } from '@/editor/types'

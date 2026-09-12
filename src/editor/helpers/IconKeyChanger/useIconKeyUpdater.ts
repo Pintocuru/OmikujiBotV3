@@ -1,4 +1,4 @@
-// src/editor/events/events/IconKeyChanger/useIconKeyUpdater.ts
+// src/editor/helpers/IconKeyChanger/useIconKeyUpdater.ts
 import { ComputedRef } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { EventType, ActionSetType, OmikujiItemType } from '@/types/OmikujiData/'

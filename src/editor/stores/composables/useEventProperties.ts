@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/composables/useEventProperties.ts
+// src/editor/stores/composables/useEventProperties.ts
 import { Ref } from 'vue'
 import {
   OmikujiDataType,

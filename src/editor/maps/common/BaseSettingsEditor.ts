@@ -1,4 +1,4 @@
-//
+// src/editor/maps/common/BaseSettingsEditor.ts
 
 export const baseSettingsMessages = {
   ja: {

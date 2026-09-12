@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/composables/useEventCRUD.ts
+// src/editor/stores/composables/useEventCRUD.ts
 import type { Ref } from 'vue'
 import { EventCategorySchemaMap, EventCategoryType, EventCategoryDataMap, OmikujiDataType } from '@/types/OmikujiData'
 

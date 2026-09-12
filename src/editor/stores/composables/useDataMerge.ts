@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/composables/useDataMerge.ts
+// src/editor/stores/composables/useDataMerge.ts
 import { Ref } from 'vue'
 import {
   assetCategory,

@@ -1,4 +1,4 @@
-// src/common/MockUser/MockUserMaps.ts
+// src/editor/tools/MockUser/MockUserMaps.ts
 
 /** YouTuber 風のサフィックス */
 export const NAME_SUFFIXES = [

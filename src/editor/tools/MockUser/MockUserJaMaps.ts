@@ -1,4 +1,4 @@
-// src/common/MockUser/MockUserJaMaps.ts
+// src/editor/tools/MockUser/MockUserJaMaps.ts
 
 /**
  * ランダムな名前

@@ -1,4 +1,4 @@
-// src/editor/helpers/presetsImport/ImportTypes.ts
+// src/editor/types/helpers/presetsImportType.ts
 import { UiKind } from '@/types'
 import { RecordCategoryType } from '@/types/OmikujiData/'
 

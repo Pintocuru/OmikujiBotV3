@@ -1,4 +1,4 @@
-// src/editor/events/events/CharacterChanger/useDataExtractor.ts
+// src/editor/helpers/CharacterChanger/useDataExtractor.ts
 import { computed, ComputedRef } from 'vue'
 import { EventCategoryType, EventType, ActionSetType, PostFlowType, OmikujiItemType } from '@/types/OmikujiData/'
 import { categoryMap } from '@/types'

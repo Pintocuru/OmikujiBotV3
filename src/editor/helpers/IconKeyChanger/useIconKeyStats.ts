@@ -1,4 +1,4 @@
-// src/editor/events/events/IconKeyChanger/useIconKeyStats.ts
+// src/editor/helpers/IconKeyChanger/useIconKeyStats.ts
 import { computed, ComputedRef } from 'vue'
 import { ActionSetType } from '@/types/OmikujiData/'
 import { usePostActionCharacters } from '../CharacterChanger/usePostActionCharacters'

@@ -1,4 +1,4 @@
-//
+// src/editor/i18n.ts
 import { createI18n } from 'vue-i18n'
 import { baseSettingsMessages } from '@/editor/maps/common/BaseSettingsEditor'
 

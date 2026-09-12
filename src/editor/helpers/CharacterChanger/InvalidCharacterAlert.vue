@@ -1,4 +1,4 @@
-<!-- src/editor/events/events/CharacterChanger/InvalidCharacterAlert.vue -->
+<!-- src/editor/helpers/CharacterChanger/InvalidCharacterAlert.vue -->
 <template>
   <div class="alert alert-error">
     <AlertTriangle class="w-4 h-4" />

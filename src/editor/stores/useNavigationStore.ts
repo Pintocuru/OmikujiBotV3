@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/useNavigationStore.ts
+// src/editor/stores/useNavigationStore.ts
 import { ref, watch, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { CategoryType, RecordCategoryType, recordCategoryLabel } from '@/types/OmikujiData/'

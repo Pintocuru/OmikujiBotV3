@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/composables/useDataMergeHelpers.ts
+// src/editor/stores/composables/useDataMergeHelpers.ts
 import { EventCategoryDataMap, EventCategoryType, AssetCategoryDataMap, RecordCategoryType } from '@/types/OmikujiData/'
 import { ImportMode } from '@/editor/types/helpers/presetsImportType'
 import { AccessLevelType } from '@shared/types'

@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/composables/useAssetCRUD.ts
+// src/editor/stores/composables/useAssetCRUD.ts
 import type { Ref } from 'vue'
 import { AssetCategorySchemaMap, AssetCategoryType, AssetCategoryDataMap, OmikujiDataType } from '@/types/OmikujiData'
 

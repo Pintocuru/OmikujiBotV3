@@ -1,4 +1,4 @@
-<!-- shared/components/threshold/ThresholdService.vue -->
+<!-- src/editor/events/trigger/TriggerService.vue -->
 <template>
   <SettingItem label="サービス・配信サイト" description="特定の配信サイトからのコメントのみに絞り込めます">
     <div class="space-y-3">

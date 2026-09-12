@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/composables/useSettingsOperations.ts
+// src/editor/stores/composables/useSettingsOperations.ts
 import { Ref } from 'vue'
 import { OmikujiDataType } from '@/types/OmikujiData/OmikujiDataSchema'
 import { JsonMergeType } from '@/types/OmikujiData/JsonMergeType'

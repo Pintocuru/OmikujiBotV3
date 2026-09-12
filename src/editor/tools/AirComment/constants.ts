@@ -1,4 +1,4 @@
-// src/common/AirComment/constants.ts
+// src/editor/tools/AirComment/constants.ts
 import { generateDummyVisitRecords } from '@/common/MockUser/MockGenerators'
 
 export const COMMENTS = [

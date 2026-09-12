@@ -1,4 +1,4 @@
-// src/ConfigMaker/stores/useOmikujiStore
+// src/editor/stores/useOmikujiStore.ts
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData/'

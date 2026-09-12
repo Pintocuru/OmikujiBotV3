@@ -1,4 +1,4 @@
-// src/editor/events/appItems/navigation/StaticSectionMap.ts
+// src/editor/maps/category/StaticSectionMap.ts
 import { CategoryType } from '@/types'
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 

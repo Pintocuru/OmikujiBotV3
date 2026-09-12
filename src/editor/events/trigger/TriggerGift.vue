@@ -1,4 +1,4 @@
-<!-- shared/components/threshold/ThresholdGift.vue -->
+<!-- src/editor/events/trigger/TriggerGift.vue -->
 <template>
   <SettingItem label="ギフト条件" description="金額や種類で発動を変更できます">
     <div class="flex flex-wrap gap-2">

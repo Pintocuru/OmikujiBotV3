@@ -1,4 +1,4 @@
-<!-- shared/components/threshold/ThresholdComment.vue -->
+<!-- src/editor/events/trigger/TriggerComment.vue -->
 <template>
   <SettingItem label="適用するチャットワード" description="正規表現対応。改行で複数指定できます">
     <textarea

@@ -1,4 +1,4 @@
-// src/editor/events/events/CharacterChanger/useCharacterStats.ts
+// src/editor/helpers/CharacterChanger/useCharacterStats.ts
 import { computed, ComputedRef } from 'vue'
 import { ActionSetType } from '@/types/OmikujiData/'
 import { useCharacterManager } from '@/editor/scripts/CharacterManager/useCharacterManager'

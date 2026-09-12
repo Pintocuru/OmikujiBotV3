@@ -1,4 +1,4 @@
-<!-- shared/components/trigger/TriggerCount.vue -->
+<!-- src/editor/events/trigger/TriggerCount.vue -->
 <template>
   <SettingItem label="おみくじ履歴・チャット数" description="このおみくじ履歴や、チャット数で判定">
     <!-- 対象の値 -->

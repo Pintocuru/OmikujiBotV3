@@ -1,4 +1,4 @@
-<!-- shared/components/threshold/ThresholdUsername.vue -->
+<!-- src/editor/events/trigger/TriggerUsername.vue -->
 <template>
   <SettingItem label="適用するユーザー名" description="先頭に「!」で除外指定します。改行で複数指定。">
     <textarea

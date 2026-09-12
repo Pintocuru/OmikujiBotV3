@@ -1,4 +1,4 @@
-//
+// src/types/OmikujiData/events/EventCategorySchema.ts
 import { z } from 'zod'
 import { normalizedArray } from '../ParsedDefault'
 import { CommentEventSchema, ReactionEventSchema, ServiceEventSchema, TimerEventSchema } from './EventSchema'
