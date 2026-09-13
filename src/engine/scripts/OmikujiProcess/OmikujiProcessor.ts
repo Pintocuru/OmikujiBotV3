@@ -5,24 +5,24 @@ import {
   DefaultPlaceholdersCommentSchema,
   DefaultPlaceholdersMetaSchema,
   EventCategoryType,
-} from "@/types";
-import { BotMessageType } from "@/types/MainGenerator/BotMessageSchema";
-import { OmikujiResultProcessor } from "@/generator/scripts/OmikujiResult/OmikujiResultProcessor";
-import { useAppStore } from "@/generator/stores/useAppStore";
-import { OmikenCommentType, ServiceMetaCondition } from "@shared/types";
-import { postSystemMessage } from "@shared/sdk/post/PostOneComme";
-import { drawOmikuji } from "@shared/utils/omikuji/DrawOmikuji";
+} from '@/types'
+import { BotMessageType } from '@/types/MainGenerator/BotMessageSchema'
+import { OmikujiResultProcessor } from '@/generator/scripts/OmikujiResult/OmikujiResultProcessor'
+import { useAppStore } from '@/generator/stores/useAppStore'
+import { OmikenCommentType, ServiceMetaCondition } from '@shared/types'
+import { postSystemMessage } from '@shared/sdk/post/PostOneComme'
+import { drawOmikuji } from '@/common/omikuji/DrawOmikuji'
 
 export class OmikujiProcessor {
-  private readonly store = useAppStore();
-  private readonly omikujiResult: OmikujiResultProcessor;
+  private readonly store = useAppStore()
+  private readonly omikujiResult: OmikujiResultProcessor
 
   constructor() {
     this.omikujiResult = new OmikujiResultProcessor(
       this.store.data,
       this.store.scriptManager.playScript,
-      this.store.placeholderVariable,
-    );
+      this.store.placeholderVariable
+    )
   }
 
   /**
@@ -32,9 +32,9 @@ export class OmikujiProcessor {
     eventKey: string,
     omikujiSet: OmikujiSetType,
     category: EventCategoryType,
-    omiken?: OmikenCommentType,
+    omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
-    return this.runFlow(eventKey, omikujiSet, category, omiken, false);
+    return this.runFlow(eventKey, omikujiSet, category, omiken, false)
   }
 
   /**
@@ -44,9 +44,9 @@ export class OmikujiProcessor {
     eventKey: string,
     omikujiSet: OmikujiSetType,
     category: EventCategoryType,
-    omiken?: OmikenCommentType,
+    omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
-    return this.runFlow(eventKey, omikujiSet, category, omiken, true);
+    return this.runFlow(eventKey, omikujiSet, category, omiken, true)
   }
 
   /**
@@ -57,33 +57,19 @@ export class OmikujiProcessor {
     omikujiSet: OmikujiSetType,
     category: EventCategoryType,
     omiken?: OmikenCommentType,
-    isDummy: boolean = false,
+    isDummy: boolean = false
   ): Promise<BotMessageType[]> {
-    const actionItem = this.lotteryOmikujiItem(omikujiSet);
-    if (!actionItem || actionItem.type === "special") return [];
+    const actionItem = this.lotteryOmikujiItem(omikujiSet)
+    if (!actionItem || actionItem.type === 'special') return []
 
-    const defaultPlaceholders = this.getDefaultPlaceholders(omiken);
+    const defaultPlaceholders = this.getDefaultPlaceholders(omiken)
 
     // isDummyによって呼び出すメソッドを切り替える
     const messages = isDummy
-      ? await this.omikujiResult.processDummy(
-          actionItem,
-          defaultPlaceholders,
-          omiken,
-        )
-      : await this.omikujiResult.process(
-          actionItem,
-          defaultPlaceholders,
-          omiken,
-        );
+      ? await this.omikujiResult.processDummy(actionItem, defaultPlaceholders, omiken)
+      : await this.omikujiResult.process(actionItem, defaultPlaceholders, omiken)
 
-    return this.attachSource(
-      messages,
-      category,
-      eventKey,
-      actionItem.key,
-      omiken,
-    );
+    return this.attachSource(messages, category, eventKey, actionItem.key, omiken)
   }
 
   /**
@@ -93,13 +79,13 @@ export class OmikujiProcessor {
    */
   lotteryOmikujiItem(omikujiSet: OmikujiSetType): ActionSetType | null {
     try {
-      if (!omikujiSet.length) return null;
-      return (drawOmikuji(omikujiSet) as ActionSetType) ?? null;
+      if (!omikujiSet.length) return null
+      return (drawOmikuji(omikujiSet) as ActionSetType) ?? null
     } catch (error) {
-      const msg = `おみくじ実行エラー ${error}`;
-      console.error(msg);
-      postSystemMessage(msg);
-      return null;
+      const msg = `おみくじ実行エラー ${error}`
+      console.error(msg)
+      postSystemMessage(msg)
+      return null
     }
   }
 
@@ -107,22 +93,12 @@ export class OmikujiProcessor {
     eventKey: string,
     actionItem: ActionSetType,
     category: EventCategoryType,
-    omiken?: OmikenCommentType,
+    omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
-    if (actionItem.type === "special") return [];
-    const defaultPlaceholders = this.getDefaultPlaceholders(omiken);
-    const messages = await this.omikujiResult.process(
-      actionItem,
-      defaultPlaceholders,
-      omiken,
-    );
-    return this.attachSource(
-      messages,
-      category,
-      eventKey,
-      actionItem.key,
-      omiken,
-    );
+    if (actionItem.type === 'special') return []
+    const defaultPlaceholders = this.getDefaultPlaceholders(omiken)
+    const messages = await this.omikujiResult.process(actionItem, defaultPlaceholders, omiken)
+    return this.attachSource(messages, category, eventKey, actionItem.key, omiken)
   }
 
   /** source / origin を付与する共通処理 */
@@ -131,24 +107,22 @@ export class OmikujiProcessor {
     category: EventCategoryType,
     eventKey: string,
     omikujiKey: string,
-    omiken?: OmikenCommentType,
+    omiken?: OmikenCommentType
   ): BotMessageType[] {
     return messages.map((m) => ({
       ...m,
       source: { category, eventKey, omikujiKey },
       origin: omiken,
-    }));
+    }))
   }
 
   /**
    * comment用デフォルトのプレースホルダー情報を設定
    */
-  private getDefaultPlaceholders(
-    omiken?: OmikenCommentType,
-  ): Record<string, string | number> {
-    const basePlaceholders = this.getBasePlaceholders();
+  private getDefaultPlaceholders(omiken?: OmikenCommentType): Record<string, string | number> {
+    const basePlaceholders = this.getBasePlaceholders()
 
-    if (!omiken) return basePlaceholders;
+    if (!omiken) return basePlaceholders
 
     return DefaultPlaceholdersCommentSchema.parse({
       ...basePlaceholders,
@@ -158,32 +132,32 @@ export class OmikujiProcessor {
       lc: omiken.meta.lc,
       tc: omiken.meta.tc,
       draws: omiken.omikuji?.draws,
-    });
+    })
   }
 
   // 変数プレースホルダー用のuserId変換器
   private sanitizeKey(raw: string): string {
-    let h = 0;
+    let h = 0
     for (let i = 0; i < raw.length; i++) {
-      h = (h * 31 + raw.charCodeAt(i)) >>> 0;
+      h = (h * 31 + raw.charCodeAt(i)) >>> 0
     }
-    return `v${h.toString(36)}`;
+    return `v${h.toString(36)}`
   }
 
   /**
    * デフォルトのプレースホルダー情報を設定
    */
   private getBasePlaceholders(): Record<ServiceMetaCondition, string | number> {
-    const meta = this.store.serviceMetaStore.getCurrent();
-    const { userSession, streamStats } = this.store;
+    const meta = this.store.serviceMetaStore.getCurrent()
+    const { userSession, streamStats } = this.store
 
-    const uniqueCount = userSession.stats.getUniqueCount();
-    const { liveComments, syoken } = streamStats.getStats();
-    const { winners } = userSession.stats.drawWinners(1);
-    const firstWinner = winners[0];
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2, "0");
-    const m = String(now.getMinutes()).padStart(2, "0");
+    const uniqueCount = userSession.stats.getUniqueCount()
+    const { liveComments, syoken } = streamStats.getStats()
+    const { winners } = userSession.stats.drawWinners(1)
+    const firstWinner = winners[0]
+    const now = new Date()
+    const h = String(now.getHours()).padStart(2, '0')
+    const m = String(now.getMinutes()).padStart(2, '0')
 
     return DefaultPlaceholdersMetaSchema.parse({
       viewer: meta?.viewer ?? 0,
@@ -192,11 +166,9 @@ export class OmikujiProcessor {
       lc: liveComments,
       commenter: uniqueCount,
       syoken,
-      winner: firstWinner
-        ? `{{icon ${firstWinner.userId}}}${firstWinner.userName}`
-        : "Null",
-      winnerId: firstWinner ? this.sanitizeKey(firstWinner.userId) : "Null",
+      winner: firstWinner ? `{{icon ${firstWinner.userId}}}${firstWinner.userName}` : 'Null',
+      winnerId: firstWinner ? this.sanitizeKey(firstWinner.userId) : 'Null',
       clock: `${h}時${m}分`,
-    });
+    })
   }
 }

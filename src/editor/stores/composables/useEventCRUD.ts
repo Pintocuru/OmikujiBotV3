@@ -45,19 +45,11 @@ export function useEventCRUD(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
     hasChanged.value = true
   }
 
-  // Event取得
-  const getEvent = <C extends EventCategoryType>(category: C, id: string): EventCategoryDataMap[C] | undefined => {
-    return data.value.events[category].find((item) => item.id === id) as EventCategoryDataMap[C] | undefined
-  }
-
   // Event複製
   const duplicateEvent = <C extends EventCategoryType>(category: C, id: string): string | null => {
-    const event = getEvent(category, id)
+    const event = data.value.events[category].find((item) => item.id === id) as EventCategoryDataMap[C] | undefined
     if (!event) return null
-    const duplicatedEvent = {
-      ...event,
-      id: undefined,
-    }
+    const duplicatedEvent = { ...event, id: undefined }
     return addEvent(category, duplicatedEvent)
   }
 
@@ -65,7 +57,6 @@ export function useEventCRUD(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
     addEvent,
     updateEvent,
     removeEvent,
-    getEvent,
     duplicateEvent,
   }
 }

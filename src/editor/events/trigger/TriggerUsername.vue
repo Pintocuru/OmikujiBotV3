@@ -1,27 +1,27 @@
 <!-- src/editor/events/trigger/TriggerUsername.vue -->
 <template>
-  <SettingItem label="適用するユーザー名" description="先頭に「!」で除外指定します。改行で複数指定。">
+  <SettingItem :label="t('triggerUsername.label')" :description="t('triggerUsername.description')">
     <textarea
       v-model="textValue"
       @input="updateModelValue"
-      placeholder="例:
-!管理者名
-!テストユーザー"
+      :placeholder="t('triggerUsername.placeholder')"
       class="textarea textarea-bordered w-full min-h-30"
       rows="6"
     />
     <div class="text-sm text-gray-500 mt-2">
-      <p>• 正規表現でユーザー名をマッチングします</p>
-      <p>• 通常の指定: マッチしたユーザー名が条件対象となります</p>
-      <p>• ネガティブ指定(!付き): マッチしたユーザー名を条件から除外します</p>
+      <p>{{ t('triggerUsername.hints.regex') }}</p>
+      <p>{{ t('triggerUsername.hints.normal') }}</p>
+      <p>{{ t('triggerUsername.hints.negative') }}</p>
     </div>
   </SettingItem>
 </template>
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
-
+  import { useI18n } from 'vue-i18n'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     modelValue?: string[]

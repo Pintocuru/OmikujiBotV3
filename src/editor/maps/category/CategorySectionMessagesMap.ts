@@ -1,0 +1,41 @@
+// src/editor/maps/common/sections.ts
+export const categorySectionMessages = {
+  ja: {
+    categorySections: {
+      baseSettings: { label: '基本設定', description: '基本設定' },
+      trigger: { label: '発動条件', description: '「おみくじを引く」発動条件の設定' },
+      omikujiSet: { label: 'アクション設定', description: 'おみくじの抽選設定や、おみくじの内容です' },
+      threshold: { label: '発動条件', description: '「おみくじを引く」発動条件の設定' },
+      limits: { label: '制限設定', description: '重複時や回数超過時におみくじを無効にします' },
+      timerInterval: { label: 'タイマー設定', description: '発動する間隔やタイミングの設定' },
+      placeholder: { label: 'プレースホルダー設定', description: '抽選するプレースホルダーを編集します' },
+      colorSettings: { label: 'フキダシカラー設定', description: 'フキダシのカラー編集を行います' },
+      commentVoice: { label: 'BOTコメント表現設定', description: 'BOTコメントを読み上げる方法を指定します' },
+      imageSettings: { label: 'ジェネレーター用画像設定', description: 'ジェネレーターで表示する画像の設定' },
+      appSettings: { label: 'アプリ設定', description: '' },
+      appFeatures: { label: '利用可能な機能', description: '' },
+      packageBasic: { label: '基本情報', description: '' },
+      packageDistribution: { label: '配布情報', description: '' },
+      packageSystem: { label: 'システム情報', description: '' },
+    },
+  },
+  en: {
+    categorySections: {
+      baseSettings: { label: 'Basic Settings', description: 'Basic settings' },
+      trigger: { label: 'Trigger Conditions', description: 'Set trigger conditions for drawing omikuji' },
+      omikujiSet: { label: 'Action Settings', description: 'Omikuji lottery settings and contents' },
+      threshold: { label: 'Trigger Conditions', description: 'Set trigger conditions for drawing omikuji' },
+      limits: { label: 'Limit Settings', description: 'Disable omikuji on duplicates or over-limit' },
+      timerInterval: { label: 'Timer Settings', description: 'Set interval and timing for triggering' },
+      placeholder: { label: 'Placeholder Settings', description: 'Edit placeholders to draw from' },
+      colorSettings: { label: 'Bubble Color Settings', description: 'Edit speech bubble colors' },
+      commentVoice: { label: 'BOT Comment Voice Settings', description: 'Specify how BOT comments are read aloud' },
+      imageSettings: { label: 'Generator Image Settings', description: 'Set images displayed in the generator' },
+      appSettings: { label: 'App Settings', description: '' },
+      appFeatures: { label: 'Available Features', description: '' },
+      packageBasic: { label: 'Basic Info', description: '' },
+      packageDistribution: { label: 'Distribution Info', description: '' },
+      packageSystem: { label: 'System Info', description: '' },
+    },
+  },
+} as const

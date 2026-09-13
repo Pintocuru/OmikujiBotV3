@@ -30,14 +30,13 @@
   import { onMounted, computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { isDev, OmikujiDataType } from '@/types'
-  import AppHeader from './events/appItems/AppHeader.vue'
-  import AppDevWorld from './events/appItems/AppDevWorld.vue'
-  import NavigationSidebar from './events/appItems/navigation/NavigationSidebar.vue'
-  import ContentArea from './events/appItems/ContentArea.vue'
+  import AppHeader from './apps/appItems/AppHeader.vue'
+  import AppDevWorld from './apps/appItems/AppDevWorld.vue'
+  import NavigationSidebar from './apps/appItems/navigation/NavigationSidebar.vue'
+  import ContentArea from './apps/appItems/ContentArea.vue'
   import ConfigExport from './helpers/presetsExport/ConfigExport.vue'
-  import { useImportManager } from './helpers/presetsImport/composables/useImportManager'
   import { useOmikujiStore } from './stores/useOmikujiStore'
-  import PresetTool from '@/PresetManager//DevConfigs.vue'
+  import PresetTool from '@/PresetManager/DevConfigs.vue'
   import { useDevStore } from '../PresetManager/stores/useDevStore'
   import { generatorApi } from '../PresetManager/services/generatorApi'
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast.js'
@@ -52,7 +51,6 @@
   const navigationStore = useNavigationStore()
 
   // インポートマネージャー
-  const importManager = useImportManager()
   const daisyUiTheme = computed(() => (isDev ? data.value.settings.developer.daisyUiTheme : 'dark'))
   const isDevWorld = computed(() => dataSource.value === 'unknown')
 

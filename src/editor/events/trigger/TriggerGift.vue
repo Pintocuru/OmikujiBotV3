@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerGift.vue -->
 <template>
-  <SettingItem label="ギフト条件" description="金額や種類で発動を変更できます">
+  <SettingItem :label="t('triggerGift.label')" :description="t('triggerGift.description')">
     <div class="flex flex-wrap gap-2">
       <label v-for="condition in giftConditions" :key="condition" class="cursor-pointer">
         <input
@@ -13,7 +13,7 @@
           class="badge badge-sm select-none"
           :class="(modelValue ?? []).includes(condition) ? 'badge-secondary' : 'badge-ghost'"
         >
-          {{ giftConditionMap[condition].label }}
+          {{ t(`triggerGift.conditions.${condition}.label`) }}
         </span>
       </label>
     </div>
@@ -21,9 +21,11 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { GiftCondition, giftConditions } from '@/types/trigger'
-  import { giftConditionMap } from '@/maps/trigger/GiftConditionMap'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     modelValue?: GiftCondition[]

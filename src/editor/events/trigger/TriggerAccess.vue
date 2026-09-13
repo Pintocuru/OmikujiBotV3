@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerAccess.vue -->
 <template>
-  <SettingItem label="ユーザーの役職" description="メンバー限定の発動条件はここです!">
+  <SettingItem :label="t('triggerAccess.label')" :description="t('triggerAccess.description')">
     <div class="flex flex-wrap gap-2">
       <label v-for="condition in accessConditions" :key="condition" class="cursor-pointer">
         <input
@@ -13,7 +13,7 @@
           class="badge badge-sm select-none"
           :class="(modelValue ?? []).includes(condition) ? 'badge-secondary' : 'badge-ghost'"
         >
-          {{ accessConditionMap[condition].label }}
+          {{ t(`triggerAccess.conditions.${condition}.label`) }}
         </span>
       </label>
     </div>
@@ -21,9 +21,11 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { accessConditions, AccessConditionTrigger } from '@/types/trigger'
-  import { accessConditionMap } from '@/maps/trigger/AccessConditionMap'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     modelValue?: AccessConditionTrigger[]

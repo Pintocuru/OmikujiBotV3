@@ -67,7 +67,7 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
   import { Dices, Plus } from 'lucide-vue-next'
-  import { getColorForIndex, updateItemWeight } from '../../events/events/OmikujiCard/useOmikujiWeight.js'
+  import { getColorForIndex, updateItemWeight } from '../../events/OmikujiCard/useOmikujiWeight.js'
 
   const props = defineProps<{
     category: EventCategoryType
