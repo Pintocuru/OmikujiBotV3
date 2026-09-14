@@ -1,4 +1,4 @@
-<!-- src/editor/events/appItems/preview/PlaceholderPreview.vue -->
+<!-- src/editor/apps/appItems/preview/PlaceholderPreview.vue -->
 <template>
   <div class="space-y-1.5 min-w-[180px] max-w-[240px]">
     <!-- ヘッダー -->

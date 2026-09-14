@@ -1,4 +1,4 @@
-<!-- src/editor/common/BaseSettings/BaseSettingsEditor.vue -->
+<!-- src/editor/apps/BaseSettings/BaseEditor.vue -->
 <template>
   <!-- Key表示 -->
   <SettingItem

@@ -1,4 +1,4 @@
-<!-- src/editor/events/eventsService/ServiceTriggerCondition.vue -->
+<!-- src/editor/events/service/ServiceTriggerCondition.vue -->
 <template>
   <SettingItem :label="label" :description="description">
     <!-- 比較方法 -->

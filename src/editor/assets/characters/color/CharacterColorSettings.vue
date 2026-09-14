@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/color/CharacterColorSettings.vue -->
+<!-- src/editor/assets/characters/color/CharacterColorSettings.vue -->
 <template>
   <!-- プレビュー -->
   <div class="relative flex justify-center">
@@ -29,7 +29,7 @@
   import CommentBubblePreview from '@config/UiEditor/CommentBubble/CommentBubblePreview.vue'
   import ColorModeSelector from '@config/components/common/ThemeColorPicker/ColorModeSelector.vue'
   import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
+  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { useNavigationStore } from '@config/stores/useNavigationStore'
 
   const props = defineProps<{

@@ -1,4 +1,4 @@
-<!-- src/editor/events/appItems/ContentArea.vue -->
+<!-- src/editor/apps/appItems/ContentArea.vue -->
 <template>
   <!-- カテゴリ帯 -->
   <div id="section-Top" class="flex items-center justify-between px-4 py-3 bg-primary text-primary-content">

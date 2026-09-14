@@ -1,4 +1,4 @@
-// src/editor/events/placeholders/composables/usePlaceholders.ts
+// src/editor/assets/placeholders/composables/usePlaceholders.ts
 import { computed, Ref } from 'vue'
 import { PostFlowType } from '@/types/OmikujiData/'
 import { usePlaceholderData } from './usePlaceholderData'

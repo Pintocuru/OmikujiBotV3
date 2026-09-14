@@ -1,4 +1,4 @@
-<!-- src/editor/events/box/ActionSetsEditor.vue -->
+<!-- src/editor/assets/box/BoxEditor.vue -->
 <template>
   <div class="flex justify-end gap-2">
     <CharacterChanger category="box" />
@@ -27,32 +27,28 @@
       :title="s('omikujiSet')?.label"
       :description="s('omikujiSet')?.description"
     >
-      <PostActionsEditor
-        v-model="postActions"
-        :gameScripts="selectedItem.gameScripts"
-        category="box"
-        :selectedItemKey="selectedItemKey"
-      />
+      <!-- TODO: 渡すのはkeyのみ。更新は向こうで行うこと -->
+      <BoxSettings category="box" :omikujiKey="selectedItem.key" />
     </SectionCard>
   </template>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { ActionSetType } from '@/types'
+
+  import { BoxType } from '@/types'
+  import BoxSettings from './BoxSettings.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
-  import PostActionsEditor from '@/editor/assets/postAction/PostActionsEditor.vue'
   import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
   import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
 
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
-  import { storeToRefs } from 'pinia'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
 
   const { t } = useI18n()
 
@@ -87,18 +83,8 @@
       if (!selectedItemKey.value) return null
       return getAsset('box', selectedItemKey.value)
     },
-    set: (value: ActionSetType) => {
+    set: (value: BoxType) => {
       updateAsset('box', value.key, value)
-    },
-  })
-
-  const postActions = computed({
-    get: () => selectedItem.value?.postActions || [],
-    set: (newActions) => {
-      if (!selectedItem.value) return
-      updateAsset('box', selectedItem.value.key, {
-        postActions: [...newActions],
-      })
     },
   })
 </script>

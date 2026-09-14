@@ -1,4 +1,4 @@
-<!-- src/editor/events/appItems/AppHeader.vue -->
+<!-- src/editor/apps/appItems/AppHeader.vue -->
 <template>
   <h1
     class="flex justify-center text-2xl font-bold text-center relative"

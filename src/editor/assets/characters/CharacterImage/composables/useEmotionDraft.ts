@@ -1,4 +1,4 @@
-// src/editor/events/characters/CharacterImage/composables/useEmotionDraft.ts
+// src/editor/assets/characters/CharacterImage/composables/useEmotionDraft.ts
 import { ref, computed } from 'vue'
 import type { CharacterImageType, CharacterAnimationType } from '@/types/'
 

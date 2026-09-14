@@ -1,4 +1,4 @@
-<!-- src/editor/events/gameScripts/GameScriptPreview.vue -->
+<!-- src/editor/apps/gameScripts/GameScriptPreview.vue -->
 <template>
   <div class="h-full flex flex-col items-center justify-center space-y-4">
     <!-- メッセージアクション -->

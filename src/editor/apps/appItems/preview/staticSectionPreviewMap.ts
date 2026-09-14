@@ -1,4 +1,4 @@
-// src/editor/events/appItems/preview/staticSectionPreviewMap.ts
+// src/editor/apps/appItems/preview/staticSectionPreviewMap.ts
 import type { Component } from 'vue'
 
 import BaseSettings from './BaseSettings.vue'

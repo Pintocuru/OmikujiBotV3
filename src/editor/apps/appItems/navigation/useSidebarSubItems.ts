@@ -1,4 +1,4 @@
-// src/editor/events/appItems/navigation/useSidebarSubItems.ts
+// src/editor/apps/appItems/navigation/useSidebarSubItems.ts
 import { storeToRefs } from 'pinia'
 import { CategoryType, SettingsCategoryType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/CharacterImage/EmotionLayerEditor.vue -->
+<!-- src/editor/assets/characters/CharacterImage/EmotionLayerEditor.vue -->
 <template>
   <div class="space-y-2">
     <div class="text-xs font-medium text-base-content/70 mb-1">画像レイヤー</div>

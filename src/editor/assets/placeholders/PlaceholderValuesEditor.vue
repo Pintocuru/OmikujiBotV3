@@ -1,4 +1,4 @@
-<!-- src/editor/events/placeholders/PlaceholderValuesEditor.vue -->
+<!-- src/editor/assets/placeholders/PlaceholderValuesEditor.vue -->
 <template>
   <template v-if="selectedItem">
     <div class="flex justify-end gap-2">

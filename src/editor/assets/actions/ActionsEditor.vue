@@ -1,4 +1,4 @@
-<!-- src/editor/events/actions/ActionSetsEditor.vue -->
+<!-- src/editor/assets/actions/ActionsEditor.vue -->
 <template>
   <div class="flex justify-end gap-2">
     <CharacterChanger category="actions" />

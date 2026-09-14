@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/CharacterImage/EmotionPresetButtons.vue -->
+<!-- src/editor/assets/characters/CharacterImage/EmotionPresetButtons.vue -->
 <template>
   <div class="flex flex-wrap gap-1">
     <span class="text-xs text-base-content/50 self-center mr-1">プリセット:</span>

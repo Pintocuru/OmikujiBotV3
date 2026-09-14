@@ -1,4 +1,4 @@
-<!-- src/editor/events/JsonMerge/JsonMergeEditor.vue -->
+<!-- src/editor/apps/JsonMerge/JsonMergeEditor.vue -->
 <template>
   <!-- 便利ボタン群 -->
   <div class="flex justify-end gap-2">

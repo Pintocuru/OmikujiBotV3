@@ -1,4 +1,4 @@
-// src/editor/events/placeholders/composables/usePlaceholderValues.ts
+// src/editor/assets/placeholders/composables/usePlaceholderValues.ts
 import { ref, computed } from 'vue'
 import { WeightValuesArrayType, WeightValueSchema } from '@/types'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

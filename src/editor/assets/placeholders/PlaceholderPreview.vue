@@ -1,4 +1,4 @@
-<!-- src/editor/events/placeholders/PlaceholderPreview.vue -->
+<!-- src/editor/assets/placeholders/PlaceholderPreview.vue -->
 <template>
   <div class="tooltip tooltip-bottom" data-tip="わんコメを起動すると、投稿の確認ができます">
     <button @click="handleDraw" class="btn btn-info" :disabled="!values.length">
@@ -11,7 +11,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { handelNormalizedValues, WeightValuesArrayType } from '@/types'
-  import { processTestPlaceholder } from '@/editor/assets/postAction/preview/TestPlaceholderProcessor'
+  import { processTestPlaceholder } from '@/editor/assets/PostFlow/preview/TestPlaceholderProcessor'
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { addWeightPercentages, drawOmikuji, OmikujiWeightItem } from '@shared/utils/omikuji/DrawOmikuji'

@@ -1,4 +1,4 @@
-<!-- src/editor/events/appItems/preview/HoverPopup.vue -->
+<!-- src/editor/apps/appItems/preview/HoverPopup.vue -->
 <template>
   <Teleport to="body">
     <div v-if="visible" class="fixed z-50 pointer-events-none" :style="style">

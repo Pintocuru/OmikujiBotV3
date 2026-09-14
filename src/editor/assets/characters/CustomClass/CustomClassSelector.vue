@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/CustomClass/CustomClassSelector.vue -->
+<!-- src/editor/assets/characters/CustomClass/CustomClassSelector.vue -->
 <template>
   <!-- 廃止のお知らせ -->
   <InformationCard variant="warning">

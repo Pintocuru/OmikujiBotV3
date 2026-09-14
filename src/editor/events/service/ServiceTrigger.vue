@@ -1,4 +1,4 @@
-<!-- src/editor/events/eventsService/ServiceTrigger.vue -->
+<!-- src/editor/events/service/ServiceTrigger.vue -->
 <template>
   <!-- 条件タイプ選択（単一選択） -->
   <SettingItem label="適用する発動条件" description="監視するメタデータを選択">

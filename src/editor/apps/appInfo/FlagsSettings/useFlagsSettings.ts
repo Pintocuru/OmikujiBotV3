@@ -1,4 +1,4 @@
-// src/editor/events/appInfo/FlagsSettings/useFlagsSettings.ts
+// src/editor/apps/appInfo/FlagsSettings/useFlagsSettings.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/CharacterImage/ImageSettingsInfo.vue -->
+<!-- src/editor/assets/characters/CharacterImage/ImageSettingsInfo.vue -->
 <template>
   <InformationCard>
     <p>

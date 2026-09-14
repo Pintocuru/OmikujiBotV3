@@ -1,4 +1,4 @@
-<!-- src/editor/events/dataPacks/DataPackCard.vue -->
+<!-- src/editor/apps/dataPacks/DataPackCard.vue -->
 <template>
   <div class="card card-compact bg-base-200 border border-base-300 transition-colors">
     <!-- バナー画像 -->

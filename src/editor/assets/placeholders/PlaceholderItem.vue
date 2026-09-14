@@ -1,4 +1,4 @@
-<!-- src/editor/events/placeholders/PlaceholderItem.vue -->
+<!-- src/editor/assets/placeholders/PlaceholderItem.vue -->
 <!-- !使用しない -->
 <template>
   <div

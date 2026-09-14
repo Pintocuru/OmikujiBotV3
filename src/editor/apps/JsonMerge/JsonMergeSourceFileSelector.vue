@@ -1,4 +1,4 @@
-<!-- src/editor/events/JsonMerge/JsonMergeSourceFileSelector.vue -->
+<!-- src/editor/apps/JsonMerge/JsonMergeSourceFileSelector.vue -->
 <template>
   <div class="space-y-3">
     <!-- マージ元ファイル -->

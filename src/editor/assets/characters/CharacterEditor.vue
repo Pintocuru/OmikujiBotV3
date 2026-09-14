@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/CharacterEditor.vue -->
+<!-- src/editor/assets/characters/CharacterEditor.vue -->
 <template>
   <!-- 選択されたキャラクターの編集フォーム -->
   <template v-if="selectedItemKey && selectedItem">

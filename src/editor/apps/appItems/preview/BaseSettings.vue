@@ -1,4 +1,4 @@
-<!-- src/editor/events/appItems/preview/BaseSettings.vue -->
+<!-- src/editor/apps/appItems/preview/BaseSettings.vue -->
 <template>
   <div class="text-xs space-y-1 max-w-xs">
     <!-- name -->

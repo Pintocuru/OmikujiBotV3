@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/CharacterImage/EmotionImageItem.vue -->
+<!-- src/editor/assets/characters/CharacterImage/EmotionImageItem.vue -->
 <template>
   <div class="flex items-center gap-2">
     <div class="flex-1">

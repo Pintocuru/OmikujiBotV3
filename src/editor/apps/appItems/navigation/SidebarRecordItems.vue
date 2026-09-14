@@ -1,4 +1,4 @@
-<!-- src/editor/events/appItems/navigation/SidebarRecordItems.vue -->
+<!-- src/editor/apps/appItems/navigation/SidebarRecordItems.vue -->
 <template>
   <div>
     <VueDraggable

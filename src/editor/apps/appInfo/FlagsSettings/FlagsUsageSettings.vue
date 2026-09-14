@@ -1,4 +1,4 @@
-<!-- src/editor/events/appInfo/FlagsSettings/FlagsUsageSettings.vue -->
+<!-- src/editor/apps/appInfo/FlagsSettings/FlagsUsageSettings.vue -->
 <template>
   <SubSectionHeader icon="Palette" title="Recordアイテム表示" description="アイテムの表示・非表示を制御" />
 
@@ -48,7 +48,7 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
+  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { categoryMap, recordCategoryLabel, RecordCategoryType } from '@/types'
   import { AccessLevelLabels } from '@shared/types'
   import { useFlagsSettings } from './useFlagsSettings'

@@ -1,4 +1,4 @@
-<!-- src/editor/events/appInfo/FlagsSettings/FlagsDeveloperSettings.vue -->
+<!-- src/editor/apps/appInfo/FlagsSettings/FlagsDeveloperSettings.vue -->
 <template>
   <SubSectionHeader icon="Sliders" title="アイテム固有設定" description="特定アイテム内の要素の表示制御" />
 
@@ -26,7 +26,7 @@
   import { useFlagsSettings } from './useFlagsSettings'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import { AccessLevelLabels } from '@shared/types'
-  import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
+  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'
 
   const { licenseVisible, jsonMergeSettings, itemSlotEnabled } = useFlagsSettings()

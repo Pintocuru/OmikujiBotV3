@@ -1,4 +1,4 @@
-<!-- src/editor/events/appInfo/FlagsInfo/FlagsInfo.vue -->
+<!-- src/editor/apps/appInfo/FlagsInfo/FlagsInfo.vue -->
 <template>
   <div class="space-y-4">
     <!-- 基本機能 -->
@@ -71,12 +71,12 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { categoryMap, uiKindMap, gameMetaMap, UiKind } from '@/types'
+  import { AccessLevelType } from '@/types'
+  import { UiKind } from '@/types/OmikujiData'
   import FeatureCard from './FeatureCard.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
-  import type { AccessLevelType } from '@shared/types'
-  import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
+  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)

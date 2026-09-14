@@ -1,4 +1,4 @@
-<!-- src/editor/events/appInfo/AppInfoEditor.vue -->
+<!-- src/editor/apps/appInfo/AppInfoEditor.vue -->
 <template>
   <div class="space-y-4">
     <!-- アプリ設定 -->

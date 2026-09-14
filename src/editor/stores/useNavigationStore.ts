@@ -1,15 +1,16 @@
 // src/editor/stores/useNavigationStore.ts
 import { ref, watch, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { CategoryType, RecordCategoryType, recordCategoryLabel } from '@/types/OmikujiData/'
-import { useGetRecordData } from './useGetRecordData'
+import { CategoryType, eventCategory, assetCategory, EventCategoryType, AssetCategoryType } from '@/types/OmikujiData/'
+import { useGetEventData } from './useGetEventData'
+import { useGetAssetData } from './useGetAssetData'
 
-/**
- * ナビゲーションstore
- * アプリ全体のカテゴリ・アイテム選択状態を一元管理
- */
+// 選択用に正規化した最低限の形
+type NavigableItem = { key: string; order?: number }
+
 export const useNavigationStore = defineStore('navigation', () => {
-  const { getCategoryArray } = useGetRecordData()
+  const { getEvents } = useGetEventData()
+  const { getAssets } = useGetAssetData()
 
   /**
    * 状態
@@ -22,30 +23,37 @@ export const useNavigationStore = defineStore('navigation', () => {
    * 計算プロパティ
    */
 
-  // RecordCategory かどうかの型ガード */
-  // TODO: assetCategory eventCategory をつかうこと
-  const isRecordCategory = (category: CategoryType): category is RecordCategoryType =>
-    recordCategoryLabel.includes(category as RecordCategoryType)
+  const isEventCategory = (category: CategoryType): category is EventCategoryType =>
+    (eventCategory as readonly string[]).includes(category)
 
-  // 現在のカテゴリがRecordCategoryかどうか */
+  const isAssetCategory = (category: CategoryType): category is AssetCategoryType =>
+    (assetCategory as readonly string[]).includes(category)
+
+  // Events/Assets どちらかに属するカテゴリかどうか
+  const isRecordCategory = (category: CategoryType): boolean => isEventCategory(category) || isAssetCategory(category)
+
   const isCurrentRecordCategory = computed(() => isRecordCategory(selectedCategory.value))
 
-  // 型安全な現在のカテゴリ（RecordCategoryの場合のみ値を返す） */
-  const validCategory = computed((): RecordCategoryType | undefined =>
-    isRecordCategory(selectedCategory.value) ? selectedCategory.value : undefined
-  )
+  // 現在のカテゴリの一覧を、key/order を持つ配列に正規化して取得
+  const categoryArray = computed<NavigableItem[] | undefined>(() => {
+    const category = selectedCategory.value
 
-  // 現在のカテゴリの配列データ */
-  const categoryArray = computed(() => {
-    const category = validCategory.value
-    if (!category) return undefined
-    return getCategoryArray(category)
+    if (isEventCategory(category)) {
+      return [...getEvents(category)]
+        .map((item) => ({ ...item, key: item.id }))
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+    }
+
+    if (isAssetCategory(category)) {
+      return Object.values(getAssets(category)).sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+    }
+
+    return undefined
   })
 
-  // 選択されているアイテムの詳細データ */
+  // 選択されているアイテムの詳細データ
   const selectedItem = computed(() => {
-    const category = validCategory.value
-    if (!category || !selectedItemKey.value || !categoryArray.value) return null
+    if (!selectedItemKey.value || !categoryArray.value) return null
     return categoryArray.value.find((item) => item.key === selectedItemKey.value) ?? null
   })
 
@@ -53,7 +61,6 @@ export const useNavigationStore = defineStore('navigation', () => {
    * 操作
    */
 
-  // カテゴリを選択（自動的に最初のアイテムを選択） */
   const selectCategory = (category?: CategoryType) => {
     const safeCategory = category ?? 'comments'
     selectedCategory.value = safeCategory
@@ -61,24 +68,28 @@ export const useNavigationStore = defineStore('navigation', () => {
 
     if (!isRecordCategory(safeCategory)) {
       selectedItemKey.value = null
-    } else {
-      const firstItem = getCategoryArray(safeCategory)[0]
-      selectedItemKey.value = firstItem?.key ?? null
+      return
     }
+
+    // categoryArray は selectedCategory 変更後の値を computed 経由で取り直す必要があるため、
+    // ここでは直接算出する
+    const list = isEventCategory(safeCategory)
+      ? [...getEvents(safeCategory)].map((item) => ({ key: item.id, order: item.order }))
+      : Object.values(getAssets(safeCategory as AssetCategoryType))
+
+    const firstItem = [...list].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))[0]
+    selectedItemKey.value = firstItem?.key ?? null
   }
 
-  // アイテムを選択 */
   const selectItem = (key: string | null, section?: string) => {
     selectedItemKey.value = key
     if (section) activeSection.value = section
   }
 
-  // 選択をクリア */
   const clearSelection = () => {
     selectedItemKey.value = null
   }
 
-  // 次のアイテムを選択（現在のアイテムが削除された時などに使用） */
   const selectNextItem = () => {
     if (!categoryArray.value || categoryArray.value.length === 0) {
       selectedItemKey.value = null
@@ -88,46 +99,33 @@ export const useNavigationStore = defineStore('navigation', () => {
     const currentIndex = categoryArray.value.findIndex((item) => item.key === selectedItemKey.value)
 
     if (currentIndex === -1) {
-      // 現在のアイテムが見つからない場合は最初を選択
       selectedItemKey.value = categoryArray.value[0].key
     } else if (currentIndex < categoryArray.value.length - 1) {
-      // 次のアイテムを選択
       selectedItemKey.value = categoryArray.value[currentIndex + 1].key
     } else if (categoryArray.value.length > 1) {
-      // 最後のアイテムの場合は前のアイテムを選択
       selectedItemKey.value = categoryArray.value[currentIndex - 1].key
     } else {
-      // アイテムが1つしかない場合はクリア
       selectedItemKey.value = null
     }
   }
 
-  /**
-   * 初期化: commentsカテゴリの最初のアイテムを選択
-   */
   watch(
-    () => getCategoryArray('comments'),
+    () => getEvents('comments'),
     (arr) => {
       if (arr.length > 0 && selectedItemKey.value === null) {
-        selectedItemKey.value = arr[0].key
+        selectedItemKey.value = arr[0].id
       }
     },
     { immediate: true }
   )
 
   return {
-    // 状態
     selectedCategory,
     selectedItemKey,
     activeSection,
-
-    // 計算プロパティ
     isCurrentRecordCategory,
-    validCategory,
     categoryArray,
     selectedItem,
-
-    // 操作
     isRecordCategory,
     selectCategory,
     selectItem,

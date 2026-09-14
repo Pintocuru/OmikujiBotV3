@@ -1,4 +1,4 @@
-<!-- src/editor/events/appItems/navigation/NavigationSidebar.vue -->
+<!-- src/editor/apps/appItems/navigation/NavigationSidebar.vue -->
 <template>
   <div
     class="sticky top-0 h-screen flex flex-col border-r overflow-y-auto transition-all duration-200 shrink-0 overflow-x-hidden"

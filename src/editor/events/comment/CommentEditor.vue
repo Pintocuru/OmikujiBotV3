@@ -1,4 +1,4 @@
-<!-- src/editor/events/eventsComment/CommentEditor.vue -->
+<!-- src/editor/events/comment/CommentEditor.vue -->
 <template>
   <!-- 便利ボタン群 -->
   <div class="flex justify-end gap-2">

@@ -1,14 +1,14 @@
 // src/engine/scripts/OmikujiResult/GameScriptsHandler.ts
-import { BotMessageType } from "@/types";
-import { ActionSetType } from "@/types/OmikujiData/";
-import { GameScriptManager } from "@/generator/stores/GameScript/GameScriptManager";
-import { OmikenCommentType } from "@shared/types/OmikenComment/OmikenCommentSchema";
-import { BotMessageGenerator } from "./BotMessageGenerator";
+import { BotMessageType } from '@/types'
+import { ActionSetType } from '@/types/OmikujiData/'
+import { GameScriptManager } from '@/generator/stores/GameScript/GameScriptManager'
+import { OmikenCommentType } from '@shared/types/OmikenComment/OmikenCommentSchema'
+import { BotMessageGenerator } from './BotMessageGenerator'
 
 export class GameScriptsHandler {
   constructor(
-    private readonly playScript: GameScriptManager["playScript"],
-    private readonly generator: BotMessageGenerator,
+    private readonly playScript: GameScriptManager['playScript'],
+    private readonly generator: BotMessageGenerator
   ) {}
 
   /**
@@ -17,25 +17,18 @@ export class GameScriptsHandler {
   async process(
     actionItem: ActionSetType,
     omiken?: OmikenCommentType,
-    isOnecommePost?: boolean,
+    isOnecommePost?: boolean
   ): Promise<BotMessageType[]> {
     // 1. スクリプトの実行
-    const scriptResult = await this.playScript(actionItem.gameScripts, omiken);
-    if (!scriptResult) return [];
+    const scriptResult = await this.playScript(actionItem.gameScripts, omiken)
+    if (!scriptResult) return []
 
-    const { actions, botMessageExtras: scriptMessages } = scriptResult;
+    const { actions, botMessageExtras: scriptMessages } = scriptResult
 
     // 2. 変数プレースホルダーを処理
-    const processedActions = this.generator.processVariables(actions);
+    const processedActions = this.generator.processVariables(actions)
 
     // 3. わんコメへ投稿 & BotMessage を生成
-    return [
-      ...scriptMessages,
-      ...this.generator.postAndGenerate(
-        processedActions,
-        omiken,
-        isOnecommePost,
-      ),
-    ];
+    return [...scriptMessages, ...this.generator.postAndGenerate(processedActions, omiken, isOnecommePost)]
   }
 }

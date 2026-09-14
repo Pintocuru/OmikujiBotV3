@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/basicInfo/CharacterBasicInfo.vue -->
+<!-- src/editor/assets/characters/basicInfo/CharacterBasicInfo.vue -->
 <template>
   <template v-if="currentData">
     <!-- Key表示 -->

@@ -1,4 +1,4 @@
-<!-- src/editor/events/eventsReaction/ReactionEditor.vue -->
+<!-- src/editor/events/reaction/ReactionEditor.vue -->
 <template>
   <!-- 便利ボタン群 -->
   <div class="flex justify-end gap-2">

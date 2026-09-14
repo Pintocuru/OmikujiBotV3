@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/CharacterImage/EmotionGrid.vue -->
+<!-- src/editor/assets/characters/CharacterImage/EmotionGrid.vue -->
 <template>
   <VueDraggable
     v-if="!readonly"

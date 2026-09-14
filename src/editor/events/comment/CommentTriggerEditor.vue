@@ -1,4 +1,4 @@
-<!-- src/editor/events/eventsComment/CommentTriggerEditor.vue -->
+<!-- src/editor/events/comment/CommentTriggerEditor.vue -->
 <template>
   <!-- 条件設定の説明 -->
   <InformationCard>

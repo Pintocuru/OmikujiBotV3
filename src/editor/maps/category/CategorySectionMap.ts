@@ -1,4 +1,4 @@
-// src/editor/maps/category/categorySectionMap.ts
+// src/editor/maps/category/CategorySectionMap.ts
 import { CategoryType } from '@/types'
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
@@ -46,7 +46,10 @@ export const categorySectionMap: Record<CategoryType, SidebarSectionItem[]> = {
   ],
 
   // assets
-  // TODO:box の作成
+  box: [
+    { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
+    { section: 'omikujiSet', icon: 'ListChecks', component: 'actionSet' },
+  ],
 
   actions: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },

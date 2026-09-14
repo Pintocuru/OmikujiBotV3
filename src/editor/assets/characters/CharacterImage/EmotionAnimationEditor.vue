@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/CharacterImage/EmotionAnimationEditor.vue -->
+<!-- src/editor/assets/characters/CharacterImage/EmotionAnimationEditor.vue -->
 <template>
   <div class="space-y-3">
     <div class="text-xs font-medium text-base-content/70 mb-1">アニメーション・プレビュー</div>

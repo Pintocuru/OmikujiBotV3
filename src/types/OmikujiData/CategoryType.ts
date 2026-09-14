@@ -12,7 +12,7 @@ import {
   ReactionEventType,
   ReactionEventSchema,
 } from './events/EventSchema'
-import { ActionSetSchema, ActionSetType } from './assets/ActionSet'
+import { ActionSetSchema, ActionSetType } from './assets/ActionSetSchema'
 import { assetCategory } from './assets'
 import { eventCategory } from './events'
 

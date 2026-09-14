@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/service/CharacterBase64Settings.vue -->
+<!-- src/editor/assets/characters/service/CharacterBase64Settings.vue -->
 <template>
   <!-- Base64画像設定エリア -->
   <SettingItem

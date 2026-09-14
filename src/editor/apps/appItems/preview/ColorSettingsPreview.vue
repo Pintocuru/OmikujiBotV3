@@ -1,4 +1,4 @@
-<!-- src/editor/events/appItems/preview/ColorSettingsPreview.vue -->
+<!-- src/editor/apps/appItems/preview/ColorSettingsPreview.vue -->
 <template>
   <div class="space-y-1.5 min-w-[180px] max-w-[240px]">
     <!-- ヘッダー -->

@@ -1,4 +1,4 @@
-<!-- src/editor/events/appItems/navigation/NavigationSidebarFooter.vue -->
+<!-- src/editor/apps/appItems/navigation/NavigationSidebarFooter.vue -->
 <template>
   <div class="sticky bottom-2 left-0 w-full flex flex-col items-center space-y-2">
     <!-- 開発者モード -->

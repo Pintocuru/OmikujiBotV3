@@ -1,4 +1,4 @@
-<!-- src/editor/events/appItems/navigation/NavigationSidebarCategories.vue -->
+<!-- src/editor/apps/appItems/navigation/NavigationSidebarCategories.vue -->
 <template>
   <div class="flex flex-col gap-0.5 p-2 flex-1">
     <template v-for="(tab, key) in filteredCategoryLabels" :key="key">

@@ -1,4 +1,4 @@
-<!-- src/editor/events/placeholders/PlaceholderEditor.vue -->
+<!-- src/editor/assets/placeholders/PlaceholderEditor.vue -->
 <template>
   <!-- タブ部分 -->
   <RecordTabs />

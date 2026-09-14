@@ -1,4 +1,4 @@
-// shared/utils/omikuji/DrawOmikuji.ts
+// src/common/omikuji/DrawOmikuji.ts
 import { HighQualityRandom } from './HighQualityRandom'
 
 export interface OmikujiWeightItem {

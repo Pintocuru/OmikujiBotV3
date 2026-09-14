@@ -1,4 +1,4 @@
-// src/editor/maps/events/AppInfoEditorMessages.ts
+// src/editor/maps/apps/AppInfoEditor.ts
 export const appInfoEditorMessages = {
   ja: {
     appInfoEditor: {

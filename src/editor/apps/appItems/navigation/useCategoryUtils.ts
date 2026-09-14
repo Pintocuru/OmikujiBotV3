@@ -1,4 +1,4 @@
-// src/editor/events/appItems/navigation/useCategoryUtils.ts
+// src/editor/apps/appItems/navigation/useCategoryUtils.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { categoryMap, CategoryType } from '@/types'

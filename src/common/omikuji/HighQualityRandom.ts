@@ -1,4 +1,4 @@
-// shared/utils/omikuji/HighQualityRandom.ts
+// src/common/omikuji/HighQualityRandom.ts
 
 /**
  * 高品質な乱数生成器

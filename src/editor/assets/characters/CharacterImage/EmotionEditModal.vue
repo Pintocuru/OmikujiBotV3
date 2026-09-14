@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/CharacterImage/EmotionEditModal.vue -->
+<!-- src/editor/assets/characters/CharacterImage/EmotionEditModal.vue -->
 <template>
   <BaseEditDialog ref="baseDialog" title="エモート画像の編集" icon="Info" @save="handleSave">
     <div v-if="selectedEmotionKey && draftItem" class="space-y-2">

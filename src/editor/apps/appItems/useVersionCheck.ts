@@ -1,4 +1,4 @@
-// src/editor/events/appItems/useVersionCheck.ts
+// src/editor/apps/appItems/useVersionCheck.ts
 import { ref, computed, Ref } from 'vue'
 import Swal from 'sweetalert2'
 

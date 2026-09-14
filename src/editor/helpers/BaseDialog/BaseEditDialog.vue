@@ -56,13 +56,13 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
+  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
+  import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
   import { X, Check } from 'lucide-vue-next'
-  import { LucideIconName } from '@shared/utils/LucideIcon/useLucideIcon'
 
   defineProps<{
-    title: string /** SubSectionHeader に渡すタイトル */
-    icon: LucideIconName /** SubSectionHeader に渡すアイコン名 (lucide) */
+    title: string
+    icon: LucideIconName
   }>()
 
   const emit = defineEmits<{

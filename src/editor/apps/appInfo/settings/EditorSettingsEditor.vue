@@ -1,4 +1,4 @@
-<!-- src/editor/events/appInfo/settings/EditorSettingsEditor.vue -->
+<!-- src/editor/apps/appInfo/settings/EditorSettingsEditor.vue -->
 <template>
   <!-- コンフィグエディター設定 -->
   <SubSectionHeader
@@ -79,7 +79,7 @@
   import { useSettingMode, useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { themes } from '@shared/styles/DaisyUiTheme'
   import type { SettingsType } from '@/types/OmikujiData/SettingsSchema'
-  import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
+  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast.js'
   import Swal from 'sweetalert2'
 

@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/CharacterImage/EmotionCard.vue -->
+<!-- src/editor/assets/characters/CharacterImage/EmotionCard.vue -->
 <template>
   <div class="text-center p-2">
     <div class="w-24 mx-auto relative">

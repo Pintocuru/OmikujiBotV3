@@ -1,4 +1,4 @@
-<!-- src/editor/events/appInfo/FlagsSettings/FlagsGamesSettings.vue -->
+<!-- src/editor/apps/appInfo/FlagsSettings/FlagsGamesSettings.vue -->
 <template>
   <SubSectionHeader icon="Gamepad2" title="ゲームスクリプト設定" description="ゲームスクリプト関連の表示制御" />
 
@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
+  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { useFlagsSettings } from './useFlagsSettings'
   import { gameMetaMap } from '@/types/MetaMaps/'
 

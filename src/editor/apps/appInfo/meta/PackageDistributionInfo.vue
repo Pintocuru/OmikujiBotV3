@@ -1,4 +1,4 @@
-<!-- src/editor/events/appInfo/meta/PackageDistributionInfo.vue -->
+<!-- src/editor/apps/appInfo/meta/PackageDistributionInfo.vue -->
 <template>
   <!-- ライセンス (読み取り専用) -->
   <SettingItem label="ライセンス" description="omikujiData.js のライセンス。画像などは対象外です">

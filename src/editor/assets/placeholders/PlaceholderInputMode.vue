@@ -1,4 +1,4 @@
-<!-- src/editor/events/placeholders/PlaceholderInputMode.vue -->
+<!-- src/editor/assets/placeholders/PlaceholderInputMode.vue -->
 <template>
   <div v-if="displayValues.length > 0" class="space-y-1 max-h-128 overflow-y-auto">
     <div v-for="(value, index) in displayValues" :key="index" class="card bg-base-100 p-2">
@@ -46,8 +46,8 @@
 
 <script setup lang="ts">
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { WeightValuesArrayType } from '@/types/OmikujiData/PlaceholderSchema'
-  import { useWeightValueManagement } from '@/editor/assets/postAction/ActionSet/useWeightValueManagement'
+  import { WeightValuesArrayType } from '@/types/OmikujiData'
+  import { useWeightValueManagement } from '@/editor/assets/PostFlow/actions/useWeightValueManagement'
   import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown/MenuDropdown.vue'
 

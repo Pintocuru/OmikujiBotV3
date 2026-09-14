@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/CharacterImage/CharacterImageSettings.vue -->
+<!-- src/editor/assets/characters/CharacterImage/CharacterImageSettings.vue -->
 <template>
   <div class="flex gap-2 mb-2">
     <input

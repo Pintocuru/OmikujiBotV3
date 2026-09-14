@@ -1,4 +1,4 @@
-<!-- src/editor/events/characters/service/CommentVoiceSettings.vue -->
+<!-- src/editor/assets/characters/service/CommentVoiceSettings.vue -->
 <template>
   <!-- mode  -->
   <SettingItem label="BOTコメント表現方法" description="BOTの文章を表現する方法を指定します">

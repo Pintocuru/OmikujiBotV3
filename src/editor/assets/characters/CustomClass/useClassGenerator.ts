@@ -1,4 +1,4 @@
-// src/editor/events/characters/CustomClass/useClassGenerator.ts
+// src/editor/assets/characters/CustomClass/useClassGenerator.ts
 import { reactive } from 'vue'
 
 export interface Settings {

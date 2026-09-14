@@ -1,4 +1,4 @@
-<!-- src/editor/events/appInfo/settings/GeneratorSettingsEditor.vue -->
+<!-- src/editor/apps/appInfo/settings/GeneratorSettingsEditor.vue -->
 <template>
   <!-- ジェネレーター設定 -->
   <SubSectionHeader icon="Sparkles" title="ジェネレーター設定" description="UI・効果音など、配信挙動に関わる設定" />
@@ -98,7 +98,7 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import type { SettingsType } from '@/types/OmikujiData/SettingsSchema'
-  import SubSectionHeader from '@shared/components/parts/SubSectionHeader.vue'
+  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import MessageTextEditor from '@/editor/assets/postAction/Message/MessageTextEditor.vue'
   import { playSoundResolved } from '@/common/sounds'
   import { AlignCenter, LayoutTemplate } from 'lucide-vue-next'
