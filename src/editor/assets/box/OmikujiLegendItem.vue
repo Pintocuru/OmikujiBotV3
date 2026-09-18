@@ -21,17 +21,19 @@
       {{ percentage }}%
 
       <div class="text-base">
-        <span v-if="item?.isPriority" class="badge badge-xs badge-primary"> 優先 </span>
-        <span v-if="item?.criteria" class="badge badge-xs badge-secondary ml-1"> 条件 </span>
+        <span v-if="item.lottery.isPriority" class="badge badge-xs badge-primary"> 優先 </span>
+        <span v-if="!item.lottery.isPriority && item.lottery.criteria" class="badge badge-xs badge-secondary ml-1">
+          条件
+        </span>
       </div>
     </div>
 
     <!-- Weight編集 -->
     <div class="text-base" :class="{ 'text-base-content': isSelected }">
       <input
-        v-if="!item?.isPriority"
+        v-if="!item.lottery.isPriority"
         type="number"
-        :value="item.weight"
+        :value="item.lottery.weight"
         @input="handleWeightUpdate"
         @click.stop
         min="0"
@@ -42,22 +44,17 @@
 
     <!-- メニュー -->
     <div class="ml-auto">
-      <MenuDropdown @duplicate="duplicate" @delete="remove" @click.stop />
+      <MenuDropdown @duplicate="$emit('duplicate')" @delete="$emit('delete')" @click.stop />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { EventCategoryType, OmikujiItemType } from '@/types/OmikujiData/'
+  import { OmikujiItemType } from '@/types/OmikujiData/'
   import MenuDropdown from '@/editor/parts/MenuDropdown/MenuDropdown.vue'
   import { GripVertical } from 'lucide-vue-next'
-  import { generateId } from '@/types/core'
-  import { useGetEventData } from '@/editor/stores/useGetEventData'
 
-  const props = defineProps<{
-    category: EventCategoryType
-    selectedItemKey: string | null
+  defineProps<{
     item: OmikujiItemType
     color: string
     percentage: string
@@ -67,6 +64,8 @@
   const emit = defineEmits<{
     'update:weight': [weight: number]
     select: []
+    duplicate: []
+    delete: []
   }>()
 
   const handleWeightUpdate = (event: Event) => {
@@ -74,42 +73,5 @@
     if (!isNaN(value) && value >= 0) {
       emit('update:weight', value)
     }
-  }
-
-  const { updateEventProperty } = useOmikujiStore()
-  const { getEvent } = useGetEventData()
-
-  const duplicate = () => {
-    if (!props.selectedItemKey) return
-
-    const record = getEvent(props.category, props.selectedItemKey)
-    if (!record?.omikuji) return
-
-    const index = record.omikuji.findIndex((v) => v.id === props.item.id)
-    if (index === -1) return
-
-    const id = generateId()
-    const duplicated = {
-      ...JSON.parse(JSON.stringify(props.item)),
-      id,
-      key: id,
-      name: `${props.item.name}(コピー)`,
-    }
-
-    const newList = [...record.omikuji]
-    newList.splice(index + 1, 0, duplicated)
-
-    updateEventProperty(props.category, props.selectedItemKey, 'omikuji', newList)
-  }
-
-  const remove = () => {
-    if (!props.selectedItemKey) return
-
-    const record = getEvent(props.category, props.selectedItemKey)
-    if (!record?.omikuji) return
-
-    const newList = record.omikuji.filter((v) => v.id !== props.item.id)
-
-    updateEventProperty(props.category, props.selectedItemKey, 'omikuji', newList)
   }
 </script>

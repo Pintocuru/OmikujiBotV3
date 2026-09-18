@@ -34,50 +34,49 @@
     </div>
   </SettingItem>
 
-  <!-- 各条件の詳細設定 -->
   <!-- ユーザーネーム条件 -->
   <TriggerUsername
     v-if="activeConditions.has('username')"
-    :modelValue="criteria?.userName ?? []"
+    :modelValue="criteria.userName"
     @update:modelValue="updateCriteria('userName', $event)"
   />
 
   <!-- アクセスレベル条件 -->
   <TriggerAccess
     v-if="activeConditions.has('access')"
-    :modelValue="criteria?.access ?? []"
+    :modelValue="criteria.access"
     @update:modelValue="updateCriteria('access', $event)"
   />
 
   <!-- ギフト条件 -->
   <TriggerGift
     v-if="activeConditions.has('gift')"
-    :modelValue="criteria?.gift ?? []"
+    :modelValue="criteria.gift"
     @update:modelValue="updateCriteria('gift', $event)"
   />
 
   <!-- 初見条件 -->
   <TriggerSyoken
     v-if="activeConditions.has('syoken')"
-    :modelValue="criteria?.syoken ?? []"
+    :modelValue="criteria.syoken"
     @update:modelValue="updateCriteria('syoken', $event)"
   />
 
   <!-- カウント条件 -->
+  <!-- TODO:修正が必要 -->
   <TriggerCount
     v-if="activeConditions.has('count')"
-    :modelValue="criteria?.count ?? CountConditionSchema.parse({})"
+    :modelValue="criteria.count"
     @update:modelValue="updateCriteria('count', $event)"
   />
 
   <!-- チャットワード条件 -->
   <TriggerComment
     v-if="activeConditions.has('comment')"
-    :modelValue="criteria?.comment ?? []"
+    :modelValue="criteria.comment"
     @update:modelValue="updateCriteria('comment', $event)"
   />
 
-  <!-- チャットワード条件 -->
   <NoParamsCard v-if="activeConditions.size === 0" message="発動条件が指定されていません" />
 </template>
 
@@ -89,9 +88,7 @@
     CriteriaThresholdSchema,
     CriteriaThresholdType,
     criteriaThresholdCondition,
-    CountConditionSchema,
   } from '@/types'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
   import TriggerComment from '@/editor/events/trigger/TriggerComment.vue'
   import TriggerAccess from '@/editor/events/trigger/TriggerAccess.vue'
@@ -105,9 +102,11 @@
   import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
 
   const props = defineProps<{
-    selectedItemKey: string | null
-    omikuji: OmikujiItemType | null
-    index: number
+    omikujiItem: OmikujiItemType
+  }>()
+
+  const emit = defineEmits<{
+    update: [item: OmikujiItemType]
   }>()
 
   // 条件タイプの選択肢
@@ -116,54 +115,59 @@
     label,
   }))
 
-  // 現在のcriteria
-  const criteria = computed(() => props.omikuji?.criteria)
+  // criteria
+  const criteria = computed(() => {
+    return props.omikujiItem.lottery.criteria ?? CriteriaThresholdSchema.parse({})
+  })
 
-  // アクティブな条件のSet（高速な検索のため）
-  const activeConditions = computed(() => new Set(criteria.value?.conditions ?? []))
+  // アクティブな条件
+  const activeConditions = computed(() => {
+    return new Set(criteria.value.conditions)
+  })
+
+  // criteriaを更新したOmikujiItemをemit
+  const updateCriteriaItem = (newCriteria: CriteriaThresholdType) => {
+    const lottery = props.omikujiItem.lottery
+
+    if (lottery.isPriority) {
+      emit('update', {
+        ...props.omikujiItem,
+        lottery: {
+          isPriority: true,
+          criteria: newCriteria,
+        },
+      })
+    } else {
+      emit('update', {
+        ...props.omikujiItem,
+        lottery: {
+          isPriority: false,
+          weight: lottery.weight,
+          criteria: newCriteria,
+        },
+      })
+    }
+  }
 
   // 条件のトグル
   const toggleCondition = (condition: CriteriaThresholdCondition) => {
-    if (!isValidUpdate()) return
+    const currentConditions = criteria.value.conditions
 
-    const currentConditions = criteria.value?.conditions ?? []
     const newConditions = currentConditions.includes(condition)
       ? currentConditions.filter((c) => c !== condition)
       : [...currentConditions, condition]
 
-    updateOmikuji((item) => ({
-      ...item,
-      criteria: ensureCriteria(item.criteria, { conditions: newConditions }),
-    }))
+    updateCriteriaItem({
+      ...criteria.value,
+      conditions: newConditions,
+    })
   }
 
   // criteriaのプロパティ更新
   const updateCriteria = <K extends keyof CriteriaThresholdType>(key: K, value: CriteriaThresholdType[K]) => {
-    if (!isValidUpdate()) return
-
-    updateOmikuji((item) => ({
-      ...item,
-      criteria: ensureCriteria(item.criteria, { [key]: value }),
-    }))
-  }
-
-  // ヘルパー関数: 更新可能かチェック
-  const isValidUpdate = (): boolean => {
-    return props.index !== -1 && props.selectedItemKey !== null
-  }
-
-  // ヘルパー関数: criteriaの存在を保証
-  const ensureCriteria = (
-    current: CriteriaThresholdType | null,
-    updates: Partial<CriteriaThresholdType>
-  ): CriteriaThresholdType => {
-    const base = current ?? CriteriaThresholdSchema.parse({})
-    return { ...base, ...updates }
-  }
-
-  // ヘルパー関数: おみくじの更新
-  const updateOmikuji = (updater: (item: OmikujiItemType) => OmikujiItemType) => {
-    const { updateOmikujiByIndex } = useOmikujiStore()
-    updateOmikujiByIndex('comments', props.selectedItemKey!, props.index, updater)
+    updateCriteriaItem({
+      ...criteria.value,
+      [key]: value,
+    })
   }
 </script>

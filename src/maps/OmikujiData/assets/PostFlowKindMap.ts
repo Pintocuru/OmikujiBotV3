@@ -1,10 +1,11 @@
 // src/maps/OmikujiData/assets/PostFlowKindMap.ts
+import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import { PostFlowKind } from '@/types/OmikujiData'
 
 /**
  * アクション種別のUI表示マップ (Lucide Icon名を含む)
  */
-export const postFlowKindMap: Record<PostFlowKind, { label: string; description: string; icon: string }> = {
+export const postFlowKindMap: Record<PostFlowKind, { label: string; description: string; icon: LucideIconName }> = {
   message: {
     label: 'メッセージ',
     description: 'わんコメやジェネレーターに送信・表示するテキストを設定します',
@@ -24,6 +25,11 @@ export const postFlowKindMap: Record<PostFlowKind, { label: string; description:
     label: '評価ブロック',
     description: '変数の代入や計算・スクリプト評価処理を実行します',
     icon: 'Brackets',
+  },
+  gameScript: {
+    label: 'ゲームスクリプト',
+    description: '予め作成されたゲームを呼び出します',
+    icon: 'Gamepad2',
   },
   bot: {
     label: 'BOTちゃん',

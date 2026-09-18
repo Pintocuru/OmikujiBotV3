@@ -120,6 +120,8 @@ export const useNavigationStore = defineStore('navigation', () => {
   )
 
   return {
+    isEventCategory,
+    isAssetCategory,
     selectedCategory,
     selectedItemKey,
     activeSection,

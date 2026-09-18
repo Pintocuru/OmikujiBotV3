@@ -16,9 +16,9 @@
 </template>
 
 <script setup lang="ts">
-  import { SyokenCondition, syokenConditionMap } from '../../types'
-
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import { syokenConditionMap } from '@/maps/trigger/SyokenConditionMap'
+  import { SyokenCondition } from '@/types/trigger'
 
   const props = defineProps<{
     modelValue: SyokenCondition[]

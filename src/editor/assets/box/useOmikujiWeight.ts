@@ -1,7 +1,7 @@
 // src/editor/assets/box/useOmikujiWeight.ts
 import { OmikujiItemType } from '@/types/OmikujiData/'
 
-/** インデックスに対応する色を返す（12色ループ） */
+// インデックスに対応する色を返す（12色ループ）
 export const OMIKUJI_COLORS = [
   '#3b82f6',
   '#8b5cf6',
@@ -21,7 +21,7 @@ export function getColorForIndex(index: number): string {
   return OMIKUJI_COLORS[index % OMIKUJI_COLORS.length]
 }
 
-/** Weight更新：不変更新で新配列を返す */
+// Weight更新：不変更新で新配列を返す
 export function updateItemWeight(items: OmikujiItemType[], index: number, weight: number): OmikujiItemType[] {
   return items.map((item, i) => (i === index ? { ...item, weight } : item))
 }

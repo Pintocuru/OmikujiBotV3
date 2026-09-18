@@ -12,10 +12,10 @@
 
         <!-- テスト投稿ボタン -->
         <button
-          @click="() => postTestOmikujiItem(modelValue, gameScripts)"
+          @click="() => postTestOmikujiItem(modelValue)"
           class="btn btn-sm btn-info tooltip tooltip-top"
           data-tip="わんコメを起動すると、投稿の確認ができます"
-          :disabled="modelValue.length === 0 && !gameScripts"
+          :disabled="modelValue.length === 0"
         >
           <Send :size="16" />
           テスト投稿

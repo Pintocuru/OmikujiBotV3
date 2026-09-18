@@ -27,12 +27,7 @@
       :title="s('omikujiSet')?.label"
       :description="s('omikujiSet')?.description"
     >
-      <PostActionsEditor
-        v-model="postActions"
-        :gameScripts="selectedItem.gameScripts"
-        category="actions"
-        :selectedItemKey="selectedItemKey"
-      />
+      <PostFlowsEditor v-model="postFlows" category="actions" :selectedItemKey="selectedItemKey" />
     </SectionCard>
   </template>
 </template>
@@ -45,7 +40,7 @@
 
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
-  import PostActionsEditor from '@/editor/assets/postAction/PostActionsEditor.vue'
+  import PostFlowsEditor from '@/editor/assets/PostFlow/PostFlowsEditor.vue'
   import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
   import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
 
@@ -93,12 +88,12 @@
     },
   })
 
-  const postActions = computed({
-    get: () => selectedItem.value?.postActions || [],
+  const postFlows = computed({
+    get: () => selectedItem.value?.postFlows || [],
     set: (newActions) => {
       if (!selectedItem.value) return
       updateAsset('actions', selectedItem.value.key, {
-        postActions: [...newActions],
+        postFlows: [...newActions],
       })
     },
   })

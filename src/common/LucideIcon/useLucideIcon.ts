@@ -55,6 +55,10 @@ import {
   Cookie,
   Shuffle,
   Ticket,
+  CornerDownLeft,
+  ArrowRight,
+  RotateCcw,
+  FileText,
 } from 'lucide-vue-next'
 
 // map（as const で literal 型を保持）
@@ -111,6 +115,10 @@ export const lucideIconMap = {
   Cookie,
   Shuffle,
   Ticket,
+  CornerDownLeft,
+  ArrowRight,
+  RotateCcw,
+  FileText,
 } as const
 
 // map から union 型を生成

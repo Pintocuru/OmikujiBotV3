@@ -29,15 +29,15 @@
   }>()
 
   const displayText = (action: PostFlowType) => {
-    switch (action.actionType) {
+    switch (action.kind) {
       case 'message':
-        return action.message.bubble || 'error'
+        return action.message || 'error'
       case 'wordParty':
-        return action.wordParty
+        return action.wordPartyId
       case 'sound':
         return action.sound
-      case 'actionSet':
-        return `アクションセット: ${action.actionSetKeys}`
+      case 'flowCall':
+        return `アクションセット: ${action.callKeys}`
       default:
         return ''
     }

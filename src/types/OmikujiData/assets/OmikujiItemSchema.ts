@@ -21,6 +21,7 @@ export type OmikujiItemKind = z.infer<typeof OmikujiItemKindSchema>
 // 優先アイテム（weight を使わない）
 const OmikujiPrioritySchema = z.object({
   isPriority: z.literal(true),
+  weight: z.number().min(0).default(1),
   criteria: normalizedObject(CriteriaThresholdSchema),
 })
 
@@ -35,12 +36,6 @@ const OmikujiWeightedSchema = z.object({
 export const OmikujiLotterySchema = z.discriminatedUnion('isPriority', [OmikujiPrioritySchema, OmikujiWeightedSchema])
 
 /**
- * kind フィールドの定義を共通化するヘルパー。
- * `.default(x).catch(x)` の x のタイポ・ズレを防ぐ。
- */
-const kindSchema = <K extends OmikujiItemKind>(kind: K) => OmikujiItemKindSchema.default(kind).catch(kind)
-
-/**
  * 「おみくじカウントとして記録するか」を持つ omikujiItem 種別の共通ベース。
  * return / continue / reset の3種で共有する。
  */
@@ -51,7 +46,7 @@ const OmikujiItemCountableBase = BaseSchema.extend({
 
 // BOTアクションを実行する
 export const OmikujiItemPostFlowSchema = BaseSchema.extend({
-  kind: kindSchema('postFlow'),
+  kind: z.literal('postFlow').default('postFlow').catch('postFlow'),
   postFlows: PostFlowArraySchema,
   cooldownSeconds: z.number().min(0).optional(), // 設定した秒数の間、重複実行をブロックする
   lottery: normalizedObject(OmikujiLotterySchema),
@@ -59,27 +54,27 @@ export const OmikujiItemPostFlowSchema = BaseSchema.extend({
 
 // 処理を終了する
 export const OmikujiItemReturnSchema = OmikujiItemCountableBase.extend({
-  kind: kindSchema('return'),
+  kind: z.literal('return').default('return').catch('return'),
 })
 
 // 次のイベントへ処理を進める
 export const OmikujiItemContinueSchema = OmikujiItemCountableBase.extend({
-  kind: kindSchema('continue'),
+  kind: z.literal('continue').default('continue').catch('continue'),
 })
 
 // おみくじの抽選回数をリセットする
 export const OmikujiItemResetSchema = OmikujiItemCountableBase.extend({
-  kind: kindSchema('reset'),
+  kind: z.literal('reset').default('reset').catch('reset'),
 })
 
 // ユーザー状態をログとして出力する
 export const LOG_FORMAT_DEFAULT = '<<user>> <<score>> <<createdAt>>'
 export const OmikujiItemLogSchema = BaseSchema.extend({
-  kind: kindSchema('log'),
+  kind: z.literal('log').default('log').catch('log'),
   // ログ1行のフォーマット文字列（使用可能: <<index>> <<user>> <<userId>> <<score>> <<item>> <<flag>> <<createdAt>>）
   logFormat: z.string().default(LOG_FORMAT_DEFAULT).catch(LOG_FORMAT_DEFAULT),
   logLimit: z.number().min(1).max(100).default(5).catch(5), // 最大出力件数（1〜100）
-  omikuji: normalizedObject(OmikujiLotterySchema),
+  lottery: normalizedObject(OmikujiLotterySchema),
 })
 
 export const OmikujiItemSchema = z.discriminatedUnion('kind', [

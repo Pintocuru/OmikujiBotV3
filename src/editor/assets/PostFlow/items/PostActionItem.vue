@@ -13,10 +13,10 @@
       <SettingItem label="🚀 アクションタイプ" description="種類を選択します">
         <div class="flex flex-wrap gap-2">
           <span
-            v-for="(meta, type) in PostFlowKindMaps"
+            v-for="(meta, type) in postFlowKindMap"
             :key="type"
             class="badge badge-sm cursor-pointer"
-            :class="action.actionType === type ? 'badge-primary' : 'badge-outline'"
+            :class="action.kind === type ? 'badge-primary' : 'badge-outline'"
             @click="updateActionType(type)"
           >
             {{ meta.label }}
@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
-  import { PostFlowSchema, PostFlowType, PostFlowKind, PostFlowKindMaps } from '@/types'
+  import { PostFlowSchema, PostFlowType, PostFlowKind } from '@/types'
   import MessageSettings from '../Message/MessageSettings.vue'
   import SoundSettings from '../Sounds/SoundSettings.vue'
   import WordPartySettings from '../WordParty/WordPartySettings.vue'
@@ -58,7 +58,8 @@
   import PostActionPreview from '../preview/PostActionPreview.vue'
   import BotSettings from '../Bot/BotSettings.vue'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import { useOmikujiStore } from '@/ConfigMaker/stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore.js'
+  import { postFlowKindMap } from '@/maps/OmikujiData/index.js'
 
   // Props
   const props = defineProps<{
@@ -74,7 +75,7 @@
   }>()
 
   const omikujiStore = useOmikujiStore()
-  const basicDelaySeconds = computed(() => omikujiStore.data.settings.basicDelaySeconds ?? 1)
+  const basicDelaySeconds = computed(() => omikujiStore.data.settings.generator.basicDelaySeconds ?? 1)
 
   // 現在表示すべきコンポーネントの決定
   const currentComponent = computed(() => {
@@ -83,11 +84,13 @@
       sound: SoundSettings,
       wordParty: WordPartySettings,
       variable: VariableSettings,
+      // TODO:gameScript のやつを用意
+      gameScript: VariableSettings,
       bot: BotSettings,
       flowCall: ActionSetSettings,
     }
 
-    return componentMap[props.action.actionType]
+    return componentMap[props.action.kind]
   })
 
   // 遅延秒数のcomputed
@@ -101,7 +104,7 @@
 
   // アクションタイプの更新
   const updateActionType = (newType: PostFlowKind) => {
-    const currentType = props.action.actionType
+    const currentType = props.action.kind
 
     // ① 現在の状態を退避
     rawActionCache.value[currentType] = {

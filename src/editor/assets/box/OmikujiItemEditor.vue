@@ -1,149 +1,99 @@
 <!-- src/editor/assets/box/OmikujiItemEditor.vue -->
 <template>
-  <!-- ヘッダー(名前、メニュー) -->
-  <OmikujiItemHeader
-    :category="category"
-    :omikujiItem="omikujiItem"
-    :index="index"
-    :selectedItemKey="selectedItemKey"
-  />
+  <!-- ヘッダー -->
+  <OmikujiItemHeader :omikujiItem="omikujiItem" @update="updateItem" />
 
   <!-- 実行内容 -->
-  <SettingItem v-if="shouldShowTypeSelector" label="実行内容" description="このおみくじの処理内容を選択します">
+  <SettingItem v-if="shouldShowKindSelector" label="実行内容" description="このおみくじの処理内容を選択します">
     <div class="flex flex-wrap gap-2">
       <span
-        v-for="(option, key) in filteredActionSetMap"
+        v-for="(option, key) in omikujiItemKindMap"
         :key="key"
         class="badge cursor-pointer select-none"
-        :class="omikujiItem.type === key ? 'badge-primary' : 'badge-ghost'"
-        @click="updateType(key as ActionSetKind)"
+        :class="omikujiItem.kind === key ? 'badge-primary' : 'badge-ghost'"
+        @click="updateKind(key as OmikujiItemKind)"
       >
-        {{ option }}
+        {{ option.label }}
       </span>
     </div>
   </SettingItem>
 
   <!-- サブタイトル -->
   <SubSectionHeader
-    :icon="actionSetKindMap[omikujiItem.type].icon"
-    :title="actionSetKindMap[omikujiItem.type].label"
-    :description="actionSetKindMap[omikujiItem.type].description"
+    :icon="omikujiItemKindMap[omikujiItem.kind].icon"
+    :title="omikujiItemKindMap[omikujiItem.kind].label"
+    :description="omikujiItemKindMap[omikujiItem.kind].description"
   />
 
-  <!-- GameScripts コンポーネント -->
-  <GameScriptsEditor
-    v-if="omikujiItem.type === 'gameScripts'"
-    :category="category"
-    :index="index"
-    :selectedItemKey="selectedItemKey"
+  <!-- postFlow 編集 -->
+  <PostFlowEditor
+    v-if="omikujiItem.kind === 'postFlow'"
+    :modelValue="omikujiItem.postFlows"
+    @update="updatePostFlows"
   />
 
-  <!-- PostActions編集コンポーネント -->
-  <PostActionsEditor v-else-if="omikujiItem.type === 'postActions'" v-model="postActions" :gameScripts="gameScripts" />
+  <!-- return -->
+  <ReturnEditor v-else-if="omikujiItem.kind === 'return'" :omikujiItem="omikujiItem" @update="updateItem" />
 
-  <!-- Special編集コンポーネント -->
-  <SpecialActionEditor
-    v-else-if="omikujiItem.type === 'special'"
-    :category="category"
-    :index="index"
-    :selectedItemKey="selectedItemKey"
-  />
+  <!-- continue -->
+  <ContinueEditor v-else-if="omikujiItem.kind === 'continue'" :omikujiItem="omikujiItem" @update="updateItem" />
+
+  <!-- reset -->
+  <ResetEditor v-else-if="omikujiItem.kind === 'reset'" :omikujiItem="omikujiItem" @update="updateItem" />
+
+  <!-- log -->
+  <LogEditor v-else-if="omikujiItem.kind === 'log'" :omikujiItem="omikujiItem" @update="updateItem" />
 </template>
 
 <script setup lang="ts">
-  import { computed, watch } from 'vue'
-  import { ActionSetKind, actionSetKindMap, PostFlowType } from '@/types'
-  import OmikujiItemHeader from './OmikujiItemHeader.vue'
+  import { computed } from 'vue'
+  import { OmikujiItemKind, OmikujiItemType, PostFlowType } from '@/types/OmikujiData/'
+
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import PostActionsEditor from '@/editor/assets/postAction/PostActionsEditor.vue'
-  import GameScriptsEditor from '@/editor/components/gameScripts/GameScriptsEditor.vue'
-  import SpecialActionEditor from './SpecialActionEditor.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { EventCategoryType } from '@/types/OmikujiData/'
+  import OmikujiItemHeader from './OmikujiItemHeader.vue'
+
+  import PostFlowEditor from '@/editor/assets/PostFlow/PostFlowsEditor.vue'
+  import ReturnEditor from './ReturnEditor.vue'
+  import ContinueEditor from './ContinueEditor.vue'
+  import ResetEditor from './ResetEditor.vue'
+  import LogEditor from './LogEditor.vue'
+  import { omikujiItemKindMap } from '@/maps/OmikujiData/index.js'
 
   const props = defineProps<{
-    category: EventCategoryType
-    selectedItemKey: string | null
-    index: number
+    omikujiItem: OmikujiItemType
   }>()
 
-  // Pinia store
-  const { data, updateOmikujiByIndex, updateEventProperty } = useOmikujiStore()
-  const { getItem } = useGetRecordData()
+  const emit = defineEmits<{
+    update: [item: OmikujiItemType]
+  }>()
 
-  // Computed
-  const omikujiSets = computed(() => {
-    if (!props.selectedItemKey) return []
-    const record = getItem(props.category, props.selectedItemKey)
-    return record?.omikuji || []
-  })
-
-  const omikujiItem = computed(() => {
-    return omikujiSets.value[props.index] || null
-  })
-
-  // 利用可能なゲームスクリプトがあるかチェック
-  const hasAvailableScripts = computed(() => data.featureUsage.gameScripts.length > 0)
-
-  // category === "comments" 以外では special を選択不可
-  const canUseSpecial = computed(() => props.category === 'comments')
-
-  // 利用可能な ActionSet を絞り込む
-  const filteredActionSetMap = computed(() => {
-    const result: Record<string, string> = {}
-    Object.entries(actionSetKindMap).forEach(([key, value]) => {
-      if (key === 'gameScripts' && !hasAvailableScripts.value) return
-      if (key === 'special' && !canUseSpecial.value) return
-      result[key] = value.label
-    })
-    return result
-  })
-
-  // 実行内容セレクタを表示するか（選択肢が2つ以上ある場合のみ）
-  const shouldShowTypeSelector = computed(() => {
-    return Object.keys(filteredActionSetMap.value).length > 1
-  })
-
-  // postActionsのgetter/setter
-  const postActions = computed({
-    get: () => {
-      return omikujiItem.value?.postActions || []
-    },
-    set: (newActions: PostFlowType[]) => {
-      if (!props.selectedItemKey) return
-
-      const updatedOmikuji = [...omikujiSets.value]
-      if (updatedOmikuji[props.index]) {
-        updatedOmikuji[props.index] = {
-          ...updatedOmikuji[props.index],
-          postActions: newActions,
-        }
-        updateEventProperty(props.category, props.selectedItemKey, 'omikuji', updatedOmikuji)
-      }
-    },
-  })
-
-  const gameScripts = computed(() => omikujiItem.value?.gameScripts || null)
-
-  const updateType = (value: ActionSetKind) => {
-    if (props.index === -1 || !props.selectedItemKey) return
-    updateOmikujiByIndex(props.category, props.selectedItemKey, props.index, (item) => ({
-      ...item,
-      type: value,
-    }))
+  // アイテム全体の更新
+  const updateItem = (item: OmikujiItemType) => {
+    emit('update', item)
   }
 
-  // 選択肢が1つしかない場合、自動的にその type に設定
-  watch(
-    () => [filteredActionSetMap.value, omikujiItem.value],
-    () => {
-      const availableTypes = Object.keys(filteredActionSetMap.value) as ActionSetKind[]
+  // kind変更
+  const updateKind = (kind: OmikujiItemKind) => {
+    if (props.omikujiItem.kind === kind) return
 
-      if (availableTypes.length === 1 && omikujiItem.value?.type !== availableTypes[0]) {
-        updateType(availableTypes[0])
-      }
-    },
-    { immediate: true }
-  )
+    emit('update', {
+      ...props.omikujiItem,
+      kind,
+    } as OmikujiItemType)
+  }
+
+  // postFlows更新
+  const updatePostFlows = (postFlows: PostFlowType[]) => {
+    if (props.omikujiItem.kind !== 'postFlow') return
+
+    emit('update', {
+      ...props.omikujiItem,
+      postFlows,
+    })
+  }
+
+  const shouldShowKindSelector = computed(() => {
+    return Object.keys(omikujiItemKindMap).length > 1
+  })
 </script>

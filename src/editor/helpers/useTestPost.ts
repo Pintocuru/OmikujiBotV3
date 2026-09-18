@@ -3,7 +3,6 @@ import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { OmikenCommentSchema } from '@/types/OmikenComment'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { GameScriptManager } from '@/generator/stores/GameScript/GameScriptManager'
 import { PlaceholderVariable } from '@/generator/stores/PlaceholderVariable/PlaceholderVariable'
@@ -13,6 +12,7 @@ import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { addWeightPercentages, drawOmikuji } from '@/common/omikuji/DrawOmikuji'
 import { BotMessageType } from '@/generator/types/MainGenerator'
 import { OmikujiResultProcessor } from '@/engine/scripts/OmikujiResult/OmikujiResultProcessor'
+import { useGetEventData } from '@/editor/stores/useGetEventData'
 
 const MOCK_COMMENT = OmikenCommentSchema.parse({
   userId: 'testUserId',
@@ -23,43 +23,39 @@ const MOCK_COMMENT = OmikenCommentSchema.parse({
 export function useTestPost() {
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const { getItem } = useGetRecordData()
+  const { getEvent } = useGetEventData()
   const navigationStore = useNavigationStore()
   const { selectedCategory, selectedItemKey } = storeToRefs(navigationStore)
 
   const scriptManager = GameScriptManager.getInstance()
   const placeholderVariable = new PlaceholderVariable()
 
-  // 選択されているイベントを取得（型安全性を確保）
+  // 選択されているおみくじを取得
   const selectedRule = computed((): EventType | null => {
     const key = selectedItemKey.value
-    if (!key || !isRulesCategory(selectedCategory.value)) return null
-    return getItem(selectedCategory.value, key) ?? null
+    if (!key) return null
+
+    const category = selectedCategory.value
+    if (!navigationStore.isEventCategory(category)) return null
+
+    return getEvent(category, key) ?? null
   })
 
   // 抽選結果の詳細トーストを表示
   const showOmikujiResultToast = (omikujiItem: OmikujiItemType) => {
     swalToast.success({
       title: 'おみくじ抽選結果',
-      html: `おみくじ: ${omikujiItem.name || '無名のアイテム'}<br>重み: ${omikujiItem.weight || 1}`,
+      html: `おみくじ: ${omikujiItem.name || '無名のアイテム'}<br>重み: ${omikujiItem.lottery.weight || 1}`,
       timer: 15000,
     })
   }
 
-  const postTestOmikujiItem = async (
-    postActions: PostFlowType[],
-    gameScripts?: GameScriptsType | null,
-    omikujiItem?: OmikujiItemType
-  ) => {
+  const postTestOmikujiItem = async (postFlows: PostFlowType[], omikujiItem?: OmikujiItemType) => {
     const resultProcessor = new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable)
 
-    const actionItem: ActionSetType = omikujiItem
-      ? { ...omikujiItem, postActions }
-      : ActionSetSchema.parse({ postActions, gameScripts })
+    const actionItem: ActionSetType = ActionSetSchema.parse({ postFlows })
 
-    const processItem = selectedRule.value ? actionItem : ActionSetSchema.parse({ postActions })
-
-    const botMessages = await resultProcessor.process(processItem, defaultPlaceholdersShortLabels, MOCK_COMMENT)
+    const botMessages = await resultProcessor.process(actionItem, defaultPlaceholdersShortLabels, MOCK_COMMENT)
 
     if (omikujiItem) showOmikujiResultToast(omikujiItem)
     executeTestPostDelays(botMessages)
@@ -74,7 +70,7 @@ export function useTestPost() {
       return
     }
 
-    const priorityItems = omikujiSet.filter((item) => !item.isPriority)
+    const priorityItems = omikujiSet.filter((item) => !item.lottery.isPriority)
     const targetSet = priorityItems.length > 0 ? priorityItems : omikujiSet
     const omikujiItem = drawOmikuji(addWeightPercentages(targetSet))
 
@@ -86,7 +82,13 @@ export function useTestPost() {
       return
     }
 
-    postTestOmikujiItem(omikujiItem.postActions, omikujiItem.gameScripts, omikujiItem)
+    if (omikujiItem.kind !== 'postFlow') {
+      // return/continue/reset/log は投稿するBOTアクションを持たないため、結果だけ通知する
+      showOmikujiResultToast(omikujiItem)
+      return
+    }
+
+    postTestOmikujiItem(omikujiItem.postFlows, omikujiItem)
   }
 
   return {

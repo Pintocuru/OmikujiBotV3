@@ -2,7 +2,7 @@
 <template>
   <div class="flex items-center gap-2 p-1">
     <!-- 遅延秒数 -->
-    <div class="flex items-center gap-2 flex-shrink-0">
+    <div class="flex items-center gap-2 shrink-0">
       <span class="badge badge-accent badge-sm rounded tooltip"> {{ action.delaySeconds }}s </span>
     </div>
 
@@ -17,15 +17,16 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { PostFlowType, PostFlowKindMaps } from '@/types'
-  import { resolveLucideIcon } from '@shared/utils/LucideIcon/useLucideIcon'
+  import { PostFlowType } from '@/types'
+  import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
+  import { postFlowKindMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     action: PostFlowType
   }>()
 
   const resolvedIcon = computed(() => {
-    const iconName = PostFlowKindMaps[props.action.actionType]?.icon
+    const iconName = postFlowKindMap[props.action.kind]?.icon
     return resolveLucideIcon(iconName)
   })
 </script>

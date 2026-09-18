@@ -40,15 +40,9 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    countComparisonCondition,
-    countComparisonConditionMap,
-    CountConditionTriggerType,
-    countUnitCondition,
-    countUnitConditionMap,
-  } from '@shared/types/trigger/CountConditionTrigger'
-
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import { countComparisonConditionMap, countUnitConditionMap } from '@/maps/trigger/CountConditionMap'
+  import { CountConditionTriggerType } from '@/types/trigger'
 
   const props = defineProps<{
     modelValue?: CountConditionTriggerType

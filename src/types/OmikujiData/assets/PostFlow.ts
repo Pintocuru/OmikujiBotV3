@@ -6,7 +6,7 @@ import { soundKeys } from './SoundKey'
 /**
  * PostFlow タイプのUI表示情報
  */
-export const postFlowKinds = ['message', 'sound', 'wordParty', 'variable', 'bot', 'flowCall'] as const
+export const postFlowKinds = ['message', 'sound', 'wordParty', 'variable', 'gameScript', 'bot', 'flowCall'] as const
 
 // スキーマと型の定義
 export const PostFlowKindSchema = z.enum(postFlowKinds).default('message').catch('message')
