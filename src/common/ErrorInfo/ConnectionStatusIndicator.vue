@@ -14,41 +14,12 @@
 
 <script setup lang="ts">
   import { computed, ref, watch } from 'vue'
-  import { AppStatus } from '@shared/types/core/AppStatus'
-  import { Loader, Wifi, WifiOff } from 'lucide-vue-next'
+  import { AppStatus } from '@/types/core'
+  import { statusConfigMap } from '@/maps/common/StatusConfigMap'
 
   const props = defineProps<{
     status: AppStatus
   }>()
-
-  // ステータスごとの設定をMapで一元管理
-  type StatusConfig = {
-    icon: any
-    label: string
-    badgeClass: string
-    isAlwaysVisible?: boolean
-  }
-
-  const statusConfigMap: Record<AppStatus, StatusConfig> = {
-    initializing: {
-      icon: Loader,
-      label: '接続中',
-      badgeClass: 'text-warning border border-warning/40',
-      isAlwaysVisible: true,
-    },
-    ready: {
-      icon: Wifi,
-      label: '接続済み',
-      badgeClass: 'text-success border border-success/40',
-      isAlwaysVisible: false,
-    },
-    error: {
-      icon: WifiOff,
-      label: '未接続',
-      badgeClass: 'text-error border border-error/40',
-      isAlwaysVisible: true,
-    },
-  }
 
   // ready 時の自動非表示タイマー
   const readyVisible = ref(true)
@@ -70,9 +41,7 @@
   )
 
   // 1つのcomputedで設定を取得
-  const statusConfig = computed(() => {
-    return statusConfigMap[props.status]
-  })
+  const statusConfig = computed(() => statusConfigMap[props.status])
 
   // 表示状態の判定（特別な処理はここに残す）
   const isVisible = computed(() => {

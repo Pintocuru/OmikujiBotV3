@@ -1,29 +1,33 @@
 // src/editor/stores/composables/useDataMergeHelpers.ts
-import { EventCategoryDataMap, EventCategoryType, AssetCategoryDataMap, RecordCategoryType } from '@/types/OmikujiData/'
-import { ImportMode } from '@/editor/types/helpers/presetsImportType'
-import { AccessLevelType } from '@shared/types'
+import type { OmikujiDataType, EventCategoryType, AssetCategoryType } from '@/types/OmikujiData'
+import type { ImportMode } from '@/editor/types/helpers/presetsImportType'
 
-// basic > adv > pro > godMode > none の順（インデックスが小さいほど優先度が高い）
-export const ACCESS_LEVEL_PRIORITY: AccessLevelType[] = ['basic', 'adv', 'pro', 'godMode', 'none']
+// 実データ(配列 / Record)の型をカテゴリ名から引く
+type EventsData = OmikujiDataType['events']
+type AssetsData = OmikujiDataType['assets']
+type EventCategoryData<C extends EventCategoryType> = EventsData[C]
+type AssetCategoryData<C extends AssetCategoryType> = AssetsData[C]
 
 /**
  * データマージ処理のヘルパー関数を提供
  */
 export function useDataMergeHelpers() {
-  /**
-   * BaseRecordSchemaを含むアイテムかどうかを判定
-   */
-  const hasOrderProperty = (item: any): item is { order: number } => {
-    return item && typeof item === 'object' && 'order' in item && typeof item.order === 'number'
+  // order プロパティを持つアイテムかどうかを判定
+  // TODO:これ不要かも
+  const hasOrderProperty = (item: unknown): item is { order: number } => {
+    return (
+      typeof item === 'object' &&
+      item !== null &&
+      'order' in item &&
+      typeof (item as { order: unknown }).order === 'number'
+    )
   }
 
   /**
    * 指定されたカテゴリの最大order値を取得
    */
-  const getMaxOrder = (categoryData: Record<string, any>): number => {
-    if (!categoryData || typeof categoryData !== 'object') {
-      return 0
-    }
+  const getMaxOrder = (categoryData: Record<string, unknown>): number => {
+    if (!categoryData || typeof categoryData !== 'object') return 0
 
     const orders = Object.values(categoryData)
       .filter(hasOrderProperty)
@@ -36,17 +40,17 @@ export function useDataMergeHelpers() {
    * イベントカテゴリごとのデータマージ処理
    */
   const mergeEventCategoryData = <C extends EventCategoryType>(
-    currentItems: EventCategoryDataMap[C],
-    importItems: EventCategoryDataMap[C],
+    currentItems: EventCategoryData<C>,
+    importItems: EventCategoryData<C>,
     mode: ImportMode
-  ): EventCategoryDataMap[C] => {
+  ): EventCategoryData<C> => {
     switch (mode) {
       case 'full-replace':
       case 'partial-replace':
         return importItems
 
       case 'partial-merge':
-        return [...currentItems, ...importItems] as EventCategoryDataMap[C]
+        return [...currentItems, ...importItems] as EventCategoryData<C>
 
       default:
         return currentItems
@@ -57,70 +61,44 @@ export function useDataMergeHelpers() {
    * インポートデータのorder値を調整
    * 既存の最大order値を基準に連番を振り直す
    */
-  const adjustOrderValues = <T extends Record<string, any>>(importItems: T, baseOrder: number): T => {
-    if (!importItems || typeof importItems !== 'object') {
-      return importItems
-    }
+  const adjustOrderValues = <T extends Record<string, unknown>>(importItems: T, baseOrder: number): T => {
+    if (!importItems || typeof importItems !== 'object') return importItems
 
     const result = {} as T
-    let currentOffset = 0
+    let offset = 0
 
-    Object.entries(importItems).forEach(([key, item]) => {
+    for (const [key, item] of Object.entries(importItems)) {
       if (hasOrderProperty(item)) {
-        result[key as keyof T] = {
-          ...item,
-          order: baseOrder + currentOffset + 1,
-        } as T[keyof T]
-        currentOffset++
+        offset++
+        result[key as keyof T] = { ...item, order: baseOrder + offset } as T[keyof T]
       } else {
-        result[key as keyof T] = item
+        result[key as keyof T] = item as T[keyof T]
       }
-    })
+    }
 
     return result
   }
 
   /**
-   * カテゴリごとのデータマージ処理
+   * アセットカテゴリごとのデータマージ処理
    */
-  const mergeCategoryData = <C extends RecordCategoryType>(
-    currentItems: AssetCategoryDataMap[C],
-    importItems: AssetCategoryDataMap[C],
+  const mergeCategoryData = <C extends AssetCategoryType>(
+    currentItems: AssetCategoryData<C>,
+    importItems: AssetCategoryData<C>,
     mode: ImportMode
-  ): AssetCategoryDataMap[C] => {
+  ): AssetCategoryData<C> => {
     switch (mode) {
       case 'full-replace':
-        // 全体上書き（全データ置き換え）
-        return importItems
-
       case 'partial-replace':
-        // 部分置き換え（カテゴリ内の既存データを削除して新しいデータのみ）
         return importItems
 
       case 'partial-merge':
-        // 部分マージ（同じkeyがある場合はJSONデータを優先）
+        // 同じ key がある場合はインポート側を優先
         return { ...currentItems, ...importItems }
 
       default:
         return currentItems
     }
-  }
-
-  /**
-   * AccessLevel を優先順位に基づいてマージする
-   * basic > adv > pro > godMode > none の順で優先度が高い
-   * 例：元が none でマージ先が basic → basic
-   *     元が basic でマージ先が none → basic（変わらない）
-   */
-  const mergeAccessLevel = (current: AccessLevelType, incoming: AccessLevelType): AccessLevelType => {
-    const currentPriority = ACCESS_LEVEL_PRIORITY.indexOf(current)
-    const incomingPriority = ACCESS_LEVEL_PRIORITY.indexOf(incoming)
-
-    // インデックスが小さい（優先度が高い）方を採用
-    // indexOf が -1（未知の値）の場合は相手を優先
-    if (currentPriority === -1) return incoming
-    if (incomingPriority === -1) return current
-    return currentPriority <= incomingPriority ? current : incoming
   }
 
   return {
@@ -129,6 +107,5 @@ export function useDataMergeHelpers() {
     getMaxOrder,
     adjustOrderValues,
     mergeCategoryData,
-    mergeAccessLevel,
   }
 }

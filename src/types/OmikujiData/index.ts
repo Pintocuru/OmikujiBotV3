@@ -9,6 +9,7 @@ export * from './CategoryType'
 export * from './fontFamily'
 export * from './JsonMergeType'
 export * from './OmikujiDataSchema'
+export * from './ParsedDefault'
 export * from './SettingsSchema'
 
 /**

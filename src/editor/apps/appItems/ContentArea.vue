@@ -32,7 +32,7 @@
   import PlaceholderEditor from '@/editor/assets/placeholders/PlaceholderEditor.vue'
   import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
 
-  import UiEditor from '@/editor/UiEditor/UiEditor.vue'
+  import UiEditor from '@/editor/ui/UiEditor.vue'
   import AppInfoEditor from '@/editor/apps/appInfo/AppInfoEditor.vue'
   import JsonMergeEditor from '@/editor/apps/JsonMerge/JsonMergeEditor.vue'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'

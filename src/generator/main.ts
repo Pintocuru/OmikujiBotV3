@@ -1,6 +1,6 @@
 // src/generator/main.ts
 import App from './App.vue'
-import { createAppOneSDK } from '../core'
+import { createAppOneSDK } from '@/common/EntryCore/core'
 
 window.OmikujiBot = window.OmikujiBot ?? {}
 

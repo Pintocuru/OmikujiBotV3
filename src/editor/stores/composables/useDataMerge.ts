@@ -2,10 +2,10 @@
 import { Ref } from 'vue'
 import {
   assetCategory,
+  AssetCategoryType,
   eventCategory,
   EventCategoryType,
   OmikujiDataType,
-  RecordCategoryType,
 } from '@/types/OmikujiData'
 import { useDataMergeHelpers } from './useDataMergeHelpers'
 import { ImportPreview } from '@/editor/types'
@@ -18,21 +18,14 @@ import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 export function useDataMerge(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean>) {
   const helpers = useDataMergeHelpers()
 
-  /**
-   * インポートされたデータを既存データにマージ
-   * インポートデータにもマイグレーションを適用
-   */
+  // インポートされたデータを既存データにマージ
   const mergeDataSets = (importedRawData: unknown, preview: ImportPreview): boolean => {
     try {
       // インポートデータにマイグレーション&バリデーションを適用
       const importedData = normalizeData(importedRawData)
 
-      let result: OmikujiDataType
+      const result = processPartialMerge(importedData, preview)
 
-      // 部分更新モード
-      result = processPartialMerge(importedData, preview)
-
-      // 成功トースト
       swalToast.success({ title: 'データの部分更新が完了しました。' })
 
       data.value = result
@@ -48,9 +41,7 @@ export function useDataMerge(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
     }
   }
 
-  /**
-   * 部分マージ処理
-   */
+  // 部分マージ処理
   const processPartialMerge = (importedData: OmikujiDataType, preview: ImportPreview): OmikujiDataType => {
     const result: OmikujiDataType = structuredClone(data.value)
 
@@ -62,39 +53,29 @@ export function useDataMerge(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
       const currentItems = result.events[category]
       const importItems = importedData.events[category]
 
-      const mergedItems = helpers.mergeEventCategoryData(currentItems, importItems, config.mode)
-
-      result.events[category] = mergedItems
+      result.events[category] = helpers.mergeEventCategoryData<K>(currentItems, importItems, config.mode)
     }
-
     eventCategory.forEach(mergeEventCategory)
 
     // assets
-    const mergeAssetCategory = <K extends RecordCategoryType>(category: K) => {
+    const mergeAssetCategory = <K extends AssetCategoryType>(category: K) => {
       const config = preview.recordCategories[category]
       if (!config.enabled) return
 
       const currentItems = result.assets[category]
-      const importItems = importedData.assets[category]
-
-      let adjustedImportItems = importItems
+      let importItems = importedData.assets[category]
 
       if (config.mode === 'partial-merge') {
         const maxOrder = helpers.getMaxOrder(currentItems)
-        adjustedImportItems = helpers.adjustOrderValues(importItems, maxOrder)
+        importItems = helpers.adjustOrderValues(importItems, maxOrder)
       }
 
-      const mergedItems = helpers.mergeCategoryData(currentItems, adjustedImportItems, config.mode)
-
-      result.assets[category] = mergedItems
+      result.assets[category] = helpers.mergeCategoryData<K>(currentItems, importItems, config.mode)
     }
-
     assetCategory.forEach(mergeAssetCategory)
 
     return result
   }
 
-  return {
-    mergeDataSets,
-  }
+  return { mergeDataSets }
 }

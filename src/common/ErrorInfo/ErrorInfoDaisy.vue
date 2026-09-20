@@ -27,7 +27,7 @@
   import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
   import { WifiOff } from 'lucide-vue-next'
 
-  const props = defineProps<{
+  defineProps<{
     errorDetail?: string
   }>()
 

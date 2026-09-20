@@ -10,40 +10,21 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "target": "ES2022",
-    "lib": [
-      "ES2022",
-      "DOM"
-    ],
-    "types": [
-      "node"
-    ],
+    "lib": ["ES2022", "DOM"],
+    "types": ["node"],
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "preserve",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@assets/*": [
-        "./assets/*"
-      ],
-      "@main/*": [
-        "./src/generator/*"
-      ],
-      "@config/*": [
-        "./src/ConfigMaker/*"
-      ],
-      "@game/*": [
-        "./src/GameScripts/*"
-      ],
-      "@sounds/*": [
-        "./src/common/sounds/*"
-      ],
-      "@migrations/*": [
-        "./src/common/migrations/*"
-      ],
+      "@/*": ["./src/*"],
+      "@assets/*": ["./assets/*"],
+      "@main/*": ["./src/generator/*"],
+      "@config/*": ["./src/ConfigMaker/*"],
+      "@game/*": ["./src/GameScripts/*"],
+      "@sounds/*": ["./src/common/sounds/*"],
+      "@migrations/*": ["./src/common/migrations/*"]
     }
   },
   "include": [
@@ -55,9 +36,5 @@
     "build/**/*.ts",
     "*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "archives",
-    "**/*.test.ts"
-  ]
+  "exclude": ["node_modules", "archives", "**/*.test.ts"]
 }

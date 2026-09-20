@@ -13,7 +13,7 @@
       <!-- エラー説明 -->
       <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
         <div class="flex items-start gap-3">
-          <XCircle class="h-6 w-6 text-red-500 flex-shrink-0 mt-0.5" />
+          <XCircle class="h-6 w-6 text-red-500 shrink-0 mt-0.5" />
           <p class="text-red-800 text-sm">データの読み込みに失敗しました。以下の確認をお願いします。</p>
         </div>
       </div>
@@ -28,7 +28,7 @@
         <div class="space-y-3 text-sm">
           <div class="flex items-start gap-3">
             <span
-              class="inline-flex items-center justify-center h-5 w-5 bg-gray-200 text-gray-700 text-xs font-medium rounded-full flex-shrink-0 mt-0.5"
+              class="inline-flex items-center justify-center h-5 w-5 bg-gray-200 text-gray-700 text-xs font-medium rounded-full shrink-0 mt-0.5"
               >1</span
             >
             <span class="text-gray-700">わんコメが正常に起動していることを確認してください</span>
@@ -38,7 +38,7 @@
           <template v-if="isPlugin">
             <div class="flex items-start gap-3">
               <span
-                class="inline-flex items-center justify-center h-5 w-5 bg-gray-200 text-gray-700 text-xs font-medium rounded-full flex-shrink-0 mt-0.5"
+                class="inline-flex items-center justify-center h-5 w-5 bg-gray-200 text-gray-700 text-xs font-medium rounded-full shrink-0 mt-0.5"
                 >2</span
               >
               <span class="text-gray-700">
@@ -59,7 +59,7 @@
 
         <div class="flex items-start gap-3 text-sm">
           <span
-            class="inline-flex items-center justify-center h-5 w-5 bg-blue-200 text-blue-700 text-xs font-bold rounded-full flex-shrink-0 mt-0.5"
+            class="inline-flex items-center justify-center h-5 w-5 bg-blue-200 text-blue-700 text-xs font-bold rounded-full shrink-0 mt-0.5"
             >!</span
           >
           <span class="text-blue-800">
@@ -95,7 +95,7 @@
   import { AlertTriangle, XCircle, ChevronRight, Lightbulb, RotateCcw, Clock } from 'lucide-vue-next'
 
   // プラグインIDを受け取るプロパティ
-  const props = defineProps<{
+  defineProps<{
     isPlugin?: boolean
     pluginName?: string
   }>()

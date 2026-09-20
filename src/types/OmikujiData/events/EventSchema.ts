@@ -7,25 +7,12 @@ import { ReactionTriggerSchema } from './ReactionTriggerSchema'
 import { BaseRecordSchema } from '../../core/BaseSchema'
 
 /**
- * おみくじ制限設定のスキーマ
- */
-export const OmikujiLimitsSchema = z.object({
-  // 重複制限
-  cooldownSeconds: z.number().min(0).max(300).catch(3), // 処理クールダウン時間（秒）、0で無効
-  cooldownMessage: z.string().nullish().default(null).catch(null),
-
-  // 連投制限
-  isRepeatAllowed: z.number().default(0).catch(0),
-  repeatMessage: z.string().nullish().default(null).catch(null),
-})
-export type OmikujiLimitsType = z.infer<typeof OmikujiLimitsSchema>
-
-/**
  * Events 共通部分のスキーマ
  */
 export const BaseEventSchema = BaseRecordSchema.extend({
-  omikujiId: z.string().default('').catch(''),
+  omikujiKey: z.string().default('').catch(''),
 })
+export type BaseEventType = z.infer<typeof BaseEventSchema>
 
 /**
  * comments スキーマ
@@ -33,7 +20,6 @@ export const BaseEventSchema = BaseRecordSchema.extend({
 export const CommentEventSchema = BaseEventSchema.extend({
   kind: z.literal('comments').default('comments'),
   trigger: normalizedObject(CommentTriggerSchema),
-  limits: normalizedObject(OmikujiLimitsSchema),
 })
 export type CommentEventType = z.infer<typeof CommentEventSchema>
 

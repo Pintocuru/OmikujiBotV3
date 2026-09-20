@@ -22,46 +22,45 @@
       <ReactionDebugPanel v-if="isDev && 0" />
     </div>
 
-    <ErrorInitComponent v-else-if="appStore.status === 'error'" />
+    <ErrorInfo v-else-if="appStore.status === 'error'" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, onMounted } from "vue";
-import { isDev, useFontFamily } from "@/types";
-import { useAppInitializer } from "@/generator/composables/useAppInitializer";
-import { useRuleProcessor } from "@/generator/composables/useRuleProcessor";
-import { useAppStore } from "@/generator/stores/useAppStore";
-import ReactionDebugPanel from "@main/ui/_debug/ReactionDebugPanel.vue";
-import ErrorInitComponent from "@shared/components/error/ErrorInfoDaisy.vue";
-import ConnectionStatusIndicator from "@shared/components/error/ConnectionStatusIndicator.vue";
-import { COMPONENT_MAP_LOADER } from "./ui/ComponentMaps";
-import { SPECIAL_SET_LAYOUT_LOADER } from "./layouts/LayoutMaps";
+  import { computed, defineAsyncComponent, onMounted } from 'vue'
+  import { isDev } from '@/types/env'
+  import { useFontFamily } from '@/types/OmikujiData'
+  import { useAppInitializer } from '@/generator/composables/useAppInitializer'
+  import { useRuleProcessor } from '@/generator/composables/useRuleProcessor'
+  import { useAppStore } from '@/generator/stores/useAppStore'
+  import ReactionDebugPanel from '@main/ui/_debug/ReactionDebugPanel.vue'
+  import ErrorInfo from '@/common/ErrorInfo/ErrorInfo.vue'
+  import ConnectionStatusIndicator from '@/common/ErrorInfo/ConnectionStatusIndicator.vue'
+  import { COMPONENT_MAP_LOADER } from './ui/ComponentMaps'
+  import { SPECIAL_SET_LAYOUT_LOADER } from './layouts/LayoutMaps'
 
-const appStore = useAppStore();
-const fontFamily = computed(() =>
-  useFontFamily(appStore.data.components.commonStyle.fontFamily ?? "default"),
-);
+  const appStore = useAppStore()
+  const fontFamily = computed(() => useFontFamily(appStore.data.components.commonStyle.fontFamily ?? 'default'))
 
-// コンポーネント設定
-const SLOT_PRIORITY = { primary: 2, secondary: 2, extra: 1 } as const;
-const activeComponents = computed(() =>
-  appStore.data.components.conditions
-    .map((condition) => ({
-      slot: condition.slot,
-      component: defineAsyncComponent(COMPONENT_MAP_LOADER[condition.kind]),
-    }))
-    .sort((a, b) => SLOT_PRIORITY[b.slot] - SLOT_PRIORITY[a.slot]),
-);
+  // コンポーネント設定
+  const SLOT_PRIORITY = { primary: 2, secondary: 2, extra: 1 } as const
+  const activeComponents = computed(() =>
+    appStore.data.components.conditions
+      .map((condition) => ({
+        slot: condition.slot,
+        component: defineAsyncComponent(COMPONENT_MAP_LOADER[condition.kind]),
+      }))
+      .sort((a, b) => SLOT_PRIORITY[b.slot] - SLOT_PRIORITY[a.slot])
+  )
 
-// specialSetベース
-const specialLayout = computed(() => {
-  const { specialSet } = appStore.data.components;
-  if (!specialSet) return null;
-  return defineAsyncComponent(SPECIAL_SET_LAYOUT_LOADER[specialSet]);
-});
+  // specialSetベース
+  const specialLayout = computed(() => {
+    const { specialSet } = appStore.data.components
+    if (!specialSet) return null
+    return defineAsyncComponent(SPECIAL_SET_LAYOUT_LOADER[specialSet])
+  })
 
-const { initialize } = useAppInitializer();
-onMounted(initialize);
-useRuleProcessor();
+  const { initialize } = useAppInitializer()
+  onMounted(initialize)
+  useRuleProcessor()
 </script>

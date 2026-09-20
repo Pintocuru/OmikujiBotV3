@@ -2,8 +2,8 @@
 import fs from 'fs/promises'
 import path from 'path'
 import { FileItem } from '../types'
-import { generateJsContent } from '@/editor/components/presetsExport/generateContent'
 import { ensureDirectory } from './directoryService'
+import { generateJsContent } from '@/editor/helpers/presetsExport/generateContent'
 import { DIR } from '../../constants'
 
 /**

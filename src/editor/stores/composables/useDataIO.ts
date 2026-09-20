@@ -9,9 +9,7 @@ import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
  * データの入出力（読み込み・保存・エクスポート）を提供
  */
 export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource>) {
-  /**
-   * データを読み込み、マイグレーションとバリデーションを行う
-   */
+  // データを読み込み、マイグレーションとバリデーションを行う
   const loadData = (loadData: unknown): boolean => {
     try {
       data.value = normalizeData(loadData)
@@ -24,18 +22,14 @@ export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource
     }
   }
 
-  /**
-   * グローバルの omikujiData.js を開く
-   */
-  //
+  // グローバルの omikujiData.js を開く
   const openLocalOmikujiData = () => {
     const result = loadData(window.omikujiData)
     if (result) dataSource.value = 'local'
   }
 
-  /**
-   * データをJSON形式でエクスポート
-   */
+  // データをJSON形式でエクスポート
+  // ! JSONエクスポートは廃止
   const exportData = () => {
     const validation = OmikujiDataSchema.safeParse(data.value)
     if (validation.success) {

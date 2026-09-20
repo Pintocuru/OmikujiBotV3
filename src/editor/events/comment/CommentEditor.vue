@@ -1,12 +1,5 @@
 <!-- src/editor/events/comment/CommentEditor.vue -->
 <template>
-  <!-- 便利ボタン群 -->
-  <div class="flex justify-end gap-2">
-    <!-- 全体キャラ変更 -->
-    <GlobalCharacterChanger category="comments" />
-    <IconKeyChanger category="comments" />
-  </div>
-
   <template v-if="selectedItem">
     <!-- 基本設定セクション -->
     <SectionCard
@@ -34,10 +27,9 @@
       </SectionCard>
 
       <!-- みくじ箱選択セクション -->
-      <!-- TODO:新規作成 -->
+      <BoxChoiceEditor v-model="selectedItem" />
 
       <!-- おみくじ設定セクション -->
-      <!-- TODO:みくじ箱を選択したときに表示する -->
       <SectionCard
         id="section-omikujiSet"
         :icon="s('omikujiSet')?.icon"
@@ -46,14 +38,14 @@
         :title="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
-        <OmikujiSetEditor category="comments" :selectedItemKey="selectedItemKey" />
+        <BoxSettings category="comments" :omikujiKey="selectedItem.key" />
       </SectionCard>
     </template>
 
     <!-- 無効のときのメッセージ -->
     <InformationCard v-else variant="error" class="mt-4 p-4">
-      {{ t('commentEditor.disabledNotice.title') }}<br />
-      {{ t('commentEditor.disabledNotice.action') }}
+      {{ t('eventCore.disabledNotice.title') }}<br />
+      {{ t('eventCore.disabledNotice.action') }}
     </InformationCard>
   </template>
 </template>
@@ -63,11 +55,12 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { CommentEventType } from '@/types/OmikujiData/'
+
   import CommentTriggerEditor from './CommentTriggerEditor.vue'
+  import BoxChoiceEditor from '@/editor/events/core/BoxChoiceEditor.vue'
+
   import BaseEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
-  import OmikujiSetEditor from '@/editor/helpers/OmikujiSetEditor/OmikujiSetEditor.vue'
-  import GlobalCharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
+  import BoxSettings from '@/editor/assets/box/BoxSettings.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
