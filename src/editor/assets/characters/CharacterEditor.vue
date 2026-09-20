@@ -11,7 +11,7 @@
       :title="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
-      <CharacterBasicInfo :selectedItemKey="selectedItemKey" />
+      <BaseSettingsEditor v-model="selectedItem" category="placeholders" :isIsEnabled="false" />
     </SectionCard>
 
     <!-- フキダシカラー設定 -->
@@ -35,9 +35,10 @@
       :title="s('commentVoice')?.label"
       :description="s('commentVoice')?.description"
     >
+      <!-- TODO:updateRecordProperty は使わないこと。 -->
       <CommentVoiceSettings
         :modelValue="selectedItem.displayOption"
-        :backgroundColor="selectedItem.color.backgroundColor"
+        :backgroundColor="selectedItem.color.background"
         :onUpdate="(value) => updateRecordProperty('characters', selectedItemKey!, 'displayOption', value)"
       />
     </SectionCard>
@@ -60,7 +61,7 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import CharacterBasicInfo from './basicInfo/CharacterBasicInfo.vue'
+  import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import CharacterColorSettings from './color/CharacterColorSettings.vue'
   import CharacterImageSettings from './CharacterImage/CharacterImageSettings.vue'
   import CommentVoiceSettings from './service/CommentVoiceSettings.vue'
@@ -95,11 +96,18 @@
 
   // Pinia store
   const { getAsset } = useGetAssetData()
-  const { updateRecordProperty } = useOmikujiStore()
+  const { updateAsset } = useOmikujiStore()
 
-  // 選択されたキャラクターを取得（読み取り専用）
-  const selectedItem = computed(() => {
-    if (!selectedItemKey.value) return null
-    return getAsset('characters', selectedItemKey.value)
+  // 選択されたキャラクターを取得
+  // TODO: get/set を使い、この箇所で更新を行うこと。
+  const selectedItem = computed({
+    get: () => {
+      if (!selectedItemKey.value) return null
+      return getAsset('characters', selectedItemKey.value)
+    },
+    set: (value) => {
+      if (!selectedItemKey.value || !value) return
+      updateAsset('characters', selectedItemKey.value, value)
+    },
   })
 </script>

@@ -134,6 +134,7 @@
         ...props.omikujiItem,
         lottery: {
           isPriority: true,
+          weight: lottery.weight,
           criteria: newCriteria,
         },
       })

@@ -1,5 +1,4 @@
 // src/editor/maps/assets/DefaultPlaceholderMaps.ts
-
 import { countUnitConditionMap } from '@/maps/trigger/CountConditionMap'
 import { serviceMetaConditionMap } from '@/maps/trigger/ServiceConditionMap'
 
@@ -17,7 +16,15 @@ export const defaultBasePlaceholderLabel = [
   'winner',
   'clock',
 ] as const
-export const defaultPlaceholderLabel = [...defaultBasePlaceholderLabel, 'user', 'userId', 'price', 'tc', 'draws']
+
+export const defaultPlaceholderLabel = [
+  ...defaultBasePlaceholderLabel,
+  'user',
+  'userId',
+  'price',
+  'tc',
+  'draws',
+] as const
 
 export const defaultPlaceholderMap = {
   user: { slot: 'comment', label: 'コメントしたユーザー', short: 'User_Name' },

@@ -1,4 +1,5 @@
 <!-- src/editor/helpers/ThemeColorPicker/ColorModeSelector.vue -->
+<!-- ! 使用しない -->
 <template>
   <!-- モード切り替えヘッダー -->
   <div v-if="isAdv || !modelValue.isTheme" class="flex justify-end items-center gap-2">

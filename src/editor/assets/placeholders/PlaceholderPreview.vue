@@ -1,29 +1,34 @@
 <!-- src/editor/assets/placeholders/PlaceholderPreview.vue -->
 <template>
-  <div class="tooltip tooltip-bottom" data-tip="わんコメを起動すると、投稿の確認ができます">
+  <div class="tooltip tooltip-bottom" :data-tip="t('placeholder.previewTooltip')">
     <button @click="handleDraw" class="btn btn-info" :disabled="!values.length">
       <Dices class="w-4 h-4" />
-      抽選テスト
+      {{ t('placeholder.drawTest') }}
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
+
   import { handelNormalizedValues, WeightValuesArrayType } from '@/types'
   import { processTestPlaceholder } from '@/editor/assets/PostFlow/preview/TestPlaceholderProcessor'
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { addWeightPercentages, drawOmikuji, OmikujiWeightItem } from '@shared/utils/omikuji/DrawOmikuji'
-  import { postSpeech } from '@shared/sdk/post/PostOneComme'
   import { Dices } from 'lucide-vue-next'
+  import { addWeightPercentages, drawOmikuji, OmikujiWeightItem } from '@/common/omikuji/DrawOmikuji'
+  import { postSpeech } from '@/sdk/post/PostOneComme'
+  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     values: WeightValuesArrayType
   }>()
 
-  const { getCategoryMap } = useGetRecordData()
-  const placeholdersMap = computed(() => getCategoryMap('placeholders'))
+  const { getAssets } = useGetAssetData()
+  const placeholdersMap = computed(() => getAssets('placeholders'))
 
   // 抽選実行
   const draw = () => {
@@ -37,14 +42,17 @@
     const { weight = 1, weightPercent = 0 } = drawn
 
     swalToast.success({
-      title: '抽選結果',
-      html: `内容:<br>${message}<br>重み: ${weight}<br>確率: ${weightPercent}%`,
+      title: t('placeholder.drawResultTitle'),
+      html: t('placeholder.drawResultHtml', { content: message, weight, percent: weightPercent }),
       timer: 15000,
     })
   }
 
   const showError = () => {
-    swalToast.error({ title: '抽選結果', text: '抽選できませんでした' })
+    swalToast.error({
+      title: t('placeholder.drawResultTitle'),
+      text: t('placeholder.drawFailed'),
+    })
   }
 
   // メイン処理

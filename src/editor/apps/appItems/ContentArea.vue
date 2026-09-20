@@ -46,14 +46,20 @@
   // エディターマップ
   const editorMap: Record<CategoryType, any> = {
     jsonMerge: JsonMergeEditor,
+
+    // events
     comments: CommentEventEditor,
     timers: TimerEventEditor,
     services: ServiceEventEditor,
     reactions: ReactionEventEditor,
+
+    // assets
     box: BoxEditor,
     actions: ActionsEditor,
     placeholders: PlaceholderEditor,
     characters: CharacterEditor,
+
+    //
     ui: UiEditor,
     appInfo: AppInfoEditor,
   } as const

@@ -1,6 +1,6 @@
 // src/generator/types/MainGenerator/DefaultPlaceholders.ts
 import z from 'zod'
-import { defaultPlaceholderMap } from '../MetaMaps'
+import { defaultPlaceholderMap } from '@/editor/maps/assets/DefaultPlaceholderMaps'
 
 // Zod スキーマ
 export const DefaultPlaceholdersMetaSchema = z.object({

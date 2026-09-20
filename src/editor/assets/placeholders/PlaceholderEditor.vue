@@ -1,8 +1,5 @@
 <!-- src/editor/assets/placeholders/PlaceholderEditor.vue -->
 <template>
-  <!-- タブ部分 -->
-  <RecordTabs />
-
   <template v-if="selectedItem">
     <!-- 基本設定 -->
     <SectionCard
@@ -25,24 +22,25 @@
       :title="s('placeholder')?.label"
       :description="s('placeholder')?.description"
     >
-      <PlaceholderValuesEditor :key="selectedItem.id" :placeholderKey="selectedItem.key" />
+      <PlaceholderValuesEditor v-model="selectedItem" />
     </SectionCard>
   </template>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useI18n } from 'vue-i18n'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import PlaceholderValuesEditor from './PlaceholderValuesEditor.vue'
-  import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
-
-  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
   import { storeToRefs } from 'pinia'
-  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import { useI18n } from 'vue-i18n'
 
   import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap.js'
+  import PlaceholderValuesEditor from './PlaceholderValuesEditor.vue'
+
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData.js'
+
+  import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
+  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
 
   const { t } = useI18n()
 
@@ -68,8 +66,8 @@
   }
 
   // Pinia store
-  const { updateAsset } = useOmikujiStore()
   const { getAsset } = useGetAssetData()
+  const { updateAsset } = useOmikujiStore()
 
   // 選択されたアイテムの取得（読み取り専用）
   const selectedItem = computed({

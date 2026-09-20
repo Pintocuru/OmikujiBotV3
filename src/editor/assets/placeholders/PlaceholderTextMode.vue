@@ -3,26 +3,33 @@
   <div>
     <!-- 入力形式の説明 -->
     <InformationCard>
-      <p>入力形式:</p>
-      <p>• <code class="label bg-accent text-accent-content">各行が1つの項目</code>になります</p>
-      <p>• 形式: <code class="bg-accent px-1 rounded">重み,内容</code></p>
+      <p>{{ t('placeholder.inputFormat') }}</p>
       <p>
-        • 例: <code class="bg-accent px-1 rounded">3,テキスト</code> または
-        <code class="bg-accent px-1 rounded">テキスト</code>（数値がない場合、重み1として扱います）
+        • <code class="label bg-accent text-accent-content">{{ t('placeholder.lineFormat') }}</code>
       </p>
-      <p>• ※ 重みは1以上の整数で指定してください</p>
+      <p>
+        • {{ t('placeholder.formatLabel') }}:
+        <code class="bg-accent px-1 rounded">{{ t('placeholder.formatExample1') }}</code>
+      </p>
+      <p>
+        • {{ t('placeholder.example') }}:
+        <code class="bg-accent px-1 rounded">3,{{ t('placeholder.sampleText') }}</code> {{ t('placeholder.or') }}
+        <code class="bg-accent px-1 rounded">{{ t('placeholder.sampleText') }}</code
+        >（{{ t('placeholder.defaultWeightNote') }}）
+      </p>
+      <p>• {{ t('placeholder.weightNote') }}</p>
     </InformationCard>
 
     <!-- テキストエリア -->
     <div class="form-control pt-4">
       <label class="label">
-        <span class="label-text font-medium">📝 テキスト入力</span>
-        <span class="label-text-alt">{{ lineCount }}行</span>
+        <span class="label-text font-medium">{{ t('placeholder.textInputLabel') }}</span>
+        <span class="label-text-alt">{{ t('placeholder.lineCount', { count: lineCount }) }}</span>
       </label>
       <textarea
         v-model="textContent"
         class="textarea textarea-bordered h-64 font-mono text-sm resize-none w-full"
-        placeholder="3,重要な内容&#10;1,普通の内容&#10;5,とても重要な内容&#10;単純なテキスト（重み1）"
+        :placeholder="t('placeholder.textareaPlaceholder')"
       />
     </div>
 
@@ -30,8 +37,8 @@
     <div v-if="hasErrors" class="alert alert-error">
       <span class="text-lg">⚠️</span>
       <div>
-        <div class="font-semibold">入力エラーがあります</div>
-        <div class="text-sm">{{ errorCount }}行にエラーがあります。修正してから保存してください。</div>
+        <div class="font-semibold">{{ t('placeholder.hasErrorTitle') }}</div>
+        <div class="text-sm">{{ t('placeholder.hasErrorBody', { count: errorCount }) }}</div>
       </div>
     </div>
 
@@ -46,9 +53,13 @@
 
 <script setup lang="ts">
   import { ref, computed, onMounted } from 'vue'
-  import { WeightValuesArrayType, WeightValueSchema } from '@/types/OmikujiData/PlaceholderSchema'
+  import { useI18n } from 'vue-i18n'
+
+  import { WeightValuesArrayType, WeightValueSchema } from '@/types/OmikujiData'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
   import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     initialValues: WeightValuesArrayType

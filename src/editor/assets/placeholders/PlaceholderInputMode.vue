@@ -5,25 +5,27 @@
       <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
         <!-- 重み (パーセンテージ表示) -->
         <div class="w-full sm:w-32">
-          <label class="text-xs text-gray-500 mb-1 block"> 重み ({{ getWeightPercentage(value.weight) }}%) </label>
+          <label class="text-xs text-gray-500 mb-1 block">
+            {{ t('placeholder.weightLabel') }} ({{ getWeightPercentage(value.weight) }}%)
+          </label>
           <input
             type="number"
             :value="value.weight"
             @input="updateWeight(index, $event, handleUpdate)"
             min="0"
             class="input input-bordered input-sm w-full"
-            placeholder="重み"
+            :placeholder="t('placeholder.weightLabel')"
           />
         </div>
 
         <!-- 内容 -->
         <div class="flex-1">
-          <label class="text-xs text-gray-500 mb-1 block">内容</label>
+          <label class="text-xs text-gray-500 mb-1 block">{{ t('placeholder.contentLabel') }}</label>
           <input
             type="text"
             :value="value.content"
             @input="updateContent(index, $event, handleUpdate)"
-            placeholder="プレースホルダーの内容"
+            :placeholder="t('placeholder.contentPlaceholder')"
             class="input input-bordered input-sm w-full"
           />
         </div>
@@ -38,35 +40,36 @@
 
   <!-- データが空であるとき -->
   <div v-else>
-    <NoParamsCard message="プレースホルダーの内容が空です" />
+    <NoParamsCard :message="t('placeholder.emptyValues')" />
   </div>
 
-  <button @click="addValue(handleUpdate)" class="btn btn-primary w-full mt-4">+ 値を追加</button>
+  <button @click="addValue(handleUpdate)" class="btn btn-primary w-full mt-4">{{ t('placeholder.addValue') }}</button>
 </template>
 
 <script setup lang="ts">
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useI18n } from 'vue-i18n'
   import { WeightValuesArrayType } from '@/types/OmikujiData'
   import { useWeightValueManagement } from '@/editor/assets/PostFlow/actions/useWeightValueManagement'
   import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown/MenuDropdown.vue'
 
+  const { t } = useI18n()
+
   const props = defineProps<{
-    placeholderId: string
     values: WeightValuesArrayType
   }>()
 
-  const omikujiStore = useOmikujiStore()
+  const emit = defineEmits<{
+    update: [values: WeightValuesArrayType]
+  }>()
 
-  // values を取得
   const getValues = () => props.values
 
-  // コンポーザブルを使用（循環参照チェックは不要なのでcurrentKeyは渡さない）
   const { displayValues, getWeightPercentage, addValue, removeValue, duplicateValue, updateWeight, updateContent } =
     useWeightValueManagement(getValues)
 
-  // 更新処理（ストアに直接保存）
+  // ストアには触れず、親（PlaceholderValuesEditor）に emit するだけ
   const handleUpdate = (newValues: WeightValuesArrayType) => {
-    omikujiStore.updatePlaceholderValues(props.placeholderId, newValues)
+    emit('update', newValues)
   }
 </script>

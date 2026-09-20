@@ -42,32 +42,15 @@
       :onUpdate="props.onUpdate"
     />
   </template>
-
-  <!-- rpgVoice  -->
-  <SettingItem
-    v-if="currentDisplayOption.mode === 'rpgVoice'"
-    label="文字送り&RPG風の読み上げ"
-    description="BOTコメントを音入りで表示するか"
-  >
-    <select
-      v-model="currentDisplayOption.rpgVoice"
-      @change="onSoundChange($event)"
-      class="select select-bordered w-full max-w-xs"
-    >
-      <option v-for="(value, key) in rpgVoiceMap" :key="key" :value="key">
-        {{ value }}
-      </option>
-    </select>
-  </SettingItem>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { displayModeMap, DisplayOptionType, RpgVoiceKeyType, rpgVoiceMap } from '@/types/'
+  import { DisplayOptionType } from '@/types/'
   import CharacterBase64Settings from './CharacterBase64Settings.vue'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import { playRpgVoiceLoop } from '@/common/sounds'
-  import InformationCard from '@shared/components/parts/InformationCard.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
+  import { displayModeMap } from '@/maps/OmikujiData/index.js'
 
   const props = defineProps<{
     modelValue: DisplayOptionType
@@ -79,16 +62,5 @@
 
   const updateDisplayField = (key: keyof DisplayOptionType, value: any) => {
     props.onUpdate({ ...currentDisplayOption.value, [key]: value })
-  }
-
-  const onSoundChange = (event: Event) => {
-    const soundName = (event.target as HTMLSelectElement).value as RpgVoiceKeyType
-    if (soundName) {
-      playRpgVoiceLoop(
-        'こんな文章でも読んでくれてありがとう！これでもこのメッセージ、意味があるからな！文字の長さしか見ないけど！',
-        soundName
-      )
-    }
-    updateDisplayField('rpgVoice', soundName)
   }
 </script>

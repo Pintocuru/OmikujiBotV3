@@ -30,11 +30,11 @@
   import { computed, nextTick, ref } from 'vue'
   import { Plus } from 'lucide-vue-next'
   import { CharacterImageSetSchema, CharacterImageType } from '@/types/'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
   import EmotionPresetButtons from './EmotionPresetButtons.vue'
 
   import EmotionGrid from './EmotionGrid.vue'
   import EmotionEditModal from './EmotionEditModal.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore.js'
 
   const props = defineProps<{
     modelValue: CharacterImageType

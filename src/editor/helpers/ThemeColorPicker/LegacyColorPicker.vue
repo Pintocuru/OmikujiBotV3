@@ -1,4 +1,5 @@
 <!-- src/editor/helpers/ThemeColorPicker/LegacyColorPicker.vue -->
+<!-- TODO:ファイル名を変える -->
 <template>
   <div class="bg-base-300 p-4 flex flex-col space-y-4">
     <!-- プリセットカラー -->
@@ -7,7 +8,7 @@
         v-for="(theme, i) in DEFAULT_COLOR_THEMES"
         :key="i"
         class="w-8 h-8 rounded-full border border-base-content/20 hover:scale-110 transition"
-        :style="{ backgroundColor: theme.backgroundColor }"
+        :style="{ background: theme.background }"
         :title="`プリセット ${i + 1}`"
         @click="selectPreset(theme)"
       />
@@ -44,9 +45,10 @@
   }>()
 
   const colorFields = [
-    { label: '名前の色', key: 'nameColor' },
-    { label: 'テキストの色', key: 'textColor' },
-    { label: '背景色', key: 'backgroundColor' },
+    { label: '名前の色', key: 'name' },
+    { label: 'テキストの色', key: 'text' },
+    { label: '背景色', key: 'background' },
+    { label: 'アクセント', key: 'accent' },
   ] as const
 
   const onUpdate = (key: keyof CharacterColorType, value: string) => {
@@ -57,13 +59,14 @@
   }
 
   const selectPreset = (theme: Partial<CharacterColorType>) => {
-    if (!theme.nameColor || !theme.textColor || !theme.backgroundColor) return
+    if (!theme.name || !theme.text || !theme.background || !theme.accent) return
 
     emit('update:modelValue', {
       ...props.modelValue,
-      nameColor: theme.nameColor,
-      textColor: theme.textColor,
-      backgroundColor: theme.backgroundColor,
+      name: theme.name,
+      text: theme.text,
+      background: theme.background,
+      accent: theme.accent,
     })
   }
 </script>

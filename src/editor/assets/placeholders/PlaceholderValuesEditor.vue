@@ -1,28 +1,28 @@
 <!-- src/editor/assets/placeholders/PlaceholderValuesEditor.vue -->
 <template>
-  <template v-if="selectedItem">
+  <template v-if="modelValue">
     <div class="flex justify-end gap-2">
       <!-- 抽選テストボタン -->
-      <PlaceholderPreview v-if="selectedItem.values.length > 0" :values="selectedItem.values" />
+      <PlaceholderPreview v-if="modelValue.values.length > 0" :values="modelValue.values" />
 
       <!-- 編集モード切り替えボタン -->
       <button
         @click="toggleMode"
         class="btn bg-primary text-primary-content"
         :class="{ 'btn-active': isTextMode }"
-        title="編集モードを切り替え"
+        :title="t('placeholder.toggleModeTitle')"
       >
-        {{ isTextMode ? '🔧 入力モード' : '📝 テキストモード' }}
+        {{ isTextMode ? t('placeholder.inputMode') : t('placeholder.textMode') }}
       </button>
     </div>
 
     <!-- 入力モード -->
-    <PlaceholderInputMode v-if="!isTextMode" :placeholderId="props.placeholderKey" :values="selectedItem.values" />
+    <PlaceholderInputMode v-if="!isTextMode" :values="modelValue.values" @update="handleValuesUpdate" />
 
     <!-- テキストモード -->
     <PlaceholderTextMode
       v-else
-      :initialValues="selectedItem.values"
+      :initialValues="modelValue.values"
       @save="handleTextSave"
       @cancel="isTextMode = false"
     />
@@ -30,42 +30,42 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { PlaceholderType, WeightValuesArrayType } from '@/types/OmikujiData/PlaceholderSchema'
+  import { ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
+
+  import { PlaceholderType, WeightValuesArrayType } from '@/types/OmikujiData'
   import PlaceholderInputMode from './PlaceholderInputMode.vue'
   import PlaceholderTextMode from './PlaceholderTextMode.vue'
   import PlaceholderPreview from './PlaceholderPreview.vue'
-  import { storeToRefs } from 'pinia'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
-    placeholderKey: string
+    modelValue: PlaceholderType | null
   }>()
 
-  // store
-  const omikujiStore = useOmikujiStore()
-  const { data } = storeToRefs(omikujiStore)
+  const emit = defineEmits<{
+    'update:modelValue': [value: PlaceholderType]
+  }>()
+
   const isTextMode = ref(false)
 
-  // ストアから直接データを取得
-  const selectedItem = computed({
-    get: () => {
-      if (!props.placeholderKey) return null
-      return data.value.placeholders[props.placeholderKey]
-    },
-    set: (value: PlaceholderType) => {
-      omikujiStore.updateItem('placeholders', value.key, value)
-    },
-  })
-
-  // モード切り替え
   const toggleMode = () => {
     isTextMode.value = !isTextMode.value
   }
 
-  // テキストモードからの保存
+  // 値配列を差し替えて親へ v-model 更新を通知するだけ（ストアには触れない）
+  const emitUpdatedValues = (values: WeightValuesArrayType) => {
+    if (!props.modelValue) return
+    emit('update:modelValue', { ...props.modelValue, values })
+  }
+
+  const handleValuesUpdate = (values: WeightValuesArrayType) => {
+    emitUpdatedValues(values)
+  }
+
   const handleTextSave = (values: WeightValuesArrayType) => {
-    omikujiStore.updatePlaceholderValues(props.placeholderKey, values)
+    emitUpdatedValues(values)
     isTextMode.value = false
   }
 </script>

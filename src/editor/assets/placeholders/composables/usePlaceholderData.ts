@@ -1,24 +1,26 @@
 // src/editor/assets/placeholders/composables/usePlaceholderData.ts
+// ! 使ってないかも
 import { computed, Ref } from 'vue'
-import { defaultPlaceholdersShortLabels, DefaultPlaceholders } from '@/types'
 import { PlaceholderSchema, PlaceholderType, PostFlowType } from '@/types/OmikujiData/'
-
-import { defaultPlaceholderMap } from '@/types'
-import {} from '@/types/MainGenerator/'
+import { defaultPlaceholderMap, defaultPlaceholdersShortLabels } from '@/editor/maps/assets/DefaultPlaceholderMaps'
+import { DefaultPlaceholders } from '@/generator/types/MainGenerator'
+import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+import { daisyUIColor } from '@/types/core'
 
 /**
  * プレースホルダーのデータ管理を担当するcomposable
  */
 export function usePlaceholderData(actions: Ref<PostFlowType[]>) {
-  const { getCategoryArray } = useGetRecordData()
+  const { getAssets } = useGetAssetData()
 
   // デフォルトプレースホルダーの設定
   const placeholderContentMap = new Map(Object.entries(defaultPlaceholdersShortLabels))
 
   // デフォルトプレースホルダーを生成
   const defaultPlaceholders = computed((): PlaceholderType[] => {
-    return (Object.keys(defaultPlaceholders) as DefaultPlaceholders[]).map((key) => {
+    return (Object.keys(defaultPlaceholderMap) as DefaultPlaceholders[]).map((key) => {
       const contentValue = placeholderContentMap.get(key) ?? ''
+
       return PlaceholderSchema.parse({
         key,
         name: defaultPlaceholderMap[key].label,
@@ -38,10 +40,10 @@ export function usePlaceholderData(actions: Ref<PostFlowType[]>) {
     // 全てのプレースホルダーパターンを一度に検索
     const allContent = actions.value
       .flatMap((action) => {
-        if (action.actionType === 'message') {
-          return [action.message.bubble || '']
-        } else if (action.actionType === 'wordParty') {
-          return [action.wordParty || '']
+        if (action.kind === 'message') {
+          return [action.message || '']
+        } else if (action.kind === 'wordParty') {
+          return [action.wordPartyId || '']
         }
       })
       .filter(Boolean)
@@ -59,20 +61,22 @@ export function usePlaceholderData(actions: Ref<PostFlowType[]>) {
 
   // 全プレースホルダーを取得してソート
   const allPlaceholders = computed(() => {
-    const customPlaceholders = getCategoryArray('placeholders')
-    const placeholders = [...defaultPlaceholders.value, ...customPlaceholders]
+    const customPlaceholders = getAssets('placeholders')
+
+    const placeholders = [...defaultPlaceholders.value, ...Object.values(customPlaceholders)]
+
+    const colorOrder = new Map(daisyUIColor.map((color, index) => [color, index]))
 
     return placeholders.sort((a, b) => {
       const aUsed = usedPlaceholderIds.value.has(a.key)
       const bUsed = usedPlaceholderIds.value.has(b.key)
 
-      // 1. 使用中のものが最優先
       if (aUsed !== bUsed) return aUsed ? -1 : 1
 
-      // 2. 使用中以外は editorColor > key の順でソート
-      const aColor = a.editorColor ?? ''
-      const bColor = b.editorColor ?? ''
-      if (aColor !== bColor) return aColor.localeCompare(bColor, 'ja')
+      const aColor = colorOrder.get(a.tagColor)!
+      const bColor = colorOrder.get(b.tagColor)!
+
+      if (aColor !== bColor) return aColor - bColor
 
       return a.key.localeCompare(b.key, 'ja')
     })
