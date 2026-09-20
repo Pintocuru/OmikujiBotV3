@@ -15,9 +15,6 @@
           {{ saveFileName.replace('.json', '') }} の保存
         </button>
       </template>
-
-      <!-- ライセンススイッチ -->
-      <LicenseSwitch />
     </template>
 
     <!-- 通常モード -->
@@ -34,9 +31,6 @@
         設定を出力(js)
       </button>
     </template>
-
-    <!-- ライセンスバッジ -->
-    <LicenseBadge />
   </div>
 </template>
 
@@ -44,11 +38,8 @@
   import { storeToRefs } from 'pinia'
   import { isDev } from '@/types'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useConfigExport } from '@/editor/helpers/presetsExport/useConfigExport'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
-  import { useConfigExport } from '../../../helpers/presetsExport/useConfigExport'
-
-  import LicenseSwitch from '@/editor/components/appInfo/settings/LicenseSwitch.vue'
-  import LicenseBadge from '@/editor/helpers/LicenseBadge/LicenseBadge.vue'
   import { Save } from 'lucide-vue-next'
 
   // store

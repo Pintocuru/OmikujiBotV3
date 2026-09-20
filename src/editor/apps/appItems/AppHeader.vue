@@ -1,17 +1,7 @@
 <!-- src/editor/apps/appItems/AppHeader.vue -->
 <template>
-  <h1
-    class="flex justify-center text-2xl font-bold text-center relative"
-    :class="isGod ? ['text-warning'] : isPro ? ['text-success'] : isAdv ? ['text-info'] : ['text-primary']"
-  >
-    <div class="flex items-center gap-2">
-      おみくじBOT コンフィグエディター
-      <LicenseBadge
-        advTip="カラー変更など、一部有料版を使えます"
-        proTip="テンプレートが扱える、有料版です!"
-        godTip="私が神です!"
-      />
-    </div>
+  <h1 class="flex justify-center text-2xl text-primary font-bold text-center relative">
+    <div class="flex items-center gap-2">おみくじBOT コンフィグエディター</div>
 
     <!-- 左上データソース表示 -->
     <div class="absolute top-0 left-0">
@@ -37,12 +27,8 @@
   import { onMounted, computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useVersionCheck } from './useVersionCheck'
-  import LicenseBadge from '@/editor/helpers/LicenseBadge/LicenseBadge.vue'
-  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { DATA_SOURCE_MAP } from '@/editor/types'
-
-  const { isAdv, isPro, isGod } = useSettingMode()
 
   // Pinia storeから現在のバージョンを取得
   const omikujiStore = useOmikujiStore()

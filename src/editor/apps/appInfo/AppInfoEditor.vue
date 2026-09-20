@@ -65,6 +65,9 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
+
+  import { isDev } from '@/types'
+
   import GeneratorSettingsEditor from './settings/GeneratorSettingsEditor.vue'
   import EditorSettingsEditor from './settings/EditorSettingsEditor.vue'
   import FlagsInfo from './FlagsInfo/FlagsInfo.vue'
@@ -73,7 +76,6 @@
   import PackageDistributionInfo from './meta/PackageDistributionInfo.vue'
   import PackageSystemInfo from './meta/PackageSystemInfo.vue'
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
-  import { isDev } from '@/types'
 
   const { t } = useI18n()
 </script>

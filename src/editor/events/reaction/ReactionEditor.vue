@@ -1,11 +1,5 @@
 <!-- src/editor/events/reaction/ReactionEditor.vue -->
 <template>
-  <!-- 便利ボタン群 -->
-  <div class="flex justify-end gap-2">
-    <GlobalCharacterChanger category="reactions" />
-    <IconKeyChanger category="reactions" />
-  </div>
-
   <!-- イベント編集エリア -->
   <template v-if="selectedItem">
     <!-- 無効のときのメッセージ -->
@@ -37,6 +31,9 @@
         <ReactionTriggerEditor v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
       </SectionCard>
 
+      <!-- みくじ箱選択セクション -->
+      <BoxChoiceEditor v-model="selectedItem" />
+
       <!-- おみくじ設定セクション -->
       <SectionCard
         id="section-omikujiSet"
@@ -46,14 +43,14 @@
         :title="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
-        <OmikujiSetEditor category="reactions" :selectedItemKey="selectedItemKey" />
+        <BoxSettings category="comments" :omikujiKey="selectedItem.key" />
       </SectionCard>
     </template>
 
     <!-- 無効のときのメッセージ -->
     <InformationCard v-else variant="error" class="mt-4 p-4">
-      {{ t('reactionEditor.disabledNotice.title') }}<br />
-      {{ t('reactionEditor.disabledNotice.action') }}
+      {{ t('eventCore.disabledNotice.title') }}<br />
+      {{ t('eventCore.disabledNotice.action') }}
     </InformationCard>
   </template>
 </template>
@@ -66,11 +63,10 @@
   import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap.js'
 
   import ReactionTriggerEditor from './ReactionTriggerEditor.vue'
+  import BoxChoiceEditor from '@/editor/events/core/BoxChoiceEditor.vue'
 
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
-  import GlobalCharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
-  import OmikujiSetEditor from '@/editor/helpers/OmikujiSetEditor/OmikujiSetEditor.vue'
+  import BoxSettings from '@/editor/assets/box/BoxSettings.vue'
 
   import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'

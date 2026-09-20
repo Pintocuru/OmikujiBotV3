@@ -9,50 +9,39 @@
 
       <!-- おみくじテストボタン -->
       <div class="tooltip tooltip-bottom" data-tip="わんコメを起動すると、投稿の確認ができます">
-        <button
-          class="btn btn-info"
-          @click="postTestOmikuji(item?.omikuji ?? [])"
-          :disabled="!item || item.omikuji.length === 0"
-        >
+        <button class="btn btn-info" @click="postTestOmikuji(omikujiList)" :disabled="omikujiList.length === 0">
           <Dices class="w-4 h-4" />
           抽選テスト
         </button>
       </div>
 
-      <button @click="addOmikuji" class="btn btn-primary">
+      <button @click="add" class="btn btn-primary">
         <Plus class="w-4 h-4" />
         おみくじを追加
       </button>
     </div>
 
     <!-- おみくじリスト一覧（クリックで選択） -->
-    <OmikujiWeightProgressBar
-      :omikujiItems="item?.omikuji ?? []"
-      :selectedOmikujiId="selectedOmikujiId"
-      @update:items="updateOmikuji"
-      @update:weight="updateOmikujiWeight"
-      @select="selectedOmikujiId = $event"
+    <WeightBar
+      :omikujiItems="omikujiList"
+      :selectedOmikujiId="selectedId"
+      @update:items="replaceAll"
+      @update:weight="setWeight"
+      @select="selectedId = $event"
     />
 
     <!-- 選択されたアイテムの編集 -->
-    <template v-if="item && selectedOmikujiIndex !== null">
+    <template v-if="selectedItem && selectedIndex !== null">
       <!-- 帯ヘッダー -->
       <div
         class="flex items-center justify-between px-4 py-2 font-bold text-white"
-        :style="{ backgroundColor: getColorForIndex(selectedOmikujiIndex) }"
+        :style="{ backgroundColor: getColorForIndex(selectedIndex) }"
       >
-        <h3 class="text-sm md:text-base">
-          おみくじ編集:
-          {{ item.omikuji[selectedOmikujiIndex]?.name || `アイテム${selectedOmikujiIndex + 1}` }}
-        </h3>
+        <h3 class="text-sm md:text-base">おみくじ編集: {{ selectedItem.name || `アイテム${selectedIndex + 1}` }}</h3>
       </div>
 
       <!-- 本文 -->
-      <OmikujiItemEditor
-        :category="category"
-        :omikujiItem="item.omikuji[selectedOmikujiIndex]"
-        @update="updateOmikujiItem"
-      />
+      <OmikujiItemEditor :category="category" :omikujiItem="selectedItem" @update="updateSelected" />
     </template>
 
     <!-- 選択していない場合のメッセージ -->
@@ -63,96 +52,24 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watch } from 'vue'
-  import { OmikujiItemSchema, EventCategoryType, BoxType, OmikujiItemType } from '@/types/OmikujiData/'
-  import OmikujiWeightProgressBar from './OmikujiWeightProgressBar.vue'
+  import { toRef } from 'vue'
+  import type { EventCategoryType } from '@/types/OmikujiData/'
+  import WeightBar from './weight/WeightBar.vue'
   import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
   import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
-  import OmikujiItemEditor from './OmikujiItemEditor.vue'
-
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import OmikujiItemEditor from './item/OmikujiItemEditor.vue'
   import { useTestPost } from '@/editor/helpers/useTestPost'
-
   import { Dices, Plus } from 'lucide-vue-next'
-  import { getColorForIndex, updateItemWeight } from '@/editor/assets/box/useOmikujiWeight'
-  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+  import { getColorForIndex } from '@/editor/assets/box/composables/useOmikujiWeight'
+  import { useBoxOmikujiList } from '@/editor/assets/box/composables/useBoxOmikujiList'
 
   const props = defineProps<{
     category: EventCategoryType | 'box'
     omikujiKey: string | null
   }>()
 
-  const { updateAsset } = useOmikujiStore()
-  const { getAsset } = useGetAssetData()
   const { postTestOmikuji } = useTestPost()
 
-  // 選択されたおみくじアイテムのインデックス
-  const selectedOmikujiId = ref<string | null>(null)
-
-  // Computed
-  const item = computed({
-    get: () => {
-      if (!props.omikujiKey) return null
-      return getAsset('box', props.omikujiKey)
-    },
-    set: (value: BoxType) => {
-      if (!props.omikujiKey) return
-      updateAsset('box', props.omikujiKey, value)
-    },
-  })
-
-  const selectedOmikujiIndex = computed(() => {
-    if (!item.value || !selectedOmikujiId.value) return null
-    return item.value.omikuji.findIndex((v) => v.id === selectedOmikujiId.value)
-  })
-
-  // Methods
-  const updateOmikuji = (omikuji: BoxType['omikuji']) => {
-    if (!item.value) return
-
-    item.value = {
-      ...item.value,
-      omikuji,
-    }
-  }
-
-  const updateOmikujiWeight = ({ index, weight }: { index: number; weight: number }) => {
-    if (!item.value) return
-
-    item.value = {
-      ...item.value,
-      omikuji: updateItemWeight(item.value.omikuji, index, weight),
-    }
-  }
-
-  const updateOmikujiItem = (updatedItem: OmikujiItemType) => {
-    if (!item.value || selectedOmikujiIndex.value === null) return
-
-    const omikuji = [...item.value.omikuji]
-
-    omikuji[selectedOmikujiIndex.value] = updatedItem
-
-    item.value = {
-      ...item.value,
-      omikuji,
-    }
-  }
-
-  const addOmikuji = () => {
-    const newOmikuji = OmikujiItemSchema.parse({})
-    if (!item.value) return
-    item.value = { ...item.value, omikuji: [...item.value.omikuji, newOmikuji] }
-    selectedOmikujiId.value = newOmikuji.id
-  }
-
-  watch(
-    () => props.omikujiKey,
-    () => {
-      if (!item.value || item.value.omikuji.length === 0) {
-        selectedOmikujiId.value = null
-      } else {
-        selectedOmikujiId.value = item.value.omikuji[0].id
-      }
-    }
-  )
+  const { omikujiList, selectedId, selectedIndex, selectedItem, replaceAll, setWeight, updateSelected, add } =
+    useBoxOmikujiList(toRef(props, 'omikujiKey'))
 </script>

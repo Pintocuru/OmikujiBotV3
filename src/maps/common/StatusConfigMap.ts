@@ -1,4 +1,4 @@
-//
+// src/maps/common/StatusConfigMap.ts
 import { AppStatus } from '@/types/core'
 import { Loader, Wifi, WifiOff } from 'lucide-vue-next'
 

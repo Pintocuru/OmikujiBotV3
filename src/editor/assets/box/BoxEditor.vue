@@ -27,7 +27,6 @@
       :title="s('omikujiSet')?.label"
       :description="s('omikujiSet')?.description"
     >
-      <!-- TODO: 渡すのはkeyのみ。更新は向こうで行うこと -->
       <BoxSettings category="box" :omikujiKey="selectedItem.key" />
     </SectionCard>
   </template>

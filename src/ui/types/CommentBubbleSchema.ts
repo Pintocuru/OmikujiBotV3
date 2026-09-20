@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSettings/CommentBubbleSchema.ts
+// src/ui/types/CommentBubbleSchema.ts
 import { z } from 'zod'
 import { enterMotions, normalizedObject } from '@/types/OmikujiData'
 

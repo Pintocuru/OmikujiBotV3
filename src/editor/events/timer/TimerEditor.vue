@@ -34,6 +34,9 @@
         <TimerIntervalEditor v-model="selectedItem" />
       </SectionCard>
 
+      <!-- みくじ箱選択セクション -->
+      <BoxChoiceEditor v-model="selectedItem" />
+
       <!-- おみくじ設定セクション -->
       <SectionCard
         id="section-omikujiSet"
@@ -43,14 +46,14 @@
         :title="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
-        <OmikujiSetEditor category="timers" :selectedItemKey="selectedItemKey" />
+        <BoxSettings category="comments" :omikujiKey="selectedItem.key" />
       </SectionCard>
     </template>
 
     <!-- 無効のときのメッセージ -->
     <InformationCard v-else variant="error" class="mt-4 p-4">
-      {{ t('commentEditor.disabledNotice.title') }}<br />
-      {{ t('commentEditor.disabledNotice.action') }}
+      {{ t('eventCore.disabledNotice.title') }}<br />
+      {{ t('eventCore.disabledNotice.action') }}
     </InformationCard>
   </template>
 </template>
@@ -66,7 +69,8 @@
 
   import GlobalCharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
   import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
-  import OmikujiSetEditor from '@/editor/helpers/OmikujiSetEditor/OmikujiSetEditor.vue'
+  import BoxSettings from '@/editor/assets/box/BoxSettings.vue'
+  import BoxChoiceEditor from '@/editor/events/core/BoxChoiceEditor.vue'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'

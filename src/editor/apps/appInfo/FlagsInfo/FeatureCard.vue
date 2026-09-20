@@ -28,8 +28,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { CheckCircle, XCircle } from 'lucide-vue-next'
-  import type { AccessLevelType } from '@shared/types'
-  import { LucideIconName, resolveLucideIcon } from '@shared/utils/LucideIcon/useLucideIcon'
+  import { AccessLevelType } from '@/types/core'
+  import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
   const props = defineProps<{
     title: string

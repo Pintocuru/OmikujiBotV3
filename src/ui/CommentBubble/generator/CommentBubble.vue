@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/CommentBubble/CommentBubble.vue -->
+<!-- src/ui/CommentBubble/generator/CommentBubble.vue -->
 <template>
   <div class="relative pointer-events-none z-10">
     <!-- BOTメッセージ表示(0番地) -->

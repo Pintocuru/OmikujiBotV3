@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/UiEditor/CommentBubble/CommentBubblePreview.vue -->
+<!-- src/ui/CommentBubble/editor/CommentBubblePreview.vue -->
 <template>
   <div class="flex flex-col items-center space-y-2">
     <!-- プレビュー表示エリア（横幅制限付き） -->

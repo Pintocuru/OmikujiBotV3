@@ -62,9 +62,9 @@
 <script setup lang="ts">
   import { ref, onUnmounted } from 'vue'
   import { COMMENTS, generateMockUsername, generateSimpleUsername } from './constants'
-  import { postComment } from '@shared/sdk/post/PostOneComme'
-  import { CommentPickSchema } from '@shared/types'
-  import { getAvatarUrl } from '../DiceBear/getAvatarUrl'
+  import { postComment } from '@/sdk/post/PostOneComme'
+  import { CommentPickSchema } from '@/types/subscribe'
+  import { getAvatarUrl } from '@/editor/tools/DiceBear/getAvatarUrl'
 
   const isRunning = ref(false)
   const intervalSec = ref(2)

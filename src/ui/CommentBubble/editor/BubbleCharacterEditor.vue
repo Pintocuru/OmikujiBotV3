@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/UiEditor/CommentBubble/BubbleCharacterEditor.vue -->
+<!-- src/ui/CommentBubble/editor/BubbleCharacterEditor.vue -->
 <template>
   <!-- キャラクターサンプル表示 -->
   <CharacterAvatarPreview
@@ -38,8 +38,8 @@
   import { CommentBubbleSchema } from '@/ui/types/CommentBubbleSchema'
   import BubbleCharacterSelect from './BubbleCharacterSelect.vue'
   import CharacterAvatarPreview from './CharacterAvatarPreview.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore.js'
 
   // Store
   const omikujiStore = useOmikujiStore()

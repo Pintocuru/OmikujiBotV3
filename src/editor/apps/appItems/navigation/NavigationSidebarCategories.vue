@@ -4,8 +4,11 @@
     <template v-for="(tab, key) in filteredCategoryLabels" :key="key">
       <!-- カテゴリボタン -->
       <button
-        class="btn btn-ghost w-full relative flex items-center gap-2 min-h-0 h-auto py-2"
-        :class="[categoryButtonClass(key), isExpanded ? 'justify-start px-3' : 'justify-center px-0']"
+        class="btn w-full relative flex items-center gap-2 min-h-0 h-auto py-2"
+        :class="[
+          selectedCategory === key ? 'bg-primary text-primary-content hover:bg-primary' : 'btn-ghost',
+          isExpanded ? 'justify-start px-3' : 'justify-center px-0',
+        ]"
         :title="`${tab.label}：${tab.description}`"
         @click="navigateCategory(key)"
       >
@@ -56,21 +59,20 @@
   import { CategoryType } from '@/types/OmikujiData/'
   import { useCategoryUtils } from './useCategoryUtils'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { resolveLucideIcon } from '@shared/utils/LucideIcon/useLucideIcon'
   import { useNavigationSidebarDrag } from './useNavigationSidebarDrag'
   import { useSidebarSubItems } from './useSidebarSubItems'
   import { provideSidebarContext } from './useSidebarContext'
   import SidebarRecordItems from './SidebarRecordItems.vue'
   import SidebarArrayItems from './SidebarArrayItems.vue'
   import SidebarObjectItems from './SidebarObjectItems.vue'
+  import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
   const props = defineProps<{
     isExpanded: boolean
-    theme: string
   }>()
 
   // Context（theme / selectedItemKey / activeSection を子孫全体に注入）
-  provideSidebarContext(computed(() => props.theme))
+  provideSidebarContext()
 
   // ストア
   const navigationStore = useNavigationStore()
@@ -104,11 +106,5 @@
   const navigateCategory = (key: CategoryType) => {
     isOpenCategory.value = { [key]: !isOpenCategory.value[key] }
     navigationStore.selectCategory(key)
-  }
-
-  // スタイル
-  const categoryButtonClass = (key: CategoryType) => {
-    if (selectedCategory.value !== key) return 'btn-ghost'
-    return `bg-${props.theme} text-${props.theme}-content hover:bg-${props.theme}`
   }
 </script>

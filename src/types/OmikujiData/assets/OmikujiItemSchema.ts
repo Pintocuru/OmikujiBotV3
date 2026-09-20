@@ -34,6 +34,7 @@ const OmikujiWeightedSchema = z.object({
 
 // 統合
 export const OmikujiLotterySchema = z.discriminatedUnion('isPriority', [OmikujiPrioritySchema, OmikujiWeightedSchema])
+export type LotteryType = z.infer<typeof OmikujiLotterySchema>
 
 /**
  * 「おみくじカウントとして記録するか」を持つ omikujiItem 種別の共通ベース。

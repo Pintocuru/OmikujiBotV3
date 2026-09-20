@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/CommentBubble/composables/UiBubbleMap.ts
+// src/ui/CommentBubble/generator/composables/UiBubbleMap.ts
 import { CharacterColorType } from '@/types'
 
 type UiMapOptions = {

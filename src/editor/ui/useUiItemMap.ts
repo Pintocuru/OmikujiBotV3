@@ -1,4 +1,4 @@
-// src/ConfigMaker/UiEditor/useUiItemMap.ts
+// src/editor/ui/useUiItemMap.ts
 import CommentBubbleEditor from './CommentBubble/CommentBubbleEditor.vue'
 import BubbleCharacterEditor from './CommentBubble/BubbleCharacterEditor.vue'
 import ToastComponentEditor from './ToastWidgets/ToastWidgetsEditor.vue'

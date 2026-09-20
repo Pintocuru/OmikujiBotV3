@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/UiEditor/UiEditor.vue -->
+<!-- src/editor/ui/UiEditor.vue -->
 <template>
   <!-- GOD: アイテム有効/無効トグル -->
   <SectionCard

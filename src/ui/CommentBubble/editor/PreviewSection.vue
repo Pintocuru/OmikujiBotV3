@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/UiEditor/CommentBubble/PreviewSection.vue -->
+<!-- src/ui/CommentBubble/editor/PreviewSection.vue -->
 <template>
   <div class="flex-1 min-w-0">
     <div

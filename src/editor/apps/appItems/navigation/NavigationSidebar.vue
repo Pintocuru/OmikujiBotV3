@@ -1,8 +1,7 @@
 <!-- src/editor/apps/appItems/navigation/NavigationSidebar.vue -->
 <template>
   <div
-    class="sticky top-0 h-screen flex flex-col border-r overflow-y-auto transition-all duration-200 shrink-0 overflow-x-hidden"
-    :class="sidebarBorderClass"
+    class="sticky top-0 h-screen flex flex-col border-primary border-r-2 overflow-y-auto transition-all duration-200 shrink-0 overflow-x-hidden"
     :style="{ width: isExpanded ? '220px' : '72px' }"
   >
     <!-- 折りたたみトグル -->
@@ -13,7 +12,7 @@
 
     <!-- プリセット管理ボタン -->
     <button
-      v-if="(isPro && isServerConnected) || isDev"
+      v-if="isDev || isServerConnected"
       class="btn btn-ghost w-full flex items-center gap-2 min-h-0 h-auto py-2 mx-2"
       :class="isExpanded ? 'justify-start px-3' : 'justify-center px-0'"
       title="プリセット管理"
@@ -24,7 +23,7 @@
     </button>
 
     <!-- 各種カテゴリ -->
-    <NavigationSidebarCategories :isExpanded="isExpanded" :theme="theme" />
+    <NavigationSidebarCategories :isExpanded="isExpanded" />
 
     <!-- 開発者向けフッター -->
     <NavigationSidebarFooter />
@@ -32,44 +31,21 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { isDev } from '@/types'
-  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
   import NavigationSidebarCategories from './NavigationSidebarCategories.vue'
   import NavigationSidebarFooter from './NavigationSidebarFooter.vue'
   import { PanelLeftClose, PanelLeftOpen, FolderCog } from 'lucide-vue-next'
 
-  // ストア ─
+  // ストア
   const navigationStore = useNavigationStore()
   const { activeSection } = storeToRefs(navigationStore)
 
   const devStore = useDevStore()
   const { isServerConnected } = storeToRefs(devStore)
-
-  // ライセンスモード
-  const { isAdv, isPro, isGod } = useSettingMode()
-
-  const currentMode = computed<'god' | 'pro' | 'adv' | 'basic'>(() => {
-    if (isGod.value) return 'god'
-    if (isPro.value) return 'pro'
-    if (isAdv.value) return 'adv'
-    return 'basic'
-  })
-
-  const modeColorMap = {
-    basic: 'primary',
-    god: 'warning',
-    pro: 'success',
-    adv: 'info',
-  } as const
-
-  const theme = computed(() => modeColorMap[currentMode.value])
-
-  // サイドバースタイル
-  const sidebarBorderClass = computed(() => `border-${theme.value} border-r-2`)
 
   // 展開状態
   const isExpanded = ref(true)

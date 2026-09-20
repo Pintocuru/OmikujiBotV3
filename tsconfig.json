@@ -20,8 +20,6 @@
     "paths": {
       "@/*": ["./src/*"],
       "@assets/*": ["./assets/*"],
-      "@main/*": ["./src/generator/*"],
-      "@config/*": ["./src/ConfigMaker/*"],
       "@game/*": ["./src/GameScripts/*"],
       "@sounds/*": ["./src/common/sounds/*"],
       "@migrations/*": ["./src/common/migrations/*"]
