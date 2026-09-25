@@ -40,7 +40,7 @@
   import { useDevStore } from '../PresetManager/stores/useDevStore'
   import { generatorApi } from '../PresetManager/services/generatorApi'
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast.js'
-  import { useNavigationStore } from './stores/useNavigationStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useScrollToSection } from './helpers/useScrollToSection'
 
   // stores

@@ -21,8 +21,7 @@
       :title="t('appInfoEditor.appFeatures.title')"
       :description="t('appInfoEditor.appFeatures.description')"
     >
-      <FlagsInfo v-if="!isDev" />
-      <FlagsSettings v-else />
+      <FlagsInfo />
     </SectionCard>
 
     <!-- meta:基本情報 -->
@@ -66,12 +65,9 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
 
-  import { isDev } from '@/types'
-
   import GeneratorSettingsEditor from './settings/GeneratorSettingsEditor.vue'
   import EditorSettingsEditor from './settings/EditorSettingsEditor.vue'
   import FlagsInfo from './FlagsInfo/FlagsInfo.vue'
-  import FlagsSettings from './FlagsSettings/FlagsSettings.vue'
   import PackageBasicInfo from './meta/PackageBasicInfo.vue'
   import PackageDistributionInfo from './meta/PackageDistributionInfo.vue'
   import PackageSystemInfo from './meta/PackageSystemInfo.vue'

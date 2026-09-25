@@ -1,15 +1,17 @@
 <!-- src/editor/apps/appInfo/FlagsInfo/FeatureCard.vue -->
 <template>
-  <div v-if="isVisible" class="card bg-base-200 border-2" :class="getAccessLevelClass(accessLevel)">
+  <div v-if="isVisible" class="card bg-base-200 border-2" :class="getAccessLevelClass(isEnabled)">
     <div class="card-body p-4">
       <div class="flex items-start gap-3">
-        <div class="p-2 rounded-lg" :class="getIconBgClass(accessLevel)">
+        <div class="p-2 rounded-lg" :class="getIconBgClass(isEnabled)">
           <component :is="resolvedIcon" class="w-8 h-8" />
         </div>
+
         <div class="flex-1">
           <h4 class="font-bold">{{ title }}</h4>
           <p class="text-sm opacity-70 mt-1">{{ description }}</p>
         </div>
+
         <!-- スイッチ: showToggle が true のときのみ表示 -->
         <label v-if="showToggle" class="swap swap-rotate">
           <input type="checkbox" :checked="isEnabled" @change="handleToggle" />
@@ -28,46 +30,37 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { CheckCircle, XCircle } from 'lucide-vue-next'
-  import { AccessLevelType } from '@/types/core'
   import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
   const props = defineProps<{
     title: string
     icon: LucideIconName
-    accessLevel: AccessLevelType
+    isEnabled: boolean
     description: string
     featureKey?: string
     showToggle?: boolean
   }>()
 
   const emit = defineEmits<{
-    (e: 'toggle', key: string, newLevel: AccessLevelType): void
+    (e: 'toggle', key: string, enabled: boolean): void
   }>()
 
   // アイコン名文字列 → Lucideコンポーネントに解決
   const resolvedIcon = computed(() => resolveLucideIcon(props.icon))
 
-  // godModeは非表示
-  const isVisible = computed(() => props.accessLevel !== 'godMode')
-
-  // 現在有効かどうか
-  const isEnabled = computed(
-    () => props.accessLevel === 'basic' || props.accessLevel === 'adv' || props.accessLevel === 'pro'
-  )
+  // 無効な機能は表示しない
+  const isVisible = computed(() => props.isEnabled)
 
   function handleToggle() {
     if (!props.featureKey) return
-    const newLevel: AccessLevelType = isEnabled.value ? 'none' : 'basic'
-    emit('toggle', props.featureKey, newLevel)
+    emit('toggle', props.featureKey, !props.isEnabled)
   }
 
-  function getAccessLevelClass(level: AccessLevelType): string {
-    if (level === 'none') return 'border-base-300 opacity-60'
-    return 'border-success'
+  function getAccessLevelClass(enabled: boolean): string {
+    return enabled ? 'border-success' : 'border-base-300 opacity-60'
   }
 
-  function getIconBgClass(level: AccessLevelType): string {
-    if (level === 'none') return 'bg-base-300'
-    return 'bg-success/20 text-success'
+  function getIconBgClass(enabled: boolean): string {
+    return enabled ? 'bg-success/20 text-success' : 'bg-base-300'
   }
 </script>

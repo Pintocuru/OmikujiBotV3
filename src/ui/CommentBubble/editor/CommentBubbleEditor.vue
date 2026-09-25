@@ -13,6 +13,7 @@
     />
   </HudPreview>
   <!-- デフォルトカラー設定 -->
+  <!-- TODO:旧式をつかうこと -->
   <template v-if="!isCharacter">
     <ColorModeSelector
       :model-value="commonStyle.defaultColor"

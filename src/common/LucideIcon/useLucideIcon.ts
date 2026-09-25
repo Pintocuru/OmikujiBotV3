@@ -59,6 +59,7 @@ import {
   ArrowRight,
   RotateCcw,
   FileText,
+  Gift,
 } from 'lucide-vue-next'
 
 // map（as const で literal 型を保持）
@@ -119,6 +120,7 @@ export const lucideIconMap = {
   ArrowRight,
   RotateCcw,
   FileText,
+  Gift,
 } as const
 
 // map から union 型を生成

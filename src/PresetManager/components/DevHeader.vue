@@ -13,7 +13,7 @@
         {{ devStore.isExpressMode ? 'DEV' : 'Plugin' }}
       </button>
       <h2 class="text-lg font-bold text-primary-content">
-        {{ isDev || isPro ? 'プリセット管理' : 'サーバー連携機能' }}
+        {{ isDev ? 'プリセット管理' : 'サーバー連携機能' }}
       </h2>
     </div>
 
@@ -54,7 +54,7 @@
         </button>
 
         <button
-          v-if="isPro || isDev"
+          v-if="isDev"
           @click="saveConfigAutoName"
           :disabled="devStore.isSaving"
           class="btn btn-success btn-sm tooltip tooltip-bottom"
@@ -76,7 +76,6 @@
   import { generatorApi } from '@/PresetManager/services/generatorApi'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { Download, Save } from 'lucide-vue-next'
@@ -86,7 +85,6 @@
   const navigationStore = useNavigationStore()
   const devStore = useDevStore()
   const { isExpressMode } = storeToRefs(devStore)
-  const { isPro } = useSettingMode()
 
   const toggleApiMode = async () => {
     const ok = await devStore.toggleExpressMode()

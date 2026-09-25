@@ -1,8 +1,8 @@
 <!-- src/editor/ui/UiEditor.vue -->
 <template>
-  <!-- GOD: アイテム有効/無効トグル -->
+  <!-- アイテム有効/無効トグル -->
   <SectionCard
-    v-if="isGod || isDev"
+    v-if="isDev"
     variant="warning"
     icon="LayoutGrid"
     title="アイテム有効・無効切り替え"
@@ -13,7 +13,7 @@
 
   <!-- アイテム表示設定 -->
   <SectionCard
-    v-if="hasAccess(itemSlotEnabled) && (isDev || isGod || !specialSet)"
+    v-if="isDev || !layout"
     id="section-itemConditions"
     icon="LayoutGrid"
     :isOpen="activeSection === 'itemConditions'"
@@ -21,11 +21,11 @@
     title="アイテム表示設定"
     description="ジェネレーターで表示するアイテムの設定"
   >
-    <!-- isGod のときのみスペシャルセット切り替えを表示 -->
-    <SpecialSetEditor v-if="isGod || isDev" />
+    <!-- 開発時のみレイアウト切り替えを表示 -->
+    <SpecialSetEditor v-if="isDev" />
 
-    <!-- specialSet未設定時のみ個別スロット設定を表示 -->
-    <ItemConditionsEditor v-if="!specialSet" />
+    <!-- layout未設定時のみ個別スロット設定を表示 -->
+    <ItemConditionsEditor v-if="!layout" />
   </SectionCard>
 
   <!-- 各アイテム設定 -->
@@ -49,22 +49,16 @@
   import { uiItemMap, VisibilityKey } from './useUiItemMap'
   import ItemConditionsEditor from './conditions/ItemConditionsEditor.vue'
   import ItemsSettings from './conditions/ItemsSettings.vue'
-  import { useAccessChecker, useSettingMode } from '@config/scripts/useAccessCheckerConfig'
-  import { useFlagsSettings } from '@config/components/appInfo/FlagsSettings/useFlagsSettings'
-  import SectionCard from '@shared/components/parts/SectionCard.vue'
   import SpecialSetEditor from './conditions/SpecialSetEditor.vue'
-  import { useUiVisibility } from './conditions/useUiVisibility'
-  import { useNavigationStore } from '@config/stores/useNavigationStore'
   import { isDev } from '@/types'
-  import { useOmikujiStore } from '../stores/useOmikujiStore'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const specialSet = computed(() => data.value.components.specialSet)
 
-  const { itemSlotEnabled } = useFlagsSettings()
-  const { hasAccess } = useAccessChecker()
-  const { isGod } = useSettingMode()
+  const layout = computed(() => data.value.ui.layout)
 
   // navigationStore.activeSection を共用
   // サイドバーのセクション項目クリックと UiEditor のトグルが同一 ref を参照する
@@ -76,11 +70,13 @@
   const visibleItems = computed(() =>
     Object.entries(uiItemMap).filter(([_kind, item]) => {
       if (item.targetKey && !hasComponentKind(item.targetKey)) return false
+
       return item.visibility.every((v) => {
         if (v.startsWith('!')) {
           const key = v.slice(1) as VisibilityKey
           return !visibilityMap.value[key]
         }
+
         return visibilityMap.value[v]
       })
     })
@@ -95,6 +91,7 @@
     visibleItems,
     (items) => {
       if (activeSection.value !== null) return
+
       const first = items[0]?.[0]
       if (first) activeSection.value = first
     },

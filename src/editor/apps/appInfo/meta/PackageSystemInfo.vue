@@ -34,9 +34,9 @@
   import { storeToRefs } from 'pinia'
   import { Code, Settings, Tag, ExternalLink } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useVersionCheck } from '@/editor/components/appItems/useVersionCheck'
+  import { useVersionCheck } from '@/editor/apps/appItems/useVersionCheck'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import ExternalLinkButton from '@/editor/components/parts/ExternalLinkButton.vue'
+  import ExternalLinkButton from '@/editor/helpers/NavigateButton/ExternalLinkButton.vue'
 
   // Store
   const omikujiStore = useOmikujiStore()

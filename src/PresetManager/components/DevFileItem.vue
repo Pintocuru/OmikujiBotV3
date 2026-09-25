@@ -22,7 +22,7 @@
     </div>
 
     <!-- ボタン群 -->
-    <div class="flex gap-1 ml-2 flex-shrink-0">
+    <div class="flex gap-1 ml-2 shrink-0">
       <!-- 置き換え -->
       <button
         @click="devStore.applyConfigFile(file.name)"
@@ -57,7 +57,7 @@
       <FileMenuDropdown
         :folders="availableFolders"
         :current-folder="file.folder"
-        :show-move="isGod || isDev"
+        :show-move="isDev"
         :disable-delete="devStore.isDeletingFile(file.name) || devStore.isAnyLoading"
         @move="(folder) => devStore.moveFile(file.name, folder)"
         @duplicate="devStore.duplicateFile(file.name)"
@@ -79,7 +79,6 @@
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'
   import ConfigImportModal from '@/editor/helpers/presetsImport/ConfigImportModal.vue'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { useSettingMode } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { Download, FileText, Edit } from 'lucide-vue-next'
 
   const props = defineProps<{
@@ -93,7 +92,6 @@
 
   // インポートマネージャー
   const importManager = useImportManager()
-  const { isGod } = useSettingMode()
 
   // 名前編集関連
   const isEditing = ref(false)

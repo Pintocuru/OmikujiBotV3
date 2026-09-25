@@ -1,8 +1,9 @@
 // src/maps/OmikujiData/ui/UiKindMap.ts
+import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import { UiKind } from '@/types/OmikujiData'
 
 // Map定義
-export const uiKindMap: Record<UiKind, { label: string; icon: string; description: string }> = {
+export const uiKindMap: Record<UiKind, { label: string; icon: LucideIconName; description: string }> = {
   bubble: {
     label: 'フキダシ',
     icon: 'MessageSquare',

@@ -4,7 +4,6 @@ import { EventCategorySchema } from './events'
 import { AssetCategorySchema } from './assets'
 import { UiSchema } from './ui'
 import { JsonMergeSchema } from './JsonMergeType'
-import { FlagsSchema } from './FlagsSchema'
 import { SettingsSchema } from './SettingsSchema'
 import { normalizedObject } from './ParsedDefault'
 import { PackageJsonSchema } from '../core'
@@ -17,8 +16,6 @@ export const OmikujiDataSchema = PackageJsonSchema.extend({
   assets: AssetCategorySchema,
 
   ui: normalizedObject(UiSchema),
-  // TODO:廃止予定
-  flags: normalizedObject(FlagsSchema),
   jsonMerge: JsonMergeSchema.catch([]),
   settings: normalizedObject(SettingsSchema),
 })

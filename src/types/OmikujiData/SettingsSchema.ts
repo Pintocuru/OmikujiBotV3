@@ -2,6 +2,7 @@
 import { z } from 'zod'
 import { categories } from './CategoryType'
 import { themes } from '../core/DaisyUiTheme'
+import { normalizedObject } from './ParsedDefault'
 
 // コメント購読タイプ(現在はわんコメのみ)
 export const commentModeTypes = ['OneComme'] as const
@@ -12,18 +13,33 @@ export const locales = ['ja', 'en'] as const
 export type LocaleType = (typeof locales)[number]
 
 /**
+ * 通常表示設定
+ */
+export const FlagsUsageSchema = z.object({
+  events: z.object({
+    comments: z.boolean().default(true).catch(true),
+    timers: z.boolean().default(true).catch(true),
+    metas: z.boolean().default(true).catch(true),
+    reactions: z.boolean().default(true).catch(true),
+  }),
+  assets: z.object({
+    box: z.boolean().default(true).catch(true),
+    actionSets: z.boolean().default(true).catch(true),
+    placeholders: z.boolean().default(true).catch(true),
+    characters: z.boolean().default(true).catch(true),
+  }),
+})
+export type FlagsUsageType = z.infer<typeof FlagsUsageSchema>
+
+/**
  * エディター設定
  */
 export const SettingsSchema = z.object({
   generator: z.object({
     commentType: z.enum(commentModeTypes).default('OneComme').catch('OneComme'), // コメント購読タイプ
     soundEnabled: z.boolean().default(true).catch(true), // サウンドを有効にするか
-    ignoreUserPattern: z.string().default('__INFO__|__ERROR__').catch('__INFO__|__ERROR__'), // VisitUserを無視するリスト
-    // TODO(v3):廃止(紛らわしいので)
-    includeExternalComments: z.boolean().default(false).catch(false), // 外部コメントをユーザーリストに入れるか
-    // TODO(v3):廃止(レイアウトはここで指定しない)
-    uiPlacement: z.enum(['center', 'embedded']).default('center').catch('center'), // 単体のアイテムを中央に配置するか
     basicDelaySeconds: z.number().min(0).max(5).default(1).catch(1), // 投稿の基本的な遅延時間（秒）
+    usage: normalizedObject(FlagsUsageSchema), // エディターで表示する機能
   }),
 
   editor: z.object({
