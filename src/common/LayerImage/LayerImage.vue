@@ -1,6 +1,6 @@
 <!-- src/common/LayerImage/LayerImage.vue -->
 <template>
-  <div class="relative grid" :class="[round && 'rounded-full', border && 'border']" :style="containerStyle">
+  <div class="relative grid" :style="containerStyle">
     <div
       v-for="(src, i) in sources"
       :key="i"
@@ -15,7 +15,8 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { CharacterAnimationType, loopMotionMap } from '@/types'
+  import { CharacterAnimationType } from '@/types/OmikujiData'
+  import { loopMotionMap } from '@/maps/OmikujiData'
   import MediaLayer from './MediaLayer.vue'
   import { useImageSources } from './useImageSources'
   import 'animate.css'
@@ -23,26 +24,23 @@
 
   const props = defineProps<{
     layers: string[] | string
-    // --- サイズ: size(Tailwind整数) か width/height(px) のどちらか ---
-    size?: number // 旧 LayerImage 互換。Tailwind w-N h-N に変換
-    width?: number // px 指定（size より優先）
-    height?: number
-    maxWidth?: number
-    minWidth?: number
-    round?: boolean
-    border?: boolean
+    size?: number | string // 正方形サイズ（数値は px 扱い）
+    width?: number | string // 縦横比が異なる場合の個別指定（size より優先）
+    height?: number | string
     animation?: CharacterAnimationType
   }>()
 
+  const toCssUnit = (val?: number | string): string | undefined => {
+    if (val === undefined || val === null) return undefined
+    return typeof val === 'number' ? `${val}px` : val
+  }
+
   const containerStyle = computed(() => {
-    // width prop があれば px、なければ size を rem 換算（1単位=0.25rem=4px）
-    const w = props.width ? `${props.width}px` : props.size ? `${props.size * 4}px` : '100%'
-    const h = props.height ? `${props.height}px` : props.size ? `${props.size * 4}px` : '100%'
+    const w = toCssUnit(props.width) ?? toCssUnit(props.size) ?? '100%'
+    const h = toCssUnit(props.height) ?? toCssUnit(props.size) ?? '100%'
     return {
       width: w,
       height: h,
-      maxWidth: props.maxWidth ? `${props.maxWidth}px` : undefined,
-      minWidth: props.minWidth ? `${props.minWidth}px` : undefined,
     }
   })
 

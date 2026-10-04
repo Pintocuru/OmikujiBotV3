@@ -2,8 +2,8 @@
 // ! 使ってないかも
 import { computed, Ref } from 'vue'
 import { PlaceholderSchema, PlaceholderType, PostFlowType } from '@/types/OmikujiData/'
-import { defaultPlaceholderMap, defaultPlaceholdersShortLabels } from '@/editor/maps/assets/DefaultPlaceholderMaps'
-import { DefaultPlaceholders } from '@/generator/types/MainGenerator'
+import { defaultPlaceholderMap, defaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
+import { DefaultPlaceholders } from '@/generator/types'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { daisyUIColor } from '@/types/core'
 

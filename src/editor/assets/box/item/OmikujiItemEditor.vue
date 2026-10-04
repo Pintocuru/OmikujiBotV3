@@ -1,4 +1,4 @@
-<!-- src/editor/assets/box/OmikujiItemEditor.vue -->
+<!-- src/editor/assets/box/item/OmikujiItemEditor.vue -->
 <template>
   <!-- ヘッダー -->
   <OmikujiItemHeader :omikujiItem="omikujiItem" @update="updateItem" />

@@ -1,6 +1,6 @@
 // src/types/OmikujiData/assets/ActionSetSchema.ts
 import { z } from 'zod'
-import { BaseRecordSchema } from '../../core/BaseSchema'
+import { BaseRecordSchema } from '@/types/core'
 import { PostFlowArraySchema } from './PostFlow'
 
 /**

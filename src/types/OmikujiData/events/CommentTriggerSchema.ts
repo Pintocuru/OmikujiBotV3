@@ -1,6 +1,6 @@
 // src/types/OmikujiData/events/CommentTriggerSchema.ts
 import { z } from 'zod'
-import { AccessConditionSchema, GiftConditionSchema } from '../../trigger'
+import { AccessConditionSchema, GiftConditionSchema } from '../../engine/trigger'
 
 /**
  * Comment Trigger

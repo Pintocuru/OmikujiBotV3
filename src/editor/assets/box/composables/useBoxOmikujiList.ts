@@ -1,6 +1,6 @@
 // src/editor/assets/box/composables/useBoxOmikujiList.ts
 import { computed, ref, watch, type Ref } from 'vue'
-import { OmikujiItemSchema, type BoxType, type OmikujiItemType } from '@/types/OmikujiData/'
+import { OmikujiItemSchema, type MikujiBoxType, type OmikujiItemType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { updateItemWeight } from './useOmikujiWeight'
@@ -9,7 +9,9 @@ export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
   const { updateAsset } = useOmikujiStore()
   const { getAsset } = useGetAssetData()
 
-  const box = computed<BoxType | null>(() => (omikujiKey.value ? (getAsset('box', omikujiKey.value) ?? null) : null))
+  const box = computed<MikujiBoxType | null>(() =>
+    omikujiKey.value ? (getAsset('box', omikujiKey.value) ?? null) : null
+  )
   const omikujiList = computed<OmikujiItemType[]>(() => box.value?.omikuji ?? [])
 
   const commit = (omikuji: OmikujiItemType[]) => {

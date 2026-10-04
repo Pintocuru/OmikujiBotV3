@@ -1,6 +1,6 @@
 // src/generator/stores/useAppStatus.ts
 import { ref } from 'vue'
-import { AppStatus } from '@shared/types/core/AppStatus'
+import { AppStatus } from '@/types/core'
 
 export const useAppStatus = () => {
   /**

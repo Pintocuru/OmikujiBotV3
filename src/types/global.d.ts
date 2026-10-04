@@ -10,5 +10,6 @@ declare global {
       mountConfigMaker?: () => void
       assetBase?: string
     }
+    __GAME_SCRIPTS__?: Record<string, ScriptEntry>
   }
 }

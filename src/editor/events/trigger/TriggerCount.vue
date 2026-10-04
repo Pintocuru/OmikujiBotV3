@@ -41,8 +41,8 @@
 
 <script setup lang="ts">
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import { countComparisonConditionMap, countUnitConditionMap } from '@/maps/trigger/CountConditionMap'
-  import { CountConditionTriggerType } from '@/types/trigger'
+  import { countComparisonConditionMap, countUnitConditionMap } from '@/maps/engine/trigger/CountConditionMap'
+  import { CountConditionTriggerType } from '@/types/engine/trigger'
 
   const props = defineProps<{
     modelValue?: CountConditionTriggerType

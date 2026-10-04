@@ -37,7 +37,7 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
 
-  import { BoxType } from '@/types'
+  import { MikujiBoxType } from '@/types'
   import BoxSettings from './BoxSettings.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
@@ -82,7 +82,7 @@
       if (!selectedItemKey.value) return null
       return getAsset('box', selectedItemKey.value)
     },
-    set: (value: BoxType) => {
+    set: (value: MikujiBoxType) => {
       updateAsset('box', value.key, value)
     },
   })

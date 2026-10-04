@@ -1,4 +1,4 @@
-<!-- src/editor/assets/box/WeightBar.vue -->
+<!-- src/editor/assets/box/weight/WeightBar.vue -->
 <template>
   <div v-if="omikujiItems.length > 0" class="space-y-2">
     <!-- 凡例（ドラッグ可能） -->
@@ -29,7 +29,7 @@
   import { VueDraggable } from 'vue-draggable-plus'
   import type { OmikujiItemType } from '@/types/OmikujiData/'
   import WeightItem from './WeightItem.vue'
-  import { addWeightPercentages } from '@/common/omikuji/DrawOmikuji'
+  import { addWeightPercentages } from '@/engine/DrawOmikuji/DrawOmikuji'
   import { getColorForIndex, duplicateItemAt, removeItemAt } from '../composables/useOmikujiWeight'
 
   const props = defineProps<{

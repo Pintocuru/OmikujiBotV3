@@ -1,4 +1,4 @@
-<!-- src/editor/assets/box/OmikujiItemCriteria.vue -->
+<!-- src/editor/assets/box/item/OmikujiItemCriteria.vue -->
 <template>
   <!-- 条件設定の説明 -->
   <InformationCard>

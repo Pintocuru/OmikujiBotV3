@@ -1,4 +1,4 @@
-<!-- src/editor/assets/box/OmikujiItemHeader.vue -->
+<!-- src/editor/assets/box/item/OmikujiItemHeader.vue -->
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
     <!-- 名前 -->

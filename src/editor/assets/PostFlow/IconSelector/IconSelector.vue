@@ -6,9 +6,9 @@
         {{ label }}
       </option>
     </select>
+
     <div class="relative">
       <button
-        v-if="isCharacter"
         @click="showIconSelector"
         @mouseenter="showHoverSelector = true"
         @mouseleave="showHoverSelector = false"
@@ -21,7 +21,6 @@
   </div>
 
   <IconSelectorModal
-    v-if="isCharacter"
     ref="iconSelectorModalRef"
     :characterKey="characterKey"
     :currentIconKey="localIconKey"
@@ -32,9 +31,7 @@
 <script setup lang="ts">
   import { ref, computed, Ref } from 'vue'
   import IconSelectorModal from './IconSelectorModal.vue'
-  import { characterEmotionMap } from '@/maps/OmikujiData'
-  import { useCharacterManager } from '@/engine/scripts/CharacterManager/useCharacterManager.js'
-  import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain.js'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager.js'
   import { User } from 'lucide-vue-next'
 
   const props = defineProps<{
@@ -48,16 +45,11 @@
   }>()
 
   const { characterMap } = useCharacterManager()
-  const { isCharacter } = useVisibilityAccess()
 
-  // isCharacter なら characterMap の image、そうでなければ characterEmotionMap をフォールバックとして使用
   const selectOptions = computed<Record<string, string>>(() => {
-    if (isCharacter.value) {
-      return Object.fromEntries(
-        Object.entries(characterMap.value[props.characterKey]?.image ?? {}).map(([k, v]) => [k, v.label])
-      )
-    }
-    return characterEmotionMap
+    return Object.fromEntries(
+      Object.entries(characterMap.value[props.characterKey]?.image ?? {}).map(([k, v]) => [k, v.label])
+    )
   })
 
   const showHoverSelector = ref(false)

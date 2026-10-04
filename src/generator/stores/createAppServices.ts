@@ -1,7 +1,7 @@
 // src/generator/stores/createAppServices.ts
 import { CooldownManager } from './CooldownManager/CooldownManager'
 import { UserManager } from './UserManager/UserManager'
-import { GameScriptManager } from './GameScript/GameScriptManager'
+import { GameScriptManager } from '../../engine/GameScriptPlay/GameScriptManager'
 import { ServiceMetaStore } from './MetaState/MetaStateService'
 import { PlaceholderVariable } from './PlaceholderVariable/PlaceholderVariable'
 import { StreamStatsManager } from './StreamStats/StreamStatsManager'

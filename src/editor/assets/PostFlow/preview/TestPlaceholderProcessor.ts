@@ -1,11 +1,11 @@
 // src/editor/assets/PostFlow/preview/TestPlaceholderProcessor.ts
 import { PlaceholderType } from '@/types/OmikujiData'
-import { DisplayVariableResolver } from '@/engine/scripts/DisplayVariable/DisplayVariableResolver'
+import { DisplayVariableResolver } from '@/engine/DisplayVariable/DisplayVariableResolver'
 import { PlaceholderVariable } from '@/generator/stores/PlaceholderVariable/PlaceholderVariable'
-import { ContentPlaceholder } from '@/engine/scripts/ContentPlaceholder/processor'
-import { PlaceholderContext } from '@/engine/scripts/ContentPlaceholder/context'
-import { defaultPlaceholdersShortLabels } from '@/editor/maps/assets/DefaultPlaceholderMaps'
-import { VariablePlaceholderProcessor } from '@/engine/scripts/VariablePlaceholder/VariableProcessor'
+import { ContentPlaceholder } from '@/engine/ContentPlaceholder/processor'
+import { PlaceholderContext } from '@/engine/ContentPlaceholder/context'
+import { defaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
+import { VariablePlaceholderProcessor } from '@/engine/VariablePlaceholder/VariableProcessor'
 
 /**
  * テスト用：メッセージのプレースホルダーを処理して bubble を返す

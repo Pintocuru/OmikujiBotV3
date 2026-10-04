@@ -2,11 +2,7 @@
 <template>
   <div
     class="flex gap-4 mt-2"
-    :class="[
-      toastSettings.showToastsOnRight
-        ? 'flex-row self-end'
-        : 'flex-row-reverse self-start',
-    ]"
+    :class="toastSettings.showToastsOnRight ? 'flex-row self-end' : 'flex-row-reverse self-start'"
   >
     <!-- すべてのキャラクターリスト（テスト送信用） -->
     <CharacterThumbnailsPreview
@@ -14,136 +10,131 @@
       :clickable="true"
       @character-click="handleCharacterClick"
     />
+
     <!-- 実際にトースト表示設定されているキャラクターのプレビュー -->
-    <CharacterThumbnailsPreview
-      :charactersArray="filteredCharacters"
-      :hoverVisibility="false"
-    />
+    <CharacterThumbnailsPreview :charactersArray="filteredCharacters" :hoverVisibility="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted } from "vue";
-import {
-  CharacterType,
-  BotMessageBubbleSchema,
-  BotMessageBubbleType,
-  characterEmotionKeys,
-  CharacterSchema,
-  ToastWidgetsSchema,
-} from "@/types";
-import { useAppStore } from "@/generator/stores/useAppStore.js";
-import { useCharacterManager } from "@/generator/scripts/CharacterManager/useCharacterManager.js";
-import CharacterThumbnailsPreview from "./parts/CharacterThumbnailsPreview.vue";
+  import { computed, onMounted, onUnmounted, ref } from 'vue'
+  import { characterEmotions, CharacterType } from '@/types/OmikujiData'
+  import { BotMessageBubbleSchema, BotMessageBubbleType } from '@/generator/types'
 
-const appStore = useAppStore();
-const {
-  characterArray,
-  isCharacter,
-  isValidCharacter,
-  resolveCharacter,
-  resolveEmotion,
-} = useCharacterManager();
+  import CharacterThumbnailsPreview from './parts/CharacterThumbnailsPreview.vue'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { ToastWidgetsSchema } from '@/types/OmikujiData/UiSettings/ToastWidgetsSchema.js'
+  import { useAppStore } from '@/generator/stores/useAppStore'
 
-const toastSettings = computed(
-  () => appStore.data.components.settings.toast ?? ToastWidgetsSchema.parse({}),
-);
-const currentExpressions = ref<string[]>([]);
-const expressionTimer = ref<ReturnType<typeof setTimeout> | null>(null);
+  const appStore = useAppStore()
 
-onMounted(() => {
-  currentExpressions.value = characterArray.value.map(() => "default");
-  if (characterArray.value.length > 0) startExpressionCycle();
-});
+  const { characterArray, resolveCharacter, resolveEmotion } = useCharacterManager()
 
-onUnmounted(() => {
-  if (expressionTimer.value) clearTimeout(expressionTimer.value);
-});
+  const toastSettings = computed(() => appStore.data.ui.settings.toast ?? ToastWidgetsSchema.parse({}))
 
-/**
- * サムネイルの表情を定期的にランダム変更する
- */
-const startExpressionCycle = () => {
-  const updateExpressions = () => {
-    if (characterArray.value.length === 0) return;
+  const currentExpressions = ref<string[]>([])
+  const expressionTimer = ref<ReturnType<typeof setTimeout> | null>(null)
 
-    characterArray.value.forEach((character, index) => {
-      if (!isValidCharacter(character.key)) return;
+  onMounted(() => {
+    currentExpressions.value = characterArray.value.map(() => 'default')
 
-      const shouldChange = Math.random() < 0.05;
-      if (shouldChange) {
-        const randomEmotion =
-          characterEmotionKeys[
-            Math.floor(Math.random() * characterEmotionKeys.length)
-          ];
-        currentExpressions.value[index] = resolveEmotion(
-          character.key,
-          randomEmotion,
-        );
-      } else {
-        currentExpressions.value[index] = "default";
-      }
-    });
-    expressionTimer.value = setTimeout(updateExpressions, 10000);
-  };
-  updateExpressions();
-};
+    if (characterArray.value.length > 0) {
+      startExpressionCycle()
+    }
+  })
 
-/**
- * キャラクタークリック時のテストメッセージ送信
- */
-const TEST_CHARACTER = CharacterSchema.parse({
-  key: "__test__",
-  name: "テスト",
-  color: appStore.data.components.commonStyle.defaultColor,
-});
-const clickableCharacters = computed(() => {
-  if (!isCharacter.value) return [TEST_CHARACTER];
-  return [TEST_CHARACTER, ...characterArray.value];
-});
+  onUnmounted(() => {
+    if (expressionTimer.value) {
+      clearTimeout(expressionTimer.value)
+    }
+  })
 
-const handleCharacterClick = (
-  character: CharacterType,
-  isRightClick: boolean,
-) => {
-  try {
-    const shouldChangeExpression = Math.random() < 0.5;
-    const randomEmotion =
-      characterEmotionKeys[
-        Math.floor(Math.random() * characterEmotionKeys.length)
-      ];
+  /**
+   * サムネイルの表情を定期的にランダム変更する
+   */
+  const startExpressionCycle = () => {
+    const updateExpressions = () => {
+      if (characterArray.value.length === 0) return
 
-    // キャラクターの妥当性を考慮してデータを構成
-    const resolvedData = resolveCharacter({
-      characterKey: character.key,
-      iconKey: shouldChangeExpression ? randomEmotion : "default",
-    });
+      characterArray.value.forEach((character, index) => {
+        const shouldChange = Math.random() < 0.05
 
-    const postAction: BotMessageBubbleType = BotMessageBubbleSchema.parse({
-      bubble: {
-        name: character.name,
-        message: `${character.name}の${isRightClick ? "トースト" : "テスト"}メッセージです！`,
-        isToast: isRightClick,
-        characterKey: resolvedData.characterKey ?? null,
-        iconKey: resolvedData.iconKey,
-      },
-    });
+        if (shouldChange) {
+          const randomEmotion = characterEmotions[Math.floor(Math.random() * characterEmotions.length)]
 
-    appStore.addBotMessage(postAction);
-  } catch (error) {
-    console.error("テストメッセージの生成に失敗しました:", error);
+          currentExpressions.value[index] = resolveEmotion(character.key, randomEmotion)
+        } else {
+          currentExpressions.value[index] = 'default'
+        }
+      })
+
+      expressionTimer.value = setTimeout(updateExpressions, 10000)
+    }
+
+    updateExpressions()
   }
-};
 
-/**
- * 設定（showThumbnail）に含まれるキーを持つキャラクターのみをフィルタリング
- */
-const filteredCharacters = computed(() => {
-  if (!isCharacter.value) return [];
+  /**
+   * テスト送信用のキャラクター
+   *
+   * 実在するキャラクターをベースにすることで、
+   * CharacterType の必須プロパティを個別に組み立てない。
+   */
+  const testCharacter = computed<CharacterType | null>(() => {
+    const baseCharacter = characterArray.value[0]
 
-  const selectedKeys = new Set(toastSettings.value.showThumbnail);
-  return characterArray.value.filter((character) =>
-    selectedKeys.has(character.key),
-  );
-});
+    if (!baseCharacter) return null
+
+    return {
+      ...baseCharacter,
+      key: '__test__',
+      name: 'テスト',
+    }
+  })
+
+  /**
+   * キャラクタークリック時のテストメッセージ送信
+   */
+  const clickableCharacters = computed(() => {
+    if (!testCharacter.value) {
+      return characterArray.value
+    }
+
+    return [testCharacter.value, ...characterArray.value]
+  })
+
+  const handleCharacterClick = (character: CharacterType, isRightClick: boolean) => {
+    try {
+      const shouldChangeExpression = Math.random() < 0.5
+      const randomEmotion = characterEmotions[Math.floor(Math.random() * characterEmotions.length)]
+
+      const resolvedData = resolveCharacter({
+        characterKey: character.key,
+        iconKey: shouldChangeExpression ? randomEmotion : 'default',
+      })
+
+      const postAction: BotMessageBubbleType = BotMessageBubbleSchema.parse({
+        bubble: {
+          name: character.name,
+          message: `${character.name}の${isRightClick ? 'トースト' : 'テスト'}メッセージです！`,
+          isToast: isRightClick,
+          characterKey: resolvedData.characterKey,
+          iconKey: resolvedData.iconKey,
+        },
+      })
+
+      appStore.addBotMessage(postAction)
+    } catch (error) {
+      console.error('テストメッセージの生成に失敗しました:', error)
+    }
+  }
+
+  /**
+   * showThumbnail に含まれるキーを持つキャラクターのみをフィルタリング
+   */
+  const filteredCharacters = computed(() => {
+    const selectedKeys = new Set(toastSettings.value.showThumbnail)
+
+    return characterArray.value.filter((character) => selectedKeys.has(character.key))
+  })
 </script>

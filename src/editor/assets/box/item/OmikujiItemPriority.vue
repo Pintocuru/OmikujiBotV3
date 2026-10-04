@@ -1,4 +1,4 @@
-<!-- src/editor/assets/box/OmikujiItemPriority.vue -->
+<!-- src/editor/assets/box/item/OmikujiItemPriority.vue -->
 <template>
   <!-- 追加発動条件の有効化 -->
   <SettingItem

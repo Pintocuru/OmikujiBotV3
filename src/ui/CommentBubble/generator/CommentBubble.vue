@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted } from 'vue'
-  import { BotMessageBubbleType } from '@/generator/types/MainGenerator'
+  import { BotMessageBubbleType } from '@/generator/types'
 
   import CommentBubbleZero from './CommentBubbleZero.vue'
   import CommentBubblePersistent from './CommentBubblePersistent.vue'

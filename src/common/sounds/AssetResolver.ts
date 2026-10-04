@@ -1,4 +1,5 @@
 // src/common/sounds/AssetResolver.ts
+// TODO: CORE_BASE は存在しないように扱いたい…
 const CORE_BASE = 'http://localhost:11180/templates/custom/OmikujiBot/'
 const TEMPLATE_BASE = './'
 

@@ -1,6 +1,6 @@
 // src/types/OmikujiData/JsonMergeType.ts
 import { z } from 'zod'
-import { BaseRecordSchema } from '@shared/types'
+import { BaseRecordSchema } from '@/types/core'
 
 export const JsonMergeRemapSchema = z.object({
   fromCharacterKey: z.string().default(''),

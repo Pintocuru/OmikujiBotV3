@@ -22,7 +22,7 @@ import { eventCategory } from './events'
  */
 
 /** @deprecated 新バージョンでは使用不可です */
-export const recordCategoryLabel = [...eventCategoryLabel, 'actionSets', 'placeholders', 'characters'] as const
+export const recordCategoryLabel = [...eventCategory, 'actionSets', 'placeholders', 'characters'] as const
 
 /** @deprecated 新バージョンでは使用不可です */
 export type RecordCategoryType = (typeof recordCategoryLabel)[number]

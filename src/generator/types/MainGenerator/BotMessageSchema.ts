@@ -1,9 +1,8 @@
 // src/generator/types/MainGenerator/BotMessageSchema.ts
+import { OmikenCommentSchema, UserNameSchema } from '@/types/OmikenComment'
+import { eventCategory } from '@/types/OmikujiData'
+import { DaisyUIColorSchema, idSchema } from '@/types/core'
 import { z } from 'zod'
-import { ScriptGameExtendedKeySchema, eventCategoryLabel } from '../OmikujiData'
-import { OmikenCommentSchema, UserNameSchema } from '@shared/types/OmikenComment/OmikenCommentSchema'
-import { DaisyUIColorSchema } from '@shared/styles/DaisyUiTheme'
-import { idSchema } from '@shared/types'
 
 /**
  * BotMessageBaseSchema
@@ -14,7 +13,7 @@ const BotMessageBaseSchema = z.object({
   delaySeconds: z.number().default(0),
   source: z
     .object({
-      category: z.enum(eventCategoryLabel).optional(),
+      category: z.enum(eventCategory).optional(),
       eventKey: z.string().optional(),
       omikujiKey: z.string().optional(),
     })
@@ -59,7 +58,6 @@ export type ExtraSlotsType = z.infer<typeof ExtraSlotsSchema>
 const CommentBubbleSchema = z.object({
   name: z.string().nullable().default(null),
   message: z.string(),
-  isToast: z.boolean().default(false),
   characterKey: z.string().nullable().default(null),
   iconKey: z.string().default('default').catch('default'),
   displaySeconds: z.number().min(0).max(60).nullable().optional(),
@@ -75,6 +73,7 @@ const DisplayStatusSchema = z.object({
  */
 export const BotMessageBubbleSchema = BotMessageBaseSchema.extend({
   type: z.literal('comment').default('comment'),
+  // TODO:必要なのはuiId だと思う 「どのUIに投稿するか」を指定するプロパティが必要?
   bubble: CommentBubbleSchema,
   slots: ExtraSlotsSchema.optional(),
   display: DisplayStatusSchema.optional(),
@@ -86,7 +85,6 @@ export type BotMessageBubbleType = z.infer<typeof BotMessageBubbleSchema>
  */
 export const BotMessageExtraSchema = BotMessageBaseSchema.extend({
   type: z.literal('extra').default('extra'),
-  scriptKey: ScriptGameExtendedKeySchema, // アイテム判別用key
   user: UserNameSchema.optional(),
   lists: ExtraListsSchema.optional(),
   slots: ExtraSlotsSchema.optional(),
@@ -95,7 +93,8 @@ export type BotMessageExtraType = z.infer<typeof BotMessageExtraSchema>
 
 /**
  * BotMessageEmptySchema
- * 特殊な動作 returnで使用
+ * BotMessage でない時に使用
+ * TODO:本当にこれって使うの?
  */
 export const BotMessageEmptySchema = BotMessageBaseSchema.extend({
   type: z.literal('empty').default('empty'),

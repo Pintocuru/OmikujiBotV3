@@ -1,4 +1,4 @@
-<!-- src/editor/assets/box/WeightItem.vue -->
+<!-- src/editor/assets/box/weight/WeightItem.vue -->
 <template>
   <div
     class="flex items-center gap-2 text-xs bg-base-100 p-2 rounded shadow-sm hover:shadow-md transition-all cursor-pointer"

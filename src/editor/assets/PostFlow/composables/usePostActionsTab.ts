@@ -1,7 +1,7 @@
 // src/editor/assets/PostFlow/composables/usePostActionsTab.ts
 import { computed, Ref, ref, watch } from 'vue'
 import { PostFlowMessageSchema, PostFlowMessageType, PostFlowType } from '@/types/OmikujiData/'
-import { useCharacterManager } from '@/engine/scripts/CharacterManager/useCharacterManager'
+import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
 
 export function usePostActionsTab(
   actions: Ref<PostFlowType[]>,

@@ -1,7 +1,6 @@
 // src/generator/types/MainGenerator/UserVisits.ts
+import { UserNameSchema } from '@/types/OmikenComment'
 import { z } from 'zod'
-import { UserNameSchema } from '@shared/types/OmikenComment/OmikenCommentSchema'
-import { BaseVariantLabels } from '@shared/components/parts/ItemVariantTypes'
 
 /**
  * ruleId別 訪問情報

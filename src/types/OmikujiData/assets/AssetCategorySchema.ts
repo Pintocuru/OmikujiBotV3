@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { normalizedRecord } from '../ParsedDefault'
 import { ActionSetSchema } from './ActionSetSchema'
 import { CharacterSchema } from './CharacterSchema'
-import { BoxSchema } from './BoxSchema'
+import { MikujiBoxSchema } from './MikujiBoxSchema'
 import { PlaceholderSchema } from './PlaceholderSchema'
 
 /**
@@ -14,7 +14,7 @@ export type AssetCategoryType = (typeof assetCategory)[number]
 
 // カテゴリごとのアセットアイテム型
 export type AssetCategoryDataMap = {
-  box: z.infer<typeof BoxSchema>
+  box: z.infer<typeof MikujiBoxSchema>
   actions: z.infer<typeof ActionSetSchema>
   placeholders: z.infer<typeof PlaceholderSchema>
   characters: z.infer<typeof CharacterSchema>
@@ -22,7 +22,7 @@ export type AssetCategoryDataMap = {
 
 // カテゴリごとのスキーマ
 export const AssetCategorySchemaMap = {
-  box: BoxSchema,
+  box: MikujiBoxSchema,
   actions: ActionSetSchema,
   placeholders: PlaceholderSchema,
   characters: CharacterSchema,
@@ -30,7 +30,7 @@ export const AssetCategorySchemaMap = {
 
 // Asset データ全体
 export const AssetCategorySchema = z.object({
-  box: normalizedRecord(BoxSchema),
+  box: normalizedRecord(MikujiBoxSchema),
   actions: normalizedRecord(ActionSetSchema),
   placeholders: normalizedRecord(PlaceholderSchema),
   characters: normalizedRecord(CharacterSchema),

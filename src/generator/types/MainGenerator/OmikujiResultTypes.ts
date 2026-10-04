@@ -1,6 +1,6 @@
 // src/generator/types/MainGenerator/OmikujiResultTypes.ts
 import { PostFlowType, ScriptGameExtendedKeyType } from '@/types/OmikujiData/'
-import { ExtraListsType, ExtraSlotsType } from '@/types/MainGenerator/BotMessageSchema'
+import { ExtraListsType, ExtraSlotsType } from './BotMessageSchema'
 
 /**
  * 変数プレースホルダーの解析結果

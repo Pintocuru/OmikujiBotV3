@@ -1,8 +1,8 @@
 // src/editor/helpers/CharacterChanger/useCharacterStats.ts
 import { computed, ComputedRef } from 'vue'
 import { ActionSetType } from '@/types/OmikujiData/'
-import { useCharacterManager } from '@/editor/scripts/CharacterManager/useCharacterManager'
 import { usePostActionCharacters } from './usePostActionCharacters'
+import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
 
 /**
  * キャラクター使用状況の統計情報を提供

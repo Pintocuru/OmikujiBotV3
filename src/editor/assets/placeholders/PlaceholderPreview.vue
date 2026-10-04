@@ -17,7 +17,7 @@
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { Dices } from 'lucide-vue-next'
-  import { addWeightPercentages, drawOmikuji, OmikujiWeightItem } from '@/common/omikuji/DrawOmikuji'
+  import { addWeightPercentages, drawOmikuji, OmikujiWeightItem } from '@/engine/DrawOmikuji/DrawOmikuji'
   import { postSpeech } from '@/sdk/post/PostOneComme'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
