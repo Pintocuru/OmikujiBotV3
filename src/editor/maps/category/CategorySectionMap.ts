@@ -46,7 +46,7 @@ export const categorySectionMap: Record<CategoryType, SidebarSectionItem[]> = {
   ],
 
   // assets
-  box: [
+  mikuji: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
     { section: 'omikujiSet', icon: 'ListChecks', component: 'actionSet' },
   ],
@@ -77,6 +77,5 @@ export const categorySectionMap: Record<CategoryType, SidebarSectionItem[]> = {
 
   // jsonMerge: サブアイテム単位でセクションなし（そのまま）
   jsonMerge: [],
-  components: [],
-  dataPacks: [],
+  ui: [],
 }

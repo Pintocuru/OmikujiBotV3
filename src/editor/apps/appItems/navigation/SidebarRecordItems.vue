@@ -6,7 +6,7 @@
       :animation="150"
       handle=".drag-handle"
       :disabled="!isDragEnabled"
-      @end="emit('dragEnd', category as RecordCategoryType)"
+      @end="emit('dragEnd', category)"
     >
       <SidebarSubItem
         v-for="item in localItems.filter((i) => i?.key)"
@@ -24,7 +24,11 @@
       >
         <template v-if="item.rawItem" #menu>
           <div @dblclick.stop>
-            <SidebarItemMenu :item="item.rawItem" :category="category as RecordCategoryType" />
+            <!-- 型 '$InferEnumOutput<{ comments: "comments"; timers: "timers"; services: "services"; reactions: "reactions"; mikuji: "mikuji"; actions: "actions"; placeholders: "placeholders"; characters: "characters"; jsonMerge: "jsonMerge"; ui: "ui"; appInfo: "appInfo"; }>' を型 '"comments" | "timers" | "services" | "reactions" | "mikuji" | "actions" | "placeholders" | "characters"' に割り当てることはできません。
+  型 '"jsonMerge"' を型 '"comments" | "timers" | "services" | "reactions" | "mikuji" | "actions" | "placeholders" | "characters"' に割り当てることはできません。ts-plugin(2322)
+SidebarItemMenu.vue(72, 5): 予期された型は、型 '{ readonly item: { id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: $InferEnumOutput<{ error: "error"; primary: "primary"; secondary: "secondary"; ... 4 more ...; warning: "warning"; }>; tags: string[]; }; readonly category...' に対してここで宣言されたプロパティ 'category' から取得されています
+(property) category: "comments" | "timers" | "services" | "reactions" | "mikuji" | "actions" | "placeholders" | "characters" -->
+            <SidebarItemMenu :item="item.rawItem" :category="category" />
           </div>
         </template>
       </SidebarSubItem>
@@ -36,12 +40,12 @@
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { VueDraggable } from 'vue-draggable-plus'
-  import { CategoryType, RecordCategoryType } from '@/types/OmikujiData/'
-  import { BaseRecordType } from '@shared/types'
+  import { CategoryType } from '@/types/OmikujiData/'
   import { getSidebarSections } from './useSidebarSectionMap'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SidebarSubItem from './SidebarSubItem.vue'
   import SidebarItemMenu from './SidebarItemMenu.vue'
+  import { BaseRecordType } from '@/types/core'
 
   export type DraggableSubItem = {
     key: string
@@ -59,7 +63,7 @@
   const emit = defineEmits<{
     'update:modelValue': [items: DraggableSubItem[]]
     'update:isDragEnabled': [val: boolean]
-    dragEnd: [category: RecordCategoryType]
+    dragEnd: [category: CategoryType]
   }>()
 
   const navigationStore = useNavigationStore()

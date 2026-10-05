@@ -3,7 +3,6 @@ import { BotMessageExtraType } from '@/generator/types'
 import { BaseRecordType } from '@/types/core'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { PostFlowType } from '@/types/OmikujiData'
-import { GameStateType } from './GameStateSchema'
 
 // スクリプトプリセット
 export interface ScriptPreset extends BaseRecordType {
@@ -20,6 +19,4 @@ export type ScriptResult = {
 export interface ScriptClass {
   run(queryString: string, characterKey: string | null, omiken?: OmikenCommentType): ScriptResult // メイン実行関数
   sampleRun(queryString?: string): string // エディター用サンプルゲーム関数
-  // TODO:getGameState を廃止。gameは 単に結果を返すだけのものにする
-  getGameState?(): GameStateType // ゲーム状態取得関数
 }

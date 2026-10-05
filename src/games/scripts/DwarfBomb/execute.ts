@@ -1,23 +1,14 @@
 // src/games/scripts/DwarfBomb/execute.ts
+import { PostFlowMessageSchema, PostFlowType } from '@/types/OmikujiData'
+import { OmikenCommentType } from '@/types/OmikenComment'
+import { ScriptClass, ScriptResult } from '@/games/types'
+
 import { GameParams, GameParamsSchema } from './params'
-import { ScriptClass, PostFlowType, GameStateType, PostFlowMessageSchema, ScriptResult } from '@/types'
-import { playGame, generatePartyEffects } from './game/game' // ← クラスではなく関数をimport
-import { parseQueryString } from '@game/parseQueryString'
-import { LogRankScript } from '@game/scriptsEngine/LogRank/execute'
-import { OmikenCommentType, UserNameSchema } from '@shared/types/OmikenComment/OmikenCommentSchema'
-import { prepareUserInfo, buildBotMessageRanking } from '@game/scriptsEngine/RankingMessage/RankingMessage'
-import { GameScriptBase } from '@/types/GameScript/GameScriptBase'
+import { buildBotMessageRanking, prepareUserInfo } from '@/games/scriptsEngine/RankingMessage/RankingMessage'
+import { parseQueryString } from '@/games/parseQueryString'
+import { generatePartyEffects, playGame } from './game/game'
 
-const RANKING_KEY = 'DwarfBomb'
-
-export class ExecuteScript extends GameScriptBase implements ScriptClass {
-  private readonly logRank = new LogRankScript()
-
-  constructor() {
-    super()
-    this.logRank.setup(RANKING_KEY)
-  }
-
+export class ExecuteScript implements ScriptClass {
   run(queryString: string, characterKey: string | null, omiken?: OmikenCommentType): ScriptResult {
     const params = this.parseParams(queryString)
     const user = prepareUserInfo(omiken)
@@ -25,27 +16,22 @@ export class ExecuteScript extends GameScriptBase implements ScriptClass {
     const result = playGame(user.userName, params.mode)
     const partyEffects = generatePartyEffects(result)
 
-    if (omiken) {
-      const logResult = this.recordRanking(omiken, result.payout, characterKey)
-
-      const botMessageExtra = buildBotMessageRanking({
-        user,
-        bubbleText: result.message,
-        componentKey: RANKING_KEY,
-        score: result.payout,
-        symbol: '',
-        isOverLimit: logResult.isOverLimit,
-      })
-
-      return {
-        actions: this.buildPostActions(logResult.postActions, partyEffects, characterKey, result.message),
-        botMessageExtras: [botMessageExtra],
-      }
-    }
+    // omiken(コメント)がある場合のみランキング用メッセージを付与
+    const botMessageExtras = omiken
+      ? [
+          buildBotMessageRanking({
+            user,
+            bubbleText: result.message,
+            score: result.payout,
+            symbol: '',
+            isOverLimit: false,
+          }),
+        ]
+      : []
 
     return {
-      actions: this.buildPostActions(null, partyEffects, characterKey, result.message),
-      botMessageExtras: [],
+      actions: this.buildPostActions(partyEffects, characterKey, result.message),
+      botMessageExtras,
     }
   }
 
@@ -55,30 +41,11 @@ export class ExecuteScript extends GameScriptBase implements ScriptClass {
     return playGame(user.userName, mode).message
   }
 
-  getGameState(): GameStateType {
-    return this.logRank.getGameState()
-  }
-
   private parseParams(queryString: string): GameParams {
     return GameParamsSchema.parse(parseQueryString(queryString))
   }
 
-  private recordRanking(
-    omiken: OmikenCommentType,
-    payout: number,
-    characterKey: string | null
-  ): ReturnType<LogRankScript['run']> {
-    return this.logRank.run({
-      user: UserNameSchema.parse(omiken),
-      characterKey,
-      rankingMode: 'high_score',
-      maxDraws: 5,
-      result: { type: 'score', score: payout },
-    })
-  }
-
   private buildPostActions(
-    postActions: PostFlowType[] | null,
     partyEffects: PostFlowType[],
     characterKey: string | null,
     bubbleText: string
@@ -86,16 +53,16 @@ export class ExecuteScript extends GameScriptBase implements ScriptClass {
     const messageAction = PostFlowMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,
-      message: { bubble: bubbleText },
+      message: bubbleText,
       sound: 'decision',
     })
 
     return [
-      ...(postActions ?? []),
-      { actionType: 'wordParty', delaySeconds: 1, wordParty: 'DwarfBombRabbit1' },
-      { actionType: 'wordParty', delaySeconds: 1.5, wordParty: 'DwarfBombRabbit2' },
-      { actionType: 'wordParty', delaySeconds: 2, wordParty: 'DwarfBombRabbit3' },
-      { actionType: 'wordParty', delaySeconds: 2.7, wordParty: 'CommonBombFire' },
+      // TODO:WordPartyに頼らない演出にする
+      { kind: 'wordParty', delaySeconds: 1, repeat: 1, wordPartyId: 'DwarfBombRabbit1' },
+      { kind: 'wordParty', delaySeconds: 1.5, repeat: 1, wordPartyId: 'DwarfBombRabbit2' },
+      { kind: 'wordParty', delaySeconds: 2, repeat: 1, wordPartyId: 'DwarfBombRabbit3' },
+      { kind: 'wordParty', delaySeconds: 2.7, repeat: 1, wordPartyId: 'CommonBombFire' },
       ...partyEffects,
       messageAction,
     ]

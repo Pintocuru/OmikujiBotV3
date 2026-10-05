@@ -1,23 +1,14 @@
 // src/games/scripts/GouseiSuika/execute.ts
 import { PostFlowMessageSchema, PostFlowType } from '@/types/OmikujiData'
-import { OmikenCommentType, UserNameSchema } from '@/types/OmikenComment'
-import { GameStateType, ScriptClass, ScriptResult } from '@/games/types'
+import { OmikenCommentType } from '@/types/OmikenComment'
+import { ScriptClass, ScriptResult } from '@/games/types'
 
 import { GameParams, GameParamsSchema } from './params'
-import { LogRankScript } from '@/games/scriptsEngine/LogRank/execute'
 import { buildBotMessageRanking, prepareUserInfo } from '@/games/scriptsEngine/RankingMessage/RankingMessage'
 import { parseQueryString } from '@/games/parseQueryString'
 import { GachaGame } from './game'
 
-const RANKING_KEY = 'GouseiSuika'
-
 export class ExecuteScript implements ScriptClass {
-  private readonly logRank = new LogRankScript()
-
-  constructor() {
-    this.logRank.setup(RANKING_KEY)
-  }
-
   run(queryString: string, characterKey: string | null, omiken?: OmikenCommentType): ScriptResult {
     const params = this.parseParams(queryString)
     const gameResult = new GachaGame(params).play()
@@ -25,28 +16,22 @@ export class ExecuteScript implements ScriptClass {
     const user = prepareUserInfo(omiken)
     const bubbleText = `${user.userName}の得点は${gameResult.points}!`
 
-    if (omiken) {
-      const logResult = this.recordRanking(omiken, gameResult.points, characterKey)
+    // omiken(コメント)がある場合のみランキング用メッセージを付与
+    const botMessageExtras = omiken
+      ? [
+          buildBotMessageRanking({
+            user,
+            bubbleText,
+            score: gameResult.points,
+            symbol: params.mode,
+            isOverLimit: false,
+          }),
+        ]
+      : []
 
-      const botMessageExtra = buildBotMessageRanking({
-        user,
-        bubbleText,
-        componentKey: RANKING_KEY,
-        score: gameResult.points,
-        symbol: params.mode,
-        isOverLimit: logResult.isOverLimit,
-      })
-
-      return {
-        actions: this.buildPostActions(gameResult, logResult.postActions, characterKey, bubbleText),
-        botMessageExtras: [botMessageExtra],
-      }
-    }
-
-    // omiken(コメント)がない場合
     return {
-      actions: this.buildPostActions(gameResult, null, characterKey, bubbleText),
-      botMessageExtras: [],
+      actions: this.buildPostActions(gameResult.postArray, characterKey, bubbleText),
+      botMessageExtras,
     }
   }
 
@@ -56,44 +41,15 @@ export class ExecuteScript implements ScriptClass {
     return `[ユーザー名]の得点は${gameResult.points}!`
   }
 
-  getGameState(): GameStateType {
-    return this.logRank.getGameState()
-  }
-
   private parseParams(queryString: string): GameParams {
     const paramsObject = parseQueryString(queryString)
     return GameParamsSchema.parse(paramsObject)
   }
 
   /**
-   * ランキングデータを記録
-   */
-  private recordRanking(
-    omiken: OmikenCommentType,
-    points: number,
-    characterKey: string | null
-  ): ReturnType<LogRankScript['run']> {
-    return this.logRank.run({
-      user: UserNameSchema.parse(omiken),
-      characterKey,
-      rankingMode: 'high_score',
-      maxDraws: 5,
-      result: {
-        type: 'score',
-        score: points,
-      },
-    })
-  }
-
-  /**
    * PostAction の構築
    */
-  private buildPostActions(
-    gameResult: ReturnType<GachaGame['play']>,
-    postActions: PostFlowType[] | null,
-    characterKey: string | null,
-    bubbleText: string
-  ): PostFlowType[] {
+  private buildPostActions(postArray: PostFlowType[], characterKey: string | null, bubbleText: string): PostFlowType[] {
     const messageAction = PostFlowMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,
@@ -101,7 +57,7 @@ export class ExecuteScript implements ScriptClass {
       sound: 'decision',
     })
 
-    return [...gameResult.postArray, ...(postActions ?? []), messageAction]
+    return [...postArray, messageAction]
   }
 }
 

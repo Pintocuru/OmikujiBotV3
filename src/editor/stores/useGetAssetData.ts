@@ -1,6 +1,6 @@
 // src/editor/stores/useGetAssetData.ts
 import { storeToRefs } from 'pinia'
-import type { AssetCategoryType, AssetCategoryDataMap } from '@/types/OmikujiData/assets'
+import { AssetCategoryDataMap, AssetCategoryType, CategoryType, assetCategory } from '@/types/OmikujiData'
 import { useOmikujiStore } from './useOmikujiStore'
 
 export function useGetAssetData() {
@@ -17,6 +17,10 @@ export function useGetAssetData() {
     return data.value.assets[category] as Record<string, AssetCategoryDataMap[K]>
   }
 
+  // カテゴリ判定
+  const isAssetCategory = (category: CategoryType): category is AssetCategoryType =>
+    (assetCategory as readonly string[]).includes(category)
+
   // アセット存在確認
   const hasAsset = <K extends AssetCategoryType>(category: K, key: string): boolean => {
     return key in data.value.assets[category]
@@ -30,6 +34,7 @@ export function useGetAssetData() {
   return {
     getAsset,
     getAssets,
+    isAssetCategory,
     hasAsset,
     getAssetCount,
   }

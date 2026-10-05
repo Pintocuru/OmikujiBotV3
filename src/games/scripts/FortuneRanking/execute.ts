@@ -1,21 +1,15 @@
 // src/games/scripts/FortuneRanking/execute.ts
+import { PostFlowMessageSchema } from '@/types/OmikujiData'
+import { OmikenCommentType } from '@/types/OmikenComment'
+import { ScriptClass, ScriptResult } from '@/games/types'
+
 import { DEFAULT_FRUITS, DEFAULT_KEY_MAP } from './params'
-import { ScriptClass, GameStateType, PostFlowMessageSchema, ScriptResult } from '@/types'
-import { LogRankScript } from '@game/scriptsEngine/LogRank/execute'
-import { parseQueryString } from '@game/parseQueryString'
-import { OmikenCommentType } from '@shared/types/OmikenComment/OmikenCommentSchema'
-import { GameScriptBase } from '@/types/GameScript/GameScriptBase'
+import { parseQueryString } from '@/games/parseQueryString'
 
-const RANKING_KEY = 'FortuneRanking'
-
-export class ExecuteScript extends GameScriptBase implements ScriptClass {
-  private readonly logRank = new LogRankScript()
-
-  constructor() {
-    super()
-    this.logRank.setup(RANKING_KEY)
-  }
-
+export class ExecuteScript implements ScriptClass {
+  /**
+   * ゲームを実行する
+   */
   run(queryString: string, characterKey: string | null, _omiken?: OmikenCommentType): ScriptResult {
     const { projectName, fruitPairs } = this.parseParams(queryString)
 
@@ -46,6 +40,9 @@ export class ExecuteScript extends GameScriptBase implements ScriptClass {
     }
   }
 
+  /**
+   * サンプルラン
+   */
   sampleRun(queryString: string): string {
     const { projectName, fruitPairs } = this.parseParams(queryString)
     const random = fruitPairs[Math.floor(Math.random() * fruitPairs.length)]
@@ -53,10 +50,9 @@ export class ExecuteScript extends GameScriptBase implements ScriptClass {
     return `${random.label}は {{${projectName}_${random.key}}} で順位が出るよ`
   }
 
-  getGameState(): GameStateType {
-    return this.logRank.getGameState()
-  }
-
+  /**
+   * パラメータをパース
+   */
   private parseParams(queryString: string) {
     const paramsObject = parseQueryString(queryString)
 

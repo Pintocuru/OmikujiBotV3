@@ -1,7 +1,7 @@
 // src/editor/stores/useNavigationStore.ts
 import { ref, watch, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { CategoryType, eventCategory, assetCategory, EventCategoryType, AssetCategoryType } from '@/types/OmikujiData/'
+import { CategoryType, AssetCategoryType } from '@/types/OmikujiData/'
 import { useGetEventData } from './useGetEventData'
 import { useGetAssetData } from './useGetAssetData'
 
@@ -9,8 +9,8 @@ import { useGetAssetData } from './useGetAssetData'
 type NavigableItem = { key: string; order?: number }
 
 export const useNavigationStore = defineStore('navigation', () => {
-  const { getEvents } = useGetEventData()
-  const { getAssets } = useGetAssetData()
+  const { getEvents, isEventCategory } = useGetEventData()
+  const { getAssets, isAssetCategory } = useGetAssetData()
 
   /**
    * 状態
@@ -23,16 +23,10 @@ export const useNavigationStore = defineStore('navigation', () => {
    * 計算プロパティ
    */
 
-  const isEventCategory = (category: CategoryType): category is EventCategoryType =>
-    (eventCategory as readonly string[]).includes(category)
-
-  const isAssetCategory = (category: CategoryType): category is AssetCategoryType =>
-    (assetCategory as readonly string[]).includes(category)
-
   // Events/Assets どちらかに属するカテゴリかどうか
-  const isRecordCategory = (category: CategoryType): boolean => isEventCategory(category) || isAssetCategory(category)
+  const isDataCategory = (category: CategoryType): boolean => isEventCategory(category) || isAssetCategory(category)
 
-  const isCurrentRecordCategory = computed(() => isRecordCategory(selectedCategory.value))
+  const isCurrentDataCategory = computed(() => isDataCategory(selectedCategory.value))
 
   // 現在のカテゴリの一覧を、key/order を持つ配列に正規化して取得
   const categoryArray = computed<NavigableItem[] | undefined>(() => {
@@ -60,13 +54,12 @@ export const useNavigationStore = defineStore('navigation', () => {
   /**
    * 操作
    */
-
   const selectCategory = (category?: CategoryType) => {
     const safeCategory = category ?? 'comments'
     selectedCategory.value = safeCategory
     activeSection.value = 'Top'
 
-    if (!isRecordCategory(safeCategory)) {
+    if (!isDataCategory(safeCategory)) {
       selectedItemKey.value = null
       return
     }
@@ -125,10 +118,10 @@ export const useNavigationStore = defineStore('navigation', () => {
     selectedCategory,
     selectedItemKey,
     activeSection,
-    isCurrentRecordCategory,
+    isCurrentDataCategory,
     categoryArray,
     selectedItem,
-    isRecordCategory,
+    isDataCategory,
     selectCategory,
     selectItem,
     clearSelection,

@@ -5,13 +5,13 @@
       v-for="sec in sections"
       :key="sec.section"
       class="w-full flex items-center gap-1.5 pl-6 pr-2 py-0.5 text-xs rounded hover:bg-base-300 cursor-pointer"
-      :class="activeSection === sec.section ? `text-${theme} font-semibold` : 'opacity-60'"
+      :class="activeSection === sec.section ? ` font-semibold` : 'opacity-60'"
       @mouseenter="onEnter($event, sec)"
       @mouseleave="onLeave"
       @click="emit('selectSection', sec.section)"
     >
       <component :is="resolveIcon(sec.icon)" v-if="sec.icon" class="w-3 h-3 shrink-0" />
-      <span class="truncate">{{ sec.label }}</span>
+      <span class="truncate">{{ t(`categorySections.${sec.section}.label`) }}</span>
     </button>
 
     <!-- TODO:実装 Hover Popup
@@ -24,25 +24,29 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue'
   import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap.js'
-  import HoverPopup from '../preview/HoverPopup.vue'
-  import { staticSectionPreviewMap } from '../preview/staticSectionPreviewMap.js'
-  import { CategoryType, isRecordCategory } from '@/types'
-  import { useGetRecordData } from '@/editor/stores/useGetRecordData.js'
-  import { LucideIconName } from '@/common/LucideIcon/useLucideIcon.js'
+  // import HoverPopup from '../preview/HoverPopup.vue'
+  // import { staticSectionPreviewMap } from '../preview/staticSectionPreviewMap.js'
+  import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon.js'
+  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+  import { useGetEventData } from '@/editor/stores/useGetEventData'
+  import { CategoryType } from '@/types/OmikujiData'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     category: CategoryType
     itemKey?: string
     sections: SidebarSectionItem[]
     activeSection: string | null
-    theme: string
   }>()
 
   const emit = defineEmits<{
     selectSection: [section: string]
   }>()
 
-  const { getItem } = useGetRecordData()
+  const { getEvent, isEventCategory } = useGetEventData()
+  const { getAsset, isAssetCategory } = useGetAssetData()
 
   // hover state
   const hoveredSection = ref<SidebarSectionItem | null>(null)
@@ -69,11 +73,14 @@
 
   // ★ データ取得（computedでシンプルに）
   const hoveredItem = computed(() => {
-    if (!hoveredSection.value || !props.itemKey) return null
+    if (!props.itemKey) return null
 
-    // TODO:isRecordCategory の廃止
-    if (isRecordCategory(props.category)) {
-      return getItem(props.category, props.itemKey)
+    if (isEventCategory(props.category)) {
+      return getEvent(props.category, props.itemKey)
+    }
+
+    if (isAssetCategory(props.category)) {
+      return getAsset(props.category, props.itemKey)
     }
 
     return null

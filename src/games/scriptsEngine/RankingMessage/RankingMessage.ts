@@ -10,7 +10,6 @@ const UNKNOWN_NAME = 'おみくじBOT'
 interface BuildBotMessageParams {
   user: UserNameType
   bubbleText: string
-  componentKey: string
   score: number
   symbol: string
   delaySeconds?: number
@@ -33,12 +32,11 @@ export function prepareUserInfo(omiken?: OmikenCommentType): UserNameType {
  * 吹き出し(comment)とランキング(extra)を個別のメッセージとして出力する
  */
 export function buildBotMessageRanking(params: BuildBotMessageParams): BotMessageExtraType {
-  const { user, componentKey, score, symbol, delaySeconds = 3.5, isUnique = false, isOverLimit } = params
+  const { user, score, symbol, delaySeconds = 3.5, isUnique = false, isOverLimit } = params
 
   return BotMessageExtraSchema.parse({
     delaySeconds,
     user,
-    scriptKey: componentKey,
     lists: {
       listName: user.userName,
       symbol,

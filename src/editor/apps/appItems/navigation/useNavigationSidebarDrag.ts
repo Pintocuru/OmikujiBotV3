@@ -16,7 +16,7 @@ export type DraggableSubItem = {
 
 export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => {
   const navigationStore = useNavigationStore()
-  const { isRecordCategory } = navigationStore
+  const { isDataCategory: isRecordCategory } = navigationStore
   const { selectedCategory } = storeToRefs(navigationStore)
   const { getCategoryArray } = useGetRecordData()
   const omikujiStore = useOmikujiStore()

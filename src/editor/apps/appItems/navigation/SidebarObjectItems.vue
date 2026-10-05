@@ -9,7 +9,6 @@
     :category="category"
     :sections="resolvedSections"
     :activeSection="activeSection"
-    :theme="theme"
     @selectSection="(section) => (navigationStore.activeSection = section)"
   />
 </template>
@@ -26,7 +25,7 @@
     category: CategoryType
   }>()
 
-  const { theme, activeSection } = useSidebarContext()
+  const { activeSection } = useSidebarContext()
   const { getSections } = useSidebarSubItems()
   const navigationStore = useNavigationStore()
 

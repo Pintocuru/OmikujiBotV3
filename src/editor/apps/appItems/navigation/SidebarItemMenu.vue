@@ -58,16 +58,25 @@
 </template>
 
 <script setup lang="ts">
-  import { Eye, EyeOff, Copy, Trash2, MoreHorizontal, ClipboardCopy, ClipboardPaste } from 'lucide-vue-next'
-  import { RecordCategoryType, RecordCategorySchemaMap, eventCategory } from '@/types/OmikujiData/'
-  import { BaseRecordType } from '@shared/types'
+  import { BaseRecordType } from '@/types/core'
+  import {
+    eventCategory,
+    EventCategoryType,
+    AssetCategoryType,
+    CategoryType,
+    assetCategory,
+    EventCategorySchemaMap,
+    AssetCategorySchemaMap,
+  } from '@/types/OmikujiData/'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { Eye, EyeOff, Copy, Trash2, MoreHorizontal, ClipboardCopy, ClipboardPaste } from 'lucide-vue-next'
+  import { useGetEventData } from '@/editor/stores/useGetEventData'
 
   const props = defineProps<{
     item: BaseRecordType
-    category: RecordCategoryType
+    category: EventCategoryType | AssetCategoryType
   }>()
 
   const omikujiStore = useOmikujiStore()
@@ -78,18 +87,33 @@
     ;(document.activeElement as HTMLElement)?.blur()
   }
 
+  const { isEventCategory } = useGetEventData()
+
   const handleToggle = () => {
-    omikujiStore.updateItem(props.category, props.item.key, {
-      ...props.item,
-      isEnabled: !Boolean(props.item.isEnabled),
-    })
-    swalToast.success({ title: '有効・無効をを更新しました' })
+    if (isEventCategory(props.category)) {
+      omikujiStore.updateEvent(props.category, props.item.key, {
+        ...props.item,
+        isEnabled: !Boolean(props.item.isEnabled),
+      })
+    } else {
+      omikujiStore.updateAsset(props.category, props.item.key, {
+        ...props.item,
+        isEnabled: !Boolean(props.item.isEnabled),
+      })
+    }
+
+    swalToast.success({ title: '有効・無効を更新しました' })
     close()
   }
 
   const handleDuplicate = () => {
-    omikujiStore.duplicateItem(props.category, props.item.key)
-    swalToast.success({ title: 'イベントを複製しました' })
+    if (isEventCategory(props.category)) {
+      omikujiStore.duplicateEvent(props.category, props.item.key)
+    } else {
+      omikujiStore.duplicateAsset(props.category, props.item.key)
+    }
+
+    swalToast.success({ title: '項目を複製しました' })
     close()
   }
 
@@ -103,9 +127,16 @@
     close()
   }
 
+  // 任意の値を CategoryType に絞り込む
+  const toCategory = (value: unknown): CategoryType | undefined =>
+    typeof value === 'string' && ([...eventCategory, ...assetCategory] as readonly string[]).includes(value)
+      ? (value as CategoryType)
+      : undefined
+
   const handlePasteJson = async () => {
     close()
 
+    // 1. クリップボード読み取り
     let text: string
     try {
       text = await navigator.clipboard.readText()
@@ -114,27 +145,32 @@
       return
     }
 
-    let parsed: Record<string, unknown>
+    // 2. JSONパース（オブジェクト以外は弾く）
+    let parsed: unknown
     try {
       parsed = JSON.parse(text)
     } catch {
       swalToast.error({ title: 'クリップボードの内容が正しいJSON形式ではありません' })
       return
     }
+    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+      swalToast.error({ title: 'クリップボードの内容が項目のJSONではありません' })
+      return
+    }
 
-    // ソースカテゴリを推定（ruleType フィールドがあれば優先、なければ貼り付け先と同一とみなす）
-    const sourceCategory = (parsed.ruleType as RecordCategoryType | undefined) ?? props.category
+    // id / key / ruleType は貼り付け時に再生成・再決定するため除外
+    const { id: _id, key: _key, ruleType, ...rest } = parsed as Record<string, unknown>
 
-    // カテゴリ互換性チェック
-    const isEventCategory = (c: string) => (eventCategory as readonly string[]).includes(c)
-    const isSameCategory = sourceCategory === props.category
-    const isCrossEvent = !isSameCategory && isEventCategory(sourceCategory) && isEventCategory(props.category)
-    const isIncompatible = !isSameCategory && !isCrossEvent
+    // 3. カテゴリ互換性チェック
+    const target = props.category
+    const source = toCategory(ruleType) ?? target
+    const isSame = source === target
+    const isCrossEvent = !isSame && isEventCategory(source) && isEventCategory(target)
 
-    if (isIncompatible) {
+    if (!isSame && !isCrossEvent) {
       swalToast.error({
         title: 'カテゴリが異なるため貼り付けできません',
-        text: `コピー元: ${sourceCategory} → 貼り付け先: ${props.category}`,
+        text: `コピー元: ${source} → 貼り付け先: ${target}`,
       })
       return
     }
@@ -142,29 +178,40 @@
     if (isCrossEvent) {
       const result = await swalModal.confirmDelete({
         title: 'カテゴリが異なります',
-        text: `「${sourceCategory}」のデータを「${props.category}」として貼り付けます。\nトリガーなど一部の設定はリセットされますが、おみくじ設定は引き継がれます。よろしいですか？`,
+        text: `「${source}」のデータを「${target}」として貼り付けます。\nトリガーなど一部の設定はリセットされますが、おみくじ設定は引き継がれます。よろしいですか？`,
         icon: 'warning',
         confirmButtonText: '貼り付け',
       })
       if (!result.isConfirmed) return
     }
 
-    try {
-      // TODO:RecordCategorySchemaMap の廃止
-      const schema = RecordCategorySchemaMap[props.category]
-      const { id: _id, key: _key, ruleType: _ruleType, ...rest } = parsed
-      const validated = schema.parse(rest)
-      omikujiStore.addItem(props.category, validated)
-      swalToast.success({
-        title: isCrossEvent ? `「${sourceCategory}」から変換して貼り付けました` : 'JSONを貼り付けました',
-      })
-    } catch {
-      swalToast.error({ title: 'データの検証に失敗しました' })
+    // 4. スキーマ検証 → 追加
+    if (isEventCategory(target)) {
+      const result = EventCategorySchemaMap[target].safeParse(rest)
+      if (!result.success) {
+        console.warn('[PasteJson] validation failed', result.error.issues)
+        swalToast.error({ title: 'データの検証に失敗しました' })
+        return
+      }
+      omikujiStore.addEvent(target, result.data)
+    } else {
+      const result = AssetCategorySchemaMap[target].safeParse(rest)
+      if (!result.success) {
+        console.warn('[PasteJson] validation failed', result.error.issues)
+        swalToast.error({ title: 'データの検証に失敗しました' })
+        return
+      }
+      omikujiStore.addAsset(target, result.data)
     }
+
+    swalToast.success({
+      title: isCrossEvent ? `「${source}」から変換して貼り付けました` : 'JSONを貼り付けました',
+    })
   }
 
   const handleDelete = async () => {
     close()
+
     const name = props.item.name || '名前未設定'
     const result = await swalModal.confirmDelete({
       title: `「${name}」を削除しますか？`,
@@ -172,7 +219,13 @@
     if (!result.isConfirmed) return
 
     navigationStore.selectNextItem()
-    omikujiStore.removeItem(props.category, props.item.key)
+
+    if (isEventCategory(props.category)) {
+      omikujiStore.removeEvent(props.category, props.item.key)
+    } else {
+      omikujiStore.removeAsset(props.category, props.item.key)
+    }
+
     swalToast.success({ title: `「${name}」を削除しました` })
   }
 </script>

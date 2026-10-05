@@ -1,28 +1,16 @@
 // src/games/scripts/GoogolClover/execute.ts
+import { OmikenCommentType } from '@/types/OmikenComment'
+import { ScriptClass, ScriptResult } from '@/games/types'
+
 import { GameParams, GameParamsSchema } from './params'
-import { ScriptClass, GameStateType, ScriptResult } from '@/types'
+import { prepareUserInfo } from '@/games/scriptsEngine/RankingMessage/RankingMessage'
+import { parseQueryString } from '@/games/parseQueryString'
 import { executeGame } from './sub/game'
 import { buildPostActions } from './sub/postActionBuilder'
 import { UserState } from './sub/types'
-import { LogRankScript } from '@game/scriptsEngine/LogRank/execute'
-import { parseQueryString } from '@game/parseQueryString'
-import { OmikenCommentType } from '@shared/types/OmikenComment/OmikenCommentSchema'
-import { prepareUserInfo } from '@/GameScripts/scriptsEngine/RankingMessage/RankingMessage'
-import { GameScriptBase } from '@/types/GameScript/GameScriptBase'
 
-const RANKING_KEY = 'GoogolClover'
-
-export class ExecuteScript extends GameScriptBase implements ScriptClass {
-  private readonly logRank = new LogRankScript()
+export class ExecuteScript implements ScriptClass {
   private readonly userStates = new Map<string, UserState>()
-
-  /**
-   * 設定を初期化する
-   */
-  constructor() {
-    super()
-    this.logRank.setup(RANKING_KEY)
-  }
 
   /**
    * ゲームを実行する
@@ -56,13 +44,6 @@ export class ExecuteScript extends GameScriptBase implements ScriptClass {
 
     const gameResult = executeGame(this.userStates, user)
     return gameResult.bubble
-  }
-
-  /**
-   * ゲームデータを返す
-   */
-  getGameState(): GameStateType {
-    return this.logRank.getGameState()
   }
 
   /**

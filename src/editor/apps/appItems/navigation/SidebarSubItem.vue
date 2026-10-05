@@ -3,7 +3,7 @@
   <div>
     <div
       class="group flex items-center gap-1 pl-4 pr-1 rounded hover:bg-neutral hover:text-neutral-content cursor-pointer"
-      :class="isSelected ? `bg-${theme} text-${theme}-content` : ''"
+      :class="isSelected ? `text-neutral` : ''"
       @click="emit('select')"
       @dblclick.stop="emit('item-dblclick', itemKey)"
     >
@@ -22,14 +22,13 @@
     </div>
 
     <!-- セクションリスト（ダブルクリックで開く） -->
-    <div v-if="!isDragEnabled" class="border-l-4 ml-4" :class="`border-${theme}`">
+    <div v-if="!isDragEnabled" class="border-l-4 ml-4 border-neutral">
       <SidebarSectionList
         v-if="isSelected && sections.length > 0"
         :category="category"
         :itemKey="itemKey"
         :sections="sections"
         :activeSection="activeSection"
-        :theme="theme"
         @selectSection="(section) => (navigationStore.activeSection = section)"
       />
     </div>
@@ -37,12 +36,12 @@
 </template>
 
 <script setup lang="ts">
-  import { GripVertical, EyeOff } from 'lucide-vue-next'
-  import { CategoryType } from '@/types'
-  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useSidebarContext } from './useSidebarContext'
-  import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap'
+  import { CategoryType } from '@/types/OmikujiData'
   import SidebarSectionList from './SidebarSectionList.vue'
+  import { useSidebarContext } from './useSidebarContext'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap'
+  import { GripVertical, EyeOff } from 'lucide-vue-next'
 
   defineProps<{
     category: CategoryType
@@ -60,6 +59,6 @@
     'item-dblclick': [itemKey: string]
   }>()
 
-  const { theme, activeSection } = useSidebarContext()
+  const { activeSection } = useSidebarContext()
   const navigationStore = useNavigationStore()
 </script>

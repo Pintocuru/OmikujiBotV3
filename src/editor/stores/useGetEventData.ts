@@ -1,6 +1,6 @@
 // src/editor/stores/useGetEventData.ts
 import { storeToRefs } from 'pinia'
-import type { EventCategoryType, EventCategoryDataMap } from '@/types/OmikujiData'
+import { EventCategoryType, EventCategoryDataMap, eventCategory, CategoryType } from '@/types/OmikujiData'
 import { useOmikujiStore } from './useOmikujiStore'
 
 export function useGetEventData() {
@@ -17,6 +17,10 @@ export function useGetEventData() {
     return data.value.events[category] as EventCategoryDataMap[K][]
   }
 
+  // カテゴリ判定
+  const isEventCategory = (category: CategoryType): category is EventCategoryType =>
+    (eventCategory as readonly string[]).includes(category)
+
   // イベント存在確認
   const hasEvent = <K extends EventCategoryType>(category: K, key: string): boolean => {
     return data.value.events[category].some((item) => item.id === key)
@@ -30,6 +34,7 @@ export function useGetEventData() {
   return {
     getEvent,
     getEvents,
+    isEventCategory,
     hasEvent,
     getEventCount,
   }

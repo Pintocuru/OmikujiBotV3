@@ -48,7 +48,7 @@ export const GAME_CONFIGS: GameConfigs = {
       { chance: 67, times: 15, points: 1, party: 'GouseiSuikaStrawberry' }, // いちご：1点
       { chance: 50, times: 15, points: 3, party: 'GouseiSuikaGrape' }, // ぶどう：3点
       { chance: 50, times: 10, points: 10, party: 'GouseiSuikaGrape' }, // デコポン：10点
-      { chance: 50, times: 8, points: 20, party: 'GouseiSuikaPresimmon' }, // かき：20点
+      { chance: 50, times: 8, points: 20, party: 'GouseiSuikaPersimmon' }, // かき：20点
       { chance: 67, times: 5, points: 50, party: 'GouseiSuikaApple' }, // りんご：50点
     ],
     big: [
@@ -67,7 +67,7 @@ export const GAME_CONFIGS: GameConfigs = {
       { chance: 67, times: 15, points: 1, party: 'GouseiSuikaStrawberry' }, // いちご strawberry
       { chance: 50, times: 15, points: 3, party: 'GouseiSuikaGrape' }, // ぶどう grape
       { chance: 50, times: 10, points: 10, party: 'GouseiSuikaDekopon' }, // デコポン dekopon
-      { chance: 50, times: 8, points: 20, party: 'GouseiSuikaPresimmon' }, // かき persimmon
+      { chance: 50, times: 8, points: 20, party: 'GouseiSuikaPersimmon' }, // かき persimmon
       { chance: 67, times: 5, points: 50, party: 'GouseiSuikaApple' }, // りんご apple
     ],
     big: [
