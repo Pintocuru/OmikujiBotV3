@@ -1,94 +1,52 @@
 // src/engine/OmikujiProcess/SpecialActionProcessor.ts
-import { ActionSetType } from '@/types/OmikujiData/'
+import { OmikujiItemType } from '@/types/OmikujiData/'
+import { UserNameType } from '@/types/OmikenComment'
 import { useAppStore } from '@/generator/stores/useAppStore'
-import { UserNameType } from '@shared/types/OmikenComment/OmikenCommentSchema'
-import { postSystemMessage } from '@shared/sdk/post/PostOneComme'
-import { GameStateType } from '@/types'
+import { postSystemMessage } from '@/sdk/post/PostOneComme'
+import { GameStateType } from '@/games/types'
 
 export interface SpecialActionResult {
   handled: boolean // trueのとき呼び出し元でイベント処理を終了する
-  isCountEvent: boolean // カウントを行うか
-  countEvent?: number // カウントする回数
+  isCountEvent: boolean // おみくじカウントとして記録するか
 }
 
 /**
- * type === 'special' のアクションアイテムを処理するクラス
+ * postFlow 以外の kind (return / continue / reset / log) を処理するクラス
+ * @param eventKey 実行中のイベントの key (reset / log の対象特定に使用)
  */
 export class SpecialActionProcessor {
   private readonly store = useAppStore()
 
-  process(actionItem: ActionSetType): SpecialActionResult | null {
-    if (actionItem.type !== 'special') return null
+  process(item: OmikujiItemType, eventKey: string): SpecialActionResult | null {
+    switch (item.kind) {
+      // 通常アクション (BOTメッセージ送信) は対象外
+      case 'postFlow':
+        return null
 
-    const { type, isCountEvent, countEvent, log } = actionItem.behavior
-    const { targetKey, logFormat, logLimit } = log
-
-    switch (type) {
       // 処理を終了する
       case 'return':
-        return { handled: true, isCountEvent, countEvent }
+        return { handled: true, isCountEvent: item.isCountEvent }
 
       // 次のイベントへ進む
       case 'continue':
-        return { handled: false, isCountEvent, countEvent }
+        return { handled: false, isCountEvent: item.isCountEvent }
 
-      /**
-       * reset
-       * isCountEvent はfalseとする
-       */
-      // おみくじ回数をリセットする
-      case 'resetOmikuji': {
-        this.store.userSession.visits.resetEvent(actionItem.key)
-        postSystemMessage(`${actionItem.name}のおみくじ回数をリセットしました`, { username: '__INFO__' })
+      // おみくじ回数をリセットする (リセット自体はカウントしない)
+      case 'reset': {
+        this.store.userSession.visits.resetEvent(eventKey)
+        postSystemMessage(`${item.name}のおみくじ回数をリセットしました`, { username: '__INFO__' })
         return { handled: true, isCountEvent: false }
       }
 
-      /**
-       * log ログ出力系
-       * isCountEvent はfalseとする
-       */
-      case 'logUserState': {
-        const logs = this.store.scriptManager.getGameState(targetKey)?.logs
-        if (!logs) return { handled: true, isCountEvent }
-
-        const message = this.formatLogs(logs, logFormat, logLimit)
-        postSystemMessage(message, { username: '__INFO__', speech: false })
+      // ユーザー状態ログを出力する
+      case 'log': {
+        const logs = this.store.scriptManager.getGameState(eventKey)?.logs
+        if (logs) {
+          const message = this.formatLogs(logs, item.logFormat, item.logLimit)
+          postSystemMessage(message, { username: '__INFO__', speech: false })
+        }
         return { handled: true, isCountEvent: false }
       }
-
-      case 'logOmikuji': {
-        const { totalVisits, uniqueUsers, averageVisitsPerUser } = this.store.userSession.visits.getStatistics(
-          actionItem.key
-        )
-        const message = `${actionItem.name}/ 実行総数:${totalVisits}回 ユーザー数:${uniqueUsers}人 1人あたり平均:${averageVisitsPerUser}回`
-        postSystemMessage(message, { username: '__INFO__', speech: false })
-        return { handled: true, isCountEvent: false }
-      }
-
-      case 'logGame': {
-        const logs = this.store.scriptManager.getGameState(targetKey)?.logs
-        if (!logs) return { handled: true, isCountEvent: false }
-
-        const message = this.formatLogs(logs, logFormat, logLimit)
-        postSystemMessage(message, { username: '__INFO__', speech: false })
-        return { handled: true, isCountEvent: false }
-      }
-
-      case 'logVariable': {
-        const allData = this.store.placeholderVariable.getAll()
-        const message =
-          allData.length === 0
-            ? '（変数はまだありません）'
-            : Object.entries(allData)
-                .sort(([a], [b]) => a.localeCompare(b))
-                .map(([key, value]) => `${key}: ${value}`)
-                .join('\n')
-        postSystemMessage(message, { username: '__INFO__', speech: false })
-        return { handled: true, isCountEvent: false }
-      }
-
-      default:
-        return { handled: false, isCountEvent, countEvent }
     }
   }
 
@@ -113,11 +71,10 @@ export class SpecialActionProcessor {
   }
 
   private resolveUserName(userId: string): UserNameType | null {
-    const hogg = this.store.userSession.stats.get(userId)
-    return hogg ?? null
+    return this.store.userSession.stats.get(userId) ?? null
   }
+
   private formatDate(timestamp: number): string {
-    const date = new Date(timestamp)
-    return date.toLocaleString()
+    return new Date(timestamp).toLocaleString()
   }
 }

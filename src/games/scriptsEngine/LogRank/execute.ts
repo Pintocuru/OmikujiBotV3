@@ -1,9 +1,10 @@
 // src/games/scriptsEngine/LogRank/execute.ts
-import { GameStateType, GameStateSchema, GameLogType, UserStatsType } from '@/types/GameScript/'
+import { PostFlowType } from '@/types/OmikujiData'
+import { GameLogType, GameStateSchema, GameStateType, UserStatsType } from '@/games/types'
+
 import { GameParams, GameParamsSchema } from './types'
 import { updateUserStats, createGameRecord } from './services/UserStatsService'
 import { createPostActions } from './services/MessageService'
-import { PostFlowType } from '@/types'
 
 // ゲーム実行結果
 interface GameResult {

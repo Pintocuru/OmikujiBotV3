@@ -1,8 +1,8 @@
 // src/generator/scripts/EventProcess/ReactionProcessor.ts
 import { useAppStore } from '@/generator/stores/useAppStore'
-import { GetReactions } from '@shared/sdk/subscribe/GetReactions'
-import { OmikujiProcessor } from '../../../engine/OmikujiProcess/OmikujiProcessor'
 import { evaluateReactionTrigger } from '@/generator/scripts/EventProcess/ReactionTriggerEvaluator'
+import { GetReactions } from '@/sdk/subscribe/GetReactions'
+import { OmikujiProcessor } from '@/engine/OmikujiProcess/OmikujiProcessor'
 
 /** 10秒間リアクションがなければバーストレベルを1下げる */
 const BURST_DECAY_MS = 10_000
@@ -44,7 +44,7 @@ export class EventReactionProcessor {
    * トリガー条件を満たしたルールのおみくじを実行してBotMessageをスケジュールする。
    */
   private async evaluateReactionRules(): Promise<void> {
-    const enabledEvents = Object.values(this.store.data.reactions)
+    const enabledEvents = Object.values(this.store.data.events.reactions)
       .filter((rule) => rule.isEnabled)
       .sort((a, b) => a.order - b.order)
 

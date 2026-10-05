@@ -96,7 +96,9 @@ export class OmikujiProcessor {
     return this.attachSource(messages, category, eventKey, actionItem.key, omiken)
   }
 
-  /** source / origin を付与する共通処理 */
+  /**
+   *  source / origin を付与する共通処理
+   */
   private attachSource(
     messages: BotMessageType[],
     category: EventCategoryType,

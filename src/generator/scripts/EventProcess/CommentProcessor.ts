@@ -1,10 +1,10 @@
 // src/generator/scripts/EventProcess/CommentProcessor.ts
-import { ActionSetType, CommentEventType, MikujiItemsType } from '@/types/OmikujiData/'
+import { CommentEventType, MikujiItemsType } from '@/types/OmikujiData/'
 import { OmikenCommentType } from '@/types/OmikenComment'
+import { BotMessageEmptySchema, BotMessageType } from '@/generator/types'
 
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
-import { BotMessageEmptySchema, BotMessageType } from '@/generator/types'
 import { checkAllTriggers } from '@/generator/scripts/trigger/TriggerChecker'
 import { SpecialActionProcessor } from '@/engine/OmikujiProcess/SpecialActionProcessor'
 import { OmikujiProcessor } from '@/engine/OmikujiProcess/OmikujiProcessor'
@@ -69,24 +69,27 @@ export class EventCommentProcessor {
     this.setDrawsMeta(omiken, event)
 
     // 4. criteria フィルタ適用後に抽選
-    const actionItem = this.lotteryWithCriteria(event.omikujiKey, omiken)
-    if (!actionItem) return { isCommentTriggered: false, botMessages: [] }
+    const mikujiBox = data.assets.mikuji[event.omikujiKey]
+    if (!mikujiBox) return { isCommentTriggered: false, botMessages: [] }
 
-    // 5. special 処理
-    const specialResult = this.specialActionProcessor.process(actionItem)
+    const selectedItem = this.lotteryWithCriteria(mikujiBox.omikuji, omiken)
+    if (!selectedItem) return { isCommentTriggered: false, botMessages: [] }
+
+    // 5. special 処理 (return / continue / reset / log)
+    const specialResult = this.specialActionProcessor.process(selectedItem, event.key)
     if (specialResult) {
-      const { handled, isCountEvent, countEvent } = specialResult
-      if (isCountEvent) this.recordDraw(omiken, event, countEvent)
+      const { handled, isCountEvent } = specialResult
+      if (isCountEvent) this.recordDraw(omiken, event)
       return {
         isCommentTriggered: handled,
         botMessages: handled ? [BotMessageEmptySchema.parse({})] : [],
       }
     }
 
-    // 6. 通常アクション
+    // 6. 通常アクション (postFlow のみ到達)
+    if (selectedItem.kind !== 'postFlow') return { isCommentTriggered: false, botMessages: [] }
     const omikujiProcessor = new OmikujiProcessor()
-    const botMessages = await omikujiProcessor.executeActionItem(event.key, actionItem, 'comments', omiken)
-    const isCommentTriggered = event.trigger.conditions.includes('comment')
+    const botMessages = await omikujiProcessor.executeActionItem(event.key, selectedItem.postFlows, 'comments', omiken)
 
     // botMessages が空ではない場合にカウント
     if (botMessages.length > 0) this.recordDraw(omiken, event)
@@ -95,22 +98,22 @@ export class EventCommentProcessor {
   }
 
   /**
-   * criteria フィルタを適用してからおみくじ抽選する。
-   * (OmikujiProcessor から移管。コメントイベント専用のフィルタのため)
+   * criteria フィルタを適用してからおみくじ抽選する
    */
-  private lotteryWithCriteria(omikujiSet: MikujiItemsType, omiken: OmikenCommentType): ActionSetType | null {
-    const filtered = omikujiSet
+  private lotteryWithCriteria(mikujiItems: MikujiItemsType, omiken: OmikenCommentType): MikujiItemsType[number] | null {
+    const filtered = mikujiItems
       .filter((item) => {
-        if (!item.criteria) return true
-        return checkAllTriggers(omiken, item.criteria)
+        const criteria = item.lottery.criteria
+
+        if (!criteria) return true
+        return checkAllTriggers(omiken, criteria)
       })
       .map((item) => ({
         ...item,
-        rank: item.isPriority ? 1 : 0,
+        rank: item.lottery.isPriority ? 1 : 0,
       }))
-
     if (!filtered.length) return null
-    return (drawOmikuji(filtered) as ActionSetType) ?? null
+    return drawOmikuji(filtered)
   }
 
   /**
@@ -132,8 +135,11 @@ export class EventCommentProcessor {
     userSession.visits.record(rule.key, omiken, count)
   }
 
+  /**
+   * 有効な CommentEventType を取得する
+   */
   private getSortedEnabledRules(): CommentEventType[] {
-    return Object.values(this.store.data.comments)
+    return Object.values(this.store.data.events.comments)
       .filter((rule) => rule.isEnabled)
       .sort((a, b) => a.order - b.order)
   }

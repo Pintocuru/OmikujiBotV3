@@ -39,16 +39,6 @@
       <span>{{ settings.generator.soundEnabled ? '音を鳴らす' : 'ミュートする' }}</span>
     </label>
   </SettingItem>
-
-  <!-- VisitUserにユーザーを入れない -->
-  <SettingItem
-    label="ユーザーを記録しないリスト"
-    description="BOTや管理者の名前を正規表現で指定"
-    :showReset="true"
-    @reset="resetMap.ignoreUserPattern"
-  >
-    <MessageTextEditor v-model="bubbleText" />
-  </SettingItem>
 </template>
 
 <script setup lang="ts">
@@ -59,16 +49,21 @@
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import type { SettingsType } from '@/types/OmikujiData/SettingsSchema'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
-  import MessageTextEditor from '@/editor/assets/postAction/Message/MessageTextEditor.vue'
   import { playSoundResolved } from '@/common/sounds'
+  import { soundMap } from '@/maps/OmikujiData'
+
+  type GeneratorSettings = SettingsType['generator']
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
 
   const settings = computed(() => data.value.settings)
 
-  const updateField = <K extends keyof SettingsType>(field: K, value: any) => {
-    omikujiStore.updateSettings({ [field]: value })
+  // generator 配下のフィールドを更新
+  const updateField = <K extends keyof GeneratorSettings>(field: K, value: GeneratorSettings[K]) => {
+    omikujiStore.updateSettings({
+      generator: { ...settings.value.generator, [field]: value },
+    })
   }
 
   // 効果音切り替え
@@ -77,28 +72,15 @@
     updateField('soundEnabled', checked)
   }
 
-  // ignoreUserPattern の双方向バインディング
-  const bubbleText = computed<string>({
-    get: () => settings.value.ignoreUserPattern ?? '',
-    set: (value: string) => {
-      const normalized = value
-        .split(/\r?\n/)
-        .map((line) => line.trim())
-        .filter((line) => line.length > 0)
-        .join('|')
-      updateField('ignoreUserPattern', normalized)
-    },
-  })
-
-  const resetField = (field: keyof typeof settings.value) => {
-    const defaults = SettingsSchema.parse({})
-    updateField(field, defaults[field])
+  // generator 配下のフィールドをデフォルト値に戻す
+  const resetField = <K extends keyof GeneratorSettings>(field: K) => {
+    const defaults = SettingsSchema.parse({ generator: {}, editor: {}, developer: {} })
+    updateField(field, defaults.generator[field])
   }
 
   const resetMap = {
-    ignoreUserPattern: () => resetField('ignoreUserPattern'),
     basicDelaySeconds: () => resetField('basicDelaySeconds'),
-    includeExternalComments: () => resetField('includeExternalComments'),
+    soundEnabled: () => resetField('soundEnabled'),
   }
 
   // 効果音: OFF → ON になったときにプレビュー再生
@@ -110,7 +92,7 @@
   }
 
   watch(
-    () => settings.value.soundEnabled,
+    () => settings.value.generator.soundEnabled,
     (newVal, oldVal) => {
       if (!oldVal && newVal) playRandomSound()
     }

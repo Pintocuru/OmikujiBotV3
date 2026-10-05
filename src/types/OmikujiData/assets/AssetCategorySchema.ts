@@ -9,12 +9,12 @@ import { PlaceholderSchema } from './PlaceholderSchema'
 /**
  * assetCategory
  */
-export const assetCategory = ['box', 'actions', 'placeholders', 'characters'] as const
+export const assetCategory = ['mikuji', 'actions', 'placeholders', 'characters'] as const
 export type AssetCategoryType = (typeof assetCategory)[number]
 
 // カテゴリごとのアセットアイテム型
 export type AssetCategoryDataMap = {
-  box: z.infer<typeof MikujiBoxSchema>
+  mikuji: z.infer<typeof MikujiBoxSchema>
   actions: z.infer<typeof ActionSetSchema>
   placeholders: z.infer<typeof PlaceholderSchema>
   characters: z.infer<typeof CharacterSchema>
@@ -22,7 +22,7 @@ export type AssetCategoryDataMap = {
 
 // カテゴリごとのスキーマ
 export const AssetCategorySchemaMap = {
-  box: MikujiBoxSchema,
+  mikuji: MikujiBoxSchema,
   actions: ActionSetSchema,
   placeholders: PlaceholderSchema,
   characters: CharacterSchema,
@@ -30,7 +30,7 @@ export const AssetCategorySchemaMap = {
 
 // Asset データ全体
 export const AssetCategorySchema = z.object({
-  box: normalizedRecord(MikujiBoxSchema),
+  mikuji: normalizedRecord(MikujiBoxSchema),
   actions: normalizedRecord(ActionSetSchema),
   placeholders: normalizedRecord(PlaceholderSchema),
   characters: normalizedRecord(CharacterSchema),

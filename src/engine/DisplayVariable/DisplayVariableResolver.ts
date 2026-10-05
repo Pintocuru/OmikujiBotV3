@@ -1,6 +1,6 @@
 // src/engine/DisplayVariable/DisplayVariableResolver.ts
 import { hasPostFlowMessage, PostFlowType } from '@/types'
-import { PlaceholderVariableType } from '@/generator/stores/PlaceholderVariable/PlaceholderVariable'
+import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 
 export class DisplayVariableResolver {
   constructor(private readonly context: PlaceholderVariableType) {}

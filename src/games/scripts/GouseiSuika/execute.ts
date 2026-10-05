@@ -1,20 +1,20 @@
 // src/games/scripts/GouseiSuika/execute.ts
+import { PostFlowMessageSchema, PostFlowType } from '@/types/OmikujiData'
+import { OmikenCommentType, UserNameSchema } from '@/types/OmikenComment'
+import { GameStateType, ScriptClass, ScriptResult } from '@/games/types'
+
 import { GameParams, GameParamsSchema } from './params'
-import { ScriptClass, PostFlowType, GameStateType, PostFlowMessageSchema, ScriptResult } from '@/types'
+import { LogRankScript } from '@/games/scriptsEngine/LogRank/execute'
+import { buildBotMessageRanking, prepareUserInfo } from '@/games/scriptsEngine/RankingMessage/RankingMessage'
+import { parseQueryString } from '@/games/parseQueryString'
 import { GachaGame } from './game'
-import { parseQueryString } from '@game/parseQueryString'
-import { LogRankScript } from '@game/scriptsEngine/LogRank/execute'
-import { OmikenCommentType, UserNameSchema } from '@shared/types/OmikenComment/OmikenCommentSchema'
-import { prepareUserInfo, buildBotMessageRanking } from '@game/scriptsEngine/RankingMessage/RankingMessage'
-import { GameScriptBase } from '@/types/GameScript/GameScriptBase'
 
 const RANKING_KEY = 'GouseiSuika'
 
-export class ExecuteScript extends GameScriptBase implements ScriptClass {
+export class ExecuteScript implements ScriptClass {
   private readonly logRank = new LogRankScript()
 
   constructor() {
-    super()
     this.logRank.setup(RANKING_KEY)
   }
 
@@ -97,9 +97,7 @@ export class ExecuteScript extends GameScriptBase implements ScriptClass {
     const messageAction = PostFlowMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,
-      message: {
-        bubble: bubbleText,
-      },
+      message: bubbleText,
       sound: 'decision',
     })
 

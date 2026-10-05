@@ -1,20 +1,20 @@
 // src/games/scripts/BomberSpin/execute.ts
+import { PostFlowMessageSchema, PostFlowType } from '@/types/OmikujiData'
+import { OmikenCommentType, UserNameSchema } from '@/types/OmikenComment'
+import { GameStateType, ScriptClass, ScriptResult } from '@/games/types'
+
 import { GameParams, GameParamsSchema } from './params'
-import { ScriptClass, PostFlowType, GameStateType, PostFlowMessageSchema, ScriptResult } from '@/types'
 import { playSlot } from './game'
-import { LogRankScript } from '@game/scriptsEngine/LogRank/execute'
-import { parseQueryString } from '@game/parseQueryString'
-import { OmikenCommentType, UserNameSchema } from '@shared/types/OmikenComment/OmikenCommentSchema'
-import { prepareUserInfo, buildBotMessageRanking } from '@game/scriptsEngine/RankingMessage/RankingMessage'
-import { GameScriptBase } from '@/types/GameScript/GameScriptBase'
+import { LogRankScript } from '@/games/scriptsEngine/LogRank/execute'
+import { buildBotMessageRanking, prepareUserInfo } from '@/games/scriptsEngine/RankingMessage/RankingMessage'
+import { parseQueryString } from '@/games/parseQueryString'
 
 const RANKING_KEY = 'BomberSpin'
 
-export class ExecuteScript extends GameScriptBase implements ScriptClass {
+export class ExecuteScript implements ScriptClass {
   private readonly logRank = new LogRankScript()
 
   constructor() {
-    super()
     this.logRank.setup(RANKING_KEY)
   }
 
@@ -105,9 +105,10 @@ export class ExecuteScript extends GameScriptBase implements ScriptClass {
 
     return [
       ...(postActions ?? []),
-      { actionType: 'wordParty', delaySeconds: 1, wordParty: 'BomberSpinBack' },
-      { actionType: 'wordParty', delaySeconds: 1.1, wordParty: gameResult.party },
-      { actionType: 'wordParty', delaySeconds: 2.8, wordParty: 'CommonBombFire' },
+      // TODO:WordPartyに頼らない演出にする
+      { kind: 'wordParty', delaySeconds: 1, repeat: 1, wordPartyId: 'BomberSpinBack' },
+      { kind: 'wordParty', delaySeconds: 1.1, repeat: 1, wordPartyId: gameResult.party },
+      { kind: 'wordParty', delaySeconds: 2.8, repeat: 1, wordPartyId: 'CommonBombFire' },
       messageAction,
     ]
   }

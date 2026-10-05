@@ -1,5 +1,5 @@
 // src/games/types/GameStateSchema.ts
-import { idSchema } from '@shared/types'
+import { idSchema } from '@/types/core'
 import { z } from 'zod'
 
 /**

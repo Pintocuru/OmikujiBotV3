@@ -25,8 +25,8 @@
         @pointerdown.stop="onResizeStart"
       >
         <!-- グリップドット -->
-        <div class="flex flex-col gap-[3px]">
-          <span v-for="i in 4" :key="i" class="block w-[3px] h-[3px] rounded-full bg-current opacity-40" />
+        <div class="flex flex-col gap-0.75">
+          <span v-for="i in 4" :key="i" class="block w-0.75 h-0.75 rounded-full bg-current opacity-40" />
         </div>
       </div>
     </div>

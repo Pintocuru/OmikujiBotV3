@@ -1,6 +1,6 @@
 // src/engine/OmikujiResult/PostActionsHandler.ts
 import { ActionSetType, OmikujiDataType } from '@/types/OmikujiData/'
-import { PlaceholderVariableType } from '@/generator/stores/PlaceholderVariable/PlaceholderVariable'
+import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { BotMessageGenerator } from './BotMessageGenerator'
 import { DisplayVariableResolver } from '../DisplayVariable/DisplayVariableResolver'
 import { ContentPlaceholder } from '../ContentPlaceholder/processor'

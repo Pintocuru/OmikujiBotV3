@@ -5,6 +5,6 @@ import '../../assets/styles/DaisyUiAllObs.css'
 
 window.OmikujiBot = window.OmikujiBot ?? {}
 
-window.OmikujiBot.mountConfigMaker = () => {
+window.OmikujiBot.mountEditor = () => {
   createAppNotOneSDK(App)
 }

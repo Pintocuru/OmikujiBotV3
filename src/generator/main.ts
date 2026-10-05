@@ -4,6 +4,6 @@ import { createAppOneSDK } from '@/common/EntryCore/core'
 
 window.OmikujiBot = window.OmikujiBot ?? {}
 
-window.OmikujiBot.mountMainGenerator = () => {
+window.OmikujiBot.mountGenerator = () => {
   createAppOneSDK(App)
 }

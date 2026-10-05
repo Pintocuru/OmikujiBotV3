@@ -51,7 +51,7 @@
 
   // 汎用的な更新関数
   const updateBubbleField = (field: keyof typeof bubble.value, value: any) => {
-    omikujiStore.updateComponentSettings('bubble', {
+    omikujiStore.updateItemSettings('bubble', {
       ...bubble.value,
       [field]: value,
     })

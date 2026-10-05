@@ -1,7 +1,7 @@
 // src/editor/assets/PostFlow/preview/TestPlaceholderProcessor.ts
 import { PlaceholderType } from '@/types/OmikujiData'
 import { DisplayVariableResolver } from '@/engine/DisplayVariable/DisplayVariableResolver'
-import { PlaceholderVariable } from '@/generator/stores/PlaceholderVariable/PlaceholderVariable'
+import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
 import { ContentPlaceholder } from '@/engine/ContentPlaceholder/processor'
 import { PlaceholderContext } from '@/engine/ContentPlaceholder/context'
 import { defaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'

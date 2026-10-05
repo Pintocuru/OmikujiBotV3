@@ -1,7 +1,6 @@
 // src/games/scriptsEngine/RankingMessage/RankingMessage.ts
-import { BotMessageExtraSchema, BotMessageExtraType } from '@/types'
-import { OmikenCommentType, UserNameType } from '@shared/types/OmikenComment/OmikenCommentSchema'
-import { UserNameSchema } from '@shared/types/OmikenComment/OmikenCommentSchema'
+import { OmikenCommentType, UserNameSchema, UserNameType } from '@/types/OmikenComment'
+import { BotMessageExtraSchema, BotMessageExtraType } from '@/generator/types'
 
 const UNKNOWN_NAME = 'おみくじBOT'
 

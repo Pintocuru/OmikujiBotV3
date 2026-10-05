@@ -56,26 +56,29 @@ export const OmikujiItemPostFlowSchema = BaseSchema.extend({
 // 処理を終了する
 export const OmikujiItemReturnSchema = OmikujiItemCountableBase.extend({
   kind: z.literal('return').default('return').catch('return'),
+  variable: z.string().default('').catch(''),
 })
 
 // 次のイベントへ処理を進める
 export const OmikujiItemContinueSchema = OmikujiItemCountableBase.extend({
   kind: z.literal('continue').default('continue').catch('continue'),
+  variable: z.string().default('').catch(''),
 })
 
 // おみくじの抽選回数をリセットする
 export const OmikujiItemResetSchema = OmikujiItemCountableBase.extend({
   kind: z.literal('reset').default('reset').catch('reset'),
+  variable: z.string().default('').catch(''),
 })
 
 // ユーザー状態をログとして出力する
+// TODO: ログを出す代わりに、評価ブロックにあるObjectまたはstringを、わんコメに投稿する機能にする
 export const LOG_FORMAT_DEFAULT = '<<user>> <<score>> <<createdAt>>'
 export const OmikujiItemLogSchema = BaseSchema.extend({
   kind: z.literal('log').default('log').catch('log'),
   // ログ1行のフォーマット文字列（使用可能: <<index>> <<user>> <<userId>> <<score>> <<item>> <<flag>> <<createdAt>>）
   logFormat: z.string().default(LOG_FORMAT_DEFAULT).catch(LOG_FORMAT_DEFAULT),
   logLimit: z.number().min(1).max(100).default(5).catch(5), // 最大出力件数（1〜100）
-  lottery: normalizedObject(OmikujiLotterySchema),
 })
 
 export const OmikujiItemSchema = z.discriminatedUnion('kind', [

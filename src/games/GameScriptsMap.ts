@@ -1,5 +1,4 @@
 // src/games/GameScriptsMap.ts
-import { ScriptClass, ScriptGameKey } from '@/types'
 
 /**
  * ゲーム実行map

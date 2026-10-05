@@ -1,5 +1,5 @@
 // src/generator/stores/PlaceholderVariable/PlaceholderVariable.ts
-import { ExpressionEngine } from './ExpressionEngine'
+import { ExpressionEngine } from '../VariablePlaceholder/ExpressionEngine'
 
 export interface PlaceholderVariableType {
   getEvaluator(): ExpressionEngine

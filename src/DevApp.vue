@@ -1,12 +1,12 @@
 <!-- src/DevApp.vue -->
 <template>
   <!-- エディター -->
-  <ConfigMaker v-if="!showMain" />
+  <EditorApp v-if="!showMain" />
 
   <!-- ジェネレーター＋ツール -->
   <template v-else>
     <HudPreview :isHeight="false">
-      <MainGenerator />
+      <GeneratorApp />
       <template #hud>
         <DraggableWrapper>
           <!-- エアコメメーカー -->
@@ -46,11 +46,11 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import ConfigMaker from '@/editor/App.vue'
+  import EditorApp from '@/editor/App.vue'
   import HudPreview from '@/editor/helpers/HudPreview/HudPreview.vue'
-  import MainGenerator from '@main/App.vue'
-  import { useAppStore } from '@main/stores/useAppStore'
-  import DraggableWrapper from '@main/layouts/DraggableWrapper.vue'
+  import GeneratorApp from '@/generator/App.vue'
+  import { useAppStore } from '@/generator/stores/useAppStore'
+  import DraggableWrapper from '@/generator/layouts/DraggableWrapper.vue'
   import AirComment from '@/editor/tools/AirComment/AirComment.vue'
   import DevMetaController from '@/editor/tools/DevMetaController/DevMetaController.vue'
   import { Settings, Cpu } from 'lucide-vue-next'

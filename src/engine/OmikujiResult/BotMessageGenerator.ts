@@ -1,7 +1,7 @@
 // src/engine/OmikujiResult/BotMessageGenerator.ts
 import { PostFlowType, OmikujiDataType, hasPostFlowMessage } from '@/types/OmikujiData/'
 import { createBotMessagesFromAction, createBotMessagesFromVariable } from './BotMessageHelpers'
-import { PlaceholderVariableType } from '@/generator/stores/PlaceholderVariable/PlaceholderVariable'
+import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { playSoundDelay } from '@sounds/PlaySound'
 import { VariablePlaceholderProcessor } from '../VariablePlaceholder/VariableProcessor'
 import { PostOmikujiService } from '../PostOmikuji/PostOmikujiService'

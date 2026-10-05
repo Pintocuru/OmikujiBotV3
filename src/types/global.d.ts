@@ -6,8 +6,8 @@ declare global {
   interface Window {
     omikujiData?: OmikujiDataType
     OmikujiBot?: {
-      mountMainGenerator?: () => void
-      mountConfigMaker?: () => void
+      mountGenerator?: () => void
+      mountEditor?: () => void
       assetBase?: string
     }
     __GAME_SCRIPTS__?: Record<string, ScriptEntry>

@@ -63,6 +63,7 @@ const CommentBubbleSchema = z.object({
   displaySeconds: z.number().min(0).max(60).nullable().optional(),
 })
 
+// TODO:廃止(表示タイミングはUI側で制御)
 const DisplayStatusSchema = z.object({
   visible: z.boolean().default(true),
   hideTimeout: z.number().optional(),
@@ -93,8 +94,7 @@ export type BotMessageExtraType = z.infer<typeof BotMessageExtraSchema>
 
 /**
  * BotMessageEmptySchema
- * BotMessage でない時に使用
- * TODO:本当にこれって使うの?
+ * 評価ブロック等、BotMessage が生成されない場合に使用
  */
 export const BotMessageEmptySchema = BotMessageBaseSchema.extend({
   type: z.literal('empty').default('empty'),

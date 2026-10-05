@@ -30,6 +30,7 @@ export const createPostActions = (
 
 /**
  * ランキング情報を含むメッセージを作成
+ * TODO:V3では、ランキングは表示のみにし、アナウンスしない
  */
 const createRankingMessage = (userName: string, score: number, rank: number, isOverLimit: boolean): string => {
   if (isOverLimit) return `${userName}さんは上限を超えているから、参考記録だよ。`

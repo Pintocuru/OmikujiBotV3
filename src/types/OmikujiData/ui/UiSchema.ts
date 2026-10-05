@@ -38,6 +38,9 @@ export const useFontFamily = (font: FontFamilyType): string => {
   return entry.className ?? ''
 }
 
+/**
+ * UI設定
+ */
 export const UiSettingsSchema = z.object({
   bubble: CommentBubbleSchema.optional(),
   toast: ToastWidgetsSchema.optional(),
