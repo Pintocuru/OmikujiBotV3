@@ -1,5 +1,5 @@
 // tools/JsonMerge/transforms.ts
-import { AssetCategoryDataMap, recordCategoryLabel, RecordCategoryType } from '@/types/OmikujiData'
+import { AssetCategoryDataMap, recordCategoryLabel, DataCategoryType } from '@/types/OmikujiData'
 import type { OmikujiDataType } from '@/types/OmikujiData/'
 import type { AccessLevelType } from '@/types'
 
@@ -16,7 +16,7 @@ export function applyAccessLevel(data: OmikujiDataType, level: AccessLevelType):
 
   return result
 }
-function applyAccessLevelToCategory<K extends RecordCategoryType>(
+function applyAccessLevelToCategory<K extends DataCategoryType>(
   target: OmikujiDataType,
   source: OmikujiDataType,
   category: K,
@@ -52,7 +52,7 @@ export function applyOrderOffset(data: OmikujiDataType, offset: number): Omikuji
   return result
 }
 
-function applyOrderOffsetToCategory<K extends RecordCategoryType>(
+function applyOrderOffsetToCategory<K extends DataCategoryType>(
   target: OmikujiDataType,
   source: OmikujiDataType,
   category: K,

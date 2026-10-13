@@ -55,13 +55,13 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { UiKind } from '@/types'
-  import { ComponentImportConfig } from '../../types/helpers/presetsImportType'
   import { useImportManager } from './composables/useImportManager'
   import CategoryConfigSection from './CategoryConfigSection.vue'
   import ComponentConfigSection from './ComponentConfigSection.vue'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
+  import { ComponentImportConfig } from '@/editor/types'
+  import { UiKind } from '@/types/OmikujiData'
 
   const props = defineProps<{
     importManager: ReturnType<typeof useImportManager>
@@ -87,7 +87,7 @@
 
       // インポートデータの components.settings に存在するキーのうち
       // componentConfigs に存在しないものを「読み込み側のみ」として追加
-      const importedSettingsKeys = Object.keys(imported.components?.settings ?? {}) as UiKind[]
+      const importedSettingsKeys = Object.keys(imported.ui?.settings ?? {}) as UiKind[]
       for (const key of importedSettingsKeys) {
         if (!(key in result)) {
           const importOnlyConfig: ComponentImportConfig = { enabled: true, useImported: true }

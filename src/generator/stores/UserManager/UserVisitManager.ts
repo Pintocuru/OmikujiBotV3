@@ -1,7 +1,6 @@
 // src/generator/stores/UserManager/UserVisitManager.ts
-
-import { UserVisitRecord, UserVisitRecordSchema } from '@/types'
-import { UserNameType } from '@/types'
+import { UserVisitRecord, UserVisitRecordSchema } from '@/generator/types'
+import { UserNameType } from '@/types/OmikenComment'
 
 type UserId = string
 type EventKey = string

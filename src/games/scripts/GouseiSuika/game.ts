@@ -1,5 +1,5 @@
 // src/games/scripts/GouseiSuika/game.ts
-import { PostFlowWordPartyType } from '@/types'
+import { PostFlowWordPartyType } from '@/types/OmikujiData'
 import { GAME_CONFIGS, GAME_CONSTANTS, GameConfigDetails, GameConfigItem, GameResult } from './gameConfigs'
 import { GameParams } from './params'
 
@@ -35,9 +35,10 @@ export class GachaGame {
   private initializeEffects(): void {
     this.postArray = [
       {
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: GAME_CONSTANTS.EMOJI_DELAY,
-        wordParty: this.params.mode === 'クジラ' ? 'GouseiSuikaMarimo' : 'GouseiSuikaCherry',
+        wordPartyId: this.params.mode === 'クジラ' ? 'GouseiSuikaMarimo' : 'GouseiSuikaCherry',
+        repeat: 1,
       },
     ]
   }

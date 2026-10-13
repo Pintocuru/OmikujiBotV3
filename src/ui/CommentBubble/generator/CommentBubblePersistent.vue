@@ -28,8 +28,9 @@
   import { useCharacterEmotionState } from './composables/useCharacterEmotionState'
   import CommentDisplay from './CommentDisplay.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import { CharacterType, CommentBubbleSchema } from '@/types'
-import { BotMessageBubbleType } from '@/generator/types'
+  import { CharacterType } from '@/types/OmikujiData'
+  import { BotMessageBubbleType } from '@/generator/types'
+  import { CommentBubbleSchema } from '@/ui/types/CommentBubbleSchema'
 
   const props = defineProps<{
     character: CharacterType
@@ -46,8 +47,8 @@ import { BotMessageBubbleType } from '@/generator/types'
   const { characterMap, isValidCharacter } = useCharacterManager()
 
   // 設定取得
-  const bubble = computed(() => appStore.data.components.settings.bubble || CommentBubbleSchema.parse({}))
-  const enterMotion = computed(() => bubble.value.bubbleMotionEnter)
+  const bubble = computed(() => appStore.data.ui.settings.bubble || CommentBubbleSchema.parse({}))
+  const enterMotion = computed(() => bubble.value.bubbleMotion)
 
   // キャラクター感情状態（composableを統合）
   const messagesRef = computed(() => props.messages)

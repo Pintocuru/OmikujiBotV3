@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { PostFlowVariableType } from '@/types'
+  import { PostFlowVariableType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import MessageTextDialog from '../Message/MessageTextDialog.vue'
 
@@ -25,10 +25,7 @@
   }
 
   const bubbleText = computed<string>({
-    get: () => props.action.message.bubble ?? '',
-    set: (value) =>
-      updateAction({
-        message: { ...props.action.message, bubble: value },
-      }),
+    get: () => props.action.message ?? '',
+    set: (value) => updateAction({ message: value }),
   })
 </script>

@@ -2,51 +2,36 @@
 <template>
   <div class="h-full flex flex-col items-center justify-center space-y-4">
     <!-- メッセージアクション -->
-    <div v-if="action.actionType === 'message'" class="w-full">
-      <!-- フキダシ -->
-      <div v-if="!enableSecondary || action.message.isToast !== true" class="space-y-8 flex flex-col items-center">
-        <CommentBubbleItem
-          :key="messageKey"
-          :botName="character ? character.displayName : null"
-          :message="processedMessage"
-          :color="character ? character.color : commonStyle.defaultColor"
-          @click="refreshMessage"
-          class="cursor-pointer"
-        />
-        <LayerImage
-          v-if="isCharacter"
-          :layers="character?.image?.[action.iconKey]?.src ?? []"
-          :size="bubbleSettings.characterSize"
-          :animation="character?.image?.[action.iconKey]?.animation"
-        />
-      </div>
-      <!-- トースト -->
-
-      <div v-else @click="refreshMessage" class="cursor-pointer">
-        <ToastBubbleItem
-          :key="messageKey"
-          :message="processedMessage"
-          :color="character ? character.color : commonStyle.defaultColor"
-          :iconLayers="character?.image?.[action.iconKey]?.src ?? []"
-          :showToastsOnRight="toastSettings.showToastsOnRight"
-        />
-      </div>
+    <div v-if="action.kind === 'message'" class="w-full space-y-8 flex flex-col items-center">
+      <CommentBubbleItem
+        :key="messageKey"
+        :botName="character ? character.displayName : null"
+        :message="processedMessage"
+        :color="character ? character.color : defaultColor"
+        @click="refreshMessage"
+        class="cursor-pointer"
+      />
+      <LayerImage
+        :layers="character?.image?.[action.iconKey]?.src ?? []"
+        :size="bubbleSettings.characterSize"
+        :animation="character?.image?.[action.iconKey]?.animation"
+      />
     </div>
 
     <!-- サウンドアクション -->
-    <div v-else-if="action.actionType === 'sound'" class="w-full text-center">
+    <div v-else-if="action.kind === 'sound'" class="w-full text-center">
       <Volume2 :size="80" class="mx-auto text-blue-500" />
       <p class="text-sm opacity-70 mt-2">サウンド</p>
     </div>
 
     <!-- WordPartyアクション -->
-    <div v-else-if="action.actionType === 'wordParty'" class="w-full text-center">
+    <div v-else-if="action.kind === 'wordParty'" class="w-full text-center">
       <PartyPopper :size="80" class="mx-auto text-purple-500" />
       <p class="text-sm opacity-70 mt-2">WordParty</p>
     </div>
 
-    <!-- アクションセット -->
-    <div v-else-if="action.actionType === 'actionSet'" class="w-full text-center">
+    <!-- アクションセット呼び出し -->
+    <div v-else-if="action.kind === 'flowCall'" class="w-full text-center">
       <MessagesSquare :size="80" class="mx-auto text-red-500" />
       <p class="text-sm opacity-70 mt-2">アクションセット</p>
     </div>
@@ -62,13 +47,13 @@
     <!-- テストボタン -->
     <div class="w-full text-center mt-2">
       <WordPartyTestButton
-        v-if="action.actionType === 'wordParty'"
+        v-if="action.kind === 'wordParty'"
         :id="action.wordPartyId"
-        :pattern="action.wordParty"
+        :pattern="null"
         :repeat="action.repeat"
       />
       <SoundTestButton
-        v-if="soundEnabled && (action.actionType === 'sound' || action.actionType === 'message')"
+        v-if="soundEnabled && (action.kind === 'sound' || action.kind === 'message')"
         :sound="action.sound"
         :soundPath="action.soundPath"
       />
@@ -79,16 +64,16 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { PostFlowType, CommentBubbleSchema, ToastWidgetsSchema } from '@/types'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SoundTestButton from './SoundTestButton.vue'
-  import { processTestPlaceholder } from './TestPlaceholderProcessor.js'
-  import WordPartyTestButton from './WordPartyTestButton.vue'
-  import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
-  import CommentBubbleItem from '@/generator/ui/CommentBubble/parts/CommentBubbleItem.vue'
-  import ToastBubbleItem from '@/generator/ui/ToastWidgets/parts/ToastBubbleItem.vue'
-  import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { Volume2, PartyPopper, MessagesSquare, Settings } from 'lucide-vue-next'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { CharacterColorScheme } from '@/types/OmikujiData'
+  import type { PostFlowType } from '@/types/OmikujiData'
+  import SoundTestButton from './SoundTestButton.vue'
+  import WordPartyTestButton from './WordPartyTestButton.vue'
+  import { processTestPlaceholder } from './TestPlaceholderProcessor.js'
+  import CommentBubbleItem from '@/generator/ui/CommentBubble/parts/CommentBubbleItem.vue'
+  import LayerImage from '@/common/LayerImage/LayerImage.vue'
+  import { CommentBubbleSchema } from '@/ui/types/CommentBubbleSchema'
 
   const props = defineProps<{
     action: PostFlowType
@@ -96,37 +81,35 @@
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const { isCharacter } = useVisibilityAccess()
-  const soundEnabled = computed(() => data.value.settings.soundEnabled)
 
-  const enableSecondary = computed(() => data.value.components.enableSecondary)
-  const characters = computed(() => data.value.characters)
-  const bubbleSettings = computed(() => data.value.components.settings.bubble ?? CommentBubbleSchema.parse({}))
-  const toastSettings = computed(() => data.value.components.settings.toast ?? ToastWidgetsSchema.parse({}))
-  const commonStyle = computed(() => data.value.components.commonStyle)
+  const soundEnabled = computed(() => data.value.settings.generator.soundEnabled)
+  const characters = computed(() => data.value.assets.characters)
+  const bubbleSettings = computed(() => data.value.ui.settings.bubble ?? CommentBubbleSchema.parse({}))
+  const defaultColor = CharacterColorScheme.parse({})
+
+  // リフレッシュキー
+  const messageKey = ref(0)
+  const refreshMessage = () => messageKey.value++
 
   // キャラクター取得
   const character = computed(() => {
-    if (!isCharacter.value || props.action.actionType !== 'message') return null
+    if (props.action.kind !== 'message') return null
     const key = props.action.characterKey
-    return key !== null ? characters.value[key] : null
+    if (key === null) return null
+    return Object.values(characters.value).find((c) => c.key === key) ?? null
   })
 
   // メッセージ処理
   const processedMessage = computed(() => {
     const _ = messageKey.value
 
-    if (props.action.actionType !== 'message') return '(不正な処理です)'
-    const content = props.action.message.bubble
+    if (props.action.kind !== 'message') return '(不正な処理です)'
+    const content = props.action.message
     if (!content) return '(メッセージなし)'
-    const processed = processTestPlaceholder(content, data.value.placeholders)
+    const processed = processTestPlaceholder(content, data.value.assets.placeholders)
     if (!processed) return '(このメッセージは表示されません)'
     return transformIconPlaceholdersPreview(processed.text)
   })
-
-  // リフレッシュキー
-  const messageKey = ref(0)
-  const refreshMessage = () => messageKey.value++
 
   function transformIconPlaceholdersPreview(raw: string): string {
     return raw.replace(/\{\{icon\s+([^\}]+)\}\}/g, (_, userId) => {

@@ -1,5 +1,5 @@
 // src/sdk/subscribe/GetReactions.ts
-import { reactionMap } from '@/types'
+import { reactionMap } from '@/maps/OmikujiData'
 import { PingOneSDK } from '../connection/PingOneSDK'
 import OneSDK from '@onecomme.com/onesdk'
 

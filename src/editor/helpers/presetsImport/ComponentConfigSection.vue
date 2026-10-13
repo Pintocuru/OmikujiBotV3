@@ -42,9 +42,10 @@ span<!-- src/ConfigMaker/components/presetsImport/ComponentConfigSection.vue -->
 </template>
 
 <script setup lang="ts">
-  import { uiKindMap, UiKind } from '@/types'
+  import { ComponentImportConfig } from '@/editor/types'
   import { useImportManager } from './composables/useImportManager'
-  import { ComponentImportConfig } from '../../types/helpers/presetsImportType'
+  import { UiKind } from '@/types/OmikujiData'
+  import { uiKindMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     componentKey: UiKind

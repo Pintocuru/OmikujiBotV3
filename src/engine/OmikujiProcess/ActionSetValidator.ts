@@ -1,5 +1,5 @@
 // src/engine/OmikujiProcess/ActionSetValidator.ts
-import { PostFlowType } from '@/types'
+import { PostFlowType } from '@/types/OmikujiData'
 
 export interface CircularReferenceResult {
   hasCircular: boolean
@@ -31,9 +31,9 @@ export function checkCircularReference(
   visited.add(targetKey)
 
   for (const action of actionSet.postActions) {
-    if (action.actionType !== 'actionSet') continue
+    if (action.kind !== 'flowCall') continue
 
-    const keys = action.actionSetKeys ?? []
+    const keys = action.callKeys ?? []
 
     // 参照先キーを抽出（string または WeightValueType.content）
     const referencedKeys = keys

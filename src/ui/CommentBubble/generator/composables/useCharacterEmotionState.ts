@@ -1,6 +1,6 @@
 // src/ui/CommentBubble/generator/composables/useCharacterEmotionState.ts
 import { ref, computed, watch, type Ref } from 'vue'
-import type { CharacterType } from '@/types'
+import type { CharacterType } from '@/types/OmikujiData'
 import type { BotMessageBubbleType } from '@/generator/types'
 import { BotMessageType } from '@/generator/types'
 

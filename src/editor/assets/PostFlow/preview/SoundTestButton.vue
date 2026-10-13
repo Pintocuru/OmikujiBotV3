@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-  import { SoundKeyType } from '@/types'
+  import { SoundKeyType } from '@/types/OmikujiData'
   import { playSoundResolved } from '@sounds/PlaySound'
 
   const props = defineProps<{

@@ -1,5 +1,5 @@
 // src/games/scripts/GoogolClover/sub/postActionBuilder.ts
-import { PostFlowType, PostFlowMessageSchema } from '@/types'
+import { PostFlowType, PostFlowMessageSchema } from '@/types/OmikujiData'
 
 /**
  * PostActionの構築ロジック
@@ -29,20 +29,20 @@ export function buildPostActions(params: PostActionBuildParams): PostFlowType[] 
 
   // 共通アクション
   const commonActions: PostFlowType[] = [
-    { actionType: 'wordParty', delaySeconds: -1, wordParty: 'MaidenOmikujiLottery' },
+    { kind: 'wordParty', delaySeconds: -1, wordPartyId: 'MaidenOmikujiLottery', repeat: 1 },
   ]
 
   // 成功時のアクション
   const successActions: PostFlowType[] = [
-    { actionType: 'wordParty', delaySeconds: 0, wordParty: 'MaidenOmikuji01' },
-    { actionType: 'sound', delaySeconds: 1, sound: 'carnival', soundPath: '' },
+    { kind: 'wordParty', delaySeconds: 0, wordPartyId: 'MaidenOmikuji01', repeat: 1 },
+    { kind: 'sound', delaySeconds: 1, sound: 'carnival', soundPath: '' },
   ]
 
   // 失敗時のアクション
   const failureActions: PostFlowType[] = [
-    { actionType: 'wordParty', delaySeconds: 0, wordParty: 'MaidenOmikuji08' },
-    { actionType: 'sound', delaySeconds: 1, sound: 'fail', soundPath: '' },
-    { actionType: 'wordParty', delaySeconds: 1, wordParty: 'GoogolCloverFail' },
+    { kind: 'wordParty', delaySeconds: 0, wordPartyId: 'MaidenOmikuji08', repeat: 1 },
+    { kind: 'sound', delaySeconds: 1, sound: 'fail', soundPath: '' },
+    { kind: 'wordParty', delaySeconds: 1, wordPartyId: 'GoogolCloverFail', repeat: 1 },
   ]
 
   // Score が0より大きければ成功、そうでなければ失敗

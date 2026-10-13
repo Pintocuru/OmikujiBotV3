@@ -146,7 +146,7 @@
 
   // キャラクターデータ
   const characters = computed(() => {
-    return data.value.characters ?? ({} as Record<string, CharacterType>)
+    return data.value.assets.characters ?? ({} as Record<string, CharacterType>)
   })
 
   // インデックスに対応した色（OmikujiWeightProgressBarと同じユーティリティを流用）

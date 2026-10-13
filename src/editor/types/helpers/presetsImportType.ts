@@ -1,6 +1,5 @@
 // src/editor/types/helpers/presetsImportType.ts
-import { UiKind } from '@/types'
-import { RecordCategoryType } from '@/types/OmikujiData/'
+import { DataCategoryType, UiKind } from '@/types/OmikujiData/'
 
 export type ImportMode = 'full-replace' | 'partial-replace' | 'partial-merge'
 
@@ -22,7 +21,7 @@ export interface ComponentImportConfig {
 }
 
 export interface ImportPreview {
-  recordCategories: Record<RecordCategoryType, CategoryImportConfig>
+  recordCategories: Record<DataCategoryType, CategoryImportConfig>
   componentConfigs: Record<UiKind, ComponentImportConfig>
   totalItems: number
 }

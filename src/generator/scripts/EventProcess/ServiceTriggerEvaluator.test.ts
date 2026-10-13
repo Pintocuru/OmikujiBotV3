@@ -1,8 +1,7 @@
 // src/generator/scripts/EventProcess/ServiceTriggerEvaluator.test.ts
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { evaluateMetaTrigger, evaluateServiceCondition, evaluateElapsedTime } from './ServiceTriggerEvaluator'
-import type { MetaUpdateEvent } from '../../stores/MetaState/MetaStateService'
-import { MetaConditionType, MetaTriggerType } from '@/types'
+import { MetaConditionType, MetaTriggerType } from '@/types/OmikujiData'
 
 describe('MetaTriggerEvaluator', () => {
   describe('evaluateServiceCondition', () => {

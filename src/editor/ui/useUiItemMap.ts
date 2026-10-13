@@ -18,7 +18,7 @@ import KujibikiPanelEditor from './KujibikiPanel/KujibikiPanelEditor.vue'
 import LiveClockEditor from './LiveClock/LiveClockEditor.vue'
 import GiftRankingEditor from './GiftRanking/GiftRankingEditor.vue'
 import type { LucideIconName } from '@shared/utils/LucideIcon/useLucideIcon'
-import { UiKind } from '@/types'
+import { UiKind } from '@/types/OmikujiData'
 
 export type VisibilityKey =
   | 'comment'

@@ -25,14 +25,15 @@
 </template>
 
 <script setup lang="ts">
-  import { CategoryType, RecordCategoryType, categoryMap } from '@/types'
   import { useImportManager } from './composables/useImportManager'
   import CategoryModeSelector from './CategoryModeSelector.vue'
   import ConflictsList from './ConflictsList.vue'
-  import { CategoryImportConfig } from '../../types/helpers/presetsImportType'
+  import { CategoryImportConfig } from '@/editor/types'
+  import { CategoryType, DataCategoryType } from '@/types/OmikujiData'
+  import { categoryMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
-    category: RecordCategoryType
+    category: DataCategoryType
     config: CategoryImportConfig
     importManager: ReturnType<typeof useImportManager>
   }>()

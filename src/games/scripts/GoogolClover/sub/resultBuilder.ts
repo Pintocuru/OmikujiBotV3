@@ -5,7 +5,7 @@ import { BotMessageExtraType } from '@/generator/types'
 import type { UserState, SlotExecutionResult } from './types'
 import type { GameExecutionResult } from './game'
 import { calculateScoreValue, formatScoreText, formatShort } from './utils'
-import { UserNameSchema, UserNameType } from '@/types'
+import { UserNameSchema, UserNameType } from '@/types/OmikenComment'
 
 const RANKING_KEY = 'GoogolClover'
 

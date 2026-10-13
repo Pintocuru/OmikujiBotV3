@@ -1,11 +1,10 @@
 // src/editor/helpers/presetsImport/composables/useImportManager.ts
 import { ref, computed } from 'vue'
-import { UiKind } from '@/types'
-import { RecordCategoryType, OmikujiDataType } from '@/types/OmikujiData/'
-import { CategoryImportConfig, ComponentImportConfig, ImportPreview } from '../../../types/helpers/presetsImportType'
+import { DataCategoryType, OmikujiDataType, UiKind } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { normalizeData } from '@/common/migrations'
 import { generateCategoryPreview, generateComponentPreview } from './importHelpers'
+import { CategoryImportConfig, ComponentImportConfig, ImportPreview } from '@/editor/types'
 
 /**
  * インポート処理を管理するComposable
@@ -25,7 +24,7 @@ export const useImportManager = () => {
     if (!previewData.value) return []
     return Object.entries(previewData.value.recordCategories)
       .filter(([, config]) => config.enabled)
-      .map(([category]) => category as RecordCategoryType)
+      .map(([category]) => category as DataCategoryType)
   })
 
   /**
@@ -118,7 +117,7 @@ export const useImportManager = () => {
   /**
    * カテゴリ設定を更新
    */
-  const updateCategoryConfig = (category: RecordCategoryType, config: Partial<CategoryImportConfig>) => {
+  const updateCategoryConfig = (category: DataCategoryType, config: Partial<CategoryImportConfig>) => {
     if (!previewData.value?.recordCategories[category]) return
 
     previewData.value.recordCategories[category] = {

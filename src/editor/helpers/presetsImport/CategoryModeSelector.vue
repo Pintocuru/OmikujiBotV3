@@ -30,12 +30,12 @@
 </template>
 
 <script setup lang="ts">
-  import { RecordCategoryType } from '@/types/OmikujiData/'
+  import { DataCategoryType } from '@/types/OmikujiData/'
   import { useImportManager } from './composables/useImportManager'
   import { ImportMode } from '../../types/helpers/presetsImportType'
 
   const props = defineProps<{
-    category: RecordCategoryType
+    category: DataCategoryType
     config: {
       mode: ImportMode
     }

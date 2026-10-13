@@ -12,10 +12,7 @@
       >
         <template #default="{ message }">
           <!-- キャラクター（最新コメント時のみ表示） -->
-          <div
-            v-if="hasImage(message.bubble?.characterKey)"
-            class="absolute top-[180px] left-0 right-0 flex justify-center"
-          >
+          <div v-if="hasImage(message.bubble?.characterKey)" class="absolute top-45 left-0 right-0 flex justify-center">
             <CharacterLayerImage
               v-if="latestMessage && message.id === latestMessage.id && getCharacterLayers(message).length > 0"
               :layers="getCharacterLayers(message)"
@@ -38,7 +35,7 @@
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import CharacterLayerImage from '@/common/LayerImage/CharacterLayerImage.vue'
   import { CommentBubbleSchema } from '@/types'
-import { BotMessageBubbleType } from '@/generator/types'
+  import { BotMessageBubbleType } from '@/generator/types'
 
   const props = defineProps<{
     centerMessages: BotMessageBubbleType[]

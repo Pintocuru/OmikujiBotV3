@@ -2,8 +2,8 @@
 import type { UserState } from './types'
 import { executeSlotSpins } from './slotExecution'
 import { buildGameResult } from './resultBuilder'
-import { UserNameType } from '@/types'
 import { BotMessageExtraType } from '@/generator/types'
+import { UserNameType } from '@/types/OmikenComment'
 
 /**
  * ゲーム結果の完全な型定義

@@ -1,8 +1,10 @@
 // src/editor/assets/PostFlow/Message/usePlaceholderEditor.ts
 import { computed, Ref, ref } from 'vue'
-import { PlaceholderSchema, PlaceholderType, handelNormalizedValues } from '@/types'
+import { PlaceholderSchema, PlaceholderType, handelNormalizedValues } from '@/types/OmikujiData'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+import { defaultPlaceholderMap } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
+import { defaultBasePlaceholderLabel } from '@/generator/types'
 
 const PLACEHOLDER_PATTERN = /<<([^>]+)>>/g
 const PLACEHOLDER_ID_PATTERN = /^[a-zA-Z0-9_]+$/
@@ -10,7 +12,6 @@ const PLACEHOLDER_ID_PATTERN = /^[a-zA-Z0-9_]+$/
 export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boolean) {
   const omikujiStore = useOmikujiStore()
   const { getCategoryMap } = useGetRecordData()
-  const { isPlaceholder } = useVisibilityAccess()
 
   const showAddPlaceholder = ref(false)
   const newPlaceholderKey = ref('')
@@ -18,7 +19,6 @@ export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boo
 
   // data.placeholders のマップ（isPlaceholder=false なら空）
   const placeholderMap = computed<Record<string, PlaceholderType>>(() => {
-    if (!isPlaceholder.value) return {}
     return getCategoryMap('placeholders') as Record<string, PlaceholderType>
   })
 

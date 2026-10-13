@@ -1,5 +1,5 @@
 // src/games/scripts/GouseiSuika/gameConfigs.ts
-import { PostFlowWordPartyType } from '@/types'
+import { PostFlowWordPartyType } from '@/types/OmikujiData'
 
 /**
  * 型定義

@@ -77,8 +77,8 @@
   const errorMessage = ref('')
   const visibleSlots = ref(1)
 
-  const bubble = computed(() => data.value.components.settings.bubble ?? CommentBubbleSchema.parse({}))
-  const characters = computed(() => data.value.characters)
+  const bubble = computed(() => data.value.ui.settings.bubble ?? CommentBubbleSchema.parse({}))
+  const characters = computed(() => data.value.assets.characters)
   const availableCharacters = computed(() => Object.keys(characters.value))
 
   const editableGroups = ref<ShowCharacters>(ShowCharactersSchema.parse({}))

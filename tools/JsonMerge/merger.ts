@@ -1,6 +1,6 @@
 // tools/JsonMerge/merger.ts
-import { ACCESS_LEVEL_PRIORITY } from '@/editor/stores/composables/useDataMergeHelpers'
-import { OmikujiDataType, eventCategory, EventCategoryType, FlagsUsageType, AccessLevelType } from '@/types'
+import { FlagsUsageType, OmikujiDataType } from '@/types/OmikujiData'
+import { AccessLevelType } from '@/types/core'
 
 const mergeAccessLevel = (current: AccessLevelType, incoming: AccessLevelType): AccessLevelType => {
   const currentPriority = ACCESS_LEVEL_PRIORITY.indexOf(current)

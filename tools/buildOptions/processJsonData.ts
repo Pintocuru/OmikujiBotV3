@@ -1,7 +1,7 @@
 // tools/buildOptions/processJsonData.ts
-import { OmikujiDataType, recordCategoryLabel, RecordCategoryType } from '@/types/OmikujiData/'
+import { OmikujiDataType, DataCategoryType } from '@/types/OmikujiData/'
 import { getKey } from '@/common/FeatureAccess/SettingMode'
-import { AccessLevelLabels, AccessLevelType } from '@/types'
+import { AccessLevelLabels, AccessLevelType } from '@/types/core'
 
 /**
  * JSONデータを読み込み、前処理を行う関数
@@ -13,7 +13,7 @@ export const generateAccessLevelData = (data: OmikujiDataType, targetLevel?: Acc
   const filtered = Object.fromEntries(
     // TODO: assetCategory eventCategory をつかうこと
     recordCategoryLabel.map((category) => [category, filterItems(data[category], targetIndex)])
-  ) as Pick<OmikujiDataType, RecordCategoryType>
+  ) as Pick<OmikujiDataType, DataCategoryType>
 
   return {
     ...data,

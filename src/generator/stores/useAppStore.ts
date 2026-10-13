@@ -1,7 +1,7 @@
 // src/generator/stores/useAppStore.ts
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { OmikujiDataType } from '@/types'
+import { OmikujiDataType } from '@/types/OmikujiData'
 import { useAppStatus } from './useAppStatus'
 import { useBotMessageActions } from './useBotMessageActions'
 import { createAppServices } from './createAppServices'

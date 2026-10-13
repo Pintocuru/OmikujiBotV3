@@ -1,7 +1,6 @@
 // src/editor/helpers/presetsImport/composables/importHelpers.ts
-import { OmikujiDataType, RecordCategoryType, recordCategoryLabel, AssetCategoryDataMap } from '@/types/OmikujiData/'
-import { UiKind } from '@/types'
-import { CategoryImportConfig, ComponentImportConfig, ConflictInfo } from '../../../types/helpers/presetsImportType'
+import { ConflictInfo } from '@/editor/types'
+import { AssetCategoryDataMap, DataCategoryType, OmikujiDataType } from '@/types/OmikujiData/'
 
 /**
  * アイテムの名前を取得
@@ -19,7 +18,7 @@ export const getItemName = (item: any): string => {
 export const checkRecordConflicts = (
   currentData: OmikujiDataType,
   importData: OmikujiDataType,
-  category: RecordCategoryType
+  category: DataCategoryType
 ): ConflictInfo[] => {
   const currentItems = currentData[category] as AssetCategoryDataMap[typeof category]
   const importItems = importData[category] as AssetCategoryDataMap[typeof category]
@@ -42,7 +41,7 @@ export const checkRecordConflicts = (
  * カテゴリのプレビューを生成
  */
 export const generateCategoryPreview = (currentData: OmikujiDataType, importData: OmikujiDataType) => {
-  const recordCategories: Partial<Record<RecordCategoryType, CategoryImportConfig>> = {}
+  const recordCategories: Partial<Record<DataCategoryType, CategoryImportConfig>> = {}
   let totalItems = 0
 
   // TODO: assetCategory eventCategory をつかうこと
@@ -62,7 +61,7 @@ export const generateCategoryPreview = (currentData: OmikujiDataType, importData
   })
 
   return {
-    recordCategories: recordCategories as Record<RecordCategoryType, CategoryImportConfig>,
+    recordCategories: recordCategories as Record<DataCategoryType, CategoryImportConfig>,
     totalItems,
   }
 }

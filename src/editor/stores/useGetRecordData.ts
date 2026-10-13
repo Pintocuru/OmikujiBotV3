@@ -1,7 +1,7 @@
 // src/editor/stores/useGetRecordData.ts
 // ! 廃止
 import { storeToRefs } from 'pinia'
-import { RecordCategoryType, RecordCategoryItemTypeMap } from '@/types/OmikujiData/'
+import { DataCategoryType, RecordCategoryItemTypeMap } from '@/types/OmikujiData/'
 import { useOmikujiStore } from './useOmikujiStore'
 
 /**
@@ -15,34 +15,31 @@ export function useGetRecordData() {
 
   // 単一アイテム取得
   /** @deprecated getEvent または getAsset を使ってください */
-  const getItem = <K extends RecordCategoryType>(
-    category: K,
-    key: string
-  ): RecordCategoryItemTypeMap[K] | undefined => {
+  const getItem = <K extends DataCategoryType>(category: K, key: string): RecordCategoryItemTypeMap[K] | undefined => {
     return (data.value[category] as Record<string, RecordCategoryItemTypeMap[K]>)?.[key]
   }
 
   // カテゴリ全体をMapとして取得
   /** @deprecated getEvent または getAsset を使ってください */
-  const getCategoryMap = <K extends RecordCategoryType>(category: K): Record<string, RecordCategoryItemTypeMap[K]> => {
+  const getCategoryMap = <K extends DataCategoryType>(category: K): Record<string, RecordCategoryItemTypeMap[K]> => {
     return (data.value[category] as Record<string, RecordCategoryItemTypeMap[K]>) || {}
   }
 
   // カテゴリ全体をソート済み配列として取得
   /** @deprecated getEvent または getAsset を使ってください */
-  const getCategoryArray = <K extends RecordCategoryType>(category: K): RecordCategoryItemTypeMap[K][] => {
+  const getCategoryArray = <K extends DataCategoryType>(category: K): RecordCategoryItemTypeMap[K][] => {
     return Object.values(getCategoryMap(category)).sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
   }
 
   // アイテムの存在確認
   /** @deprecated getEvent または getAsset を使ってください */
-  const hasItem = (category: RecordCategoryType, key: string): boolean => {
+  const hasItem = (category: DataCategoryType, key: string): boolean => {
     return !!data.value[category]?.[key]
   }
 
   // カテゴリ内のアイテム数を取得
   /** @deprecated getEvent または getAsset を使ってください */
-  const getItemCount = (category: RecordCategoryType): number => {
+  const getItemCount = (category: DataCategoryType): number => {
     return Object.keys(data.value[category] || {}).length
   }
 

@@ -12,7 +12,7 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
 
-  import { handelNormalizedValues, WeightValuesArrayType } from '@/types'
+  import { handelNormalizedValues, WeightValuesArrayType } from '@/types/OmikujiData'
   import { processTestPlaceholder } from '@/editor/assets/PostFlow/preview/TestPlaceholderProcessor'
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'

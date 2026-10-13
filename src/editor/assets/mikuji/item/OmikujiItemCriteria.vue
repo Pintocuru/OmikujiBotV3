@@ -82,13 +82,14 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+
   import {
-    OmikujiItemType,
     CriteriaThresholdCondition,
     CriteriaThresholdSchema,
     CriteriaThresholdType,
     criteriaThresholdCondition,
-  } from '@/types'
+    OmikujiItemType,
+  } from '@/types/OmikujiData'
 
   import TriggerComment from '@/editor/events/trigger/TriggerComment.vue'
   import TriggerAccess from '@/editor/events/trigger/TriggerAccess.vue'

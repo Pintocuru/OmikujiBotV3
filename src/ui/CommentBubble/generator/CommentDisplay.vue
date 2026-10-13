@@ -34,8 +34,8 @@
 </template>
 
 <script setup lang="ts">
-  import { EnterMotionType } from '@/types'
-import { BotMessageBubbleType } from '@/generator/types'
+  import { EnterMotionType } from '@/types/OmikujiData'
+  import { BotMessageBubbleType } from '@/generator/types'
   import CommentBubbleItem from '@/generator/ui/CommentBubble/parts/CommentBubbleItem.vue'
   import MotionWrapper from '@/generator/ui/CommentBubble/MotionVariants/MotionWrapper.vue'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'

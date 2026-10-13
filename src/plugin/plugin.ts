@@ -1,11 +1,11 @@
 // src/plugin/plugin.ts
-import { pluginRequest } from '../../server/adapters/pluginAdapter'
-import { postSystemMessage } from '@shared/sdk/post/PostOneComme'
 import { OnePlugin, PluginRequest, PluginResponse } from '@onecomme.com/onesdk/types/Plugin'
-import { PLUGIN_KEY, PLUGIN_NAME } from '@/types'
 import { APP_VERSION } from '@/version'
-import { processOmikenComment } from '@shared/sdk/subscribe/OmikenComment/OmikenCommentProcessor'
 import { hoge } from './scripts/hoge'
+import { processOmikenComment } from '@/sdk/subscribe/OmikenComment/OmikenCommentProcessor'
+import { postSystemMessage } from '@/sdk/post/PostOneComme'
+import { pluginRequest } from '../../server/adapters/pluginAdapter'
+import { PLUGIN_KEY, PLUGIN_NAME } from '@/types/env'
 
 const plugin: OnePlugin = {
   name: `${PLUGIN_NAME}`,

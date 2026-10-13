@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { PostFlowType } from '@/types'
+  import { PostFlowType } from '@/types/OmikujiData'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { postFlowKindMap } from '@/maps/OmikujiData'
 

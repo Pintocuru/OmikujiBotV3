@@ -1,5 +1,5 @@
 // src/engine/DisplayVariable/DisplayVariableResolver.ts
-import { hasPostFlowMessage, PostFlowType } from '@/types'
+import { hasPostFlowMessage, PostFlowType } from '@/types/OmikujiData'
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 
 export class DisplayVariableResolver {

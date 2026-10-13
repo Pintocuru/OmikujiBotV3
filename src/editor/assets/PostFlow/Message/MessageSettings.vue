@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { PostFlowMessageType } from '@/types'
+  import { PostFlowMessageType } from '@/types/OmikujiData'
   import IconSelector from '@/editor/assets/PostFlow/IconSelector/IconSelector.vue'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import MessageTextDialog from './MessageTextDialog.vue'

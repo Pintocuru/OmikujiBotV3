@@ -1,6 +1,6 @@
 // src/generator/stores/UserManager/UserStatsManager.ts
 import { UserStatsRecord } from '@/generator/types'
-import { OmikenCommentType } from '@/types'
+import { OmikenCommentType } from '@/types/OmikenComment'
 
 type StatsEventListener = (record: UserStatsRecord) => void
 

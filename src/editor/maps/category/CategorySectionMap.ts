@@ -1,5 +1,5 @@
 // src/editor/maps/category/CategorySectionMap.ts
-import { CategoryType } from '@/types'
+import { CategoryType } from '@/types/OmikujiData'
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
 /**

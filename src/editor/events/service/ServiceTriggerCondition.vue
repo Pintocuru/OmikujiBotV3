@@ -37,7 +37,8 @@
   import { computed } from 'vue'
 
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import { ServiceConditionType, serviceConditionMap, serviceSimpleComparisonConditionMap } from '@/types'
+  import { ServiceConditionType } from '@/types/OmikujiData'
+  import { serviceConditionMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     modelValue?: ServiceConditionType

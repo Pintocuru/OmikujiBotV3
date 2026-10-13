@@ -1,6 +1,6 @@
 // src/games/scriptsEngine/LogRank/types.ts
+import { UserNameSchema } from '@/types/OmikenComment'
 import { z } from 'zod'
-import { UserNameSchema } from '@/types'
 
 /**
  * ランキングモードの定義

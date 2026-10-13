@@ -18,7 +18,7 @@
 <script setup lang="ts">
   import { computed, toRef } from 'vue'
   import { useMotionAnimation, MotionAnimationEmits } from './useMotionAnimation'
-  import { EnterMotionType } from '@/types'
+  import { EnterMotionType } from '@/types/OmikujiData'
 
   const props = withDefaults(
     defineProps<{

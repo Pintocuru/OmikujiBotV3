@@ -112,8 +112,8 @@
   const { characterArray } = useCharacterManager()
   const { updateCommonStyleField } = useCommonStyleUpdate()
 
-  const bubble = computed(() => data.value.components.settings.bubble ?? CommentBubbleSchema.parse({}))
-  const commonStyle = computed(() => data.value.components.commonStyle)
+  const bubble = computed(() => data.value.ui.settings.bubble ?? CommentBubbleSchema.parse({}))
+  const commonStyle = computed(() => data.value.ui.commonStyle)
 
   // bubble設定の値を直接指定して更新する関数
   const updateFieldValue = <K extends keyof typeof bubble.value>(field: K, value: (typeof bubble.value)[K]) => {
@@ -149,7 +149,7 @@
 
   // 最初のキャラのカラー取得
   const localColor = computed(() => {
-    if (!isCharacter.value) return data.value.components.commonStyle.defaultColor
+    if (!isCharacter.value) return data.value.ui.commonStyle.defaultColor
     return characterArray.value[0].color
   })
 </script>
