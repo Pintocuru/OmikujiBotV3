@@ -1,6 +1,6 @@
 <!-- src/editor/apps/appItems/preview/ThresholdPreview.vue -->
 <template>
-  <div class="space-y-1.5 min-w-[180px] max-w-[240px]">
+  <div class="space-y-1.5 min-w-45 max-w-60">
     <!-- ヘッダー -->
     <div class="flex items-center gap-1.5 text-xs font-semibold opacity-70 pb-0.5 border-b border-base-300">
       <Filter class="w-3 h-3" />
@@ -19,7 +19,7 @@
     <div v-if="trigger.userName?.length" class="flex items-center gap-1 text-xs">
       <User class="w-3 h-3 shrink-0 opacity-60" />
       <span class="opacity-70">ユーザー:</span>
-      <span class="truncate max-w-[120px]">
+      <span class="truncate max-w-30">
         {{ trigger.userName.slice(0, 2).join(', ') }}
         <span v-if="trigger.userName.length > 2" class="opacity-50">+{{ trigger.userName.length - 2 }}</span>
       </span>
@@ -52,17 +52,15 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { CommentTriggerType, CriteriaThresholdType } from '@/types/OmikujiData'
   import { Filter, User, MessageSquare, Shield, Gift } from 'lucide-vue-next'
-  import type { CommentTriggerType } from '@/types/OmikujiData/CommentTriggerSchema'
-  import type { CriteriaThresholdType } from '@/types/OmikujiData/CriteriaThresholdSchema'
 
   type TriggerLike = Partial<CommentTriggerType & CriteriaThresholdType>
 
   const props = withDefaults(
     defineProps<{
       data: { trigger?: TriggerLike; criteria?: TriggerLike | null } | null
-      /** 'threshold'（発動条件）or 'criteria'（追加発動条件） */
-      mode?: 'threshold' | 'criteria'
+      mode?: 'threshold' | 'criteria' // 'threshold'（発動条件）or 'criteria'（追加発動条件）
     }>(),
     { mode: 'threshold' }
   )

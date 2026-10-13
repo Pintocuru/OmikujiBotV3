@@ -1,6 +1,6 @@
 <!-- src/editor/apps/appItems/preview/ActionSetPreview.vue -->
 <template>
-  <div class="space-y-1.5 min-w-[180px] max-w-[260px]">
+  <div class="space-y-1.5 min-w-45 max-w-65">
     <!-- ヘッダー -->
     <div class="flex items-center justify-between pb-0.5 border-b border-base-300">
       <div class="flex items-center gap-1.5 text-xs font-semibold opacity-70">
@@ -73,7 +73,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { Zap, Play, Gamepad2, Hash } from 'lucide-vue-next'
-  import type { ActionSetType } from '@/types/OmikujiData/ActionSet'
+  import { ActionSetType } from '@/types/OmikujiData'
 
   const props = defineProps<{
     data: Partial<ActionSetType> | null

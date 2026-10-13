@@ -1,7 +1,6 @@
 <!-- src/editor/helpers/IconKeyChanger/IconKeyChanger.vue -->
 <template>
   <div
-    v-if="isCharacter"
     class="tooltip tooltip-bottom"
     :data-tip="
       hasInvalidIconKeys ? '不正なアイコンキーが使用されています！' : 'すべてのイベントのアイコンキーを一括変更する'
@@ -92,15 +91,13 @@
   import { useIconKeyStats } from './useIconKeyStats.js'
   import { useIconKeyModalState } from './useIconKeyModalState.js'
   import { useIconKeyUpdater } from './useIconKeyUpdater.js'
-  import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
-  import { useCharacterManager } from '@/editor/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
 
   const props = defineProps<{
     category: TargetCategoryType
     selectedId?: string
   }>()
 
-  const { isCharacter } = useVisibilityAccess()
   const { getCharacterName } = useCharacterManager()
 
   const { changeScope, scopeLabel, allItems, allActionSets } = useDataExtractor(props.category, props.selectedId)

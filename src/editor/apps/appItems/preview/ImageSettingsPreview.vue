@@ -1,6 +1,6 @@
 <!-- src/editor/apps/appItems/preview/ImageSettingsPreview.vue -->
 <template>
-  <div class="space-y-1.5 min-w-[180px] max-w-[240px]">
+  <div class="space-y-1.5 min-w-45 max-w-60">
     <!-- ヘッダー -->
     <div class="flex items-center justify-between pb-0.5 border-b border-base-300">
       <div class="flex items-center gap-1.5 text-xs font-semibold opacity-70">
