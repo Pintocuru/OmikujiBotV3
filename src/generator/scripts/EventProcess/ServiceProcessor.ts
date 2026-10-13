@@ -1,7 +1,7 @@
 // src/generator/scripts/EventProcess/ServiceProcessor.ts
+import { OmikujiProcessor } from '@/engine/OmikujiProcess/OmikujiProcessor'
 import { evaluateServiceTrigger } from './ServiceTriggerEvaluator'
 import { MetaUpdateEvent } from '@/generator/stores/MetaState/MetaStateService'
-import { OmikujiProcessor } from '@/generator/scripts/OmikujiProcess/OmikujiProcessor'
 import { useAppStore } from '@/generator/stores/useAppStore'
 
 /**
@@ -62,13 +62,13 @@ export class EventServiceProcessor {
           }
         : event
 
-    const enabledEvents = Object.values(this.store.data.services)
+    const enabledEvents = Object.values(this.store.data.events.services)
       .filter((rule) => rule.isEnabled)
       .sort((a, b) => a.order - b.order)
 
     for (const event of enabledEvents) {
       if (evaluateServiceTrigger(event.trigger, resolvedEvent)) {
-        const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikuji, 'metas')
+        const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikujiKey, 'services')
         this.store.scheduleBotMessages(messages)
       }
     }

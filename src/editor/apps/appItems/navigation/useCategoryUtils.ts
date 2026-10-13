@@ -1,23 +1,23 @@
 // src/editor/apps/appItems/navigation/useCategoryUtils.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { categoryMap, CategoryType } from '@/types'
+import { CategoryType } from '@/types/OmikujiData'
+import { isDev } from '@/types/env'
+import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { useAccessChecker } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
-import { isDev } from '@/types'
+import { categoryMap } from '@/maps/OmikujiData'
 
 export const useCategoryUtils = () => {
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
   const { getCategoryArray } = useGetRecordData()
-  const { hasAccess } = useAccessChecker()
 
   /**
    * ナビゲーションのアイテム数バッジ表示
    */
   const getCategoryItemCount = (category: CategoryType): number => {
-    if (category === 'dataPacks') return 0 // TODO:いつか「パッケージ数」を取得できるようにする
-    if (category === 'appInfo' || category === 'components') return 0
+    // if (category === 'dataPacks') return 0 // TODO:いつか「パッケージ数」を取得できるようにする
+    if (category === 'appInfo' || category === 'ui') return 0
     if (category === 'jsonMerge') return data.value.jsonMerge.length
     return getCategoryArray(category).length
   }
@@ -25,22 +25,25 @@ export const useCategoryUtils = () => {
   /**
    * ナビゲーションの表示・非表示設定
    */
-  const filteredCategoryLabels = computed<Record<CategoryType, (typeof categoryMap)[CategoryType]>>(() => {
-    const { usage, developer } = data.value.featureUsage
+  const filteredCategoryLabels = computed<Record<CategoryType, DisplayMetaLucide>>(() => {
+    const { events, assets } = data.value.settings.generator.usage
 
     const excludeKeys: CategoryType[] = []
 
-    // usage の設定に基づいて非表示にするカテゴリを決定
-    if (!isDev || !hasAccess(developer.jsonMergeSettings)) excludeKeys.push('jsonMerge') // 開発者のみの機能
-    if (!hasAccess(usage.comments)) excludeKeys.push('comments')
-    if (!hasAccess(usage.timers)) excludeKeys.push('timers')
-    if (!hasAccess(usage.services)) excludeKeys.push('metas')
-    if (!hasAccess(usage.reactions)) excludeKeys.push('reactions')
-    // if (!hasAccess(usage.queues)) excludeKeys.push('queues') // TODO:queues(order、参加型管理)の実装
+    // 開発者のみの機能
+    if (!isDev) excludeKeys.push('jsonMerge')
 
-    if (!hasAccess(usage.actionSets)) excludeKeys.push('actionSets')
-    if (!hasAccess(usage.placeholders)) excludeKeys.push('placeholders')
-    if (!hasAccess(usage.characters)) excludeKeys.push('characters')
+    // イベント関連
+    if (!events.comments) excludeKeys.push('comments')
+    if (!events.timers) excludeKeys.push('timers')
+    if (!events.services) excludeKeys.push('services')
+    if (!events.reactions) excludeKeys.push('reactions')
+
+    // アセット関連
+    if (!assets.mikuji) excludeKeys.push('mikuji')
+    if (!assets.actions) excludeKeys.push('actions')
+    if (!assets.placeholders) excludeKeys.push('placeholders')
+    if (!assets.characters) excludeKeys.push('characters')
 
     return Object.fromEntries(
       Object.entries(categoryMap).filter(([key]) => !excludeKeys.includes(key as CategoryType))

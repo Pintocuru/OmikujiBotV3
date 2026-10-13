@@ -23,6 +23,7 @@ export class OmikujiProcessor {
 
   /**
    * おみくじ抽選 & 実行 (本番用)
+   * TODO:omikujiSet ではなく、 omikujiKey を受け取る
    */
   async executeOmikuji(
     eventKey: string,

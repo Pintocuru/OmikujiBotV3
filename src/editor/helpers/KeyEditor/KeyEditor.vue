@@ -2,99 +2,55 @@
 <template>
   <!-- Keyエディタボタン -->
   <button
-    @click="openDialog(currentKey, category)"
     class="btn btn-sm btn-outline btn-primary tooltip tooltip-bottom min-w-fit whitespace-nowrap"
-    data-tip="Keyを変更します。参照している他の設定も影響を受ける可能性があります。"
+    :data-tip="$t('keyEditor.buttonTip')"
+    @click="openDialog(currentKey, category)"
   >
-    <span class="inline">📝</span>
-    <span class="hidden sm:inline ml-1">Key編集</span>
+    <span>📝</span>
+    <span class="hidden sm:inline ml-1">{{ $t('keyEditor.buttonLabel') }}</span>
   </button>
 
   <!-- ダイアログ -->
   <Teleport to="body">
     <div v-if="isDialogOpen" class="modal modal-open">
       <div class="modal-box bg-base-300">
-        <h3 class="font-bold text-lg text-primary">{{ dialogTitle }}Key編集</h3>
+        <h3 class="font-bold text-lg text-primary">{{ dialogTitle }}</h3>
 
-        <div class="py-4">
-          <SettingItem label="現在のKey">
+        <div class="py-4 space-y-4">
+          <SettingItem :label="$t('keyEditor.currentKey')">
             <div class="input input-bordered bg-neutral text-neutral-content select-all">
-              {{ currentKey }}
+              {{ dialogKey }}
             </div>
           </SettingItem>
 
-          <SettingItem label="新しいKey" class="form-control mt-4">
+          <SettingItem :label="$t('keyEditor.newKey')" class="form-control">
             <input
-              type="text"
               v-model="newKey"
-              placeholder="新しいKeyを入力"
+              type="text"
+              :placeholder="$t('keyEditor.newKeyPlaceholder')"
               class="input input-bordered focus:input-primary"
               :class="{ 'input-error': hasError }"
-              @input="validateKey(newKey, category, currentKey)"
             />
-            <label class="label" v-if="hasError">
+            <label v-if="hasError" class="label">
               <span class="label-text-alt text-error font-bold">{{ errorMessage }}</span>
             </label>
           </SettingItem>
 
-          <!-- キャラクター使用状況 -->
-          <div v-if="category === 'characters' && characterUsage" class="mt-4">
-            <div class="bg-primary text-primary-content p-4 rounded-lg">
-              <div class="flex items-start">
-                <span class="text-sm">
-                  <span class="font-bold">📊 このキャラクターの使用状況:</span>
-                  <ul class="list-disc list-inside mt-2 space-y-1">
-                    <li v-if="characterUsage.comments.length > 0">
-                      コメントイベント: <span class="font-bold">{{ characterUsage.comments.length }}箇所</span>
-                    </li>
-                    <li v-if="characterUsage.timers.length > 0">
-                      タイマーイベント: <span class="font-bold">{{ characterUsage.timers.length }}箇所</span>
-                    </li>
-                    <li v-if="characterUsage.services.length">
-                      配信数値イベント: <span class="font-bold">{{ characterUsage.services.length }}箇所</span>
-                    </li>
-                    <li v-if="characterUsage.comments.length === 0 && characterUsage.timers.length === 0">
-                      使用されていません
-                    </li>
-                  </ul>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- 警告メッセージ -->
-          <div
-            v-if="category === 'placeholders' || category === 'characters'"
-            class="bg-secondary text-secondary-content p-4 rounded-lg mt-4"
-          >
-            <div class="flex items-start">
-              <span class="text-2xl mr-3">⚠️</span>
-              <span class="text-sm">
-                <span class="font-bold">
-                  Keyを変更すると、この{{
-                    getItemTypeLabel(category)
-                  }}を参照している他の設定も影響を受ける可能性があります。
-                </span>
-                <span v-if="category === 'characters'" class="block mt-2">
-                  キャラクターの場合、イベント系の投稿アクションも自動的に更新されます。
-                </span>
-              </span>
-            </div>
-          </div>
+          <KeyEditorUsage v-if="characterUsage" :usage="characterUsage" />
+          <KeyEditorWarning :category="dialogCategory" />
         </div>
 
-        <ModalFooterActions
-          :on-cancel="closeDialog"
-          :on-save="() => saveKey(currentKey, category)"
-          :disabled="hasError || !newKey.trim() || newKey === currentKey"
-        />
-      </div></div
-  ></Teleport>
+        <ModalFooterActions :on-cancel="closeDialog" :on-save="saveKey" :disabled="!canSave" />
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
   import { AssetCategoryType } from '@/types/OmikujiData'
   import { useKeyEditor } from './composables/useKeyEditor'
+  import KeyEditorUsage from './KeyEditorUsage.vue'
+  import KeyEditorWarning from './KeyEditorWarning.vue'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
 
@@ -103,17 +59,19 @@
     currentKey: string
   }>()
 
+  // props と名前が衝突するので、ダイアログ側の状態は別名で受ける
   const {
     isDialogOpen,
+    currentKey: dialogKey,
+    currentCategory: dialogCategory,
     newKey,
     errorMessage,
     characterUsage,
     hasError,
+    canSave,
     dialogTitle,
-    validateKey,
     openDialog,
     closeDialog,
     saveKey,
-    getItemTypeLabel,
   } = useKeyEditor()
 </script>

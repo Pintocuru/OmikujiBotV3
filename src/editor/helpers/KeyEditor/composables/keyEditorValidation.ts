@@ -1,41 +1,34 @@
 // src/editor/helpers/KeyEditor/composables/keyEditorValidation.ts
-import { RecordCategoryType } from '@/types'
+import i18n from '@/editor/i18n'
+
+const t = (key: string) => i18n.global.t(key)
 
 /**
  * Keyの基本フォーマットバリデーション
  */
 export function validateKeyFormat(key: string): string | null {
   const trimmedKey = key.trim()
-
-  if (!trimmedKey) return 'Keyを入力してください'
-  if (!/^[a-zA-Z0-9_-]+$/.test(trimmedKey)) {
-    return 'Keyは英数字、アンダースコア(_)、ハイフン(-)のみ使用可能です'
-  }
-
+  if (!trimmedKey) return t('keyEditor.validation.required')
+  if (!/^[a-zA-Z0-9_-]+$/.test(trimmedKey)) return t('keyEditor.validation.format')
   return null
 }
 
 /**
- * Key重複チェック
+ * Key重複チェック（existingKeys は同カテゴリの全 Key。自分自身は currentKey で除外）
  */
-export function validateKeyDuplication(key: string, category: RecordCategoryType, currentKey: string): string | null {
+export function validateKeyDuplication(
+  key: string,
+  existingKeys: readonly string[],
+  currentKey: string
+): string | null {
   if (key === currentKey) return null
-  const { getCategoryMap } = useGetRecordData()
-  const keys = Object.keys(getCategoryMap(category)).filter((key) => key !== currentKey)
-  return keys.includes(key) ? 'このKeyは既に使用されています' : null
+  return existingKeys.includes(key) ? t('keyEditor.validation.duplicate') : null
 }
 
 /**
  * 統合Keyバリデーション
  */
-export function validateKey(key: string, category: RecordCategoryType, currentKey: string): string {
+export function validateKey(key: string, existingKeys: readonly string[], currentKey: string): string {
   const trimmedKey = key.trim()
-
-  const formatError = validateKeyFormat(trimmedKey)
-  if (formatError) return formatError
-
-  const duplicateError = validateKeyDuplication(trimmedKey, category, currentKey)
-  if (duplicateError) return duplicateError
-
-  return ''
+  return validateKeyFormat(trimmedKey) ?? validateKeyDuplication(trimmedKey, existingKeys, currentKey) ?? ''
 }

@@ -19,12 +19,12 @@ export const FlagsUsageSchema = z.object({
   events: z.object({
     comments: z.boolean().default(true).catch(true),
     timers: z.boolean().default(true).catch(true),
-    metas: z.boolean().default(true).catch(true),
+    services: z.boolean().default(true).catch(true),
     reactions: z.boolean().default(true).catch(true),
   }),
   assets: z.object({
-    box: z.boolean().default(true).catch(true),
-    actionSets: z.boolean().default(true).catch(true),
+    mikuji: z.boolean().default(true).catch(true),
+    actions: z.boolean().default(true).catch(true),
     placeholders: z.boolean().default(true).catch(true),
     characters: z.boolean().default(true).catch(true),
   }),

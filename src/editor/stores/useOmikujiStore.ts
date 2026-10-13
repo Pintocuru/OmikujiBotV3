@@ -6,11 +6,11 @@ import { useDataIO } from './composables/useDataIO'
 import { useDataMerge } from './composables/useDataMerge'
 import { useAssetCRUD } from './composables/useAssetCRUD'
 import { useEventCRUD } from './composables/useEventCRUD'
-import { useRecordSort } from './composables/useRecordSort'
 import { useSettingsOperations } from './composables/useSettingsOperations'
 import { DataSource } from '@/editor/types'
 import { useEventProperties } from './composables/useEventProperties'
 import { useAssetProperties } from './composables/useAssetProperties'
+import { useEventSort } from './composables/useEventSort'
 
 /**
  * おみくじデータの中心的なstore
@@ -38,7 +38,7 @@ export const useOmikujiStore = defineStore('omikuji', () => {
   const assetProperties = useAssetProperties(data, assetCRUD)
 
   // 並び替え
-  const recordSort = useRecordSort(data, hasChanged)
+  const eventSort = useEventSort(data, hasChanged)
 
   // 設定操作
   const settingsOps = useSettingsOperations(data, hasChanged)
@@ -63,7 +63,7 @@ export const useOmikujiStore = defineStore('omikuji', () => {
     ...assetProperties,
 
     // その他
-    ...recordSort,
+    ...eventSort,
     ...settingsOps,
   }
 })

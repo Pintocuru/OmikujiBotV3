@@ -7,28 +7,28 @@
         <button
           class="btn btn-xs btn-warning truncate"
           :class="!hasChanged ? 'btn-soft' : ''"
-          data-tip="ファイルを保存"
+          :data-tip="t('navigation.saveFileTip')"
           :disabled="!hasChanged || !saveFileName"
           @click="devStore.overwriteConfig(saveFileName)"
         >
           <Save class="w-4 h-4" />
-          {{ saveFileName.replace('.json', '') }} の保存
+          {{ t('navigation.saveFile', { name: saveFileName.replace('.json', '') }) }}
         </button>
       </template>
     </template>
 
     <!-- 通常モード -->
     <template v-else>
-      <span v-if="hasChanged" class="indicator-item badge badge-secondary badge-sm"> 変更あり </span>
+      <span v-if="hasChanged" class="indicator-item badge badge-secondary badge-sm"> {{ t('navigation.hasChanged') }} </span>
       <button
         @click="exportFile('config')"
         class="btn btn-primary tooltip tooltip-top truncate"
         :class="!hasChanged ? 'btn-soft' : ''"
-        data-tip="設定ファイルを出力します。保存する場合は必ずこのボタンを押してください。"
+        :data-tip="t('navigation.exportConfigTip')"
         :disabled="isExporting"
       >
         <span v-if="isExporting" class="loading loading-spinner loading-sm mr-2"></span>
-        設定を出力(js)
+        {{ t('navigation.exportConfig') }}
       </button>
     </template>
   </div>
@@ -36,11 +36,14 @@
 
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
+  import { useI18n } from 'vue-i18n'
   import { isDev } from '@/types'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useConfigExport } from '@/editor/helpers/presetsExport/useConfigExport'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
   import { Save } from 'lucide-vue-next'
+
+  const { t } = useI18n()
 
   // store
   const omikujiStore = useOmikujiStore()

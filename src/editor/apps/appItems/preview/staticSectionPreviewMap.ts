@@ -26,7 +26,7 @@ export const staticSectionPreviewMap: Record<string, Component> = {
   // ── timers ─────────────────────────────────────────────
   timerInterval: TimerIntervalPreview,
 
-  // ── metas / reactions ──────────────────────────────────
+  // ── services / reactions ──────────────────────────────────
   // SidebarSectionList 側で :mode="category" を渡すこと
   trigger: TriggerPreview,
 

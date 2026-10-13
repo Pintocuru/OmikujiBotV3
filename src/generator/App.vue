@@ -33,7 +33,7 @@
   import { useAppInitializer } from '@/generator/composables/useAppInitializer'
   import { useRuleProcessor } from '@/generator/composables/useRuleProcessor'
   import { useAppStore } from '@/generator/stores/useAppStore'
-  import ReactionDebugPanel from '@main/ui/_debug/ReactionDebugPanel.vue'
+  import ReactionDebugPanel from '@/generator/ui/_debug/ReactionDebugPanel.vue'
   import ErrorInfo from '@/common/ErrorInfo/ErrorInfo.vue'
   import ConnectionStatusIndicator from '@/common/ErrorInfo/ConnectionStatusIndicator.vue'
   import { COMPONENT_MAP_LOADER } from './ui/ComponentMaps'

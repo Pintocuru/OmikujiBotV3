@@ -4,6 +4,7 @@ import { CategoryType, SettingsCategoryType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useComponentsSections, getSidebarSections } from './useSidebarSectionMap'
 import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap'
+import i18n from '@/editor/i18n'
 
 // ─────────────────────────────────────────────────────────
 // 定数
@@ -37,10 +38,10 @@ export const useSidebarSubItems = () => {
     if (category === 'jsonMerge') {
       return data.value.jsonMerge.map((item) => ({
         key: item.key,
-        label: item.name || '（名前なし）',
+        label: item.name || i18n.global.t('navigation.unnamed'),
       }))
     }
-    if (category === 'appInfo') return [{ key: 'general', label: 'アプリ情報' }]
+    if (category === 'appInfo') return [{ key: 'general', label: i18n.global.t('navigation.appInfo') }]
     return []
   }
 

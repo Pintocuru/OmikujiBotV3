@@ -9,11 +9,11 @@
           selectedCategory === key ? 'bg-primary text-primary-content hover:bg-primary' : 'btn-ghost',
           isExpanded ? 'justify-start px-3' : 'justify-center px-0',
         ]"
-        :title="`${tab.label}：${tab.description}`"
+        :title="`${t(`categories.${key}.label`)}：${t(`categories.${key}.description`)}`"
         @click="navigateCategory(key)"
       >
         <component :is="resolveLucideIcon(tab.icon)" class="w-5 h-5 shrink-0" />
-        <span v-if="isExpanded" class="text-sm truncate text-left flex-1">{{ tab.label }}</span>
+        <span v-if="isExpanded" class="text-sm truncate text-left flex-1">{{ t(`categories.${key}.label`) }}</span>
         <span
           v-if="getCategoryItemCount(key) > 0"
           class="badge badge-xs badge-primary shrink-0"
@@ -56,6 +56,7 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
+  import { useI18n } from 'vue-i18n'
   import { CategoryType } from '@/types/OmikujiData/'
   import { useCategoryUtils } from './useCategoryUtils'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
@@ -66,6 +67,8 @@
   import SidebarArrayItems from './SidebarArrayItems.vue'
   import SidebarObjectItems from './SidebarObjectItems.vue'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     isExpanded: boolean

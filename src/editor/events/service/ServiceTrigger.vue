@@ -69,7 +69,8 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { serviceTriggerConditionMap, ServiceTriggerCondition, ServiceTriggerType } from '@/types'
+  import { ServiceTriggerCondition, ServiceTriggerType } from '@/types/OmikujiData'
+  import { serviceTriggerConditionMap } from '@/maps/OmikujiData'
   import TriggerMetaCondition from './ServiceTriggerCondition.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
@@ -90,7 +91,7 @@
       set: (value) => {
         if (!props.selectedItemKey) return
         const updated = { ...props.modelValue, [key]: value }
-        updateEventProperty('metas', props.selectedItemKey, 'trigger', updated)
+        updateEventProperty('services', props.selectedItemKey, 'trigger', updated)
       },
     })
 

@@ -1,11 +1,13 @@
 // src/editor/apps/appItems/navigation/useNavigationSidebarDrag.ts
 import { Ref, ref, watch, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
-import { CategoryType, RecordCategoryType } from '@/types/OmikujiData/'
-import { BaseRecordType } from '@shared/types'
+import { CategoryType } from '@/types/OmikujiData/'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+import { useGetEventData } from '@/editor/stores/useGetEventData'
+import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+import i18n from '@/editor/i18n'
+import { BaseRecordType } from '@/types/core'
 
 export type DraggableSubItem = {
   key: string
@@ -16,56 +18,69 @@ export type DraggableSubItem = {
 
 export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => {
   const navigationStore = useNavigationStore()
-  const { isDataCategory: isRecordCategory } = navigationStore
   const { selectedCategory } = storeToRefs(navigationStore)
-  const { getCategoryArray } = useGetRecordData()
+  const { getEvents, isEventCategory } = useGetEventData()
+  const { getAssets, isAssetCategory } = useGetAssetData()
   const omikujiStore = useOmikujiStore()
 
   const draggableItems = ref<Record<CategoryType, DraggableSubItem[]>>({} as Record<CategoryType, DraggableSubItem[]>)
   const isDragDisabled = ref(false)
 
-  const buildDraggableItems = (category: RecordCategoryType): DraggableSubItem[] =>
-    getCategoryArray(category).map((item) => ({
-      key: item.key,
-      label: item.name || '（名前なし）',
-      isEnabled: item.isEnabled,
-      rawItem: item as BaseRecordType,
-    }))
+  // 戻り値型を明示して ts(2589) を止める。引数は最小の構造型にする
+  const toDraggable = (key: string, item: BaseRecordType): DraggableSubItem => ({
+    key,
+    label: item.name || i18n.global.t('navigation.unnamed'),
+    isEnabled: item.isEnabled,
+    rawItem: item,
+  })
+
+  const buildDraggableItems = (category: CategoryType): DraggableSubItem[] => {
+    if (isEventCategory(category)) {
+      return getEvents(category).map((item) => toDraggable(item.id, item))
+    }
+    if (isAssetCategory(category)) {
+      // assets は並び順を持たないので、Object.values の順のまま
+      return Object.values(getAssets(category)).map((item) => toDraggable(item.key, item))
+    }
+    return []
+  }
 
   // カテゴリ切り替え・展開時に配列を再構築
   watch(
     [selectedCategory, isExpanded],
     ([cat, expanded]) => {
-      // TODO:isRecordCategory の廃止
-      if (!expanded || !isRecordCategory(cat)) return
+      if (!expanded) return
+      if (!isEventCategory(cat) && !isAssetCategory(cat)) return
       draggableItems.value[cat] = buildDraggableItems(cat)
     },
     { immediate: true }
   )
 
-  // ストアのデータ変更（追加・削除・名前変更）に追従
+  // ストアのデータ変更（追加・削除・名前変更・並び替え）に追従
   watch(
     () => {
       const cat = selectedCategory.value
-      // TODO:isRecordCategory の廃止
-      if (!isRecordCategory(cat)) return null
-      return getCategoryArray(cat)
+      if (isEventCategory(cat)) return getEvents(cat)
+      if (isAssetCategory(cat)) return getAssets(cat)
+      return null
     },
     () => {
       const cat = selectedCategory.value
-      // TODO:isRecordCategory の廃止
-      if (!isRecordCategory(cat)) return
+      if (!isEventCategory(cat) && !isAssetCategory(cat)) return
       draggableItems.value[cat] = buildDraggableItems(cat)
     },
     { deep: true }
   )
 
-  const onDragEnd = async (category: RecordCategoryType) => {
+  // 並び替えは events のみ
+  const onDragEnd = async (category: CategoryType) => {
+    if (!isEventCategory(category)) return
+
     const orderedKeys = (draggableItems.value[category] ?? []).map((i) => i?.key).filter((k): k is string => !!k)
     if (orderedKeys.length === 0) return
 
     await nextTick()
-    omikujiStore.reorderItems(category, orderedKeys)
+    omikujiStore.reorderEvents(category, orderedKeys)
   }
 
   return { draggableItems, onDragEnd, isDragDisabled }

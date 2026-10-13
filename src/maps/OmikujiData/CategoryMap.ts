@@ -1,9 +1,9 @@
 // src/maps/OmikujiData/CategoryMap.ts
-import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import { CategoryType } from '@/types/OmikujiData'
+import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
 
 // Map定義 (Lucide Icon名を含む)
-export const categoryMap: Record<CategoryType, { label: string; description: string; icon: LucideIconName }> = {
+export const categoryMap: Record<CategoryType, DisplayMetaLucide> = {
   jsonMerge: {
     label: 'JSONマージ(Dev)',
     description: 'ビルド時、jsonファイルをマージして出力します',
@@ -29,7 +29,7 @@ export const categoryMap: Record<CategoryType, { label: string; description: str
     description: '視聴者のリアクション（❤ 😄 🎉 😳 💯）でおみくじを発動します',
     icon: 'Smile',
   },
-  box: {
+  mikuji: {
     label: 'みくじ箱',
     description: 'おみくじの内容を作成します',
     icon: 'Package',

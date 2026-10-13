@@ -13,7 +13,7 @@
       <li>
         <button class="flex items-center gap-2 text-xs" @click="handleToggle">
           <component :is="item.isEnabled === false ? Eye : EyeOff" class="w-3 h-3" />
-          {{ item.isEnabled === false ? '有効にする' : '無効にする' }}
+          {{ item.isEnabled === false ? t('navigation.menu.enable') : t('navigation.menu.disable') }}
         </button>
       </li>
 
@@ -21,7 +21,7 @@
       <li>
         <button class="flex items-center gap-2 text-xs" @click="handleDuplicate">
           <Copy class="w-3 h-3" />
-          複製
+          {{ t('navigation.menu.duplicate') }}
         </button>
       </li>
 
@@ -29,7 +29,7 @@
       <li>
         <button class="flex items-center gap-2 text-xs" @click="handleCopyJson">
           <ClipboardCopy class="w-3 h-3" />
-          JSONコピー
+          {{ t('navigation.menu.copyJson') }}
         </button>
       </li>
 
@@ -37,7 +37,7 @@
       <li>
         <button class="flex items-center gap-2 text-xs" @click="handlePasteJson">
           <ClipboardPaste class="w-3 h-3" />
-          JSON貼り付け
+          {{ t('navigation.menu.pasteJson') }}
         </button>
       </li>
 
@@ -50,7 +50,7 @@
           @click="handleDelete"
         >
           <Trash2 class="w-3 h-3" />
-          削除
+          {{ t('navigation.menu.delete') }}
         </button>
       </li>
     </ul>
@@ -58,6 +58,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { BaseRecordType } from '@/types/core'
   import {
     eventCategory,
@@ -73,6 +74,8 @@
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { Eye, EyeOff, Copy, Trash2, MoreHorizontal, ClipboardCopy, ClipboardPaste } from 'lucide-vue-next'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     item: BaseRecordType
@@ -102,7 +105,7 @@
       })
     }
 
-    swalToast.success({ title: '有効・無効を更新しました' })
+    swalToast.success({ title: t('navigation.menu.toggleSuccess') })
     close()
   }
 
@@ -113,16 +116,16 @@
       omikujiStore.duplicateAsset(props.category, props.item.key)
     }
 
-    swalToast.success({ title: '項目を複製しました' })
+    swalToast.success({ title: t('navigation.menu.duplicateSuccess') })
     close()
   }
 
   const handleCopyJson = async () => {
     try {
       await navigator.clipboard.writeText(JSON.stringify(props.item, null, 2))
-      swalToast.success({ title: 'JSONをクリップボードにコピーしました' })
+      swalToast.success({ title: t('navigation.menu.copySuccess') })
     } catch {
-      swalToast.error({ title: 'コピーに失敗しました' })
+      swalToast.error({ title: t('navigation.menu.copyError') })
     }
     close()
   }
@@ -141,7 +144,7 @@
     try {
       text = await navigator.clipboard.readText()
     } catch {
-      swalToast.error({ title: 'クリップボードの読み取りに失敗しました' })
+      swalToast.error({ title: t('navigation.menu.pasteReadError') })
       return
     }
 
@@ -150,11 +153,11 @@
     try {
       parsed = JSON.parse(text)
     } catch {
-      swalToast.error({ title: 'クリップボードの内容が正しいJSON形式ではありません' })
+      swalToast.error({ title: t('navigation.menu.pasteInvalidJson') })
       return
     }
     if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
-      swalToast.error({ title: 'クリップボードの内容が項目のJSONではありません' })
+      swalToast.error({ title: t('navigation.menu.pasteNotObject') })
       return
     }
 
@@ -169,18 +172,18 @@
 
     if (!isSame && !isCrossEvent) {
       swalToast.error({
-        title: 'カテゴリが異なるため貼り付けできません',
-        text: `コピー元: ${source} → 貼り付け先: ${target}`,
+        title: t('navigation.menu.pasteDiffCategory'),
+        text: t('navigation.menu.pasteDiffCategoryText', { source, target }),
       })
       return
     }
 
     if (isCrossEvent) {
       const result = await swalModal.confirmDelete({
-        title: 'カテゴリが異なります',
-        text: `「${source}」のデータを「${target}」として貼り付けます。\nトリガーなど一部の設定はリセットされますが、おみくじ設定は引き継がれます。よろしいですか？`,
+        title: t('navigation.menu.pasteCrossConfirmTitle'),
+        text: t('navigation.menu.pasteCrossConfirmText', { source, target }),
         icon: 'warning',
-        confirmButtonText: '貼り付け',
+        confirmButtonText: t('navigation.menu.pasteConfirmButton'),
       })
       if (!result.isConfirmed) return
     }
@@ -190,7 +193,7 @@
       const result = EventCategorySchemaMap[target].safeParse(rest)
       if (!result.success) {
         console.warn('[PasteJson] validation failed', result.error.issues)
-        swalToast.error({ title: 'データの検証に失敗しました' })
+        swalToast.error({ title: t('navigation.menu.pasteValidateError') })
         return
       }
       omikujiStore.addEvent(target, result.data)
@@ -198,23 +201,25 @@
       const result = AssetCategorySchemaMap[target].safeParse(rest)
       if (!result.success) {
         console.warn('[PasteJson] validation failed', result.error.issues)
-        swalToast.error({ title: 'データの検証に失敗しました' })
+        swalToast.error({ title: t('navigation.menu.pasteValidateError') })
         return
       }
       omikujiStore.addAsset(target, result.data)
     }
 
     swalToast.success({
-      title: isCrossEvent ? `「${source}」から変換して貼り付けました` : 'JSONを貼り付けました',
+      title: isCrossEvent
+        ? t('navigation.menu.pasteCrossSuccess', { source })
+        : t('navigation.menu.pasteSuccess'),
     })
   }
 
   const handleDelete = async () => {
     close()
 
-    const name = props.item.name || '名前未設定'
+    const name = props.item.name || t('navigation.unnamed')
     const result = await swalModal.confirmDelete({
-      title: `「${name}」を削除しますか？`,
+      title: t('navigation.menu.deleteConfirmTitle', { name }),
     })
     if (!result.isConfirmed) return
 
@@ -226,6 +231,6 @@
       omikujiStore.removeAsset(props.category, props.item.key)
     }
 
-    swalToast.success({ title: `「${name}」を削除しました` })
+    swalToast.success({ title: t('navigation.menu.deleteSuccess', { name }) })
   }
 </script>

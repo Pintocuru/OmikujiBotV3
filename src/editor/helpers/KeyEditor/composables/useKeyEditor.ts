@@ -1,99 +1,92 @@
 // src/editor/helpers/KeyEditor/composables/useKeyEditor.ts
-import { ref, computed, readonly } from 'vue'
-import { categoryMap, RecordCategoryType, eventCategory } from '@/types'
+import { ref, computed, readonly, watch } from 'vue'
 import { validateKey as validateKeyUtil } from './keyEditorValidation'
 import { updateStrategies } from './keyUpdateStrategies'
 import { CharacterUsage, UpdateResult } from './keyEditorTypes'
+import { categoryMap } from '@/maps/OmikujiData'
+import { eventCategory, AssetCategoryType } from '@/types/OmikujiData'
+import { useGetEventData } from '@/editor/stores/useGetEventData'
+import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+import i18n from '@/editor/i18n'
+
+const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 
 export function useKeyEditor() {
-  // リアクティブ状態
+  const { getEvents } = useGetEventData()
+  const { getAsset, getAssets } = useGetAssetData()
+
+  // ダイアログの状態
   const isDialogOpen = ref(false)
+  const currentCategory = ref<AssetCategoryType>('mikuji')
+  const currentKey = ref('') // 編集前の Key
   const newKey = ref('')
   const errorMessage = ref('')
   const characterUsage = ref<CharacterUsage | null>(null)
 
   const hasError = computed(() => errorMessage.value !== '')
-  const dialogTitle = computed(() => categoryMap[currentCategory.value].label || '')
+  const dialogTitle = computed(() => t('keyEditor.title', { category: categoryMap[currentCategory.value].label }))
+  const canSave = computed(
+    () => !hasError.value && newKey.value.trim() !== '' && newKey.value.trim() !== currentKey.value
+  )
 
-  // 現在のカテゴリ（ダイアログで使用）
-  const currentCategory = ref<RecordCategoryType>('comments')
+  // 入力に追従して検証（ダイアログを閉じるときのリセットでは動かさない）
+  watch(newKey, (key) => {
+    if (!isDialogOpen.value) return
+    errorMessage.value = validateKeyUtil(key, Object.keys(getAssets(currentCategory.value)), currentKey.value)
+  })
 
   /**
    * キャラクター使用箇所の取得
+   * event → omikujiKey → mikuji → postFlow の message を辿る
    */
   function getCharacterUsage(characterKey: string): CharacterUsage {
-    const usage: CharacterUsage = { comments: [], timers: [], metas: [], reactions: [] }
-    const { getCategoryMap } = useGetRecordData()
+    const usage: CharacterUsage = { comments: [], timers: [], services: [], reactions: [] }
 
     eventCategory.forEach((category) => {
-      const categoryData = getCategoryMap(category)
+      getEvents(category).forEach((event) => {
+        const box = getAsset('mikuji', event.omikujiKey)
+        if (!box) return
 
-      Object.entries(categoryData).forEach(([ruleKey, rule]) => {
-        const hasUsage = rule.omikuji.some((omikujiSet) =>
-          omikujiSet.postActions.some((action) => {
-            if (action.actionType !== 'message') return false
-            return action.characterKey === characterKey
-          })
+        const hasUsage = box.omikuji.some(
+          (item) =>
+            item.kind === 'postFlow' &&
+            item.postFlows.some(
+              (flow) => (flow.kind === 'message' || flow.kind === 'gameScript') && flow.characterKey === characterKey
+            )
         )
 
-        if (hasUsage) {
-          usage[category].push(ruleKey)
-        }
+        if (hasUsage) usage[category].push(event.id)
       })
     })
 
     return usage
   }
 
-  /**
-   * Key更新の実行
-   */
-  function executeKeyUpdate(currentKey: string, newKey: string, category: RecordCategoryType): UpdateResult {
-    const trimmedNewKey = newKey.trim()
+  function executeKeyUpdate(oldKey: string, rawNewKey: string, category: AssetCategoryType): UpdateResult {
+    const trimmedNewKey = rawNewKey.trim()
     const strategy = updateStrategies[category]
 
-    if (!strategy) {
-      return { success: false, error: 'サポートされていないカテゴリです' }
-    }
+    if (!strategy) return { success: false, error: t('keyEditor.errors.unsupported') }
 
     try {
-      const success = strategy.updateKey(currentKey, trimmedNewKey)
-
-      if (success && strategy.updateReferences) {
-        strategy.updateReferences(currentKey, trimmedNewKey)
-      }
-
-      return success ? { success: true } : { success: false, error: 'Key更新に失敗しました' }
+      const success = strategy.updateKey(oldKey, trimmedNewKey)
+      if (success) strategy.updateReferences?.(oldKey, trimmedNewKey)
+      return success ? { success: true } : { success: false, error: t('keyEditor.errors.failed') }
     } catch (error) {
       console.error('Key更新エラー:', error)
-      return { success: false, error: 'Key更新中にエラーが発生しました' }
+      return { success: false, error: t('keyEditor.errors.exception') }
     }
   }
 
-  /**
-   * Keyバリデーション（エラーメッセージをセット）
-   */
-  function validateKey(key: string, category: RecordCategoryType, currentKey: string): void {
-    errorMessage.value = validateKeyUtil(key, category, currentKey)
-  }
-
-  /**
-   * ダイアログを開く
-   */
-  function openDialog(currentKey: string, category: RecordCategoryType): void {
-    newKey.value = currentKey
-    errorMessage.value = ''
+  function openDialog(key: string, category: AssetCategoryType): void {
     currentCategory.value = category
+    currentKey.value = key
+    newKey.value = key
+    errorMessage.value = ''
+    characterUsage.value = category === 'characters' ? getCharacterUsage(key) : null
     isDialogOpen.value = true
-
-    if (category === 'characters') {
-      characterUsage.value = getCharacterUsage(currentKey)
-    }
   }
 
-  /**
-   * ダイアログを閉じる
-   */
   function closeDialog(): void {
     isDialogOpen.value = false
     newKey.value = ''
@@ -101,47 +94,31 @@ export function useKeyEditor() {
     characterUsage.value = null
   }
 
-  /**
-   * Keyを保存
-   */
-  function saveKey(currentKey: string, category: RecordCategoryType): boolean {
-    if (hasError.value || !newKey.value.trim() || newKey.value === currentKey) {
-      return false
-    }
+  function saveKey(): boolean {
+    if (!canSave.value) return false
 
-    const result = executeKeyUpdate(currentKey, newKey.value, category)
+    const result = executeKeyUpdate(currentKey.value, newKey.value, currentCategory.value)
 
     if (result.success) {
       closeDialog()
       return true
-    } else {
-      errorMessage.value = result.error || 'Key更新に失敗しました'
-      return false
     }
+    errorMessage.value = result.error || t('keyEditor.errors.failed')
+    return false
   }
 
-  /**
-   * アイテムタイプラベルを取得
-   */
-  function getItemTypeLabel(category: RecordCategoryType): string {
-    return categoryMap[category].label
-  }
-
-  // 公開API
   return {
-    // リアクティブ状態
     isDialogOpen: readonly(isDialogOpen),
+    currentCategory: readonly(currentCategory),
+    currentKey: readonly(currentKey),
     newKey,
     errorMessage: readonly(errorMessage),
     characterUsage: readonly(characterUsage),
     hasError,
+    canSave,
     dialogTitle,
-
-    // メソッド
-    validateKey,
     openDialog,
     closeDialog,
     saveKey,
-    getItemTypeLabel,
   }
 }

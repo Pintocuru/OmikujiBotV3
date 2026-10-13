@@ -15,11 +15,11 @@
       v-if="isDev || isServerConnected"
       class="btn btn-ghost w-full flex items-center gap-2 min-h-0 h-auto py-2 mx-2"
       :class="isExpanded ? 'justify-start px-3' : 'justify-center px-0'"
-      title="プリセット管理"
+      :title="t('navigation.presetManager')"
       @click="openPresetManager"
     >
       <FolderCog class="w-5 h-5 shrink-0" />
-      <span v-if="isExpanded" class="text-sm truncate text-left flex-1">プリセット管理</span>
+      <span v-if="isExpanded" class="text-sm truncate text-left flex-1">{{ t('navigation.presetManager') }}</span>
     </button>
 
     <!-- 各種カテゴリ -->
@@ -33,12 +33,15 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { storeToRefs } from 'pinia'
+  import { useI18n } from 'vue-i18n'
   import { isDev } from '@/types'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
   import NavigationSidebarCategories from './NavigationSidebarCategories.vue'
   import NavigationSidebarFooter from './NavigationSidebarFooter.vue'
   import { PanelLeftClose, PanelLeftOpen, FolderCog } from 'lucide-vue-next'
+
+  const { t } = useI18n()
 
   // ストア
   const navigationStore = useNavigationStore()

@@ -1,8 +1,8 @@
 // src/generator/stores/MetaState/MetaStateService.ts
-import { ServiceMetaWatcher } from '@shared/sdk/subscribe/GetMetas'
+import { postSystemMessage } from '@/sdk/post/PostOneComme'
+import { ServiceMetaWatcher } from '@/sdk/subscribe/GetMetas'
+import { isDev } from '@/types/env'
 import { ServiceMeta } from '@onecomme.com/onesdk/types/Service'
-import { postSystemMessage } from '@shared/sdk/post/PostOneComme'
-import { isDev } from '@/types'
 
 export interface ServiceMetaStoreType {
   subscribe(fn: (meta: MetaUpdateEvent) => void): () => void
@@ -52,9 +52,14 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
       return
     }
 
-    const metas = ServiceMetaWatcher.getInstance()
-    const result = await metas.fetchMeta((raw) => {
+    // TODO:meats って何
+    const meats = ServiceMetaWatcher.getInstance()
+    const result = await meats.fetchMeta((raw) => {
       try {
+        /**
+         * 型 'ServiceMeta[]' の引数を型 'NormalizedMeta | ServiceMeta | null' のパラメーターに割り当てることはできません。ts(2345)
+(parameter) raw: ServiceMeta[]
+         */
         this.handleMeta(raw)
         if (this.status === 'loading') this.setStatus('ready')
       } catch (e) {

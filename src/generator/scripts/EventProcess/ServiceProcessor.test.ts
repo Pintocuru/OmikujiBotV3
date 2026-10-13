@@ -85,7 +85,7 @@ describe('MetaRuleProcessor — executeOmikuji が呼ばれないケース', () 
     mockExecuteOmikuji.mockReturnValue([]) // clearAllMocks で戻り値もリセットされるので再設定
   })
 
-  it('metas が空オブジェクトのとき executeOmikuji は呼ばれない', () => {
+  it('services が空オブジェクトのとき executeOmikuji は呼ばれない', () => {
     const { mock, triggerSubscriber } = makeMetaStateMock()
     const processor = new MetaRuleProcessor({}, mock)
     processor.startMetaRules(vi.fn())

@@ -42,10 +42,10 @@ export const TimerEventSchema = BaseEventSchema.extend({
 export type TimerEventType = z.infer<typeof TimerEventSchema>
 
 /**
- * Services(metas) スキーマ
+ * Services スキーマ
  */
 export const ServiceEventSchema = BaseEventSchema.extend({
-  kind: z.literal('metas').default('metas'),
+  kind: z.literal('services').default('services'),
   trigger: normalizedObject(ServiceTriggerSchema),
 })
 export type ServiceEventType = z.infer<typeof ServiceEventSchema>

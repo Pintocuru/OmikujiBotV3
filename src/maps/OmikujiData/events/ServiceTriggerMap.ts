@@ -1,4 +1,5 @@
 // src/maps/OmikujiData/events/ServiceTriggerMap.ts
+import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import { ServiceComparisonConditionType, ServiceTriggerCondition } from '@/types/OmikujiData'
 
 /**
@@ -44,7 +45,7 @@ export const serviceConditionMap: Record<ServiceComparisonConditionType, { label
  */
 export const serviceTriggerConditionMap: Record<
   ServiceTriggerCondition,
-  { label: string; description: string; icon: string }
+  { label: string; description: string; icon: LucideIconName }
 > = {
   upVote: {
     label: '👍高評価',
