@@ -1,12 +1,13 @@
 // src/editor/tools/MockUser/MockGenerators.ts
-import { ExtraListsSchema, GameRankingType } from '@/types'
-import { BotMessageExtraSchema, BotMessageExtraType } from '@/types/MainGenerator/BotMessageSchema'
+import { GameRankingType } from '@/types'
+import { ExtraListsSchema } from '@/generator/types'
+import { BotMessageExtraSchema, BotMessageExtraType } from '@/generator/types'
 import {
   UserStatsRecord,
   UserStatsRecordSchema,
   UserVisitRecord,
   UserVisitRecordSchema,
-} from '@/types/MainGenerator/UserVisits'
+} from '@/generator/types'
 import { LocaleType } from '@/types/OmikujiData/'
 import { RANKING_POINTS_RANGE, SUFFIX_PROBABILITY, USER_STATS_RANGES } from './MockConstants'
 import { MOCK_FAMILY_NAME_JA_LIST, MOCK_USER_GIVEN_JA_LIST } from './MockUserJaMaps'

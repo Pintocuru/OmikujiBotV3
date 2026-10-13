@@ -1,6 +1,8 @@
 // src/ui/CommentBubble/generator/composables/useCharacterEmotionState.ts
 import { ref, computed, watch, type Ref } from 'vue'
-import type { BotMessageBubbleType, BotMessageType, CharacterType } from '@/types'
+import type { CharacterType } from '@/types'
+import type { BotMessageBubbleType } from '@/generator/types'
+import { BotMessageType } from '@/generator/types'
 
 /**
  * キャラクターの感情状態（アイコン）を管理

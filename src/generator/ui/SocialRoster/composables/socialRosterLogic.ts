@@ -1,5 +1,6 @@
 // src/generator/ui/SocialRoster/composables/socialRosterLogic.ts
-import { UserStatsRecord, SocialSortKey } from '@/types'
+import { SocialSortKey } from '@/types'
+import { UserStatsRecord } from '@/generator/types'
 
 export function getSortValue(user: UserStatsRecord, key: SocialSortKey): number {
   if (key === 'isSyoken') return user.isSyoken ? 1 : 0

@@ -17,7 +17,7 @@ import { useSocialRosterManager } from "./composables/useSocialRosterManager";
 import { useAppStore } from "@/generator/stores/useAppStore";
 import { useVisibilityAccess } from "@/generator/scripts/FeatureAccess/useAccessCheckerMain";
 import SocialRosterSelector from "./parts/SocialRosterSelector.vue";
-import { generateDummyUserStats } from "@/common/MockUser/MockGenerators";
+import { generateDummyUserStats } from '@/editor/tools/MockUser/MockGenerators';
 import CenteringWrapper from '@/generator/ui/common/CenteringWrapper.vue';
 
 const appStore = useAppStore();

@@ -18,7 +18,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { GameRankingType } from '@/types/OmikujiData/'
-  import { BotMessageExtraType } from '@/types/MainGenerator/BotMessageSchema'
+  import { BotMessageExtraType } from '@/generator/types'
   import GameRankingScore from './RankStandard/GameRankingScore.vue'
   import GameRankingList from './RankStandard/GameRankingList.vue'
 

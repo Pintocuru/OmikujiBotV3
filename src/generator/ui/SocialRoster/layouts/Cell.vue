@@ -42,8 +42,9 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { UserStatsRecord, SocialSortKey } from '@/types'
-  import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
+  import { SocialSortKey } from '@/types'
+import { UserStatsRecord } from '@/generator/types'
+  import { getAvatarUrl } from '@/editor/tools/DiceBear/getAvatarUrl'
 
   const props = defineProps<{
     seat: UserStatsRecord

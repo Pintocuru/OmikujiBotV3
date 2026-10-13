@@ -1,6 +1,7 @@
 // src/games/scripts/GoogolClover/sub/resultBuilder.ts
 import { CURRENCY_SYMBOL, GOAL_EXPONENT } from './constants'
-import { BotMessageExtraSchema, BotMessageExtraType } from '@/types'
+import { BotMessageExtraSchema } from '@/generator/types'
+import { BotMessageExtraType } from '@/generator/types'
 import type { UserState, SlotExecutionResult } from './types'
 import type { GameExecutionResult } from './game'
 import { calculateScoreValue, formatScoreText, formatShort } from './utils'

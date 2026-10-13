@@ -1,6 +1,6 @@
 // src/generator/ui/FlashBanner/composables/useFlashBannerDisplay.ts
 import { computed, ref, type Ref } from 'vue'
-import { BotMessageBubbleType } from '@/types'
+import { BotMessageBubbleType } from '@/generator/types'
 
 interface UseFlashBannerDisplayOptions {
   displayedComments: Ref<BotMessageBubbleType[]>

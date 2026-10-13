@@ -21,7 +21,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import SeatCell from './SeatCell.vue'
-  import { UserStatsRecord, StatKeyNum } from '@/types'
+  import { StatKeyNum } from '@/types'
+import { UserStatsRecord } from '@/generator/types'
 
   const props = defineProps<{
     seats: (UserStatsRecord | null)[]

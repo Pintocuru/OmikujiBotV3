@@ -1,7 +1,7 @@
 // src/generator/ui/CommentSpin/composables/useCommentSpinMessages.ts
 import { computed, watch } from "vue";
 import type { ComputedRef } from "vue";
-import type { BotMessageBubbleType } from "@/types";
+import type { BotMessageBubbleType } from '@/generator/types'
 import { OmikujiProcessor } from "@/generator/scripts/OmikujiProcess/OmikujiProcessor";
 import { useAppStore } from "@/generator/stores/useAppStore";
 import { storeToRefs } from "pinia";

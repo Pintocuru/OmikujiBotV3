@@ -11,7 +11,8 @@
 <script setup lang="ts">
 import { computed, ComputedRef } from "vue";
 import { storeToRefs } from "pinia";
-import { BotMessageExtraType, GameRankingSchema } from "@/types";
+import { GameRankingSchema } from '@/types'
+import { BotMessageExtraType } from '@/generator/types'
 import { useAppStore } from "@/generator/stores/useAppStore.js";
 import GameRankingSelector from "./parts/GameRankingSelector.vue";
 import CenteringWrapper from '@/generator/ui/common/CenteringWrapper.vue';

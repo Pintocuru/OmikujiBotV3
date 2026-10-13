@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted } from "vue";
-import type { BotMessageBubbleType } from "@/types";
+import type { BotMessageBubbleType } from '@/generator/types'
 import CommentBubbleZero from "./CommentBubbleZero.vue";
 import CommentBubblePersistent from "./CommentBubblePersistent.vue";
 import { useCharacterSelection } from "./composables/useCharacterSelection.js";

@@ -1,6 +1,7 @@
 // src/generator/ui/CommentSpin/composables/useCommentSpinAnimation.ts
 import { ref, nextTick, Ref } from "vue";
-import type { BotMessageBubbleType, spinAnimation } from "@/types";
+import type { spinAnimation } from '@/types'
+import type { BotMessageBubbleType } from '@/generator/types'
 import { useCharacterManager } from "@/generator/scripts/CharacterManager/useCharacterManager";
 
 interface AnimationOptions {

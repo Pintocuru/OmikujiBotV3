@@ -57,11 +57,11 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { BotMessageExtraType } from '@/types/MainGenerator/BotMessageSchema'
-  import { generateDummyMessages } from '@/common/MockUser/MockGenerators'
+  import { BotMessageExtraType } from '@/generator/types'
+  import { generateDummyMessages } from '@/editor/tools/MockUser/MockGenerators'
   import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
   import { GameRankingType } from '@/types/OmikujiData'
-  import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
+  import { getAvatarUrl } from '@/editor/tools/DiceBear/getAvatarUrl'
 
   const props = defineProps<{
     listMessages: BotMessageExtraType[]

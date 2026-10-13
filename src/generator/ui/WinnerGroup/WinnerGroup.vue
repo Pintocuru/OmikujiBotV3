@@ -22,11 +22,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
-import {
-  BotMessageExtraType,
-  WinnerGroupSchema,
-  UserStatsRecord,
-} from "@/types";
+import { WinnerGroupSchema } from '@/types'
+import { BotMessageExtraType } from '@/generator/types'
+import { UserStatsRecord } from '@/generator/types';
 import WinnerGroupSelector from "./parts/WinnerGroupSelector.vue";
 import HistoryButton from "./components/HistoryButton.vue";
 import { useAppStore } from "@/generator/stores/useAppStore.js";

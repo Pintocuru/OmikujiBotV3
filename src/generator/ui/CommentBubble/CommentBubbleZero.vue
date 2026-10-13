@@ -41,7 +41,8 @@ import { useBotDisplay } from "./composables/useBotDisplay.js";
 import { useAppStore } from "@/generator/stores/useAppStore.js";
 import { useCharacterManager } from "@/generator/scripts/CharacterManager/useCharacterManager.js";
 import CharacterLayerImage from "@/common/LayerImage/CharacterLayerImage.vue";
-import { BotMessageBubbleType, CommentBubbleSchema } from "@/types";
+import { CommentBubbleSchema } from '@/types'
+import { BotMessageBubbleType } from '@/generator/types'
 
 const props = defineProps<{
   centerMessages: BotMessageBubbleType[];

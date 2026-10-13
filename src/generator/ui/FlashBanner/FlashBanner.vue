@@ -15,7 +15,8 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted } from "vue";
-import { BotMessageBubbleSchema, FlashBannerSchema } from "@/types";
+import { FlashBannerSchema } from '@/types'
+import { BotMessageBubbleSchema } from '@/generator/types'
 import FlashBannerSelector from "./parts/FlashBannerSelector.vue";
 import { useDelayedBlink } from "./composables/useDelayedBlink.js";
 import { useFlashBannerDisplay } from "./composables/useFlashBannerDisplay.js";

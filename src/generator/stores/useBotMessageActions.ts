@@ -1,6 +1,6 @@
 // src/generator/stores/useBotMessageActions.ts
 import { ref } from 'vue'
-import { type BotMessageType } from '@/types'
+import { type BotMessageType } from '@/generator/types'
 
 export const useBotMessageActions = () => {
   /**

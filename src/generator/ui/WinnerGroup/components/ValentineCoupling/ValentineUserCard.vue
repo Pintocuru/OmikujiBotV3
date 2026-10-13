@@ -37,7 +37,7 @@
   import { computed } from 'vue'
   import { UserVisitRecord } from '@/types/MainGenerator/'
   import { Heart } from 'lucide-vue-next'
-  import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
+  import { getAvatarUrl } from '@/editor/tools/DiceBear/getAvatarUrl'
 
   const props = defineProps<{
     user: UserVisitRecord

@@ -25,7 +25,8 @@
 <script setup lang="ts">
   import { computed, ref, useTemplateRef } from 'vue'
   import { useResizeObserver } from '@vueuse/core'
-  import { UserStatsRecord, SocialSortKey } from '@/types'
+  import { SocialSortKey } from '@/types'
+import { UserStatsRecord } from '@/generator/types'
   import Cell from './Cell.vue'
 
   const props = defineProps<{

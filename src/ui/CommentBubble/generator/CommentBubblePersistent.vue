@@ -28,7 +28,8 @@
   import { useCharacterEmotionState } from './composables/useCharacterEmotionState'
   import CommentDisplay from './CommentDisplay.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import { BotMessageBubbleType, CharacterType, CommentBubbleSchema } from '@/types'
+  import { CharacterType, CommentBubbleSchema } from '@/types'
+import { BotMessageBubbleType } from '@/generator/types'
 
   const props = defineProps<{
     character: CharacterType

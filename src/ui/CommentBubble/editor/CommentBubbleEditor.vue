@@ -99,7 +99,7 @@
   import SettingItem from '@config/components/parts/SettingItem.vue'
   import ColorModeSelector from '@config/components/common/ThemeColorPicker/ColorModeSelector.vue'
   import { useSettingMode, useVisibilityAccess } from '@config/scripts/useAccessCheckerConfig'
-  import { useCharacterManager } from '@config/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import InformationCard from '@shared/components/parts/InformationCard.vue'
   import { useCommonStyleUpdate } from '../CommonStyle/useCommonStyleUpdate'
   import { enterMotionMap } from '@/types/MetaMaps/enterMotionMaps'

@@ -1,6 +1,6 @@
 // src/generator/ui/CommentSpin/composables/usePopupVisibility.ts
 import { ref, watch } from 'vue'
-import type { BotMessageBubbleType } from '@/types'
+import type { BotMessageBubbleType } from '@/generator/types'
 
 const DISPLAY_DURATION_MS = 10_000
 

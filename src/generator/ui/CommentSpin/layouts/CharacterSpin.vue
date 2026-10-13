@@ -54,11 +54,8 @@
 </template>
 
 <script setup lang="ts">
-import type {
-  BotMessageBubbleType,
-  CommentSpinType,
-  spinAnimation,
-} from "@/types";
+import type { CommentSpinType, spinAnimation } from '@/types'
+import type { BotMessageBubbleType } from '@/generator/types';
 import type { DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme';
 import CharacterSlot from "./CharacterSlot.vue";
 import { useSpinSlot } from "./composables/useSpinSlot.js";

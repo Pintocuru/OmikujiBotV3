@@ -37,7 +37,8 @@
   import { useAppStore } from '@/generator/stores/useAppStore'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import CharacterLayerImage from '@/common/LayerImage/CharacterLayerImage.vue'
-  import { BotMessageBubbleType, CommentBubbleSchema } from '@/types'
+  import { CommentBubbleSchema } from '@/types'
+import { BotMessageBubbleType } from '@/generator/types'
 
   const props = defineProps<{
     centerMessages: BotMessageBubbleType[]

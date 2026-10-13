@@ -58,7 +58,8 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { UserStatsRecord, SocialSortKey, SocialRosterCounts } from '@/types'
+  import { SocialSortKey, SocialRosterCounts } from '@/types'
+import { UserStatsRecord } from '@/generator/types'
   import grid from './Grid.vue'
   import { DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme'
   import { Sprout, Users } from 'lucide-vue-next'

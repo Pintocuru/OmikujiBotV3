@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
   import { computed, type Component } from 'vue'
-  import type { BotMessageBubbleType } from '@/types'
+  import type { BotMessageBubbleType } from '@/generator/types'
   import type { CommentSpinType, spinComponent } from '@/types/OmikujiData/UiSettings/CommentSpinSchema'
   import Standard from '../layouts/Standard.vue'
   import CharacterSpin from '../layouts/CharacterSpin.vue'

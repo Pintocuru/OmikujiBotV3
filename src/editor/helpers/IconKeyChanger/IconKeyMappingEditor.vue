@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useCharacterManager } from '@/editor/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
 
   const props = defineProps<{
     invalidPairs: { characterKey: string; iconKey: string }[]

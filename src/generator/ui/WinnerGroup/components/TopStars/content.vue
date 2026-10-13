@@ -143,7 +143,7 @@
 </template>
 
 <script setup lang="ts">
-  import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
+  import { getAvatarUrl } from '@/editor/tools/DiceBear/getAvatarUrl'
   import { UserVisitRecord } from '@/types/MainGenerator/'
   import { Star, Crown, Trophy, Medal, Sparkles } from 'lucide-vue-next'
 

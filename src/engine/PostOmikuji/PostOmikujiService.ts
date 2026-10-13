@@ -7,7 +7,7 @@ import {
 } from "@/types";
 import { BOT_ICON } from "./BotIcon";
 import { ServiceMetaStore } from "@/generator/stores/MetaState/MetaStateService";
-import { CharacterManager } from "@/generator/scripts/CharacterManager/CharacterManager";
+import { CharacterManager } from '@/engine/CharacterManager/CharacterManager';
 import {
   postComment,
   postSpeech,
@@ -18,7 +18,7 @@ import { POST_SETTINGS } from "@shared/sdk/PostSettings";
 import { ServiceAPI } from "@shared/sdk/service/ServiceAPI";
 import { executeWordParty } from "@shared/sdk/post/PostWordParty";
 import { Service } from "@onecomme.com/onesdk/types/Service";
-import { generateDummyVisitRecords } from "@/common/MockUser/MockGenerators";
+import { generateDummyVisitRecords } from '@/editor/tools/MockUser/MockGenerators';
 
 const MAX_REPEAT_COUNT = 30;
 

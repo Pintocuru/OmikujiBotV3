@@ -51,7 +51,8 @@
 <script setup lang="ts">
   import { ref, onMounted, onUnmounted } from 'vue'
   import { useRafFn, useElementSize } from '@vueuse/core'
-  import { UserStatsRecord, StatKeyNum } from '@/types'
+  import { StatKeyNum } from '@/types'
+import { UserStatsRecord } from '@/generator/types'
   import SeatCell from './SeatCell.vue'
   import { DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme'
 

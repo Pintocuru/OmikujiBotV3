@@ -79,7 +79,7 @@
   import { useCharacterStats } from './useCharacterStats.js'
   import { useModalState } from './useModalState.js'
   import { useCharacterUpdater } from './useCharacterUpdater.js'
-  import { useCharacterManager } from '@/editor/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
   import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { Users } from 'lucide-vue-next'

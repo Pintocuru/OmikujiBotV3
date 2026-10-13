@@ -48,7 +48,7 @@
 <script setup lang="ts">
   import { computed, watch, ref } from 'vue'
   import { GameRankingType } from '@/types'
-  import { BotMessageExtraType } from '@/types/MainGenerator/BotMessageSchema'
+  import { BotMessageExtraType } from '@/generator/types'
   import { Trophy } from 'lucide-vue-next'
   import { useMotion } from '@vueuse/motion'
 

@@ -18,7 +18,8 @@
 
 <script setup lang="ts">
   import { type Component, computed } from 'vue'
-  import { SocialComponent, SocialRosterCounts, SocialRosterType, UserStatsRecord } from '@/types'
+  import { SocialComponent, SocialRosterCounts, SocialRosterType } from '@/types'
+import { UserStatsRecord } from '@/generator/types'
   import grid from '../layouts/Grid.vue'
   import streamPower from '../layouts/StreamPower.vue'
 

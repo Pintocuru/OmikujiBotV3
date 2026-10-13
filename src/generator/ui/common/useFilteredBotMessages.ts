@@ -2,7 +2,8 @@
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useAppStore } from "@/generator/stores/useAppStore";
-import type { BotMessageBubbleType, UiKind } from "@/types";
+import type { UiKind } from '@/types'
+import type { BotMessageBubbleType } from '@/generator/types'
 import { useVisibilityAccess } from "@/generator/scripts/FeatureAccess/useAccessCheckerMain";
 
 type UseFilteredBotMessagesOptions = {

@@ -20,11 +20,11 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import type { BotMessageBubbleType } from "@/types";
+import type { BotMessageBubbleType } from '@/generator/types'
 import type { CharacterType } from "@/types/OmikujiData/CharacterSchema";
 import type { CharacterAnimationType } from "@/types/OmikujiData/CharacterSchema";
 import LayerImage from "@/common/LayerImage/LayerImage.vue";
-import { getAvatarUrl } from "@/common/DiceBear/getAvatarUrl";
+import { getAvatarUrl } from '@/editor/tools/DiceBear/getAvatarUrl';
 import { useAppStore } from "@/generator/stores/useAppStore";
 
 const props = defineProps<{

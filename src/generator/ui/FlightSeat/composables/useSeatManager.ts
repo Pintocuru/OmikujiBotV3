@@ -1,7 +1,7 @@
 // src/generator/ui/FlightSeat/composables/useSeatManager.ts
 import { ref, computed, type Ref } from 'vue'
 import { UserNameType } from '@/types'
-import { UserStatsRecord } from '@/types'
+import { UserStatsRecord } from '@/generator/types'
 
 /**
  * ユーザーIDからUserStatsRecordを解決する関数の型。

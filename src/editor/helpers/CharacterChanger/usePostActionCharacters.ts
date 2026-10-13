@@ -1,5 +1,5 @@
 // src/editor/helpers/CharacterChanger/usePostActionCharacters.ts
-import { useCharacterManager } from '@/editor/scripts/CharacterManager/useCharacterManager'
+import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
 import { PostFlowType, ActionSetType } from '@/types/OmikujiData/'
 
 /**

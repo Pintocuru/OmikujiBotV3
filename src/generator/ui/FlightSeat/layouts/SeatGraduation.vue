@@ -27,7 +27,8 @@
 </template>
 
 <script setup lang="ts">
-  import { UserStatsRecord, StatKeyNum } from '@/types'
+  import { StatKeyNum } from '@/types'
+import { UserStatsRecord } from '@/generator/types'
   import SeatCell from './SeatCell.vue'
   import { DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme'
 

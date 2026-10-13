@@ -45,9 +45,10 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { UserStatsRecord, StatKeyNum } from '@/types'
+  import { StatKeyNum } from '@/types'
+import { UserStatsRecord } from '@/generator/types'
   import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
-  import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
+  import { getAvatarUrl } from '@/editor/tools/DiceBear/getAvatarUrl'
 
   const props = defineProps<{
     seat: UserStatsRecord | null

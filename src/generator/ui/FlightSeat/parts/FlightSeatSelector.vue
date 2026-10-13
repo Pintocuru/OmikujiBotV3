@@ -22,7 +22,8 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { StatKeyNum, UserStatsRecord, FlightComponentKind } from '@/types'
+  import { StatKeyNum, FlightComponentKind } from '@/types'
+import { UserStatsRecord } from '@/generator/types'
   import NineViewers from '../layouts/SeatNineViewers.vue'
   import Bingo from '../layouts/SeatBingo.vue'
   import FlightSeat from '../layouts/SeatFlightSeat.vue'
