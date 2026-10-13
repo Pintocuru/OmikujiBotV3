@@ -1,6 +1,6 @@
 // src/editor/stores/composables/useSettingsOperations.ts
 import { Ref } from 'vue'
-import { JsonMergeType, OmikujiDataType, SettingsType, UiType } from '@/types/OmikujiData'
+import { JsonMergeType, OmikujiDataType, SettingsSchema, SettingsType, UiType } from '@/types/OmikujiData'
 
 /**
  * カテゴリに属さないプロパティの操作機能を提供するコンポーザブル
@@ -36,10 +36,16 @@ export function useSettingsOperations(data: Ref<OmikujiDataType>, hasChanged: Re
     hasChanged.value = true
   }
 
-  // settings を更新
-  const updateSettings = (updates: Partial<SettingsType>) => {
-    data.value.settings = { ...data.value.settings, ...updates }
+  // settings のセクション(generator / editor / developer)単位で更新
+  const updateSettingsSection = <S extends keyof SettingsType>(section: S, updates: Partial<SettingsType[S]>) => {
+    data.value.settings[section] = { ...data.value.settings[section], ...updates }
     hasChanged.value = true
+  }
+
+  // settings の1項目をデフォルト値に戻す
+  const resetSettingsField = <S extends keyof SettingsType, K extends keyof SettingsType[S]>(section: S, field: K) => {
+    const defaults = SettingsSchema.parse({})
+    updateSettingsSection(section, { [field]: defaults[section][field] } as unknown as Partial<SettingsType[S]>)
   }
 
   return {
@@ -47,6 +53,7 @@ export function useSettingsOperations(data: Ref<OmikujiDataType>, hasChanged: Re
     updateItemSettings,
     removeItemSetting,
     updateUi,
-    updateSettings,
+    updateSettingsSection,
+    resetSettingsField,
   }
 }

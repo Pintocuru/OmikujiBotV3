@@ -8,7 +8,7 @@
     label="投稿の基本遅延時間"
     description="BOTメッセージの表示や投稿を遅延（秒）"
     :showReset="true"
-    @reset="resetMap.basicDelaySeconds"
+    @reset="reset('generator', 'basicDelaySeconds')"
   >
     <div class="flex flex-col gap-2">
       <div class="flex justify-between text-xs">
@@ -22,7 +22,7 @@
         step="0.5"
         class="range range-accent"
         :value="settings.generator.basicDelaySeconds"
-        @input="(e) => updateField('basicDelaySeconds', Number((e.target as HTMLInputElement).value))"
+        @input="(e) => update('generator', { basicDelaySeconds: Number((e.target as HTMLInputElement).value) })"
       />
     </div>
   </SettingItem>
@@ -44,43 +44,22 @@
 <script setup lang="ts">
   import { computed, watch } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { SettingsSchema, SoundKeyType } from '@/types'
+  import { SoundKeyType } from '@/types'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import type { SettingsType } from '@/types/OmikujiData/SettingsSchema'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { playSoundResolved } from '@/common/sounds'
   import { soundMap } from '@/maps/OmikujiData'
 
-  type GeneratorSettings = SettingsType['generator']
-
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
+  const { updateSettingsSection: update, resetSettingsField: reset } = omikujiStore
 
   const settings = computed(() => data.value.settings)
 
-  // generator 配下のフィールドを更新
-  const updateField = <K extends keyof GeneratorSettings>(field: K, value: GeneratorSettings[K]) => {
-    omikujiStore.updateSettings({
-      generator: { ...settings.value.generator, [field]: value },
-    })
-  }
-
   // 効果音切り替え
   const handleMuteSound = (event: Event) => {
-    const checked = (event.target as HTMLInputElement).checked
-    updateField('soundEnabled', checked)
-  }
-
-  // generator 配下のフィールドをデフォルト値に戻す
-  const resetField = <K extends keyof GeneratorSettings>(field: K) => {
-    const defaults = SettingsSchema.parse({ generator: {}, editor: {}, developer: {} })
-    updateField(field, defaults.generator[field])
-  }
-
-  const resetMap = {
-    basicDelaySeconds: () => resetField('basicDelaySeconds'),
-    soundEnabled: () => resetField('soundEnabled'),
+    update('generator', { soundEnabled: (event.target as HTMLInputElement).checked })
   }
 
   // 効果音: OFF → ON になったときにプレビュー再生
