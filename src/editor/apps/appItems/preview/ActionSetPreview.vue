@@ -7,115 +7,105 @@
         <Zap class="w-3 h-3" />
         <span>アクションセット</span>
       </div>
-      <!-- type バッジ -->
-      <span class="badge badge-xs" :class="typeBadgeClass">{{ typeLabel }}</span>
+      <span class="badge badge-xs badge-primary">{{ postFlows.length }}件</span>
     </div>
 
-    <!-- postActions -->
-    <template v-if="data?.type === 'postActions' || !data?.type">
-      <div class="flex items-center justify-between text-xs">
-        <div class="flex items-center gap-1 opacity-70">
-          <Play class="w-3 h-3" />
-          <span>アクション</span>
-        </div>
-        <span class="badge badge-xs badge-primary">{{ postActions.length }}件</span>
-      </div>
+    <!-- 空 -->
+    <div v-if="!postFlows.length" class="text-xs opacity-40 ml-1">アクション未設定</div>
 
-      <div v-if="!postActions.length" class="text-xs opacity-40 ml-4">未設定</div>
+    <!-- postFlows リスト（最大4件） -->
+    <div v-for="(flow, i) in postFlows.slice(0, 4)" :key="i" class="flex items-center gap-1.5 text-xs ml-1">
+      <!-- kind バッジ -->
+      <span class="badge badge-xs shrink-0" :class="flowKindBadgeClass(flow.kind)">
+        {{ flowKindLabel(flow.kind) }}
+      </span>
 
-      <div v-for="(action, i) in postActions.slice(0, 3)" :key="i" class="flex items-center gap-1.5 text-xs ml-1">
-        <!-- actionType バッジ -->
-        <span class="badge badge-xs shrink-0" :class="actionTypeBadgeClass(action.actionType)">
-          {{ actionTypeLabel(action.actionType) }}
-        </span>
+      <!-- 遅延秒数（設定されている場合） -->
+      <span v-if="flow.delaySeconds" class="badge badge-xs badge-ghost text-[10px] px-1 shrink-0">
+        {{ flow.delaySeconds }}s
+      </span>
 
-        <!-- message の bubble テキスト -->
-        <span v-if="action.actionType === 'message' && action.message?.bubble" class="truncate flex-1 opacity-80">
-          {{ action.message.bubble.slice(0, 20) }}{{ action.message.bubble.length > 20 ? '…' : '' }}
-        </span>
+      <!-- 各 kind 別のサマリー -->
+      <!-- message / variable / bot: message 本文 -->
+      <span v-if="hasPostFlowMessage(flow) && flow.message" class="truncate flex-1 opacity-80">
+        {{ flow.message }}
+      </span>
 
-        <!-- characterKey -->
-        <span v-if="action.actionType === 'message' && action.characterKey" class="badge badge-xs badge-ghost shrink-0">
-          {{ action.characterKey }}
-        </span>
+      <!-- message: characterKey -->
+      <span
+        v-if="flow.kind === 'message' && flow.characterKey"
+        class="badge badge-xs badge-ghost shrink-0 max-w-20 truncate"
+      >
+        {{ flow.characterKey }}
+      </span>
 
-        <!-- wordParty パターン -->
-        <span v-if="action.actionType === 'wordParty' && action.wordParty" class="truncate flex-1 opacity-80 font-mono">
-          {{ action.wordParty }}
-        </span>
+      <!-- sound: sound / soundPath -->
+      <span v-if="flow.kind === 'sound' && (flow.sound || flow.soundPath)" class="truncate flex-1 opacity-80 font-mono">
+        {{ flow.sound || flow.soundPath }}
+      </span>
 
-        <!-- actionSet 呼び出しキー数 -->
-        <span v-if="action.actionType === 'actionSet'" class="opacity-60 text-xs">
-          ×{{ action.actionSetKeys?.length ?? 0 }}
-        </span>
-      </div>
+      <!-- wordParty: wordPartyId -->
+      <span v-if="flow.kind === 'wordParty' && flow.wordPartyId" class="truncate flex-1 opacity-80 font-mono">
+        {{ flow.wordPartyId }}
+      </span>
 
-      <div v-if="postActions.length > 3" class="text-xs opacity-40 text-right">…他 {{ postActions.length - 3 }} 件</div>
-    </template>
+      <!-- flowCall: 呼び出しキー数または内容 -->
+      <span v-if="flow.kind === 'flowCall' && flow.callKeys?.length" class="opacity-70 truncate flex-1 text-xs">
+        {{ formatCallKeys(flow.callKeys) }}
+      </span>
 
-    <!-- gameScripts -->
-    <template v-else-if="data?.type === 'gameScripts'">
-      <div class="flex items-center gap-1.5 text-xs">
-        <Gamepad2 class="w-3 h-3 shrink-0 opacity-60" />
-        <span class="opacity-70">スクリプト:</span>
-        <span class="badge badge-xs badge-ghost font-mono">
-          {{ data.gameScripts?.scriptId ?? '未設定' }}
-        </span>
-      </div>
-      <div v-if="data.gameScripts?.queryString" class="flex items-center gap-1.5 text-xs">
-        <Hash class="w-3 h-3 shrink-0 opacity-60" />
-        <span class="truncate font-mono opacity-70">{{ data.gameScripts.queryString }}</span>
-      </div>
-    </template>
+      <!-- gameScript: scriptId -->
+      <span v-if="flow.kind === 'gameScript' && flow.scriptId" class="truncate flex-1 opacity-80 font-mono">
+        {{ flow.scriptId }}
+      </span>
+    </div>
+
+    <!-- 省略表示 -->
+    <div v-if="postFlows.length > 4" class="text-xs opacity-40 text-right">…他 {{ postFlows.length - 4 }} 件</div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { Zap, Play, Gamepad2, Hash } from 'lucide-vue-next'
-  import { ActionSetType } from '@/types/OmikujiData'
+  import { Zap } from 'lucide-vue-next'
+  import { ActionSetType, PostFlowKind, PostFlowType, hasPostFlowMessage } from '@/types/OmikujiData'
+  import { postFlowKindMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     data: Partial<ActionSetType> | null
   }>()
 
-  const postActions = computed(() => props.data?.postActions ?? [])
+  const postFlows = computed<PostFlowType[]>(() => props.data?.postFlows ?? [])
 
-  const typeLabel = computed(() => {
-    const map: Record<string, string> = {
-      postActions: 'アクション',
-      gameScripts: 'ゲーム',
-    }
-    return map[props.data?.type ?? 'postActions'] ?? props.data?.type ?? '—'
-  })
-
-  const typeBadgeClass = computed(() => {
-    const map: Record<string, string> = {
-      postActions: 'badge-primary',
-      gameScripts: 'badge-accent',
-    }
-    return map[props.data?.type ?? 'postActions'] ?? 'badge-ghost'
-  })
-
-  function actionTypeLabel(type: string) {
-    const map: Record<string, string> = {
+  function flowKindLabel(kind: PostFlowKind): string {
+    const shortLabels: Partial<Record<PostFlowKind, string>> = {
       message: 'MSG',
       sound: 'SND',
       wordParty: 'WP',
-      actionSet: 'CALL',
+      variable: 'VAR',
+      gameScript: 'GAME',
       bot: 'BOT',
+      flowCall: 'CALL',
     }
-    return map[type] ?? type
+    return shortLabels[kind] ?? postFlowKindMap[kind]?.label ?? kind
   }
 
-  function actionTypeBadgeClass(type: string) {
-    const map: Record<string, string> = {
+  function flowKindBadgeClass(kind: PostFlowKind): string {
+    const classMap: Record<PostFlowKind, string> = {
       message: 'badge-primary',
       sound: 'badge-secondary',
       wordParty: 'badge-accent',
-      actionSet: 'badge-warning',
+      variable: 'badge-warning',
+      gameScript: 'badge-info',
       bot: 'badge-info',
+      flowCall: 'badge-neutral',
     }
-    return map[type] ?? 'badge-ghost'
+    return classMap[kind] ?? 'badge-ghost'
+  }
+
+  function formatCallKeys(keys: unknown[]): string {
+    const first = keys[0]
+    const keyStr = typeof first === 'string' ? first : (first as { content?: string })?.content ?? ''
+    return keys.length > 1 ? `${keyStr} (+${keys.length - 1})` : keyStr
   }
 </script>

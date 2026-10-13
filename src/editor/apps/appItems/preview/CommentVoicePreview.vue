@@ -12,15 +12,8 @@
       <Mic class="w-3 h-3 shrink-0 opacity-60" />
       <span class="opacity-70">モード:</span>
       <span class="badge badge-xs" :class="modeBadgeClass">
-        {{ displayModeMap[option.mode ?? 'comment'] ?? option.mode }}
+        {{ option.mode === 'comment' ? 'コメント' : option.mode === 'voice' ? '音声' : '枠なし' }}
       </span>
-    </div>
-
-    <!-- RPG音声（rpgVoice モード時のみ） -->
-    <div v-if="option.mode === 'rpgVoice'" class="flex items-center gap-1.5 text-xs">
-      <Music class="w-3 h-3 shrink-0 opacity-60" />
-      <span class="opacity-70">音声:</span>
-      <span class="badge badge-xs badge-ghost font-mono">{{ option.rpgVoice }}</span>
     </div>
 
     <!-- わんコメ枠 -->
@@ -34,9 +27,8 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { MessageSquare, Mic, Music, LayoutTemplate } from 'lucide-vue-next'
-  import { DisplayOptionSchema, type CharacterType } from '@/types/OmikujiData/CharacterSchema'
-  import { displayModeMap } from '@/types/MetaMaps/CharacterMaps'
+  import { MessageSquare, Mic, LayoutTemplate } from 'lucide-vue-next'
+  import { CharacterType, DisplayOptionSchema } from '@/types/OmikujiData'
 
   const props = defineProps<{
     data: Partial<CharacterType> | null

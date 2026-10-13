@@ -69,9 +69,10 @@
   import { computed } from 'vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import { reactionMap, reactionConditionMap } from '@/types/MetaMaps'
-  import { ReactionTriggerType, ReactionReaction } from '@/types/OmikujiData/ReactionTriggerSchema'
   import { VolumeX, Volume2, Dot } from 'lucide-vue-next'
+  import { ReactionReaction, ReactionTriggerType } from '@/types/OmikujiData'
+  import { reactionConditionMap } from '@/maps/OmikujiData'
+  import { reactionMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     modelValue: ReactionTriggerType

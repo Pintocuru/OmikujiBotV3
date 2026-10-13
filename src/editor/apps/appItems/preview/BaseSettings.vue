@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-  import { BaseRecordType } from '@shared/types'
+  import { BaseRecordType } from '@/types/core'
 
   defineProps<{
     data: BaseRecordType

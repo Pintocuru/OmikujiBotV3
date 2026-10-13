@@ -16,16 +16,16 @@
     <!-- アイテムリスト（最大5件） -->
     <div v-for="(item, i) in omikuji.slice(0, 5)" :key="i" class="flex items-center gap-1.5 text-xs">
       <!-- 優先度バッジ -->
-      <span v-if="item.isPriority" class="badge badge-xs badge-accent shrink-0">優先</span>
+      <span v-if="isPriority(item)" class="badge badge-xs badge-accent shrink-0">優先</span>
       <span v-else class="opacity-40 shrink-0 tabular-nums w-3 text-right">{{ i + 1 }}</span>
 
-      <!-- name -->
-      <span class="truncate flex-1" :class="item.name ? '' : 'opacity-40 italic'">
-        {{ item.name || '（名前なし）' }}
+      <!-- name / kind表示 -->
+      <span class="truncate flex-1" :class="item.name ? '' : 'opacity-60'">
+        {{ item.name || getItemKindLabel(item) }}
       </span>
 
-      <!-- weight -->
-      <span class="badge badge-xs badge-ghost shrink-0">×{{ item.weight ?? 1 }}</span>
+      <!-- weight（lottery があるアイテムのみ） -->
+      <span v-if="getWeight(item) !== null" class="badge badge-xs badge-ghost shrink-0"> ×{{ getWeight(item) }} </span>
 
       <!-- criteria あり -->
       <span v-if="hasCriteria(item)" class="text-accent" title="追加発動条件あり">
@@ -42,6 +42,7 @@
   import { computed } from 'vue'
   import { ListChecks, Filter } from 'lucide-vue-next'
   import { OmikujiItemType } from '@/types/OmikujiData'
+  import { omikujiItemKindMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     data: { omikuji?: OmikujiItemType[] } | null
@@ -49,9 +50,27 @@
 
   const omikuji = computed(() => props.data?.omikuji ?? [])
 
-  function hasCriteria(item: OmikujiItemType) {
-    if (!item.criteria) return false
-    const c = item.criteria
+  function getItemKindLabel(item: OmikujiItemType): string {
+    return omikujiItemKindMap[item.kind]?.label ?? item.kind
+  }
+
+  function isPriority(item: OmikujiItemType): boolean {
+    if ('lottery' in item && item.lottery) {
+      return item.lottery.isPriority === true
+    }
+    return false
+  }
+
+  function getWeight(item: OmikujiItemType): number | null {
+    if ('lottery' in item && item.lottery) {
+      return item.lottery.weight ?? 1
+    }
+    return null
+  }
+
+  function hasCriteria(item: OmikujiItemType): boolean {
+    if (!('lottery' in item) || !item.lottery?.criteria) return false
+    const c = item.lottery.criteria
     return (
       (c.conditions?.length ?? 0) > 0 ||
       (c.userName?.length ?? 0) > 0 ||

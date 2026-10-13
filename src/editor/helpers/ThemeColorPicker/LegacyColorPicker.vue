@@ -44,6 +44,7 @@
     'update:modelValue': [value: CharacterColorType]
   }>()
 
+  // TODO:ここはmapを使うこと
   const colorFields = [
     { label: '名前の色', key: 'name' },
     { label: 'テキストの色', key: 'text' },
