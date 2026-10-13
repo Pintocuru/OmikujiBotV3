@@ -84,7 +84,7 @@
 
   const soundEnabled = computed(() => data.value.settings.generator.soundEnabled)
   const characters = computed(() => data.value.assets.characters)
-  const bubbleSettings = computed(() => data.value.ui.settings.bubble ?? CommentBubbleSchema.parse({}))
+  const bubbleSettings = computed(() => data.value.ui.settings.commentBubble ?? CommentBubbleSchema.parse({}))
   const defaultColor = CharacterColorScheme.parse({})
 
   // リフレッシュキー

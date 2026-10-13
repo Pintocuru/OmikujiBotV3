@@ -47,7 +47,7 @@
   const { characterMap, isValidCharacter } = useCharacterManager()
 
   // 設定取得
-  const bubble = computed(() => appStore.data.ui.settings.bubble || CommentBubbleSchema.parse({}))
+  const bubble = computed(() => appStore.data.ui.settings.commentBubble || CommentBubbleSchema.parse({}))
   const enterMotion = computed(() => bubble.value.bubbleMotion)
 
   // キャラクター感情状態（composableを統合）

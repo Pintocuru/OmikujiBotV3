@@ -37,19 +37,16 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import type { CharacterType, ShowCharacters } from '@/types'
   import CharacterLayerImage from '@/common/LayerImage/CharacterLayerImage.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import PreviewSection from './PreviewSection.vue'
-  import { useVisibilityAccess } from '@config/scripts/useAccessCheckerConfig'
+  import { CharacterType } from '@/types/OmikujiData'
 
   const props = defineProps<{
     characters: Record<string, CharacterType>
     showCharacters: ShowCharacters
     characterSize: number
   }>()
-
-  const { isCharacter } = useVisibilityAccess()
 
   /**
    * グループから表示キャラクターを1体選ぶ(表示は最初の配列)

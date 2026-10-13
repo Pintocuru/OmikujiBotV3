@@ -112,7 +112,7 @@
   const { characterArray } = useCharacterManager()
   const { updateCommonStyleField } = useCommonStyleUpdate()
 
-  const bubble = computed(() => data.value.ui.settings.bubble ?? CommentBubbleSchema.parse({}))
+  const bubble = computed(() => data.value.ui.settings.commentBubble ?? CommentBubbleSchema.parse({}))
   const commonStyle = computed(() => data.value.ui.commonStyle)
 
   // bubble設定の値を直接指定して更新する関数

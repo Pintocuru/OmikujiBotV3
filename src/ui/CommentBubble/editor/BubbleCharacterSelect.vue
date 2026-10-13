@@ -66,10 +66,7 @@
 <script setup lang="ts">
   import { ref, computed, watch, onMounted } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { CommentBubbleSchema, ShowCharactersSchema, type ShowCharacters } from '@/types'
   import CharacterSlot from './CharacterSlot.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import InformationCard from '@shared/components/parts/InformationCard.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
@@ -77,7 +74,7 @@
   const errorMessage = ref('')
   const visibleSlots = ref(1)
 
-  const bubble = computed(() => data.value.ui.settings.bubble ?? CommentBubbleSchema.parse({}))
+  const bubble = computed(() => data.value.ui.settings.commentBubble ?? CommentBubbleSchema.parse({}))
   const characters = computed(() => data.value.assets.characters)
   const availableCharacters = computed(() => Object.keys(characters.value))
 

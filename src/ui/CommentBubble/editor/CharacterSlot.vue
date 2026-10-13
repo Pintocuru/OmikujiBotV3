@@ -10,7 +10,7 @@
       v-model="localItems"
       group="characters"
       :class="[
-        'flex flex-wrap gap-2 p-2 min-h-[50px] rounded',
+        'flex flex-wrap gap-2 p-2 min-h-12.5 rounded',
         showClear ? 'border border-dotted border-gray-400 bg-white' : 'border border-dashed border-gray-400',
       ]"
     >
@@ -28,8 +28,8 @@
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
+  import { CharacterType } from '@/types/OmikujiData'
   import { VueDraggable } from 'vue-draggable-plus'
-  import { CharacterType } from '@/types'
 
   const props = withDefaults(
     defineProps<{

@@ -8,7 +8,7 @@
       {{ title }}
     </div>
     <div class="flex flex-col items-center">
-      <div class="flex justify-center min-h-[50px]">
+      <div class="flex justify-center min-h-12.5">
         <slot />
       </div>
     </div>
