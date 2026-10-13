@@ -4,7 +4,7 @@
     <label tabindex="0" class="btn btn-ghost btn-xs">
       <Menu class="w-3 h-3" />
     </label>
-    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44">
+    <ul tabindex="0" class="dropdown-content z-1 menu p-2 shadow bg-base-100 rounded-box w-44">
       <!-- フォルダへ移動（isDev のみ） -->
       <li v-if="showMove">
         <details>

@@ -58,7 +58,7 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { isDev } from '@/types'
+  import { isDev } from '@/types/env'
   import { Sun, Moon, Palette } from 'lucide-vue-next'
 
   const props = withDefaults(

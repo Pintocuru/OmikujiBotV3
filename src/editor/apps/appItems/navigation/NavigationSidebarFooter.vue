@@ -19,7 +19,9 @@
 
     <!-- 通常モード -->
     <template v-else>
-      <span v-if="hasChanged" class="indicator-item badge badge-secondary badge-sm"> {{ t('navigation.hasChanged') }} </span>
+      <span v-if="hasChanged" class="indicator-item badge badge-secondary badge-sm">
+        {{ t('navigation.hasChanged') }}
+      </span>
       <button
         @click="exportFile('config')"
         class="btn btn-primary tooltip tooltip-top truncate"
@@ -37,7 +39,7 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { isDev } from '@/types'
+  import { isDev } from '@/types/env'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useConfigExport } from '@/editor/helpers/presetsExport/useConfigExport'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'

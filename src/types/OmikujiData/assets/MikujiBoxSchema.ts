@@ -11,6 +11,7 @@ export type MikujiItemsType = z.infer<typeof MikujiItemsSchema>
 
 /**
  * みくじ箱
+ * TODO:MikujiBoxSchema -> MikujiSchema でもいいだろう
  */
 export const MikujiBoxSchema = BaseRecordSchema.extend({
   omikuji: MikujiItemsSchema,

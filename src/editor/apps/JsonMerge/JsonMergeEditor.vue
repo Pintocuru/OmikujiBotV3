@@ -121,7 +121,6 @@
   import { storeToRefs } from 'pinia'
   import { VueDraggable } from 'vue-draggable-plus'
   import { GripVertical, Plus } from 'lucide-vue-next'
-  import { CharacterType, generateId } from '@/types'
   import { JsonMergeItemSchema, JsonMergeRemapSchema, JsonMergeItemType } from '@/types/OmikujiData/JsonMergeType'
   import JsonMergeRemapEditor from './JsonMergeRemapEditor.vue'
   import JsonMergeSourceFileSelector from './JsonMergeSourceFileSelector.vue'
@@ -129,6 +128,8 @@
   import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown/MenuDropdown.vue'
+  import { CharacterType } from '@/types/OmikujiData'
+  import { AccessLevelLabels, generateId } from '@/types/core'
 
   const store = useOmikujiStore()
   const { data } = storeToRefs(store)

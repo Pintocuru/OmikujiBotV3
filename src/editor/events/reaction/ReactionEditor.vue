@@ -43,7 +43,7 @@
         :title="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
-        <BoxSettings category="comments" :omikujiKey="selectedItem.key" />
+        <MikujiSettings category="comments" :omikujiKey="selectedItem.key" />
       </SectionCard>
     </template>
 
@@ -66,7 +66,7 @@
   import BoxChoiceEditor from '@/editor/events/core/BoxChoiceEditor.vue'
 
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
-  import BoxSettings from '@/editor/assets/box/BoxSettings.vue'
+  import MikujiSettings from '@/editor/assets/mikuji/MikujiSettings.vue'
 
   import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'

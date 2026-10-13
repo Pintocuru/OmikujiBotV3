@@ -6,7 +6,7 @@ import { useSaveActions } from './useApiSaveActions'
 import { useLoadActions } from './useApiLoadActions'
 import { DevConfigStateType } from '@/PresetManager/types'
 import { configApi } from '../services/configApi'
-import { isDev } from '@/types'
+import { isDev } from '@/types/env'
 
 export function useDevConfigActions(state: DevConfigStateType) {
   const stateActions = useDevConfigStateActions(state) // ファイル管理

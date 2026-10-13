@@ -27,7 +27,7 @@
   import ServiceEventEditor from '@/editor/events/service/ServiceEditor.vue'
   import ReactionEventEditor from '@/editor/events/reaction/ReactionEditor.vue'
 
-  import BoxEditor from '@/editor/assets/box/BoxEditor.vue'
+  import MikujiEditor from '@/editor/assets/mikuji/MikujiEditor.vue'
   import ActionsEditor from '@/editor/assets/actions/ActionsEditor.vue'
   import PlaceholderEditor from '@/editor/assets/placeholders/PlaceholderEditor.vue'
   import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
@@ -54,7 +54,7 @@
     reactions: ReactionEventEditor,
 
     // assets
-    box: BoxEditor,
+    mikuji: MikujiEditor,
     actions: ActionsEditor,
     placeholders: PlaceholderEditor,
     characters: CharacterEditor,

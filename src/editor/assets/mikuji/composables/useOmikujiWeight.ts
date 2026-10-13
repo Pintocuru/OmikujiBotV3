@@ -1,4 +1,4 @@
-// src/editor/assets/box/composables/useOmikujiWeight.ts
+// src/editor/assets/mikuji/composables/useOmikujiWeight.ts
 import { toRaw } from 'vue'
 import { generateId } from '@/types/core'
 import type { OmikujiItemType } from '@/types/OmikujiData/'

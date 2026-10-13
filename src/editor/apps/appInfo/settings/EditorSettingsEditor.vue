@@ -45,13 +45,13 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { isDev, themes } from '@/types'
-  import type { ThemeType } from '@/types'
   import type { CategoryType } from '@/types/OmikujiData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { categoryMap } from '@/maps/OmikujiData/CategoryMap.js'
+  import { ThemeType, themes } from '@/types/core'
+  import { isDev } from '@/types/env'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)

@@ -44,12 +44,12 @@
 <script setup lang="ts">
   import { computed, watch } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { SoundKeyType } from '@/types'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { playSoundResolved } from '@/common/sounds'
   import { soundMap } from '@/maps/OmikujiData'
+  import { SoundKeyType } from '@/types/OmikujiData'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)

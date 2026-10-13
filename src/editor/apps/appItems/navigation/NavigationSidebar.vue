@@ -34,7 +34,7 @@
   import { ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { isDev } from '@/types'
+  import { isDev } from '@/types/env'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
   import NavigationSidebarCategories from './NavigationSidebarCategories.vue'

@@ -53,10 +53,9 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import { JsonMergeRemapType } from '@/types/OmikujiData/JsonMergeType'
-  import { CharacterType } from '@/types'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { characterEmotionMap } from '@/maps/OmikujiData'
+  import { CharacterType, JsonMergeRemapType } from '@/types/OmikujiData'
 
   const props = defineProps<{
     mergeIndex: number

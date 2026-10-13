@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
-  import { isDev } from '@/types'
+  import { isDev } from '@/types/env'
   import { generateDateFileName } from '@/PresetManager/services/apiServiceUtils'
   import { generatorApi } from '@/PresetManager/services/generatorApi'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'

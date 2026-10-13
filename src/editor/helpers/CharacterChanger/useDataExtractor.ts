@@ -1,12 +1,13 @@
 // src/editor/helpers/CharacterChanger/useDataExtractor.ts
 import { computed, ComputedRef } from 'vue'
 import { EventCategoryType, EventType, ActionSetType, PostFlowType, OmikujiItemType } from '@/types/OmikujiData/'
-import { categoryMap } from '@/types'
+import { categoryMap } from '@/maps/OmikujiData'
+import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
 /**
- * カテゴリタイプ（rules系とactionSets）
+ * カテゴリタイプ（rules系とactions）
  */
-export type TargetCategoryType = EventCategoryType | 'actionSets'
+export type TargetCategoryType = EventCategoryType | 'actions'
 
 /**
  * 変更スコープタイプ
@@ -34,13 +35,13 @@ export function useDataExtractor(category: TargetCategoryType, selectedId?: stri
    * selectedIdがある場合は単一アイテム、ない場合は全アイテム
    */
   const allItems = computed(() => {
-    if (category === 'actionSets') {
-      const actionSets = getCategoryMap('actionSets')
+    if (category === 'actions') {
+      const actions = getCategoryMap('actions')
       if (selectedId) {
-        const item = actionSets[selectedId]
+        const item = actions[selectedId]
         return item ? [item] : []
       }
-      return Object.values(actionSets) as ActionSetType[]
+      return Object.values(actions) as ActionSetType[]
     } else {
       if (selectedId) {
         const item = getItem(category, selectedId)
@@ -54,7 +55,7 @@ export function useDataExtractor(category: TargetCategoryType, selectedId?: stri
    * 全PostActionを平坦化して取得
    */
   const allPostActions: ComputedRef<PostFlowType[]> = computed(() => {
-    if (category === 'actionSets') {
+    if (category === 'actions') {
       const items = allItems.value as ActionSetType[]
       return items.flatMap((item) => item.postActions)
     } else {
@@ -66,8 +67,8 @@ export function useDataExtractor(category: TargetCategoryType, selectedId?: stri
   /**
    * 全ActionSetを取得（GameScriptsのcharacterKeyを含む処理用）
    */
-  const allActionSets: ComputedRef<ActionSetType[]> = computed(() => {
-    if (category === 'actionSets') {
+  const allActions: ComputedRef<ActionSetType[]> = computed(() => {
+    if (category === 'actions') {
       return allItems.value as ActionSetType[]
     } else {
       const rules = allItems.value as EventType[]
@@ -85,7 +86,7 @@ export function useDataExtractor(category: TargetCategoryType, selectedId?: stri
     scopeLabel,
     allItems,
     allPostActions,
-    allActionSets,
+    allActions,
     totalItems,
   }
 }

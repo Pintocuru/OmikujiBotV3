@@ -36,7 +36,6 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { ActionSetType } from '@/types'
 
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
@@ -49,6 +48,7 @@
 
   import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+  import { ActionSetType } from '@/types/OmikujiData'
 
   const { t } = useI18n()
 

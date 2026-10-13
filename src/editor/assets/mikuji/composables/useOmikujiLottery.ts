@@ -1,4 +1,4 @@
-// src/editor/assets/box/composables/useOmikujiLottery.ts
+// src/editor/assets/mikuji/composables/useOmikujiLottery.ts
 import { computed } from 'vue'
 import {
   CriteriaThresholdSchema,

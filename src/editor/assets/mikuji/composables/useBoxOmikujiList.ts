@@ -1,4 +1,4 @@
-// src/editor/assets/box/composables/useBoxOmikujiList.ts
+// src/editor/assets/mikuji/composables/useBoxOmikujiList.ts
 import { computed, ref, watch, type Ref } from 'vue'
 import { OmikujiItemSchema, type MikujiBoxType, type OmikujiItemType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

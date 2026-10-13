@@ -10,7 +10,6 @@
           簡易
         </button>
         <button
-          v-if="isPlaceholder"
           class="btn btn-xs btn-ghost gap-1"
           @click="showAddPlaceholder = !showAddPlaceholder"
         >
@@ -21,7 +20,7 @@
     </div>
 
     <!-- 新規プレースホルダー追加フォーム -->
-    <div v-if="isPlaceholder && showAddPlaceholder" class="px-3 py-2 border-b border-base-300 bg-warning/10 shrink-0">
+    <div v-if="showAddPlaceholder" class="px-3 py-2 border-b border-base-300 bg-warning/10 shrink-0">
       <p class="text-xs font-semibold text-warning mb-1">新規プレースホルダー</p>
       <div class="flex gap-1">
         <input
@@ -58,13 +57,7 @@
 
       <div class="divider my-1 px-2 text-xs">ユーザー定義</div>
 
-      <!-- isPlaceholder=false なら施錠表示 -->
-      <div v-if="!isPlaceholder" class="px-3 py-4 text-center text-xs text-base-content/40">
-        <Lock :size="14" class="mx-auto mb-1 opacity-50" />
-        プレースホルダー機能が<br />無効です
-      </div>
-
-      <template v-else>
+      
         <div v-if="sortedUserPlaceholders.length === 0" class="p-4 text-center text-xs text-base-content/40">
           プレースホルダーがありません
         </div>
@@ -136,15 +129,13 @@
             </button>
           </div>
         </div>
-      </template>
-    </div>
+          </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Plus, ChevronRight, CornerDownLeft, Trash2, Braces, Lock } from 'lucide-vue-next'
-  import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
-  import { usePlaceholderEditor } from './usePlaceholderEditor'
+  import { Plus, ChevronRight, CornerDownLeft, Trash2, Braces } from 'lucide-vue-next'
+    import { usePlaceholderEditor } from './usePlaceholderEditor'
   import { toRef } from 'vue'
   import { handelNormalizedValues } from '@/types'
 
@@ -158,8 +149,7 @@
     openInlinePh: []
   }>()
 
-  const { isPlaceholder } = useVisibilityAccess()
-
+  
   const {
     showAddPlaceholder,
     newPlaceholderKey,

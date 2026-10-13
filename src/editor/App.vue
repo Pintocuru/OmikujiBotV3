@@ -29,7 +29,6 @@
 <script setup lang="ts">
   import { onMounted, computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { isDev, OmikujiDataType } from '@/types'
   import AppHeader from './apps/appItems/AppHeader.vue'
   import AppDevWorld from './apps/appItems/AppDevWorld.vue'
   import NavigationSidebar from './apps/appItems/navigation/NavigationSidebar.vue'
@@ -42,6 +41,8 @@
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast.js'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useScrollToSection } from './helpers/useScrollToSection'
+  import { isDev } from '@/types/env'
+  import { OmikujiDataType } from '@/types/OmikujiData'
 
   // stores
   const omikujiStore = useOmikujiStore()

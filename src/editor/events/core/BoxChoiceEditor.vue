@@ -32,7 +32,7 @@
 
   const { getAssets } = useGetAssetData()
 
-  const boxOptions = computed(() => getAssets('box'))
+  const boxOptions = computed(() => getAssets('mikuji'))
 
   const omikujiKey = computed({
     get: () => props.modelValue.omikujiKey,

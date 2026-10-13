@@ -1,4 +1,4 @@
-<!-- src/editor/assets/box/BoxSettings.vue -->
+<!-- src/editor/assets/mikuji/MikujiSettings.vue -->
 <template>
   <div v-if="omikujiKey" class="space-y-4">
     <!-- ツールバー -->
@@ -60,8 +60,8 @@
   import OmikujiItemEditor from './item/OmikujiItemEditor.vue'
   import { useTestPost } from '@/editor/helpers/useTestPost'
   import { Dices, Plus } from 'lucide-vue-next'
-  import { getColorForIndex } from '@/editor/assets/box/composables/useOmikujiWeight'
-  import { useBoxOmikujiList } from '@/editor/assets/box/composables/useBoxOmikujiList'
+  import { getColorForIndex } from '@/editor/assets/mikuji/composables/useOmikujiWeight'
+  import { useBoxOmikujiList } from '@/editor/assets/mikuji/composables/useBoxOmikujiList'
 
   const props = defineProps<{
     category: EventCategoryType | 'box'

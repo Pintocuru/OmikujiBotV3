@@ -2,9 +2,7 @@
 import { computed, Ref, ref } from 'vue'
 import { PlaceholderSchema, PlaceholderType, handelNormalizedValues } from '@/types'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-
-import { defaultBasePlaceholderLabel, defaultPlaceholderMap } from '@/types/MetaMaps/DefaultPlaceholderMaps'
-import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
+import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
 const PLACEHOLDER_PATTERN = /<<([^>]+)>>/g
 const PLACEHOLDER_ID_PATTERN = /^[a-zA-Z0-9_]+$/

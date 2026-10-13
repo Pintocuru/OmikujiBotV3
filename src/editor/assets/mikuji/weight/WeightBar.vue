@@ -1,4 +1,4 @@
-<!-- src/editor/assets/box/weight/WeightBar.vue -->
+<!-- src/editor/assets/mikuji/weight/WeightBar.vue -->
 <template>
   <div v-if="omikujiItems.length > 0" class="space-y-2">
     <!-- 凡例（ドラッグ可能） -->

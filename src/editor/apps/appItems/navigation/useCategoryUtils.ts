@@ -6,6 +6,7 @@ import { isDev } from '@/types/env'
 import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { categoryMap } from '@/maps/OmikujiData'
+import { useGetRecordData } from '@/editor/stores/useGetRecordData'
 
 export const useCategoryUtils = () => {
   const omikujiStore = useOmikujiStore()

@@ -19,8 +19,8 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { CharacterAnimationType } from '@/types'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
+  import { CharacterAnimationType } from '@/types/OmikujiData'
 
   defineProps<{
     layers: string[] | string

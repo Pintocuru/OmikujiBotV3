@@ -1,7 +1,7 @@
 // src/PresetManager/stores/useDevConfigState.ts
 import { ref, reactive } from 'vue'
 import { FileItem } from '@/PresetManager/types'
-import { isDev } from '@/types'
+import { isDev } from '@/types/env'
 
 export function useDevConfigState() {
   // ファイル関連

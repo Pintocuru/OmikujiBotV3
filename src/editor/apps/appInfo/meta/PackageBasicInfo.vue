@@ -40,7 +40,7 @@
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import { storeToRefs } from 'pinia'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { generateId } from '@/types'
+  import { generateId } from '@/types/core'
 
   // Store
   const omikujiStore = useOmikujiStore()

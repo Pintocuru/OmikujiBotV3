@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
   import { ref, nextTick } from 'vue'
-  import { isDev } from '@/types'
+  import { isDev } from '@/types/env'
   import type { FileItem } from '../types'
   import FileMenuDropdown from './FileMenuDropdown.vue'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'

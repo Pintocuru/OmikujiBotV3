@@ -1,8 +1,8 @@
-<!-- src/editor/assets/box/BoxEditor.vue -->
+<!-- src/editor/assets/mikuji/MikujiEditor.vue -->
 <template>
   <div class="flex justify-end gap-2">
-    <CharacterChanger category="box" />
-    <IconKeyChanger category="box" />
+    <CharacterChanger category="mikuji" />
+    <IconKeyChanger category="mikuji" />
   </div>
 
   <template v-if="selectedItem">
@@ -15,7 +15,7 @@
       :title="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
-      <BaseSettingsEditor v-model="selectedItem" category="box" :isIsEnabled="false" />
+      <BaseSettingsEditor v-model="selectedItem" category="mikuji" :isIsEnabled="false" />
     </SectionCard>
 
     <!-- おみくじ設定セクション -->
@@ -27,7 +27,7 @@
       :title="s('omikujiSet')?.label"
       :description="s('omikujiSet')?.description"
     >
-      <BoxSettings category="box" :omikujiKey="selectedItem.key" />
+      <MikujiSettings category="mikuji" :omikujiKey="selectedItem.key" />
     </SectionCard>
   </template>
 </template>
@@ -37,8 +37,7 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
 
-  import { MikujiBoxType } from '@/types'
-  import BoxSettings from './BoxSettings.vue'
+  import MikujiSettings from './MikujiSettings.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
@@ -53,7 +52,7 @@
 
   // アイコン構造と i18n のテキストを結合して返すヘルパー
   const s = (key: string) => {
-    const item = categorySectionMap.box.find((i) => i.section === key)
+    const item = categorySectionMap.mikuji.find((i) => i.section === key)
     if (!item) return null
     return {
       ...item,
@@ -80,10 +79,10 @@
   const selectedItem = computed({
     get: () => {
       if (!selectedItemKey.value) return null
-      return getAsset('box', selectedItemKey.value)
+      return getAsset('mikuji', selectedItemKey.value)
     },
     set: (value: MikujiBoxType) => {
-      updateAsset('box', value.key, value)
+      updateAsset('mikuji', value.key, value)
     },
   })
 </script>

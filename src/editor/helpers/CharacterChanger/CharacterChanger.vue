@@ -2,7 +2,6 @@
 <template>
   <!-- トリガーボタン -->
   <div
-    v-if="isCharacter"
     class="tooltip tooltip-bottom"
     :data-tip="
       hasInvalidCharacters
@@ -81,7 +80,6 @@
   import { useCharacterUpdater } from './useCharacterUpdater.js'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
-  import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
   import { Users } from 'lucide-vue-next'
 
   const props = defineProps<{
@@ -90,7 +88,6 @@
   }>()
 
   // キャラクターデータ
-  const { isCharacter } = useVisibilityAccess()
   const { getCharacterName } = useCharacterManager()
 
   // データ抽出（selectedIdがある場合は単一イベントのみ対象）

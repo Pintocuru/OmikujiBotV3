@@ -50,7 +50,7 @@
   import ItemConditionsEditor from './conditions/ItemConditionsEditor.vue'
   import ItemsSettings from './conditions/ItemsSettings.vue'
   import SpecialSetEditor from './conditions/SpecialSetEditor.vue'
-  import { isDev } from '@/types'
+  import { isDev } from '@/types/env'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
