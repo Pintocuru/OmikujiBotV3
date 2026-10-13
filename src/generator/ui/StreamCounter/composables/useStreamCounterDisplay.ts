@@ -1,7 +1,7 @@
 // src/generator/ui/StreamCounter/composables/useStreamCounterDisplay.ts
 import { computed, type Ref } from 'vue'
 import type { StreamCounterType } from '@/types'
-import { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'
+import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
 
 /**
  * StreamCounter 系コンポーネント共通のキー列挙・カラーパターン取得ロジック

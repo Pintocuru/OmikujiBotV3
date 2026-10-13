@@ -10,7 +10,7 @@
   import { WinnerGroupType, WinnerComponent } from '@/types'
   import ValentineCoupling from '../components/ValentineCoupling.vue'
   import TopStars from '../components/TopStars.vue'
-  import { UserNameType } from '@shared/types'
+  import { UserNameType } from '@/types'
 
   const props = defineProps<{
     winnerSetting: WinnerGroupType

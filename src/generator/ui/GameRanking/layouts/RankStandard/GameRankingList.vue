@@ -59,7 +59,7 @@
   import { computed } from 'vue'
   import { BotMessageExtraType } from '@/types/MainGenerator/BotMessageSchema'
   import { generateDummyMessages } from '@/common/MockUser/MockGenerators'
-  import { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
   import { GameRankingType } from '@/types/OmikujiData'
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
 

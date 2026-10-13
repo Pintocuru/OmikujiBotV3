@@ -24,7 +24,7 @@
   import Standard from '../layouts/Standard.vue'
   import CharacterSpin from '../layouts/CharacterSpin.vue'
   import FlipCalendar from '../layouts/FlipCalendar.vue'
-  import { DaisyUiThemeFieldsType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme'
   import Popup from '../layouts/Popup.vue'
 
   const props = defineProps<{

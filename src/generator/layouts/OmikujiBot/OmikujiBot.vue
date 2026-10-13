@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
   import DraggableWrapper from '../DraggableWrapper.vue'
-  import CommentBubble from '@main/ui/CommentBubble/CommentBubble.vue'
-  import ToastWidgets from '@main/ui/ToastWidgets/ToastWidgets.vue'
-  import GameRanking from '@main/ui/GameRanking/GameRanking.vue'
+  import CommentBubble from '@/generator/ui/CommentBubble/CommentBubble.vue'
+  import ToastWidgets from '@/generator/ui/ToastWidgets/ToastWidgets.vue'
+  import GameRanking from '@/generator/ui/GameRanking/GameRanking.vue'
 </script>

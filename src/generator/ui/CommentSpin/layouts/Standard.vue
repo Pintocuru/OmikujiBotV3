@@ -77,7 +77,7 @@
 
 <script setup lang="ts">
 import { type BotMessageBubbleType, type spinAnimation } from "@/types";
-import type { DaisyUiThemeFieldsType } from "@shared/styles/DaisyUiTheme";
+import type { DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme';
 import StandardMessage from "./StandardMessage.vue";
 import { useSpinSlot } from "./composables/useSpinSlot.js";
 import LayerImage from "@/common/LayerImage/LayerImage.vue";

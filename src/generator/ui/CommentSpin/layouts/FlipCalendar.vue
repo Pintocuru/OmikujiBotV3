@@ -96,7 +96,7 @@
 import { computed } from "vue";
 import type { BotMessageBubbleType, spinAnimation } from "@/types";
 import type { CharacterType } from "@/types/OmikujiData/CharacterSchema";
-import type { DaisyUiThemeFieldsType } from "@shared/styles/DaisyUiTheme";
+import type { DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme';
 import CharacterSlot from "./CharacterSlot.vue";
 import { useSpinSlot } from "./composables/useSpinSlot.js";
 

@@ -8,7 +8,7 @@
 <script setup lang="ts">
   import { computed, type Component } from 'vue'
   import { BotMessageBubbleType, KujibikiComponent, KujibikiPanelType } from '@/types'
-  import MotionWrapper from '@main/ui/CommentBubble/MotionVariants/MotionWrapper.vue'
+  import MotionWrapper from '@/generator/ui/CommentBubble/MotionVariants/MotionWrapper.vue'
   import omikuji from '../layouts/omikuji.vue'
   import flower from '../layouts/flower.vue'
   import tarot from '../layouts/tarot.vue'

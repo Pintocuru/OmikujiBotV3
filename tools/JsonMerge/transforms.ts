@@ -1,7 +1,7 @@
 // tools/JsonMerge/transforms.ts
 import { AssetCategoryDataMap, recordCategoryLabel, RecordCategoryType } from '@/types/OmikujiData'
 import type { OmikujiDataType } from '@/types/OmikujiData/'
-import type { AccessLevelType } from '@shared/types'
+import type { AccessLevelType } from '@/types'
 
 /**
  * OmikujiData内のすべてのRecord型プロパティに対してaccessLevelを強制上書き

@@ -53,7 +53,7 @@
   import { useRafFn, useElementSize } from '@vueuse/core'
   import { UserStatsRecord, StatKeyNum } from '@/types'
   import SeatCell from './SeatCell.vue'
-  import { DaisyUiThemeFieldsType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme'
 
   const props = defineProps<{
     color: DaisyUiThemeFieldsType

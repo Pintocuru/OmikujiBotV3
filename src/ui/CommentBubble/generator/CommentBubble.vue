@@ -28,7 +28,7 @@
   import CommentBubblePersistent from './CommentBubblePersistent.vue'
   import { useCharacterSelection } from './composables/useCharacterSelection.js'
   import { useBotDisplay } from './composables/useBotDisplay.js'
-  import { useCharacterManager } from '@main/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import { useFilteredBotMessages } from '../common/useFilteredBotMessages'
 
   const { showCharacters, characterMap } = useCharacterManager()

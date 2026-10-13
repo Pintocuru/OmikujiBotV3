@@ -16,7 +16,7 @@ import { CookieCounterSchema } from "@/types";
 import CookieCounterSelector from "./parts/CookieCounterSelector.vue";
 import { useAppStore } from "@/generator/stores/useAppStore.js";
 import { useStreamCounters } from "@/generator/ui/common/useStreamCounters.js";
-import CenteringWrapper from "@main/ui/common/CenteringWrapper.vue";
+import CenteringWrapper from '@/generator/ui/common/CenteringWrapper.vue';
 
 const appStore = useAppStore();
 const cookieSettings = computed(() =>

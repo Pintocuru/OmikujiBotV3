@@ -13,7 +13,7 @@ import {
   postSpeech,
   postSystemMessage,
 } from "@shared/sdk/post/PostOneComme";
-import { SendCommentType, SendCommentSchema } from "@shared/types/";
+import { SendCommentType, SendCommentSchema } from '@/types/';
 import { POST_SETTINGS } from "@shared/sdk/PostSettings";
 import { ServiceAPI } from "@shared/sdk/service/ServiceAPI";
 import { executeWordParty } from "@shared/sdk/post/PostWordParty";

@@ -29,7 +29,7 @@
   import Graduation from '../layouts/SeatGraduation.vue'
   import FerrisWheel from '../layouts/SeatFerrisWheel.vue'
   import GoldenCrowd from '../layouts/SeatGoldenCrowd.vue'
-  import { DaisyUiThemeFieldsType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme'
 
   const props = defineProps<{
     color: DaisyUiThemeFieldsType

@@ -35,9 +35,9 @@
 
 <script setup lang="ts">
   import { BotMessageBubbleType, EnterMotionType } from '@/types'
-  import CommentBubbleItem from '@main/ui/CommentBubble/parts/CommentBubbleItem.vue'
-  import MotionWrapper from '@main/ui/CommentBubble/MotionVariants/MotionWrapper.vue'
-  import { useCharacterManager } from '@main/scripts/CharacterManager/useCharacterManager'
+  import CommentBubbleItem from '@/generator/ui/CommentBubble/parts/CommentBubbleItem.vue'
+  import MotionWrapper from '@/generator/ui/CommentBubble/MotionVariants/MotionWrapper.vue'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
 
   withDefaults(
     defineProps<{

@@ -25,7 +25,7 @@ import { useCommentSpinMessages } from "./composables/useCommentSpinMessages";
 import { useCommentSpinAnimation } from "./composables/useCommentSpinAnimation";
 import CommentSpinSelector from "./parts/CommentSpinSelector.vue";
 import { useAppStore } from "@/generator/stores/useAppStore";
-import CenteringWrapper from "@main/ui/common/CenteringWrapper.vue";
+import CenteringWrapper from '@/generator/ui/common/CenteringWrapper.vue';
 import { useFilteredBotMessages } from "@/generator/ui/common/useFilteredBotMessages";
 import { useCharacterManager } from "@/generator/scripts/CharacterManager/useCharacterManager";
 

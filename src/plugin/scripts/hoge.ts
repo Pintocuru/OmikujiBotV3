@@ -1,6 +1,6 @@
 // src/plugin/scripts/hoge.ts
 
-import { OmikenCommentType } from '@shared/types'
+import { OmikenCommentType } from '@/types'
 
 /**
  * わんコメプラグイン用のリクエストハンドラー

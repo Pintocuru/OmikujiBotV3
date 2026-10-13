@@ -34,8 +34,8 @@
   import { computed, onMounted, onUnmounted, toRef } from 'vue'
   import CommentDisplay from './CommentDisplay.vue'
   import { useBotDisplay } from './composables/useBotDisplay.js'
-  import { useAppStore } from '@main/stores/useAppStore'
-  import { useCharacterManager } from '@main/scripts/CharacterManager/useCharacterManager'
+  import { useAppStore } from '@/generator/stores/useAppStore'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import CharacterLayerImage from '@/common/LayerImage/CharacterLayerImage.vue'
   import { BotMessageBubbleType, CommentBubbleSchema } from '@/types'
 

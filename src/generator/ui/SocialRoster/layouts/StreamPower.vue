@@ -60,7 +60,7 @@
   import { computed } from 'vue'
   import { UserStatsRecord, SocialSortKey, SocialRosterCounts } from '@/types'
   import grid from './Grid.vue'
-  import { DaisyUiThemeFieldsType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme'
   import { Sprout, Users } from 'lucide-vue-next'
 
   const props = defineProps<{

@@ -59,7 +59,7 @@ import type {
   CommentSpinType,
   spinAnimation,
 } from "@/types";
-import type { DaisyUiThemeFieldsType } from "@shared/styles/DaisyUiTheme";
+import type { DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme';
 import CharacterSlot from "./CharacterSlot.vue";
 import { useSpinSlot } from "./composables/useSpinSlot.js";
 import LayerImage from "@/common/LayerImage/LayerImage.vue";

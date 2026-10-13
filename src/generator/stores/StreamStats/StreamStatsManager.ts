@@ -1,5 +1,5 @@
 // src/generator/stores/StreamStats/StreamStatsManager.ts
-import { OmikenCommentType } from '@shared/types'
+import { OmikenCommentType } from '@/types'
 
 export interface StreamStats {
   liveComments: number

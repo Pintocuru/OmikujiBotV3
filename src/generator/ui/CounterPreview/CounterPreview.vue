@@ -17,8 +17,8 @@ import CounterPreviewSelector from "./parts/CounterPreviewSelector.vue";
 import { useAppStore } from "@/generator/stores/useAppStore.js";
 import { useVisibilityAccess } from "@/generator/scripts/FeatureAccess/useAccessCheckerMain.js";
 import { generateDummyVisitRecords } from "@/common/MockUser/MockGenerators";
-import { UserNameType } from "@shared/types";
-import CenteringWrapper from "@main/ui/common/CenteringWrapper.vue";
+import { UserNameType } from '@/types';
+import CenteringWrapper from '@/generator/ui/common/CenteringWrapper.vue';
 
 const appStore = useAppStore();
 const { data, botMessages } = storeToRefs(appStore);

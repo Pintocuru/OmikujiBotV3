@@ -14,7 +14,7 @@ import { storeToRefs } from "pinia";
 import { BotMessageExtraType, GameRankingSchema } from "@/types";
 import { useAppStore } from "@/generator/stores/useAppStore.js";
 import GameRankingSelector from "./parts/GameRankingSelector.vue";
-import CenteringWrapper from "@main/ui/common/CenteringWrapper.vue";
+import CenteringWrapper from '@/generator/ui/common/CenteringWrapper.vue';
 
 const appStore = useAppStore();
 const { data, botMessages } = storeToRefs(appStore);

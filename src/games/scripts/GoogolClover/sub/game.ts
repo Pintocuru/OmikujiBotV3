@@ -2,7 +2,7 @@
 import type { UserState } from './types'
 import { executeSlotSpins } from './slotExecution'
 import { buildGameResult } from './resultBuilder'
-import { UserNameType } from '@shared/types'
+import { UserNameType } from '@/types'
 import { BotMessageExtraType } from '@/types'
 
 /**

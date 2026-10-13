@@ -35,7 +35,7 @@ import {
   parseCustomLayout,
 } from "./composables/seatLayoutUtils.js";
 import { useAppStore } from "@/generator/stores/useAppStore.js";
-import CenteringWrapper from "@main/ui/common/CenteringWrapper.vue";
+import CenteringWrapper from '@/generator/ui/common/CenteringWrapper.vue';
 import { useVisibilityAccess } from "@/generator/scripts/FeatureAccess/useAccessCheckerMain.js";
 
 const appStore = useAppStore();

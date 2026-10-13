@@ -23,7 +23,7 @@ import { DeadAirSchema } from "@/types/OmikujiData/UiSettings/DeadAirSchema";
 import { useStreamCounters } from "@/generator/ui/common/useStreamCounters";
 import { useDeadAirLogic } from "./composables/useDeadAirLogic";
 import DeadAirSelector from "./parts/DeadAirSelector.vue";
-import CenteringWrapper from "@main/ui/common/CenteringWrapper.vue";
+import CenteringWrapper from '@/generator/ui/common/CenteringWrapper.vue';
 
 const appStore = useAppStore();
 const { data } = storeToRefs(appStore);

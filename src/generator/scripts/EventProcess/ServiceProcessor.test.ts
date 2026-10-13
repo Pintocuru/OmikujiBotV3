@@ -1,8 +1,8 @@
 // src/generator/scripts/EventProcess/ServiceProcessor.test.ts
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { MetaStateServiceType, MetaUpdateEvent, NormalizedMeta } from '@main/stores/MetaState/MetaStateService'
+import { MetaStateServiceType, MetaUpdateEvent, NormalizedMeta } from '@/generator/stores/MetaState/MetaStateService'
 import { MetaRuleSchema, MetaRuleType, MetaTriggerSchema } from '@/types/OmikujiData/'
-import { MetaRuleProcessor } from '@main/scripts/RuleProcess/MetaRuleProcessor'
+import { MetaRuleProcessor } from '@/generator/scripts/RuleProcess/MetaRuleProcessor'
 
 // ─── トップレベルで関数参照を固定 ────────────────────────────────────────────
 const { mockExecuteOmikuji, mockEvaluate } = vi.hoisted(() => ({
@@ -10,14 +10,14 @@ const { mockExecuteOmikuji, mockEvaluate } = vi.hoisted(() => ({
   mockEvaluate: vi.fn(),
 }))
 
-vi.mock('@main/scripts/OmikujiProcess/OmikujiProcessor', () => ({
+vi.mock('@/generator/scripts/OmikujiProcess/OmikujiProcessor', () => ({
   OmikujiProcessor: vi.fn().mockImplementation(() => ({
     executeOmikuji: mockExecuteOmikuji,
   })),
 }))
 
 // ✅ こう変える
-vi.mock('@main/stores/MetaState/MetaTriggerEvaluator', () => ({
+vi.mock('@/generator/stores/MetaState/MetaTriggerEvaluator', () => ({
   evaluateMetaTrigger: mockEvaluate, // vi.hoisted の変数を使う
 }))
 

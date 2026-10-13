@@ -24,7 +24,7 @@
   import { computed } from 'vue'
   import SeatCell from './SeatCell.vue'
   import { UserStatsRecord, StatKeyNum } from '@/types'
-  import { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
 
   const props = defineProps<{
     seats: (UserStatsRecord | null)[]

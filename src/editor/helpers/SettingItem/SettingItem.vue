@@ -29,7 +29,7 @@
   import { isDev } from '@/types'
   import LicenseBadge from '@/editor/helpers/LicenseBadge/LicenseBadge.vue'
   import SettingItem from '@shared/components/parts/SettingItem.vue'
-  import { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
 
   withDefaults(
     defineProps<{

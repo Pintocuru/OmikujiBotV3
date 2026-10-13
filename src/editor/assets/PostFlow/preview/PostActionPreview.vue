@@ -85,8 +85,8 @@
   import { processTestPlaceholder } from './TestPlaceholderProcessor.js'
   import WordPartyTestButton from './WordPartyTestButton.vue'
   import { useVisibilityAccess } from '@/engine/scripts/FeatureAccess/useAccessCheckerMain'
-  import CommentBubbleItem from '@main/ui/CommentBubble/parts/CommentBubbleItem.vue'
-  import ToastBubbleItem from '@main/ui/ToastWidgets/parts/ToastBubbleItem.vue'
+  import CommentBubbleItem from '@/generator/ui/CommentBubble/parts/CommentBubbleItem.vue'
+  import ToastBubbleItem from '@/generator/ui/ToastWidgets/parts/ToastBubbleItem.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { Volume2, PartyPopper, MessagesSquare, Settings } from 'lucide-vue-next'
 

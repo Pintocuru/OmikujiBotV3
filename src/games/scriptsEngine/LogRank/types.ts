@@ -1,6 +1,6 @@
 // src/games/scriptsEngine/LogRank/types.ts
 import { z } from 'zod'
-import { UserNameSchema } from '@shared/types'
+import { UserNameSchema } from '@/types'
 
 /**
  * ランキングモードの定義

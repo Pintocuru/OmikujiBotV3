@@ -1,6 +1,6 @@
 // src/generator/stores/useOmikensActions.ts
 import { ref, computed } from 'vue'
-import { OmikenCommentType } from '@shared/types/OmikenComment/OmikenCommentSchema'
+import { OmikenCommentType } from '@/types/OmikenComment/OmikenCommentSchema'
 
 export const useOmikensActions = () => {
   const omikensMap = ref<Map<string, OmikenCommentType>>(new Map())

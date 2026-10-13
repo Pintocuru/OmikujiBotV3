@@ -31,8 +31,8 @@ import WinnerGroupSelector from "./parts/WinnerGroupSelector.vue";
 import HistoryButton from "./components/HistoryButton.vue";
 import { useAppStore } from "@/generator/stores/useAppStore.js";
 import { PostOmikujiService } from "@/generator/scripts/PostOmikuji/PostOmikujiService.js";
-import { UserNameType } from "@shared/types";
-import CenteringWrapper from "@main/ui/common/CenteringWrapper.vue";
+import { UserNameType } from '@/types';
+import CenteringWrapper from '@/generator/ui/common/CenteringWrapper.vue';
 
 interface HistoryItem {
   id: string;

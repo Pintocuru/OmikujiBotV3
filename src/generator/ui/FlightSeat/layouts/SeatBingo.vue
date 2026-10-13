@@ -40,7 +40,7 @@
 <script setup lang="ts">
   import { UserStatsRecord, StatKeyNum } from '@/types'
   import SeatCell from './SeatCell.vue'
-  import { DaisyUIColorType, DaisyUiThemeFieldsType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUIColorType, DaisyUiThemeFieldsType } from '@/types/core/DaisyUiTheme'
 
   const props = defineProps<{
     color: DaisyUiThemeFieldsType

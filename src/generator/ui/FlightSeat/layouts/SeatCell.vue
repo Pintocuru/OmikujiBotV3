@@ -46,7 +46,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { UserStatsRecord, StatKeyNum } from '@/types'
-  import { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
 
   const props = defineProps<{

@@ -6,7 +6,7 @@ import { generateJsContent } from '@/editor/components/presetsExport/generateCon
 import { generateAccessLevelData } from './processJsonData'
 import { processMerge } from '../JsonMerge/JsonMergeProcessor'
 import { APP_VERSION, BUILD_DATE } from '@/version'
-import { ProjectConfig, ProjectParams } from '@shared/utils/webpackBuild/BuildTypes'
+import { ProjectConfig, ProjectParams } from '../webpackBuild/BuildTypes'
 
 // ----- 定数 -----
 

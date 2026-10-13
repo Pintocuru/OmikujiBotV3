@@ -1,6 +1,6 @@
 // src/generator/ui/SocialRoster/composables/useSocialRosterManager.ts
 import { ref, computed, type Ref } from "vue";
-import { UserNameType } from "@shared/types";
+import { UserNameType } from '@/types';
 import { SocialRosterCounts, UserStatsRecord } from "@/types";
 import { useAppStore } from "@/generator/stores/useAppStore";
 import { SocialSortKey } from "@/types";

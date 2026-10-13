@@ -41,7 +41,7 @@ import { storeToRefs } from "pinia";
 import ToastBubbleItem from "./parts/ToastBubbleItem.vue";
 import { useBotDisplay } from "../CommentBubble/composables/useBotDisplay.js";
 import { useAppStore } from "@/generator/stores/useAppStore.js";
-import MotionWrapper from "@main/ui/CommentBubble/MotionVariants/MotionWrapper.vue";
+import MotionWrapper from '@/generator/ui/CommentBubble/MotionVariants/MotionWrapper.vue';
 import { useVisibilityAccess } from "@/generator/scripts/FeatureAccess/useAccessCheckerMain.js";
 import { useCharacterManager } from "@/generator/scripts/CharacterManager/useCharacterManager.js";
 import { ToastWidgetsSchema } from "@/types";

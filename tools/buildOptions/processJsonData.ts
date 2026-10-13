@@ -1,7 +1,7 @@
 // tools/buildOptions/processJsonData.ts
 import { OmikujiDataType, recordCategoryLabel, RecordCategoryType } from '@/types/OmikujiData/'
 import { getKey } from '@/common/FeatureAccess/SettingMode'
-import { AccessLevelLabels, AccessLevelType } from '@shared/types'
+import { AccessLevelLabels, AccessLevelType } from '@/types'
 
 /**
  * JSONデータを読み込み、前処理を行う関数

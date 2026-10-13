@@ -39,7 +39,7 @@
   import { CounterPreviewType } from '@/types'
   import { useCounterDisplay } from './base/useCounterDisplay'
   import CounterCardBase from './base/CounterCardBase.vue'
-  import { UserNameType } from '@shared/types'
+  import { UserNameType } from '@/types'
 
   const props = defineProps<{
     counterSetting: CounterPreviewType

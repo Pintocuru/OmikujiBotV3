@@ -10,7 +10,7 @@
   import UserCardScroller from '../layouts/UserCardScroller.vue'
   import CounterUser from '../layouts/CounterUser.vue'
   import CounterTimer from '../layouts/CounterTimer.vue'
-  import { UserNameType } from '@shared/types'
+  import { UserNameType } from '@/types'
 
   const props = defineProps<{
     counterSetting: CounterPreviewType
