@@ -60,7 +60,7 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { ReactionEventType } from '@/types/OmikujiData/'
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap.js'
+  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
 
   import ReactionTriggerEditor from './ReactionTriggerEditor.vue'
   import BoxChoiceEditor from '@/editor/events/core/BoxChoiceEditor.vue'

@@ -55,7 +55,7 @@
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { useTestPost } from '@/editor/helpers/useTestPost'
   import { Send, ClipboardCopy, ClipboardPaste } from 'lucide-vue-next'
-  import { useJsonClipboard } from '@/editor/helpers/useJsonClipboard.js'
+  import { useJsonClipboard } from '@/editor/helpers/useJsonClipboard'
 
   // Props
   const props = defineProps<{

@@ -50,7 +50,7 @@
   import CharacterBase64Settings from './CharacterBase64Settings.vue'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
-  import { displayModeMap } from '@/maps/OmikujiData/index.js'
+  import { displayModeMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     modelValue: DisplayOptionType

@@ -78,7 +78,7 @@
   import OmikujiItemHeader from './OmikujiItemHeader.vue'
 
   import PostFlowEditor from '@/editor/assets/PostFlow/PostFlowsEditor.vue'
-  import { omikujiItemKindMap } from '@/maps/OmikujiData/index.js'
+  import { omikujiItemKindMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     omikujiItem: OmikujiItemType

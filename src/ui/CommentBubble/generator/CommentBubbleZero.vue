@@ -30,12 +30,12 @@
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted, toRef } from 'vue'
   import CommentDisplay from './CommentDisplay.vue'
-  import { useBotDisplay } from './composables/useBotDisplay.js'
+  import { useBotDisplay } from './composables/useBotDisplay'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import CharacterLayerImage from '@/common/LayerImage/CharacterLayerImage.vue'
-  import { CommentBubbleSchema } from '@/types'
   import { BotMessageBubbleType } from '@/generator/types'
+  import { CommentBubbleSchema } from '@/ui/types'
 
   const props = defineProps<{
     centerMessages: BotMessageBubbleType[]
@@ -49,7 +49,7 @@
   const { hasImage, getCharacterLayers, getCharacterColor, getCharacterAnimation } = useCharacterManager()
 
   // 設定の取得
-  const bubble = computed(() => appStore.data.components.settings.commentBubble || CommentBubbleSchema.parse({}))
+  const bubble = computed(() => appStore.data.ui.settings.commentBubble || CommentBubbleSchema.parse({}))
 
   // コメント表示制御
   const { displayedComments, removeComment, start, stop } = useBotDisplay(toRef(() => props.centerMessages))

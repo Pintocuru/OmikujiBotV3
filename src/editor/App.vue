@@ -29,20 +29,23 @@
 <script setup lang="ts">
   import { onMounted, computed } from 'vue'
   import { storeToRefs } from 'pinia'
+
+  import { isDev } from '@/types/env'
+  import { OmikujiDataType } from '@/types/OmikujiData'
+
   import AppHeader from './apps/appItems/AppHeader.vue'
   import AppDevWorld from './apps/appItems/AppDevWorld.vue'
   import NavigationSidebar from './apps/appItems/navigation/NavigationSidebar.vue'
   import ContentArea from './apps/appItems/ContentArea.vue'
   import ConfigExport from './helpers/presetsExport/ConfigExport.vue'
-  import { useOmikujiStore } from './stores/useOmikujiStore'
-  import PresetTool from '@/PresetManager/DevConfigs.vue'
-  import { useDevStore } from '../PresetManager/stores/useDevStore'
-  import { generatorApi } from '../PresetManager/services/generatorApi'
-  import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast.js'
-  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useScrollToSection } from './helpers/useScrollToSection'
-  import { isDev } from '@/types/env'
-  import { OmikujiDataType } from '@/types/OmikujiData'
+  import { useOmikujiStore } from './stores/useOmikujiStore'
+
+  import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import PresetTool from '@/PresetManager/DevConfigs.vue'
+  import { useDevStore } from '@/PresetManager/stores/useDevStore'
+  import { generatorApi } from '@/PresetManager/services/generatorApi'
 
   // stores
   const omikujiStore = useOmikujiStore()

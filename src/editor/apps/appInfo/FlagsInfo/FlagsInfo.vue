@@ -54,8 +54,8 @@
   import FeatureCard from './FeatureCard.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
-  import { categoryMap } from '@/maps/OmikujiData/CategoryMap.js'
-  import { uiKindMap } from '@/maps/OmikujiData/index.js'
+  import { categoryMap } from '@/maps/OmikujiData/CategoryMap'
+  import { uiKindMap } from '@/maps/OmikujiData/index'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)

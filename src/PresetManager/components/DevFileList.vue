@@ -52,7 +52,7 @@
   import { ref, computed } from 'vue'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
   import DevFileItem from './DevFileItem.vue'
-  import { formatFileDate } from '../services/apiServiceUtils.js'
+  import { formatFileDate } from '../services/apiServiceUtils'
   import { Folder, ChevronDown, ChevronRight } from 'lucide-vue-next'
 
   const devStore = useDevStore()

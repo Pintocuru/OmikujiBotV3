@@ -3,8 +3,7 @@
   <div class="flex flex-col md:flex-row justify-around gap-4 p-4">
     <!-- 中央表示キャラクター（0番地） -->
     <PreviewSection title="コメント時に表示するキャラクター" color-class="secondary">
-      <div v-if="!isCharacter" class="text-gray-500 italic text-sm p-2">キャラクターが存在しません</div>
-      <div v-else-if="centerCharacters.length === 0" class="text-gray-500 italic text-sm p-2">
+      <div v-if="centerCharacters.length === 0" class="text-gray-500 italic text-sm p-2">
         キャラクターはみんな表示されています！
       </div>
       <div v-else class="flex justify-center">

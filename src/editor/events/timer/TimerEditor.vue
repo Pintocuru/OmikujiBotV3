@@ -63,7 +63,7 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { TimerEventType } from '@/types/OmikujiData/'
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap.js'
+  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
 
   import TimerIntervalEditor from './TimerIntervalEditor.vue'
 
@@ -76,7 +76,7 @@
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useGetEventData } from '@/editor/stores/useGetEventData.js'
+  import { useGetEventData } from '@/editor/stores/useGetEventData'
 
   const { t } = useI18n()
 

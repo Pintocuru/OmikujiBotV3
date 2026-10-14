@@ -23,10 +23,10 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap.js'
+  import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap'
   // import HoverPopup from '../preview/HoverPopup.vue'
-  // import { staticSectionPreviewMap } from '../preview/staticSectionPreviewMap.js'
-  import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon.js'
+  // import { staticSectionPreviewMap } from '../preview/staticSectionPreviewMap'
+  import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
   import { CategoryType } from '@/types/OmikujiData'

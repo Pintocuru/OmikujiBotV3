@@ -26,8 +26,8 @@
 
   import CommentBubbleZero from './CommentBubbleZero.vue'
   import CommentBubblePersistent from './CommentBubblePersistent.vue'
-  import { useCharacterSelection } from './composables/useCharacterSelection.js'
-  import { useBotDisplay } from './composables/useBotDisplay.js'
+  import { useCharacterSelection } from './composables/useCharacterSelection'
+  import { useBotDisplay } from './composables/useBotDisplay'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import { useFilteredBotMessages } from '../common/useFilteredBotMessages'
 

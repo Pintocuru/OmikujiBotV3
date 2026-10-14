@@ -13,16 +13,13 @@
       <MotionWrapper
         ref="motionWrapper"
         v-model:visible="shouldShowBubble"
-        :motion="bubbleMotionEnter"
+        :motion="bubbleMotion"
         :auto-hide="false"
       >
         <CommentBubbleItem
           :botName="botName"
           :message="currentPreview"
           :color="color"
-          :custom-classes="customClasses"
-          :animatedText="animatedText"
-          :animatedTextSpeed="animatedTextSpeed"
         />
       </MotionWrapper>
 
@@ -40,25 +37,20 @@
   import { ref, computed } from 'vue'
   import { CharacterColorType, EnterMotionType } from '@/types/OmikujiData/'
   import { FontFamilyType, useFontFamily } from '@/types'
-  import CommentBubbleItem from '@/generator/ui/CommentBubble/parts/CommentBubbleItem.vue'
-  import MotionWrapper from '@/generator/ui/CommentBubble/MotionVariants/MotionWrapper.vue'
+  import CommentBubbleItem from '../generator/parts/CommentBubbleItem.vue'
+  import MotionWrapper from '../generator/MotionVariants/MotionWrapper.vue'
 
   const props = withDefaults(
     defineProps<{
       botName?: string
       color: CharacterColorType
-      customClasses?: string
       fontFamily?: FontFamilyType
-      bubbleMotionEnter?: EnterMotionType
-      animatedText?: boolean
-      animatedTextSpeed?: number
+      bubbleMotion?: EnterMotionType
     }>(),
     {
       botName: 'テストユーザー',
       fontFamily: 'default',
-      bubbleMotionEnter: 'slideUp',
-      animatedText: false,
-      animatedTextSpeed: 50,
+      bubbleMotion: 'slideUp',
     }
   )
 

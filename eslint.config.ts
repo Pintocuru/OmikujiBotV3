@@ -9,6 +9,8 @@ const baseRules: Linter.RulesRecord = {
   // コンポーネント名が複数単語かどうか
   //'vue/multi-word-component-names': ['error', { ignores: ['App', 'Index'] }],
   'vue/multi-word-component-names': 'off',
+  // import パスのうち不要な部分(拡張子 .js など)を禁止
+  'import/no-useless-path-segments': ['error', { noUselessIndex: false }],
   // ファイル間の循環参照を検出
   'import/no-cycle': 'error',
   // 明示的な型付けがない場合でも許可するか

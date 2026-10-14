@@ -87,10 +87,10 @@
   import { ImageIcon, AlertTriangle } from 'lucide-vue-next'
   import IconKeyMappingEditor from './IconKeyMappingEditor.vue'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
-  import { TargetCategoryType, useDataExtractor } from '../CharacterChanger/useDataExtractor.js'
-  import { useIconKeyStats } from './useIconKeyStats.js'
-  import { useIconKeyModalState } from './useIconKeyModalState.js'
-  import { useIconKeyUpdater } from './useIconKeyUpdater.js'
+  import { TargetCategoryType, useDataExtractor } from '../CharacterChanger/useDataExtractor'
+  import { useIconKeyStats } from './useIconKeyStats'
+  import { useIconKeyModalState } from './useIconKeyModalState'
+  import { useIconKeyUpdater } from './useIconKeyUpdater'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
 
   const props = defineProps<{

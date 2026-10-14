@@ -58,8 +58,8 @@
   import PostActionPreview from '../preview/PostActionPreview.vue'
   import BotSettings from '../Bot/BotSettings.vue'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore.js'
-  import { postFlowKindMap } from '@/maps/OmikujiData/index.js'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { postFlowKindMap } from '@/maps/OmikujiData'
 
   // Props
   const props = defineProps<{

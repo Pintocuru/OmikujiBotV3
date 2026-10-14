@@ -43,7 +43,7 @@
   import MessageTextDialog from './MessageTextDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SoundSettings from '../Sounds/SoundSettings.vue'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager.js'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
 
   const props = defineProps<{
     action: PostFlowMessageType

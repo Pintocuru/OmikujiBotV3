@@ -39,7 +39,7 @@
   import BubbleCharacterSelect from './BubbleCharacterSelect.vue'
   import CharacterAvatarPreview from './CharacterAvatarPreview.vue'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore.js'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
   // Store
   const omikujiStore = useOmikujiStore()

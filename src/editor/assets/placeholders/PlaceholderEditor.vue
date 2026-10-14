@@ -32,12 +32,12 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
 
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap.js'
+  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import PlaceholderValuesEditor from './PlaceholderValuesEditor.vue'
 
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useGetAssetData } from '@/editor/stores/useGetAssetData.js'
+  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'

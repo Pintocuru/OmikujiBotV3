@@ -31,7 +31,7 @@
 <script setup lang="ts">
   import { ref, computed, Ref } from 'vue'
   import IconSelectorModal from './IconSelectorModal.vue'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager.js'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import { User } from 'lucide-vue-next'
 
   const props = defineProps<{

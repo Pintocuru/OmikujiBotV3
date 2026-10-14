@@ -49,7 +49,7 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
-  import { categoryMap } from '@/maps/OmikujiData/CategoryMap.js'
+  import { categoryMap } from '@/maps/OmikujiData/CategoryMap'
   import { ThemeType, themes } from '@/types/core'
   import { isDev } from '@/types/env'
 

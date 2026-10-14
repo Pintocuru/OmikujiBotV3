@@ -34,7 +34,7 @@
 
   import EmotionGrid from './EmotionGrid.vue'
   import EmotionEditModal from './EmotionEditModal.vue'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore.js'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
   const props = defineProps<{
     modelValue: CharacterImageType

@@ -75,8 +75,8 @@
 
   import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap.js'
-  import { useGetEventData } from '@/editor/stores/useGetEventData.js'
+  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
+  import { useGetEventData } from '@/editor/stores/useGetEventData'
 
   const { t } = useI18n()
 
