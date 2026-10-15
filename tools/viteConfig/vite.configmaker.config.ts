@@ -3,7 +3,7 @@ import { defineConfig, mergeConfig, UserConfig } from 'vite'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { createViteAliases } from './CreateViteAliases'
-import { baseViteConfig,  } from '../../../../shared/utils/ViteConfig/viteConfigBase'
+import { baseViteConfig } from '../../vite.config'
 
 // projectRoot の設定
 const __filename = fileURLToPath(import.meta.url)

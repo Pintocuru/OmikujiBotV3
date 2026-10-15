@@ -20,7 +20,7 @@ export function useCharacterUpdater(
    * キャラクターマッピングを適用してアイテムを更新
    */
   const applyMappingsToAllItems = (mappings: Record<string, string>) => {
-    if (category === 'actionSets') {
+    if (category === 'actions') {
       const items = allItems.value as ActionSetType[]
       items.forEach((item) => {
         const updatedActionSet = applyCharacterMappings(item, mappings)

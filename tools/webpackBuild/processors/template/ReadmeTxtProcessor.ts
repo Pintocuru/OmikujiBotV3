@@ -1,9 +1,9 @@
 // tools/webpackBuild/processors/template/ReadmeTxtProcessor.ts
 import fs from 'fs'
 import path from 'path'
-import { PackageType, ProjectConfig, ResolvedCoreBuildConfig, ResolvedPackageBuildConfig } from '../../BuildTypes'
-import { AccessLevelType } from '../../../../types'
-import { getAccessSuffix, getLicenseInfo } from '../../utils/AccessLevelUtils'
+import { PackageType, ResolvedPackageBuildConfig } from '@tools/webpackBuild/BuildTypes'
+import { getAccessSuffix, getLicenseInfo } from '@tools/webpackBuild/utils/AccessLevelUtils'
+import { AccessLevelType } from '@/types/core'
 
 interface TemplateTxtOutput {
   packageName: string

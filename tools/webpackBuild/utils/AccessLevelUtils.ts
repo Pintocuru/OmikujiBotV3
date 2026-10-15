@@ -1,6 +1,6 @@
 // tools/webpackBuild/utils/AccessLevelUtils.ts
-import { AccessLevelType } from '../../../types'
-import { ProjectConfig, ResolvedPackageBuildConfig } from '../BuildTypes'
+import { AccessLevelType } from '@/types/core'
+import { ResolvedPackageBuildConfig } from '../BuildTypes'
 
 /**
  * アクセスレベルに応じた表示名サフィックスを返す

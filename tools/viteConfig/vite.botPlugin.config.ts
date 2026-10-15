@@ -3,9 +3,9 @@ import { defineConfig, mergeConfig } from 'vite'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import tsconfig from '../../tsconfig.json'
-import { baseViteConfig, } from '../../../../shared/utils/ViteConfig/viteConfigBase'
-import { createAliases } from '../../../../shared/utils/webpackBuild/utils/CreateAliases'
-import { APP_VERSION } from '../../src/version'
+import { baseViteConfig } from '../../vite.config'
+import { createAliases } from '@tools/webpackBuild/utils/CreateAliases'
+import { APP_VERSION } from '@/version'
 
 // projectRoot の設定
 const __filename = fileURLToPath(import.meta.url)

@@ -1,8 +1,8 @@
 // tools/webpackBuild/processors/json/GenerateOutputFiles.ts
+import { PackageJsonType } from '@/types/core'
+import { ResolvedPackageBuildConfig } from '@tools/webpackBuild/BuildTypes'
 import fs from 'fs'
 import path from 'path'
-import { ResolvedPackageBuildConfig, PackageType } from '../../BuildTypes'
-import { PackageJsonType } from '../../../../types'
 
 /**
  * JSON/JSファイルを出力

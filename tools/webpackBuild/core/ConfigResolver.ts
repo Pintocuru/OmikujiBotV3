@@ -1,4 +1,5 @@
 // tools/webpackBuild/core/ConfigResolver.ts
+import { AccessLevelType } from '@/types/core'
 import {
   ProjectConfig,
   CoreBuildTarget,
@@ -9,7 +10,6 @@ import {
   PackageType,
   AccessLevelConfig,
 } from '../BuildTypes'
-import { AccessLevelType } from '../../../types'
 
 /**
  * コアビルド用の出力フォルダ名を生成

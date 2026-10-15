@@ -1,9 +1,9 @@
 // tools/webpackBuild/processors/json/UpdateJsonMetadata.ts
+import { PackageJsonType } from '@/types/core'
+import { ResolvedPackageBuildConfig } from '@tools/webpackBuild/BuildTypes'
+import { getAccessSuffix } from '@tools/webpackBuild/utils/AccessLevelUtils'
 import fs from 'fs'
 import path from 'path'
-import { ResolvedPackageBuildConfig } from '../../BuildTypes'
-import { PackageJsonType } from '../../../../types'
-import { getAccessSuffix } from '../../utils/AccessLevelUtils'
 
 /**
  * JSONメタデータの更新と書き込み

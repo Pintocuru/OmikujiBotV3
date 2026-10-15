@@ -9,21 +9,16 @@ export function usePostActionCharacters() {
   const { resolveEmotion } = useCharacterManager()
 
   /**
-   * ActionSetから使用されているキャラクターキーを抽出（GameScriptsを含む）
+   * Actions から使用されているキャラクターキーを抽出（GameScriptsを含む）
    */
-  const extractCharacterKeys = (actionSet: ActionSetType): string[] => {
+  const extractCharacterKeys = (actions: ActionSetType): string[] => {
     const keys = new Set<string>()
 
-    actionSet.postActions.forEach((action) => {
-      if (action.actionType === 'message' && action.characterKey?.trim()) {
+    actions.postFlows.forEach((action) => {
+      if (action.kind === 'message' && action.characterKey?.trim()) {
         keys.add(action.characterKey)
       }
     })
-
-    if (actionSet.type === 'gameScripts') {
-      const key = actionSet.gameScripts.characterKey ?? ''
-      keys.add(key)
-    }
 
     return Array.from(keys).sort()
   }
@@ -31,24 +26,16 @@ export function usePostActionCharacters() {
   /**
    * ActionSetからキャラクター使用箇所数をカウント（GameScriptsを含む）
    */
-  const countCharacterUsage = (actionSet: ActionSetType): Record<string, number> => {
+  const countCharacterUsage = (actions: ActionSetType): Record<string, number> => {
     const counts: Record<string, number> = {}
 
     // PostActionsからカウント
-    if (actionSet.type === 'postActions') {
-      actionSet.postActions.forEach((action) => {
-        if (action.actionType === 'message') {
-          const key = action.characterKey
-          if (key) counts[key] = (counts[key] || 0) + 1
-        }
-      })
-    }
-
-    // GameScriptsからカウント
-    else if (actionSet.type === 'gameScripts') {
-      const key = actionSet.gameScripts.characterKey
-      if (key) counts[key] = counts[key] = (counts[key] || 0) + 1
-    }
+    actions.postFlows.forEach((action) => {
+      if (action.kind === 'message') {
+        const key = action.characterKey
+        if (key) counts[key] = (counts[key] || 0) + 1
+      }
+    })
 
     return counts
   }
@@ -61,7 +48,7 @@ export function usePostActionCharacters() {
     mappings: Record<string, string>
   ): PostFlowType[] => {
     return postActions.map((action) => {
-      if (action.actionType === 'message') {
+      if (action.kind === 'message') {
         const newCharacterId = mappings[action.characterKey || '']
         if (newCharacterId) {
           return { ...action, characterKey: newCharacterId }
@@ -74,27 +61,11 @@ export function usePostActionCharacters() {
   /**
    * キャラクターマッピングに基づいてActionSetを更新（GameScriptsを含む）
    */
-  const applyCharacterMappings = (actionSet: ActionSetType, mappings: Record<string, string>): ActionSetType => {
-    const newActionSet = { ...actionSet }
+  const applyCharacterMappings = (actions: ActionSetType, mappings: Record<string, string>): ActionSetType => {
+    const newActionSet = { ...actions }
 
     // PostActionsを更新
-    newActionSet.postActions = mapPostActionsCharacterKey(actionSet.postActions, mappings)
-
-    // GameScriptsを更新
-    if (actionSet.type === 'gameScripts') {
-      const oldKey = actionSet.gameScripts.characterKey
-
-      // null のときはマッピングしない
-      if (oldKey !== null) {
-        const newKey = mappings[oldKey]
-        if (newKey) {
-          newActionSet.gameScripts = {
-            ...actionSet.gameScripts,
-            characterKey: newKey,
-          }
-        }
-      }
-    }
+    newActionSet.postFlows = mapPostActionsCharacterKey(actions.postFlows, mappings)
 
     return newActionSet
   }
@@ -111,12 +82,12 @@ export function usePostActionCharacters() {
   /**
    * ActionSetから不正なiconKeyの { characterKey, iconKey } ペアを抽出
    */
-  const extractInvalidIconKeyPairs = (actionSet: ActionSetType): { characterKey: string; iconKey: string }[] => {
+  const extractInvalidIconKeyPairs = (actions: ActionSetType): { characterKey: string; iconKey: string }[] => {
     const seen = new Set<string>()
     const pairs: { characterKey: string; iconKey: string }[] = []
 
-    actionSet.postActions.forEach((action) => {
-      if (action.actionType !== 'message') return
+    actions.postFlows.forEach((action) => {
+      if (action.kind !== 'message') return
       if (!action.characterKey) return
       if (!isInvalidIconKey(action.characterKey, action.iconKey)) return
 
@@ -134,11 +105,11 @@ export function usePostActionCharacters() {
    * ActionSetのiconKey使用回数をカウント
    * キーは "characterKey:iconKey" の複合形式
    */
-  const countIconKeyUsage = (actionSet: ActionSetType): Record<string, number> => {
+  const countIconKeyUsage = (actions: ActionSetType): Record<string, number> => {
     const counts: Record<string, number> = {}
 
-    actionSet.postActions.forEach((action) => {
-      if (action.actionType !== 'message') return
+    actions.postFlows.forEach((action) => {
+      if (action.kind !== 'message') return
       if (!action.characterKey) return
       const key = `${action.characterKey}:${action.iconKey}`
       counts[key] = (counts[key] || 0) + 1
@@ -151,9 +122,9 @@ export function usePostActionCharacters() {
    * iconKeyマッピングを適用してActionSetを更新
    * mappingsのキーは "characterKey:iconKey" 複合形式
    */
-  const applyIconKeyMappings = (actionSet: ActionSetType, mappings: Record<string, string>): ActionSetType => {
-    const newPostActions = actionSet.postActions.map((action) => {
-      if (action.actionType !== 'message') return action
+  const applyIconKeyMappings = (actions: ActionSetType, mappings: Record<string, string>): ActionSetType => {
+    const newPostActions = actions.postFlows.map((action) => {
+      if (action.kind !== 'message') return action
       if (!action.characterKey) return action
       const compositeKey = `${action.characterKey}:${action.iconKey}`
       const newIconKey = mappings[compositeKey]
@@ -161,7 +132,7 @@ export function usePostActionCharacters() {
       return { ...action, iconKey: newIconKey }
     })
 
-    return { ...actionSet, postActions: newPostActions }
+    return { ...actions, postFlows: newPostActions }
   }
 
   return {
