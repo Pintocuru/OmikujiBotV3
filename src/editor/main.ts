@@ -1,7 +1,7 @@
 // src/editor/main.ts
 import App from './App.vue'
 import { createAppNotOneSDK } from '@/common/EntryCore/core'
-import '../../assets/styles/DaisyUiAllObs.css'
+import '@assets/styles/DaisyUiAllObs.css'
 
 window.OmikujiBot = window.OmikujiBot ?? {}
 

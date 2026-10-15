@@ -1,6 +1,6 @@
 // build/2026-Q2/Golden65536.ts
-import { createProject } from '../../tools/buildOptions/baseSettings'
-import { PackageBuildTarget, ProjectConfig, ProjectParams } from '../../tools/webpackBuild/BuildTypes'
+import { createProject } from '@tools/buildOptions/baseSettings'
+import { PackageBuildTarget, ProjectConfig, ProjectParams } from '@tools/webpackBuild/BuildTypes'
 
 const PROJECT = {
   key: 'Golden65536',

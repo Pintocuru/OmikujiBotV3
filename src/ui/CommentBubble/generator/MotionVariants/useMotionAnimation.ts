@@ -1,7 +1,7 @@
 // src/ui/CommentBubble/generator/MotionVariants/useMotionAnimation.ts
 import { computed, nextTick, Ref, ComputedRef, onUnmounted } from 'vue'
-import { enterMotionMap } from '@/types/MetaMaps/enterMotionMaps'
 import { EnterMotionType } from '@/types/OmikujiData'
+import { enterMotionMap } from '@/maps/OmikujiData'
 
 export interface MotionAnimationEmits {
   'update:visible': [value: boolean]

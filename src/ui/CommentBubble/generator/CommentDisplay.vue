@@ -4,15 +4,12 @@
     v-for="(item, index) in displayedComments"
     :key="item.id"
     class="absolute left-0 right-0"
-    :style="{
-      top: `${index * 40}px`,
-      zIndex: 20 - index,
-    }"
+    :style="{ top: `${index * 40}px`, zIndex: 20 - index }"
   >
-    <!-- ! を使用… -->
     <MotionWrapper
       v-model:visible="item.display!.visible"
       :motion="enterMotion"
+      :leave-motion="leaveMotion"
       :auto-hide="false"
       @after-leave="() => removeComment(item.id)"
     >
@@ -20,15 +17,12 @@
         <CommentBubbleItem
           :botName="item.bubble.name ?? ''"
           :message="item.bubble.message"
-          :color="getCharacterColor(item.bubble.characterKey)"
+          :color="getCharacterColor(item.bubble.characterKey) ?? undefined"
           :animated-text="animatedText"
           :brightnessLevel="index"
-          :custom-classes="getCharacterColor(item.bubble.characterKey).customClasses"
           :style="{ zIndex: index }"
         />
       </div>
-
-      <slot :message="item" :index="index" />
     </MotionWrapper>
   </div>
 </template>
@@ -36,9 +30,9 @@
 <script setup lang="ts">
   import { EnterMotionType } from '@/types/OmikujiData'
   import { BotMessageBubbleType } from '@/generator/types'
-  import CommentBubbleItem from '@/generator/ui/CommentBubble/parts/CommentBubbleItem.vue'
-  import MotionWrapper from '@/generator/ui/CommentBubble/MotionVariants/MotionWrapper.vue'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import CommentBubbleItem from './parts/CommentBubbleItem.vue'
+  import MotionWrapper from './MotionVariants/MotionWrapper.vue'
 
   withDefaults(
     defineProps<{

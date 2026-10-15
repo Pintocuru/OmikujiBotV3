@@ -20,15 +20,18 @@
     "paths": {
       "@/*": ["./src/*"],
       "@assets/*": ["./assets/*"],
-      "@game/*": ["./src/GameScripts/*"],
-      "@sounds/*": ["./src/common/sounds/*"],
-      "@migrations/*": ["./src/common/migrations/*"]
+      "@packages/*": ["./packages/*"],
+      "@server/*": ["./server/*"],
+      "@tools/*": ["./tools/*"]
     }
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.vue",
+    "packages/**/*.ts",
+    "packages/**/*.d.ts",
+    "packages/**/*.vue",
     "server/**/*.ts",
     "tools/**/*.ts",
     "build/**/*.ts",

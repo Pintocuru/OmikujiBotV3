@@ -1,5 +1,5 @@
 // src/ui/CommentBubble/generator/composables/UiBubbleMap.ts
-import { CharacterColorType } from '@/types'
+import type { CharacterColorType } from '@/types'
 
 type UiMapOptions = {
   color: CharacterColorType
@@ -8,42 +8,17 @@ type UiMapOptions = {
   customArrowClasses?: string
 }
 
-export function createUiMap({ brightness, color, customClasses, customArrowClasses }: UiMapOptions) {
-  const isTheme = color?.isTheme ?? false
-  const bgColor = color?.backgroundColor || '#212121'
-
+export function createUiMap({ color, brightness, customClasses, customArrowClasses }: UiMapOptions) {
   return {
-    themeDataAttr: isTheme ? color.daisyUiTheme : null,
-
     bubble: {
-      class: [
-        customClasses,
-        brightness,
-        ...(isTheme
-          ? [`text-${color.backFrom}-content`, 'bg-gradient-to-br', `from-${color.backFrom}`, `to-${color.backTo}`]
-          : []),
-      ],
-      style: isTheme
-        ? {}
-        : {
-            backgroundColor: bgColor,
-            '--bubble-bg': bgColor,
-          },
+      class: [customClasses, brightness],
+      style: { backgroundColor: color.background, '--bubble-bg': color.background },
     },
-
-    name: {
-      class: isTheme ? 'badge mb-2 text-base-content' : '',
-      style: isTheme ? {} : { color: color?.nameColor || '#ccc' },
-    },
-
-    text: {
-      class: brightness,
-      style: isTheme ? {} : { color: color?.textColor || '#ccc' },
-    },
-
+    name: { class: '', style: { color: color.name } },
+    text: { class: brightness, style: { color: color.text } },
     arrow: {
-      class: [customArrowClasses, brightness, ...(isTheme ? [`border-t-${color.backTo}`] : [])],
-      style: isTheme ? {} : { borderTopColor: 'var(--bubble-bg)' },
+      class: [customArrowClasses, brightness],
+      style: { borderTopColor: 'var(--bubble-bg)' },
     },
   }
 }

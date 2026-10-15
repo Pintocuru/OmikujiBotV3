@@ -1,83 +1,75 @@
 <!-- src/ui/CommentBubble/generator/CommentBubble.vue -->
 <template>
-  <div class="relative pointer-events-none z-10">
-    <!-- BOTメッセージ表示(0番地) -->
-    <div class="flex justify-center item-center">
-      <CommentBubbleZero :center-messages="centerMessages" @remove-comment="handleRemoveComment" />
-    </div>
-    <!-- 常時表示キャラクター(1番地以降) -->
-    <div class="absolute bottom-0 left-0 right-0 flex items-end justify-center">
-      <CommentBubblePersistent
-        v-for="{ character, slotIndex } in slotCharacters"
-        :key="character.key"
-        :character="character"
-        :slot-index="slotIndex"
-        :messages="getCharacterMessages(character.key)"
-        :is-active="character.key === latestCommenterKey"
-        @remove-comment="handleRemoveComment"
-      />
+  <div class="relative pointer-events-none z-10 h-screen">
+    <div class="absolute bottom-0 left-0 right-0 flex justify-center items-end">
+      <div class="relative flex flex-col items-center">
+        <!-- コメント吹き出し（キャラクターの上） -->
+        <div class="absolute bottom-full -translate-y-36 left-1/2 -translate-x-1/2 min-w-[320px]">
+          <CommentDisplay
+            :displayed-comments="displayedComments"
+            :remove-comment="removeComment"
+            :enter-motion="setting.bubbleMotion"
+            :leave-motion="setting.bubbleMotion"
+          />
+        </div>
+
+        <!-- キャラクター（キーが変わったら再マウントしてアニメを頭出し） -->
+        <LayerImage
+          v-if="shown && shown.layers.length > 0"
+          :key="shown.key"
+          :layers="shown.layers"
+          :size="setting.characterSize"
+          :animation="shown.animation"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted } from 'vue'
-  import { BotMessageBubbleType } from '@/generator/types'
-
-  import CommentBubbleZero from './CommentBubbleZero.vue'
-  import CommentBubblePersistent from './CommentBubblePersistent.vue'
-  import { useCharacterSelection } from './composables/useCharacterSelection'
-  import { useBotDisplay } from './composables/useBotDisplay'
+  import { useAppStore } from '@/generator/stores/useAppStore'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
-  import { useFilteredBotMessages } from '../common/useFilteredBotMessages'
+  import { CommentBubbleSchema } from '@/ui/types'
+  import { useFilteredBotMessages } from '@/ui/common/useFilteredBotMessages'
+  import LayerImage from '@/common/LayerImage/LayerImage.vue'
+  import CommentDisplay from './CommentDisplay.vue'
+  import { useBotDisplay } from './composables/useBotDisplay'
 
-  const { showCharacters, characterMap } = useCharacterManager()
+  const appStore = useAppStore()
+  const { characterMap, hasImage, iconSrc, getCharacterLayers, getCharacterAnimation } = useCharacterManager()
 
-  // bubble kind をまとめて処理済みメッセージ取得
-  const { messages } = useFilteredBotMessages('bubble')
+  // 設定（未設定ならスキーマの既定値）
+  const setting = computed(() => appStore.data.ui.settings.commentBubble ?? CommentBubbleSchema.parse({}))
 
-  // 0番地: 中央表示用
-  const centerMessages = computed<BotMessageBubbleType[]>(() => {
-    const allowKeys = showCharacters.value.center
+  // 全コメントを対象にする（characterKey での絞り込みなし）
+  const { messages } = useFilteredBotMessages('commentBubble')
+  const { displayedComments, removeComment, start, stop } = useBotDisplay(messages)
 
-    return messages.value.filter((msg) => {
-      const key = msg.bubble?.characterKey
-      // null は中央表示
-      return key === null || allowKeys.includes(key)
-    })
+  // 表示中コメントのうち、画像を持つキャラの最新のもの（displayedComments は新しい順）
+  const latestComment = computed(
+    () => displayedComments.value.find((m) => m.display?.visible && hasImage(m.bubble.characterKey)) ?? null
+  )
+
+  // 表示するキャラクター: コメント中はそのキャラ(iconKeyの表情)、なければ常時表示キャラ(default固定)
+  const shown = computed(() => {
+    const msg = latestComment.value
+    if (msg) {
+      return {
+        key: msg.bubble.characterKey as string,
+        layers: getCharacterLayers(msg),
+        animation: getCharacterAnimation(msg),
+      }
+    }
+
+    const key = setting.value.persistentCharacter
+    if (!key || !hasImage(key)) return null
+    return {
+      key,
+      layers: iconSrc(key, 'default'),
+      animation: characterMap.value[key]?.image.default?.animation,
+    }
   })
-
-  // 1-4番地: スロット用
-  const indexMessages = computed<BotMessageBubbleType[]>(() => {
-    const allowKeys = [
-      ...(showCharacters.value.slot1 ?? []),
-      ...(showCharacters.value.slot2 ?? []),
-      ...(showCharacters.value.slot3 ?? []),
-      ...(showCharacters.value.slot4 ?? []),
-    ]
-
-    if (!allowKeys.length) return []
-
-    return messages.value.filter((msg) => {
-      const key = msg.bubble?.characterKey
-      // null は中央専用
-      return key !== null && allowKeys.includes(key)
-    })
-  })
-
-  // 常時表示キャラクター制御
-  const { displayedComments, removeComment, start, stop } = useBotDisplay(indexMessages)
-
-  // キャラクター選択
-  const { latestCommenterKey, slotCharacters } = useCharacterSelection(displayedComments, showCharacters, characterMap)
-
-  // 表示中メッセージ取得
-  const getCharacterMessages = (characterKey: string): BotMessageBubbleType[] => {
-    return displayedComments.value.filter((msg) => msg.bubble?.characterKey === characterKey && msg.display?.visible)
-  }
-
-  // コメント削除
-  const handleRemoveComment = (messageId: string) => removeComment(messageId)
 
   onMounted(start)
   onUnmounted(stop)

@@ -11,15 +11,13 @@
       :class="[fontFamily]"
       data-theme="transparent"
     >
-      <!-- specialSet: 専用レイアウトに委譲 -->
-      <component v-if="specialLayout" :is="specialLayout" />
+      <!-- layout 指定あり: 専用レイアウトに委譲 -->
+      <component v-if="layoutComponent" :is="layoutComponent" />
 
-      <!-- 通常: conditionsループ -->
-      <template v-else v-for="item in activeComponents" :key="item.slot">
+      <!-- 通常: settings に設定のある UI を表示 -->
+      <template v-else v-for="item in activeComponents" :key="item.kind">
         <component :is="item.component" />
       </template>
-
-      <ReactionDebugPanel v-if="isDev && 0" />
     </div>
 
     <ErrorInfo v-else-if="appStore.status === 'error'" />
@@ -28,36 +26,34 @@
 
 <script setup lang="ts">
   import { computed, defineAsyncComponent, onMounted } from 'vue'
-  import { isDev } from '@/types/env'
-  import { useFontFamily } from '@/types/OmikujiData'
+  import { uiKinds, useFontFamily } from '@/types'
   import { useAppInitializer } from '@/generator/composables/useAppInitializer'
   import { useRuleProcessor } from '@/generator/composables/useRuleProcessor'
   import { useAppStore } from '@/generator/stores/useAppStore'
-  import ReactionDebugPanel from '@/generator/ui/_debug/ReactionDebugPanel.vue'
   import ErrorInfo from '@/common/ErrorInfo/ErrorInfo.vue'
   import ConnectionStatusIndicator from '@/common/ErrorInfo/ConnectionStatusIndicator.vue'
-  import { COMPONENT_MAP_LOADER } from './ui/ComponentMaps'
   import { SPECIAL_SET_LAYOUT_LOADER } from './layouts/LayoutMaps'
+  import { getUiLoader } from '@/ui/uiRegistry'
 
   const appStore = useAppStore()
-  const fontFamily = computed(() => useFontFamily(appStore.data.components.commonStyle.fontFamily ?? 'default'))
+  const fontFamily = computed(() => useFontFamily(appStore.data.ui.fontFamily))
 
-  // コンポーネント設定
-  const SLOT_PRIORITY = { primary: 2, secondary: 2, extra: 1 } as const
-  const activeComponents = computed(() =>
-    appStore.data.components.conditions
-      .map((condition) => ({
-        slot: condition.slot,
-        component: defineAsyncComponent(COMPONENT_MAP_LOADER[condition.kind]),
-      }))
-      .sort((a, b) => SLOT_PRIORITY[b.slot] - SLOT_PRIORITY[a.slot])
-  )
+  // settings に設定がある UI だけ表示
+  const activeComponents = computed(() => {
+    const { settings } = appStore.data.ui
+    return uiKinds
+      .filter((kind) => settings[kind])
+      .flatMap((kind) => {
+        const loader = getUiLoader(kind)
+        return loader ? [{ kind, component: defineAsyncComponent(loader) }] : [] // 未登録は無視
+      })
+  })
 
-  // specialSetベース
-  const specialLayout = computed(() => {
-    const { specialSet } = appStore.data.components
-    if (!specialSet) return null
-    return defineAsyncComponent(SPECIAL_SET_LAYOUT_LOADER[specialSet])
+  // layout ベース
+  const layoutComponent = computed(() => {
+    const { layout } = appStore.data.ui
+    const loader = layout ? SPECIAL_SET_LAYOUT_LOADER[layout] : undefined
+    return loader ? defineAsyncComponent(loader) : null
   })
 
   const { initialize } = useAppInitializer()

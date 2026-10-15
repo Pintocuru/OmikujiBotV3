@@ -2,7 +2,6 @@
 <template>
   <div
     class="relative transparent-bg inline-block max-w-3xl min-w-40"
-    :data-theme="uiMap.themeDataAttr"
     :class="uiMap.bubble.class"
     :style="uiMap.bubble.style"
   >
@@ -28,7 +27,7 @@
     defineProps<{
       botName: string | null
       message: string
-      color: CharacterColorType
+      color?: CharacterColorType
       brightnessLevel?: number
       customClasses?: string
       customArrowClasses?: string

@@ -1,7 +1,7 @@
 // tools/JsonMerge/fileLoader.ts
 import fs from 'fs'
 import path from 'path'
-import type { OmikujiDataType } from '@/types/OmikujiData/OmikujiDataSchema'
+import { OmikujiDataType } from '@/types/OmikujiData'
 
 /**
  * ソースファイルをファイルシステムから読み込み、パースする

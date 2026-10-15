@@ -4,7 +4,7 @@
   <HudPreview>
     <CommentBubblePreview
       :key="bubble.bubbleMotion"
-      :botName="previewCharacter?.displayName"
+      :botName="persistentCharacter?.displayName"
       :color="previewColor"
       :fontFamily="fontFamily"
       :bubbleMotion="bubble.bubbleMotion"
@@ -19,17 +19,17 @@
 
   <!-- キャラクター -->
   <SettingItem
-    label="キャラクター"
-    description="フキダシに表示するキャラクターを選択します"
+    label="常時表示キャラクター"
+    description="コメントがないときに表示します。未設定なら、コメントが来たときだけ表示されます"
     :showReset="true"
-    @reset="resetField('character')"
+    @reset="resetField('persistentCharacter')"
   >
     <select
-      :value="bubble.character"
-      @change="(e) => update('character', (e.target as HTMLSelectElement).value)"
+      :value="bubble.persistentCharacter"
+      @change="(e) => update('persistentCharacter', (e.target as HTMLSelectElement).value)"
       class="select select-bordered w-full max-w-xs"
     >
-      <option value="">先頭のキャラクター</option>
+      <option value="">なし(コメント時のみ表示)</option>
       <option v-for="c in characterList" :key="c.key" :value="c.key">
         {{ c.displayName || c.key }}
       </option>
@@ -72,19 +72,6 @@
       </option>
     </select>
   </SettingItem>
-
-  <!-- フォントファミリー -->
-  <SettingItem label="フォントファミリー" description="表示に使用するフォントを設定します">
-    <select
-      :value="fontFamily"
-      @change="(e) => updateUi({ fontFamily: (e.target as HTMLSelectElement).value as FontFamilyType })"
-      class="select select-bordered w-full max-w-xs"
-    >
-      <option v-for="(font, key) in fontFamilyMap" :key="key" :value="key">
-        {{ font.label }}
-      </option>
-    </select>
-  </SettingItem>
 </template>
 
 <script setup lang="ts">
@@ -94,8 +81,8 @@
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import HudPreview from '@/editor/helpers/HudPreview/HudPreview.vue'
   import { CharacterColorScheme } from '@/types/OmikujiData'
-  import type { EnterMotionType, FontFamilyType } from '@/types/OmikujiData'
-  import { enterMotionMap, fontFamilyMap } from '@/maps/OmikujiData'
+  import type { EnterMotionType } from '@/types/OmikujiData'
+  import { enterMotionMap } from '@/maps/OmikujiData'
   import { CommentBubbleSchema } from '@/ui/types'
   import type { CommentBubbleType } from '@/ui/types'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
@@ -103,21 +90,21 @@
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const { updateItemSettings, updateUi } = omikujiStore
+  const { updateItemSettings } = omikujiStore
 
   const bubble = computed(() => data.value.ui.settings.commentBubble ?? CommentBubbleSchema.parse({}))
   const fontFamily = computed(() => data.value.ui.fontFamily)
   const characterList = computed(() => Object.values(data.value.assets.characters))
 
   // プレビュー用: 選択中のキャラクター。未選択・不明なら先頭
-  const previewCharacter = computed(
-    () => characterList.value.find((c) => c.key === bubble.value.character) ?? characterList.value[0] ?? null
+  const persistentCharacter = computed(
+    () => characterList.value.find((c) => c.key === bubble.value.persistentCharacter) ?? characterList.value[0] ?? null
   )
-  const previewColor = computed(() => previewCharacter.value?.color ?? CharacterColorScheme.parse({}))
+  const previewColor = computed(() => persistentCharacter.value?.color ?? CharacterColorScheme.parse({}))
 
   // プレビュー用の画像: default があればそれ、なければ最初に画像のある表情
   const previewLayers = computed(() => {
-    const images = previewCharacter.value?.image ?? {}
+    const images = persistentCharacter.value?.image ?? {}
     const hasSrc = (src?: string[]) => (src ?? []).some((p) => p && p.trim() !== '')
     const entry = hasSrc(images['default']?.src) ? images['default'] : Object.values(images).find((i) => hasSrc(i.src))
     return entry?.src ?? []

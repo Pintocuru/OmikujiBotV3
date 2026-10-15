@@ -1,6 +1,6 @@
 // build/2026-Q1/LiveClockMorning.ts
-import { createProject } from '../../tools/buildOptions/baseSettings'
-import { PackageBuildTarget, ProjectConfig, ProjectParams } from '../../tools/webpackBuild/BuildTypes'
+import { createProject } from '@tools/buildOptions/baseSettings'
+import { PackageBuildTarget, ProjectConfig, ProjectParams } from '@tools/webpackBuild/BuildTypes'
 
 const PROJECT = {
   key: 'LiveClockMorning',

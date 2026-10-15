@@ -1,6 +1,6 @@
 // build/2025-Q4/BomberSpin.ts
-import { createProject } from '../../tools/buildOptions/baseSettings'
-import { PackageBuildTarget, ProjectConfig, ProjectParams } from '../../tools/webpackBuild/BuildTypes'
+import { createProject } from '@tools/buildOptions/baseSettings'
+import { PackageBuildTarget, ProjectConfig, ProjectParams } from '@tools/webpackBuild/BuildTypes'
 
 const PROJECT = {
   key: 'BomberSpin',
