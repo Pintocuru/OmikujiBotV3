@@ -1,4 +1,5 @@
 // src/generator/types/MainGenerator/UserVisits.ts
+import { daisyUIColor } from '@/types/core'
 import { UserNameSchema } from '@/types/OmikenComment'
 import { z } from 'zod'
 
@@ -23,7 +24,7 @@ export const UserStatsRecordSchema = z.object({
   no: z.number().default(0), // コメント数(配信内)
   isSyoken: z.boolean().default(false), // その配信で初見かどうか
   order: z.number().optional(), // 並び替え用（UI 側で自由に使える）
-  team: z.enum(BaseVariantLabels).nullable().default(null),
+  team: z.enum(daisyUIColor).nullable().default(null),
   score: z.number().default(0),
   tags: z.array(z.string()).default([]), // タグ
   badges: z.array(z.string()).default([]), // バッジ

@@ -12,9 +12,8 @@ import { PackageJsonSchema } from '../core'
  * おみくじデータ全体のメインスキーマ
  */
 export const OmikujiDataSchema = PackageJsonSchema.extend({
-  events: EventCategorySchema,
-  assets: AssetCategorySchema,
-
+  events: normalizedObject(EventCategorySchema),
+  assets: normalizedObject(AssetCategorySchema),
   ui: normalizedObject(UiSchema),
   jsonMerge: JsonMergeSchema.catch([]),
   settings: normalizedObject(SettingsSchema),

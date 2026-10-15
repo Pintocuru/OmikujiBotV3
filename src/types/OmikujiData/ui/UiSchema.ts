@@ -29,7 +29,7 @@ export const useFontFamily = (font: FontFamilyType): string => {
  * UiSchema
  */
 export const UiSchema = z.object({
-  layout: UiLayoutSchema,
+  layout: UiLayoutSchema.default('commentBubble').catch('commentBubble'),
   settings: normalizedObject(UiSettingsSchema),
   fontFamily: FontFamilySchema,
 })
