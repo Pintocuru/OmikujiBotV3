@@ -6,7 +6,8 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
-import { ActionSetSchema, ActionSetType, EventType, OmikujiItemType, PostFlowType } from '@/types/OmikujiData'
+import { EventType, OmikujiItemType, PostFlowType } from '@/types/OmikujiData'
+import { defaultPlaceholdersShortLabels } from '../../maps/engine/placeholder/DefaultPlaceholderMap'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { addWeightPercentages, drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { BotMessageType } from '@/generator/types'
@@ -40,11 +41,14 @@ export function useTestPost() {
     return getEvent(category, key) ?? null
   })
 
+  // 重みは lottery を持つ種別のみ。log は 1 扱い
+  const getWeight = (item: OmikujiItemType) => ('lottery' in item ? item.lottery.weight : 1)
+
   // 抽選結果の詳細トーストを表示
   const showOmikujiResultToast = (omikujiItem: OmikujiItemType) => {
     swalToast.success({
       title: 'おみくじ抽選結果',
-      html: `おみくじ: ${omikujiItem.name || '無名のアイテム'}<br>重み: ${omikujiItem.lottery.weight || 1}`,
+      html: `おみくじ: ${omikujiItem.name || '無名のアイテム'}<br>重み: ${getWeight(omikujiItem) || 1}`,
       timer: 15000,
     })
   }
@@ -52,9 +56,12 @@ export function useTestPost() {
   const postTestOmikujiItem = async (postFlows: PostFlowType[], omikujiItem?: OmikujiItemType) => {
     const resultProcessor = new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable)
 
-    const actionItem: ActionSetType = ActionSetSchema.parse({ postFlows })
-
-    const botMessages = await resultProcessor.process(actionItem, defaultPlaceholdersShortLabels, MOCK_COMMENT)
+    // TODO: process() は PostFlowType 1件を受け取る仕様。postFlows 全体の扱いは未確定のため暫定で1件ずつ処理
+    const botMessages = (
+      await Promise.all(
+        postFlows.map((flow) => resultProcessor.process(flow, defaultPlaceholdersShortLabels, MOCK_COMMENT))
+      )
+    ).flat()
 
     if (omikujiItem) showOmikujiResultToast(omikujiItem)
     executeTestPostDelays(botMessages)
@@ -69,7 +76,7 @@ export function useTestPost() {
       return
     }
 
-    const priorityItems = omikujiSet.filter((item) => !item.lottery.isPriority)
+    const priorityItems = omikujiSet.filter((item) => 'lottery' in item && !item.lottery.isPriority)
     const targetSet = priorityItems.length > 0 ? priorityItems : omikujiSet
     const omikujiItem = drawOmikuji(addWeightPercentages(targetSet))
 

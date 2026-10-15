@@ -81,3 +81,10 @@ export const defaultPlaceholderMap: Record<DefaultPlaceholders, DefaultPlacehold
     short: 'Omikuji_Draws_Count',
   },
 }
+
+/**
+ * 省略形（短い）ラベル
+ */
+export const defaultPlaceholdersShortLabels: Record<DefaultPlaceholders, string> = Object.fromEntries(
+  Object.entries(defaultPlaceholderMap).map(([k, v]) => [k, v.short])
+) as Record<DefaultPlaceholders, string>

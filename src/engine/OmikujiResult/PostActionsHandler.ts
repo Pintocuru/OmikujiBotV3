@@ -1,13 +1,14 @@
 // src/engine/OmikujiResult/PostActionsHandler.ts
 import { ActionSetType, OmikujiDataType } from '@/types/OmikujiData/'
+import { OmikenCommentType } from '@/types/OmikenComment'
+
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { BotMessageGenerator } from './BotMessageGenerator'
-import { DisplayVariableResolver } from '../DisplayVariable/DisplayVariableResolver'
-import { ContentPlaceholder } from '../ContentPlaceholder/processor'
-import { PlaceholderContext } from '../ContentPlaceholder/context'
-import { OmikenCommentType } from '@/types/OmikenComment'
+import { DisplayVariableResolver } from '@/engine/DisplayVariable/DisplayVariableResolver'
+import { ContentPlaceholder } from '@/engine/ContentPlaceholder/processor'
+import { PlaceholderContext } from '@/engine/ContentPlaceholder/context'
+import { FlowCallExpander } from '@/engine/OmikujiProcess/FlowCallExpander'
 import { BotMessageType, ProcessedPostAction } from '@/generator/types'
-import { FlowCallExpander } from '../OmikujiProcess/FlowCallExpander'
 
 export class PostActionsHandler {
   private readonly displayResolver: DisplayVariableResolver

@@ -9,7 +9,7 @@
       class="btn btn-xs"
       :class="existingKeys.includes(key) ? 'btn-disabled opacity-40' : 'btn-outline'"
       :disabled="existingKeys.includes(key)"
-      @click="emit('add', key, label)"
+      @click="emit('add', key, label.label)"
     >
       {{ label }}
     </button>
@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-  import { characterEmotionMap } from '@/types/'
+  import { characterEmotionMap } from '@/maps/OmikujiData'
 
   const PRESET_KEYS = ['default', 'happy', 'surprised', 'sad', 'angry', 'thinking'] as const
 

@@ -41,22 +41,22 @@
     selectedItemKey: string | null
   }>()
 
-  const { updateRecordProperty } = useOmikujiStore()
+  const { updateAssetProperty } = useOmikujiStore()
   const editModalRef = ref<InstanceType<typeof EmotionEditModal> | null>(null)
   const newEmotionKey = ref('')
 
-  // ── 現在の画像データ ──────────────────────────────────────────────────────
+  // 現在の画像データ
   const currentImages = computed(() => props.modelValue ?? CharacterImageSetSchema.parse({}))
 
   const isDefaultFilled = computed(() => currentImages.value['default']?.src.some((v) => v.trim() !== '') ?? false)
 
-  // ── Store への書き込み ────────────────────────────────────────────────────
+  // Store への書き込み
   const pushImages = (newImages: CharacterImageType) => {
     if (!props.selectedItemKey) return
-    updateRecordProperty('characters', props.selectedItemKey, 'image', newImages)
+    updateAssetProperty('characters', props.selectedItemKey, 'image', newImages)
   }
 
-  // ── 感情の追加・選択 ──────────────────────────────────────────────────────
+  // 感情の追加・選択
   const handleUpdateImages = (newImages: CharacterImageType) => {
     pushImages(newImages)
   }
@@ -81,7 +81,7 @@
     editModalRef.value?.showModal(key)
   }
 
-  // ── 感情の削除 ────────────────────────────────────────────────────────────
+  // 感情の削除
   const handleRemoveEmotion = (key: string) => {
     const { [key]: _, ...rest } = currentImages.value
     pushImages(rest as CharacterImageType)

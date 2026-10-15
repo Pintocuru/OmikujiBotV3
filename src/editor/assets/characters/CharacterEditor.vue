@@ -39,7 +39,7 @@
       <CommentVoiceSettings
         :modelValue="selectedItem.displayOption"
         :backgroundColor="selectedItem.color.background"
-        :onUpdate="(value) => updateRecordProperty('characters', selectedItemKey!, 'displayOption', value)"
+        :onUpdate="(value) => updateAssetProperty('characters', selectedItemKey!, 'displayOption', value)"
       />
     </SectionCard>
 
@@ -96,7 +96,7 @@
 
   // Pinia store
   const { getAsset } = useGetAssetData()
-  const { updateAsset } = useOmikujiStore()
+  const { updateAsset, updateAssetProperty } = useOmikujiStore()
 
   // 選択されたキャラクターを取得
   // TODO: get/set を使い、この箇所で更新を行うこと。
