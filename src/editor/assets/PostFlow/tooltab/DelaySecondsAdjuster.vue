@@ -26,8 +26,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { PostFlowType } from '@/types/OmikujiData/'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { Minus, Plus } from 'lucide-vue-next'
-  import { useOmikujiStore } from '@/ConfigMaker/stores/useOmikujiStore'
 
   // Props
   const props = defineProps<{
@@ -41,7 +41,7 @@
 
   // 下限値
   const omikujiStore = useOmikujiStore()
-  const minDelaySeconds = computed(() => omikujiStore.data.settings.basicDelaySeconds * -1)
+  const minDelaySeconds = computed(() => omikujiStore.data.settings.generator.basicDelaySeconds * -1)
 
   // 減らすボタンが有効かどうかをチェック
   const canDecreaseDelay = computed(() => {

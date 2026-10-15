@@ -1,4 +1,4 @@
-<!-- src/generator/layouts/DraggableWrapper.vue -->
+<!-- src/common/DraggableWrapper/DraggableWrapper.vue -->
 <template>
   <div
     class="relative touch-none"

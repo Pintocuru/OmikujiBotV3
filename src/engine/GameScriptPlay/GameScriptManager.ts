@@ -1,6 +1,5 @@
 // src/engine/GameScriptPlay/GameScriptManager.ts
-import { ScriptClass } from '@/games/types'
-import { getScriptEntry } from '@/games/registry'
+import { GameStateType, ScriptClass } from '@/games/types'
 import { UserManager } from '@/generator/stores/UserManager/UserManager'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { OmikenCommentType } from '@/types/OmikenComment'
@@ -20,6 +19,7 @@ export class GameScriptManager {
     const cached = this.scriptInstances[scriptId]
     if (cached) return cached
 
+    // ? getScriptEntry とは？
     const entry = getScriptEntry(scriptId)
     if (!entry) {
       throw new Error(`スクリプト "${scriptId}" が登録されていません(index.htmlの読み込みを確認)`)

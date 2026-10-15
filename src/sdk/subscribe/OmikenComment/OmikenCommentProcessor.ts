@@ -1,16 +1,36 @@
 // src/sdk/subscribe/OmikenComment/OmikenCommentProcessor.ts
 import {
+  BaseCommentMetaType,
   CommentMetaSchema,
   OmikenCommentSchema,
   OmikenCommentType,
   UserAccessLevelType,
-  BaseCommentMetaType,
-} from '../../../types/OmikenComment/OmikenCommentSchema'
-import { convertToJPY, isCommentTester } from '../../../utils/threshold/ThresholdHelpers'
+} from '@/types/OmikenComment'
 import { BaseCommentMeta, Comment } from '@onecomme.com/onesdk/types/Comment'
 
 // 定数
 const DAY_7_MS = 7 * 24 * 60 * 60 * 1000
+
+/**
+ * コメントテスター判定
+ */
+export const isCommentTester = (comment: Comment): boolean => comment.id === 'COMMENT_TESTER'
+
+/**
+ * 単位が NT$ や $ の場合、数値を掛け算する
+ * ドルなら100倍、NT$なら5倍
+ */
+export function convertToJPY(price: number | undefined, unit?: string | undefined): number {
+  if (!price || price <= 0) return 0
+
+  const UnitRates: Record<string, number> = {
+    '¥': 1,
+    $: 100,
+    NT$: 5,
+  }
+
+  return price * (UnitRates[unit ?? '¥'] ?? 1)
+}
 
 /**
  * わんコメのコメントをおみくじBOT用コメントに加工

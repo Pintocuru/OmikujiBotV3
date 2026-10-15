@@ -32,7 +32,7 @@
   import { useAppStore } from '@/generator/stores/useAppStore'
   import ErrorInfo from '@/common/ErrorInfo/ErrorInfo.vue'
   import ConnectionStatusIndicator from '@/common/ErrorInfo/ConnectionStatusIndicator.vue'
-  import { SPECIAL_SET_LAYOUT_LOADER } from './layouts/LayoutMaps'
+  import { LAYOUT_LOADER } from '@/layout/LayoutMaps'
   import { getUiLoader } from '@/ui/uiRegistry'
 
   const appStore = useAppStore()
@@ -52,7 +52,8 @@
   // layout ベース
   const layoutComponent = computed(() => {
     const { layout } = appStore.data.ui
-    const loader = layout ? SPECIAL_SET_LAYOUT_LOADER[layout] : undefined
+    // TODO:LAYOUT_LOADER から引っ張らないこと。main.tsの値を使うこと。
+    const loader = layout ? LAYOUT_LOADER[layout] : undefined
     return loader ? defineAsyncComponent(loader) : null
   })
 

@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-  import { resolveLucideIcon, type LucideIconName } from '../../utils/LucideIcon/useLucideIcon'
+  import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
   const props = withDefaults(
     defineProps<{

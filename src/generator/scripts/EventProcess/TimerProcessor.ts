@@ -1,13 +1,13 @@
 // src/generator/scripts/EventProcess/TimerProcessor.ts
-import { TimerEventType } from "@/types/OmikujiData/";
-import { OmikujiProcessor } from "@/generator/scripts/OmikujiProcess/OmikujiProcessor";
-import { useAppStore } from "@/generator/stores/useAppStore";
+import { TimerEventType } from '@/types/OmikujiData/'
+import { useAppStore } from '@/generator/stores/useAppStore'
+import { OmikujiProcessor } from '@/engine/OmikujiProcess/OmikujiProcessor'
 
 interface TimerState {
-  timerId: number;
-  initialTimerId?: number;
-  intervalMs: number;
-  isActive: boolean;
+  timerId: number
+  initialTimerId?: number
+  intervalMs: number
+  isActive: boolean
 }
 
 /**
@@ -17,29 +17,29 @@ interface TimerState {
  * データが更新された場合は、stopTimers() を呼んでから startTimers() を再度呼び出してください。
  */
 export class EventTimerProcessor {
-  private readonly activeTimers = new Map<string, TimerState>();
-  private readonly omikujiProcessor: OmikujiProcessor = new OmikujiProcessor();
+  private readonly activeTimers = new Map<string, TimerState>()
+  private readonly omikujiProcessor: OmikujiProcessor = new OmikujiProcessor()
 
   /**
    * すべてのタイマーを開始
    * onStart イベントは即時実行のみ行い、タイマー管理には含めない
    */
   startTimers(): void {
-    this.stopTimers();
+    this.stopTimers()
 
-    const appStore = useAppStore();
-    const enabledTimers = Object.values(appStore.data.timers)
+    const appStore = useAppStore()
+    const enabledTimers = Object.values(appStore.data.events.timers)
       .filter((rule) => rule.isEnabled)
-      .sort((a, b) => a.order - b.order);
+      .sort((a, b) => a.order - b.order)
 
     enabledTimers.forEach((rule) => {
-      if (rule.mode === "onStart") {
-        this.executeOnStart(rule);
+      if (rule.mode === 'onStart') {
+        this.executeOnStart(rule)
       } else {
         // mode === 'interval'（デフォルト）
-        this.startIntervalTimer(rule);
+        this.startIntervalTimer(rule)
       }
-    });
+    })
   }
 
   /**
@@ -47,15 +47,11 @@ export class EventTimerProcessor {
    */
   private async executeOnStart(event: TimerEventType): Promise<void> {
     try {
-      const appStore = useAppStore();
-      const messages = await this.omikujiProcessor.executeOmikuji(
-        event.key,
-        event.omikuji,
-        "timers",
-      );
-      appStore.scheduleBotMessages(messages);
+      const appStore = useAppStore()
+      const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikuji, 'timers')
+      appStore.scheduleBotMessages(messages)
     } catch (error) {
-      console.error(`onStart ${event.key} execution error:`, error);
+      console.error(`onStart ${event.key} execution error:`, error)
     }
   }
 
@@ -63,35 +59,32 @@ export class EventTimerProcessor {
    * interval モード: 定期実行
    */
   private startIntervalTimer(rule: TimerEventType): void {
-    const intervalMs = rule.intervalSeconds * 1000;
-    let initialDelay = intervalMs;
+    const intervalMs = rule.intervalSeconds * 1000
+    let initialDelay = intervalMs
 
     // isBaseZeroがtrueの場合、0分0秒を基準にする
     if (rule.isBaseZero) {
-      const now = new Date();
-      const msSinceHourStart =
-        now.getMinutes() * 60_000 +
-        now.getSeconds() * 1000 +
-        now.getMilliseconds();
-      initialDelay = intervalMs - (msSinceHourStart % intervalMs);
+      const now = new Date()
+      const msSinceHourStart = now.getMinutes() * 60_000 + now.getSeconds() * 1000 + now.getMilliseconds()
+      initialDelay = intervalMs - (msSinceHourStart % intervalMs)
     }
 
     // 初回実行用のタイマー
     const initialTimerId = window.setTimeout(() => {
-      this.executeTimer(rule);
+      this.executeTimer(rule)
 
       // 定期実行を開始
       const intervalTimerId = window.setInterval(() => {
-        this.executeTimer(rule);
-      }, intervalMs);
+        this.executeTimer(rule)
+      }, intervalMs)
 
       // タイマー状態を更新
-      const timerState = this.activeTimers.get(rule.key);
+      const timerState = this.activeTimers.get(rule.key)
       if (timerState) {
-        timerState.timerId = intervalTimerId;
-        timerState.initialTimerId = undefined;
+        timerState.timerId = intervalTimerId
+        timerState.initialTimerId = undefined
       }
-    }, initialDelay);
+    }, initialDelay)
 
     // タイマー状態を記録
     this.activeTimers.set(rule.key, {
@@ -99,7 +92,7 @@ export class EventTimerProcessor {
       initialTimerId,
       intervalMs,
       isActive: true,
-    });
+    })
   }
 
   /**
@@ -107,15 +100,11 @@ export class EventTimerProcessor {
    */
   private async executeTimer(event: TimerEventType): Promise<void> {
     try {
-      const appStore = useAppStore();
-      const messages = await this.omikujiProcessor.executeOmikuji(
-        event.key,
-        event.omikuji,
-        "timers",
-      );
-      appStore.scheduleBotMessages(messages);
+      const appStore = useAppStore()
+      const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikuji, 'timers')
+      appStore.scheduleBotMessages(messages)
     } catch (error) {
-      console.error(`Timer ${event.key} execution error:`, error);
+      console.error(`Timer ${event.key} execution error:`, error)
     }
   }
 
@@ -124,19 +113,19 @@ export class EventTimerProcessor {
    */
   stopTimers(): void {
     this.activeTimers.forEach((timerState) => {
-      this.clearTimer(timerState);
-    });
-    this.activeTimers.clear();
+      this.clearTimer(timerState)
+    })
+    this.activeTimers.clear()
   }
 
   /**
    * 特定のタイマーを停止
    */
   stopTimer(ruleId: string): void {
-    const timerState = this.activeTimers.get(ruleId);
+    const timerState = this.activeTimers.get(ruleId)
     if (timerState) {
-      this.clearTimer(timerState);
-      this.activeTimers.delete(ruleId);
+      this.clearTimer(timerState)
+      this.activeTimers.delete(ruleId)
     }
   }
 
@@ -145,12 +134,12 @@ export class EventTimerProcessor {
    */
   private clearTimer(timerState: TimerState): void {
     if (timerState.initialTimerId) {
-      window.clearTimeout(timerState.initialTimerId);
+      window.clearTimeout(timerState.initialTimerId)
     }
     if (timerState.timerId) {
-      window.clearInterval(timerState.timerId);
+      window.clearInterval(timerState.timerId)
     }
-    timerState.isActive = false;
+    timerState.isActive = false
   }
 
   /**
@@ -158,15 +147,15 @@ export class EventTimerProcessor {
    */
   getActiveTimers(): string[] {
     return Array.from(this.activeTimers.keys()).filter((ruleId) => {
-      const timerState = this.activeTimers.get(ruleId);
-      return timerState?.isActive ?? false;
-    });
+      const timerState = this.activeTimers.get(ruleId)
+      return timerState?.isActive ?? false
+    })
   }
 
   /**
    * タイマーの詳細情報を取得
    */
   getTimerInfo(ruleId: string): TimerState | undefined {
-    return this.activeTimers.get(ruleId);
+    return this.activeTimers.get(ruleId)
   }
 }

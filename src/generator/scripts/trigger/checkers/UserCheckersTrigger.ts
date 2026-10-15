@@ -1,9 +1,7 @@
 // src/generator/scripts/trigger/checkers/UserCheckersTrigger.ts
-import { OmikenCommentType } from '../../../types/OmikenComment/OmikenCommentSchema'
-import { GiftCondition, SyokenCondition } from '../../../types/Threshold'
-import { AccessConditionTrigger } from '../../../types/trigger'
-import { CountConditionTriggerType } from '../../../types/trigger/CountCondition'
-import { compareValue, getGiftTier } from '../../../utils/threshold/ThresholdHelpers'
+import { OmikenCommentType } from '@/types/OmikenComment'
+import { AccessConditionTrigger, CountConditionTriggerType, GiftCondition, SyokenCondition } from '@/types/engine'
+import { compareValue, getGiftTier } from './TriggerHelpers'
 
 /**
  * 初見・久しぶりのチェック
