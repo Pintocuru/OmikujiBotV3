@@ -1,12 +1,13 @@
 // src/maps/OmikujiData/ui/UiLayoutMap.ts
-import { UiLayoutType } from '@/types/OmikujiData'
+import { UiKind, UiLayoutType } from '@/types/OmikujiData'
 
 /**
  * レイアウトプリセットのUI表示マップ
  */
-export const uiLayoutMap: Record<NonNullable<UiLayoutType>, { label: string; description: string }> = {
+export const uiLayoutMap: Record<NonNullable<UiLayoutType>, { label: string; description: string; kinds: UiKind[] }> = {
   commentBubble: {
     label: 'おみくじBOT',
     description: 'フキダシ＋トースト＋ランキングのセット',
+    kinds: ['commentBubble'], // このレイアウトが使う UI
   },
 }

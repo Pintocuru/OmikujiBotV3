@@ -3,15 +3,6 @@
   <div class="flex flex-col gap-3">
     <SettingItem label="レイアウト" description="専用レイアウトを使用する場合に選択します">
       <div class="flex flex-wrap gap-2">
-        <!-- null = 個別設定 -->
-        <span
-          class="badge cursor-pointer select-none"
-          :class="layout === null ? 'badge-neutral text-neutral-content' : 'badge-outline text-base-content'"
-          @click="updateLayout(null)"
-        >
-          個別設定
-        </span>
-
         <!-- main.ts / registerAll で登録済みのレイアウトのみ -->
         <span
           v-for="key in availableLayouts"
@@ -26,7 +17,7 @@
       </div>
     </SettingItem>
 
-    <p v-if="layout" class="text-sm opacity-70 px-2">{{ uiLayoutMap[layout].description }}</p>
+    <p class="text-sm opacity-70 px-2">{{ uiLayoutMap[layout].description }}</p>
   </div>
 </template>
 

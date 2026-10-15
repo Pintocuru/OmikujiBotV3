@@ -17,7 +17,7 @@
         :isEnabled="item.isEnabled"
         :isDragEnabled="isDragEnabled"
         :isSelected="selectedItemKey === item.key"
-        :sections="getSidebarSections(category as Exclude<CategoryType, 'components'>)"
+        :sections="getSidebarSections(category as Exclude<CategoryType, 'ui'>)"
         draggable
         @select="navigationStore.selectItem(item.key, 'baseSettings')"
         @item-dblclick="handleItemDblclick"

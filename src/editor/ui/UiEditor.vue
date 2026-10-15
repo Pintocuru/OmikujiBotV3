@@ -27,7 +27,7 @@
     <FontFamilyEditor />
   </SectionCard>
 
-  <!-- 各アイテム設定（layout 未設定時のみ。main.ts で登録された UI のみ） -->
+  <!-- 各 UI の設定（選択中レイアウトが使う UI のうち、main.ts で登録されたもの） -->
   <template v-for="[kind, item] in visibleItems" :key="kind">
     <SectionCard
       :id="`section-${kind}`"
@@ -46,6 +46,7 @@
   import { computed, watch } from 'vue'
   import { storeToRefs } from 'pinia'
   import { isDev } from '@/types/env'
+  import { uiLayoutMap } from '@/maps/OmikujiData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
@@ -57,10 +58,11 @@
   const { data } = storeToRefs(useOmikujiStore())
   const { activeSection } = storeToRefs(useNavigationStore())
 
-  // layout 設定時は各 UI の設定を隠す。未設定時は「登録済み かつ settings あり」の UI だけ表示
-  const visibleItems = computed(() =>
-    data.value.ui.layout ? [] : getUiEditorEntries().filter(([kind]) => !!data.value.ui.settings[kind])
-  )
+  // 選択中レイアウトが使う UI のうち、main.ts で登録済みのものだけ表示
+  const visibleItems = computed(() => {
+    const kinds = uiLayoutMap[data.value.ui.layout].kinds
+    return getUiEditorEntries().filter(([kind]) => kinds.includes(kind))
+  })
 
   const toggleSection = (section: string) => {
     activeSection.value = activeSection.value === section ? null : section

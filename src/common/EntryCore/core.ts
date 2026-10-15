@@ -4,6 +4,7 @@ import { createPinia } from 'pinia'
 import { MotionPlugin } from '@vueuse/motion'
 import i18n from '@/editor/i18n'
 import '../../../assets/styles/font.css'
+import '../../../assets/styles/DaisyUiDark.css'
 
 function createBaseApp(AppComponent: any, props?: any) {
   const pinia = createPinia()

@@ -1,56 +1,33 @@
 // src/editor/apps/appItems/navigation/useSidebarSectionMap.ts
 import { ComputedRef, computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import { CategoryType } from '@/types/OmikujiData/'
 import { SidebarSectionItem, categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
-
-// ─────────────────────────────────────────────────────────
-// 動的マップ（components）
-// ─────────────────────────────────────────────────────────
+import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+import { uiLayoutMap } from '@/maps/OmikujiData'
+import { getUiEditorEntries } from '@/editor/ui/uiEditorRegistry'
 
 /**
- * UiEditor の visibleItems と同じ条件でフィルタしたセクション項目を返す
- *
- * UiEditor.vue の activeSection は uiItemMap のキー（'bubble', 'toast' など）と
- * 固定エントリ（'itemConditions'）で構成される。
- * navigationStore.activeSection をそのまま UiEditor の activeSection として共用する。
+ * ui カテゴリのセクション項目を返す
+ * 共通設定（commonStyle）＋ 選択中レイアウトが使う UI のうち、main.ts で登録済みのもの
  */
-export function useComponentsSections(): ComputedRef<SidebarSectionItem[]> {
-  const { hasComponentKind, visibilityMap } = useUiVisibility()
+export function useUiSections(): ComputedRef<SidebarSectionItem[]> {
+  const { data } = storeToRefs(useOmikujiStore())
 
   return computed<SidebarSectionItem[]>(() => {
-    // 固定エントリ（アイテム表示設定セクション）
-    const fixed: SidebarSectionItem[] = [{ section: 'itemConditions', label: 'アイテム表示設定', icon: 'LayoutGrid' }]
+    const kinds = uiLayoutMap[data.value.ui.layout].kinds
+    const dynamic = getUiEditorEntries()
+      .filter(([kind]) => kinds.includes(kind))
+      .map(([kind, item]): SidebarSectionItem => ({ section: kind, icon: item.icon }))
 
-    // uiItemMap から visibleItems と同じ条件でフィルタ
-    const dynamic: SidebarSectionItem[] = Object.entries(uiItemMap)
-      .filter(([_key, item]) => {
-        if (item.targetKey && !hasComponentKind(item.targetKey)) return false
-        return item.visibility.every((v) => {
-          if (v.startsWith('!')) {
-            const key = v.slice(1) as keyof typeof visibilityMap.value
-            return !visibilityMap.value[key]
-          }
-          return visibilityMap.value[v as keyof typeof visibilityMap.value]
-        })
-      })
-      .map(([key, item]) => ({
-        section: key,
-        label: item.title,
-        icon: item.icon,
-      }))
-
-    return [...fixed, ...dynamic]
+    return [{ section: 'commonStyle', icon: 'Palette' }, ...dynamic]
   })
 }
 
-// ─────────────────────────────────────────────────────────
-// 公開 API
-// ─────────────────────────────────────────────────────────
-
 /**
  * カテゴリのセクション項目を返す
- * components は useComponentsSections() を使うこと
+ * ui は useUiSections() を使うこと
  */
-export function getSidebarSections(category: Exclude<CategoryType, 'components'>): SidebarSectionItem[] {
+export function getSidebarSections(category: Exclude<CategoryType, 'ui'>): SidebarSectionItem[] {
   return categorySectionMap[category] ?? []
 }

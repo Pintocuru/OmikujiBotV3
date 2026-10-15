@@ -2,26 +2,19 @@
 import { storeToRefs } from 'pinia'
 import { CategoryType, SettingsCategoryType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { useComponentsSections, getSidebarSections } from './useSidebarSectionMap'
+import { useUiSections, getSidebarSections } from './useSidebarSectionMap'
 import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap'
 import i18n from '@/editor/i18n'
 
-// ─────────────────────────────────────────────────────────
 // 定数
-// ─────────────────────────────────────────────────────────
-
 export type SubItemsVariant = 'record' | 'array' | 'object'
-
 const ARRAY_CATEGORIES: SettingsCategoryType[] = ['jsonMerge']
-const OBJECT_CATEGORIES: SettingsCategoryType[] = ['components', 'appInfo']
+const OBJECT_CATEGORIES: SettingsCategoryType[] = ['ui', 'appInfo']
 
-// ─────────────────────────────────────────────────────────
 // composable
-// ─────────────────────────────────────────────────────────
-
 export const useSidebarSubItems = () => {
   const { data } = storeToRefs(useOmikujiStore())
-  const componentsSections = useComponentsSections() // ComputedRef<SidebarSectionItem[]>
+  const uiSections = useUiSections() // ComputedRef<SidebarSectionItem[]>
 
   /** カテゴリの表示バリアントを返す */
   const getVariant = (key: CategoryType): SubItemsVariant => {
@@ -46,14 +39,14 @@ export const useSidebarSubItems = () => {
   }
 
   /**
-   * object バリアント（appInfo / components）のセクションリストを返す。
+   * object バリアント（appInfo / ui）のセクションリストを返す。
    * 戻り値は常に SidebarSectionItem[]（ComputedRef を unwrap 済み）にせず、
-   * components だけリアクティブが必要なので ComputedRef のまま返す。
+   * ui だけリアクティブが必要なので ComputedRef のまま返す。
    * 呼び出し側は toValue() または .value で受けること。
    */
-  const getSections = (category: CategoryType): SidebarSectionItem[] | typeof componentsSections => {
-    if (category === 'components') return componentsSections
-    return getSidebarSections(category as Exclude<CategoryType, 'components'>)
+  const getSections = (category: CategoryType): SidebarSectionItem[] | typeof uiSections => {
+    if (category === 'ui') return uiSections
+    return getSidebarSections(category as Exclude<CategoryType, 'ui'>)
   }
 
   return { getVariant, getStaticItems, getSections }

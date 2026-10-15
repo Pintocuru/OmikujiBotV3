@@ -1,6 +1,6 @@
 <!-- src/editor/apps/appItems/navigation/SidebarObjectItems.vue -->
 <!--
-  appInfo / components 用のセクションリスト。
+  appInfo / ui 用のセクションリスト。
   theme / activeSection は SidebarSectionList の props として渡す必要があるため
   useSidebarContext() から取得して中継する。
 -->
@@ -29,7 +29,7 @@
   const { getSections } = useSidebarSubItems()
   const navigationStore = useNavigationStore()
 
-  // getSections は components のときだけ ComputedRef を返す（リアクティブ維持のため）
+  // getSections は ui のときだけ ComputedRef を返す（リアクティブ維持のため）
   // toValue() で ComputedRef / 生配列の両方を透過的に扱う
   const resolvedSections = computed(() => toValue(getSections(props.category)))
 </script>

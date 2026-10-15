@@ -58,7 +58,7 @@ export const navigationSidebarMessages = {
         label: 'リアクションイベント(Youtube)',
         description: '視聴者のリアクション（❤ 😄 🎉 😳 💯）でおみくじを発動します',
       },
-      box: {
+      mikuji: {
         label: 'みくじ箱',
         description: 'おみくじの内容を作成します',
       },
@@ -142,7 +142,7 @@ export const navigationSidebarMessages = {
         label: 'Reactions (YouTube)',
         description: 'Triggers omikuji on viewer reactions (❤ 😄 🎉 😳 💯)',
       },
-      box: {
+      mikuji: {
         label: 'Omikuji Box',
         description: 'Creates the omikuji contents',
       },
