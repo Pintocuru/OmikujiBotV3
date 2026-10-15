@@ -1,9 +1,9 @@
 // src/sdk/service/ServiceAPI.ts
 import { z } from 'zod'
-import { api } from '../../http/client'
 import { Service } from '@onecomme.com/onesdk/types/Service'
 import { RGBColor } from '@onecomme.com/onesdk/types/Color'
-import { postSystemMessage } from '../post/PostOneComme'
+import { postSystemMessage } from '@/sdk/post/PostOneComme'
+import { api } from '@/sdk/client'
 
 // Zodスキーマ定義
 const FrameIdSchema = z
@@ -39,8 +39,6 @@ export class ServiceAPI {
     }
     return ServiceAPI.instance
   }
-
-  private constructor() {}
 
   /**
    * わんコメの枠一覧を取得

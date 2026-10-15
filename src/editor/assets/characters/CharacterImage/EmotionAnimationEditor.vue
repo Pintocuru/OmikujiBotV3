@@ -51,7 +51,7 @@
   import { ref, watch, computed } from 'vue'
   import type { CharacterAnimationType } from '@/types/'
   import ImagePreview from '@/common/LayerImage/ImagePreview.vue'
-  import { loopMotionMap } from '@/types/MetaMaps/loopMotionMaps'
+  import { loopMotionMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     /** どの感情のアニメーションか（変化時に local state をリセットするために使用） */

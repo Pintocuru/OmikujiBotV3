@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-  import { executeWordParty } from '@shared/sdk/post/PostWordParty'
+  import { executeWordParty } from '@/sdk/post/PostWordParty'
 
   const props = defineProps<{
     id?: string

@@ -4,7 +4,7 @@ import { z } from 'zod'
 /**
  * レイアウトプリセット
  */
-export const uiLayouts = ['CommentBubble'] as const
+export const uiLayouts = ['commentBubble'] as const
 
 // スキーマと型の定義
 export const UiLayoutSchema = z.enum(uiLayouts)

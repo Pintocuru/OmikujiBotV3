@@ -2,12 +2,12 @@
 import { PostFlowType, OmikujiDataType, hasPostFlowMessage } from '@/types/OmikujiData/'
 import { createBotMessagesFromAction, createBotMessagesFromVariable } from './BotMessageHelpers'
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
-import { playSoundDelay } from '@sounds/PlaySound'
 import { VariablePlaceholderProcessor } from '../VariablePlaceholder/VariableProcessor'
 import { PostOmikujiService } from '../PostOmikuji/PostOmikujiService'
 import { CharacterManager } from '../CharacterManager/CharacterManager'
 import { BotMessageType, ProcessedPostAction } from '@/generator/types'
 import { OmikenCommentType } from '@/types/OmikenComment'
+import { playSoundDelay } from '@/common/sounds'
 
 /** 変数プレースホルダー {{ ... }} */
 const EVAL_PATTERN = /\{\{[\s\S]*?\}\}/g
