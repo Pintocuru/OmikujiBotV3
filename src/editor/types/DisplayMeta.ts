@@ -1,4 +1,4 @@
-// src/types/OmikujiData/CategoryMapValue.ts
+// src/editor/types/DisplayMeta.ts
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
 export type DisplayMeta = {

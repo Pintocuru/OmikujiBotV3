@@ -1,4 +1,4 @@
-// src/editor/helpers/ThemeColorPicker/CharacterColorPreset.ts
+// src/editor/helpers/ColorPicker/ColorPreset.ts
 import { CharacterColorType } from '@/types/OmikujiData'
 
 // デフォルトキャラクター用のカラーテーマ（マテリアルカラーベース、可読性重視）

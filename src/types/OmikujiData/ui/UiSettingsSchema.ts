@@ -1,4 +1,4 @@
-// src/types/OmikujiData/ui/UiSchema.ts
+// src/types/OmikujiData/ui/UiSettingsSchema.ts
 import { z } from 'zod'
 import { CommentBubbleSchema } from '@/ui/types'
 

@@ -1,5 +1,4 @@
-<!-- src/editor/helpers/ThemeColorPicker/LegacyColorPicker.vue -->
-<!-- TODO:ファイル名を変える -->
+<!-- src/editor/helpers/ColorPicker/ColorPicker.vue -->
 <template>
   <div class="bg-base-300 p-4 flex flex-col space-y-4">
     <!-- プリセットカラー -->
@@ -34,7 +33,8 @@
 
 <script setup lang="ts">
   import { CharacterColorType } from '@/types/OmikujiData/'
-  import { DEFAULT_COLOR_THEMES } from './CharacterColorPreset'
+  import { DEFAULT_COLOR_THEMES } from './ColorPreset'
+  import { colorFields } from '@/editor/maps/helpers/ColorPicker'
 
   const props = defineProps<{
     modelValue: CharacterColorType
@@ -43,14 +43,6 @@
   const emit = defineEmits<{
     'update:modelValue': [value: CharacterColorType]
   }>()
-
-  // TODO:ここはmapを使うこと
-  const colorFields = [
-    { label: '名前の色', key: 'name' },
-    { label: 'テキストの色', key: 'text' },
-    { label: '背景色', key: 'background' },
-    { label: 'アクセント', key: 'accent' },
-  ] as const
 
   const onUpdate = (key: keyof CharacterColorType, value: string) => {
     emit('update:modelValue', {

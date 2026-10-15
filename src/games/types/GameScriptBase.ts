@@ -1,4 +1,4 @@
-// src/games/types/GameScriptBase.t
+// src/games/types/GameScriptBase.ts
 // !廃止(ユーザーマネージャーを介さない)
 import { UserManager } from '@/generator/stores/UserManager/UserManager'
 

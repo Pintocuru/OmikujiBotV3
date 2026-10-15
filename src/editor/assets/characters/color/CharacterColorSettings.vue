@@ -7,7 +7,7 @@
 
   <!-- フキダシカラー設定 -->
   <SubSectionHeader icon="Palette" title="カラー設定" description="フキダシの配色やテーマカラーを設定します" />
-  <LegacyColorPicker :model-value="currentColor" @update:model-value="handleColorUpdate" />
+  <ColorPicker :model-value="currentColor" @update:model-value="handleColorUpdate" />
 </template>
 
 <script setup lang="ts">
@@ -15,7 +15,7 @@
   import { CharacterColorScheme, CharacterColorType } from '@/types/OmikujiData/'
   import CommentBubblePreview from '@/ui/CommentBubble/editor/CommentBubblePreview.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
-  import LegacyColorPicker from '@/editor/helpers/ThemeColorPicker/LegacyColorPicker.vue'
+  import ColorPicker from '@/editor/helpers/ColorPicker/ColorPicker.vue'
 
   const props = defineProps<{
     modelValue?: CharacterColorType

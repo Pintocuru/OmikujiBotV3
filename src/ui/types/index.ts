@@ -1,4 +1,4 @@
-// src/types/OmikujiData/ui/index.ts
+// src/ui/types/index.ts
 
 // 各型定義の公開
 export * from './CommentBubbleSchema'
