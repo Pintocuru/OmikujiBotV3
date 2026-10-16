@@ -4,17 +4,11 @@ import { storeToRefs } from 'pinia'
 import { CategoryType, eventCategory, assetCategory } from '@/types/OmikujiData'
 import { isDev } from '@/types/env'
 import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
+import { CategoryGroup } from '@/editor/types/apps'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { categoryMap } from '@/maps/OmikujiData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
-
-/**
- * ナビゲーションのグループ（サブラベル）
- * events / assets / ui / その他
- */
-export type CategoryGroupId = 'events' | 'assets' | 'ui' | 'other'
-export type CategoryGroup = { id: CategoryGroupId; keys: CategoryType[] }
 
 export const useCategoryUtils = () => {
   const omikujiStore = useOmikujiStore()

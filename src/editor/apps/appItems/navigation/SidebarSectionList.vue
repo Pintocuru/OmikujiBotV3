@@ -10,7 +10,7 @@
       @mouseleave="onLeave"
       @click="onClick(sec)"
     >
-      <component :is="resolveIcon(sec.icon)" v-if="sec.icon" class="w-3 h-3 shrink-0" />
+      <component :is="resolveLucideIcon(sec.icon)" class="w-3 h-3 shrink-0" />
       <span class="truncate">{{ t(`categorySections.${sec.section}.label`) }}</span>
     </button>
 
@@ -23,10 +23,10 @@
 
 <script setup lang="ts">
   import { ref, computed, onBeforeUnmount } from 'vue'
-  import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap'
+  import { SidebarSectionItem } from '@/editor/types/apps'
   import HoverPopup from '../preview/HoverPopup.vue'
   import { staticSectionPreviewMap } from '../preview/staticSectionPreviewMap'
-  import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
+  import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
   import { CategoryType } from '@/types/OmikujiData'
@@ -108,9 +108,4 @@
     const isTriggerMode = props.category === 'services' || props.category === 'reactions'
     return isTriggerMode ? { data: hoveredItem.value, mode: props.category } : { data: hoveredItem.value }
   })
-
-  function resolveIcon(name?: string) {
-    if (!name) return null
-    return resolveLucideIcon(name as LucideIconName)
-  }
 </script>

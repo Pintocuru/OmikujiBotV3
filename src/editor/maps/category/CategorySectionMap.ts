@@ -1,22 +1,11 @@
 // src/editor/maps/category/CategorySectionMap.ts
-import { CategoryType } from '@/types/OmikujiData'
-import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
+import { DataCategoryType } from '@/types/OmikujiData'
+import { SidebarSectionItem } from '@/editor/types/apps'
 
 /**
- * サイドバーのサブアイテム下に表示するセクション項目
- * TODO:この型定義は、src/editor/apps/appItems/navigation/useSidebarSubItems.ts でも使用しているため、
- * src/editor/types に移動すべきでは？
+ * Events / Assets カテゴリのセクション項目
  */
-export type SidebarSectionItem = {
-  section: string
-  icon: LucideIconName
-  component?: string
-}
-
-/**
- * 静的マップ（Record カテゴリ / appInfo）
- */
-export const categorySectionMap: Record<CategoryType, SidebarSectionItem[]> = {
+export const categorySectionMap: Record<DataCategoryType, SidebarSectionItem[]> = {
   // event
   comments: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
@@ -60,17 +49,16 @@ export const categorySectionMap: Record<CategoryType, SidebarSectionItem[]> = {
     { section: 'commentVoice', icon: 'MessageSquare', component: 'commentVoice' },
     { section: 'imageSettings', icon: 'Image', component: 'imageSettings' },
   ],
-
-  // ── appInfo（AppInfoEditor.vue の SectionCard#id から "section-" を除いたもの） ──
-  appInfo: [
-    { section: 'appSettings', icon: 'Settings' },
-    { section: 'appFeatures', icon: 'Sparkles' },
-    { section: 'packageBasic', icon: 'Info' },
-    { section: 'packageDistribution', icon: 'Package' },
-    { section: 'packageSystem', icon: 'Cpu' },
-  ],
-
-  // jsonMerge: サブアイテム単位でセクションなし（そのまま）
-  jsonMerge: [],
-  ui: [],
 }
+
+/**
+ * appInfo のセクション項目
+ * （AppInfoEditor.vue の SectionCard#id から "section-" を除いたもの）
+ */
+export const appInfoSections: SidebarSectionItem[] = [
+  { section: 'appSettings', icon: 'Settings' },
+  { section: 'appFeatures', icon: 'Sparkles' },
+  { section: 'packageBasic', icon: 'Info' },
+  { section: 'packageDistribution', icon: 'Package' },
+  { section: 'packageSystem', icon: 'Cpu' },
+]

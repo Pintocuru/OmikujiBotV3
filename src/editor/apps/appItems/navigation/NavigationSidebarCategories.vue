@@ -44,20 +44,27 @@
           leave-to-class="opacity-0 max-h-0"
         >
           <template v-if="isExpanded && selectedCategory === key && isOpenCategory[key]">
-            <!-- Record：新規作成ボタン + ドラッグ可能なアイテムリスト（データが0件でも表示する） -->
-            <SidebarRecordItems
-              v-if="getVariant(key) === 'record'"
-              :category="key"
-              v-model="getDraggableModel(key).value"
-              v-model:isDragEnabled="isDragEnabled"
-              @dragEnd="onDragEnd"
-            />
+            <!-- variant で category の型が絞り込まれる -->
+            <template v-for="entry in [resolveEntry(key)]" :key="entry.category">
+              <!-- Record：新規作成ボタン + ドラッグ可能なアイテムリスト（データが0件でも表示する） -->
+              <SidebarRecordItems
+                v-if="entry.variant === 'record'"
+                :category="entry.category"
+                v-model="getDraggableModel(entry.category).value"
+                v-model:isDragEnabled="isDragEnabled"
+                @dragEnd="onDragEnd"
+              />
 
-            <!-- Array：jsonMerge の静的リスト -->
-            <SidebarArrayItems v-else-if="getVariant(key) === 'array'" :category="key" :items="getStaticItems(key)" />
+              <!-- Array：jsonMerge の静的リスト -->
+              <SidebarArrayItems
+                v-else-if="entry.variant === 'array'"
+                :category="entry.category"
+                :items="getJsonMergeItems()"
+              />
 
-            <!-- Object：appInfo / components のセクションリスト -->
-            <SidebarObjectItems v-else-if="getVariant(key) === 'object'" :category="key" />
+              <!-- Object：appInfo / ui のセクションリスト -->
+              <SidebarObjectItems v-else :category="entry.category" />
+            </template>
           </template>
         </transition>
       </template>
@@ -69,7 +76,7 @@
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { CategoryType } from '@/types/OmikujiData/'
+  import { CategoryType, DataCategoryType } from '@/types/OmikujiData/'
   import { useCategoryUtils } from './composables/useCategoryUtils'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useNavigationSidebarDrag } from './composables/useNavigationSidebarDrag'
@@ -104,7 +111,7 @@
     set: (val) => (isDragDisabled.value = val),
   })
 
-  const getDraggableModel = (key: CategoryType) =>
+  const getDraggableModel = (key: DataCategoryType) =>
     computed({
       get: () => draggableItems.value[key] ?? [],
       set: (val) => {
@@ -113,7 +120,7 @@
     })
 
   // サブ項目ロジック
-  const { getVariant, getStaticItems } = useSidebarSubItems()
+  const { resolveEntry, getJsonMergeItems } = useSidebarSubItems()
 
   // 開閉状態
   const isOpenCategory = ref<Record<string, boolean>>({})

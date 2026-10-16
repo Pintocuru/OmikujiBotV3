@@ -1,8 +1,9 @@
 // src/editor/apps/appItems/navigation/composables/useSidebarSectionMap.ts
 import { ComputedRef, computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { CategoryType } from '@/types/OmikujiData/'
-import { SidebarSectionItem, categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
+import { DataCategoryType } from '@/types/OmikujiData/'
+import { SidebarObjectCategory, SidebarSectionItem } from '@/editor/types/apps'
+import { appInfoSections, categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { uiLayoutMap } from '@/maps/OmikujiData'
 import { getUiEditorEntries } from '@/editor/ui/uiEditorRegistry'
@@ -25,9 +26,19 @@ export function useUiSections(): ComputedRef<SidebarSectionItem[]> {
 }
 
 /**
- * カテゴリのセクション項目を返す
- * ui は useUiSections() を使うこと
+ * Events / Assets のセクション項目を返す
  */
-export function getSidebarSections(category: Exclude<CategoryType, 'ui'>): SidebarSectionItem[] {
-  return categorySectionMap[category] ?? []
+export function getSidebarSections(category: DataCategoryType): SidebarSectionItem[] {
+  return categorySectionMap[category]
+}
+
+/**
+ * ui / appInfo のセクション項目を返す（常に ComputedRef）
+ */
+export function useObjectSections() {
+  const uiSections = useUiSections()
+  const appInfo = computed(() => appInfoSections)
+
+  return (category: SidebarObjectCategory): ComputedRef<SidebarSectionItem[]> =>
+    category === 'ui' ? uiSections : appInfo
 }

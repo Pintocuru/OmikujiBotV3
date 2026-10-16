@@ -1,4 +1,4 @@
-// src/types/OmikujiData/index.ts
+// src/common/migrations/v2/OmikujiData/index.ts
 
 // 各型定義の公開
 export * from './ActionSet'

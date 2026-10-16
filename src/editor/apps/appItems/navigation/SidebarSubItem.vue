@@ -40,7 +40,7 @@
   import SidebarSectionList from './SidebarSectionList.vue'
   import { useSidebarContext } from './composables/useSidebarContext'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap'
+  import { SidebarSectionItem } from '@/editor/types/apps'
   import { GripVertical, EyeOff } from 'lucide-vue-next'
 
   defineProps<{

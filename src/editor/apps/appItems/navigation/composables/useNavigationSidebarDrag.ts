@@ -1,20 +1,14 @@
 // src/editor/apps/appItems/navigation/composables/useNavigationSidebarDrag.ts
 import { Ref, ref, watch, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
-import { CategoryType } from '@/types/OmikujiData/'
+import { DataCategoryType } from '@/types/OmikujiData/'
+import { DraggableSubItem } from '@/editor/types/apps'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import i18n from '@/editor/i18n'
 import { BaseRecordType } from '@/types/core'
-
-export type DraggableSubItem = {
-  key: string
-  label: string
-  isEnabled?: boolean
-  rawItem: BaseRecordType
-}
 
 export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => {
   const navigationStore = useNavigationStore()
@@ -23,7 +17,7 @@ export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => 
   const { getAssets, isAssetCategory } = useGetAssetData()
   const omikujiStore = useOmikujiStore()
 
-  const draggableItems = ref<Record<CategoryType, DraggableSubItem[]>>({} as Record<CategoryType, DraggableSubItem[]>)
+  const draggableItems = ref<Partial<Record<DataCategoryType, DraggableSubItem[]>>>({})
   const isDragDisabled = ref(false)
 
   // 戻り値型を明示して ts(2589) を止める。引数は最小の構造型にする
@@ -34,15 +28,12 @@ export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => 
     rawItem: item,
   })
 
-  const buildDraggableItems = (category: CategoryType): DraggableSubItem[] => {
+  const buildDraggableItems = (category: DataCategoryType): DraggableSubItem[] => {
     if (isEventCategory(category)) {
       return getEvents(category).map((item) => toDraggable(item.id, item))
     }
-    if (isAssetCategory(category)) {
-      // assets は並び順を持たないので、Object.values の順のまま
-      return Object.values(getAssets(category)).map((item) => toDraggable(item.key, item))
-    }
-    return []
+    // assets は並び順を持たないので、Object.values の順のまま
+    return Object.values(getAssets(category)).map((item) => toDraggable(item.key, item))
   }
 
   // カテゴリ切り替え・展開時に配列を再構築
@@ -73,7 +64,7 @@ export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => 
   )
 
   // 並び替えは events のみ
-  const onDragEnd = async (category: CategoryType) => {
+  const onDragEnd = async (category: DataCategoryType) => {
     if (!isEventCategory(category)) return
 
     const orderedKeys = (draggableItems.value[category] ?? []).map((i) => i?.key).filter((k): k is string => !!k)

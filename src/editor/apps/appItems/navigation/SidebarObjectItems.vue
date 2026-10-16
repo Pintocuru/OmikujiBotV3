@@ -7,29 +7,28 @@
 <template>
   <SidebarSectionList
     :category="category"
-    :sections="resolvedSections"
+    :sections="sections"
     :activeSection="activeSection"
     @selectSection="(section) => (navigationStore.activeSection = section)"
   />
 </template>
 
 <script setup lang="ts">
-  import { computed, toValue } from 'vue'
-  import { CategoryType } from '@/types/OmikujiData/'
+  import { computed } from 'vue'
+  import { SidebarObjectCategory } from '@/editor/types/apps'
   import { useSidebarContext } from './composables/useSidebarContext'
   import { useSidebarSubItems } from './composables/useSidebarSubItems'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SidebarSectionList from './SidebarSectionList.vue'
 
   const props = defineProps<{
-    category: CategoryType
+    category: SidebarObjectCategory
   }>()
 
   const { activeSection } = useSidebarContext()
-  const { getSections } = useSidebarSubItems()
+  const { getObjectSections } = useSidebarSubItems()
   const navigationStore = useNavigationStore()
 
-  // getSections は ui のときだけ ComputedRef を返す（リアクティブ維持のため）
-  // toValue() で ComputedRef / 生配列の両方を透過的に扱う
-  const resolvedSections = computed(() => toValue(getSections(props.category)))
+  // ui / appInfo どちらも ComputedRef で返る。category の変化にも追従させる
+  const sections = computed(() => getObjectSections(props.category).value)
 </script>

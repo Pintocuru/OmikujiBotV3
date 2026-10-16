@@ -1,53 +1,35 @@
 // src/editor/apps/appItems/navigation/composables/useSidebarSubItems.ts
 import { storeToRefs } from 'pinia'
-import { CategoryType, SettingsCategoryType } from '@/types/OmikujiData/'
+import { CategoryType } from '@/types/OmikujiData/'
+import { SidebarCategoryEntry, SidebarStaticItem } from '@/editor/types/apps'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { useUiSections, getSidebarSections } from './useSidebarSectionMap'
-import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap'
+import { useGetEventData } from '@/editor/stores/useGetEventData'
+import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+import { useObjectSections } from './useSidebarSectionMap'
 import i18n from '@/editor/i18n'
 
-// 定数
-export type SubItemsVariant = 'record' | 'array' | 'object'
-const ARRAY_CATEGORIES: SettingsCategoryType[] = ['jsonMerge']
-const OBJECT_CATEGORIES: SettingsCategoryType[] = ['ui', 'appInfo']
-
-// composable
 export const useSidebarSubItems = () => {
   const { data } = storeToRefs(useOmikujiStore())
-  const uiSections = useUiSections() // ComputedRef<SidebarSectionItem[]>
-
-  /** カテゴリの表示バリアントを返す */
-  const getVariant = (key: CategoryType): SubItemsVariant => {
-    if (ARRAY_CATEGORIES.includes(key as SettingsCategoryType)) return 'array'
-    if (OBJECT_CATEGORIES.includes(key as SettingsCategoryType)) return 'object'
-    return 'record'
-  }
+  const { isEventCategory } = useGetEventData()
+  const { isAssetCategory } = useGetAssetData()
+  const getObjectSections = useObjectSections()
 
   /**
-   * jsonMerge / appInfo の静的アイテムリストを返す。
-   * どちらでもないカテゴリでは呼ばれないが、型上は空配列を返す。
+   * カテゴリを「表示バリアント + 絞り込み済みカテゴリ」に変換する
+   * 分岐は OmikujiData の型ガードだけで完結し、最後の else は 'ui' | 'appInfo' に絞り込まれる
    */
-  const getStaticItems = (category: CategoryType): { key: string; label: string }[] => {
-    if (category === 'jsonMerge') {
-      return data.value.jsonMerge.map((item) => ({
-        key: item.key,
-        label: item.name || i18n.global.t('navigation.unnamed'),
-      }))
-    }
-    if (category === 'appInfo') return [{ key: 'general', label: i18n.global.t('navigation.appInfo') }]
-    return []
+  const resolveEntry = (category: CategoryType): SidebarCategoryEntry => {
+    if (isEventCategory(category) || isAssetCategory(category)) return { variant: 'record', category }
+    if (category === 'jsonMerge') return { variant: 'array', category }
+    return { variant: 'object', category }
   }
 
-  /**
-   * object バリアント（appInfo / ui）のセクションリストを返す。
-   * 戻り値は常に SidebarSectionItem[]（ComputedRef を unwrap 済み）にせず、
-   * ui だけリアクティブが必要なので ComputedRef のまま返す。
-   * 呼び出し側は toValue() または .value で受けること。
-   */
-  const getSections = (category: CategoryType): SidebarSectionItem[] | typeof uiSections => {
-    if (category === 'ui') return uiSections
-    return getSidebarSections(category as Exclude<CategoryType, 'ui'>)
-  }
+  /** jsonMerge の静的アイテムリスト */
+  const getJsonMergeItems = (): SidebarStaticItem[] =>
+    data.value.jsonMerge.map((item) => ({
+      key: item.key,
+      label: item.name || i18n.global.t('navigation.unnamed'),
+    }))
 
-  return { getVariant, getStaticItems, getSections }
+  return { resolveEntry, getJsonMergeItems, getObjectSections }
 }

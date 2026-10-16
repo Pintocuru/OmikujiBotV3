@@ -17,13 +17,13 @@
 
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
-  import { CategoryType } from '@/types/OmikujiData/'
+  import { SidebarArrayCategory, SidebarStaticItem } from '@/editor/types/apps'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SidebarSubItem from './SidebarSubItem.vue'
 
   defineProps<{
-    category: CategoryType
-    items: { key: string; label: string }[]
+    category: SidebarArrayCategory
+    items: SidebarStaticItem[]
   }>()
 
   const navigationStore = useNavigationStore()
