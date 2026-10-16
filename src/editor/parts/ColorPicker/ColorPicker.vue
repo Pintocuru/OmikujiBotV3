@@ -1,4 +1,4 @@
-<!-- src/editor/helpers/ColorPicker/ColorPicker.vue -->
+<!-- src/editor/parts/ColorPicker/ColorPicker.vue -->
 <template>
   <div class="bg-base-300 p-4 flex flex-col space-y-4">
     <!-- プリセットカラー -->

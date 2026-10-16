@@ -1,4 +1,4 @@
-// src/editor/helpers/IconKeyChanger/useIconKeyUpdater.ts
+// src/editor/helpers/IconKeyChanger/composables/useIconKeyUpdater.ts
 import { ComputedRef } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'

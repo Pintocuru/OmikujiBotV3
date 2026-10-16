@@ -1,4 +1,4 @@
-// src/sdk/subscribe/GetMetas.ts
+// src/sdk/subscribe/GetServiceMeta.ts
 import { api } from '../client'
 import { PingOneSDK } from '../connection/PingOneSDK'
 import { Service, ServiceMeta } from '@onecomme.com/onesdk/types/Service'

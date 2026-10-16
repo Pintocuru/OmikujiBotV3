@@ -1,4 +1,4 @@
-// PeakRateTracker.ts
+// src/generator/stores/ReactionManager/PeakRateTracker.ts
 const ELAPSED_CAP_SEC = 5
 
 export class PeakRateTracker {

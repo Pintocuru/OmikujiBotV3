@@ -1,4 +1,4 @@
-// src/editor/helpers/CharacterChanger/useCharacterUpdater.ts
+// src/editor/helpers/CharacterChanger/composables/useCharacterUpdater.ts
 import { ComputedRef } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { FlowTarget } from './useDataExtractor'

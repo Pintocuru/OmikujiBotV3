@@ -1,4 +1,4 @@
-// src/editor/tools/MockUser/MockConstants.ts
+// src/common/MockUser/MockConstants.ts
 
 // サフィックスを付与する確率
 export const SUFFIX_PROBABILITY = 0.2

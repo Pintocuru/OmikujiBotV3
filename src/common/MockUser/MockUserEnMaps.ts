@@ -1,4 +1,4 @@
-// src/editor/tools/MockUser/MockUserEnMaps.ts
+// src/common/MockUser/MockUserEnMaps.ts
 
 /**
  * 英語圏配信者っぽい名前（名）

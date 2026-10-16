@@ -1,4 +1,4 @@
-<!-- src/editor/helpers/NavigateButton/ModalFooterActions.vue -->
+<!-- src/editor/parts/ModalFooterActions.vue -->
 <template>
   <div class="flex justify-end gap-2">
     <button @click="onCancel" class="btn btn-ghost text-base-content flex items-center gap-1">

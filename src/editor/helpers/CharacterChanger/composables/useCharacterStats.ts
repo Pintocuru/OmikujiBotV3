@@ -1,4 +1,4 @@
-// src/editor/helpers/CharacterChanger/useCharacterStats.ts
+// src/editor/helpers/CharacterChanger/composables/useCharacterStats.ts
 import { computed, ComputedRef } from 'vue'
 import { FlowTarget } from './useDataExtractor'
 import { usePostActionCharacters } from './usePostActionCharacters'

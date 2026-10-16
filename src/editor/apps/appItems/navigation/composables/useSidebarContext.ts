@@ -1,4 +1,4 @@
-// src/editor/apps/appItems/navigation/useSidebarContext.ts
+// src/editor/apps/appItems/navigation/composables/useSidebarContext.ts
 import { provide, inject, Ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'

@@ -1,4 +1,4 @@
-// src/generator/types/MainGenerator/BotMessageSchema.ts
+// src/generator/types/scripts/BotMessageSchema.ts
 import { OmikenCommentSchema, UserNameSchema } from '@/types/OmikenComment'
 import { eventCategory } from '@/types/OmikujiData'
 import { DaisyUIColorSchema, idSchema } from '@/types/core'

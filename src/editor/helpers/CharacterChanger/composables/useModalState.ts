@@ -1,4 +1,4 @@
-// src/editor/helpers/CharacterChanger/useModalState.ts
+// src/editor/helpers/CharacterChanger/composables/useModalState.ts
 import { ref, computed } from 'vue'
 
 /**

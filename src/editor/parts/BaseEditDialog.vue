@@ -1,4 +1,4 @@
-<!-- src/editor/helpers/BaseDialog/BaseEditDialog.vue -->
+<!-- src/editor/parts/BaseEditDialog.vue -->
 <template>
   <dialog ref="dialogRef" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box w-11/12 max-w-5xl h-[80vh] flex flex-col overflow-hidden">

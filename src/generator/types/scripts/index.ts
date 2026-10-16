@@ -1,4 +1,4 @@
-// src/generator/types/MainGenerator/index.ts
+// src/generator/types/scripts/index.ts
 
 export * from './BotMessageSchema'
 export * from './OmikujiResultTypes'

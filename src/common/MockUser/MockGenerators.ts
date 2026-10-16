@@ -1,4 +1,4 @@
-// src/editor/tools/MockUser/MockGenerators.ts
+// src/common/MockUser/MockGenerators.ts
 import { ExtraListsSchema } from '@/generator/types'
 import { BotMessageExtraSchema, BotMessageExtraType } from '@/generator/types'
 import { UserStatsRecord, UserStatsRecordSchema, UserVisitRecord, UserVisitRecordSchema } from '@/generator/types'

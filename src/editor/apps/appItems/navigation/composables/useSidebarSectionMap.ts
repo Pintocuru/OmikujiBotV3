@@ -1,4 +1,4 @@
-// src/editor/apps/appItems/navigation/useSidebarSectionMap.ts
+// src/editor/apps/appItems/navigation/composables/useSidebarSectionMap.ts
 import { ComputedRef, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { CategoryType } from '@/types/OmikujiData/'

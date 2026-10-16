@@ -1,4 +1,4 @@
-// BurstLevelMachine.ts
+// src/generator/stores/ReactionManager/BurstLevelMachine.ts
 import { BurstLevelChangeCallback } from '@/generator/types'
 
 const THRESHOLDS = [0.25, 0.5, 0.75] as const

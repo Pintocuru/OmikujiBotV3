@@ -1,4 +1,4 @@
-// src/editor/helpers/CharacterChanger/useDataExtractor.ts
+// src/editor/helpers/CharacterChanger/composables/useDataExtractor.ts
 import { computed } from 'vue'
 import { EventCategoryType, ActionSetType, MikujiBoxType } from '@/types/OmikujiData/'
 import { categoryMap } from '@/maps/OmikujiData'

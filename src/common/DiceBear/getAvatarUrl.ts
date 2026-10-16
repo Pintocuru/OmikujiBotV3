@@ -1,4 +1,4 @@
-// src/editor/tools/DiceBear/getAvatarUrl.ts
+// src/common/DiceBear/getAvatarUrl.ts
 import { nanoid } from 'nanoid'
 
 export const getAvatarUrl = (name?: string) => {

@@ -1,4 +1,4 @@
-// ReactionTotals.ts
+// src/generator/stores/ReactionManager/ReactionTotals.ts
 import { reactionKeys } from '@/types/OmikujiData'
 
 export class ReactionTotals {

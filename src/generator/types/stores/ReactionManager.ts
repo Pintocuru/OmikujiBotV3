@@ -1,4 +1,4 @@
-//
+// src/generator/types/stores/ReactionManager.ts
 
 export interface BurstState {
   level: number // 現在のバーストレベル (0〜3)

@@ -1,4 +1,4 @@
-// src/editor/apps/appItems/navigation/useCategoryUtils.ts
+// src/editor/apps/appItems/navigation/composables/useCategoryUtils.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { CategoryType, eventCategory, assetCategory } from '@/types/OmikujiData'

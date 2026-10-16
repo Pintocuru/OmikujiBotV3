@@ -1,4 +1,4 @@
-// src/editor/maps/helpers/ColorPicker.ts
+// src/editor/maps/parts/ColorPicker.ts
 export const colorFields = [
   { label: '名前の色', key: 'name' },
   { label: 'テキストの色', key: 'text' },

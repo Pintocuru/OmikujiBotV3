@@ -1,4 +1,4 @@
-// src/generator/types/MainGenerator/UserVisits.ts
+// src/generator/types/scripts/UserVisits.ts
 import { daisyUIColor } from '@/types/core'
 import { UserNameSchema } from '@/types/OmikenComment'
 import { z } from 'zod'

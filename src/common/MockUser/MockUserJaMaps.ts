@@ -1,4 +1,4 @@
-// src/editor/tools/MockUser/MockUserJaMaps.ts
+// src/common/MockUser/MockUserJaMaps.ts
 
 // TODO:MockUser**Maps は、src/editor/tools/MockUser/maps にネストすること。
 

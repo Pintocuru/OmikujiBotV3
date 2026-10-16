@@ -1,4 +1,4 @@
-// src/editor/helpers/CharacterChanger/usePostActionCharacters.ts
+// src/editor/helpers/CharacterChanger/composables/usePostActionCharacters.ts
 import { PostFlowType } from '@/types/OmikujiData/'
 import { FlowTarget } from './useDataExtractor'
 import { useCharacterLookup } from './useCharacterLookup'
