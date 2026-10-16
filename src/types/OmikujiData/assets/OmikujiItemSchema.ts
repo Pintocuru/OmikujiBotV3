@@ -6,9 +6,12 @@ import { normalizedObject } from '../ParsedDefault'
 import { BaseSchema } from '../../core/BaseSchema'
 
 /**
- * omikujiItemKinds カテゴリのUI表示情報
+ * omikujiItemKinds: おみくじアイテムの種別
+ * - postFlow: BOTアクションを実行する
+ * - control : 処理の流れを制御する (command: return / continue / reset)
+ * - log     : ユーザー状態をログとして出力する
  */
-export const omikujiItemKinds = ['postFlow', 'return', 'continue', 'reset', 'log'] as const
+export const omikujiItemKinds = ['postFlow', 'control', 'log'] as const
 
 // スキーマと型の定義
 export const OmikujiItemKindSchema = z.enum(omikujiItemKinds)
@@ -37,45 +40,46 @@ export const OmikujiLotterySchema = z.discriminatedUnion('isPriority', [OmikujiP
 export type LotteryType = z.infer<typeof OmikujiLotterySchema>
 
 /**
- * 「おみくじカウントとして記録するか」を持つ omikujiItem 種別の共通ベース。
- * return / continue / reset の3種で共有する。
+ * 全種別共通のベース。抽選設定 (lottery) は全種別が持つ。
+ *
+ * 注意: discriminatedUnion の判別子 (kind) に .default() / .catch() を付けると、
+ * 「kind 省略」が undefined として値を占有する。占有できるのは1種別だけなので、
+ * 省略時の既定種別である postFlow のみ .default() を付け、他は素の z.literal() にする。
  */
-const OmikujiItemCountableBase = BaseSchema.extend({
-  isCountEvent: z.boolean().default(true), // このアクションをおみくじカウントとして記録するか
+const OmikujiItemBase = BaseSchema.extend({
   lottery: normalizedObject(OmikujiLotterySchema),
 })
 
 // BOTアクションを実行する
-export const OmikujiItemPostFlowSchema = BaseSchema.extend({
-  kind: z.literal('postFlow').default('postFlow').catch('postFlow'),
+export const OmikujiItemPostFlowSchema = OmikujiItemBase.extend({
+  kind: z.literal('postFlow').default('postFlow'), // kind 省略時は postFlow
   postFlows: PostFlowArraySchema,
   cooldownSeconds: z.number().min(0).optional(), // 設定した秒数の間、重複実行をブロックする
-  lottery: normalizedObject(OmikujiLotterySchema),
 })
 
-// 処理を終了する
-export const OmikujiItemReturnSchema = OmikujiItemCountableBase.extend({
-  kind: z.literal('return').default('return').catch('return'),
-  variable: z.string().default('').catch(''),
-})
+/**
+ * 処理の流れを制御する (return / continue / reset)
+ * - return  : 処理を終了する
+ * - continue: 次のイベントへ処理を進める
+ * - reset   : おみくじの抽選回数をリセットする
+ */
+export const omikujiControlCommands = ['return', 'continue', 'reset'] as const
+export const OmikujiControlCommandSchema = z.enum(omikujiControlCommands)
+export type OmikujiControlCommand = z.infer<typeof OmikujiControlCommandSchema>
 
-// 次のイベントへ処理を進める
-export const OmikujiItemContinueSchema = OmikujiItemCountableBase.extend({
-  kind: z.literal('continue').default('continue').catch('continue'),
-  variable: z.string().default('').catch(''),
-})
-
-// おみくじの抽選回数をリセットする
-export const OmikujiItemResetSchema = OmikujiItemCountableBase.extend({
-  kind: z.literal('reset').default('reset').catch('reset'),
+export const OmikujiItemControlSchema = OmikujiItemBase.extend({
+  kind: z.literal('control'),
+  command: OmikujiControlCommandSchema.default('return').catch('return'),
+  isCountEvent: z.boolean().default(true), // このアクションをおみくじカウントとして記録するか
+  // TODO: 未実装。postFlows の kind:'variable' と同じ挙動 (評価ブロックの編集) を想定
   variable: z.string().default('').catch(''),
 })
 
 // ユーザー状態をログとして出力する
 // TODO: ログを出す代わりに、評価ブロックにあるObjectまたはstringを、わんコメに投稿する機能にする
 export const LOG_FORMAT_DEFAULT = '<<user>> <<score>> <<createdAt>>'
-export const OmikujiItemLogSchema = BaseSchema.extend({
-  kind: z.literal('log').default('log').catch('log'),
+export const OmikujiItemLogSchema = OmikujiItemBase.extend({
+  kind: z.literal('log'),
   // ログ1行のフォーマット文字列（使用可能: <<index>> <<user>> <<userId>> <<score>> <<item>> <<flag>> <<createdAt>>）
   logFormat: z.string().default(LOG_FORMAT_DEFAULT).catch(LOG_FORMAT_DEFAULT),
   logLimit: z.number().min(1).max(100).default(5).catch(5), // 最大出力件数（1〜100）
@@ -83,9 +87,7 @@ export const OmikujiItemLogSchema = BaseSchema.extend({
 
 export const OmikujiItemSchema = z.discriminatedUnion('kind', [
   OmikujiItemPostFlowSchema,
-  OmikujiItemReturnSchema,
-  OmikujiItemContinueSchema,
-  OmikujiItemResetSchema,
+  OmikujiItemControlSchema,
   OmikujiItemLogSchema,
 ])
 export type OmikujiItemType = z.infer<typeof OmikujiItemSchema>

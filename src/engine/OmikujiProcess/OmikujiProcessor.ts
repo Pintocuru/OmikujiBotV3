@@ -1,5 +1,5 @@
 // src/engine/OmikujiProcess/OmikujiProcessor.ts
-import { PostFlowType, EventCategoryType, MikujiItemsType } from '@/types/OmikujiData'
+import { EventCategoryType, MikujiItemsType, OmikujiItemType } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { DefaultPlaceholdersCommentSchema, DefaultPlaceholdersMetaSchema, ServiceMetaCondition } from '@/types/engine'
 
@@ -8,6 +8,9 @@ import { useAppStore } from '@/generator/stores/useAppStore'
 import { BotMessageType } from '@/generator/types'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
+
+// postFlow 種別のおみくじアイテム
+type PostFlowItemType = Extract<OmikujiItemType, { kind: 'postFlow' }>
 
 export class OmikujiProcessor {
   private readonly store = useAppStore()
@@ -23,15 +26,15 @@ export class OmikujiProcessor {
 
   /**
    * おみくじ抽選 & 実行 (本番用)
-   * TODO:omikujiSet ではなく、 omikujiKey を受け取る
+   * @param omikujiKey data.assets.mikuji のキー (event.omikujiKey)
    */
   async executeOmikuji(
     eventKey: string,
-    omikujiSet: MikujiItemsType,
+    omikujiKey: string,
     category: EventCategoryType,
     omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
-    return this.runFlow(eventKey, omikujiSet, category, omiken, false)
+    return this.runFlow(eventKey, omikujiKey, category, omiken, false)
   }
 
   /**
@@ -39,11 +42,11 @@ export class OmikujiProcessor {
    */
   async executeDummyOmikuji(
     eventKey: string,
-    omikujiSet: MikujiItemsType,
+    omikujiKey: string,
     category: EventCategoryType,
     omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
-    return this.runFlow(eventKey, omikujiSet, category, omiken, true)
+    return this.runFlow(eventKey, omikujiKey, category, omiken, true)
   }
 
   /**
@@ -51,33 +54,34 @@ export class OmikujiProcessor {
    */
   private async runFlow(
     eventKey: string,
-    omikujiSet: MikujiItemsType,
+    omikujiKey: string,
     category: EventCategoryType,
     omiken?: OmikenCommentType,
     isDummy: boolean = false
   ): Promise<BotMessageType[]> {
-    const actionItem = this.lotteryOmikujiItem(omikujiSet)
-    if (!actionItem) return []
+    const omikujiSet = this.store.data.assets.mikuji[omikujiKey]?.omikuji ?? []
+    const item = this.lotteryOmikujiItem(omikujiSet)
 
-    const defaultPlaceholders = this.getDefaultPlaceholders(omiken)
+    // TODO: return / continue / reset / log は未対応 (タイマー・配信数値・リアクションでは何もしない)
+    if (!item || item.kind !== 'postFlow') return []
 
-    // isDummyによって呼び出すメソッドを切り替える
-    const messages = isDummy
-      ? await this.omikujiResult.processDummy(actionItem, defaultPlaceholders, omiken)
-      : await this.omikujiResult.process(actionItem, defaultPlaceholders, omiken)
-
-    return this.attachSource(messages, category, eventKey, actionItem.key, omiken)
+    return this.runPostFlows(eventKey, item, category, omiken, isDummy)
   }
 
   /**
    * おみくじ抽選。
    * criteria フィルタが必要な場合は呼び出し側で事前に適用すること
    * (コメントイベントは RuleCommentProcessor.lotteryWithCriteria を使用)。
+   * isPriority が true のアイテムが複数ある場合は、配列の先頭側が必ず選ばれる。
    */
-  lotteryOmikujiItem(omikujiSet: MikujiItemsType): PostFlowType | null {
+  lotteryOmikujiItem(omikujiSet: MikujiItemsType): OmikujiItemType | null {
     try {
-      if (!omikujiSet.length) return null
-      return (drawOmikuji(omikujiSet) as PostFlowType) ?? null
+      // weight / isPriority は item.lottery の中にあるため、drawOmikuji 用にフラット化する
+      const candidates = omikujiSet.map((item) => {
+        const lottery = 'lottery' in item ? item.lottery : undefined
+        return { item, isPriority: lottery?.isPriority ?? false, weight: lottery?.weight ?? 1 }
+      })
+      return drawOmikuji(candidates)?.item ?? null
     } catch (error) {
       const msg = `おみくじ実行エラー ${error}`
       console.error(msg)
@@ -86,15 +90,40 @@ export class OmikujiProcessor {
     }
   }
 
+  /**
+   * 抽選済みの postFlow アイテムを実行する (コメントイベント用)
+   */
   async executeActionItem(
     eventKey: string,
-    actionItem: PostFlowType,
+    item: PostFlowItemType,
     category: EventCategoryType,
     omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
+    return this.runPostFlows(eventKey, item, category, omiken, false)
+  }
+
+  /**
+   * postFlows を順番に実行する。
+   * 前の flow (variable など) の結果に後の flow が依存する可能性があるため、並列にはしない。
+   */
+  private async runPostFlows(
+    eventKey: string,
+    item: PostFlowItemType,
+    category: EventCategoryType,
+    omiken: OmikenCommentType | undefined,
+    isDummy: boolean
+  ): Promise<BotMessageType[]> {
     const defaultPlaceholders = this.getDefaultPlaceholders(omiken)
-    const messages = await this.omikujiResult.process(actionItem, defaultPlaceholders, omiken)
-    return this.attachSource(messages, category, eventKey, actionItem.key, omiken)
+    const messages: BotMessageType[] = []
+
+    for (const flow of item.postFlows) {
+      const result = isDummy
+        ? await this.omikujiResult.processDummy(flow, defaultPlaceholders, omiken)
+        : await this.omikujiResult.process(flow, defaultPlaceholders, omiken)
+      messages.push(...result)
+    }
+
+    return this.attachSource(messages, category, eventKey, item.key, omiken)
   }
 
   /**

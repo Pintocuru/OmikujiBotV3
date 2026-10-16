@@ -48,7 +48,7 @@ export class EventTimerProcessor {
   private async executeOnStart(event: TimerEventType): Promise<void> {
     try {
       const appStore = useAppStore()
-      const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikuji, 'timers')
+      const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikujiKey, 'timers')
       appStore.scheduleBotMessages(messages)
     } catch (error) {
       console.error(`onStart ${event.key} execution error:`, error)
@@ -101,7 +101,7 @@ export class EventTimerProcessor {
   private async executeTimer(event: TimerEventType): Promise<void> {
     try {
       const appStore = useAppStore()
-      const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikuji, 'timers')
+      const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikujiKey, 'timers')
       appStore.scheduleBotMessages(messages)
     } catch (error) {
       console.error(`Timer ${event.key} execution error:`, error)

@@ -18,12 +18,27 @@
     </div>
   </SettingItem>
 
+  <!-- 制御の種類 (control のみ) -->
+  <SettingItem
+    v-if="isControlItem(omikujiItem)"
+    label="制御の種類"
+    description="処理の流れをどう制御するかを選択します"
+  >
+    <div class="flex flex-wrap gap-2">
+      <span
+        v-for="(option, command) in omikujiControlCommandMap"
+        :key="command"
+        class="badge cursor-pointer select-none"
+        :class="omikujiItem.command === command ? 'badge-primary' : 'badge-ghost'"
+        @click="updateCommand(command as OmikujiControlCommand)"
+      >
+        {{ option.label }}
+      </span>
+    </div>
+  </SettingItem>
+
   <!-- サブタイトル -->
-  <SubSectionHeader
-    :icon="omikujiItemKindMap[omikujiItem.kind].icon"
-    :title="omikujiItemKindMap[omikujiItem.kind].label"
-    :description="omikujiItemKindMap[omikujiItem.kind].description"
-  />
+  <SubSectionHeader :icon="headerMeta.icon" :title="headerMeta.label" :description="headerMeta.description" />
 
   <!-- postFlow 編集 -->
   <PostFlowEditor
@@ -32,8 +47,8 @@
     @update="updatePostFlows"
   />
 
-  <!-- return / continue / reset 共通: おみくじカウント -->
-  <SettingItem v-else-if="isCountableItem(omikujiItem)" label="おみくじカウント" :description="countEventDescription">
+  <!-- control 共通: おみくじカウント -->
+  <SettingItem v-else-if="isControlItem(omikujiItem)" label="おみくじカウント" :description="countEventDescription">
     <input
       type="checkbox"
       class="toggle toggle-primary"
@@ -71,14 +86,20 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { OmikujiItemKind, OmikujiItemType, PostFlowType } from '@/types/OmikujiData/'
+  import {
+    OmikujiControlCommand,
+    OmikujiItemKind,
+    OmikujiItemSchema,
+    OmikujiItemType,
+    PostFlowType,
+  } from '@/types/OmikujiData/'
 
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import OmikujiItemHeader from './OmikujiItemHeader.vue'
 
   import PostFlowEditor from '@/editor/assets/PostFlow/PostFlowsEditor.vue'
-  import { omikujiItemKindMap } from '@/maps/OmikujiData'
+  import { omikujiItemKindMap, omikujiControlCommandMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     omikujiItem: OmikujiItemType
@@ -88,12 +109,17 @@
     update: [item: OmikujiItemType]
   }>()
 
-  // isCountEvent を持つ種別(return / continue / reset)
-  type CountableItem = Extract<OmikujiItemType, { kind: 'return' | 'continue' | 'reset' }>
+  type ControlItem = Extract<OmikujiItemType, { kind: 'control' }>
   type LogItem = Extract<OmikujiItemType, { kind: 'log' }>
 
-  const isCountableItem = (item: OmikujiItemType): item is CountableItem =>
-    item.kind === 'return' || item.kind === 'continue' || item.kind === 'reset'
+  const isControlItem = (item: OmikujiItemType): item is ControlItem => item.kind === 'control'
+
+  // サブタイトルの表示内容 (control は command ごと)
+  const headerMeta = computed(() =>
+    isControlItem(props.omikujiItem)
+      ? omikujiControlCommandMap[props.omikujiItem.command]
+      : omikujiItemKindMap[props.omikujiItem.kind]
+  )
 
   // アイテム全体の更新
   const updateItem = (item: OmikujiItemType) => {
@@ -101,13 +127,26 @@
   }
 
   // kind変更
+  // 新しい kind 固有のプロパティ (command など) は既定値で補い、
+  // 元の kind のプロパティ (postFlows など) は保持する (kind を戻したときに失われないように)
   const updateKind = (kind: OmikujiItemKind) => {
     if (props.omikujiItem.kind === kind) return
 
     emit('update', {
+      ...OmikujiItemSchema.parse({ ...props.omikujiItem, kind }),
       ...props.omikujiItem,
       kind,
     } as OmikujiItemType)
+  }
+
+  // control の command 変更
+  const updateCommand = (command: OmikujiControlCommand) => {
+    if (!isControlItem(props.omikujiItem)) return
+
+    emit('update', {
+      ...props.omikujiItem,
+      command,
+    })
   }
 
   // postFlows更新
@@ -120,9 +159,9 @@
     })
   }
 
-  // isCountEvent更新(return / continue / reset 共通)
+  // isCountEvent更新(control 共通)
   const updateIsCountEvent = (isCountEvent: boolean) => {
-    if (!isCountableItem(props.omikujiItem)) return
+    if (!isControlItem(props.omikujiItem)) return
 
     emit('update', {
       ...props.omikujiItem,
@@ -151,15 +190,15 @@
     })
   }
 
-  // kindごとの isCountEvent の説明文
-  const countEventDescriptions: Record<CountableItem['kind'], string> = {
+  // commandごとの isCountEvent の説明文
+  const countEventDescriptions: Record<ControlItem['command'], string> = {
     return: '処理を終了するときに、このアクションをおみくじカウントとして記録します',
     continue: '次のイベントへ進むときに、このアクションをおみくじカウントとして記録します',
     reset: 'リセットを実行したことを、おみくじカウントとして記録します',
   }
 
   const countEventDescription = computed(() =>
-    isCountableItem(props.omikujiItem) ? countEventDescriptions[props.omikujiItem.kind] : ''
+    isControlItem(props.omikujiItem) ? countEventDescriptions[props.omikujiItem.command] : ''
   )
 
   const shouldShowKindSelector = computed(() => {

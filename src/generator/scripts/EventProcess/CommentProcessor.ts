@@ -89,7 +89,7 @@ export class EventCommentProcessor {
     // 6. 通常アクション (postFlow のみ到達)
     if (selectedItem.kind !== 'postFlow') return { isCommentTriggered: false, botMessages: [] }
     const omikujiProcessor = new OmikujiProcessor()
-    const botMessages = await omikujiProcessor.executeActionItem(event.key, selectedItem.postFlows, 'comments', omiken)
+    const botMessages = await omikujiProcessor.executeActionItem(event.key, selectedItem, 'comments', omiken)
 
     // botMessages が空ではない場合にカウント
     if (botMessages.length > 0) this.recordDraw(omiken, event)
