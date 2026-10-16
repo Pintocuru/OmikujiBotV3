@@ -41,14 +41,14 @@ export type PostFlowMessageType = z.infer<typeof PostFlowMessageSchema>
 
 // PostFlow sound
 export const PostFlowSoundSchema = PostFlowBaseSchema.extend({
-  kind: z.literal('sound').default('sound'),
+  kind: z.literal('sound'),
   ...SoundMixin,
 })
 export type PostFlowSoundType = z.infer<typeof PostFlowSoundSchema>
 
 // PostFlow WordParty
 export const PostFlowWordPartySchema = PostFlowBaseSchema.extend({
-  kind: z.literal('wordParty').default('wordParty'),
+  kind: z.literal('wordParty'),
   wordPartyId: z.string().catch(''),
   repeat: z
     .union([z.number().int().min(1), z.enum(['viewer', 'upVote'])])
@@ -59,14 +59,14 @@ export type PostFlowWordPartyType = z.infer<typeof PostFlowWordPartySchema>
 
 // PostFlow Variable 評価ブロック
 export const PostFlowVariableSchema = PostFlowBaseSchema.extend({
-  kind: z.literal('variable').default('variable'),
+  kind: z.literal('variable'),
   message: z.string().catch(''),
 })
 export type PostFlowVariableType = z.infer<typeof PostFlowVariableSchema>
 
 // PostFlow bot BOTちゃん
 export const PostFlowBotSchema = PostFlowBaseSchema.extend({
-  kind: z.literal('bot').default('bot'),
+  kind: z.literal('bot'),
   botName: z.string().default('').catch(''),
   message: z.string().catch(''),
 })
@@ -74,7 +74,7 @@ export type PostFlowBotType = z.infer<typeof PostFlowBotSchema>
 
 // PostFlow flowCall アクションセット
 export const PostFlowCallSchema = PostFlowBaseSchema.extend({
-  kind: z.literal('flowCall').default('flowCall'),
+  kind: z.literal('flowCall'),
   callKeys: WeightValuesArraySchema,
 })
 export type PostFlowCallType = z.infer<typeof PostFlowCallSchema>

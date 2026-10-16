@@ -43,7 +43,7 @@
           leave-from-class="opacity-100 max-h-96"
           leave-to-class="opacity-0 max-h-0"
         >
-          <template v-if="isExpanded && selectedCategory === key && isOpenCategory[key]">
+          <div v-if="isExpanded && selectedCategory === key && isOpenCategory[key]">
             <!-- variant で category の型が絞り込まれる -->
             <template v-for="entry in [resolveEntry(key)]" :key="entry.category">
               <!-- Record：新規作成ボタン + ドラッグ可能なアイテムリスト（データが0件でも表示する） -->
@@ -65,7 +65,7 @@
               <!-- Object：appInfo / ui のセクションリスト -->
               <SidebarObjectItems v-else :category="entry.category" />
             </template>
-          </template>
+          </div>
         </transition>
       </template>
     </template>
