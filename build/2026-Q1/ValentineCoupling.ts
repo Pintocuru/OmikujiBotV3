@@ -19,8 +19,8 @@ const COLOR_VARIANTS = [''] as const
 
 // ビルドターゲット（推定）
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'ValentineCoupling', type: 'FULL', accessLevel: 'basic', sourceProject: 'OmikujiBot' },
-  { project: 'ValentineCoupling', type: 'JSON', accessLevel: 'basic' },
+  { project: 'ValentineCoupling', type: 'FULL', sourceProject: 'OmikujiBot' },
+  { project: 'ValentineCoupling', type: 'JSON' },
 ]
 
 // プロジェクト一覧

@@ -1,125 +1,83 @@
 // tools/JsonMerge/remaps.ts
-import type { OmikujiDataType } from '@/types/OmikujiData/'
-import type { JsonMergeRemapType } from '@/types/OmikujiData/'
-import type { ActionSetType, PostFlowType, GameScriptsType } from '@/types/OmikujiData/'
-import { eventCategory } from '@/types/OmikujiData'
+import type {
+  OmikujiDataType,
+  JsonMergeRemapType,
+  PostFlowType,
+  PostFlowMessageType,
+  PostFlowGameType,
+} from '@/types/OmikujiData/'
 
 /**
- * PostActionの配列に対してリマップルールを適用
+ * message の characterKey / iconKey にリマップルールを適用
  */
-function remapPostActions(postActions: PostFlowType[], remaps: JsonMergeRemapType[]): PostFlowType[] {
-  return postActions.map((action) => {
-    // message以外のactionTypeは早期return
-    if (action.actionType !== 'message') return action
+function remapMessage(flow: PostFlowMessageType, remaps: JsonMergeRemapType[]): PostFlowMessageType {
+  let remapped = flow
 
-    let remappedAction: PostFlowType = { ...action }
-    let hasChanged = false
-
-    for (const remap of remaps) {
-      // characterKeyの置き換え
-      if (remap.fromCharacterKey && remap.toCharacterKey && remappedAction.characterKey === remap.fromCharacterKey) {
-        remappedAction = {
-          ...remappedAction,
-          characterKey: remap.toCharacterKey,
-        }
-        hasChanged = true
-      }
-
-      // iconKeyの置き換え
-      if (remap.fromIconKey && remap.toIconKey && remappedAction.iconKey === remap.fromIconKey) {
-        remappedAction = {
-          ...remappedAction,
-          iconKey: remap.toIconKey,
-        }
-        hasChanged = true
-      }
+  for (const remap of remaps) {
+    // characterKeyの置き換え
+    if (remap.fromCharacterKey && remap.toCharacterKey && remapped.characterKey === remap.fromCharacterKey) {
+      remapped = { ...remapped, characterKey: remap.toCharacterKey }
     }
 
-    // 変更がなければ元のオブジェクトを返す(メモリ節約)
-    return hasChanged ? remappedAction : action
+    // iconKeyの置き換え
+    if (remap.fromIconKey && remap.toIconKey && remapped.iconKey === remap.fromIconKey) {
+      remapped = { ...remapped, iconKey: remap.toIconKey }
+    }
+  }
+
+  // 変更がなければ元のオブジェクトを返す(メモリ節約)
+  return remapped
+}
+
+/**
+ * gameScript の characterKey にリマップルールを適用
+ */
+function remapGameScript(flow: PostFlowGameType, remaps: JsonMergeRemapType[]): PostFlowGameType {
+  // characterKeyが空の場合は早期return
+  if (!flow.characterKey) return flow
+
+  for (const remap of remaps) {
+    if (remap.fromCharacterKey && remap.toCharacterKey && flow.characterKey === remap.fromCharacterKey) {
+      return { ...flow, characterKey: remap.toCharacterKey } // characterKeyは1つしかないので、マッチしたら終了
+    }
+  }
+
+  return flow
+}
+
+/**
+ * PostFlow の配列に対してリマップルールを適用
+ */
+function remapPostFlows(postFlows: PostFlowType[], remaps: JsonMergeRemapType[]): PostFlowType[] {
+  return postFlows.map((flow) => {
+    if (flow.kind === 'message') return remapMessage(flow, remaps)
+    if (flow.kind === 'gameScript') return remapGameScript(flow, remaps)
+    return flow
   })
 }
 
 /**
- * GameScriptsに対してリマップルールを適用
- */
-function remapGameScripts(gameScripts: GameScriptsType, remaps: JsonMergeRemapType[]): GameScriptsType {
-  // characterKeyが空の場合は早期return
-  if (!gameScripts.characterKey) return gameScripts
-
-  let remappedScripts: GameScriptsType = gameScripts
-  let hasChanged = false
-
-  for (const remap of remaps) {
-    // characterKeyの置き換え
-    if (remap.fromCharacterKey && remap.toCharacterKey && remappedScripts.characterKey === remap.fromCharacterKey) {
-      remappedScripts = {
-        ...remappedScripts,
-        characterKey: remap.toCharacterKey,
-      }
-      hasChanged = true
-      break // characterKeyは1つしかないので、マッチしたら終了
-    }
-  }
-
-  return hasChanged ? remappedScripts : gameScripts
-}
-
-/**
  * OmikujiData全体に対してリマップを適用
+ * 対象: assets.mikuji(各アイテムの postFlows) と assets.actions
  */
 export function applyRemaps(data: OmikujiDataType, remaps: JsonMergeRemapType[]): OmikujiDataType {
   if (!remaps?.length) return data
 
   const clonedData: OmikujiDataType = JSON.parse(JSON.stringify(data))
 
-  // Rulesカテゴリを網羅的に処理
-  for (const category of eventCategory) {
-    remapOmikujiGroup(clonedData[category], remaps)
-  }
-
-  // actionSets処理
-  if (clonedData.actionSets) {
-    for (const key in clonedData.actionSets) {
-      const actionSet = clonedData.actionSets[key]
-
-      if (actionSet.postActions?.length) {
-        actionSet.postActions = remapPostActions(actionSet.postActions, remaps)
-      }
-
-      if (actionSet.gameScripts) {
-        actionSet.gameScripts = remapGameScripts(actionSet.gameScripts, remaps)
+  // mikuji: postFlows を持つアイテム(kind 省略時も postFlow 扱い)のみ
+  for (const box of Object.values(clonedData.assets.mikuji)) {
+    for (const item of box.omikuji) {
+      if ('postFlows' in item) {
+        item.postFlows = remapPostFlows(item.postFlows, remaps)
       }
     }
   }
 
-  return clonedData
-}
-
-function remapOmikujiGroup(
-  group: Record<string, { omikuji: ActionSetType[] }> | undefined,
-  remaps: JsonMergeRemapType[]
-) {
-  // groupが存在しない場合は早期return
-  if (!group) return
-
-  for (const key in group) {
-    const entry = group[key]
-
-    entry.omikuji = entry.omikuji.map((item) => {
-      const remappedItem: ActionSetType = { ...item }
-
-      // postActionsのリマップ
-      if (item.postActions && item.postActions.length > 0) {
-        remappedItem.postActions = remapPostActions(item.postActions, remaps)
-      }
-
-      // gameScriptsのリマップ
-      if (item.gameScripts && item.gameScripts.scriptId !== null) {
-        remappedItem.gameScripts = remapGameScripts(item.gameScripts, remaps)
-      }
-
-      return remappedItem
-    })
+  // actions
+  for (const actionSet of Object.values(clonedData.assets.actions)) {
+    actionSet.postFlows = remapPostFlows(actionSet.postFlows, remaps)
   }
+
+  return clonedData
 }

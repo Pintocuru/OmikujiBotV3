@@ -34,8 +34,7 @@ const COLOR_VARIANTS = [''] as const
 
 // ビルドターゲット（両方定義）
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'TsumugiHimari', type: 'FULL', accessLevel: 'basic', sourceProject: 'OmikujiBot' },
-  { project: 'TsumugiHimari', type: 'FULL', accessLevel: 'pro', sourceProject: 'OmikujiBot' },
+  { project: 'TsumugiHimari', type: 'FULL', sourceProject: 'OmikujiBot' },
 ]
 
 // プロジェクト一覧

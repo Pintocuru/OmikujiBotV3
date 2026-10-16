@@ -1,83 +1,49 @@
 // tools/JsonMerge/merger.ts
-import { EventCategoryType, FlagsUsageType, OmikujiDataType, eventCategory } from '@/types/OmikujiData'
-import { AccessLevelType } from '@/types/core'
+import { OmikujiDataType, eventCategory, assetCategory } from '@/types/OmikujiData'
 
-const mergeAccessLevel = (current: AccessLevelType, incoming: AccessLevelType): AccessLevelType => {
-  const currentPriority = ACCESS_LEVEL_PRIORITY.indexOf(current)
-  const incomingPriority = ACCESS_LEVEL_PRIORITY.indexOf(incoming)
-  if (currentPriority === -1) return incoming
-  if (incomingPriority === -1) return current
-  return currentPriority <= incomingPriority ? current : incoming
+/**
+ * events: 配列なのでカテゴリごとに連結
+ */
+function mergeEvents(
+  target: OmikujiDataType['events'] | undefined,
+  source: OmikujiDataType['events']
+): OmikujiDataType['events'] {
+  return Object.fromEntries(
+    eventCategory.map((category) => [category, [...(target?.[category] ?? []), ...source[category]]])
+  ) as OmikujiDataType['events']
 }
 
 /**
- * featureUsage のマージ
- * TODO:featureUsage は廃止
+ * assets: Record なのでカテゴリごとにキーで統合(同一キーは後勝ち)
+ * characters は上書き(最後のデータで統一)
  */
-const mergeFeatureUsage = (
-  current: OmikujiDataType['featureUsage'],
-  incoming: OmikujiDataType['featureUsage']
-): OmikujiDataType['featureUsage'] => {
-  // current と incoming 両方のキーを union して処理
-  const allKeys = Object.keys({ ...current.usage, ...incoming.usage }) as (keyof FlagsUsageType)[]
+function mergeAssets(
+  target: OmikujiDataType['assets'] | undefined,
+  source: OmikujiDataType['assets']
+): OmikujiDataType['assets'] {
+  const merged = Object.fromEntries(
+    assetCategory.map((category) => [category, { ...target?.[category], ...source[category] }])
+  ) as OmikujiDataType['assets']
 
-  const mergedUsage = allKeys.reduce((acc, key) => {
-    const currentVal = (current.usage[key] ?? 'none') as AccessLevelType
-    const incomingVal = (incoming.usage[key] ?? 'none') as AccessLevelType
-    acc[key] = mergeAccessLevel(currentVal, incomingVal)
-    return acc
-  }, {} as FlagsUsageType)
-
-  const mergedGameScripts = [...new Set([...current.gameScripts, ...incoming.gameScripts])]
-
-  return {
-    ...current,
-    usage: mergedUsage,
-    gameScripts: mergedGameScripts,
-    developer: current.developer,
-  }
+  return { ...merged, characters: source.characters }
 }
 
 /**
  * JsonMerge:複数のOmikujiDataを統合
+ * events / assets 以外(ui, settings, meta, jsonMerge など)は最後のデータで上書き
  */
 export function mergeOmikujiData(...dataArray: OmikujiDataType[]): OmikujiDataType {
-  const result: OmikujiDataType = {} as OmikujiDataType
+  let result: OmikujiDataType | undefined
 
   for (const data of dataArray) {
-    // Rulesカテゴリを網羅マージ
-    for (const category of eventCategory) {
-      mergeRecordCategory(result, data, category)
+    const { events, assets, ...rest } = data
+    result = {
+      ...result,
+      ...rest,
+      events: mergeEvents(result?.events, events),
+      assets: mergeAssets(result?.assets, assets),
     }
-    // Record型をマージ
-    result.actionSets = { ...result.actionSets, ...data.actionSets }
-    result.placeholders = { ...result.placeholders, ...data.placeholders }
-
-    // characters は上書き
-    result.characters = data.characters
-
-    // 設定系: 上書き（最後のデータで統一）
-    result.components = data.components
-    result.featureUsage = result.featureUsage
-      ? mergeFeatureUsage(result.featureUsage, data.featureUsage)
-      : data.featureUsage
-    result.settings = data.settings
-    result.meta = data.meta
-
-    // jsonMerge: 存在する場合のみセット（通常は最後は空配列）
-    if (data.jsonMerge) result.jsonMerge = data.jsonMerge
   }
 
-  return result
-}
-
-function mergeRecordCategory<K extends EventCategoryType>(
-  target: OmikujiDataType,
-  source: OmikujiDataType,
-  category: K
-) {
-  target[category] = {
-    ...target[category],
-    ...source[category],
-  }
+  return result ?? ({} as OmikujiDataType)
 }

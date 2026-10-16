@@ -1,36 +1,36 @@
 // tools/JsonMerge/KeySuffix.ts
-import { OmikujiDataType, eventCategory, EventCategoryType } from '@/types/OmikujiData'
+import { OmikujiDataType, eventCategory } from '@/types/OmikujiData'
 
+/**
+ * events と mikuji の key に接尾辞を付与する(マージ時のキー衝突防止)
+ * events の omikujiKey は、付与後の mikuji の key を指すよう合わせて更新する
+ */
 export function applyKeySuffix(data: OmikujiDataType, suffix?: string): OmikujiDataType {
   if (!suffix) return data
 
-  const updated = {} as Pick<OmikujiDataType, EventCategoryType>
+  const normalized = suffix[0].toUpperCase() + suffix.slice(1)
 
-  for (const category of eventCategory) {
-    // TypeScript の型システムはユニオンキーによる異構造インデックス代入を
-    // 安全に扱えないため、ここでは any を使用。
-    // 実行時の安全性は applySuffixToRules のジェネリック制約により保証される。
-    updated[category] = applySuffixToRules(data[category] as any, suffix) as any
-  }
+  const events = Object.fromEntries(
+    eventCategory.map((category) => [
+      category,
+      data.events[category].map((item) => ({
+        ...item,
+        key: item.key + normalized,
+        omikujiKey: item.omikujiKey ? item.omikujiKey + normalized : item.omikujiKey,
+      })),
+    ])
+  ) as OmikujiDataType['events']
+
+  const mikuji = Object.fromEntries(
+    Object.entries(data.assets.mikuji).map(([key, box]) => [
+      key + normalized,
+      { ...box, key: box.key + normalized },
+    ])
+  ) as OmikujiDataType['assets']['mikuji']
 
   return {
     ...data,
-    ...updated,
+    events,
+    assets: { ...data.assets, mikuji },
   }
-}
-
-function applySuffixToRules<T extends { key: string }>(rules: Record<string, T>, suffix: string): Record<string, T> {
-  const normalized = suffix.length > 0 ? suffix[0].toUpperCase() + suffix.slice(1) : ''
-
-  const result: Record<string, T> = {}
-
-  for (const key in rules) {
-    const item = rules[key]
-    result[key + normalized] = {
-      ...item,
-      key: item.key + normalized,
-    }
-  }
-
-  return result
 }

@@ -22,7 +22,7 @@ const COLOR_VARIANTS = [''] as const
 
 // ビルドターゲット（proも存在するため両方定義）
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'OmikujiBotSpecial', type: 'FULL', accessLevel: 'godMode', sourceProject: 'OmikujiBot' },
+  { project: 'OmikujiBotSpecial', type: 'FULL', sourceProject: 'OmikujiBot' },
 ]
 
 // プロジェクト一覧

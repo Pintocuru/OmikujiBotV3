@@ -69,18 +69,6 @@
           <input type="text" v-model="merge[selectedIndex].name" @input="update" class="input w-full" />
         </SettingItem>
 
-        <!-- アクセスレベル -->
-        <SettingItem label="アクセスレベル" description="ライセンスキーがこのレベル以上ならマージします">
-          <select
-            v-model="merge[selectedIndex].accessLevel"
-            @change="update"
-            class="select select-bordered w-full max-w-xs"
-          >
-            <option v-for="level in AccessLevelLabels" :key="level" :value="level">
-              {{ level }}
-            </option>
-          </select>
-        </SettingItem>
 
         <!-- ファイル選択 & キーサフィックス -->
         <JsonMergeSourceFileSelector :merge-index="selectedIndex" />
@@ -129,7 +117,7 @@
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown/MenuDropdown.vue'
   import { CharacterType } from '@/types/OmikujiData'
-  import { AccessLevelLabels, generateId } from '@/types/core'
+  import { generateId } from '@/types/core'
 
   const store = useOmikujiStore()
   const { data } = storeToRefs(store)

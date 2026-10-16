@@ -19,8 +19,8 @@ const COLOR_VARIANTS = [''] as const
 
 // ビルドターゲット（adv を反映）
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'LenormandOracle', type: 'FULL', accessLevel: 'adv', sourceProject: 'OmikujiBot' },
-  { project: 'LenormandOracle', type: 'JSON', accessLevel: 'basic' },
+  { project: 'LenormandOracle', type: 'FULL', sourceProject: 'OmikujiBot' },
+  { project: 'LenormandOracle', type: 'JSON' },
 ]
 
 // プロジェクト一覧

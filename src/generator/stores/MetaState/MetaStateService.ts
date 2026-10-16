@@ -1,6 +1,6 @@
 // src/generator/stores/MetaState/MetaStateService.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
-import { ServiceMetaWatcher } from '@/sdk/subscribe/GetMetas'
+import { ServiceMetaWatcher } from '@/sdk/subscribe/GetServiceMeta'
 import { isDev } from '@/types/env'
 import { ServiceMeta } from '@onecomme.com/onesdk/types/Service'
 
@@ -52,9 +52,8 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
       return
     }
 
-    // TODO:meats って何
-    const meats = ServiceMetaWatcher.getInstance()
-    const result = await meats.fetchMeta((raw) => {
+    const service = ServiceMetaWatcher.getInstance()
+    const result = await service.fetchMeta((raw) => {
       try {
         /**
          * 型 'ServiceMeta[]' の引数を型 'NormalizedMeta | ServiceMeta | null' のパラメーターに割り当てることはできません。ts(2345)

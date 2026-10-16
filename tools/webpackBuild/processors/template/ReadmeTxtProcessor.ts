@@ -2,8 +2,6 @@
 import fs from 'fs'
 import path from 'path'
 import { PackageType, ResolvedPackageBuildConfig } from '@tools/webpackBuild/BuildTypes'
-import { getAccessSuffix, getLicenseInfo } from '@tools/webpackBuild/utils/AccessLevelUtils'
-import { AccessLevelType } from '@/types/core'
 
 interface TemplateTxtOutput {
   packageName: string
@@ -20,17 +18,15 @@ export async function generateReadmeTxt(distDir: string, config: ResolvedPackage
 
   if (!json || !template) return
 
-  const accessSuffix = getAccessSuffix(config.targetAccessLevel)
-
   const templateTxt: TemplateTxtOutput = {
-    packageName: `${template.name}${accessSuffix} ${config.version}`,
+    packageName: `${template.name} ${config.version}`,
     boothURL: template.boothURL,
     description: template.description,
     readmeURL: template.readmeURL,
   }
 
   const txtPath = path.join(distDir, 'readme.txt')
-  const content = generateReadmeContent(templateTxt, config.targetAccessLevel, config.packageType, config.licenseKey)
+  const content = generateReadmeContent(templateTxt, config.packageType)
 
   fs.writeFileSync(txtPath, content, 'utf-8')
   console.log(`[Post-Build] Generated readme.txt: ${txtPath}`)
@@ -42,23 +38,6 @@ export async function generateReadmeTxt(distDir: string, config: ResolvedPackage
 function formatToday(): string {
   const now = new Date()
   return `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`
-}
-
-/**
- * ライセンスセクションを生成
- */
-function buildLicenseSection(licenseInfo: { key: string; label: string } | null): string {
-  if (!licenseInfo) return ''
-
-  return `
-★★★★★★★★★★★★★★★★★
-
-${licenseInfo.label}版 ライセンスキーはこちら♡
-
-${licenseInfo.key}
-
-★★★★★★★★★★★★★★★★★
-`
 }
 
 /**
@@ -86,15 +65,11 @@ ${boothURL}
  */
 export function generateReadmeContent(
   templateTxt: TemplateTxtOutput,
-  accessLevel: AccessLevelType,
-  packageType: PackageType | undefined,
-  license?: ResolvedPackageBuildConfig['licenseKey']
+  packageType: PackageType | undefined
 ): string {
   const today = formatToday()
   const { packageName, boothURL, description, readmeURL } = templateTxt
 
-  const licenseInfo = getLicenseInfo(accessLevel, license)
-  const licenseSection = buildLicenseSection(licenseInfo)
   const jsonOnlySection = buildJsonOnlySection(packageType, boothURL)
 
   return `# ${packageName}
@@ -106,7 +81,7 @@ export function generateReadmeContent(
 
 導入方法・使用方法については[こちら](${readmeURL})をご覧ください
 
-${licenseSection}${jsonOnlySection}
+${jsonOnlySection}
 
 ---
 

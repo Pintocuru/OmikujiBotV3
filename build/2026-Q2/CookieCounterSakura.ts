@@ -25,9 +25,9 @@ function getProjects(packageRoot: string): ProjectConfig[] {
 
 // ビルドターゲット
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'SakuraCounter', type: 'FULL', accessLevel: 'adv', sourceProject: 'OmikujiBot' },
-  { project: 'SakuraCounter', type: 'JSON', accessLevel: 'basic' },
-  { project: 'SakuraCounterOhayou', type: 'FULL', accessLevel: 'adv', sourceProject: 'OmikujiBot' },
+  { project: 'SakuraCounter', type: 'FULL', sourceProject: 'OmikujiBot' },
+  { project: 'SakuraCounter', type: 'JSON' },
+  { project: 'SakuraCounterOhayou', type: 'FULL', sourceProject: 'OmikujiBot' },
 ]
 
 export default { getProjects, buildTargets }

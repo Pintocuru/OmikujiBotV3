@@ -1,7 +1,6 @@
 // tools/buildOptions/baseSettings.ts
 import fs from 'fs'
 import path from 'path'
-import { generateAccessLevelData } from './processJsonData'
 import { processMerge } from '../JsonMerge/JsonMergeProcessor'
 import { APP_VERSION, BUILD_DATE } from '@/version'
 import { ProjectConfig, ProjectParams } from '../webpackBuild/BuildTypes'
@@ -33,13 +32,6 @@ export function createCoreBuildConfig(packageRoot: string) {
     packageRoot,
     entryPoints: null,
     addHtmlTemplate: HTML_SCRIPT_TAGS,
-    licenseKey: {
-      none: '',
-      basic: '',
-      adv: getKey('adv'),
-      pro: getKey('pro'),
-      godMode: getKey('godMode'),
-    },
   }
 }
 
@@ -60,14 +52,6 @@ export function createProject(packageRoot: string, color: string, params: Projec
     version: `${BUILD_DATE}-${APP_VERSION}`,
     packageRoot,
     entryPoints: null,
-
-    licenseKey: {
-      none: '',
-      basic: '',
-      adv: getKey('adv'),
-      pro: getKey('pro'),
-      godMode: getKey('godMode'),
-    },
 
     addHtmlTemplate: HTML_SCRIPT_TAGS,
 
@@ -105,7 +89,6 @@ function buildJsonConfig(packageRoot: string, templateName: string) {
   return {
     jsonPathRoot,
     jsonPath: findJsonPath(jsonPathRoot, templateName),
-    generateAccessLevelData,
     generateJsContent,
     assembleJsonData: processMerge,
   }

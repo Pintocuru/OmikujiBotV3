@@ -30,7 +30,7 @@ const COLOR_VARIANTS = [''] as const
 
 // ビルドターゲット（両方定義）
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'TossedKotaro', type: 'FULL', accessLevel: 'basic', sourceProject: 'OmikujiBot' },
+  { project: 'TossedKotaro', type: 'FULL', sourceProject: 'OmikujiBot' },
 ]
 
 // プロジェクト一覧

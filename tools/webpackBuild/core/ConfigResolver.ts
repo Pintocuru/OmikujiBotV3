@@ -1,5 +1,4 @@
 // tools/webpackBuild/core/ConfigResolver.ts
-import { AccessLevelType } from '@/types/core'
 import {
   ProjectConfig,
   CoreBuildTarget,
@@ -28,8 +27,7 @@ function generateCoreOutputFolderName(projectName: string, version: string): str
 function generatePackageOutputFolderName(
   projectName: string,
   version: string,
-  packageType: PackageType,
-  accessLevel: AccessLevelType
+  packageType: PackageType
 ): string {
   const sanitizeName = (str: string) => str.replace(/[<>:"/\\|?*]/g, '_')
   const sanitizedName = sanitizeName(projectName)
@@ -40,9 +38,8 @@ function generatePackageOutputFolderName(
   }
 
   const typeSuffix = packageType === 'PATCH' ? '_patch' : ''
-  const accessName = accessLevel === 'basic' ? '' : `${accessLevel}_`
 
-  return `${sanitizedName}_${accessName}${sanitizedVersion}${typeSuffix}`
+  return `${sanitizedName}_${sanitizedVersion}${typeSuffix}`
 }
 
 /**
@@ -106,8 +103,7 @@ function resolvePackageConfig(
     ...project,
     system: commonData,
     packageType: target.type,
-    targetAccessLevel: target.accessLevel,
-    outputFolderName: generatePackageOutputFolderName(project.key, project.version, target.type, target.accessLevel),
+    outputFolderName: generatePackageOutputFolderName(project.key, project.version, target.type),
     sourceCorePath,
   }
 }

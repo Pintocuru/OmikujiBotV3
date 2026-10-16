@@ -33,7 +33,7 @@ const COLOR_VARIANTS = [''] as const
 
 // ビルドターゲット（proも存在するため両方定義）
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'DivaMetan', type: 'FULL', accessLevel: 'basic', sourceProject: 'OmikujiBot' },
+  { project: 'DivaMetan', type: 'FULL', sourceProject: 'OmikujiBot' },
 ]
 
 // プロジェクト一覧

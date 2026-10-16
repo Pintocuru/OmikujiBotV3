@@ -24,12 +24,12 @@ function getProjects(packageRoot: string): ProjectConfig[] {
 
 // ビルドターゲット
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'StreamCounterPixelOhayou', type: 'FULL', accessLevel: 'basic', sourceProject: 'OmikujiBot' },
-  { project: 'StreamCounterPixelOhayou', type: 'JSON', accessLevel: 'basic' },
+  { project: 'StreamCounterPixelOhayou', type: 'FULL', sourceProject: 'OmikujiBot' },
+  { project: 'StreamCounterPixelOhayou', type: 'JSON' },
 
-  // { project: 'StreamCounterPixelUpVote', type: 'FULL', accessLevel: 'basic', sourceProject: 'OmikujiBot' },
-  // { project: 'StreamCounterPixelBlack', type: 'FULL', accessLevel: 'adv', sourceProject: 'OmikujiBot' },
-  // { project: 'StreamCounterPixelEva', type: 'FULL', accessLevel: 'pro', sourceProject: 'OmikujiBot' },
+  // { project: 'StreamCounterPixelUpVote', type: 'FULL', sourceProject: 'OmikujiBot' },
+  // { project: 'StreamCounterPixelBlack', type: 'FULL', sourceProject: 'OmikujiBot' },
+  // { project: 'StreamCounterPixelEva', type: 'FULL', sourceProject: 'OmikujiBot' },
 ]
 
 export default { getProjects, buildTargets }

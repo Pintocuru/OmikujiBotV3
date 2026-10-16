@@ -24,8 +24,8 @@ function getProjects(packageRoot: string): ProjectConfig[] {
 
 // ビルドターゲット
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'FlightSeatNine', type: 'FULL', accessLevel: 'basic', sourceProject: 'OmikujiBot' },
-  { project: 'FlightSeatNine', type: 'JSON', accessLevel: 'basic' },
+  { project: 'FlightSeatNine', type: 'FULL', sourceProject: 'OmikujiBot' },
+  { project: 'FlightSeatNine', type: 'JSON' },
 ]
 
 export default { getProjects, buildTargets }

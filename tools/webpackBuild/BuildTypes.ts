@@ -1,6 +1,6 @@
 // tools/webpackBuild/BuildTypes.ts
 
-import { AccessLevelType, PackageJsonType } from '@/types/core'
+import { PackageJsonType } from '@/types/core'
 
 /**
  * プロジェクト設定
@@ -36,13 +36,6 @@ export interface ProjectConfig {
 
   filesToCopy: CopyFileItem[]
 
-  licenseKey?: {
-    basic: string
-    adv: string
-    pro: string
-    godMode: string
-    none: string
-  }
 }
 
 /**
@@ -63,7 +56,6 @@ export interface JsonConfig {
   jsonPath: string
   jsonPathRoot: string
   assembleJsonData?: (data: any, jsonPathRoot: string) => Promise<PackageJsonType>
-  generateAccessLevelData?: (data: any, targetLevel?: AccessLevelType) => PackageJsonType
   generateJsContent: (configData: string) => string
 }
 
@@ -93,7 +85,6 @@ export interface CoreBuildTarget {
 export interface PackageBuildTarget {
   project: string // プロジェクト名
   type: PackageType // パッケージタイプ
-  accessLevel: AccessLevelType // 対象アクセスレベル
   sourceProject?: string // コピー元のコアプロジェクト名（JSON タイプでは不要）
 }
 
@@ -137,7 +128,6 @@ export interface ResolvedPackageBuildConfig extends ProjectConfig {
   buildType: 'PACKAGE'
   system: SystemCommonData
   packageType: PackageType
-  targetAccessLevel: AccessLevelType
   filesToCopy: CopyFileItem[]
   outputFolderName: string
   sourceCorePath?: string // JSON タイプでは undefined

@@ -12,17 +12,14 @@ export async function generateOutputFiles(
   jsonData: PackageJsonType,
   config: ResolvedPackageBuildConfig
 ): Promise<void> {
-  const { json, targetAccessLevel, key: name } = config
+  const { json, key: name } = config
   if (!json) throw new Error('json config is missing')
-  const { generateAccessLevelData, generateJsContent } = json
-
-  // アクセスレベル対応データ生成
-  const processedData = generateAccessLevelData ? generateAccessLevelData(jsonData, targetAccessLevel) : jsonData
+  const { generateJsContent } = json
 
   if (config.packageType === 'JSON') {
-    await generateJsonOnlyFile(distDir, processedData, name)
+    await generateJsonOnlyFile(distDir, jsonData, name)
   } else {
-    await generateJsFile(distDir, processedData, generateJsContent)
+    await generateJsFile(distDir, jsonData, generateJsContent)
   }
 }
 

@@ -1,7 +1,6 @@
 // tools/webpackBuild/processors/json/UpdateJsonMetadata.ts
 import { PackageJsonType } from '@/types/core'
 import { ResolvedPackageBuildConfig } from '@tools/webpackBuild/BuildTypes'
-import { getAccessSuffix } from '@tools/webpackBuild/utils/AccessLevelUtils'
 import fs from 'fs'
 import path from 'path'
 
@@ -46,14 +45,13 @@ function readJsonFile(filePath: string): any {
  */
 function updateMetadata(jsonData: PackageJsonType, config: ResolvedPackageBuildConfig): PackageJsonType {
   if (!jsonData.meta || !config.template) return jsonData
-  const accessLevel = config.targetAccessLevel
 
   return {
     ...jsonData,
     meta: {
       ...jsonData.meta,
       id: `${config.key}-${config.version}`,
-      name: `${config.template.label}${getAccessSuffix(accessLevel)}`,
+      name: config.template.label,
       description: config.template.description,
       version: config.version,
       author: config.system.author,

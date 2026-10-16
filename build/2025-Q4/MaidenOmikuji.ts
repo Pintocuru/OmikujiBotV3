@@ -20,8 +20,8 @@ const COLOR_VARIANTS = [''] as const
 
 // ビルドターゲット（推定）
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'MaidenOmikujiNormal', type: 'FULL', accessLevel: 'basic', sourceProject: 'OmikujiBot' },
-  { project: 'MaidenOmikujiNormal', type: 'JSON', accessLevel: 'basic' },
+  { project: 'MaidenOmikujiNormal', type: 'FULL', sourceProject: 'OmikujiBot' },
+  { project: 'MaidenOmikujiNormal', type: 'JSON' },
 ]
 
 // プロジェクト一覧

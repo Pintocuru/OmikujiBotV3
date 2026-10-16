@@ -1,74 +1,25 @@
 // tools/JsonMerge/transforms.ts
-import { AssetCategoryDataMap, recordCategoryLabel, DataCategoryType } from '@/types/OmikujiData'
+import { assetCategory, eventCategory } from '@/types/OmikujiData'
 import type { OmikujiDataType } from '@/types/OmikujiData/'
-import type { AccessLevelType } from '@/types'
+
+type Ordered = { order: number }
 
 /**
- * OmikujiData内のすべてのRecord型プロパティに対してaccessLevelを強制上書き
- */
-export function applyAccessLevel(data: OmikujiDataType, level: AccessLevelType): OmikujiDataType {
-  const result = { ...data }
-
-  // TODO: assetCategory eventCategory をつかうこと
-  for (const category of recordCategoryLabel) {
-    applyAccessLevelToCategory(result, data, category, level)
-  }
-
-  return result
-}
-function applyAccessLevelToCategory<K extends DataCategoryType>(
-  target: OmikujiDataType,
-  source: OmikujiDataType,
-  category: K,
-  level: AccessLevelType
-) {
-  const obj = source[category] as AssetCategoryDataMap[K]
-
-  // 存在しないならスキップ
-  if (!obj) {
-    ;(target as any)[category] = {} as AssetCategoryDataMap[K]
-    return
-  }
-
-  const updated: AssetCategoryDataMap[K] = Object.fromEntries(
-    Object.entries(obj).map(([k, v]) => [k, { ...v, accessLevel: level }])
-  ) as AssetCategoryDataMap[K]
-
-  ;(target as any)[category] = updated
-}
-
-/**
- * OmikujiData内のすべてのRecord型プロパティのorderプロパティに対してオフセットを加算
- * comments, timers, actionSets, placeholders, charactersが対象
+ * events(配列)と assets(Record)内のすべてのアイテムの order にオフセットを加算
  */
 export function applyOrderOffset(data: OmikujiDataType, offset: number): OmikujiDataType {
-  const result = { ...data }
+  const shift = <T extends Ordered>(item: T): T => ({ ...item, order: (item.order ?? 0) + offset })
 
-  // TODO: assetCategory eventCategory をつかうこと
-  for (const category of recordCategoryLabel) {
-    applyOrderOffsetToCategory(result, data, category, offset)
-  }
+  const events = Object.fromEntries(
+    eventCategory.map((category) => [category, data.events[category].map(shift)])
+  ) as OmikujiDataType['events']
 
-  return result
-}
+  const assets = Object.fromEntries(
+    assetCategory.map((category) => [
+      category,
+      Object.fromEntries(Object.entries(data.assets[category]).map(([key, item]) => [key, shift(item)])),
+    ])
+  ) as OmikujiDataType['assets']
 
-function applyOrderOffsetToCategory<K extends DataCategoryType>(
-  target: OmikujiDataType,
-  source: OmikujiDataType,
-  category: K,
-  offset: number
-) {
-  const obj = source[category] as AssetCategoryDataMap[K]
-
-  const shifted = {} as AssetCategoryDataMap[K]
-
-  for (const key in obj) {
-    const value = obj[key]
-    shifted[key] = {
-      ...value,
-      order: (value.order ?? 0) + offset,
-    }
-  }
-
-  ;(target as any)[category] = shifted
+  return { ...data, events, assets }
 }

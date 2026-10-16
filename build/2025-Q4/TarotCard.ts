@@ -20,8 +20,8 @@ const COLOR_VARIANTS = [''] as const
 
 // ビルドターゲット定義
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'TarotCard', type: 'FULL', accessLevel: 'basic', sourceProject: 'OmikujiBot' },
-  { project: 'TarotCard', type: 'JSON', accessLevel: 'basic' },
+  { project: 'TarotCard', type: 'FULL', sourceProject: 'OmikujiBot' },
+  { project: 'TarotCard', type: 'JSON' },
 ]
 
 // プロジェクト一覧

@@ -25,8 +25,8 @@ function getProjects(packageRoot: string): ProjectConfig[] {
 
 // ビルドターゲット
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'SlotPortrait', type: 'FULL', accessLevel: 'adv', sourceProject: 'OmikujiBot' },
-  { project: 'SlotPortrait', type: 'JSON', accessLevel: 'basic' },
+  { project: 'SlotPortrait', type: 'FULL', sourceProject: 'OmikujiBot' },
+  { project: 'SlotPortrait', type: 'JSON' },
 ]
 
 export default { getProjects, buildTargets }

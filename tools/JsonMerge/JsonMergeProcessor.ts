@@ -1,6 +1,6 @@
 // tools/JsonMerge/JsonMergeProcessor.ts
 import { OmikujiDataType } from '@/types/OmikujiData'
-import { applyAccessLevel, applyOrderOffset } from './transforms'
+import { applyOrderOffset } from './transforms'
 import { applyRemaps } from './remaps'
 import { loadSourceFile } from './fileLoader'
 import { mergeOmikujiData } from './merger'
@@ -19,7 +19,7 @@ export async function processMerge(jsonData: OmikujiDataType, jsonPathRoot: stri
   const dataToMerge: OmikujiDataType[] = []
   let orderOffset = 0
 
-  // 各マージアイテムについて、ファイル読み込み→リマップ→順序付与→accessLevel統一を実行
+  // 各マージアイテムについて、ファイル読み込み→リマップ→順序付与を実行
   for (const mergeItem of jsonData.jsonMerge) {
     // 1. ソースファイルを読み込む
     const resolvedSourcePath = findJsonPath(jsonPathRoot, mergeItem.sourceFile)
@@ -34,12 +34,9 @@ export async function processMerge(jsonData: OmikujiDataType, jsonPathRoot: stri
     // 3. 再帰的にマージ処理（ソースファイルにもjsonMergeがある場合）
     const processedSourceData = await processMerge(suffixedData, jsonPathRoot)
 
-    // 4. accessLevelを強制統一
-    const unifiedAccessLevelData = applyAccessLevel(processedSourceData, mergeItem.accessLevel)
-
-    // 5. orderに +100 * index を付与して競合を防止
+    // 4. orderに +100 * index を付与して競合を防止
     orderOffset += 100
-    const shiftedOrderData = applyOrderOffset(unifiedAccessLevelData, orderOffset)
+    const shiftedOrderData = applyOrderOffset(processedSourceData, orderOffset)
 
     dataToMerge.push(shiftedOrderData)
   }
