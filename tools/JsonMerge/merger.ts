@@ -1,5 +1,5 @@
 // tools/JsonMerge/merger.ts
-import { FlagsUsageType, OmikujiDataType } from '@/types/OmikujiData'
+import { EventCategoryType, FlagsUsageType, OmikujiDataType, eventCategory } from '@/types/OmikujiData'
 import { AccessLevelType } from '@/types/core'
 
 const mergeAccessLevel = (current: AccessLevelType, incoming: AccessLevelType): AccessLevelType => {
@@ -12,10 +12,7 @@ const mergeAccessLevel = (current: AccessLevelType, incoming: AccessLevelType): 
 
 /**
  * featureUsage のマージ
- * - usage: AccessLevel の優先順位に基づいてフィールドごとにマージ
- * - components: 変更しない（廃止予定）
- * - gameScripts: Set で重複除去してマージ
- * - developer: current を維持（incoming を無視）
+ * TODO:featureUsage は廃止
  */
 const mergeFeatureUsage = (
   current: OmikujiDataType['featureUsage'],
