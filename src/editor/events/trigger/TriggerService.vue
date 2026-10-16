@@ -60,9 +60,10 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { serviceTypeMap, type EnabledServiceType } from '../../../shared/types/Threshold/ServiceCondition'
+  import { EnabledServiceType } from '@/types/engine'
 
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import { serviceTypeMap } from '@/sdk/types/onesdk/Service'
 
   const props = defineProps<{
     modelValue?: EnabledServiceType[]

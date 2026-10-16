@@ -1,8 +1,8 @@
 // src/editor/helpers/IconKeyChanger/useIconKeyUpdater.ts
 import { ComputedRef } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { FlowTarget } from '../../CharacterChanger/composables/useDataExtractor'
-import { usePostActionCharacters } from '../../CharacterChanger/composables/usePostActionCharacters'
+import { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
+import { usePostActionCharacters } from '@/editor/helpers/CharacterChanger/composables/usePostActionCharacters'
 
 /**
  * iconKeyの一括更新処理を提供

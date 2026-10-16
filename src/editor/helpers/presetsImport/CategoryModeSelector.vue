@@ -32,7 +32,7 @@
 <script setup lang="ts">
   import { DataCategoryType } from '@/types/OmikujiData/'
   import { useImportManager } from './composables/useImportManager'
-  import { ImportMode } from '../../types/helpers/presetsImportType'
+  import { ImportMode } from '@/editor/types'
 
   const props = defineProps<{
     category: DataCategoryType

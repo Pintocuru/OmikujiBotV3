@@ -1,11 +1,12 @@
 // src/maps/OmikujiData/events/ServiceTriggerMap.ts
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
+import { DisplayMeta } from '@/editor/types/DisplayMeta'
 import { ServiceComparisonConditionType, ServiceTriggerCondition } from '@/types/OmikujiData'
 
 /**
  * 比較条件のUI表示情報
  */
-export const serviceConditionMap: Record<ServiceComparisonConditionType, { label: string; description: string }> = {
+export const serviceConditionMap: Record<ServiceComparisonConditionType, DisplayMeta> = {
   changed: {
     label: '変化した',
     description: '前回の値と異なる場合に条件を満たします',

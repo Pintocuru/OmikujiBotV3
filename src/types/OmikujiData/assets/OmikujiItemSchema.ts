@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { CriteriaThresholdSchema } from '../events/CommentCriteriaSchema'
 import { PostFlowArraySchema } from './PostFlow'
 import { normalizedObject } from '../ParsedDefault'
-import { BaseSchema } from '../../core/BaseSchema'
+import { BaseSchema } from '@/types/core'
 
 /**
  * omikujiItemKinds: おみくじアイテムの種別

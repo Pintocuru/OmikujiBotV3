@@ -1,11 +1,11 @@
 // src/generator/stores/createAppServices.ts
 import { CooldownManager } from './CooldownManager/CooldownManager'
 import { UserManager } from './UserManager/UserManager'
-import { GameScriptManager } from '../../engine/GameScriptPlay/GameScriptManager'
 import { ServiceMetaStore } from './MetaState/MetaStateService'
-import { PlaceholderVariable } from '../../engine/types/VariablePlaceholder'
 import { StreamStatsManager } from './StreamStats/StreamStatsManager'
 import { ReactionStatsManager } from './ReactionManager/ReactionStatsManager'
+import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
+import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 
 export function createAppServices() {
   const cooldownManager = CooldownManager.getInstance()

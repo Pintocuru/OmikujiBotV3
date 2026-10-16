@@ -1,7 +1,7 @@
 // src/editor/helpers/IconKeyChanger/useIconKeyStats.ts
 import { computed, ComputedRef } from 'vue'
-import { FlowTarget } from '../../CharacterChanger/composables/useDataExtractor'
-import { usePostActionCharacters } from '../../CharacterChanger/composables/usePostActionCharacters'
+import { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
+import { usePostActionCharacters } from '@/editor/helpers/CharacterChanger/composables/usePostActionCharacters'
 
 /**
  * iconKey使用状況の統計情報を提供

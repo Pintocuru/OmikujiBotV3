@@ -1,8 +1,9 @@
 // src/maps/OmikujiData/events/ReactionConditionMap.ts
+import { DisplayMeta } from '@/editor/types/DisplayMeta'
 import { ReactionConditionType } from '@/types/OmikujiData'
 
 // Map定義
-export const reactionConditionMap: Record<ReactionConditionType, { label: string; description: string }> = {
+export const reactionConditionMap: Record<ReactionConditionType, DisplayMeta> = {
   milestone: {
     label: '増加した',
     description: '累計がnの倍数に達するたびに発火します（例：100回ごと）',

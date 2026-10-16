@@ -4,8 +4,8 @@ import { APP_VERSION } from '@/version'
 import { hoge } from './scripts/hoge'
 import { processOmikenComment } from '@/sdk/subscribe/OmikenComment/OmikenCommentProcessor'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
-import { pluginRequest } from '../../server/adapters/pluginAdapter'
 import { PLUGIN_KEY, PLUGIN_NAME } from '@/types/env'
+import { pluginRequest } from '@server/adapters/pluginAdapter'
 
 const plugin: OnePlugin = {
   name: `${PLUGIN_NAME}`,

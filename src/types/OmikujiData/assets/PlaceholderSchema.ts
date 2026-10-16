@@ -1,7 +1,6 @@
 // src/types/OmikujiData/assets/PlaceholderSchema.ts
 import { z } from 'zod'
-import { BaseRecordSchema } from '../../core/BaseSchema'
-
+import { BaseRecordSchema } from '@/types/core'
 /**
  * WeightValueSchema: 重み付きのコンテンツオブジェクト
  */

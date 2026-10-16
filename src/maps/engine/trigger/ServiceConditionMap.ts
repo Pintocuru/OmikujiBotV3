@@ -1,8 +1,9 @@
 // src/maps/engine/trigger/ServiceConditionMap.ts
+import { DisplayMeta } from '@/editor/types/DisplayMeta'
 import { EnabledServiceType, ServiceMetaCondition } from '@/types/engine/trigger'
 
 // Map定義
-export const serviceMetaConditionMap: Record<ServiceMetaCondition, { label: string; description: string }> = {
+export const serviceMetaConditionMap: Record<ServiceMetaCondition, DisplayMeta> = {
   viewer: {
     label: '現在の枠の視聴ユーザー数',
     description: '現在の配信枠を視聴しているユーザー数で判定します',

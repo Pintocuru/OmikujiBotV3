@@ -4,7 +4,7 @@ import path from 'path'
 import { FileItem } from '../types'
 import { ensureDirectory } from './directoryService'
 import { generateJsContent } from '@/editor/helpers/presetsExport/generateContent'
-import { DIR } from '../../constants'
+import { DIR } from '@server/constants'
 
 /**
  * ファイル一覧を再帰的に取得（フォルダネスト対応）

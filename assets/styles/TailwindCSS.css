@@ -1,5 +1,3 @@
 /* assets\styles\TailwindCSS.css */
 @import 'tailwindcss';
 @import './safeList.css';
-
-@source "../../../../shared/**/*.{html,js,ts,jsx,tsx,vue}";

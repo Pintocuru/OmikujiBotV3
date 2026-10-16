@@ -1,11 +1,11 @@
 // src/maps/OmikujiData/assets/PostFlowKindMap.ts
-import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
+import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
 import { PostFlowKind } from '@/types/OmikujiData'
 
 /**
  * アクション種別のUI表示マップ (Lucide Icon名を含む)
  */
-export const postFlowKindMap: Record<PostFlowKind, { label: string; description: string; icon: LucideIconName }> = {
+export const postFlowKindMap: Record<PostFlowKind, DisplayMetaLucide> = {
   message: {
     label: 'メッセージ',
     description: 'わんコメやジェネレーターに送信・表示するテキストを設定します',

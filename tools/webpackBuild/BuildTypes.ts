@@ -1,5 +1,6 @@
 // tools/webpackBuild/BuildTypes.ts
-import { AccessLevelType, PackageJsonType } from '../../types'
+
+import { AccessLevelType, PackageJsonType } from '@/types/core'
 
 /**
  * プロジェクト設定

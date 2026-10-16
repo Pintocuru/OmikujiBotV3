@@ -1,10 +1,11 @@
 // src/maps/engine/trigger/CountConditionMap.ts
+import { DisplayMeta } from '@/editor/types/DisplayMeta'
 import { CountComparisonCondition, CountUnitCondition } from '@/types/engine/trigger'
 
 /**
  * comparison
  */
-export const countComparisonConditionMap: Record<CountComparisonCondition, { label: string; description: string }> = {
+export const countComparisonConditionMap: Record<CountComparisonCondition, DisplayMeta> = {
   lowerBound: {
     label: '指定値以上',
     description: '指定値を下限として、現在の数値がそれ以上の時に条件を満たします',

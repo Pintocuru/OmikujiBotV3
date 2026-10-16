@@ -1,6 +1,6 @@
 // src/editor/helpers/presetsImport/composables/importHelpers.ts
-import { ConflictInfo } from '@/editor/types'
-import { AssetCategoryDataMap, DataCategoryType, OmikujiDataType } from '@/types/OmikujiData/'
+import { CategoryImportConfig, ComponentImportConfig, ConflictInfo } from '@/editor/types'
+import { AssetCategoryDataMap, DataCategoryType, OmikujiDataType, UiKind } from '@/types/OmikujiData/'
 
 /**
  * アイテムの名前を取得

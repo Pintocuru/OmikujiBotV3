@@ -1,10 +1,11 @@
 // src/maps/OmikujiData/assets/DisplayModeMap.ts
+import { DisplayMeta } from '@/editor/types/DisplayMeta'
 import { DisplayModeType } from '@/types/OmikujiData'
 
 /**
  * displayModes BOTコメント表現方法
  */
-export const displayModeMap: Record<DisplayModeType, { label: string; description: string }> = {
+export const displayModeMap: Record<DisplayModeType, DisplayMeta> = {
   comment: {
     label: 'わんコメでの表示+読み上げ',
     description: 'わんコメのコメント欄への投稿と音声読み上げの両方を行います',

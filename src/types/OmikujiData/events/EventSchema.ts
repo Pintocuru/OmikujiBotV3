@@ -4,7 +4,7 @@ import { CommentTriggerSchema } from './CommentTriggerSchema'
 import { ServiceTriggerSchema } from './ServiceTriggerSchema'
 import { normalizedObject } from '../ParsedDefault'
 import { ReactionTriggerSchema } from './ReactionTriggerSchema'
-import { BaseRecordSchema } from '../../core/BaseSchema'
+import { BaseRecordSchema } from '@/types/core'
 
 /**
  * Events 共通部分のスキーマ

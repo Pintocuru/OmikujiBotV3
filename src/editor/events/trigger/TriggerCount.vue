@@ -4,13 +4,13 @@
     <!-- 対象の値 -->
     <div class="flex flex-wrap gap-2 pb-2">
       <span
-        v-for="option in unitOptions"
-        :key="option.value"
+        v-for="(meta, value) in countUnitConditionMap"
+        :key="value"
         class="badge badge-sm cursor-pointer select-none"
-        :class="modelValue?.unit === option.value ? 'badge-secondary' : 'badge-ghost'"
-        @click="updateField('unit', option.value)"
+        :class="modelValue?.unit === value ? 'badge-secondary' : 'badge-ghost'"
+        @click="updateField('unit', value)"
       >
-        {{ option.label }}
+        {{ meta.label }}
       </span>
     </div>
 
@@ -21,8 +21,8 @@
         @change="updateField('comparison', ($event.target as HTMLSelectElement).value)"
         class="select select-bordered select-sm flex-1"
       >
-        <option v-for="option in comparisonOptions" :key="option.value" :value="option.value">
-          {{ option.label }}
+        <option v-for="(meta, value) in countComparisonConditionMap" :key="value" :value="value">
+          {{ meta.label }}
         </option>
       </select>
 
@@ -51,16 +51,6 @@
   const emit = defineEmits<{
     (e: 'update:modelValue', value: CountConditionTriggerType): void
   }>()
-
-  const unitOptions = countUnitCondition.map((value) => ({
-    value,
-    label: countUnitConditionMap[value].label,
-  }))
-
-  const comparisonOptions = countComparisonCondition.map((value) => ({
-    value,
-    label: countComparisonConditionMap[value].label,
-  }))
 
   const updateField = (field: keyof CountConditionTriggerType, value: string) => {
     emit('update:modelValue', {

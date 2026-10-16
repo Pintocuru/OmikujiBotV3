@@ -1,10 +1,11 @@
 // src/maps/OmikujiData/assets/CharacterEmotionMap.ts
+import { DisplayMeta } from '@/editor/types/DisplayMeta'
 import { CharacterEmotionType } from '@/types/OmikujiData'
 
 /**
  * CharacterEmotion ジェネレーター用画像設定
  */
-export const characterEmotionMap: Record<CharacterEmotionType, { label: string; description: string }> = {
+export const characterEmotionMap: Record<CharacterEmotionType, DisplayMeta> = {
   default: {
     label: 'デフォルト',
     description: '標準の表情',

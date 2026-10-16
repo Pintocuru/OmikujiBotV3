@@ -1,11 +1,6 @@
 // src/types/OmikujiData/events/CommentCriteriaSchema.ts
 import { z } from 'zod'
-import {
-  AccessConditionSchema,
-  CountConditionSchema,
-  GiftConditionSchema,
-  SyokenConditionSchema,
-} from '../../engine/trigger'
+import { AccessConditionSchema, CountConditionSchema, GiftConditionSchema, SyokenConditionSchema } from '@/types/engine'
 
 /**
  * criteria Threshold

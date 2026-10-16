@@ -16,11 +16,9 @@
 </template>
 
 <script setup lang="ts">
-  import { ConflictInfo } from '../../types/helpers/presetsImportType'
+  import { ConflictInfo } from '@/editor/types'
 
-  interface Props {
+  defineProps<{
     conflicts: ConflictInfo[]
-  }
-
-  defineProps<Props>()
+  }>()
 </script>
