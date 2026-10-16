@@ -61,9 +61,9 @@
   import TriggerGift from '@/editor/events/trigger/TriggerGift.vue'
   import TriggerUsername from '@/editor/events/trigger/TriggerUsername.vue'
 
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
-  import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+  import InformationCard from '@/editor/parts/InformationCard.vue'
+  import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
 
   const props = defineProps<{
     modelValue: CommentTriggerType

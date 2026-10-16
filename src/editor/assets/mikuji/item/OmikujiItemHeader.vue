@@ -36,7 +36,7 @@
 <script setup lang="ts">
   import { OmikujiItemType } from '@/types/OmikujiData/'
   import OmikujiItemPriority from './OmikujiItemPriority.vue'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const props = defineProps<{
     omikujiItem: OmikujiItemType

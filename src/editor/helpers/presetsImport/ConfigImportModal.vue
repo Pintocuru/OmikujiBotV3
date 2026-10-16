@@ -58,8 +58,8 @@
   import { useImportManager } from './composables/useImportManager'
   import CategoryConfigSection from './CategoryConfigSection.vue'
   import ComponentConfigSection from './ComponentConfigSection.vue'
-  import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
-  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
+  import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
+  import SectionCard from '@/editor/parts/SectionCard.vue'
   import { ComponentImportConfig } from '@/editor/types'
   import { UiKind } from '@/types/OmikujiData'
 

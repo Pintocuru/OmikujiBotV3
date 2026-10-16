@@ -18,7 +18,7 @@
   import { useI18n } from 'vue-i18n'
   import { BaseEventType } from '@/types/OmikujiData'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const { t } = useI18n()
 

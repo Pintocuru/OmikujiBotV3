@@ -27,7 +27,7 @@
   import { computed } from 'vue'
   import { PostFlowMessageType } from '@/types/OmikujiData'
   import IconSelector from '@/editor/assets/PostFlow/IconSelector/IconSelector.vue'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import MessageTextDialog from './MessageTextDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SoundSettings from '../Sounds/SoundSettings.vue'

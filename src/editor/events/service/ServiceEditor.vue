@@ -73,8 +73,8 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 
-  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
-  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
+  import InformationCard from '@/editor/parts/InformationCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard.vue'
   import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
 

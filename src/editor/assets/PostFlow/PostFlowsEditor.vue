@@ -33,7 +33,7 @@
   import PostActionsTabs from './tooltab/PostActionsTabs.vue'
   import OmikujiItemToolbar from '@/editor/assets/PostFlow/tooltab/OmikujiItemToolbar.vue'
   import PostActionItem from './items/PostActionItem.vue'
-  import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
+  import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import { usePostActionsTab } from './composables/usePostActionsTab'
 
   const props = defineProps<{

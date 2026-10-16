@@ -16,7 +16,7 @@
   import type { FontFamilyType } from '@/types/OmikujiData'
   import { fontFamilyMap } from '@/maps/OmikujiData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)

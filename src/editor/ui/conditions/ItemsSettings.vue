@@ -23,7 +23,7 @@
   import { UiSettingsSchema } from '@/types'
   import type { UiKind } from '@/types'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { getUiEditorEntries } from '../uiEditorRegistry'
 

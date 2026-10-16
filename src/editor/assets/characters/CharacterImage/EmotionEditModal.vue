@@ -38,7 +38,7 @@
   import EmotionLayerEditor from './EmotionLayerEditor.vue'
   import EmotionAnimationEditor from './EmotionAnimationEditor.vue'
   import ImageSettingsInfo from './ImageSettingsInfo.vue'
-  import BaseEditDialog from '@/editor/helpers/BaseDialog/BaseEditDialog.vue'
+  import BaseEditDialog from '@/editor/parts/BaseEditDialog.vue'
   import { useEmotionDraft } from './composables/useEmotionDraft'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 

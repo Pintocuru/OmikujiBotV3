@@ -79,7 +79,7 @@
   import { useModalState } from './composables/useModalState'
   import { useCharacterUpdater } from './composables/useCharacterUpdater'
   import { useCharacterLookup } from './composables/useCharacterLookup'
-  import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
+  import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
   import { Users } from 'lucide-vue-next'
 
   const props = defineProps<{

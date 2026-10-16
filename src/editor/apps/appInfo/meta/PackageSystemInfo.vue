@@ -35,8 +35,8 @@
   import { Code, Settings, Tag, ExternalLink } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useVersionCheck } from '@/editor/apps/appItems/useVersionCheck'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import ExternalLinkButton from '@/editor/helpers/NavigateButton/ExternalLinkButton.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+  import ExternalLinkButton from '@/editor/parts/ExternalLinkButton.vue'
 
   // Store
   const omikujiStore = useOmikujiStore()

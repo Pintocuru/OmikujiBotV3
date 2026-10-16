@@ -73,8 +73,8 @@
   import { serviceTriggerConditionMap } from '@/maps/OmikujiData'
   import TriggerMetaCondition from './ServiceTriggerCondition.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+  import InformationCard from '@/editor/parts/InformationCard.vue'
 
   const props = defineProps<{
     modelValue: ServiceTriggerType

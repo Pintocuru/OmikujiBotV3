@@ -49,7 +49,7 @@
   import { assetCategory, AssetCategoryType, EventCategoryType } from '@/types/OmikujiData/'
   import BaseTagEditor from './BaseTagEditor.vue'
   import KeyEditor from '@/editor/helpers/KeyEditor/KeyEditor.vue'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   // vue-i18n の初期化
   const { t } = useI18n()

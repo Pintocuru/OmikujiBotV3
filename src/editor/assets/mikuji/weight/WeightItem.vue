@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
   import { OmikujiItemType } from '@/types/OmikujiData/'
-  import MenuDropdown from '@/editor/parts/MenuDropdown/MenuDropdown.vue'
+  import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
   import { GripVertical } from 'lucide-vue-next'
 
   defineProps<{

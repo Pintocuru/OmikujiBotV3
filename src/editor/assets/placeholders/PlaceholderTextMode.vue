@@ -56,8 +56,8 @@
   import { useI18n } from 'vue-i18n'
 
   import { WeightValuesArrayType, WeightValueSchema } from '@/types/OmikujiData'
-  import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
-  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
+  import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
+  import InformationCard from '@/editor/parts/InformationCard.vue'
 
   const { t } = useI18n()
 

@@ -1,5 +1,4 @@
 <!-- src/editor/helpers/BaseDialog/BaseEditDialog.vue -->
-
 <template>
   <dialog ref="dialogRef" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box w-11/12 max-w-5xl h-[80vh] flex flex-col overflow-hidden">
@@ -66,8 +65,8 @@
   }>()
 
   const emit = defineEmits<{
-    save: [] /** 保存ボタン押下 */
-    cancel: [] /** キャンセル / × / バックドロップ押下 */
+    save: [] // 保存ボタン押下
+    cancel: [] // キャンセル / × / バックドロップ押下
   }>()
 
   const dialogRef = ref<HTMLDialogElement | null>(null)
@@ -82,9 +81,9 @@
     dialogRef.value?.close()
   }
 
-  /** 外部から開くための公開メソッド */
+  // 外部から開くための公開メソッド
   const showModal = () => dialogRef.value?.showModal()
-  /** 外部から閉じるための公開メソッド（保存・キャンセル処理は呼ばない） */
+  // 外部から閉じるための公開メソッド（保存・キャンセル処理は呼ばない）
   const close = () => dialogRef.value?.close()
 
   defineExpose({ showModal, close })

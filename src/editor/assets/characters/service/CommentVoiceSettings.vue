@@ -48,8 +48,8 @@
   import { computed } from 'vue'
   import { DisplayOptionType } from '@/types/'
   import CharacterBase64Settings from './CharacterBase64Settings.vue'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
-  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+  import InformationCard from '@/editor/parts/InformationCard.vue'
   import { displayModeMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{

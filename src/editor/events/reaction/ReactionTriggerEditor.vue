@@ -68,7 +68,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import { VolumeX, Volume2, Dot } from 'lucide-vue-next'
   import { ReactionReaction, ReactionTriggerType } from '@/types/OmikujiData'
   import { reactionConditionMap } from '@/maps/OmikujiData'

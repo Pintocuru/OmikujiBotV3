@@ -23,7 +23,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { GiftCondition, giftConditions } from '@/types/engine/trigger'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const { t } = useI18n()
 

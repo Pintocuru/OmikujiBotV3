@@ -71,7 +71,7 @@
   import PackageBasicInfo from './meta/PackageBasicInfo.vue'
   import PackageDistributionInfo from './meta/PackageDistributionInfo.vue'
   import PackageSystemInfo from './meta/PackageSystemInfo.vue'
-  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard.vue'
 
   const { t } = useI18n()
 </script>

@@ -44,7 +44,7 @@
   import type { OmikujiItemType } from '@/types/OmikujiData/'
   import OmikujiItemCriteria from './OmikujiItemCriteria.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiLottery } from '../composables/useOmikujiLottery'
 
   const props = defineProps<{ omikujiItem: OmikujiItemType }>()

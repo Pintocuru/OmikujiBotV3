@@ -57,7 +57,7 @@
   import ActionSetSettings from '../actions/ActionSetSettings.vue'
   import PostActionPreview from '../preview/PostActionPreview.vue'
   import BotSettings from '../Bot/BotSettings.vue'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { postFlowKindMap } from '@/maps/OmikujiData'
 

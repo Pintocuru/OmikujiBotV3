@@ -34,7 +34,7 @@
 <script setup lang="ts">
   import { CharacterColorType } from '@/types/OmikujiData/'
   import { DEFAULT_COLOR_THEMES } from './ColorPreset'
-  import { colorFields } from '@/editor/maps/helpers/ColorPicker'
+  import { colorFields } from '@/editor/maps/parts/ColorPicker'
 
   const props = defineProps<{
     modelValue: CharacterColorType

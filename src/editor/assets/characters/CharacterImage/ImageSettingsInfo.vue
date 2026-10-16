@@ -25,6 +25,6 @@
 </template>
 
 <script setup lang="ts">
-  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
+  import InformationCard from '@/editor/parts/InformationCard.vue'
   import { RotateCcw } from 'lucide-vue-next'
 </script>

@@ -47,7 +47,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import EditorApp from '@/editor/App.vue'
-  import HudPreview from '@/editor/helpers/HudPreview/HudPreview.vue'
+  import HudPreview from '@/editor/parts/HudPreview.vue'
   import GeneratorApp from '@/generator/App.vue'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import DraggableWrapper from '@/common/DraggableWrapper/DraggableWrapper.vue'

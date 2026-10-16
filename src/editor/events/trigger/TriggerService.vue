@@ -62,7 +62,7 @@
   import { computed } from 'vue'
   import { EnabledServiceType } from '@/types/engine'
 
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import { serviceTypeMap } from '@/sdk/types/onesdk/Service'
 
   const props = defineProps<{

@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import { TimerEventType } from '@/types/OmikujiData'
 
   const props = defineProps<{

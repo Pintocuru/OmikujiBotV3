@@ -49,7 +49,7 @@
   import { uiLayoutMap } from '@/maps/OmikujiData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard.vue'
   import { getUiEditorEntries } from './uiEditorRegistry'
   import ItemsSettings from './conditions/ItemsSettings.vue'
   import LayoutEditor from './conditions/LayoutEditor.vue'

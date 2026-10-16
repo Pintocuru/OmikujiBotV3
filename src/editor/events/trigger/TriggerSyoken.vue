@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import { syokenConditionMap } from '@/maps/engine/trigger/SyokenConditionMap'
   import { SyokenCondition } from '@/types/engine/trigger'
 

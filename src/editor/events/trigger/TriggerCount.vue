@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import { countComparisonConditionMap, countUnitConditionMap } from '@/maps/engine/trigger/CountConditionMap'
   import { CountConditionTriggerType } from '@/types/engine/trigger'
 

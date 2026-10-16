@@ -43,7 +43,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { DisplayOptionType } from '@/types/OmikujiData/'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import { X, ImageIcon } from 'lucide-vue-next'
 
   const props = defineProps<{

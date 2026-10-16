@@ -23,7 +23,7 @@
   import { computed } from 'vue'
   import { PostFlowMessageType, PostFlowSoundType } from '@/types/OmikujiData'
   import { soundMap } from '@/maps/OmikujiData'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const props = defineProps<{
     action: PostFlowMessageType | PostFlowSoundType

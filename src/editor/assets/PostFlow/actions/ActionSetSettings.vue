@@ -65,8 +65,8 @@
   import { WeightValuesArrayType } from '@/types/OmikujiData'
   import { PostFlowCallType } from '@/types/OmikujiData'
   import { useWeightValueManagement } from './useWeightValueManagement'
-  import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
-  import MenuDropdown from '@/editor/parts/MenuDropdown/MenuDropdown.vue'
+  import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
+  import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
 
   const props = defineProps<{
     action: PostFlowCallType

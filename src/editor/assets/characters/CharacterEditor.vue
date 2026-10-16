@@ -66,7 +66,7 @@
   import CommentVoiceSettings from './service/CommentVoiceSettings.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
-  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
 

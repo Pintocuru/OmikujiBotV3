@@ -94,7 +94,7 @@
     PostFlowType,
   } from '@/types/OmikujiData/'
 
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import OmikujiItemHeader from './OmikujiItemHeader.vue'
 

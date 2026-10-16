@@ -15,7 +15,7 @@
   import { CharacterColorScheme, CharacterColorType } from '@/types/OmikujiData/'
   import CommentBubblePreview from '@/ui/CommentBubble/editor/CommentBubblePreview.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
-  import ColorPicker from '@/editor/helpers/ColorPicker/ColorPicker.vue'
+  import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
 
   const props = defineProps<{
     modelValue?: CharacterColorType

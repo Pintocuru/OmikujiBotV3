@@ -68,8 +68,8 @@
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import MikujiSettings from '@/editor/assets/mikuji/MikujiSettings.vue'
 
-  import InformationCard from '@/editor/parts/InformationCard/InformationCard.vue'
-  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
+  import InformationCard from '@/editor/parts/InformationCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetEventData } from '@/editor/stores/useGetEventData'

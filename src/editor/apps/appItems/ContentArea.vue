@@ -43,7 +43,7 @@
   import PlaceholderEditor from '@/editor/assets/placeholders/PlaceholderEditor.vue'
   import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
 
-  import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
+  import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import UiEditor from '@/editor/ui/UiEditor.vue'
   import AppInfoEditor from '@/editor/apps/appInfo/AppInfoEditor.vue'
   import JsonMergeEditor from '@/editor/apps/JsonMerge/JsonMergeEditor.vue'

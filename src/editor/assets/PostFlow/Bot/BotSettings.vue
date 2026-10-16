@@ -14,7 +14,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { PostFlowBotType } from '@/types/OmikujiData'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import MessageTextDialog from '../Message/MessageTextDialog.vue'
 
   const props = defineProps<{

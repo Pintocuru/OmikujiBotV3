@@ -40,7 +40,7 @@
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
-  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard.vue'
 
   const { t } = useI18n()
 

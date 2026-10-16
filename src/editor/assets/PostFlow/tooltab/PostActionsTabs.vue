@@ -32,7 +32,7 @@
   import { PostFlowType } from '@/types/OmikujiData/'
   import PostActionRow from './PostActionRow.vue'
   import { usePostActionsTab } from '../composables/usePostActionsTab'
-  import MenuDropdown from '@/editor/parts/MenuDropdown/MenuDropdown.vue'
+  import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
 
   const props = defineProps<{
     modelValue: PostFlowType[]

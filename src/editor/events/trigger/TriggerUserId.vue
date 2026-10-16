@@ -25,7 +25,7 @@ user789012
 <script setup lang="ts">
   import { ref, watch } from 'vue'
 
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const props = defineProps<{
     modelValue?: string[]

@@ -45,7 +45,7 @@
   import { computed, watch } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { playSoundResolved } from '@/common/sounds'
   import { soundMap } from '@/maps/OmikujiData'

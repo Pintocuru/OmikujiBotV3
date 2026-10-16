@@ -36,7 +36,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
 
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import { ServiceConditionType } from '@/types/OmikujiData'
   import { serviceConditionMap, serviceSimpleComparisonConditionMap } from '@/maps/OmikujiData'
   import type { DisplayMeta } from '@/editor/types/DisplayMeta'

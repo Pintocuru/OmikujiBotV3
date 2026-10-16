@@ -44,7 +44,7 @@
   import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
   import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
 
-  import SectionCard from '@/editor/parts/SectionCard/SectionCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'

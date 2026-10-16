@@ -86,7 +86,7 @@
 <script setup lang="ts">
   import { ImageIcon, AlertTriangle } from 'lucide-vue-next'
   import IconKeyMappingEditor from './IconKeyMappingEditor.vue'
-  import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
+  import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
   import { TargetCategoryType, useDataExtractor } from '../CharacterChanger/composables/useDataExtractor'
   import { useIconKeyStats } from './composables/useIconKeyStats'
   import { useIconKeyModalState } from './composables/useIconKeyModalState'

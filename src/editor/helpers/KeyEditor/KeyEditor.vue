@@ -51,8 +51,8 @@
   import { useKeyEditor } from './composables/useKeyEditor'
   import KeyEditorUsage from './KeyEditorUsage.vue'
   import KeyEditorWarning from './KeyEditorWarning.vue'
-  import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   defineProps<{
     category: AssetCategoryType

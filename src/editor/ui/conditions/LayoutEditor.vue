@@ -28,7 +28,7 @@
   import type { UiLayoutType } from '@/types'
   import { uiLayoutMap } from '@/maps/OmikujiData'
   import { getLayoutLoader } from '@/ui/uiRegistry'
-  import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
   const omikujiStore = useOmikujiStore()
