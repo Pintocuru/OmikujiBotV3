@@ -84,7 +84,7 @@
       sound: SoundSettings,
       wordParty: WordPartySettings,
       variable: VariableSettings,
-      // TODO:gameScript のやつを用意
+      // TODO:gameScript の コンポーネントを新規作成
       gameScript: VariableSettings,
       bot: BotSettings,
       flowCall: ActionSetSettings,

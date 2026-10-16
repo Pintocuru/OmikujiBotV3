@@ -11,7 +11,8 @@ export const ServiceMetaConditionSchema = z.enum(serviceMetaConditions)
 export type ServiceMetaCondition = z.infer<typeof ServiceMetaConditionSchema>
 
 // @onecomme.com/onesdk/types/Service
-// TODO:v3では「プラットフォームか外部か」でのみ適用する
+// TODO:v3では「プラットフォーム(platforms)か外部(external)か」でのみ適用する。
+// ということで、serviceTypeValuesを定義する必要はないかもしれない。
 export const serviceTypeValues = [
   'youtube',
   'twicas',

@@ -6,7 +6,7 @@ export class CooldownManager {
   private static instance: CooldownManager | null = null
 
   /** 最後に処理が成功した時刻（ms）: グローバルクールダウン用 */
-  private lastProcessedTime = 0 // TODO(v3): 廃止。
+  private lastProcessedTime = 0
 
   private nextAllowedTime = 0
 

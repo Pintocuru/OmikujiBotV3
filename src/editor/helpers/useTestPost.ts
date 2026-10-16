@@ -55,8 +55,6 @@ export function useTestPost() {
 
   const postTestOmikujiItem = async (postFlows: PostFlowType[], omikujiItem?: OmikujiItemType) => {
     const resultProcessor = new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable)
-
-    // TODO: process() は PostFlowType 1件を受け取る仕様。postFlows 全体の扱いは未確定のため暫定で1件ずつ処理
     const botMessages = (
       await Promise.all(
         postFlows.map((flow) => resultProcessor.process(flow, defaultPlaceholdersShortLabels, MOCK_COMMENT))

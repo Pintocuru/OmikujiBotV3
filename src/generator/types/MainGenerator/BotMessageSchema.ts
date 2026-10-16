@@ -63,7 +63,7 @@ const CommentBubbleSchema = z.object({
   displaySeconds: z.number().min(0).max(60).nullable().optional(),
 })
 
-// TODO:廃止(表示タイミングはUI側で制御)
+// TODO:廃止(表示タイミングはUI側で制御。例えば、CommentBubble の型定義で BotMessageBubbleSchema にプラスする形で新設する)
 const DisplayStatusSchema = z.object({
   visible: z.boolean().default(true),
   hideTimeout: z.number().optional(),
@@ -74,7 +74,6 @@ const DisplayStatusSchema = z.object({
  */
 export const BotMessageBubbleSchema = BotMessageBaseSchema.extend({
   type: z.literal('comment').default('comment'),
-  // TODO:必要なのはuiId だと思う 「どのUIに投稿するか」を指定するプロパティが必要?
   bubble: CommentBubbleSchema,
   slots: ExtraSlotsSchema.optional(),
   display: DisplayStatusSchema.optional(),

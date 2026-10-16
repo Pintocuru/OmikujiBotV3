@@ -63,7 +63,6 @@
   />
 
   <!-- カウント条件 -->
-  <!-- TODO:修正が必要 -->
   <TriggerCount
     v-if="activeConditions.has('count')"
     :modelValue="criteria.count"

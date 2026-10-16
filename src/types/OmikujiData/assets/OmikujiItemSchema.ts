@@ -76,7 +76,6 @@ export const OmikujiItemControlSchema = OmikujiItemBase.extend({
 })
 
 // ユーザー状態をログとして出力する
-// TODO: ログを出す代わりに、評価ブロックにあるObjectまたはstringを、わんコメに投稿する機能にする
 export const LOG_FORMAT_DEFAULT = '<<user>> <<score>> <<createdAt>>'
 export const OmikujiItemLogSchema = OmikujiItemBase.extend({
   kind: z.literal('log'),

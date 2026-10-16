@@ -35,7 +35,6 @@
       :title="s('commentVoice')?.label"
       :description="s('commentVoice')?.description"
     >
-      <!-- TODO:updateRecordProperty は使わないこと。 -->
       <CommentVoiceSettings
         :modelValue="selectedItem.displayOption"
         :backgroundColor="selectedItem.color.background"
@@ -99,7 +98,6 @@
   const { updateAsset, updateAssetProperty } = useOmikujiStore()
 
   // 選択されたキャラクターを取得
-  // TODO: get/set を使い、この箇所で更新を行うこと。
   const selectedItem = computed({
     get: () => {
       if (!selectedItemKey.value) return null

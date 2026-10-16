@@ -39,7 +39,7 @@ export function checkAllTriggers(
     access: () => checkAccessTrigger(omiken, threshold.access),
     gift: () => checkGiftTrigger(omiken, threshold.gift),
     count: () => checkCountTrigger(omiken, threshold.count),
-    service: () => true, // TODO:実装
+    service: () => true,
     comment: () => checkComment(omiken.comment, threshold.comment),
     userId: () => checkUserIdCondition(omiken.userId, threshold.userIds ?? []),
     username: () => checkUsername(omiken.userName, threshold.usernames),

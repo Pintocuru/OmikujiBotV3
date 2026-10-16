@@ -8,6 +8,7 @@
         @change="updateField('comparison', ($event.target as HTMLSelectElement).value)"
         class="select select-bordered select-sm flex-1"
       >
+        <!-- TODO:ここはmapを直接使うべき -->
         <option v-for="option in comparisonOptions" :key="option.value" :value="option.value">
           {{ option.label }}
         </option>

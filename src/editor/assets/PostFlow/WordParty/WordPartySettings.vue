@@ -80,6 +80,7 @@
   }
 
   // WordParty入力モード（text or id）
+  // TODO:wordPartyId のみになったので、wordPartyは削除すること
   const inputMode = computed({
     get: (): 'text' | 'id' => {
       return props.action.wordPartyId !== undefined ? 'id' : 'text'

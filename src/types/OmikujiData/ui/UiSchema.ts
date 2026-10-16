@@ -9,7 +9,7 @@ import { UiSettingsSchema } from './UiSettingsSchema'
 /**
  * フォントクラス名を返す。
  * googleFontsUrl が設定されている場合、未読み込みなら <link> を動的挿入する。
- * TODO:関数はここではない
+ * TODO:関数はここではない。移動すべきだろう。
  */
 const _loadedFonts = new Set<string>()
 

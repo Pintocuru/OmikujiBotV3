@@ -62,7 +62,7 @@ export class OmikujiProcessor {
     const omikujiSet = this.store.data.assets.mikuji[omikujiKey]?.omikuji ?? []
     const item = this.lotteryOmikujiItem(omikujiSet)
 
-    // TODO: return / continue / reset / log は未対応 (タイマー・配信数値・リアクションでは何もしない)
+    // return / continue / reset / log は何もしない
     if (!item || item.kind !== 'postFlow') return []
 
     return this.runPostFlows(eventKey, item, category, omiken, isDummy)

@@ -10,10 +10,10 @@ type AssetCategoryData<C extends AssetCategoryType> = AssetsData[C]
 
 /**
  * データマージ処理のヘルパー関数を提供
+ * TODO:order で列を識別しなくなったため、この機能は不要になります
  */
 export function useDataMergeHelpers() {
   // order プロパティを持つアイテムかどうかを判定
-  // TODO:これ不要かも
   const hasOrderProperty = (item: unknown): item is { order: number } => {
     return (
       typeof item === 'object' &&
