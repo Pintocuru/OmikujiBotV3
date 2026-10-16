@@ -14,6 +14,7 @@
             :icon="categoryMap[key]?.icon || 'Package'"
             :description="categoryMap[key]?.description || ''"
             :show-toggle="false"
+            :is-enabled="true"
           />
         </div>
 
@@ -36,6 +37,7 @@
             :icon="uiKindMap[key]?.icon || 'Package'"
             :description="uiKindMap[key]?.description || ''"
             :show-toggle="false"
+            :is-enabled="true"
           />
         </div>
 

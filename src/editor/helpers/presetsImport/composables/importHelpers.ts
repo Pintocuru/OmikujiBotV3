@@ -1,15 +1,41 @@
 // src/editor/helpers/presetsImport/composables/importHelpers.ts
 import { CategoryImportConfig, ComponentImportConfig, ConflictInfo } from '@/editor/types'
-import { AssetCategoryDataMap, DataCategoryType, OmikujiDataType, UiKind } from '@/types/OmikujiData/'
+import {
+  AssetCategoryType,
+  DataCategoryType,
+  EventCategoryType,
+  OmikujiDataType,
+  UiKind,
+  assetCategory,
+  eventCategory,
+  uiKinds,
+} from '@/types/OmikujiData/'
+
+// データを持つ全カテゴリ(Events + Assets)
+const dataCategories: readonly DataCategoryType[] = [...eventCategory, ...assetCategory]
+
+/**
+ * カテゴリがイベントカテゴリかどうかを判定
+ */
+const isEventCategory = (category: DataCategoryType): category is EventCategoryType =>
+  (eventCategory as readonly string[]).includes(category)
 
 /**
  * アイテムの名前を取得
  */
-export const getItemName = (item: any): string => {
+export const getItemName = (item: unknown): string => {
   if (item && typeof item === 'object' && 'name' in item) {
-    return item.name || ''
+    return (item as { name?: string }).name || ''
   }
   return ''
+}
+
+// events: 配列(item.key で識別) / assets: Record(key で識別)
+const getItemMap = (data: OmikujiDataType, category: DataCategoryType): Record<string, unknown> => {
+  if (isEventCategory(category)) {
+    return Object.fromEntries((data.events[category] ?? []).map((item) => [item.key, item]))
+  }
+  return data.assets[category as AssetCategoryType] ?? {}
 }
 
 /**
@@ -20,21 +46,12 @@ export const checkRecordConflicts = (
   importData: OmikujiDataType,
   category: DataCategoryType
 ): ConflictInfo[] => {
-  const currentItems = currentData[category] as AssetCategoryDataMap[typeof category]
-  const importItems = importData[category] as AssetCategoryDataMap[typeof category]
+  const currentItems = getItemMap(currentData, category)
+  const importItems = getItemMap(importData, category)
 
-  if (!currentItems || !importItems || typeof currentItems !== 'object' || typeof importItems !== 'object') {
-    return []
-  }
-
-  const importKeys = Object.keys(importItems)
-  const currentKeys = Object.keys(currentItems)
-  const conflictKeys = importKeys.filter((key) => currentKeys.includes(key))
-
-  return conflictKeys.map((key) => ({
-    key,
-    name: getItemName((importItems as any)[key]),
-  }))
+  return Object.keys(importItems)
+    .filter((key) => key in currentItems)
+    .map((key) => ({ key, name: getItemName(importItems[key]) }))
 }
 
 /**
@@ -44,20 +61,11 @@ export const generateCategoryPreview = (currentData: OmikujiDataType, importData
   const recordCategories: Partial<Record<DataCategoryType, CategoryImportConfig>> = {}
   let totalItems = 0
 
-  // TODO: assetCategory eventCategory をつかうこと
-  recordCategoryLabel.forEach((category) => {
-    const importItems = importData[category] as AssetCategoryDataMap[typeof category]
-    const importCount = importItems ? Object.keys(importItems).length : 0
+  dataCategories.forEach((category) => {
+    const importCount = Object.keys(getItemMap(importData, category)).length
     const conflicts = checkRecordConflicts(currentData, importData, category)
-
     totalItems += importCount
-
-    recordCategories[category] = {
-      enabled: true,
-      mode: 'partial-merge',
-      count: importCount,
-      conflicts,
-    }
+    recordCategories[category] = { enabled: true, mode: 'partial-merge', count: importCount, conflicts }
   })
 
   return {
@@ -67,23 +75,17 @@ export const generateCategoryPreview = (currentData: OmikujiDataType, importData
 }
 
 /**
- * アイテムのプレビューを生成
+ * コンポーネントのプレビューを生成
  */
 export const generateComponentPreview = (
   currentData: OmikujiDataType,
   importData: OmikujiDataType
 ): Record<UiKind, ComponentImportConfig> => {
   const componentConfigs: Partial<Record<UiKind, ComponentImportConfig>> = {}
-  const currentComponents = currentData.featureUsage.components || []
-  const importComponents = importData.featureUsage.components || []
 
-  currentComponents.forEach((compKey) => {
-    if (importComponents.includes(compKey)) {
-      const key = compKey as UiKind
-      componentConfigs[key] = {
-        enabled: true,
-        useImported: false,
-      }
+  uiKinds.forEach((kind) => {
+    if (currentData.ui.settings[kind] && importData.ui.settings[kind]) {
+      componentConfigs[kind] = { enabled: true, useImported: false }
     }
   })
 

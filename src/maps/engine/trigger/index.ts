@@ -1,8 +1,5 @@
 // src/maps/engine/trigger/index.ts
 
-export * from './AccessCondition'
-export * from './CountCondition'
-export * from './GiftCondition'
-export * from './ServiceCondition'
-export * from './SyokenCondition'
-export * from './TriggerCondition'
+export * from './CountConditionMap'
+export * from './ServiceConditionMap'
+export * from './SyokenConditionMap'
