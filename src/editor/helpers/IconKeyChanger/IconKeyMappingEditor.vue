@@ -22,7 +22,7 @@
       </div>
 
       <!-- 矢印 -->
-      <div class="text-3xl text-gray-400 flex-shrink-0">→</div>
+      <div class="text-3xl text-gray-400 shrink-0">→</div>
 
       <!-- 変更後 -->
       <div class="flex-1 min-w-0">
