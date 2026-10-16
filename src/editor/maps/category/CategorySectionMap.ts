@@ -4,7 +4,8 @@ import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
 /**
  * サイドバーのサブアイテム下に表示するセクション項目
- * クリックで activeSection.value を変更する
+ * TODO:この型定義は、src/editor/apps/appItems/navigation/useSidebarSubItems.ts でも使用しているため、
+ * src/editor/types に移動すべきでは？
  */
 export type SidebarSectionItem = {
   section: string
@@ -12,14 +13,8 @@ export type SidebarSectionItem = {
   component?: string
 }
 
-// ─────────────────────────────────────────────────────────
-// 静的マップ（Record カテゴリ / appInfo）
-// ─────────────────────────────────────────────────────────
-
 /**
- * Record カテゴリ・appInfo 用の固定セクション項目
- * UiEditor のような動的なものはここに含めない
- * staticSectionMap > categorySectionMap
+ * 静的マップ（Record カテゴリ / appInfo）
  */
 export const categorySectionMap: Record<CategoryType, SidebarSectionItem[]> = {
   // event

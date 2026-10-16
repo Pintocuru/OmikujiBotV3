@@ -1,9 +1,9 @@
 // src/editor/tools/MockUser/MockConstants.ts
 
-/** サフィックスを付与する確率 */
+// サフィックスを付与する確率
 export const SUFFIX_PROBABILITY = 0.2
 
-/** ユーザー統計のランダム値レンジ */
+// ユーザー統計のランダム値レンジ
 export const USER_STATS_RANGES = {
   tc: { min: 1, max: 5000 },
   no: { min: 1, max: 50 },
@@ -15,5 +15,5 @@ export const USER_STATS_RANGES = {
   },
 } as const
 
-/** ランキング用ポイントのレンジ */
+// ランキング用ポイントのレンジ
 export const RANKING_POINTS_RANGE = { min: 1000, max: 3000 } as const

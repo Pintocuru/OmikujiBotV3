@@ -7,6 +7,8 @@ import { RANKING_POINTS_RANGE, SUFFIX_PROBABILITY, USER_STATS_RANGES } from './M
 import { MOCK_FAMILY_NAME_JA_LIST, MOCK_USER_GIVEN_JA_LIST } from './MockUserJaMaps'
 import { NAME_SUFFIXES } from './MockUserMaps'
 
+// TODO:責務が重すぎる。分割すること。
+
 // ランキングプレビュー用の設定(GameRanking は ui 側で管理)
 type DummyRankingSettings = { limit?: number; sortOrder?: 'high' | 'low' | 'new' }
 
@@ -14,19 +16,19 @@ type DummyRankingSettings = { limit?: number; sortOrder?: 'high' | 'low' | 'new'
 // ロケール別マップの型定義
 // -------------------------------------------------------------------
 
-/** ロケール別 given-name リスト */
+// ロケール別 given-name リスト
 const GIVEN_NAME_LIST_MAP: Partial<Record<LocaleType, { label: string; avatarStyle: string }[]>> = {
   ja: MOCK_USER_GIVEN_JA_LIST,
   // en: MOCK_USER_GIVEN_EN_LIST,  // 追加予定
 }
 
-/** ロケール別 family-name リスト */
+// ロケール別 family-name リスト */
 const FAMILY_NAME_LIST_MAP: Partial<Record<LocaleType, string[]>> = {
   ja: MOCK_FAMILY_NAME_JA_LIST,
   // en: MOCK_FAMILY_NAME_EN_LIST,  // 追加予定
 }
 
-/** フォールバック先ロケール */
+// フォールバック先ロケール */
 const FALLBACK_LOCALE: LocaleType = 'ja'
 
 // -------------------------------------------------------------------
@@ -77,9 +79,9 @@ const buildUserName = (locale: LocaleType): string => {
 const givenNameCount = (locale: LocaleType): number =>
   (GIVEN_NAME_LIST_MAP[locale] ?? GIVEN_NAME_LIST_MAP[FALLBACK_LOCALE] ?? []).length
 
-// -------------------------------------------------------------------
-// 生成関数
-// -------------------------------------------------------------------
+/**
+ * 生成関数
+ */
 
 // プレビュー用: visitCount 付きのユーザーリストを生成
 export const generateDummyVisitRecords = (count: number, locale: LocaleType = 'ja'): UserVisitRecord[] => {
@@ -118,7 +120,10 @@ export const generateDummyUserStats = (count: number, locale: LocaleType = 'ja')
 }
 
 // ランキング表示用のダミー BotMessage を生成
-export const generateDummyMessages = (settings: DummyRankingSettings, locale: LocaleType = 'ja'): BotMessageExtraType[] => {
+export const generateDummyMessages = (
+  settings: DummyRankingSettings,
+  locale: LocaleType = 'ja'
+): BotMessageExtraType[] => {
   const count = settings.limit ?? 10
   const usedNames = new Set<string>()
   const { min, max } = RANKING_POINTS_RANGE
