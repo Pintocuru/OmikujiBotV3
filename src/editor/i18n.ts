@@ -1,32 +1,48 @@
 // src/editor/i18n.ts
 import { createI18n } from 'vue-i18n'
 
-// 1. src/editor/maps/ 以下の `.ts` ファイルをすべて自動インポートする
-// (eager: true にすることで、Promiseではなく同期的にオブジェクトとして取得できます)
-const modules = import.meta.glob<{ [key: string]: any }>('@/editor/maps/**/*.ts', { eager: true })
+// 対応ロケール。maps 配下の export のうち、これらをキーに持つオブジェクトだけをメッセージとして扱う
+// （categorySectionMap や colorFields など、メッセージではない export を誤って取り込まないため）
+const LOCALES = ['ja', 'en'] as const
 
-// 2. 自動で言語ごとにメッセージをまとめるオブジェクトを構築
-const messages: Record<string, Record<string, any>> = {
-  ja: {},
-  en: {}, // 英語などを追加する場合も自動で入ります
+type Messages = Record<string, any>
+
+// 1. src/editor/maps/ 以下の `.ts` ファイルをすべて自動インポートする
+const modules = import.meta.glob<Record<string, unknown>>('@/editor/maps/**/*.ts', { eager: true })
+
+const isPlainObject = (v: unknown): v is Messages => typeof v === 'object' && v !== null && !Array.isArray(v)
+
+// 2. 深いマージ（浅いスプレッドだと、同じ最上位キーを持つファイル同士で後勝ちに上書きされ、キーが消える）
+const deepMerge = (target: Messages, source: Messages): Messages => {
+  for (const key of Object.keys(source)) {
+    const src = source[key]
+    const dst = target[key]
+    if (isPlainObject(src) && isPlainObject(dst)) {
+      deepMerge(dst, src)
+    } else if (isPlainObject(src)) {
+      target[key] = deepMerge({}, src)
+    } else {
+      if (import.meta.env.DEV && key in target && target[key] !== src) {
+        console.warn(`[i18n] メッセージキーが重複しています: ${key}`)
+      }
+      target[key] = src
+    }
+  }
+  return target
 }
+
+// 3. 言語ごとにメッセージをまとめる
+const messages: Record<string, Messages> = Object.fromEntries(LOCALES.map((l) => [l, {}]))
 
 for (const path in modules) {
   const mod = modules[path]
-  // 各ファイルが export しているオブジェクト（例: baseSettingsMessages）を走査
   for (const exportName in mod) {
     const fileMessages = mod[exportName]
+    if (!isPlainObject(fileMessages)) continue
 
-    // 各言語（ja, en など）ごとにマージしていく
-    for (const lang in fileMessages) {
-      if (!messages[lang]) {
-        messages[lang] = {}
-      }
-      // スプレッド構文で言語ごとのオブジェクトに自動統合
-      messages[lang] = {
-        ...messages[lang],
-        ...fileMessages[lang],
-      }
+    for (const lang of LOCALES) {
+      const langMessages = fileMessages[lang]
+      if (isPlainObject(langMessages)) deepMerge(messages[lang], langMessages)
     }
   }
 }

@@ -1,13 +1,20 @@
 // src/editor/apps/appItems/navigation/useCategoryUtils.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { CategoryType } from '@/types/OmikujiData'
+import { CategoryType, eventCategory, assetCategory } from '@/types/OmikujiData'
 import { isDev } from '@/types/env'
 import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { categoryMap } from '@/maps/OmikujiData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
+
+/**
+ * ナビゲーションのグループ（サブラベル）
+ * events / assets / ui / その他
+ */
+export type CategoryGroupId = 'events' | 'assets' | 'ui' | 'other'
+export type CategoryGroup = { id: CategoryGroupId; keys: CategoryType[] }
 
 export const useCategoryUtils = () => {
   const omikujiStore = useOmikujiStore()
@@ -40,8 +47,32 @@ export const useCategoryUtils = () => {
     ) as Record<CategoryType, (typeof categoryMap)[CategoryType]>
   })
 
+  /**
+   * ナビゲーションのグループ分け
+   * 表示対象（filteredCategoryLabels）のみを対象にし、空のグループは返さない
+   */
+  const categoryGroups = computed<CategoryGroup[]>(() => {
+    const visible = Object.keys(filteredCategoryLabels.value) as CategoryType[]
+    const pick = (list: readonly string[]) => visible.filter((key) => list.includes(key))
+
+    const events = pick(eventCategory)
+    const assets = pick(assetCategory)
+    const ui = pick(['ui'])
+    const grouped = new Set<CategoryType>([...events, ...assets, ...ui])
+    const other = visible.filter((key) => !grouped.has(key)) // jsonMerge / appInfo など
+
+    const groups: CategoryGroup[] = [
+      { id: 'events', keys: events },
+      { id: 'assets', keys: assets },
+      { id: 'ui', keys: ui },
+      { id: 'other', keys: other },
+    ]
+    return groups.filter((group) => group.keys.length > 0)
+  })
+
   return {
     getCategoryItemCount,
     filteredCategoryLabels,
+    categoryGroups,
   }
 }

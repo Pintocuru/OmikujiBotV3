@@ -10,6 +10,20 @@ export const navigationSidebarMessages = {
       exportConfigTip: '設定ファイルを出力します。保存する場合は必ずこのボタンを押してください。',
       unnamed: '（名前なし）',
       appInfo: 'アプリ情報',
+      groups: {
+        events: 'イベント',
+        assets: 'アセット',
+        ui: 'UI',
+        other: 'その他',
+      },
+      create: {
+        button: '新規作成',
+        buttonTip: '「{category}」を新しく作成します',
+        defaultName: '新しい{category}',
+        success: '「{name}」を作成しました',
+        emptyMessage: 'ナビゲーションからデータを新規作成してください',
+        emptyHint: 'サイドバーの「新規作成」ボタンから追加できます（折りたたんでいる場合は展開してください）',
+      },
       menu: {
         enable: '有効にする',
         disable: '無効にする',
@@ -94,6 +108,20 @@ export const navigationSidebarMessages = {
       exportConfigTip: 'Export configuration file. Be sure to click this to save.',
       unnamed: '(Unnamed)',
       appInfo: 'App Info',
+      groups: {
+        events: 'Events',
+        assets: 'Assets',
+        ui: 'UI',
+        other: 'Other',
+      },
+      create: {
+        button: 'New',
+        buttonTip: 'Create a new "{category}"',
+        defaultName: 'New {category}',
+        success: 'Created "{name}"',
+        emptyMessage: 'Create new data from the navigation',
+        emptyHint: 'Use the "New" button in the sidebar (expand the sidebar if it is collapsed)',
+      },
       menu: {
         enable: 'Enable',
         disable: 'Disable',

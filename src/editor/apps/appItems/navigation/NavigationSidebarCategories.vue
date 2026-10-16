@@ -1,54 +1,66 @@
 <!-- src/editor/apps/appItems/navigation/NavigationSidebarCategories.vue -->
 <template>
   <div class="flex flex-col gap-0.5 p-2 flex-1">
-    <template v-for="(tab, key) in filteredCategoryLabels" :key="key">
-      <!-- カテゴリボタン -->
-      <button
-        class="btn w-full relative flex items-center gap-2 min-h-0 h-auto py-2"
-        :class="[
-          selectedCategory === key ? 'bg-primary text-primary-content hover:bg-primary' : 'btn-ghost',
-          isExpanded ? 'justify-start px-3' : 'justify-center px-0',
-        ]"
-        :title="`${t(`categories.${key}.label`)}：${t(`categories.${key}.description`)}`"
-        @click="navigateCategory(key)"
+    <template v-for="(group, groupIndex) in categoryGroups" :key="group.id">
+      <!-- グループのサブラベル（折りたたみ中は区切り線のみ） -->
+      <div
+        v-if="isExpanded"
+        class="px-3 pb-0.5 text-[10px] font-semibold tracking-wider opacity-50 select-none"
+        :class="groupIndex > 0 ? 'pt-3' : 'pt-1'"
       >
-        <component :is="resolveLucideIcon(tab.icon)" class="w-5 h-5 shrink-0" />
-        <span v-if="isExpanded" class="text-sm truncate text-left flex-1">{{ t(`categories.${key}.label`) }}</span>
-        <span
-          v-if="getCategoryItemCount(key) > 0"
-          class="badge badge-xs badge-primary shrink-0"
-          :class="isExpanded ? '' : 'absolute -top-1 -right-1'"
+        {{ t(`navigation.groups.${group.id}`) }}
+      </div>
+      <hr v-else-if="groupIndex > 0" class="border-base-300 my-1 mx-2" />
+
+      <template v-for="key in group.keys" :key="key">
+        <!-- カテゴリボタン -->
+        <button
+          class="btn w-full relative flex items-center gap-2 min-h-0 h-auto py-2"
+          :class="[
+            selectedCategory === key ? 'bg-primary text-primary-content hover:bg-primary' : 'btn-ghost',
+            isExpanded ? 'justify-start px-3' : 'justify-center px-0',
+          ]"
+          :title="`${t(`categories.${key}.label`)}：${t(`categories.${key}.description`)}`"
+          @click="navigateCategory(key)"
         >
-          {{ getCategoryItemCount(key) }}
-        </span>
-      </button>
+          <component :is="resolveLucideIcon(filteredCategoryLabels[key].icon)" class="w-5 h-5 shrink-0" />
+          <span v-if="isExpanded" class="text-sm truncate text-left flex-1">{{ t(`categories.${key}.label`) }}</span>
+          <span
+            v-if="getCategoryItemCount(key) > 0"
+            class="badge badge-xs badge-primary shrink-0"
+            :class="isExpanded ? '' : 'absolute -top-1 -right-1'"
+          >
+            {{ getCategoryItemCount(key) }}
+          </span>
+        </button>
 
-      <!-- サブ項目（サイドバー展開中 & カテゴリ選択中 & 開いているときのみ） -->
-      <transition
-        enter-active-class="transition-all duration-200 ease-out"
-        leave-active-class="transition-all duration-150 ease-in"
-        enter-from-class="opacity-0 max-h-0"
-        enter-to-class="opacity-100 max-h-96"
-        leave-from-class="opacity-100 max-h-96"
-        leave-to-class="opacity-0 max-h-0"
-      >
-        <template v-if="isExpanded && selectedCategory === key && isOpenCategory[key]">
-          <!-- Record：ドラッグ可能なアイテムリスト（アイテム選択済みのときのみ表示） -->
-          <SidebarRecordItems
-            v-if="getVariant(key) === 'record' && selectedItemKey"
-            :category="key"
-            v-model="getDraggableModel(key).value"
-            v-model:isDragEnabled="isDragEnabled"
-            @dragEnd="onDragEnd"
-          />
+        <!-- サブ項目（サイドバー展開中 & カテゴリ選択中 & 開いているときのみ） -->
+        <transition
+          enter-active-class="transition-all duration-200 ease-out"
+          leave-active-class="transition-all duration-150 ease-in"
+          enter-from-class="opacity-0 max-h-0"
+          enter-to-class="opacity-100 max-h-96"
+          leave-from-class="opacity-100 max-h-96"
+          leave-to-class="opacity-0 max-h-0"
+        >
+          <template v-if="isExpanded && selectedCategory === key && isOpenCategory[key]">
+            <!-- Record：新規作成ボタン + ドラッグ可能なアイテムリスト（データが0件でも表示する） -->
+            <SidebarRecordItems
+              v-if="getVariant(key) === 'record'"
+              :category="key"
+              v-model="getDraggableModel(key).value"
+              v-model:isDragEnabled="isDragEnabled"
+              @dragEnd="onDragEnd"
+            />
 
-          <!-- Array：jsonMerge の静的リスト -->
-          <SidebarArrayItems v-else-if="getVariant(key) === 'array'" :category="key" :items="getStaticItems(key)" />
+            <!-- Array：jsonMerge の静的リスト -->
+            <SidebarArrayItems v-else-if="getVariant(key) === 'array'" :category="key" :items="getStaticItems(key)" />
 
-          <!-- Object：appInfo / components のセクションリスト -->
-          <SidebarObjectItems v-else-if="getVariant(key) === 'object'" :category="key" />
-        </template>
-      </transition>
+            <!-- Object：appInfo / components のセクションリスト -->
+            <SidebarObjectItems v-else-if="getVariant(key) === 'object'" :category="key" />
+          </template>
+        </transition>
+      </template>
     </template>
   </div>
 </template>
@@ -79,10 +91,10 @@
 
   // ストア
   const navigationStore = useNavigationStore()
-  const { selectedCategory, selectedItemKey } = storeToRefs(navigationStore)
+  const { selectedCategory } = storeToRefs(navigationStore)
 
   // カテゴリユーティリティ
-  const { getCategoryItemCount, filteredCategoryLabels } = useCategoryUtils()
+  const { getCategoryItemCount, filteredCategoryLabels, categoryGroups } = useCategoryUtils()
 
   // ドラッグ
   const { draggableItems, onDragEnd, isDragDisabled } = useNavigationSidebarDrag(computed(() => props.isExpanded))

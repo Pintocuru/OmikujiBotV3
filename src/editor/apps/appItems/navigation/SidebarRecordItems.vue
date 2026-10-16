@@ -1,6 +1,17 @@
 <!-- src/editor/apps/appItems/navigation/SidebarRecordItems.vue -->
 <template>
   <div>
+    <!-- 新規作成（Events / Assets。データが0件でもここから作成できる） -->
+    <button
+      v-if="canCreate(category)"
+      class="btn btn-ghost btn-xs w-full justify-start gap-1 pl-4 pr-1 text-xs font-normal opacity-70 hover:opacity-100"
+      :title="t('navigation.create.buttonTip', { category: categoryLabel(category) })"
+      @click="createItem(category)"
+    >
+      <Plus class="w-3 h-3 shrink-0" />
+      <span class="truncate">{{ t('navigation.create.button') }}</span>
+    </button>
+
     <VueDraggable
       v-model="localItems"
       :animation="150"
@@ -39,6 +50,7 @@ SidebarItemMenu.vue(72, 5): 予期された型は、型 '{ readonly item: { id: 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
+  import { useI18n } from 'vue-i18n'
   import { VueDraggable } from 'vue-draggable-plus'
   import { AssetCategoryType, CategoryType, EventCategoryType } from '@/types/OmikujiData/'
   import { getSidebarSections } from './useSidebarSectionMap'
@@ -46,6 +58,8 @@ SidebarItemMenu.vue(72, 5): 予期された型は、型 '{ readonly item: { id: 
   import SidebarSubItem from './SidebarSubItem.vue'
   import SidebarItemMenu from './SidebarItemMenu.vue'
   import { BaseRecordType } from '@/types/core'
+  import { useSidebarCreate } from './useSidebarCreate'
+  import { Plus } from 'lucide-vue-next'
 
   export type DraggableSubItem = {
     key: string
@@ -65,6 +79,9 @@ SidebarItemMenu.vue(72, 5): 予期された型は、型 '{ readonly item: { id: 
     'update:isDragEnabled': [val: boolean]
     dragEnd: [category: CategoryType]
   }>()
+
+  const { t } = useI18n()
+  const { canCreate, categoryLabel, createItem } = useSidebarCreate()
 
   const navigationStore = useNavigationStore()
   const { selectedItemKey } = storeToRefs(navigationStore)

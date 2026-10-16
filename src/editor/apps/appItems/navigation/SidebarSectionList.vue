@@ -8,24 +8,24 @@
       :class="activeSection === sec.section ? ` font-semibold` : 'opacity-60'"
       @mouseenter="onEnter($event, sec)"
       @mouseleave="onLeave"
-      @click="emit('selectSection', sec.section)"
+      @click="onClick(sec)"
     >
       <component :is="resolveIcon(sec.icon)" v-if="sec.icon" class="w-3 h-3 shrink-0" />
       <span class="truncate">{{ t(`categorySections.${sec.section}.label`) }}</span>
     </button>
 
-    <!-- TODO:実装 Hover Popup
-    <HoverPopup v-if="hoveredSection?.component" :x="mouseX" :y="mouseY" :visible="!!hoveredSection">
-      <component :is="staticSectionPreviewMap[hoveredSection.component]" :data="hoveredItem" :mode="category" />
-    </HoverPopup> -->
+    <!-- Hover Popup：セクションの現在の設定内容をプレビューする -->
+    <HoverPopup :x="popupX" :y="popupY" :visible="!!previewComponent && !!hoveredItem">
+      <component :is="previewComponent" v-if="previewComponent" v-bind="previewProps" />
+    </HoverPopup>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref, computed, onBeforeUnmount } from 'vue'
   import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap'
-  // import HoverPopup from '../preview/HoverPopup.vue'
-  // import { staticSectionPreviewMap } from '../preview/staticSectionPreviewMap'
+  import HoverPopup from '../preview/HoverPopup.vue'
+  import { staticSectionPreviewMap } from '../preview/staticSectionPreviewMap'
   import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
@@ -49,21 +49,24 @@
   const { getAsset, isAssetCategory } = useGetAssetData()
 
   // hover state
+  const HOVER_DELAY_MS = 120
   const hoveredSection = ref<SidebarSectionItem | null>(null)
-  const mouseX = ref(0)
-  const mouseY = ref(0)
+  const popupX = ref(0)
+  const popupY = ref(0)
 
-  let timer: number
+  let timer: number | undefined
 
   const onEnter = (e: MouseEvent, sec: SidebarSectionItem) => {
     clearTimeout(timer)
 
-    mouseX.value = e.clientX
-    mouseY.value = e.clientY
+    // ボタンの右端に出す（サイドバーに被らず、ボタンの高さに揃う）
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    popupX.value = rect.right
+    popupY.value = rect.top - 12 // HoverPopup 側の OFFSET(12) を打ち消し、ボタン上端に揃える
 
     timer = window.setTimeout(() => {
       hoveredSection.value = sec
-    }, 120)
+    }, HOVER_DELAY_MS)
   }
 
   const onLeave = () => {
@@ -71,7 +74,14 @@
     hoveredSection.value = null
   }
 
-  // ★ データ取得（computedでシンプルに）
+  const onClick = (sec: SidebarSectionItem) => {
+    onLeave()
+    emit('selectSection', sec.section)
+  }
+
+  onBeforeUnmount(() => clearTimeout(timer))
+
+  // プレビュー対象のデータ
   const hoveredItem = computed(() => {
     if (!props.itemKey) return null
 
@@ -84,6 +94,19 @@
     }
 
     return null
+  })
+
+  // プレビュー用コンポーネント（マップに無いセクション（limits 等）は何も出さない）
+  const previewComponent = computed(() => {
+    const name = hoveredSection.value?.component
+    return name ? (staticSectionPreviewMap[name] ?? null) : null
+  })
+
+  // TriggerPreview は mode に 'services' | 'reactions' を要求する。
+  // ThresholdPreview の mode は別の意味（threshold | criteria）なので、それ以外のカテゴリでは渡さない
+  const previewProps = computed(() => {
+    const isTriggerMode = props.category === 'services' || props.category === 'reactions'
+    return isTriggerMode ? { data: hoveredItem.value, mode: props.category } : { data: hoveredItem.value }
   })
 
   function resolveIcon(name?: string) {

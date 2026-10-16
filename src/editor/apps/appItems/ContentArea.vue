@@ -12,12 +12,23 @@
     </div>
   </div>
 
-  <component :is="currentEditor" />
+  <!-- データが0件のとき（Events / Assets）：新規作成を促す -->
+  <NoParamsCard
+    v-if="isEmpty"
+    :key="selectedCategory"
+    class="mt-4"
+    :iconName="currentCategory.icon"
+    :message="t('navigation.create.emptyMessage')"
+    :sub="t('navigation.create.emptyHint')"
+  />
+
+  <component :is="currentEditor" v-else />
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
+  import { useI18n } from 'vue-i18n'
   import { CategoryType } from '@/types/OmikujiData'
   import { categoryMap } from '@/maps/OmikujiData'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
@@ -32,13 +43,18 @@
   import PlaceholderEditor from '@/editor/assets/placeholders/PlaceholderEditor.vue'
   import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
 
+  import NoParamsCard from '@/editor/parts/NoParamsCard/NoParamsCard.vue'
   import UiEditor from '@/editor/ui/UiEditor.vue'
   import AppInfoEditor from '@/editor/apps/appInfo/AppInfoEditor.vue'
   import JsonMergeEditor from '@/editor/apps/JsonMerge/JsonMergeEditor.vue'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
+  const { t } = useI18n()
   const navigationStore = useNavigationStore()
-  const { selectedCategory } = storeToRefs(navigationStore)
+  const { selectedCategory, isCurrentDataCategory, categoryArray } = storeToRefs(navigationStore)
+
+  // Events / Assets のカテゴリでデータが1件もない
+  const isEmpty = computed(() => isCurrentDataCategory.value && (categoryArray.value?.length ?? 0) === 0)
 
   const currentCategory = computed(() => categoryMap[selectedCategory.value])
   const currentIcon = computed(() => resolveLucideIcon(currentCategory.value?.icon))
