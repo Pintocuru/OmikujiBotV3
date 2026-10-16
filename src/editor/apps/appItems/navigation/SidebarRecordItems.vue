@@ -39,7 +39,7 @@
   型 '"jsonMerge"' を型 '"comments" | "timers" | "services" | "reactions" | "mikuji" | "actions" | "placeholders" | "characters"' に割り当てることはできません。ts-plugin(2322)
 SidebarItemMenu.vue(72, 5): 予期された型は、型 '{ readonly item: { id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: $InferEnumOutput<{ error: "error"; primary: "primary"; secondary: "secondary"; ... 4 more ...; warning: "warning"; }>; tags: string[]; }; readonly category...' に対してここで宣言されたプロパティ 'category' から取得されています
 (property) category: "comments" | "timers" | "services" | "reactions" | "mikuji" | "actions" | "placeholders" | "characters" -->
-            <SidebarItemMenu :item="item.rawItem" :category="category as EventCategoryType | AssetCategoryType" />
+            <SidebarItemMenu :item="item.rawItem" :category="category" />
           </div>
         </template>
       </SidebarSubItem>
@@ -52,13 +52,13 @@ SidebarItemMenu.vue(72, 5): 予期された型は、型 '{ readonly item: { id: 
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { VueDraggable } from 'vue-draggable-plus'
-  import { AssetCategoryType, CategoryType, EventCategoryType } from '@/types/OmikujiData/'
-  import { getSidebarSections } from './useSidebarSectionMap'
+  import { CategoryType, DataCategoryType } from '@/types/OmikujiData/'
+  import { getSidebarSections } from './composables/useSidebarSectionMap'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SidebarSubItem from './SidebarSubItem.vue'
   import SidebarItemMenu from './SidebarItemMenu.vue'
   import { BaseRecordType } from '@/types/core'
-  import { useSidebarCreate } from './useSidebarCreate'
+  import { useSidebarCreate } from './composables/useSidebarCreate'
   import { Plus } from 'lucide-vue-next'
 
   export type DraggableSubItem = {
@@ -69,7 +69,7 @@ SidebarItemMenu.vue(72, 5): 予期された型は、型 '{ readonly item: { id: 
   }
 
   const props = defineProps<{
-    category: CategoryType
+    category: DataCategoryType
     modelValue: DraggableSubItem[]
     isDragEnabled: boolean
   }>()
@@ -77,7 +77,7 @@ SidebarItemMenu.vue(72, 5): 予期された型は、型 '{ readonly item: { id: 
   const emit = defineEmits<{
     'update:modelValue': [items: DraggableSubItem[]]
     'update:isDragEnabled': [val: boolean]
-    dragEnd: [category: CategoryType]
+    dragEnd: [category: DataCategoryType]
   }>()
 
   const { t } = useI18n()

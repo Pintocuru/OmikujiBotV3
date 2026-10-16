@@ -38,7 +38,7 @@
 <script setup lang="ts">
   import { CategoryType } from '@/types/OmikujiData'
   import SidebarSectionList from './SidebarSectionList.vue'
-  import { useSidebarContext } from './useSidebarContext'
+  import { useSidebarContext } from './composables/useSidebarContext'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { SidebarSectionItem } from '@/editor/maps/category/CategorySectionMap'
   import { GripVertical, EyeOff } from 'lucide-vue-next'

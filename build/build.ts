@@ -1,7 +1,7 @@
 // build/build.ts
-import { SystemCommonData } from '../tools/webpackBuild/BuildTypes'
-import { CreateShimsVue, RemoveShimsVue } from '../tools/webpackBuild/utils/CreateShimsVue'
-import { WebpackBuilder } from '../tools/webpackBuild/WebpackBuilder'
+import { SystemCommonData } from '@tools/webpackBuild/BuildTypes'
+import { CreateShimsVue, RemoveShimsVue } from '@tools/webpackBuild/utils/CreateShimsVue'
+import { WebpackBuilder } from '@tools/webpackBuild/WebpackBuilder'
 import { APP_VERSION, DATA_VERSION } from '@/version'
 import { alias } from '../vite.config'
 import dotenv from 'dotenv'

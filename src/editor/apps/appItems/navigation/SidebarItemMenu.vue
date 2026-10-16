@@ -62,12 +62,11 @@
   import { BaseRecordType } from '@/types/core'
   import {
     eventCategory,
-    EventCategoryType,
-    AssetCategoryType,
     CategoryType,
     assetCategory,
     EventCategorySchemaMap,
     AssetCategorySchemaMap,
+    DataCategoryType,
   } from '@/types/OmikujiData/'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
@@ -79,7 +78,7 @@
 
   const props = defineProps<{
     item: BaseRecordType
-    category: EventCategoryType | AssetCategoryType
+    category: DataCategoryType
   }>()
 
   const omikujiStore = useOmikujiStore()
@@ -208,9 +207,7 @@
     }
 
     swalToast.success({
-      title: isCrossEvent
-        ? t('navigation.menu.pasteCrossSuccess', { source })
-        : t('navigation.menu.pasteSuccess'),
+      title: isCrossEvent ? t('navigation.menu.pasteCrossSuccess', { source }) : t('navigation.menu.pasteSuccess'),
     })
   }
 

@@ -16,8 +16,8 @@
 <script setup lang="ts">
   import { computed, toValue } from 'vue'
   import { CategoryType } from '@/types/OmikujiData/'
-  import { useSidebarContext } from './useSidebarContext'
-  import { useSidebarSubItems } from './useSidebarSubItems'
+  import { useSidebarContext } from './composables/useSidebarContext'
+  import { useSidebarSubItems } from './composables/useSidebarSubItems'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SidebarSectionList from './SidebarSectionList.vue'
 
