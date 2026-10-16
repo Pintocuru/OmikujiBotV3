@@ -44,7 +44,7 @@
   <PostFlowEditor
     v-if="omikujiItem.kind === 'postFlow'"
     :modelValue="omikujiItem.postFlows"
-    @update="updatePostFlows"
+    @update:modelValue="updatePostFlows"
   />
 
   <!-- control 共通: おみくじカウント -->

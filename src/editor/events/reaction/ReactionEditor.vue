@@ -36,6 +36,7 @@
 
       <!-- おみくじ設定セクション -->
       <SectionCard
+        v-if="hasMikujiBox"
         id="section-omikujiSet"
         :icon="s('omikujiSet')?.icon"
         :isOpen="activeSection === 'omikujiSet'"
@@ -43,7 +44,7 @@
         :title="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
-        <MikujiSettings category="comments" :omikujiKey="selectedItem.key" />
+        <MikujiSettings category="comments" :omikujiKey="selectedItem.omikujiKey" />
       </SectionCard>
     </template>
 
@@ -73,6 +74,7 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
+  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
   const { t } = useI18n()
 
@@ -93,6 +95,8 @@
   // Pinia store
   const { updateEvent } = useOmikujiStore()
   const { getEvent } = useGetEventData()
+  const { hasAsset } = useGetAssetData()
+
   const navigationStore = useNavigationStore()
   const { selectedItemKey, activeSection } = storeToRefs(navigationStore)
 
@@ -111,5 +115,11 @@
       if (!selectedItemKey.value || !value) return
       updateEvent('reactions', selectedItemKey.value, value)
     },
+  })
+
+  // 該当する assets.mikuji[omikujiKey] がある場合のみ true
+  const hasMikujiBox = computed(() => {
+    const key = selectedItem.value?.omikujiKey
+    return !!key && hasAsset('mikuji', key)
   })
 </script>

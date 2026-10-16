@@ -39,6 +39,7 @@
 
       <!-- おみくじ設定セクション -->
       <SectionCard
+        v-if="hasMikujiBox"
         id="section-omikujiSet"
         :icon="s('omikujiSet')?.icon"
         :isOpen="activeSection === 'omikujiSet'"
@@ -46,7 +47,7 @@
         :title="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
-        <MikujiSettings category="comments" :omikujiKey="selectedItem.key" />
+        <MikujiSettings category="comments" :omikujiKey="selectedItem.omikujiKey" />
       </SectionCard>
     </template>
 
@@ -77,6 +78,7 @@
   import SectionCard from '@/editor/parts/SectionCard.vue'
   import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
+  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
   const { t } = useI18n()
 
@@ -104,6 +106,7 @@
   // Pinia store
   const { updateEvent } = useOmikujiStore()
   const { getEvent } = useGetEventData()
+  const { hasAsset } = useGetAssetData()
 
   const selectedItem = computed({
     get: () => {
@@ -115,5 +118,11 @@
       if (!selectedItemKey.value || !value) return
       updateEvent('services', selectedItemKey.value, value)
     },
+  })
+
+  // 該当する assets.mikuji[omikujiKey] がある場合のみ true
+  const hasMikujiBox = computed(() => {
+    const key = selectedItem.value?.omikujiKey
+    return !!key && hasAsset('mikuji', key)
   })
 </script>

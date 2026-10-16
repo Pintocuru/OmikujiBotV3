@@ -41,7 +41,7 @@
       </div>
 
       <!-- 本文 -->
-      <OmikujiItemEditor :category="category" :omikujiItem="selectedItem" @update="updateSelected" />
+      <OmikujiItemEditor :omikujiItem="selectedItem" @update="updateSelected" />
     </template>
 
     <!-- 選択していない場合のメッセージ -->
