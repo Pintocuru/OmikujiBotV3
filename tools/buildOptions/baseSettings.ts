@@ -4,6 +4,7 @@ import path from 'path'
 import { processMerge } from '../JsonMerge/JsonMergeProcessor'
 import { APP_VERSION, BUILD_DATE } from '@/version'
 import { ProjectConfig, ProjectParams } from '../webpackBuild/BuildTypes'
+import { generateJsContent } from '@/common/presetsExport/generateContent'
 
 // ----- 定数 -----
 

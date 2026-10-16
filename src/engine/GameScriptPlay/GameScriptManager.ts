@@ -1,5 +1,7 @@
 // src/engine/GameScriptPlay/GameScriptManager.ts
-import { GameStateType, ScriptClass } from '@/games/types'
+import { GameStateType, ScriptClass, ScriptResult } from '@/games/types'
+import { gameExecuteMap } from '@/games/GameScriptsMap'
+import { PostFlowGameType, ScriptGameKey, isScriptGameKey, scriptGameKeys } from '@/types/OmikujiData'
 import { UserManager } from '@/generator/stores/UserManager/UserManager'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { OmikenCommentType } from '@/types/OmikenComment'
@@ -14,33 +16,31 @@ export class GameScriptManager {
     return this.instance
   }
 
-  /** キャッシュ → なければレジストリから解決（同期） */
-  private loadScript(scriptId: string): ScriptClass | null {
+  /** キャッシュ → なければ gameExecuteMap から動的 import で解決 */
+  private async loadScript(scriptId: string): Promise<ScriptClass> {
     const cached = this.scriptInstances[scriptId]
     if (cached) return cached
 
-    // ? getScriptEntry とは？
-    const entry = getScriptEntry(scriptId)
-    if (!entry) {
-      throw new Error(`スクリプト "${scriptId}" が登録されていません(index.htmlの読み込みを確認)`)
+    if (!isScriptGameKey(scriptId)) {
+      throw new Error(`スクリプト "${scriptId}" は存在しません`)
     }
 
-    const instance = typeof entry === 'function' ? entry() : entry
-    if (this.userManager && 'initialize' in instance) {
+    const module = await gameExecuteMap[scriptId]()
+    const instance: ScriptClass = module.default
+    if (this.userManager && instance.initialize) {
       instance.initialize(this.userManager)
     }
     this.scriptInstances[scriptId] = instance
     return instance
   }
 
-  playScript = async (gameScripts: GameScriptsType, omiken?: OmikenCommentType): Promise<ScriptResult | null> => {
+  playScript = async (gameScripts: PostFlowGameType, omiken?: OmikenCommentType): Promise<ScriptResult | null> => {
     if (!gameScripts) return null
     const { scriptId, queryString, characterKey } = gameScripts
     if (!scriptId) return null
 
     try {
-      const script = this.loadScript(scriptId)
-      if (!script) return null
+      const script = await this.loadScript(scriptId)
       // await しないと run が async の場合に例外を拾えない
       return await script.run(queryString, characterKey, omiken)
     } catch (error) {
@@ -53,14 +53,14 @@ export class GameScriptManager {
   async playSampleScript(scriptId: string, queryString: string): Promise<string> {
     if (!scriptId) return '(スクリプトが指定されていません)'
 
-    let script: ScriptClass | null
+    let script: ScriptClass
     try {
-      script = this.loadScript(scriptId)
+      script = await this.loadScript(scriptId)
     } catch (error) {
       console.error(`スクリプトロードエラー (${scriptId}):`, error)
       return 'スクリプトが正常に稼働できません'
     }
-    if (!script?.sampleRun) return 'テストに対応していないスクリプトです'
+    if (!script.sampleRun) return 'テストに対応していないスクリプトです'
 
     try {
       return await script.sampleRun(queryString)
@@ -72,7 +72,7 @@ export class GameScriptManager {
   setVisitManager(userSession: UserManager) {
     this.userManager = userSession
     Object.values(this.scriptInstances).forEach((instance) => {
-      if ('initialize' in instance && typeof instance.initialize === 'function') {
+      if (typeof instance.initialize === 'function') {
         instance.initialize(userSession)
       }
     })
@@ -91,8 +91,8 @@ export class GameScriptManager {
     this.scriptInstances = {}
   }
 
-  /** 登録済みスクリプトID一覧(UIのセレクト用など) */
-  listAvailableScripts(): string[] {
-    return Object.keys(window.__GAME_SCRIPTS__ ?? {})
+  /** 利用可能なスクリプトID一覧(UIのセレクト用など) */
+  listAvailableScripts(): readonly ScriptGameKey[] {
+    return scriptGameKeys
   }
 }

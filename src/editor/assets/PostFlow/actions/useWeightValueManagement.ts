@@ -22,12 +22,12 @@ export function useWeightValueManagement(values: () => WeightValuesArrayType, cu
 
   // アクションセット一覧（ActionSet用）
   const availableActionSets = computed(() => {
-    if (!data.value?.actions) return []
+    if (!data.value?.assets.actions) return []
 
     const current = currentKey?.()
 
-    return Object.entries(data.value.actions).map(([key, actionSet]) => {
-      const circularPath = checkCircularReference(key, data.value.actions, current)
+    return Object.entries(data.value.assets.actions).map(([key, actionSet]) => {
+      const circularPath = checkCircularReference(key, data.value.assets.actions, current)
 
       return {
         key,
@@ -98,17 +98,17 @@ export function useWeightValueManagement(values: () => WeightValuesArrayType, cu
 
   // 循環参照チェック（ActionSet用）
   const isCircular = (key: string) => {
-    if (!key || !data.value?.actions) return false
+    if (!key || !data.value?.assets.actions) return false
     const current = currentKey?.()
-    return checkCircularReference(key, data.value.actions, current) !== null
+    return checkCircularReference(key, data.value.assets.actions, current) !== null
   }
 
   const getCircularPath = (key: string) => {
-    if (!key || !data.value?.actions) return ''
+    if (!key || !data.value?.assets.actions) return ''
     const current = currentKey?.()
-    const path = checkCircularReference(key, data.value.actions, current)
+    const path = checkCircularReference(key, data.value.assets.actions, current)
     if (!path) return ''
-    return path.map((k) => data.value?.actions[k]?.name || k).join(' → ')
+    return path.map((k) => data.value?.assets.actions[k]?.name || k).join(' → ')
   }
 
   return {

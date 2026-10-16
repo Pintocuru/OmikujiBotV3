@@ -20,8 +20,8 @@ export class LogRankScript {
   /**
    * 設定を初期化する
    */
-  setup(ruleId: string): void {
-    this.gameState = GameStateSchema.parse({ ruleId })
+  setup(eventKey: string): void {
+    this.gameState = GameStateSchema.parse({ eventKey })
   }
 
   /**

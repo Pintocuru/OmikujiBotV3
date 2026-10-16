@@ -21,7 +21,7 @@ export class GameScriptsHandler {
     isOnecommePost?: boolean
   ): Promise<BotMessageType[]> {
     // 1. スクリプトの実行
-    const scriptResult = await this.playScript(actionItem.gameScripts, omiken)
+    const scriptResult = await this.playScript(actionItem, omiken)
     if (!scriptResult) return []
 
     const { actions, botMessageExtras: scriptMessages } = scriptResult

@@ -98,7 +98,12 @@ export class GachaGame {
    * エフェクトを追加
    */
   private addEffect(party: string): void {
-    this.postArray.push({ actionType: 'wordParty', delaySeconds: GAME_CONSTANTS.EMOJI_DELAY, wordParty: party })
+    this.postArray.push({
+      kind: 'wordParty',
+      delaySeconds: GAME_CONSTANTS.EMOJI_DELAY,
+      wordPartyId: party,
+      repeat: 1,
+    })
   }
 
   /**

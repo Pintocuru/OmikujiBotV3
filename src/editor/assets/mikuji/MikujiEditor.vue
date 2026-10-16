@@ -36,6 +36,7 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
+  import type { MikujiBoxType } from '@/types/OmikujiData'
 
   import MikujiSettings from './MikujiSettings.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -47,6 +48,7 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
+  import { MikujiBoxType } from '@/types/OmikujiData'
 
   const { t } = useI18n()
 

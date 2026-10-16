@@ -13,36 +13,12 @@ export const locales = ['ja', 'en'] as const
 export type LocaleType = (typeof locales)[number]
 
 /**
- * 通常表示設定
- */
-export const FlagsUsageSchema = z.object({
-  events: normalizedObject(
-    z.object({
-    comments: z.boolean().default(true).catch(true),
-    timers: z.boolean().default(true).catch(true),
-    services: z.boolean().default(true).catch(true),
-    reactions: z.boolean().default(true).catch(true),
-    })
-  ),
-  assets: normalizedObject(
-    z.object({
-    mikuji: z.boolean().default(true).catch(true),
-    actions: z.boolean().default(true).catch(true),
-    placeholders: z.boolean().default(true).catch(true),
-    characters: z.boolean().default(true).catch(true),
-    })
-  ),
-})
-export type FlagsUsageType = z.infer<typeof FlagsUsageSchema>
-
-/**
  * セクション別スキーマ
  */
 const GeneratorSettingsSchema = z.object({
   commentType: z.enum(commentModeTypes).default('OneComme').catch('OneComme'), // コメント購読タイプ
   soundEnabled: z.boolean().default(true).catch(true), // サウンドを有効にするか
   basicDelaySeconds: z.number().min(0).max(5).default(1).catch(1), // 投稿の基本的な遅延時間（秒）
-  usage: normalizedObject(FlagsUsageSchema), // エディターで表示する機能
 })
 
 const EditorSettingsSchema = z.object({

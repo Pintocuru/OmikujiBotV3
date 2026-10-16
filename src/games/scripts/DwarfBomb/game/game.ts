@@ -55,7 +55,7 @@ export function generatePartyEffects(gameResult: GameResult): PostFlowWordPartyT
 
   const addEffect = (wordParty: string, times: number) => {
     for (let i = 0; i < times; i++) {
-      effects.push({ actionType: 'wordParty', delaySeconds: 2.7, wordParty })
+      effects.push({ kind: 'wordParty', delaySeconds: 2.7, wordPartyId: wordParty, repeat: 1 })
     }
   }
 

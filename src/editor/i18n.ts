@@ -31,7 +31,8 @@ for (const path in modules) {
   }
 }
 
-const i18n = createI18n({
+// messages の型推論が深くなり ts(2589) になるため、ジェネリクスを明示する
+const i18n = createI18n<false>({
   locale: 'ja',
   fallbackLocale: 'ja',
   legacy: false,

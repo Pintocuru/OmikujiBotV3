@@ -41,9 +41,6 @@
   /** コメント */
   const bubbleText = computed<string>({
     get: () => props.action.message ?? '',
-    set: (value) =>
-      updateAction({
-        message: { ...props.action.message, bubble: value },
-      }),
+    set: (value) => updateAction({ message: value }),
   })
 </script>

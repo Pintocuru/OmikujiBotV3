@@ -1,11 +1,10 @@
 // src/editor/helpers/presetsExport/useConfigExport.ts
 import { ref } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { generateJsContent, generateJsonContent } from './generateContent'
+import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 
-// TODO:template は廃止。configのみ。
-type ExportType = 'config' | 'template'
+type ExportType = 'config'
 
 interface ExportConfig {
   filename: string
@@ -30,15 +29,6 @@ export const useConfigExport = () => {
       successMessage: {
         title: '設定ファイルのダウンロード完了',
         description: 'omikujiData.js を同じフォルダに保存し、OBSを再起動してください。',
-      },
-    },
-    template: {
-      filename: 'omikuji-template.json',
-      contentType: 'application/json',
-      generateContent: generateJsonContent,
-      successMessage: {
-        title: 'テンプレートファイルのダウンロード完了',
-        description: 'ダウンロードしたファイルを保存し、他のおみくじBOTでご利用ください。',
       },
     },
   }
@@ -92,7 +82,7 @@ export const useConfigExport = () => {
         })
       } else {
         await swalModal.error({
-          title: `${type === 'config' ? '設定' : 'テンプレート'}ファイルのダウンロードに失敗しました`,
+          title: '設定ファイルのダウンロードに失敗しました',
           text: 'もう一度お試しください。',
         })
       }

@@ -72,7 +72,7 @@
   const expandedResult = computed(() => {
     void refreshCount.value
     try {
-      return processTestPlaceholder(props.draftText, data.placeholders ?? {})
+      return processTestPlaceholder(props.draftText, data.assets.placeholders ?? {})
     } catch {
       return {
         text: props.draftText,

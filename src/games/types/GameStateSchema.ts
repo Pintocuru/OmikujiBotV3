@@ -31,8 +31,7 @@ export type UserStatsType = z.infer<typeof UserStatsSchema>
  * ゲーム全体のステート
  */
 export const GameStateSchema = z.object({
-  // TODO(v3): ruleId > eventKey
-  ruleId: z.string().default(''), // 使用中のイベントID
+  eventKey: z.string().default(''), // 使用中のイベントID
   userMap: z.record(z.string(), UserStatsSchema).default({}), // ユーザー累計統計（Map）
   logs: z.array(GameLogSchema).default([]), // 全実行履歴（配列）
 })

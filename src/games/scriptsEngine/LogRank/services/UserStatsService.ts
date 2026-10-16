@@ -1,5 +1,5 @@
 // src/games/scriptsEngine/LogRank/services/UserStatsService.ts
-import { GameLogSchema, GameLogType, GameStateType, UserStatsSchema, UserStatsType } from '@/types/GameScript/'
+import { GameLogSchema, GameLogType, GameStateType, UserStatsSchema, UserStatsType } from '@/games/types'
 import { GameParams } from '../types'
 
 /**

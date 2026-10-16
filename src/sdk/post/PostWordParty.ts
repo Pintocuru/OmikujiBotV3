@@ -7,7 +7,6 @@ export type ExecuteWordPartyParams = {
   delaySeconds?: number
 }
 
-// TODO:wordPartyId に統一。wordParty は廃止
 export async function executeWordParty({
   wordPartyId,
   repeat = 1,

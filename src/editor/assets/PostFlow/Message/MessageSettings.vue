@@ -12,18 +12,6 @@
     <IconSelector :character-key="characterKey" :icon-key="action.iconKey" @update:icon-key="updateIconKey" />
   </SettingItem>
 
-  <SettingItem v-if="enableSecondary" label="読み上げ対象" description="わんコメで読み上げするか">
-    <label class="flex items-center gap-2 cursor-pointer">
-      <input
-        type="checkbox"
-        class="toggle toggle-primary"
-        :checked="!isToast"
-        @change="isToast = !($event.target as HTMLInputElement).checked"
-      />
-      <span>読み上げ対象 {{ !isToast ? 'ON' : 'OFF' }}</span>
-    </label>
-  </SettingItem>
-
   <SettingItem label="💬 メッセージ内容" description="プレースホルダーが使えます">
     <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
   </SettingItem>
@@ -56,7 +44,6 @@
   const { data } = useOmikujiStore()
   const { characterMap } = useCharacterManager()
 
-  const enableSecondary = computed(() => data.components.enableSecondary)
   const soundEnabled = computed(() => data.settings.generator.soundEnabled)
 
   const availableCharacters = computed(() =>
@@ -74,20 +61,9 @@
     set: (value) => updateAction({ characterKey: value }),
   })
 
-  const isToast = computed<boolean>({
-    get: () => props.action.message.isToast,
-    set: (value) =>
-      updateAction({
-        message: { ...props.action.message, isToast: value },
-      }),
-  })
-
   const bubbleText = computed<string>({
-    get: () => props.action.message.bubble ?? '',
-    set: (value) =>
-      updateAction({
-        message: { ...props.action.message, bubble: value },
-      }),
+    get: () => props.action.message ?? '',
+    set: (value) => updateAction({ message: value }),
   })
 
   const updateIconKey = (value: string) => {

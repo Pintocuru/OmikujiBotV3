@@ -63,12 +63,7 @@ export function useDataMerge(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
       if (!config.enabled) return
 
       const currentItems = result.assets[category]
-      let importItems = importedData.assets[category]
-
-      if (config.mode === 'partial-merge') {
-        const maxOrder = helpers.getMaxOrder(currentItems)
-        importItems = helpers.adjustOrderValues(importItems, maxOrder)
-      }
+      const importItems = importedData.assets[category]
 
       result.assets[category] = helpers.mergeCategoryData<K>(currentItems, importItems, config.mode)
     }

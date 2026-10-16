@@ -6,7 +6,9 @@ import { LocaleType } from '@/types/OmikujiData/'
 import { RANKING_POINTS_RANGE, SUFFIX_PROBABILITY, USER_STATS_RANGES } from './MockConstants'
 import { MOCK_FAMILY_NAME_JA_LIST, MOCK_USER_GIVEN_JA_LIST } from './MockUserJaMaps'
 import { NAME_SUFFIXES } from './MockUserMaps'
-import { GameRankingType } from '@/types/OmikujiData/UiSettings/GameRankingSchema'
+
+// ランキングプレビュー用の設定(GameRanking は ui 側で管理)
+type DummyRankingSettings = { limit?: number; sortOrder?: 'high' | 'low' | 'new' }
 
 // -------------------------------------------------------------------
 // ロケール別マップの型定義
@@ -116,7 +118,7 @@ export const generateDummyUserStats = (count: number, locale: LocaleType = 'ja')
 }
 
 // ランキング表示用のダミー BotMessage を生成
-export const generateDummyMessages = (settings: GameRankingType, locale: LocaleType = 'ja'): BotMessageExtraType[] => {
+export const generateDummyMessages = (settings: DummyRankingSettings, locale: LocaleType = 'ja'): BotMessageExtraType[] => {
   const count = settings.limit ?? 10
   const usedNames = new Set<string>()
   const { min, max } = RANKING_POINTS_RANGE
@@ -131,7 +133,6 @@ export const generateDummyMessages = (settings: GameRankingType, locale: LocaleT
 
     const points = randInt(min, max)
     return BotMessageExtraSchema.parse({
-      scriptKey: 'none',
       lists: ExtraListsSchema.parse({
         listName,
         text: String(points),

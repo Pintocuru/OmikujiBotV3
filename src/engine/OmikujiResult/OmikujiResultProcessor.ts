@@ -67,7 +67,7 @@ export class OmikujiResultProcessor {
           break
 
         case 'flowCall':
-          messages = this.postActionsHandler.process(actionItem, defaultPlaceholders, omiken, isOnecommePost)
+          messages = this.postActionsHandler.process([actionItem], defaultPlaceholders, omiken, isOnecommePost)
           break
 
         default:

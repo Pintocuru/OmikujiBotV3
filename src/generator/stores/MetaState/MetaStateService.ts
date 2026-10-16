@@ -55,11 +55,8 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     const service = ServiceMetaWatcher.getInstance()
     const result = await service.fetchMeta((raw) => {
       try {
-        /**
-         * 型 'ServiceMeta[]' の引数を型 'NormalizedMeta | ServiceMeta | null' のパラメーターに割り当てることはできません。ts(2345)
-(parameter) raw: ServiceMeta[]
-         */
-        this.handleMeta(raw)
+        // 配信中のサービスの先頭を使う(いなければ先頭)
+        this.handleMeta(raw.find((meta) => meta.isLive) ?? raw[0] ?? null)
         if (this.status === 'loading') this.setStatus('ready')
       } catch (e) {
         this.notifyError(e)

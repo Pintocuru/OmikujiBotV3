@@ -42,6 +42,22 @@ export const serviceConditionMap: Record<ServiceComparisonConditionType, Display
 }
 
 /**
+ * greaterThanPeak を除いた比較条件のUI表示情報
+ */
+export const serviceSimpleComparisonConditionMap: Record<
+  Exclude<ServiceComparisonConditionType, 'greaterThanPeak'>,
+  DisplayMeta
+> = {
+  changed: serviceConditionMap.changed,
+  increased: serviceConditionMap.increased,
+  decreased: serviceConditionMap.decreased,
+  lowerBound: serviceConditionMap.lowerBound,
+  upperBound: serviceConditionMap.upperBound,
+  equal: serviceConditionMap.equal,
+  loop: serviceConditionMap.loop,
+}
+
+/**
  * 条件タイプのUI表示情報
  */
 export const serviceTriggerConditionMap: Record<

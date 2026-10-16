@@ -77,8 +77,8 @@
     'update:action': [action: PostFlowCallType]
   }>()
 
-  // actionSetKeys を取得
-  const getValues = () => props.action.actionSetKeys
+  // callKeys を取得
+  const getValues = () => props.action.callKeys
 
   // currentKey を取得
   const getCurrentKey = () => props.currentKey
@@ -99,6 +99,6 @@
 
   // 更新処理
   const handleUpdate = (newValues: WeightValuesArrayType) => {
-    emit('update:action', { ...props.action, actionSetKeys: newValues })
+    emit('update:action', { ...props.action, callKeys: newValues })
   }
 </script>

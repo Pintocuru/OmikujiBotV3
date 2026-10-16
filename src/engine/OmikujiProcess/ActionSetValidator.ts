@@ -11,7 +11,7 @@ export interface CircularReferenceResult {
  */
 export function checkCircularReference(
   targetKey: string,
-  actionSets: Record<string, { postActions: PostFlowType[] }>,
+  actionSets: Record<string, { postFlows: PostFlowType[] }>,
   currentKey?: string,
   visited: Set<string> = new Set()
 ): string[] | null {
@@ -26,11 +26,11 @@ export function checkCircularReference(
   if (visited.has(targetKey)) return [targetKey]
 
   const actionSet = actionSets[targetKey]
-  if (!actionSet?.postActions) return null
+  if (!actionSet?.postFlows) return null
 
   visited.add(targetKey)
 
-  for (const action of actionSet.postActions) {
+  for (const action of actionSet.postFlows) {
     if (action.kind !== 'flowCall') continue
 
     const keys = action.callKeys ?? []
@@ -54,7 +54,7 @@ export function checkCircularReference(
  */
 export function hasCircularReference(
   targetKey: string,
-  actionSets: Record<string, { postActions: PostFlowType[] }>,
+  actionSets: Record<string, { postFlows: PostFlowType[] }>,
   currentKey?: string
 ): boolean {
   return checkCircularReference(targetKey, actionSets, currentKey) !== null

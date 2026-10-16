@@ -27,10 +27,7 @@ export class ExecuteScript implements ScriptClass {
     const messageAction = PostFlowMessageSchema.parse({
       delaySeconds: 0,
       characterKey,
-      message: {
-        bubble: placeholders + '占いランキングを作成したよ',
-        isToast: true,
-      },
+      message: placeholders + '占いランキングを作成したよ',
       sound: 'decision',
     })
 

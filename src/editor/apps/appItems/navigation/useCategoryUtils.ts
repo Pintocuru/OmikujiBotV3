@@ -30,24 +30,10 @@ export const useCategoryUtils = () => {
    * ナビゲーションの表示・非表示設定
    */
   const filteredCategoryLabels = computed<Record<CategoryType, DisplayMetaLucide>>(() => {
-    const { events, assets } = data.value.settings.generator.usage
-
     const excludeKeys: CategoryType[] = []
 
     // 開発者のみの機能
     if (!isDev) excludeKeys.push('jsonMerge')
-
-    // イベント関連
-    if (!events.comments) excludeKeys.push('comments')
-    if (!events.timers) excludeKeys.push('timers')
-    if (!events.services) excludeKeys.push('services')
-    if (!events.reactions) excludeKeys.push('reactions')
-
-    // アセット関連
-    if (!assets.mikuji) excludeKeys.push('mikuji')
-    if (!assets.actions) excludeKeys.push('actions')
-    if (!assets.placeholders) excludeKeys.push('placeholders')
-    if (!assets.characters) excludeKeys.push('characters')
 
     return Object.fromEntries(
       Object.entries(categoryMap).filter(([key]) => !excludeKeys.includes(key as CategoryType))

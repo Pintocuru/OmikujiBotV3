@@ -1,5 +1,5 @@
 // src/engine/OmikujiResult/PostActionsHandler.ts
-import { ActionSetType, OmikujiDataType } from '@/types/OmikujiData/'
+import { ActionSetType, OmikujiDataType, PostFlowType } from '@/types/OmikujiData/'
 import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
@@ -30,13 +30,13 @@ export class PostActionsHandler {
    * postActions処理
    */
   process(
-    actionItem: ActionSetType,
+    postFlows: PostFlowType[],
     defaultPlaceholders: Record<string, string | number>,
     omiken?: OmikenCommentType,
     isOnecommePost?: boolean
   ): BotMessageType[] {
     // 1. アクション展開とプレースホルダー置換
-    const expandedActions = FlowCallExpander.expand(actionItem.postFlows, this.actionSets)
+    const expandedActions = FlowCallExpander.expand(postFlows, this.actionSets)
     const displayResolved = this.displayResolver.processPostActions(expandedActions)
 
     this.placeContext.updateValues(defaultPlaceholders)

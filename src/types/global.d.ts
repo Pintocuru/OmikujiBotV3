@@ -10,6 +10,5 @@ declare global {
       mountEditor?: () => void
       assetBase?: string
     }
-    __GAME_SCRIPTS__?: Record<string, ScriptEntry>
   }
 }

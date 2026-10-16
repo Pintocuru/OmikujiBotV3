@@ -8,9 +8,8 @@
         @change="updateField('comparison', ($event.target as HTMLSelectElement).value)"
         class="select select-bordered select-sm flex-1"
       >
-        <!-- TODO:ここはmapを直接使うべき -->
-        <option v-for="option in comparisonOptions" :key="option.value" :value="option.value">
-          {{ option.label }}
+        <option v-for="(info, key) in comparisonMap" :key="key" :value="key">
+          {{ info.label }}
         </option>
       </select>
     </div>
@@ -39,7 +38,8 @@
 
   import SettingItem from '@/editor/parts/SettingItem/SettingItem.vue'
   import { ServiceConditionType } from '@/types/OmikujiData'
-  import { serviceConditionMap } from '@/maps/OmikujiData'
+  import { serviceConditionMap, serviceSimpleComparisonConditionMap } from '@/maps/OmikujiData'
+  import type { DisplayMeta } from '@/editor/types/DisplayMeta'
 
   const props = defineProps<{
     modelValue?: ServiceConditionType
@@ -64,13 +64,9 @@
   }
 
   // 以下は既存ロジック
-  const comparisonOptions = computed(() => {
-    const map = props.hasPeak ? serviceConditionMap : serviceSimpleComparisonConditionMap
-    return Object.entries(map).map(([value, info]) => ({
-      value,
-      label: info.label,
-    }))
-  })
+  const comparisonMap = computed<Record<string, DisplayMeta>>(() =>
+    props.hasPeak ? serviceConditionMap : serviceSimpleComparisonConditionMap
+  )
 
   const needsValue = computed(() => {
     const comparison = props.modelValue?.comparison
@@ -96,8 +92,7 @@
   const comparisonDescription = computed(() => {
     const comparison = props.modelValue?.comparison
     if (!comparison) return ''
-    const map = props.hasPeak ? serviceConditionMap : serviceSimpleComparisonConditionMap
-    return map[comparison as keyof typeof map]?.description || ''
+    return comparisonMap.value[comparison]?.description || ''
   })
 
   const updateField = (field: 'comparison' | 'value', value: string | number) => {

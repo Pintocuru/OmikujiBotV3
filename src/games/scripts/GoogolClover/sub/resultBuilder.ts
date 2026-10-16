@@ -82,7 +82,6 @@ function createSuccessBubble(state: UserState, userName: string, multipliersDisp
  */
 function createFailureRankingData(user: UserNameType, successCount: number): BotMessageExtraType {
   return BotMessageExtraSchema.parse({
-    scriptKey: RANKING_KEY,
     user: UserNameSchema.parse(user),
     lists: {
       listName: user.userName,

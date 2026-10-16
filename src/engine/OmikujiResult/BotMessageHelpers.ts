@@ -22,7 +22,7 @@ export function createBotMessagesFromAction(
   omiken?: OmikenCommentType
 ): BotMessageType[] {
   const message = action.message || ''
-  const hasRanking = !!extra?.scriptKey && (!!extra?.lists || !!extra?.slots)
+  const hasRanking = !!extra?.lists || !!extra?.slots
 
   const messages: BotMessageType[] = []
 
@@ -50,7 +50,7 @@ export function createBotMessagesFromVariable(
   delaySeconds: number,
   omiken?: OmikenCommentType
 ): BotMessageType[] {
-  const hasRanking = extra?.scriptKey && (extra.lists || extra.slots)
+  const hasRanking = extra?.lists || extra?.slots
   return hasRanking ? [createRankingMessage(delaySeconds, extra, omiken)] : []
 }
 
@@ -90,7 +90,6 @@ function createRankingMessage(
 ): BotMessageExtraType {
   return BotMessageExtraSchema.parse({
     delaySeconds,
-    scriptKey: extra.scriptKey,
     lists: extra.lists,
     slots: extra.slots,
     user: omiken ? UserNameSchema.parse(omiken) : undefined,

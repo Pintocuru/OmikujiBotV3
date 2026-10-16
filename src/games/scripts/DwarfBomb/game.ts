@@ -64,7 +64,7 @@ export class DwarfBomb {
     // 共通 push 用ヘルパー
     const addEffect = (wordParty: string, times = 1) => {
       for (let i = 0; i < times; i++) {
-        effects.push({ actionType: 'wordParty', delaySeconds: 2.7, wordParty })
+        effects.push({ kind: 'wordParty', delaySeconds: 2.7, wordPartyId: wordParty, repeat: 1 })
       }
     }
 

@@ -1,4 +1,4 @@
-// src/editor/helpers/presetsExport/generateContent.ts
+// src/common/presetsExport/generateContent.ts
 
 // .js での出力テンプレート
 export const generateJsContent = (configData: string) => {

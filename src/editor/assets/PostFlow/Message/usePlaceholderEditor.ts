@@ -4,7 +4,7 @@ import { PlaceholderSchema, PlaceholderType, handelNormalizedValues } from '@/ty
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { defaultPlaceholderMap } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
-import { defaultBasePlaceholderLabel } from '@/generator/types'
+import { defaultBasePlaceholderLabel } from '@/types/engine/placeholder'
 
 const PLACEHOLDER_PATTERN = /<<([^>]+)>>/g
 const PLACEHOLDER_ID_PATTERN = /^[a-zA-Z0-9_]+$/

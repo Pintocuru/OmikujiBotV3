@@ -1,29 +1,6 @@
 <!-- src/editor/apps/appInfo/FlagsInfo/FlagsInfo.vue -->
 <template>
   <div class="space-y-4">
-    <!-- 基本機能 -->
-    <div class="card bg-base-100 shadow-lg">
-      <div class="card-body">
-        <SubSectionHeader icon="Package" title="基本機能" description="おみくじBOTの基本的な機能" />
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <FeatureCard
-            v-for="(enabled, key) in usage"
-            :key="key"
-            :title="categoryMap[key]?.label || key"
-            :icon="categoryMap[key]?.icon || 'Package'"
-            :description="categoryMap[key]?.description || ''"
-            :show-toggle="false"
-            :is-enabled="true"
-          />
-        </div>
-
-        <div v-if="Object.keys(usage).length === 0" class="text-center py-4 text-base-content/60">
-          利用可能な機能はありません
-        </div>
-      </div>
-    </div>
-
     <!-- アイテム -->
     <div class="card bg-base-100 shadow-lg">
       <div class="card-body">
@@ -56,15 +33,12 @@
   import FeatureCard from './FeatureCard.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
-  import { categoryMap } from '@/maps/OmikujiData/CategoryMap'
   import { uiKindMap } from '@/maps/OmikujiData/index'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
 
-  const usage = computed(() => data.value.settings.generator.usage)
-
   const components = computed(() =>
-    (Object.keys(data.value.ui) as UiKind[]).filter((key) => data.value.ui[key] !== undefined)
+    (Object.keys(data.value.ui.settings) as UiKind[]).filter((key) => data.value.ui.settings[key] !== undefined)
   )
 </script>

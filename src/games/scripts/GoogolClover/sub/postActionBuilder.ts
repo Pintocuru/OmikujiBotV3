@@ -21,9 +21,7 @@ export function buildPostActions(params: PostActionBuildParams): PostFlowType[] 
   const messageAction = PostFlowMessageSchema.parse({
     delaySeconds: 3.5,
     characterKey,
-    message: {
-      bubble,
-    },
+    message: bubble,
     sound: 'decision',
   })
 

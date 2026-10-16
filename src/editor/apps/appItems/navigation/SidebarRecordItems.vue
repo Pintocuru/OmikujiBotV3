@@ -28,7 +28,7 @@
   型 '"jsonMerge"' を型 '"comments" | "timers" | "services" | "reactions" | "mikuji" | "actions" | "placeholders" | "characters"' に割り当てることはできません。ts-plugin(2322)
 SidebarItemMenu.vue(72, 5): 予期された型は、型 '{ readonly item: { id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: $InferEnumOutput<{ error: "error"; primary: "primary"; secondary: "secondary"; ... 4 more ...; warning: "warning"; }>; tags: string[]; }; readonly category...' に対してここで宣言されたプロパティ 'category' から取得されています
 (property) category: "comments" | "timers" | "services" | "reactions" | "mikuji" | "actions" | "placeholders" | "characters" -->
-            <SidebarItemMenu :item="item.rawItem" :category="category" />
+            <SidebarItemMenu :item="item.rawItem" :category="category as EventCategoryType | AssetCategoryType" />
           </div>
         </template>
       </SidebarSubItem>
@@ -40,7 +40,7 @@ SidebarItemMenu.vue(72, 5): 予期された型は、型 '{ readonly item: { id: 
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { VueDraggable } from 'vue-draggable-plus'
-  import { CategoryType } from '@/types/OmikujiData/'
+  import { AssetCategoryType, CategoryType, EventCategoryType } from '@/types/OmikujiData/'
   import { getSidebarSections } from './useSidebarSectionMap'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SidebarSubItem from './SidebarSubItem.vue'

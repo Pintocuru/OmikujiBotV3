@@ -1,4 +1,5 @@
 // src/games/GameScriptsMap.ts
+import { ScriptGameKey } from '@/types/OmikujiData'
 import { ScriptClass } from './types'
 
 /**

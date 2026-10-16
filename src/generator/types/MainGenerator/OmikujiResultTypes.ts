@@ -1,5 +1,5 @@
 // src/generator/types/MainGenerator/OmikujiResultTypes.ts
-import { PostFlowType, ScriptGameExtendedKeyType } from '@/types/OmikujiData/'
+import { PostFlowType } from '@/types/OmikujiData/'
 import { ExtraListsType, ExtraSlotsType } from './BotMessageSchema'
 
 /**
@@ -7,7 +7,6 @@ import { ExtraListsType, ExtraSlotsType } from './BotMessageSchema'
  * VariablePlaceholderProcessor.ts の ProcessResult と構造を一致させる
  */
 export interface VariablePlaceholderExtra {
-  scriptKey: ScriptGameExtendedKeyType
   lists?: ExtraListsType
   slots?: ExtraSlotsType
 }

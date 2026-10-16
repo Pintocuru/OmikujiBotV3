@@ -44,7 +44,6 @@ export class VariablePlaceholderProcessor {
     return {
       bubble: processed,
       extra: {
-        scriptKey: 'basicList',
         lists: extra.lists,
         slots: extra.slots,
       },

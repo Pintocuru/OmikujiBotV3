@@ -63,9 +63,7 @@ export class ExecuteScript implements ScriptClass {
     const messageAction = PostFlowMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,
-      message: {
-        bubble: gameResult.message,
-      },
+      message: gameResult.message,
       sound: 'decision',
     })
 

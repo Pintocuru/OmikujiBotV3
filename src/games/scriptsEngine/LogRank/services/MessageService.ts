@@ -17,12 +17,9 @@ export const createPostActions = (
     PostFlowMessageSchema.parse({
       delaySeconds: 8,
       characterKey,
-      message: {
-        bubble: rank
-          ? createRankingMessage(user.userName, score, rank, isOverLimit)
-          : createMessage(user.userName, score, isOverLimit),
-        isToast: true,
-      },
+      message: rank
+        ? createRankingMessage(user.userName, score, rank, isOverLimit)
+        : createMessage(user.userName, score, isOverLimit),
       sound: 'cute',
     }),
   ]
