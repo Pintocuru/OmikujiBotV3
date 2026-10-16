@@ -1,6 +1,6 @@
 // src/generator/scripts/CharacterManager/useCharacterManager.ts
-import { computed } from 'vue'
-import { CharacterAnimationType } from '@/types/OmikujiData'
+import { computed, MaybeRefOrGetter, toValue } from 'vue'
+import { CharacterAnimationType, CharacterType } from '@/types/OmikujiData'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { BotMessageBubbleType } from '@/generator/types'
 import { CharacterManager } from '@/engine/CharacterManager/CharacterManager'
@@ -8,11 +8,13 @@ import { CharacterManager } from '@/engine/CharacterManager/CharacterManager'
 /**
  * Vueコンポーネント用：CharacterManager のリアクティブなラッパー
  */
-export const useCharacterManager = () => {
-  const appStore = useAppStore()
+export const useCharacterManager = (source?: MaybeRefOrGetter<Record<string, CharacterType>>) => {
+  // source 未指定ならジェネレーターのstore、指定ならそのデータ（エディターは omikujiStore を渡す）
+  const appStore = source ? null : useAppStore()
+  const getCharacters = () => (source ? toValue(source) : appStore!.data.assets.characters)
 
-  // CharacterManagerのシングルトンインスタンス
-  const manager = computed(() => new CharacterManager(appStore.data.assets.characters))
+  // CharacterManagerのインスタンス
+  const manager = computed(() => new CharacterManager(getCharacters()))
 
   // キャラクターの配列（順序付き）
   const characterMap = computed(() => Object.fromEntries(manager.value.characterMap))
@@ -31,6 +33,18 @@ export const useCharacterManager = () => {
   // キャラクターキーから色情報を取得
   const getCharacterColor = (characterKey: string | null) => {
     return manager.value.getCharacterColor(characterKey)
+  }
+
+  // キャラクター情報を取得
+  const getCharacter = (characterKey: string | null): CharacterType | null => {
+    return manager.value.getCharacter(characterKey)
+  }
+
+  // 表示用のキャラクター名（未定義なら空文字）
+  const getCharacterName = (characterKey: string | null): string => {
+    const character = manager.value.getCharacter(characterKey)
+    if (!character) return ''
+    return character.name || character.displayName || character.key
   }
 
   // キャラクターが定義されているか確認
@@ -80,6 +94,8 @@ export const useCharacterManager = () => {
 
     // メソッド
     getCharacterLayers,
+    getCharacter,
+    getCharacterName,
     getCharacterColor,
     isValidCharacter,
     hasImage,

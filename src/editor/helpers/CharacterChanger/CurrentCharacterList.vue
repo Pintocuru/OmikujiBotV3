@@ -16,14 +16,14 @@
 </template>
 
 <script setup lang="ts">
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterLookup } from './composables/useCharacterLookup'
 
   defineProps<{
     characterKeys: string[]
     usageCount: Record<string, number>
   }>()
 
-  const { getCharacterName } = useCharacterManager()
+  const { getCharacterName } = useCharacterLookup()
 </script>
 
 <style scoped>

@@ -1,13 +1,16 @@
 // src/editor/helpers/IconKeyChanger/useIconKeyStats.ts
 import { computed, ComputedRef } from 'vue'
-import { ActionSetType } from '@/types/OmikujiData/'
-import { usePostActionCharacters } from '../CharacterChanger/usePostActionCharacters'
+import { FlowTarget } from '../../CharacterChanger/composables/useDataExtractor'
+import { usePostActionCharacters } from '../../CharacterChanger/composables/usePostActionCharacters'
 
 /**
  * iconKey使用状況の統計情報を提供
  */
-export function useIconKeyStats(allActionSets: ComputedRef<ActionSetType[]>) {
-  const { extractInvalidIconKeyPairs, countIconKeyUsage } = usePostActionCharacters()
+export function useIconKeyStats(allTargets: ComputedRef<FlowTarget[]>) {
+  const { getFlowGroups, extractInvalidIconKeyPairs, countIconKeyUsage } = usePostActionCharacters()
+
+  // 全 PostFlow 配列
+  const flowGroups = computed(() => allTargets.value.flatMap(getFlowGroups))
 
   /**
    * 不正な { characterKey, iconKey } ペアの一覧（重複なし）
@@ -16,8 +19,8 @@ export function useIconKeyStats(allActionSets: ComputedRef<ActionSetType[]>) {
     const seen = new Set<string>()
     const pairs: { characterKey: string; iconKey: string }[] = []
 
-    allActionSets.value.forEach((actionSet) => {
-      extractInvalidIconKeyPairs(actionSet).forEach((pair) => {
+    flowGroups.value.forEach((flows) => {
+      extractInvalidIconKeyPairs(flows).forEach((pair) => {
         const key = `${pair.characterKey}:${pair.iconKey}`
         if (!seen.has(key)) {
           seen.add(key)
@@ -35,9 +38,8 @@ export function useIconKeyStats(allActionSets: ComputedRef<ActionSetType[]>) {
   const iconKeyUsageCount = computed(() => {
     const counts: Record<string, number> = {}
 
-    allActionSets.value.forEach((actionSet) => {
-      const setCounts = countIconKeyUsage(actionSet)
-      Object.entries(setCounts).forEach(([key, count]) => {
+    flowGroups.value.forEach((flows) => {
+      Object.entries(countIconKeyUsage(flows)).forEach(([key, count]) => {
         counts[key] = (counts[key] || 0) + count
       })
     })

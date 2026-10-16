@@ -64,7 +64,7 @@
   import { useBoxOmikujiList } from '@/editor/assets/mikuji/composables/useBoxOmikujiList'
 
   const props = defineProps<{
-    category: EventCategoryType | 'box'
+    category: EventCategoryType | 'mikuji'
     omikujiKey: string | null
   }>()
 

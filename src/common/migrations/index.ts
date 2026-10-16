@@ -2,6 +2,7 @@
 import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
 import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { APP_VERSION, DATA_VERSION } from '@/version'
+import { ensureSampleCharacters } from './sampleCharacter'
 
 /**
  * データを現在のアプリのバージョンに合わせてマイグレーションする
@@ -10,13 +11,15 @@ export function normalizeData(data: unknown): OmikujiDataType {
   // データにメタ情報がなければ、初期データとして扱う
   if (!data || typeof data !== 'object' || !('meta' in data)) {
     // OmikujiDataSchemaのデフォルト値を返す
-    return OmikujiDataSchema.parse({
-      meta: {
-        generatorName: 'omikuji-bot',
-        generatorVersion: APP_VERSION,
-        dataVersion: DATA_VERSION,
-      },
-    })
+    return ensureSampleCharacters(
+      OmikujiDataSchema.parse({
+        meta: {
+          generatorName: 'omikuji-bot',
+          generatorVersion: APP_VERSION,
+          dataVersion: DATA_VERSION,
+        },
+      })
+    )
   }
 
   // 読み込むデータが現在よりも新しい場合
@@ -43,12 +46,14 @@ export function normalizeData(data: unknown): OmikujiDataType {
   */
 
   // スキーマで保証
-  return OmikujiDataSchema.parse({
-    ...updatedData,
-    meta: {
-      ...updatedData.meta,
-      generatorVersion: APP_VERSION,
-      dataVersion: DATA_VERSION,
-    },
-  })
+  return ensureSampleCharacters(
+    OmikujiDataSchema.parse({
+      ...updatedData,
+      meta: {
+        ...updatedData.meta,
+        generatorVersion: APP_VERSION,
+        dataVersion: DATA_VERSION,
+      },
+    })
+  )
 }

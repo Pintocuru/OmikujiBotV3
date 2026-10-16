@@ -87,23 +87,23 @@
   import { ImageIcon, AlertTriangle } from 'lucide-vue-next'
   import IconKeyMappingEditor from './IconKeyMappingEditor.vue'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
-  import { TargetCategoryType, useDataExtractor } from '../CharacterChanger/useDataExtractor'
-  import { useIconKeyStats } from './useIconKeyStats'
-  import { useIconKeyModalState } from './useIconKeyModalState'
-  import { useIconKeyUpdater } from './useIconKeyUpdater'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { TargetCategoryType, useDataExtractor } from '../CharacterChanger/composables/useDataExtractor'
+  import { useIconKeyStats } from './composables/useIconKeyStats'
+  import { useIconKeyModalState } from './composables/useIconKeyModalState'
+  import { useIconKeyUpdater } from './composables/useIconKeyUpdater'
+  import { useCharacterLookup } from '../CharacterChanger/composables/useCharacterLookup'
 
   const props = defineProps<{
     category: TargetCategoryType
     selectedId?: string
   }>()
 
-  const { getCharacterName } = useCharacterManager()
+  const { getCharacterName } = useCharacterLookup()
 
-  const { changeScope, scopeLabel, allItems, allActionSets } = useDataExtractor(props.category, props.selectedId)
+  const { changeScope, scopeLabel, allTargets } = useDataExtractor(props.category, props.selectedId)
 
   const { invalidIconKeyPairs, iconKeyUsageCount, hasInvalidIconKeys, invalidIconKeyCount } =
-    useIconKeyStats(allActionSets)
+    useIconKeyStats(allTargets)
 
   const {
     isModalOpen,
@@ -115,7 +115,7 @@
     hasChanges,
   } = useIconKeyModalState()
 
-  const { applyMappingsToAllItems } = useIconKeyUpdater(props.category, allItems)
+  const { applyMappingsToAllItems } = useIconKeyUpdater(allTargets)
 
   /**
    * モーダルを開く（不正キーを初期選択状態に）

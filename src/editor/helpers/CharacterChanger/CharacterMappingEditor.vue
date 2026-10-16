@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterLookup } from './composables/useCharacterLookup'
 
   const props = defineProps<{
     characterKeys: string[]
@@ -63,7 +63,7 @@
     updateMapping: [charKey: string, value: string]
   }>()
 
-  const { characterArray, getCharacterName } = useCharacterManager()
+  const { characterArray, getCharacterName } = useCharacterLookup()
 
   // マッピング値を取得
   const getMappingValue = (charKey: string) => props.characterMappings[charKey] || ''

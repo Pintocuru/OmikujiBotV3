@@ -74,11 +74,11 @@
   import InvalidCharacterAlert from './InvalidCharacterAlert.vue'
   import CharacterMappingEditor from './CharacterMappingEditor.vue'
   import MappingPreview from './MappingPreview.vue'
-  import { TargetCategoryType, useDataExtractor } from './useDataExtractor'
-  import { useCharacterStats } from './useCharacterStats'
-  import { useModalState } from './useModalState'
-  import { useCharacterUpdater } from './useCharacterUpdater'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { TargetCategoryType, useDataExtractor } from './composables/useDataExtractor'
+  import { useCharacterStats } from './composables/useCharacterStats'
+  import { useModalState } from './composables/useModalState'
+  import { useCharacterUpdater } from './composables/useCharacterUpdater'
+  import { useCharacterLookup } from './composables/useCharacterLookup'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions/ModalFooterActions.vue'
   import { Users } from 'lucide-vue-next'
 
@@ -88,17 +88,14 @@
   }>()
 
   // キャラクターデータ
-  const { getCharacterName } = useCharacterManager()
+  const { getCharacterName } = useCharacterLookup()
 
   // データ抽出（selectedIdがある場合は単一イベントのみ対象）
-  const { changeScope, scopeLabel, allItems, allActionSets, totalItems } = useDataExtractor(
-    props.category,
-    props.selectedId
-  )
+  const { changeScope, scopeLabel, allTargets, totalItems } = useDataExtractor(props.category, props.selectedId)
 
   // キャラクター統計
   const { uniqueCharacterKeys, characterUsageCount, invalidCharacterCount, hasInvalidCharacters } =
-    useCharacterStats(allActionSets)
+    useCharacterStats(allTargets)
 
   // モーダル状態
   const {
@@ -112,7 +109,7 @@
   } = useModalState()
 
   // キャラクター更新処理
-  const { applyMappingsToAllItems } = useCharacterUpdater(props.category, allItems)
+  const { applyMappingsToAllItems } = useCharacterUpdater(allTargets)
 
   /**
    * モーダルを開く（未定義キャラクターは初期選択状態に）

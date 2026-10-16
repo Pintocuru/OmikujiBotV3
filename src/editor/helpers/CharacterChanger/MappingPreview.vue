@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterLookup } from './composables/useCharacterLookup'
   import { AlertTriangle } from 'lucide-vue-next'
 
   defineProps<{
@@ -30,5 +30,5 @@
     scopeLabel: string
   }>()
 
-  const { getCharacterName } = useCharacterManager()
+  const { getCharacterName } = useCharacterLookup()
 </script>

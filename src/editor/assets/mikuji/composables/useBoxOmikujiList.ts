@@ -10,13 +10,13 @@ export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
   const { getAsset } = useGetAssetData()
 
   const box = computed<MikujiBoxType | null>(() =>
-    omikujiKey.value ? (getAsset('box', omikujiKey.value) ?? null) : null
+    omikujiKey.value ? (getAsset('mikuji', omikujiKey.value) ?? null) : null
   )
   const omikujiList = computed<OmikujiItemType[]>(() => box.value?.omikuji ?? [])
 
   const commit = (omikuji: OmikujiItemType[]) => {
     if (!box.value || !omikujiKey.value) return
-    updateAsset('box', omikujiKey.value, { ...box.value, omikuji })
+    updateAsset('mikuji', omikujiKey.value, { ...box.value, omikuji })
   }
 
   const selectedId = ref<string | null>(null)

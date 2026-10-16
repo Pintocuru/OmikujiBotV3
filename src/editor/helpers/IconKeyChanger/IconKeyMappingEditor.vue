@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterLookup } from '../CharacterChanger/composables/useCharacterLookup'
 
   const props = defineProps<{
     invalidPairs: { characterKey: string; iconKey: string }[]
@@ -60,7 +60,7 @@
     updateMapping: [compositeKey: string, value: string]
   }>()
 
-  const { characterMap, getCharacterName } = useCharacterManager()
+  const { characterMap, getCharacterName } = useCharacterLookup()
 
   const getMappingValue = (compositeKey: string) => props.iconKeyMappings[compositeKey] || ''
 

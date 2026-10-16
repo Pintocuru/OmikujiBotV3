@@ -1,24 +1,25 @@
 // src/editor/helpers/CharacterChanger/useCharacterStats.ts
 import { computed, ComputedRef } from 'vue'
-import { ActionSetType } from '@/types/OmikujiData/'
+import { FlowTarget } from '../useDataExtractor'
 import { usePostActionCharacters } from './usePostActionCharacters'
-import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+import { useCharacterLookup } from './useCharacterLookup'
 
 /**
  * キャラクター使用状況の統計情報を提供
  */
-export function useCharacterStats(allActionSets: ComputedRef<ActionSetType[]>) {
-  const { characterArray } = useCharacterManager()
-  const { extractCharacterKeys, countCharacterUsage } = usePostActionCharacters()
+export function useCharacterStats(allTargets: ComputedRef<FlowTarget[]>) {
+  const { characterArray } = useCharacterLookup()
+  const { getFlowGroups, extractCharacterKeys, countCharacterUsage } = usePostActionCharacters()
+
+  // 全 PostFlow 配列
+  const flowGroups = computed(() => allTargets.value.flatMap(getFlowGroups))
 
   /**
    * 使用されている全キャラクターキー
    */
   const uniqueCharacterKeys = computed(() => {
     const keys = new Set<string>()
-    allActionSets.value.forEach((actionSet) => {
-      extractCharacterKeys(actionSet).forEach((key) => keys.add(key))
-    })
+    flowGroups.value.forEach((flows) => extractCharacterKeys(flows).forEach((key) => keys.add(key)))
     return Array.from(keys)
   })
 
@@ -27,9 +28,8 @@ export function useCharacterStats(allActionSets: ComputedRef<ActionSetType[]>) {
    */
   const characterUsageCount = computed(() => {
     const counts: Record<string, number> = {}
-    allActionSets.value.forEach((actionSet) => {
-      const setCounts = countCharacterUsage(actionSet)
-      Object.entries(setCounts).forEach(([key, count]) => {
+    flowGroups.value.forEach((flows) => {
+      Object.entries(countCharacterUsage(flows)).forEach(([key, count]) => {
         counts[key] = (counts[key] || 0) + count
       })
     })
@@ -47,9 +47,7 @@ export function useCharacterStats(allActionSets: ComputedRef<ActionSetType[]>) {
   /**
    * 未定義キャラクターが存在するか
    */
-  const hasInvalidCharacters = computed(() => {
-    return invalidCharacterCount.value > 0
-  })
+  const hasInvalidCharacters = computed(() => invalidCharacterCount.value > 0)
 
   return {
     uniqueCharacterKeys,
