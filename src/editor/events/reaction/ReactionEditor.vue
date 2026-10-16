@@ -107,7 +107,9 @@
       return getEvent('reactions', selectedItemKey.value)
     },
     set: (value: ReactionEventType) => {
-      updateEvent('reactions', value.key, value)
+      // イベントは id で識別する（key とは別の値）。getter と同じ selectedItemKey で更新する
+      if (!selectedItemKey.value || !value) return
+      updateEvent('reactions', selectedItemKey.value, value)
     },
   })
 </script>

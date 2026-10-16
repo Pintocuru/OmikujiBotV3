@@ -101,7 +101,9 @@
       return getEvent('comments', selectedItemKey.value)
     },
     set: (value: CommentEventType) => {
-      updateEvent('comments', value.key, value)
+      // イベントは id で識別する（key とは別の値）。getter と同じ selectedItemKey で更新する
+      if (!selectedItemKey.value || !value) return
+      updateEvent('comments', selectedItemKey.value, value)
     },
   })
 </script>

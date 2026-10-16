@@ -58,8 +58,8 @@
     if (!item) return null
     return {
       ...item,
-      label: t(`sections.${item.section}.label`),
-      description: t(`sections.${item.section}.description`),
+      label: t(`categorySections.${item.section}.label`),
+      description: t(`categorySections.${item.section}.description`),
     }
   }
 

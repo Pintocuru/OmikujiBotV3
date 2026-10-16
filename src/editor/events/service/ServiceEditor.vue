@@ -86,8 +86,8 @@
     if (!item) return null
     return {
       ...item,
-      label: t(`sections.${item.section}.label`),
-      description: t(`sections.${item.section}.description`),
+      label: t(`categorySections.${item.section}.label`),
+      description: t(`categorySections.${item.section}.description`),
     }
   }
 
@@ -111,7 +111,9 @@
       return getEvent('services', selectedItemKey.value)
     },
     set: (value: ServiceEventType) => {
-      updateEvent('services', value.key, value)
+      // イベントは id で識別する（key とは別の値）。getter と同じ selectedItemKey で更新する
+      if (!selectedItemKey.value || !value) return
+      updateEvent('services', selectedItemKey.value, value)
     },
   })
 </script>

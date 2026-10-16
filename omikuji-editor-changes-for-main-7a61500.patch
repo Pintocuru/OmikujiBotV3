@@ -1,0 +1,193 @@
+diff --git a/src/editor/assets/actions/ActionsEditor.vue b/src/editor/assets/actions/ActionsEditor.vue
+index 8eaabd8..a6cf448 100644
+--- a/src/editor/assets/actions/ActionsEditor.vue
++++ b/src/editor/assets/actions/ActionsEditor.vue
+@@ -58,8 +58,8 @@
+     if (!item) return null
+     return {
+       ...item,
+-      label: t(`sections.${item.section}.label`),
+-      description: t(`sections.${item.section}.description`),
++      label: t(`categorySections.${item.section}.label`),
++      description: t(`categorySections.${item.section}.description`),
+     }
+   }
+ 
+diff --git a/src/editor/assets/characters/CharacterEditor.vue b/src/editor/assets/characters/CharacterEditor.vue
+index 47f5872..dc1cbda 100644
+--- a/src/editor/assets/characters/CharacterEditor.vue
++++ b/src/editor/assets/characters/CharacterEditor.vue
+@@ -78,8 +78,8 @@
+     if (!item) return null
+     return {
+       ...item,
+-      label: t(`sections.${item.section}.label`),
+-      description: t(`sections.${item.section}.description`),
++      label: t(`categorySections.${item.section}.label`),
++      description: t(`categorySections.${item.section}.description`),
+     }
+   }
+ 
+diff --git a/src/editor/assets/mikuji/MikujiEditor.vue b/src/editor/assets/mikuji/MikujiEditor.vue
+index e307c73..3430be1 100644
+--- a/src/editor/assets/mikuji/MikujiEditor.vue
++++ b/src/editor/assets/mikuji/MikujiEditor.vue
+@@ -57,8 +57,8 @@
+     if (!item) return null
+     return {
+       ...item,
+-      label: t(`sections.${item.section}.label`),
+-      description: t(`sections.${item.section}.description`),
++      label: t(`categorySections.${item.section}.label`),
++      description: t(`categorySections.${item.section}.description`),
+     }
+   }
+ 
+diff --git a/src/editor/assets/placeholders/PlaceholderEditor.vue b/src/editor/assets/placeholders/PlaceholderEditor.vue
+index edf8a9d..5ce8c86 100644
+--- a/src/editor/assets/placeholders/PlaceholderEditor.vue
++++ b/src/editor/assets/placeholders/PlaceholderEditor.vue
+@@ -50,8 +50,8 @@
+     if (!item) return null
+     return {
+       ...item,
+-      label: t(`sections.${item.section}.label`),
+-      description: t(`sections.${item.section}.description`),
++      label: t(`categorySections.${item.section}.label`),
++      description: t(`categorySections.${item.section}.description`),
+     }
+   }
+ 
+diff --git a/src/editor/events/comment/CommentEditor.vue b/src/editor/events/comment/CommentEditor.vue
+index a63f5e4..1e34d27 100644
+--- a/src/editor/events/comment/CommentEditor.vue
++++ b/src/editor/events/comment/CommentEditor.vue
+@@ -101,7 +101,9 @@
+       return getEvent('comments', selectedItemKey.value)
+     },
+     set: (value: CommentEventType) => {
+-      updateEvent('comments', value.key, value)
++      // イベントは id で識別する（key とは別の値）。getter と同じ selectedItemKey で更新する
++      if (!selectedItemKey.value || !value) return
++      updateEvent('comments', selectedItemKey.value, value)
+     },
+   })
+ </script>
+diff --git a/src/editor/events/reaction/ReactionEditor.vue b/src/editor/events/reaction/ReactionEditor.vue
+index 4ba862c..ce1770e 100644
+--- a/src/editor/events/reaction/ReactionEditor.vue
++++ b/src/editor/events/reaction/ReactionEditor.vue
+@@ -107,7 +107,9 @@
+       return getEvent('reactions', selectedItemKey.value)
+     },
+     set: (value: ReactionEventType) => {
+-      updateEvent('reactions', value.key, value)
++      // イベントは id で識別する（key とは別の値）。getter と同じ selectedItemKey で更新する
++      if (!selectedItemKey.value || !value) return
++      updateEvent('reactions', selectedItemKey.value, value)
+     },
+   })
+ </script>
+diff --git a/src/editor/events/service/ServiceEditor.vue b/src/editor/events/service/ServiceEditor.vue
+index 070258f..6a6fa69 100644
+--- a/src/editor/events/service/ServiceEditor.vue
++++ b/src/editor/events/service/ServiceEditor.vue
+@@ -86,8 +86,8 @@
+     if (!item) return null
+     return {
+       ...item,
+-      label: t(`sections.${item.section}.label`),
+-      description: t(`sections.${item.section}.description`),
++      label: t(`categorySections.${item.section}.label`),
++      description: t(`categorySections.${item.section}.description`),
+     }
+   }
+ 
+@@ -111,7 +111,9 @@
+       return getEvent('services', selectedItemKey.value)
+     },
+     set: (value: ServiceEventType) => {
+-      updateEvent('services', value.key, value)
++      // イベントは id で識別する（key とは別の値）。getter と同じ selectedItemKey で更新する
++      if (!selectedItemKey.value || !value) return
++      updateEvent('services', selectedItemKey.value, value)
+     },
+   })
+ </script>
+diff --git a/src/editor/events/timer/TimerEditor.vue b/src/editor/events/timer/TimerEditor.vue
+index c76ad6d..387dd2c 100644
+--- a/src/editor/events/timer/TimerEditor.vue
++++ b/src/editor/events/timer/TimerEditor.vue
+@@ -111,7 +111,9 @@
+       return getEvent('timers', selectedItemKey.value)
+     },
+     set: (value: TimerEventType) => {
+-      updateEvent('timers', value.key, value)
++      // イベントは id で識別する（key とは別の値）。getter と同じ selectedItemKey で更新する
++      if (!selectedItemKey.value || !value) return
++      updateEvent('timers', selectedItemKey.value, value)
+     },
+   })
+ </script>
+diff --git a/src/editor/maps/assets/PlaceholderMessages.ts b/src/editor/maps/assets/PlaceholderMessages.ts
+index 762cab7..6ac4eaa 100644
+--- a/src/editor/maps/assets/PlaceholderMessages.ts
++++ b/src/editor/maps/assets/PlaceholderMessages.ts
+@@ -21,6 +21,14 @@ export const placeholderMessages = {
+       drawResultTitle: '抽選結果',
+       drawResultHtml: '内容:<br>{content}<br>重み: {weight}<br>確率: {percent}%',
+       drawFailed: '抽選できませんでした',
++      previewTooltip: '現在の内容で抽選をテストします',
++      toggleModeTitle: '入力モードとテキストモードを切り替えます',
++      formatLabel: '形式',
++      formatExample1: '重み,内容',
++      sampleText: 'サンプルテキスト',
++      or: 'または',
++      defaultWeightNote: '重みを省略すると 1 になります',
++      textareaPlaceholder: '3,大吉\n1,小吉\n凶',
+     },
+   },
+   en: {
+@@ -44,6 +52,14 @@ export const placeholderMessages = {
+       drawResultTitle: 'Draw Result',
+       drawResultHtml: 'Content:<br>{content}<br>Weight: {weight}<br>Probability: {percent}%',
+       drawFailed: 'Draw failed',
++      previewTooltip: 'Test a draw with the current contents',
++      toggleModeTitle: 'Switch between input mode and text mode',
++      formatLabel: 'Format',
++      formatExample1: 'weight,content',
++      sampleText: 'Sample text',
++      or: 'or',
++      defaultWeightNote: 'Weight defaults to 1 if omitted',
++      textareaPlaceholder: '3,Great luck\n1,Small luck\nBad luck',
+     },
+   },
+ }
+diff --git a/src/editor/maps/events/CommentTriggerEditor.ts b/src/editor/maps/events/CommentTriggerEditor.ts
+index 400d65c..15a1f1d 100644
+--- a/src/editor/maps/events/CommentTriggerEditor.ts
++++ b/src/editor/maps/events/CommentTriggerEditor.ts
+@@ -2,9 +2,9 @@
+ export const commentTriggerMessages = {
+   ja: {
+     commentTrigger: {
+-      info: {
++      information: {
+         badge: '発動条件設定',
+-        descriptionSuffix: 'では、ユーザーのギフト有無やチャット数などを基にイベント発動を制御します。',
++        descriptionBody: 'では、ユーザーのギフト有無やチャット数などを基にイベント発動を制御します。',
+         note: '条件が複数ある場合は、すべて満たしたときのみ発動します。(ANDのみ対応)',
+       },
+       setting: {
+@@ -57,9 +57,9 @@ export const commentTriggerMessages = {
+   },
+   en: {
+     commentTrigger: {
+-      info: {
++      information: {
+         badge: 'Trigger Conditions',
+-        descriptionSuffix: ' controls event activation based on user gifts, chat counts, etc.',
++        descriptionBody: ' controls event activation based on user gifts, chat counts, etc.',
+         note: 'If there are multiple conditions, they must all be met to trigger. (AND only)',
+       },
+       setting: {

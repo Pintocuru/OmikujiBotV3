@@ -2,9 +2,9 @@
 export const commentTriggerMessages = {
   ja: {
     commentTrigger: {
-      info: {
+      information: {
         badge: '発動条件設定',
-        descriptionSuffix: 'では、ユーザーのギフト有無やチャット数などを基にイベント発動を制御します。',
+        descriptionBody: 'では、ユーザーのギフト有無やチャット数などを基にイベント発動を制御します。',
         note: '条件が複数ある場合は、すべて満たしたときのみ発動します。(ANDのみ対応)',
       },
       setting: {
@@ -57,9 +57,9 @@ export const commentTriggerMessages = {
   },
   en: {
     commentTrigger: {
-      info: {
+      information: {
         badge: 'Trigger Conditions',
-        descriptionSuffix: ' controls event activation based on user gifts, chat counts, etc.',
+        descriptionBody: ' controls event activation based on user gifts, chat counts, etc.',
         note: 'If there are multiple conditions, they must all be met to trigger. (AND only)',
       },
       setting: {

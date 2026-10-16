@@ -111,7 +111,9 @@
       return getEvent('timers', selectedItemKey.value)
     },
     set: (value: TimerEventType) => {
-      updateEvent('timers', value.key, value)
+      // イベントは id で識別する（key とは別の値）。getter と同じ selectedItemKey で更新する
+      if (!selectedItemKey.value || !value) return
+      updateEvent('timers', selectedItemKey.value, value)
     },
   })
 </script>
