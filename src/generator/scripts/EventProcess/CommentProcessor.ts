@@ -94,7 +94,8 @@ export class EventCommentProcessor {
     // botMessages が空ではない場合にカウント
     if (botMessages.length > 0) this.recordDraw(omiken, event)
 
-    return { isCommentTriggered, botMessages }
+    // TODO: isCommentTriggeredってfalseでいいんだっけ？
+    return { isCommentTriggered: false, botMessages }
   }
 
   /**

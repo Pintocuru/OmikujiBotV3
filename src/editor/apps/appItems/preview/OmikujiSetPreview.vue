@@ -42,7 +42,7 @@
   import { computed } from 'vue'
   import { ListChecks, Filter } from 'lucide-vue-next'
   import { OmikujiItemType } from '@/types/OmikujiData'
-  import { omikujiItemKindMap } from '@/maps/OmikujiData'
+  import { omikujiItemKindMap, omikujiControlCommandMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     data: { omikuji?: OmikujiItemType[] } | null
@@ -51,6 +51,7 @@
   const omikuji = computed(() => props.data?.omikuji ?? [])
 
   function getItemKindLabel(item: OmikujiItemType): string {
+    if (item.kind === 'control') return omikujiControlCommandMap[item.command]?.label ?? item.command
     return omikujiItemKindMap[item.kind]?.label ?? item.kind
   }
 

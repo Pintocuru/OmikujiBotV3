@@ -5,13 +5,15 @@ import { useAppStore } from '@/generator/stores/useAppStore'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { GameStateType } from '@/games/types'
 
+type ControlItemType = Extract<OmikujiItemType, { kind: 'control' }>
+
 export interface SpecialActionResult {
   handled: boolean // trueのとき呼び出し元でイベント処理を終了する
   isCountEvent: boolean // おみくじカウントとして記録するか
 }
 
 /**
- * postFlow 以外の kind (return / continue / reset / log) を処理するクラス
+ * postFlow 以外の kind (control: return / continue / reset, log) を処理するクラス
  * @param eventKey 実行中のイベントの key (reset / log の対象特定に使用)
  */
 export class SpecialActionProcessor {
@@ -23,20 +25,9 @@ export class SpecialActionProcessor {
       case 'postFlow':
         return null
 
-      // 処理を終了する
-      case 'return':
-        return { handled: true, isCountEvent: item.isCountEvent }
-
-      // 次のイベントへ進む
-      case 'continue':
-        return { handled: false, isCountEvent: item.isCountEvent }
-
-      // おみくじ回数をリセットする (リセット自体はカウントしない)
-      case 'reset': {
-        this.store.userSession.visits.resetEvent(eventKey)
-        postSystemMessage(`${item.name}のおみくじ回数をリセットしました`, { username: '__INFO__' })
-        return { handled: true, isCountEvent: false }
-      }
+      // 処理の流れを制御する (return / continue / reset)
+      case 'control':
+        return this.processControl(item, eventKey)
 
       // ユーザー状態ログを出力する
       case 'log': {
@@ -47,6 +38,24 @@ export class SpecialActionProcessor {
         }
         return { handled: true, isCountEvent: false }
       }
+    }
+  }
+
+  private processControl(item: ControlItemType, eventKey: string): SpecialActionResult {
+    switch (item.command) {
+      // 処理を終了する
+      case 'return':
+        return { handled: true, isCountEvent: item.isCountEvent }
+
+      // 次のイベントへ進む
+      case 'continue':
+        return { handled: false, isCountEvent: item.isCountEvent }
+
+      // おみくじ回数をリセットする (リセット自体はカウントしない)
+      case 'reset':
+        this.store.userSession.visits.resetEvent(eventKey)
+        postSystemMessage(`${item.name}のおみくじ回数をリセットしました`, { username: '__INFO__' })
+        return { handled: true, isCountEvent: false }
     }
   }
 
