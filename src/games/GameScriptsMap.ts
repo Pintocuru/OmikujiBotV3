@@ -1,4 +1,5 @@
 // src/games/GameScriptsMap.ts
+import { ScriptClass } from './types'
 
 /**
  * ゲーム実行map
@@ -10,5 +11,4 @@ export const gameExecuteMap = {
   MultiplyBonanza: () => import('./scripts/MultiplyBonanza/execute'),
   GoogolClover: () => import('./scripts/GoogolClover/execute'),
   HugEmAll: () => import('./scripts/HugEmAll/execute'),
-  WinnerGroup: () => import('./scripts/WinnerGroup/execute'),
 } satisfies Record<ScriptGameKey, () => Promise<{ default: ScriptClass }>>

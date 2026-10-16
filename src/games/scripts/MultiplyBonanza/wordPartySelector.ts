@@ -79,9 +79,10 @@ export class WordPartySelector {
 
     if (Math.random() < fujinProbability) {
       parties.push({
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.FUJIN,
-        wordParty: 'MultiplyBonanzaFujin',
+        wordPartyId: 'MultiplyBonanzaFujin',
+        repeat: 1,
       })
     }
   }
@@ -95,9 +96,10 @@ export class WordPartySelector {
     // シンボル数に応じたCracker演出
     if (result.attempt >= SYMBOL_THRESHOLDS.CRACKER2) {
       parties.push({
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.CRACKER2,
-        wordParty: 'MultiplyBonanzaCracker2',
+        wordPartyId: 'MultiplyBonanzaCracker2',
+        repeat: 1,
       })
     }
 
@@ -105,18 +107,20 @@ export class WordPartySelector {
     const fujinProbability = Math.min(Math.max(result.payout / PROBABILITY_FACTORS.MEDIUM_FUJIN, 0), 1)
     if (Math.random() < fujinProbability) {
       parties.push({
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.FUJIN,
-        wordParty: 'MultiplyBonanzaFujin',
+        wordPartyId: 'MultiplyBonanzaFujin',
+        repeat: 1,
       })
     }
 
     // ブースト時は雷神
     if (result.hasBoost) {
       parties.push({
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.RAIJIN,
-        wordParty: 'MultiplyBonanzaRaijin',
+        wordPartyId: 'MultiplyBonanzaRaijin',
+        repeat: 1,
       })
     }
   }
@@ -130,25 +134,28 @@ export class WordPartySelector {
     // シンボル数に応じたCracker演出
     if (result.attempt >= SYMBOL_THRESHOLDS.CRACKER2) {
       parties.push({
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.CRACKER2,
-        wordParty: 'MultiplyBonanzaCracker2',
+        wordPartyId: 'MultiplyBonanzaCracker2',
+        repeat: 1,
       })
     }
     if (result.attempt >= SYMBOL_THRESHOLDS.CRACKER3) {
       parties.push({
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.CRACKER3,
-        wordParty: 'MultiplyBonanzaCracker3',
+        wordPartyId: 'MultiplyBonanzaCracker3',
+        repeat: 1,
       })
     }
 
     // ブースト時は雷神
     if (result.hasBoost) {
       parties.push({
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.FUJIN,
-        wordParty: 'MultiplyBonanzaRaijin',
+        wordPartyId: 'MultiplyBonanzaRaijin',
+        repeat: 1,
       })
     }
 
@@ -156,9 +163,10 @@ export class WordPartySelector {
     const fujinProbability = Math.min(Math.max(result.payout / PROBABILITY_FACTORS.LARGE_FUJIN, 0), 1)
     if (Math.random() < fujinProbability) {
       parties.push({
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.RAIJIN,
-        wordParty: 'MultiplyBonanzaFujin',
+        wordPartyId: 'MultiplyBonanzaFujin',
+        repeat: 1,
       })
     }
   }
@@ -172,29 +180,34 @@ export class WordPartySelector {
     // 全ての演出を表示
     parties.push(
       {
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.CRACKER2,
-        wordParty: 'MultiplyBonanzaCracker2',
+        wordPartyId: 'MultiplyBonanzaCracker2',
+        repeat: 1,
       },
       {
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.CRACKER3,
-        wordParty: 'MultiplyBonanzaCracker3',
+        wordPartyId: 'MultiplyBonanzaCracker3',
+        repeat: 1,
       },
       {
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.MAX_WIN_EFFECTS,
-        wordParty: 'MultiplyBonanzaFujin',
+        wordPartyId: 'MultiplyBonanzaFujin',
+        repeat: 1,
       },
       {
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.MAX_WIN_EFFECTS,
-        wordParty: 'MultiplyBonanzaRaijin',
+        wordPartyId: 'MultiplyBonanzaRaijin',
+        repeat: 1,
       },
       {
-        actionType: 'wordParty',
+        kind: 'wordParty',
         delaySeconds: DELAY_SECONDS.MAX_WIN_EFFECTS,
-        wordParty: 'MultiplyBonanzaSakura',
+        wordPartyId: 'MultiplyBonanzaSakura',
+        repeat: 1,
       }
     )
   }

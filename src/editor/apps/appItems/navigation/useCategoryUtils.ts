@@ -6,12 +6,14 @@ import { isDev } from '@/types/env'
 import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { categoryMap } from '@/maps/OmikujiData'
-import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+import { useGetEventData } from '@/editor/stores/useGetEventData'
 
 export const useCategoryUtils = () => {
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const { getCategoryArray } = useGetRecordData()
+  const { getAssetCount } = useGetAssetData()
+  const { isEventCategory, getEventCount } = useGetEventData()
 
   /**
    * ナビゲーションのアイテム数バッジ表示
@@ -20,7 +22,8 @@ export const useCategoryUtils = () => {
     // if (category === 'dataPacks') return 0 // TODO:いつか「パッケージ数」を取得できるようにする
     if (category === 'appInfo' || category === 'ui') return 0
     if (category === 'jsonMerge') return data.value.jsonMerge.length
-    return getCategoryArray(category).length
+    // 残りは Event か Asset のどちらか
+    return isEventCategory(category) ? getEventCount(category) : getAssetCount(category)
   }
 
   /**

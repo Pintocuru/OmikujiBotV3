@@ -1,6 +1,6 @@
 // src/editor/stores/composables/useEventSort.ts
 import { Ref } from 'vue'
-import { EventCategoryType, OmikujiDataType } from '@/types/OmikujiData/'
+import { EventCategoryType, OmikujiDataType } from '@/types/OmikujiData'
 
 // ids の順に並べ、ids に含まれないものは元の相対順のまま末尾に残す
 const sortByIds = <T extends { id: string }>(items: readonly T[], ids: readonly string[]): T[] => {

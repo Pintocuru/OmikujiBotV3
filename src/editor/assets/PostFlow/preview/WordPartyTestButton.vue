@@ -24,7 +24,6 @@
   function handleClick() {
     executeWordParty({
       wordPartyId: props.id,
-      wordParty: props.pattern ? props.pattern.replace(/^[\^\s]+|[\$\s]+$/g, '') : undefined,
       repeat: normalizeRepeat(props.repeat),
     }).catch((err) => {
       console.error('WordPartyテスト実行エラー:', err)

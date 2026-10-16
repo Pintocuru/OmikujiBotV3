@@ -1,6 +1,6 @@
 // src/editor/stores/composables/useDataIO.ts
 import { Ref } from 'vue'
-import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
+import { OmikujiDataType } from '@/types/OmikujiData'
 import { DataSource } from '@/editor/types'
 import { normalizeData } from '@/common/migrations'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
@@ -28,23 +28,8 @@ export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource
     if (result) dataSource.value = 'local'
   }
 
-  // データをJSON形式でエクスポート
-  // ! JSONエクスポートは廃止
-  const exportData = () => {
-    const validation = OmikujiDataSchema.safeParse(data.value)
-    if (validation.success) {
-      return JSON.stringify(data.value)
-    }
-
-    swalModal.error({
-      title: 'データの検証に失敗しました',
-      text: '内容に不備があるため、エクスポートできません。',
-    })
-  }
-
   return {
     loadData,
     openLocalOmikujiData,
-    exportData,
   }
 }

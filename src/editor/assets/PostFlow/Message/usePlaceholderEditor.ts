@@ -2,7 +2,7 @@
 import { computed, Ref, ref } from 'vue'
 import { PlaceholderSchema, PlaceholderType, handelNormalizedValues } from '@/types/OmikujiData'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { useGetRecordData } from '@/editor/stores/useGetRecordData'
+import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { defaultPlaceholderMap } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
 import { defaultBasePlaceholderLabel } from '@/generator/types'
 
@@ -11,7 +11,7 @@ const PLACEHOLDER_ID_PATTERN = /^[a-zA-Z0-9_]+$/
 
 export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boolean) {
   const omikujiStore = useOmikujiStore()
-  const { getCategoryMap } = useGetRecordData()
+  const { getAssets } = useGetAssetData()
 
   const showAddPlaceholder = ref(false)
   const newPlaceholderKey = ref('')
@@ -19,7 +19,7 @@ export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boo
 
   // data.placeholders のマップ（isPlaceholder=false なら空）
   const placeholderMap = computed<Record<string, PlaceholderType>>(() => {
-    return getCategoryMap('placeholders') as Record<string, PlaceholderType>
+    return getAssets('placeholders')
   })
 
   // defaultPlaceholders 一覧（常に表示）
@@ -74,14 +74,14 @@ export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boo
     if (!ph) return
     const vals = handelNormalizedValues(ph.values)
     vals[idx] = { ...vals[idx], content: (e.target as HTMLInputElement).value }
-    omikujiStore.updateItem('placeholders', phKey, { ...ph, values: vals })
+    omikujiStore.updateAsset('placeholders', phKey, { ...ph, values: vals })
   }
 
   const removePlaceholderValue = (phKey: string, idx: number) => {
     const ph = placeholderMap.value[phKey]
     if (!ph) return
     const vals = handelNormalizedValues(ph.values).filter((_, i) => i !== idx)
-    omikujiStore.updateItem('placeholders', phKey, {
+    omikujiStore.updateAsset('placeholders', phKey, {
       ...ph,
       values: vals.length ? vals : [{ weight: 1, content: '' }],
     })
@@ -92,7 +92,7 @@ export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boo
     if (!ph) return
     const vals = handelNormalizedValues(ph.values)
     vals.push({ weight: 1, content: '' })
-    omikujiStore.updateItem('placeholders', phKey, { ...ph, values: vals })
+    omikujiStore.updateAsset('placeholders', phKey, { ...ph, values: vals })
   }
 
   // 新規プレースホルダー作成
@@ -100,7 +100,7 @@ export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boo
     const key = newPlaceholderKey.value.trim()
     if (!key || !PLACEHOLDER_ID_PATTERN.test(key)) return
     const parsed = PlaceholderSchema.parse({ key, name: key })
-    omikujiStore.addItem('placeholders', parsed)
+    omikujiStore.addAsset('placeholders', parsed)
     newPlaceholderKey.value = ''
     showAddPlaceholder.value = false
     expandedKeys.value = new Set([...expandedKeys.value, key])

@@ -1,15 +1,14 @@
 // src/sdk/post/PostWordParty.ts
-import { postWordParty, postWordPartyId } from './PostOneComme'
+import { postWordPartyId } from './PostOneComme'
 
 export type ExecuteWordPartyParams = {
-  wordParty?: string
   wordPartyId?: string
   repeat?: number
   delaySeconds?: number
 }
 
+// TODO:wordPartyId に統一。wordParty は廃止
 export async function executeWordParty({
-  wordParty,
   wordPartyId,
   repeat = 1,
   delaySeconds = 0,
@@ -17,10 +16,6 @@ export async function executeWordParty({
   const count = Math.max(1, repeat)
 
   for (let i = 0; i < count; i++) {
-    if (wordPartyId && wordPartyId !== '') {
-      postWordPartyId(wordPartyId, delaySeconds)
-    } else if (wordParty) {
-      postWordParty(wordParty, delaySeconds)
-    }
+    if (wordPartyId && wordPartyId !== '') postWordPartyId(wordPartyId, delaySeconds)
   }
 }
