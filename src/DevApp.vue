@@ -51,8 +51,8 @@
   import GeneratorApp from '@/generator/App.vue'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import DraggableWrapper from '@/common/DraggableWrapper/DraggableWrapper.vue'
-  import AirComment from '@/editor/tools/AirComment/AirComment.vue'
-  import DevMetaController from '@/editor/tools/DevMetaController/DevMetaController.vue'
+  import AirComment from '@/editor/dev/AirComment/AirComment.vue'
+  import DevMetaController from '@/editor/dev/DevMetaController/DevMetaController.vue'
   import { Settings, Cpu } from 'lucide-vue-next'
 
   const showMain = ref(false)

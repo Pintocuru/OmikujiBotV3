@@ -64,7 +64,7 @@
   import { COMMENTS, generateMockUsername, generateSimpleUsername } from './constants'
   import { postComment } from '@/sdk/post/PostOneComme'
   import { CommentPickSchema } from '@/types/subscribe'
-  import { getAvatarUrl } from '@/editor/tools/DiceBear/getAvatarUrl'
+  import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
 
   const isRunning = ref(false)
   const intervalSec = ref(2)
