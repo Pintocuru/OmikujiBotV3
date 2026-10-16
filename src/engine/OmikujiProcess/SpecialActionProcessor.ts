@@ -17,6 +17,7 @@ export interface SpecialActionResult {
  * @param eventKey 実行中のイベントの key (reset / log の対象特定に使用)
  */
 export class SpecialActionProcessor {
+  // TODO: 共通箇所なので useAppStore を使うな、
   private readonly store = useAppStore()
 
   process(item: OmikujiItemType, eventKey: string): SpecialActionResult | null {
@@ -30,6 +31,7 @@ export class SpecialActionProcessor {
         return this.processControl(item, eventKey)
 
       // ユーザー状態ログを出力する
+      // TODO:scriptManager は廃止されたので、どうしよう…
       case 'log': {
         const logs = this.store.scriptManager.getGameState(eventKey)?.logs
         if (logs) {
@@ -42,6 +44,8 @@ export class SpecialActionProcessor {
   }
 
   private processControl(item: ControlItemType, eventKey: string): SpecialActionResult {
+    // TODO:variable の処理を実装
+
     switch (item.command) {
       // 処理を終了する
       case 'return':

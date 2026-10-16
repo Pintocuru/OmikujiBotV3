@@ -2,10 +2,7 @@
 import { CharacterType, CharacterColorType } from '@/types/OmikujiData'
 
 /**
- * キャラクター情報を管理
- *
- * キャラクターの存在・画像・表情など、キャラクター固有の処理を担当する。
- * アクセス権限やライセンスによる有効/無効判定は行わない。
+ * キャラクターの存在・画像・表情など、キャラクター固有の処理を担当
  */
 export class CharacterManager {
   readonly characterMap: Map<string, CharacterType>
@@ -20,9 +17,6 @@ export class CharacterManager {
 
   /**
    * キャラクターの妥当性を検証し、適切なキーと表情を返す
-   *
-   * キャラクター定義が存在すれば、そのキャラクターキーを維持する。
-   * 指定された表情の画像が存在しない場合は、利用可能な表情へフォールバックする。
    */
   resolveCharacter(data: { characterKey: string | null; iconKey: string }) {
     const { characterKey, iconKey } = data

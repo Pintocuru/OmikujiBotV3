@@ -1,11 +1,6 @@
 // src/engine/OmikujiProcess/ActionSetValidator.ts
 import { PostFlowType } from '@/types/OmikujiData'
 
-export interface CircularReferenceResult {
-  hasCircular: boolean
-  path: string[] | null
-}
-
 /**
  * アクションセットの循環参照をチェックする
  */

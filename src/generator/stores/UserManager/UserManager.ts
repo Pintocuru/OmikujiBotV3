@@ -2,10 +2,6 @@
 import { UserStatsManager } from './UserStatsManager'
 import { UserVisitManager } from './UserVisitManager'
 
-// ============================================================
-// UserSessionManager — 配信セッション全体を統括するクラス
-// ============================================================
-
 /**
  * 配信セッションを管理するファサードクラス
  * - stats: 全体のユーザー統計（コメント数・チーム・スコアなど）

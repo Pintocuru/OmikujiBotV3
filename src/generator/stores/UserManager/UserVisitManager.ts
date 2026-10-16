@@ -2,9 +2,6 @@
 import { UserVisitRecord, UserVisitRecordSchema } from '@/generator/types'
 import { UserNameType } from '@/types/OmikenComment'
 
-type UserId = string
-type EventKey = string
-
 type VisitEventListener = (record: UserVisitRecord) => void
 
 /**
@@ -15,12 +12,12 @@ export class UserVisitManager {
    * 訪問記録
    * eventKey → userId → record
    */
-  private readonly visits = new Map<EventKey, Map<UserId, UserVisitRecord>>()
+  private readonly visits = new Map<string, Map<string, UserVisitRecord>>()
 
   /**
    * イベントリスナー（eventKey別）
    */
-  private readonly listeners = new Map<EventKey, Set<VisitEventListener>>()
+  private readonly listeners = new Map<string, Set<VisitEventListener>>()
 
   // =========================
   // 訪問記録
@@ -29,7 +26,7 @@ export class UserVisitManager {
   /**
    * 訪問を記録してリスナーに通知
    */
-  record(eventKey: EventKey, user: UserNameType, count = 1): UserVisitRecord {
+  record(eventKey: string, user: UserNameType, count = 1): UserVisitRecord {
     const { userId, userName, timestamp } = user
 
     // eventKey単位のMapを初期化
@@ -64,21 +61,21 @@ export class UserVisitManager {
   /**
    * 指定ユーザー・イベントの訪問回数を取得
    */
-  getCount(userId: UserId, eventKey: EventKey): number {
+  getCount(userId: string, eventKey: string): number {
     return this.getRecord(userId, eventKey)?.visits ?? 0
   }
 
   /**
    * 指定ユーザー・イベントの訪問記録を取得
    */
-  getRecord(userId: UserId, eventKey: EventKey): UserVisitRecord | null {
+  getRecord(userId: string, eventKey: string): UserVisitRecord | null {
     return this.visits.get(eventKey)?.get(userId) ?? null
   }
 
   /**
    * 抽選回数制限チェック
    */
-  isDrawLimitExceeded(userId: UserId, eventKey: EventKey, drawLimit: number): boolean {
+  isDrawLimitExceeded(userId: string, eventKey: string, drawLimit: number): boolean {
     if (drawLimit <= 0) return false
     return this.getCount(userId, eventKey) >= drawLimit
   }
@@ -90,35 +87,35 @@ export class UserVisitManager {
   /**
    * 指定イベントの訪問記録一覧を取得
    */
-  getByEvent(eventKey: EventKey): UserVisitRecord[] {
+  getByEvent(eventKey: string): UserVisitRecord[] {
     return Array.from(this.visits.get(eventKey)?.values() ?? [])
   }
 
   /**
    * 指定イベントのユニーク訪問者数
    */
-  getUniqueCount(eventKey: EventKey): number {
+  getUniqueCount(eventKey: string): number {
     return this.visits.get(eventKey)?.size ?? 0
   }
 
   /**
    * 指定イベントの総訪問回数
    */
-  getTotal(eventKey: EventKey): number {
+  getTotal(eventKey: string): number {
     return this.getByEvent(eventKey).reduce((sum, r) => sum + r.visits, 0)
   }
 
   /**
    * 指定イベントの最新訪問ユーザーを取得
    */
-  getLatest(eventKey: EventKey): UserVisitRecord | null {
+  getLatest(eventKey: string): UserVisitRecord | null {
     return this.getByEvent(eventKey).sort((a, b) => b.timestamp - a.timestamp)[0] ?? null
   }
 
   /**
    * 指定イベントの訪問回数ランキングを取得
    */
-  getRanking(eventKey: EventKey, limit?: number): UserVisitRecord[] {
+  getRanking(eventKey: string, limit?: number): UserVisitRecord[] {
     const sorted = this.getByEvent(eventKey).sort((a, b) => b.visits - a.visits)
     return limit ? sorted.slice(0, limit) : sorted
   }
@@ -133,7 +130,7 @@ export class UserVisitManager {
    * @param eventKey 対象イベントID
    */
   drawWinners(
-    eventKey: EventKey,
+    eventKey: string,
     count = 1
   ): {
     commenter: number
@@ -163,8 +160,8 @@ export class UserVisitManager {
    * 指定ユーザーの全イベント訪問記録を Record<eventKey, visitCount> 形式で取得
    * OmikenCommentType.omikujiRecords に直接セット可能
    */
-  getOmikujiRecords(userId: UserId): Record<EventKey, number> {
-    const records: Record<EventKey, number> = {}
+  getOmikujiRecords(userId: string): Record<string, number> {
+    const records: Record<string, number> = {}
 
     for (const [eventKey, userMap] of this.visits.entries()) {
       const record = userMap.get(userId)
@@ -177,8 +174,8 @@ export class UserVisitManager {
   /**
    * 全訪問記録をeventKey別にグループ化して取得
    */
-  getGrouped(): Record<EventKey, UserVisitRecord[]> {
-    const result: Record<EventKey, UserVisitRecord[]> = {}
+  getGrouped(): Record<string, UserVisitRecord[]> {
+    const result: Record<string, UserVisitRecord[]> = {}
 
     for (const [eventKey, userMap] of this.visits.entries()) {
       result[eventKey] = Array.from(userMap.values())
@@ -190,7 +187,7 @@ export class UserVisitManager {
   /**
    * 統計情報（デバッグ・分析用）
    */
-  getStatistics(eventKey?: EventKey): {
+  getStatistics(eventKey?: string): {
     totalRecords: number
     totalVisits: number
     uniqueUsers: number
@@ -218,14 +215,14 @@ export class UserVisitManager {
   /**
    * 指定ユーザー・イベントの記録を削除
    */
-  resetUser(userId: UserId, eventKey: EventKey): void {
+  resetUser(userId: string, eventKey: string): void {
     this.visits.get(eventKey)?.delete(userId)
   }
 
   /**
    * 指定イベントの記録を全削除
    */
-  resetEvent(eventKey: EventKey): void {
+  resetEvent(eventKey: string): void {
     console.log('[resetEvent] before', eventKey, this.visits.get(eventKey))
     this.visits.delete(eventKey)
     console.log('[resetEvent] after', eventKey, this.visits.get(eventKey))
@@ -245,7 +242,7 @@ export class UserVisitManager {
   /**
    * イベントリスナーを登録（解除用関数を返す）
    */
-  onVisit(eventKey: EventKey, listener: VisitEventListener): () => void {
+  onVisit(eventKey: string, listener: VisitEventListener): () => void {
     if (!this.listeners.has(eventKey)) {
       this.listeners.set(eventKey, new Set())
     }
@@ -255,7 +252,7 @@ export class UserVisitManager {
     return () => this.listeners.get(eventKey)?.delete(listener)
   }
 
-  private notifyListeners(eventKey: EventKey, record: UserVisitRecord): void {
+  private notifyListeners(eventKey: string, record: UserVisitRecord): void {
     this.listeners.get(eventKey)?.forEach((l) => l(record))
   }
 }

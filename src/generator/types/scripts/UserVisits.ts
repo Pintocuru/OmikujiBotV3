@@ -17,6 +17,7 @@ export type UserVisitRecord = z.infer<typeof UserVisitRecordSchema>
 
 /**
  * 全体の訪問情報
+ * TODO:もっとネストすべきでは？読みづらい。
  */
 export const UserStatsRecordSchema = z.object({
   ...UserNameSchema.shape,

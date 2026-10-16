@@ -1,8 +1,11 @@
 // src/generator/scripts/EventProcess/ReactionTriggerEvaluator.ts
-import { ReactionStatsManagerType } from '@/generator/stores/ReactionManager/ReactionStatsManager'
+import { ReactionStatsManagerType } from '@/generator/types'
 import type { ReactionTriggerType } from '@/types/OmikujiData'
 import type { ReactionReaction } from '@/types/OmikujiData/events/ReactionTriggerSchema'
 
+/**
+ * リアクションのトリガーを評価
+ */
 export function evaluateReactionTrigger(trigger: ReactionTriggerType, stats: ReactionStatsManagerType): boolean {
   const { reactions, comparison, value, triggerLevel } = trigger
 
@@ -30,10 +33,6 @@ export function evaluateReactionTrigger(trigger: ReactionTriggerType, stats: Rea
       return false
   }
 }
-
-// -------------------------------------------------------
-// 各条件の評価
-// -------------------------------------------------------
 
 /**
  * milestone: 累計がvalueの倍数に達するたびに発火

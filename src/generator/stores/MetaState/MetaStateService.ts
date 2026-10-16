@@ -1,19 +1,9 @@
 // src/generator/stores/MetaState/MetaStateService.ts
+import { MetaServiceStatus, MetaUpdateEvent, NormalizedMeta, ServiceMetaStoreType } from '@/generator/types'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { ServiceMetaWatcher } from '@/sdk/subscribe/GetServiceMeta'
 import { isDev } from '@/types/env'
 import { ServiceMeta } from '@onecomme.com/onesdk/types/Service'
-
-export interface ServiceMetaStoreType {
-  subscribe(fn: (meta: MetaUpdateEvent) => void): () => void
-  subscribeError(fn: (error: unknown) => void): () => void
-  getStatus(): MetaServiceStatus
-  getLastError(): unknown
-  getCurrent(): NormalizedMeta | null
-  getPeak(): { upVote: number; viewer: number }
-  // Dev only
-  _devSetMeta?(meta: Partial<NormalizedMeta>): void
-}
 
 const DEV_DEFAULT_META: NormalizedMeta = {
   isLive: false,
@@ -33,15 +23,24 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
   private status: 'idle' | 'loading' | 'ready' | 'error' = 'idle'
   private errorSubscribers: Array<(error: unknown) => void> = []
 
+  /**
+   * メタステートサービスのインスタンスを取得する
+   */
   static getInstance() {
     if (!this.instance) this.instance = new ServiceMetaStore()
     return this.instance
   }
 
+  /**
+   * メタステートサービスのコンストラクタ
+   */
   private constructor() {
     this.initialize()
   }
 
+  /**
+   * メタステートサービスの初期化
+   */
   private async initialize() {
     this.setStatus('loading')
 
@@ -69,10 +68,16 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     }
   }
 
+  /**
+   * ステータスの更新
+   */
   private setStatus(next: MetaServiceStatus) {
     this.status = next
   }
 
+  /**
+   * メタの更新
+   */
   private handleMeta(rawServiceMeta: ServiceMeta | NormalizedMeta | null) {
     const normalized = this.normalize(rawServiceMeta)
 
@@ -83,6 +88,9 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     this.notifySubscribers(peakChanged)
   }
 
+  /**
+   * サービスメタを正規化されたメタに変換する
+   */
   private normalize(meta: ServiceMeta | NormalizedMeta | null): NormalizedMeta {
     if (meta && 'isLive' in meta && 'follower' in meta) {
       // すでに NormalizedMeta の形の場合（開発時の直接セットなど）
@@ -98,6 +106,9 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     }
   }
 
+  /**
+   * ピークの更新
+   */
   private updatePeak(meta: NormalizedMeta) {
     const peakChanged = {
       upVote: meta.upVote > this.peak.upVote,
@@ -110,6 +121,9 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     return peakChanged
   }
 
+  /**
+   * サブスクライバーに通知する
+   */
   private notifySubscribers(peakChanged: { upVote: boolean; viewer: boolean }) {
     if (!this.current) return
 
@@ -129,6 +143,9 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     }
   }
 
+  /**
+   * メタ更新の購読
+   */
   subscribe(fn: (meta: MetaUpdateEvent) => void): () => void {
     this.subscribers.push(fn)
     return () => {
@@ -136,11 +153,17 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     }
   }
 
+  /**
+   * 数値に変換する
+   */
   private toNumber(value: unknown) {
     const n = Number(value)
     return Number.isFinite(n) ? n : 0
   }
 
+  /**
+   * エラー通知
+   */
   private notifyError(error: unknown) {
     this.lastError = error
     this.setStatus('error')
@@ -153,6 +176,9 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     }
   }
 
+  /**
+   * エラー購読
+   */
   subscribeError(fn: (error: unknown) => void) {
     this.errorSubscribers.push(fn)
     return () => {
@@ -160,18 +186,30 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     }
   }
 
+  /**
+   * ステータスの取得
+   */
   getStatus(): MetaServiceStatus {
     return this.status
   }
 
+  /**
+   * エラーの取得
+   */
   getLastError(): unknown {
     return this.lastError
   }
 
+  /**
+   * メタの取得
+   */
   getCurrent(): NormalizedMeta | null {
     return this.current
   }
 
+  /**
+   * ピークの取得
+   */
   getPeak() {
     return { ...this.peak }
   }
@@ -183,28 +221,5 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     if (!isDev) return
     const base = this.current ?? DEV_DEFAULT_META
     this.handleMeta({ ...base, ...partial })
-  }
-}
-
-export type MetaServiceStatus = 'idle' | 'loading' | 'ready' | 'error'
-
-export interface NormalizedMeta {
-  isLive: boolean
-  upVote: number
-  viewer: number
-  follower: number
-  startTime: number | null
-}
-
-export interface MetaUpdateEvent {
-  current: NormalizedMeta
-  previous: NormalizedMeta | null
-  peak: {
-    upVote: number
-    viewer: number
-  }
-  peakChanged: {
-    upVote: boolean
-    viewer: boolean
   }
 }
