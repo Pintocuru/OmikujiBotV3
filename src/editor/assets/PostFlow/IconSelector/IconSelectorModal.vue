@@ -16,7 +16,7 @@
 <script setup lang="ts">
   import { ref, computed, type Ref } from 'vue'
   import EmotionGrid from '@/editor/assets/characters/CharacterImage/EmotionGrid.vue'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
 
   const props = defineProps<{
     characterKey: string
@@ -27,7 +27,7 @@
     'select:icon': [iconKey: string]
   }>()
 
-  const { characterMap } = useCharacterManager()
+  const { characterMap } = useCharacterLookup()
   const modalRef: Ref<HTMLDialogElement | null> = ref(null)
 
   const characterName = computed(() => characterMap.value[props.characterKey]?.name ?? '')

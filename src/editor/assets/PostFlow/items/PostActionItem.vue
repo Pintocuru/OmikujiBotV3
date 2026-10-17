@@ -49,13 +49,24 @@
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
-  import { PostFlowSchema, PostFlowType, PostFlowKind } from '@/types/OmikujiData'
+  import {
+    PostFlowType,
+    PostFlowKind,
+    PostFlowVariableSchema,
+    PostFlowGameSchema,
+    PostFlowBotSchema,
+    PostFlowCallSchema,
+    PostFlowMessageSchema,
+    PostFlowSoundSchema,
+    PostFlowWordPartySchema,
+  } from '@/types/OmikujiData'
   import MessageSettings from '../Message/MessageSettings.vue'
   import SoundSettings from '../Sounds/SoundSettings.vue'
   import WordPartySettings from '../WordParty/WordPartySettings.vue'
   import VariableSettings from '../variable/VariableSettings.vue'
   import ActionSetSettings from '../actions/ActionSetSettings.vue'
   import PostActionPreview from '../preview/PostActionPreview.vue'
+  import GameScriptSettings from '../gameScript/GameScriptSettings.vue'
   import BotSettings from '../Bot/BotSettings.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -84,8 +95,7 @@
       sound: SoundSettings,
       wordParty: WordPartySettings,
       variable: VariableSettings,
-      // TODO:gameScript の コンポーネントを新規作成
-      gameScript: VariableSettings,
+      gameScript: GameScriptSettings,
       bot: BotSettings,
       flowCall: ActionSetSettings,
     }
@@ -100,37 +110,116 @@
   })
 
   // actionType 別の生データキャッシュ
-  const rawActionCache = ref<Partial<Record<PostFlowKind, any>>>({})
+  const rawActionCache = ref<Partial<Record<PostFlowKind, PostFlowType>>>({})
 
   // アクションタイプの更新
+  const createDefaultAction = (kind: PostFlowKind, delaySeconds: number): PostFlowType => {
+    switch (kind) {
+      case 'message':
+        return {
+          kind,
+          delaySeconds,
+          characterKey: null,
+          iconKey: 'default',
+          sound: '',
+          soundPath: '',
+          message: '',
+        } satisfies Extract<PostFlowType, { kind: 'message' }>
+
+      case 'sound':
+        return {
+          kind,
+          delaySeconds,
+          sound: '',
+          soundPath: '',
+        } satisfies Extract<PostFlowType, { kind: 'sound' }>
+
+      case 'wordParty':
+        return {
+          kind,
+          delaySeconds,
+          wordPartyId: '',
+          repeat: 1,
+        } satisfies Extract<PostFlowType, { kind: 'wordParty' }>
+
+      case 'variable':
+        return {
+          kind,
+          delaySeconds,
+          message: '',
+        } satisfies Extract<PostFlowType, { kind: 'variable' }>
+
+      case 'gameScript':
+        return {
+          kind,
+          delaySeconds,
+          scriptId: '',
+          characterKey: '',
+          queryString: '',
+        } satisfies Extract<PostFlowType, { kind: 'gameScript' }>
+
+      case 'bot':
+        return {
+          kind,
+          delaySeconds,
+          botName: '',
+          message: '',
+        } satisfies Extract<PostFlowType, { kind: 'bot' }>
+
+      case 'flowCall':
+        return {
+          kind,
+          delaySeconds,
+          callKeys: [],
+        } satisfies Extract<PostFlowType, { kind: 'flowCall' }>
+    }
+  }
+
   const updateActionType = (newType: PostFlowKind) => {
-    const currentType = props.action.kind
+    const current = props.action
 
-    // ① 現在の状態を退避
-    rawActionCache.value[currentType] = {
-      ...rawActionCache.value[currentType],
-      ...props.action,
+    if (current.kind === newType) return
+
+    // 現在のアクションをキャッシュ
+    rawActionCache.value[current.kind] = { ...current }
+
+    // 切り替え先のキャッシュを復元。なければ初期値を生成
+    const restored = rawActionCache.value[newType] ?? createDefaultAction(newType, current.delaySeconds)
+
+    // 種類ごとのスキーマで解析する
+    const actionData = {
+      ...restored,
+      kind: newType,
+      delaySeconds: current.delaySeconds,
     }
 
-    // ② 復元候補を取得（なければ最低限のベース）
-    const restored = rawActionCache.value[newType] ?? {
-      ...props.action,
-      delaySeconds: props.action.delaySeconds,
-      actionType: newType,
-      actionSetKeys: [''],
+    let newAction: PostFlowType
+
+    switch (newType) {
+      case 'message':
+        newAction = PostFlowMessageSchema.parse(actionData)
+        break
+      case 'sound':
+        newAction = PostFlowSoundSchema.parse(actionData)
+        break
+      case 'wordParty':
+        newAction = PostFlowWordPartySchema.parse(actionData)
+        break
+      case 'variable':
+        newAction = PostFlowVariableSchema.parse(actionData)
+        break
+      case 'gameScript':
+        newAction = PostFlowGameSchema.parse(actionData)
+        break
+      case 'bot':
+        newAction = PostFlowBotSchema.parse(actionData)
+        break
+      case 'flowCall':
+        newAction = PostFlowCallSchema.parse(actionData)
+        break
     }
 
-    try {
-      // ③ Zodで正規化
-      const newAction = PostFlowSchema.parse({
-        ...restored,
-        actionType: newType,
-      })
-
-      emit('update:action', newAction)
-    } catch (error) {
-      console.error(`Action type change failed Zod validation for type "${newType}":`, error)
-    }
+    emit('update:action', newAction)
   }
 
   // アクション更新のハンドラー

@@ -8,7 +8,7 @@
       class="select select-bordered w-full max-w-xs"
     >
       <option v-for="(value, key) in displayModeMap" :key="key" :value="key">
-        {{ value }}
+        {{ value.label }}
       </option>
     </select>
   </SettingItem>
@@ -41,6 +41,14 @@
       :backgroundColor="backgroundColor"
       :onUpdate="props.onUpdate"
     />
+  </template>
+
+  <template v-else-if="currentDisplayOption.mode === 'voice'">
+    <!-- 補足説明 -->
+    <InformationCard>
+      わんコメの「規定読み上げエンジン」のボイスで読み上げるようになります。<br />
+      ジェネレーターには、コメントが表示されません。
+    </InformationCard>
   </template>
 </template>
 

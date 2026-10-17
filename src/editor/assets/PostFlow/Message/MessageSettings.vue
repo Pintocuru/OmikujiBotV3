@@ -31,7 +31,7 @@
   import MessageTextDialog from './MessageTextDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SoundSettings from '../Sounds/SoundSettings.vue'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup.js'
 
   const props = defineProps<{
     action: PostFlowMessageType
@@ -42,7 +42,7 @@
   }>()
 
   const { data } = useOmikujiStore()
-  const { characterMap } = useCharacterManager()
+  const { characterMap } = useCharacterLookup()
 
   const soundEnabled = computed(() => data.settings.generator.soundEnabled)
 

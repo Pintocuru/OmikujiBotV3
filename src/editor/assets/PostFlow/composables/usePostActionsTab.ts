@@ -1,13 +1,13 @@
 // src/editor/assets/PostFlow/composables/usePostActionsTab.ts
 import { computed, Ref, ref, watch } from 'vue'
 import { PostFlowMessageSchema, PostFlowMessageType, PostFlowType } from '@/types/OmikujiData/'
-import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
 
 export function usePostActionsTab(
   actions: Ref<PostFlowType[]>,
   emit: (event: 'update:actions', actions: PostFlowType[]) => void
 ) {
-  const { characterArray } = useCharacterManager()
+  const { characterArray } = useCharacterLookup()
 
   // アクティブなタブのインデックス（-1はプレースホルダータブ）
   const activeTab = ref(0)

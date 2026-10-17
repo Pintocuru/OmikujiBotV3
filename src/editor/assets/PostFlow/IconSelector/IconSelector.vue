@@ -31,8 +31,8 @@
 <script setup lang="ts">
   import { ref, computed, Ref } from 'vue'
   import IconSelectorModal from './IconSelectorModal.vue'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import { User } from 'lucide-vue-next'
+  import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup.js'
 
   const props = defineProps<{
     characterKey: string
@@ -44,7 +44,7 @@
     showSelector: [characterKey: string, iconKey: string]
   }>()
 
-  const { characterMap } = useCharacterManager()
+  const { characterMap } = useCharacterLookup()
 
   const selectOptions = computed<Record<string, string>>(() => {
     return Object.fromEntries(

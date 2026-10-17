@@ -37,7 +37,10 @@
   import { useBotDisplay } from './composables/useBotDisplay'
 
   const appStore = useAppStore()
-  const { characterMap, hasImage, iconSrc, getCharacterLayers, getCharacterAnimation } = useCharacterManager()
+
+  const { characterMap, hasImage, iconSrc, getCharacterLayers, getCharacterAnimation } = useCharacterManager(
+    () => appStore.data.assets.characters
+  )
 
   // 設定（未設定ならスキーマの既定値）
   const setting = computed(() => appStore.data.ui.settings.commentBubble ?? CommentBubbleSchema.parse({}))
