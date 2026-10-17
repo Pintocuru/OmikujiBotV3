@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { DataCategoryType, OmikujiDataType, UiKind } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { normalizeData } from '@/common/migrations'
+import { normalizeData } from '@/common/migrations/v2'
 import { generateCategoryPreview, generateComponentPreview } from './importHelpers'
 import { CategoryImportConfig, ComponentImportConfig, ImportPreview } from '@/editor/types'
 

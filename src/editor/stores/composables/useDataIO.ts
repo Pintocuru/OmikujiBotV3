@@ -2,7 +2,7 @@
 import { Ref } from 'vue'
 import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
 import { DataSource } from '@/editor/types'
-import { normalizeData } from '@/common/migrations'
+import { normalizeData } from '@/common/migrations/v2'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 
 /**

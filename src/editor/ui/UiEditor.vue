@@ -5,27 +5,12 @@
     <SectionCard
       variant="warning"
       icon="LayoutGrid"
-      title="アイテム有効・無効切り替え"
-      description="消し忘れがないかチェックしたか？"
+      title="レイアウト"
+      description="ジェネレーターで使用するレイアウトの切り替え"
     >
-      <ItemsSettings />
-    </SectionCard>
-    <SectionCard variant="warning" icon="LayoutGrid" title="レイアウト" description="専用レイアウトの切り替え">
       <LayoutEditor />
     </SectionCard>
   </template>
-
-  <!-- 共通設定（レイアウトの有無に関わらず常に表示） -->
-  <SectionCard
-    id="section-commonStyle"
-    icon="Palette"
-    :isOpen="activeSection === 'commonStyle'"
-    @toggle="toggleSection('commonStyle')"
-    title="共通設定"
-    description="フォントなど、すべての表示に共通する設定"
-  >
-    <FontFamilyEditor />
-  </SectionCard>
 
   <!-- 各 UI の設定（選択中レイアウトが使う UI のうち、main.ts で登録されたもの） -->
   <template v-for="[kind, item] in visibleItems" :key="kind">
@@ -40,6 +25,18 @@
       <component :is="item.component" />
     </SectionCard>
   </template>
+
+  <!-- 共通設定（レイアウトの有無に関わらず常に表示） -->
+  <SectionCard
+    id="section-commonStyle"
+    icon="Palette"
+    :isOpen="activeSection === 'commonStyle'"
+    @toggle="toggleSection('commonStyle')"
+    title="共通設定"
+    description="フォントなど、すべての表示に共通する設定"
+  >
+    <FontFamilyEditor />
+  </SectionCard>
 </template>
 
 <script setup lang="ts">
@@ -51,7 +48,6 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SectionCard from '@/editor/parts/SectionCard.vue'
   import { getUiEditorEntries } from './uiEditorRegistry'
-  import ItemsSettings from './conditions/ItemsSettings.vue'
   import LayoutEditor from './conditions/LayoutEditor.vue'
   import FontFamilyEditor from './common/FontFamilyEditor.vue'
 

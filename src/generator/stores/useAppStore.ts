@@ -5,7 +5,7 @@ import { OmikujiDataType } from '@/types/OmikujiData'
 import { useAppStatus } from './useAppStatus'
 import { useBotMessageActions } from './useBotMessageActions'
 import { createAppServices } from './createAppServices'
-import { normalizeData } from '@/common/migrations'
+import { normalizeData } from '@/common/migrations/v2'
 import { useOmikensActions } from './useOmikensActions'
 
 // グローバルデータの初期化
