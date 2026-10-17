@@ -1,5 +1,5 @@
 // packages/common/StrawberryChocolate/build.ts
-import { createPackageProject } from '@tools/buildOptions/baseSettings'
+import { createPackageProject } from '@tools/webpackBuild/projectFactory'
 import { PackageBuildTarget, ProjectPackageConfig, ProjectParams } from '@tools/types'
 
 const PROJECT = {
@@ -32,8 +32,8 @@ const COLOR_VARIANTS = ['', 'Pro'] as const
 
 // ビルドターゲット
 const buildTargets: PackageBuildTarget[] = [
-  { project: 'StrawberryChocolate', type: 'FULL', sourceProject: 'OmikujiBot' },
-  { project: 'StrawberryChocolatePro', type: 'FULL', sourceProject: 'OmikujiBot' },
+  { project: 'StrawberryChocolate', type: 'FULL' },
+  { project: 'StrawberryChocolatePro', type: 'FULL' },
   { project: 'StrawberryChocolate', type: 'JSON' },
 ]
 

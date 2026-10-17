@@ -8,7 +8,7 @@ import {
   ResolvedCoreBuildConfig,
 } from '@tools/types'
 import { resolveCoreBuildConfigs, resolvePackageBuildConfigs } from './core/ConfigResolver'
-import { executeCoreBuild, executePackageBuild } from './core/BuildExecutor'
+import { executeCoreBuild, executePackageBuild, Bundler } from './core/BuildExecutor'
 import { buildZipFolders } from './utils/ZipBuilder'
 import { createCoreFingerprint } from './utils/BuildFingerprint'
 import { loadBuildMeta } from './utils/BuildMetaStore'
@@ -17,13 +17,20 @@ import path from 'path'
 export interface WebpackBuilderOptions {
   coreTargets: CoreBuildTarget[]
   packageTargets: PackageBuildTarget[]
-  onBeforeCoreBuild?: () => void | Promise<void>
+  /** 最初の webpack ビルドの直前に1回だけ実行 (型チェックなど。コア/パッケージ問わず) */
+  onBeforeBuild?: () => void | Promise<void>
+  /**
+   * パッケージ(FULL)のビルドに使うバンドラー。既定は webpack(配布用)。
+   * vite は個人利用・試験用: 出力フォルダ名に _vite が付き、ZIP 化しない。コアは常に webpack
+   */
+  bundler?: Bundler
 }
 
 export class WebpackBuilder {
   private coreProjects: Map<string, ProjectCoreConfig> = new Map()
   private packageProjects: Map<string, ProjectPackageConfig> = new Map()
   private coreOutputPaths: Map<string, string> = new Map() // コアビルドの出力パスを記録
+  private beforeBuildDone = false
 
   constructor(private commonData: SystemCommonData) {}
 
@@ -47,7 +54,7 @@ export class WebpackBuilder {
    * ビルドを実行
    */
   async build(options: WebpackBuilderOptions): Promise<void> {
-    const { coreTargets, packageTargets, onBeforeCoreBuild } = options
+    const { coreTargets, packageTargets, onBeforeBuild, bundler = 'webpack' } = options
 
     if (coreTargets.length === 0 && packageTargets.length === 0) {
       console.warn('[Build] No build targets provided')
@@ -61,21 +68,21 @@ export class WebpackBuilder {
     try {
       // 1. コアビルドを実行
       if (coreTargets.length > 0) {
-        await this.executeCoreBuildPhase(coreTargets, onBeforeCoreBuild)
+        await this.executeCoreBuildPhase(coreTargets, onBeforeBuild)
       }
 
       // 2. パッケージビルドを実行
       if (packageTargets.length > 0) {
-        await this.executePackageBuildPhase(packageTargets)
+        await this.executePackageBuildPhase(packageTargets, onBeforeBuild, bundler)
       }
 
-      // 3. ZIP化 (先頭のコアの packageRoot を対象にする)
-      if (coreTargets.length > 0) {
-        const project = this.coreProjects.get(coreTargets[0].project)
-        if (project) {
-          const isMultipleBuilds = coreTargets.length + packageTargets.length > 1
-          await buildZipFolders(project.packageRoot, isMultipleBuilds)
-        }
+      // 3. ZIP化 (先頭のコア、コアが無ければ先頭のパッケージの packageRoot を対象にする)
+      const rootProject =
+        (coreTargets.length > 0 && this.coreProjects.get(coreTargets[0].project)) ||
+        (packageTargets.length > 0 && this.packageProjects.get(packageTargets[0].project))
+      if (rootProject && bundler === 'webpack') {
+        const isMultipleBuilds = coreTargets.length + packageTargets.length > 1
+        await buildZipFolders(rootProject.packageRoot, isMultipleBuilds)
       }
 
       console.log('[Build] All builds completed successfully!')
@@ -90,7 +97,7 @@ export class WebpackBuilder {
    */
   private async executeCoreBuildPhase(
     targets: CoreBuildTarget[],
-    onBeforeCoreBuild?: () => void | Promise<void>
+    onBeforeBuild?: () => void | Promise<void>
   ): Promise<void> {
     console.log('\n[Core Build Phase] Starting...')
 
@@ -122,7 +129,7 @@ export class WebpackBuilder {
       return
     }
 
-    if (onBeforeCoreBuild) await onBeforeCoreBuild()
+    await this.runBeforeBuildOnce(onBeforeBuild)
 
     for (const config of configsToBuild) {
       await executeCoreBuild(config)
@@ -134,7 +141,11 @@ export class WebpackBuilder {
   /**
    * パッケージビルドフェーズを実行
    */
-  private async executePackageBuildPhase(targets: PackageBuildTarget[]): Promise<void> {
+  private async executePackageBuildPhase(
+    targets: PackageBuildTarget[],
+    onBeforeBuild?: () => void | Promise<void>,
+    bundler: Bundler = 'webpack'
+  ): Promise<void> {
     console.log('\n[Package Build Phase] Starting...')
 
     const resolvedConfigs = resolvePackageBuildConfigs(
@@ -142,6 +153,11 @@ export class WebpackBuilder {
       this.packageProjects,
       this.commonData,
       this.coreOutputPaths
+    ).map((config) =>
+      // vite の試験ビルドは、配布用と取り違えないようフォルダ名で区別する
+      bundler === 'vite' && config.packageType === 'FULL'
+        ? { ...config, outputFolderName: `${config.outputFolderName}_vite` }
+        : config
     )
 
     if (resolvedConfigs.length === 0) {
@@ -149,10 +165,24 @@ export class WebpackBuilder {
       return
     }
 
+    // webpack を通す FULL がある場合のみ、他の出力を消さないよう最初に1回だけ実行
+    if (resolvedConfigs.some((config) => config.packageType === 'FULL')) {
+      await this.runBeforeBuildOnce(onBeforeBuild)
+    }
+
     for (const config of resolvedConfigs) {
-      await executePackageBuild(config)
+      await executePackageBuild(config, bundler)
     }
 
     console.log('[Package Build Phase] Completed')
+  }
+
+  /**
+   * ビルド前フックを(まだ実行していなければ)実行
+   */
+  private async runBeforeBuildOnce(hook?: () => void | Promise<void>): Promise<void> {
+    if (!hook || this.beforeBuildDone) return
+    this.beforeBuildDone = true
+    await hook()
   }
 }

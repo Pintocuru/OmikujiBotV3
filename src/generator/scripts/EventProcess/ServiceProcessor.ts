@@ -1,7 +1,7 @@
 // src/generator/scripts/EventProcess/ServiceProcessor.ts
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
 import { evaluateServiceTrigger } from './ServiceTriggerEvaluator'
-import { MetaUpdateEvent } from '@/generator/stores/MetaState/MetaStateService'
+import { MetaUpdateEvent } from '@/generator/types'
 import { useAppStore } from '@/generator/stores/useAppStore'
 
 /**

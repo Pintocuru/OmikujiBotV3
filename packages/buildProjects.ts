@@ -8,7 +8,7 @@ import Common from './common'
  * エディターを更新したら必ずビルドする基盤部分
  */
 export const coreTargets: CoreBuildTarget[] = [
-  { project: 'OmikujiBot' }, // MainGenerator + ConfigMaker
+  // { project: 'OmikujiBot' }, // MainGenerator + ConfigMaker (entry が src/MainGenerator など旧構成のため停止中)
 ]
 
 const corePackages = [OmikujiBot].flat()

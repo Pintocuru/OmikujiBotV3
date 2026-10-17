@@ -1,5 +1,5 @@
 // build/common/OmikujiBotSpecial.ts
-import { createPackageProject } from '@tools/buildOptions/baseSettings'
+import { createPackageProject } from '@tools/webpackBuild/projectFactory'
 import { PackageBuildTarget, ProjectPackageConfig, ProjectParams } from '@tools/types'
 
 const PROJECT = {

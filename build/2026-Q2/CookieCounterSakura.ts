@@ -1,5 +1,5 @@
 // build/2026-Q2/CookieCounterSakura.ts
-import { createPackageProject } from '@tools/buildOptions/baseSettings'
+import { createPackageProject } from '@tools/webpackBuild/projectFactory'
 import { PackageBuildTarget, ProjectPackageConfig, ProjectParams } from '@tools/types'
 
 const PROJECT = {

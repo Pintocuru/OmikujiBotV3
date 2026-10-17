@@ -9,7 +9,8 @@
     "test:omikujiBot": "vitest run MetaRuleProcessor",
     "build:omikujiBotVite": "vite build --config tools/viteConfig/vite.main.config.ts",
     "build:omikujiBotPlugin": "vite build --config tools/viteConfig/vite.botPlugin.config.ts",
-    "build:omikujiBot": "tsx build/build.ts"
+    "build:omikujiBot": "tsx packages/build.ts",
+    "build:omikujiBotTrial": "tsx packages/build.ts --bundler=vite"
   },
   "author": "Pintocuru",
   "license": "Apache-2.0",

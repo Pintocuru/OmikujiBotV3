@@ -1,6 +1,6 @@
 // src/ui/types/CommentBubbleSchema.ts
 import { z } from 'zod'
-import { enterMotions } from '@/types/OmikujiData'
+import { enterMotions } from '@/types/OmikujiData/assets/EnterMotionSchema'
 
 /**
  * フキダシ・キャラクター

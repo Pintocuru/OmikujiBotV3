@@ -1,6 +1,6 @@
 // tools/webpackBuild/buildOptions/plugins.ts
 import webpack from 'webpack'
-import { ResolvedCoreBuildConfig } from '@tools/types'
+import { WebpackBuildInput } from '@tools/types'
 import { VueLoaderPlugin } from 'vue-loader'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
@@ -10,7 +10,7 @@ import CircularDependencyPlugin from 'circular-dependency-plugin'
 /**
  * Webpackプラグインを作成
  */
-export function createPlugins(config: ResolvedCoreBuildConfig): webpack.WebpackPluginInstance[] {
+export function createPlugins(config: WebpackBuildInput): webpack.WebpackPluginInstance[] {
   const { entryPoints, addHtmlTemplate } = config
 
   return [
@@ -50,7 +50,7 @@ function createHtmlPlugins(entryPoints: string | Record<string, string>, addHtml
  * HTMLテンプレートを作成
  * <script src="./assets/onesdk.js"></script>
  */
-function createHtmlTemplate(addHtmlTemplate: string): string {
+export function createHtmlTemplate(addHtmlTemplate: string): string {
   return `<!DOCTYPE html>
 <html>
   <head>

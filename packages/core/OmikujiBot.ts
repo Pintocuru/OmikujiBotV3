@@ -1,6 +1,6 @@
 // packages/core/OmikujiBot.ts
 import path from 'path'
-import { createCoreBuildConfig, DEFAULT_FILES_TO_COPY } from '@tools/buildOptions/baseSettings'
+import { createCoreBuildConfig, DEFAULT_FILES_TO_COPY } from '@tools/webpackBuild/projectFactory'
 import { ProjectCoreConfig } from '@tools/types'
 import { APP_VERSION } from '@/version'
 

@@ -2,6 +2,9 @@
 import { ResolvedCoreBuildConfig, ResolvedPackageBuildConfig } from '@tools/types'
 import { processPostBuild } from '../processors/PostBuildProcessor'
 import { runWebpack } from './WebpackRunner'
+import { runVite } from './ViteRunner'
+
+export type Bundler = 'webpack' | 'vite'
 import { cleanOutputDir, copyFiles, copyDirectoryRecursive } from '../processors/file/FileCopier'
 import { createBuildOptions } from '../buildOptions/buildOptions'
 import path from 'path'
@@ -37,7 +40,10 @@ export async function executeCoreBuild(config: ResolvedCoreBuildConfig): Promise
 /**
  * パッケージビルドを実行
  */
-export async function executePackageBuild(config: ResolvedPackageBuildConfig): Promise<void> {
+export async function executePackageBuild(
+  config: ResolvedPackageBuildConfig,
+  bundler: Bundler = 'webpack'
+): Promise<void> {
   const outputSubDir = config.outputFolderName
   console.log(`\n[Package Build] Building: ${outputSubDir} (Type: ${config.packageType})`)
 
@@ -46,8 +52,16 @@ export async function executePackageBuild(config: ResolvedPackageBuildConfig): P
     const distPath = await cleanOutputDir(config.packageRoot, outputSubDir)
     console.log(`  [Clean] Output directory: ${distPath}`)
 
-    // JSON タイプ以外の場合、コアパッケージをコピー
-    if (config.packageType !== 'JSON') {
+    if (config.packageType === 'FULL') {
+      // FULL: パッケージの main.ts (entryPoints) をビルド (配布は webpack、試験用は vite)
+      if (bundler === 'vite') {
+        await runVite(config, outputSubDir)
+      } else {
+        await runWebpack(createBuildOptions(config, outputSubDir))
+      }
+      console.log(`  [${bundler}] Entry: ${JSON.stringify(config.entryPoints)}`)
+    } else if (config.packageType === 'PATCH') {
+      // PATCH: コアパッケージをコピー
       if (!config.sourceCorePath) {
         throw new Error(`[Package Build] sourceCorePath is required for ${config.packageType} build type`)
       }

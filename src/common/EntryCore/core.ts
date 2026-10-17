@@ -2,10 +2,9 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { MotionPlugin } from '@vueuse/motion'
-import i18n from '@/editor/i18n'
 import '../../../assets/styles/font.css'
 
-function createBaseApp(AppComponent: any, props?: any) {
+export function createBaseApp(AppComponent: any, props?: any) {
   const pinia = createPinia()
   const app = createApp(AppComponent, props)
 
@@ -34,11 +33,4 @@ export async function createAppOneSDK(AppComponent: any, props?: any) {
     return
   }
   OneSDK.ready().then(() => app.mount('#App'))
-}
-
-// ConfigMaker用：OneSDKへの依存ゼロ
-export function createAppNotOneSDK(AppComponent: any, props?: any) {
-  const app = createBaseApp(AppComponent, props)
-  app.use(i18n)
-  app.mount('#App')
 }

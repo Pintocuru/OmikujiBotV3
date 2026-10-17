@@ -60,8 +60,8 @@ function resolvePackageConfig(
 ): ResolvedPackageBuildConfig | null {
   let sourceCorePath: string | undefined
 
-  // JSON タイプ以外の場合のみ、コアビルドのパスを取得
-  if (target.type !== 'JSON') {
+  // PATCH の場合のみ、コアビルドのパスを取得 (FULL は main.ts を webpack でビルドする)
+  if (target.type === 'PATCH') {
     if (!target.sourceProject) {
       console.warn(`[Build] sourceProject is required for '${target.type}' build type`)
       return null

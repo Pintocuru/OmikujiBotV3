@@ -1,5 +1,5 @@
 // src/generator/scripts/EventProcess/ServiceTriggerEvaluator.ts
-import { MetaUpdateEvent } from '@/generator/stores/MetaState/MetaStateService'
+import { MetaUpdateEvent } from '@/generator/types'
 import { ServiceConditionType, ServiceTriggerType } from '@/types/OmikujiData/'
 
 /**

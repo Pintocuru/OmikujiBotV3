@@ -18,10 +18,13 @@ dotenv.config({ path: path.resolve(__dirname, '../.env.development') })
 if (!process.env.PACKAGE_ROOT) throw new Error('.envファイルが読めないみたい')
 const packageRoot = process.env.PACKAGE_ROOT
 
+// --bundler=vite で、パッケージ(FULL)を Vite で試験ビルド (既定: webpack = 配布用)
+const bundler = process.argv.includes('--bundler=vite') ? 'vite' : 'webpack'
+
 /**
  * 型チェック + ESLint を本番前チェックとして実行
  */
-function runPreBuildChecks() {
+async function runPreBuildChecks() {
   // dist削除
   cleanDist(packageRoot)
 
@@ -37,7 +40,7 @@ function runPreBuildChecks() {
   console.log('[Check] All checks passed')
 
   // shims-vue.d.ts を生成
-  CreateShimsVue(packageRoot)
+  await CreateShimsVue(packageRoot)
 }
 
 ;(async () => {
@@ -59,7 +62,8 @@ function runPreBuildChecks() {
     await builder.build({
       coreTargets,
       packageTargets,
-      onBeforeCoreBuild: runPreBuildChecks,
+      onBeforeBuild: runPreBuildChecks,
+      bundler,
     })
 
     // shims-vue.d.ts を削除

@@ -3,7 +3,7 @@
 import { PackageJsonType } from '@/types/core'
 
 /**
- * プロジェクト固有パラメータ (build/ 配下の各パッケージ定義が渡す値)
+ * プロジェクト固有パラメータ (packages/ 配下の各パッケージ定義が渡す値)
  */
 export type ProjectParams = {
   key: string
@@ -29,17 +29,24 @@ interface ProjectBaseConfig {
 }
 
 /**
- * コアプロジェクト設定 (webpack を通すのはコアだけ)
+ * webpack に渡すアクセスポイント関連の設定
  */
-export interface ProjectCoreConfig extends ProjectBaseConfig {
+export interface ProjectWebpackConfig {
   entryPoints: string | Record<string, string>
   addHtmlTemplate: string
 }
 
 /**
- * パッケージプロジェクト設定 (コアのビルド成果物 + JSON などを梱包する。webpack は通さない)
+ * コアプロジェクト設定
  */
-export interface ProjectPackageConfig extends ProjectBaseConfig {
+export interface ProjectCoreConfig extends ProjectBaseConfig, ProjectWebpackConfig {}
+
+/**
+ * パッケージプロジェクト設定
+ * - FULL: entryPoints (packages/<category>/<key>/main.ts) を webpack でビルドして梱包する
+ * - PATCH / JSON: webpack は通さない
+ */
+export interface ProjectPackageConfig extends ProjectBaseConfig, ProjectWebpackConfig {
   name: string
   tags: string[]
   banner?: string
@@ -87,12 +94,12 @@ export interface CoreBuildTarget {
 export interface PackageBuildTarget {
   project: string // プロジェクト名
   type: PackageType // パッケージタイプ
-  sourceProject?: string // コピー元のコアプロジェクト名（JSON タイプでは不要）
+  sourceProject?: string // コピー元のコアプロジェクト名（PATCH のみ必要。FULL は main.ts を webpack でビルド、JSON は不要）
 }
 
 /**
  * パッケージタイプの定義（PACKAGE ビルド時のみ使用）
- * - FULL: コアファイルと拡張ファイルをすべて含んだ完全なパッケージ
+ * - FULL: main.ts を webpack でビルドし、拡張ファイルをすべて含んだ完全なパッケージ
  * - PATCH: 拡張ファイルのみを含んだ差分更新用パッケージ
  * - JSON: JSONファイルとREADMEファイルのみを含んだデータのみのパッケージ
  */
@@ -113,6 +120,14 @@ export interface SystemCommonData {
 // -----------------------------
 
 /**
+ * webpack ビルドに必要な最小の設定 (コア/パッケージ共通)
+ */
+export interface WebpackBuildInput extends ProjectWebpackConfig {
+  packageRoot: string
+  system: SystemCommonData
+}
+
+/**
  * 内部処理用の解決済みコアビルド設定
  */
 export interface ResolvedCoreBuildConfig extends ProjectCoreConfig {
@@ -127,7 +142,7 @@ export interface ResolvedPackageBuildConfig extends ProjectPackageConfig {
   system: SystemCommonData
   packageType: PackageType
   outputFolderName: string
-  sourceCorePath?: string // JSON タイプでは undefined
+  sourceCorePath?: string // PATCH のみ設定される
 }
 
 /**

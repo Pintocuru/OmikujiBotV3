@@ -5,7 +5,7 @@ import { applyRemaps } from './remaps'
 import { loadSourceFile } from './fileLoader'
 import { mergeOmikujiData } from './merger'
 import { applyKeySuffix } from './KeySuffix'
-import { findJsonPath } from '../buildOptions/baseSettings'
+import { findJsonPath } from '../webpackBuild/projectFactory/findJsonPath'
 
 /**
  * jsonMergeがある場合にマージ処理を実行

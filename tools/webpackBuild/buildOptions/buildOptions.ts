@@ -2,7 +2,7 @@
 import webpack from 'webpack'
 import path from 'path'
 import fs from 'fs'
-import { ResolvedCoreBuildConfig } from '@tools/types'
+import { WebpackBuildInput } from '@tools/types'
 import { createModuleRules } from './moduleRules'
 import { createOptimizationConfig } from './optimization'
 import { createPlugins } from './plugins'
@@ -12,7 +12,7 @@ import { createExternals } from './externals'
 /**
  * Webpackビルドオプションを作成
  */
-export const createBuildOptions = (config: ResolvedCoreBuildConfig, outputSubDir?: string): webpack.Configuration => {
+export const createBuildOptions = (config: WebpackBuildInput, outputSubDir?: string): webpack.Configuration => {
   const { entryPoints, packageRoot } = config
   const distPath = outputSubDir ? path.join(packageRoot, 'dist', outputSubDir) : path.join(packageRoot, 'dist')
 
