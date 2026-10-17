@@ -12,8 +12,8 @@
   <SettingItem label="キャラクター" description="ゲームに使用するキャラクター">
     <select v-model="characterKey" class="select select-bordered select-sm w-full">
       <option value="">未選択</option>
-      <option v-for="(name, key) in availableCharacters" :key="key" :value="key">
-        {{ name }}
+      <option v-for="(value, key) in characterMap" :key="key" :value="key">
+        {{ value.name }}
       </option>
     </select>
   </SettingItem>
@@ -47,26 +47,17 @@
   const { data } = useOmikujiStore()
   const { characterMap } = useCharacterManager(() => data.assets.characters)
 
-  const availableCharacters = computed(() =>
-    Object.fromEntries(Object.entries(characterMap.value).map(([key, character]) => [key, character.name]))
-  )
-
   const updateAction = (updates: Partial<PostFlowGameType>) => {
     emit('update:action', { ...props.action, ...updates })
   }
 
-  const scriptId = computed({
-    get: () => props.action.scriptId,
-    set: (value: string) => updateAction({ scriptId: value }),
-  })
-
-  const characterKey = computed({
-    get: () => props.action.characterKey,
-    set: (value: string) => updateAction({ characterKey: value }),
-  })
-
-  const queryString = computed({
-    get: () => props.action.queryString,
-    set: (value: string) => updateAction({ queryString: value }),
-  })
+  function createActionComputed<K extends keyof PostFlowGameType>(key: K) {
+    return computed({
+      get: () => props.action[key],
+      set: (value: PostFlowGameType[K]) => updateAction({ [key]: value } as Partial<PostFlowGameType>),
+    })
+  }
+  const scriptId = createActionComputed('scriptId')
+  const characterKey = createActionComputed('characterKey')
+  const queryString = createActionComputed('queryString')
 </script>
