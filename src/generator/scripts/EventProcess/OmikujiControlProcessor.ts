@@ -1,9 +1,10 @@
 // src/generator/scripts/EventProcess/OmikujiControlProcessor.ts
 import { OmikujiItemControlType, OmikujiItemType } from '@/types/OmikujiData/'
-import { UserNameType } from '@/types/OmikenComment'
+import { OmikenCommentType, UserNameType } from '@/types/OmikenComment'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { GameStateType } from '@/games/types'
 import { useAppStore } from '@/generator/stores/useAppStore'
+import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
 
 export interface SpecialActionResult {
   handled: boolean // trueのとき呼び出し元でイベント処理を終了する
@@ -13,12 +14,13 @@ export interface SpecialActionResult {
 /**
  * postFlow 以外の kind (control: return / continue / reset, log) を処理するクラス
  * @param eventKey 実行中のイベントの key (reset / log の対象特定に使用)
+ * @param omiken variable 内の <<user>> 等のプレースホルダー解決に使用
  */
 
 export class OmikujiControlProcessor {
   private readonly store = useAppStore()
 
-  process(item: OmikujiItemType, eventKey: string): SpecialActionResult | null {
+  process(item: OmikujiItemType, eventKey: string, omiken?: OmikenCommentType): SpecialActionResult | null {
     switch (item.kind) {
       // 通常アクション (BOTメッセージ送信) は対象外
       case 'postFlow':
@@ -26,7 +28,7 @@ export class OmikujiControlProcessor {
 
       // 処理の流れを制御する (return / continue / reset)
       case 'control':
-        return this.processControl(item, eventKey)
+        return this.processControl(item, eventKey, omiken)
 
       // log は不要かもしれないのでnullを返す
       case 'log': {
@@ -35,8 +37,9 @@ export class OmikujiControlProcessor {
     }
   }
 
-  private processControl(item: OmikujiItemControlType, eventKey: string): SpecialActionResult {
-    // TODO:variable の処理を実装
+  private processControl(item: OmikujiItemControlType, eventKey: string, omiken?: OmikenCommentType): SpecialActionResult {
+    // 評価ブロック {{ }} を先に評価する (変数状態の更新。command に関わらず実行)
+    if (item.variable.trim()) new OmikujiProcessor().evaluateControlVariable(item.variable, omiken)
 
     switch (item.command) {
       // 処理を終了する

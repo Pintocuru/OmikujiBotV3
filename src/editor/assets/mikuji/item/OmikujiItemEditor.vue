@@ -47,15 +47,8 @@
     @update:modelValue="updatePostFlows"
   />
 
-  <!-- control 共通: おみくじカウント -->
-  <SettingItem v-else-if="isControlItem(omikujiItem)" label="おみくじカウント" :description="countEventDescription">
-    <input
-      type="checkbox"
-      class="toggle toggle-primary"
-      :checked="omikujiItem.isCountEvent"
-      @change="updateIsCountEvent(($event.target as HTMLInputElement).checked)"
-    />
-  </SettingItem>
+  <!-- control 固有の設定 (おみくじカウント・評価ブロック) -->
+  <OmikujiItemControlSettings v-else-if="isControlItem(omikujiItem)" :item="omikujiItem" @update="updateItem" />
 
   <!-- log 固有の設定 -->
   <template v-else-if="omikujiItem.kind === 'log'">
@@ -97,6 +90,7 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import OmikujiItemHeader from './OmikujiItemHeader.vue'
+  import OmikujiItemControlSettings from './OmikujiItemControlSettings.vue'
 
   import PostFlowEditor from '@/editor/assets/PostFlow/PostFlowsEditor.vue'
   import { omikujiItemKindMap, omikujiControlCommandMap } from '@/maps/OmikujiData'
@@ -159,16 +153,6 @@
     })
   }
 
-  // isCountEvent更新(control 共通)
-  const updateIsCountEvent = (isCountEvent: boolean) => {
-    if (!isControlItem(props.omikujiItem)) return
-
-    emit('update', {
-      ...props.omikujiItem,
-      isCountEvent,
-    })
-  }
-
   // logFormat更新
   const updateLogFormat = (logFormat: string) => {
     if (props.omikujiItem.kind !== 'log') return
@@ -189,17 +173,6 @@
       logLimit: Math.min(100, Math.max(1, Math.round(value))),
     })
   }
-
-  // commandごとの isCountEvent の説明文
-  const countEventDescriptions: Record<ControlItem['command'], string> = {
-    return: '処理を終了するときに、このアクションをおみくじカウントとして記録します',
-    continue: '次のイベントへ進むときに、このアクションをおみくじカウントとして記録します',
-    reset: 'リセットを実行したことを、おみくじカウントとして記録します',
-  }
-
-  const countEventDescription = computed(() =>
-    isControlItem(props.omikujiItem) ? countEventDescriptions[props.omikujiItem.command] : ''
-  )
 
   const shouldShowKindSelector = computed(() => {
     return Object.keys(omikujiItemKindMap).length > 1

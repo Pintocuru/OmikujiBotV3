@@ -52,6 +52,18 @@ export class OmikujiResultProcessor {
     return this.run(actionItem, defaultPlaceholders, omiken, false)
   }
 
+  /**
+   * control アイテムの variable (評価ブロック) を評価する (投稿なし・変数状態の更新のみ)
+   */
+  evaluateVariable(variable: string, defaultPlaceholders: Record<string, string | number>): void {
+    try {
+      this.postActionsHandler.evaluateVariable(variable, defaultPlaceholders)
+    } catch (error) {
+      console.error('variable 評価エラー', error)
+      postSystemMessage(`variable 評価エラー ${error}`)
+    }
+  }
+
   private async run(
     actionItem: PostFlowType,
     defaultPlaceholders: Record<string, string | number>,

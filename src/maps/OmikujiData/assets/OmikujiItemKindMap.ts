@@ -18,7 +18,7 @@ export const omikujiItemKindMap: Record<OmikujiItemKind, DisplayMetaLucide> = {
     icon: 'CornerDownLeft',
   },
   log: {
-    label: 'ユーザー状態を出力する(logUserState)',
+    label: 'ユーザー状態を出力する',
     description: 'コメントをしたユーザーの情報を、わんコメのコメントとして出力します。',
     icon: 'FileText',
   },

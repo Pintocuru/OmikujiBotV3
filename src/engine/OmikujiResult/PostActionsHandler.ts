@@ -1,5 +1,5 @@
 // src/engine/OmikujiResult/PostActionsHandler.ts
-import { ActionSetType, OmikujiDataType, PostFlowType } from '@/types/OmikujiData/'
+import { ActionSetType, OmikujiDataType, PostFlowType, PostFlowVariableType } from '@/types/OmikujiData/'
 import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
@@ -37,12 +37,7 @@ export class PostActionsHandler {
   ): BotMessageType[] {
     // 1. アクション展開とプレースホルダー置換
     const expandedActions = FlowCallExpander.expand(postFlows, this.actionSets)
-    const displayResolved = this.displayResolver.processPostActions(expandedActions)
-
-    this.placeContext.updateValues(defaultPlaceholders)
-    this.placeProcess.updateResolvedValues(this.placeContext.getAll())
-    const resolvedActions = this.placeProcess.processPostActions(displayResolved)
-    this.placeContext.clear()
+    const resolvedActions = this.resolvePlaceholders(expandedActions, defaultPlaceholders)
 
     // 2. 評価ブロック {{ }} の処理
     const processedActions: ProcessedPostAction[] = isOnecommePost
@@ -51,5 +46,33 @@ export class PostActionsHandler {
 
     // 3. BotMessage 生成
     return this.generator.postAndGenerate(processedActions, omiken, isOnecommePost)
+  }
+
+  /**
+   * control アイテムの variable (評価ブロック {{ }}) を評価する。
+   * postFlows の kind:'variable' と同じ処理 (表示変数 → プレースホルダー → 式評価) を通すが、
+   * 目的は変数状態の更新のみ。投稿・サウンド・BotMessage 生成は行わない。
+   */
+  evaluateVariable(variable: string, defaultPlaceholders: Record<string, string | number>): void {
+    const flow: PostFlowVariableType = { kind: 'variable', delaySeconds: 0, message: variable }
+    const resolved = this.resolvePlaceholders([flow], defaultPlaceholders)
+    this.generator.processVariables(resolved)
+  }
+
+  /**
+   * 表示変数 [[key]] と <<placeholder>> を置換する
+   */
+  private resolvePlaceholders(
+    actions: PostFlowType[],
+    defaultPlaceholders: Record<string, string | number>
+  ): PostFlowType[] {
+    const displayResolved = this.displayResolver.processPostActions(actions)
+
+    this.placeContext.updateValues(defaultPlaceholders)
+    this.placeProcess.updateResolvedValues(this.placeContext.getAll())
+    const resolved = this.placeProcess.processPostActions(displayResolved)
+    this.placeContext.clear()
+
+    return resolved
   }
 }

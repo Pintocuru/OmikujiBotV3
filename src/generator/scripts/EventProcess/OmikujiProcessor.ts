@@ -100,6 +100,13 @@ export class OmikujiProcessor {
   }
 
   /**
+   * control アイテムの variable (評価ブロック {{ }}) を評価する (コメントイベント用)
+   */
+  evaluateControlVariable(variable: string, omiken?: OmikenCommentType): void {
+    this.omikujiResult.evaluateVariable(variable, this.getDefaultPlaceholders(omiken))
+  }
+
+  /**
    * postFlows を順番に実行する。
    * 前の flow (variable など) の結果に後の flow が依存する可能性があるため、並列にはしない。
    */
