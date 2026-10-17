@@ -127,7 +127,7 @@
       // ファイル読み込み
       devStore.setSaveFileName()
       loadData(data)
-      navigationStore.selectCategory(data.settings.initialCategory)
+      navigationStore.selectCategory(data.settings?.editor?.initialCategory ?? 'comments')
       hasChanged.value = false // 読み込み後は変更なし状態に戻す
 
       swalToast.success({ title: 'ジェネレーター設定を読み込みました' })

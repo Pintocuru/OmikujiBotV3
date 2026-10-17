@@ -31,7 +31,7 @@ export function useLoadActions(state: DevConfigStateType, handleAsyncAction: Asy
       const configData = await configApi.loadConfig(fileName)
 
       omikujiStore.loadData(configData)
-      navigationStore.selectCategory(configData.settings?.initialCategory ?? 'comments')
+      navigationStore.selectCategory(configData.settings?.editor?.initialCategory ?? 'comments')
       state.saveFileName.value = fileName
 
       omikujiStore.resetChangeState()

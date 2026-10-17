@@ -1,4 +1,4 @@
-<!-- src/editor/apps/appInfo/FlagsInfo/FeatureCard.vue -->
+<!-- src/editor/apps/appInfo/AvailableFeatures/FeatureCard.vue -->
 <template>
   <div v-if="isVisible" class="card bg-base-200 border-2" :class="getAccessLevelClass(isEnabled)">
     <div class="card-body p-4">

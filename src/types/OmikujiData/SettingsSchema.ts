@@ -1,6 +1,7 @@
 // src/types/OmikujiData/SettingsSchema.ts
 import { z } from 'zod'
-import { categories } from './CategoryType'
+import { assetCategory } from './assets'
+import { eventCategory } from './events'
 import { themes } from '../core/DaisyUiTheme'
 import { normalizedObject } from './ParsedDefault'
 
@@ -11,6 +12,10 @@ export type CommentModeType = (typeof commentModeTypes)[number]
 // 言語設定(現在は日本語/英語) // 'zh-TW', 'zh-CN', 'th', 'ko'
 export const locales = ['ja', 'en'] as const
 export type LocaleType = (typeof locales)[number]
+
+// 起動時に開けるカテゴリ(実データを持つカテゴリ + ui)。設定系ページ(jsonMerge / appInfo)は開始ページにしない
+export const initialCategories = [...eventCategory, ...assetCategory, 'ui'] as const
+export type InitialCategoryType = (typeof initialCategories)[number]
 
 /**
  * セクション別スキーマ
@@ -23,7 +28,7 @@ const GeneratorSettingsSchema = z.object({
 
 const EditorSettingsSchema = z.object({
   locale: z.enum(locales).default('ja').catch('ja'), // 言語設定
-  initialCategory: z.enum(categories).default('comments').catch('comments'), // 読み込み時に開くカテゴリ
+  initialCategory: z.enum(initialCategories).default('comments').catch('comments'), // 読み込み時に開くカテゴリ(不正値・旧データのjsonMerge/appInfoはcommentsに戻る)
 })
 
 const DeveloperSettingsSchema = z.object({

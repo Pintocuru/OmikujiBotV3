@@ -59,11 +59,11 @@
   >
     <select
       :value="settings.editor.initialCategory"
-      @change="(e) => update('editor', { initialCategory: (e.target as HTMLSelectElement).value as CategoryType })"
+      @change="(e) => update('editor', { initialCategory: (e.target as HTMLSelectElement).value as InitialCategoryType })"
       class="select select-bordered w-full max-w-xs"
     >
-      <option v-for="(value, key) in categoryMap" :key="key" :value="key">
-        {{ value.label }}
+      <option v-for="key in initialCategories" :key="key" :value="key">
+        {{ categoryMap[key].label }}
       </option>
     </select>
   </SettingItem>
@@ -73,7 +73,7 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { locales, type CategoryType, type LocaleType } from '@/types/OmikujiData'
+  import { initialCategories, locales, type InitialCategoryType, type LocaleType } from '@/types/OmikujiData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'

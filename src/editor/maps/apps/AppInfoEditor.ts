@@ -8,7 +8,7 @@ export const appInfoEditorMessages = {
       },
       appFeatures: {
         title: '利用可能な機能',
-        description: 'PRO版を使うと機能が増えます',
+        description: 'このバージョンで使えるUI・レイアウト・ゲームスクリプトです',
       },
       packageBasic: {
         title: '基本情報',
@@ -21,6 +21,23 @@ export const appInfoEditorMessages = {
       packageSystem: {
         title: 'システム情報',
         description: 'このアプリ「おみくじBOT」の情報です',
+      },
+      features: {
+        ui: {
+          title: 'UI(アイテム)',
+          description: 'ジェネレーターで表示できるUI',
+          empty: '利用可能なUIはありません',
+        },
+        layout: {
+          title: 'レイアウト',
+          description: 'UIの配置プリセット',
+          empty: '利用可能なレイアウトはありません',
+        },
+        gameScript: {
+          title: 'ゲームスクリプト',
+          description: 'おみくじ結果に連動して動くゲーム演出',
+          empty: '利用可能なゲームスクリプトはありません',
+        },
       },
       settings: {
         generator: {
@@ -74,7 +91,7 @@ export const appInfoEditorMessages = {
       },
       appFeatures: {
         title: 'Available Features',
-        description: 'Using the PRO version unlocks additional features',
+        description: 'UI items, layouts, and game scripts available in this version',
       },
       packageBasic: {
         title: 'Basic Information',
@@ -87,6 +104,23 @@ export const appInfoEditorMessages = {
       packageSystem: {
         title: 'System Information',
         description: 'Information about the "Omikuji Bot" application',
+      },
+      features: {
+        ui: {
+          title: 'UI Items',
+          description: 'UI items the generator can display',
+          empty: 'No UI items are available',
+        },
+        layout: {
+          title: 'Layouts',
+          description: 'Preset arrangements for UI items',
+          empty: 'No layouts are available',
+        },
+        gameScript: {
+          title: 'Game Scripts',
+          description: 'Game effects that play along with omikuji results',
+          empty: 'No game scripts are available',
+        },
       },
       settings: {
         generator: {

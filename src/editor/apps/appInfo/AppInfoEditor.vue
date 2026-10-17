@@ -13,7 +13,7 @@
       <EditorSettingsEditor />
     </SectionCard>
 
-    <!-- 実績 -->
+    <!-- 利用可能な機能(登録済みのUI・レイアウト・ゲームスクリプト) -->
     <SectionCard
       id="section-appFeatures"
       icon="Sparkles"
@@ -21,7 +21,7 @@
       :title="t('appInfoEditor.appFeatures.title')"
       :description="t('appInfoEditor.appFeatures.description')"
     >
-      <FlagsInfo />
+      <AvailableFeaturesInfo />
     </SectionCard>
 
     <!-- meta:基本情報 -->
@@ -67,7 +67,7 @@
 
   import GeneratorSettingsEditor from './settings/GeneratorSettingsEditor.vue'
   import EditorSettingsEditor from './settings/EditorSettingsEditor.vue'
-  import FlagsInfo from './FlagsInfo/FlagsInfo.vue'
+  import AvailableFeaturesInfo from './AvailableFeatures/AvailableFeaturesInfo.vue'
   import PackageBasicInfo from './meta/PackageBasicInfo.vue'
   import PackageDistributionInfo from './meta/PackageDistributionInfo.vue'
   import PackageSystemInfo from './meta/PackageSystemInfo.vue'
