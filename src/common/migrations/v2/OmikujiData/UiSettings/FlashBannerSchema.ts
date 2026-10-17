@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSettings/FlashBannerSchema.ts
+// src/common/migrations/v2/OmikujiData/UiSettings/FlashBannerSchema.ts
 import { z } from 'zod'
 
 /**

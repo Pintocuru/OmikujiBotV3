@@ -1,4 +1,4 @@
-// src/types/MetaMaps/ReactionTriggerMaps.ts
+// src/common/migrations/v2/MetaMaps/ReactionTriggerMaps.ts
 
 /**
  * 比較条件のUI表示情報（label + description）Reaction

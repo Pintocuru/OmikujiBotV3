@@ -1,4 +1,4 @@
-// src/types/OmikujiData/OmikujiSchema.ts
+// src/common/migrations/v2/OmikujiData/OmikujiSchema.ts
 import { z } from 'zod'
 import { CriteriaThresholdSchema } from './CriteriaThresholdSchema'
 import { ActionSetBaseSchema, PostFlowMessageSchema } from './ActionSet'

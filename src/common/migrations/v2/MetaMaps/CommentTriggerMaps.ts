@@ -1,4 +1,4 @@
-// src/types/MetaMaps/CommentTriggerMaps.ts
+// src/common/migrations/v2/MetaMaps/CommentTriggerMaps.ts
 import { thresholdConditionMap } from '@shared/types/Threshold/'
 
 /**

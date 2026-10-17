@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSettings/ToastWidgetsSchema.ts
+// src/common/migrations/v2/OmikujiData/UiSettings/ToastWidgetsSchema.ts
 import { z } from 'zod'
 
 /**

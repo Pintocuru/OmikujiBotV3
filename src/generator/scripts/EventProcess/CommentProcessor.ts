@@ -6,7 +6,7 @@ import { BotMessageEmptySchema, BotMessageType } from '@/generator/types'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { checkAllTriggers } from '@/generator/scripts/trigger/TriggerChecker'
-import { SpecialActionProcessor } from '@/engine/OmikujiProcess/SpecialActionProcessor'
+import { OmikujiControlProcessor } from '@/generator/scripts/EventProcess/OmikujiControlProcessor'
 import { OmikujiProcessor } from '@/engine/OmikujiProcess/OmikujiProcessor'
 
 interface ProcessResult {
@@ -16,7 +16,7 @@ interface ProcessResult {
 
 export class EventCommentProcessor {
   private readonly store = useAppStore()
-  private readonly specialActionProcessor = new SpecialActionProcessor()
+  private readonly control = new OmikujiControlProcessor()
 
   /**
    * メイン処理: コメントを処理して拡張コメントを作成
@@ -76,9 +76,9 @@ export class EventCommentProcessor {
     if (!selectedItem) return { isCommentTriggered: false, botMessages: [] }
 
     // 5. special 処理 (return / continue / reset / log)
-    const specialResult = this.specialActionProcessor.process(selectedItem, event.key)
-    if (specialResult) {
-      const { handled, isCountEvent } = specialResult
+    const controlResult = this.control.process(selectedItem, event.key)
+    if (controlResult) {
+      const { handled, isCountEvent } = controlResult
       if (isCountEvent) this.recordDraw(omiken, event)
       return {
         isCommentTriggered: handled,

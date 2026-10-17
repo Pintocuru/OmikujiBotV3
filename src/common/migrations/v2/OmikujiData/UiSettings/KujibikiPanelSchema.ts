@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSettings/KujibikiPanelSchema.ts
+// src/common/migrations/v2/OmikujiData/UiSettings/KujibikiPanelSchema.ts
 import { z } from 'zod'
 import { enterMotionKeys } from './CommentBubbleSchema'
 

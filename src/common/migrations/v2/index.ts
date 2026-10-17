@@ -1,4 +1,4 @@
-// src/common/migrations/index.ts
+// src/common/migrations/v2/index.ts
 import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
 import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { APP_VERSION, DATA_VERSION } from '@/version'

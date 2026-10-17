@@ -1,4 +1,4 @@
-// src/types/OmikujiData/ReactionTriggerSchema.ts
+// src/common/migrations/v2/OmikujiData/ReactionTriggerSchema.ts
 import { z } from 'zod'
 import { reactionConditionMap, reactionMap } from '../MetaMaps'
 

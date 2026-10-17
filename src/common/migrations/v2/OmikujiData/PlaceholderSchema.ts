@@ -1,4 +1,4 @@
-// src/types/OmikujiData/PlaceholderSchema.ts
+// src/common/migrations/v2/OmikujiData/PlaceholderSchema.ts
 import { z } from 'zod'
 import { BaseRecordSchema } from '@shared/types'
 

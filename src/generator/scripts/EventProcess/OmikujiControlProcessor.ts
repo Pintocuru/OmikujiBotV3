@@ -1,9 +1,9 @@
-// src/engine/OmikujiProcess/SpecialActionProcessor.ts
+// src/generator/scripts/EventProcess/OmikujiControlProcessor.ts
 import { OmikujiItemType } from '@/types/OmikujiData/'
 import { UserNameType } from '@/types/OmikenComment'
-import { useAppStore } from '@/generator/stores/useAppStore'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { GameStateType } from '@/games/types'
+import { useAppStore } from '@/generator/stores/useAppStore'
 
 type ControlItemType = Extract<OmikujiItemType, { kind: 'control' }>
 
@@ -16,8 +16,8 @@ export interface SpecialActionResult {
  * postFlow 以外の kind (control: return / continue / reset, log) を処理するクラス
  * @param eventKey 実行中のイベントの key (reset / log の対象特定に使用)
  */
-export class SpecialActionProcessor {
-  // TODO: 共通箇所なので useAppStore を使うな、
+
+export class OmikujiControlProcessor {
   private readonly store = useAppStore()
 
   process(item: OmikujiItemType, eventKey: string): SpecialActionResult | null {
@@ -30,15 +30,9 @@ export class SpecialActionProcessor {
       case 'control':
         return this.processControl(item, eventKey)
 
-      // ユーザー状態ログを出力する
-      // TODO:scriptManager は廃止されたので、どうしよう…
+      // log は不要かもしれないのでnullを返す
       case 'log': {
-        const logs = this.store.scriptManager.getGameState(eventKey)?.logs
-        if (logs) {
-          const message = this.formatLogs(logs, item.logFormat, item.logLimit)
-          postSystemMessage(message, { username: '__INFO__', speech: false })
-        }
-        return { handled: true, isCountEvent: false }
+        return null
       }
     }
   }
@@ -64,6 +58,7 @@ export class SpecialActionProcessor {
   }
 
   /** ログ配列をフォーマット文字列に従って整形し、件数制限して結合する */
+  // この箇所はそのままにする
   private formatLogs(logs: GameStateType['logs'] = [], logFormat: string, logLimit: number): string {
     return logs
       .map((log, i) => {

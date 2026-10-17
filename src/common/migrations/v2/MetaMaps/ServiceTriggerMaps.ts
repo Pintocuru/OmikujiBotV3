@@ -1,4 +1,4 @@
-// src/types/MetaMaps/ServiceTriggerMaps.ts
+// src/common/migrations/v2/MetaMaps/ServiceTriggerMaps.ts
 
 /**
  * 比較条件のUI表示情報（label + description）

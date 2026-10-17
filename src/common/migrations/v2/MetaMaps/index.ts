@@ -1,4 +1,4 @@
-// src/types/MetaMaps/index.ts
+// src/common/migrations/v2/MetaMaps/index.ts
 export * from './ActionSetMaps'
 export * from './CategoryMaps'
 export * from './CharacterMaps'

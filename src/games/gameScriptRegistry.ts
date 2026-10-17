@@ -1,4 +1,4 @@
-//
+// src/games/gameScriptRegistry.ts
 import type { ScriptClass } from '@/games/types'
 import { scriptGameKeys, type ScriptGameKey } from '@/types/OmikujiData'
 

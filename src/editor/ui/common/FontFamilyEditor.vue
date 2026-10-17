@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/UiEditor/CommonStyle/FontFamilyEditor.vue -->
+<!-- src/editor/ui/common/FontFamilyEditor.vue -->
 <template>
   <!-- プレビュー -->
   <div class="mb-4 p-4 rounded-box border bg-base-200" :class="[fontFamilyClass]">

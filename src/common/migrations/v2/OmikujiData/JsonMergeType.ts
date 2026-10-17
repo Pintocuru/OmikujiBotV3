@@ -1,4 +1,4 @@
-// src/types/OmikujiData/JsonMergeType.ts
+// src/common/migrations/v2/OmikujiData/JsonMergeType.ts
 import { z } from 'zod'
 import { BaseRecordSchema } from '@shared/types'
 

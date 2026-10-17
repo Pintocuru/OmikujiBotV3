@@ -1,4 +1,4 @@
-// src/types/MetaMaps/CharacterMaps.ts
+// src/common/migrations/v2/MetaMaps/CharacterMaps.ts
 
 /**
  * 感情ラベルマップ

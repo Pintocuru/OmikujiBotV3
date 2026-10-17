@@ -1,4 +1,4 @@
-// src/types/MetaMaps/ActionSetMaps.ts
+// src/common/migrations/v2/MetaMaps/ActionSetMaps.ts
 
 /**
  * PostAction タイプのUI表示情報

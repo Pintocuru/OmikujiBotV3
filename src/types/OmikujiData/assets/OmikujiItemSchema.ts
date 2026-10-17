@@ -56,6 +56,7 @@ export const OmikujiItemPostFlowSchema = OmikujiItemBase.extend({
   postFlows: PostFlowArraySchema,
   cooldownSeconds: z.number().min(0).optional(), // 設定した秒数の間、重複実行をブロックする
 })
+export type OmikujiItemPostFlowType = z.infer<typeof OmikujiItemPostFlowSchema>
 
 /**
  * 処理の流れを制御する (return / continue / reset)

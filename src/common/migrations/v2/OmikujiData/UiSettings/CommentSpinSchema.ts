@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSettings/CommentSpinSchema.ts
+// src/common/migrations/v2/OmikujiData/UiSettings/CommentSpinSchema.ts
 import { z } from 'zod'
 import { AccessLevelType } from '@shared/types'
 

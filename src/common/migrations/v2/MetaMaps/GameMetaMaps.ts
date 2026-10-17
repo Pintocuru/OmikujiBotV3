@@ -1,4 +1,4 @@
-// src/types/MetaMaps/GameMetaMaps.ts
+// src/common/migrations/v2/MetaMaps/GameMetaMaps.ts
 
 const DOCS = 'https://github.com/Pintocuru/OmikujiBot-Docs'
 const MAIN = `${DOCS}/blob/main`

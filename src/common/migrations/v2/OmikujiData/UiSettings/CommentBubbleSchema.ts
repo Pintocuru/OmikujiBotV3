@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSettings/CommentBubbleSchema.ts
+// src/common/migrations/v2/OmikujiData/UiSettings/CommentBubbleSchema.ts
 import { z } from 'zod'
 import { normalizedObject } from '../ParsedDefault'
 import { enterMotionMap } from '@/types/MetaMaps/enterMotionMaps'

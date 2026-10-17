@@ -1,4 +1,4 @@
-// src/types/OmikujiData/CriteriaThresholdSchema.ts
+// src/common/migrations/v2/OmikujiData/CriteriaThresholdSchema.ts
 import { z } from 'zod'
 import { GiftConditionSchema, SyokenConditionSchema } from '@shared/types/Threshold/'
 import { AccessConditionSchema, CountConditionSchema } from '@shared/types/trigger'

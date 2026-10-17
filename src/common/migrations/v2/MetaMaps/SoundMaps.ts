@@ -1,4 +1,4 @@
-// src/types/MetaMaps/SoundMaps.ts
+// src/common/migrations/v2/MetaMaps/SoundMaps.ts
 
 /**
  * サウンドキーの表示名マップ

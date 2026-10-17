@@ -1,4 +1,4 @@
-// src/types/MetaMaps/UiKindMaps.ts
+// src/common/migrations/v2/MetaMaps/UiKindMaps.ts
 
 /**
  * スロット定義

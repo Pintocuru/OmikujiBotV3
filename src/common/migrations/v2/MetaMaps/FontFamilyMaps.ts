@@ -1,4 +1,4 @@
-// src/types/MetaMaps/FontFamilyMaps.ts
+// src/common/migrations/v2/MetaMaps/FontFamilyMaps.ts
 
 export const fontFamilyMap = {
   // ───── システム ─────

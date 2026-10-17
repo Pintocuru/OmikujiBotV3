@@ -1,4 +1,4 @@
-// src/types/OmikujiData/EventSchema.ts
+// src/common/migrations/v2/OmikujiData/EventSchema.ts
 import { z } from 'zod'
 import { OmikujiSetSchema } from './OmikujiSchema'
 import { CommentTriggerSchema } from './CommentTriggerSchema'

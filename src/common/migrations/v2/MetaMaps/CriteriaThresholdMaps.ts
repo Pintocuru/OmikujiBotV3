@@ -1,4 +1,4 @@
-// src/types/MetaMaps/CriteriaThresholdMaps.ts
+// src/common/migrations/v2/MetaMaps/CriteriaThresholdMaps.ts
 import { thresholdConditionLabels, thresholdConditionDescriptions } from '@shared/types/Threshold/'
 
 /**

@@ -1,4 +1,4 @@
-// src/types/OmikujiData/SettingsSchema.ts
+// src/common/migrations/v2/OmikujiData/SettingsSchema.ts
 import { z } from 'zod'
 import { categoryTypeLabel } from './CategoryType'
 import { themes } from '@shared/styles/DaisyUiTheme'

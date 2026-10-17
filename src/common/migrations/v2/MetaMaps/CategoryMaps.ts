@@ -1,4 +1,4 @@
-// src/types/MetaMaps/CategoryMaps.ts
+// src/common/migrations/v2/MetaMaps/CategoryMaps.ts
 
 /**
  * カテゴリのUI表示情報

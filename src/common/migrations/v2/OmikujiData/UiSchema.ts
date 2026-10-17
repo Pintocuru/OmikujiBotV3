@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSchema.ts
+// src/common/migrations/v2/OmikujiData/UiSchema.ts
 import { z } from 'zod'
 import { CharacterColorScheme, DisplayOptionSchema } from './CharacterSchema'
 import { normalizedObject } from './ParsedDefault'

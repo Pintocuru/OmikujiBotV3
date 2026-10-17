@@ -1,4 +1,4 @@
-// src/types/OmikujiData/ParsedDefault.ts
+// src/common/migrations/v2/OmikujiData/ParsedDefault.ts
 import { z } from 'zod'
 
 // Zod schema に default({}) + catch({}) を付けるヘルパー

@@ -1,4 +1,4 @@
-// src/types/OmikujiData/ActionSet.ts
+// src/common/migrations/v2/OmikujiData/ActionSet.ts
 import { z } from 'zod'
 import { WeightValuesArraySchema } from './PlaceholderSchema'
 import { soundKeys } from './SoundKey'

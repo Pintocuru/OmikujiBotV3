@@ -1,4 +1,4 @@
-// src/types/MetaMaps/enterMotionMaps.ts
+// src/common/migrations/v2/MetaMaps/enterMotionMaps.ts
 
 export interface EnterMotionConfig {
   label: string

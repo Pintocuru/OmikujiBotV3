@@ -1,4 +1,4 @@
-// src/types/OmikujiData/SoundKey.ts
+// src/common/migrations/v2/OmikujiData/SoundKey.ts
 import { rpgVoiceMap, soundMap } from '../MetaMaps'
 
 /**

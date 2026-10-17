@@ -1,4 +1,4 @@
-// src/types/MetaMaps/DefaultPlaceholderMaps.ts
+// src/common/migrations/v2/MetaMaps/DefaultPlaceholderMaps.ts
 import { serviceMetaConditionMap } from '@shared/types/'
 import { countUnitConditionMap } from '@shared/types/trigger'
 

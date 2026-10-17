@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSettings/SocialRosterSchema.ts
+// src/common/migrations/v2/OmikujiData/UiSettings/SocialRosterSchema.ts
 import { z } from 'zod'
 import { DaisyUiThemeFieldsSchema } from '@shared/styles/DaisyUiTheme'
 import { normalizedObject } from '../ParsedDefault'

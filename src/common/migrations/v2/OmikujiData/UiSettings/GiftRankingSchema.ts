@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSettings/GiftRankingSchema.ts
+// src/common/migrations/v2/OmikujiData/UiSettings/GiftRankingSchema.ts
 import { z } from 'zod'
 import { themes } from '@shared/styles/DaisyUiTheme'
 

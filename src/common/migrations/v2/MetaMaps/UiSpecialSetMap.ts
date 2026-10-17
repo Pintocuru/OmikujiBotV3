@@ -1,4 +1,4 @@
-// src/types/MetaMaps/UiSpecialSetMap.ts
+// src/common/migrations/v2/MetaMaps/UiSpecialSetMap.ts
 
 // specialSet
 export const uiSpecialSetMap = {

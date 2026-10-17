@@ -1,5 +1,5 @@
 // src/engine/OmikujiProcess/OmikujiProcessor.ts
-import { EventCategoryType, MikujiItemsType, OmikujiItemType } from '@/types/OmikujiData'
+import { EventCategoryType, MikujiItemsType, OmikujiItemPostFlowType, OmikujiItemType } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { DefaultPlaceholdersCommentSchema, DefaultPlaceholdersMetaSchema, ServiceMetaCondition } from '@/types/engine'
 
@@ -8,9 +8,6 @@ import { useAppStore } from '@/generator/stores/useAppStore'
 import { BotMessageType } from '@/generator/types'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
-
-// postFlow 種別のおみくじアイテム
-type PostFlowItemType = Extract<OmikujiItemType, { kind: 'postFlow' }>
 
 export class OmikujiProcessor {
   private readonly store = useAppStore()
@@ -95,7 +92,7 @@ export class OmikujiProcessor {
    */
   async executeActionItem(
     eventKey: string,
-    item: PostFlowItemType,
+    item: OmikujiItemPostFlowType,
     category: EventCategoryType,
     omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
@@ -108,7 +105,7 @@ export class OmikujiProcessor {
    */
   private async runPostFlows(
     eventKey: string,
-    item: PostFlowItemType,
+    item: OmikujiItemPostFlowType,
     category: EventCategoryType,
     omiken: OmikenCommentType | undefined,
     isDummy: boolean
