@@ -16,6 +16,7 @@ function project(packageRoot: string): ProjectCoreConfig {
 
     // MainGenerator + ConfigMaker の両方をビルド
     entryPoints: {
+      // TODO: エントリはpackages のそれぞれの main.ts を使うこと& エントリ名は generator.ts / editor.ts という名称にする
       generator: path.resolve(packageRoot, 'src/MainGenerator/main.ts'),
       editor: path.resolve(packageRoot, 'src/ConfigMaker/main.ts'),
     },

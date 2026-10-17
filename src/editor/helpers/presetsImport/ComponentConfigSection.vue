@@ -1,5 +1,4 @@
 <!-- src/editor/helpers/presetsImport/ComponentConfigSection.vue -->
-span<!-- src/ConfigMaker/components/presetsImport/ComponentConfigSection.vue -->
 <template>
   <div class="bg-base-200 rounded-lg p-3">
     <div class="flex items-center justify-between mb-2">

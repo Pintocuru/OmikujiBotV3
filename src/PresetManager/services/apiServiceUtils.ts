@@ -85,7 +85,9 @@ export function getErrorMessage(url: string, status: number): string {
   return `APIリクエストに失敗しました (${status})`
 }
 
-// src/ConfigMaker/dev/services/apiServiceUtils.ts に追加
+/**
+ * APIのレスポンスをファイルアイテムに変換
+ */
 export function toFileItem(raw: { name: string; modified: string }): FileItem {
   const parts = raw.name.split('/')
   const displayName = parts[parts.length - 1].replace(/\.json$/, '')

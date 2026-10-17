@@ -1,4 +1,5 @@
 // tools/viteConfig/vite.botPlugin.config.ts
+// TODO:コメントが文字化けしてるので修正して
 import { defineConfig, mergeConfig } from 'vite'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -76,10 +77,10 @@ export default defineConfig(() => {
         },
       },
 
-   
+
       sourcemap: false,   // ソースマップ生戁E
 
-  
+
       chunkSizeWarningLimit: 1000,    // チャンクサイズ警告�E無効匁E
     },
 

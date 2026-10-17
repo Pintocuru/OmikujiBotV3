@@ -1,4 +1,4 @@
-// tools/viteConfig/vite.main.config.ts
+// tools/viteConfig/vite.generator.config.ts
 import { defineConfig, mergeConfig, UserConfig } from 'vite'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -20,6 +20,7 @@ export default defineConfig(() => {
     resolve: { alias },
     build: {
       lib: {
+        // TODO: MainGenerator -> generator
         entry: path.resolve(projectRoot, 'src/MainGenerator/main.ts'),
         formats: ['iife'],
         name: 'MainGenerator',

@@ -1,8 +1,6 @@
 // script.js - index.html / editor.html 共通ローダー
 // 配布版：./scripts/ 固定・localhostフォールバックなし
 
-const omikujiBotName = 'OmikujiBot'
-
 window.OmikujiLoader = {
   loadScript(src) {
     return new Promise((resolve, reject) => {

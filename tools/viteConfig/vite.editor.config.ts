@@ -1,4 +1,4 @@
-// tools/viteConfig/vite.configmaker.config.ts
+// tools/viteConfig/vite.editor.config.ts
 import { defineConfig, mergeConfig, UserConfig } from 'vite'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -21,6 +21,7 @@ export default defineConfig(() => {
     resolve: { alias },
     build: {
       lib: {
+        // TODO: ConfigMaker -> editor
         entry: path.resolve(projectRoot, 'src/ConfigMaker/main.ts'),
         formats: ['iife'],
         name: 'ConfigMaker',

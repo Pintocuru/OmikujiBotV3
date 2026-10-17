@@ -1,4 +1,5 @@
 // tools/viteConfig/characterAssetsPlugin.ts
+// TODO:コメントが文字化けしてるので修正して
 import fs from 'fs'
 import path from 'path'
 import type { Plugin } from 'vite'
