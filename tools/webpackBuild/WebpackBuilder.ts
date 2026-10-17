@@ -1,11 +1,12 @@
 // tools/webpackBuild/WebpackBuilder.ts
 import {
-  ProjectConfig,
+  ProjectCoreConfig,
+  ProjectPackageConfig,
   CoreBuildTarget,
   PackageBuildTarget,
   SystemCommonData,
   ResolvedCoreBuildConfig,
-} from './BuildTypes'
+} from '@tools/types'
 import { resolveCoreBuildConfigs, resolvePackageBuildConfigs } from './core/ConfigResolver'
 import { executeCoreBuild, executePackageBuild } from './core/BuildExecutor'
 import { buildZipFolders } from './utils/ZipBuilder'
@@ -13,30 +14,39 @@ import { createCoreFingerprint } from './utils/BuildFingerprint'
 import { loadBuildMeta } from './utils/BuildMetaStore'
 import path from 'path'
 
-export interface BuildOptions {
+export interface WebpackBuilderOptions {
   coreTargets: CoreBuildTarget[]
   packageTargets: PackageBuildTarget[]
   onBeforeCoreBuild?: () => void | Promise<void>
 }
 
 export class WebpackBuilder {
-  private projects: Map<string, ProjectConfig> = new Map()
+  private coreProjects: Map<string, ProjectCoreConfig> = new Map()
+  private packageProjects: Map<string, ProjectPackageConfig> = new Map()
   private coreOutputPaths: Map<string, string> = new Map() // コアビルドの出力パスを記録
 
   constructor(private commonData: SystemCommonData) {}
 
   /**
-   * プロジェクト設定を登録
+   * コアプロジェクト設定を登録
    */
-  registerProject(configOrConfigs: ProjectConfig | ProjectConfig[]): void {
+  registerCoreProject(configOrConfigs: ProjectCoreConfig | ProjectCoreConfig[]): void {
     const configs = Array.isArray(configOrConfigs) ? configOrConfigs : [configOrConfigs]
-    configs.forEach((config) => this.projects.set(config.key, config))
+    configs.forEach((config) => this.coreProjects.set(config.key, config))
+  }
+
+  /**
+   * パッケージプロジェクト設定を登録
+   */
+  registerPackageProject(configOrConfigs: ProjectPackageConfig | ProjectPackageConfig[]): void {
+    const configs = Array.isArray(configOrConfigs) ? configOrConfigs : [configOrConfigs]
+    configs.forEach((config) => this.packageProjects.set(config.key, config))
   }
 
   /**
    * ビルドを実行
    */
-  async build(options: BuildOptions): Promise<void> {
+  async build(options: WebpackBuilderOptions): Promise<void> {
     const { coreTargets, packageTargets, onBeforeCoreBuild } = options
 
     if (coreTargets.length === 0 && packageTargets.length === 0) {
@@ -59,14 +69,11 @@ export class WebpackBuilder {
         await this.executePackageBuildPhase(packageTargets)
       }
 
-      // 3. ZIP化
-      const totalBuilds = coreTargets.length + packageTargets.length
-      const isMultipleBuilds = totalBuilds > 1
-
+      // 3. ZIP化 (先頭のコアの packageRoot を対象にする)
       if (coreTargets.length > 0) {
-        const firstCoreConfig = coreTargets[0]
-        const project = this.projects.get(firstCoreConfig.project)
+        const project = this.coreProjects.get(coreTargets[0].project)
         if (project) {
+          const isMultipleBuilds = coreTargets.length + packageTargets.length > 1
           await buildZipFolders(project.packageRoot, isMultipleBuilds)
         }
       }
@@ -87,7 +94,7 @@ export class WebpackBuilder {
   ): Promise<void> {
     console.log('\n[Core Build Phase] Starting...')
 
-    const resolvedConfigs = resolveCoreBuildConfigs(targets, this.projects, this.commonData)
+    const resolvedConfigs = resolveCoreBuildConfigs(targets, this.coreProjects, this.commonData)
     if (resolvedConfigs.length === 0) {
       console.warn('[Core Build] No valid build configurations generated')
       return
@@ -99,10 +106,8 @@ export class WebpackBuilder {
       const fingerprint = createCoreFingerprint(config)
       const meta = loadBuildMeta(config.packageRoot, config.outputFolderName)
 
-      // ★ キャッシュヒット時も outputPath を登録する
-      const distPath = path.join(config.packageRoot, 'dist', config.outputFolderName)
-      const key = config.key
-      this.coreOutputPaths.set(key, distPath)
+      // キャッシュヒット時もパッケージビルドが参照できるよう、出力パスを登録する
+      this.coreOutputPaths.set(config.key, path.join(config.packageRoot, 'dist', config.outputFolderName))
 
       if (meta && meta.hash === fingerprint) {
         console.log(`[Core Build] Skip (cache hit): ${config.outputFolderName}`)
@@ -120,9 +125,7 @@ export class WebpackBuilder {
     if (onBeforeCoreBuild) await onBeforeCoreBuild()
 
     for (const config of configsToBuild) {
-      const outputPath = await executeCoreBuild(config)
-      // executeCoreBuild の戻り値で上書き（念のため）
-      this.coreOutputPaths.set(config.key, outputPath)
+      await executeCoreBuild(config)
     }
 
     console.log('[Core Build Phase] Completed')
@@ -134,7 +137,12 @@ export class WebpackBuilder {
   private async executePackageBuildPhase(targets: PackageBuildTarget[]): Promise<void> {
     console.log('\n[Package Build Phase] Starting...')
 
-    const resolvedConfigs = resolvePackageBuildConfigs(targets, this.projects, this.commonData, this.coreOutputPaths)
+    const resolvedConfigs = resolvePackageBuildConfigs(
+      targets,
+      this.packageProjects,
+      this.commonData,
+      this.coreOutputPaths
+    )
 
     if (resolvedConfigs.length === 0) {
       console.warn('[Package Build] No valid build configurations generated')

@@ -3,7 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import { processMerge } from '../JsonMerge/JsonMergeProcessor'
 import { APP_VERSION, BUILD_DATE } from '@/version'
-import { ProjectConfig, ProjectParams } from '../webpackBuild/BuildTypes'
+import { ProjectCoreConfig, ProjectPackageConfig, ProjectParams } from '@tools/types'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
 
 // ----- 定数 -----
@@ -31,32 +31,26 @@ export function createCoreBuildConfig(packageRoot: string) {
   return {
     version: `${BUILD_DATE}-${APP_VERSION}`,
     packageRoot,
-    entryPoints: null,
     addHtmlTemplate: HTML_SCRIPT_TAGS,
-  }
+  } satisfies Partial<ProjectCoreConfig>
 }
 
 /**
- * プロジェクト設定を生成する。
+ * パッケージプロジェクト設定を生成する。
  *
  * @param packageRoot パッケージのルートディレクトリ
  * @param color       カラーバリアント識別子（空文字の場合はデフォルト扱い）
  * @param params      プロジェクト固有パラメータ
  */
-export function createProject(packageRoot: string, color: string, params: ProjectParams): ProjectConfig {
+export function createPackageProject(packageRoot: string, color: string, params: ProjectParams): ProjectPackageConfig {
   const id = `${params.key}${color}`
   const colorLabel = color ? `${color} ` : ''
   const series = params.series ? params.series : params.key
 
   return {
-    // --- 共通フィールド ---
     version: `${BUILD_DATE}-${APP_VERSION}`,
     packageRoot,
-    entryPoints: null,
 
-    addHtmlTemplate: HTML_SCRIPT_TAGS,
-
-    // --- プロジェクト固有フィールド ---
     key: id,
     name: params.title,
     tags: params.tags,

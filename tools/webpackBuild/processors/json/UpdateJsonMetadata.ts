@@ -1,6 +1,6 @@
 // tools/webpackBuild/processors/json/UpdateJsonMetadata.ts
 import { PackageJsonType } from '@/types/core'
-import { ResolvedPackageBuildConfig } from '@tools/webpackBuild/BuildTypes'
+import { ResolvedPackageBuildConfig } from '@tools/types'
 import fs from 'fs'
 import path from 'path'
 

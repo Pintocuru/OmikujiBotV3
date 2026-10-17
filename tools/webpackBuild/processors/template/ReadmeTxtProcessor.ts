@@ -1,7 +1,7 @@
 // tools/webpackBuild/processors/template/ReadmeTxtProcessor.ts
 import fs from 'fs'
 import path from 'path'
-import { PackageType, ResolvedPackageBuildConfig } from '@tools/webpackBuild/BuildTypes'
+import { PackageType, ResolvedPackageBuildConfig } from '@tools/types'
 
 interface TemplateTxtOutput {
   packageName: string
@@ -63,10 +63,7 @@ ${boothURL}
 /**
  * readme.txt の内容を生成する純粋関数
  */
-export function generateReadmeContent(
-  templateTxt: TemplateTxtOutput,
-  packageType: PackageType | undefined
-): string {
+export function generateReadmeContent(templateTxt: TemplateTxtOutput, packageType: PackageType | undefined): string {
   const today = formatToday()
   const { packageName, boothURL, description, readmeURL } = templateTxt
 

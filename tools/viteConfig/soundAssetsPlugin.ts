@@ -21,7 +21,7 @@ export function soundAssetsPlugin(projectRoot: string): Plugin {
           return next()
         }
 
-        // フォルダ候補を動的取得
+        // フォルダ候補を動的取征E
         const candidates = getIntermediateFolders(soundsDir)
 
         for (const folder of candidates) {

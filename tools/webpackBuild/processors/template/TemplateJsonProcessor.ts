@@ -1,7 +1,7 @@
 // tools/webpackBuild/processors/template/TemplateJsonProcessor.ts
 import fs from 'fs'
 import path from 'path'
-import { ResolvedCoreBuildConfig, ResolvedPackageBuildConfig, PackageType } from '../../BuildTypes'
+import { ResolvedCoreBuildConfig, ResolvedPackageBuildConfig, PackageType } from '@tools/types'
 
 /**
  * template.json生成処理

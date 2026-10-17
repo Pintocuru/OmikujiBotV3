@@ -1,6 +1,6 @@
 // tools/webpackBuild/utils/BuildFingerprint.ts
 import crypto from 'crypto'
-import { ResolvedCoreBuildConfig } from '../BuildTypes'
+import { ResolvedCoreBuildConfig } from '@tools/types'
 
 export function createCoreFingerprint(config: ResolvedCoreBuildConfig): string {
   const payload = {

@@ -9,7 +9,7 @@ import {
 } from '@/types/OmikujiData'
 import { useDataMergeHelpers } from './useDataMergeHelpers'
 import { ImportPreview } from '@/editor/types'
-import { normalizeData } from '@/common/migrations/v2'
+import { normalizeData } from '@/common/migrations/index'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 
 /**

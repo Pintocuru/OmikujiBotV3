@@ -1,6 +1,6 @@
 // build/2025-Q4/TossedKotaro.ts
-import { createProject } from '@tools/buildOptions/baseSettings'
-import { PackageBuildTarget, ProjectConfig, ProjectParams } from '@tools/webpackBuild/BuildTypes'
+import { createPackageProject } from '@tools/buildOptions/baseSettings'
+import { PackageBuildTarget, ProjectPackageConfig, ProjectParams } from '@tools/types'
 
 const PROJECT = {
   key: 'TossedKotaro',
@@ -29,13 +29,11 @@ const PROJECT = {
 const COLOR_VARIANTS = [''] as const
 
 // ビルドターゲット（両方定義）
-const buildTargets: PackageBuildTarget[] = [
-  { project: 'TossedKotaro', type: 'FULL', sourceProject: 'OmikujiBot' },
-]
+const buildTargets: PackageBuildTarget[] = [{ project: 'TossedKotaro', type: 'FULL', sourceProject: 'OmikujiBot' }]
 
 // プロジェクト一覧
-function getProjects(packageRoot: string): ProjectConfig[] {
-  return COLOR_VARIANTS.map((color) => createProject(packageRoot, color, PROJECT))
+function getProjects(packageRoot: string): ProjectPackageConfig[] {
+  return COLOR_VARIANTS.map((color) => createPackageProject(packageRoot, color, PROJECT))
 }
 
 export default { getProjects, buildTargets }

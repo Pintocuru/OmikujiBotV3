@@ -1,4 +1,4 @@
-// src/engine/OmikujiProcess/ActionSetValidator.ts
+// src/editor/assets/PostFlow/actions/ActionSetValidator.ts
 import { PostFlowType } from '@/types/OmikujiData'
 
 /**

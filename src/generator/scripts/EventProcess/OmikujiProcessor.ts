@@ -1,4 +1,4 @@
-// src/engine/OmikujiProcess/OmikujiProcessor.ts
+// src/generator/scripts/EventProcess/OmikujiProcessor.ts
 import { EventCategoryType, MikujiItemsType, OmikujiItemPostFlowType, OmikujiItemType } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { DefaultPlaceholdersCommentSchema, DefaultPlaceholdersMetaSchema, ServiceMetaCondition } from '@/types/engine'

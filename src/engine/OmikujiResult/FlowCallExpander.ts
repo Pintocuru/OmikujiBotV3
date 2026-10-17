@@ -1,4 +1,4 @@
-// src/engine/OmikujiProcess/FlowCallExpander.ts
+// src/engine/OmikujiResult/FlowCallExpander.ts
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { ActionSetType, handelNormalizedValues, PostFlowCallType, PostFlowType } from '@/types/OmikujiData/'

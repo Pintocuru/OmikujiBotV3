@@ -1,20 +1,21 @@
 // tools/webpackBuild/core/ConfigResolver.ts
 import {
-  ProjectConfig,
+  ProjectCoreConfig,
+  ProjectPackageConfig,
   CoreBuildTarget,
   PackageBuildTarget,
   SystemCommonData,
   ResolvedCoreBuildConfig,
   ResolvedPackageBuildConfig,
   PackageType,
-  AccessLevelConfig,
-} from '../BuildTypes'
+} from '@tools/types'
+
+const sanitizeName = (str: string) => str.replace(/[<>:"/\\|?*]/g, '_')
 
 /**
  * コアビルド用の出力フォルダ名を生成
  */
 function generateCoreOutputFolderName(projectName: string, version: string): string {
-  const sanitizeName = (str: string) => str.replace(/[<>:"/\\|?*]/g, '_')
   const sanitizedName = sanitizeName(projectName)
   const sanitizedVersion = sanitizeName(version)
 
@@ -24,12 +25,7 @@ function generateCoreOutputFolderName(projectName: string, version: string): str
 /**
  * パッケージビルド用の出力フォルダ名を生成
  */
-function generatePackageOutputFolderName(
-  projectName: string,
-  version: string,
-  packageType: PackageType
-): string {
-  const sanitizeName = (str: string) => str.replace(/[<>:"/\\|?*]/g, '_')
+function generatePackageOutputFolderName(projectName: string, version: string, packageType: PackageType): string {
   const sanitizedName = sanitizeName(projectName)
   const sanitizedVersion = sanitizeName(version)
 
@@ -45,21 +41,9 @@ function generatePackageOutputFolderName(
 /**
  * コアビルド設定の解決
  */
-function resolveCoreConfig(
-  target: CoreBuildTarget,
-  project: ProjectConfig,
-  commonData: SystemCommonData
-): ResolvedCoreBuildConfig | null {
-  // コアビルドでは entryPoints が必須
-  if (!project.entryPoints) {
-    console.warn(`[Build] entryPoints not defined for core project: ${project.key}`)
-    return null
-  }
-
+function resolveCoreConfig(project: ProjectCoreConfig, commonData: SystemCommonData): ResolvedCoreBuildConfig {
   return {
-    buildType: 'CORE',
     ...project,
-    entryPoints: project.entryPoints, // null を除外して型安全に
     system: commonData,
     outputFolderName: generateCoreOutputFolderName(project.key, project.version),
   }
@@ -70,15 +54,10 @@ function resolveCoreConfig(
  */
 function resolvePackageConfig(
   target: PackageBuildTarget,
-  project: ProjectConfig,
+  project: ProjectPackageConfig,
   commonData: SystemCommonData,
   coreOutputPaths: Map<string, string>
 ): ResolvedPackageBuildConfig | null {
-  if (target.type === 'JSON' && !project.json) {
-    console.warn(`[Build] JSON build requested but no JSON config found for project: ${project.key}`)
-    return null
-  }
-
   let sourceCorePath: string | undefined
 
   // JSON タイプ以外の場合のみ、コアビルドのパスを取得
@@ -88,8 +67,7 @@ function resolvePackageConfig(
       return null
     }
 
-    // アクセスレベルなしでコアパスを取得
-    const coreKey = target.sourceProject // 'OmikujiBotMain'
+    const coreKey = target.sourceProject
     sourceCorePath = coreOutputPaths.get(coreKey)
 
     if (!sourceCorePath) {
@@ -99,7 +77,6 @@ function resolvePackageConfig(
   }
 
   return {
-    buildType: 'PACKAGE',
     ...project,
     system: commonData,
     packageType: target.type,
@@ -113,7 +90,7 @@ function resolvePackageConfig(
  */
 export function resolveCoreBuildConfigs(
   targets: CoreBuildTarget[],
-  projects: Map<string, ProjectConfig>,
+  projects: Map<string, ProjectCoreConfig>,
   commonData: SystemCommonData
 ): ResolvedCoreBuildConfig[] {
   const resolvedConfigs: ResolvedCoreBuildConfig[] = []
@@ -124,8 +101,7 @@ export function resolveCoreBuildConfigs(
       console.warn(`[Build] Project not found: ${target.project}`)
       continue
     }
-    const resolved = resolveCoreConfig(target, project, commonData)
-    if (resolved) resolvedConfigs.push(resolved)
+    resolvedConfigs.push(resolveCoreConfig(project, commonData))
   }
 
   return resolvedConfigs
@@ -136,7 +112,7 @@ export function resolveCoreBuildConfigs(
  */
 export function resolvePackageBuildConfigs(
   targets: PackageBuildTarget[],
-  projects: Map<string, ProjectConfig>,
+  projects: Map<string, ProjectPackageConfig>,
   commonData: SystemCommonData,
   coreOutputPaths: Map<string, string>
 ): ResolvedPackageBuildConfig[] {

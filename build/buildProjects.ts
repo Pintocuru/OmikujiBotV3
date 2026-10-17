@@ -1,5 +1,5 @@
 // build/buildProjects.ts
-import { CoreBuildTarget, PackageBuildTarget } from '@tools/webpackBuild/BuildTypes'
+import { CoreBuildTarget, PackageBuildTarget } from '@tools/types'
 import OmikujiBot from './core'
 import Common from './common'
 import set2025Q4 from './2025-Q4'
@@ -14,9 +14,14 @@ export const coreTargets: CoreBuildTarget[] = [
   { project: 'OmikujiBot' }, // MainGenerator + ConfigMaker
 ]
 
-const packages = [OmikujiBot, Common, set2025Q4, set2026Q1, set2026Q2].flat()
+const corePackages = [OmikujiBot].flat()
+const packages = [Common, set2025Q4, set2026Q1, set2026Q2].flat()
 
-export function getAllProjects(packageRoot: string) {
+export function getCoreProjects(packageRoot: string) {
+  return corePackages.flatMap((p) => p.getProjects(packageRoot))
+}
+
+export function getPackageProjects(packageRoot: string) {
   return packages.flatMap((p) => p.getProjects(packageRoot))
 }
 

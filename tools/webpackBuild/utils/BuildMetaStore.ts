@@ -1,7 +1,7 @@
 // tools/webpackBuild/utils/BuildMetaStore.ts
 import fs from 'fs'
 import path from 'path'
-import { BuildMeta } from '../BuildTypes'
+import { BuildMeta } from '@tools/types'
 
 function getMetaPath(packageRoot: string, outputFolderName: string) {
   return path.join(packageRoot, 'dist', '_build-meta', `${outputFolderName}.json`)

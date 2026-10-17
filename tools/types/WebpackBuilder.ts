@@ -1,11 +1,9 @@
-// tools/webpackBuild/BuildTypes.ts
+// tools/types/WebpackBuilder.ts
 
 import { PackageJsonType } from '@/types/core'
 
 /**
- * プロジェクト設定
- * TODO:ProjectCoreConfig と ProjectPackageConfig で分けるべきだったのでは?
- * entryPoints は ProjectCoreConfig でしか使わない、など
+ * プロジェクト固有パラメータ (build/ 配下の各パッケージ定義が渡す値)
  */
 export type ProjectParams = {
   key: string
@@ -20,22 +18,34 @@ export type ProjectParams = {
   extraFiles?: CopyFileItem[]
 }
 
-export interface ProjectConfig {
+/**
+ * コア/パッケージ共通のプロジェクト設定
+ */
+interface ProjectBaseConfig {
   key: string
-  name: string
   version: string
+  packageRoot: string
+  filesToCopy: CopyFileItem[]
+}
+
+/**
+ * コアプロジェクト設定 (webpack を通すのはコアだけ)
+ */
+export interface ProjectCoreConfig extends ProjectBaseConfig {
+  entryPoints: string | Record<string, string>
+  addHtmlTemplate: string
+}
+
+/**
+ * パッケージプロジェクト設定 (コアのビルド成果物 + JSON などを梱包する。webpack は通さない)
+ */
+export interface ProjectPackageConfig extends ProjectBaseConfig {
+  name: string
   tags: string[]
   banner?: string
-
-  packageRoot: string
-  entryPoints: string | Record<string, string> | null // PACKAGE ビルドでは null
-  addHtmlTemplate: string
-  template: TemplateConfig | null
-  json?: JsonConfig
   licenseLabel: string
-
-  filesToCopy: CopyFileItem[]
-
+  template: TemplateConfig
+  json: JsonConfig
 }
 
 /**
@@ -57,14 +67,6 @@ export interface JsonConfig {
   jsonPathRoot: string
   assembleJsonData?: (data: any, jsonPathRoot: string) => Promise<PackageJsonType>
   generateJsContent: (configData: string) => string
-}
-
-/**
- * アクセスレベル別の設定
- */
-export interface AccessLevelConfig {
-  licenseLabel: string
-  filesToCopy: CopyFileItem[]
 }
 
 /**
@@ -113,22 +115,17 @@ export interface SystemCommonData {
 /**
  * 内部処理用の解決済みコアビルド設定
  */
-export interface ResolvedCoreBuildConfig extends ProjectConfig {
-  buildType: 'CORE'
+export interface ResolvedCoreBuildConfig extends ProjectCoreConfig {
   system: SystemCommonData
   outputFolderName: string
-  entryPoints: string | Record<string, string> // CORE では必須なので null を除外
-  filesToCopy: CopyFileItem[]
 }
 
 /**
  * 内部処理用の解決済みパッケージビルド設定
  */
-export interface ResolvedPackageBuildConfig extends ProjectConfig {
-  buildType: 'PACKAGE'
+export interface ResolvedPackageBuildConfig extends ProjectPackageConfig {
   system: SystemCommonData
   packageType: PackageType
-  filesToCopy: CopyFileItem[]
   outputFolderName: string
   sourceCorePath?: string // JSON タイプでは undefined
 }

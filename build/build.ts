@@ -1,5 +1,5 @@
 // build/build.ts
-import { SystemCommonData } from '@tools/webpackBuild/BuildTypes'
+import { SystemCommonData } from '@tools/types'
 import { CreateShimsVue, RemoveShimsVue } from '@tools/webpackBuild/utils/CreateShimsVue'
 import { WebpackBuilder } from '@tools/webpackBuild/WebpackBuilder'
 import { APP_VERSION, DATA_VERSION } from '@/version'
@@ -9,7 +9,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import fs from 'fs'
 
-import { coreTargets, getAllProjects, packageTargets } from './buildProjects'
+import { coreTargets, getCoreProjects, getPackageProjects, packageTargets } from './buildProjects'
 import { execSync } from 'child_process'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -52,7 +52,8 @@ function runPreBuildChecks() {
     }
 
     const builder = new WebpackBuilder(systemCommonData)
-    builder.registerProject(getAllProjects(packageRoot))
+    builder.registerCoreProject(getCoreProjects(packageRoot))
+    builder.registerPackageProject(getPackageProjects(packageRoot))
 
     // 型チェック + ESLint
     await builder.build({

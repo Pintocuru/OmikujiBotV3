@@ -1,21 +1,18 @@
 // build/core/OmikujiBot.ts
 import path from 'path'
 import { createCoreBuildConfig, DEFAULT_FILES_TO_COPY } from '@tools/buildOptions/baseSettings'
-import { ProjectConfig } from '@tools/webpackBuild/BuildTypes'
+import { ProjectCoreConfig } from '@tools/types'
 import { APP_VERSION } from '@/version'
 
 /**
  * MainGenerator + ConfigMaker の両方をビルドするコアプロジェクト
  */
-function project(packageRoot: string): ProjectConfig {
+function project(packageRoot: string): ProjectCoreConfig {
   return {
     ...createCoreBuildConfig(packageRoot),
 
     key: 'OmikujiBot',
-    name: 'おみくじBOT',
     version: APP_VERSION,
-    tags: ['おみくじBOT'],
-    licenseLabel: 'にゃーん',
 
     // MainGenerator + ConfigMaker の両方をビルド
     entryPoints: {
@@ -23,14 +20,10 @@ function project(packageRoot: string): ProjectConfig {
       ConfigMaker: path.resolve(packageRoot, 'src/ConfigMaker/main.ts'),
     },
 
-    template: null,
-    json: undefined,
-
     filesToCopy: [...DEFAULT_FILES_TO_COPY, { from: 'assets/sounds/core/', to: 'assets/sounds/' }],
   }
 }
 
 export default {
   getProjects: (root: string) => [project(root)],
-  buildTargets: [],
 }

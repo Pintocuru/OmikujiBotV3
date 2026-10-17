@@ -1,5 +1,5 @@
 // tools/webpackBuild/core/BuildExecutor.ts
-import { ResolvedCoreBuildConfig, ResolvedPackageBuildConfig } from '../BuildTypes'
+import { ResolvedCoreBuildConfig, ResolvedPackageBuildConfig } from '@tools/types'
 import { processPostBuild } from '../processors/PostBuildProcessor'
 import { runWebpack } from './WebpackRunner'
 import { cleanOutputDir, copyFiles, copyDirectoryRecursive } from '../processors/file/FileCopier'
@@ -11,10 +11,8 @@ import { saveBuildMeta } from '../utils/BuildMetaStore'
 /**
  * コアビルドを実行
  */
-export async function executeCoreBuild(config: ResolvedCoreBuildConfig): Promise<string> {
+export async function executeCoreBuild(config: ResolvedCoreBuildConfig): Promise<void> {
   const outputSubDir = config.outputFolderName
-  const distPath = path.join(config.packageRoot, 'dist', outputSubDir)
-
   await cleanOutputDir(config.packageRoot, outputSubDir)
 
   const buildOptions = createBuildOptions(config, outputSubDir)
@@ -34,7 +32,6 @@ export async function executeCoreBuild(config: ResolvedCoreBuildConfig): Promise
   }
 
   console.log(`[Core Build] Completed: ${outputSubDir}`)
-  return distPath
 }
 
 /**

@@ -2,7 +2,7 @@
 import webpack from 'webpack'
 import path from 'path'
 import fs from 'fs'
-import { ResolvedCoreBuildConfig } from '../BuildTypes'
+import { ResolvedCoreBuildConfig } from '@tools/types'
 import { createModuleRules } from './moduleRules'
 import { createOptimizationConfig } from './optimization'
 import { createPlugins } from './plugins'

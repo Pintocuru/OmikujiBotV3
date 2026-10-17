@@ -1,6 +1,6 @@
 // build/2026-Q2/VarietySlot.ts
-import { createProject } from '@tools/buildOptions/baseSettings'
-import { PackageBuildTarget, ProjectConfig, ProjectParams } from '@tools/webpackBuild/BuildTypes'
+import { createPackageProject } from '@tools/buildOptions/baseSettings'
+import { PackageBuildTarget, ProjectPackageConfig, ProjectParams } from '@tools/types'
 
 const PROJECT = {
   key: 'VarietySlot',
@@ -19,8 +19,8 @@ const PROJECT = {
 const COLOR_VARIANTS = ['', 'Ranking'] as const
 
 // プロジェクト一覧
-function getProjects(packageRoot: string): ProjectConfig[] {
-  return COLOR_VARIANTS.map((color) => createProject(packageRoot, color, PROJECT))
+function getProjects(packageRoot: string): ProjectPackageConfig[] {
+  return COLOR_VARIANTS.map((color) => createPackageProject(packageRoot, color, PROJECT))
 }
 
 // ビルドターゲット

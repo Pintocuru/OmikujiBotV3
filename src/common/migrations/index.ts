@@ -1,9 +1,9 @@
-// src/common/migrations/v2/index.ts
+// src/common/migrations/index.ts
 import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
 import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { APP_VERSION, DATA_VERSION } from '@/version'
-import { ensureSampleCharacters } from '../sampleCharacter'
-import { migrateV2ToV3 } from '../v2ToV3'
+import { ensureSampleCharacters } from './v3/sampleCharacter'
+import { migrateV2ToV3 } from './v2/v2ToV3'
 
 /** これ未満の dataVersion は旧形式（v2 以前）。v3 の形式へ変換が必要 */
 const LEGACY_DATA_VERSION_LIMIT = 3

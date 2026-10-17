@@ -2,7 +2,7 @@
 import { promises } from 'fs'
 import fs from 'fs-extra'
 import path from 'path'
-import { CopyFileItem } from '../../BuildTypes'
+import { CopyFileItem } from '@tools/types'
 
 /**
  * CopyFileItem のファイルをコピー(Webpack の CopyFileItem の代用)

@@ -1,6 +1,6 @@
 // build/2026-Q2/Golden65536.ts
-import { createProject } from '@tools/buildOptions/baseSettings'
-import { PackageBuildTarget, ProjectConfig, ProjectParams } from '@tools/webpackBuild/BuildTypes'
+import { createPackageProject } from '@tools/buildOptions/baseSettings'
+import { PackageBuildTarget, ProjectPackageConfig, ProjectParams } from '@tools/types'
 
 const PROJECT = {
   key: 'Golden65536',
@@ -19,13 +19,11 @@ const PROJECT = {
 const COLOR_VARIANTS = [''] as const
 
 // プロジェクト一覧
-function getProjects(packageRoot: string): ProjectConfig[] {
-  return COLOR_VARIANTS.map((color) => createProject(packageRoot, color, PROJECT))
+function getProjects(packageRoot: string): ProjectPackageConfig[] {
+  return COLOR_VARIANTS.map((color) => createPackageProject(packageRoot, color, PROJECT))
 }
 
 // ビルドターゲット
-const buildTargets: PackageBuildTarget[] = [
-  { project: 'Golden65536', type: 'FULL', sourceProject: 'OmikujiBot' },
-]
+const buildTargets: PackageBuildTarget[] = [{ project: 'Golden65536', type: 'FULL', sourceProject: 'OmikujiBot' }]
 
 export default { getProjects, buildTargets }

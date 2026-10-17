@@ -1,4 +1,4 @@
-// src/common/migrations/sampleCharacter.ts
+// src/common/migrations/v3/sampleCharacter.ts
 import { CharacterSchema, OmikujiDataType } from '@/types/OmikujiData'
 
 export const SAMPLE_CHARACTER_KEY = 'sample'

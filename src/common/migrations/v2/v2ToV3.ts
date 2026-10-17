@@ -1,4 +1,4 @@
-// src/common/migrations/v2ToV3.ts
+// src/common/migrations/v2/v2ToV3.ts
 //
 // v2 (dataVersion < 3) -> v3 のデータ変換。
 // v2 の型定義 (./v2/OmikujiData) を元にしているが、実行時には v2 のスキーマを使わない。

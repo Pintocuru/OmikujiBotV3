@@ -5,14 +5,14 @@ import type { Plugin } from 'vite'
 
 /**
  * /assets/Characters/{name} へのリクエストを
- * common/ または YYYY-QN/ フォルダから探して返すプラグイン
+ * common/ また�E YYYY-QN/ フォルダから探して返すプラグイン
  */
 export function characterAssetsPlugin(projectRoot: string): Plugin {
   const charsDir = path.resolve(projectRoot, 'assets/Characters')
 
   return {
     name: 'character-assets-fallback',
-    apply: 'serve', // 開発サーバーのみ
+    apply: 'serve', // 開発サーバ�Eのみ
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const PREFIX = '/assets/Characters/'
@@ -25,7 +25,7 @@ export function characterAssetsPlugin(projectRoot: string): Plugin {
           return next()
         }
 
-        // 中間フォルダ候補を動的に取得（フォルダ追加時に自動対応）
+        // 中間フォルダ候補を動的に取得（フォルダ追加時に自動対応！E
         const candidates = getIntermediateFolders(charsDir)
         for (const folder of candidates) {
           const fullPath = path.resolve(charsDir, folder, relativePath)
@@ -41,7 +41,7 @@ export function characterAssetsPlugin(projectRoot: string): Plugin {
   }
 }
 
-/** assets/Characters/ 直下の中間フォルダ一覧を動的取得 */
+/** assets/Characters/ 直下�E中間フォルダ一覧を動皁E��征E*/
 function getIntermediateFolders(charsDir: string): string[] {
   if (!fs.existsSync(charsDir)) return []
   return fs
@@ -50,7 +50,7 @@ function getIntermediateFolders(charsDir: string): string[] {
     .map((d) => d.name)
 }
 
-/** 中間フォルダかどうかの判定 */
+/** 中間フォルダかどぁE��の判宁E*/
 function isIntermediateFolder(name: string): boolean {
   return name === 'common' || name === 'wip' || /^\d{4}-Q\d+$/.test(name)
 }
