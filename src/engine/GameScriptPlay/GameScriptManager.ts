@@ -1,10 +1,10 @@
 // src/engine/GameScriptPlay/GameScriptManager.ts
 import { GameStateType, ScriptClass, ScriptResult } from '@/games/types'
-import { gameExecuteMap } from '@/games/GameScriptsMap'
-import { PostFlowGameType, ScriptGameKey, isScriptGameKey, scriptGameKeys } from '@/types/OmikujiData'
+import { PostFlowGameType, ScriptGameKey, isScriptGameKey } from '@/types/OmikujiData'
 import { UserManager } from '@/generator/stores/UserManager/UserManager'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { OmikenCommentType } from '@/types/OmikenComment'
+import { getGameScriptLoader, getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
 
 export class GameScriptManager {
   private scriptInstances: Record<string, ScriptClass> = {}
@@ -21,11 +21,11 @@ export class GameScriptManager {
     const cached = this.scriptInstances[scriptId]
     if (cached) return cached
 
-    if (!isScriptGameKey(scriptId)) {
-      throw new Error(`スクリプト "${scriptId}" は存在しません`)
-    }
+    if (!isScriptGameKey(scriptId)) throw new Error(`スクリプト "${scriptId}" は存在しません`)
+    const loader = getGameScriptLoader(scriptId)
+    if (!loader) throw new Error(`スクリプト "${scriptId}" はこのビルドに含まれていません`)
+    const module = await loader()
 
-    const module = await gameExecuteMap[scriptId]()
     const instance: ScriptClass = module.default
     if (this.userManager && instance.initialize) {
       instance.initialize(this.userManager)
@@ -91,8 +91,8 @@ export class GameScriptManager {
     this.scriptInstances = {}
   }
 
-  /** 利用可能なスクリプトID一覧(UIのセレクト用など) */
+  // 利用可能なスクリプトID一覧(UIのセレクト用など)
   listAvailableScripts(): readonly ScriptGameKey[] {
-    return scriptGameKeys
+    return getRegisteredGameScriptKeys()
   }
 }

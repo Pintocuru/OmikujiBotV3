@@ -1,10 +1,11 @@
 // src/games/GameScriptsMap.ts
+// ! 廃止
 import { ScriptGameKey } from '@/types/OmikujiData'
 import { ScriptClass } from './types'
 
 /**
  * ゲーム実行map
- */
+
 export const gameExecuteMap = {
   GouseiSuika: () => import('./scripts/GouseiSuika/execute'),
   BomberSpin: () => import('./scripts/BomberSpin/execute'),
@@ -13,3 +14,6 @@ export const gameExecuteMap = {
   GoogolClover: () => import('./scripts/GoogolClover/execute'),
   HugEmAll: () => import('./scripts/HugEmAll/execute'),
 } satisfies Record<ScriptGameKey, () => Promise<{ default: ScriptClass }>>
+
+
+ */

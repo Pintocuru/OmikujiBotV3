@@ -3,8 +3,8 @@
   <SettingItem label="ゲーム" description="実行するゲームスクリプトを選択">
     <select v-model="scriptId" class="select select-bordered select-sm w-full">
       <option value="">未選択</option>
-      <option v-for="key in scriptGameKeys" :key="key" :value="key">
-        {{ key }}
+      <option v-for="key in getRegisteredGameScriptKeys()" :key="key" :value="key">
+        {{ gameMetaMap[key].name }}
       </option>
     </select>
   </SettingItem>
@@ -31,10 +31,11 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import type { PostFlowGameType } from '@/types/OmikujiData'
-  import { scriptGameKeys } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
+  import { gameMetaMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     action: PostFlowGameType

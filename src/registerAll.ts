@@ -1,6 +1,7 @@
 // src/registerAll.ts
 import { registerUi, registerLayout } from '@/ui/uiRegistry'
 import { registerUiEditor } from '@/editor/ui/uiEditorRegistry'
+import { registerGameScript } from '@/games/gameScriptRegistry'
 
 const layoutFiles = import.meta.glob('/packages/**/layout/*.vue')
 
@@ -23,4 +24,8 @@ export const registerAll = () => {
   )
 
   // TODO:gameScript もここで登録できるように
+  registerGameScript({
+    GouseiSuika: () => import('@/games/scripts/GouseiSuika/execute'),
+    BomberSpin: () => import('@/games/scripts/BomberSpin/execute'),
+  })
 }
