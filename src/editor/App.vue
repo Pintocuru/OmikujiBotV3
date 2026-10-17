@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, computed } from 'vue'
+  import { onMounted, computed, watch } from 'vue'
   import { storeToRefs } from 'pinia'
 
   import { isDev } from '@/types/env'
@@ -40,6 +40,7 @@
   import ConfigExport from './helpers/presetsExport/ConfigExport.vue'
   import { useScrollToSection } from './helpers/useScrollToSection'
   import { useOmikujiStore } from './stores/useOmikujiStore'
+  import i18n from './i18n'
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
@@ -58,6 +59,15 @@
   const daisyUiTheme = computed(() => (isDev ? data.value.settings.developer.daisyUiTheme : 'dark'))
   const isDevWorld = computed(() => dataSource.value === 'unknown')
 
+  // 言語設定を vue-i18n に反映(データ読み込み時・設定変更時)
+  watch(
+    () => data.value.settings.editor.locale,
+    (locale) => {
+      i18n.global.locale.value = locale
+    },
+    { immediate: true }
+  )
+
   // スクロール監視
   useScrollToSection()
 
@@ -70,7 +80,6 @@
       console.warn('Health check failed:', e)
     }
 
-    const initialCategory = data.value.settings.editor.initialCategory
     if (isHealth) {
       isServerConnected.value = true
       if (isDev) return // devならデータを読まない
@@ -78,7 +87,7 @@
         const lowData = (await generatorApi.loadGeneratorConfig()) as OmikujiDataType
         if (lowData) {
           omikujiStore.loadData(lowData)
-          navigationStore.selectCategory(initialCategory)
+          navigationStore.selectCategory(data.value.settings.editor.initialCategory)
           swalToast.success({
             title: '読み込み完了',
             text: `${lowData.meta.name} を読み込みました`,
@@ -92,7 +101,7 @@
 
     // ローカルを読む
     omikujiStore.openLocalOmikujiData()
-    navigationStore.selectCategory(initialCategory)
+    navigationStore.selectCategory(data.value.settings.editor.initialCategory)
     swalToast.success({
       title: '読み込み完了',
       text: 'omikujiData.js を読み込みました。',

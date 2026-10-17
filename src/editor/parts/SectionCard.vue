@@ -1,9 +1,7 @@
 <!-- src/editor/parts/SectionCard.vue -->
 <template>
-  <div class="collapse collapse-arrow transition-all bg-base-200">
-    <!-- 親から制御される開閉状態 -->
-    <input type="checkbox" :checked="isOpen" @change="$emit('toggle')" />
-    <div class="collapse-title flex justify-between items-center" :class="headerClass">
+  <div class="transition-all bg-base-200">
+    <div class="flex justify-between items-center p-2 rounded-t-xl" :class="headerClass">
       <div class="flex items-center gap-2 font-bold text-xl">
         <!-- アイコン -->
         <component :is="IconComponent" v-if="IconComponent" class="w-6 h-6" />
@@ -13,14 +11,9 @@
       </div>
       <div v-if="description" class="text-sm">{{ description }}</div>
     </div>
-    <!-- Open: カードを表示 -->
-    <div class="collapse-content space-y-2" :class="{ 'p-4': isOpen }">
+    <!-- 常にカードを表示 -->
+    <div class="space-y-2 p-4">
       <slot />
-    </div>
-
-    <!-- Close: サマリー表示 -->
-    <div v-if="!isOpen" class="text-sm opacity-80">
-      <slot name="summary" />
     </div>
   </div>
 </template>

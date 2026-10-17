@@ -2,25 +2,23 @@
 <template>
   <div class="space-y-4">
     <!-- アイテム -->
-    <div class="card bg-base-100 shadow-lg">
-      <div class="card-body">
-        <SubSectionHeader icon="Box" title="アイテム" description="ジェネレーターで表示できるアイテム" />
+    <div class="card shadow-lg">
+      <SubSectionHeader icon="Box" title="アイテム" description="ジェネレーターで表示できるアイテム" />
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-          <FeatureCard
-            v-for="key in components"
-            :key="key"
-            :title="uiKindMap[key]?.label || key"
-            :icon="uiKindMap[key]?.icon || 'Package'"
-            :description="uiKindMap[key]?.description || ''"
-            :show-toggle="false"
-            :is-enabled="true"
-          />
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <FeatureCard
+          v-for="key in components"
+          :key="key"
+          :title="uiKindMap[key]?.label || key"
+          :icon="uiKindMap[key]?.icon || 'Package'"
+          :description="uiKindMap[key]?.description || ''"
+          :show-toggle="false"
+          :is-enabled="true"
+        />
+      </div>
 
-        <div v-if="components.length === 0" class="text-center py-4 text-base-content/60">
-          利用可能なアイテムはありません
-        </div>
+      <div v-if="components.length === 0" class="text-center py-4 text-base-content/60">
+        利用可能なアイテムはありません
       </div>
     </div>
   </div>

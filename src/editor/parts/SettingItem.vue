@@ -8,7 +8,7 @@
       <label class="label-text font-bold flex items-center gap-1">
         {{ label }}
 
-        <AlertTriangle v-if="showWarning" class="w-4 h-4 text-error" title="注意が必要な設定です" />
+        <AlertTriangle v-if="showWarning" class="w-4 h-4 text-error" :title="t('appInfoEditor.settings.common.warning')" />
 
         <slot name="label-extra" />
       </label>
@@ -17,7 +17,7 @@
     <div class="flex-1">
       <slot />
     </div>
-    <button v-if="showReset" class="btn btn-ghost btn-xs" @click="$emit('reset')" title="デフォルト値に戻す">
+    <button v-if="showReset" class="btn btn-ghost btn-xs" @click="$emit('reset')" :title="t('appInfoEditor.settings.common.reset')">
       <RotateCcw class="w-3 h-3" />
     </button>
   </div>
@@ -25,6 +25,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { DaisyUIColorType } from '@/types/core'
   import { RotateCcw, AlertTriangle } from 'lucide-vue-next'
 
@@ -42,6 +43,8 @@
   )
 
   defineEmits<{ reset: [] }>()
+
+  const { t } = useI18n()
 
   const headerClass = computed(() => {
     return props.variant ? `border border-3 border-${props.variant}` : ''

@@ -3,12 +3,19 @@
   <!-- コンフィグエディター設定 -->
   <SubSectionHeader
     icon="Settings"
-    title="コンフィグエディター設定"
-    description="エディターの見た目・動作・ライセンスなど、アプリ本体の設定"
+    :title="t('appInfoEditor.settings.editor.title')"
+    :description="t('appInfoEditor.settings.editor.description')"
   />
 
   <!-- DaisyUIテーマ -->
-  <SettingItem v-if="isDev" label="エディターテーマ" description="DaisyUiのカラーテーマを設定します">
+  <SettingItem
+    v-if="isDev"
+    variant="warning"
+    :label="t('appInfoEditor.settings.editor.theme.label')"
+    :description="t('appInfoEditor.settings.editor.theme.description')"
+    :showReset="true"
+    @reset="reset('developer', 'daisyUiTheme')"
+  >
     <select
       :value="settings.developer.daisyUiTheme"
       @change="(e) => update('developer', { daisyUiTheme: (e.target as HTMLSelectElement).value as ThemeType })"
@@ -19,14 +26,34 @@
       </option>
     </select>
     <span class="pl-2">
-      <button class="btn btn-sm btn-outline" @click="setRandomTheme">ランダム</button>
+      <button class="btn btn-sm btn-outline" @click="setRandomTheme">
+        {{ t('appInfoEditor.settings.editor.theme.random') }}
+      </button>
     </span>
+  </SettingItem>
+
+  <!-- 言語設定 -->
+  <SettingItem
+    :label="t('appInfoEditor.settings.editor.locale.label')"
+    :description="t('appInfoEditor.settings.editor.locale.description')"
+    :showReset="true"
+    @reset="reset('editor', 'locale')"
+  >
+    <select
+      :value="settings.editor.locale"
+      @change="(e) => update('editor', { locale: (e.target as HTMLSelectElement).value as LocaleType })"
+      class="select select-bordered w-full max-w-xs"
+    >
+      <option v-for="locale in locales" :key="locale" :value="locale">
+        {{ localeLabels[locale] }}
+      </option>
+    </select>
   </SettingItem>
 
   <!-- 起動時に開くカテゴリ -->
   <SettingItem
-    label="起動時に開くカテゴリ"
-    description="起動時に最初に開くカテゴリを設定します"
+    :label="t('appInfoEditor.settings.editor.initialCategory.label')"
+    :description="t('appInfoEditor.settings.editor.initialCategory.description')"
     :showReset="true"
     @reset="reset('editor', 'initialCategory')"
   >
@@ -45,7 +72,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import type { CategoryType } from '@/types/OmikujiData'
+  import { useI18n } from 'vue-i18n'
+  import { locales, type CategoryType, type LocaleType } from '@/types/OmikujiData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
@@ -53,11 +81,18 @@
   import { ThemeType, themes } from '@/types/core'
   import { isDev } from '@/types/env'
 
+  const { t } = useI18n()
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
   const { updateSettingsSection: update, resetSettingsField: reset } = omikujiStore
 
   const settings = computed(() => data.value.settings)
+
+  // 言語の表示名(各言語の自称で表記)
+  const localeLabels: Record<LocaleType, string> = {
+    ja: '日本語',
+    en: 'English',
+  }
 
   const setRandomTheme = () => {
     if (!themes.length) return

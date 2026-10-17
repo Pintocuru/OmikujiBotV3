@@ -22,6 +22,48 @@ export const appInfoEditorMessages = {
         title: 'システム情報',
         description: 'このアプリ「おみくじBOT」の情報です',
       },
+      settings: {
+        generator: {
+          title: 'ジェネレーター設定',
+          description: 'UI・効果音など、配信挙動に関わる設定',
+          commentType: {
+            label: 'コメント購読タイプ',
+            description: 'コメントを受け取るアプリを設定します(現在はわんコメのみ)',
+            options: { OneComme: 'わんコメ' },
+          },
+          basicDelaySeconds: {
+            label: '投稿の基本遅延時間',
+            description: 'BOTメッセージの表示や投稿を遅延（秒）',
+          },
+          soundEnabled: {
+            label: '効果音を鳴らす',
+            description: 'BOTの効果音を再生するか',
+            on: '音を鳴らす',
+            off: 'ミュートする',
+          },
+        },
+        editor: {
+          title: 'コンフィグエディター設定',
+          description: 'エディターの見た目・動作・ライセンスなど、アプリ本体の設定',
+          theme: {
+            label: 'エディターテーマ',
+            description: 'DaisyUiのカラーテーマを設定します',
+            random: 'ランダム',
+          },
+          locale: {
+            label: '言語(Language)',
+            description: 'エディターの表示言語を設定します',
+          },
+          initialCategory: {
+            label: '起動時に開くカテゴリ',
+            description: '起動時に最初に開くカテゴリを設定します',
+          },
+        },
+        common: {
+          reset: 'デフォルト値に戻す',
+          warning: '注意が必要な設定です',
+        },
+      },
     },
   },
   en: {
@@ -45,6 +87,48 @@ export const appInfoEditorMessages = {
       packageSystem: {
         title: 'System Information',
         description: 'Information about the "Omikuji Bot" application',
+      },
+      settings: {
+        generator: {
+          title: 'Generator Settings',
+          description: 'Settings that affect streaming behavior, such as UI and sound effects',
+          commentType: {
+            label: 'Comment Source',
+            description: 'Choose the app that provides comments (OneComme only for now)',
+            options: { OneComme: 'OneComme' },
+          },
+          basicDelaySeconds: {
+            label: 'Base Post Delay',
+            description: 'Delay (in seconds) before BOT messages are shown or posted',
+          },
+          soundEnabled: {
+            label: 'Play Sound Effects',
+            description: 'Whether to play BOT sound effects',
+            on: 'Sound on',
+            off: 'Muted',
+          },
+        },
+        editor: {
+          title: 'Config Editor Settings',
+          description: 'Settings for the app itself, such as appearance and behavior',
+          theme: {
+            label: 'Editor Theme',
+            description: 'Set the DaisyUI color theme',
+            random: 'Random',
+          },
+          locale: {
+            label: 'Language',
+            description: 'Set the display language of the editor',
+          },
+          initialCategory: {
+            label: 'Category Opened on Startup',
+            description: 'Set the category that opens first on startup',
+          },
+        },
+        common: {
+          reset: 'Reset to default',
+          warning: 'This setting requires caution',
+        },
       },
     },
   },
