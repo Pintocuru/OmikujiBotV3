@@ -4,7 +4,7 @@ import { PostFlowGameType } from '@/types/OmikujiData/'
 
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 import { BotMessageType } from '@/generator/types'
-import { BotMessageGenerator } from '../OmikujiResult/BotMessageGenerator'
+import { BotMessageGenerator } from '@/engine/OmikujiResult/BotMessageGenerator'
 
 export class GameScriptsHandler {
   constructor(

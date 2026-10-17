@@ -23,7 +23,7 @@ export const registerAll = () => {
     )
   )
 
-  // TODO:gameScript もここで登録できるように
+  // gameScriptの登録
   registerGameScript({
     GouseiSuika: () => import('@/games/scripts/GouseiSuika/execute'),
     BomberSpin: () => import('@/games/scripts/BomberSpin/execute'),

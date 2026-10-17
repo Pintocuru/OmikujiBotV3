@@ -4,7 +4,7 @@ import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { BotMessageGenerator } from './BotMessageGenerator'
 import { PostActionsHandler } from './PostActionsHandler'
-import { GameScriptsHandler } from '../GameScriptPlay/GameScriptsHandler'
+import { GameScriptsHandler } from '@/engine/GameScriptPlay/GameScriptsHandler'
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { CooldownManager } from '@/generator/stores/CooldownManager/CooldownManager'
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'

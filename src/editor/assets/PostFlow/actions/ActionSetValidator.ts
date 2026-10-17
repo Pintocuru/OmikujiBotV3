@@ -43,14 +43,3 @@ export function checkCircularReference(
 
   return null
 }
-
-/**
- * アクションセットに循環参照があるかチェック（簡易版）
- */
-export function hasCircularReference(
-  targetKey: string,
-  actionSets: Record<string, { postFlows: PostFlowType[] }>,
-  currentKey?: string
-): boolean {
-  return checkCircularReference(targetKey, actionSets, currentKey) !== null
-}

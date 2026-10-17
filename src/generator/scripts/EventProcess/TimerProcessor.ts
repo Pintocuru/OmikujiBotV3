@@ -1,7 +1,7 @@
 // src/generator/scripts/EventProcess/TimerProcessor.ts
 import { TimerEventType } from '@/types/OmikujiData/'
 import { useAppStore } from '@/generator/stores/useAppStore'
-import { OmikujiProcessor } from '@/engine/OmikujiProcess/OmikujiProcessor'
+import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
 
 interface TimerState {
   timerId: number

@@ -7,7 +7,7 @@ import { BotMessageGenerator } from './BotMessageGenerator'
 import { DisplayVariableResolver } from '@/engine/DisplayVariable/DisplayVariableResolver'
 import { ContentPlaceholder } from '@/engine/ContentPlaceholder/processor'
 import { PlaceholderContext } from '@/engine/ContentPlaceholder/context'
-import { FlowCallExpander } from '@/engine/OmikujiProcess/FlowCallExpander'
+import { FlowCallExpander } from '@/engine/OmikujiResult/FlowCallExpander'
 import { BotMessageType, ProcessedPostAction } from '@/generator/types'
 
 export class PostActionsHandler {

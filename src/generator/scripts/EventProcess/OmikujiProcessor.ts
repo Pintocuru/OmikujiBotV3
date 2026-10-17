@@ -3,11 +3,11 @@ import { EventCategoryType, MikujiItemsType, OmikujiItemPostFlowType, OmikujiIte
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { DefaultPlaceholdersCommentSchema, DefaultPlaceholdersMetaSchema, ServiceMetaCondition } from '@/types/engine'
 
-import { OmikujiResultProcessor } from '../OmikujiResult/OmikujiResultProcessor'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { BotMessageType } from '@/generator/types'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
+import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
 
 export class OmikujiProcessor {
   private readonly store = useAppStore()

@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import { WeightValueType, WeightValueSchema, handelNormalizedValues, WeightValuesArrayType } from '@/types/OmikujiData'
 import { useWeightCalculation } from './useWeightCalculation'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { checkCircularReference } from '@/engine/OmikujiProcess/ActionSetValidator'
+import { checkCircularReference } from './ActionSetValidator'
 
 /**
  * 重み付き値を管理するコンポーザブル

@@ -7,7 +7,7 @@ import { useAppStore } from '@/generator/stores/useAppStore'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { checkAllTriggers } from '@/generator/scripts/trigger/TriggerChecker'
 import { OmikujiControlProcessor } from '@/generator/scripts/EventProcess/OmikujiControlProcessor'
-import { OmikujiProcessor } from '@/engine/OmikujiProcess/OmikujiProcessor'
+import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
 
 interface ProcessResult {
   isCommentTriggered: boolean
