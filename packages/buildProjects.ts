@@ -1,10 +1,7 @@
-// build/buildProjects.ts
+// packages/buildProjects.ts
 import { CoreBuildTarget, PackageBuildTarget } from '@tools/types'
 import OmikujiBot from './core'
 import Common from './common'
-import set2025Q4 from './2025-Q4'
-import set2026Q1 from './2026-Q1'
-import set2026Q2 from './2026-Q2'
 
 /**
  * コアビルド設定リスト
@@ -15,7 +12,7 @@ export const coreTargets: CoreBuildTarget[] = [
 ]
 
 const corePackages = [OmikujiBot].flat()
-const packages = [Common, set2025Q4, set2026Q1, set2026Q2].flat()
+const packages = [Common].flat()
 
 export function getCoreProjects(packageRoot: string) {
   return corePackages.flatMap((p) => p.getProjects(packageRoot))

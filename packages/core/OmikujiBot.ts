@@ -1,4 +1,4 @@
-// build/core/OmikujiBot.ts
+// packages/core/OmikujiBot.ts
 import path from 'path'
 import { createCoreBuildConfig, DEFAULT_FILES_TO_COPY } from '@tools/buildOptions/baseSettings'
 import { ProjectCoreConfig } from '@tools/types'
@@ -16,8 +16,8 @@ function project(packageRoot: string): ProjectCoreConfig {
 
     // MainGenerator + ConfigMaker の両方をビルド
     entryPoints: {
-      MainGenerator: path.resolve(packageRoot, 'src/MainGenerator/main.ts'),
-      ConfigMaker: path.resolve(packageRoot, 'src/ConfigMaker/main.ts'),
+      generator: path.resolve(packageRoot, 'src/MainGenerator/main.ts'),
+      editor: path.resolve(packageRoot, 'src/ConfigMaker/main.ts'),
     },
 
     filesToCopy: [...DEFAULT_FILES_TO_COPY, { from: 'assets/sounds/core/', to: 'assets/sounds/' }],

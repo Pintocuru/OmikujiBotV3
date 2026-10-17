@@ -1,4 +1,4 @@
-// build/build.ts
+// packages/build.ts
 import { SystemCommonData } from '@tools/types'
 import { CreateShimsVue, RemoveShimsVue } from '@tools/webpackBuild/utils/CreateShimsVue'
 import { WebpackBuilder } from '@tools/webpackBuild/WebpackBuilder'
