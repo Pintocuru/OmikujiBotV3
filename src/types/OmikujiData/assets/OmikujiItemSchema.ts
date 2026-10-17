@@ -75,6 +75,7 @@ export const OmikujiItemControlSchema = OmikujiItemBase.extend({
   // TODO: 未実装。postFlows の kind:'variable' と同じ挙動 (評価ブロックの編集) を想定
   variable: z.string().default('').catch(''),
 })
+export type OmikujiItemControlType = z.infer<typeof OmikujiItemControlSchema>
 
 // ユーザー状態をログとして出力する
 export const LOG_FORMAT_DEFAULT = '<<user>> <<score>> <<createdAt>>'

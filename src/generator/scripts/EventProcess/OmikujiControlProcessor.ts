@@ -1,11 +1,9 @@
 // src/generator/scripts/EventProcess/OmikujiControlProcessor.ts
-import { OmikujiItemType } from '@/types/OmikujiData/'
+import { OmikujiItemControlType, OmikujiItemType } from '@/types/OmikujiData/'
 import { UserNameType } from '@/types/OmikenComment'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { GameStateType } from '@/games/types'
 import { useAppStore } from '@/generator/stores/useAppStore'
-
-type ControlItemType = Extract<OmikujiItemType, { kind: 'control' }>
 
 export interface SpecialActionResult {
   handled: boolean // trueのとき呼び出し元でイベント処理を終了する
@@ -37,7 +35,7 @@ export class OmikujiControlProcessor {
     }
   }
 
-  private processControl(item: ControlItemType, eventKey: string): SpecialActionResult {
+  private processControl(item: OmikujiItemControlType, eventKey: string): SpecialActionResult {
     // TODO:variable の処理を実装
 
     switch (item.command) {
