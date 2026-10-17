@@ -75,7 +75,7 @@ export class EventCommentProcessor {
     const selectedItem = this.lotteryWithCriteria(mikujiBox.omikuji, omiken)
     if (!selectedItem) return { isCommentTriggered: false, botMessages: [] }
 
-    // 5. special 処理 (return / continue / reset / log)
+    // 5. control 処理 (return / continue / reset / log)
     const controlResult = this.control.process(selectedItem, event.key)
     if (controlResult) {
       const { handled, isCountEvent } = controlResult
