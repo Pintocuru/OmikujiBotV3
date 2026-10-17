@@ -20,9 +20,9 @@
 
 - わんコメと連携して動作する【おみくじ BOT】を利用し、コメントをくれたユーザーをランダムに配置したリストを作成して楽しめます。
 - 9 席表示でコンパクト。ランダムで入れ替わり
-	- ユーザーアイコンが表示されるので、コメント意欲が高まります
+  - ユーザーアイコンが表示されるので、コメント意欲が高まります
 - アイコンとともに コメント数が表示される
-	- 配信でのコメント数が表示され、話題にしやすくなります
+  - 配信でのコメント数が表示され、話題にしやすくなります
 
 ### シーン別・活用例
 
@@ -30,17 +30,17 @@
   - 画面の隅に設置することで、画面が賑やかになります。
   - コメント数やギフト金額が表示され、賑わいがわかります
 - 雑談配信
-	- ユーザーが増えるたびにリストが埋まっていき、賑わいが可視化されます。
-	- 並び方で話が弾むかも。
+  - ユーザーが増えるたびにリストが埋まっていき、賑わいが可視化されます。
+  - 並び方で話が弾むかも。
 - 抽選・参加確認・ちょっとした遊びに最適
-	- 「誰が参加したか」「どこに座るか」を視覚的に楽しめるため、 抽選演出やアイスブレイク用途に向いています。
+  - 「誰が参加したか」「どこに座るか」を視覚的に楽しめるため、 抽選演出やアイスブレイク用途に向いています。
 
 ## インストール (Installation)
 
 1. [テンプレートのインストール方法](https://github.com/Pintocuru/OmikenReadme/blob/main/docs/TemplateInstall/README.md)
 2. [おみくじ BOT のアップグレード](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md)
 3. [【推奨】おみくじ BOT 演出用 WordParty2.0 の導入方法](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95-installation)
-	- [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
+   - [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
 4. [おみくじBOT コンフィグエディター PRO (有料版) のご案内](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_51_ProUpgradeTemplate.md)
 
 ## つかいかた (Usage)
@@ -60,8 +60,8 @@
 ![](../../core/ConfigEditor/images/features-04.webp)
 
 - 一部の配布パッケージには、**コンフィグエディター**（おみくじデータ編集用アプリ）が付属しています。
-	- 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
-- アプリと同じフォルダにある **`ConfigMaker.html`** を開くと起動できます。
+  - 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
+- アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
 - 詳しくは [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
 
 ## よくある質問 (FAQ)

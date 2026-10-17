@@ -32,7 +32,7 @@
 1. [テンプレートのインストール方法](https://github.com/Pintocuru/OmikenReadme/blob/main/docs/TemplateInstall/README.md)
 2. [おみくじ BOT のアップグレード](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md)
 3. [【推奨】おみくじ BOT 演出用 WordParty2.0 の導入方法](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95-installation)
-	- [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
+   - [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
 4. [おみくじBOT コンフィグエディター PRO (有料版) のご案内](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_51_ProUpgradeTemplate.md)
 
 ## つかいかた (Usage)
@@ -52,11 +52,11 @@
 - 文字通り「桁違い」のおみくじらしき文字列をふいんきで楽しむ、ネタ系のおみくじです。
 - 大吉の希少度を「9」、大凶の希少度を「1」としています。
 - このおみくじの発想は、以下をイメージしてます
-	- 首楞厳経 (桁の名前)
-	- 法華経 見宝塔品 (地球からみくじ棒が出てくるとこ)
-	- もぎたてチンクルのばら色ルッピーランド
-	- 5000 兆円欲しい!(5000 兆)
-	- ガンダムトライヴ (9999 無量大数)
+  - 首楞厳経 (桁の名前)
+  - 法華経 見宝塔品 (地球からみくじ棒が出てくるとこ)
+  - もぎたてチンクルのばら色ルッピーランド
+  - 5000 兆円欲しい!(5000 兆)
+  - ガンダムトライヴ (9999 無量大数)
 
 ## カスタマイズ（Customization）
 
@@ -65,8 +65,8 @@
 ![](../../core/ConfigEditor/images/features-04.webp)
 
 - 一部の配布パッケージには、**コンフィグエディター**（おみくじデータ編集用アプリ）が付属しています。
-	- 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
-- アプリと同じフォルダにある **`ConfigMaker.html`** を開くと起動できます。
+  - 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
+- アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
 - 詳しくは [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
 
 ## よくある質問 (FAQ)
@@ -139,9 +139,9 @@
 ### 素材の取り扱いについて
 
 1. 本アプリに含まれる素材は、各権利者からの許諾を得て使用しています。
-	1. これらの素材は**アプリの機能提供のために同梱**しているものであり、素材そのものを再配布することを目的としたものではありません。
+   1. これらの素材は**アプリの機能提供のために同梱**しているものであり、素材そのものを再配布することを目的としたものではありません。
 2. 素材は、**本アプリを利用した配信・演出の範囲内でのみ**ご使用ください。
-	1. アプリからの抽出、素材データの単体利用、再配布、二次配布は禁止されています。
+   1. アプリからの抽出、素材データの単体利用、再配布、二次配布は禁止されています。
 3. 各素材の利用条件については、配布元サイトの利用規約をご確認ください。
 4. 素材の権利や利用条件について万が一不備や問題がございましたら、権利者様よりご連絡いただければ、速やかに確認・対応いたします。
 

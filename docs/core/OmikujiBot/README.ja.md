@@ -81,7 +81,7 @@
 ![](../../template/installation/images/Pasted%20image%2020260103155223.png)
 
 1. Github から [最新バージョン](https://github.com/Pintocuru/OmikujiBot-Docs/releases/latest) をダウンロードします。
-2. リリースノート下部の **「Assets」** から、 **「OmikujiBot_core_」** と書かれたファイルをダウンロードします。
+2. リリースノート下部の **「Assets」** から、 **「OmikujiBot_core\_」** と書かれたファイルをダウンロードします。
 3. ダウンロードした ZIP ファイルを **解凍** します。
 
 ![](../../template/installation/images/Pasted%20image%2020260103155557.png)
@@ -98,9 +98,9 @@
 ### PRO(有料) 版でできること
 
 - PRO 版は以下の機能が追加されます
-	- コンフィグエディターの「テンプレートの読み込み・出力」が可能になります。
-	- フキダシのフォント設定・アニメーション設定を自在に選べるようになります。
-	- プラグイン使用時「プリセット管理」機能で、複数のおみくじデータを管理できます
+  - コンフィグエディターの「テンプレートの読み込み・出力」が可能になります。
+  - フキダシのフォント設定・アニメーション設定を自在に選べるようになります。
+  - プラグイン使用時「プリセット管理」機能で、複数のおみくじデータを管理できます
 - PRO 版をご購入いただくと、配布ファイル内の `readme.txt` にライセンスキーが記載されています。
 - コンフィグエディターの「表示設定 ＞ エディター設定」に、ライセンスキーを入力する欄がありますので、そこへコピー＆ペーストしてください。
 - PRO 版へのインストールに関する方法は [PRO(有料) 版へのアップグレードの方法](https://github.com/Pintocuru/OmikujiBot-Docs/tree/main/core/OmikujiBot#pro%E6%9C%89%E6%96%99-%E7%89%88%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89%E3%81%AE%E6%96%B9%E6%B3%95) をご覧ください。
@@ -146,8 +146,8 @@
 ![](../../core/ConfigEditor/images/features-04.webp)
 
 - 一部の配布パッケージには、**コンフィグエディター**（おみくじデータ編集用アプリ）が付属しています。
-	- 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
-- アプリと同じフォルダにある **`ConfigMaker.html`** を開くと起動できます。
+  - 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
+- アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
 - 詳しくは [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
 
 ## よくある質問 (FAQ)
@@ -182,7 +182,7 @@ A: おみくじ (omikuji)＋初見 (syoken) から取ってます。前作「[�
 ### ♫ 効果音・ジングル
 
 - [効果音・ジングルに関するライセンス](sub/sounds.md) にまとめています。
-	- このアプリに収録されている効果音データは、すべて [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) です。
+  - このアプリに収録されている効果音データは、すべて [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) です。
 
 それぞれのパッケージでは、各種イラスト素材を使用しています。詳しくは、下記の Readme をご覧ください。
 

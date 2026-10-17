@@ -48,7 +48,7 @@
 1. [템플릿 설치 방법](https://github.com/Pintocuru/OmikenReadme/blob/main/docs/TemplateInstall/README.md)
 2. [오미쿠지 BOT 업그레이드](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md)
 3. [【권장】오미쿠지 BOT 연출용 WordParty2.0 도입 방법](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95-installation)
-	- [오미쿠지 BOT 연출용 WordParty2.0이란?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
+   - [오미쿠지 BOT 연출용 WordParty2.0이란?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
 4. [오미쿠지 BOT 컨피그 에디터 PRO (유료판) 안내](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_51_ProUpgradeTemplate.md)
 
 ## 사용 방법 (Usage)
@@ -66,17 +66,17 @@
 > 발동 조건: 첫 댓글
 
 - 처음 댓글, 오랜만 (약 1 주일 만) 의 방문, 해당 방송에서의 첫 댓글에 대해 인사합니다.
-	- 판정에는 「OneComme」의 데이터를 참조합니다.
-	- 따라서 실제로는 「처음」이 아니더라도, 데이터에 유저 정보가 없으면 「처음」으로 판정됩니다. 양해 부탁드립니다.
+  - 판정에는 「OneComme」의 데이터를 참조합니다.
+  - 따라서 실제로는 「처음」이 아니더라도, 데이터에 유저 정보가 없으면 「처음」으로 판정됩니다. 양해 부탁드립니다.
 
 #### 댓글 테스터에서의 테스트 방법
 
 ![](../../template/usage/images/22_FirstCounter.png)
 
 - OmikujiBOT v1.2 이상에서는, 댓글 테스터의 「기타」 항목에서 아래에 체크를 넣으면 「처음 방문 판정」 테스트가 가능합니다.
-	- `NEW 댓글`: 처음
-	- `NEW 댓글` + `재방문`: 오랜만 (이전 댓글로부터 1 주일 이상 경과)
-	- `재방문`: 해당 방송에서의 첫 댓글
+  - `NEW 댓글`: 처음
+  - `NEW 댓글` + `재방문`: 오랜만 (이전 댓글로부터 1 주일 이상 경과)
+  - `재방문`: 해당 방송에서의 첫 댓글
 
 ### 선물 (후원) 에 대한 감사
 
@@ -105,10 +105,10 @@
 ![](../../core/ConfigEditor/images/features-04.webp)
 
 - 일부 배포 패키지에는 **컨피그 에디터**(오미쿠지 데이터 편집용 앱) 가 포함되어 있습니다.
-	- 포함되어 있지 않은 경우, 새로 도입해야 합니다. [컨피그 에디터 신규 도입](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) 을 참조하세요.
-- 앱과 같은 폴더에 있는 **`ConfigMaker.html`** 을 열면 실행됩니다.
+  - 포함되어 있지 않은 경우, 새로 도입해야 합니다. [컨피그 에디터 신규 도입](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) 을 참조하세요.
+- 앱과 같은 폴더에 있는 **`editor.html`** 을 열면 실행됩니다.
 - 자세한 내용은 [오미쿠지 BOT 컨피그 에디터 README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) 를 참조하세요.
-	- ⚠️ 현재 일본어로만 제공됩니다.
+  - ⚠️ 현재 일본어로만 제공됩니다.
 
 ## 자주 묻는 질문 (FAQ)
 

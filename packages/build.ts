@@ -3,7 +3,7 @@ import { SystemCommonData } from '@tools/types'
 import { CreateShimsVue, RemoveShimsVue } from '@tools/webpackBuild/utils/CreateShimsVue'
 import { WebpackBuilder } from '@tools/webpackBuild/WebpackBuilder'
 import { APP_VERSION, DATA_VERSION } from '@/version'
-import { alias } from '../vite.config'
+// import { alias } from '../vite.config'
 import dotenv from 'dotenv'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -11,6 +11,7 @@ import fs from 'fs'
 
 import { coreTargets, getCoreProjects, getPackageProjects, packageTargets } from './buildProjects'
 import { execSync } from 'child_process'
+import { createViteAliases } from '@tools/viteConfig/CreateViteAliases'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -42,6 +43,9 @@ async function runPreBuildChecks() {
   // shims-vue.d.ts を生成
   await CreateShimsVue(packageRoot)
 }
+
+const projectRoot = path.resolve(__dirname, '..') // packages/ の一つ上 = リポジトリ直下
+const alias = { ...createViteAliases(projectRoot) }
 
 ;(async () => {
   try {

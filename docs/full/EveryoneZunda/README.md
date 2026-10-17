@@ -50,7 +50,7 @@
 1. [テンプレートのインストール方法](https://github.com/Pintocuru/OmikenReadme/blob/main/docs/TemplateInstall/README.md)
 2. [おみくじ BOT のアップグレード](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md)
 3. [【推奨】おみくじ BOT 演出用 WordParty2.0 の導入方法](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95-installation)
-	- [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
+   - [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
 4. [おみくじBOT コンフィグエディター PRO (有料版) のご案内](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_51_ProUpgradeTemplate.md)
 
 ## つかいかた (Usage)
@@ -69,7 +69,7 @@
 
 - 巫女さん手製のおみくじを、ずんだもんが読んでくれます。
 - 「残念賞」に関する内容がすべて白紙だったため、代わりにずんだもんが一発芸をしてくれます。
-	- 裸芸が多いのは [配布画像データ](https://www.pixiv.net/artworks/92641351) が由来です。
+  - 裸芸が多いのは [配布画像データ](https://www.pixiv.net/artworks/92641351) が由来です。
 
 ### じゃんけん
 
@@ -79,8 +79,8 @@
 
 - じゃんけんの勝率は 1/2、あいこを「負け」とカウントしても、1/3 だと考えていませんか。
 - この「じゃんけん」は、じゃんけんの猛者 [「ケイスケ ホンダ」](https://dic.pixiv.net/a/%E6%9C%AC%E7%94%B0%E3%81%A8%E3%81%98%E3%82%83%E3%82%93%E3%81%91%E3%82%93) を導入することにより、勝率をたったの 5% まで劇的に減少させることに成功しました。
-	- 負けた時の「挑発的なコメント」が豊富です
-	- 誰が勝つか、ユーザー同士で競い合え、コメント数も増加します。
+  - 負けた時の「挑発的なコメント」が豊富です
+  - 誰が勝つか、ユーザー同士で競い合え、コメント数も増加します。
 - [勝ったらコーラ1本プレゼント！](https://www.j-cast.com/2019/04/17355553.html)
 
 ### 初見判定ちゃん
@@ -137,7 +137,7 @@
 ![](../../core/ConfigEditor/images/features-04.webp)
 
 - 一部の配布パッケージには、**コンフィグエディター**（おみくじデータ編集用アプリ）が付属しています。
-- アプリと同じフォルダにある **`ConfigMaker.html`** を開くと起動できます。
+- アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
 - 詳しくは [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
 - おみくじの内容は、あなたの配信に合わせて**内容を自由にカスタマイズ**できます。
 - ただし、使用している**キャラクターには著作権があります**ので、原作やイラスト制作者の方々へのご配慮をお願いします。
@@ -201,14 +201,14 @@
 ### ずんだもん
 
 - ずんだもん ずんだもん立ち絵素材 - 坂本アヒルのイラスト - pixiv
-	- <https://www.pixiv.net/artworks/92641351>
+  - <https://www.pixiv.net/artworks/92641351>
 
 ### 素材の取り扱いについて
 
 1. 本アプリに含まれる素材は、各権利者からの許諾を得て使用しています。
-	1. これらの素材は**アプリの機能提供のために同梱**しているものであり、素材そのものを再配布することを目的としたものではありません。
+   1. これらの素材は**アプリの機能提供のために同梱**しているものであり、素材そのものを再配布することを目的としたものではありません。
 2. 素材は、**本アプリを利用した配信・演出の範囲内でのみ**ご使用ください。
-	1. アプリからの抽出、素材データの単体利用、再配布、二次配布は禁止されています。
+   1. アプリからの抽出、素材データの単体利用、再配布、二次配布は禁止されています。
 3. 各素材の利用条件については、配布元サイトの利用規約をご確認ください。
 4. 素材の権利や利用条件について万が一不備や問題がございましたら、権利者様よりご連絡いただければ、速やかに確認・対応いたします。
 

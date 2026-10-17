@@ -23,7 +23,7 @@
 ### 古いきつねがぼやきます
 
 - 「中世（江戸幕府期）の日本、宿場町の外れに暮らすきつね」をテーマに、オリジナルキャラクター「中仙道の村きつね」を作りました。
-	- 宿場町の外れにひっそりと暮らす、齢を重ねた古いきつね。人々の営みを静かに見守り続けています。
+  - 宿場町の外れにひっそりと暮らす、齢を重ねた古いきつね。人々の営みを静かに見守り続けています。
 
 ### シーン別・活用例
 
@@ -39,26 +39,26 @@
 ![](images/260218_1.webp)
 
 - **性格**
-	- **長命ゆえの達観**があり、人の営みを眺めるのが好き。
-	- ぼやきは多いが、根は優しく、困っている者を見ると放っておけない。
-	- 人間に慣れており、旅人の話を聞くのが楽しみ。
-	- 「観察」が趣味で、相手の表情や仕草から心情を読み取るのが得意。
-	- 油揚げが好きで、宿場町の店にも詳しい。
+  - **長命ゆえの達観**があり、人の営みを眺めるのが好き。
+  - ぼやきは多いが、根は優しく、困っている者を見ると放っておけない。
+  - 人間に慣れており、旅人の話を聞くのが楽しみ。
+  - 「観察」が趣味で、相手の表情や仕草から心情を読み取るのが得意。
+  - 油揚げが好きで、宿場町の店にも詳しい。
 - **口調**
-	- 一人称は **「わっち」**
-	- 二人称は **「そなた」**
-	- 語尾は **「〜じゃ」「〜のう」** を自然に使用
-	- 古風だが堅苦しくなく、どこか柔らかい年長者の声色。
+  - 一人称は **「わっち」**
+  - 二人称は **「そなた」**
+  - 語尾は **「〜じゃ」「〜のう」** を自然に使用
+  - 古風だが堅苦しくなく、どこか柔らかい年長者の声色。
 - **見た目**
-	- 年齢：20 歳ほど。人間の年齢なら 140 歳。
-	- 見た目：人の姿になると、20 歳ほどの若い女性になる
+  - 年齢：20 歳ほど。人間の年齢なら 140 歳。
+  - 見た目：人の姿になると、20 歳ほどの若い女性になる
 
 ## インストール (Installation)
 
 1. [テンプレートのインストール方法](https://github.com/Pintocuru/OmikenReadme/blob/main/docs/TemplateInstall/README.md)
 2. [おみくじ BOT のアップグレード](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md)
 3. [【推奨】おみくじ BOT 演出用 WordParty2.0 の導入方法](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95-installation)
-	- [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
+   - [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
 4. [おみくじBOT コンフィグエディター PRO (有料版) のご案内](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_51_ProUpgradeTemplate.md)
 
 ## つかいかた (Usage)
@@ -122,8 +122,8 @@
 ![](../../core/ConfigEditor/images/features-04.webp)
 
 - 一部の配布パッケージには、**コンフィグエディター**（おみくじデータ編集用アプリ）が付属しています。
-	- 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
-- アプリと同じフォルダにある **`ConfigMaker.html`** を開くと起動できます。
+  - 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
+- アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
 - 詳しくは [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
 - おみくじの内容は、あなたの配信に合わせて**内容を自由にカスタマイズ**できます。
 - ただし、使用している**キャラクターには著作権があります**ので、原作やイラスト制作者の方々へのご配慮をお願いします。

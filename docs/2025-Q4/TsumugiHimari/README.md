@@ -238,7 +238,7 @@
 ![](../../core/ConfigEditor/images/features-04.webp)
 
 - すべての配布パッケージには、**コンフィグエディター**（おみくじデータ編集用アプリ）が付属しています。
-- アプリと同じフォルダにある **`ConfigMaker.html`** を開くと起動できます。
+- アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
 - 配布パッケージの種類によっては、一部機能が制限または非表示になっている場合があります。
 - 詳しくは [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
 - おみくじの内容は、あなたの配信に合わせて**内容を自由にカスタマイズ**できます。

@@ -3,7 +3,7 @@
 /** index.html / ConfigMaker のセットは全プロジェクト共通 */
 export const DEFAULT_FILES_TO_COPY = [
   { from: 'assets/TemplateEntry/index.html', to: 'index.html' },
-  { from: 'assets/TemplateEntry/ConfigMaker.html', to: 'ConfigMaker.html' },
+  { from: 'assets/TemplateEntry/editor.html', to: 'editor.html' },
   { from: 'assets/TemplateEntry/script.js', to: 'script.js' },
 ]
 

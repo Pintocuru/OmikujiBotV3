@@ -20,7 +20,7 @@
 
 - わんコメに BOT 機能を付与するジェネレーター【おみくじ BOT】を使った、テンポ良くレスポンスしてくれる占い機能です。
 - 使用するカードは、ルノルマンカード全 36 枚。シンプルな象徴から、状況に寄り添うメッセージを読み取れるのが魅力です。
-	- シンプルな一枚でも、意外と深い気づきを与えてくれるカードです。そっと心に触れるメッセージが届くかも。
+  - シンプルな一枚でも、意外と深い気づきを与えてくれるカードです。そっと心に触れるメッセージが届くかも。
 
 ### シーン別・活用例
 
@@ -33,7 +33,7 @@
 1. [テンプレートのインストール方法](https://github.com/Pintocuru/OmikenReadme/blob/main/docs/TemplateInstall/README.md)
 2. [おみくじ BOT のアップグレード](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md)
 3. [【推奨】おみくじ BOT 演出用 WordParty2.0 の導入方法](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95-installation)
-	- [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
+   - [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
 4. [おみくじBOT コンフィグエディター PRO (有料版) のご案内](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_51_ProUpgradeTemplate.md)
 
 ## つかいかた (Usage)
@@ -51,16 +51,16 @@
 > 発動ワード : `ルノ` / `ルノマン`/ `カード`/ `Lenormand`/ `占い`
 
 - 使用するカードは、ルノルマンカード全 36 枚。1 枚の象徴から、今の状況に寄り添うメッセージを受け取れる占い機能です。
-	- 気軽に引けるのに、ちょっとしたヒントや気づきが得られることもあるかも。
-	- [おみくじ BOT 用 WordParty](https://booth.pm/ja/items/6048048) を一緒に導入すると、稼働時にアニメーションが入ります。
+  - 気軽に引けるのに、ちょっとしたヒントや気づきが得られることもあるかも。
+  - [おみくじ BOT 用 WordParty](https://booth.pm/ja/items/6048048) を一緒に導入すると、稼働時にアニメーションが入ります。
 
 | ![](../../template/usage/images/LenormandOracle_1.webp) | ![](../../template/usage/images/LenormandOracle_2.webp) | ![](../../template/usage/images/LenormandOracle_3.webp) |
 | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
 
 - カードのに描かれているキャラクターは「おみくじ BOT」のキャラクターです。左から下記のような名前です。
-	- ヨーグル＝ソース
-	- コーラ＝フロート
-	- ミント＝シロップボトル
+  - ヨーグル＝ソース
+  - コーラ＝フロート
+  - ミント＝シロップボトル
 
 ## カスタマイズ（Customization）
 
@@ -69,8 +69,8 @@
 ![](../../core/ConfigEditor/images/features-04.webp)
 
 - 一部の配布パッケージには、**コンフィグエディター**（おみくじデータ編集用アプリ）が付属しています。
-	- 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
-- アプリと同じフォルダにある **`ConfigMaker.html`** を開くと起動できます。
+  - 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
+- アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
 - 詳しくは [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
 
 ## よくある質問 (FAQ)
@@ -137,9 +137,9 @@
 ### 素材の取り扱いについて
 
 1. 本アプリに含まれる素材は、各権利者からの許諾を得て使用しています。
-	1. これらの素材は**アプリの機能提供のために同梱**しているものであり、素材そのものを再配布することを目的としたものではありません。
+   1. これらの素材は**アプリの機能提供のために同梱**しているものであり、素材そのものを再配布することを目的としたものではありません。
 2. 素材は、**本アプリを利用した配信・演出の範囲内でのみ**ご使用ください。
-	1. アプリからの抽出、素材データの単体利用、再配布、二次配布は禁止されています。
+   1. アプリからの抽出、素材データの単体利用、再配布、二次配布は禁止されています。
 3. 各素材の利用条件については、配布元サイトの利用規約をご確認ください。
 4. 素材の権利や利用条件について万が一不備や問題がございましたら、権利者様よりご連絡いただければ、速やかに確認・対応いたします。
 

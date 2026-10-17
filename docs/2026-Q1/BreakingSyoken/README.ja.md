@@ -31,19 +31,19 @@
 - **ゲーム配信**
   - ゲームに集中していても、BOT が代わりに音を鳴らしたり、挨拶してくれるので、初見さんを見逃しません。
 - 雑談配信
-	- 新規ユーザーが来るたびに、BOT が告知してくれるため、会話のきっかけ作りに最適。
-	- 配信内での総コメント数も数えてくれます。
+  - 新規ユーザーが来るたびに、BOT が告知してくれるため、会話のきっかけ作りに最適。
+  - 配信内での総コメント数も数えてくれます。
 - 歌枠・カラオケ配信
-	- 効果音を配信内で鳴らさないよう OBS で設定ができます。歌っている間も、ユーザーを把握できます。
+  - 効果音を配信内で鳴らさないよう OBS で設定ができます。歌っている間も、ユーザーを把握できます。
 - 作業配信（勉強・お絵描き・編集など）
-	- 手が離せない作業中でも、BOT が新規ユーザーに反応してくれます。
+  - 手が離せない作業中でも、BOT が新規ユーザーに反応してくれます。
 
 ## インストール (Installation)
 
 1. [テンプレートのインストール方法](https://github.com/Pintocuru/OmikenReadme/blob/main/docs/TemplateInstall/README.md)
 2. [おみくじ BOT のアップグレード](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md)
 3. [【推奨】おみくじ BOT 演出用 WordParty2.0 の導入方法](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95-installation)
-	- [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
+   - [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
 4. [おみくじBOT コンフィグエディター PRO (有料版) のご案内](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_51_ProUpgradeTemplate.md)
 
 ## つかいかた (Usage)
@@ -61,17 +61,17 @@
 > 発動条件 : 初回コメント
 
 - 初めてのコメント、久しぶり（約 1 週間ぶり）、その配信での初回コメントに対して挨拶します。
-	- 判定には「わんコメ」のデータを参照します。
-	- そのため、実際には「初見」でなくても、データにユーザー情報がなければ「初見」と判定されます。ご了承ください。
+  - 判定には「わんコメ」のデータを参照します。
+  - そのため、実際には「初見」でなくても、データにユーザー情報がなければ「初見」と判定されます。ご了承ください。
 
 #### コメントテスターでのテスト方法
 
 ![](../../template/usage/images/22_FirstCounter.png)
 
 - おみくじ BOT v1.2 以降では、コメントテスターの「その他」項目から以下にチェックを入れることで「初見判定ちゃん」のテストが可能です。
-	- `NEWコメント` : 初見
-	- `NEWコメント` + `再訪` : 久しぶり（前回コメントから 1 週間以上経過）
-	- `再訪` : 配信枠での初回コメント
+  - `NEWコメント` : 初見
+  - `NEWコメント` + `再訪` : 久しぶり（前回コメントから 1 週間以上経過）
+  - `再訪` : 配信枠での初回コメント
 
 ### ギフトのお礼
 
@@ -100,8 +100,8 @@
 ![](../../core/ConfigEditor/images/features-04.webp)
 
 - 一部の配布パッケージには、**コンフィグエディター**（おみくじデータ編集用アプリ）が付属しています。
-	- 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
-- アプリと同じフォルダにある **`ConfigMaker.html`** を開くと起動できます。
+  - 付属されていない場合、新しく導入する必要があります。[コンフィグエディターの新規導入](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md) をご覧ください。
+- アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
 - 詳しくは [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
 
 ## よくある質問 (FAQ)
@@ -163,7 +163,7 @@
 ### 効果音・ジングル
 
 - [効果音・ジングルに関するライセンス](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikujiBot/sub/sounds.md) にまとめています。
-	- このアプリ（ジェネレーター・エディター）に収録されている効果音データは、すべて [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) です。
+  - このアプリ（ジェネレーター・エディター）に収録されている効果音データは、すべて [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) です。
 
 ## ライセンス（License）
 

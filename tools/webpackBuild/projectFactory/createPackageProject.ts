@@ -27,6 +27,7 @@ export function createPackageProject(packageRoot: string, color: string, params:
     key: id,
     name: params.title,
     tags: params.tags,
+    // TODO:OmikujiBot-Docs -> OmikujiBotV3 に変更
     banner: `https://raw.githubusercontent.com/Pintocuru/OmikujiBot-Docs/refs/heads/main/${params.category}/${series}/${id}.webp`,
     licenseLabel: params.licenseLabel,
 
@@ -38,6 +39,7 @@ export function createPackageProject(packageRoot: string, color: string, params:
       name: `おみくじBOT ${params.title} ${colorLabel}OmikujiBot ${id}`,
       label: `${params.title} ${colorLabel} ${id}`,
       boothURL: `https://pintocuru.booth.pm/items/${params.boothId}`,
+      // TODO:OmikujiBot-Docs -> OmikujiBotV3 に変更
       readmeURL: `https://github.com/Pintocuru/OmikujiBot-Docs/tree/main/${params.category}/${series}/README.ja.md`,
       description: params.description,
     },
@@ -47,7 +49,7 @@ export function createPackageProject(packageRoot: string, color: string, params:
     filesToCopy: [
       ...(params.extraFiles ?? []),
       ...DEFAULT_FILES_TO_COPY,
-      { from: `assets/thumb/${params.category}/${id}.gif`, to: 'thumb.gif' },
+      { from: `packages/${params.category}/${series}/thumb/${id}.gif`, to: 'thumb.gif' },
     ],
   }
 }
