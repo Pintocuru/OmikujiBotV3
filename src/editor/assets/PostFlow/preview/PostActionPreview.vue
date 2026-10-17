@@ -13,7 +13,7 @@
       />
       <LayerImage
         :layers="character?.image?.[action.iconKey]?.src ?? []"
-        :size="bubbleSettings.characterSize * 4"
+        :size="bubbleSettings.characterSize"
         :animation="character?.image?.[action.iconKey]?.animation"
       />
     </div>

@@ -13,4 +13,4 @@ export const registerUiEditor = (loaders: Partial<Record<UiKind, Loader>>) => {
     entries[kind] = { ...uiKindMap[kind], component: defineAsyncComponent(loader) }
   }
 }
-export const getUiEditorEntries = () => Object.entries(entries) as [UiKind, Entry][]
+export const getUiEditorEntries = () => entries

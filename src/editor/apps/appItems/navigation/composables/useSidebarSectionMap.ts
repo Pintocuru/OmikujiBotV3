@@ -1,7 +1,7 @@
 // src/editor/apps/appItems/navigation/composables/useSidebarSectionMap.ts
 import { ComputedRef, computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { DataCategoryType } from '@/types/OmikujiData/'
+import { DataCategoryType, UiKind } from '@/types/OmikujiData/'
 import { SidebarObjectCategory, SidebarSectionItem } from '@/editor/types/apps'
 import { appInfoSections, categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -17,9 +17,12 @@ export function useUiSections(): ComputedRef<SidebarSectionItem[]> {
 
   return computed<SidebarSectionItem[]>(() => {
     const kinds = uiLayoutMap[data.value.ui.layout].kinds
-    const dynamic = getUiEditorEntries()
-      .filter(([kind]) => kinds.includes(kind))
-      .map(([kind, item]): SidebarSectionItem => ({ section: kind, icon: item.icon }))
+    const dynamic = Object.entries(getUiEditorEntries())
+      .filter(([kind]) => kinds.includes(kind as UiKind))
+      .map(([kind, item]): SidebarSectionItem => ({
+        section: kind as UiKind,
+        icon: item.icon,
+      }))
 
     return [{ section: 'commonStyle', icon: 'Palette' }, ...dynamic]
   })

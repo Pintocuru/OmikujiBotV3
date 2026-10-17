@@ -55,6 +55,7 @@
   import { getUiEditorEntries } from './uiEditorRegistry'
   import LayoutEditor from './conditions/LayoutEditor.vue'
   import FontFamilyEditor from './common/FontFamilyEditor.vue'
+  import { UiKind } from '@/types/OmikujiData'
 
   const { data } = storeToRefs(useOmikujiStore())
   const { activeSection } = storeToRefs(useNavigationStore())
@@ -62,7 +63,7 @@
   // 選択中レイアウトが使う UI のうち、main.ts で登録済みのものだけ表示
   const visibleItems = computed(() => {
     const kinds = uiLayoutMap[data.value.ui.layout].kinds
-    return getUiEditorEntries().filter(([kind]) => kinds.includes(kind))
+    return Object.entries(getUiEditorEntries()).filter(([kind]) => kinds.includes(kind as UiKind))
   })
 
   const toggleSection = (section: string) => {

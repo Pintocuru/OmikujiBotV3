@@ -1,7 +1,7 @@
 <!-- src/ui/CommentBubble/editor/CommentBubbleEditor.vue -->
 <template>
   <!-- プレビュー表示 -->
-  <HudPreview>
+  <HudPreview :isHeight="false">
     <CommentBubblePreview
       :key="bubble.bubbleMotion"
       :botName="persistentCharacter?.displayName"
@@ -9,29 +9,24 @@
       :fontFamily="fontFamily"
       :bubbleMotion="bubble.bubbleMotion"
     />
+
+    <!-- キャラクター画像(大きさの確認用) -->
+    <div class="flex justify-center py-2">
+      <LayerImage v-if="previewLayers.length" :layers="previewLayers" :size="bubble.characterSize" />
+      <span v-else class="text-sm opacity-60 italic">キャラクター画像が設定されていません</span>
+    </div>
   </HudPreview>
 
-  <!-- キャラクター画像(大きさの確認用) -->
-  <div class="flex justify-center py-2">
-    <LayerImage v-if="previewLayers.length" :layers="previewLayers" :size="bubble.characterSize" />
-    <span v-else class="text-sm opacity-60 italic">キャラクター画像が設定されていません</span>
-  </div>
-
   <!-- キャラクター -->
-  <SettingItem
-    label="常時表示キャラクター"
-    description="コメントがないときに表示します。未設定なら、コメントが来たときだけ表示されます"
-    :showReset="true"
-    @reset="resetField('persistentCharacter')"
-  >
+  <SettingItem label="常時表示キャラクター" description="未設定の場合、コメントが来たときのみ表示されます">
     <select
       :value="bubble.persistentCharacter"
       @change="(e) => update('persistentCharacter', (e.target as HTMLSelectElement).value)"
       class="select select-bordered w-full max-w-xs"
     >
       <option value="">なし(コメント時のみ表示)</option>
-      <option v-for="c in characterList" :key="c.key" :value="c.key">
-        {{ c.displayName || c.key }}
+      <option v-for="(c, key) in characterMap" :key="key" :value="key">
+        {{ c.name }}
       </option>
     </select>
   </SettingItem>
@@ -45,9 +40,9 @@
   >
     <input
       type="range"
-      min="16"
-      max="80"
-      step="4"
+      min="64"
+      max="320"
+      step="16"
       class="range range-primary w-full max-w-xs"
       :value="bubble.characterSize"
       @input="(e) => update('characterSize', Number((e.target as HTMLInputElement).value))"
@@ -87,6 +82,7 @@
   import type { CommentBubbleType } from '@/ui/types'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import CommentBubblePreview from './CommentBubblePreview.vue'
+  import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
@@ -94,11 +90,11 @@
 
   const bubble = computed(() => data.value.ui.settings.commentBubble ?? CommentBubbleSchema.parse({}))
   const fontFamily = computed(() => data.value.ui.fontFamily)
-  const characterList = computed(() => Object.values(data.value.assets.characters))
+  const { characterMap } = useCharacterLookup()
 
   // プレビュー用: 選択中のキャラクター。未選択・不明なら先頭
   const persistentCharacter = computed(
-    () => characterList.value.find((c) => c.key === bubble.value.persistentCharacter) ?? characterList.value[0] ?? null
+    () => characterMap.value[bubble.value.persistentCharacter] ?? Object.values(characterMap.value)[0] ?? null
   )
   const previewColor = computed(() => persistentCharacter.value?.color ?? CharacterColorScheme.parse({}))
 
