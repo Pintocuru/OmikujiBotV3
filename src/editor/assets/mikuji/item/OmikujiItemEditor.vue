@@ -47,32 +47,6 @@
 
   <!-- control 固有の設定 (おみくじカウント・評価ブロック) -->
   <OmikujiItemControlSettings v-else-if="isControlItem(omikujiItem)" :item="omikujiItem" @update="updateItem" />
-
-  <!-- log 固有の設定 -->
-  <template v-else-if="omikujiItem.kind === 'log'">
-    <SettingItem
-      label="ログのフォーマット"
-      description="1行分の書式です。使用可能: <<index>> <<user>> <<userId>> <<score>> <<item>> <<flag>> <<createdAt>>"
-    >
-      <input
-        type="text"
-        class="input input-bordered input-sm w-full"
-        :value="omikujiItem.logFormat"
-        @input="updateLogFormat(($event.target as HTMLInputElement).value)"
-      />
-    </SettingItem>
-
-    <SettingItem label="最大出力件数" description="ログとして出力する最大件数です(1〜100)">
-      <input
-        type="number"
-        class="input input-bordered input-sm w-24"
-        min="1"
-        max="100"
-        :value="omikujiItem.logLimit"
-        @change="updateLogLimit(($event.target as HTMLInputElement).valueAsNumber)"
-      />
-    </SettingItem>
-  </template>
 </template>
 
 <script setup lang="ts">
@@ -145,21 +119,6 @@
   const updatePostFlows = (postFlows: PostFlowType[]) => {
     if (props.omikujiItem.kind !== 'postFlow') return
     updateItemProperties({ postFlows })
-  }
-
-  // logFormat更新
-  const updateLogFormat = (logFormat: string) => {
-    if (props.omikujiItem.kind !== 'log') return
-    updateItemProperties({ logFormat })
-  }
-
-  // logLimit更新（1〜100 にクランプ）
-  const updateLogLimit = (value: number) => {
-    if (props.omikujiItem.kind !== 'log') return
-    if (Number.isNaN(value)) return
-    updateItemProperties({
-      logLimit: Math.min(100, Math.max(1, Math.round(value))),
-    })
   }
 
   const shouldShowKindSelector = computed(() => {

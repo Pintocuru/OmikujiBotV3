@@ -147,10 +147,6 @@ function migrateOmikujiItem(oldItem: unknown): Obj {
     const type = specialType(old)
 
     // logUserState / logOmikuji / logGame / logVariable -> log（targetKey は v3 に無いため破棄）
-    if (type.startsWith('log')) {
-      const log = obj(behavior.log)
-      return { ...base, kind: 'log', logFormat: log.logFormat, logLimit: log.logLimit }
-    }
     return {
       ...base,
       kind: 'control',

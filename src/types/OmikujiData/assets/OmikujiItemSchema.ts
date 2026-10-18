@@ -9,9 +9,8 @@ import { BaseSchema } from '@/types/core'
  * omikujiItemKinds: おみくじアイテムの種別
  * - postFlow: BOTアクションを実行する
  * - control : 処理の流れを制御する (command: return / continue)
- * - log     : ユーザー状態をログとして出力する
  */
-export const omikujiItemKinds = ['postFlow', 'control', 'log'] as const
+export const omikujiItemKinds = ['postFlow', 'control'] as const
 
 // スキーマと型の定義
 export const OmikujiItemKindSchema = z.enum(omikujiItemKinds)
@@ -74,18 +73,8 @@ export const OmikujiItemControlSchema = OmikujiItemBase.extend({
 })
 export type OmikujiItemControlType = z.infer<typeof OmikujiItemControlSchema>
 
-// ユーザー状態をログとして出力する
-export const LOG_FORMAT_DEFAULT = '<<user>> <<score>> <<createdAt>>'
-export const OmikujiItemLogSchema = OmikujiItemBase.extend({
-  kind: z.literal('log'),
-  // ログ1行のフォーマット文字列（使用可能: <<index>> <<user>> <<userId>> <<score>> <<item>> <<flag>> <<createdAt>>）
-  logFormat: z.string().default(LOG_FORMAT_DEFAULT).catch(LOG_FORMAT_DEFAULT),
-  logLimit: z.number().min(1).max(100).default(5).catch(5), // 最大出力件数（1〜100）
-})
-
 export const OmikujiItemSchema = z.discriminatedUnion('kind', [
   OmikujiItemPostFlowSchema,
   OmikujiItemControlSchema,
-  OmikujiItemLogSchema,
 ])
 export type OmikujiItemType = z.infer<typeof OmikujiItemSchema>
