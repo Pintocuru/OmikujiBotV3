@@ -37,8 +37,11 @@ export class BotMessageGenerator {
       if (!hasPostFlowMessage(action) || !action.message) return { action }
 
       // 変数処理の実行（ランキング抽出等）
-      const { extra } = this.variableProcessor.process(action.message)
-      return { action, extra }
+      // 評価後の本文 (bubble) を action.message に反映する。
+      // 反映しないと、評価ブロック {{ }} が本文に残り、BotMessage 側ではそのまま表示され、
+      // わんコメ投稿 (cleanPostMessage) では {{ }} が丸ごと消えてしまう
+      const { bubble, extra } = this.variableProcessor.process(action.message)
+      return { action: { ...action, message: bubble }, extra }
     })
   }
 

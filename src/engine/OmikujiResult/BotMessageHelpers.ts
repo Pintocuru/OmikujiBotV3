@@ -26,15 +26,12 @@ export function createBotMessagesFromAction(
 
   const messages: BotMessageType[] = []
 
-  const bubbleMessage = createBubbleMessage(
-    action.characterKey,
-    action.iconKey,
-    message,
-    delaySeconds,
-    characterManager,
-    extra?.slots
-  )
-  messages.push(bubbleMessage)
+  // 評価ブロックだけのメッセージ (評価後に本文が空) は、吹き出しを作らない
+  if (message.trim()) {
+    messages.push(
+      createBubbleMessage(action.characterKey, action.iconKey, message, delaySeconds, characterManager, extra?.slots)
+    )
+  }
 
   // Rankingメッセージ
   if (hasRanking) messages.push(createRankingMessage(delaySeconds, extra, omiken))

@@ -76,12 +76,15 @@ export class OmikujiResultProcessor {
           messages = await this.gameScriptsHandler.process(actionItem, omiken, isOnecommePost)
           break
 
+        // variable は式の評価のみ (吹き出しは作らない。lists / slots がある場合のみ Ranking メッセージ)
         case 'flowCall':
+        case 'message':
+        case 'variable':
+        case 'bot':
+        case 'sound':
+        case 'wordParty':
           messages = this.postActionsHandler.process([actionItem], defaultPlaceholders, omiken, isOnecommePost)
           break
-
-        default:
-          return []
       }
 
       return messages
