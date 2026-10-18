@@ -1,13 +1,14 @@
 <!-- src/editor/assets/PostFlow/preview/SoundTestButton.vue -->
 <template>
+  <!-- サウンドのテスト実行 -->
   <button @click="handleClick" :disabled="!sound && !soundPath" class="btn btn-xs btn-secondary">
     サウンドのテスト実行
   </button>
 </template>
 
 <script setup lang="ts">
-  import { playSoundResolved } from '@/common/sounds'
   import { SoundKeyType } from '@/types/OmikujiData'
+  import { playSoundResolved } from '@/common/sounds'
 
   const props = defineProps<{
     sound: SoundKeyType | ''

@@ -22,9 +22,6 @@ export function usePostActionsTab(
     // 同じタブをクリックで閉じる
     if (index === activeTab.value) {
       activeTab.value = -2
-    } else if (index === -1) {
-      // プレースホルダータブ
-      activeTab.value = -1
     } else if (index >= 0 && index < actions.value.length) {
       // PostActionタブ
       activeTab.value = index

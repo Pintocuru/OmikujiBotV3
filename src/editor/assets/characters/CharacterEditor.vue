@@ -23,7 +23,11 @@
       :title="s('colorSettings')?.label"
       :description="s('colorSettings')?.description"
     >
-      <CharacterColorSettings :botName="selectedItem.displayName" :modelValue="selectedItem.color" />
+      <CharacterColorSettings
+        :botName="selectedItem.displayName"
+        :modelValue="selectedItem.color"
+        @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'color', value)"
+      />
     </SectionCard>
 
     <!-- BOTコメント表現設定 -->

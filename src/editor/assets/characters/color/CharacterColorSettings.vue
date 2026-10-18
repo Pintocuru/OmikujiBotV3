@@ -5,8 +5,6 @@
     <CommentBubblePreview :botName="botName" :color="currentColor" bubbleMotionEnter="none" />
   </div>
 
-  <!-- フキダシカラー設定 -->
-  <SubSectionHeader icon="Palette" title="カラー設定" description="フキダシの配色やテーマカラーを設定します" />
   <ColorPicker :model-value="currentColor" @update:model-value="handleColorUpdate" />
 </template>
 
@@ -14,7 +12,6 @@
   import { computed } from 'vue'
   import { CharacterColorScheme, CharacterColorType } from '@/types/OmikujiData/'
   import CommentBubblePreview from '@/ui/CommentBubble/editor/CommentBubblePreview.vue'
-  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
 
   const props = defineProps<{

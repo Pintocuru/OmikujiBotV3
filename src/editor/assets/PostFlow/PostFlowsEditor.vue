@@ -5,7 +5,14 @@
     <OmikujiItemToolbar :modelValue="modelValue" @update:modelValue="updatePostActions" />
 
     <!-- PostActionsタブエディター -->
-    <PostActionsTabs :modelValue="modelValue" @update:actions="updatePostActions" />
+    <PostActionsTabs
+      :modelValue="modelValue"
+      :activeTab="activeTab"
+      @select-tab="setActiveTab"
+      @add="addNewAction"
+      @duplicate="duplicateAction"
+      @remove="removeAction"
+    />
 
     <!-- タブコンテンツ -->
     <!-- アクションが空の場合 -->
@@ -45,11 +52,18 @@
   }>()
 
   // タブロジックをコンポーザブルから取得
-  const { activeTab, currentAction, updateCurrentAction, addNewAction, duplicateAction, removeAction } =
-    usePostActionsTab(
-      computed(() => props?.modelValue),
-      (_event, actions) => emit('update:modelValue', actions)
-    )
+  const {
+    activeTab,
+    currentAction,
+    setActiveTab,
+    updateCurrentAction,
+    addNewAction,
+    duplicateAction,
+    removeAction,
+  } = usePostActionsTab(
+    computed(() => props?.modelValue),
+    (_event, actions) => emit('update:modelValue', actions)
+  )
 
   const updatePostActions = (newActions: PostFlowType[]) => {
     emit('update:modelValue', newActions)
