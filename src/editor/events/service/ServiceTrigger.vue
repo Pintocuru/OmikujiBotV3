@@ -6,7 +6,7 @@
       <label v-for="(value, key) in serviceTriggerConditionMap" :key="key" class="cursor-pointer">
         <input type="radio" class="hidden" :checked="selectedCondition === key" @change="setCondition(key)" />
         <span class="badge badge-lg select-none" :class="selectedCondition === key ? 'badge-primary' : 'badge-ghost'">
-          {{ value }}
+          {{ value.label }}
         </span>
       </label>
     </div>

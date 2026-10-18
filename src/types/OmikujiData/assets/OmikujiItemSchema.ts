@@ -72,7 +72,6 @@ export const OmikujiItemControlSchema = OmikujiItemBase.extend({
   kind: z.literal('control'),
   command: OmikujiControlCommandSchema.default('return').catch('return'),
   isCountEvent: z.boolean().default(true), // このアクションをおみくじカウントとして記録するか
-  // TODO: 未実装。postFlows の kind:'variable' と同じ挙動 (評価ブロックの編集) を想定
   variable: z.string().default('').catch(''),
 })
 export type OmikujiItemControlType = z.infer<typeof OmikujiItemControlSchema>

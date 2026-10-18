@@ -1,5 +1,4 @@
 // src/maps/OmikujiData/assets/OmikujiItemKindMap.ts
-import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
 import { OmikujiControlCommand, OmikujiItemKind } from '@/types/OmikujiData'
 
@@ -27,10 +26,7 @@ export const omikujiItemKindMap: Record<OmikujiItemKind, DisplayMetaLucide> = {
 /**
  * control の command ごとのUI表示情報
  */
-export const omikujiControlCommandMap: Record<
-  OmikujiControlCommand,
-  { label: string; description: string; icon: LucideIconName }
-> = {
+export const omikujiControlCommandMap: Record<OmikujiControlCommand, DisplayMetaLucide> = {
   return: {
     label: '処理を終了する(return)',
     description: 'BOTアクションを何もせず、このイベントで処理を終了します。',

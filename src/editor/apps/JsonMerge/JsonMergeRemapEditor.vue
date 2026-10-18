@@ -30,8 +30,8 @@
       <SettingItem label="元アイコンキー">
         <select v-model="localRemap.fromIconKey" class="select select-sm select-bordered w-full">
           <option value="">アイコンキーを選択…</option>
-          <option v-for="(emotion, key) in characterEmotionMap" :key="key" :value="key">
-            {{ emotion }}
+          <option v-for="(value, key) in characterEmotionMap" :key="key" :value="key">
+            {{ value.label }}
           </option>
         </select>
       </SettingItem>
@@ -40,8 +40,8 @@
       <SettingItem label="新アイコンキー">
         <select v-model="localRemap.toIconKey" class="select select-sm select-bordered w-full">
           <option value="">アイコンキーを選択…</option>
-          <option v-for="(emotion, key) in characterEmotionMap" :key="key" :value="key">
-            {{ emotion }}
+          <option v-for="(value, key) in characterEmotionMap" :key="key" :value="key">
+            {{ value.label }}
           </option>
         </select>
       </SettingItem>

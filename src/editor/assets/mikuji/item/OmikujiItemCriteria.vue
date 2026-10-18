@@ -17,18 +17,19 @@
     :variant="activeConditions.size === 0 ? 'warning' : undefined"
   >
     <div class="flex flex-wrap gap-2">
-      <label v-for="condition in conditionTypes" :key="condition.value" class="cursor-pointer">
+      <label v-for="condition in criteriaThresholdCondition" :key="condition" class="cursor-pointer">
         <input
           type="checkbox"
           class="hidden"
-          :checked="activeConditions.has(condition.value)"
-          @change="toggleCondition(condition.value)"
+          :checked="activeConditions.has(condition)"
+          @change="toggleCondition(condition)"
         />
         <span
           class="badge badge-lg select-none"
-          :class="activeConditions.has(condition.value) ? 'badge-primary' : 'badge-ghost'"
+          :class="activeConditions.has(condition) ? 'badge-primary' : 'badge-ghost'"
         >
-          {{ condition.label }}
+          <!-- commentTriggerから流用 -->
+          {{ t(`commentTrigger.conditions.${condition}.label`) }}
         </span>
       </label>
     </div>
@@ -81,6 +82,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
 
   import {
     CriteriaThresholdCondition,
@@ -109,11 +111,8 @@
     update: [item: OmikujiItemType]
   }>()
 
-  // 条件タイプの選択肢
-  const conditionTypes = Object.entries(criteriaThresholdCondition).map(([value, label]) => ({
-    value: value as CriteriaThresholdCondition,
-    label,
-  }))
+  // i18n の初期化
+  const { t } = useI18n()
 
   // criteria
   const criteria = computed(() => {

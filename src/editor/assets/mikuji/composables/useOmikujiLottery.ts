@@ -2,10 +2,10 @@
 import { computed } from 'vue'
 import {
   CriteriaThresholdSchema,
-  type CriteriaThresholdType,
-  type CriteriaThresholdCondition,
-  type LotteryType,
-  type OmikujiItemType,
+  CriteriaThresholdType,
+  CriteriaThresholdCondition,
+  LotteryType,
+  OmikujiItemType,
 } from '@/types/OmikujiData/'
 
 const defaultCriteria = () => CriteriaThresholdSchema.parse({})
