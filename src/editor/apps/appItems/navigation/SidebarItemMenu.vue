@@ -93,7 +93,7 @@
 
   const handleToggle = () => {
     if (isEventCategory(props.category)) {
-      omikujiStore.updateEvent(props.category, props.item.key, {
+      omikujiStore.updateEvent(props.category, props.item.id, {
         ...props.item,
         isEnabled: !Boolean(props.item.isEnabled),
       })
@@ -110,7 +110,7 @@
 
   const handleDuplicate = () => {
     if (isEventCategory(props.category)) {
-      omikujiStore.duplicateEvent(props.category, props.item.key)
+      omikujiStore.duplicateEvent(props.category, props.item.id)
     } else {
       omikujiStore.duplicateAsset(props.category, props.item.key)
     }
@@ -223,7 +223,7 @@
     navigationStore.selectNextItem()
 
     if (isEventCategory(props.category)) {
-      omikujiStore.removeEvent(props.category, props.item.key)
+      omikujiStore.removeEvent(props.category, props.item.id)
     } else {
       omikujiStore.removeAsset(props.category, props.item.key)
     }
