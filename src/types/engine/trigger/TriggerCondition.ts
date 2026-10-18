@@ -18,4 +18,4 @@ export const triggerConditions = [
 
 // キーの型
 export const TriggerConditionSchema = z.enum(triggerConditions)
-export type TriggerCondition = z.infer<typeof TriggerConditionSchema>
+export type TriggerConditionType = z.infer<typeof TriggerConditionSchema>

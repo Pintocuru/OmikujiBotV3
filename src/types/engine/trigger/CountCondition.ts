@@ -29,4 +29,4 @@ export const CountConditionSchema = z.object({
   value: z.number().min(0).default(1).catch(1),
 })
 
-export type CountConditionTriggerType = z.infer<typeof CountConditionSchema>
+export type CountConditionType = z.infer<typeof CountConditionSchema>

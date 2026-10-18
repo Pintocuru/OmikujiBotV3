@@ -1,9 +1,9 @@
 // src/maps/engine/trigger/SyokenConditionMap.ts
 import { DisplayMeta } from '@/editor/types/DisplayMeta'
-import { SyokenCondition } from '@/types/engine/trigger'
+import { SyokenConditionType } from '@/types/engine/trigger'
 
 // Map定義
-export const syokenConditionMap: Record<SyokenCondition, DisplayMeta> = {
+export const syokenConditionMap: Record<SyokenConditionType, DisplayMeta> = {
   syoken: {
     label: '初見',
     description: '初回訪問(わんコメにデータのない)ユーザー',

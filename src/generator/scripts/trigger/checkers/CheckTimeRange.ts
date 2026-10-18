@@ -1,7 +1,7 @@
 // src/generator/scripts/trigger/checkers/CheckTimeRange.ts
 
 /**
- * 時間範囲チェック（追加機能）
+ * 時間範囲チェック
  */
 export function checkTimeRange(startHour: number, endHour: number): boolean {
   const now = new Date()

@@ -19,4 +19,4 @@ export const giftConditions = [
 
 // スキーマと型の定義
 export const GiftConditionSchema = z.enum(giftConditions).default('all').catch('all')
-export type GiftCondition = z.infer<typeof GiftConditionSchema>
+export type GiftConditionType = z.infer<typeof GiftConditionSchema>

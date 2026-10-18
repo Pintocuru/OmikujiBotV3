@@ -18,22 +18,22 @@
 <script setup lang="ts">
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { syokenConditionMap } from '@/maps/engine/trigger/SyokenConditionMap'
-  import { SyokenCondition } from '@/types/engine/trigger'
+  import { SyokenConditionType } from '@/types/engine/trigger'
 
   const props = defineProps<{
-    modelValue: SyokenCondition[]
+    modelValue: SyokenConditionType[]
   }>()
 
   const emit = defineEmits(['update:modelValue'])
 
   // 選択肢の生成
   const syokenOptions = Object.entries(syokenConditionMap).map(([value, { label }]) => ({
-    value: value as SyokenCondition,
+    value: value as SyokenConditionType,
     label,
   }))
 
   // オプションの切り替え
-  const toggleOption = (value: SyokenCondition) => {
+  const toggleOption = (value: SyokenConditionType) => {
     const index = props.modelValue.indexOf(value)
     const newValue = index > -1 ? props.modelValue.filter((_, i) => i !== index) : [...props.modelValue, value]
 

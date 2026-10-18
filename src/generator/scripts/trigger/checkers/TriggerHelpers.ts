@@ -1,14 +1,14 @@
 // src/generator/scripts/trigger/checkers/TriggerHelpers.ts
-import { CountComparisonCondition, GiftCondition } from '@/types/engine'
+import { CountComparisonCondition, GiftConditionType } from '@/types/engine'
 
 /**
  * ギフトティア計算（YouTube基準）
  */
-export const getGiftTier = (price?: number | null): GiftCondition => {
+export const getGiftTier = (price?: number | null): GiftConditionType => {
   // 金額のないギフト（メンバーシップ、ステッカー、サブスク等）
   if (price === null || price === undefined || price <= 0) return 'special'
 
-  const ranges: [number, GiftCondition][] = [
+  const ranges: [number, GiftConditionType][] = [
     [200, 'blue'],
     [500, 'lightBlue'],
     [1000, 'green'],

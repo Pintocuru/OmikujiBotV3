@@ -22,19 +22,19 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { accessConditions, AccessConditionTrigger } from '@/types/engine/trigger'
+  import { accessConditions, AccessConditionType } from '@/types/engine/trigger'
   import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const { t } = useI18n()
 
   const props = defineProps<{
-    modelValue?: AccessConditionTrigger[]
+    modelValue?: AccessConditionType[]
   }>()
 
   const emit = defineEmits(['update:modelValue'])
 
   // オプションの切り替え
-  const toggleOption = (value: AccessConditionTrigger) => {
+  const toggleOption = (value: AccessConditionType) => {
     const current = props.modelValue ?? []
     const index = current.indexOf(value)
     const newValue = index > -1 ? current.filter((_, i) => i !== index) : [...current, value]

@@ -1,12 +1,12 @@
 // src/generator/scripts/trigger/checkers/UserCheckersTrigger.ts
 import { OmikenCommentType } from '@/types/OmikenComment'
-import { AccessConditionTrigger, CountConditionTriggerType, GiftCondition, SyokenCondition } from '@/types/engine'
+import { AccessConditionType, CountConditionType, GiftConditionType, SyokenConditionType } from '@/types/engine'
 import { compareValue, getGiftTier } from './TriggerHelpers'
 
 /**
  * 初見・久しぶりのチェック
  */
-export function checkSyokenTrigger(omiken: OmikenCommentType, syoken: SyokenCondition[] = []): boolean {
+export function checkSyoken(omiken: OmikenCommentType, syoken: SyokenConditionType[] = []): boolean {
   if (!syoken.length) return true
   const { no, tc, isAgain } = omiken.meta
 
@@ -20,7 +20,7 @@ export function checkSyokenTrigger(omiken: OmikenCommentType, syoken: SyokenCond
 /**
  * ユーザー役職チェック
  */
-export function checkAccessTrigger(omiken: OmikenCommentType, access: AccessConditionTrigger[] = []): boolean {
+export function checkAccess(omiken: OmikenCommentType, access: AccessConditionType[] = []): boolean {
   if (!access.length) return true
   const { accessLevel } = omiken
   return access.some((required) => accessLevel.includes(required))
@@ -29,7 +29,7 @@ export function checkAccessTrigger(omiken: OmikenCommentType, access: AccessCond
 /**
  * 数値条件チェック
  */
-export function checkCountTrigger(omiken: OmikenCommentType, count?: CountConditionTriggerType): boolean {
+export function checkCount(omiken: OmikenCommentType, count?: CountConditionType): boolean {
   if (!count) return true
   const unitValue = count.unit === 'draws' ? (omiken.omikuji?.draws ?? 0) : (omiken.meta[count.unit] ?? 0)
   if (unitValue === 0 && count.comparison === 'loop') return false
@@ -39,7 +39,7 @@ export function checkCountTrigger(omiken: OmikenCommentType, count?: CountCondit
 /**
  * ギフト条件チェック
  */
-export function checkGiftTrigger(omiken: OmikenCommentType, gift: GiftCondition[] = []): boolean {
+export function checkGift(omiken: OmikenCommentType, gift: GiftConditionType[] = []): boolean {
   if (!gift.length) return true
 
   const { giftPrice } = omiken

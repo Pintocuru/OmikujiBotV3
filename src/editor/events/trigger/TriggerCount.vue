@@ -42,20 +42,20 @@
 <script setup lang="ts">
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { countComparisonConditionMap, countUnitConditionMap } from '@/maps/engine/trigger/CountConditionMap'
-  import { CountConditionTriggerType } from '@/types/engine/trigger'
+  import { CountConditionType } from '@/types/engine/trigger'
 
   const props = defineProps<{
-    modelValue?: CountConditionTriggerType
+    modelValue?: CountConditionType
   }>()
 
   const emit = defineEmits<{
-    (e: 'update:modelValue', value: CountConditionTriggerType): void
+    (e: 'update:modelValue', value: CountConditionType): void
   }>()
 
-  const updateField = (field: keyof CountConditionTriggerType, value: string) => {
+  const updateField = (field: keyof CountConditionType, value: string) => {
     emit('update:modelValue', {
       ...props.modelValue,
       [field]: field === 'value' ? Number(value) : value,
-    } as CountConditionTriggerType)
+    } as CountConditionType)
   }
 </script>
