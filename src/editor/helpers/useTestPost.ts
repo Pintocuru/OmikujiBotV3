@@ -27,7 +27,7 @@ export function useTestPost() {
   const navigationStore = useNavigationStore()
   const { selectedCategory, selectedItemKey } = storeToRefs(navigationStore)
 
-  const scriptManager = GameScriptManager.getInstance()
+  const scriptManager = new GameScriptManager()
   const placeholderVariable = new PlaceholderVariable()
 
   // 選択されているおみくじを取得

@@ -1,6 +1,5 @@
 // src/generator/stores/createAppServices.ts
-import { CooldownManager } from './CooldownManager/CooldownManager'
-import { UserManager } from './UserManager/UserManager'
+import { UserStatsManager } from './UserStats/UserStatsManager'
 import { ServiceMetaStore } from './MetaState/MetaStateService'
 import { StreamStatsManager } from './StreamStats/StreamStatsManager'
 import { ReactionStatsManager } from './ReactionManager/ReactionStatsManager'
@@ -8,15 +7,12 @@ import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 
 export function createAppServices() {
-  const cooldownManager = CooldownManager.getInstance()
-  const userSession = new UserManager()
-  const scriptManager = GameScriptManager.getInstance()
+  const userStats = new UserStatsManager()
+  const scriptManager = new GameScriptManager()
   const serviceMetaStore = ServiceMetaStore.getInstance()
-  const streamStats = StreamStatsManager.getInstance()
+  const streamStats = new StreamStatsManager()
   const placeholderVariable = new PlaceholderVariable()
   const reactionStats = new ReactionStatsManager()
-
-  scriptManager.setVisitManager(userSession)
 
   // 配信開始時に各種データリセット
   serviceMetaStore.subscribe((event) => {
@@ -24,13 +20,12 @@ export function createAppServices() {
     const curr = event.current.isLive
     if (!prev && curr) {
       streamStats.reset()
-      userSession.resetSession()
+      userStats.reset()
     }
   })
 
   return {
-    userSession,
-    cooldownManager,
+    userStats,
     scriptManager,
     serviceMetaStore,
     streamStats,

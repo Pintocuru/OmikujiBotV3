@@ -21,11 +21,11 @@ export function sanitizeKey(raw: string): string {
  */
 export function buildBasePlaceholders(store: AppStore): Record<ServiceMetaCondition, string | number> {
   const meta = store.serviceMetaStore.getCurrent()
-  const { userSession, streamStats } = store
+  const { userStats, streamStats } = store
 
-  const uniqueCount = userSession.stats.getUniqueCount()
+  const uniqueCount = userStats.getUniqueCount()
   const { liveComments, syoken } = streamStats.getStats()
-  const { winners } = userSession.stats.drawWinners(1)
+  const { winners } = userStats.drawWinners(1)
   const firstWinner = winners[0]
   const now = new Date()
   const h = String(now.getHours()).padStart(2, '0')

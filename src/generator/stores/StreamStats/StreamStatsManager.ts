@@ -9,10 +9,9 @@ export interface StreamStats {
 }
 
 /**
- * 配信全体の集計値を管理するクラス（シングルトン）
+ * 配信全体の集計値を管理するクラス
  */
 export class StreamStatsManager {
-  private static instance: StreamStatsManager | null = null
   private onReset: (() => void) | null = null
 
   private liveComments = 0
@@ -20,18 +19,6 @@ export class StreamStatsManager {
   private syoken = 0
   private totalComments = 0
   private seenUsers = new Set<string>()
-
-  static getInstance(): StreamStatsManager {
-    if (!StreamStatsManager.instance) {
-      StreamStatsManager.instance = new StreamStatsManager()
-    }
-    return StreamStatsManager.instance
-  }
-
-  /** テスト用：インスタンスをリセット */
-  static resetInstance(): void {
-    StreamStatsManager.instance = null
-  }
 
   record(omiken: OmikenCommentType): void {
     const { tc, lc } = omiken.meta

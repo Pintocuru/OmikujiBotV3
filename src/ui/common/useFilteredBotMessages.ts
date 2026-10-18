@@ -27,7 +27,7 @@ export function useFilteredBotMessages(kind: UiKind, options: Options = {}) {
 
     const message = resolveIconPlaceholders(
       normalized,
-      (userId) => appStore.userSession.stats.get(userId)?.profileImage,
+      (userId) => appStore.userStats.get(userId)?.profileImage,
       userIconSize
     )
 

@@ -60,7 +60,7 @@
 
   // リセットボタン
   function resetAll() {
-    appStore.userSession.stats.reset()
+    appStore.userStats.reset()
     appStore.streamStats.reset()
   }
 </script>

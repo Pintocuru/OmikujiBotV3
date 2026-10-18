@@ -76,7 +76,7 @@ function resetAppState() {
   const appStore = useAppStore()
   appStore.clearOmikens()
   appStore.streamStats.reset()
-  appStore.userSession.resetSession()
+  appStore.userStats.reset()
 }
 
 // コメントをフィルター
@@ -95,7 +95,7 @@ function recordStats(omikens: OmikenCommentType[]) {
   const appStore = useAppStore()
   for (const omiken of omikens) {
     appStore.streamStats.record(omiken)
-    appStore.userSession.stats.recordComment(omiken)
+    appStore.userStats.recordComment(omiken)
   }
 }
 

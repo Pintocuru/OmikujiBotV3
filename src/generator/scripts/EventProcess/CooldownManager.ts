@@ -1,10 +1,8 @@
-// src/generator/stores/CooldownManager/CooldownManager.ts
+// src/generator/scripts/EventProcess/CooldownManager.ts
 /**
  * クールダウン管理クラス
  */
 export class CooldownManager {
-  private static instance: CooldownManager | null = null
-
   /** 最後に処理が成功した時刻（ms）: グローバルクールダウン用 */
   private lastProcessedTime = 0
 
@@ -16,16 +14,8 @@ export class CooldownManager {
   /** 配信セッション識別子 */
   private readonly sessionId: string
 
-  private constructor() {
+  constructor() {
     this.sessionId = this.generateSessionId()
-  }
-
-  // シングルトン
-  public static getInstance(): CooldownManager {
-    if (!CooldownManager.instance) {
-      CooldownManager.instance = new CooldownManager()
-    }
-    return CooldownManager.instance
   }
 
   /**

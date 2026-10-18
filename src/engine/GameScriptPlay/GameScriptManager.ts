@@ -1,20 +1,12 @@
 // src/engine/GameScriptPlay/GameScriptManager.ts
 import { GameStateType, ScriptClass, ScriptResult } from '@/games/types'
 import { PostFlowGameType, ScriptGameKey, isScriptGameKey } from '@/types/OmikujiData'
-import { UserManager } from '@/generator/stores/UserManager/UserManager'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { getGameScriptLoader, getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
 
 export class GameScriptManager {
   private scriptInstances: Record<string, ScriptClass> = {}
-  private static instance: GameScriptManager | null = null
-  private userManager?: UserManager
-
-  static getInstance() {
-    if (!this.instance) this.instance = new GameScriptManager()
-    return this.instance
-  }
 
   /** キャッシュ → なければ gameExecuteMap から動的 import で解決 */
   private async loadScript(scriptId: string): Promise<ScriptClass> {
@@ -27,9 +19,6 @@ export class GameScriptManager {
     const module = await loader()
 
     const instance: ScriptClass = module.default
-    if (this.userManager && instance.initialize) {
-      instance.initialize(this.userManager)
-    }
     this.scriptInstances[scriptId] = instance
     return instance
   }
@@ -67,15 +56,6 @@ export class GameScriptManager {
     } catch (error) {
       return `スクリプト実行エラー(${scriptId}): ${error}`
     }
-  }
-
-  setVisitManager(userSession: UserManager) {
-    this.userManager = userSession
-    Object.values(this.scriptInstances).forEach((instance) => {
-      if (typeof instance.initialize === 'function') {
-        instance.initialize(userSession)
-      }
-    })
   }
 
   getGameState(targetKey: string): GameStateType | null {

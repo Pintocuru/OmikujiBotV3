@@ -6,7 +6,6 @@ import { BotMessageGenerator } from './BotMessageGenerator'
 import { PostActionsHandler } from './PostActionsHandler'
 import { GameScriptsHandler } from '@/engine/GameScriptPlay/GameScriptsHandler'
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
-import { CooldownManager } from '@/generator/stores/CooldownManager/CooldownManager'
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 import { BotMessageType } from '@/generator/types'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
@@ -17,7 +16,6 @@ import { postSystemMessage } from '@/sdk/post/PostOneComme'
 export class OmikujiResultProcessor {
   private readonly postActionsHandler: PostActionsHandler
   private readonly gameScriptsHandler: GameScriptsHandler
-  private readonly cooldownManager = CooldownManager.getInstance()
 
   constructor(
     omikujiData: OmikujiDataType,

@@ -8,6 +8,7 @@ import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { checkAllTriggers } from '@/generator/scripts/trigger/TriggerChecker'
 import { OmikujiControlProcessor } from '@/generator/scripts/EventProcess/OmikujiControlProcessor'
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
+import { CooldownManager } from '@/generator/scripts/EventProcess/CooldownManager'
 
 interface ProcessResult {
   isCommentTriggered: boolean
@@ -17,6 +18,7 @@ interface ProcessResult {
 export class EventCommentProcessor {
   private readonly store = useAppStore()
   private readonly control = new OmikujiControlProcessor()
+  private readonly cooldown = new CooldownManager()
 
   /**
    * メイン処理: コメントを処理して拡張コメントを作成
@@ -41,7 +43,7 @@ export class EventCommentProcessor {
         // イベントが成功し、botメッセージが生成された場合はここで終了
         if (result.botMessages.length > 0) {
           if (result.isCommentTriggered) {
-            this.store.cooldownManager.updateLastProcessedTime()
+            this.cooldown.updateLastProcessedTime()
           }
           return result.botMessages
         }
