@@ -26,12 +26,8 @@
         <CommentTriggerEditor v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
       </SectionCard>
 
-      <!-- みくじ箱選択セクション -->
-      <BoxChoiceEditor v-model="selectedItem" />
-
       <!-- おみくじ設定セクション -->
       <SectionCard
-        v-if="hasMikujiBox"
         id="section-omikujiSet"
         :icon="s('omikujiSet')?.icon"
         :isOpen="activeSection === 'omikujiSet'"
@@ -39,7 +35,28 @@
         :title="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
-        <MikujiSettings category="comments" :omikujiKey="selectedItem.omikujiKey" />
+        <div class="space-y-4">
+          <BoxChoiceEditor v-model="selectedItem" />
+
+          <MikujiSettings
+            v-if="hasMikujiBox && selectedItem.omikujiKey"
+            category="comments"
+            :omikujiKey="selectedItem.omikujiKey"
+          />
+          <!-- 存在しないみくじ箱を参照しているとき -->
+          <NoParamsCard
+            v-else-if="!hasMikujiBox && selectedItem.omikujiKey"
+            iconName="Package"
+            :message="t('eventCore.boxChoiceEditor.omikujiKey.none')"
+            sub="存在しないみくじ箱を指定しているようです。設定を確認してください。"
+          />
+          <!-- 未選択のとき -->
+          <NoParamsCard
+            v-else
+            :message="t('eventCore.boxChoiceEditor.omikujiKey.none')"
+            sub="みくじ箱を選択してください。"
+          />
+        </div>
       </SectionCard>
     </template>
 
@@ -65,6 +82,7 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import InformationCard from '@/editor/parts/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'
+  import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
@@ -73,7 +91,7 @@
   const { t } = useI18n()
 
   // アクティブなセクションの管理
-  type SectionType = 'baseSettings' | 'threshold' | 'limits' | 'scriptGame' | 'omikujiSet' | null
+  type SectionType = 'baseSettings' | 'threshold' | 'scriptGame' | 'omikujiSet' | null
   const navigationStore = useNavigationStore()
   const { activeSection, selectedItemKey } = storeToRefs(navigationStore)
 

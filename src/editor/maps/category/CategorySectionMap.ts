@@ -10,7 +10,6 @@ export const categorySectionMap: Record<DataCategoryType, SidebarSectionItem[]> 
   comments: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
     { section: 'threshold', icon: 'Filter', component: 'threshold' },
-    { section: 'limits', icon: 'Timer', component: 'limits' },
     { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
   ],
   timers: [

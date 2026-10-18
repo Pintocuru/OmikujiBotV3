@@ -1,5 +1,6 @@
 <!-- src/editor/events/core/BoxChoiceEditor.vue -->
 <template>
+  <!-- みくじ箱選択 -->
   <SettingItem
     :label="t('eventCore.boxChoiceEditor.omikujiKey.label')"
     :description="t('eventCore.boxChoiceEditor.omikujiKey.description')"

@@ -96,7 +96,7 @@
     return null
   })
 
-  // プレビュー用コンポーネント（マップに無いセクション（limits 等）は何も出さない）
+  // プレビュー用コンポーネント
   const previewComponent = computed(() => {
     const name = hoveredSection.value?.component
     return name ? (staticSectionPreviewMap[name] ?? null) : null

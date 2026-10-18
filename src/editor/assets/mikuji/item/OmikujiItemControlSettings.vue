@@ -35,6 +35,7 @@
   const updateVariable = (variable: string) => emit('update', { ...props.item, variable })
 
   // commandごとの isCountEvent の説明文
+  // TODO:omikujiControlCommandMap と被っている
   const countEventDescriptions: Record<OmikujiItemControlType['command'], string> = {
     return: '処理を終了するときに、このアクションをおみくじカウントとして記録します',
     continue: '次のイベントへ進むときに、このアクションをおみくじカウントとして記録します',

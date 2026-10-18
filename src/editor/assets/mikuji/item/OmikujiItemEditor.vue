@@ -34,11 +34,9 @@
       >
         {{ option.label }}
       </span>
+      <span class="text-xs opacity-70">{{ headerMeta.description }}</span>
     </div>
   </SettingItem>
-
-  <!-- サブタイトル -->
-  <SubSectionHeader :icon="headerMeta.icon" :title="headerMeta.label" :description="headerMeta.description" />
 
   <!-- postFlow 編集 -->
   <PostFlowEditor
@@ -88,7 +86,6 @@
   } from '@/types/OmikujiData/'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import OmikujiItemHeader from './OmikujiItemHeader.vue'
   import OmikujiItemControlSettings from './OmikujiItemControlSettings.vue'
 
@@ -104,8 +101,6 @@
   }>()
 
   type ControlItem = Extract<OmikujiItemType, { kind: 'control' }>
-  type LogItem = Extract<OmikujiItemType, { kind: 'log' }>
-
   const isControlItem = (item: OmikujiItemType): item is ControlItem => item.kind === 'control'
 
   // サブタイトルの表示内容 (control は command ごと)
@@ -115,14 +110,21 @@
       : omikujiItemKindMap[props.omikujiItem.kind]
   )
 
+  // アイテムのプロパティ更新
+  const updateItemProperties = (properties: Record<string, unknown>) => {
+    emit('update', {
+      ...props.omikujiItem,
+      ...properties,
+    } as OmikujiItemType)
+  }
+
   // アイテム全体の更新
   const updateItem = (item: OmikujiItemType) => {
     emit('update', item)
   }
 
   // kind変更
-  // 新しい kind 固有のプロパティ (command など) は既定値で補い、
-  // 元の kind のプロパティ (postFlows など) は保持する (kind を戻したときに失われないように)
+  // 新しい kind 固有のプロパティは既定値で補い、元のプロパティは保持する
   const updateKind = (kind: OmikujiItemKind) => {
     if (props.omikujiItem.kind === kind) return
 
@@ -136,40 +138,26 @@
   // control の command 変更
   const updateCommand = (command: OmikujiControlCommand) => {
     if (!isControlItem(props.omikujiItem)) return
-
-    emit('update', {
-      ...props.omikujiItem,
-      command,
-    })
+    updateItemProperties({ command })
   }
 
   // postFlows更新
   const updatePostFlows = (postFlows: PostFlowType[]) => {
     if (props.omikujiItem.kind !== 'postFlow') return
-
-    emit('update', {
-      ...props.omikujiItem,
-      postFlows,
-    })
+    updateItemProperties({ postFlows })
   }
 
   // logFormat更新
   const updateLogFormat = (logFormat: string) => {
     if (props.omikujiItem.kind !== 'log') return
-
-    emit('update', {
-      ...(props.omikujiItem as LogItem),
-      logFormat,
-    })
+    updateItemProperties({ logFormat })
   }
 
-  // logLimit更新(1〜100 にクランプ)
+  // logLimit更新（1〜100 にクランプ）
   const updateLogLimit = (value: number) => {
     if (props.omikujiItem.kind !== 'log') return
     if (Number.isNaN(value)) return
-
-    emit('update', {
-      ...(props.omikujiItem as LogItem),
+    updateItemProperties({
       logLimit: Math.min(100, Math.max(1, Math.round(value))),
     })
   }
