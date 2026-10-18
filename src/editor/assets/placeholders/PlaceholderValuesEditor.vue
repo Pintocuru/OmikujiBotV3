@@ -5,27 +5,17 @@
       <!-- 抽選テストボタン -->
       <PlaceholderPreview v-if="modelValue.values.length > 0" :values="modelValue.values" />
 
-      <!-- 編集モード切り替えボタン -->
-      <button
-        @click="toggleMode"
-        class="btn bg-primary text-primary-content"
-        :class="{ 'btn-active': isTextMode }"
-        :title="t('placeholder.toggleModeTitle')"
-      >
-        {{ isTextMode ? t('placeholder.inputMode') : t('placeholder.textMode') }}
+      <!-- テキストモード(ダイアログ)を開くボタン -->
+      <button @click="textDialog?.open()" class="btn bg-primary text-primary-content">
+        {{ t('placeholder.textMode') }}
       </button>
     </div>
 
     <!-- 入力モード -->
-    <PlaceholderInputMode v-if="!isTextMode" :values="modelValue.values" @update="handleValuesUpdate" />
+    <PlaceholderInputMode :values="modelValue.values" @update="handleValuesUpdate" />
 
     <!-- テキストモード -->
-    <PlaceholderTextMode
-      v-else
-      :initialValues="modelValue.values"
-      @save="handleTextSave"
-      @cancel="isTextMode = false"
-    />
+    <PlaceholderTextMode ref="textDialog" :initialValues="modelValue.values" @save="handleValuesUpdate" />
   </template>
 </template>
 
@@ -48,11 +38,7 @@
     'update:modelValue': [value: PlaceholderType]
   }>()
 
-  const isTextMode = ref(false)
-
-  const toggleMode = () => {
-    isTextMode.value = !isTextMode.value
-  }
+  const textDialog = ref<InstanceType<typeof PlaceholderTextMode> | null>(null)
 
   // 値配列を差し替えて親へ v-model 更新を通知するだけ（ストアには触れない）
   const emitUpdatedValues = (values: WeightValuesArrayType) => {
@@ -62,10 +48,5 @@
 
   const handleValuesUpdate = (values: WeightValuesArrayType) => {
     emitUpdatedValues(values)
-  }
-
-  const handleTextSave = (values: WeightValuesArrayType) => {
-    emitUpdatedValues(values)
-    isTextMode.value = false
   }
 </script>

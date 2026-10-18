@@ -38,7 +38,7 @@
 
         <div class="flex gap-2">
           <button class="btn btn-sm btn-ghost" @click="handleCancel">キャンセル</button>
-          <button class="btn btn-sm btn-primary gap-1" @click="handleSave">
+          <button class="btn btn-sm btn-primary gap-1" :disabled="saveDisabled" @click="handleSave">
             <Check :size="14" />
             保存して閉じる
           </button>
@@ -62,6 +62,7 @@
   defineProps<{
     title: string
     icon: LucideIconName
+    saveDisabled?: boolean // true の間は保存ボタンを無効化
   }>()
 
   const emit = defineEmits<{
