@@ -1,4 +1,4 @@
-// src/editor/presets/assetPresets.ts  mikuji / actions / placeholders
+// src/editor/presets/assetPresets.ts
 import { PostFlowArraySchema } from '@/types/OmikujiData/'
 import { buildFortune, buildWeightedMikuji, message } from './helpers'
 import type { PresetDefinition } from './types'
