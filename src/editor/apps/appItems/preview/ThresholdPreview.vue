@@ -36,6 +36,12 @@
       </div>
     </div>
 
+    <!-- 判定式 -->
+    <div v-if="trigger.expression" class="flex items-center gap-1 text-xs">
+      <Sigma class="w-3 h-3 shrink-0 opacity-60" />
+      <code class="truncate max-w-45 font-mono">{{ trigger.expression }}</code>
+    </div>
+
     <!-- access / gift 件数バッジ -->
     <div v-if="trigger.access?.length || trigger.gift?.length" class="flex gap-1.5 text-xs">
       <div v-if="trigger.access?.length" class="flex items-center gap-1">
@@ -53,7 +59,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { CommentTriggerType, CriteriaThresholdType } from '@/types/OmikujiData'
-  import { Filter, User, MessageSquare, Shield, Gift } from 'lucide-vue-next'
+  import { Filter, User, MessageSquare, Shield, Gift, Sigma } from 'lucide-vue-next'
 
   type TriggerLike = Partial<CommentTriggerType & CriteriaThresholdType>
 
@@ -82,6 +88,7 @@
     gift: 'ギフト',
     comment: 'キーワード',
     userName: 'ユーザー指定',
+    expression: '判定式',
   }
 
   function conditionLabel(cond: string) {
@@ -96,6 +103,7 @@
       gift: 'badge-warning',
       comment: 'badge-accent',
       userName: 'badge-neutral',
+      expression: 'badge-success',
     }
     return map[cond] ?? 'badge-ghost'
   }

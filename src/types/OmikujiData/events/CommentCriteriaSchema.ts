@@ -12,6 +12,7 @@ export const criteriaThresholdCondition = [
   'syoken',
   'count',
   'comment', // 追加のコメント内容
+  'expression', // 判定式 (例: <<lc>> > 20)
 ] as const
 export type CriteriaThresholdCondition = (typeof criteriaThresholdCondition)[number]
 
@@ -23,5 +24,6 @@ export const CriteriaThresholdSchema = z.object({
   syoken: z.array(SyokenConditionSchema).catch([]),
   count: CountConditionSchema.catch(CountConditionSchema.parse({})),
   comment: z.array(z.string()).catch([]),
+  expression: z.string().catch(''),
 })
 export type CriteriaThresholdType = z.infer<typeof CriteriaThresholdSchema>

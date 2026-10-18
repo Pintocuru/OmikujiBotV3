@@ -52,6 +52,10 @@ export const commentTriggerMessages = {
           label: '時間帯',
           description: '特定の時間帯で判定します',
         },
+        expression: {
+          label: '判定式',
+          description: '式の評価結果で判定します',
+        },
       },
     },
   },
@@ -106,6 +110,10 @@ export const commentTriggerMessages = {
         timeRange: {
           label: 'Time Range',
           description: 'Judge by specific time range',
+        },
+        expression: {
+          label: 'Expression',
+          description: 'Judge by the result of an expression',
         },
       },
     },

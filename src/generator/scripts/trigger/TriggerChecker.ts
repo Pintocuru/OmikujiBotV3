@@ -11,6 +11,7 @@ import { checkAccess, checkCount, checkGift, checkSyoken } from './checkers/User
 import { checkComment } from './checkers/ContentCheckers'
 import { checkUserIdCondition, checkUsername } from './checkers/UserCheckers'
 import { checkTimeRange } from './checkers/CheckTimeRange'
+import { checkExpression } from './checkers/ExpressionChecker'
 
 /**
  * 複合条件チェッカー
@@ -27,6 +28,7 @@ export function checkAllTriggers(
     userIds?: string[]
     usernames?: string[]
     timeRange?: { start: number; end: number }
+    expression?: string
   }
 ): boolean {
   const checkMap: Record<TriggerConditionType, () => boolean> = {
@@ -39,6 +41,8 @@ export function checkAllTriggers(
     userId: () => checkUserIdCondition(omiken.userId, trigger.userIds ?? []),
     username: () => checkUsername(omiken.userName, trigger.usernames),
     timeRange: () => (trigger.timeRange ? checkTimeRange(trigger.timeRange.start, trigger.timeRange.end) : true),
+    // 判定式: 評価できない場合は false
+    expression: () => checkExpression(omiken, trigger.expression),
   }
 
   // conditions配列で指定された条件のみ実行

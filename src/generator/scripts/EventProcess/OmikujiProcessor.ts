@@ -1,13 +1,13 @@
 // src/generator/scripts/EventProcess/OmikujiProcessor.ts
 import { EventCategoryType, MikujiItemsType, OmikujiItemPostFlowType, OmikujiItemType } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
-import { DefaultPlaceholdersCommentSchema, DefaultPlaceholdersMetaSchema, ServiceMetaCondition } from '@/types/engine'
 
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { BotMessageType } from '@/generator/types'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
+import { buildDefaultPlaceholders } from '@/generator/scripts/EventProcess/DefaultPlaceholderBuilder'
 
 export class OmikujiProcessor {
   private readonly store = useAppStore()
@@ -151,55 +151,6 @@ export class OmikujiProcessor {
    * comment用デフォルトのプレースホルダー情報を設定
    */
   private getDefaultPlaceholders(omiken?: OmikenCommentType): Record<string, string | number> {
-    const basePlaceholders = this.getBasePlaceholders()
-
-    if (!omiken) return basePlaceholders
-
-    return DefaultPlaceholdersCommentSchema.parse({
-      ...basePlaceholders,
-      user: `{{icon ${omiken.userId}}}${omiken.userName}`,
-      userId: this.sanitizeKey(omiken.userId),
-      price: omiken.giftPrice,
-      lc: omiken.meta.lc,
-      tc: omiken.meta.tc,
-      draws: omiken.omikuji?.draws,
-    })
-  }
-
-  // 変数プレースホルダー用のuserId変換器
-  private sanitizeKey(raw: string): string {
-    let h = 0
-    for (let i = 0; i < raw.length; i++) {
-      h = (h * 31 + raw.charCodeAt(i)) >>> 0
-    }
-    return `v${h.toString(36)}`
-  }
-
-  /**
-   * デフォルトのプレースホルダー情報を設定
-   */
-  private getBasePlaceholders(): Record<ServiceMetaCondition, string | number> {
-    const meta = this.store.serviceMetaStore.getCurrent()
-    const { userSession, streamStats } = this.store
-
-    const uniqueCount = userSession.stats.getUniqueCount()
-    const { liveComments, syoken } = streamStats.getStats()
-    const { winners } = userSession.stats.drawWinners(1)
-    const firstWinner = winners[0]
-    const now = new Date()
-    const h = String(now.getHours()).padStart(2, '0')
-    const m = String(now.getMinutes()).padStart(2, '0')
-
-    return DefaultPlaceholdersMetaSchema.parse({
-      viewer: meta?.viewer ?? 0,
-      upVote: meta?.upVote ?? 0,
-      follower: meta?.follower ?? 0,
-      lc: liveComments,
-      commenter: uniqueCount,
-      syoken,
-      winner: firstWinner ? `{{icon ${firstWinner.userId}}}${firstWinner.userName}` : 'Null',
-      winnerId: firstWinner ? this.sanitizeKey(firstWinner.userId) : 'Null',
-      clock: `${h}時${m}分`,
-    })
+    return buildDefaultPlaceholders(this.store, omiken)
   }
 }

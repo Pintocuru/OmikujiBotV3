@@ -14,6 +14,7 @@ export const triggerConditions = [
   'userId',
   'username',
   'timeRange',
+  'expression',
 ] as const
 
 // キーの型

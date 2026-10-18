@@ -45,6 +45,9 @@
   <!-- ユーザーネーム条件 -->
   <TriggerUsername v-if="conditions.includes('username')" v-model="userName" />
 
+  <!-- 判定式条件 -->
+  <TriggerExpression v-if="conditions.includes('expression')" v-model="expression" />
+
   <!-- 条件未記入ですべてのコメントで適用 -->
   <NoParamsCard v-if="conditions.length === 0" :message="t('commentTrigger.noParams.message')" />
 </template>
@@ -60,6 +63,7 @@
   import TriggerAccess from '@/editor/events/trigger/TriggerAccess.vue'
   import TriggerGift from '@/editor/events/trigger/TriggerGift.vue'
   import TriggerUsername from '@/editor/events/trigger/TriggerUsername.vue'
+  import TriggerExpression from '@/editor/events/trigger/TriggerExpression.vue'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
@@ -93,6 +97,7 @@
   const access = createComputed('access')
   const gift = createComputed('gift')
   const userName = createComputed('userName')
+  const expression = createComputed('expression')
 
   // Utils
   const toggleInArray = <T,>(array: T[], value: T): T[] => {

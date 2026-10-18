@@ -77,6 +77,13 @@
     @update:modelValue="updateCriteria('comment', $event)"
   />
 
+  <!-- 判定式条件 -->
+  <TriggerExpression
+    v-if="activeConditions.has('expression')"
+    :modelValue="criteria.expression"
+    @update:modelValue="updateCriteria('expression', $event)"
+  />
+
   <NoParamsCard v-if="activeConditions.size === 0" message="発動条件が指定されていません" />
 </template>
 
@@ -98,6 +105,7 @@
   import TriggerSyoken from '@/editor/events/trigger/TriggerSyoken.vue'
   import TriggerCount from '@/editor/events/trigger/TriggerCount.vue'
   import TriggerUsername from '@/editor/events/trigger/TriggerUsername.vue'
+  import TriggerExpression from '@/editor/events/trigger/TriggerExpression.vue'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'

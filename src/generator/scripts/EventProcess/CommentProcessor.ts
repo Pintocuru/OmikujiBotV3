@@ -60,13 +60,13 @@ export class EventCommentProcessor {
   private async processRule(omiken: OmikenCommentType, event: CommentEventType): Promise<ProcessResult> {
     const { data } = this.store
 
-    // 1. コメントイベントの条件チェック
+    // 1. drawsカウンタを omiken に反映 (判定式の draws で使うため、条件チェックより前に行う)
+    this.setDrawsMeta(omiken, event)
+
+    // 2. コメントイベントの条件チェック
     if (!checkAllTriggers(omiken, event.trigger)) {
       return { isCommentTriggered: false, botMessages: [] }
     }
-
-    // 3. drawsカウンタを omiken.meta に反映
-    this.setDrawsMeta(omiken, event)
 
     // 4. criteria フィルタ適用後に抽選
     const mikujiBox = data.assets.mikuji[event.omikujiKey]
