@@ -12,7 +12,7 @@ export class UserStatsManager {
   private readonly stats = new Map<string, UserStatsRecord>()
   private readonly listeners = new Set<StatsEventListener>()
 
-  // コメントを受け取った時に呼び出す */
+  // コメントを受け取った時に呼び出す
   recordComment(omiken: OmikenCommentType): UserStatsRecord {
     const { userId, userName, profileImage, timestamp } = omiken
     const { tc, no } = omiken.meta
@@ -53,7 +53,7 @@ export class UserStatsManager {
     return record
   }
 
-  // stats からランダムに当選者を選出 */
+  // stats からランダムに当選者を選出
   drawWinners(count = 1): { commenter: number; winners: UserStatsRecord[] } {
     const commenter = this.stats.size
     const userList = Array.from(this.stats.values())
@@ -82,12 +82,12 @@ export class UserStatsManager {
     return this.stats.size
   }
 
-  // 最新コメントユーザーを取得 */
+  // 最新コメントユーザーを取得
   getLatest(): UserStatsRecord | null {
     return Array.from(this.stats.values()).sort((a, b) => b.lastVisit - a.lastVisit)[0] ?? null
   }
 
-  // ユーザー統計を部分更新（score・team・tagsなど） */
+  // ユーザー統計を部分更新（score・team・tagsなど）
   update(userId: string, patch: Partial<UserStatsRecord>): UserStatsRecord | null {
     const existing = this.stats.get(userId)
     if (!existing) return null
@@ -96,12 +96,12 @@ export class UserStatsManager {
     return updated
   }
 
-  // セッションリセット */
+  // セッションリセット
   reset(): void {
     this.stats.clear()
   }
 
-  // イベントリスナーを登録（解除用関数を返す） */
+  // イベントリスナーを登録（解除用関数を返す）
   onUpdate(listener: StatsEventListener): () => void {
     this.listeners.add(listener)
     return () => this.listeners.delete(listener)
