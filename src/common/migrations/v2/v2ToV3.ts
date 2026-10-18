@@ -154,7 +154,7 @@ function migrateOmikujiItem(oldItem: unknown): Obj {
     return {
       ...base,
       kind: 'control',
-      command: type === 'resetOmikuji' ? 'reset' : type === 'continue' ? 'continue' : 'return',
+      command: type === 'continue' ? 'continue' : 'return',
     }
   }
 

@@ -37,9 +37,4 @@ export const omikujiControlCommandMap: Record<OmikujiControlCommand, DisplayMeta
     description: 'BOTアクションを何もせず、次のイベントへ処理を進めます。',
     icon: 'ArrowRight',
   },
-  reset: {
-    label: 'おみくじ回数をリセットする(reset)',
-    description: 'おみくじの抽選回数をリセットします。',
-    icon: 'RotateCcw',
-  },
 }

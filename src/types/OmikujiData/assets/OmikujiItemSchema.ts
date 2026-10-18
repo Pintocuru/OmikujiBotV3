@@ -8,7 +8,7 @@ import { BaseSchema } from '@/types/core'
 /**
  * omikujiItemKinds: おみくじアイテムの種別
  * - postFlow: BOTアクションを実行する
- * - control : 処理の流れを制御する (command: return / continue / reset)
+ * - control : 処理の流れを制御する (command: return / continue)
  * - log     : ユーザー状態をログとして出力する
  */
 export const omikujiItemKinds = ['postFlow', 'control', 'log'] as const
@@ -59,12 +59,11 @@ export const OmikujiItemPostFlowSchema = OmikujiItemBase.extend({
 export type OmikujiItemPostFlowType = z.infer<typeof OmikujiItemPostFlowSchema>
 
 /**
- * 処理の流れを制御する (return / continue / reset)
+ * 処理の流れを制御する (return / continue)
  * - return  : 処理を終了する
  * - continue: 次のイベントへ処理を進める
- * - reset   : おみくじの抽選回数をリセットする
  */
-export const omikujiControlCommands = ['return', 'continue', 'reset'] as const
+export const omikujiControlCommands = ['return', 'continue'] as const
 export const OmikujiControlCommandSchema = z.enum(omikujiControlCommands)
 export type OmikujiControlCommand = z.infer<typeof OmikujiControlCommandSchema>
 

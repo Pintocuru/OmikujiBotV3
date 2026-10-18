@@ -1,33 +1,28 @@
 // src/generator/scripts/EventProcess/OmikujiControlProcessor.ts
 import { OmikujiItemControlType, OmikujiItemType } from '@/types/OmikujiData/'
 import { OmikenCommentType, UserNameType } from '@/types/OmikenComment'
-import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { GameStateType } from '@/games/types'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
 
-export interface SpecialActionResult {
-  handled: boolean // trueのとき呼び出し元でイベント処理を終了する
-}
-
 /**
- * postFlow 以外の kind (control: return / continue / reset, log) を処理するクラス
- * @param eventKey 実行中のイベントの key (reset / log の対象特定に使用)
+ * postFlow 以外の kind (control: return / continue, log) を処理するクラス
+ * @param eventKey 実行中のイベントの key
  * @param omiken variable 内の <<user>> 等のプレースホルダー解決に使用
  */
 
 export class OmikujiControlProcessor {
   private readonly store = useAppStore()
 
-  process(item: OmikujiItemType, eventKey: string, omiken?: OmikenCommentType): SpecialActionResult | null {
+  process(item: OmikujiItemType, eventKey: string, omiken?: OmikenCommentType): boolean | null {
     switch (item.kind) {
       // 通常アクション (BOTメッセージ送信) は対象外
       case 'postFlow':
         return null
 
-      // 処理の流れを制御する (return / continue / reset)
+      // 処理の流れを制御する (return / continue)
       case 'control':
-        return this.processControl(item, eventKey, omiken)
+        return this.processControl(item, omiken)
 
       // log は不要かもしれないのでnullを返す
       case 'log': {
@@ -38,26 +33,19 @@ export class OmikujiControlProcessor {
 
   private processControl(
     item: OmikujiItemControlType,
-    eventKey: string,
     omiken?: OmikenCommentType
-  ): SpecialActionResult {
+  ): boolean {
     // 評価ブロック {{ }} を評価
     if (item.variable.trim()) new OmikujiProcessor().evaluateControlVariable(item.variable, omiken)
 
     switch (item.command) {
       // 処理を終了する
       case 'return':
-        return { handled: true }
+        return true
 
       // 次のイベントへ進む
       case 'continue':
-        return { handled: false }
-
-      // おみくじ回数をリセットする (リセット自体はカウントしない)
-      case 'reset':
-        this.store.userSession.visits.resetEvent(eventKey)
-        postSystemMessage(`${item.name}のおみくじ回数をリセットしました`, { username: '__INFO__' })
-        return { handled: true }
+        return false
     }
   }
 
