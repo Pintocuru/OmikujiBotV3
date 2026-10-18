@@ -35,7 +35,7 @@
 
   import AppHeader from './apps/appItems/AppHeader.vue'
   import AppDevWorld from './apps/appItems/AppDevWorld.vue'
-  import NavigationSidebar from './apps/appItems/navigation/NavigationSidebar.vue'
+  import NavigationSidebar from './apps/navigation/NavigationSidebar.vue'
   import ContentArea from './apps/appItems/ContentArea.vue'
   import ConfigExport from './helpers/presetsExport/ConfigExport.vue'
   import { useScrollToSection } from './helpers/useScrollToSection'

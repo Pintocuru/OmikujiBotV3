@@ -11,6 +11,7 @@ import { DataSource } from '@/editor/types'
 import { useEventProperties } from './composables/useEventProperties'
 import { useAssetProperties } from './composables/useAssetProperties'
 import { useEventSort } from './composables/useEventSort'
+import { useAssetSort } from './composables/useAssetSort'
 
 /**
  * おみくじデータの中心的なstore
@@ -39,6 +40,7 @@ export const useOmikujiStore = defineStore('omikuji', () => {
 
   // 並び替え
   const eventSort = useEventSort(data, hasChanged)
+  const assetSort = useAssetSort(data, hasChanged)
 
   // 設定操作
   const settingsOps = useSettingsOperations(data, hasChanged)
@@ -64,6 +66,7 @@ export const useOmikujiStore = defineStore('omikuji', () => {
 
     // その他
     ...eventSort,
+    ...assetSort,
     ...settingsOps,
   }
 })

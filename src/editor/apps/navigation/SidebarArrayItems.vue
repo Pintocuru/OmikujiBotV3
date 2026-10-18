@@ -1,4 +1,4 @@
-<!-- src/editor/apps/appItems/navigation/SidebarArrayItems.vue -->
+<!-- src/editor/apps/navigation/SidebarArrayItems.vue -->
 <template>
   <div>
     <SidebarSubItem

@@ -1,7 +1,15 @@
-// src/editor/apps/appItems/navigation/composables/useCategoryUtils.ts
+// src/editor/apps/navigation/composables/useCategoryUtils.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { CategoryType, eventCategory, assetCategory } from '@/types/OmikujiData'
+import {
+  CategoryType,
+  DataCategoryType,
+  SettingsCategoryType,
+  EventCategoryType,
+  AssetCategoryType,
+  eventCategory,
+  assetCategory,
+} from '@/types/OmikujiData'
 import { isDev } from '@/types/env'
 import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
 import { CategoryGroup } from '@/editor/types/apps'
@@ -41,25 +49,28 @@ export const useCategoryUtils = () => {
     ) as Record<CategoryType, (typeof categoryMap)[CategoryType]>
   })
 
+  /** 表示対象のキーから、指定リストに含まれるものだけを取り出す */
+  const pick = (list: readonly string[]) =>
+    (Object.keys(filteredCategoryLabels.value) as CategoryType[]).filter((key) => list.includes(key))
+
   /**
-   * ナビゲーションのグループ分け
-   * 表示対象（filteredCategoryLabels）のみを対象にし、空のグループは返さない
+   * データ系（DataCategoryType）のグループ分け。空のグループは返さない
    */
-  const categoryGroups = computed<CategoryGroup[]>(() => {
-    const visible = Object.keys(filteredCategoryLabels.value) as CategoryType[]
-    const pick = (list: readonly string[]) => visible.filter((key) => list.includes(key))
+  const dataCategoryGroups = computed<CategoryGroup<DataCategoryType>[]>(() => {
+    const groups: CategoryGroup<DataCategoryType>[] = [
+      { id: 'events', keys: pick(eventCategory) as EventCategoryType[] },
+      { id: 'assets', keys: pick(assetCategory) as AssetCategoryType[] },
+    ]
+    return groups.filter((group) => group.keys.length > 0)
+  })
 
-    const events = pick(eventCategory)
-    const assets = pick(assetCategory)
-    const ui = pick(['ui'])
-    const grouped = new Set<CategoryType>([...events, ...assets, ...ui])
-    const other = visible.filter((key) => !grouped.has(key)) // jsonMerge / appInfo など
-
-    const groups: CategoryGroup[] = [
-      { id: 'events', keys: events },
-      { id: 'assets', keys: assets },
-      { id: 'ui', keys: ui },
-      { id: 'other', keys: other },
+  /**
+   * 設定系（SettingsCategoryType）のグループ分け。空のグループは返さない
+   */
+  const settingsCategoryGroups = computed<CategoryGroup<SettingsCategoryType>[]>(() => {
+    const groups: CategoryGroup<SettingsCategoryType>[] = [
+      { id: 'ui', keys: pick(['ui']) as SettingsCategoryType[] },
+      { id: 'other', keys: pick(['jsonMerge', 'appInfo']) as SettingsCategoryType[] }, // 表示順は categoryMap に従う
     ]
     return groups.filter((group) => group.keys.length > 0)
   })
@@ -67,6 +78,7 @@ export const useCategoryUtils = () => {
   return {
     getCategoryItemCount,
     filteredCategoryLabels,
-    categoryGroups,
+    dataCategoryGroups,
+    settingsCategoryGroups,
   }
 }

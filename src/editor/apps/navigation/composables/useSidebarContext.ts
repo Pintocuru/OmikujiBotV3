@@ -1,4 +1,4 @@
-// src/editor/apps/appItems/navigation/composables/useSidebarContext.ts
+// src/editor/apps/navigation/composables/useSidebarContext.ts
 import { provide, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
@@ -7,7 +7,7 @@ import { SidebarContext } from '@/editor/types/apps'
 // Symbol キー
 const SIDEBAR_CONTEXT_KEY = Symbol('sidebarContext')
 
-// Provider（NavigationSidebarCategories で1回だけ呼ぶ）
+// Provider（NavigationSidebar で1回だけ呼ぶ）
 export const provideSidebarContext = () => {
   const { selectedItemKey, activeSection } = storeToRefs(useNavigationStore())
 

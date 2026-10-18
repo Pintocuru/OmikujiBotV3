@@ -112,6 +112,7 @@
   import JsonMergeRemapEditor from './JsonMergeRemapEditor.vue'
   import JsonMergeSourceFileSelector from './JsonMergeSourceFileSelector.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
@@ -122,7 +123,18 @@
   const { data } = storeToRefs(store)
 
   const merge = ref<JsonMergeItemType[]>(data.value.jsonMerge ?? [])
-  const selectedId = ref<string | null>(merge.value[0]?.id ?? null)
+
+  // 選択状態はサイドバーと共有する(navigationStore.selectedItemKey)
+  const navigationStore = useNavigationStore()
+  const selectedId = computed<string | null>({
+    get: () => navigationStore.selectedItemKey,
+    set: (id) => navigationStore.selectItem(id),
+  })
+
+  // 未選択(または存在しない id)なら先頭を選ぶ
+  if (!merge.value.some((v) => v.id === selectedId.value)) {
+    selectedId.value = merge.value[0]?.id ?? null
+  }
 
   // 選択中のインデックス
   const selectedIndex = computed(() => {

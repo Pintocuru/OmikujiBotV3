@@ -1,4 +1,4 @@
-<!-- src/editor/apps/appItems/navigation/SidebarSectionList.vue -->
+<!-- src/editor/apps/navigation/SidebarSectionList.vue -->
 <template>
   <div class="relative">
     <button
@@ -24,8 +24,8 @@
 <script setup lang="ts">
   import { ref, computed, onBeforeUnmount } from 'vue'
   import { SidebarSectionItem } from '@/editor/types/apps'
-  import HoverPopup from '../preview/HoverPopup.vue'
-  import { staticSectionPreviewMap } from '../preview/staticSectionPreviewMap'
+  import HoverPopup from '../appItems/preview/HoverPopup.vue'
+  import { staticSectionPreviewMap } from '../appItems/preview/staticSectionPreviewMap'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useGetEventData } from '@/editor/stores/useGetEventData'

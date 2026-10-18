@@ -1,4 +1,4 @@
-// src/editor/apps/appItems/navigation/composables/useNavigationSidebarDrag.ts
+// src/editor/apps/navigation/composables/useNavigationSidebarDrag.ts
 import { Ref, ref, watch, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 import { DataCategoryType } from '@/types/OmikujiData/'
@@ -32,8 +32,10 @@ export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => 
     if (isEventCategory(category)) {
       return getEvents(category).map((item) => toDraggable(item.id, item))
     }
-    // assets は並び順を持たないので、Object.values の順のまま
-    return Object.values(getAssets(category)).map((item) => toDraggable(item.key, item))
+    // assets は Record なので、BaseRecordSchema.order の昇順で並べる(同値は元の順を維持)
+    return Object.values(getAssets(category))
+      .sort((a, b) => a.order - b.order)
+      .map((item) => toDraggable(item.key, item))
   }
 
   // カテゴリ切り替え・展開時に配列を再構築
@@ -63,15 +65,17 @@ export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => 
     { deep: true }
   )
 
-  // 並び替えは events のみ
+  // 並び替え: events は配列順、assets は order プロパティに反映する
   const onDragEnd = async (category: DataCategoryType) => {
-    if (!isEventCategory(category)) return
-
     const orderedKeys = (draggableItems.value[category] ?? []).map((i) => i?.key).filter((k): k is string => !!k)
     if (orderedKeys.length === 0) return
 
     await nextTick()
-    omikujiStore.reorderEvents(category, orderedKeys)
+    if (isEventCategory(category)) {
+      omikujiStore.reorderEvents(category, orderedKeys)
+    } else {
+      omikujiStore.reorderAssets(category, orderedKeys)
+    }
   }
 
   return { draggableItems, onDragEnd, isDragDisabled }

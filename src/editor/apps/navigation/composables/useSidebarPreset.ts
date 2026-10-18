@@ -1,4 +1,4 @@
-// src/editor/apps/appItems/navigation/composables/useSidebarPreset.ts
+// src/editor/apps/navigation/composables/useSidebarPreset.ts
 import { useI18n } from 'vue-i18n'
 import { AssetCategoryType, DataCategoryType, EventCategoryType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

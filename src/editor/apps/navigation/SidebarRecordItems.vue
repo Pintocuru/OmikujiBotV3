@@ -1,4 +1,4 @@
-<!-- src/editor/apps/appItems/navigation/SidebarRecordItems.vue -->
+<!-- src/editor/apps/navigation/SidebarRecordItems.vue -->
 <template>
   <div>
     <!-- 新規作成 + プリセット追加（Events / Assets。データが0件でもここから作成できる） -->

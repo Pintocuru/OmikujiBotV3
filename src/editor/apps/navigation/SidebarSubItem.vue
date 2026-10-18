@@ -1,4 +1,4 @@
-<!-- src/editor/apps/appItems/navigation/SidebarSubItem.vue -->
+<!-- src/editor/apps/navigation/SidebarSubItem.vue -->
 <template>
   <div
     class="group flex items-center gap-1 pl-4 pr-1 rounded hover:bg-neutral-content hover:text-neutral cursor-pointer"
@@ -21,9 +21,8 @@
   </div>
 
   <!-- セクションリスト（ダブルクリックで開く） -->
-  <div v-if="!isDragEnabled" class="border-l-4 ml-4 border-neutral">
+  <div v-if="!isDragEnabled && isSelected && sections.length > 0" class="border-l-4 ml-4 border-neutral">
     <SidebarSectionList
-      v-if="isSelected && sections.length > 0"
       :category="category"
       :itemKey="itemKey"
       :sections="sections"

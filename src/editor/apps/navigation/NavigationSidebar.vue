@@ -1,4 +1,4 @@
-<!-- src/editor/apps/appItems/navigation/NavigationSidebar.vue -->
+<!-- src/editor/apps/navigation/NavigationSidebar.vue -->
 <template>
   <div
     class="sticky top-0 h-screen flex flex-col border-primary border-r-2 overflow-y-auto transition-all duration-200 shrink-0 overflow-x-hidden"
@@ -22,8 +22,11 @@
       <span v-if="isExpanded" class="text-sm truncate text-left flex-1">{{ t('navigation.presetManager') }}</span>
     </button>
 
-    <!-- 各種カテゴリ -->
-    <NavigationSidebarCategories :isExpanded="isExpanded" />
+    <!-- データ系カテゴリ（Events / Assets） -->
+    <NavigationSidebarDataCategories :isExpanded="isExpanded" />
+
+    <!-- 設定系カテゴリ（ui / jsonMerge / appInfo） -->
+    <NavigationSidebarSettingsCategories :isExpanded="isExpanded" />
 
     <!-- 開発者向けフッター -->
     <NavigationSidebarFooter />
@@ -37,11 +40,16 @@
   import { isDev } from '@/types/env'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useDevStore } from '@/PresetManager/stores/useDevStore'
-  import NavigationSidebarCategories from './NavigationSidebarCategories.vue'
+  import NavigationSidebarDataCategories from './NavigationSidebarDataCategories.vue'
+  import NavigationSidebarSettingsCategories from './NavigationSidebarSettingsCategories.vue'
+  import { provideSidebarContext } from './composables/useSidebarContext'
   import NavigationSidebarFooter from './NavigationSidebarFooter.vue'
   import { PanelLeftClose, PanelLeftOpen, FolderCog } from 'lucide-vue-next'
 
   const { t } = useI18n()
+
+  // Context（selectedItemKey / activeSection を子孫全体に注入）
+  provideSidebarContext()
 
   // ストア
   const navigationStore = useNavigationStore()

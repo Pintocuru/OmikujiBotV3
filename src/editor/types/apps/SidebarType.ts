@@ -18,23 +18,22 @@ export type SidebarSectionItem = {
 }
 
 /**
- * カテゴリごとのサブ項目の表示バリアント
- * - record: Events / Assets（新規作成 + ドラッグ可能なリスト）
+ * 設定系カテゴリ（SettingsCategoryType）のサブ項目の表示バリアント
  * - array : jsonMerge（静的リスト）
  * - object: ui / appInfo（セクションリスト）
+ * ※ Events / Assets（DataCategoryType）は SidebarRecordItems 固定のためバリアントを持たない
  */
-export type SidebarVariant = 'record' | 'array' | 'object'
+export type SidebarVariant = 'array' | 'object'
 
 export type SidebarRecordCategory = DataCategoryType
 export type SidebarArrayCategory = Extract<SettingsCategoryType, 'jsonMerge'>
 export type SidebarObjectCategory = Exclude<SettingsCategoryType, SidebarArrayCategory> // 'ui' | 'appInfo'
 
 /**
- * バリアントとカテゴリの組。variant で category が絞り込める
- * （SidebarRecordItems には DataCategoryType、SidebarObjectItems には 'ui' | 'appInfo' だけが渡る）
+ * 設定系のバリアントとカテゴリの組。variant で category が絞り込める
+ * （SidebarArrayItems には 'jsonMerge'、SidebarObjectItems には 'ui' | 'appInfo' だけが渡る）
  */
-export type SidebarCategoryEntry =
-  | { variant: 'record'; category: SidebarRecordCategory }
+export type SidebarSettingsEntry =
   | { variant: 'array'; category: SidebarArrayCategory }
   | { variant: 'object'; category: SidebarObjectCategory }
 
@@ -54,7 +53,7 @@ export type DraggableSubItem = {
 
 /** ナビゲーションのグループ（サブラベル） */
 export type CategoryGroupId = 'events' | 'assets' | 'ui' | 'other'
-export type CategoryGroup = { id: CategoryGroupId; keys: CategoryType[] }
+export type CategoryGroup<K extends CategoryType = CategoryType> = { id: CategoryGroupId; keys: K[] }
 
 /** provide / inject で子孫に渡す状態 */
 export type SidebarContext = {
