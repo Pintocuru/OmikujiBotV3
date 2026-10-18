@@ -4,18 +4,6 @@ import { UserNameSchema } from '@/types/OmikenComment'
 import { z } from 'zod'
 
 /**
- * ruleId別 訪問情報
- */
-export const UserVisitRecordSchema = z.object({
-  ...UserNameSchema.shape,
-  eventKey: z.string(),
-  visits: z.number(),
-  visitValue: z.number(),
-  lastVisit: z.number().default(() => Date.now()),
-})
-export type UserVisitRecord = z.infer<typeof UserVisitRecordSchema>
-
-/**
  * 全体の訪問情報
  * TODO:もっとネストすべきでは？読みづらい。
  */

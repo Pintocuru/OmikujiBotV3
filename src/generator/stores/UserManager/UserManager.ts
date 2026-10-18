@@ -1,15 +1,12 @@
 // src/generator/stores/UserManager/UserManager.ts
 import { UserStatsManager } from './UserStatsManager'
-import { UserVisitManager } from './UserVisitManager'
 
 /**
  * 配信セッションを管理するファサードクラス
  * - stats: 全体のユーザー統計（コメント数・チーム・スコアなど）
- * - visits: ruleId別の訪問情報・抽選制限
  */
 export class UserManager {
   readonly stats = new UserStatsManager()
-  readonly visits = new UserVisitManager()
   private readonly sessionId: string
 
   constructor() {
@@ -25,7 +22,6 @@ export class UserManager {
    */
   resetSession(): void {
     this.stats.reset()
-    this.visits.resetAll()
   }
 
   private generateSessionId(): string {

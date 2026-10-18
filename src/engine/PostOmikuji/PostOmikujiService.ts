@@ -3,7 +3,7 @@ import { BOT_ICON } from './BotIcon'
 import { ServiceMetaStore } from '@/generator/stores/MetaState/MetaStateService'
 import { CharacterManager } from '@/engine/CharacterManager/CharacterManager'
 import { Service } from '@onecomme.com/onesdk/types/Service'
-import { generateDummyVisitRecords } from '@/common/MockUser/MockGenerators'
+import { generateDummyUserStats } from '@/common/MockUser/MockGenerators'
 import { ServiceAPI } from '@/sdk/service/ServiceAPI'
 import { CharacterType, OmikujiDataType, PostFlowMessageType, PostFlowType } from '@/types/OmikujiData'
 import { executeWordParty } from '@/sdk/post/PostWordParty'
@@ -44,7 +44,7 @@ export class PostOmikujiService {
 
     // コメントテスター の投稿
     if (post.kind === 'bot') {
-      const dummyUser = generateDummyVisitRecords(1)[0]
+      const dummyUser = generateDummyUserStats(1)[0]
       await postSystemMessage(post.message, {
         username: post.botName ? post.botName : dummyUser.userName,
         delaySeconds: post.delaySeconds,

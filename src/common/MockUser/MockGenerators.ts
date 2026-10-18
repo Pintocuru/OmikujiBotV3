@@ -1,7 +1,7 @@
 // src/common/MockUser/MockGenerators.ts
 import { ExtraListsSchema } from '@/generator/types'
 import { BotMessageExtraSchema, BotMessageExtraType } from '@/generator/types'
-import { UserStatsRecord, UserStatsRecordSchema, UserVisitRecord, UserVisitRecordSchema } from '@/generator/types'
+import { UserStatsRecord, UserStatsRecordSchema } from '@/generator/types'
 import { LocaleType } from '@/types/OmikujiData/'
 import { RANKING_POINTS_RANGE, SUFFIX_PROBABILITY, USER_STATS_RANGES } from './MockConstants'
 import { MOCK_FAMILY_NAME_JA_LIST, MOCK_USER_GIVEN_JA_LIST } from './MockUserJaMaps'
@@ -83,22 +83,6 @@ const givenNameCount = (locale: LocaleType): number =>
  * 生成関数
  */
 
-// プレビュー用: visitCount 付きのユーザーリストを生成
-export const generateDummyVisitRecords = (count: number, locale: LocaleType = 'ja'): UserVisitRecord[] => {
-  const maxCount = Math.min(count, 300)
-
-  return Array.from({ length: maxCount }, () => {
-    const userName = buildUserName(locale)
-    return UserVisitRecordSchema.parse({
-      userName,
-      userId: userName,
-      eventKey: 'dummy',
-      visits: randInt(0, 100),
-      visitValue: randInt(0, 100),
-    })
-  })
-}
-
 // プレビュー用: tc / score / giftPrice などの統計付きユーザーリストを生成
 export const generateDummyUserStats = (count: number, locale: LocaleType = 'ja'): UserStatsRecord[] => {
   const { tc, no, score, giftPrice } = USER_STATS_RANGES
@@ -157,23 +141,3 @@ export const generateDummyMessages = (
   }
 }
 
-// WinnerGroup プレビュー用: 重複なしの当選者リストを生成
-export const generateDummyWinnerUsers = (count: number = 2, locale: LocaleType = 'ja'): UserVisitRecord[] => {
-  const used = new Set<string>()
-
-  return Array.from({ length: count }, (_, i) => {
-    let name: string
-    do {
-      name = pickGivenName(locale).label
-    } while (used.has(name))
-    used.add(name)
-
-    return UserVisitRecordSchema.parse({
-      userName: name,
-      userId: `dummy-${i}-${Date.now()}`,
-      eventKey: 'winner-preview',
-      visits: randInt(1, 50),
-      visitValue: randInt(1, 50),
-    })
-  })
-}

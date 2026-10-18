@@ -1,5 +1,5 @@
 // src/editor/dev/AirComment/constants.ts
-import { generateDummyVisitRecords } from '../../../common/MockUser/MockGenerators'
+import { generateDummyUserStats } from '@/common/MockUser/MockGenerators'
 
 export const COMMENTS = [
   'こんにちはー！',
@@ -32,6 +32,6 @@ export function generateSimpleUsername(): string {
 
 export function generateMockUsername(): string {
   // 1件だけ生成して使う
-  const record = generateDummyVisitRecords(1)[0]
+  const record = generateDummyUserStats(1)[0]
   return record.userName
 }
