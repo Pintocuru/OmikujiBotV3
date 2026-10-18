@@ -60,7 +60,6 @@ const excludeUser: PresetDefinition<'comments'> = {
                 name: '除外(処理終了)',
                 kind: 'control',
                 command: 'return',
-                isCountEvent: false,
               }),
             ],
           },

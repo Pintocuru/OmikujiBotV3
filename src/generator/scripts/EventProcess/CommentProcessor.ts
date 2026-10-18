@@ -78,8 +78,7 @@ export class EventCommentProcessor {
     // 5. control 処理 (return / continue / reset / log)
     const controlResult = this.control.process(selectedItem, event.key, omiken)
     if (controlResult) {
-      const { handled, isCountEvent } = controlResult
-      if (isCountEvent) this.recordDraw(omiken, event)
+      const { handled } = controlResult
       return {
         isCommentTriggered: handled,
         botMessages: handled ? [BotMessageEmptySchema.parse({})] : [],

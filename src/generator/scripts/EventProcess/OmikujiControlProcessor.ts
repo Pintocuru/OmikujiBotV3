@@ -8,7 +8,6 @@ import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProces
 
 export interface SpecialActionResult {
   handled: boolean // trueのとき呼び出し元でイベント処理を終了する
-  isCountEvent: boolean // おみくじカウントとして記録するか
 }
 
 /**
@@ -37,24 +36,28 @@ export class OmikujiControlProcessor {
     }
   }
 
-  private processControl(item: OmikujiItemControlType, eventKey: string, omiken?: OmikenCommentType): SpecialActionResult {
-    // 評価ブロック {{ }} を先に評価する (変数状態の更新。command に関わらず実行)
+  private processControl(
+    item: OmikujiItemControlType,
+    eventKey: string,
+    omiken?: OmikenCommentType
+  ): SpecialActionResult {
+    // 評価ブロック {{ }} を評価
     if (item.variable.trim()) new OmikujiProcessor().evaluateControlVariable(item.variable, omiken)
 
     switch (item.command) {
       // 処理を終了する
       case 'return':
-        return { handled: true, isCountEvent: item.isCountEvent }
+        return { handled: true }
 
       // 次のイベントへ進む
       case 'continue':
-        return { handled: false, isCountEvent: item.isCountEvent }
+        return { handled: false }
 
       // おみくじ回数をリセットする (リセット自体はカウントしない)
       case 'reset':
         this.store.userSession.visits.resetEvent(eventKey)
         postSystemMessage(`${item.name}のおみくじ回数をリセットしました`, { username: '__INFO__' })
-        return { handled: true, isCountEvent: false }
+        return { handled: true }
     }
   }
 

@@ -71,7 +71,6 @@ export type OmikujiControlCommand = z.infer<typeof OmikujiControlCommandSchema>
 export const OmikujiItemControlSchema = OmikujiItemBase.extend({
   kind: z.literal('control'),
   command: OmikujiControlCommandSchema.default('return').catch('return'),
-  isCountEvent: z.boolean().default(true), // このアクションをおみくじカウントとして記録するか
   variable: z.string().default('').catch(''),
 })
 export type OmikujiItemControlType = z.infer<typeof OmikujiItemControlSchema>

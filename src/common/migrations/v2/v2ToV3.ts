@@ -155,7 +155,6 @@ function migrateOmikujiItem(oldItem: unknown): Obj {
       ...base,
       kind: 'control',
       command: type === 'resetOmikuji' ? 'reset' : type === 'continue' ? 'continue' : 'return',
-      isCountEvent: behavior.isCountEvent,
     }
   }
 

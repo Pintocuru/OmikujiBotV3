@@ -6,6 +6,8 @@ type VisitEventListener = (record: UserVisitRecord) => void
 
 /**
  * eventKey 単位のユーザー訪問回数と抽選制限を管理するクラス
+ * TODO:VariablePlaceholder を使うことで、場合によっては廃止になるかもしれない。
+ * 例えば、おみくじを引いた回数は VariablePlaceholder で代用できる('omikuji_<<userId>> という値で全ユーザーの値も保存できるので)
  */
 export class UserVisitManager {
   /**
