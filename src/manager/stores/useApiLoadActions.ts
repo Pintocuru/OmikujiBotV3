@@ -1,12 +1,12 @@
-// src/PresetManager/stores/useApiLoadActions.ts
+// src/manager/stores/useApiLoadActions.ts
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-import { DevManagerType } from '@/manager/types'
+import { DataManagerType } from '@/manager/types'
 import { configApi } from '@/manager/services/configApi'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { AsyncActionHandler } from './useApiCore'
 
-export function useLoadActions(state: DevManagerType, handleAsyncAction: AsyncActionHandler) {
+export function useLoadActions(state: DataManagerType, handleAsyncAction: AsyncActionHandler) {
   // 設定読み込み
   const applyConfigFile = async (fileName: string) => {
     const omikujiStore = useOmikujiStore()

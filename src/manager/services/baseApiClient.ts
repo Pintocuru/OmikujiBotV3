@@ -1,4 +1,4 @@
-// src/PresetManager/services/baseApiClient.ts
+// src/manager/services/baseApiClient.ts
 import axios, { AxiosInstance, AxiosError } from 'axios'
 import { getErrorMessage, normalizeApiResponse, NormalizedResponse } from './apiServiceUtils'
 import { SERVER_EXPRESS_URL, SERVER_PLUGIN_URL, isDev } from '@/types/env'

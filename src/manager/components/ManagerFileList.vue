@@ -1,4 +1,4 @@
-<!-- src/PresetManager/components/DevFileList.vue -->
+<!-- src/manager/components/ManagerFileList.vue -->
 <template>
   <div class="card bg-base-200 p-2 space-y-2">
     <template v-if="devStore.availableFiles.length > 0">

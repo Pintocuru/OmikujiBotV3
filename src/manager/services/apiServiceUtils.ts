@@ -1,4 +1,4 @@
-// src/PresetManager/services/apiServiceUtils.ts
+// src/manager/services/apiServiceUtils.ts
 import { FileItem } from '../types'
 
 /**

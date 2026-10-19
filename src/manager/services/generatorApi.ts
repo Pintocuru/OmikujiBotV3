@@ -1,4 +1,4 @@
-// src/PresetManager/services/generatorApi.ts
+// src/manager/services/generatorApi.ts
 import { BaseApiClient, ConnectionError } from './baseApiClient'
 
 /**

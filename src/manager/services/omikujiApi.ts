@@ -1,4 +1,4 @@
-// src/PresetManager/services/omikujiApi.ts
+// src/manager/services/omikujiApi.ts
 import { BaseApiClient } from './baseApiClient'
 
 /**

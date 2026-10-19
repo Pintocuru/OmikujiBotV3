@@ -1,4 +1,4 @@
-<!-- src/PresetManager/DataManager.vue -->
+<!-- src/manager/DataManager.vue -->
 <template>
   <div id="section-presetManager" class="card bg-linear-to-r from-primary to-secondary">
     <div class="card-body px-4 py-2">

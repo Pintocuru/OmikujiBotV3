@@ -1,12 +1,12 @@
-// src/PresetManager/stores/useApiSaveActions.ts
-import { DevManagerType } from '@/manager/types'
+// src/manager/stores/useApiSaveActions.ts
+import { DataManagerType } from '@/manager/types'
 import { configApi } from '@/manager/services/configApi'
 import { generatorApi } from '@/manager/services/generatorApi'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { AsyncActionHandler } from './useApiCore'
 
-export function useSaveActions(state: DevManagerType, handleAsyncAction: AsyncActionHandler) {
+export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncActionHandler) {
   // サーバチェック
   const checkServer = async (): Promise<boolean> => {
     return await configApi.getHealth()

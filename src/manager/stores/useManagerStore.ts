@@ -1,4 +1,4 @@
-// src/PresetManager/stores/useDevStore.ts
+// src/manager/stores/useManagerStore.ts
 import { defineStore } from 'pinia'
 import { useManagerState } from './useManagerState'
 import { useManagerActions } from './useManagerActions'

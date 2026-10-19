@@ -1,4 +1,4 @@
-<!-- src/PresetManager/components/DevHeader.vue -->
+<!-- src/manager/components/ManagerHeader.vue -->
 <template>
   <div class="flex items-center justify-between">
     <div class="flex items-center gap-2">
