@@ -5,11 +5,9 @@ export const triggerExpressionMessages = {
       label: '判定式',
       description: '式が true になったときだけ発動します。',
       hints: {
-        variable: '• 変数名を二重山括弧で囲むと値を参照できます (lc, tc, user, price, viewer など)',
-        string: '• 文字列は半角のシングルクォートで囲みます',
+        variable: '• プレースホルダーはデフォルトのみ使用できます (lc, tc, user, price, viewer など)',
         operator: '• 比較 (> >= < <= == !=) と論理 (and, or, not) が使えます',
-        userVariable: '• おみくじの式で作った変数も参照できます (読み取りのみ)',
-        invalid: '• 式が正しくない、または評価できない場合は発動しません',
+        userVariable: '• 評価ブロックも参照できます',
         example: '例:',
       },
     },
@@ -18,13 +16,12 @@ export const triggerExpressionMessages = {
     triggerExpression: {
       label: 'Expression',
       description: 'Triggers only when the expression evaluates to true.',
+      // TODO:hints の翻訳をなおすこと。
       hints: {
         variable:
           '• Wrap a variable name in double angle brackets to use its value (lc, tc, user, price, viewer, etc.)',
-        string: '• Enclose strings in single quotes',
         operator: '• Comparison (> >= < <= == !=) and logic (and, or, not) are available',
         userVariable: '• Variables created by omikuji expressions can also be read (read-only)',
-        invalid: '• If the expression is invalid or cannot be evaluated, it will not trigger',
         example: 'Example:',
       },
     },

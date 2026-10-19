@@ -1,20 +1,14 @@
 <!-- src/editor/assets/PostFlow/Message/MessageSettings.vue -->
 <template>
-  <SettingItem layout="vertical" icon="User" label="キャラクター" description="フキダシの色や読み上げを選択">
+  <SettingItem layout="vertical" icon="User" label="キャラクター">
     <CharacterPicker v-model="characterKey" />
   </SettingItem>
 
-  <SettingItem
-    v-if="hasCharacterSelected"
-    icon="Palette"
-    layout="vertical"
-    label="アイコン"
-    description="表示する画像を選択"
-  >
+  <SettingItem v-if="hasCharacterSelected" icon="Palette" layout="vertical" label="アイコン">
     <IconSelector :character-key="characterKey" :icon-key="action.iconKey" @update:icon-key="updateIconKey" />
   </SettingItem>
 
-  <SettingItem icon="MessageSquare" layout="vertical" label="メッセージ内容" description="プレースホルダーが使えます">
+  <SettingItem icon="MessageSquare" layout="vertical" label="メッセージ">
     <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
   </SettingItem>
 

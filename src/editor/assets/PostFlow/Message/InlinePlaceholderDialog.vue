@@ -23,7 +23,7 @@
         <span>
           <code class="font-mono">&lt;&lt; '候補A', '候補B' &gt;&gt;</code> 形式で、
           リストからランダムに選ばれるテキストを挿入できます。
-          <code class="font-mono">&lt;&lt;user&gt;&gt;</code> などのプレースホルダーも使用可能です。
+          <code class="font-mono">&lt;&lt;user&gt;&gt;</code> などの、デフォルトプレースホルダーも使用可能です。
         </span>
       </div>
 

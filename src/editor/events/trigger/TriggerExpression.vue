@@ -9,10 +9,8 @@
     />
     <div class="text-sm text-gray-500 mt-2 space-y-1">
       <p>{{ t('triggerExpression.hints.variable') }}</p>
-      <p>{{ t('triggerExpression.hints.string') }}</p>
-      <p>{{ t('triggerExpression.hints.operator') }}</p>
       <p>{{ t('triggerExpression.hints.userVariable') }}</p>
-      <p>{{ t('triggerExpression.hints.invalid') }}</p>
+      <p>{{ t('triggerExpression.hints.operator') }}</p>
       <p class="font-mono">
         {{ t('triggerExpression.hints.example') }}
         <code class="badge badge-ghost">{{ exampleLc }}</code>
