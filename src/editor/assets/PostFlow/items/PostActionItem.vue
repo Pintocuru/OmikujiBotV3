@@ -10,7 +10,7 @@
     <!-- 右側: 設定エリア -->
     <div class="col-span-2 space-y-2">
       <!-- ActionType -->
-      <SettingItem label="🚀 アクションタイプ" description="種類を選択します">
+      <SettingItem layout="vertical" icon="Rocket" label="アクションタイプ" description="種類を選択します">
         <div class="flex flex-wrap gap-2">
           <span
             v-for="(meta, type) in postFlowKindMap"
@@ -25,7 +25,12 @@
       </SettingItem>
 
       <!-- 遅延秒数（全タイプ共通） -->
-      <SettingItem label="⏱️ 遅延秒数" description="この秒数後に下記のアクションを実行します">
+      <SettingItem
+        layout="vertical"
+        icon="Clock"
+        label="遅延秒数"
+        description="この秒数後に下記のアクションを実行します"
+      >
         <input
           type="number"
           v-model.number="delaySeconds"

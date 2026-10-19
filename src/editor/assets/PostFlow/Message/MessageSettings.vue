@@ -1,6 +1,6 @@
 <!-- src/editor/assets/PostFlow/Message/MessageSettings.vue -->
 <template>
-  <SettingItem label="👤キャラクター・カラー" description="フキダシの色や読み上げのキャラクターを選択">
+  <SettingItem layout="vertical" icon="User" label="キャラクター" description="フキダシの色や読み上げを選択">
     <select v-model="characterKey" class="select select-bordered select-sm w-full max-w-xs">
       <option v-for="(name, key) in availableCharacters" :key="key" :value="key">
         {{ name }}
@@ -8,11 +8,17 @@
     </select>
   </SettingItem>
 
-  <SettingItem v-if="hasCharacterSelected" label="🎨 アイコン" description="表示する画像を選択">
+  <SettingItem
+    v-if="hasCharacterSelected"
+    icon="Palette"
+    layout="vertical"
+    label="アイコン"
+    description="表示する画像を選択"
+  >
     <IconSelector :character-key="characterKey" :icon-key="action.iconKey" @update:icon-key="updateIconKey" />
   </SettingItem>
 
-  <SettingItem label="💬 メッセージ内容" description="プレースホルダーが使えます">
+  <SettingItem icon="MessageSquare" layout="vertical" label="メッセージ内容" description="プレースホルダーが使えます">
     <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
   </SettingItem>
 

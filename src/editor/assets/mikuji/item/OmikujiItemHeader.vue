@@ -1,13 +1,13 @@
 <!-- src/editor/assets/mikuji/item/OmikujiItemHeader.vue -->
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-    <!-- 名前 -->
-    <SettingItem label="おみくじ名" description="識別しやすい名前を入力">
+    <!-- 運勢の種類 -->
+    <SettingItem layout="vertical" label="運勢の種類" description="識別しやすい名前を入力">
       <input
         type="text"
         :value="omikujiItem.name"
         @input="updateName(($event.target as HTMLInputElement).value)"
-        placeholder="おみくじ名"
+        placeholder="運勢の種類"
         class="input input-bordered input-sm w-full"
       />
     </SettingItem>
@@ -15,6 +15,7 @@
     <!-- クールダウン -->
     <SettingItem
       v-if="omikujiItem.kind === 'postFlow'"
+      layout="vertical"
       label="クールダウン"
       description="これ以降の実行を一定時間ブロックします（秒）"
     >

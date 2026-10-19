@@ -3,6 +3,7 @@
   <!-- Key表示 -->
   <SettingItem
     v-if="isAssetCategory(category)"
+    icon="Pencil"
     :label="t('baseSettings.key.label')"
     :description="t('baseSettings.key.description')"
   >
@@ -25,13 +26,18 @@
   </SettingItem>
 
   <!-- イベント名 -->
-  <SettingItem :label="t('baseSettings.eventName.label')" :description="t('baseSettings.eventName.description')">
+  <SettingItem
+    icon="Zap"
+    :label="t('baseSettings.eventName.label')"
+    :description="t('baseSettings.eventName.description')"
+  >
     <input type="text" v-model="name" class="input w-full" />
   </SettingItem>
 
   <!-- 説明 -->
   <SettingItem
     v-if="isDescription"
+    icon="Info"
     :label="t('baseSettings.description.label')"
     :description="t('baseSettings.description.description')"
   >

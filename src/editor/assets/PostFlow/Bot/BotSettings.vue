@@ -1,12 +1,12 @@
 <!-- src/editor/assets/PostFlow/Bot/BotSettings.vue -->
 <template>
   <!-- BOTの名前 -->
-  <SettingItem label="🤖 BOTの名前" description="空白時はランダムになります">
+  <SettingItem layout="vertical" icon="Bot" label="BOTの名前" description="空白時はランダムになります">
     <input v-model="botName" type="text" class="input input-bordered input-sm w-full" />
   </SettingItem>
 
   <!-- コメント -->
-  <SettingItem label="💬 メッセージ内容" description="プレースホルダーが使えます">
+  <SettingItem layout="vertical" icon="MessageSquare" label="メッセージ内容" description="プレースホルダーが使えます">
     <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
   </SettingItem>
 </template>

@@ -1,6 +1,6 @@
 <!-- src/editor/assets/PostFlow/Sounds/SoundSettings.vue -->
 <template>
-  <SettingItem label="🔊 サウンド" description="フキダシ表示時に鳴らす音">
+  <SettingItem icon="Volume2" layout="vertical" label="サウンド" description="フキダシ表示時に鳴らす音">
     <!-- プリセット選択 -->
     <select v-model="sound" class="select select-bordered select-sm w-full">
       <option value="">（なし）</option>
@@ -9,7 +9,7 @@
   </SettingItem>
 
   <!-- カスタムパス -->
-  <SettingItem label="🔊 カスタムサウンド" description="assets/sounds/ からの相対パス">
+  <SettingItem icon="Volume2" layout="vertical" label="カスタムサウンド" description="assets/sounds/ からの相対パス">
     <input
       v-model="soundPath"
       type="text"

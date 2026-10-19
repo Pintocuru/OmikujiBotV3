@@ -61,6 +61,13 @@ import {
   FileText,
   Gift,
   UserPlus,
+  Rocket,
+  User,
+  Repeat,
+  Code2,
+  Pencil,
+  Tag,
+  Tags,
 } from 'lucide-vue-next'
 
 // map（as const で literal 型を保持）
@@ -123,6 +130,13 @@ export const lucideIconMap = {
   FileText,
   Gift,
   UserPlus,
+  Rocket,
+  User,
+  Repeat,
+  Code2,
+  Pencil,
+  Tag,
+  Tags,
 } as const
 
 // map から union 型を生成

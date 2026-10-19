@@ -6,7 +6,7 @@
       id="section-appSettings"
       icon="Settings"
       :isOpen="true"
-      :title="t('appInfoEditor.appSettings.title')"
+      :label="t('appInfoEditor.appSettings.title')"
       :description="t('appInfoEditor.appSettings.description')"
     >
       <GeneratorSettingsEditor />
@@ -18,7 +18,7 @@
       id="section-appFeatures"
       icon="Sparkles"
       :isOpen="true"
-      :title="t('appInfoEditor.appFeatures.title')"
+      :label="t('appInfoEditor.appFeatures.title')"
       :description="t('appInfoEditor.appFeatures.description')"
     >
       <AvailableFeaturesInfo />
@@ -30,7 +30,7 @@
       icon="Info"
       variant="neutral"
       :isOpen="true"
-      :title="t('appInfoEditor.packageBasic.title')"
+      :label="t('appInfoEditor.packageBasic.title')"
       :description="t('appInfoEditor.packageBasic.description')"
     >
       <PackageBasicInfo />
@@ -42,7 +42,7 @@
       icon="Package"
       variant="neutral"
       :isOpen="true"
-      :title="t('appInfoEditor.packageDistribution.title')"
+      :label="t('appInfoEditor.packageDistribution.title')"
       :description="t('appInfoEditor.packageDistribution.description')"
     >
       <PackageDistributionInfo />
@@ -54,7 +54,7 @@
       icon="Cpu"
       variant="neutral"
       :isOpen="true"
-      :title="t('appInfoEditor.packageSystem.title')"
+      :label="t('appInfoEditor.packageSystem.title')"
       :description="t('appInfoEditor.packageSystem.description')"
     >
       <PackageSystemInfo />

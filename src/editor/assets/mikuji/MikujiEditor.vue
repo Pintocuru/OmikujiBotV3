@@ -12,7 +12,7 @@
       :icon="s('baseSettings')?.icon"
       :isOpen="activeSection === 'baseSettings'"
       @toggle="toggleSection('baseSettings')"
-      :title="s('baseSettings')?.label"
+      :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
       <BaseSettingsEditor v-model="selectedItem" category="mikuji" :isIsEnabled="false" />
@@ -24,7 +24,7 @@
       :icon="s('omikujiSet')?.icon"
       :isOpen="activeSection === 'omikujiSet'"
       @toggle="toggleSection('omikujiSet')"
-      :title="s('omikujiSet')?.label"
+      :label="s('omikujiSet')?.label"
       :description="s('omikujiSet')?.description"
     >
       <MikujiSettings category="mikuji" :omikujiKey="selectedItem.key" />

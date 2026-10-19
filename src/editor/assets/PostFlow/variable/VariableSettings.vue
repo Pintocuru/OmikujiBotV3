@@ -1,6 +1,6 @@
 <!-- src/editor/assets/PostFlow/variable/VariableSettings.vue -->
 <template>
-  <SettingItem label="💬 メッセージ内容" description="プレースホルダーが使えます">
+  <SettingItem icon="Code2" layout="vertical" label="評価ブロック内容">
     <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
   </SettingItem>
 </template>

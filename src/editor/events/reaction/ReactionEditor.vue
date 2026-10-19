@@ -12,7 +12,7 @@
       :isOpen="activeSection === 'baseSettings'"
       @toggle="toggleSection('baseSettings')"
       :variant="selectedItem.isEnabled ? 'secondary' : 'neutral'"
-      :title="s('baseSettings')?.label"
+      :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
       <BaseSettingsEditor v-model="selectedItem" category="reactions" />
@@ -25,7 +25,7 @@
         :icon="s('trigger')?.icon"
         :isOpen="activeSection === 'trigger'"
         @toggle="toggleSection('trigger')"
-        :title="s('trigger')?.label"
+        :label="s('trigger')?.label"
         :description="s('trigger')?.description"
       >
         <ReactionTriggerEditor v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
@@ -41,7 +41,7 @@
         :icon="s('omikujiSet')?.icon"
         :isOpen="activeSection === 'omikujiSet'"
         @toggle="toggleSection('omikujiSet')"
-        :title="s('omikujiSet')?.label"
+        :label="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
         <MikujiSettings category="comments" :omikujiKey="selectedItem.omikujiKey" />

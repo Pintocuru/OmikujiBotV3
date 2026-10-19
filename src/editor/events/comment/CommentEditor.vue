@@ -7,7 +7,7 @@
       :icon="s('baseSettings')?.icon"
       :isOpen="activeSection === 'baseSettings'"
       @toggle="toggleSection('baseSettings')"
-      :title="s('baseSettings')?.label"
+      :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
       <BaseEditor v-model="selectedItem" category="comments" />
@@ -20,7 +20,7 @@
         :icon="s('threshold')?.icon"
         :isOpen="activeSection === 'threshold'"
         @toggle="toggleSection('threshold')"
-        :title="s('threshold')?.label"
+        :label="s('threshold')?.label"
         :description="s('threshold')?.description"
       >
         <CommentTriggerEditor v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
@@ -32,7 +32,7 @@
         :icon="s('omikujiSet')?.icon"
         :isOpen="activeSection === 'omikujiSet'"
         @toggle="toggleSection('omikujiSet')"
-        :title="s('omikujiSet')?.label"
+        :label="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
         <div class="space-y-4">

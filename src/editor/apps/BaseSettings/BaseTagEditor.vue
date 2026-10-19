@@ -1,6 +1,6 @@
 <!-- src/editor/apps/BaseSettings/BaseTagEditor.vue -->
 <template>
-  <SettingItem label="タグ" description="このデータに関連するタグを追加できます">
+  <SettingItem icon="Tags" label="タグ" description="このデータに関連するタグを追加できます">
     <VueDraggable v-model="localTags" class="flex flex-wrap gap-2 mb-2 min-h-8">
       <span v-for="(tag, index) in localTags" :key="tag" class="badge badge-sm badge-primary cursor-grab">
         {{ tag }}

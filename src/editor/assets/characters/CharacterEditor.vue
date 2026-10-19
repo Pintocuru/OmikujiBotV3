@@ -8,7 +8,7 @@
       :icon="s('baseSettings')?.icon"
       :isOpen="activeSection === 'baseSettings'"
       @toggle="toggleSection('baseSettings')"
-      :title="s('baseSettings')?.label"
+      :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
       <BaseSettingsEditor v-model="selectedItem" category="placeholders" :isIsEnabled="false" />
@@ -20,7 +20,7 @@
       :icon="s('colorSettings')?.icon"
       :isOpen="activeSection === 'colorSettings'"
       @toggle="toggleSection('colorSettings')"
-      :title="s('colorSettings')?.label"
+      :label="s('colorSettings')?.label"
       :description="s('colorSettings')?.description"
     >
       <CharacterColorSettings
@@ -36,7 +36,7 @@
       :icon="s('commentVoice')?.icon"
       :isOpen="activeSection === 'commentVoice'"
       @toggle="toggleSection('commentVoice')"
-      :title="s('commentVoice')?.label"
+      :label="s('commentVoice')?.label"
       :description="s('commentVoice')?.description"
     >
       <CommentVoiceSettings
@@ -52,7 +52,7 @@
       :icon="s('imageSettings')?.icon"
       :isOpen="activeSection === 'imageSettings'"
       @toggle="toggleSection('imageSettings')"
-      :title="s('imageSettings')?.label"
+      :label="s('imageSettings')?.label"
       :description="s('imageSettings')?.description"
     >
       <CharacterImageSettings :modelValue="selectedItem.image" :selectedItemKey="selectedItemKey" />

@@ -7,11 +7,11 @@
         <component :is="IconComponent" v-if="IconComponent" class="w-6 h-6" />
 
         <!-- タイトル -->
-        <span>{{ title ?? '' }}</span>
+        <span>{{ label ?? '' }}</span>
       </div>
-      <div v-if="description" class="text-sm">{{ description }}</div>
+      <div v-if="description" class="text-sm pr-2">{{ description }}</div>
     </div>
-    <!-- 常にカードを表示 -->
+    <!-- カードを展開 -->
     <div class="space-y-2 p-4">
       <slot />
     </div>
@@ -20,21 +20,19 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { DaisyUIExtendedColorType } from '@/types/core'
+  import { DaisyUIColorType } from '@/types/core'
   import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
   const props = withDefaults(
     defineProps<{
-      title?: string
-      icon?: LucideIconName
+      label?: string
       description?: string
-      variant?: DaisyUIExtendedColorType
-      isOpen?: boolean
+      icon?: LucideIconName
+      variant?: DaisyUIColorType
     }>(),
     {
       description: '',
       variant: 'secondary',
-      isOpen: false,
     }
   )
 

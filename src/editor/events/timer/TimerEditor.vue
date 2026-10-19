@@ -15,7 +15,7 @@
       :isOpen="activeSection === 'baseSettings'"
       @toggle="toggleSection('baseSettings')"
       :variant="selectedItem.isEnabled ? 'secondary' : 'neutral'"
-      :title="s('baseSettings')?.label"
+      :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
       <BaseSettingsEditor v-model="selectedItem" category="timers" />
@@ -28,7 +28,7 @@
         :icon="s('timerInterval')?.icon"
         :isOpen="activeSection === 'timerInterval'"
         @toggle="toggleSection('timerInterval')"
-        :title="s('timerInterval')?.label"
+        :label="s('timerInterval')?.label"
         :description="s('timerInterval')?.description"
       >
         <TimerIntervalEditor v-model="selectedItem" />
@@ -44,7 +44,7 @@
         :icon="s('omikujiSet')?.icon"
         :isOpen="activeSection === 'omikujiSet'"
         @toggle="toggleSection('omikujiSet')"
-        :title="s('omikujiSet')?.label"
+        :label="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
         <MikujiSettings category="comments" :omikujiKey="selectedItem.omikujiKey" />

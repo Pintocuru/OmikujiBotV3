@@ -1,6 +1,6 @@
 <!-- src/editor/assets/PostFlow/gameScript/GameScriptSettings.vue -->
 <template>
-  <SettingItem label="ゲーム" description="実行するゲームスクリプトを選択">
+  <SettingItem layout="vertical" icon="Gamepad2" label="ゲーム" description="実行するゲームスクリプトを選択">
     <select v-model="scriptId" class="select select-bordered select-sm w-full">
       <option value="">未選択</option>
       <option v-for="key in getRegisteredGameScriptKeys()" :key="key" :value="key">
@@ -9,7 +9,7 @@
     </select>
   </SettingItem>
 
-  <SettingItem label="キャラクター" description="ゲームに使用するキャラクター">
+  <SettingItem layout="vertical" icon="User" label="キャラクター" description="ゲームに使用するキャラクター">
     <select v-model="characterKey" class="select select-bordered select-sm w-full">
       <option value="">未選択</option>
       <option v-for="(value, key) in characterMap" :key="key" :value="key">
@@ -18,7 +18,7 @@
     </select>
   </SettingItem>
 
-  <SettingItem label="パラメータ" description="ゲームに渡す文字列">
+  <SettingItem layout="vertical" icon="Code2" label="パラメータ" description="ゲームに渡す文字列">
     <input
       v-model="queryString"
       type="text"

@@ -6,7 +6,7 @@
         icon="Merge"
         :is-open="true"
         variant="success"
-        title="設定読み込みプレビュー"
+        label="設定読み込みプレビュー"
         :description="`総項目数: ${importManager.previewData.value ? importManager.previewData.value.totalItems : ''}`"
       >
         <div v-if="importManager.previewData.value" class="space-y-4">

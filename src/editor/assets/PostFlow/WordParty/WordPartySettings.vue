@@ -2,7 +2,7 @@
 <template>
   <div class="space-y-2">
     <!-- WordParty ID -->
-    <SettingItem label="🎉 WordParty" description="WordPartyのID">
+    <SettingItem layout="vertical" icon="PartyPopper" label="WordParty" description="WordPartyのID">
       <input
         type="text"
         v-model="wordPartyIdValue"
@@ -12,7 +12,7 @@
     </SettingItem>
 
     <!-- Repeat -->
-    <SettingItem label="🔁 繰り返し回数" description="WordPartyを実行する回数（最大20回）">
+    <SettingItem layout="vertical" icon="Repeat" label="繰り返し回数" description="WordPartyを実行する回数（最大20回）">
       <div class="flex items-center gap-2 flex-1">
         <select v-model="repeatMode" class="select select-bordered select-sm w-32">
           <option value="none">なし（1回）</option>

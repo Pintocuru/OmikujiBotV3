@@ -2,7 +2,7 @@
 <template>
   <!-- 追加発動条件の有効化 -->
   <SettingItem
-    label="追加発動条件を設定する"
+    label="追加発動条件"
     description="条件を満たした場合の優先度を設定できます"
     :variant="hasCriteria ? 'secondary' : undefined"
   >

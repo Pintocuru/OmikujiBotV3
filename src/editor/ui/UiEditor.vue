@@ -5,7 +5,7 @@
     <SectionCard
       variant="warning"
       icon="LayoutGrid"
-      title="レイアウト"
+      label="レイアウト"
       description="ジェネレーターで使用するレイアウトの切り替え"
     >
       <LayoutEditor />
@@ -24,7 +24,7 @@
       :icon="item.icon"
       :isOpen="activeSection === kind"
       @toggle="toggleSection(kind)"
-      :title="item.label"
+      :label="item.label"
       :description="item.description"
     >
       <component :is="item.component" />
@@ -37,7 +37,7 @@
     icon="Palette"
     :isOpen="activeSection === 'commonStyle'"
     @toggle="toggleSection('commonStyle')"
-    title="共通設定"
+    label="共通設定"
     description="フォントなど、すべての表示に共通する設定"
   >
     <FontFamilyEditor />
