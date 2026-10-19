@@ -1,7 +1,7 @@
 // src/generator/composables/useAppInitializer.ts
 import { EventCommentProcessor } from '@/generator/scripts/EventProcess/CommentProcessor'
 import { useAppStore } from '@/generator/stores/useAppStore'
-import { generatorApi } from '@/PresetManager/services/generatorApi'
+import { generatorApi } from '@/manager/services/generatorApi'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { POST_SETTINGS } from '@/sdk/PostSettings'
 import { GetOmikenComments } from '@/sdk/subscribe/OmikenComment/GetOmikenComments'

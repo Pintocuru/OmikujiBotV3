@@ -1,10 +1,10 @@
 // src/PresetManager/stores/useDevConfigStateActions.ts
-import { FileItem, DevConfigStateType } from '@/PresetManager/types'
+import { FileItem, DevManagerType } from '@/manager/types'
 
 /**
  * ファイル管理
  */
-export function useDevConfigStateActions(state: DevConfigStateType) {
+export function useManagerStateActions(state: DevManagerType) {
   // ファイル管理
   const setFiles = (files: FileItem[]) => {
     state.availableFiles.value = files

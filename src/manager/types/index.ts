@@ -4,7 +4,7 @@ import { Ref } from 'vue'
 /**
  * DevConfigsState ステータス
  */
-export interface DevConfigStateType {
+export interface DevManagerType {
   // ファイル関連
   saveFileName: Ref<string>
   availableFiles: Ref<FileItem[]>

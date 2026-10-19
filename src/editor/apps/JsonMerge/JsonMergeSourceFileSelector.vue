@@ -36,7 +36,7 @@
   import { storeToRefs } from 'pinia'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { configApi } from '@/PresetManager/services/configApi'
+  import { configApi } from '@/manager/services/configApi'
 
   const props = defineProps<{
     mergeIndex: number

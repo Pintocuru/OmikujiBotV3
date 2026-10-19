@@ -40,7 +40,7 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
   import { useConfigExport } from './useConfigExport'
-  import { useDevStore } from '@/PresetManager/stores/useDevStore'
+  import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { Save } from 'lucide-vue-next'
@@ -50,7 +50,7 @@
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
   const navigationStore = useNavigationStore()
-  const devStore = useDevStore()
+  const devStore = useManagerStore()
   const { hasChanged } = storeToRefs(omikujiStore)
   const { saveFileName } = storeToRefs(devStore)
 

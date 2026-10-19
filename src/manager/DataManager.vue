@@ -1,12 +1,12 @@
-<!-- src/PresetManager/DevConfigs.vue -->
+<!-- src/PresetManager/DataManager.vue -->
 <template>
   <div id="section-presetManager" class="card bg-linear-to-r from-primary to-secondary">
     <div class="card-body px-4 py-2">
       <!-- ヘッダー -->
-      <DevHeader />
+      <ManagerHeader />
 
       <!-- 読み込みセクション -->
-      <DevFileList v-if="devStore.isServerConnected" />
+      <ManagerFileList v-if="devStore.isServerConnected" />
 
       <!-- 接続ステータス -->
       <div class="text-xs flex items-center text-primary-content gap-2">
@@ -22,11 +22,11 @@
 <script setup lang="ts">
   import { onMounted } from 'vue'
   import { storeToRefs } from 'pinia'
-  import DevHeader from './components/DevHeader.vue'
-  import DevFileList from './components/DevFileList.vue'
-  import { useDevStore } from '@/PresetManager/stores/useDevStore'
+  import ManagerHeader from './components/ManagerHeader.vue'
+  import ManagerFileList from './components/ManagerFileList.vue'
+  import { useManagerStore } from './stores/useManagerStore'
 
-  const devStore = useDevStore()
+  const devStore = useManagerStore()
   const { isExpressMode } = storeToRefs(devStore)
 
   onMounted(() => {

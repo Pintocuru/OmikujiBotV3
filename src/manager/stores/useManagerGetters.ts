@@ -1,8 +1,8 @@
 // src/PresetManager/stores/useDevConfigGetters.ts
 import { computed } from 'vue'
-import { DevConfigStateType } from '@/PresetManager/types'
+import { DevManagerType } from '@/manager/types'
 
-export function useDevConfigGetters(state: DevConfigStateType) {
+export function useManagerGetters(state: DevManagerType) {
   // ソート済みファイル一覧
   const sortedFiles = computed(() => {
     return [...state.availableFiles.value].sort(

@@ -72,9 +72,9 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
   import { isDev } from '@/types/env'
-  import { generateDateFileName } from '@/PresetManager/services/apiServiceUtils'
-  import { generatorApi } from '@/PresetManager/services/generatorApi'
-  import { useDevStore } from '@/PresetManager/stores/useDevStore'
+  import { generateDateFileName } from '@/manager/services/apiServiceUtils'
+  import { generatorApi } from '@/manager/services/generatorApi'
+  import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
@@ -83,7 +83,7 @@
   const omikujiStore = useOmikujiStore()
   const { hasChanged } = storeToRefs(omikujiStore)
   const navigationStore = useNavigationStore()
-  const devStore = useDevStore()
+  const devStore = useManagerStore()
   const { isExpressMode } = storeToRefs(devStore)
 
   const toggleApiMode = async () => {

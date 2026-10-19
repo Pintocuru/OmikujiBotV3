@@ -50,12 +50,12 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { useDevStore } from '@/PresetManager/stores/useDevStore'
+  import { useManagerStore } from '@/manager/stores/useManagerStore.js'
   import DevFileItem from './DevFileItem.vue'
-  import { formatFileDate } from '../services/apiServiceUtils'
+  import { formatFileDate } from '../services/apiServiceUtils.js'
   import { Folder, ChevronDown, ChevronRight } from 'lucide-vue-next'
 
-  const devStore = useDevStore()
+  const devStore = useManagerStore()
 
   const rootFiles = computed(() => devStore.availableFiles.filter((f) => f.folder === null))
 

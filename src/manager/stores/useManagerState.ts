@@ -1,9 +1,9 @@
 // src/PresetManager/stores/useDevConfigState.ts
 import { ref, reactive } from 'vue'
-import { FileItem } from '@/PresetManager/types'
+import { FileItem } from '@/manager/types'
 import { isDev } from '@/types/env'
 
-export function useDevConfigState() {
+export function useManagerState() {
   // ファイル関連
   const saveFileName = ref('')
   const availableFiles = ref<FileItem[]>([])

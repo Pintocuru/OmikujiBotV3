@@ -39,7 +39,7 @@
   import { useI18n } from 'vue-i18n'
   import { isDev } from '@/types/env'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useDevStore } from '@/PresetManager/stores/useDevStore'
+  import { useManagerStore } from '@/manager/stores/useManagerStore.js'
   import NavigationSidebarDataCategories from './NavigationSidebarDataCategories.vue'
   import NavigationSidebarSettingsCategories from './NavigationSidebarSettingsCategories.vue'
   import { provideSidebarContext } from './composables/useSidebarContext'
@@ -55,7 +55,7 @@
   const navigationStore = useNavigationStore()
   const { activeSection } = storeToRefs(navigationStore)
 
-  const devStore = useDevStore()
+  const devStore = useManagerStore()
   const { isServerConnected } = storeToRefs(devStore)
 
   // 展開状態

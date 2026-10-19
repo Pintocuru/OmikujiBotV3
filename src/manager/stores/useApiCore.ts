@@ -1,17 +1,14 @@
 // src/PresetManager/stores/useApiCore.ts
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
-import { DevConfigStateType } from '@/PresetManager/types'
+import { DevManagerType } from '@/manager/types'
 
-export type AsyncActionHandler = <T>(
-  action: () => Promise<T>,
-  loadingKey: keyof DevConfigStateType
-) => Promise<T | null>
+export type AsyncActionHandler = <T>(action: () => Promise<T>, loadingKey: keyof DevManagerType) => Promise<T | null>
 
-export function useApiCore(state: DevConfigStateType) {
+export function useApiCore(state: DevManagerType) {
   // 非同期アクションのラッパー
   const handleAsyncAction = async <T>(
     action: () => Promise<T>,
-    loadingKey: keyof DevConfigStateType
+    loadingKey: keyof DevManagerType
   ): Promise<T | null> => {
     const target = state[loadingKey]
     if (!('value' in target)) {

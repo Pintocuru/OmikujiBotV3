@@ -42,7 +42,7 @@
   import { isDev } from '@/types/env'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useConfigExport } from '@/editor/helpers/presetsExport/useConfigExport'
-  import { useDevStore } from '@/PresetManager/stores/useDevStore'
+  import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { Save } from 'lucide-vue-next'
 
   const { t } = useI18n()
@@ -51,7 +51,7 @@
   const omikujiStore = useOmikujiStore()
   const { hasChanged } = storeToRefs(omikujiStore)
 
-  const devStore = useDevStore()
+  const devStore = useManagerStore()
   const { saveFileName } = storeToRefs(devStore)
 
   const { isExporting, exportFile } = useConfigExport()

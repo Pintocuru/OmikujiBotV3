@@ -9,8 +9,8 @@
       <!-- ヘッダー -->
       <AppHeader />
 
-      <!-- プリセット管理 -->
-      <PresetTool v-if="isServerConnected" />
+      <!-- おみくじデータ管理 -->
+      <DataManager v-if="isServerConnected" />
 
       <!-- 設定書き出し -->
       <div class="flex justify-between">
@@ -44,13 +44,13 @@
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import PresetTool from '@/PresetManager/DevConfigs.vue'
-  import { useDevStore } from '@/PresetManager/stores/useDevStore'
-  import { generatorApi } from '@/PresetManager/services/generatorApi'
+  import DataManager from '@/manager/DataManager.vue'
+  import { useManagerStore } from '@/manager/stores/useManagerStore.js'
+  import { generatorApi } from '@/manager/services/generatorApi.js'
 
   // stores
   const omikujiStore = useOmikujiStore()
-  const devStore = useDevStore()
+  const devStore = useManagerStore()
   const { data, dataSource } = storeToRefs(omikujiStore)
   const { isServerConnected } = storeToRefs(devStore)
   const navigationStore = useNavigationStore()

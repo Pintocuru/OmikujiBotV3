@@ -1,15 +1,15 @@
 // src/PresetManager/stores/useDevConfigActions.ts
-import { useDevConfigStateActions } from './useDevConfigStateActions'
+import { useManagerStateActions } from './useManagerStateActions'
 import { useApiCore } from './useApiCore'
 import { useFileActions } from './useApiFileActions'
 import { useSaveActions } from './useApiSaveActions'
 import { useLoadActions } from './useApiLoadActions'
-import { DevConfigStateType } from '@/PresetManager/types'
+import { DevManagerType } from '@/manager/types'
 import { configApi } from '../services/configApi'
 import { isDev } from '@/types/env'
 
-export function useDevConfigActions(state: DevConfigStateType) {
-  const stateActions = useDevConfigStateActions(state) // ファイル管理
+export function useManagerActions(state: DevManagerType) {
+  const stateActions = useManagerStateActions(state) // ファイル管理
   const { handleAsyncAction } = useApiCore(state)
   const fileActions = useFileActions(state, handleAsyncAction)
   const saveActions = useSaveActions(state, handleAsyncAction)

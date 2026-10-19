@@ -75,7 +75,7 @@
   import { isDev } from '@/types/env'
   import type { FileItem } from '../types'
   import FileMenuDropdown from './FileMenuDropdown.vue'
-  import { useDevStore } from '@/PresetManager/stores/useDevStore'
+  import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'
   import ConfigImportModal from '@/editor/helpers/presetsImport/ConfigImportModal.vue'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
@@ -88,7 +88,7 @@
   }>()
 
   // stores
-  const devStore = useDevStore()
+  const devStore = useManagerStore()
 
   // インポートマネージャー
   const importManager = useImportManager()
