@@ -3,7 +3,6 @@ import { ref, computed, readonly, watch } from 'vue'
 import { validateKey as validateKeyUtil } from './keyEditorValidation'
 import { updateStrategies } from './keyUpdateStrategies'
 import { CharacterUsage, UpdateResult } from './keyEditorTypes'
-import { categoryMap } from '@/maps/OmikujiData'
 import { eventCategory, AssetCategoryType } from '@/types/OmikujiData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
@@ -24,7 +23,7 @@ export function useKeyEditor() {
   const characterUsage = ref<CharacterUsage | null>(null)
 
   const hasError = computed(() => errorMessage.value !== '')
-  const dialogTitle = computed(() => t('keyEditor.title', { category: categoryMap[currentCategory.value].label }))
+  const dialogTitle = computed(() => t('keyEditor.title', { category: t(`categories.${currentCategory.value}.label`) }))
   const canSave = computed(
     () => !hasError.value && newKey.value.trim() !== '' && newKey.value.trim() !== currentKey.value
   )

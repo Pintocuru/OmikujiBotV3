@@ -13,12 +13,12 @@
         {{ conditionLabel(cond) }}
       </span>
     </div>
-    <div v-else class="text-xs opacity-40">条件なし（すべて発動）</div>
+    <div v-else class="text-xs opacity-40">{{ t('appPreview.threshold.none') }}</div>
 
     <!-- userName -->
     <div v-if="trigger.userName?.length" class="flex items-center gap-1 text-xs">
       <User class="w-3 h-3 shrink-0 opacity-60" />
-      <span class="opacity-70">ユーザー:</span>
+      <span class="opacity-70">{{ t('appPreview.threshold.user') }}</span>
       <span class="truncate max-w-30">
         {{ trigger.userName.slice(0, 2).join(', ') }}
         <span v-if="trigger.userName.length > 2" class="opacity-50">+{{ trigger.userName.length - 2 }}</span>
@@ -46,22 +46,25 @@
     <div v-if="trigger.access?.length || trigger.gift?.length" class="flex gap-1.5 text-xs">
       <div v-if="trigger.access?.length" class="flex items-center gap-1">
         <Shield class="w-3 h-3 opacity-60" />
-        <span class="badge badge-xs badge-info">アクセス ×{{ trigger.access.length }}</span>
+        <span class="badge badge-xs badge-info">{{ t('appPreview.threshold.access', { n: trigger.access.length }) }}</span>
       </div>
       <div v-if="trigger.gift?.length" class="flex items-center gap-1">
         <Gift class="w-3 h-3 opacity-60" />
-        <span class="badge badge-xs badge-warning">ギフト ×{{ trigger.gift.length }}</span>
+        <span class="badge badge-xs badge-warning">{{ t('appPreview.threshold.gift', { n: trigger.gift.length }) }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { CommentTriggerType, CriteriaThresholdType } from '@/types/OmikujiData'
   import { Filter, User, MessageSquare, Shield, Gift, Sigma } from 'lucide-vue-next'
 
   type TriggerLike = Partial<CommentTriggerType & CriteriaThresholdType>
+
+  const { t, te } = useI18n()
 
   const props = withDefaults(
     defineProps<{
@@ -71,7 +74,7 @@
     { mode: 'threshold' }
   )
 
-  const title = computed(() => (props.mode === 'criteria' ? '追加発動条件' : '発動条件'))
+  const title = computed(() => (props.mode === 'criteria' ? t('appPreview.threshold.criteriaTitle') : t('appPreview.threshold.title')))
 
   const trigger = computed<TriggerLike>(() => {
     if (!props.data) return {}
@@ -81,18 +84,9 @@
 
   const conditions = computed(() => trigger.value.conditions ?? [])
 
-  const conditionLabelMap: Record<string, string> = {
-    syoken: '初見',
-    count: 'カウント',
-    access: 'アクセス',
-    gift: 'ギフト',
-    comment: 'キーワード',
-    userName: 'ユーザー指定',
-    expression: '判定式',
-  }
-
   function conditionLabel(cond: string) {
-    return conditionLabelMap[cond] ?? cond
+    const key = `appPreview.threshold.conditions.${cond}`
+    return te(key) ? t(key) : cond
   }
 
   function conditionBadgeClass(cond: string) {

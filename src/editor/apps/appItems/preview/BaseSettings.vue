@@ -13,7 +13,7 @@
 
     <!-- description -->
     <div class="opacity-70 line-clamp-3">
-      {{ data.description || '説明なし' }}
+      {{ data.description || t('appPreview.base.noDescription') }}
     </div>
 
     <!-- tags -->
@@ -26,14 +26,17 @@
     <!-- isEnabled -->
     <div class="pt-1">
       <span class="badge badge-xs" :class="data.isEnabled ? 'badge-success' : 'badge-ghost'">
-        {{ data.isEnabled ? '有効' : '無効' }}
+        {{ data.isEnabled ? t('appPreview.base.enabled') : t('appPreview.base.disabled') }}
       </span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { BaseRecordType } from '@/types/core'
+
+  const { t } = useI18n()
 
   defineProps<{
     data: BaseRecordType

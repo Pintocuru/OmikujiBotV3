@@ -5,14 +5,14 @@
     <div class="flex items-center justify-between pb-0.5 border-b border-base-300">
       <div class="flex items-center gap-1.5 text-xs font-semibold opacity-70">
         <ImageIcon class="w-3 h-3" />
-        <span>画像設定</span>
+        <span>{{ t('appPreview.image.title') }}</span>
       </div>
       <span class="badge badge-xs" :class="totalLayers > 0 ? 'badge-success' : 'badge-ghost'">
-        {{ totalLayers }}レイヤー
+        {{ t('appPreview.image.layers', { n: totalLayers }) }}
       </span>
     </div>
 
-    <div v-if="totalLayers === 0" class="text-xs opacity-40">画像未設定</div>
+    <div v-if="totalLayers === 0" class="text-xs opacity-40">{{ t('appPreview.image.empty') }}</div>
 
     <!-- 感情ごとにレイヤー数を表示（設定あるもののみ） -->
     <div v-for="(count, emotion) in setEmotions" :key="emotion" class="flex items-center gap-1.5 text-xs">
@@ -24,10 +24,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { CharacterType } from '@/types/OmikujiData'
-  import { characterEmotionMap } from '@/maps/OmikujiData'
   import { Image as ImageIcon, Layers } from 'lucide-vue-next'
+
+  const { t, te } = useI18n()
 
   const props = defineProps<{
     data: Partial<CharacterType> | null
@@ -49,6 +51,7 @@
   const totalLayers = computed(() => Object.values(setEmotions.value).reduce((sum, n) => sum + n, 0))
 
   function emotionLabel(key: string) {
-    return characterEmotionMap[key as keyof typeof characterEmotionMap] ?? key
+    const msgKey = `mapText.characterEmotion.${key}.label`
+    return te(msgKey) ? t(msgKey) : key
   }
 </script>

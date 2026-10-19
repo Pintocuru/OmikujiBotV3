@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerSyoken.vue -->
 <template>
-  <SettingItem icon="UserPlus" label="初見判定ちゃん" description="初見ユーザー、または配信枠の1コメを判定">
+  <SettingItem icon="UserPlus" :label="t('triggerSyoken.label')" :description="t('triggerSyoken.description')">
     <div class="flex flex-wrap gap-2">
       <span
         v-for="option in syokenOptions"
@@ -16,10 +16,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { syokenConditionMap } from '@/maps/engine/trigger/SyokenConditionMap'
   import { SyokenConditionType } from '@/types/engine/trigger'
 
+  const { t } = useI18n()
   const props = defineProps<{
     modelValue: SyokenConditionType[]
   }>()

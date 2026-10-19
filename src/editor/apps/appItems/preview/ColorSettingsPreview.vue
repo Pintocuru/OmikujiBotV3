@@ -4,22 +4,22 @@
     <!-- ヘッダー -->
     <div class="flex items-center gap-1.5 text-xs font-semibold opacity-70 pb-0.5 border-b border-base-300">
       <Palette class="w-3 h-3" />
-      <span>フキダシカラー</span>
+      <span>{{ t('appPreview.color.title') }}</span>
     </div>
 
     <div class="flex items-center gap-1.5 text-xs">
       <Brush class="w-3 h-3 shrink-0 opacity-60" />
-      <span class="opacity-70">モード:</span>
-      <span class="badge badge-xs badge-primary"> カスタム </span>
+      <span class="opacity-70">{{ t('appPreview.mode') }}</span>
+      <span class="badge badge-xs badge-primary">{{ t('appPreview.color.custom') }}</span>
     </div>
 
     <div class="flex items-center gap-1.5 text-xs">
-      <span class="opacity-70 ml-4">背景:</span>
+      <span class="opacity-70 ml-4">{{ t('appPreview.color.background') }}</span>
       <span class="w-4 h-4 rounded border border-base-300 shrink-0" :style="{ backgroundColor: color.background }" />
       <span class="font-mono opacity-70">{{ color.background }}</span>
     </div>
     <div class="flex items-center gap-1.5 text-xs">
-      <span class="opacity-70 ml-4">テキスト:</span>
+      <span class="opacity-70 ml-4">{{ t('appPreview.color.text') }}</span>
       <span class="w-4 h-4 rounded border border-base-300 shrink-0" :style="{ backgroundColor: color.text }" />
       <span class="font-mono opacity-70">{{ color.text }}</span>
     </div>
@@ -27,9 +27,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { CharacterColorScheme, CharacterType } from '@/types/OmikujiData'
   import { Palette, Brush } from 'lucide-vue-next'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     data: CharacterType | null

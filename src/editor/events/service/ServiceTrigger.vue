@@ -1,12 +1,12 @@
 <!-- src/editor/events/service/ServiceTrigger.vue -->
 <template>
   <!-- 条件タイプ選択（単一選択） -->
-  <SettingItem icon="Filter" label="適用する発動条件" description="監視するメタデータを選択">
+  <SettingItem icon="Filter" :label="t('serviceTrigger.conditionLabel')" :description="t('serviceTrigger.conditionDescription')">
     <div class="flex flex-wrap gap-2">
       <label v-for="(value, key) in serviceTriggerConditionMap" :key="key" class="cursor-pointer">
         <input type="radio" class="hidden" :checked="selectedCondition === key" @change="setCondition(key)" />
         <span class="badge badge-lg select-none" :class="selectedCondition === key ? 'badge-primary' : 'badge-ghost'">
-          {{ value.label }}
+          {{ t(`serviceTrigger.conditions.${key}`) }}
         </span>
       </label>
     </div>
@@ -16,8 +16,8 @@
   <TriggerMetaCondition
     v-if="selectedCondition === 'upVote'"
     v-model="upVote"
-    label="高評価数"
-    description="高評価の変化を監視"
+    :label="t('serviceTrigger.upVoteLabel')"
+    :description="t('serviceTrigger.upVoteDescription')"
     icon="ThumbsUp"
     :has-peak="true"
   />
@@ -27,18 +27,18 @@
     v-if="selectedCondition === 'viewer'"
     v-model="viewer"
     icon="Users"
-    label="視聴者数"
-    description="視聴者数の変化を監視"
+    :label="t('serviceTrigger.viewerLabel')"
+    :description="t('serviceTrigger.viewerDescription')"
     :has-peak="true"
   />
 
   <!-- 登録者数の場合の説明 -->
   <InformationCard v-if="selectedCondition === 'follower'">
     <p class="leading-relaxed">
-      <code class="label bg-accent text-accent-content">登録者数の変化</code><br />
-      ・登録者が増えたタイミングで反応します。<br />
-      ・わんコメでは API の仕様により「上3桁」しか取得できません。<br />
-      ・そのため登録者が 1000 を超える場合は、10単位・100単位で増加したときに反応します。
+      <code class="label bg-accent text-accent-content">{{ t('serviceTrigger.follower.title') }}</code><br />
+      {{ t('serviceTrigger.follower.line1') }}<br />
+      {{ t('serviceTrigger.follower.line2') }}<br />
+      {{ t('serviceTrigger.follower.line3') }}
     </p>
   </InformationCard>
 
@@ -46,8 +46,8 @@
   <SettingItem
     icon="Clock"
     v-if="selectedCondition === 'elapsedMinutes'"
-    label="配信経過時間"
-    description="配信開始からの経過時間（分）を指定"
+    :label="t('serviceTrigger.elapsedLabel')"
+    :description="t('serviceTrigger.elapsedDescription')"
   >
     <input
       type="number"
@@ -55,22 +55,23 @@
       class="input input-bordered input-sm w-full"
       :value="elapsedMinutes"
       @input="elapsedMinutes = Number(($event.target as HTMLInputElement).value)"
-      placeholder="例：30（分）"
+      :placeholder="t('serviceTrigger.elapsedPlaceholder')"
     />
   </SettingItem>
 
   <!-- 登録者数の場合の説明 -->
   <InformationCard v-if="selectedCondition === 'follower' || selectedCondition === 'elapsedMinutes'" variant="warning">
     <p class="leading-relaxed">
-      ・この
-      <code class="label bg-accent text-accent-content">{{ serviceTriggerConditionMap[selectedCondition] }}</code>
-      は現在テスト中の機能です。<br />
-      ・今後のバージョンで仕様が変わったり、設定がリセットされる可能性があります。
+      ・{{ t('serviceTrigger.beta.prefix') }}
+      <code class="label bg-accent text-accent-content">{{ t(`serviceTrigger.conditions.${selectedCondition}`) }}</code>
+      {{ t('serviceTrigger.beta.suffix') }}<br />
+      {{ t('serviceTrigger.beta.line2') }}
     </p>
   </InformationCard>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { ServiceTriggerCondition, ServiceTriggerType } from '@/types/OmikujiData'
   import { serviceTriggerConditionMap } from '@/maps/OmikujiData'
@@ -79,6 +80,7 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
 
+  const { t } = useI18n()
   const props = defineProps<{
     modelValue: ServiceTriggerType
     selectedItemKey: string | null

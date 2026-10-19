@@ -1,6 +1,6 @@
 <!-- src/editor/assets/characters/CharacterImage/EmotionEditModal.vue -->
 <template>
-  <BaseEditDialog ref="baseDialog" title="エモート画像の編集" icon="Info" @save="handleSave">
+  <BaseEditDialog ref="baseDialog" :title="t('characterImage.editModal.title')" icon="Info" @save="handleSave">
     <div v-if="selectedEmotionKey && draftItem" class="space-y-2">
       <ImageSettingsInfo />
       <EmotionImageItem
@@ -26,12 +26,13 @@
       </div>
     </div>
     <div v-else class="flex items-center justify-center h-32 text-base-content/40 text-sm">
-      エモートが選択されていません
+      {{ t('characterImage.editModal.noneSelected') }}
     </div>
   </BaseEditDialog>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { ref, computed } from 'vue'
   import type { CharacterImageType } from '@/types/'
   import EmotionImageItem from './EmotionImageItem.vue'
@@ -41,6 +42,8 @@
   import BaseEditDialog from '@/editor/parts/BaseEditDialog.vue'
   import { useEmotionDraft } from './composables/useEmotionDraft'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     modelValue: CharacterImageType
@@ -66,7 +69,7 @@
   const handleDraftRemove = async () => {
     if (!selectedEmotionKey.value) return
     const result = await swalModal.confirmDelete({
-      text: `「${draftItem.value?.label ?? selectedEmotionKey.value}」を削除しますか？`,
+      text: t('characterImage.editModal.confirmDelete', { name: draftItem.value?.label ?? selectedEmotionKey.value }),
       target: baseDialog.value?.$el ?? 'body',
     })
     if (!result.isConfirmed) return

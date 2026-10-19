@@ -1,41 +1,43 @@
 <!-- src/editor/assets/PostFlow/gameScript/GameScriptSettings.vue -->
 <template>
-  <SettingItem layout="vertical" icon="Gamepad2" label="ゲーム" description="実行するゲームスクリプトを選択">
+  <SettingItem layout="vertical" icon="Gamepad2" :label="t('postFlow.gameScript.gameLabel')" :description="t('postFlow.gameScript.gameDesc')">
     <select v-model="scriptId" class="select select-bordered select-sm w-full">
-      <option value="">未選択</option>
+      <option value="">{{ t('postFlow.common.unselected') }}</option>
       <option v-for="key in getRegisteredGameScriptKeys()" :key="key" :value="key">
-        {{ gameMetaMap[key].name }}
+        {{ t(`mapText.gameMeta.${key}.name`) }}
       </option>
     </select>
   </SettingItem>
 
-  <SettingItem layout="vertical" icon="User" label="キャラクター" description="ゲームに使用するキャラクター">
+  <SettingItem layout="vertical" icon="User" :label="t('postFlow.common.character')" :description="t('postFlow.gameScript.characterDesc')">
     <select v-model="characterKey" class="select select-bordered select-sm w-full">
-      <option value="">未選択</option>
+      <option value="">{{ t('postFlow.common.unselected') }}</option>
       <option v-for="(value, key) in characterMap" :key="key" :value="key">
         {{ value.name }}
       </option>
     </select>
   </SettingItem>
 
-  <SettingItem layout="vertical" icon="Code2" label="パラメータ" description="ゲームに渡す文字列">
+  <SettingItem layout="vertical" icon="Code2" :label="t('postFlow.gameScript.paramLabel')" :description="t('postFlow.gameScript.paramDesc')">
     <input
       v-model="queryString"
       type="text"
       class="input input-bordered input-sm w-full"
-      placeholder="パラメータを入力"
+      :placeholder="t('postFlow.gameScript.paramPlaceholder')"
     />
   </SettingItem>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import type { PostFlowGameType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
-  import { gameMetaMap } from '@/maps/OmikujiData'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     action: PostFlowGameType

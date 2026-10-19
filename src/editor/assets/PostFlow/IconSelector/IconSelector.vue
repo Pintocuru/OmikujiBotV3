@@ -13,7 +13,7 @@
         @mouseenter="showHoverSelector = true"
         @mouseleave="showHoverSelector = false"
         class="btn btn-sm btn-outline tooltip tooltip-top"
-        data-tip="アイコンの一覧を表示します"
+        :data-tip="t('postFlow.iconSelector.tip')"
       >
         <User class="w-4 h-4" />
       </button>
@@ -29,10 +29,13 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { ref, computed, Ref } from 'vue'
   import IconSelectorModal from './IconSelectorModal.vue'
   import { User } from 'lucide-vue-next'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup.js'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     characterKey: string

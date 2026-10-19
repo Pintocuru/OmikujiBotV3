@@ -5,12 +5,12 @@
     <div class="flex items-center justify-between pb-0.5 border-b border-base-300">
       <div class="flex items-center gap-1.5 text-xs font-semibold opacity-70">
         <Brackets class="w-3 h-3" />
-        <span>プレースホルダー</span>
+        <span>{{ t('appPreview.placeholder.title') }}</span>
       </div>
-      <span class="badge badge-xs badge-primary">{{ values.length }}件</span>
+      <span class="badge badge-xs badge-primary">{{ t('appPreview.count', { n: values.length }) }}</span>
     </div>
 
-    <div v-if="!values.length" class="text-xs opacity-40">値未設定</div>
+    <div v-if="!values.length" class="text-xs opacity-40">{{ t('appPreview.placeholder.empty') }}</div>
 
     <!-- 値リスト（最大6件） -->
     <div v-for="(item, i) in normalizedValues.slice(0, 6)" :key="i" class="flex items-center gap-1.5 text-xs">
@@ -18,18 +18,21 @@
       <span v-if="item.weight !== 1" class="badge badge-xs badge-warning shrink-0">×{{ item.weight }}</span>
       <span v-else class="w-3 shrink-0" />
       <span class="truncate flex-1" :class="item.content ? '' : 'opacity-40 italic'">
-        {{ item.content || '（空）' }}
+        {{ item.content || t('appPreview.placeholder.emptyValue') }}
       </span>
     </div>
 
-    <div v-if="values.length > 6" class="text-xs opacity-40 text-right">…他 {{ values.length - 6 }} 件</div>
+    <div v-if="values.length > 6" class="text-xs opacity-40 text-right">{{ t('appPreview.more', { n: values.length - 6 }) }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { PlaceholderType, WeightValueType, WeightValuesArrayType, handelNormalizedValues } from '@/types/OmikujiData'
   import { Brackets } from 'lucide-vue-next'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     data: Partial<PlaceholderType> | null

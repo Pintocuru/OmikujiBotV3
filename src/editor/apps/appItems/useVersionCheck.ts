@@ -1,6 +1,9 @@
 // src/editor/apps/appItems/useVersionCheck.ts
 import { ref, computed, Ref } from 'vue'
 import Swal from 'sweetalert2'
+import i18n from '@/editor/i18n'
+
+const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 
 export interface VersionInfo {
   current: string
@@ -67,10 +70,10 @@ export function useVersionCheck(currentVersion: Ref<string>) {
       latestVersion.value = release.tag_name?.replace(/^v/, '') || null
 
       if (!latestVersion.value) {
-        throw new Error('バージョン情報が取得できませんでした')
+        throw new Error(t('appHeader.versionNotFound'))
       }
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'バージョン情報取得に失敗しました'
+      error.value = err instanceof Error ? err.message : t('appHeader.versionFetchFailed')
       console.error('バージョンチェックエラー:', err)
     } finally {
       isLoading.value = false
@@ -87,9 +90,9 @@ export function useVersionCheck(currentVersion: Ref<string>) {
       toast: true,
       position: 'bottom-end',
       icon: 'info',
-      title: `新しいバージョンが利用可能です！\n現在: ${versionInfo.value.current}\n最新: ${versionInfo.value.latest}`,
+      title: t('appHeader.updateAvailable', { current: versionInfo.value.current, latest: versionInfo.value.latest }),
       showConfirmButton: true,
-      confirmButtonText: 'GitHubを開く',
+      confirmButtonText: t('appHeader.openGithub'),
       timer: 15000,
       timerProgressBar: true,
       didOpen: (toast) => {

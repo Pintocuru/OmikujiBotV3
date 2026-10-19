@@ -14,35 +14,35 @@
         <button
           @click="() => postTestOmikujiItem(modelValue)"
           class="btn btn-sm btn-info tooltip tooltip-top"
-          data-tip="わんコメを起動すると、投稿の確認ができます"
+          :data-tip="t('postFlow.toolbar.testTip')"
           :disabled="modelValue.length === 0"
         >
           <Send :size="16" />
-          テスト投稿
+          {{ t('postFlow.toolbar.test') }}
         </button>
 
         <!-- JSONコピー -->
         <button
           @click="handleCopy"
           class="btn btn-sm btn-secondary tooltip tooltip-top"
-          data-tip="PostActions を JSON としてクリップボードにコピーします"
+          :data-tip="t('postFlow.toolbar.copyTip')"
           type="button"
           :disabled="clipboard.isCopying.value"
         >
           <ClipboardCopy :size="16" />
-          JSONコピー
+          {{ t('postFlow.toolbar.copy') }}
         </button>
 
         <!-- JSONペースト -->
         <button
           @click="handlePaste"
           class="btn btn-sm btn-secondary tooltip tooltip-top"
-          data-tip="クリップボードの JSON を PostActions として読み込みます"
+          :data-tip="t('postFlow.toolbar.pasteTip')"
           type="button"
           :disabled="clipboard.isPasting.value"
         >
           <ClipboardPaste :size="16" />
-          JSONペースト
+          {{ t('postFlow.toolbar.paste') }}
         </button>
       </div>
     </div>
@@ -50,6 +50,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { PostFlowType, PostFlowArraySchema } from '@/types/OmikujiData'
   import DelaySecondsAdjuster from './DelaySecondsAdjuster.vue'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
@@ -58,6 +59,8 @@
   import { useJsonClipboard } from '@/editor/helpers/useJsonClipboard'
 
   // Props
+  const { t } = useI18n()
+
   const props = defineProps<{
     modelValue: PostFlowType[]
   }>()
@@ -86,22 +89,22 @@
 
     if (parsed === null) {
       swalToast.error({
-        title: `[OmikujiItemToolbar] JSONペースト失敗: ${clipboard.lastError.value}`,
+        title: t('postFlow.toolbar.pasteFailed', { error: clipboard.lastError.value }),
       })
       return
     }
 
     const result = await swalModal.confirmTriple({
-      title: 'JSONを貼り付けます',
-      text: '現在のデータをどうしますか？',
+      title: t('postFlow.toolbar.pasteTitle'),
+      text: t('postFlow.toolbar.pasteText'),
     })
 
     if (result.isConfirmed) {
       emit('update:modelValue', parsed)
-      swalToast.success({ title: 'クリップボードから貼り付けました（上書き）' })
+      swalToast.success({ title: t('postFlow.toolbar.pasteOverwrite') })
     } else if (result.isDenied) {
       emit('update:modelValue', [...props.modelValue, ...parsed])
-      swalToast.success({ title: 'クリップボードから貼り付けました（マージ）' })
+      swalToast.success({ title: t('postFlow.toolbar.pasteMerge') })
     }
   }
 </script>

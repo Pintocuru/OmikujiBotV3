@@ -20,8 +20,8 @@
       :icon="item.icon"
       :isOpen="activeSection === kind"
       @toggle="toggleSection(kind)"
-      :label="item.label"
-      :description="item.description"
+      :label="t(`mapText.uiKind.${kind}.label`)"
+      :description="t(`mapText.uiKind.${kind}.description`)"
     >
       <component :is="item.component" />
     </SectionCard>
@@ -41,6 +41,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed, watch } from 'vue'
   import { storeToRefs } from 'pinia'
   import { isDev } from '@/types/env'
@@ -52,6 +53,8 @@
   import LayoutEditor from './conditions/LayoutEditor.vue'
   import FontFamilyEditor from './common/FontFamilyEditor.vue'
   import { UiKind } from '@/types/OmikujiData'
+
+  const { t } = useI18n()
 
   const { data } = storeToRefs(useOmikujiStore())
   const { activeSection } = storeToRefs(useNavigationStore())

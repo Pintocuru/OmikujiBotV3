@@ -1,13 +1,15 @@
 // src/editor/helpers/CharacterChanger/composables/useDataExtractor.ts
 import { computed } from 'vue'
 import { EventCategoryType, ActionSetType, MikujiBoxType } from '@/types/OmikujiData/'
-import { categoryMap } from '@/maps/OmikujiData'
+import i18n from '@/editor/i18n'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 
 /**
  * 対象カテゴリ（イベント系 / みくじ箱 / アクションセット）
  */
+const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
+
 export type TargetCategoryType = EventCategoryType | 'mikuji' | 'actions'
 
 /**
@@ -34,8 +36,8 @@ export function useDataExtractor(category: TargetCategoryType, selectedId?: stri
 
   // スコープに応じたラベル
   const scopeLabel = computed(() => {
-    if (changeScope.value === 'single') return 'このイベント'
-    return `${categoryMap[category].label}全体`
+    if (changeScope.value === 'single') return t('mapText.scope.single')
+    return t('mapText.scope.category', { category: t(`categories.${category}.label`) })
   })
 
   /**

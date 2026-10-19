@@ -6,16 +6,16 @@
       v-model="displayValue"
       rows="3"
       class="textarea textarea-bordered textarea-sm w-full"
-      :placeholder="'メッセージを入力... (例: <<userName>> さん、こんにちは！)'"
+      :placeholder="t('postFlow.messageDialog.inlinePlaceholder', { ph: '<<userName>>' })"
     ></textarea>
     <button class="btn btn-sm btn-primary gap-1" @click="openDialog">
       <PencilLine :size="14" />
-      <span class="hidden sm:inline">詳細編集</span>
+      <span class="hidden sm:inline">{{ t('postFlow.messageDialog.detailEdit') }}</span>
     </button>
   </div>
 
   <!-- メインダイアログ -->
-  <BaseEditDialog ref="baseDialog" title="メッセージ詳細エディター" icon="MessageSquare" @save="handleSave">
+  <BaseEditDialog ref="baseDialog" :title="t('postFlow.messageDialog.dialogTitle')" icon="MessageSquare" @save="handleSave">
     <!-- 左: プレビュー -->
     <template #sidebar-left>
       <MessagePreviewPanel :draft-text="draftText" />
@@ -24,16 +24,16 @@
     <!-- 中央: エディター -->
     <div class="flex flex-col h-full">
       <div class="px-3 py-2 bg-base-200 border-b border-base-300 shrink-0 flex items-center justify-between">
-        <span class="text-xs font-semibold text-base-content">メッセージ編集</span>
+        <span class="text-xs font-semibold text-base-content">{{ t('postFlow.messageDialog.editTitle') }}</span>
         <div class="flex items-center gap-2">
           <button class="md:hidden btn btn-xs btn-ghost gap-1" @click="showInlinePreview = !showInlinePreview">
             <Eye :size="12" />
-            プレビュー
+            {{ t('postFlow.preview.title') }}
           </button>
           <div class="flex gap-1">
             <kbd class="kbd kbd-xs">Ctrl</kbd>
             <kbd class="kbd kbd-xs">Enter</kbd>
-            <span class="text-xs text-base-content/50 ml-1">で保存</span>
+            <span class="text-xs text-base-content/50 ml-1">{{ t('postFlow.messageDialog.saveWith') }}</span>
           </div>
         </div>
       </div>
@@ -51,12 +51,12 @@
           ref="textareaRef"
           v-model="draftText"
           class="textarea textarea-bordered flex-1 font-mono text-sm resize-none leading-relaxed w-full"
-          placeholder="メッセージを入力...&#10;&#10;例:&#10;<<userName>> さん、ようこそ！&#10;今日のおみくじは <<r>> です！"
+          :placeholder="t('postFlow.messageDialog.textareaPlaceholder', { userName: '<<userName>>', r: '<<r>>' })"
           @keydown.ctrl.enter="handleSave"
         />
         <div class="text-right text-xs text-base-content/40">
-          {{ draftText.length }} 文字
-          <span v-if="lineCount > 1"> / {{ lineCount }} 行</span>
+          {{ t('postFlow.messageDialog.charCount', { n: draftText.length }) }}
+          <span v-if="lineCount > 1">{{ t('postFlow.messageDialog.lineCount', { n: lineCount }) }}</span>
         </div>
       </div>
     </div>
@@ -79,7 +79,7 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        評価ブロック(変数プレースホルダー) チートリスト
+        {{ t('postFlow.messageDialog.cheatSheet') }}
       </a>
     </template>
   </BaseEditDialog>
@@ -88,12 +88,15 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed, ref, nextTick } from 'vue'
   import BaseEditDialog from '@/editor/parts/BaseEditDialog.vue'
   import PlaceholderPanel from './PlaceholderPanel.vue'
   import MessagePreviewPanel from './MessagePreviewPanel.vue'
   import InlinePlaceholderDialog from './InlinePlaceholderDialog.vue'
   import { PencilLine, Eye } from 'lucide-vue-next'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     modelValue: string

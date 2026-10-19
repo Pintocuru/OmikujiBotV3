@@ -4,11 +4,11 @@
     <input
       type="text"
       class="input input-sm"
-      placeholder="新しいエモーションキー（例: surprised）"
+      :placeholder="t('characterImage.newEmotionPlaceholder')"
       v-model="newEmotionKey"
     />
     <button class="btn btn-sm btn-primary" @click="handleAddEmotion" :disabled="!newEmotionKey.trim()">
-      <Plus class="w-4 h-4" />追加
+      <Plus class="w-4 h-4" />{{ t('characterImage.add') }}
     </button>
   </div>
 
@@ -27,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed, nextTick, ref } from 'vue'
   import { Plus } from 'lucide-vue-next'
   import { CharacterImageSetSchema, CharacterImageType } from '@/types/'
@@ -35,6 +36,8 @@
   import EmotionGrid from './EmotionGrid.vue'
   import EmotionEditModal from './EmotionEditModal.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     modelValue: CharacterImageType

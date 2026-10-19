@@ -5,13 +5,13 @@
     <div class="flex items-center justify-between pb-0.5 border-b border-base-300">
       <div class="flex items-center gap-1.5 text-xs font-semibold opacity-70">
         <Zap class="w-3 h-3" />
-        <span>アクションセット</span>
+        <span>{{ t('appPreview.actionSet.title') }}</span>
       </div>
-      <span class="badge badge-xs badge-primary">{{ postFlows.length }}件</span>
+      <span class="badge badge-xs badge-primary">{{ t('appPreview.count', { n: postFlows.length }) }}</span>
     </div>
 
     <!-- 空 -->
-    <div v-if="!postFlows.length" class="text-xs opacity-40 ml-1">アクション未設定</div>
+    <div v-if="!postFlows.length" class="text-xs opacity-40 ml-1">{{ t('appPreview.actionSet.empty') }}</div>
 
     <!-- postFlows リスト（最大4件） -->
     <div v-for="(flow, i) in postFlows.slice(0, 4)" :key="i" class="flex items-center gap-1.5 text-xs ml-1">
@@ -61,15 +61,17 @@
     </div>
 
     <!-- 省略表示 -->
-    <div v-if="postFlows.length > 4" class="text-xs opacity-40 text-right">…他 {{ postFlows.length - 4 }} 件</div>
+    <div v-if="postFlows.length > 4" class="text-xs opacity-40 text-right">{{ t('appPreview.more', { n: postFlows.length - 4 }) }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { Zap } from 'lucide-vue-next'
   import { ActionSetType, PostFlowKind, PostFlowType, hasPostFlowMessage } from '@/types/OmikujiData'
-  import { postFlowKindMap } from '@/maps/OmikujiData'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     data: Partial<ActionSetType> | null
@@ -87,7 +89,7 @@
       bot: 'BOT',
       flowCall: 'CALL',
     }
-    return shortLabels[kind] ?? postFlowKindMap[kind]?.label ?? kind
+    return shortLabels[kind] ?? t(`mapText.postFlowKind.${kind}.label`)
   }
 
   function flowKindBadgeClass(kind: PostFlowKind): string {

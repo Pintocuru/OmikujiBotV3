@@ -25,12 +25,14 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { useImportManager } from './composables/useImportManager'
   import CategoryModeSelector from './CategoryModeSelector.vue'
   import ConflictsList from './ConflictsList.vue'
   import { CategoryImportConfig } from '@/editor/types'
   import { CategoryType, DataCategoryType } from '@/types/OmikujiData'
-  import { categoryMap } from '@/maps/OmikujiData'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     category: DataCategoryType
@@ -39,7 +41,7 @@
   }>()
 
   const getCategoryDisplayName = (category: CategoryType): string => {
-    return categoryMap[category].label || category
+    return t(`categories.${category}.label`)
   }
 
   const handleEnabledChange = (event: Event) => {

@@ -3,8 +3,8 @@
   <!-- Base64画像設定エリア -->
   <SettingItem
     icon="Image"
-    label="わんコメ表示用画像"
-    :description="`${imageSize}×${imageSize}にリサイズし、Base64として保存されます`"
+    :label="t('characterService.base64.label')"
+    :description="t('characterService.base64.desc', { size: imageSize })"
     containerClass="form-control flex-row items-center gap-2 mt-2"
   >
     <div class="flex flex-col sm:flex-row gap-4 items-start">
@@ -19,13 +19,13 @@
         <div v-if="modelValue.imageBase64" class="relative">
           <img
             :src="modelValue.imageBase64"
-            alt="Base64画像プレビュー"
+            :alt="t('characterService.base64.alt')"
             :class="`w-${Math.max(16, imageSize)} h-${Math.max(16, imageSize)} rounded border-2 border-primary bg-white object-cover`"
           />
           <button
             class="btn btn-xs btn-circle btn-error absolute -top-1 -right-1"
             @click="resetBase64Image"
-            title="Base64画像をリセット"
+            :title="t('characterService.base64.reset')"
           >
             <X class="w-3 h-3" />
           </button>
@@ -42,10 +42,13 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { ref } from 'vue'
   import { DisplayOptionType } from '@/types/OmikujiData/'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { X, ImageIcon } from 'lucide-vue-next'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     modelValue: DisplayOptionType

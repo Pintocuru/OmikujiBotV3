@@ -6,6 +6,7 @@
       <h2 class="flex items-center justify-center text-xl font-semibold gap-2">
         <AlertTriangle class="h-6 w-6" />
         読み込みエラー
+        <span class="text-base font-normal opacity-80">/ Load Error</span>
       </h2>
     </div>
 
@@ -14,7 +15,10 @@
       <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
         <div class="flex items-start gap-3">
           <XCircle class="h-6 w-6 text-red-500 shrink-0 mt-0.5" />
-          <p class="text-red-800 text-sm">データの読み込みに失敗しました。以下の確認をお願いします。</p>
+          <p class="text-red-800 text-sm">
+            データの読み込みに失敗しました。以下の確認をお願いします。
+            <span class="block text-xs text-red-700/80">Failed to load data. Please check the following.</span>
+          </p>
         </div>
       </div>
 
@@ -23,6 +27,7 @@
         <h3 class="font-bold text-gray-800 mb-3 flex items-center">
           <ChevronRight class="h-5 w-5 mr-2 text-gray-600" />
           確認事項
+          <span class="ml-2 text-sm font-normal text-gray-500">/ Checklist</span>
         </h3>
 
         <div class="space-y-3 text-sm">
@@ -31,7 +36,10 @@
               class="inline-flex items-center justify-center h-5 w-5 bg-gray-200 text-gray-700 text-xs font-medium rounded-full shrink-0 mt-0.5"
               >1</span
             >
-            <span class="text-gray-700">わんコメが正常に起動していることを確認してください</span>
+            <span class="text-gray-700">
+              わんコメが正常に起動していることを確認してください
+              <span class="block text-xs text-gray-500">Make sure OneComme is running properly.</span>
+            </span>
           </div>
 
           <!-- プラグイン関連の情報表示 -->
@@ -43,7 +51,12 @@
               >
               <span class="text-gray-700">
                 <span class="font-bold">{{ pluginName ? pluginName : '該当するプラグイン' }}</span>
-                がインストール、有効になっているか確認してください</span
+                がインストール、有効になっているか確認してください
+                <span class="block text-xs text-gray-500"
+                  >Check that
+                  <span class="font-semibold">{{ pluginName ? pluginName : 'the relevant plugin' }}</span> is installed
+                  and enabled.</span
+                ></span
               >
             </div>
           </template>
@@ -55,6 +68,7 @@
         <h3 class="font-bold text-blue-800 mb-3 flex items-center">
           <Lightbulb class="h-5 w-5 mr-2 text-blue-600" />
           エラー解決のヒント
+          <span class="ml-2 text-sm font-normal text-blue-600">/ Troubleshooting tip</span>
         </h3>
 
         <div class="flex items-start gap-3 text-sm">
@@ -64,6 +78,9 @@
           >
           <span class="text-blue-800">
             OBSでの使用時は<span class="font-bold">コンソールログ</span>をご確認ください（OBS設定画面の「ログの表示」）
+            <span class="block text-xs text-blue-700/80"
+              >When using OBS, please check the console log ("Show Log" in the OBS settings window).</span
+            >
           </span>
         </div>
       </div>
@@ -76,6 +93,7 @@
         >
           <RotateCcw class="h-5 w-5" />
           再読み込み
+          <span class="text-sm font-normal opacity-90">/ Reload</span>
         </button>
       </div>
 
@@ -83,7 +101,7 @@
       <div class="text-center">
         <div class="inline-flex items-center gap-2 text-xs text-gray-500">
           <Clock class="h-4 w-4" />
-          <span>15秒後に自動で再読み込みされます</span>
+          <span>15秒後に自動で再読み込みされます / Reloads automatically in 15 seconds</span>
         </div>
       </div>
     </div>

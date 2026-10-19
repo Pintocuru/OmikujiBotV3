@@ -13,7 +13,7 @@
         :class="omikujiItem.kind === key ? 'badge-primary' : 'badge-ghost'"
         @click="updateKind(key as OmikujiItemKind)"
       >
-        {{ option.label }}
+        {{ t(`mapText.omikujiItemKind.${key}.label`) }}
       </span>
     </div>
   </SettingItem>
@@ -33,7 +33,7 @@
         :class="omikujiItem.command === command ? 'badge-primary' : 'badge-ghost'"
         @click="updateCommand(command as OmikujiControlCommand)"
       >
-        {{ option.label }}
+        {{ t(`mapText.omikujiControlCommand.${command}.label`) }}
       </span>
       <span class="text-xs opacity-70">{{ headerMeta.description }}</span>
     </div>
@@ -51,6 +51,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import {
     OmikujiControlCommand,
@@ -67,6 +68,8 @@
   import PostFlowEditor from '@/editor/assets/PostFlow/PostFlowsEditor.vue'
   import { omikujiItemKindMap, omikujiControlCommandMap } from '@/maps/OmikujiData'
 
+  const { t } = useI18n()
+
   const props = defineProps<{
     omikujiItem: OmikujiItemType
   }>()
@@ -79,11 +82,11 @@
   const isControlItem = (item: OmikujiItemType): item is ControlItem => item.kind === 'control'
 
   // サブタイトルの表示内容 (control は command ごと)
-  const headerMeta = computed(() =>
-    isControlItem(props.omikujiItem)
-      ? omikujiControlCommandMap[props.omikujiItem.command]
-      : omikujiItemKindMap[props.omikujiItem.kind]
-  )
+  const headerMeta = computed(() => ({
+    description: isControlItem(props.omikujiItem)
+      ? t(`mapText.omikujiControlCommand.${props.omikujiItem.command}.description`)
+      : t(`mapText.omikujiItemKind.${props.omikujiItem.kind}.description`),
+  }))
 
   // アイテムのプロパティ更新
   const updateItemProperties = (properties: Record<string, unknown>) => {

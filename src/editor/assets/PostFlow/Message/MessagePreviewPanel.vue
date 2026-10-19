@@ -2,18 +2,18 @@
 <template>
   <div class="flex-1 overflow-y-auto p-1 flex flex-col gap-2 items-center justify-start">
     <div class="w-full">
-      <div class="divider text-xs my-1">プレビュー</div>
+      <div class="divider text-xs my-1">{{ t('postFlow.preview.title') }}</div>
       <div class="chat chat-start">
         <div class="chat-bubble text-sm whitespace-pre-wrap wrap-break-word" v-html="renderedPreview" />
       </div>
       <p v-if="!draftText.trim()" class="text-xs text-center text-base-content/40 mt-1">
-        テキストを入力するとプレビューが表示されます
+        {{ t('postFlow.preview.hint') }}
       </p>
 
       <!-- プレースホルダー展開例 -->
 
-      <div class="divider text-xs my-1">展開例</div>
-      <div v-if="hasError">⚠️ 評価できない式があります</div>
+      <div class="divider text-xs my-1">{{ t('postFlow.preview.expansion') }}</div>
+      <div v-if="hasError">{{ t('postFlow.preview.hasError') }}</div>
       <div
         v-if="expandedPreviewDisplay.length"
         class="rounded-lg px-3 py-2 text-xs font-mono whitespace-pre-wrap wrap-break-word cursor-pointer transition-colors select-none relative group"
@@ -22,7 +22,7 @@
             ? 'bg-error/10 text-error border border-error/30'
             : 'bg-base-200 text-base-content/70 hover:bg-base-300',
         ]"
-        :title="'クリックで更新'"
+        :title="t('postFlow.preview.clickRefresh')"
         v-html="expandedPreviewDisplay"
         @click="refresh"
       />
@@ -31,9 +31,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed, ref } from 'vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { processTestPlaceholder } from '../preview/TestPlaceholderProcessor'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     draftText: string
@@ -61,7 +64,7 @@
 
   // レンダリング済みプレビュー（バッジ表示）
   const renderedPreview = computed(() => {
-    if (!props.draftText.trim()) return '<span class="opacity-50">(未記入)</span>'
+    if (!props.draftText.trim()) return '<span class="opacity-50">' + t('postFlow.preview.empty') + '</span>'
     return escapeHtml(props.draftText).replace(/&lt;&lt;([^&]+)&gt;&gt;/g, (_, key) => {
       const trimmed = key.trim()
       return `<span class="badge badge-sm badge-accent font-mono mx-0.5">&lt;&lt;${escapeHtml(trimmed)}&gt;&gt;</span>`

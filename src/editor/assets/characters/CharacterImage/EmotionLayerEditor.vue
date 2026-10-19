@@ -1,10 +1,10 @@
 <!-- src/editor/assets/characters/CharacterImage/EmotionLayerEditor.vue -->
 <template>
   <div class="space-y-2">
-    <div class="text-xs font-medium text-base-content/70 mb-1">画像レイヤー</div>
+    <div class="text-xs font-medium text-base-content/70 mb-1">{{ t('characterImage.layer.title') }}</div>
 
     <button type="button" class="btn btn-xs btn-primary w-full" @click="handleAddLayer">
-      <Plus class="w-3 h-3 mr-1" />レイヤーを追加
+      <Plus class="w-3 h-3 mr-1" />{{ t('characterImage.layer.add') }}
     </button>
 
     <div v-for="(layer, index) in layers" :key="index" class="border rounded p-2 bg-base-200 space-y-1">
@@ -12,7 +12,7 @@
         <span class="badge badge-xs">{{ index + 1 }}</span>
         <div class="flex-1" />
         <button type="button" class="btn btn-xs btn-outline" @click="handleSetDefaultPath">
-          <RotateCcw class="w-3 h-3 mr-1" />パスをセット
+          <RotateCcw class="w-3 h-3 mr-1" />{{ t('characterImage.layer.setPath') }}
         </button>
         <button type="button" class="btn btn-ghost btn-xs" @click="handleMoveUp(index)" :disabled="index === 0">
           <ChevronUp class="w-3 h-3" />
@@ -33,7 +33,7 @@
       <input
         type="url"
         class="input input-xs w-full"
-        :placeholder="`レイヤー${index + 1}の画像URL`"
+        :placeholder="t('characterImage.layer.url', { n: index + 1 })"
         :value="layer"
         @input="handleLayerUpdate(index, ($event.target as HTMLInputElement).value)"
       />
@@ -43,9 +43,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed, ref } from 'vue'
   import { RotateCcw, Plus, ChevronUp, ChevronDown, X } from 'lucide-vue-next'
   import ImagePreview from '@/common/LayerImage/ImagePreview.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     src: string[]

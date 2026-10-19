@@ -11,8 +11,8 @@
 
       <!-- ── SM以上: 共通レイアウト ── -->
       <template v-if="!isXs">
-        <p class="text-error text-xs font-bold leading-tight">未接続</p>
-        <p class="text-error/60 text-xs leading-tight">自動復帰を待機中</p>
+        <p class="text-error text-xs font-bold leading-tight">未接続 / Disconnected</p>
+        <p class="text-error/60 text-xs leading-tight">自動復帰を待機中 / Waiting to reconnect</p>
 
         <!-- errorDetail があれば表示 -->
         <p v-if="errorDetail" class="text-warning text-xs leading-tight break-all mt-1">

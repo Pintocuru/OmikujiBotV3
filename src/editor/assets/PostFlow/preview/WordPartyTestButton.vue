@@ -1,12 +1,15 @@
 <!-- src/editor/assets/PostFlow/preview/WordPartyTestButton.vue -->
 <template>
   <button @click="handleClick" :disabled="!pattern && !id" class="btn btn-xs btn-secondary">
-    WordPartyのテスト実行
+    {{ t('postFlow.tests.wordParty') }}
   </button>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { executeWordParty } from '@/sdk/post/PostWordParty'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     id?: string

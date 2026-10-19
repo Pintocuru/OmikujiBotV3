@@ -17,8 +17,8 @@
     <!-- タブコンテンツ -->
     <!-- アクションが空の場合 -->
     <template v-if="props.modelValue.length === 0">
-      <NoParamsCard message="PostActionがありません" />
-      <button @click="addNewAction" class="btn btn-primary btn-sm">最初のアクションを追加</button>
+      <NoParamsCard :message="t('postFlow.flowsEditor.empty')" />
+      <button @click="addNewAction" class="btn btn-primary btn-sm">{{ t('postFlow.flowsEditor.addFirst') }}</button>
     </template>
 
     <!-- PostActionタブの内容 -->
@@ -35,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { PostFlowType } from '@/types/OmikujiData/'
   import PostActionsTabs from './tooltab/PostActionsTabs.vue'
@@ -42,6 +43,8 @@
   import PostActionItem from './items/PostActionItem.vue'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import { usePostActionsTab } from './composables/usePostActionsTab'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     modelValue: PostFlowType[]

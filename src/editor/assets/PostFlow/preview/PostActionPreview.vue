@@ -21,7 +21,7 @@
     <!-- サウンドアクション -->
     <div v-else-if="action.kind === 'sound'" class="w-full text-center">
       <Volume2 :size="80" class="mx-auto text-blue-500" />
-      <p class="text-sm opacity-70 mt-2">サウンド</p>
+      <p class="text-sm opacity-70 mt-2">{{ t('postFlow.actionPreview.sound') }}</p>
     </div>
 
     <!-- WordPartyアクション -->
@@ -33,14 +33,14 @@
     <!-- アクションセット呼び出し -->
     <div v-else-if="action.kind === 'flowCall'" class="w-full text-center">
       <MessagesSquare :size="80" class="mx-auto text-red-500" />
-      <p class="text-sm opacity-70 mt-2">アクションセット</p>
+      <p class="text-sm opacity-70 mt-2">{{ t('postFlow.actionPreview.actionSet') }}</p>
     </div>
 
     <!-- 評価ブロックなど、プレビューがない場合 -->
     <div v-else class="w-full text-center opacity-60">
       <div class="flex flex-col items-center space-y-2">
         <Settings :size="64" class="text-gray-400" />
-        <p class="text-sm">このアクションにはプレビューがありません</p>
+        <p class="text-sm">{{ t('postFlow.actionPreview.none') }}</p>
       </div>
     </div>
 
@@ -62,6 +62,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { Volume2, PartyPopper, MessagesSquare, Settings } from 'lucide-vue-next'
@@ -74,6 +75,8 @@
   import CommentBubbleItem from '@/ui/CommentBubble/generator/parts/CommentBubbleItem.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { CommentBubbleSchema } from '@/ui/types/CommentBubbleSchema'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     action: PostFlowType
@@ -103,11 +106,11 @@
   const processedMessage = computed(() => {
     const _ = messageKey.value
 
-    if (props.action.kind !== 'message') return '(不正な処理です)'
+    if (props.action.kind !== 'message') return t('postFlow.actionPreview.invalid')
     const content = props.action.message
-    if (!content) return '(メッセージなし)'
+    if (!content) return t('postFlow.actionPreview.noMessage')
     const processed = processTestPlaceholder(content, data.value.assets.placeholders)
-    if (!processed) return '(このメッセージは表示されません)'
+    if (!processed) return t('postFlow.actionPreview.hidden')
     return transformIconPlaceholdersPreview(processed.text)
   })
 

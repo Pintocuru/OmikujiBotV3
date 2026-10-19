@@ -1,7 +1,7 @@
 <!-- src/editor/assets/characters/CharacterImage/EmotionAnimationEditor.vue -->
 <template>
   <div class="space-y-3">
-    <div class="text-xs font-medium text-base-content/70 mb-1">アニメーション・プレビュー</div>
+    <div class="text-xs font-medium text-base-content/70 mb-1">{{ t('characterImage.animation.title') }}</div>
 
     <!-- プレビュー -->
     <div class="flex justify-center bg-base-200 rounded p-3">
@@ -10,10 +10,10 @@
 
     <!-- タイプ選択 -->
     <div class="space-y-1">
-      <label class="text-xs text-base-content/60">動作タイプ</label>
+      <label class="text-xs text-base-content/60">{{ t('characterImage.animation.type') }}</label>
       <select class="select select-xs w-full" v-model="localAnimation.type" @change="applyAnimation">
         <option v-for="(value, key) in loopMotionMap" :key="key" :value="key">
-          {{ value.label }}
+          {{ t(`mapText.loopMotion.${key}.label`) }}
         </option>
       </select>
     </div>
@@ -21,7 +21,7 @@
     <template v-if="localAnimation.type !== 'none'">
       <div class="space-y-1">
         <div class="flex justify-between">
-          <label class="text-xs text-base-content/60">速度（秒）</label>
+          <label class="text-xs text-base-content/60">{{ t('characterImage.animation.speed') }}</label>
           <span class="text-xs font-mono">{{ localAnimation.duration }}s</span>
         </div>
         <input
@@ -32,26 +32,29 @@
           step="0.2"
           v-model.number="localAnimation.duration"
         />
-        <div class="flex justify-between text-xs text-base-content/40"><span>速い</span><span>遅い</span></div>
+        <div class="flex justify-between text-xs text-base-content/40"><span>{{ t('characterImage.animation.fast') }}</span><span>{{ t('characterImage.animation.slow') }}</span></div>
       </div>
 
       <div class="flex items-center gap-2">
         <input type="checkbox" class="toggle toggle-xs toggle-primary" v-model="localAnimation.loop" />
         <label class="text-xs text-base-content/60">
-          {{ localAnimation.loop ? 'ループ再生' : '1回のみ再生' }}
+          {{ localAnimation.loop ? t('characterImage.animation.loop') : t('characterImage.animation.once') }}
         </label>
       </div>
     </template>
 
-    <div v-else class="text-xs text-base-content/30 text-center py-4">アニメーションなし</div>
+    <div v-else class="text-xs text-base-content/30 text-center py-4">{{ t('characterImage.animation.none') }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { ref, watch, computed } from 'vue'
   import type { CharacterAnimationType } from '@/types/'
   import ImagePreview from '@/common/LayerImage/ImagePreview.vue'
   import { loopMotionMap } from '@/maps/OmikujiData'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     /** どの感情のアニメーションか（変化時に local state をリセットするために使用） */

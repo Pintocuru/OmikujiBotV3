@@ -4,17 +4,17 @@
     <button
       @click="adjustAllDelaySeconds(-0.1)"
       class="btn btn-sm btn-ghost tooltip tooltip-top"
-      data-tip="全ての遅延秒数を0.1秒減らす"
+      :data-tip="t('postFlow.delay.decreaseTip')"
       :disabled="modelValue.length === 0 || !canDecreaseDelay"
       type="button"
     >
       <Minus :size="16" />
     </button>
-    <span class="text-xs text-base-content/70">遅延</span>
+    <span class="text-xs text-base-content/70">{{ t('postFlow.delay.label') }}</span>
     <button
       @click="adjustAllDelaySeconds(0.1)"
       class="btn btn-sm btn-ghost tooltip tooltip-top"
-      data-tip="全ての遅延秒数を0.1秒増やす"
+      :data-tip="t('postFlow.delay.increaseTip')"
       :disabled="modelValue.length === 0"
       type="button"
     >
@@ -24,12 +24,15 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { PostFlowType } from '@/types/OmikujiData/'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { Minus, Plus } from 'lucide-vue-next'
 
   // Props
+  const { t } = useI18n()
+
   const props = defineProps<{
     modelValue: PostFlowType[]
   }>()

@@ -16,13 +16,16 @@
         </div>
       </div>
     </div>
-    <div v-else class="text-base-content/70 italic">Post Actions が設定されていません</div>
+    <div v-else class="text-base-content/70 italic">{{ t('postFlow.actionsPreview.empty') }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { PostFlowType } from '@/types/OmikujiData'
   import PostActionRow from './tooltab/PostActionRow.vue'
+
+  const { t } = useI18n()
 
   defineProps<{
     actions: PostFlowType[]
@@ -37,7 +40,7 @@
       case 'sound':
         return action.sound
       case 'flowCall':
-        return `アクションセット: ${action.callKeys}`
+        return t('postFlow.actionsPreview.flowCall', { keys: action.callKeys })
       default:
         return ''
     }

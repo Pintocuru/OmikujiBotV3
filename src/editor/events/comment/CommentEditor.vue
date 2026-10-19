@@ -48,13 +48,13 @@
             v-else-if="!hasMikujiBox && selectedItem.omikujiKey"
             iconName="Package"
             :message="t('eventCore.boxChoiceEditor.omikujiKey.none')"
-            sub="存在しないみくじ箱を指定しているようです。設定を確認してください。"
+            :sub="t('commentEditor.omikujiKeyMissing')"
           />
           <!-- 未選択のとき -->
           <NoParamsCard
             v-else
             :message="t('eventCore.boxChoiceEditor.omikujiKey.none')"
-            sub="みくじ箱を選択してください。"
+            :sub="t('commentEditor.omikujiKeyUnselected')"
           />
         </div>
       </SectionCard>

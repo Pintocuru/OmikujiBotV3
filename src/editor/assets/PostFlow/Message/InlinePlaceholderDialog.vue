@@ -10,7 +10,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
           <Braces :size="18" class="text-accent" />
-          <h3 class="font-bold text-base">簡易プレースホルダー</h3>
+          <h3 class="font-bold text-base">{{ t('postFlow.inlinePh.title') }}</h3>
         </div>
         <button class="btn btn-sm btn-ghost btn-circle" @click="close">
           <X :size="16" />
@@ -21,19 +21,18 @@
       <div class="alert alert-info text-xs py-2">
         <Info :size="14" />
         <span>
-          <code class="font-mono">&lt;&lt; '候補A', '候補B' &gt;&gt;</code> 形式で、
-          リストからランダムに選ばれるテキストを挿入できます。
-          <code class="font-mono">&lt;&lt;user&gt;&gt;</code> などの、デフォルトプレースホルダーも使用可能です。
+          {{ t('postFlow.inlinePh.descPre') }}<code class="font-mono">&lt;&lt; '候補A', '候補B' &gt;&gt;</code>{{ t('postFlow.inlinePh.descMid') }}
+          <code class="font-mono">&lt;&lt;user&gt;&gt;</code>{{ t('postFlow.inlinePh.descPost') }}
         </span>
       </div>
 
       <!-- 候補リスト -->
       <div class="flex flex-col gap-2">
         <div class="flex items-center justify-between">
-          <span class="text-sm font-semibold">候補テキスト</span>
+          <span class="text-sm font-semibold">{{ t('postFlow.inlinePh.candidates') }}</span>
           <button class="btn btn-xs btn-ghost gap-1" @click="addItem">
             <Plus :size="12" />
-            追加
+            {{ t('postFlow.common.add') }}
           </button>
         </div>
 
@@ -44,7 +43,7 @@
               v-model="items[idx]"
               type="text"
               class="input input-bordered input-sm flex-1 font-mono text-sm"
-              :placeholder="`候補 ${idx + 1} (例: <<user>>さんこんにちは！)`"
+              :placeholder="t('postFlow.inlinePh.candidatePlaceholder', { n: idx + 1, ph: '<<user>>' })"
               @keydown.enter="idx === items.length - 1 ? addItem() : undefined"
             />
             <button
@@ -60,10 +59,10 @@
 
       <!-- フッター -->
       <div class="flex justify-end gap-2">
-        <button class="btn btn-sm btn-ghost" @click="close">キャンセル</button>
+        <button class="btn btn-sm btn-ghost" @click="close">{{ t('postFlow.common.cancel') }}</button>
         <button class="btn btn-sm btn-accent gap-1" :disabled="!canInsert" @click="insert">
           <CornerDownLeft :size="14" />
-          挿入
+          {{ t('postFlow.common.insert') }}
         </button>
       </div>
     </div>
@@ -75,8 +74,11 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { ref, computed } from 'vue'
   import { Braces, X, Plus, Trash2, CornerDownLeft, Info } from 'lucide-vue-next'
+
+  const { t } = useI18n()
 
   const emit = defineEmits<{ insert: [text: string] }>()
 

@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerService.vue -->
 <template>
-  <SettingItem icon="Globe" label="サービス・配信サイト" description="特定の配信サイトからのコメントのみに絞り込めます">
+  <SettingItem icon="Globe" :label="t('triggerService.label')" :description="t('triggerService.description')">
     <div class="space-y-3">
       <!-- 主要な選択肢 -->
       <div class="flex flex-wrap gap-2">
@@ -22,7 +22,7 @@
       <!-- 詳細オプション -->
       <div class="collapse collapse-arrow bg-base-100 border border-base-300">
         <input type="checkbox" />
-        <div class="collapse-title text-sm font-medium">詳細設定 - 個別配信サイト選択</div>
+        <div class="collapse-title text-sm font-medium">{{ t('triggerService.detailTitle') }}</div>
         <div class="collapse-content">
           <div class="flex flex-wrap gap-2 pt-2">
             <label
@@ -40,11 +40,11 @@
             </label>
           </div>
           <div class="mt-3 p-3 bg-info/10 rounded text-xs text-info-content">
-            <p class="font-medium mb-1">📌 設定のヒント:</p>
+            <p class="font-medium mb-1">{{ t('triggerService.hintTitle') }}</p>
             <ul class="list-disc list-inside space-y-1">
-              <li><strong>配信プラットフォーム:</strong> YouTube、Twitchなどの一般的な配信サイトからのコメント</li>
-              <li><strong>外部サービス:</strong> OneComme独自のテスト機能や外部連携からのコメント</li>
-              <li><strong>個別選択:</strong> 特定の配信サイトのみに限定したい場合に使用</li>
+              <li><strong>{{ t('triggerService.platforms') }}:</strong> {{ t('triggerService.hintPlatforms') }}</li>
+              <li><strong>{{ t('triggerService.external') }}:</strong> {{ t('triggerService.hintExternal') }}</li>
+              <li><strong>{{ t('triggerService.individual') }}:</strong> {{ t('triggerService.hintIndividual') }}</li>
             </ul>
           </div>
         </div>
@@ -52,19 +52,21 @@
 
       <!-- 選択状況の表示 -->
       <div v-if="(modelValue ?? []).length > 0" class="text-xs text-base-content/70">
-        選択中: {{ selectedLabels.join(', ') }}
+        {{ t('triggerService.selected', { labels: selectedLabels.join(', ') }) }}
       </div>
     </div>
   </SettingItem>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { EnabledServiceType } from '@/types/engine'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { serviceTypeMap } from '@/sdk/types/onesdk/Service'
 
+  const { t } = useI18n()
   const props = defineProps<{
     modelValue?: EnabledServiceType[]
   }>()
@@ -72,10 +74,10 @@
   const emit = defineEmits(['update:modelValue'])
 
   // 主要な選択肢（platforms と external）
-  const primaryOptions = [
-    { value: 'platforms' as EnabledServiceType, label: '配信プラットフォーム' },
-    { value: 'external' as EnabledServiceType, label: '外部サービス' },
-  ]
+  const primaryOptions = computed(() => [
+    { value: 'platforms' as EnabledServiceType, label: t('triggerService.platforms') },
+    { value: 'external' as EnabledServiceType, label: t('triggerService.external') },
+  ])
 
   // 詳細選択肢（個別の配信サイト）
   const detailOptions = Object.entries(serviceTypeMap)

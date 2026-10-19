@@ -34,7 +34,7 @@
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
   import { getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
-  import { gameMetaMap, uiKindMap, uiLayoutMap } from '@/maps/OmikujiData'
+  import { gameMetaMap, uiKindMap } from '@/maps/OmikujiData'
   import { uiLayouts, type UiKind } from '@/types/OmikujiData'
   import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
 
@@ -49,9 +49,9 @@
       .filter((kind) => getUiLoader(kind))
       .map((kind) => ({
         key: kind,
-        title: uiKindMap[kind].label,
+        title: t(`mapText.uiKind.${kind}.label`),
         icon: uiKindMap[kind].icon,
-        description: uiKindMap[kind].description,
+        description: t(`mapText.uiKind.${kind}.description`),
       }))
   )
 
@@ -60,18 +60,18 @@
       .filter((key) => getLayoutLoader(key))
       .map((key) => ({
         key,
-        title: uiLayoutMap[key].label,
+        title: t(`mapText.uiLayout.${key}.label`),
         icon: 'LayoutGrid',
-        description: uiLayoutMap[key].description,
+        description: t(`mapText.uiLayout.${key}.description`),
       }))
   )
 
   const gameScriptItems = computed<FeatureItem[]>(() =>
     getRegisteredGameScriptKeys().map((key) => ({
       key,
-      title: gameMetaMap[key].name,
+      title: t(`mapText.gameMeta.${key}.name`),
       icon: gameMetaMap[key].icon as LucideIconName,
-      description: gameMetaMap[key].description,
+      description: t(`mapText.gameMeta.${key}.description`),
     }))
   )
 

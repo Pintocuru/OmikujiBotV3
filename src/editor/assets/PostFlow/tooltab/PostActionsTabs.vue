@@ -23,14 +23,17 @@
     </button>
 
     <!-- 追加ボタン -->
-    <button class="tab tab-sm" @click="emit('add')">＋ 追加</button>
+    <button class="tab tab-sm" @click="emit('add')">{{ t('postFlow.tabs.add') }}</button>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { PostFlowType } from '@/types/OmikujiData/'
   import PostActionRow from './PostActionRow.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     modelValue: PostFlowType[]

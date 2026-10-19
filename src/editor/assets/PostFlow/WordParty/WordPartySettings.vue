@@ -2,7 +2,7 @@
 <template>
   <div class="space-y-2">
     <!-- WordParty ID -->
-    <SettingItem layout="vertical" icon="PartyPopper" label="WordParty" description="WordPartyのID">
+    <SettingItem layout="vertical" icon="PartyPopper" label="WordParty" :description="t('postFlow.wordParty.idDesc')">
       <input
         type="text"
         v-model="wordPartyIdValue"
@@ -12,13 +12,13 @@
     </SettingItem>
 
     <!-- Repeat -->
-    <SettingItem layout="vertical" icon="Repeat" label="繰り返し回数" description="WordPartyを実行する回数（最大20回）">
+    <SettingItem layout="vertical" icon="Repeat" :label="t('postFlow.wordParty.repeatLabel')" :description="t('postFlow.wordParty.repeatDesc')">
       <div class="flex items-center gap-2 flex-1">
         <select v-model="repeatMode" class="select select-bordered select-sm w-32">
-          <option value="none">なし（1回）</option>
-          <option value="fixed">固定値</option>
-          <option value="viewer">視聴者数</option>
-          <option value="upVote">高評価数</option>
+          <option value="none">{{ t('postFlow.wordParty.none') }}</option>
+          <option value="fixed">{{ t('postFlow.wordParty.fixed') }}</option>
+          <option value="viewer">{{ t('postFlow.wordParty.viewer') }}</option>
+          <option value="upVote">{{ t('postFlow.wordParty.upVote') }}</option>
         </select>
 
         <input
@@ -28,11 +28,11 @@
           class="input input-bordered input-sm w-24"
           min="1"
           max="20"
-          placeholder="回数"
+          :placeholder="t('postFlow.wordParty.count')"
         />
 
         <span v-if="repeatMode === 'viewer' || repeatMode === 'upVote'" class="text-xs text-gray-500">
-          (最大20回)
+          {{ t('postFlow.wordParty.max') }}
         </span>
       </div>
     </SettingItem>
@@ -40,9 +40,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { PostFlowWordPartyType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     action: PostFlowWordPartyType

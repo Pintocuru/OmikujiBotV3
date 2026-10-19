@@ -66,7 +66,7 @@
       class="select select-bordered w-full max-w-xs"
     >
       <option v-for="key in initialCategories" :key="key" :value="key">
-        {{ categoryMap[key].label }}
+        {{ t(`categories.${key}.label`) }}
       </option>
     </select>
   </SettingItem>
@@ -80,7 +80,6 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
-  import { categoryMap } from '@/maps/OmikujiData/CategoryMap'
   import { ThemeType, themes } from '@/types/core'
   import { isDev } from '@/types/env'
 

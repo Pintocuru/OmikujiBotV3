@@ -13,19 +13,19 @@ type StatusConfig = {
 export const statusConfigMap: Record<AppStatus, StatusConfig> = {
   initializing: {
     icon: Loader,
-    label: '接続中',
+    label: '接続中 / Connecting',
     badgeClass: 'text-warning border border-warning/40',
     isAlwaysVisible: true,
   },
   ready: {
     icon: Wifi,
-    label: '接続済み',
+    label: '接続済み / Connected',
     badgeClass: 'text-success border border-success/40',
     isAlwaysVisible: false,
   },
   error: {
     icon: WifiOff,
-    label: '未接続',
+    label: '未接続 / Disconnected',
     badgeClass: 'text-error border border-error/40',
     isAlwaysVisible: true,
   },

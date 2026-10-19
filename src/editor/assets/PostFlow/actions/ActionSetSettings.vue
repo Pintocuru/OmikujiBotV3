@@ -7,7 +7,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
           <!-- 重み -->
           <div class="w-full sm:w-32">
-            <label class="text-xs text-gray-500 mb-1 block"> 重み ({{ getWeightPercentage(value.weight) }}%) </label>
+            <label class="text-xs text-gray-500 mb-1 block"> {{ t('postFlow.actionSet.weight', { percent: getWeightPercentage(value.weight) }) }} </label>
             <input
               type="number"
               :value="value.weight"
@@ -19,14 +19,14 @@
 
           <!-- アクションセット選択 -->
           <div class="flex-1">
-            <label class="text-xs text-gray-500 mb-1 block">アクションセット</label>
+            <label class="text-xs text-gray-500 mb-1 block">{{ t('postFlow.actionSet.label') }}</label>
             <select
               :value="value.content"
               @change="updateContent(index, $event, handleUpdate)"
               class="select select-bordered select-sm w-full"
               :class="{ 'select-error': isCircular(value.content) }"
             >
-              <option value="">-- 選択してください --</option>
+              <option value="">{{ t('postFlow.actionSet.choose') }}</option>
 
               <option
                 v-for="option in availableActionSets"
@@ -34,13 +34,13 @@
                 :value="option.key"
                 :disabled="option.disabled"
               >
-                {{ option.name }} {{ option.disabled ? '(循環参照)' : '' }}
+                {{ option.name }} {{ option.disabled ? t('postFlow.actionSet.circularShort') : '' }}
               </option>
             </select>
 
             <!-- 循環参照警告 -->
             <div v-if="isCircular(value.content)" class="alert alert-error py-1 mt-1 text-xs">
-              ⚠️ 循環参照: {{ getCircularPath(value.content) }}
+              {{ t('postFlow.actionSet.circular', { path: getCircularPath(value.content) }) }}
             </div>
           </div>
 
@@ -54,19 +54,22 @@
 
     <!-- 空の場合 -->
     <div v-else>
-      <NoParamsCard message="アクションセットが空です" />
+      <NoParamsCard :message="t('postFlow.actionSet.empty')" />
     </div>
 
-    <button @click="addValue(handleUpdate)" class="btn btn-primary w-full mt-4">+ 値を追加</button>
+    <button @click="addValue(handleUpdate)" class="btn btn-primary w-full mt-4">{{ t('postFlow.actionSet.addValue') }}</button>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { WeightValuesArrayType } from '@/types/OmikujiData'
   import { PostFlowCallType } from '@/types/OmikujiData'
   import { useWeightValueManagement } from './useWeightValueManagement'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     action: PostFlowCallType

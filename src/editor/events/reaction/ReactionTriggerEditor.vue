@@ -1,7 +1,7 @@
 <!-- src/editor/events/reaction/ReactionTriggerEditor.vue -->
 <template>
   <!-- リアクション選択 -->
-  <SettingItem icon="ThumbsUp" label="対象リアクション" description="監視するリアクションを選択（複数可）">
+  <SettingItem icon="ThumbsUp" :label="t('reactionTrigger.targetLabel')" :description="t('reactionTrigger.targetDescription')">
     <div class="flex flex-wrap gap-2">
       <label v-for="(label, key) in reactionMap.youtube" :key="key" class="cursor-pointer">
         <input type="checkbox" class="hidden" :checked="reactions.includes(key)" @change="toggleReaction(key)" />
@@ -13,32 +13,32 @@
   </SettingItem>
 
   <!-- 条件 -->
-  <SettingItem icon="Activity" label="発動条件" description="リアクションの変化条件">
+  <SettingItem icon="Activity" :label="t('reactionTrigger.conditionLabel')" :description="t('reactionTrigger.conditionDescription')">
     <select class="select select-bordered select-sm w-full" v-model="comparison">
       <option v-for="(v, key) in reactionConditionMap" :key="key" :value="key">
-        {{ v.label }}
+        {{ t(`mapText.reactionCondition.${key}.label`) }}
       </option>
     </select>
 
     <!-- 説明 -->
     <p class="text-xs opacity-70 mt-1">
-      {{ reactionConditionMap[comparison].description }}
+      {{ t(`mapText.reactionCondition.${comparison}.description`) }}
     </p>
   </SettingItem>
 
   <!-- 数値指定 -->
-  <SettingItem icon="Sliders" label="しきい値" description="条件に使用する値">
+  <SettingItem icon="Sliders" :label="t('reactionTrigger.thresholdLabel')" :description="t('reactionTrigger.thresholdDescription')">
     <input
       type="number"
       min="0"
       class="input input-bordered input-sm w-full"
       v-model.number="value"
-      placeholder="例：10"
+      :placeholder="t('reactionTrigger.thresholdPlaceholder')"
     />
   </SettingItem>
 
   <!-- レベルでの発動 -->
-  <SettingItem icon="Zap" v-if="comparison !== 'milestone'" label="レベルでの発動" :description="`リアクションが押される量で発動`">
+  <SettingItem icon="Zap" v-if="comparison !== 'milestone'" :label="t('reactionTrigger.levelLabel')" :description="t('reactionTrigger.levelDescription')">
     <div class="w-full space-y-2">
       <!-- スライダー -->
       <input
@@ -66,6 +66,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
@@ -74,6 +75,7 @@
   import { reactionConditionMap } from '@/maps/OmikujiData'
   import { reactionMap } from '@/maps/OmikujiData'
 
+  const { t } = useI18n()
   const props = defineProps<{
     modelValue: ReactionTriggerType
     selectedItemKey: string | null

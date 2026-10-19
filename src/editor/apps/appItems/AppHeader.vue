@@ -1,7 +1,7 @@
 <!-- src/editor/apps/appItems/AppHeader.vue -->
 <template>
   <h1 class="flex justify-center text-2xl text-primary font-bold text-center relative">
-    <div class="flex items-center gap-2">おみくじBOT コンフィグエディター</div>
+    <div class="flex items-center gap-2">{{ t('appHeader.title') }}</div>
 
     <!-- 左上データソース表示 -->
     <div class="absolute top-0 left-0">
@@ -12,18 +12,19 @@
 
     <!-- 右上バージョン表示 -->
     <div class="absolute top-0 right-0 text-xs opacity-70 flex flex-col items-end">
-      <div>現在のバージョン: {{ versionInfo.current }}</div>
-      <div v-if="versionInfo.isLoading" class="text-info">チェック中...</div>
-      <div v-else-if="versionInfo.error" class="text-error" :title="versionInfo.error">チェック失敗</div>
+      <div>{{ t('appHeader.currentVersion', { version: versionInfo.current }) }}</div>
+      <div v-if="versionInfo.isLoading" class="text-info">{{ t('appHeader.checking') }}</div>
+      <div v-else-if="versionInfo.error" class="text-error" :title="versionInfo.error">{{ t('appHeader.checkFailed') }}</div>
       <div v-else-if="versionInfo.hasNewVersion" class="text-warning cursor-pointer" @click="showUpdateDialog">
-        新版: {{ versionInfo.latest }} 🔄
+        {{ t('appHeader.newVersion', { version: versionInfo.latest }) }}
       </div>
-      <div v-else-if="versionInfo.latest" class="text-success">最新版 ✓</div>
+      <div v-else-if="versionInfo.latest" class="text-success">{{ t('appHeader.latest') }}</div>
     </div>
   </h1>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { onMounted, computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useVersionCheck } from './useVersionCheck'
@@ -31,6 +32,8 @@
   import { DATA_SOURCE_MAP } from '@/editor/types'
 
   // Pinia storeから現在のバージョンを取得
+  const { t } = useI18n()
+
   const omikujiStore = useOmikujiStore()
   const { data, dataSource } = storeToRefs(omikujiStore)
 

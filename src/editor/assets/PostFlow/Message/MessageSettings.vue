@@ -1,14 +1,14 @@
 <!-- src/editor/assets/PostFlow/Message/MessageSettings.vue -->
 <template>
-  <SettingItem layout="vertical" icon="User" label="キャラクター">
+  <SettingItem layout="vertical" icon="User" :label="t('postFlow.common.character')">
     <CharacterPicker v-model="characterKey" />
   </SettingItem>
 
-  <SettingItem v-if="hasCharacterSelected" icon="Palette" layout="vertical" label="アイコン">
+  <SettingItem v-if="hasCharacterSelected" icon="Palette" layout="vertical" :label="t('postFlow.messageSettings.icon')">
     <IconSelector :character-key="characterKey" :icon-key="action.iconKey" @update:icon-key="updateIconKey" />
   </SettingItem>
 
-  <SettingItem icon="MessageSquare" layout="vertical" label="メッセージ">
+  <SettingItem icon="MessageSquare" layout="vertical" :label="t('postFlow.messageSettings.message')">
     <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
   </SettingItem>
 
@@ -20,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import CharacterPicker from '@/editor/parts/CharacterPicker.vue'
   import { PostFlowMessageType } from '@/types/OmikujiData'
@@ -28,6 +29,8 @@
   import MessageTextDialog from './MessageTextDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SoundSettings from '../Sounds/SoundSettings.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     action: PostFlowMessageType

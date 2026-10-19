@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between mb-2">
       <div class="flex items-center gap-2">
         <input type="checkbox" :checked="config.enabled" @change="handleEnabledChange" class="checkbox checkbox-sm" />
-        <span>{{ uiKindMap[componentKey].label }}</span>
+        <span>{{ t(`mapText.uiKind.${componentKey}.label`) }}</span>
         <span v-if="isImportOnly" class="badge badge-sm badge-info">新規</span>
       </div>
     </div>
@@ -41,10 +41,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { ComponentImportConfig } from '@/editor/types'
   import { useImportManager } from './composables/useImportManager'
   import { UiKind } from '@/types/OmikujiData'
-  import { uiKindMap } from '@/maps/OmikujiData'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     componentKey: UiKind

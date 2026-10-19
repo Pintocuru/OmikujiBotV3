@@ -2,32 +2,30 @@
 <template>
   <SettingItem
     icon="Fingerprint"
-    label="適用するユーザーID"
-    description="ユーザーIDを指定します。改行で複数指定できます。先頭に!をつけるとネガティブ（除外）になります"
+    :label="t('triggerUserId.label')"
+    :description="t('triggerUserId.description')"
   >
     <textarea
       v-model="textValue"
       @input="updateModelValue"
-      placeholder="例:
-user123456
-user789012
-!excludeUser
-!anotherExcludeUser"
+      :placeholder="t('triggerUserId.placeholder')"
       class="textarea textarea-bordered w-full min-h-[120px]"
       rows="6"
     />
     <div class="text-sm text-gray-500 mt-2">
-      <p>• 通常のユーザーID: そのユーザーのみが条件対象となります</p>
-      <p>• ネガティブ指定(!付き): そのユーザーを条件から除外します</p>
+      <p>{{ t('triggerUserId.normalHint') }}</p>
+      <p>{{ t('triggerUserId.negativeHint') }}</p>
     </div>
   </SettingItem>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { ref, watch } from 'vue'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
 
+  const { t } = useI18n()
   const props = defineProps<{
     modelValue?: string[]
   }>()

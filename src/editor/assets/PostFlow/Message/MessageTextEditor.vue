@@ -6,7 +6,7 @@
       v-model="model"
       type="text"
       class="input input-bordered input-sm w-full pr-10"
-      :placeholder="placeholder"
+      :placeholder="placeholderText"
       :class="{ hidden: isTextarea }"
     />
 
@@ -15,7 +15,7 @@
       v-model="model"
       :rows="rows"
       class="textarea textarea-bordered textarea-sm w-full pr-10"
-      :placeholder="placeholder"
+      :placeholder="placeholderText"
       :class="{ hidden: !isTextarea }"
     ></textarea>
 
@@ -32,8 +32,11 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed, ref } from 'vue'
   import { AlignLeft, AlignJustify } from 'lucide-vue-next'
+
+  const { t } = useI18n()
 
   const props = withDefaults(
     defineProps<{
@@ -42,7 +45,6 @@
       rows?: number
     }>(),
     {
-      placeholder: 'メッセージを入力',
       rows: 3,
     }
   )
@@ -52,6 +54,8 @@
   }>()
 
   const isTextarea = ref(true)
+
+  const placeholderText = computed(() => props.placeholder ?? t('postFlow.messageEditor.placeholder'))
 
   const model = computed({
     get: () => props.modelValue ?? '',

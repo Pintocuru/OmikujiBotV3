@@ -9,7 +9,7 @@
         class="select select-bordered select-sm flex-1"
       >
         <option v-for="(info, key) in comparisonMap" :key="key" :value="key">
-          {{ info.label }}
+          {{ t(`mapText.serviceCondition.${key}.label`) }}
         </option>
       </select>
     </div>
@@ -34,6 +34,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
@@ -42,6 +43,7 @@
   import type { DisplayMeta } from '@/editor/types/DisplayMeta'
   import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
+  const { t, te } = useI18n()
   const props = defineProps<{
     modelValue?: ServiceConditionType
     label: string
@@ -79,22 +81,22 @@
     const comparison = props.modelValue?.comparison
     switch (comparison) {
       case 'lowerBound':
-        return '下限値'
+        return t('serviceTrigger.placeholder.lowerBound')
       case 'upperBound':
-        return '上限値'
+        return t('serviceTrigger.placeholder.upperBound')
       case 'equal':
-        return '指定値'
+        return t('serviceTrigger.placeholder.equal')
       case 'loop':
-        return '増加単位（例：10）'
+        return t('serviceTrigger.placeholder.loop')
       default:
-        return '数値'
+        return t('serviceTrigger.placeholder.default')
     }
   })
 
   const comparisonDescription = computed(() => {
     const comparison = props.modelValue?.comparison
     if (!comparison) return ''
-    return comparisonMap.value[comparison]?.description || ''
+    return te(`mapText.serviceCondition.${comparison}.description`) ? t(`mapText.serviceCondition.${comparison}.description`) : ''
   })
 
   const updateField = (field: 'comparison' | 'value', value: string | number) => {

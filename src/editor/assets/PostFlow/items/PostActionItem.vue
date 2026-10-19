@@ -10,7 +10,7 @@
     <!-- 右側: 設定エリア -->
     <div class="col-span-2 space-y-2">
       <!-- ActionType -->
-      <SettingItem layout="vertical" icon="Rocket" label="アクションタイプ" description="種類を選択します">
+      <SettingItem layout="vertical" icon="Rocket" :label="t('postFlow.actionItem.typeLabel')" :description="t('postFlow.actionItem.typeDesc')">
         <div class="flex flex-wrap gap-2">
           <span
             v-for="(meta, type) in postFlowKindMap"
@@ -19,7 +19,7 @@
             :class="action.kind === type ? 'badge-primary' : 'badge-outline'"
             @click="updateActionType(type)"
           >
-            {{ meta.label }}
+            {{ t(`mapText.postFlowKind.${type}.label`) }}
           </span>
         </div>
       </SettingItem>
@@ -28,8 +28,8 @@
       <SettingItem
         layout="vertical"
         icon="Clock"
-        label="遅延秒数"
-        description="この秒数後に下記のアクションを実行します"
+        :label="t('postFlow.actionItem.delayLabel')"
+        :description="t('postFlow.actionItem.delayDesc')"
       >
         <input
           type="number"
@@ -53,6 +53,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed, ref } from 'vue'
   import {
     PostFlowType,
@@ -78,6 +79,8 @@
   import { postFlowKindMap } from '@/maps/OmikujiData'
 
   // Props
+  const { t } = useI18n()
+
   const props = defineProps<{
     action: PostFlowType
     index: number

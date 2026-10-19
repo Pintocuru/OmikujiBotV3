@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerCount.vue -->
 <template>
-  <SettingItem icon="Hash" label="チャット数" description="配信のチャット数で判定">
+  <SettingItem icon="Hash" :label="t('triggerCount.label')" :description="t('triggerCount.description')">
     <!-- 対象の値 -->
     <div class="flex flex-wrap gap-2 pb-2">
       <span
@@ -33,17 +33,19 @@
         @input="updateField('value', ($event.target as HTMLInputElement).value)"
         min="0"
         class="input input-bordered input-sm flex-1"
-        placeholder="数値"
+        :placeholder="t('triggerCount.placeholder')"
       />
     </div>
   </SettingItem>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { countComparisonConditionMap, countUnitConditionMap } from '@/maps/engine/trigger/CountConditionMap'
   import { CountConditionType } from '@/types/engine/trigger'
 
+  const { t } = useI18n()
   const props = defineProps<{
     modelValue?: CountConditionType
   }>()

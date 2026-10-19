@@ -4,20 +4,20 @@
     <!-- ヘッダー -->
     <div class="flex items-center gap-1.5 text-xs font-semibold opacity-70 pb-0.5 border-b border-base-300">
       <Filter class="w-3 h-3" />
-      <span>発動条件</span>
+      <span>{{ t('appPreview.threshold.title') }}</span>
     </div>
 
     <!-- services モード -->
     <template v-if="mode === 'services' && serviceTrigger">
       <div class="flex items-center gap-1.5 text-xs">
         <Activity class="w-3 h-3 shrink-0 opacity-60" />
-        <span class="opacity-70">条件:</span>
+        <span class="opacity-70">{{ t('appPreview.trigger.condition') }}</span>
         <span class="badge badge-xs badge-primary">{{ serviceTrigger.condition }}</span>
       </div>
       <div v-if="serviceTrigger.elapsedMinutes != null" class="flex items-center gap-1.5 text-xs">
         <Clock class="w-3 h-3 shrink-0 opacity-60" />
-        <span class="opacity-70">経過:</span>
-        <span class="font-mono">{{ serviceTrigger.elapsedMinutes }}分</span>
+        <span class="opacity-70">{{ t('appPreview.trigger.elapsed') }}</span>
+        <span class="font-mono">{{ t('appPreview.trigger.minutes', { n: serviceTrigger.elapsedMinutes }) }}</span>
       </div>
     </template>
 
@@ -25,7 +25,7 @@
     <template v-if="mode === 'reactions' && reactionTrigger">
       <div class="flex items-center gap-1.5 text-xs">
         <Smile class="w-3 h-3 shrink-0 opacity-60" />
-        <span class="opacity-70">種別:</span>
+        <span class="opacity-70">{{ t('appPreview.trigger.kind') }}</span>
         <span class="badge badge-xs badge-secondary">{{ reactionTrigger.comparison }}</span>
       </div>
       <div v-if="reactionTrigger.reactions?.length" class="flex items-start gap-1 text-xs">
@@ -41,7 +41,7 @@
       </div>
       <div class="flex items-center gap-1.5 text-xs">
         <Hash class="w-3 h-3 shrink-0 opacity-60" />
-        <span class="opacity-70">閾値:</span>
+        <span class="opacity-70">{{ t('appPreview.trigger.threshold') }}</span>
         <span class="font-mono">{{ reactionTrigger.value ?? 1 }}</span>
         <span v-if="reactionTrigger.triggerLevel" class="badge badge-xs badge-ghost">
           Lv{{ reactionTrigger.triggerLevel }}+
@@ -52,9 +52,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { ReactionTriggerType, ServiceTriggerType } from '@/types/OmikujiData'
   import { Filter, Activity, Clock, Smile, Heart, Hash } from 'lucide-vue-next'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     data: { trigger?: Partial<ServiceTriggerType> | Partial<ReactionTriggerType> } | null
