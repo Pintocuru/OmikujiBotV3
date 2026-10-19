@@ -1,4 +1,5 @@
 // src/editor/maps/category/NavigationSidebarMessagesMap.ts
+// TODO:巨大すぎるので分割したい
 export const navigationSidebarMessages = {
   ja: {
     navigation: {

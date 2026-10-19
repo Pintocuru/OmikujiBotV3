@@ -36,8 +36,7 @@ const COLOR_VARIANTS = [
 // ビルドターゲット
 const buildTargets: PackageBuildTarget[] = [
   { project: 'StrawberryChocolate', type: 'FULL' },
-  { project: 'StrawberryChocolatePro', type: 'FULL' },
-  { project: 'StrawberryChocolate', type: 'JSON' },
+  // { project: 'StrawberryChocolate', type: 'JSON' },
 ]
 
 // プロジェクト一覧
