@@ -8,13 +8,9 @@
       label="レイアウト"
       description="ジェネレーターで使用するレイアウトの切り替え"
     >
+      <!-- レイアウト -->
       <LayoutEditor />
     </SectionCard>
-
-    <!-- DEV:アイテムが有るかを確認 -->
-    <div>
-      {{ visibleItems }}
-    </div>
   </template>
 
   <!-- 各 UI の設定（選択中レイアウトが使う UI のうち、main.ts で登録されたもの） -->

@@ -19,16 +19,12 @@
 
   <!-- キャラクター -->
   <SettingItem label="常時表示キャラクター" description="未設定の場合、コメントが来たときのみ表示されます">
-    <select
-      :value="bubble.persistentCharacter"
-      @change="(e) => update('persistentCharacter', (e.target as HTMLSelectElement).value)"
-      class="select select-bordered w-full max-w-xs"
-    >
-      <option value="">なし(コメント時のみ表示)</option>
-      <option v-for="(c, key) in characterMap" :key="key" :value="key">
-        {{ c.name }}
-      </option>
-    </select>
+    <CharacterPicker
+      :modelValue="bubble.persistentCharacter"
+      allowEmpty
+      emptyLabel="なし"
+      @update:modelValue="(key) => update('persistentCharacter', key)"
+    />
   </SettingItem>
 
   <!-- キャラクターの大きさ -->
@@ -75,6 +71,7 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
+  import CharacterPicker from '@/editor/parts/CharacterPicker.vue'
   import { CharacterColorScheme } from '@/types/OmikujiData'
   import type { EnterMotionType } from '@/types/OmikujiData'
   import { enterMotionMap } from '@/maps/OmikujiData'

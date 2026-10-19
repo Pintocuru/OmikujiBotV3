@@ -15,9 +15,8 @@
           {{ uiLayoutMap[key].label }}
         </span>
       </div>
+      <p class="text-xs opacity-70 p-2">{{ uiLayoutMap[layout].description }}</p>
     </SettingItem>
-
-    <p class="text-sm opacity-70 px-2">{{ uiLayoutMap[layout].description }}</p>
   </div>
 </template>
 
