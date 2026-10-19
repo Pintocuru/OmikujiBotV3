@@ -31,7 +31,7 @@ export function checkAccess(omiken: OmikenCommentType, access: AccessConditionTy
  */
 export function checkCount(omiken: OmikenCommentType, count?: CountConditionType): boolean {
   if (!count) return true
-  const unitValue = count.unit === 'draws' ? (omiken.omikuji?.draws ?? 0) : (omiken.meta[count.unit] ?? 0)
+  const unitValue = omiken.meta[count.unit] ?? 0
   if (unitValue === 0 && count.comparison === 'loop') return false
   return compareValue(unitValue, count)
 }

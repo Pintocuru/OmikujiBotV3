@@ -15,9 +15,9 @@ export type CountComparisonCondition = z.infer<typeof CountComparisonConditionSc
 /**
  * unit
  */
-export const countUnitConditions = ['lc', 'tc', 'draws'] as const
+export const countUnitConditions = ['lc', 'tc'] as const
 
-export const CountUnitConditionSchema = z.enum(countUnitConditions).default('draws').catch('draws')
+export const CountUnitConditionSchema = z.enum(countUnitConditions).default('lc').catch('lc')
 export type CountUnitCondition = z.infer<typeof CountUnitConditionSchema>
 
 /**

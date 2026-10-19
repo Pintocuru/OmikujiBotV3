@@ -75,11 +75,6 @@ export const defaultPlaceholderMap: Record<DefaultPlaceholders, DefaultPlacehold
     label: countUnitConditionMap.tc.label,
     short: 'TotalComment_Count',
   },
-  draws: {
-    slot: 'comment',
-    label: countUnitConditionMap.draws.label,
-    short: 'Omikuji_Draws_Count',
-  },
 }
 
 /**

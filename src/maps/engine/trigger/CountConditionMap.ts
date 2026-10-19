@@ -36,8 +36,4 @@ export const countUnitConditionMap: Record<CountUnitCondition, { label: string; 
     label: '個人コメント数(総数)',
     description: '全配信を通じたユーザーの総コメント数で判定します',
   },
-  draws: {
-    label: 'おみくじの回数',
-    description: '現在のおみくじルールの履歴から判定します',
-  },
 }

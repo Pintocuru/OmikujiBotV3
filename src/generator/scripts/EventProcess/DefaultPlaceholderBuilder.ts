@@ -60,6 +60,5 @@ export function buildDefaultPlaceholders(store: AppStore, omiken?: OmikenComment
     price: omiken.giftPrice,
     lc: omiken.meta.lc,
     tc: omiken.meta.tc,
-    draws: omiken.omikuji?.draws,
   })
 }

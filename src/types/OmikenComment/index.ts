@@ -41,15 +41,6 @@ export const CommentMetaSchema = z.object({
 export type BaseCommentMetaType = z.infer<typeof CommentMetaSchema>
 
 /**
- * おみくじデータ
- */
-export const OmikujiMetaSchema = z.object({
-  eventKey: z.string(), // おみくじイベントkey
-  draws: z.number().default(1), // おみくじ回数
-})
-export type OmikujiMetaType = z.infer<typeof OmikujiMetaSchema>
-
-/**
  * OmikenComment
  */
 export const OmikenCommentSchema = UserNameSchema.extend({
@@ -58,6 +49,5 @@ export const OmikenCommentSchema = UserNameSchema.extend({
   giftPrice: z.number().nullable().default(null),
   comment: z.string(),
   meta: CommentMetaSchema.default(CommentMetaSchema.parse({})),
-  omikuji: OmikujiMetaSchema.optional(), // TODO:廃止
 })
 export type OmikenCommentType = z.infer<typeof OmikenCommentSchema>
