@@ -58,6 +58,6 @@ export const OmikenCommentSchema = UserNameSchema.extend({
   giftPrice: z.number().nullable().default(null),
   comment: z.string(),
   meta: CommentMetaSchema.default(CommentMetaSchema.parse({})),
-  omikuji: OmikujiMetaSchema.optional(),
+  omikuji: OmikujiMetaSchema.optional(), // TODO:廃止
 })
 export type OmikenCommentType = z.infer<typeof OmikenCommentSchema>

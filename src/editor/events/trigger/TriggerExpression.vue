@@ -39,7 +39,7 @@
 
   // vue-i18n のメッセージに << を入れると警告が出るため、記法を含む例はここで持つ
   const exampleLc = '<<lc>> > 20'
-  const exampleUser = "<<user>> == 'hoge'"
+  const exampleUser = "<<name>> == 'ownerName'"
 
   const text = computed({
     get: () => props.modelValue ?? '',
