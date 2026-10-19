@@ -14,7 +14,6 @@ export const CommentTriggerSchema = z.object({
   access: z.array(AccessConditionSchema).catch([]),
   gift: z.array(GiftConditionSchema).catch([]),
   comment: z.array(z.string()).catch([]),
-  // 判定式 (例: <<lc>> > 20)。true になったときだけ発動
   expression: z.string().catch(''),
 })
 export type CommentTriggerType = z.infer<typeof CommentTriggerSchema>

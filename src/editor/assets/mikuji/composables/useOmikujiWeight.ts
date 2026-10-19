@@ -1,5 +1,4 @@
 // src/editor/assets/mikuji/composables/useOmikujiWeight.ts
-import { toRaw } from 'vue'
 import { generateId } from '@/types/core'
 import type { OmikujiItemType } from '@/types/OmikujiData/'
 
@@ -29,7 +28,14 @@ export function duplicateItemAt(items: OmikujiItemType[], index: number): Omikuj
   const src = items[index]
   if (!src) return items
   const id = generateId()
-  const copy = { ...structuredClone(toRaw(src)), id, key: id, name: `${src.name}(コピー)` }
+  // JSON.parse(JSON.stringify(src)) で Proxy やリアクティブ参照を完全に除去してディープコピー
+  const rawCopy: OmikujiItemType = JSON.parse(JSON.stringify(src))
+  const copy: OmikujiItemType = {
+    ...rawCopy,
+    id,
+    key: id,
+    name: `${src.name}(コピー)`,
+  }
   const next = [...items]
   next.splice(index + 1, 0, copy)
   return next

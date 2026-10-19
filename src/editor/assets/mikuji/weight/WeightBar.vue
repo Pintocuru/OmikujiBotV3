@@ -6,7 +6,7 @@
       v-model="draggableItems"
       handle=".legend-drag-handle"
       :animation="200"
-      class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2"
+      class="grid grid-cols-2 xl:grid-cols-3 gap-2"
     >
       <WeightItem
         v-for="(item, index) in draggableItems"
