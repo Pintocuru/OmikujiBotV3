@@ -1,10 +1,10 @@
 <template>
   <div
-    class="px-4 py-2 rounded-md shadow-lg bg-base-300 text-base-content"
+    class="p-2 rounded-md shadow-lg bg-base-300 text-base-content"
     :class="[isVertical ? 'flex flex-col gap-1' : 'flex items-center gap-4']"
   >
     <div
-      class="flex flex-col gap-1 rounded-md px-2 py-1"
+      class="flex flex-col gap-1 rounded-md p-1"
       :class="[
         isVertical ? 'min-w-0' : 'min-w-0 w-1/3 sm:w-1/4 shrink-0',
         variant ? `bg-${props.variant} text-${props.variant}-content` : '',

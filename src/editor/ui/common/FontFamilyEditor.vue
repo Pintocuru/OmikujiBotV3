@@ -7,7 +7,7 @@
   </div>
 
   <!-- フォントファミリー -->
-  <SettingItem label="フォントファミリー" description="表示に使用するフォント" forceMode="pro">
+  <SettingItem layout="vertical" label="フォントファミリー" description="表示に使用するフォント" forceMode="pro">
     <div class="w-full space-y-3">
       <!-- カテゴリタブ -->
       <div role="tablist" class="tabs tabs-bordered tabs-sm w-full">
@@ -24,7 +24,7 @@
       </div>
 
       <!-- フォントカードグリッド -->
-      <div class="grid grid-cols-2 gap-2">
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
         <!-- デフォルト（すべてタブのみ） -->
         <button
           v-if="activeCategory === 'all'"
