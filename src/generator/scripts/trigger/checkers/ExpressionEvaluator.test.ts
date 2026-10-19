@@ -76,6 +76,36 @@ describe('evaluateTriggerExpression', () => {
   })
 })
 
+describe('変数名に埋め込んだプレースホルダー', () => {
+  vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const c = { ...ctx, userId: 'v1yzu2c1', SyokenSagiv1yzu2c1: 3, SyokenSagiv0other: 1 }
+
+  it('SyokenSagi<<userId>> は SyokenSagiv1yzu2c1 の値で判定する', () => {
+    expect(evaluateTriggerExpression('SyokenSagi<<userId>> < 3', c)).toBe(false)
+    expect(evaluateTriggerExpression('SyokenSagi<<userId>> >= 3', c)).toBe(true)
+    expect(evaluateTriggerExpression('SyokenSagi<<userId>> < 4', c)).toBe(true)
+  })
+
+  it('値が変わると結果も変わる', () => {
+    expect(evaluateTriggerExpression('SyokenSagi<<userId>> < 3', { ...c, SyokenSagiv1yzu2c1: 2 })).toBe(true)
+  })
+
+  it('他ユーザーの変数は参照しない / 変数が未作成のユーザーは 0 扱い', () => {
+    expect(evaluateTriggerExpression('SyokenSagi<<userId>> == 0', { ...c, userId: 'v0nobody' })).toBe(true)
+    expect(evaluateTriggerExpression('SyokenSagi<<userId>> == 1', { ...c, userId: 'v0other' })).toBe(true)
+    expect(evaluateTriggerExpression('SyokenSagi<<userId>> == 3', { ...c, userId: 'v0other' })).toBe(false)
+  })
+
+  it('埋め込めない値 (ユーザー名など) や存在しないキーは評価できない扱いで false', () => {
+    expect(evaluateTriggerExpression('x<<user>> == 0', { ...c, user: "a' or 1==1 or '" })).toBe(false)
+    expect(evaluateTriggerExpression('Sokuseki<<noSuchKey>> == 0', c)).toBe(false)
+  })
+
+  it('単独の <<userId>> は従来どおり変数名として扱う', () => {
+    expect(evaluateTriggerExpression("<<userId>> == 'v1yzu2c1'", c)).toBe(true)
+  })
+})
+
 describe('normalizeTriggerExpression', () => {
   it('<<name>> を name に置換する', () => {
     expect(normalizeTriggerExpression('<<lc>> > 20')).toBe('lc > 20')
