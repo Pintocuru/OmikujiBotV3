@@ -1,7 +1,7 @@
 // src/manager/services/configApi.ts
+import { FileItem } from '@/manager/types'
 import { BaseApiClient } from './baseApiClient'
 import { ensureJsonExtension } from './apiServiceUtils'
-import type { FileItem } from '../types'
 
 /**
  * 設定ファイル関連のAPI

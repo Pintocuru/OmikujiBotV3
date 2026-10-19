@@ -1,7 +1,7 @@
 // server/core/services/fileSystemService.ts
 import fs from 'fs/promises'
 import path from 'path'
-import { FileItem } from '../types'
+import { FileItem } from '@server/types'
 import { ensureDirectory } from './directoryService'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { DIR } from '@server/constants'

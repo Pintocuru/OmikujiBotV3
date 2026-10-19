@@ -1,11 +1,11 @@
 // src/manager/stores/useManagerActions.ts
+import { DataManagerType } from '@/manager/types'
 import { useManagerStateActions } from './useManagerStateActions'
 import { useApiCore } from './useApiCore'
 import { useFileActions } from './useApiFileActions'
 import { useSaveActions } from './useApiSaveActions'
 import { useLoadActions } from './useApiLoadActions'
-import { DataManagerType } from '@/manager/types'
-import { configApi } from '../services/configApi'
+import { configApi } from '@/manager/services/configApi'
 import { isDev } from '@/types/env'
 
 export function useManagerActions(state: DataManagerType) {

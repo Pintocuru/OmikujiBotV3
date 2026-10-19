@@ -1,7 +1,7 @@
 // server/core/handlers/configHandler.ts
-import { RouteResult } from '../types'
-import * as fileSystem from '../services/fileSystemService'
-import { validateFileName } from '../utils/validation'
+import { RouteResult } from '@server/types'
+import * as fileSystem from '@server/core/services/fileSystemService'
+import { validateFileName } from '@server/core/utils/validation'
 
 const PRESET_DIR_NAME = 'presets'
 

@@ -1,10 +1,10 @@
 // src/manager/stores/useApiSaveActions.ts
+import { AsyncActionHandler } from './useApiCore'
 import { DataManagerType } from '@/manager/types'
 import { configApi } from '@/manager/services/configApi'
 import { generatorApi } from '@/manager/services/generatorApi'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-import { AsyncActionHandler } from './useApiCore'
 
 export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncActionHandler) {
   // サーバチェック

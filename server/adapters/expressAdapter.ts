@@ -1,6 +1,7 @@
 // server/adapters/expressAdapter.ts
 import { Request, Response, Application } from 'express'
-import { routeRequest, UnifiedRequest } from '../core/router'
+import { UnifiedRequest } from '@server/types'
+import { routeRequest } from '@server/core/router'
 
 /**
  * Expressルートのセットアップ

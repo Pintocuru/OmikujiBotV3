@@ -1,6 +1,6 @@
 // src/manager/stores/useApiCore.ts
-import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { DataManagerType } from '@/manager/types'
+import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 
 export type AsyncActionHandler = <T>(action: () => Promise<T>, loadingKey: keyof DataManagerType) => Promise<T | null>
 

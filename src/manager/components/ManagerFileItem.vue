@@ -72,8 +72,8 @@
 
 <script setup lang="ts">
   import { ref, nextTick } from 'vue'
+  import type { FileItem } from '@/manager/types'
   import { isDev } from '@/types/env'
-  import type { FileItem } from '../types'
   import FileMenuDropdown from './FileMenuDropdown.vue'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'

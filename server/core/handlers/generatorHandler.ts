@@ -1,6 +1,6 @@
 // server/core/handlers/generatorHandler.ts
-import { RouteResult } from '../types'
-import * as fileSystem from '../services/fileSystemService'
+import { RouteResult } from '@server/types'
+import * as fileSystem from '@server/core/services/fileSystemService'
 
 const GENERATOR_FILE = 'generator.json'
 const PACKAGES_DIR_NAME = 'packages'

@@ -4,7 +4,7 @@
     <template v-if="devStore.availableFiles.length > 0">
       <!-- ルート直下 -->
       <div v-if="rootFiles.length > 0" class="grid grid-cols-2 md:grid-cols-3 gap-1">
-        <DevFileItem
+        <ManagerFileItem
           v-for="file in rootFiles"
           :key="file.name"
           :file="file"
@@ -26,7 +26,7 @@
         </button>
 
         <div v-if="openFolders.has(folder)" class="grid grid-cols-2 md:grid-cols-3 gap-1 pl-2">
-          <DevFileItem
+          <ManagerFileItem
             v-for="file in files"
             :key="file.name"
             :file="file"
@@ -50,9 +50,9 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { useManagerStore } from '@/manager/stores/useManagerStore.js'
-  import DevFileItem from './DevFileItem.vue'
-  import { formatFileDate } from '../services/apiServiceUtils.js'
+  import { useManagerStore } from '@/manager/stores/useManagerStore'
+  import ManagerFileItem from './ManagerFileItem.vue'
+  import { formatFileDate } from '@/manager/services/apiServiceUtils'
   import { Folder, ChevronDown, ChevronRight } from 'lucide-vue-next'
 
   const devStore = useManagerStore()

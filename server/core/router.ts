@@ -1,29 +1,13 @@
 // server/core/router.ts
-
-/**
- * 統一されたリクエスト/レスポンス型
- * プラグインとExpressの違いを吸収する
- */
-export interface UnifiedRequest {
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE'
-  action: string
-  params: Record<string, string>
-  body: Record<string, any>
-}
-
-export interface UnifiedResponse {
-  code: number
-  data: any
-}
+import { UnifiedRequest, UnifiedResponse } from '@server/types'
+import * as configHandler from './handlers/configHandler'
+import * as generatorHandler from './handlers/generatorHandler'
+import * as omikujiHandler from './handlers/omikujiHandler'
 
 /**
  * 統合ルーター
  * プラグインとExpressの両方から使用される
  */
-import * as configHandler from './handlers/configHandler'
-import * as generatorHandler from './handlers/generatorHandler'
-import * as omikujiHandler from './handlers/omikujiHandler'
-
 export async function routeRequest(req: UnifiedRequest, isExpress?: boolean): Promise<UnifiedResponse> {
   const { method, action, params, body } = req
 

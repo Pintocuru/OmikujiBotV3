@@ -1,6 +1,7 @@
 // server/adapters/pluginAdapter.ts
 import { PluginRequest, PluginResponse } from '@onecomme.com/onesdk/types/Plugin'
-import { routeRequest, UnifiedRequest } from '../core/router'
+import { UnifiedRequest } from '@server/types'
+import { routeRequest } from '@server/core/router'
 
 /**
  * わんコメプラグイン用のリクエストハンドラー

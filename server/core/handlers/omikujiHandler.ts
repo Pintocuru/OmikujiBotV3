@@ -1,6 +1,6 @@
 // server/core/handlers/omikujiHandler.ts
-import { RouteResult } from '../types'
-import * as fileSystem from '../services/fileSystemService'
+import { RouteResult } from '@server/types'
+import * as fileSystem from '@server/core/services/fileSystemService'
 
 /**
  * おみくじデータを保存

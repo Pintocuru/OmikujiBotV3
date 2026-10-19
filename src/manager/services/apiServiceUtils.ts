@@ -1,5 +1,5 @@
 // src/manager/services/apiServiceUtils.ts
-import { FileItem } from '../types'
+import { FileItem } from '@/manager/types'
 
 /**
  * 日付文字列をフォーマットする
