@@ -2,6 +2,7 @@
 <template>
   <!-- みくじ箱選択 -->
   <SettingItem
+    icon="Package"
     :label="t('eventCore.boxChoiceEditor.omikujiKey.label')"
     :description="t('eventCore.boxChoiceEditor.omikujiKey.description')"
   >

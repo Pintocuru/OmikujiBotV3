@@ -9,6 +9,7 @@
 
   <!-- DaisyUIテーマ -->
   <SettingItem
+    icon="Palette"
     v-if="isDev"
     variant="warning"
     :label="t('appInfoEditor.settings.editor.theme.label')"
@@ -34,6 +35,7 @@
 
   <!-- 言語設定 -->
   <SettingItem
+    icon="Languages"
     :label="t('appInfoEditor.settings.editor.locale.label')"
     :description="t('appInfoEditor.settings.editor.locale.description')"
     :showReset="true"
@@ -52,6 +54,7 @@
 
   <!-- 起動時に開くカテゴリ -->
   <SettingItem
+    icon="LayoutGrid"
     :label="t('appInfoEditor.settings.editor.initialCategory.label')"
     :description="t('appInfoEditor.settings.editor.initialCategory.description')"
     :showReset="true"

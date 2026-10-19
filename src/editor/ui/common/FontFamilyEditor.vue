@@ -7,7 +7,7 @@
   </div>
 
   <!-- フォントファミリー -->
-  <SettingItem layout="vertical" label="フォントファミリー" description="表示に使用するフォント" forceMode="pro">
+  <SettingItem icon="Type" layout="vertical" label="フォントファミリー" description="表示に使用するフォント" forceMode="pro">
     <div class="w-full space-y-3">
       <!-- カテゴリタブ -->
       <div role="tablist" class="tabs tabs-bordered tabs-sm w-full">

@@ -68,6 +68,11 @@ import {
   Pencil,
   Tag,
   Tags,
+  Languages,
+  Link,
+  Globe,
+  Key,
+  Fingerprint,
 } from 'lucide-vue-next'
 
 // map（as const で literal 型を保持）
@@ -137,6 +142,11 @@ export const lucideIconMap = {
   Pencil,
   Tag,
   Tags,
+  Languages,
+  Link,
+  Globe,
+  Key,
+  Fingerprint,
 } as const
 
 // map から union 型を生成

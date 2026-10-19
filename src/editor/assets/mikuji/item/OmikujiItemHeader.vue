@@ -2,7 +2,7 @@
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
     <!-- 運勢の種類 -->
-    <SettingItem layout="vertical" label="運勢の種類" description="識別しやすい名前を入力">
+    <SettingItem icon="Clover" layout="vertical" label="運勢の種類" description="識別しやすい名前を入力">
       <input
         type="text"
         :value="omikujiItem.name"
@@ -14,6 +14,7 @@
 
     <!-- クールダウン -->
     <SettingItem
+      icon="Timer"
       v-if="omikujiItem.kind === 'postFlow'"
       layout="vertical"
       label="クールダウン"

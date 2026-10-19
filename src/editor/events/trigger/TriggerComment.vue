@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerComment.vue -->
 <template>
-  <SettingItem :label="t('triggerComment.label')" :description="t('triggerComment.description')">
+  <SettingItem icon="MessageSquare" :label="t('triggerComment.label')" :description="t('triggerComment.description')">
     <textarea
       v-model="textValue"
       @input="updateModelValue"

@@ -132,6 +132,9 @@ export function evaluateTriggerExpression(expression: string | undefined, contex
       return false
     }
 
+    // TODO:<<userId>> は 必ず userId となり、プレースホルダーが解決されない。
+    console.log(normalized)
+
     const expr = parser.parse(normalized)
 
     const scope: Record<string, string | number> = { ...context }

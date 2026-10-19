@@ -2,7 +2,7 @@
 <template>
   <div class="space-y-3">
     <!-- マージ元ファイル -->
-    <SettingItem label="マージ元ファイル">
+    <SettingItem icon="FileText" label="マージ元ファイル">
       <select
         :value="currentMergeItem.sourceFile"
         @change="handleSourceFileChange"
@@ -19,7 +19,7 @@
     </SettingItem>
 
     <!-- キーサフィックス -->
-    <SettingItem label="複数用のキーサフィックス" description="マージ時に元のキーに付加する接尾辞">
+    <SettingItem icon="Tag" label="複数用のキーサフィックス" description="マージ時に元のキーに付加する接尾辞">
       <input
         type="text"
         :value="currentMergeItem.keySuffix"

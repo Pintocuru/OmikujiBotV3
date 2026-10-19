@@ -17,13 +17,13 @@
         <h3 class="font-bold text-lg text-primary">{{ dialogTitle }}</h3>
 
         <div class="py-4 space-y-4">
-          <SettingItem :label="$t('keyEditor.currentKey')">
+          <SettingItem icon="Key" :label="$t('keyEditor.currentKey')">
             <div class="input input-bordered bg-neutral text-neutral-content select-all">
               {{ dialogKey }}
             </div>
           </SettingItem>
 
-          <SettingItem :label="$t('keyEditor.newKey')" class="form-control">
+          <SettingItem icon="Key" :label="$t('keyEditor.newKey')" class="form-control">
             <input
               v-model="newKey"
               type="text"

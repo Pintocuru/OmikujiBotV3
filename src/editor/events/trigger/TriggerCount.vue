@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerCount.vue -->
 <template>
-  <SettingItem label="おみくじ履歴・チャット数" description="このおみくじ履歴や、チャット数で判定">
+  <SettingItem icon="Hash" label="おみくじ履歴・チャット数" description="このおみくじ履歴や、チャット数で判定">
     <!-- 対象の値 -->
     <div class="flex flex-wrap gap-2 pb-2">
       <span

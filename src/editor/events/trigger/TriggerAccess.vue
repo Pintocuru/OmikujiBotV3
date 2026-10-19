@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerAccess.vue -->
 <template>
-  <SettingItem :label="t('triggerAccess.label')" :description="t('triggerAccess.description')">
+  <SettingItem icon="UserSquare" :label="t('triggerAccess.label')" :description="t('triggerAccess.description')">
     <div class="flex flex-wrap gap-2">
       <label v-for="condition in accessConditions" :key="condition" class="cursor-pointer">
         <input

@@ -8,7 +8,7 @@
 
     <div class="grid grid-cols-2 gap-3">
       <!-- 元キャラキー -->
-      <SettingItem label="元キャラキー">
+      <SettingItem icon="User" label="元キャラキー">
         <select v-model="localRemap.fromCharacterKey" class="select select-sm select-bordered w-full">
           <option value="omiken">omiken</option>
           <option value="omiken2">omiken2</option>
@@ -16,7 +16,7 @@
       </SettingItem>
 
       <!-- 新キャラキー -->
-      <SettingItem label="新キャラキー">
+      <SettingItem icon="UserPlus" label="新キャラキー">
         <select v-model="localRemap.toCharacterKey" class="select select-sm select-bordered w-full">
           <option value="">キャラクターを選択してください</option>
           <option v-for="(char, key) in characters" :key="key" :value="key">
@@ -27,7 +27,7 @@
       </SettingItem>
 
       <!-- 元アイコンキー -->
-      <SettingItem label="元アイコンキー">
+      <SettingItem icon="Image" label="元アイコンキー">
         <select v-model="localRemap.fromIconKey" class="select select-sm select-bordered w-full">
           <option value="">アイコンキーを選択…</option>
           <option v-for="(value, key) in characterEmotionMap" :key="key" :value="key">
@@ -37,7 +37,7 @@
       </SettingItem>
 
       <!-- 新アイコンキー -->
-      <SettingItem label="新アイコンキー">
+      <SettingItem icon="Image" label="新アイコンキー">
         <select v-model="localRemap.toIconKey" class="select select-sm select-bordered w-full">
           <option value="">アイコンキーを選択…</option>
           <option v-for="(value, key) in characterEmotionMap" :key="key" :value="key">

@@ -4,7 +4,7 @@
   <OmikujiItemHeader :omikujiItem="omikujiItem" @update="updateItem" />
 
   <!-- 実行内容 -->
-  <SettingItem v-if="shouldShowKindSelector" label="実行内容" description="このおみくじの処理内容を選択します">
+  <SettingItem icon="Zap" v-if="shouldShowKindSelector" label="実行内容" description="このおみくじの処理内容を選択します">
     <div class="flex flex-wrap gap-2">
       <span
         v-for="(option, key) in omikujiItemKindMap"
@@ -20,6 +20,7 @@
 
   <!-- 制御の種類 (control のみ) -->
   <SettingItem
+    icon="SlidersHorizontal"
     v-if="isControlItem(omikujiItem)"
     label="制御の種類"
     description="処理の流れをどう制御するかを選択します"

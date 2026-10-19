@@ -65,7 +65,7 @@
 
       <div class="space-y-4">
         <!-- イベント名 -->
-        <SettingItem label="イベント名" description="識別しやすい名前">
+        <SettingItem icon="Pencil" label="イベント名" description="識別しやすい名前">
           <input type="text" v-model="merge[selectedIndex].name" @input="update" class="input w-full" />
         </SettingItem>
 

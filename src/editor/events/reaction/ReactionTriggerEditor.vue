@@ -1,7 +1,7 @@
 <!-- src/editor/events/reaction/ReactionTriggerEditor.vue -->
 <template>
   <!-- リアクション選択 -->
-  <SettingItem label="対象リアクション" description="監視するリアクションを選択（複数可）">
+  <SettingItem icon="ThumbsUp" label="対象リアクション" description="監視するリアクションを選択（複数可）">
     <div class="flex flex-wrap gap-2">
       <label v-for="(label, key) in reactionMap.youtube" :key="key" class="cursor-pointer">
         <input type="checkbox" class="hidden" :checked="reactions.includes(key)" @change="toggleReaction(key)" />
@@ -13,7 +13,7 @@
   </SettingItem>
 
   <!-- 条件 -->
-  <SettingItem label="発動条件" description="リアクションの変化条件">
+  <SettingItem icon="Activity" label="発動条件" description="リアクションの変化条件">
     <select class="select select-bordered select-sm w-full" v-model="comparison">
       <option v-for="(v, key) in reactionConditionMap" :key="key" :value="key">
         {{ v.label }}
@@ -27,7 +27,7 @@
   </SettingItem>
 
   <!-- 数値指定 -->
-  <SettingItem label="しきい値" description="条件に使用する値">
+  <SettingItem icon="Sliders" label="しきい値" description="条件に使用する値">
     <input
       type="number"
       min="0"
@@ -38,7 +38,7 @@
   </SettingItem>
 
   <!-- レベルでの発動 -->
-  <SettingItem v-if="comparison !== 'milestone'" label="レベルでの発動" :description="`リアクションが押される量で発動`">
+  <SettingItem icon="Zap" v-if="comparison !== 'milestone'" label="レベルでの発動" :description="`リアクションが押される量で発動`">
     <div class="w-full space-y-2">
       <!-- スライダー -->
       <input

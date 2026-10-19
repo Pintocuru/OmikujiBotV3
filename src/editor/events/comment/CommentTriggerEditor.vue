@@ -12,7 +12,7 @@
   </InformationCard>
 
   <!-- 適用する発動条件 -->
-  <SettingItem :label="t('commentTrigger.setting.label')" :description="t('commentTrigger.setting.description')">
+  <SettingItem icon="Filter" :label="t('commentTrigger.setting.label')" :description="t('commentTrigger.setting.description')">
     <div class="flex flex-wrap gap-2">
       <label v-for="condition in commentTriggerCondition" :key="condition" class="cursor-pointer">
         <input

@@ -9,6 +9,7 @@
 
   <!-- コメント購読タイプ -->
   <SettingItem
+    icon="MessageSquare"
     v-if="isDev"
     variant="warning"
     :label="t('appInfoEditor.settings.generator.commentType.label')"
@@ -27,6 +28,7 @@
 
   <!-- 基本ディレイ時間設定 -->
   <SettingItem
+    icon="Timer"
     :label="t('appInfoEditor.settings.generator.basicDelaySeconds.label')"
     :description="t('appInfoEditor.settings.generator.basicDelaySeconds.description')"
     :showReset="true"
@@ -51,6 +53,7 @@
 
   <!-- 効果音を鳴らす -->
   <SettingItem
+    icon="Volume2"
     :label="t('appInfoEditor.settings.generator.soundEnabled.label')"
     :description="t('appInfoEditor.settings.generator.soundEnabled.description')"
     :showReset="true"

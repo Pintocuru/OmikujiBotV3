@@ -1,7 +1,7 @@
 <!-- src/editor/assets/characters/service/CommentVoiceSettings.vue -->
 <template>
   <!-- mode  -->
-  <SettingItem label="BOTコメント表現方法" description="BOTの文章を表現する方法を指定します">
+  <SettingItem icon="Megaphone" label="BOTコメント表現方法" description="BOTの文章を表現する方法を指定します">
     <select
       v-model="currentDisplayOption.mode"
       @change="updateDisplayField('mode', ($event.target as HTMLSelectElement).value)"
@@ -31,7 +31,7 @@
     </InformationCard>
 
     <!-- わんコメの枠を指定 -->
-    <SettingItem label="枠のID名" description="空白なら、わんコメの一番上の枠を使用します">
+    <SettingItem icon="Hash" label="枠のID名" description="空白なら、わんコメの一番上の枠を使用します">
       <input type="text" class="input w-full" v-model="currentDisplayOption.frameId" />
     </SettingItem>
 

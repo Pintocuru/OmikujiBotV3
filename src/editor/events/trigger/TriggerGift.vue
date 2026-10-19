@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerGift.vue -->
 <template>
-  <SettingItem :label="t('triggerGift.label')" :description="t('triggerGift.description')">
+  <SettingItem icon="Gift" :label="t('triggerGift.label')" :description="t('triggerGift.description')">
     <div class="flex flex-wrap gap-2">
       <label v-for="condition in giftConditions" :key="condition" class="cursor-pointer">
         <input

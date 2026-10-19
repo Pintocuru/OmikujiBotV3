@@ -2,6 +2,7 @@
 <template>
   <!-- Base64画像設定エリア -->
   <SettingItem
+    icon="Image"
     label="わんコメ表示用画像"
     :description="`${imageSize}×${imageSize}にリサイズし、Base64として保存されます`"
     containerClass="form-control flex-row items-center gap-2 mt-2"

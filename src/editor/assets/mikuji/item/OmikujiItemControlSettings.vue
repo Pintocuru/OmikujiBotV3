@@ -1,7 +1,7 @@
 <!-- src/editor/assets/mikuji/item/OmikujiItemControlSettings.vue -->
 <template>
   <!-- 評価ブロック {{ }} -->
-  <SettingItem label="評価ブロック" description="この制御を実行するときに評価されます">
+  <SettingItem icon="ListChecks" label="評価ブロック" description="この制御を実行するときに評価されます">
     <MessageTextDialog :modelValue="item.variable" :isCommentMode="true" @update:modelValue="updateVariable" />
   </SettingItem>
 </template>

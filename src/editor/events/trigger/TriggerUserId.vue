@@ -1,6 +1,7 @@
 <!-- src/editor/events/trigger/TriggerUserId.vue -->
 <template>
   <SettingItem
+    icon="Fingerprint"
     label="適用するユーザーID"
     description="ユーザーIDを指定します。改行で複数指定できます。先頭に!をつけるとネガティブ（除外）になります"
   >

@@ -1,6 +1,6 @@
 <!-- src/editor/events/service/ServiceTriggerCondition.vue -->
 <template>
-  <SettingItem :label="label" :description="description">
+  <SettingItem :icon="icon" :label="label" :description="description">
     <!-- 比較方法 -->
     <div class="flex flex-wrap gap-2 pb-2">
       <select
@@ -40,12 +40,14 @@
   import { ServiceConditionType } from '@/types/OmikujiData'
   import { serviceConditionMap, serviceSimpleComparisonConditionMap } from '@/maps/OmikujiData'
   import type { DisplayMeta } from '@/editor/types/DisplayMeta'
+  import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
   const props = defineProps<{
     modelValue?: ServiceConditionType
     label: string
     description: string
     hasPeak: boolean
+    icon?: LucideIconName
   }>()
 
   const emit = defineEmits<{

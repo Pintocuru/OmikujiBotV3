@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerService.vue -->
 <template>
-  <SettingItem label="サービス・配信サイト" description="特定の配信サイトからのコメントのみに絞り込めます">
+  <SettingItem icon="Globe" label="サービス・配信サイト" description="特定の配信サイトからのコメントのみに絞り込めます">
     <div class="space-y-3">
       <!-- 主要な選択肢 -->
       <div class="flex flex-wrap gap-2">

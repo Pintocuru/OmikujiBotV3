@@ -1,7 +1,7 @@
 <!-- src/editor/events/timer/TimerIntervalEditor.vue -->
 <template>
   <!-- isBaseZero トグル -->
-  <SettingItem label="モード" description="タイマーを「起動時のみ」か「一定間隔で継続実行」かを選びます">
+  <SettingItem icon="ToggleRight" label="モード" description="タイマーを「起動時のみ」か「一定間隔で継続実行」かを選びます">
     <div class="flex gap-2">
       <!-- 起動時のみ実行 -->
       <div
@@ -25,7 +25,7 @@
 
   <template v-if="mode === 'interval'">
     <!-- プリセット選択 -->
-    <SettingItem label="実行間隔(30秒～1時間)" description="設定した間隔で自動的におみくじが実行されます">
+    <SettingItem icon="Timer" label="実行間隔(30秒～1時間)" description="設定した間隔で自動的におみくじが実行されます">
       <select v-model="intervalSeconds" class="select select-bordered w-full">
         <option v-for="preset in intervalPresets" :key="preset.value" :value="preset.value">
           {{ preset.label }}
@@ -34,7 +34,7 @@
     </SettingItem>
 
     <!-- isBaseZero トグル -->
-    <SettingItem label="基準時刻を0分0秒に固定" description="時報などで使えます">
+    <SettingItem icon="Clock" label="基準時刻を0分0秒に固定" description="時報などで使えます">
       <label class="label cursor-pointer justify-start gap-4">
         <input type="checkbox" class="toggle toggle-primary" v-model="isBaseZero" />
         <span class="label-text">{{ isBaseZero ? '有効（基準時刻を固定）' : '無効（起動時からカウント）' }}</span>

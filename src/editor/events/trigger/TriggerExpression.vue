@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerExpression.vue -->
 <template>
-  <SettingItem :label="t('triggerExpression.label')" :description="t('triggerExpression.description')">
+  <SettingItem icon="Brackets" :label="t('triggerExpression.label')" :description="t('triggerExpression.description')">
     <textarea
       v-model="text"
       :placeholder="exampleLc"

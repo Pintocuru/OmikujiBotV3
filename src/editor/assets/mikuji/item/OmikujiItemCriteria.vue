@@ -12,6 +12,7 @@
 
   <!-- 条件タイプ選択 -->
   <SettingItem
+    icon="Filter"
     label="適用する発動条件"
     description="トリガーの種類を選択"
     :variant="activeConditions.size === 0 ? 'warning' : undefined"

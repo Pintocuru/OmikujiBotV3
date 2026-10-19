@@ -1,7 +1,7 @@
 <!-- src/editor/events/service/ServiceTrigger.vue -->
 <template>
   <!-- 条件タイプ選択（単一選択） -->
-  <SettingItem label="適用する発動条件" description="監視するメタデータを選択">
+  <SettingItem icon="Filter" label="適用する発動条件" description="監視するメタデータを選択">
     <div class="flex flex-wrap gap-2">
       <label v-for="(value, key) in serviceTriggerConditionMap" :key="key" class="cursor-pointer">
         <input type="radio" class="hidden" :checked="selectedCondition === key" @change="setCondition(key)" />
@@ -18,6 +18,7 @@
     v-model="upVote"
     label="高評価数"
     description="高評価の変化を監視"
+    icon="ThumbsUp"
     :has-peak="true"
   />
 
@@ -25,6 +26,7 @@
   <TriggerMetaCondition
     v-if="selectedCondition === 'viewer'"
     v-model="viewer"
+    icon="Users"
     label="視聴者数"
     description="視聴者数の変化を監視"
     :has-peak="true"
@@ -42,6 +44,7 @@
 
   <!-- 配信経過時間条件 -->
   <SettingItem
+    icon="Clock"
     v-if="selectedCondition === 'elapsedMinutes'"
     label="配信経過時間"
     description="配信開始からの経過時間（分）を指定"

@@ -18,6 +18,7 @@
 
   <!-- 有効・無効の切り替えボタン -->
   <SettingItem
+    icon="ToggleRight"
     v-if="isIsEnabled"
     :label="t('baseSettings.isEnabled.label')"
     :description="t('baseSettings.isEnabled.description')"
