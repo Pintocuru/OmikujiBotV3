@@ -11,7 +11,7 @@
       :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
-      <BaseSettingsEditor v-model="selectedItem" category="placeholders" :isIsEnabled="false" />
+      <BaseSettingsEditor v-model="selectedItem" category="characters" :isIsEnabled="false" />
     </SectionCard>
 
     <!-- フキダシカラー設定 -->

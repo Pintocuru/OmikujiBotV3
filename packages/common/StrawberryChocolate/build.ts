@@ -28,7 +28,10 @@ const PROJECT = {
 } satisfies ProjectParams
 
 // バリエーション定義
-const COLOR_VARIANTS = ['', 'Pro'] as const
+const COLOR_VARIANTS = [
+  '',
+  // 'Pro'
+] as const
 
 // ビルドターゲット
 const buildTargets: PackageBuildTarget[] = [
