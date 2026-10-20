@@ -10,8 +10,8 @@ export const rankingComponentMap = {
   standard: {
     label: 'スタンダード',
   },
-  rankStandard: {
-    label: 'スタンダード（スコア付き）',
+  suikaGame: {
+    label: 'スイカゲーム風ランキング',
   },
 } as const
 const rankingComponentsEnum = Object.keys(rankingComponentMap) as RankingComponent[]
@@ -28,7 +28,7 @@ export type RankingSortOrder = keyof typeof rankingSortOrderMap
 
 // ゲームランキングのスキーマ
 export const GameRankingSchema = z.object({
-  component: z.enum(rankingComponentsEnum).default('rankStandard').catch('rankStandard'),
+  component: z.enum(rankingComponentsEnum).default('standard').catch('standard'),
   color: normalizedObject(CharacterColorScheme),
   limit: z.number().min(1).max(20).default(5).catch(5),
   sortOrder: z.enum(rankingSortOrder).default('new').catch('new'),

@@ -7,7 +7,7 @@
   import { computed } from 'vue'
   import { RankingComponent, GameRankingType } from '@/ui/types'
   import { BotMessageExtraType } from '@/generator/types'
-  import rankStandard from './layouts/RankStandard.vue'
+  import suikaGame from './layouts/SuikaGame.vue'
   import standard from './layouts/Standard.vue'
 
   const props = defineProps<{
@@ -16,12 +16,12 @@
   }>()
 
   const componentMap: Record<RankingComponent, any> = {
-    rankStandard,
+    suikaGame,
     standard,
   }
 
   const currentComponent = computed(() => {
-    const component = props.settings.component || 'rankStandard'
-    return componentMap[component] || rankStandard
+    const component = props.settings.component || 'suikaGame'
+    return componentMap[component] || suikaGame
   })
 </script>
