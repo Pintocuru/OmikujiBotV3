@@ -41,7 +41,8 @@ const buildTargets: PackageBuildTarget[] = [
 
 // プロジェクト一覧
 function getProjects(packageRoot: string): ProjectPackageConfig[] {
-  return COLOR_VARIANTS.map((color) => createPackageProject(packageRoot, color, PROJECT))
+  // 無料版(色なし)は generator のみ、有料版(Pro)は generator + editor を同梱する
+  return COLOR_VARIANTS.map((color) => createPackageProject(packageRoot, color, PROJECT, { withEditor: color === 'Pro' }))
 }
 
 export default { getProjects, buildTargets }

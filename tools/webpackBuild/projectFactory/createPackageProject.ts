@@ -14,8 +14,14 @@ import { findJsonPath } from './findJsonPath'
  * @param packageRoot パッケージのルートディレクトリ
  * @param color       カラーバリアント識別子（空文字の場合はデフォルト扱い）
  * @param params      プロジェクト固有パラメータ
+ * @param options     withEditor: true なら editor.ts も webpack でビルドして同梱する (有料版)
  */
-export function createPackageProject(packageRoot: string, color: string, params: ProjectParams): ProjectPackageConfig {
+export function createPackageProject(
+  packageRoot: string,
+  color: string,
+  params: ProjectParams,
+  options: { withEditor?: boolean } = {}
+): ProjectPackageConfig {
   const id = `${params.key}${color}`
   const colorLabel = color ? `${color} ` : ''
   const series = params.series ? params.series : params.key
@@ -32,7 +38,11 @@ export function createPackageProject(packageRoot: string, color: string, params:
     licenseLabel: params.licenseLabel,
 
     // webpack のアクセスポイント: packages/<category>/<key>/main.ts (色違いは同じ main.ts を使う)
-    entryPoints: { main: resolvePackageEntry(packageRoot, params) },
+    // 有料版は editor.ts も追加する (ジェネレーターとエディターは別の entry = 別ページで読み込む)
+    entryPoints: {
+      main: resolvePackageEntry(packageRoot, params, 'main.ts'),
+      ...(options.withEditor ? { editor: resolvePackageEntry(packageRoot, params, 'editor.ts') } : {}),
+    },
     addHtmlTemplate: HTML_SCRIPT_TAGS,
 
     template: {
@@ -54,11 +64,11 @@ export function createPackageProject(packageRoot: string, color: string, params:
   }
 }
 
-/** パッケージの main.ts の絶対パスを解決する (無ければ早めに失敗させる) */
-function resolvePackageEntry(packageRoot: string, params: ProjectParams): string {
-  const entry = path.resolve(packageRoot, 'packages', params.category, params.key, 'main.ts')
+/** パッケージの entry ファイル (main.ts / editor.ts) の絶対パスを解決する (無ければ早めに失敗させる) */
+function resolvePackageEntry(packageRoot: string, params: ProjectParams, fileName: string): string {
+  const entry = path.resolve(packageRoot, 'packages', params.category, params.key, fileName)
   if (!fs.existsSync(entry)) {
-    throw new Error(`[Package] main.ts が見つかりません: ${entry}`)
+    throw new Error(`[Package] ${fileName} が見つかりません: ${entry}`)
   }
   return entry
 }

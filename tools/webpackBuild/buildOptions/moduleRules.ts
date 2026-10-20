@@ -19,10 +19,15 @@ export function createModuleRules(): webpack.RuleSetRule[] {
       loader: 'ts-loader',
       options: { transpileOnly: true },
     },
-    // CSS (Tailwind CSS & DaisyUI)
+    // CSS (Tailwind CSS v4 & DaisyUI)
+    // 開発(Vite)は @tailwindcss/vite を使うが、webpack には無いので PostCSS 経由で Tailwind を通す
     {
       test: /\.css$/,
-      use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        { loader: 'postcss-loader', options: { postcssOptions: { plugins: ['@tailwindcss/postcss'] } } },
+      ],
     },
   ]
 }

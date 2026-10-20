@@ -57,5 +57,10 @@ export async function runVite(config: WebpackBuildInput, outputSubDir: string): 
     .replace('</body>', `  <script src="./scripts/${name}.js" defer></script>\n  </body>`)
   fs.writeFileSync(path.join(outDir, 'index.html'), html, 'utf-8')
 
+  // 配布用ローダー (script.js) が読む entry 一覧。webpack の EntrypointsManifestPlugin と同じ形式
+  // (Vite は分割しないので、js / css それぞれ 1 ファイルだけ)
+  const manifest = { [name]: { css: [`scripts/${name}.css`], js: [`scripts/${name}.js`] } }
+  fs.writeFileSync(path.join(outDir, 'scripts', 'entrypoints.js'), `window.OmikujiEntrypoints=${JSON.stringify(manifest)};`, 'utf-8')
+
   console.log('[Build] Vite completed successfully')
 }

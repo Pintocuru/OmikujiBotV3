@@ -1,5 +1,5 @@
 // script.js - index.html / editor.html 共通ローダー
-// 配布版：./scripts/ 固定・localhostフォールバックなし
+// 配布版：localhostフォールバックなし
 
 window.OmikujiLoader = {
   loadScript(src) {
@@ -68,9 +68,18 @@ window.OmikujiLoader = {
     })
   },
 
-  async run({ cssFiles, jsFiles, mountFn, requireOneComme = false }) {
-    // ./scripts/ 固定。BASESループなし
-    const BASE = './scripts/'
+  // entry が読み込むべきファイル一覧を取得する (webpack が scripts/entrypoints.js に書き出す)
+  async getEntryFiles(entry) {
+    await this.loadScript('./scripts/entrypoints.js')
+    const files = window.OmikujiEntrypoints && window.OmikujiEntrypoints[entry]
+    if (!files) throw new Error(`entry が見つかりません: ${entry}`)
+    return files
+  },
+
+  // entry: 'main'(ジェネレーター) / 'editor'(エディター)
+  async run({ entry, mountFn, requireOneComme = false }) {
+    // 配布フォルダ直下が基準。ファイル名は entrypoints.js の一覧 (scripts/xxx) をそのまま使う
+    const BASE = './'
 
     try {
       await this._waitForVue()
@@ -106,14 +115,15 @@ window.OmikujiLoader = {
     }
 
     try {
-      await this.loadFrom(BASE, cssFiles, jsFiles)
+      const files = await this.getEntryFiles(entry)
+      await this.loadFrom(BASE, files.css, files.js)
     } catch (e) {
       this.showLoadError(e.message)
       return
     }
 
     window.OmikujiBot = window.OmikujiBot || {}
-    window.OmikujiBot.assetBase = BASE.replace(/scripts\/$/, '')
+    window.OmikujiBot.assetBase = BASE
 
     try {
       mountFn()

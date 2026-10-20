@@ -16,14 +16,13 @@
       // DOMContentLoaded で実行。defer との競合なし
       document.addEventListener('DOMContentLoaded', function () {
         OmikujiLoader.run({
-          cssFiles: ['common.css', 'ConfigMaker.css'],
-          jsFiles: ['common.js', 'vendors.js', 'ConfigMaker.js'],
+          entry: 'editor',
           requireOneComme: false,
           mountFn() {
-            if (window.OmikujiBot?.mountConfigMaker) {
-              window.OmikujiBot.mountConfigMaker()
+            if (window.OmikujiBot?.mountEditor) {
+              window.OmikujiBot.mountEditor()
             } else {
-              console.error('mountConfigMaker が見つかりません')
+              console.error('mountEditor が見つかりません')
             }
           },
         })

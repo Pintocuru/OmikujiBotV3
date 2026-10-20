@@ -21,14 +21,13 @@
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         OmikujiLoader.run({
-          cssFiles: ['common.css'],
-          jsFiles: ['common.js', 'vendors.js', 'MainGenerator.js'],
+          entry: 'main',
           requireOneComme: true,
           mountFn() {
-            if (window.OmikujiBot?.mountMainGenerator) {
-              window.OmikujiBot.mountMainGenerator()
+            if (window.OmikujiBot?.mountGenerator) {
+              window.OmikujiBot.mountGenerator()
             } else {
-              console.error('mountMainGenerator が見つかりません')
+              console.error('mountGenerator が見つかりません')
             }
           },
         })

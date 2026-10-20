@@ -25,7 +25,36 @@ export function createPlugins(config: WebpackBuildInput): webpack.WebpackPluginI
     ...createHtmlPlugins(entryPoints, addHtmlTemplate),
     createTypeScriptPlugin(),
     createCircularDependencyPlugin(),
+    new EntrypointsManifestPlugin(),
   ]
+}
+
+/**
+ * 各 entry が読み込むべきファイル (vendors などの分割チャンクを含む、読み込み順) を
+ * scripts/entrypoints.js に書き出す。
+ * index.html / editor.html のローダー(script.js)がこれを読むので、
+ * チャンクの分け方が変わっても HTML 側にファイル名を手書きする必要がない。
+ */
+class EntrypointsManifestPlugin {
+  apply(compiler: webpack.Compiler) {
+    const name = 'EntrypointsManifestPlugin'
+    compiler.hooks.thisCompilation.tap(name, (compilation) => {
+      compilation.hooks.processAssets.tap({ name, stage: webpack.Compilation.PROCESS_ASSETS_STAGE_REPORT }, () => {
+        const manifest: Record<string, { css: string[]; js: string[] }> = {}
+        for (const [entryName, entrypoint] of compilation.entrypoints) {
+          const files = entrypoint.getFiles()
+          manifest[entryName] = {
+            css: files.filter((f) => f.endsWith('.css')),
+            js: files.filter((f) => f.endsWith('.js')),
+          }
+        }
+        compilation.emitAsset(
+          'scripts/entrypoints.js',
+          new webpack.sources.RawSource(`window.OmikujiEntrypoints=${JSON.stringify(manifest)};`)
+        )
+      })
+    })
+  }
 }
 
 /**

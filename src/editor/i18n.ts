@@ -1,5 +1,6 @@
 // src/editor/i18n.ts
 import { createI18n } from 'vue-i18n'
+import { messageModules } from '@/editor/maps/messageModules'
 
 // 対応ロケール。maps 配下の export のうち、これらをキーに持つオブジェクトだけをメッセージとして扱う
 // （categorySectionMap や colorFields など、メッセージではない export を誤って取り込まないため）
@@ -7,8 +8,8 @@ const LOCALES = ['ja', 'en'] as const
 
 type Messages = Record<string, any>
 
-// 1. src/editor/maps/ 以下の `.ts` ファイルをすべて自動インポートする
-const modules = import.meta.glob<Record<string, unknown>>('@/editor/maps/**/*.ts', { eager: true })
+// 1. src/editor/maps/ 以下の翻訳ファイル (messageModules.ts に列挙)
+const modules = messageModules
 
 const isPlainObject = (v: unknown): v is Messages => typeof v === 'object' && v !== null && !Array.isArray(v)
 
@@ -22,7 +23,7 @@ const deepMerge = (target: Messages, source: Messages): Messages => {
     } else if (isPlainObject(src)) {
       target[key] = deepMerge({}, src)
     } else {
-      if (import.meta.env.DEV && key in target && target[key] !== src) {
+      if (process.env.NODE_ENV !== 'production' && key in target && target[key] !== src) {
         console.warn(`[i18n] メッセージキーが重複しています: ${key}`)
       }
       target[key] = src

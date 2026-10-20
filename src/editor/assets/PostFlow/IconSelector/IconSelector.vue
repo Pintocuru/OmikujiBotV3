@@ -33,7 +33,7 @@
   import { ref, computed, Ref } from 'vue'
   import IconSelectorModal from './IconSelectorModal.vue'
   import { User } from 'lucide-vue-next'
-  import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup.js'
+  import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
 
   const { t } = useI18n()
 

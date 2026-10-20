@@ -1,6 +1,5 @@
 // src/common/EntryCore/editorCore.ts
-// ConfigMaker用：OneSDKへの依存ゼロ。
-// i18n (Vite 専用の import.meta.glob を使う) を含むため、配布パッケージ(webpack)の entry からは import しないこと
+// エディター用：OneSDKへの依存ゼロ。i18n を含む (Vite / webpack の両方で動く)
 import i18n from '@/editor/i18n'
 import { createBaseApp } from './core'
 
