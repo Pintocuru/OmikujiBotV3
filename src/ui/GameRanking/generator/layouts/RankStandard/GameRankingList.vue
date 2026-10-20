@@ -1,11 +1,7 @@
-<!-- src/MainGenerator/ui/GameRanking/layouts/RankStandard/GameRankingList.vue -->
+<!-- src/ui/GameRanking/generator/layouts/RankStandard/GameRankingList.vue -->
 <template>
-  <div v-if="settings" class="card shadow-xl">
+  <div v-if="settings" data-theme="dark" class="card shadow-xl">
     <div class="card-body p-2">
-      <h2 class="card-title text-xl font-bold text-center w-full justify-center">
-        {{ settings.title }}
-      </h2>
-
       <div class="space-y-1">
         <div
           v-for="(msg, index) in displayMessages"

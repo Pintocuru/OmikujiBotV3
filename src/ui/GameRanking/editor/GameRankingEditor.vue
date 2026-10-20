@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/UiEditor/GameRanking/GameRankingEditor.vue -->
+<!-- src/ui/GameRanking/editor/GameRankingEditor.vue -->
 <template>
   <!-- ランキングプレビュー -->
   <HudPreview :isAdminOnly="true">
@@ -16,37 +16,17 @@
 
   <!-- キャラクター -->
   <SettingItem
-    label="キャラクター・カラー"
+    label="カラー設定"
     description="表示するカラーを設定します"
     :showReset="true"
-    @reset="resetField('characterKey')"
+    @reset="resetField('color')"
   >
-    <CharacterPicker
-      :modelValue="ranking.characterKey"
-      allowEmpty
-      emptyLabel="なし"
-      @update:modelValue="(key) => update('characterKey', key)"
-    />
-  </SettingItem>
-
-  <!-- タイトル -->
-  <SettingItem
-    label="ランキングタイトル"
-    description="ランキングのタイトルを設定します"
-    :showReset="true"
-    @reset="resetField('title')"
-  >
-    <input
-      type="text"
-      class="input input-bordered w-full"
-      :value="ranking.title"
-      @input="(e) => update('title', (e.target as HTMLInputElement).value)"
-    />
+    <ColorPicker :modelValue="ranking.color" @update:modelValue="(val) => update('color', val)" />
   </SettingItem>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- 順位のソート -->
-    <SettingItem label="順位のソート" description="得点の高い順・低い順・新しい順から選べます">
+    <SettingItem label="順位のソート" description="得点の高い順・低い順・新しい順から選べます" layout="vertical">
       <div class="flex flex-wrap gap-2">
         <div
           v-for="(order, key) in rankingSortOrderMap"
@@ -64,7 +44,7 @@
     <SettingItem
       label="表示件数"
       description="ランキングに表示する件数を設定します(最大20)"
-      :forceMode="'pro'"
+      layout="vertical"
       :showReset="true"
       @reset="resetField('limit')"
     >
@@ -90,9 +70,12 @@
     rankingComponentMap,
     rankingSortOrderMap,
   } from '@/ui/types/GameRankingSchema'
-  import CharacterPicker from '@/editor/parts/CharacterPicker.vue'
   import { GameRankingSchema } from '@/ui/types/GameRankingSchema'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
+  import HudPreview from '@/editor/parts/HudPreview.vue'
+  import GameRankingSelector from '@/ui/GameRanking/generator/parts/GameRankingSelector.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+  import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)

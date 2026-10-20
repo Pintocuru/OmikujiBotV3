@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/GameRanking/GameRanking.vue -->
+<!-- src/ui/GameRanking/generator/GameRanking.vue -->
 <template>
   <GameRankingSelector :botMessageExtras="targetRankingMessages" :settings="rankingSettings" />
 </template>
@@ -9,7 +9,7 @@
   import { storeToRefs } from 'pinia'
   import { BotMessageExtraType } from '@/generator/types'
   import { useAppStore } from '@/generator/stores/useAppStore'
-  import GameRankingSelector from './generator/parts/GameRankingSelector.vue'
+  import GameRankingSelector from '@/ui/GameRanking/generator/parts/GameRankingSelector.vue'
 
   const appStore = useAppStore()
   const { botMessages } = storeToRefs(appStore)

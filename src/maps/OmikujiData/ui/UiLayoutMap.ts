@@ -10,4 +10,9 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, { label: string; des
     description: 'シンプルなフキダシでおみくじ結果を表示します。',
     kinds: ['commentBubble'],
   },
+  gameRanking: {
+    label: 'ゲームランキング',
+    description: 'スイカゲーム等の結果をランキングボード形式で表示します。',
+    kinds: ['gameRanking'],
+  },
 }

@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/UiEditor/CommonStyle/DisplayStyleSelector.vue -->
+<!-- src/ui/common/DisplayStyleSelector.vue -->
 <template>
   <SettingItem v-if="Object.keys(options).length > 1" label="表示スタイル" description="表示形式を選択">
     <div class="flex flex-wrap gap-2">
@@ -16,6 +16,8 @@
 </template>
 
 <script setup lang="ts">
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+
   type BaseComponentConfig = {
     label: string
   }

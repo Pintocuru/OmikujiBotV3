@@ -6,7 +6,7 @@ import { GameRankingSchema } from '@/ui/types/GameRankingSchema'
 /**
  * uiKinds UI種別の定義マップ
  */
-export const uiKinds = ['commentBubble'] as const
+export const uiKinds = ['commentBubble', 'gameRanking'] as const
 
 // 型の導出
 export const UiKindSchema = z.enum(uiKinds)

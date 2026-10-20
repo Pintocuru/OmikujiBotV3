@@ -7,16 +7,19 @@ export const registerAll = () => {
   // UIの登録
   registerUi({
     commentBubble: () => import('@/ui/CommentBubble/generator/CommentBubble.vue'),
+    gameRanking: () => import('@/ui/GameRanking/generator/GameRanking.vue'),
   })
 
   // エディターの登録
   registerUiEditor({
     commentBubble: () => import('@/ui/CommentBubble/editor/CommentBubbleEditor.vue'),
+    gameRanking: () => import('@/ui/GameRanking/editor/GameRankingEditor.vue'),
   })
 
   // レイアウトの登録
   registerLayout({
     commentBubble: () => import('@/layout/CommentBubble/CommentBubble.vue'),
+    gameRanking: () => import('@/layout/GameRanking/GameRanking.vue'),
   })
 
   // gameScriptの登録
