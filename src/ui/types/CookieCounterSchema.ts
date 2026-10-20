@@ -1,4 +1,4 @@
-// src/types/OmikujiData/UiSettings/CookieCounterSchema.ts
+// src/ui/types/CookieCounterSchema.ts
 import { z } from 'zod'
 import { DaisyUiThemeFieldsSchema } from '@shared/styles/DaisyUiTheme'
 import { normalizedObject } from '../ParsedDefault'

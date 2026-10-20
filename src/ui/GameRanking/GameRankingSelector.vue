@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/generator/parts/GameRankingSelector.vue -->
+<!-- src/ui/GameRanking/GameRankingSelector.vue -->
 <template>
   <div class="relative" :class="useFontFamily(fontFamily)">
     <component :is="currentComponent" :botMessageExtra="botMessageExtras" :settings="settings" />

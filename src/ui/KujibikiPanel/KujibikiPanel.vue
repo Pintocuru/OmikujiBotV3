@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/KujibikiPanel/KujibikiPanel.vue -->
+<!-- src/ui/KujibikiPanel/KujibikiPanel.vue -->
 <template>
   <KujibikiPanelSelector :settings="settings" :messages="activeMessages" />
 </template>

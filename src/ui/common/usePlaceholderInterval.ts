@@ -1,4 +1,4 @@
-// src/MainGenerator/ui/common/usePlaceholderInterval.ts
+// src/ui/common/usePlaceholderInterval.ts
 import { ContentPlaceholder } from '@/engine/ContentPlaceholder/processor'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { DefaultPlaceholdersMetaSchema } from '@/types/engine'

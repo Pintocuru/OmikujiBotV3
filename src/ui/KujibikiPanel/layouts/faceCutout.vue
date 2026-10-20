@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/KujibikiPanel/layouts/faceCutout.vue -->
+<!-- src/ui/KujibikiPanel/layouts/faceCutout.vue -->
 <template>
   <div class="relative flex items-center justify-center">
     <!-- フレーム画像 -->

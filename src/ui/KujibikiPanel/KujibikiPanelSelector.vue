@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/KujibikiPanel/parts/KujibikiPanelSelector.vue -->
+<!-- src/ui/KujibikiPanel/KujibikiPanelSelector.vue -->
 <template>
   <MotionWrapper v-if="hasMessage" :key="currentKey" :visible="true" :motion="settings.animation" class="w-full">
     <component

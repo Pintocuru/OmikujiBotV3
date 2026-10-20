@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/generator/GameRanking.vue -->
+<!-- src/ui/GameRanking/GameRanking.vue -->
 <template>
   <GameRankingSelector
     :botMessageExtras="targetRankingMessages"

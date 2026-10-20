@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/StreamCounter/StreamCounter.vue -->
+<!-- src/ui/StreamCounter/StreamCounter.vue -->
 <template>
   <StreamCounterSelector
     :settings="liverSettings"

@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/UiEditor/KujibikiPanel/KujibikiPanelPreview.vue -->
+<!-- src/ui/KujibikiPanel/editor/KujibikiPanelPreview.vue -->
 <template>
   <HudPreview maxHeightClass="h-[440px]">
     <KujibikiPanelSelector :settings="settings" :messages="activeMessages" />

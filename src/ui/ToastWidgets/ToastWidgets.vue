@@ -1,4 +1,4 @@
-<!-- src/MainGenerator/ui/ToastWidgets/ToastWidgets.vue -->
+<!-- src/ui/ToastWidgets/ToastWidgets.vue -->
 <template>
   <!-- トースト表示 -->
   <ViewBotToast />

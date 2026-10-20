@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/generator/layouts/RankStandard/GameRankingList.vue -->
+<!-- src/ui/GameRanking/layouts/RankStandard/GameRankingList.vue -->
 <template>
   <div v-if="settings" class="rank-card flex flex-col rounded-2xl shadow-xl" :style="rootStyle">
     <div class="flex flex-col p-2">

@@ -1,4 +1,4 @@
-// src/ConfigMaker/UiEditor/StreamCounter/usePreviewCounters.ts
+// src/ui/StreamCounter/editor/usePreviewCounters.ts
 import { ref, computed } from 'vue'
 
 export const baseCounters: Record<string, number> = {

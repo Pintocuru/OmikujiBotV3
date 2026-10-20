@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/UiEditor/KujibikiPanel/KujibikiPanelEditor.vue -->
+<!-- src/ui/KujibikiPanel/editor/KujibikiPanelEditor.vue -->
 <template>
   <!-- プレビュー -->
   <KujibikiPanelPreview :settings="kujibikiPanel" />

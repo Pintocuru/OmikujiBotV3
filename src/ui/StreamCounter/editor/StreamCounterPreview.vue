@@ -1,4 +1,4 @@
-<!-- src/ConfigMaker/UiEditor/StreamCounter/StreamCounterPreview.vue -->
+<!-- src/ui/StreamCounter/editor/StreamCounterPreview.vue -->
 <template>
   <HudPreview maxHeightClass="h-42">
     <div :class="[fontFamily]">
