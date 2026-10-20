@@ -73,7 +73,7 @@
   import { GameRankingSchema } from '@/ui/types/GameRankingSchema'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
-  import GameRankingSelector from '@/ui/GameRanking/generator/parts/GameRankingSelector.vue'
+  import GameRankingSelector from '@/ui/GameRanking/GameRankingSelector.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
 

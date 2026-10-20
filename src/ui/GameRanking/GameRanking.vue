@@ -9,7 +9,7 @@
   import { storeToRefs } from 'pinia'
   import { BotMessageExtraType } from '@/generator/types'
   import { useAppStore } from '@/generator/stores/useAppStore'
-  import GameRankingSelector from '@/ui/GameRanking/generator/parts/GameRankingSelector.vue'
+  import GameRankingSelector from './GameRankingSelector.vue'
 
   const appStore = useAppStore()
   const { botMessages } = storeToRefs(appStore)

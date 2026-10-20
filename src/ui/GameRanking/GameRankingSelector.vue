@@ -7,8 +7,8 @@
   import { computed } from 'vue'
   import { RankingComponent, GameRankingType } from '@/ui/types'
   import { BotMessageExtraType } from '@/generator/types'
-  import rankStandard from '../layouts/RankStandard.vue'
-  import standard from '../layouts/Standard.vue'
+  import rankStandard from './layouts/RankStandard.vue'
+  import standard from './layouts/Standard.vue'
 
   const props = defineProps<{
     botMessageExtras: BotMessageExtraType[]

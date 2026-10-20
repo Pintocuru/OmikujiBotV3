@@ -7,7 +7,7 @@ export const registerAll = () => {
   // UIの登録
   registerUi({
     commentBubble: () => import('@/ui/CommentBubble/generator/CommentBubble.vue'),
-    gameRanking: () => import('@/ui/GameRanking/generator/GameRanking.vue'),
+    gameRanking: () => import('@/ui/GameRanking/GameRanking.vue'),
   })
 
   // エディターの登録
