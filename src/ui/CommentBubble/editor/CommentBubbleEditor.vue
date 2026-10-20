@@ -68,18 +68,17 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
+  import { CharacterColorScheme, EnterMotionType } from '@/types/OmikujiData'
+  import { CommentBubbleSchema, CommentBubbleType } from '@/ui/types'
+  import { enterMotionMap } from '@/maps/OmikujiData'
+
+  import CommentBubblePreview from './CommentBubblePreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import CharacterPicker from '@/editor/parts/CharacterPicker.vue'
-  import { CharacterColorScheme } from '@/types/OmikujiData'
-  import type { EnterMotionType } from '@/types/OmikujiData'
-  import { enterMotionMap } from '@/maps/OmikujiData'
-  import { CommentBubbleSchema } from '@/ui/types'
-  import type { CommentBubbleType } from '@/ui/types'
-  import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import CommentBubblePreview from './CommentBubblePreview.vue'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
+  import LayerImage from '@/common/LayerImage/LayerImage.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
@@ -103,10 +102,12 @@
     return entry?.src ?? []
   })
 
+  // 更新関数
   const update = <K extends keyof CommentBubbleType>(field: K, value: CommentBubbleType[K]) => {
     updateItemSettings('commentBubble', { [field]: value })
   }
 
+  // リセット関数
   const resetField = (field: keyof CommentBubbleType) => {
     update(field, CommentBubbleSchema.parse({})[field])
   }

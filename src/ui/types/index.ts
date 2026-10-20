@@ -2,3 +2,4 @@
 
 // 各型定義の公開
 export * from './CommentBubbleSchema'
+export * from './GameRankingSchema'

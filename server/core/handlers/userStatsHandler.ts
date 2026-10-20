@@ -3,7 +3,7 @@
 // Generator (OBS) は load-user-stats を since 付きでポーリングして、差分を取り込む。
 import { z } from 'zod'
 import { ApiResult } from '@server/types'
-import * as fileSystem from '@server/core/services/fileSystemService'
+import { loadFile, saveFile } from '@server/core/services/fileSystemService'
 import { ok, badRequest, guard } from '@server/core/utils/result'
 import { parseWith } from '@server/core/utils/schema'
 import { withLock } from '@server/core/utils/mutex'
@@ -35,7 +35,7 @@ async function getState(): Promise<StoreState> {
   if (cache) return cache
 
   try {
-    const file = UserStatsFileSchema.parse(await fileSystem.loadFile(null, FILE_NAME.userStats))
+    const file = UserStatsFileSchema.parse(await loadFile(null, FILE_NAME.userStats))
     cache = { revision: file.revision, baseRevision: file.baseRevision, users: new Map(Object.entries(file.users)) }
   } catch (error: any) {
     if (error?.code !== 'ENOENT') console.error('User stats file is unreadable, starting empty:', error)
@@ -49,7 +49,7 @@ async function getState(): Promise<StoreState> {
  */
 async function commit(next: StoreState): Promise<void> {
   const file = { revision: next.revision, baseRevision: next.baseRevision, users: Object.fromEntries(next.users) }
-  await fileSystem.saveFile(null, FILE_NAME.userStats, JSON.stringify(file))
+  await saveFile(null, FILE_NAME.userStats, JSON.stringify(file))
   cache = next
 }
 

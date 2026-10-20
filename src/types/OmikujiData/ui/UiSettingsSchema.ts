@@ -1,6 +1,7 @@
 // src/types/OmikujiData/ui/UiSettingsSchema.ts
 import { z } from 'zod'
 import { CommentBubbleSchema } from '@/ui/types'
+import { GameRankingSchema } from '@/ui/types/GameRankingSchema'
 
 /**
  * uiKinds UI種別の定義マップ
@@ -16,5 +17,6 @@ export type UiKind = z.infer<typeof UiKindSchema>
  */
 export const UiSettingsSchema = z.object({
   commentBubble: CommentBubbleSchema.optional(),
+  gameRanking: GameRankingSchema.optional(),
 })
 export type UiSettingsType = z.infer<typeof UiSettingsSchema>
