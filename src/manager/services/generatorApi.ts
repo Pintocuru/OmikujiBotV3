@@ -1,8 +1,11 @@
 // src/manager/services/generatorApi.ts
+import { API_ACTION } from '@server/api/actions'
 import { BaseApiClient, ConnectionError } from './baseApiClient'
 
 /**
  * Generator関連のAPI
+ * - fileName なし: server/generator.json (MainGenerator が読む設定)
+ * - fileName あり(meta.id): server/packages/<id>.json
  */
 class GeneratorApiService extends BaseApiClient {
   /**
@@ -11,16 +14,13 @@ class GeneratorApiService extends BaseApiClient {
   async loadGeneratorConfig(id?: string): Promise<any | null> {
     try {
       const fileName = this.getGeneratorFileName(id)
-      const response = await this.get('load-generator', { fileName })
+      const response = await this.get(API_ACTION.loadGenerator.action, { fileName })
 
       if (response.code !== 200) return null
-
-      this.validateResponse(response, '設定の読み込みに失敗しました')
 
       return response.data
     } catch (err) {
       if (err instanceof ConnectionError) return null
-      if ((err as any)?.response?.status === 404) return null
       throw err
     }
   }
@@ -31,7 +31,7 @@ class GeneratorApiService extends BaseApiClient {
   async saveGeneratorConfig(data: string): Promise<any> {
     const fileName = this.getGeneratorFileName()
 
-    const response = await this.post('save-generator', { data, fileName })
+    const response = await this.post(API_ACTION.saveGenerator.action, { data, fileName })
     this.validateResponse(response, 'ジェネレーター設定の保存に失敗しました')
     return response.data
   }

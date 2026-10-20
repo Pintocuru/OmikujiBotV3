@@ -3,6 +3,7 @@ import { AsyncActionHandler } from './useApiCore'
 import { DataManagerType } from '@/manager/types'
 import { configApi } from '@/manager/services/configApi'
 import { generatorApi } from '@/manager/services/generatorApi'
+import { omikujiApi } from '@/manager/services/omikujiApi'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 
@@ -126,7 +127,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
 
     return await handleAsyncAction(async () => {
       const configData = JSON.stringify(omikujiStore.data)
-      await configApi.saveOmikujiData(configData)
+      await omikujiApi.saveOmikujiData(configData)
       await fetchFileList()
 
       // 成功トースト

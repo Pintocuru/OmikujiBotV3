@@ -1,5 +1,6 @@
 // src/manager/services/apiServiceUtils.ts
 import { FileItem } from '@/manager/types'
+import type { ApiActionName } from '@server/api/actions'
 
 /**
  * 日付文字列をフォーマットする
@@ -61,28 +62,33 @@ export function ensureJsonExtension(fileName: string): string {
 }
 
 /**
- * エラーメッセージマップ
+ * エラーメッセージマップ (アクション追加時の書き忘れを型で検出する)
  */
-const ERROR_MESSAGES: Record<string, string> = {
+const ERROR_MESSAGES: Record<ApiActionName, string> = {
+  health: 'サーバーの接続確認に失敗しました',
   list: 'ファイル一覧の取得に失敗しました',
-  'save-omikuji': 'おみくじデータの保存に失敗しました',
-  'save-generator': 'ジェネレーター設定の保存に失敗しました',
-  save: '設定の保存に失敗しました',
   load: '設定の読み込みに失敗しました',
   'load-generator': '設定の読み込みに失敗しました',
+  move: '設定ファイルの移動に失敗しました',
+  save: '設定の保存に失敗しました',
   delete: '設定ファイルの削除に失敗しました',
+  'save-generator': 'ジェネレーター設定の保存に失敗しました',
+  'save-omikuji': 'おみくじデータの保存に失敗しました',
+  'list-game-states': 'ゲームステート一覧の取得に失敗しました',
+  'load-game-state': 'ゲームステートの読み込みに失敗しました',
+  'save-game-state': 'ゲームステートの保存に失敗しました',
+  'delete-game-state': 'ゲームステートの削除に失敗しました',
+  'load-user-stats': 'ユーザー統計の取得に失敗しました',
+  'update-user-stats': 'ユーザー統計の更新に失敗しました',
+  'reset-user-stats': 'ユーザー統計のリセットに失敗しました',
 }
 
 /**
- * URLからエラーメッセージを取得
+ * アクション名からエラーメッセージを取得
  */
-export function getErrorMessage(url: string, status: number): string {
-  for (const [key, message] of Object.entries(ERROR_MESSAGES)) {
-    if (url.includes(key)) {
-      return `${message} (${status})`
-    }
-  }
-  return `APIリクエストに失敗しました (${status})`
+export function getErrorMessage(action: string | undefined, status: number): string {
+  const message = action ? (ERROR_MESSAGES as Record<string, string>)[action] : undefined
+  return message ? `${message} (${status})` : `APIリクエストに失敗しました (${status})`
 }
 
 /**

@@ -27,7 +27,11 @@ export default defineConfig(() => {
     resolve: { alias },
     server: {
       watch: {
-        ignored: [path.resolve(projectRoot, 'server/presets/**')],
+        ignored: [
+          path.resolve(projectRoot, 'server/presets/**'),
+          path.resolve(projectRoot, 'server/streams/**'),
+          path.resolve(projectRoot, 'server/userStats.json'),
+        ],
       },
     },
   }

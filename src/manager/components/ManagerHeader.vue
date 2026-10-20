@@ -114,7 +114,7 @@
       const { loadData } = useOmikujiStore()
       const id = window.omikujiData?.meta.id
       const data = await generatorApi.loadGeneratorConfig(id)
-      const fileName = id ? `presets/${id}.json` : 'generator.json'
+      const fileName = id ? `packages/${id}.json` : 'generator.json'
 
       if (!data) {
         swalToast.warning({

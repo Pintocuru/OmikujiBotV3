@@ -1,18 +1,21 @@
 // server/core/constants.ts
 // パス以外の定数をここに集約する。
+// ※ API のアクション名は server/api/actions.ts (クライアントと共有) にある。
 // ※ パスの基準点 (DIR) は、位置が重要なため server/constants.ts に置いたままにすること。
 
 // server 配下のサブディレクトリ名
 export const DIR_NAME = {
-  data: 'presets', // TODO:名称は presets ではないほうがいいと思う
-  // TODO: packages(それと、GET_ACTION.loadGenerator ) って何に使っているのか…？
+  data: 'presets', // ConfigMaker で編集する設定 JSON 群の置き場
+  // meta.id ごとの Generator 設定 (packages/<id>.json)。fileName なしの Generator 設定は server 直下の generator.json
   packages: 'packages',
+  streams: 'streams', // 1配信ごとのゲームステート (streams/<streamId>.json)
 } as const
 
 // 固定ファイル名
 export const FILE_NAME = {
   generator: 'generator.json',
   omikujiData: 'omikujiData.js',
+  userStats: 'userStats.json', // ブラウザから操作したユーザー統計 (server 直下)
 } as const
 
 // 開発用 API サーバー設定 (src/types/env.ts の SERVER_EXPRESS_URL とポートを揃えること)
@@ -28,23 +31,6 @@ export const HTTP = {
   NOT_FOUND: 404,
   METHOD_NOT_ALLOWED: 405,
   INTERNAL_ERROR: 500,
-} as const
-
-// アクション名 (クライアント側 src/manager/services と同じ文字列。変更しないこと)
-// TODO: src/manager/services と一元管理したいので、この定数を使いたい。位置はどうする？
-export const GET_ACTION = {
-  health: 'health',
-  list: 'list',
-  load: 'load',
-  loadGenerator: 'load-generator',
-} as const
-
-export const POST_ACTION = {
-  move: 'move',
-  save: 'save',
-  delete: 'delete',
-  saveGenerator: 'save-generator',
-  saveOmikuji: 'save-omikuji',
 } as const
 
 // 内部エラーコード (パス検証失敗)

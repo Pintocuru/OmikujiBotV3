@@ -2,7 +2,7 @@
 import { DataManagerType } from '@/manager/types'
 import { AsyncActionHandler } from './useApiCore'
 import { configApi } from '@/manager/services/configApi'
-import { ensureJsonExtension, toFileItem } from '@/manager/services/apiServiceUtils'
+import { ensureJsonExtension } from '@/manager/services/apiServiceUtils'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 
 export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncActionHandler) {
@@ -10,7 +10,7 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
   const fetchFileList = async () => {
     return await handleAsyncAction(async () => {
       const files = await configApi.getFileList()
-      state.availableFiles.value = files.map(toFileItem)
+      state.availableFiles.value = files
       state.isServerConnected.value = true
       return files
     }, 'isLoadingFileList')

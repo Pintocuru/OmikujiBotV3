@@ -3,7 +3,10 @@ import { ApiResult, RequestContext, UnifiedRequest } from '@server/types'
 import * as configHandler from './handlers/configHandler'
 import * as generatorHandler from './handlers/generatorHandler'
 import * as omikujiHandler from './handlers/omikujiHandler'
-import { GET_ACTION, POST_ACTION, HTTP } from './constants'
+import * as gameStateHandler from './handlers/gameStateHandler'
+import * as userStatsHandler from './handlers/userStatsHandler'
+import { API_ACTION } from '@server/api/actions'
+import { HTTP } from './constants'
 import { ok, fail, badRequest } from './utils/result'
 
 /**
@@ -36,17 +39,26 @@ export async function routeRequest(req: UnifiedRequest, ctx: RequestContext): Pr
  */
 async function handleGetRequest(action: string, params: Record<string, string>): Promise<ApiResult> {
   switch (action) {
-    case GET_ACTION.health:
+    case API_ACTION.health.action:
       return ok({ status: 'OK', message: 'API is running' })
 
-    case GET_ACTION.list:
+    case API_ACTION.list.action:
       return configHandler.listFiles()
 
-    case GET_ACTION.load:
+    case API_ACTION.load.action:
       return configHandler.loadConfig(params.fileName)
 
-    case GET_ACTION.loadGenerator:
+    case API_ACTION.loadGenerator.action:
       return generatorHandler.loadGeneratorConfig(params.fileName ?? null)
+
+    case API_ACTION.listGameStates.action:
+      return gameStateHandler.listGameStates()
+
+    case API_ACTION.loadGameState.action:
+      return gameStateHandler.loadGameState(params.streamId, params.eventKey)
+
+    case API_ACTION.loadUserStats.action:
+      return userStatsHandler.loadUserStats(params.since)
 
     default:
       return fail(HTTP.NOT_FOUND, `Unknown GET action: ${action}`)
@@ -63,20 +75,32 @@ async function handlePostRequest(
   ctx: RequestContext
 ): Promise<ApiResult> {
   switch (action) {
-    case POST_ACTION.move:
+    case API_ACTION.move.action:
       return configHandler.moveConfig(body.fromName, body.toName)
 
-    case POST_ACTION.save:
+    case API_ACTION.save.action:
       return configHandler.saveConfig(body.fileName, body.data)
 
-    case POST_ACTION.delete:
+    case API_ACTION.delete.action:
       return configHandler.deleteConfig(params.fileName || body.fileName)
 
-    case POST_ACTION.saveGenerator:
+    case API_ACTION.saveGenerator.action:
       return generatorHandler.saveGeneratorConfig(body.data, body.fileName)
 
-    case POST_ACTION.saveOmikuji:
+    case API_ACTION.saveOmikuji.action:
       return omikujiHandler.saveOmikujiData(body.configData, ctx)
+
+    case API_ACTION.saveGameState.action:
+      return gameStateHandler.saveGameState(body)
+
+    case API_ACTION.deleteGameState.action:
+      return gameStateHandler.deleteGameState(params.streamId || body.streamId)
+
+    case API_ACTION.updateUserStats.action:
+      return userStatsHandler.updateUserStats(body)
+
+    case API_ACTION.resetUserStats.action:
+      return userStatsHandler.resetUserStats()
 
     default:
       return fail(HTTP.NOT_FOUND, `Unknown POST action: ${action}`)

@@ -1,0 +1,47 @@
+// src/manager/services/userStatsApi.ts
+import { API_ACTION } from '@server/api/actions'
+import {
+  UserStatsLoadResponseSchema,
+  UserStatsLoadResponseType,
+  UserStatsUpdateResponseSchema,
+  UserStatsUpdateResponseType,
+  UserStatsUpdateType,
+} from '@/types/api'
+import { BaseApiClient } from './baseApiClient'
+
+/**
+ * ブラウザから OBS の表示を変更するための、ユーザー統計の操作 API
+ * - 操作する側: updateUserStats / resetUserStats
+ * - 反映する側 (Generator): loadUserStats を、前回の revision 付きでポーリングする
+ */
+class UserStatsApiService extends BaseApiClient {
+  /**
+   * 操作結果を取得 (since 以降に変更されたものだけ。isFull のときは全件)
+   */
+  async loadUserStats(since?: number): Promise<UserStatsLoadResponseType> {
+    const response = await this.get(API_ACTION.loadUserStats.action, { since })
+    this.validateResponse(response, 'ユーザー統計の取得に失敗しました')
+
+    return UserStatsLoadResponseSchema.parse(response.data)
+  }
+
+  /**
+   * ユーザー統計を更新 (1回で最大200ユーザー)
+   */
+  async updateUserStats(updates: UserStatsUpdateType[]): Promise<UserStatsUpdateResponseType> {
+    const response = await this.post(API_ACTION.updateUserStats.action, { updates })
+    this.validateResponse(response, 'ユーザー統計の更新に失敗しました')
+
+    return UserStatsUpdateResponseSchema.parse(response.data)
+  }
+
+  /**
+   * 操作結果を全件リセット
+   */
+  async resetUserStats(): Promise<void> {
+    const response = await this.post(API_ACTION.resetUserStats.action, {})
+    this.validateResponse(response, 'ユーザー統計のリセットに失敗しました')
+  }
+}
+
+export const userStatsApi = new UserStatsApiService()

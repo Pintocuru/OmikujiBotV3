@@ -27,3 +27,7 @@ distZipped
 *.db
 *.webm
 *.mp4
+
+# 実行時に生成される server のデータ
+server/streams/
+server/userStats.json
