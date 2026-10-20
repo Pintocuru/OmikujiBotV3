@@ -36,7 +36,7 @@
 <script setup lang="ts">
   import { type Component, ref, watch } from 'vue'
   import LabelText from './LabelText.vue'
-  import { DaisyUIColorType, daisyUIColor } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUIColorType, daisyUIColor } from '@/types/core/DaisyUiTheme'
 
   const props = defineProps<{
     index: number

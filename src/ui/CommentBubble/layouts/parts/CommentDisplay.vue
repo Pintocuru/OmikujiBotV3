@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/generator/CommentDisplay.vue -->
+<!-- src/ui/CommentBubble/layouts/parts/CommentDisplay.vue -->
 <template>
   <div
     v-for="(item, index) in displayedComments"
@@ -31,8 +31,8 @@
   import { EnterMotionType } from '@/types/OmikujiData'
   import { BotMessageBubbleType } from '@/generator/types'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
-  import CommentBubbleItem from './parts/CommentBubbleItem.vue'
-  import MotionWrapper from './MotionVariants/MotionWrapper.vue'
+  import CommentBubbleItem from '@/ui/common/CommentBubbleItem.vue'
+  import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
 
   withDefaults(
     defineProps<{

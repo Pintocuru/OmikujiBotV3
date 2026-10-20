@@ -14,12 +14,12 @@
 
 <script setup lang="ts">
   import { computed, type Component } from 'vue'
-  import { ClockComponent, LiveClockType } from '@/types'
-  import morning from '../layouts/Morning.vue'
-  import soundPlayer from '../layouts/SoundPlayer.vue'
-  import clearGlass from '../layouts/ClearGlass.vue'
-  import steampunk from '../layouts/Steampunk.vue'
-  import disco from '../layouts/Disco.vue'
+  import { ClockComponent, LiveClockType } from '@/ui/types'
+  import morning from './layouts/Morning.vue'
+  import soundPlayer from './layouts/SoundPlayer.vue'
+  import clearGlass from './layouts/ClearGlass.vue'
+  import steampunk from './layouts/Steampunk.vue'
+  import disco from './layouts/Disco.vue'
 
   const props = defineProps<{
     settings: LiveClockType

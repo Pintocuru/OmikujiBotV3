@@ -19,10 +19,11 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useFontFamily, type StreamCounterType } from '@/types'
-  import StreamCounterSelector from '@main/ui/StreamCounter/parts/StreamCounterSelector.vue'
-  import HudPreview from '@config/components/common/HudPreview/HudPreview.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
+  import { type StreamCounterType } from '@/ui/types'
+  import { useFontFamily } from '@/types'
+  import StreamCounterSelector from '@/ui/StreamCounter/StreamCounterSelector.vue'
+  import HudPreview from '@/editor/parts/HudPreview.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { usePreviewCounters } from './usePreviewCounters'
 
   const props = defineProps<{
@@ -36,7 +37,7 @@
   })
 
   const omikujiStore = useOmikujiStore()
-  const fontFamily = computed(() => useFontFamily(omikujiStore.data.components.commonStyle.fontFamily ?? 'default'))
+  const fontFamily = computed(() => useFontFamily(omikujiStore.data.ui.fontFamily ?? 'default'))
 
   const previewEventLabels = computed(() => props.eventLabels)
   const variableLabels = computed(() => props.variableLabels)

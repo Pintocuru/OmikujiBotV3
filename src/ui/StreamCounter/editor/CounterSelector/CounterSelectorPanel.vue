@@ -20,35 +20,7 @@
     </div>
   </SettingItem>
 
-  <!-- カスタムイベント -->
-  <SettingItem
-    v-if="eventRules.length > 0"
-    label="カスタムイベント"
-    description="設定済みのコメント演出をカウントします"
-    :showReset="true"
-    @reset="emit('reset', 'event')"
-  >
-    <div class="flex flex-wrap gap-2">
-      <div
-        v-for="rule in eventRules"
-        :key="rule.key"
-        class="badge cursor-pointer"
-        :class="[
-          isSelected('event', rule.key) ? 'badge-secondary' : 'badge-outline',
-          isDisabled('event', rule.key) ? 'opacity-40 cursor-not-allowed' : '',
-        ]"
-        @click="toggleEvent(rule.key, rule.name)"
-      >
-        {{ rule.name }}
-      </div>
-    </div>
-    <div class="text-xs text-base-content/50 mt-1">
-      合計 {{ counterCount }}/{{ maxCounters }} 件
-      <span v-if="counterCount >= maxCounters"> これ以上表示できません</span>
-    </div>
-  </SettingItem>
-
-  <!-- 変数カウンター -->
+  <!-- 評価ブロックカウンター -->
   <CounterVariableSection
     :counters="counters"
     :addDisabled="counterCount >= maxCounters"
@@ -60,7 +32,6 @@
   <!-- 表示順 -->
   <CounterOrderSection
     :counters="counters"
-    :eventRules="eventRules"
     :maxCounters="maxCounters"
     @remove="emit('remove', $event)"
     @reorder="emit('reorder', $event)"
@@ -69,15 +40,14 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { streamDefaultMap } from '@/types'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import { streamDefaultMap } from '@/ui/types'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import CounterVariableSection from './CounterVariableSection.vue'
   import CounterOrderSection from './CounterOrderSection.vue'
-  import type { CounterItem, EventRule } from './counterTypes'
+  import type { CounterItem } from './counterTypes'
 
   const props = defineProps<{
     counters: CounterItem[]
-    eventRules: EventRule[]
     maxCounters: number
   }>()
 
@@ -103,15 +73,6 @@
       emit('remove', found.id)
     } else if (!isDisabled('default', target)) {
       emit('add', { type: 'default', target, label })
-    }
-  }
-
-  const toggleEvent = (target: string, label: string) => {
-    const found = props.counters.find((c) => c.type === 'event' && c.target === target)
-    if (found) {
-      emit('remove', found.id)
-    } else if (!isDisabled('event', target)) {
-      emit('add', { type: 'event', target, label })
     }
   }
 </script>

@@ -7,15 +7,13 @@
   <DisplayStyleSelector
     :modelValue="liveClock.component"
     :options="clockComponentMap"
-    @update:modelValue="(val) => updateField('component', val)"
+    @update:modelValue="(val) => update('component', val)"
   />
 
-  <!-- テーマカラー -->
-  <DaisyUiThemeEditor
-    v-if="isAdv && clockComponentMap[liveClock.component].isColor"
-    :model-value="liveClock.color"
-    @update:model-value="(newValue) => updateField('color', newValue)"
-  />
+  <!-- カラー設定 -->
+  <SettingItem label="カラー設定" description="表示するカラーを設定します" layout="vertical">
+    <ColorPicker :modelValue="liveClock.color" @update:modelValue="(val) => update('color', val)" />
+  </SettingItem>
 
   <!-- デフォルトで表示させるメッセージ -->
   <SettingItem
@@ -34,7 +32,7 @@
         type="checkbox"
         class="toggle toggle-primary"
         v-model="liveClock.isDate"
-        @change="(e) => updateField('isDate', (e.target as HTMLInputElement).checked)"
+        @change="(e) => update('isDate', (e.target as HTMLInputElement).checked)"
       />
       <span class="ml-2"> 日付を表示{{ liveClock.isDate ? 'する' : 'しない' }} </span>
     </label>
@@ -47,7 +45,7 @@
         type="checkbox"
         class="toggle toggle-primary"
         v-model="liveClock.isSecond"
-        @change="(e) => updateField('isSecond', (e.target as HTMLInputElement).checked)"
+        @change="(e) => update('isSecond', (e.target as HTMLInputElement).checked)"
       />
       <span class="ml-2"> 秒数を表示{{ liveClock.isSecond ? 'する' : 'しない' }} </span>
     </label>
@@ -57,24 +55,22 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { clockComponentMap, LiveClockSchema } from '@/types'
+  import { clockComponentMap, LiveClockSchema } from '@/ui/types'
   import LiveClockPreview from './LiveClockPreview.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import { useSettingMode } from '@config/scripts/useAccessCheckerConfig'
-  import MessageTextDialog from '@config/components/postAction/Message/MessageTextDialog.vue'
-  import DaisyUiThemeEditor from '@config/components/common/ThemeColorPicker/DaisyUiThemeEditor.vue'
-  import DisplayStyleSelector from '../CommonStyle/DisplayStyleSelector.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+  import MessageTextDialog from '@/editor/assets/PostFlow/Message/MessageTextDialog.vue'
+  import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
+  import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const { isAdv } = useSettingMode()
 
-  const liveClock = computed(() => data.value?.components?.settings?.liveClock ?? LiveClockSchema.parse({}))
+  const liveClock = computed(() => data.value.ui.settings.liveClock ?? LiveClockSchema.parse({}))
 
   // Field Updates
-  const updateField = (field: keyof typeof liveClock.value, value: any) => {
-    omikujiStore.updateComponentSettings('liveClock', {
+  const update = (field: keyof typeof liveClock.value, value: any) => {
+    omikujiStore.updateItemSettings('liveClock', {
       ...liveClock.value,
       [field]: value,
     })
@@ -82,7 +78,7 @@
 
   const resetField = (field: keyof typeof liveClock.value) => {
     const defaults = LiveClockSchema.parse({})
-    updateField(field, defaults[field])
+    update(field, defaults[field])
   }
 
   const resetMap = {
@@ -93,7 +89,7 @@
   const messageText = computed<string>({
     get: () => liveClock.value.defaultMessage ?? '',
     set: (value) => {
-      updateField('defaultMessage', value)
+      update('defaultMessage', value)
     },
   })
 </script>

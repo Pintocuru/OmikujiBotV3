@@ -13,4 +13,29 @@ export const uiKindMap: Record<UiKind, { label: string; icon: LucideIconName; de
     icon: 'Trophy',
     description: 'スイカゲーム等の結果をランキングボード形式で表示します。',
   },
+  cookieCounter: {
+    label: 'クッキーカウンター',
+    icon: 'Cookie',
+    description: '配信のカウントをクッキー風のカウンターで表示します。',
+  },
+  kujibikiPanel: {
+    label: 'くじ引きパネル',
+    icon: 'Sparkles',
+    description: 'おみくじ・占いの結果をパネル形式で表示します。',
+  },
+  liveClock: {
+    label: 'ライブクロック',
+    icon: 'Clock',
+    description: '時計とメッセージを表示します。',
+  },
+  streamCounter: {
+    label: '配信カウンター',
+    icon: 'Hash',
+    description: '同時接続数や高評価数などを表示します。',
+  },
+  toastWidgets: {
+    label: 'トースト',
+    icon: 'Bell',
+    description: '通知メッセージをトースト形式で表示します。',
+  },
 }

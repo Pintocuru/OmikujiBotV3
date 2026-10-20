@@ -26,7 +26,7 @@ export class GameScriptsHandler {
 
     const { actions, botMessageExtras: scriptMessages } = scriptResult
 
-    // 2. 変数プレースホルダーを処理
+    // 2. 評価ブロックを処理
     const processedActions = this.generator.processVariables(actions)
 
     // 3. わんコメへ投稿 & BotMessage を生成

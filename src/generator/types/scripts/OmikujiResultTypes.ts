@@ -3,7 +3,7 @@ import { PostFlowType } from '@/types/OmikujiData/'
 import { ExtraListsType, ExtraSlotsType } from './BotMessageSchema'
 
 /**
- * 変数プレースホルダーの解析結果
+ * 評価ブロックの解析結果
  * VariablePlaceholderProcessor.ts の ProcessResult と構造を一致させる
  */
 export interface VariablePlaceholderExtra {

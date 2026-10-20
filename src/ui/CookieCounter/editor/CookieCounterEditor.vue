@@ -1,7 +1,7 @@
 <!-- src/ui/CookieCounter/editor/CookieCounterEditor.vue -->
 <template>
   <!-- プレビュー -->
-  <CookieCounterPreview :cookieCounter="cookieCounter" :event-labels="eventLabels" :variable-labels="variableInput" />
+  <CookieCounterPreview :cookieCounter="cookieCounter" :variable-labels="variableInput" />
 
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
@@ -10,12 +10,10 @@
     @update:modelValue="(val) => updateField('component', val)"
   />
 
-  <!-- カラー選択 -->
-  <DaisyUiThemeEditor
-    v-if="isAdv && currentComponentDef.isColor"
-    :model-value="cookieCounter.color"
-    @update:model-value="(v) => updateField('color', v)"
-  />
+  <!-- カラー設定 -->
+  <SettingItem label="カラー設定" description="表示するカラーを設定します" layout="vertical">
+    <ColorPicker :modelValue="cookieCounter.color" @update:modelValue="(val) => updateField('color', val)" />
+  </SettingItem>
 
   <!-- 画像パス指定（hasImage コンポーネントのみ） -->
   <template v-if="currentComponentDef.hasImage">
@@ -42,7 +40,6 @@
   <!-- カウンター設定 -->
   <CounterSelectorPanel
     :counters="counters"
-    :event-rules="eventRules"
     :max-counters="maxCounters"
     @add="pushCounter"
     @remove="removeCounter"
@@ -55,19 +52,18 @@
 <script setup lang="ts">
   import { computed, reactive } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { cookieComponentMap, CookieCounterSchema, CookieCounterCountersSchema, CookieCounterType } from '@/types'
+  import { cookieComponentMap, CookieCounterSchema, CookieCounterCountersSchema, CookieCounterType } from '@/ui/types'
   import CookieCounterPreview from './CookieCounterPreview.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import DisplayStyleSelector from '../CommonStyle/DisplayStyleSelector.vue'
-  import { useSettingMode } from '@config/scripts/useAccessCheckerConfig'
-  import DaisyUiThemeEditor from '@config/components/common/ThemeColorPicker/DaisyUiThemeEditor.vue'
-  import CounterSelectorPanel from '../StreamCounter/CounterSelector/CounterSelectorPanel.vue'
-  import { CounterItem } from '../StreamCounter/CounterSelector/counterTypes'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
+  import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
+
+  import CounterSelectorPanel from '@/ui/StreamCounter/editor/CounterSelector/CounterSelectorPanel.vue'
+  import { CounterItem } from '@/ui/StreamCounter/editor/CounterSelector/counterTypes'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const { data } = storeToRefs(useOmikujiStore())
   const omikujiStore = useOmikujiStore()
-  const { isAdv } = useSettingMode()
 
   const variableInput = reactive({ target: '', label: '' })
 
@@ -76,16 +72,9 @@
   const maxCounters = computed(() => cookieComponentMap[cookieCounter.value.component].maxCounters)
   const currentComponentDef = computed(() => cookieComponentMap[cookieCounter.value.component])
 
-  const eventRules = computed(() =>
-    Object.values(data.value.comments || {}).map((r) => ({ key: r.key, name: r.name || r.key }))
-  )
-  const eventLabels = computed<Record<string, string>>(() =>
-    Object.fromEntries(eventRules.value.map((r) => [r.key, r.name]))
-  )
-
   // ---- ストア更新 ----
   const updateField = (field: keyof CookieCounterType, value: unknown) => {
-    omikujiStore.updateComponentSettings('cookieCounter', { ...cookieCounter.value, [field]: value })
+    omikujiStore.updateItemSettings('cookieCounter', { ...cookieCounter.value, [field]: value })
   }
 
   // ---- images 更新 ----

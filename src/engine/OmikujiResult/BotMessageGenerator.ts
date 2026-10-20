@@ -9,7 +9,7 @@ import { BotMessageType, ProcessedPostAction } from '@/generator/types'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { playSoundDelay } from '@/common/sounds'
 
-/** 変数プレースホルダー {{ ... }} */
+/** 評価ブロック {{ ... }} */
 const EVAL_PATTERN = /\{\{[\s\S]*?\}\}/g
 
 export class BotMessageGenerator {
@@ -30,7 +30,7 @@ export class BotMessageGenerator {
   }
 
   /**
-   * 変数プレースホルダーを処理し、解析結果を保持する型に変換
+   * 評価ブロックを処理し、解析結果を保持する型に変換
    */
   processVariables(actions: PostFlowType[]): ProcessedPostAction[] {
     return actions.map((action): ProcessedPostAction => {
@@ -98,7 +98,7 @@ export class BotMessageGenerator {
   }
 
   /**
-   * 変数プレースホルダー {{ }} を計算せずに除去する（ダミー演出用）
+   * 評価ブロック {{ }} を計算せずに除去する（ダミー演出用）
    */
   stripVariables(actions: PostFlowType[]): ProcessedPostAction[] {
     return actions.map((action): ProcessedPostAction => {

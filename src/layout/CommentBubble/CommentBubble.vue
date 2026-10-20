@@ -5,5 +5,5 @@
 </template>
 
 <script setup lang="ts">
-  import CommentBubble from '@/ui/CommentBubble/generator/CommentBubble.vue'
+  import CommentBubble from '@/ui/CommentBubble/CommentBubble.vue'
 </script>

@@ -1,7 +1,7 @@
 // src/ui/types/StreamCounterSchema.ts
 import { z } from 'zod'
-import { daisyUIColor, themes } from '@shared/styles/DaisyUiTheme'
-import { idSchema } from '@shared/types'
+import { daisyUIColor, themes } from '@/types/core/DaisyUiTheme'
+import { idSchema } from '@/types/core'
 
 /**
  * ライバーカウンターコンポーネントの表示名マップ
@@ -9,42 +9,34 @@ import { idSchema } from '@shared/types'
 export const streamComponentMap = {
   basicCirclePlain: {
     label: '丸型シンプル',
-    accessLevel: 'basic',
     layout: 'horizontal', // 横並び
   },
   basicCircle: {
     label: '丸型カラー',
-    accessLevel: 'pro',
     layout: 'horizontal',
   },
   pixelBadgePlain: {
     label: 'ピクセルバッジ',
-    accessLevel: 'basic',
     layout: 'horizontal',
   },
   pixelBadge: {
     label: 'ピクセルカラー',
-    accessLevel: 'pro',
     layout: 'horizontal',
   },
   magicalStone: {
     label: '魔法石',
-    accessLevel: 'pro',
     layout: 'horizontal',
   },
   starBurst: {
     label: '星',
-    accessLevel: 'pro',
     layout: 'horizontal',
   },
   hexGrid: {
     label: 'ヘキサゴン',
-    accessLevel: 'pro',
     layout: 'horizontal',
   },
   badge: {
     label: 'バッジ',
-    accessLevel: 'godMode',
     layout: 'vertical',
   },
 } as const

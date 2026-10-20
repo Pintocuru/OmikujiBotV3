@@ -6,7 +6,7 @@ import type { useAppStore } from '@/generator/stores/useAppStore'
 type AppStore = ReturnType<typeof useAppStore>
 
 /**
- * 変数プレースホルダー用の userId 変換
+ * 評価ブロック用の userId 変換
  */
 export function sanitizeKey(raw: string): string {
   let h = 0

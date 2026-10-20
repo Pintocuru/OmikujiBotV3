@@ -7,21 +7,8 @@
     </div>
 
     <!-- メッセージ -->
-    <div
-      class="chat-bubble max-w-xs"
-      :data-theme="color.isTheme ? color.daisyUiTheme : null"
-      :class="
-        color.isTheme
-          ? [`text-${color.backFrom}-content`, 'bg-linear-to-br', `from-${color.backFrom}`, `to-${color.backTo}`]
-          : ''
-      "
-      :style="!color.isTheme ? { backgroundColor: color.backgroundColor } : {}"
-    >
-      <div
-        class="leading-tight text-base"
-        :style="!color.isTheme ? { color: color.textColor } : {}"
-        v-html="displayedHtml"
-      />
+    <div class="chat-bubble max-w-xs" :class="`text-${color.text}-content `">
+      <div class="leading-tight text-base" v-html="displayedHtml" />
     </div>
   </div>
 </template>
@@ -30,7 +17,7 @@
   import { computed } from 'vue'
   import type { CharacterColorType } from '@/types/OmikujiData/'
   import CharacterLayerImage from '@/common/LayerImage/CharacterLayerImage.vue'
-  import { resolveIconPlaceholders } from '@main/ui/common/useFilteredBotMessages'
+  import { resolveIconPlaceholders } from '@/ui/common/useFilteredBotMessages'
 
   const props = defineProps<{
     message: string

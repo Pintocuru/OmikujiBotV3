@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
   import { type Component } from 'vue'
-  import { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
   import LabelText from './LabelText.vue'
 
   defineProps<{

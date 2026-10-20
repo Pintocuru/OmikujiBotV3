@@ -22,16 +22,16 @@
 
 <script setup lang="ts">
   import { computed, toRef, type Component } from 'vue'
-  import { type StreamCounterType, type LiverComponent, streamComponentMap } from '@/types'
+  import { StreamCounterType, LiverComponent, streamComponentMap } from '@/ui/types'
 
-  import BasicCirclePlain from '../layouts/BasicCirclePlain.vue'
-  import BasicCircle from '../layouts/BasicCircle.vue'
-  import PixelBadgePlain from '../layouts/PixelBadgePlain.vue'
-  import PixelBadge from '../layouts/PixelBadge.vue'
-  import MagicalStone from '../layouts/MagicalStone.vue'
-  import StarBurst from '../layouts/StarBurst.vue'
-  import HexGrid from '../layouts/HexGrid.vue'
-  import Badge from '../layouts/Badge.vue'
+  import BasicCirclePlain from './layouts/BasicCirclePlain.vue'
+  import BasicCircle from './layouts/BasicCircle.vue'
+  import PixelBadgePlain from './layouts/PixelBadgePlain.vue'
+  import PixelBadge from './layouts/PixelBadge.vue'
+  import MagicalStone from './layouts/MagicalStone.vue'
+  import StarBurst from './layouts/StarBurst.vue'
+  import HexGrid from './layouts/HexGrid.vue'
+  import Badge from './layouts/Badge.vue'
 
   import { useStreamCounterDisplay } from './composables/useStreamCounterDisplay'
   import { useLabelResolver } from './composables/useLiverLabelResolver'

@@ -1,6 +1,6 @@
 <!-- src/ui/StreamCounter/editor/CounterSelector/CounterVariableSection.vue -->
 <template>
-  <SettingItem label="変数カウンター" description="変数プレースホルダー名とラベルを入力">
+  <SettingItem label="変数カウンター" description="評価ブロック名とラベルを入力">
     <div class="flex flex-col gap-3">
       <!-- 追加フォーム -->
       <div class="flex flex-wrap gap-2 items-end">
@@ -79,7 +79,7 @@
 <script setup lang="ts">
   import { reactive, ref, computed } from 'vue'
   import { Pencil, X } from 'lucide-vue-next'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
   import type { CounterItem } from './counterTypes'
 
   const props = defineProps<{

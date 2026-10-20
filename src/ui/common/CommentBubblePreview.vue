@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/editor/CommentBubblePreview.vue -->
+<!-- src/ui/common/CommentBubblePreview.vue -->
 <template>
   <div class="flex flex-col items-center space-y-2">
     <!-- プレビュー表示エリア（横幅制限付き） -->
@@ -28,8 +28,8 @@
   import { ref } from 'vue'
   import { CharacterColorType, EnterMotionType } from '@/types/OmikujiData/'
   import { FontFamilyType, useFontFamily } from '@/types/OmikujiData'
-  import CommentBubbleItem from '../generator/parts/CommentBubbleItem.vue'
-  import MotionWrapper from '../generator/MotionVariants/MotionWrapper.vue'
+  import CommentBubbleItem from './CommentBubbleItem.vue'
+  import MotionWrapper from './MotionVariants/MotionWrapper.vue'
 
   const props = withDefaults(
     defineProps<{

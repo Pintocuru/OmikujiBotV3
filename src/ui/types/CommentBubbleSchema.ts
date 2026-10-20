@@ -18,7 +18,6 @@ const bubbleComponentsEnum = Object.keys(bubbleComponentMap) as BubbleComponent[
 export type BubbleComponent = keyof typeof bubbleComponentMap
 
 export const CommentBubbleSchema = z.object({
-  // TODO:component の実装
   component: z.enum(bubbleComponentsEnum).default('standard').catch('standard'),
   persistentCharacter: z.string().catch(''), // 常時表示キャラ(空ならコメントが来るまで非表示)
   characterSize: z.number().default(128).catch(128), // キャラクターの横幅

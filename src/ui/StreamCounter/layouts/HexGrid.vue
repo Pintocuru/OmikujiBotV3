@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-  import { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
   import HexGridSvg from './HexGridSvg.vue'
   import { type Component, computed } from 'vue'
   import LabelText from './LabelText.vue'

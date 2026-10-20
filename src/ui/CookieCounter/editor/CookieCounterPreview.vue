@@ -6,7 +6,6 @@
         :key="cookieCounter.component"
         :settings="cookieCounter"
         :counters="previewCounters"
-        :event-labels="eventLabels"
         :variableLabels="variableLabels"
       />
     </div>
@@ -22,15 +21,14 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useFontFamily } from '@/types'
-  import type { CookieCounterType } from '@/types'
-  import CookieCounterSelector from '@main/ui/CookieCounter/parts/CookieCounterSelector.vue'
-  import HudPreview from '@config/components/common/HudPreview/HudPreview.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import { usePreviewCounters } from '../StreamCounter/usePreviewCounters'
+  import type { CookieCounterType } from '@/ui/types'
+  import CookieCounterSelector from '@/ui/CookieCounter/CookieCounterSelector.vue'
+  import HudPreview from '@/editor/parts/HudPreview.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { usePreviewCounters } from '@/ui/StreamCounter/editor/usePreviewCounters'
 
   const props = defineProps<{
     cookieCounter: CookieCounterType
-    eventLabels: Record<string, string>
     variableLabels: Record<string, string>
   }>()
 
@@ -39,5 +37,5 @@
   })
 
   const omikujiStore = useOmikujiStore()
-  const fontFamily = computed(() => useFontFamily(omikujiStore.data.components.commonStyle.fontFamily ?? 'default'))
+  const fontFamily = computed(() => useFontFamily(omikujiStore.data.ui.fontFamily ?? 'default'))
 </script>

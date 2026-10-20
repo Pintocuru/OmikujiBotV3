@@ -11,14 +11,21 @@
     />
 
     <!-- キャラクター画像(大きさの確認用) -->
-    <div class="flex justify-center py-2">
+    <div v-if="bubble.component === 'standard'" class="flex justify-center py-2">
       <LayerImage v-if="previewLayers.length" :layers="previewLayers" :size="bubble.characterSize" />
       <span v-else class="text-sm opacity-60 italic">キャラクター画像が設定されていません</span>
     </div>
   </HudPreview>
 
+  <!-- コンポーネント選択 -->
+  <DisplayStyleSelector
+    :modelValue="bubble.component"
+    :options="bubbleComponentMap"
+    @update:modelValue="(val) => update('component', val as BubbleComponent)"
+  />
+
   <!-- キャラクター -->
-  <SettingItem label="常時表示キャラクター" description="未設定の場合、コメントが来たときのみ表示されます">
+  <SettingItem v-if="bubble.component === 'standard'" label="常時表示キャラクター" description="未設定の場合、コメントが来たときのみ表示されます">
     <CharacterPicker
       :modelValue="bubble.persistentCharacter"
       allowEmpty
@@ -29,6 +36,7 @@
 
   <!-- キャラクターの大きさ -->
   <SettingItem
+    v-if="bubble.component === 'standard'"
     label="キャラクターの大きさ"
     description="キャラクター画像の横幅を調整します"
     :showReset="true"
@@ -69,10 +77,11 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { CharacterColorScheme, EnterMotionType } from '@/types/OmikujiData'
-  import { CommentBubbleSchema, CommentBubbleType } from '@/ui/types'
+  import { BubbleComponent, bubbleComponentMap, CommentBubbleSchema, CommentBubbleType } from '@/ui/types'
+  import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import { enterMotionMap } from '@/maps/OmikujiData'
 
-  import CommentBubblePreview from './CommentBubblePreview.vue'
+  import CommentBubblePreview from '@/ui/common/CommentBubblePreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'

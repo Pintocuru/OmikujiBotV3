@@ -1,4 +1,4 @@
-// src/ui/CommentBubble/generator/MotionVariants/useMotionAnimation.ts
+// src/ui/common/MotionVariants/useMotionAnimation.ts
 import { computed, nextTick, Ref, ComputedRef, onUnmounted } from 'vue'
 import { EnterMotionType } from '@/types/OmikujiData'
 import { enterMotionMap } from '@/maps/OmikujiData'

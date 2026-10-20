@@ -15,12 +15,12 @@
           :message="message.bubble?.message"
           :color="getCharacterColor(message.bubble.characterKey)"
           :iconLayers="
-            isCharacter && toastSettings.showToastsCharacter && message.bubble
+            toastSettings.showToastsCharacter && message.bubble
               ? iconSrc(message.bubble.characterKey, message.bubble.iconKey)
               : []
           "
           :showToastsOnRight="toastSettings.showToastsOnRight"
-          :getProfileImage="(userId) => appStore.userSession.stats.get(userId)?.profileImage"
+          :getProfileImage="(userId) => appStore.userStats.get(userId)?.profileImage"
           @click="hideComment(message.id)"
         />
       </MotionWrapper>
@@ -32,23 +32,21 @@
   import { computed, onMounted, onUnmounted } from 'vue'
   import { storeToRefs } from 'pinia'
   import ToastBubbleItem from './parts/ToastBubbleItem.vue'
-  import { useBotDisplay } from '../CommentBubble/composables/useBotDisplay'
+  import { useBotDisplay } from '@/ui/common/useBotDisplay'
   import { useAppStore } from '@/generator/stores/useAppStore'
-  import MotionWrapper from '@main/ui/CommentBubble/MotionVariants/MotionWrapper.vue'
-  import { useVisibilityAccess } from '@main/scripts/FeatureAccess/useAccessCheckerMain'
-  import { useCharacterManager } from '@main/scripts/CharacterManager/useCharacterManager'
-  import { ToastWidgetsSchema } from '@/types'
+  import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { ToastWidgetsSchema } from '@/ui/types'
   import { useFilteredBotMessages } from '../common/useFilteredBotMessages'
 
   // ストアから必要な情報を取得
   const appStore = useAppStore()
   const { data } = storeToRefs(appStore)
-  const toastSettings = computed(() => data.value.ui.settings.toast ?? ToastWidgetsSchema.parse({}))
+  const toastSettings = computed(() => data.value.ui.settings.toastWidgets ?? ToastWidgetsSchema.parse({}))
   const { iconSrc, getCharacterColor } = useCharacterManager()
 
   // ライセンス状態で閲覧できないなら表示させない
-  const { isCharacter } = useVisibilityAccess()
-  const { messages } = useFilteredBotMessages('toast', {
+  const { messages } = useFilteredBotMessages('toastWidgets', {
     userIconSize: 6,
   })
 

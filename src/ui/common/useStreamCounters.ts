@@ -63,7 +63,7 @@ export function useStreamCounters(eventKeys: Ref<string[]>, variableLabelMap: Re
     }
   }
 
-  // 変数プレースホルダーから値を取得
+  // 評価ブロックから値を取得
   const updateVariableCounters = () => {
     const evaluator = appStore.placeholderVariable.getEvaluator()
     for (const key of Object.keys(variableLabelMap.value)) {

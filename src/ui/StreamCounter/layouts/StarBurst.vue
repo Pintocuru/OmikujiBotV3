@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
   import { type Component, ref, watch } from 'vue'
-  import { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
   import LabelText from './LabelText.vue'
   import { Star } from 'lucide-vue-next'
 

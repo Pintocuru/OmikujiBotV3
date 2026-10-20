@@ -72,7 +72,7 @@
   import SoundTestButton from './SoundTestButton.vue'
   import WordPartyTestButton from './WordPartyTestButton.vue'
   import { processTestPlaceholder } from './TestPlaceholderProcessor'
-  import CommentBubbleItem from '@/ui/CommentBubble/generator/parts/CommentBubbleItem.vue'
+  import CommentBubbleItem from '@/ui/common/CommentBubbleItem.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { CommentBubbleSchema } from '@/ui/types/CommentBubbleSchema'
 

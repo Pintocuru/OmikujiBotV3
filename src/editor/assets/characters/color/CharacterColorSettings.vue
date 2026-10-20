@@ -11,7 +11,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { CharacterColorScheme, CharacterColorType } from '@/types/OmikujiData/'
-  import CommentBubblePreview from '@/ui/CommentBubble/editor/CommentBubblePreview.vue'
+  import CommentBubblePreview from '@/ui/common/CommentBubblePreview.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
 
   const props = defineProps<{

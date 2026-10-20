@@ -8,7 +8,7 @@
   import { KujibikiPanelSchema } from '@/ui/types'
   import KujibikiPanelSelector from './KujibikiPanelSelector.vue'
   import { useFilteredBotMessages } from '../common/useFilteredBotMessages'
-  import { useBotDisplay } from '../CommentBubble/generator/composables/useBotDisplay'
+  import { useBotDisplay } from '@/ui/common/useBotDisplay'
 
   import { useAppStore } from '@/generator/stores/useAppStore'
 

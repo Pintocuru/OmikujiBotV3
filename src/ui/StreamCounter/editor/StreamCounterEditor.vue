@@ -15,11 +15,10 @@
   />
 
   <!-- テーマ -->
-  <SettingItem v-if="isAdv" label="テーマ" description="カラーテーマを選択します" forceMode="adv">
+  <SettingItem label="テーマ" description="カラーテーマを選択します">
     <select
       class="select select-bordered"
       :value="streamCounter.color"
-      :disabled="!isAdv"
       @change="(e) => updateField('color', (e.target as HTMLSelectElement).value)"
     >
       <option v-for="theme in themes" :key="theme" :value="theme">
@@ -61,26 +60,24 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { StreamCounterSchema, StreamCounterVariablesSchema, labelStyleMap, streamComponentMap } from '@/types'
-  import type { StreamDefaultKey, StreamCounterType } from '@/types'
+  import { StreamCounterSchema, StreamCounterVariablesSchema, labelStyleMap, streamComponentMap } from '@/ui/types'
+  import type { StreamDefaultKey, StreamCounterType } from '@/ui/types'
   import StreamCounterPreview from './StreamCounterPreview.vue'
   import ColorCycleEditor from './ColorCycleEditor.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import { useSettingMode } from '@config/scripts/useAccessCheckerConfig'
-  import { themes } from '@shared/styles/DaisyUiTheme'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+  import { themes } from '@/types/core/DaisyUiTheme'
   import CounterSelectorPanel from './CounterSelector/CounterSelectorPanel.vue'
-  import DisplayStyleSelector from '../CommonStyle/DisplayStyleSelector.vue'
+  import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import { CounterItem } from './CounterSelector/counterTypes'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const { isAdv } = useSettingMode()
 
   const streamCounter = computed(() => data.value.ui.settings.streamCounter ?? StreamCounterSchema.parse({}))
 
   const updateField = (field: keyof StreamCounterType, value: unknown) => {
-    omikujiStore.updateComponentSettings('streamCounter', {
+    omikujiStore.updateItemSettings('streamCounter', {
       ...streamCounter.value,
       [field]: value,
     })

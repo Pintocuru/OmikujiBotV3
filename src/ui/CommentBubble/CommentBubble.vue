@@ -1,29 +1,12 @@
-<!-- src/ui/CommentBubble/generator/CommentBubble.vue -->
+<!-- src/ui/CommentBubble/CommentBubble.vue -->
 <template>
-  <div class="relative pointer-events-none z-10 h-screen">
-    <div class="absolute bottom-0 left-0 right-0 flex justify-center items-end">
-      <div class="relative flex flex-col items-center">
-        <!-- コメント吹き出し（キャラクターの上） -->
-        <div class="absolute bottom-full -translate-y-36 left-1/2 -translate-x-1/2 min-w-[320px]">
-          <CommentDisplay
-            :displayed-comments="displayedComments"
-            :remove-comment="removeComment"
-            :enter-motion="setting.bubbleMotion"
-            :leave-motion="setting.bubbleMotion"
-          />
-        </div>
-
-        <!-- キャラクター（キーが変わったら再マウントしてアニメを頭出し） -->
-        <LayerImage
-          v-if="shown && shown.layers.length > 0"
-          :key="shown.key"
-          :layers="shown.layers"
-          :size="setting.characterSize"
-          :animation="shown.animation"
-        />
-      </div>
-    </div>
-  </div>
+  <CommentBubbleSelector
+    :displayedComments="displayedComments"
+    :removeComment="removeComment"
+    :shown="shown"
+    :settings="setting"
+    :fontFamily="appStore.data.ui.fontFamily"
+  />
 </template>
 
 <script setup lang="ts">
@@ -32,9 +15,9 @@
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import { CommentBubbleSchema } from '@/ui/types'
   import { useFilteredBotMessages } from '@/ui/common/useFilteredBotMessages'
-  import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import CommentDisplay from './CommentDisplay.vue'
-  import { useBotDisplay } from './composables/useBotDisplay'
+  import CommentBubbleSelector from './CommentBubbleSelector.vue'
+  import { useBotDisplay } from '@/ui/common/useBotDisplay'
+  import type { ShownCharacter } from './layouts/types'
 
   const appStore = useAppStore()
 
@@ -43,7 +26,7 @@
   )
 
   // 設定（未設定ならスキーマの既定値）
-  const setting = computed(() => appStore.data.ui.settings.commentBubble ?? CommentBubbleSchema.parse({}))
+  const setting = computed(() => CommentBubbleSchema.parse(appStore.data.ui.settings.commentBubble ?? {}))
 
   // 全コメントを対象にする（characterKey での絞り込みなし）
   const { messages } = useFilteredBotMessages('commentBubble')
@@ -55,7 +38,7 @@
   )
 
   // 表示するキャラクター: コメント中はそのキャラ(iconKeyの表情)、なければ常時表示キャラ(default固定)
-  const shown = computed(() => {
+  const shown = computed<ShownCharacter | null>(() => {
     const msg = latestComment.value
     if (msg) {
       return {

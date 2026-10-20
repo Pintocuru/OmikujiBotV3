@@ -5,6 +5,7 @@
     <div class="flex flex-col" :class="[fontFamily]">
       <!-- トーストサンプル -->
       <div :class="!toastSettings.showToastsOnRight ? 'self-start' : 'self-end'">
+        <!-- TODO:color に null が入る場合はどうするか… -->
         <ToastBubbleItem
           v-for="(message, i) in previewMessages"
           :key="i"
@@ -21,7 +22,6 @@
 
       <!-- サムネイルサンプル表示 -->
       <div
-        v-if="isCharacter"
         class="flex flex-row gap-4 mt-2"
         :class="toastSettings.showToastsOnRight ? 'flex-row self-end' : 'flex-row-reverse self-start'"
       >
@@ -31,14 +31,6 @@
       </div>
     </div>
   </HudPreview>
-
-  <!-- デフォルトカラー設定 -->
-  <template v-if="!isCharacter">
-    <ColorModeSelector
-      :model-value="commonStyle.defaultColor"
-      @update:model-value="(value) => updateCommonStyleField('defaultColor', value)"
-    />
-  </template>
 
   <!-- 設定項目 -->
   <SettingItem
@@ -58,64 +50,58 @@
     </label>
   </SettingItem>
 
-  <template v-if="isCharacter">
-    <SettingItem
-      label="キャラクター表示"
-      description="トーストにキャラクターアイコンを表示するか"
-      :showReset="true"
-      @reset="resetMap.showToastsCharacter"
-    >
-      <label class="flex items-center cursor-pointer">
-        <input
-          type="checkbox"
-          class="toggle toggle-primary"
-          v-model="toastSettings.showToastsCharacter"
-          @change="(e) => updateField('showToastsCharacter', (e.target as HTMLInputElement).checked)"
-        />
-        <span class="ml-2">キャラクターを表示する</span>
-      </label>
-    </SettingItem>
-
-    <SettingItem
-      label="サムネイル表示キャラクター"
-      description="右下にサムネイルとして表示するキャラクターを選択します"
-      :showReset="true"
-      @reset="resetMap.showThumbnail"
-    >
-      <CharacterSelectorMulti
-        :characters="data.characters"
-        :selectedKeys="toastSettings.showThumbnail"
-        @update:selectedKeys="(keys) => updateField('showThumbnail', keys)"
+  <SettingItem
+    label="キャラクター表示"
+    description="トーストにキャラクターアイコンを表示するか"
+    :showReset="true"
+    @reset="resetMap.showToastsCharacter"
+  >
+    <label class="flex items-center cursor-pointer">
+      <input
+        type="checkbox"
+        class="toggle toggle-primary"
+        v-model="toastSettings.showToastsCharacter"
+        @change="(e) => updateField('showToastsCharacter', (e.target as HTMLInputElement).checked)"
       />
-    </SettingItem>
-  </template>
+      <span class="ml-2">キャラクターを表示する</span>
+    </label>
+  </SettingItem>
+
+  <SettingItem
+    label="サムネイル表示キャラクター"
+    description="右下にサムネイルとして表示するキャラクターを選択します"
+    :showReset="true"
+    @reset="resetMap.showThumbnail"
+  >
+    <CharacterSelectorMulti
+      :characters="data.assets.characters"
+      :selectedKeys="toastSettings.showThumbnail"
+      @update:selectedKeys="(keys) => updateField('showThumbnail', keys)"
+    />
+  </SettingItem>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { BotMessageBubbleSchema, ToastWidgetsSchema, useFontFamily } from '@/types'
+  import { ToastWidgetsSchema } from '@/ui/types'
+  import { BotMessageBubbleSchema } from '@/generator/types'
+  import { useFontFamily } from '@/types'
   import CharacterSelectorMulti from './CharacterSelectorMulti.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import { useVisibilityAccess } from '@config/scripts/useAccessCheckerConfig'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import ToastBubbleItem from '@main/ui/ToastWidgets/parts/ToastBubbleItem.vue'
-  import CharacterThumbnailsPreview from '@main/ui/ToastWidgets/parts/CharacterThumbnailsPreview.vue'
-  import { useCharacterManager } from '@config/scripts/CharacterManager/useCharacterManager'
-  import ColorModeSelector from '@config/components/common/ThemeColorPicker/ColorModeSelector.vue'
-  import { useCommonStyleUpdate } from '../CommonStyle/useCommonStyleUpdate'
-  import HudPreview from '@config/components/common/HudPreview/HudPreview.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+  import ToastBubbleItem from '@/ui/ToastWidgets/parts/ToastBubbleItem.vue'
+  import CharacterThumbnailsPreview from '@/ui/ToastWidgets/parts/CharacterThumbnailsPreview.vue'
+  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import HudPreview from '@/editor/parts/HudPreview.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const { isCharacter } = useVisibilityAccess()
   const { iconSrc, getCharacterColor } = useCharacterManager()
-  const { updateCommonStyleField } = useCommonStyleUpdate()
-  const fontFamily = computed(() => useFontFamily(data.value.ui.commonStyle.fontFamily ?? 'default'))
+  const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
 
-  const toastSettings = computed(() => data.value.ui.settings.toast ?? ToastWidgetsSchema.parse({}))
-  const commonStyle = computed(() => data.value.ui.commonStyle)
-  const characterArray = computed(() => Object.values(data.value.characters))
+  const toastSettings = computed(() => data.value.ui.settings.toastWidgets ?? ToastWidgetsSchema.parse({}))
+  const characterArray = computed(() => Object.values(data.value.assets.characters))
 
   // showThumbnail に含まれるキーを持つキャラクターのみをフィルタリング
   const thumbnailCharacters = computed(() => {
@@ -128,7 +114,7 @@
     field: K,
     value: (typeof toastSettings.value)[K]
   ) => {
-    omikujiStore.updateComponentSettings('toast', {
+    omikujiStore.updateItemSettings('toastWidgets', {
       [field]: value,
     })
   }
@@ -153,7 +139,7 @@
         const charIndex = i < characterArray.value.length ? i : 0
         const character = characterArray.value[charIndex]
         const messageText = i === 0 ? 'テストコメントです' : 'テストユーザーの運勢は【大吉】長文のテストコメントです。'
-        const characterKey = isCharacter.value ? character.key : null
+        const characterKey = character.key
 
         return BotMessageBubbleSchema.parse({
           bubble: {

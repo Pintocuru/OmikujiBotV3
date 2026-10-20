@@ -5,7 +5,6 @@
       :is="currentItem"
       :counters="counters"
       :counter-defs="settings.counters"
-      :event-labels="eventLabels"
       :variable-labels="variableLabels"
       :color="settings.color"
       :images="settings.images"
@@ -22,7 +21,6 @@
   const props = defineProps<{
     settings: CookieCounterType
     counters: Record<string, number>
-    eventLabels: Record<string, string>
     variableLabels: Record<string, string>
   }>()
 

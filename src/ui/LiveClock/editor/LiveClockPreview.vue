@@ -19,10 +19,10 @@
   import { storeToRefs } from 'pinia'
   import { useFontFamily } from '@/types'
   import { LiveClockType } from '@/ui/types'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import LiveClockSelector from '@main/ui/LiveClock/parts/LiveClockSelector.vue'
-  import HudPreview from '@config/components/common/HudPreview/HudPreview.vue'
-  import { usePlaceholderInterval } from '@main/ui/common/usePlaceholderInterval'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import LiveClockSelector from '@/ui/LiveClock/LiveClockSelector.vue'
+  import HudPreview from '@/editor/parts/HudPreview.vue'
+  import { usePlaceholderInterval } from '@/ui/common/usePlaceholderInterval'
 
   const props = defineProps<{
     settings: LiveClockType
@@ -32,7 +32,7 @@
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
 
-  const fontFamily = computed(() => useFontFamily(data.value.ui.commonStyle.fontFamily ?? 'default'))
+  const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
   const settings = computed(() => props.settings)
 
   const {

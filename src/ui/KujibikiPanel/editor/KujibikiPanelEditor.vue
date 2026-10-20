@@ -12,12 +12,11 @@
   />
 
   <!-- フキダシアニメーション -->
-  <SettingItem label="フキダシアニメーション" description="フキダシの表示アニメーションを設定します" forceMode="pro">
+  <SettingItem label="フキダシアニメーション" description="フキダシの表示アニメーションを設定します">
     <select
       v-model="kujibikiPanel.animation"
       @change="updateField('animation', ($event.target as HTMLSelectElement).value)"
       class="select select-bordered w-full max-w-xs"
-      :disabled="!isPro"
     >
       <option v-for="(value, key) in enterMotionMap" :key="key" :value="key">
         {{ value.label }}
@@ -81,17 +80,15 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { KujibikiPanelType, KujibikiPanelSchema, kujibikiComponentMap } from '@/types'
+  import { KujibikiPanelType, KujibikiPanelSchema, kujibikiComponentMap } from '@/ui/types'
   import KujibikiPanelPreview from './KujibikiPanelPreview.vue'
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import { useOmikujiStore } from '@config/stores/useOmikujiStore'
-  import DisplayStyleSelector from '../CommonStyle/DisplayStyleSelector.vue'
-  import { enterMotionMap } from '@/types/MetaMaps/enterMotionMaps'
-  import { useSettingMode } from '@/ConfigMaker/scripts/useAccessCheckerConfig'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
+  import { enterMotionMap } from '@/maps/OmikujiData'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const { isPro } = useSettingMode()
 
   const kujibikiPanel = computed<KujibikiPanelType>(
     () => data.value.ui.settings.kujibikiPanel ?? KujibikiPanelSchema.parse({})
@@ -104,7 +101,7 @@
 
   // Field update
   const updateField = (field: keyof KujibikiPanelType, value: unknown) => {
-    omikujiStore.updateComponentSettings('kujibikiPanel', {
+    omikujiStore.updateItemSettings('kujibikiPanel', {
       ...kujibikiPanel.value,
       [field]: value,
     })

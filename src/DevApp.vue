@@ -19,7 +19,7 @@
       </template>
 
       <template #hudLeft>
-        <!-- 変数プレースホルダー -->
+        <!-- 評価ブロック -->
         <div
           v-for="([key, value], i) in Object.entries(appStore.placeholderVariable.getAll())"
           :key="i"

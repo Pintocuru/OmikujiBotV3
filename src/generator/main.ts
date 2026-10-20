@@ -5,7 +5,7 @@ import { registerUi } from '@/ui/uiRegistry'
 
 // このパッケージで使うUIだけ書く
 registerUi({
-  commentBubble: () => import('@/ui/CommentBubble/generator/CommentBubble.vue'),
+  commentBubble: () => import('@/ui/CommentBubble/CommentBubble.vue'),
 })
 
 window.OmikujiBot = window.OmikujiBot ?? {}

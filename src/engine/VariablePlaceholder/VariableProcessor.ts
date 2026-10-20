@@ -11,7 +11,7 @@ import { EXPRESSION_PATTERN, RESERVED_KEYS, VAR_REFERENCE_PATTERN } from './Rese
 import { ExpressionEngine } from './ExpressionEngine'
 
 /**
- * 変数プレースホルダー処理エンジン
+ * 評価ブロック処理エンジン
  *   {{name = 'value'}}                文字列代入
  *   {{score = 100}}                   数値代入
  *   {{score += 10}}                   複合代入

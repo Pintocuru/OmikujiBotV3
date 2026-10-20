@@ -1,9 +1,8 @@
 // src/ui/types/CookieCounterSchema.ts
 import { z } from 'zod'
-import { DaisyUiThemeFieldsSchema } from '@shared/styles/DaisyUiTheme'
-import { normalizedObject } from '../ParsedDefault'
+import { CharacterColorScheme, normalizedObject } from '@/types/OmikujiData'
+import { idSchema } from '@/types/core'
 import { streamDefaultKeyLabels } from './StreamCounterSchema'
-import { idSchema } from '@shared/types'
 
 /**
  * ライブクロック LiveClock
@@ -13,14 +12,12 @@ import { idSchema } from '@shared/types'
 export const cookieComponentMap = {
   sakura: {
     label: 'さくらツイン🌸',
-    accessLevel: 'pro',
     maxCounters: 2,
     isColor: false,
     hasImage: true,
   },
   block3d: {
     label: 'ブロックツイン',
-    accessLevel: 'pro',
     maxCounters: 2,
     isColor: true,
     hasImage: false,
@@ -58,7 +55,7 @@ export const CookieCounterImagesSchema = z.object({
 
 export const CookieCounterSchema = z.object({
   component: z.enum(cookieComponentsEnum).default('sakura').catch('sakura'), // カウンタースタイル
-  color: normalizedObject(DaisyUiThemeFieldsSchema),
+  color: normalizedObject(CharacterColorScheme),
   counters: z.array(CookieCounterCountersSchema).max(8).default([]), // 任意のカウンター
   images: normalizedObject(CookieCounterImagesSchema),
 })

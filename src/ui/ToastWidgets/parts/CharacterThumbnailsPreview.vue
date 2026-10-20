@@ -17,7 +17,7 @@
       >
         <div
           :class="['w-12 h-12', 'rounded-full border border-base-100 shadow-lg']"
-          :style="{ backgroundColor: character.color?.backgroundColor }"
+          :style="{ backgroundColor: character.color?.background }"
         >
           <CharacterLayerImage :layers="getDefaultLayers(character)" :size="12" :color="character.color" />
         </div>
@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
   import { ref, watch, onUnmounted } from 'vue'
-  import { CharacterType } from '@/types'
+  import { CharacterType } from '@/types/OmikujiData'
   import CharacterLayerImage from '@/common/LayerImage/CharacterLayerImage.vue'
 
   // 定数

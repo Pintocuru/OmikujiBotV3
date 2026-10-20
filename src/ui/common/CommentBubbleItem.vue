@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/generator/parts/CommentBubbleItem.vue -->
+<!-- src/ui/common/CommentBubbleItem.vue -->
 <template>
   <div
     class="relative transparent-bg inline-block max-w-3xl min-w-40"
@@ -21,7 +21,7 @@
 <script setup lang="ts">
   import { computed, ref, watchEffect } from 'vue'
   import { CharacterColorScheme, CharacterColorType } from '@/types/OmikujiData/'
-  import { createUiMap } from '../composables/UiBubbleMap'
+  import { createUiMap } from './UiBubbleMap'
 
   const props = withDefaults(
     defineProps<{

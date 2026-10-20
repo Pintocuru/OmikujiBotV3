@@ -45,7 +45,7 @@ export const postFlowMessages = {
         textareaPlaceholder: 'メッセージを入力...\n\n例:\n{userName} さん、ようこそ！\n今日のおみくじは {r} です！',
         charCount: '{n} 文字',
         lineCount: ' / {n} 行',
-        cheatSheet: '評価ブロック(変数プレースホルダー) チートリスト',
+        cheatSheet: '評価ブロック(評価ブロック) チートリスト',
       },
       messageEditor: {
         placeholder: 'メッセージを入力',
@@ -199,7 +199,7 @@ export const postFlowMessages = {
         dialogTitle: 'Message detail editor',
         editTitle: 'Edit message',
         saveWith: 'to save',
-        textareaPlaceholder: 'Enter a message...\n\nExample:\nWelcome, {userName}!\nToday\'s omikuji is {r}!',
+        textareaPlaceholder: "Enter a message...\n\nExample:\nWelcome, {userName}!\nToday's omikuji is {r}!",
         charCount: '{n} characters',
         lineCount: ' / {n} lines',
         cheatSheet: 'Evaluation block (variable placeholder) cheat sheet',

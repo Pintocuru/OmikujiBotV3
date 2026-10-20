@@ -14,7 +14,7 @@
   import { LiveClockSchema } from '@/ui/types'
   import LiveClockSelector from './LiveClockSelector.vue'
   import { useAppStore } from '@/generator/stores/useAppStore'
-  import { useBotDisplay } from '../CommentBubble/generator/composables/useBotDisplay'
+  import { useBotDisplay } from '@/ui/common/useBotDisplay'
   import { useFilteredBotMessages } from '../common/useFilteredBotMessages'
   import { usePlaceholderInterval } from '../common/usePlaceholderInterval'
 

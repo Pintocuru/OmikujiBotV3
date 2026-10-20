@@ -30,7 +30,7 @@
   </svg>
 </template>
 <script setup lang="ts">
-  import { DaisyUIColorType } from '@shared/styles/DaisyUiTheme'
+  import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
 
   defineProps<{
     hexColors1: string

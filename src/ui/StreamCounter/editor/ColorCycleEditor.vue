@@ -62,8 +62,8 @@
 </template>
 
 <script setup lang="ts">
-  import SettingItem from '@config/components/parts/SettingItem.vue'
-  import { DaisyUIColorType, daisyUIColor } from '@shared/styles/DaisyUiTheme'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+  import { DaisyUIColorType, daisyUIColor } from '@/types/core/DaisyUiTheme'
 
   const props = defineProps<{
     colorCycle: DaisyUIColorType[]

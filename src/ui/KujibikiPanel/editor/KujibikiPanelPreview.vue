@@ -11,9 +11,10 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { BotMessageBubbleType, KujibikiPanelType } from '@/types'
-  import KujibikiPanelSelector from '@main/ui/KujibikiPanel/parts/KujibikiPanelSelector.vue'
-  import HudPreview from '@config/components/common/HudPreview/HudPreview.vue'
+  import { KujibikiPanelType } from '@/ui/types'
+  import { BotMessageBubbleType } from '@/generator/types'
+  import KujibikiPanelSelector from '@/ui/KujibikiPanel/KujibikiPanelSelector.vue'
+  import HudPreview from '@/editor/parts/HudPreview.vue'
 
   const props = defineProps<{
     settings: KujibikiPanelType
