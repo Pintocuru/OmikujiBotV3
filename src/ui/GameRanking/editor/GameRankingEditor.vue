@@ -2,9 +2,7 @@
 <template>
   <!-- ランキングプレビュー -->
   <HudPreview :isAdminOnly="true">
-    <div :class="[fontFamily]">
-      <GameRankingSelector :botMessageExtras="[]" :settings="ranking" />
-    </div>
+    <GameRankingSelector :botMessageExtras="[]" :settings="ranking" :fontFamily="fontFamily" />
   </HudPreview>
 
   <!-- コンポーネント選択 -->
@@ -14,13 +12,8 @@
     @update:modelValue="(val) => update('component', val as RankingComponent)"
   />
 
-  <!-- キャラクター -->
-  <SettingItem
-    label="カラー設定"
-    description="表示するカラーを設定します"
-    :showReset="true"
-    @reset="resetField('color')"
-  >
+  <!-- カラー設定 -->
+  <SettingItem label="カラー設定" description="表示するカラーを設定します" layout="vertical">
     <ColorPicker :modelValue="ranking.color" @update:modelValue="(val) => update('color', val)" />
   </SettingItem>
 
@@ -82,7 +75,7 @@
   const { updateItemSettings } = omikujiStore
   const fontFamily = computed(() => data.value.ui.fontFamily)
 
-  const ranking = computed(() => data.value.ui.settings.gameRanking ?? GameRankingSchema.parse({}))
+  const ranking = computed(() => GameRankingSchema.parse(data.value.ui.settings.gameRanking ?? {}))
 
   // 更新関数
   const update = <K extends keyof GameRankingType>(field: K, value: GameRankingType[K]) => {

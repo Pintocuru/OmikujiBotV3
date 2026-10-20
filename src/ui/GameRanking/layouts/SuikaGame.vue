@@ -12,7 +12,7 @@
   </div>
 
   <!-- ランキングリスト -->
-  <GameRankingList :listMessages="listMessages" :settings="settings" />
+  <GameRankingList :listMessages="listMessages" :settings="settings" medal />
 </template>
 
 <script setup lang="ts">

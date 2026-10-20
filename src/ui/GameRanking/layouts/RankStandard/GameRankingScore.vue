@@ -1,35 +1,30 @@
 <!-- src/ui/GameRanking/generator/layouts/RankStandard/GameRankingScore.vue -->
 <template>
   <Transition name="bubble-fade" @after-leave="$emit('hidden')">
-    <div v-if="isVisible && latestMessage" ref="bubbleRef" class="inline-block relative z-10">
+    <div v-if="isVisible && latestMessage" ref="bubbleRef" class="inline-block relative z-10" :style="colorVars">
       <div class="bubble-float">
         <!-- 円マスク -->
         <div class="relative w-50 h-50 rounded-full overflow-hidden flex items-center justify-center shadow-2xl">
           <!-- シャボン玉背景 -->
-          <div
-            class="absolute inset-0 rounded-full backdrop-blur-sm"
-            style="
-              background: radial-gradient(
-                circle at 30% 30%,
-                rgba(255, 255, 255, 0.65),
-                rgba(255, 255, 255, 0.25) 35%,
-                rgba(255, 255, 255, 0.1) 55%,
-                rgba(255, 255, 255, 0) 70%
-              );
-            "
-          />
+          <div class="absolute inset-0 rounded-full backdrop-blur-sm" :style="{ background: bubbleGradient }" />
 
           <!-- 輪郭 -->
-          <div class="absolute inset-0 rounded-full ring-1 ring-white/30" />
+          <div
+            class="absolute inset-0 rounded-full ring-1"
+            :style="{ '--tw-ring-color': mix('var(--rk-accent)', 60) }"
+          />
 
           <!-- 背景アイコン -->
-          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 text-white">
+          <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20"
+            :style="{ color: 'var(--rk-accent)' }"
+          >
             <Trophy :size="100" :stroke-width="1.5" />
           </div>
 
           <!-- コンテンツ -->
-          <div class="relative z-10 text-center text-white">
-            <h3 class="text-2xl font-bold mb-3">
+          <div class="relative z-10 text-center" :style="{ color: 'var(--rk-text)' }">
+            <h3 class="text-2xl font-bold mb-3" :style="{ color: 'var(--rk-name)' }">
               {{ latestMessage.lists?.listName || latestMessage.user?.userName }}
             </h3>
             <p class="text-base opacity-80">スコア</p>
@@ -67,6 +62,27 @@
   )
 
   const formatScore = (score: number) => score.toLocaleString()
+
+  /* color (CharacterColorScheme の4色) */
+  const colorVars = computed(() => ({
+    '--rk-name': props.settings.color.name,
+    '--rk-text': props.settings.color.text,
+    '--rk-bg': props.settings.color.background,
+    '--rk-accent': props.settings.color.accent,
+  }))
+
+  const mix = (color: string, percent: number) => `color-mix(in srgb, ${color} ${percent}%, transparent)`
+
+  // シャボン玉の背景: background 色を中心から透明へ、縁に accent をほんのり
+  const bubbleGradient = computed(
+    () => `radial-gradient(
+      circle at 30% 30%,
+      ${mix('var(--rk-bg)', 85)},
+      ${mix('var(--rk-bg)', 55)} 35%,
+      ${mix('var(--rk-accent)', 25)} 70%,
+      ${mix('var(--rk-accent)', 40)} 100%
+    )`
+  )
 
   /* motion */
   const bubbleRef = ref<HTMLElement | null>(null)

@@ -1,6 +1,8 @@
 <!-- src/ui/GameRanking/generator/parts/GameRankingSelector.vue -->
 <template>
-  <component :is="currentComponent" :botMessageExtra="botMessageExtras" :settings="settings" />
+  <div class="relative" :class="useFontFamily(fontFamily)">
+    <component :is="currentComponent" :botMessageExtra="botMessageExtras" :settings="settings" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -9,10 +11,12 @@
   import { BotMessageExtraType } from '@/generator/types'
   import suikaGame from './layouts/SuikaGame.vue'
   import standard from './layouts/Standard.vue'
+  import { FontFamilyType, useFontFamily } from '@/types/OmikujiData'
 
   const props = defineProps<{
     botMessageExtras: BotMessageExtraType[]
     settings: GameRankingType
+    fontFamily?: FontFamilyType
   }>()
 
   const componentMap: Record<RankingComponent, any> = {

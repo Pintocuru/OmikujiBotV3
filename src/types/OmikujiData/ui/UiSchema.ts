@@ -13,7 +13,8 @@ import { UiSettingsSchema } from './UiSettingsSchema'
  */
 const _loadedFonts = new Set<string>()
 
-export const useFontFamily = (font: FontFamilyType): string => {
+export const useFontFamily = (font?: FontFamilyType): string => {
+  if (font === undefined) return ''
   const entry = fontFamilyMap[font] ?? fontFamilyMap.default
   if (entry.googleFontsUrl && !_loadedFonts.has(font)) {
     const link = document.createElement('link')

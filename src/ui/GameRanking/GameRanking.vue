@@ -1,6 +1,10 @@
 <!-- src/ui/GameRanking/generator/GameRanking.vue -->
 <template>
-  <GameRankingSelector :botMessageExtras="targetRankingMessages" :settings="rankingSettings" />
+  <GameRankingSelector
+    :botMessageExtras="targetRankingMessages"
+    :settings="rankingSettings"
+    :fontFamily="appStore.data.ui.fontFamily"
+  />
 </template>
 
 <script setup lang="ts">

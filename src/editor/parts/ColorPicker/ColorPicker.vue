@@ -14,10 +14,10 @@
     </div>
 
     <!-- カラーピッカー -->
-    <div class="flex flex-wrap gap-4">
-      <div v-for="{ label, key } in colorFields" :key="key" class="form-control flex-1 min-w-32">
+    <div class="flex flex-wrap gap-2">
+      <div v-for="{ label, key } in colorFields" :key="key" class="form-control flex-1 min-w-16">
         <label class="label">
-          <span class="label-text">{{ label }}</span>
+          <span class="label-text text-sm">{{ label }}</span>
         </label>
 
         <input

@@ -4,23 +4,14 @@
     <!-- プレビュー表示エリア（横幅制限付き） -->
     <div
       class="relative flex flex-col items-center cursor-pointer"
-      :class="fontClass"
+      :class="useFontFamily(props.fontFamily)"
       :style="{ width: 320 + 'px' }"
       @click="reloadAnimation"
       @contextmenu.prevent="hideAnimation"
     >
       <!-- MotionWrapperを使用してシンプルに -->
-      <MotionWrapper
-        ref="motionWrapper"
-        v-model:visible="shouldShowBubble"
-        :motion="bubbleMotion"
-        :auto-hide="false"
-      >
-        <CommentBubbleItem
-          :botName="botName"
-          :message="currentPreview"
-          :color="color"
-        />
+      <MotionWrapper ref="motionWrapper" v-model:visible="shouldShowBubble" :motion="bubbleMotion" :auto-hide="false">
+        <CommentBubbleItem :botName="botName" :message="currentPreview" :color="color" />
       </MotionWrapper>
 
       <!-- 再表示ボタン mt-6はフキダシのカギ用 -->
@@ -34,9 +25,9 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref } from 'vue'
   import { CharacterColorType, EnterMotionType } from '@/types/OmikujiData/'
-  import { FontFamilyType, useFontFamily } from '@/types'
+  import { FontFamilyType, useFontFamily } from '@/types/OmikujiData'
   import CommentBubbleItem from '../generator/parts/CommentBubbleItem.vue'
   import MotionWrapper from '../generator/MotionVariants/MotionWrapper.vue'
 
@@ -53,9 +44,6 @@
       bubbleMotion: 'slideUp',
     }
   )
-
-  // フォントクラスの算出
-  const fontClass = computed(() => useFontFamily(props.fontFamily))
 
   // MotionWrapperの参照
   const motionWrapper = ref<InstanceType<typeof MotionWrapper>>()

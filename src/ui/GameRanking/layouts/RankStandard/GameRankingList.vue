@@ -1,17 +1,20 @@
 <!-- src/ui/GameRanking/generator/layouts/RankStandard/GameRankingList.vue -->
 <template>
-  <div v-if="settings" data-theme="dark" class="card shadow-xl">
-    <div class="card-body p-2">
+  <div v-if="settings" class="rank-card flex flex-col rounded-2xl shadow-xl" :style="rootStyle">
+    <div class="flex flex-col p-2">
       <div class="space-y-1">
         <div
           v-for="(msg, index) in displayMessages"
           :key="`${msg.id}-${index}`"
-          class="flex items-center gap-1 p-1 rounded-lg transition-all hover:bg-base-200"
-          :class="getRankClass(index)"
+          class="rank-row flex items-center gap-1 p-1 rounded-lg transition-all"
+          :style="getRowStyle(index)"
         >
           <!-- スコア順のときだけ順位バッジを表示 -->
           <div v-if="settings.sortOrder === 'high' || settings.sortOrder === 'low'" class="shrink-0">
-            <div class="badge ml-1 p-2 font-bold" :class="getRankBadgeClass(index)">
+            <div
+              class="ml-1 inline-flex h-6 min-w-6 items-center justify-center rounded-lg px-2 text-sm font-bold"
+              :style="getRankBadgeStyle(index)"
+            >
               {{ index + 1 }}
             </div>
           </div>
@@ -19,8 +22,8 @@
           <!-- 名前 -->
           <div class="grow min-w-0 items-center flex flex-nowrap">
             <!-- アイコン -->
-            <div class="avatar mr-1">
-              <div class="w-7 rounded-full">
+            <div class="mr-1 shrink-0">
+              <div class="h-7 w-7 overflow-hidden rounded-full">
                 <img
                   :src="msg.user?.profileImage || getAvatarUrl(msg.user?.userName ?? 'Anonymous')"
                   class="w-full h-full object-cover"
@@ -30,18 +33,25 @@
             </div>
 
             <!-- 名前 -->
-            <span class="text-lg font-bold truncate">
+            <span class="text-lg font-bold truncate" :style="{ color: medal && index < 3 ? '#333' : 'var(--rk-name)' }">
               {{ msg.lists?.listName || msg.user?.userName || 'Anonymous' }}
             </span>
             <!-- symbol -->
-            <span v-if="msg.lists?.symbol !== ''" class="text-base text-base-content/60 font-semibold truncate ml-2">
+            <span
+              v-if="msg.lists?.symbol !== ''"
+              class="text-base font-semibold truncate ml-2"
+              :style="{ opacity: 0.6 }"
+            >
               {{ msg.lists?.symbol }}
             </span>
           </div>
 
           <!--スコア -->
           <div class="shrink-0">
-            <div class="badge badge-lg p-2 font-bold" :class="scoreBadgeClass(msg.lists?.variant)">
+            <div
+              class="inline-flex h-8 items-center justify-center rounded-lg px-3 text-lg font-bold"
+              :style="scoreBadgeStyle"
+            >
               {{ msg.lists?.text || 0 }}
             </div>
           </div>
@@ -57,11 +67,11 @@
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
   import { BotMessageExtraType } from '@/generator/types'
   import { GameRankingType } from '@/ui/types'
-  import { DaisyUIColorType } from '@/types/core'
 
   const props = defineProps<{
     listMessages: BotMessageExtraType[]
     settings: GameRankingType
+    medal?: boolean // true: 1〜3位の行背景を金・銀・銅の固定色にする
   }>()
 
   // 表示用メッセージ（空の場合はダミーを生成）
@@ -96,31 +106,53 @@
     return generateDummyMessages(props.settings)
   })
 
-  // ランク別のスタイルクラス
-  const getRankClass = (index: number): string => {
-    if (index === 0) return 'bg-warning/70'
-    if (index === 1) return 'bg-info/70'
-    if (index === 2) return 'bg-success/70'
-    return ''
+  // CharacterColorScheme の4色(name/text/background/accent)を CSS 変数として流し込む
+  const rootStyle = computed(() => ({
+    '--rk-name': props.settings.color.name,
+    '--rk-text': props.settings.color.text,
+    '--rk-bg': props.settings.color.background,
+    '--rk-accent': props.settings.color.accent,
+    backgroundColor: 'var(--rk-bg)',
+    color: 'var(--rk-text)',
+  }))
+
+  const mix = (color: string, percent: number) => `color-mix(in srgb, ${color} ${percent}%, transparent)`
+
+  // 上位3位の行の背景(accent の濃淡で表現)
+  const RANK_ROW_ALPHA = [70, 45, 25] as const
+  // 金・銀・銅(medal 指定時のみ)
+  const MEDAL_COLORS = ['#FFD700', '#C0C0C0', '#CD7F32'] as const
+
+  const getRowStyle = (index: number) => {
+    if (props.medal) {
+      const color = MEDAL_COLORS[index]
+      // メダル行は背景が固定色なので、テキスト色も固定にして可読性を確保
+      return color ? { backgroundColor: color, color: '#333' } : {}
+    }
+    const alpha = RANK_ROW_ALPHA[index]
+    return alpha ? { backgroundColor: mix('var(--rk-accent)', alpha) } : {}
   }
 
-  // ランク別のバッジクラス
-  const getRankBadgeClass = (index: number): string => {
-    if (index === 0) return 'badge-warning'
-    if (index === 1) return 'badge-info'
-    if (index === 2) return 'badge-success'
-    return 'badge-ghost'
-  }
+  // 順位バッジ
+  const getRankBadgeStyle = (index: number) =>
+    index < RANK_ROW_ALPHA.length
+      ? { backgroundColor: 'var(--rk-accent)', color: 'var(--rk-bg)' }
+      : { backgroundColor: mix('var(--rk-text)', 15), color: 'var(--rk-text)' }
 
-  // スコアのカラー
-  const scoreBadgeClass = (variant?: DaisyUIColorType): string => {
-    return variant ? `badge-${variant}` : 'badge-primary'
+  // スコアバッジ
+  const scoreBadgeStyle = {
+    backgroundColor: 'var(--rk-accent)',
+    color: 'var(--rk-bg)',
   }
 </script>
 
 <style scoped>
-  .card {
+  .rank-card {
     animation: fadeIn 0.3s ease-in;
+  }
+
+  .rank-row:hover {
+    background-color: color-mix(in srgb, var(--rk-text) 10%, transparent);
   }
 
   @keyframes fadeIn {
