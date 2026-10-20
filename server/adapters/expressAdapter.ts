@@ -1,41 +1,39 @@
 // server/adapters/expressAdapter.ts
 import { Request, Response, Application } from 'express'
-import { UnifiedRequest } from '@server/types'
+import { RequestContext, UnifiedRequest, ApiResult } from '@server/types'
 import { routeRequest } from '@server/core/router'
+import { SERVER_ROOT } from '@server/constants'
+import { HTTP } from '@server/core/constants'
+
+/**
+ * Express(開発用)の実行環境: omikujiData.js は assets に出力する
+ */
+const EXPRESS_CONTEXT: RequestContext = {
+  omikujiOutputDir: SERVER_ROOT,
+}
 
 /**
  * Expressルートのセットアップ
  */
 export function setupExpressRoutes(app: Application): void {
-  // GET リクエスト
-  app.get('/api', async (req, res) => {
-    try {
-      const unifiedReq = adaptExpressRequest(req)
-      const result = await routeRequest(unifiedReq, true)
-      sendUnifiedResponse(res, result)
-    } catch (error) {
-      console.error('Express GET error:', error)
-      res.status(500).json({
-        code: 500,
-        response: JSON.stringify({ error: 'Internal server error' }),
-      })
-    }
-  })
+  app.get('/api', handleApiRequest)
+  app.post('/api', handleApiRequest)
+}
 
-  // POST リクエスト
-  app.post('/api', async (req, res) => {
-    try {
-      const unifiedReq = adaptExpressRequest(req)
-      const result = await routeRequest(unifiedReq, true)
-      sendUnifiedResponse(res, result)
-    } catch (error) {
-      console.error('Express POST error:', error)
-      res.status(500).json({
-        code: 500,
-        response: JSON.stringify({ error: 'Internal server error' }),
-      })
-    }
-  })
+/**
+ * GET / POST 共通のハンドラー
+ */
+async function handleApiRequest(req: Request, res: Response): Promise<void> {
+  try {
+    const result = await routeRequest(adaptExpressRequest(req), EXPRESS_CONTEXT)
+    sendUnifiedResponse(res, result)
+  } catch (error) {
+    console.error(`Express ${req.method} error:`, error)
+    res.status(HTTP.INTERNAL_ERROR).json({
+      code: HTTP.INTERNAL_ERROR,
+      response: JSON.stringify({ error: 'Internal server error' }),
+    })
+  }
 }
 
 /**
@@ -43,7 +41,7 @@ export function setupExpressRoutes(app: Application): void {
  */
 function adaptExpressRequest(req: Request): UnifiedRequest {
   return {
-    method: req.method as 'GET' | 'POST' | 'PUT' | 'DELETE',
+    method: req.method as UnifiedRequest['method'],
     action: (req.query.action as string) || '',
     params: req.query as Record<string, string>,
     body: req.body || {},
@@ -53,9 +51,9 @@ function adaptExpressRequest(req: Request): UnifiedRequest {
 /**
  * UnifiedResponseをExpressレスポンスとして送信
  */
-function sendUnifiedResponse(res: Response, result: { code: number; data: any }): void {
+function sendUnifiedResponse(res: Response, result: ApiResult): void {
   // わんコメプラグイン仕様に合わせた形式で返す
-  res.status(200).json({
+  res.status(HTTP.OK).json({
     code: result.code,
     response: JSON.stringify(result.data),
   })

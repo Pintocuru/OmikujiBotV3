@@ -1,24 +1,18 @@
 // server/core/handlers/omikujiHandler.ts
-import { RouteResult } from '@server/types'
+import { ApiResult, RequestContext } from '@server/types'
 import * as fileSystem from '@server/core/services/fileSystemService'
+import { ok, badRequest, guard } from '@server/core/utils/result'
 
 /**
  * おみくじデータを保存
+ * 保存先は呼び出し元(ctx)が決める。応答の filePath は実際に書き込んだ場所を返す。
  */
-export async function saveOmikujiData(configData: string, isExpress?: boolean): Promise<RouteResult> {
-  try {
-    if (!configData) {
-      return { code: 400, data: { error: 'configData is required' } }
-    }
+export async function saveOmikujiData(configData: string, ctx: RequestContext): Promise<ApiResult> {
+  if (!configData) return badRequest('configData is required')
 
-    await fileSystem.saveOmikujiData(configData, isExpress)
-    console.info('🎋 Saved omikuji data to server/omikujiData.js')
-    return {
-      code: 200,
-      data: { message: 'Omikuji data saved successfully', filePath: 'server/omikujiData.js' },
-    }
-  } catch (error) {
-    console.error('Save omikuji error:', error)
-    return { code: 500, data: { error: 'Failed to save omikuji data' } }
-  }
+  return guard('Save omikuji', 'Failed to save omikuji data', async () => {
+    const filePath = await fileSystem.saveOmikujiData(configData, ctx.omikujiOutputDir)
+    console.info(`🎋 Saved omikuji data to ${filePath}`)
+    return ok({ message: 'Omikuji data saved successfully', filePath })
+  })
 }

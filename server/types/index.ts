@@ -1,22 +1,19 @@
-// server/core/types.ts
+// server/types/index.ts
 export interface FileItem {
   name: string
   modified: string
 }
 
-// 共通の結果型
-export interface HandlerResult {
+/**
+ * ハンドラー / ルーター共通の結果型
+ */
+export interface ApiResult<T = any> {
   code: number
-  data: any
-}
-
-export interface RouteResult {
-  code: number
-  data: any
+  data: T
 }
 
 /**
- * 統一されたリクエスト/レスポンス型
+ * 統一されたリクエスト型
  * プラグインとExpressの違いを吸収する
  */
 export interface UnifiedRequest {
@@ -26,7 +23,10 @@ export interface UnifiedRequest {
   body: Record<string, any>
 }
 
-export interface UnifiedResponse {
-  code: number
-  data: any
+/**
+ * 呼び出し元(アダプター)ごとに異なる実行環境
+ */
+export interface RequestContext {
+  /** omikujiData.js の出力先ディレクトリ */
+  omikujiOutputDir: string
 }

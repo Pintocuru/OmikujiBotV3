@@ -3,7 +3,9 @@ import express, { Request, Response, Application, NextFunction } from 'express'
 import cors from 'cors'
 import { Server } from 'http'
 import { setupExpressRoutes } from './adapters/expressAdapter'
-import { DIR } from './constants'
+import path from 'path'
+import { SERVER_ROOT } from './constants'
+import { DEV_API, DIR_NAME } from './core/constants'
 
 let server: Server | null = null
 
@@ -15,11 +17,11 @@ export function startDevApiServer(): Server | null {
   }
 
   const app: Application = express()
-  const port = 3001
+  const port = DEV_API.port
 
   // ミドルウェア設定
   app.use(cors())
-  app.use(express.json({ limit: '10mb' }))
+  app.use(express.json({ limit: DEV_API.bodyLimit }))
   app.use(logMiddleware)
 
   // ルート設定
@@ -28,7 +30,7 @@ export function startDevApiServer(): Server | null {
   // サーバー起動
   server = app.listen(port, () => {
     console.log(`🚀 Dev API server running on http://localhost:${port}`)
-    console.log(`📁 Config files directory: ${DIR.root}`)
+    console.log(`📁 Config files directory: ${path.join(SERVER_ROOT, DIR_NAME.data)}`)
   })
 
   // プロセス終了時の処理

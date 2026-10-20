@@ -1,53 +1,50 @@
 // server/core/handlers/generatorHandler.ts
-import { RouteResult } from '@server/types'
+import { ApiResult } from '@server/types'
 import * as fileSystem from '@server/core/services/fileSystemService'
+import { validatePackageFileName } from '@server/core/utils/validation'
+import { ok, badRequest, guard } from '@server/core/utils/result'
+import { DIR_NAME, FILE_NAME } from '@server/core/constants'
 
-const GENERATOR_FILE = 'generator.json'
-const PACKAGES_DIR_NAME = 'packages'
+/**
+ * fileName から保存先(ディレクトリ, ファイル名)を決定する
+ * fileName 未指定なら server 直下の generator.json
+ */
+function resolveTarget(fileName?: string | null): { dir: string | null; name: string } {
+  return fileName ? { dir: DIR_NAME.packages, name: fileName } : { dir: null, name: FILE_NAME.generator }
+}
 
 /**
  * Generator設定を読み込み
  */
-export async function loadGeneratorConfig(fileName: string | null): Promise<RouteResult> {
-  try {
-    const dir = fileName ? PACKAGES_DIR_NAME : null
+export async function loadGeneratorConfig(fileName: string | null): Promise<ApiResult> {
+  if (fileName && !validatePackageFileName(fileName)) return badRequest('Invalid file name')
 
-    const data = await fileSystem.loadFile(dir, fileName ?? GENERATOR_FILE)
-    console.info(`📖 Loaded generator config: ${fileName}`)
-    return { code: 200, data }
-  } catch (error: any) {
-    if (error.code === 'ENOENT') {
-      console.info('Generator config not found:', fileName)
-      return { code: 404, data: { error: 'Generator config not found' } }
-    }
-    console.error('Load generator error:', error)
-    return { code: 500, data: { error: 'Failed to load generator config' } }
-  }
+  const { dir, name } = resolveTarget(fileName)
+
+  return guard(
+    'Load generator',
+    'Failed to load generator config',
+    async () => {
+      const data = await fileSystem.loadFile(dir, name)
+      console.info(`📖 Loaded generator config: ${name}`)
+      return ok(data)
+    },
+    { notFound: 'Generator config not found' }
+  )
 }
 
 /**
  * Generator設定を保存
  */
-export async function saveGeneratorConfig(data: string, fileName?: string): Promise<RouteResult> {
-  try {
-    if (!data) {
-      return { code: 400, data: { error: 'data is required' } }
-    }
+export async function saveGeneratorConfig(data: string, fileName?: string | null): Promise<ApiResult> {
+  if (!data) return badRequest('data is required')
+  if (fileName && !validatePackageFileName(fileName)) return badRequest('Invalid file name')
 
-    const dir = fileName ? PACKAGES_DIR_NAME : null
+  const { dir, name } = resolveTarget(fileName)
 
-    await fileSystem.saveFile(dir, fileName ?? GENERATOR_FILE, data)
-
-    console.info(`💾 Saved generator config: ${fileName ?? GENERATOR_FILE}`)
-    return {
-      code: 200,
-      data: {
-        message: 'Generator config saved successfully',
-        fileName: fileName ?? GENERATOR_FILE,
-      },
-    }
-  } catch (error) {
-    console.error('Save generator error:', error)
-    return { code: 500, data: { error: 'Failed to save generator config' } }
-  }
+  return guard('Save generator', 'Failed to save generator config', async () => {
+    await fileSystem.saveFile(dir, name, data)
+    console.info(`💾 Saved generator config: ${name}`)
+    return ok({ message: 'Generator config saved successfully', fileName: name })
+  })
 }

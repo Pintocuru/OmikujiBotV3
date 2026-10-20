@@ -116,7 +116,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
   const overwriteOmikujiData = async () => {
     const result = await swalModal.confirmDelete({
       title: '上書き確認',
-      text: `設定ファイル "omikujiData.js" を assets に上書きしますか？`,
+      text: `設定ファイル "omikujiData.js" を server に上書きしますか？`,
       confirmButtonText: '上書き',
     })
 
