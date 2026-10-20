@@ -26,7 +26,7 @@
           :key="key"
           class="badge badge-lg cursor-pointer whitespace-nowrap"
           :class="ranking.sortOrder === key ? 'badge-primary' : 'badge-outline'"
-          @click="ranking.sortOrder = key"
+          @click="update('sortOrder', key)"
         >
           {{ order }}
         </div>
