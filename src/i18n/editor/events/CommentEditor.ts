@@ -1,4 +1,4 @@
-// src/editor/maps/events/CommentEditor.ts
+// src/i18n/editor/events/CommentEditor.ts
 export const commentEditorMessages = {
   ja: {
     commentEditor: {

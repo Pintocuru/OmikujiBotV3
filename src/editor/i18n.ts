@@ -1,14 +1,13 @@
 // src/editor/i18n.ts
 import { createI18n } from 'vue-i18n'
-import { messageModules } from '@/editor/maps/messageModules'
+import { messageModules } from '@/i18n/editor'
 
-// 対応ロケール。maps 配下の export のうち、これらをキーに持つオブジェクトだけをメッセージとして扱う
-// （categorySectionMap や colorFields など、メッセージではない export を誤って取り込まないため）
+// 対応ロケール。翻訳ファイルの export のうち、これらをキーに持つオブジェクトだけをメッセージとして扱う
 const LOCALES = ['ja', 'en'] as const
 
 type Messages = Record<string, any>
 
-// 1. src/editor/maps/ 以下の翻訳ファイル (messageModules.ts に列挙)
+// 1. src/i18n/editor/ 以下の翻訳ファイル (messageModules.ts に列挙)
 const modules = messageModules
 
 const isPlainObject = (v: unknown): v is Messages => typeof v === 'object' && v !== null && !Array.isArray(v)

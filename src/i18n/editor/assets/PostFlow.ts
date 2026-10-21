@@ -1,4 +1,4 @@
-// src/editor/maps/assets/PostFlow.ts
+// src/i18n/editor/assets/PostFlow.ts
 export const postFlowMessages = {
   ja: {
     postFlow: {

@@ -1,4 +1,4 @@
-// src/editor/maps/apps/AppItemsCharacters.ts
+// src/i18n/editor/apps/AppItemsCharacters.ts
 export const appItemsCharactersMessages = {
   ja: {
     appHeader: {

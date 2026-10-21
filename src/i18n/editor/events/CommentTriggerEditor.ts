@@ -1,4 +1,4 @@
-// src/editor/maps/events/CommentTriggerEditor.ts
+// src/i18n/editor/events/CommentTriggerEditor.ts
 export const commentTriggerMessages = {
   ja: {
     commentTrigger: {

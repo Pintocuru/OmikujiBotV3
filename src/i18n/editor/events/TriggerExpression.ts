@@ -1,4 +1,4 @@
-// src/editor/maps/events/TriggerExpression.ts
+// src/i18n/editor/events/TriggerExpression.ts
 export const triggerExpressionMessages = {
   ja: {
     triggerExpression: {

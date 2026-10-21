@@ -1,4 +1,4 @@
-// src/editor/maps/assets/PlaceholderMessages.ts
+// src/i18n/editor/assets/PlaceholderMessages.ts
 export const placeholderMessages = {
   ja: {
     placeholder: {

@@ -1,12 +1,11 @@
 // tools/viteConfig/characterAssetsPlugin.ts
-// TODO:コメントが文字化けしてるので修正して
 import fs from 'fs'
 import path from 'path'
 import type { Plugin } from 'vite'
 
 /**
  * /assets/Characters/{name} へのリクエストを
- * common/ また�E YYYY-QN/ フォルダから探して返すプラグイン
+ * common/ または YYYY-QN/ フォルダから探して返すプラグイン
  */
 export function characterAssetsPlugin(projectRoot: string): Plugin {
   const charsDir = path.resolve(projectRoot, 'assets/Characters')
@@ -42,7 +41,7 @@ export function characterAssetsPlugin(projectRoot: string): Plugin {
   }
 }
 
-/** assets/Characters/ 直下�E中間フォルダ一覧を動皁E��征E*/
+/** assets/Characters/ 直下のフォルダ一覧を動的に取得*/
 function getIntermediateFolders(charsDir: string): string[] {
   if (!fs.existsSync(charsDir)) return []
   return fs
@@ -51,7 +50,7 @@ function getIntermediateFolders(charsDir: string): string[] {
     .map((d) => d.name)
 }
 
-/** 中間フォルダかどぁE��の判宁E*/
+/** 中間フォルダかの判定*/
 function isIntermediateFolder(name: string): boolean {
   return name === 'common' || name === 'wip' || /^\d{4}-Q\d+$/.test(name)
 }

@@ -1,4 +1,4 @@
-// src/editor/maps/helpers/keyEditorMessages.ts
+// src/i18n/editor/helpers/keyEditorMessages.ts
 
 export const keyEditorMessages = {
   ja: {

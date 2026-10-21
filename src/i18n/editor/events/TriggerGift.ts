@@ -1,4 +1,4 @@
-// src/editor/maps/events/TriggerGift.ts
+// src/i18n/editor/events/TriggerGift.ts
 export const triggerGiftMessages = {
   ja: {
     triggerGift: {

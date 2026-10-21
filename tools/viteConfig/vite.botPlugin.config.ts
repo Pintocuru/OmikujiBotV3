@@ -1,5 +1,4 @@
 // tools/viteConfig/vite.botPlugin.config.ts
-// TODO:コメントが文字化けしてるので修正して
 import { defineConfig, mergeConfig } from 'vite'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -8,36 +7,36 @@ import { baseViteConfig } from '../../vite.config'
 import { createAliases } from '@tools/webpackBuild/utils/CreateAliases'
 import { APP_VERSION } from '@/version'
 
-// projectRoot の設宁E
+// projectRoot の設定
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const projectRoot = path.resolve(__dirname, '../../')
 const base = baseViteConfig(projectRoot)
 
-// tsconfig.json からエイリアスを生戁E
+// tsconfig.json からエイリアスを生成
 const tsAliases = createAliases(projectRoot, tsconfig)
 export const alias = { ...tsAliases }
 
 export default defineConfig(() => {
   return mergeConfig(base, {
-    // ビルド設宁E
+    // ビルド設定
     build: {
-      // ライブラリモードで構篁E
+      // ライブラリモードでコンパイル
       lib: {
         entry: path.resolve(projectRoot, 'src/EditorPlugin/plugin.ts'),
         name: 'Plugin',
         fileName: () => `EditorPlugin-${APP_VERSION}/plugin.js`,
-        formats: ['cjs'], // 出力形式�E CommonJS 持E��E
+        formats: ['cjs'], // 出力形式は CommonJS
       },
 
       // 出力ディレクトリ
       outDir: 'dist',
       emptyOutDir: true,
 
-      // ロールアチE�E設宁E
+      // ロールアップ設定
       rolldownOptions: {
-        // plugins: [visualizer({ open: true })], // 同梱物チェチE��用
-        // 外部依存関係�E持E��E
+        // plugins: [visualizer({ open: true })], // 同梱物チェック用
+        // 外部依存関係を持ち込まない
         external: [
           'fs',
           'fs/promises',
@@ -52,20 +51,20 @@ export default defineConfig(() => {
           'electron-store',
         ],
         output: {
-          // チE��ォルトエクスポ�EトをCommonJSのexportsに直接変換
+          // デフォルトエクスポートをCommonJSのexportsに直接変換
           exports: 'default',
         },
       },
 
-      // ミニファイ設宁E
+      // ミニファイ設定
       minify: 'terser',
       terserOptions: {
         compress: {
-          drop_console: false, // Console.logを削除するぁE
+          drop_console: false, // Console.logを削除する
           drop_debugger: true,
         },
         mangle: {
-          // 特定�E関数名�E保持
+          // 特定の関数名を保持
           reserved: [
             'init',
             // 'subscribe',
@@ -78,17 +77,17 @@ export default defineConfig(() => {
       },
 
 
-      sourcemap: false,   // ソースマップ生戁E
+      sourcemap: false,   // ソースマップ生成しない
 
 
-      chunkSizeWarningLimit: 1000,    // チャンクサイズ警告�E無効匁E
+      chunkSizeWarningLimit: 1000,    // チャンクサイズ警告を無効化
     },
 
-    // 解決設宁E
+    // 解決設定
     resolve: { alias: alias },
     test: {
-      silent: false,   // コンソールメチE��ージを有効にする
-      globals: true,    // そ�E他�E設宁E
+      silent: false,   // コンソールメッセージを有効にする
+      globals: true,    // その他の設定
     },
   })
 })

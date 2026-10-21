@@ -1,4 +1,4 @@
-// src/editor/maps/events/ReactionEditor.ts
+// src/i18n/editor/events/ReactionEditor.ts
 export const reactionEditorMessages = {
   ja: {
     reactionEditor: {

@@ -1,4 +1,4 @@
-// src/editor/maps/apps/BaseSettingsEditor.ts
+// src/i18n/editor/apps/BaseSettingsEditor.ts
 // BaseEditor.vue が t('baseSettings.xxx.label') で参照する。
 // 必ず最上位キーを `baseSettings` で包むこと（包まないと key / name / description が最上位に漏れる）
 

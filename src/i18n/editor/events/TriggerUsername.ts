@@ -1,4 +1,4 @@
-// src/editor/maps/events/TriggerUsername.ts
+// src/i18n/editor/events/TriggerUsername.ts
 export const triggerUsernameMessages = {
   ja: {
     triggerUsername: {

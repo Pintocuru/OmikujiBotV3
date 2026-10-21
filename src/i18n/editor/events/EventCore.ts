@@ -1,4 +1,4 @@
-// src/editor/maps/events/EventCore.ts
+// src/i18n/editor/events/EventCore.ts
 export const eventCoreMessages = {
   ja: {
     eventCore: {

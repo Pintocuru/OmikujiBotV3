@@ -1,4 +1,4 @@
-// src/editor/maps/events/TriggerAccess.ts
+// src/i18n/editor/events/TriggerAccess.ts
 export const triggerAccessMessages = {
   ja: {
     triggerAccess: {

@@ -2,10 +2,10 @@
 import { defineConfig, mergeConfig, UserConfig } from 'vite'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { createViteAliases } from './tools/viteConfig/CreateViteAliases'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import checker from 'vite-plugin-checker'
+import { createViteAliases } from './tools/viteConfig/CreateViteAliases'
 import { characterAssetsPlugin } from './tools/viteConfig/characterAssetsPlugin'
 import { soundAssetsPlugin } from './tools/viteConfig/soundAssetsPlugin'
 

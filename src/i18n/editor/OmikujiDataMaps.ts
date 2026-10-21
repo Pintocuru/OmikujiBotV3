@@ -1,4 +1,4 @@
-// src/editor/maps/OmikujiDataMaps.ts
+// src/i18n/editor/OmikujiDataMaps.ts
 // src/maps/OmikujiData 配下の Map の表示文言(label / description)の翻訳
 // Map 本体(日本語)は generator など editor 外でも使うため残し、editor 側はここのキーを参照する
 export const omikujiDataMapMessages = {

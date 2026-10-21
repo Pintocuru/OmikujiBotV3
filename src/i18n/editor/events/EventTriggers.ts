@@ -1,4 +1,4 @@
-// src/editor/maps/events/EventTriggers.ts
+// src/i18n/editor/events/EventTriggers.ts
 export const eventTriggersMessages = {
   ja: {
     triggerCount: {

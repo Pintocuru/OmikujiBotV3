@@ -1,4 +1,4 @@
-// src/editor/maps/category/CategorySectionMessagesMap.ts
+// src/i18n/editor/category/CategorySectionMessagesMap.ts
 export const categorySectionMessages = {
   ja: {
     categorySections: {
