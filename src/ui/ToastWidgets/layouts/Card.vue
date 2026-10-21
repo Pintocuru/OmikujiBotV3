@@ -1,13 +1,17 @@
-<!-- src/ui/ToastWidgets/parts/ToastBubbleItem.vue -->
+<!-- src/ui/ToastWidgets/layouts/Card.vue -->
 <template>
-  <div :class="showToastsOnRight ? 'chat chat-end' : 'chat chat-start'">
-    <!-- アイコン -->
-    <div v-if="iconLayers?.length" class="chat-image avatar relative w-10 h-10">
-      <CharacterLayerImage :layers="iconLayers" :size="10" :color="color" />
-    </div>
+  <div class="flex items-center gap-3 my-1">
+    <div
+      class="flex items-center gap-3 max-w-xs rounded-lg px-3 py-2 shadow-lg"
+      :class="showToastsOnRight ? 'flex-row-reverse border-r-4' : 'flex-row border-l-4'"
+      :style="{ backgroundColor: color.background, color: color.text, borderColor: color.accent }"
+    >
+      <!-- アイコン -->
+      <div v-if="iconLayers?.length" class="shrink-0 w-10 h-10">
+        <CharacterLayerImage :layers="iconLayers" :size="10" :color="color" />
+      </div>
 
-    <!-- メッセージ -->
-    <div class="chat-bubble max-w-xs" :class="`text-${color.text}-content `">
+      <!-- メッセージ -->
       <div class="leading-tight text-base" v-html="displayedHtml" />
     </div>
   </div>

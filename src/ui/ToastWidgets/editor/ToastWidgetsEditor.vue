@@ -5,9 +5,10 @@
     <div class="flex flex-col" :class="[fontFamily]">
       <!-- トーストサンプル -->
       <div :class="!toastSettings.showToastsOnRight ? 'self-start' : 'self-end'">
-        <ToastBubbleItem
+        <ToastBubbleSelector
           v-for="(message, i) in previewMessages"
           :key="i"
+          :settings="toastSettings"
           :message="message.bubble?.message ?? '(未記入)'"
           :color="getCharacterColor(message.bubble.characterKey)"
           :iconLayers="
@@ -15,7 +16,6 @@
               ? iconSrc(message.bubble?.characterKey ?? null, message.bubble?.iconKey ?? 'default')
               : []
           "
-          :showToastsOnRight="toastSettings.showToastsOnRight"
         />
       </div>
 
@@ -30,6 +30,13 @@
       </div>
     </div>
   </HudPreview>
+
+  <!-- コンポーネント選択 -->
+  <DisplayStyleSelector
+    :modelValue="toastSettings.component"
+    :options="toastComponentMap"
+    @update:modelValue="(val) => updateField('component', val as ToastComponent)"
+  />
 
   <!-- 設定項目 -->
   <SettingItem
@@ -83,13 +90,15 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { ToastWidgetsSchema } from '@/types/ui'
+  import { ToastWidgetsSchema, type ToastComponent } from '@/types/ui'
+  import { toastComponentMap } from '@/maps/ui'
   import { BotMessageBubbleSchema } from '@/generator/types'
   import { useFontFamily } from '@/types'
   import CharacterSelectorMulti from './CharacterSelectorMulti.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import ToastBubbleItem from '@/ui/ToastWidgets/parts/ToastBubbleItem.vue'
+  import ToastBubbleSelector from '@/ui/ToastWidgets/ToastBubbleSelector.vue'
+  import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import CharacterThumbnailsPreview from '@/ui/ToastWidgets/parts/CharacterThumbnailsPreview.vue'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import HudPreview from '@/editor/parts/HudPreview.vue'
@@ -99,7 +108,7 @@
   const { iconSrc, getCharacterColor } = useCharacterManager()
   const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
 
-  const toastSettings = computed(() => data.value.ui.settings.toastWidgets ?? ToastWidgetsSchema.parse({}))
+  const toastSettings = computed(() => ToastWidgetsSchema.parse(data.value.ui.settings.toastWidgets ?? {}))
   const characterArray = computed(() => Object.values(data.value.assets.characters))
 
   // showThumbnail に含まれるキーを持つキャラクターのみをフィルタリング
