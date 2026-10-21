@@ -21,7 +21,7 @@ function project(packageRoot: string): ProjectCoreConfig {
       editor: path.resolve(packageRoot, 'src/ConfigMaker/main.ts'),
     },
 
-    filesToCopy: [...DEFAULT_FILES_TO_COPY, { from: 'assets/sounds/core/', to: 'assets/sounds/' }],
+    filesToCopy: [...DEFAULT_FILES_TO_COPY],
   }
 }
 
