@@ -12,7 +12,7 @@ export function characterAssetsPlugin(projectRoot: string): Plugin {
 
   return {
     name: 'character-assets-fallback',
-    apply: 'serve', // 開発サーバ�Eのみ
+    apply: 'serve', // 開発サーバのみ
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const PREFIX = '/assets/Characters/'
@@ -25,7 +25,7 @@ export function characterAssetsPlugin(projectRoot: string): Plugin {
           return next()
         }
 
-        // 中間フォルダ候補を動的に取得（フォルダ追加時に自動対応！E
+        // 中間フォルダ候補を動的に取得（フォルダ追加時に自動対応
         const candidates = getIntermediateFolders(charsDir)
         for (const folder of candidates) {
           const fullPath = path.resolve(charsDir, folder, relativePath)

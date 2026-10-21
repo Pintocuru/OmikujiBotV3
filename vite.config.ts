@@ -5,9 +5,9 @@ import { fileURLToPath } from 'url'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import checker from 'vite-plugin-checker'
-import { createViteAliases } from './tools/viteConfig/CreateViteAliases'
-import { characterAssetsPlugin } from './tools/viteConfig/characterAssetsPlugin'
-import { soundAssetsPlugin } from './tools/viteConfig/soundAssetsPlugin'
+import { createViteAliases } from './tools/viteConfig/CreateViteAliases.ts'
+import { characterAssetsPlugin } from './tools/viteConfig/characterAssetsPlugin.ts'
+import { soundAssetsPlugin } from './tools/viteConfig/soundAssetsPlugin.ts'
 
 // projectRoot の設定
 const __filename = fileURLToPath(import.meta.url)

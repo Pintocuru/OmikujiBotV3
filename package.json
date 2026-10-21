@@ -12,6 +12,7 @@
     "build:omikujiBot": "tsx packages/build.ts",
     "build:omikujiBotTrial": "tsx packages/build.ts --bundler=vite"
   },
+  "type": "module",
   "author": "Pintocuru",
   "license": "Apache-2.0",
   "keywords": [
