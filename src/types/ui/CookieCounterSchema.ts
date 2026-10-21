@@ -1,8 +1,9 @@
 // src/types/ui/CookieCounterSchema.ts
 import { z } from 'zod'
-import { CharacterColorScheme, normalizedObject } from '../OmikujiData'
-import { idSchema } from '../core'
+
+import { idSchema, normalizedObject } from '../core'
 import { streamDefaultKeyLabels } from './StreamCounterSchema'
+import { CharacterColorScheme } from '../OmikujiData/assets/CharacterSchema'
 
 /**
  * ライブクロック LiveClock
