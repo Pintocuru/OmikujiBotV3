@@ -39,7 +39,7 @@
   import { useI18n } from 'vue-i18n'
   import { isDev } from '@/types/env'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useManagerStore } from '@/manager/stores/useManagerStore.js'
+  import { useManagerStore } from '@/manager/stores/useManagerStore'
   import NavigationSidebarDataCategories from './NavigationSidebarDataCategories.vue'
   import NavigationSidebarSettingsCategories from './NavigationSidebarSettingsCategories.vue'
   import { provideSidebarContext } from './composables/useSidebarContext'

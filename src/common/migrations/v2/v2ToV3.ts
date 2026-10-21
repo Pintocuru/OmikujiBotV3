@@ -143,7 +143,6 @@ function migrateOmikujiItem(oldItem: unknown): Obj {
   }
 
   if ((old.type ?? 'postActions') === 'special') {
-    const behavior = obj(old.behavior)
     const type = specialType(old)
 
     // logUserState / logOmikuji / logGame / logVariable -> log（targetKey は v3 に無いため破棄）

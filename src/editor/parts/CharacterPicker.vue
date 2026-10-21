@@ -52,7 +52,7 @@
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
 
-  const props = withDefaults(
+  withDefaults(
     defineProps<{
       modelValue: string
       allowEmpty?: boolean // 「なし」を選べるようにする
@@ -74,7 +74,9 @@
   const items = computed(() =>
     Object.entries(characterMap.value).map(([key, c]) => {
       const images = c.image ?? {}
-      const entry = hasSrc(images['default']?.src) ? images['default'] : Object.values(images).find((i) => hasSrc(i.src))
+      const entry = hasSrc(images['default']?.src)
+        ? images['default']
+        : Object.values(images).find((i) => hasSrc(i.src))
       return { key, name: c.name, layers: entry?.src ?? [] }
     })
   )

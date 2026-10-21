@@ -53,9 +53,9 @@ export const ExtraSlotsSchema = z.object({
 export type ExtraSlotsType = z.infer<typeof ExtraSlotsSchema>
 
 /**
- * CommentBubbleSchema
+ * BotBubbleSchema
  */
-const CommentBubbleSchema = z.object({
+const BotBubbleSchema = z.object({
   name: z.string().nullable().default(null),
   message: z.string(),
   characterKey: z.string().nullable().default(null),
@@ -68,7 +68,7 @@ const CommentBubbleSchema = z.object({
  */
 export const BotMessageBubbleSchema = BotMessageBaseSchema.extend({
   type: z.literal('comment').default('comment'),
-  bubble: CommentBubbleSchema,
+  bubble: BotBubbleSchema,
   slots: ExtraSlotsSchema.optional(),
 })
 export type BotMessageBubbleType = z.infer<typeof BotMessageBubbleSchema>

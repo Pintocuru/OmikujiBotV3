@@ -45,8 +45,8 @@
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import DataManager from '@/manager/DataManager.vue'
-  import { useManagerStore } from '@/manager/stores/useManagerStore.js'
-  import { generatorApi } from '@/manager/services/generatorApi.js'
+  import { useManagerStore } from '@/manager/stores/useManagerStore'
+  import { generatorApi } from '@/manager/services/generatorApi'
 
   // stores
   const omikujiStore = useOmikujiStore()

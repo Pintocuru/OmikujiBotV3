@@ -74,7 +74,7 @@
   import { processTestPlaceholder } from './TestPlaceholderProcessor'
   import CommentBubbleItem from '@/ui/common/CommentBubbleItem.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import { CommentBubbleSchema } from '@/types/ui/CommentBubbleSchema.js'
+  import { CommentBubbleSchema } from '@/types/ui/CommentBubbleSchema'
 
   const { t } = useI18n()
 
@@ -87,7 +87,7 @@
 
   const soundEnabled = computed(() => data.value.settings.generator.soundEnabled)
   const characters = computed(() => data.value.assets.characters)
-  const bubbleSettings = computed(() => data.value.ui.settings.commentBubble ?? CommentBubbleSchema.parse({}))
+  const bubbleSettings = computed(() => CommentBubbleSchema.parse(data.value.ui.settings.commentBubble ?? {}))
   const defaultColor = CharacterColorScheme.parse({})
 
   // リフレッシュキー
