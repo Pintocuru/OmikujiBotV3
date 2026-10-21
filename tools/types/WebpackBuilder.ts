@@ -103,7 +103,7 @@ export interface PackageBuildTarget {
  * - PATCH: 拡張ファイルのみを含んだ差分更新用パッケージ
  * - JSON: JSONファイルとREADMEファイルのみを含んだデータのみのパッケージ
  */
-export type PackageType = 'FULL' | 'PATCH' | 'JSON'
+export type PackageType = 'FULL' | 'PATCH' | 'JSON' | 'UPDATE'
 
 /**
  * システム共通データ

@@ -81,8 +81,7 @@ export class WebpackBuilder {
         (coreTargets.length > 0 && this.coreProjects.get(coreTargets[0].project)) ||
         (packageTargets.length > 0 && this.packageProjects.get(packageTargets[0].project))
       if (rootProject && bundler === 'webpack') {
-        const isMultipleBuilds = coreTargets.length + packageTargets.length > 1
-        await buildZipFolders(rootProject.packageRoot, isMultipleBuilds)
+        await buildZipFolders(rootProject.packageRoot)
       }
 
       console.log('[Build] All builds completed successfully!')
@@ -166,7 +165,7 @@ export class WebpackBuilder {
     }
 
     // webpack を通す FULL がある場合のみ、他の出力を消さないよう最初に1回だけ実行
-    if (resolvedConfigs.some((config) => config.packageType === 'FULL')) {
+    if (resolvedConfigs.some((config) => config.packageType === 'FULL' || config.packageType === 'UPDATE')) {
       await this.runBeforeBuildOnce(onBeforeBuild)
     }
 

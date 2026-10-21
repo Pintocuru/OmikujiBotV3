@@ -52,7 +52,7 @@ export async function executePackageBuild(
     const distPath = await cleanOutputDir(config.packageRoot, outputSubDir)
     console.log(`  [Clean] Output directory: ${distPath}`)
 
-    if (config.packageType === 'FULL') {
+    if (config.packageType === 'FULL' || config.packageType === 'UPDATE') {
       // FULL: パッケージの main.ts (entryPoints) をビルド (配布は webpack、試験用は vite)
       if (bundler === 'vite') {
         await runVite(config, outputSubDir)

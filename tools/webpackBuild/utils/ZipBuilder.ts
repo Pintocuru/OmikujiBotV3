@@ -6,48 +6,32 @@ import archiver from 'archiver'
 /**
  * ビルドしたフォルダを個別にzipする
  */
-export async function buildZipFolders(packageRoot: string, isRecordConfig: boolean): Promise<void> {
+export async function buildZipFolders(packageRoot: string): Promise<void> {
   const distRoot = path.resolve(packageRoot, 'dist')
-  const zippedDir = path.resolve(packageRoot, 'dist', 'distZipped')
+  const zippedDir = path.resolve(distRoot, 'distZipped')
 
   if (!fs.existsSync(distRoot)) {
     console.warn(`dist ディレクトリが見つかりません: ${distRoot}`)
     return
   }
 
-  // zippedフォルダが存在しない場合は作成
-  if (!fs.existsSync(zippedDir)) {
-    fs.mkdirSync(zippedDir, { recursive: true })
+  fs.mkdirSync(zippedDir, { recursive: true })
+
+  // dist 直下のフォルダを個別に zip 化(出力先の distZipped は除外)
+  const folders = fs
+    .readdirSync(distRoot, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory() && dirent.name !== 'distZipped')
+    .map((dirent) => dirent.name)
+
+  if (folders.length === 0) {
+    console.warn('zip化するフォルダが見つかりません')
+    return
   }
 
-  if (isRecordConfig) {
-    // Record型：dist内のフォルダを個別にzip化
-    const folders = fs
-      .readdirSync(distRoot, { withFileTypes: true })
-      .filter((dirent) => dirent.isDirectory())
-      .map((dirent) => dirent.name)
-
-    if (folders.length === 0) {
-      console.warn('zip化するフォルダが見つかりません')
-      return
-    }
-
-    for (const folder of folders) {
-      const folderPath = path.join(distRoot, folder)
-      const zipName = `${folder}.zip`
-      const zipPath = path.join(zippedDir, zipName)
-
-      await zipFolder(folderPath, zipPath)
-      console.log(`✔ ${zipName} を作成しました （複数出力）`)
-    }
-  } else {
-    // 単体設定：dist全体をpackageRoot基準の名前でzip化
-    const packageName = path.basename(packageRoot)
-    const zipName = `${packageName}.zip`
-    const zipPath = path.join(zippedDir, zipName)
-
-    await zipFolder(distRoot, zipPath)
-    console.log(`✔ ${zipName} を作成しました （単体）`)
+  for (const folder of folders) {
+    const zipName = `${folder}.zip`
+    await zipFolder(path.join(distRoot, folder), path.join(zippedDir, zipName))
+    console.log(`✔ ${zipName} を作成しました`)
   }
 }
 

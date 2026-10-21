@@ -9,7 +9,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import fs from 'fs'
 
-import { coreTargets, getCoreProjects, getPackageProjects, packageTargets } from './buildProjects'
+import { getPackageProjects, packageTargets } from './buildProjects'
 import { execSync } from 'child_process'
 import { createViteAliases } from '@tools/viteConfig/CreateViteAliases'
 
@@ -59,12 +59,11 @@ const alias = { ...createViteAliases(projectRoot) }
     }
 
     const builder = new WebpackBuilder(systemCommonData)
-    builder.registerCoreProject(getCoreProjects(packageRoot))
     builder.registerPackageProject(getPackageProjects(packageRoot))
 
     // 型チェック + ESLint
     await builder.build({
-      coreTargets,
+      coreTargets: [],
       packageTargets,
       onBeforeBuild: runPreBuildChecks,
       bundler,

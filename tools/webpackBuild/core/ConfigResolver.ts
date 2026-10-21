@@ -33,7 +33,7 @@ function generatePackageOutputFolderName(projectName: string, version: string, p
     return `${sanitizedName}_json_${sanitizedVersion}`
   }
 
-  const typeSuffix = packageType === 'PATCH' ? '_patch' : ''
+  const typeSuffix = packageType === 'PATCH' ? '_patch' : packageType === 'UPDATE' ? '_update' : ''
 
   return `${sanitizedName}_${sanitizedVersion}${typeSuffix}`
 }

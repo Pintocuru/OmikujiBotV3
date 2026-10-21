@@ -20,7 +20,7 @@ export function createPackageProject(
   packageRoot: string,
   color: string,
   params: ProjectParams,
-  options: { withEditor?: boolean } = {}
+  options: { withEditor?: boolean; update?: boolean } = {}
 ): ProjectPackageConfig {
   const id = `${params.key}${color}`
   const colorLabel = color ? `${color} ` : ''
@@ -54,12 +54,14 @@ export function createPackageProject(
       description: params.description,
     },
 
-    json: buildJsonConfig(packageRoot, `${id}.json`),
+    // json: の行を置き換え
+    json: options.update ? buildEmptyJsonConfig(packageRoot) : buildJsonConfig(packageRoot, `${id}.json`),
 
     filesToCopy: [
       ...(params.extraFiles ?? []),
       ...DEFAULT_FILES_TO_COPY,
-      { from: `packages/${params.category}/${series}/thumb/${id}.gif`, to: 'thumb.gif' },
+      // UPDATE は既存環境へ上書きするので thumb.gif は同梱しない
+      ...(options.update ? [] : [{ from: `packages/${params.category}/${series}/thumb/${id}.gif`, to: 'thumb.gif' }]),
     ],
   }
 }
@@ -83,4 +85,9 @@ function buildJsonConfig(packageRoot: string, templateName: string) {
     generateJsContent,
     assembleJsonData: processMerge,
   }
+}
+
+/** UPDATE 用: omikujiData.js を出さないので JSON は読まない(ダミー) */
+function buildEmptyJsonConfig(packageRoot: string) {
+  return { jsonPathRoot: path.resolve(packageRoot, 'server/presets/'), jsonPath: '', generateJsContent }
 }

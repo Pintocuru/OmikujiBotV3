@@ -32,7 +32,7 @@ export async function processPostBuild(config: ResolvedPackageBuildConfig, outpu
     await Promise.all(processorsToRun)
 
     // JSON処理
-    if (shouldRunTemplateProcessors) {
+    if (shouldRunTemplateProcessors && config.packageType !== 'UPDATE') {
       // JSONメタデータの更新と書き込み
       const updatedJsonData = await updateJsonMetadata(config)
       // JSON/JSファイルを出力
