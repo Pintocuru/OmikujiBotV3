@@ -14,13 +14,13 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { BubbleComponent, CommentBubbleType, ShownCharacter } from '@/types/ui'
-  import { BotMessageBubbleType } from '@/generator/types'
+  import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import { FontFamilyType, useFontFamily } from '@/types/OmikujiData'
   import standard from './layouts/Standard.vue'
   import smart from './layouts/Smart.vue'
 
   const props = defineProps<{
-    displayedComments: BotMessageBubbleType[]
+    displayedComments: DisplayedBotMessage[]
     removeComment: (id: string) => void
     shown: ShownCharacter | null
     settings: CommentBubbleType

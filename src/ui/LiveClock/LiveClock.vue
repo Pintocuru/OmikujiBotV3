@@ -40,62 +40,15 @@
   // 時計
   const isMounted = ref(false)
 
-  // フリップ制御
-  const isFlipped = ref(false)
+  // フリップ制御（表示秒数は useBotDisplay が管理し、最新メッセージの display.visible に追従する）
+  const latest = computed(() => displayedComments.value[0])
+  const isFlipped = computed(() => latest.value?.display.visible ?? false)
+
+  // Leave 中も文言を保持するため、最新メッセージの文言は ref に保持する
   const currentMsg = ref('')
-
-  let flipBackTimer: ReturnType<typeof setTimeout> | null = null
-
-  function calcLifeTime(displaySeconds: number | null | undefined): number {
-    if (displaySeconds === null) return Infinity
-    if (displaySeconds !== undefined) return displaySeconds * 1000
-
-    const rawLength = currentMsg.value.length
-    const commentLength = Math.min(rawLength, 100)
-    const extraTime = Math.max(commentLength - 30, 0) * 100
-    return 10_000 + extraTime
-  }
-
-  function flipToMessage(msg: string, displaySeconds: number | null | undefined) {
-    if (flipBackTimer !== null) {
-      clearTimeout(flipBackTimer)
-      flipBackTimer = null
-    }
-
-    currentMsg.value = msg
-    isFlipped.value = true
-
-    const lifeTime = calcLifeTime(displaySeconds)
-
-    if (lifeTime === Infinity) return
-
-    flipBackTimer = setTimeout(() => {
-      isFlipped.value = false
-      flipBackTimer = null
-    }, lifeTime)
-  }
-
-  // コメント監視
-  watch(
-    () => displayedComments.value[0],
-    (latest) => {
-      if (!latest?.bubble?.message) return
-      flipToMessage(latest.bubble.message, latest.bubble.displaySeconds)
-    }
-  )
-
-  watch(
-    () => displayedComments.value.length,
-    (len) => {
-      if (len === 0) {
-        if (flipBackTimer !== null) {
-          clearTimeout(flipBackTimer)
-          flipBackTimer = null
-        }
-        isFlipped.value = false
-      }
-    }
-  )
+  watch(latest, (msg) => {
+    if (msg?.bubble?.message) currentMsg.value = msg.bubble.message
+  })
 
   // ライフサイクル
 

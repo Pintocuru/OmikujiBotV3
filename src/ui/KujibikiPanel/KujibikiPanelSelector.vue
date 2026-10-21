@@ -1,6 +1,13 @@
 <!-- src/ui/KujibikiPanel/KujibikiPanelSelector.vue -->
 <template>
-  <MotionWrapper v-if="hasMessage" :key="currentKey" :visible="true" :motion="settings.animation" class="w-full">
+  <MotionWrapper
+    v-if="hasMessage"
+    :key="currentKey"
+    :visible="isVisible"
+    :motion="settings.animation"
+    :leave-motion="settings.animation"
+    class="w-full"
+  >
     <component
       :is="currentComponent"
       :messages="messages"
@@ -14,7 +21,7 @@
 <script setup lang="ts">
   import { computed, type Component } from 'vue'
   import { KujibikiComponent, KujibikiPanelType } from '@/types/ui'
-  import { BotMessageBubbleType } from '@/generator/types'
+  import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
   import omikuji from './layouts/omikuji.vue'
   import flower from './layouts/flower.vue'
@@ -23,7 +30,7 @@
 
   const props = defineProps<{
     settings: KujibikiPanelType
-    messages: BotMessageBubbleType[]
+    messages: DisplayedBotMessage[]
   }>()
 
   const componentMap: Record<KujibikiComponent, Component> = {
@@ -36,6 +43,9 @@
   const currentComponent = computed(() => componentMap[props.settings.component] ?? omikuji)
 
   const hasMessage = computed(() => props.messages.some((m) => !!m.bubble?.message))
+
+  // 表示状態(false で Leave アニメーション。useBotDisplay が表示秒数に応じて切り替える)
+  const isVisible = computed(() => props.messages[0]?.display.visible ?? true)
 
   const currentKey = computed(() => {
     return `${props.messages[0]?.id ?? ''}-${props.settings.animation}`

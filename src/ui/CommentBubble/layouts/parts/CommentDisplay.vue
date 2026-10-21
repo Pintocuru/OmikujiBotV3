@@ -7,7 +7,7 @@
     :style="{ top: `${index * 40}px`, zIndex: 20 - index }"
   >
     <MotionWrapper
-      v-model:visible="item.display!.visible"
+      v-model:visible="item.display.visible"
       :motion="enterMotion"
       :leave-motion="leaveMotion"
       :auto-hide="false"
@@ -29,14 +29,14 @@
 
 <script setup lang="ts">
   import { EnterMotionType } from '@/types/OmikujiData'
-  import { BotMessageBubbleType } from '@/generator/types'
+  import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
   import CommentBubbleItem from '@/ui/common/CommentBubbleItem.vue'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
 
   withDefaults(
     defineProps<{
-      displayedComments: BotMessageBubbleType[]
+      displayedComments: DisplayedBotMessage[]
       removeComment: (id: string) => void
       enterMotion?: EnterMotionType
       leaveMotion?: EnterMotionType

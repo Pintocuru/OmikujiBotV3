@@ -12,7 +12,7 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue'
   import { KujibikiPanelType } from '@/types/ui'
-  import { BotMessageBubbleType } from '@/generator/types'
+  import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import KujibikiPanelSelector from '@/ui/KujibikiPanel/KujibikiPanelSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
 
@@ -51,7 +51,7 @@
 
   const currentIndex = ref(0)
 
-  const activeMessages = computed<BotMessageBubbleType[]>(() => {
+  const activeMessages = computed<DisplayedBotMessage[]>(() => {
     const entry = mockData[currentIndex.value % mockData.length]
     return [
       {
@@ -71,6 +71,7 @@
           slot0: entry.slot0,
           slot1: entry.slot1,
         },
+        display: { visible: true },
       },
     ]
   })

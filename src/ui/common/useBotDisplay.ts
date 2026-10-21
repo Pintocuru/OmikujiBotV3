@@ -1,6 +1,16 @@
 // src/ui/common/useBotDisplay.ts
 import { ref, computed, Ref } from 'vue'
-import { BotMessageBubbleType } from '@/generator/types'
+import type { BotMessageBubbleType } from '@/generator/types'
+import type { WithDisplay } from '@/types/ui'
+
+// 表示管理中のメッセージ(display を必ず持つ)
+export type DisplayedBotMessage = WithDisplay<BotMessageBubbleType>
+
+// メッセージに表示状態を付与する(常時表示など、useBotDisplay を経由しない場合にも使用)
+export const withDisplay = (message: BotMessageBubbleType): DisplayedBotMessage => ({
+  ...message,
+  display: { visible: true, hideTimeout: undefined },
+})
 
 const DISPLAY_CONFIG = {
   INTERVAL: 250,
@@ -12,7 +22,7 @@ const DISPLAY_CONFIG = {
 } as const
 
 export const useBotDisplay = (botMessages: Ref<BotMessageBubbleType[]>) => {
-  const displayedComments = ref<BotMessageBubbleType[]>([])
+  const displayedComments = ref<DisplayedBotMessage[]>([])
   const animationFrameId = ref<number>()
 
   const comments = computed(() => botMessages.value.filter((m) => !!m.bubble?.message))
@@ -21,7 +31,7 @@ export const useBotDisplay = (botMessages: Ref<BotMessageBubbleType[]>) => {
     const index = displayedComments.value.findIndex((item) => item.id === messageId)
     if (index === -1) return
     const comment = displayedComments.value[index]
-    if (comment.display?.hideTimeout) {
+    if (comment.display.hideTimeout) {
       clearTimeout(comment.display.hideTimeout)
     }
     displayedComments.value.splice(index, 1)
@@ -30,7 +40,7 @@ export const useBotDisplay = (botMessages: Ref<BotMessageBubbleType[]>) => {
   // visible を false にして Leave アニメーションを開始する（CommentBubble 用途）
   const hideComment = (messageId: string) => {
     const comment = displayedComments.value.find((item) => item.id === messageId)
-    if (comment?.display) {
+    if (comment) {
       comment.display.visible = false
     }
   }
@@ -66,20 +76,14 @@ export const useBotDisplay = (botMessages: Ref<BotMessageBubbleType[]>) => {
           totalLifeTime = DISPLAY_CONFIG.BASE_LIFE_TIME + extraTime
         }
 
-        const displayMessage: BotMessageBubbleType = {
-          ...nextComment,
-          display: {
-            visible: true,
-            hideTimeout: undefined,
-          },
-        }
+        const displayMessage = withDisplay(nextComment)
 
         if (totalLifeTime !== null) {
           const targetId = displayMessage.id
-          displayMessage.display!.hideTimeout = setTimeout(() => {
+          displayMessage.display.hideTimeout = setTimeout(() => {
             // visible を false にする（MotionWrapper がある場合は after-leave を待つ）
             const target = displayedComments.value.find((m) => m.id === targetId)
-            if (target?.display) {
+            if (target) {
               target.display.visible = false
             }
 
@@ -103,7 +107,7 @@ export const useBotDisplay = (botMessages: Ref<BotMessageBubbleType[]>) => {
     const start = () => {
       processedMessages.clear()
       displayedComments.value.forEach((comment) => {
-        if (comment.display?.hideTimeout) clearTimeout(comment.display.hideTimeout)
+        if (comment.display.hideTimeout) clearTimeout(comment.display.hideTimeout)
       })
       displayedComments.value = []
       update()
@@ -112,7 +116,7 @@ export const useBotDisplay = (botMessages: Ref<BotMessageBubbleType[]>) => {
     const stop = () => {
       if (animationFrameId.value) cancelAnimationFrame(animationFrameId.value)
       displayedComments.value.forEach((comment) => {
-        if (comment.display?.hideTimeout) clearTimeout(comment.display.hideTimeout)
+        if (comment.display.hideTimeout) clearTimeout(comment.display.hideTimeout)
       })
       processedMessages.clear()
       displayedComments.value = []

@@ -63,12 +63,6 @@ const CommentBubbleSchema = z.object({
   displaySeconds: z.number().min(0).max(60).nullable().optional(),
 })
 
-// TODO:廃止(表示タイミングはUI側で制御。例えば、CommentBubble の型定義で BotMessageBubbleSchema にプラスする形で新設する)
-const DisplayStatusSchema = z.object({
-  visible: z.boolean().default(true),
-  hideTimeout: z.number().optional(),
-})
-
 /**
  * BotMessageBubbleSchema
  */
@@ -76,7 +70,6 @@ export const BotMessageBubbleSchema = BotMessageBaseSchema.extend({
   type: z.literal('comment').default('comment'),
   bubble: CommentBubbleSchema,
   slots: ExtraSlotsSchema.optional(),
-  display: DisplayStatusSchema.optional(),
 })
 export type BotMessageBubbleType = z.infer<typeof BotMessageBubbleSchema>
 

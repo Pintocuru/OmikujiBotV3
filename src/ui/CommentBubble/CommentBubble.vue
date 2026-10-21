@@ -33,7 +33,7 @@
 
   // 表示中コメントのうち、画像を持つキャラの最新のもの（displayedComments は新しい順）
   const latestComment = computed(
-    () => displayedComments.value.find((m) => m.display?.visible && hasImage(m.bubble.characterKey)) ?? null
+    () => displayedComments.value.find((m) => m.display.visible && hasImage(m.bubble.characterKey)) ?? null
   )
 
   // 表示するキャラクター: コメント中はそのキャラ(iconKeyの表情)、なければ常時表示キャラ(default固定)

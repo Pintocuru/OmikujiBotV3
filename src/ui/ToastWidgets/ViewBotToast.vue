@@ -2,9 +2,8 @@
 <template>
   <div :class="!toastSettings.showToastsOnRight ? 'self-start' : 'self-end'">
     <div v-for="message in displayedComments.slice().reverse()" :key="message.id">
-      <!-- ! を使用… -->
       <MotionWrapper
-        v-model:visible="message.display!.visible"
+        v-model:visible="message.display.visible"
         :motion="!toastSettings.showToastsOnRight ? 'slideRight' : 'slideLeft'"
         :leave-motion="!toastSettings.showToastsOnRight ? 'slideLeft' : 'slideRight'"
         :auto-hide="false"
@@ -45,7 +44,6 @@
   const toastSettings = computed(() => data.value.ui.settings.toastWidgets ?? ToastWidgetsSchema.parse({}))
   const { iconSrc, getCharacterColor } = useCharacterManager()
 
-  // ライセンス状態で閲覧できないなら表示させない
   const { messages } = useFilteredBotMessages('toastWidgets', {
     userIconSize: 6,
   })

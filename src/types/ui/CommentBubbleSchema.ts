@@ -23,3 +23,15 @@ export const CommentBubbleSchema = z.object({
   bubbleMotion: z.enum(enterMotions).default('slideUp').catch('slideUp'), // フキダシのアニメーション
 })
 export type CommentBubbleType = z.infer<typeof CommentBubbleSchema>
+
+/**
+ * 表示中メッセージの実行時状態(UI の責務。generator / engine は関知しない)
+ * - 保存・受け渡しするデータではないため zod スキーマにしない
+ * - hideTimeout は setTimeout のハンドル(スキーマにできない値)
+ */
+export type BotDisplayState = {
+  visible: boolean // false にすると Leave アニメーションが始まる
+  hideTimeout?: number // 自動非表示のタイマー
+}
+// 任意のメッセージ型に表示状態を付与する(useBotDisplay が生成するため display は必須)
+export type WithDisplay<T> = T & { display: BotDisplayState }
