@@ -30,7 +30,7 @@ export function useLoadActions(state: DataManagerType, handleAsyncAction: AsyncA
     return await handleAsyncAction(async () => {
       const configData = await configApi.loadConfig(fileName)
 
-      omikujiStore.loadData(configData)
+      if (!omikujiStore.loadData(configData)) return null // 読み込み拒否(エラー表示済み)
       navigationStore.selectCategory(configData.settings?.editor?.initialCategory ?? 'comments')
       state.saveFileName.value = fileName
 

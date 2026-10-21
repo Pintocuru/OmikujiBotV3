@@ -126,7 +126,7 @@
 
       // ファイル読み込み
       devStore.setSaveFileName()
-      loadData(data)
+      if (!loadData(data)) return // 読み込み拒否(エラー表示済み)
       navigationStore.selectCategory(data.settings?.editor?.initialCategory ?? 'comments')
       hasChanged.value = false // 読み込み後は変更なし状態に戻す
 

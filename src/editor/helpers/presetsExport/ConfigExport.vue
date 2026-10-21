@@ -58,7 +58,7 @@
   const { isExporting, exportFile } = useConfigExport()
 
   const handleOpenLocalOmikujiData = () => {
-    omikujiStore.openLocalOmikujiData()
+    if (!omikujiStore.openLocalOmikujiData()) return // 読み込み拒否(エラー表示済み)
     navigationStore.selectCategory(data.value.settings.editor.initialCategory)
     swalToast.success({ title: '読み込み完了', text: 'omikujiData.js を読み込みました。' })
   }

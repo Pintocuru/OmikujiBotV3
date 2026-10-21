@@ -1,30 +1,23 @@
 // src/registerAll.ts
-import { registerUi, registerLayout } from '@/ui/uiRegistry'
 import { registerUiEditor } from '@/editor/ui/uiEditorRegistry'
-import { registerGameScript } from '@/games/gameScriptRegistry'
+import type { Component } from 'vue'
+import type { UiKind } from '@/types/OmikujiData'
+import { registerRuntime } from '@/registerRuntime'
+
+type EditorLoader = () => Promise<{ default: Component }>
 
 export const registerAll = () => {
-  // UIの登録
-  registerUi({
-    commentBubble: () => import('@/ui/CommentBubble/CommentBubble.vue'),
-    gameRanking: () => import('@/ui/GameRanking/GameRanking.vue'),
-  })
+  // UI・レイアウト・gameScript の登録(ジェネレーターと共通)
+  registerRuntime()
 
   // エディターの登録
   registerUiEditor({
     commentBubble: () => import('@/ui/CommentBubble/editor/CommentBubbleEditor.vue'),
+    cookieCounter: () => import('@/ui/CookieCounter/editor/CookieCounterEditor.vue'),
     gameRanking: () => import('@/ui/GameRanking/editor/GameRankingEditor.vue'),
-  })
-
-  // レイアウトの登録
-  registerLayout({
-    commentBubble: () => import('@/layout/CommentBubble/CommentBubble.vue'),
-    gameRanking: () => import('@/layout/GameRanking/GameRanking.vue'),
-  })
-
-  // gameScriptの登録
-  registerGameScript({
-    GouseiSuika: () => import('@/games/scripts/GouseiSuika/execute'),
-    BomberSpin: () => import('@/games/scripts/BomberSpin/execute'),
-  })
+    kujibikiPanel: () => import('@/ui/KujibikiPanel/editor/KujibikiPanelEditor.vue'),
+    liveClock: () => import('@/ui/LiveClock/editor/LiveClockEditor.vue'),
+    streamCounter: () => import('@/ui/StreamCounter/editor/StreamCounterEditor.vue'),
+    toastWidgets: () => import('@/ui/ToastWidgets/editor/ToastWidgetsEditor.vue'),
+  } satisfies Record<UiKind, EditorLoader>)
 }

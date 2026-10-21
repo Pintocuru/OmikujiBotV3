@@ -113,7 +113,7 @@
         settings,
       }
 
-      omikujiStore.loadData(merged)
+      if (!omikujiStore.loadData(merged)) return // 読み込み拒否(エラー表示済み)
       omikujiStore.resetChangeState()
 
       await swalModal.success({

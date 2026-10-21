@@ -15,7 +15,9 @@
           {{ t(`mapText.uiLayout.${key}.label`) }}
         </span>
       </div>
-      <p class="text-xs opacity-70 p-2">{{ t(`mapText.uiLayout.${layout}.description`) }}</p>
+      <!-- 未登録のレイアウトは翻訳キーを出さず、データ不一致を表示 -->
+      <p v-if="isLayoutAvailable" class="text-xs opacity-70 p-2">{{ t(`mapText.uiLayout.${layout}.description`) }}</p>
+      <p v-else class="text-xs text-error p-2">データが不一致です: {{ mismatchMessage }}</p>
     </SettingItem>
   </div>
 </template>
@@ -29,6 +31,7 @@
   import { getLayoutLoader } from '@/ui/uiRegistry'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { formatBuildMismatchMessage } from '@/common/buildValidation/validateAgainstBuild'
 
   const { t } = useI18n()
 
@@ -37,6 +40,8 @@
 
   const layout = computed(() => data.value.ui.layout)
   const availableLayouts = uiLayouts.filter((key) => getLayoutLoader(key))
+  const isLayoutAvailable = computed(() => availableLayouts.includes(layout.value))
+  const mismatchMessage = computed(() => formatBuildMismatchMessage([{ type: 'layout', key: layout.value }]))
 
   const updateLayout = (key: UiLayoutType) => omikujiStore.updateUi({ layout: key })
 </script>

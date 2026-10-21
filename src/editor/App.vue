@@ -86,7 +86,7 @@
       try {
         const lowData = (await generatorApi.loadGeneratorConfig()) as OmikujiDataType
         if (lowData) {
-          omikujiStore.loadData(lowData)
+          if (!omikujiStore.loadData(lowData)) return // 読み込み拒否(エラー表示済み)
           navigationStore.selectCategory(data.value.settings.editor.initialCategory)
           swalToast.success({
             title: '読み込み完了',
@@ -100,7 +100,7 @@
     }
 
     // ローカルを読む
-    omikujiStore.openLocalOmikujiData()
+    if (!omikujiStore.openLocalOmikujiData()) return // 読み込み拒否(エラー表示済み)
     navigationStore.selectCategory(data.value.settings.editor.initialCategory)
     swalToast.success({
       title: '読み込み完了',

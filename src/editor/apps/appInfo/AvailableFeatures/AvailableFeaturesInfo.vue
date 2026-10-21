@@ -33,9 +33,9 @@
   import FeatureCard from './FeatureCard.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
-  import { getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
+  import { getGameScriptLoader } from '@/games/gameScriptRegistry'
   import { gameMetaMap, uiKindMap } from '@/maps/OmikujiData'
-  import { uiLayouts, type UiKind } from '@/types/OmikujiData'
+  import { uiLayouts, type ScriptGameKey, type UiKind } from '@/types/OmikujiData'
   import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
 
   type FeatureItem = { key: string; title: string; icon: LucideIconName; description: string }
@@ -67,12 +67,15 @@
   )
 
   const gameScriptItems = computed<FeatureItem[]>(() =>
-    getRegisteredGameScriptKeys().map((key) => ({
-      key,
-      title: t(`mapText.gameMeta.${key}.name`),
-      icon: gameMetaMap[key].icon as LucideIconName,
-      description: t(`mapText.gameMeta.${key}.description`),
-    }))
+    // 表示用メタ(gameMetaMap)を起点にし、登録済みのものだけ残す(uiItems と同じ方式)
+    (Object.keys(gameMetaMap) as ScriptGameKey[])
+      .filter((key) => getGameScriptLoader(key))
+      .map((key) => ({
+        key,
+        title: t(`mapText.gameMeta.${key}.name`),
+        icon: gameMetaMap[key].icon as LucideIconName,
+        description: t(`mapText.gameMeta.${key}.description`),
+      }))
   )
 
   const sections = computed<FeatureSection[]>(() => [

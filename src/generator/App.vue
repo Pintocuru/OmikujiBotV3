@@ -11,6 +11,9 @@
       :class="[fontFamily]"
       data-theme="transparent"
     >
+      <!-- このビルドで未登録の UI / layout / gameScript をデータが使っている: 無表示にせず「データ不一致」を表示 -->
+      <DataMismatchNotice v-if="mismatches.length > 0" :unsupported="mismatches" class="m-2" />
+
       <!-- layout 指定あり: 専用レイアウトに委譲 -->
       <component v-if="layoutComponent" :is="layoutComponent" />
 
@@ -25,15 +28,17 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, defineAsyncComponent, onMounted } from 'vue'
+  import { computed, onMounted } from 'vue'
   import { uiKinds, useFontFamily } from '@/types'
   import { useAppInitializer } from '@/generator/composables/useAppInitializer'
   import { useRuleProcessor } from '@/generator/composables/useRuleProcessor'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import ErrorInfo from '@/common/ErrorInfo/ErrorInfo.vue'
   import ConnectionStatusIndicator from '@/common/ErrorInfo/ConnectionStatusIndicator.vue'
-  import { LAYOUT_LOADER } from '@/layout/LayoutMaps'
-  import { getUiLoader } from '@/ui/uiRegistry'
+  import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
+  import DataMismatchNotice from '@/common/buildValidation/DataMismatchNotice.vue'
+  import { defineGuardedAsyncComponent } from '@/common/buildValidation/guardedAsyncComponent'
+  import { validateAgainstBuild } from '@/common/buildValidation/validateAgainstBuild'
 
   const appStore = useAppStore()
   const fontFamily = computed(() => useFontFamily(appStore.data.ui.fontFamily))
@@ -45,17 +50,19 @@
       .filter((kind) => settings[kind])
       .flatMap((kind) => {
         const loader = getUiLoader(kind)
-        return loader ? [{ kind, component: defineAsyncComponent(loader) }] : [] // 未登録は無視
+        return loader ? [{ kind, component: defineGuardedAsyncComponent(loader, { type: 'ui', key: kind }) }] : [] // 未登録の UI は mismatches で通知
       })
   })
 
   // layout ベース
   const layoutComponent = computed(() => {
     const { layout } = appStore.data.ui
-    // TODO:LAYOUT_LOADER から引っ張らないこと。main.tsの値を使うこと。
-    const loader = layout ? LAYOUT_LOADER[layout] : undefined
-    return loader ? defineAsyncComponent(loader) : null
+    const loader = layout ? getLayoutLoader(layout) : undefined
+    return loader ? defineGuardedAsyncComponent(loader, { type: 'layout', key: layout }) : null
   })
+
+  // データと登録内容(registry)から決まるため、store に持たず computed で求める(エディターの読み込み検証と同じ関数)
+  const mismatches = computed(() => validateAgainstBuild(appStore.data))
 
   const { initialize } = useAppInitializer()
   onMounted(initialize)

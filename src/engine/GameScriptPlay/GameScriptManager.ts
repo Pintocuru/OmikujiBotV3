@@ -5,6 +5,7 @@ import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { getGameScriptLoader, getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
 import { GameStateType } from '@/types/api'
+import { BuildMismatchError, reportDataMismatch } from '@/common/buildValidation/validateAgainstBuild'
 
 export class GameScriptManager {
   private scriptInstances: Record<string, ScriptClass> = {}
@@ -14,10 +15,17 @@ export class GameScriptManager {
     const cached = this.scriptInstances[scriptId]
     if (cached) return cached
 
-    if (!isScriptGameKey(scriptId)) throw new Error(`スクリプト "${scriptId}" は存在しません`)
+    // 存在しない / このビルドに未登録 / 読み込み失敗は、すべて「データ不一致」として扱う
+    const mismatch = new BuildMismatchError([{ type: 'gameScript', key: scriptId }])
+    if (!isScriptGameKey(scriptId)) throw mismatch
     const loader = getGameScriptLoader(scriptId)
-    if (!loader) throw new Error(`スクリプト "${scriptId}" はこのビルドに含まれていません`)
-    const module = await loader()
+    if (!loader) throw mismatch
+    let module: Awaited<ReturnType<typeof loader>>
+    try {
+      module = await loader()
+    } catch {
+      throw mismatch
+    }
 
     const instance: ScriptClass = module.default
     this.scriptInstances[scriptId] = instance
@@ -34,6 +42,11 @@ export class GameScriptManager {
       // await しないと run が async の場合に例外を拾えない
       return await script.run(queryString, characterKey, omiken)
     } catch (error) {
+      // データ不一致: 画面表示 + わんコメへのシステムメッセージ(コンソールエラーの代わり)
+      if (error instanceof BuildMismatchError) {
+        reportDataMismatch(error.unsupported, { display: 'toast', throttle: true })
+        return null
+      }
       console.error(`スクリプトエラー (${scriptId}):`, error)
       postSystemMessage(`❌ スクリプトエラー: ${error}`)
       return null
@@ -47,6 +60,7 @@ export class GameScriptManager {
     try {
       script = await this.loadScript(scriptId)
     } catch (error) {
+      if (error instanceof BuildMismatchError) return error.message
       console.error(`スクリプトロードエラー (${scriptId}):`, error)
       return 'スクリプトが正常に稼働できません'
     }

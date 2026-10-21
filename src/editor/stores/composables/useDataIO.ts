@@ -4,15 +4,25 @@ import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
 import { DataSource } from '@/editor/types'
 import { normalizeData } from '@/common/migrations/index'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { reportDataMismatch, validateAgainstBuild } from '@/common/buildValidation/validateAgainstBuild'
 
 /**
  * データの入出力（読み込み・保存・エクスポート）を提供
  */
 export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource>) {
   // データを読み込み、マイグレーションとバリデーションを行う
+  // このビルドで未対応のキーを含むデータは、ストアに入れず拒否する(読み込みはここ1か所)
   const loadData = (loadData: unknown): boolean => {
     try {
-      data.value = normalizeData(loadData)
+      const normalized = normalizeData(loadData)
+
+      const unsupported = validateAgainstBuild(normalized)
+      if (unsupported.length > 0) {
+        reportDataMismatch(unsupported)
+        return false
+      }
+
+      data.value = normalized
       dataSource.value = 'api'
       return true
     } catch (error) {
@@ -23,9 +33,10 @@ export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource
   }
 
   // グローバルの omikujiData.js を開く
-  const openLocalOmikujiData = () => {
+  const openLocalOmikujiData = (): boolean => {
     const result = loadData(window.omikujiData)
     if (result) dataSource.value = 'local'
+    return result
   }
 
   // データをJSON形式でエクスポート
