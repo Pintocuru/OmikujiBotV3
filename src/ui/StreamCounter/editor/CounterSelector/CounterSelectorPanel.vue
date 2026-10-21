@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { streamDefaultMap } from '@/types/ui'
+  import { streamDefaultMap } from '@/maps/ui'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import CounterVariableSection from './CounterVariableSection.vue'
   import CounterOrderSection from './CounterOrderSection.vue'

@@ -6,31 +6,12 @@ import { CharacterColorScheme } from '../OmikujiData'
 /**
  * ライブクロック LiveClock
  */
-export const clockComponentMap = {
-  morning: {
-    label: 'モーニング',
-    isColor: true,
-  },
-  soundPlayer: {
-    label: 'サウンドプレイヤー',
-    isColor: true,
-  },
-  clearGlass: {
-    label: 'クリアガラス',
-    isColor: true,
-  },
-  steampunk: {
-    label: 'スチーム',
-    isColor: true,
-  },
-  disco: {
-    label: 'ディスコ',
-    isColor: false,
-  },
-} as const
-
-const clockComponentsEnum = Object.keys(clockComponentMap) as ClockComponent[]
-export type ClockComponent = keyof typeof clockComponentMap
+export interface ClockComponentConfig {
+  label: string
+  isColor: boolean
+}
+export const clockComponents = ['morning', 'soundPlayer', 'clearGlass', 'steampunk', 'disco'] as const
+export type ClockComponent = (typeof clockComponents)[number]
 
 const defaultMessage = `<<
   'チャンネル登録・高評価、お願いします！',
@@ -45,7 +26,7 @@ const defaultMessage = `<<
 >>`
 
 export const LiveClockSchema = z.object({
-  component: z.enum(clockComponentsEnum).default('morning').catch('morning'),
+  component: z.enum(clockComponents).default('morning').catch('morning'),
   color: normalizedObject(CharacterColorScheme), // キャラクター配色 (name / text / background / accent)
   isSecond: z.boolean().default(false).catch(false), // 秒数を入れるか
   isDate: z.boolean().default(false).catch(false), // 日付をいれるか

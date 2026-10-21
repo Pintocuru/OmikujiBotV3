@@ -3,67 +3,39 @@ import { z } from 'zod'
 import { daisyUIColor, themes, idSchema } from '../core'
 
 /**
- * ライバーカウンターコンポーネントの表示名マップ
+ * ライバーカウンターの選択肢(表示名は src/maps/ui/StreamCounterMap.ts)
  */
-export const streamComponentMap = {
-  basicCirclePlain: {
-    label: '丸型シンプル',
-    layout: 'horizontal', // 横並び
-  },
-  basicCircle: {
-    label: '丸型カラー',
-    layout: 'horizontal',
-  },
-  pixelBadgePlain: {
-    label: 'ピクセルバッジ',
-    layout: 'horizontal',
-  },
-  pixelBadge: {
-    label: 'ピクセルカラー',
-    layout: 'horizontal',
-  },
-  magicalStone: {
-    label: '魔法石',
-    layout: 'horizontal',
-  },
-  starBurst: {
-    label: '星',
-    layout: 'horizontal',
-  },
-  hexGrid: {
-    label: 'ヘキサゴン',
-    layout: 'horizontal',
-  },
-  badge: {
-    label: 'バッジ',
-    layout: 'vertical',
-  },
-} as const
+export interface StreamComponentConfig {
+  label: string
+  layout: 'horizontal' | 'vertical'
+}
+export const streamComponents = [
+  'basicCirclePlain',
+  'basicCircle',
+  'pixelBadgePlain',
+  'pixelBadge',
+  'magicalStone',
+  'starBurst',
+  'hexGrid',
+  'badge',
+] as const
+export type LiverComponent = (typeof streamComponents)[number]
 
-const streamComponentValues = Object.keys(streamComponentMap) as LiverComponent[]
-export type LiverComponent = keyof typeof streamComponentMap
+export const labelStyles = ['lucide', 'emoji', 'text'] as const
+export type LiverLabelStyle = (typeof labelStyles)[number]
 
-export const labelStyleMap = {
-  lucide: 'アイコン',
-  emoji: '絵文字',
-  text: 'テキスト',
-} as const
-const labelStyleValues = Object.keys(labelStyleMap) as LiverLabelStyle[]
-export type LiverLabelStyle = keyof typeof labelStyleMap
-
-export const streamDefaultMap = {
-  syoken: '初コメ',
-  commenter: 'コメントをしたユーザー数',
-  lc: '配信コメント数',
-  totalComments: '累計コメント数',
-  upVote: '高評価数',
-  viewer: '同時接続数',
-  totalPrice: 'ギフト金額',
-  follower: '登録者数',
-  reaction: 'リアクション数(Youtubeのみ)',
-} as const
-export const streamDefaultKeyLabels = Object.keys(streamDefaultMap) as StreamDefaultKey[]
-export type StreamDefaultKey = keyof typeof streamDefaultMap
+export const streamDefaultKeyLabels = [
+  'syoken',
+  'commenter',
+  'lc',
+  'totalComments',
+  'upVote',
+  'viewer',
+  'totalPrice',
+  'follower',
+  'reaction',
+] as const
+export type StreamDefaultKey = (typeof streamDefaultKeyLabels)[number]
 
 export const StreamCounterVariablesSchema = z.object({
   id: idSchema,
@@ -78,13 +50,13 @@ export type StreamCounterVariable = z.infer<typeof StreamCounterVariablesSchema>
  */
 
 export const StreamCounterSchema = z.object({
-  component: z.enum(streamComponentValues).default('basicCircle').catch('basicCircle'), // カウンタースタイル
+  component: z.enum(streamComponents).default('basicCircle').catch('basicCircle'), // カウンタースタイル
   color: z.enum(themes).default('lofi').catch('lofi'), // DaisyUiテーマ
   colorCycle: z
     .array(z.enum(daisyUIColor))
     .default(['primary', 'secondary', 'accent', 'neutral', 'info', 'success', 'warning', 'error'])
     .catch([]), // 任意color
-  labelStyle: z.enum(labelStyleValues).default('lucide').catch('lucide'), // ラベルスタイル
+  labelStyle: z.enum(labelStyles).default('lucide').catch('lucide'), // ラベルスタイル
   defaultCounters: z
     .array(z.enum(streamDefaultKeyLabels))
     .default(['syoken', 'commenter', 'upVote', 'viewer'])

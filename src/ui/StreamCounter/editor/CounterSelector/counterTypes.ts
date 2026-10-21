@@ -1,5 +1,5 @@
 // src/ui/StreamCounter/editor/CounterSelector/counterTypes.ts
-import { streamDefaultMap } from '@/types/ui'
+import { streamDefaultMap } from '@/maps/ui'
 
 export interface CounterItem {
   id: string

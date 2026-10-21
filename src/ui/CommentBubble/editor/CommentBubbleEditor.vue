@@ -81,7 +81,8 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { CharacterColorScheme, EnterMotionType } from '@/types/OmikujiData'
-  import { BubbleComponent, bubbleComponentMap, CommentBubbleSchema, CommentBubbleType } from '@/types/ui'
+  import { BubbleComponent, CommentBubbleSchema, CommentBubbleType } from '@/types/ui'
+  import { bubbleComponentMap } from '@/maps/ui'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import { enterMotionMap } from '@/maps/OmikujiData'
 

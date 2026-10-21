@@ -8,24 +8,15 @@ import { streamDefaultKeyLabels } from './StreamCounterSchema'
  * ライブクロック LiveClock
  */
 
-// カウンターの種類
-export const cookieComponentMap = {
-  sakura: {
-    label: 'さくらツイン🌸',
-    maxCounters: 2,
-    isColor: false,
-    hasImage: true,
-  },
-  block3d: {
-    label: 'ブロックツイン',
-    maxCounters: 2,
-    isColor: true,
-    hasImage: false,
-  },
-} as const
-
-export type CookieComponent = keyof typeof cookieComponentMap
-export const cookieComponentsEnum = Object.keys(cookieComponentMap) as CookieComponent[]
+// カウンターの種類(表示名・設定は src/maps/ui/CookieCounterMap.ts)
+export interface CookieComponentConfig {
+  label: string
+  maxCounters: number
+  isColor: boolean
+  hasImage: boolean
+}
+export const cookieComponents = ['sakura', 'block3d'] as const
+export type CookieComponent = (typeof cookieComponents)[number]
 
 // カウントする対象
 export const CookieCounterCountersSchema = z.discriminatedUnion('type', [
@@ -49,7 +40,7 @@ export const CookieCounterImagesSchema = z.object({
 })
 
 export const CookieCounterSchema = z.object({
-  component: z.enum(cookieComponentsEnum).default('sakura').catch('sakura'), // カウンタースタイル
+  component: z.enum(cookieComponents).default('sakura').catch('sakura'), // カウンタースタイル
   color: normalizedObject(CharacterColorScheme),
   counters: z.array(CookieCounterCountersSchema).max(8).default([]), // 任意のカウンター
   images: normalizedObject(CookieCounterImagesSchema),

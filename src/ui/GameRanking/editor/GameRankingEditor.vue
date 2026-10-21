@@ -57,12 +57,8 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import {
-    GameRankingType,
-    RankingComponent,
-    rankingComponentMap,
-    rankingSortOrderMap,
-  } from '@/types/ui/GameRankingSchema'
+  import { GameRankingType, RankingComponent } from '@/types/ui/GameRankingSchema'
+  import { rankingComponentMap, rankingSortOrderMap } from '@/maps/ui'
   import { GameRankingSchema } from '@/types/ui/GameRankingSchema'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'

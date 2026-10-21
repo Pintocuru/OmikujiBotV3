@@ -80,7 +80,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { KujibikiPanelType, KujibikiPanelSchema, kujibikiComponentMap } from '@/types/ui'
+  import { KujibikiPanelType, KujibikiPanelSchema } from '@/types/ui'
+  import { kujibikiComponentMap } from '@/maps/ui'
   import KujibikiPanelPreview from './KujibikiPanelPreview.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
