@@ -6,10 +6,9 @@
   "scripts": {
     "dev:omikujiBot": "tsx server/start-dev-server.ts",
     "updateFilesName:omikujiBot": "tsx tools/fileName/UpdateTsFiles.ts",
-    "test:omikujiBot": "vitest run MetaRuleProcessor",
+    "build:omikujiBot": "tsx packages/build.ts",
     "build:omikujiBotVite": "vite build --config tools/viteConfig/vite.main.config.ts",
     "build:omikujiBotPlugin": "vite build --config tools/viteConfig/vite.botPlugin.config.ts",
-    "build:omikujiBot": "tsx packages/build.ts",
     "build:omikujiBotTrial": "tsx packages/build.ts --bundler=vite"
   },
   "type": "module",

@@ -3,7 +3,7 @@ import { BotMessageExtraType } from '@/generator/types'
 import { BaseRecordType } from '@/types/core'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { PostFlowType } from '@/types/OmikujiData'
-import { GameStateType } from './GameStateSchema'
+import { GameStateType } from '@/types/api'
 
 // スクリプトプリセット
 export interface ScriptPreset extends BaseRecordType {
@@ -22,4 +22,3 @@ export interface ScriptClass {
   sampleRun?(queryString?: string): string // エディター用サンプルゲーム関数
   getGameState?(): GameStateType // ゲームステート取得(任意)
 }
-

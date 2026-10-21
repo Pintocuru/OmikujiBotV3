@@ -1,9 +1,10 @@
 // src/engine/GameScriptPlay/GameScriptManager.ts
-import { GameStateType, ScriptClass, ScriptResult } from '@/games/types'
+import { ScriptClass, ScriptResult } from '@/games/types'
 import { PostFlowGameType, ScriptGameKey, isScriptGameKey } from '@/types/OmikujiData'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { getGameScriptLoader, getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
+import { GameStateType } from '@/types/api'
 
 export class GameScriptManager {
   private scriptInstances: Record<string, ScriptClass> = {}

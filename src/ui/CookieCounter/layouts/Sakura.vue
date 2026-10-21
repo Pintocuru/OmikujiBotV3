@@ -44,12 +44,11 @@
   const props = defineProps<{
     counters: Record<string, number>
     counterDefs: CookieCounterType['counters']
-    eventLabels: Record<string, string>
     variableLabels: Record<string, string>
     images: CookieCounterType['images']
   }>()
 
-  const { getLabel } = useCookieLabelResolver(props.eventLabels, props.variableLabels)
+  const { getLabel } = useCookieLabelResolver(props.variableLabels)
   const formatValue = (v: number) => new Intl.NumberFormat('ja-JP').format(Math.round(v))
 
   const slots = computed(() =>

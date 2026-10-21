@@ -1,11 +1,6 @@
 <!-- src/ui/CookieCounter/CookieCounter.vue -->
 <template>
-  <CookieCounterSelector
-    :settings="cookieSettings"
-    :counters="counters"
-    :event-labels="eventLabels"
-    :variable-labels="variableLabels"
-  />
+  <CookieCounterSelector :settings="cookieSettings" :counters="counters" :variable-labels="variableLabels" />
 </template>
 
 <script setup lang="ts">
@@ -19,17 +14,16 @@
   const appStore = useAppStore()
   const cookieSettings = computed(() => CookieCounterSchema.parse(appStore.data.ui.settings.cookieCounter ?? {}))
 
-  // type: 'event' のターゲットキー一覧
-  const eventKeys = computed<string[]>(() =>
-    cookieSettings.value.counters.filter((c) => c.type === 'event').map((c) => c.target)
-  )
-
   // type: 'variable' の { target → label } マップ
-  const variableLabelMap = computed<Record<string, string>>(() =>
-    Object.fromEntries(
-      cookieSettings.value.counters.filter((c) => c.type === 'variable').map((c) => [c.target, c.label])
-    )
-  )
+  const variableLabelMap = computed<Record<string, string>>(() => {
+    const map: Record<string, string> = {}
+    for (const c of cookieSettings.value.counters) {
+      if (c.type === 'variable') {
+        map[c.target] = c.label
+      }
+    }
+    return map
+  })
 
-  const { counters, eventLabels, variableLabels } = useStreamCounters(eventKeys, variableLabelMap)
+  const { counters, variableLabels } = useStreamCounters(variableLabelMap)
 </script>

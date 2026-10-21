@@ -1,11 +1,6 @@
 <!-- src/ui/StreamCounter/StreamCounter.vue -->
 <template>
-  <StreamCounterSelector
-    :settings="liverSettings"
-    :counters="counters"
-    :event-labels="eventLabels"
-    :variable-labels="variableLabels"
-  />
+  <StreamCounterSelector :settings="liverSettings" :counters="counters" :variable-labels="variableLabels" />
 </template>
 
 <script setup lang="ts">
@@ -22,11 +17,9 @@
 
   const liverSettings = computed(() => StreamCounterSchema.parse(data.value.ui.settings.streamCounter ?? {}))
 
-  const eventKeys = computed(() => liverSettings.value?.eventCounters ?? [])
-
   const variableLabelMap = computed<Record<string, string>>(() =>
     Object.fromEntries(liverSettings.value?.variableCounters.map((c) => [c.target, c.label]))
   )
 
-  const { counters, eventLabels, variableLabels } = useStreamCounters(eventKeys, variableLabelMap)
+  const { counters, variableLabels } = useStreamCounters(variableLabelMap)
 </script>

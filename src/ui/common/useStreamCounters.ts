@@ -7,7 +7,7 @@ import { useAppStore } from '@/generator/stores/useAppStore'
 /**
  * カウンター取得コンポーザブル
  */
-export function useStreamCounters(eventKeys: Ref<string[]>, variableLabelMap: Ref<Record<string, string>>) {
+export function useStreamCounters(variableLabelMap: Ref<Record<string, string>>) {
   const appStore = useAppStore()
   const { botMessages } = storeToRefs(appStore)
 
