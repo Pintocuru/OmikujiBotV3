@@ -36,11 +36,6 @@ export const CookieCounterCountersSchema = z.discriminatedUnion('type', [
   }),
   z.object({
     id: idSchema,
-    type: z.literal('event').default('event'),
-    target: z.string(),
-  }),
-  z.object({
-    id: idSchema,
     type: z.literal('variable').default('variable'),
     target: z.string(),
     label: z.string(),

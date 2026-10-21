@@ -1,11 +1,7 @@
 <!-- src/ui/StreamCounter/editor/StreamCounterEditor.vue -->
 <template>
   <!-- プレビュー -->
-  <StreamCounterPreview
-    :streamCounter="streamCounter"
-    :event-labels="previewEventLabels"
-    :variable-labels="previewVariableLabels"
-  />
+  <StreamCounterPreview :streamCounter="streamCounter" :variable-labels="previewVariableLabels" />
 
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
@@ -47,7 +43,6 @@
 
   <CounterSelectorPanel
     :counters="counters"
-    :event-rules="eventRules"
     :max-counters="maxCounters"
     @add="handleAdd"
     @remove="handleRemove"
@@ -95,29 +90,11 @@
       type: 'default' as const,
       target,
     })),
-    // コメントイベントのカウンター
-    ...streamCounter.value.eventCounters.map((target) => {
-      const rule = eventRules.value.find((r) => r.key === target)
-      return {
-        id: `event:${target}`,
-        type: 'event' as const,
-        target,
-        label: rule?.name || target, // ここで確実にラベルを特定する
-      }
-    }),
-    // 変数カウンター
+    // 評価ブロックカウンター
     ...streamCounter.value.variableCounters, // StreamCounterVariablesSchema[] がそのまま CounterItem と互換
   ])
 
   const maxCounters = 24
-
-  // ---- イベントルール ----
-  const eventRules = computed(() =>
-    Object.values(data.value.comments).map((record) => ({
-      key: record.key,
-      name: record.name || record.key,
-    }))
-  )
 
   const handleReorder = (list: CounterItem[]) => {
     const defaultCounters: StreamDefaultKey[] = []
@@ -140,10 +117,6 @@
     updateField('eventCounters', eventCounters)
     updateField('variableCounters', variableCounters)
   }
-
-  const previewEventLabels = computed<Record<string, string>>(() =>
-    Object.fromEntries(eventRules.value.map((r) => [r.key, r.name]))
-  )
 
   const previewVariableLabels = computed<Record<string, string>>(() =>
     Object.fromEntries(streamCounter.value.variableCounters.map((c) => [c.target, c.label]))

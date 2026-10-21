@@ -2,7 +2,7 @@
 import { z } from 'zod'
 import { CommentTriggerSchema } from './CommentTriggerSchema'
 import { ServiceTriggerSchema } from './ServiceTriggerSchema'
-import { normalizedObject } from '../ParsedDefault'
+import { normalizedObject } from '../../core/ParsedDefault'
 import { ReactionTriggerSchema } from './ReactionTriggerSchema'
 import { BaseRecordSchema } from '@/types/core'
 

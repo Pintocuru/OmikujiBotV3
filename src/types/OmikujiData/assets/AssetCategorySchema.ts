@@ -1,6 +1,6 @@
 // src/types/OmikujiData/assets/AssetCategorySchema.ts
 import { z } from 'zod'
-import { normalizedRecord } from '../ParsedDefault'
+import { normalizedRecord } from '../../core/ParsedDefault'
 import { ActionSetSchema } from './ActionSetSchema'
 import { CharacterSchema } from './CharacterSchema'
 import { MikujiBoxSchema } from './MikujiBoxSchema'

@@ -5,7 +5,7 @@ import { AssetCategorySchema } from './assets'
 import { UiSchema } from './ui'
 import { JsonMergeSchema } from './JsonMergeType'
 import { SettingsSchema } from './SettingsSchema'
-import { normalizedObject } from './ParsedDefault'
+import { normalizedObject } from '../core/ParsedDefault'
 import { PackageJsonSchema } from '../core'
 
 /**

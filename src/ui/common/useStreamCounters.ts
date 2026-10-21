@@ -9,7 +9,7 @@ import { useAppStore } from '@/generator/stores/useAppStore'
  */
 export function useStreamCounters(eventKeys: Ref<string[]>, variableLabelMap: Ref<Record<string, string>>) {
   const appStore = useAppStore()
-  const { data, botMessages } = storeToRefs(appStore)
+  const { botMessages } = storeToRefs(appStore)
 
   // カウンター state
   // TODO:これってstoreのやつを使えないのか?
@@ -23,17 +23,6 @@ export function useStreamCounters(eventKeys: Ref<string[]>, variableLabelMap: Re
     totalComments: 0,
     totalPrice: 0,
     reaction: 0,
-  })
-
-  // eventLabels（CommentRule.key → name マッピング）
-  // TODO:廃止。代わりに評価ブロック(variableLabels)を使用すること。
-  const eventLabels = computed<Record<string, string>>(() => {
-    const comments = data.value.events.comments
-    const result: Record<string, string> = {}
-    for (const record of Object.values(comments)) {
-      if (record.key) result[record.key] = record.name
-    }
-    return result
   })
 
   // variableLabels （variableLabelMap をそのまま公開）
@@ -53,16 +42,6 @@ export function useStreamCounters(eventKeys: Ref<string[]>, variableLabelMap: Re
     })
   }
 
-  // コメントイベントのkeyから値を取得
-  // TODO:廃止。
-  const fetchEventCounters = () => {
-    for (const eventKey of eventKeys.value) {
-      if (!eventKey) continue
-      const records = appStore.userStats.getByEvent(eventKey)
-      counters[eventKey] = records.reduce((sum, r) => sum + (r.visitValue ?? 0), 0)
-    }
-  }
-
   // 評価ブロックから値を取得
   const updateVariableCounters = () => {
     const evaluator = appStore.placeholderVariable.getEvaluator()
@@ -78,7 +57,6 @@ export function useStreamCounters(eventKeys: Ref<string[]>, variableLabelMap: Re
   watchEffect(() => {
     const _ = previewTick.value
     fetchStats()
-    fetchEventCounters()
     updateVariableCounters()
   })
 
@@ -111,7 +89,6 @@ export function useStreamCounters(eventKeys: Ref<string[]>, variableLabelMap: Re
 
   return {
     counters,
-    eventLabels,
     variableLabels,
   }
 }

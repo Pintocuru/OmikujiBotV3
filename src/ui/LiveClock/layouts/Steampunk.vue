@@ -3,31 +3,45 @@
   <div
     class="w-xs transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
     :class="isMounted ? 'opacity-100 scale-100' : 'opacity-0 scale-75 translate-y-4'"
+    :style="rootStyle"
   >
     <!-- メインフレーム -->
-    <div class="relative border-4 rounded-3xl overflow-hidden h-32.5 bg-base-300" :class="borderColorClass">
+    <div
+      class="relative border-4 rounded-3xl overflow-hidden h-32.5"
+      :style="{
+        borderColor: 'var(--lc-accent)',
+        backgroundColor: 'color-mix(in srgb, var(--lc-bg) 80%, black)',
+      }"
+    >
       <!-- リベット（四隅） -->
       <div
         v-for="position in rivetPositions"
         :key="position"
-        class="absolute w-3 h-3 rounded-full border-2 bg-base-200 shadow-inner z-10"
-        :class="[borderColorClass, position]"
+        class="absolute w-3 h-3 rounded-full border-2 shadow-inner z-10"
+        :class="position"
+        :style="{
+          borderColor: 'var(--lc-accent)',
+          backgroundColor: 'color-mix(in srgb, var(--lc-bg) 90%, black)',
+        }"
       ></div>
 
       <!-- 背景の歯車 (装飾) -->
       <Cog
         class="absolute -right-4 -top-4 w-24 h-24 opacity-30 animate-spin-slow"
-        :class="textColorClass"
+        :style="{ color: 'var(--lc-name)' }"
         :stroke-width="2"
       />
       <Cog
         class="absolute -left-6 -bottom-6 w-24 h-24 opacity-30 animate-spin-reverse"
-        :class="textColorClass"
+        :style="{ color: 'var(--lc-name)' }"
         :stroke-width="2"
       />
 
       <!-- 蒸気パイプ（上部） -->
-      <div class="absolute top-0 left-10 right-10 h-1.5 opacity-50 rounded-b-full" :class="`bg-${backFrom}`"></div>
+      <div
+        class="absolute top-0 left-10 right-10 h-1.5 opacity-50 rounded-b-full"
+        :style="{ backgroundColor: 'var(--lc-accent)' }"
+      ></div>
 
       <div class="relative h-full flex flex-col items-center justify-center">
         <transition :name="transitionName" mode="out-in">
@@ -37,8 +51,17 @@
             <div class="flex items-center gap-1">
               <!-- 時間ブロック -->
               <div class="flex items-baseline gap-0.5">
-                <div class="bg-base-200 border-2 rounded-md px-1 shadow-inner" :class="borderColorClass">
-                  <span class="countdown font-mono font-black text-5xl text-base-content">
+                <div
+                  class="border-2 rounded-md px-1 shadow-inner"
+                  :style="{
+                    borderColor: 'var(--lc-accent)',
+                    backgroundColor: 'color-mix(in srgb, var(--lc-bg) 90%, black)',
+                  }"
+                >
+                  <span
+                    class="countdown font-mono font-black text-5xl"
+                    :style="{ color: 'var(--lc-text)' }"
+                  >
                     <span :style="{ '--value': hours, '--digits': 2 }">
                       {{ hours }}
                     </span>
@@ -52,14 +75,26 @@
                   v-for="i in 2"
                   :key="i"
                   class="w-2 h-2 rounded-full border-2 transition-all duration-300"
-                  :class="[borderColorClass, colonVisible ? borderColorClass : 'bg-transparent']"
+                  :style="{
+                    borderColor: 'var(--lc-accent)',
+                    backgroundColor: colonVisible ? 'var(--lc-accent)' : 'transparent',
+                  }"
                 ></div>
               </div>
 
               <!-- 分ブロック -->
               <div class="flex items-baseline gap-0.5">
-                <div class="bg-base-200 border-2 rounded-md px-1 shadow-inner" :class="borderColorClass">
-                  <span class="countdown font-mono font-black text-5xl text-base-content">
+                <div
+                  class="border-2 rounded-md px-1 shadow-inner"
+                  :style="{
+                    borderColor: 'var(--lc-accent)',
+                    backgroundColor: 'color-mix(in srgb, var(--lc-bg) 90%, black)',
+                  }"
+                >
+                  <span
+                    class="countdown font-mono font-black text-5xl"
+                    :style="{ color: 'var(--lc-text)' }"
+                  >
                     <span :style="{ '--value': minutes, '--digits': 2 }">
                       {{ minutes }}
                     </span>
@@ -69,8 +104,17 @@
 
               <!-- 秒（オプション） -->
               <div v-if="settings.isSecond" class="flex items-end pb-0.5 pl-1">
-                <div class="bg-base-200 border rounded px-1 py-0.5 shadow-inner" :class="textColorClass">
-                  <span class="countdown font-mono font-bold text-3xl text-base-content leading-none">
+                <div
+                  class="border rounded px-1 py-0.5 shadow-inner"
+                  :style="{
+                    borderColor: 'var(--lc-accent)',
+                    backgroundColor: 'color-mix(in srgb, var(--lc-bg) 90%, black)',
+                  }"
+                >
+                  <span
+                    class="countdown font-mono font-bold text-3xl leading-none"
+                    :style="{ color: 'var(--lc-text)' }"
+                  >
                     <span :style="{ '--value': seconds, '--digits': 2 }">
                       {{ seconds }}
                     </span>
@@ -83,20 +127,35 @@
             <div
               v-if="settings.isDate"
               class="flex items-center justify-center text-base font-mono font-bold"
-              :class="`text-${backFrom}`"
+              :style="{ color: 'var(--lc-name)' }"
             >
-              <span class="text-lg text-base-content" :class="borderColorClass">
+              <span class="text-lg">
                 {{ year }}/{{ month }}/{{ date }} ({{ day }})
               </span>
             </div>
 
             <!-- ゲージバー風メッセージ -->
             <div v-if="defaultMessage" class="w-full">
-              <div class="relative rounded bg-base-100 px-3 py-0.5 overflow-hidden" :class="borderColorClass">
+              <div
+                class="relative rounded px-3 py-0.5 overflow-hidden border"
+                :style="{
+                  borderColor: 'color-mix(in srgb, var(--lc-accent) 50%, transparent)',
+                  backgroundColor: 'color-mix(in srgb, var(--lc-bg) 95%, black)',
+                }"
+              >
                 <!-- 装飾ライン -->
-                <div class="absolute left-0 top-0 bottom-0 w-1 opacity-70" :class="`bg-${backFrom}`"></div>
-                <div class="absolute right-0 top-0 bottom-0 w-1 opacity-70" :class="`bg-${backFrom}`"></div>
-                <div class="text-base font-bold text-center line-clamp-1 text-base-content/70 pl-1">
+                <div
+                  class="absolute left-0 top-0 bottom-0 w-1 opacity-70"
+                  :style="{ backgroundColor: 'var(--lc-accent)' }"
+                ></div>
+                <div
+                  class="absolute right-0 top-0 bottom-0 w-1 opacity-70"
+                  :style="{ backgroundColor: 'var(--lc-accent)' }"
+                ></div>
+                <div
+                  class="text-base font-bold text-center line-clamp-1 pl-1 opacity-80"
+                  :style="{ color: 'var(--lc-text)' }"
+                >
                   <RotatingMessage :message="defaultMessage" />
                 </div>
               </div>
@@ -106,30 +165,48 @@
           <!-- メッセージ表示 -->
           <div v-else key="msg" class="w-full px-6 flex flex-col items-center gap-2">
             <!-- スチームパンク風テキストフレーム -->
-            <div class="relative border rounded-lg bg-base-200/70 p-1 w-full" :class="borderColorClass">
+            <div
+              class="relative border rounded-lg p-1 w-full"
+              :style="{
+                borderColor: 'var(--lc-accent)',
+                backgroundColor: 'color-mix(in srgb, var(--lc-bg) 85%, transparent)',
+              }"
+            >
               <p
-                class="text-xl font-bold leading-tight text-center line-clamp-3 text-base-content/80"
+                class="text-xl font-bold leading-tight text-center line-clamp-3"
+                :style="{ color: 'var(--lc-text)' }"
                 v-html="currentMsg"
               ></p>
             </div>
             <!-- 圧力インジケーター風ドット -->
             <div class="flex gap-2 items-center">
-              <div class="w-1 h-1 rounded-full" :class="`bg-${backFrom}`"></div>
+              <div
+                class="w-1 h-1 rounded-full"
+                :style="{ backgroundColor: 'var(--lc-accent)' }"
+              ></div>
               <div
                 v-for="i in 3"
                 :key="i"
                 class="w-2 h-2 rounded-full border animate-bounce"
-                :class="borderColorClass"
-                :style="{ animationDelay: `${i * 0.25}s` }"
+                :style="{
+                  borderColor: 'var(--lc-accent)',
+                  animationDelay: `${i * 0.25}s`,
+                }"
               ></div>
-              <div class="w-1 h-1 rounded-full" :class="`bg-${backFrom}`"></div>
+              <div
+                class="w-1 h-1 rounded-full"
+                :style="{ backgroundColor: 'var(--lc-accent)' }"
+              ></div>
             </div>
           </div>
         </transition>
       </div>
 
       <!-- 蒸気パイプ（下部） -->
-      <div class="absolute bottom-0 left-16 right-16 h-1.5 opacity-50 rounded-t-full" :class="`bg-${backFrom}`"></div>
+      <div
+        class="absolute bottom-0 left-16 right-16 h-1.5 opacity-50 rounded-t-full"
+        :style="{ backgroundColor: 'var(--lc-accent)' }"
+      ></div>
 
       <!-- サイドバルブ（左右共通） -->
       <div
@@ -138,9 +215,18 @@
         class="absolute top-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5"
         :class="side.class"
       >
-        <div class="w-4 h-2 rounded-r-sm opacity-70" :class="`bg-${backFrom}`"></div>
-        <div class="w-5 h-3 rounded-r-md shadow opacity-70" :class="`bg-${backFrom}`"></div>
-        <div class="w-4 h-2 rounded-r-sm opacity-70" :class="`bg-${backFrom}`"></div>
+        <div
+          class="w-4 h-2 rounded-r-sm opacity-70"
+          :style="{ backgroundColor: 'var(--lc-accent)' }"
+        ></div>
+        <div
+          class="w-5 h-3 rounded-r-md shadow opacity-70"
+          :style="{ backgroundColor: 'var(--lc-accent)' }"
+        ></div>
+        <div
+          class="w-4 h-2 rounded-r-sm opacity-70"
+          :style="{ backgroundColor: 'var(--lc-accent)' }"
+        ></div>
       </div>
     </div>
   </div>
@@ -163,11 +249,13 @@
 
   const { hours, minutes, seconds, colonVisible, year, month, date, day } = useLiveClockTime()
 
-  const backFrom = computed(() => props.settings.color.backFrom)
-
-  // 動的クラスの一元管理
-  const borderColorClass = computed(() => `border-${props.settings.color.backFrom}`)
-  const textColorClass = computed(() => `text-${props.settings.color.backTo}`)
+  // CharacterColorScheme の4色(name/text/background/accent)を CSS 変数として定義
+  const rootStyle = computed(() => ({
+    '--lc-name': props.settings.color.name,
+    '--lc-text': props.settings.color.text,
+    '--lc-bg': props.settings.color.background,
+    '--lc-accent': props.settings.color.accent,
+  }))
 
   // リベットの位置クラス
   const rivetPositions = ['top-2 left-2', 'top-2 right-2', 'bottom-2 left-2', 'bottom-2 right-2']

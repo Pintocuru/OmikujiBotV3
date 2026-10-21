@@ -6,7 +6,6 @@
         :key="streamCounter.labelStyle"
         :settings="streamCounter"
         :counters="previewCounters"
-        :event-labels="previewEventLabels"
         :variable-labels="variableLabels"
       />
     </div>
@@ -28,7 +27,6 @@
 
   const props = defineProps<{
     streamCounter: StreamCounterType
-    eventLabels: Record<string, string>
     variableLabels: Record<string, string>
   }>()
 
@@ -38,7 +36,5 @@
 
   const omikujiStore = useOmikujiStore()
   const fontFamily = computed(() => useFontFamily(omikujiStore.data.ui.fontFamily ?? 'default'))
-
-  const previewEventLabels = computed(() => props.eventLabels)
   const variableLabels = computed(() => props.variableLabels)
 </script>

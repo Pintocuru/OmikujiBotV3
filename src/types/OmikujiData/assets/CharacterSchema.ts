@@ -1,6 +1,6 @@
 // src/types/OmikujiData/assets/CharacterSchema.ts
 import { z } from 'zod'
-import { normalizedObject } from '../ParsedDefault'
+import { normalizedObject } from '../../core/ParsedDefault'
 import { BaseRecordSchema } from '@/types/core'
 import { loopMotions } from './LoopMotionsSchema'
 import { displayModes } from './DisplayModeSchema'

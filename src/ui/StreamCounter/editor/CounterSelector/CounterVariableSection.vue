@@ -1,6 +1,6 @@
 <!-- src/ui/StreamCounter/editor/CounterSelector/CounterVariableSection.vue -->
 <template>
-  <SettingItem label="変数カウンター" description="評価ブロック名とラベルを入力">
+  <SettingItem label="評価ブロックカウンター" description="評価ブロック名とラベルを入力">
     <div class="flex flex-col gap-3">
       <!-- 追加フォーム -->
       <div class="flex flex-wrap gap-2 items-end">

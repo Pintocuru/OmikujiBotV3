@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { assetCategory } from './assets'
 import { eventCategory } from './events'
 import { themes } from '../core/DaisyUiTheme'
-import { normalizedObject } from './ParsedDefault'
+import { normalizedObject } from '../core/ParsedDefault'
 
 // コメント購読タイプ(現在はわんコメのみ)
 export const commentModeTypes = ['OneComme'] as const

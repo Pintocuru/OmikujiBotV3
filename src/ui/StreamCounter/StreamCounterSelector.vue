@@ -39,22 +39,10 @@
   const props = defineProps<{
     settings: StreamCounterType
     counters: Record<string, number>
-    eventLabels: Record<string, string>
     variableLabels: Record<string, string>
   }>()
 
-  // variableLabels を優先してマージ
-  const { getLabel: getEventLabel } = useLabelResolver(toRef(props, 'eventLabels'), toRef(props.settings, 'labelStyle'))
-  const { getLabel: getVariableLabel } = useLabelResolver(
-    toRef(props, 'variableLabels'),
-    toRef(props.settings, 'labelStyle')
-  )
-  const getLabel = (key: string): string | Component => {
-    const variable = getVariableLabel(key)
-    if (variable !== key) return variable // key がそのまま返ってきた = 未ヒット
-    console.log(getEventLabel(key))
-    return getEventLabel(key)
-  }
+  const { getLabel } = useLabelResolver(toRef(props, 'variableLabels'), toRef(props.settings, 'labelStyle'))
 
   const { allKeys, getPattern, formatValue } = useStreamCounterDisplay(toRef(props, 'settings'))
 

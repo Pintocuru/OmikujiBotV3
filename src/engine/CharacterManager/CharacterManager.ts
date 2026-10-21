@@ -1,5 +1,5 @@
 // src/engine/CharacterManager/CharacterManager.ts
-import { CharacterType, CharacterColorType } from '@/types/OmikujiData'
+import { CharacterType, CharacterColorType, CharacterColorScheme } from '@/types/OmikujiData'
 
 /**
  * キャラクターの存在・画像・表情など、キャラクター固有の処理を担当
@@ -44,11 +44,9 @@ export class CharacterManager {
   /**
    * キャラクターキーから色を取得
    */
-  getCharacterColor(characterKey: string | null): CharacterColorType | null {
-    if (!characterKey) return null
-
+  getCharacterColor(characterKey: string | null): CharacterColorType {
     const character = this.getCharacter(characterKey)
-    return character?.color ?? null
+    return character?.color ?? CharacterColorScheme.parse({})
   }
 
   /**

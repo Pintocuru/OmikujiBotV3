@@ -5,7 +5,6 @@
     <div class="flex flex-col" :class="[fontFamily]">
       <!-- トーストサンプル -->
       <div :class="!toastSettings.showToastsOnRight ? 'self-start' : 'self-end'">
-        <!-- TODO:color に null が入る場合はどうするか… -->
         <ToastBubbleItem
           v-for="(message, i) in previewMessages"
           :key="i"

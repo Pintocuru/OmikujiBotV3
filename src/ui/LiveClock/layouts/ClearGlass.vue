@@ -1,11 +1,21 @@
 <!-- src/ui/LiveClock/layouts/ClearGlass.vue -->
 <template>
-  <div class="flipper-wrap w-full max-w-md" :class="{ 'is-mounted': isMounted }">
+  <div class="flipper-wrap w-full max-w-md" :class="{ 'is-mounted': isMounted }" :style="rootStyle">
     <div class="flipper-inner" :class="{ 'is-flipped': isFlipped }">
       <!-- 表面（時計側） -->
-      <div class="flip-card glass-card rounded-2xl">
-        <!-- ガラス色調レイヤー（backFrom カラーを薄く乗せる） -->
-        <div class="absolute inset-0 rounded-2xl color-tint-from pointer-events-none"></div>
+      <div
+        class="flip-card glass-card rounded-2xl"
+        :style="{
+          backgroundColor: 'color-mix(in srgb, var(--lc-bg) 65%, transparent)',
+        }"
+      >
+        <!-- ガラス色調レイヤー（accent カラーを薄く乗せる） -->
+        <div
+          class="absolute inset-0 rounded-2xl pointer-events-none"
+          :style="{
+            backgroundColor: 'color-mix(in srgb, var(--lc-accent) 8%, transparent)',
+          }"
+        ></div>
         <!-- 上辺ハイライト -->
         <div
           class="absolute inset-x-0 top-0 h-px rounded-t-2xl bg-linear-to-r from-transparent via-white/60 to-transparent pointer-events-none"
@@ -17,7 +27,10 @@
 
         <div class="card-body items-center justify-center gap-0.5 p-2 relative">
           <!-- 時計 -->
-          <div class="flex text-7xl font-black tracking-tight -mt-3 drop-shadow-sm" :class="`text-${backFrom}`">
+          <div
+            class="flex text-7xl font-black tracking-tight -mt-3 drop-shadow-sm"
+            :style="{ color: 'var(--lc-text)' }"
+          >
             <!-- 時刻表示 -->
             <span>{{ hours }}</span>
             <span class="mx-0.5 transition-opacity duration-75" :class="{ 'opacity-0': !colonVisible }">:</span>
@@ -30,7 +43,7 @@
           <div
             v-if="settings.isDate"
             class="flex items-center justify-center text-lg font-bold -mt-1"
-            :class="`text-${backFrom}`"
+            :style="{ color: 'var(--lc-name)' }"
           >
             {{ year }}/{{ month }}/{{ date }} ({{ day }})
           </div>
@@ -38,8 +51,8 @@
           <!-- 下部メッセージ -->
           <div
             v-if="defaultMessage"
-            class="text-lg font-bold tracking-normal line-clamp-1 drop-shadow-sm"
-            :class="`text-${backTo}`"
+            class="text-lg font-bold tracking-normal line-clamp-1 drop-shadow-sm opacity-85"
+            :style="{ color: 'var(--lc-accent)' }"
           >
             <RotatingMessage :message="defaultMessage" />
           </div>
@@ -47,7 +60,12 @@
       </div>
 
       <!-- 裏面（メッセージ側） -->
-      <div class="flip-card face-back glass-card rounded-2xl">
+      <div
+        class="flip-card face-back glass-card rounded-2xl"
+        :style="{
+          backgroundColor: 'color-mix(in srgb, var(--lc-bg) 70%, transparent)',
+        }"
+      >
         <div class="absolute inset-0 rounded-2xl pointer-events-none"></div>
         <div
           class="absolute inset-x-0 top-0 h-px rounded-t-2xl bg-linear-to-r from-transparent via-white/60 to-transparent pointer-events-none"
@@ -58,7 +76,7 @@
         <div class="card-body items-center justify-center p-2 gap-1 relative">
           <p
             class="text-2xl font-bold text-center wrap-break-word line-clamp-2 drop-shadow-sm"
-            :class="`text-${backFrom}`"
+            :style="{ color: 'var(--lc-text)' }"
             v-html="currentMsg"
           ></p>
         </div>
@@ -83,8 +101,13 @@
 
   const { hours, minutes, seconds, colonVisible, year, month, date, day } = useLiveClockTime()
 
-  const backFrom = computed(() => props.settings.color.backFrom)
-  const backTo = computed(() => props.settings.color.backTo)
+  // CharacterColorScheme の4色(name/text/background/accent)を CSS 変数として定義
+  const rootStyle = computed(() => ({
+    '--lc-name': props.settings.color.name,
+    '--lc-text': props.settings.color.text,
+    '--lc-bg': props.settings.color.background,
+    '--lc-accent': props.settings.color.accent,
+  }))
 </script>
 
 <style scoped>

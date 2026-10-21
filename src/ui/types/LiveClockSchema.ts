@@ -1,7 +1,7 @@
 // src/ui/types/LiveClockSchema.ts
 import { z } from 'zod'
-import { DaisyUiThemeFieldsSchema } from '@/types/core/DaisyUiTheme'
-import { normalizedObject } from '@/types/OmikujiData/ParsedDefault'
+import { normalizedObject } from '@/types/core'
+import { CharacterColorScheme } from '@/types/OmikujiData'
 
 /**
  * ライブクロック LiveClock
@@ -46,7 +46,7 @@ const defaultMessage = `<<
 
 export const LiveClockSchema = z.object({
   component: z.enum(clockComponentsEnum).default('morning').catch('morning'),
-  color: normalizedObject(CharacterColorScheme), // DaisyUIテーマカラー
+  color: normalizedObject(CharacterColorScheme), // キャラクター配色 (name / text / background / accent)
   isSecond: z.boolean().default(false).catch(false), // 秒数を入れるか
   isDate: z.boolean().default(false).catch(false), // 日付をいれるか
   defaultMessage: z.string().default(defaultMessage).catch(defaultMessage),

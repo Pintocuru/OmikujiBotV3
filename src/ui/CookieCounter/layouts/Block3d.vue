@@ -1,6 +1,6 @@
 <!-- src/ui/CookieCounter/layouts/Block3d.vue -->
 <template>
-  <div class="flex justify-center items-center">
+  <div class="flex justify-center items-center" :style="rootStyle">
     <div v-if="slots.length === 0" class="text-base-content/40 text-2xl">まだ何も表示されません…</div>
 
     <div v-else class="relative">
@@ -10,10 +10,10 @@
         <div
           v-for="i in DEPTH"
           :key="i"
-          class="absolute rounded-sm"
-          :class="`border-10 border-${color.backTo}`"
+          class="absolute rounded-sm border-10"
           :style="{
             inset: 0,
+            borderColor: 'var(--ck-name)',
             transform: `translate(${i * 3}px, ${i * 2}px)`,
             opacity: 0.4 + i * 0.06,
             zIndex: i,
@@ -22,10 +22,10 @@
 
         <!-- 正面パネル（押し込みで translate する） -->
         <div
-          class="relative rounded-sm"
-          :class="`bg-${color.backFrom} border-10`"
+          class="relative rounded-sm border-10"
           :style="{
             zIndex: DEPTH + 1,
+            backgroundColor: 'var(--ck-accent)',
             borderColor: highlightColor,
             transform: `translate(${mainPush.x}px, ${mainPush.y}px)`,
             transition: mainPush.transitioning ? 'none' : 'transform 0.12s ease-out',
@@ -43,14 +43,16 @@
           <div class="flex items-center justify-center px-4 py-0 gap-1" style="min-width: 260px; min-height: 180px">
             <span
               class="counter-value text-9xl leading-none"
-              :class="`text-${color.backFrom}-content`"
-              :style="{ transform: `skewX(-6deg)` }"
+              :style="{
+                color: 'var(--ck-bg)',
+                transform: `skewX(-6deg)`,
+              }"
               >{{ formatValue(displayMain) }}</span
             >
           </div>
 
           <!-- ラベル: 左下に絶対配置 -->
-          <span class="counter-label absolute bottom-2 left-3" :class="`text-${color.backFrom}-content`">{{
+          <span class="counter-label absolute bottom-2 left-3" :style="{ color: 'var(--ck-bg)' }">{{
             slots[0].label
           }}</span>
         </div>
@@ -66,10 +68,10 @@
         <div
           v-for="i in SUB_DEPTH"
           :key="i"
-          class="absolute rounded-sm"
-          :class="`border-10 border-${color.backFrom}`"
+          class="absolute rounded-sm border-10"
           :style="{
             inset: 0,
+            borderColor: 'var(--ck-accent)',
             transform: `translate(${i * 3}px, ${i * 2}px)`,
             opacity: 0.4 + i * 0.08,
             zIndex: i,
@@ -78,10 +80,10 @@
 
         <!-- 正面パネル -->
         <div
-          class="relative rounded-sm"
-          :class="`bg-${color.backTo} border-10`"
+          class="relative rounded-sm border-10"
           :style="{
             zIndex: SUB_DEPTH + 1,
+            backgroundColor: 'var(--ck-name)',
             borderColor: subHighlightColor,
             transform: `translate(${subPush.x}px, ${subPush.y}px)`,
             transition: subPush.transitioning ? 'none' : 'transform 0.12s ease-out',
@@ -97,14 +99,16 @@
           <div class="flex items-center justify-center px-4 py-1 gap-1" style="min-width: 140px; min-height: 110px">
             <span
               class="counter-value text-7xl leading-none"
-              :class="`text-${color.backTo}-content`"
-              :style="{ transform: `skewX(-6deg)` }"
+              :style="{
+                color: 'var(--ck-bg)',
+                transform: `skewX(-6deg)`,
+              }"
               >{{ formatValue(displaySub) }}</span
             >
           </div>
 
           <!-- ラベル: 左下に絶対配置 -->
-          <span class="counter-label absolute bottom-1.5 left-3" :class="`text-${color.backTo}-content`">{{
+          <span class="counter-label absolute bottom-1.5 left-3" :style="{ color: 'var(--ck-bg)' }">{{
             slots[1].label
           }}</span>
         </div>
@@ -122,10 +126,17 @@
   const props = defineProps<{
     counters: Record<string, number>
     counterDefs: CookieCounterType['counters']
-    eventLabels: Record<string, string>
     variableLabels: Record<string, string>
     color: CookieCounterType['color']
   }>()
+
+  // CharacterColorScheme の4色(name/text/background/accent)を CSS 変数として定義
+  const rootStyle = computed(() => ({
+    '--ck-name': props.color.name,
+    '--ck-text': props.color.text,
+    '--ck-bg': props.color.background,
+    '--ck-accent': props.color.accent,
+  }))
 
   // ────────────────────────────────────────────
   // 定数
@@ -142,7 +153,7 @@
   // ────────────────────────────────────────────
   // ラベル解決・スロット
   // ────────────────────────────────────────────
-  const { getLabel } = useCookieLabelResolver(props.eventLabels, props.variableLabels)
+  const { getLabel } = useCookieLabelResolver(props.variableLabels)
   const formatValue = (v: number) => new Intl.NumberFormat('ja-JP').format(Math.round(v))
 
   const slots = computed(() =>

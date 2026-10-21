@@ -1,7 +1,13 @@
 <!-- src/ui/LiveClock/layouts/SoundPlayer.vue -->
 <template>
-  <div class="w-md transition-all duration-500 ease-out">
-    <div class="cyber-frame relative bg-base-200 border px-4 overflow-hidden" :class="`border-${backFrom}`">
+  <div class="w-md transition-all duration-500 ease-out" :style="rootStyle">
+    <div
+      class="cyber-frame relative border px-4 overflow-hidden"
+      :style="{
+        borderColor: 'var(--lc-accent)',
+        backgroundColor: 'color-mix(in srgb, var(--lc-bg) 85%, transparent)',
+      }"
+    >
       <div class="relative h-38 flex items-center">
         <transition name="cyber-slide" mode="out-in">
           <!-- 時計表示 -->
@@ -10,7 +16,7 @@
             <div
               v-if="settings.isDate && !isFlipped"
               class="font-mono text-2xl font-bold -mb-3"
-              :class="`text-${backFrom}`"
+              :style="{ color: 'var(--lc-name)' }"
             >
               {{ year }}/{{ month }}/{{ date }} ({{ day }})
             </div>
@@ -18,7 +24,7 @@
             <!-- 時刻表示 -->
             <div
               class="flex items-baseline font-mono text-8xl font-black leading-none tracking-tighter"
-              :class="`text-${backFrom}`"
+              :style="{ color: 'var(--lc-text)' }"
             >
               <span>{{ hours }}</span>
               <span class="mx-1 transition-opacity duration-100" :class="{ 'opacity-20': !colonVisible }">:</span>
@@ -29,42 +35,63 @@
             </div>
 
             <div class="flex items-center gap-1 -mt-1">
-              <!-- ON_AIR バッジ（第一カラー） -->
+              <!-- ON_AIR バッジ（アクセントカラー） -->
               <div
                 class="px-1 text-base rounded-sm font-bold animate-pulse"
-                :class="[`bg-${backTo}`, `text-${backTo}-content`]"
-                style="animation-duration: 6s"
+                :style="{
+                  backgroundColor: 'var(--lc-accent)',
+                  color: 'var(--lc-bg)',
+                  animationDuration: '6s',
+                }"
               >
                 ON_AIR
               </div>
 
               <!-- 下部メッセージ -->
-              <div class="text-xl truncate font-bold line-clamp-1" :class="`text-${backTo}`">
+              <div
+                class="text-xl truncate font-bold line-clamp-1 opacity-80"
+                :style="{ color: 'var(--lc-text)' }"
+              >
                 <RotatingMessage :message="defaultMessage" />
               </div>
             </div>
           </div>
 
           <!-- メッセージ表示 -->
-          <div v-else key="msg" class="w-full" :class="`text-${backTo}`">
-            <div class="flex items-center gap-2 text-lg tracking-[0.2em]" :class="`text-${backFrom}`">
+          <div v-else key="msg" class="w-full" :style="{ color: 'var(--lc-text)' }">
+            <div
+              class="flex items-center gap-2 text-lg tracking-[0.2em]"
+              :style="{ color: 'var(--lc-accent)' }"
+            >
               <span class="animate-pulse">▶▶</span>
               <span>SIGNAL_RECEIVED</span>
             </div>
 
             <p class="text-3xl font-bold leading-tight line-clamp-3" v-html="currentMsg"></p>
 
-            <!-- プログレスバー（第二カラー） -->
-            <div class="mt-2 w-full relative overflow-hidden" :class="`bg-${backTo}`">
-              <div class="absolute inset-0 w-1/3 cyber-progress-anim" :class="`bg-${backTo}`"></div>
+            <!-- プログレスバー -->
+            <div
+              class="mt-2 w-full relative overflow-hidden h-1"
+              :style="{ backgroundColor: 'color-mix(in srgb, var(--lc-accent) 25%, transparent)' }"
+            >
+              <div
+                class="absolute inset-0 w-1/3 cyber-progress-anim"
+                :style="{ backgroundColor: 'var(--lc-accent)' }"
+              ></div>
             </div>
           </div>
         </transition>
       </div>
 
-      <!-- 角パーツ（第一カラー） -->
-      <div class="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2" :class="`border-${backFrom}`"></div>
-      <div class="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2" :class="`border-${backFrom}`"></div>
+      <!-- 角パーツ（アクセントカラー） -->
+      <div
+        class="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2"
+        :style="{ borderColor: 'var(--lc-accent)' }"
+      ></div>
+      <div
+        class="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2"
+        :style="{ borderColor: 'var(--lc-accent)' }"
+      ></div>
     </div>
   </div>
 </template>
@@ -85,9 +112,13 @@
 
   const { hours, minutes, seconds, colonVisible, year, month, date, day } = useLiveClockTime()
 
-  // DaisyUI カラーキー（primary / secondary / accent / ...）
-  const backFrom = computed(() => props.settings.color.backFrom)
-  const backTo = computed(() => props.settings.color.backTo)
+  // CharacterColorScheme の4色(name/text/background/accent)を CSS 変数として定義
+  const rootStyle = computed(() => ({
+    '--lc-name': props.settings.color.name,
+    '--lc-text': props.settings.color.text,
+    '--lc-bg': props.settings.color.background,
+    '--lc-accent': props.settings.color.accent,
+  }))
 </script>
 
 <style scoped>

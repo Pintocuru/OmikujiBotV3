@@ -1,6 +1,6 @@
 // src/types/OmikujiData/ui/UiSchema.ts
 import { z } from 'zod'
-import { normalizedObject } from '../ParsedDefault'
+import { normalizedObject } from '../../core/ParsedDefault'
 import { FontFamilySchema, FontFamilyType } from '../fontFamily'
 import { UiLayoutSchema } from './UiLayoutSchema'
 import { fontFamilyMap } from '@/maps/OmikujiData'

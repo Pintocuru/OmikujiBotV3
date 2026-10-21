@@ -2,7 +2,7 @@
 import { z } from 'zod'
 import { CriteriaThresholdSchema } from '../events/CommentCriteriaSchema'
 import { PostFlowArraySchema } from './PostFlow'
-import { normalizedObject } from '../ParsedDefault'
+import { normalizedObject } from '../../core/ParsedDefault'
 import { BaseSchema } from '@/types/core'
 
 /**
@@ -73,8 +73,5 @@ export const OmikujiItemControlSchema = OmikujiItemBase.extend({
 })
 export type OmikujiItemControlType = z.infer<typeof OmikujiItemControlSchema>
 
-export const OmikujiItemSchema = z.discriminatedUnion('kind', [
-  OmikujiItemPostFlowSchema,
-  OmikujiItemControlSchema,
-])
+export const OmikujiItemSchema = z.discriminatedUnion('kind', [OmikujiItemPostFlowSchema, OmikujiItemControlSchema])
 export type OmikujiItemType = z.infer<typeof OmikujiItemSchema>
