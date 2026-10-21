@@ -16,14 +16,13 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { BotMessageBubbleType } from '@/generator/types'
-  import { CommentBubbleType } from '@/types/ui'
+  import { CommentBubbleType, ShownCharacter } from '@/types/ui'
   import CommentDisplay from './parts/CommentDisplay.vue'
 
   const props = defineProps<{
     displayedComments: BotMessageBubbleType[]
     removeComment: (id: string) => void
-    // Standard と props を揃えるため受け取る（未使用）
-    shown?: unknown
+    shown: ShownCharacter | null
     settings: CommentBubbleType
   }>()
 

@@ -13,11 +13,10 @@
   import { computed, onMounted, onUnmounted } from 'vue'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
-  import { CommentBubbleSchema } from '@/types/ui'
+  import { CommentBubbleSchema, ShownCharacter } from '@/types/ui'
   import { useFilteredBotMessages } from '@/ui/common/useFilteredBotMessages'
   import CommentBubbleSelector from './CommentBubbleSelector.vue'
   import { useBotDisplay } from '@/ui/common/useBotDisplay'
-  import type { ShownCharacter } from './layouts/types'
 
   const appStore = useAppStore()
 

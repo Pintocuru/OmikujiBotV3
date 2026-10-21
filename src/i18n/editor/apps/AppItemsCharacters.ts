@@ -132,13 +132,14 @@ export const appItemsCharactersMessages = {
         code2: ' [キャラクターID]/[エモーション名].png, gif, webp...',
         line2Post: 'といった画像の拡張子が順に切り替わります。目的の拡張子になるまでクリックしてください。',
         layerFeature: 'レイヤー機能:',
-        layerDesc: '各エモーションに複数の画像を設定できます。上のレイヤーほど手前に表示されます（配列の0番が最前面）。',
+        layerDesc:
+          '各エモーションに複数の画像を設定できます。上のレイヤーほど手前に表示されます（配列の0番が最前面）。',
       },
     },
     characterService: {
       base64: {
         label: 'わんコメ表示用画像',
-        desc: '{size}×{size}にリサイズし、Base64として保存されます',
+        desc: 'Base64として保存されます',
         alt: 'Base64画像プレビュー',
         reset: 'Base64画像をリセット',
       },
@@ -290,19 +291,20 @@ export const appItemsCharactersMessages = {
         code2: ' [characterID]/[emotionName].png, gif, webp...',
         line2Post: '. Keep clicking until you reach the extension you want.',
         layerFeature: 'Layer feature:',
-        layerDesc: 'You can set multiple images for each emotion. Layers higher in the list are displayed in front (index 0 is the frontmost).',
+        layerDesc:
+          'You can set multiple images for each emotion. Layers higher in the list are displayed in front (index 0 is the frontmost).',
       },
     },
     characterService: {
       base64: {
         label: 'Image for OneComme display',
-        desc: 'Resized to {size}×{size} and saved as Base64',
+        desc: 'Saved as Base64',
         alt: 'Base64 image preview',
         reset: 'Reset Base64 image',
       },
       voice: {
         label: 'Bot comment display method',
-        desc: 'Specify how the bot\'s text is expressed',
+        desc: "Specify how the bot's text is expressed",
         note1: 'If you create a dedicated frame for a character, you can configure the ',
         noteCode: '"Text-to-speech" settings',
         note2: ' individually for each character.',

@@ -26,10 +26,9 @@
 
 <script setup lang="ts">
   import { BotMessageBubbleType } from '@/generator/types'
-  import { CommentBubbleType } from '@/types/ui'
+  import { CommentBubbleType, ShownCharacter } from '@/types/ui'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import CommentDisplay from './parts/CommentDisplay.vue'
-  import type { ShownCharacter } from './types'
 
   defineProps<{
     displayedComments: BotMessageBubbleType[]
