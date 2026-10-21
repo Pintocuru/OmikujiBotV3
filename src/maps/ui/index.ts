@@ -1,3 +1,3 @@
-// src/maps/OmikujiData/index.ts
+// src/maps/ui/index.ts
 
 // export * from './assets'

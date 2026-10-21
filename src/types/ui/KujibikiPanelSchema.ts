@@ -1,4 +1,4 @@
-// src/ui/types/KujibikiPanelSchema.ts
+// src/types/ui/KujibikiPanelSchema.ts
 import { z } from 'zod'
 import { enterMotions } from '@/types/OmikujiData'
 

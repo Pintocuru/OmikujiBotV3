@@ -1,4 +1,4 @@
-// src/ui/types/CookieCounterSchema.ts
+// src/types/ui/CookieCounterSchema.ts
 import { z } from 'zod'
 import { CharacterColorScheme, normalizedObject } from '@/types/OmikujiData'
 import { idSchema } from '@/types/core'

@@ -1,4 +1,4 @@
-// src/ui/types/StreamCounterSchema.ts
+// src/types/ui/StreamCounterSchema.ts
 import { z } from 'zod'
 import { daisyUIColor, themes } from '@/types/core/DaisyUiTheme'
 import { idSchema } from '@/types/core'

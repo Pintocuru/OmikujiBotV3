@@ -1,3 +1,3 @@
-// src/maps/OmikujiData/index.ts
+// src/i18n/editor/index.ts
 
 // export * from './assets'

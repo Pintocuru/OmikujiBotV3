@@ -1,4 +1,4 @@
-// src/ui/types/LiveClockSchema.ts
+// src/types/ui/LiveClockSchema.ts
 import { z } from 'zod'
 import { normalizedObject } from '@/types/core'
 import { CharacterColorScheme } from '@/types/OmikujiData'

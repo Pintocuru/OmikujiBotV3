@@ -1,4 +1,4 @@
-// src/ui/types/ToastWidgetsSchema.ts
+// src/types/ui/ToastWidgetsSchema.ts
 import { z } from 'zod'
 
 /**
