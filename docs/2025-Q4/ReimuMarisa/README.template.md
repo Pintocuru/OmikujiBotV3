@@ -2,11 +2,11 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、 [おみくじ BOT ゆっくり霊夢&魔理沙 OmikujiBot ReimuMarisa](https://pintocuru.booth.pm/items/5471598) の readme となります。
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -38,7 +38,7 @@
 - 「初見詐欺」にはノリの良いツッコミを入れる
 - じゃんけんは本気で勝ちにいくタイプで、負けると悔しがる
 
-![features_31_InfoCharacter](/packages/OmikujiBot/template/features/features_31_InfoCharacter.md)
+![features_31_InfoCharacter](/template/features/features_31_InfoCharacter.md)
 
 - おみくじ BOT の博麗神社は、賽銭 (スパチャ・ビット等) が比較的多めに入るようで、巫女である霊夢も金銭に困っていないようです。
   - でも、お賽銭はもっと欲しいそうです。
@@ -66,13 +66,13 @@
 
 ## カスタマイズ（Customization）
 
-![customization_21_ConfigEditor](/packages/OmikujiBot/template/customization/customization_21_ConfigEditor.md)
+![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
-![](/packages/OmikujiBot/template/customization/customization_11_illust.md)
+![](/template/customization/customization_11_illust.md)
 
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
@@ -81,13 +81,13 @@
 - 凪ぽんの素材置き場 <https://nagipon-sozai.studio.site/>
 - 本素材の同梱は通常、再配布にあたる行為ですが、作者様より特別にご許可を頂いております。
 
-![](/sharedTemplate/credits/credits_11_sozai.md)
+![](/template/credits/credits_11_sozai.md)
 
 ![](images/excited.webp)
 
 神社も私も、あなたを応援しているわ。
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_92_PackageLicense.md)
+![license_92_PackageLicense](/template/license/license_92_PackageLicense.md)
 
 ## バージョン情報 (Version)
 
@@ -159,6 +159,6 @@
 
 これ以前のリリースノートは [こちら](https://github.com/Pintocuru/OmikujiBot-Docs/releases/tag/v0.7.0) に移動しました。
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp) %>

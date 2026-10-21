@@ -2,11 +2,11 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、 [おみくじ BOT 超おみくじ OmikujiBot BigBangFortune](https://pintocuru.booth.pm/items/7440428) の readme となります。
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -20,7 +20,7 @@
 
 ![features_12_HowToPlay2](../../template/features/features_12_HowToPlay2.md)
 
-![Installation_91_OmikujiBotSet](/packages/OmikujiBot/template/installation/Installation_91_OmikujiBotSet.md)
+![Installation_91_OmikujiBotSet](/template/installation/Installation_91_OmikujiBotSet.md)
 
 ## つかいかた (Usage)
 
@@ -34,13 +34,13 @@
 
 ## カスタマイズ（Customization）
 
-![customization_21_ConfigEditor](/packages/OmikujiBot/template/customization/customization_21_ConfigEditor.md)
+![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
-![](/packages/OmikujiBot/template/customization/customization_11_illust.md)
+![](/template/customization/customization_11_illust.md)
 
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
@@ -53,9 +53,9 @@ WordParty で使用するものは、[おみくじBOT用WordParty クレジッ�
 
 ![](images/250114_EditorBanner.webp)
 
-![](/sharedTemplate/credits/credits_11_sozai.md)
+![](/template/credits/credits_11_sozai.md)
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_93_PackageLicenseBasic.md)
+![license_92_PackageLicense](/template/license/license_93_PackageLicenseBasic.md)
 
 ## バージョン情報 (Version)
 
@@ -63,6 +63,6 @@ WordParty で使用するものは、[おみくじBOT用WordParty クレジッ�
 
 - 新規作成
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp) %>

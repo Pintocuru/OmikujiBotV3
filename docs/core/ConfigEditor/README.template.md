@@ -2,13 +2,13 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) ジェネレーター BOT 「おみくじ BOT」のデータを編集できるアプリケーションです。
+![](/template/intro/intro_11.md) ジェネレーター BOT 「おみくじ BOT」のデータを編集できるアプリケーションです。
 
-![](/sharedTemplate/intro/intro_12.md) 下記に同梱している 「コンフィグエディター」 の readme となります。
+![](/template/intro/intro_12.md) 下記に同梱している 「コンフィグエディター」 の readme となります。
 
-![OmikujiBotPackageBOOTH](/packages/OmikujiBot/template/_common/OmikujiBotPackageBOOTH.md)
+![OmikujiBotPackageBOOTH](/template/_common/OmikujiBotPackageBOOTH.md)
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このアプリは何？（Features）
 
@@ -142,7 +142,7 @@ A. 配布データをそのまま再配布することは禁止です。内容�
 
 - SweetAlert2 <https://sweetalert2.github.io/> - MIT License
 
-![license_91_AppLicense](/packages/OmikujiBot/template/license/license_91_AppLicense.md)
+![license_91_AppLicense](/template/license/license_91_AppLicense.md)
 
 ## バージョン情報
 

@@ -2,11 +2,11 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、 [おみくじ BOT 高飛車な四国めたん OmikujiBot Diva Metan](https://pintocuru.booth.pm/items/6058829) の readme となります。
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -29,7 +29,7 @@
 - 中二病をカッコいいと思う節があり「おみくじ」「じゃんけん」のおみくじでは「漆黒のめたん」という名前になります。
 - 「キス魔」で、時々キスに関する話題を出しています。
 
-![features_31_InfoCharacter](/packages/OmikujiBot/template/features/features_31_InfoCharacter.md)
+![features_31_InfoCharacter](/template/features/features_31_InfoCharacter.md)
 
 ![Installation_92_OmikujiBotPROSet](../../template/installation/Installation_92_OmikujiBotPROSet.md)
 
@@ -57,13 +57,13 @@
 
 ## カスタマイズ（Customization）
 
-![customization_21_ConfigEditor](/packages/OmikujiBot/template/customization/customization_21_ConfigEditor.md)
+![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
-![](/packages/OmikujiBot/template/customization/customization_11_illust.md)
+![](/template/customization/customization_11_illust.md)
 
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
@@ -72,13 +72,13 @@
 - 【立ち絵素材】四国めたんデフォルメ立ち絵 / いえちー さんのイラスト - ニコニコ静画 (イラスト)
   - <https://seiga.nicovideo.jp/seiga/im11022280>
 
-![](/sharedTemplate/credits/credits_11_sozai.md)
+![](/template/credits/credits_11_sozai.md)
 
 ![](../EveryoneZunda/images/wink.webp)
 
 「ここまで見てくれてありがとう。お礼にキスしてあげる…」
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_92_PackageLicense.md)
+![license_92_PackageLicense](/template/license/license_92_PackageLicense.md)
 
 ## バージョン情報 (Version)
 
@@ -112,6 +112,6 @@
 
 - 「初見判定ちゃん 高飛車な四国めたん」としてリリース。
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

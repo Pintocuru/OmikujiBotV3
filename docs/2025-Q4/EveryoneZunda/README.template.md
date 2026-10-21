@@ -2,11 +2,11 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
-![](/sharedTemplate/intro/intro_12.md) [おみくじ BOT みんなのずんだもん OmikujiBot EveryoneZunda](https://pintocuru.booth.pm/items/6053855) の readme となります。
+![](/template/intro/intro_12.md) [おみくじ BOT みんなのずんだもん OmikujiBot EveryoneZunda](https://pintocuru.booth.pm/items/6053855) の readme となります。
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -29,7 +29,7 @@
 - 初見詐欺に対しては、妙に煽り気味で上から目線（のように見える）
 - 何故か芸人ネタを持ち込む。[世界的な大スター](https://ja.wikipedia.org/wiki/%E3%81%A8%E3%81%AB%E3%81%8B%E3%81%8F%E6%98%8E%E3%82%8B%E3%81%84%E5%AE%89%E6%9D%91) が好きなようだ。
 
-![features_31_InfoCharacter](/packages/OmikujiBot/template/features/features_31_InfoCharacter.md)
+![features_31_InfoCharacter](/template/features/features_31_InfoCharacter.md)
 
 - 原作では「プライドの高い不幸キャラ」なのですが、おみくじ BOT のずんだもんは他人への思いやりが強かったり、不幸さが薄いかもしれません。ずんだもち 1 個贈呈なのだ。
 
@@ -59,13 +59,13 @@
 
 ## カスタマイズ（Customization）
 
-![customization_21_ConfigEditor](/packages/OmikujiBot/template/customization/customization_21_ConfigEditor.md)
+![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
-![](/packages/OmikujiBot/template/customization/customization_11_illust.md)
+![](/template/customization/customization_11_illust.md)
 
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
@@ -74,13 +74,13 @@
 - ずんだもん ずんだもん立ち絵素材 - 坂本アヒルのイラスト - pixiv
   - <https://www.pixiv.net/artworks/92641351>
 
-![](/sharedTemplate/credits/credits_11_sozai.md)
+![](/template/credits/credits_11_sozai.md)
 
 ![](images/sleepy.webp)
 
 オマエ！どうしてこんな格好をさせるのだ！ひどい仕打ちなのだ！
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_92_PackageLicense.md)
+![license_92_PackageLicense](/template/license/license_92_PackageLicense.md)
 
 ## バージョン情報 (Version)
 
@@ -117,6 +117,6 @@
 
 - 「初見判定ちゃん ずんだもん」としてリリース。
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp) %>

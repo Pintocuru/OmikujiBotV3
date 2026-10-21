@@ -2,11 +2,11 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
-![](/sharedTemplate/intro/intro_12.md) [おみくじ BOT ズッ友!つむぎ&ひまり ネットミームマシマシ ver OmikujiBot Tsumugi & Himari](https://pintocuru.booth.pm/items/7530206) の readme となります。
+![](/template/intro/intro_12.md) [おみくじ BOT ズッ友!つむぎ&ひまり ネットミームマシマシ ver OmikujiBot Tsumugi & Himari](https://pintocuru.booth.pm/items/7530206) の readme となります。
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ### 【使用上の注意】時事ネタ・ネットミームをふんだんに取り入れた内容となっています
 
@@ -48,11 +48,11 @@
   - 口調の揺れ、一人称の揺れなどは「すべて元ネタが存在している」と考えて構いません。
 - 個人としても活動している冥鳴ひまり氏とは**全く違うキャラクター性**であることはご留意下さい。
 
-![features_31_InfoCharacter](/packages/OmikujiBot/template/features/features_31_InfoCharacter.md)
+![features_31_InfoCharacter](/template/features/features_31_InfoCharacter.md)
 
 ![Installation_92_OmikujiBotPROSet](../../template/installation/Installation_92_OmikujiBotPROSet.md)
 
-![Installation_51_ProUpgradeTemplate](../../../../sharedTemplate/installation/Installation_51_ProUpgradeTemplate.md)
+![Installation_51_ProUpgradeTemplate](../../../../template/installation/Installation_51_ProUpgradeTemplate.md)
 
 ## つかいかた (Usage)
 
@@ -74,13 +74,13 @@
 
 ## カスタマイズ（Customization）
 
-![customization_21_ConfigEditor](/packages/OmikujiBot/template/customization/customization_21_ConfigEditor.md)
+![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
-![](/packages/OmikujiBot/template/customization/customization_11_illust.md)
+![](/template/customization/customization_11_illust.md)
 
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
@@ -91,13 +91,13 @@
 - 立ち絵素材だ！ひまりちゃん \_ver2 / カミヨシ さんのイラスト - ニコニコ静画 (イラスト)
   - <https://seiga.nicovideo.jp/watch/im11601628>
 
-![](/sharedTemplate/credits/credits_11_sozai.md)
+![](/template/credits/credits_11_sozai.md)
 
 ![](images/wink%201.webp)
 
 「使ってくれたら超ハッピー★ あーしに教えてね！」
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_93_PackageLicenseBasic.md)
+![license_92_PackageLicense](/template/license/license_93_PackageLicenseBasic.md)
 
 ## バージョン情報 (Version)
 
@@ -387,6 +387,6 @@
 - アフリカでは 1 分間に 60 秒が過ぎている
   - <a href='https://dic.pixiv.net/a/%E3%82%A2%E3%83%95%E3%83%AA%E3%82%AB%E3%81%A7%E3%81%AF1%E5%88%86%E9%96%93%E3%81%AB60%E7%A7%92%E3%81%8C%E9%81%8E%E3%81%8E%E3%81%A6%E3%81%84%E3%82%8B'>アフリカでは 1 分間に 60 秒が過ぎている (あふりかではいっぷんかんにろくじゅうびょうがすぎている) とは【ピクシブ百科事典】</a>
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp) %>

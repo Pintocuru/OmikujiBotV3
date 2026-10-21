@@ -2,11 +2,11 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、 [おみくじBOT ストロベリーショコラ OmikujiBot StrawberryChocolate](https://pintocuru.booth.pm/items/7733810) の readme となります。
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -63,18 +63,18 @@
 
 ![usage_CheckNumber](../../template/usage/usage_CheckNumber.md)
 
-![customization_21_ConfigEditor](/packages/OmikujiBot/template/customization/customization_21_ConfigEditor.md)
+![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
-![](/packages/OmikujiBot/template/customization/customization_11_illust.md)
+![](/template/customization/customization_11_illust.md)
 
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
 #### 「中山道」じゃないの？
 
 - 実在するのは「中山道」ですが、創作なので意図的に「中仙道」としてます。
 - モデルにしている宿場町は、埼玉県本庄市周辺です。
 
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
@@ -87,7 +87,7 @@
 
 「今日も良い香りじゃのう。店主、また油揚げをくれるのかえ？ありがたいのう。」
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_92_PackageLicense.md)
+![license_92_PackageLicense](/template/license/license_92_PackageLicense.md)
 
 ## バージョン情報 (Version)
 
@@ -96,6 +96,6 @@
 - **おみくじ BOT のバージョン**: v2.1.0
 - 新規作成
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

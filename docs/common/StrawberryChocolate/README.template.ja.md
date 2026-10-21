@@ -2,17 +2,17 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、 [おみくじBOT ストロベリーショコラ OmikujiBot StrawberryChocolate](https://pintocuru.booth.pm/items/7733810) の readme となります。
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
 ### わんコメに BOT 機能を付与するジェネレーター
 
-- 【おみくじ BOT OmikujiBot】は、わんコメに BOT 機能を付与するジェネレーターです。
+- 【おみくじ BOT】は、わんコメに BOT 機能を付与するジェネレーターです。
 - 特定のワード (おみくじ 等) と、チャットに投稿することで、ランダムな結果を配信画面に表示します。
 - 初見さん (初めてのコメント) や、通算 100 回目のコメントなど、特定の条件で発動し、配信画面に表示する機能があります。
 - ピンとくる企画のオリジナルキャラクター「ストロベリーショコラ」を BOT キャラクターにしました。
@@ -39,10 +39,6 @@
 
 ![usage_92_OmikujiActivation](../../template/usage/usage_92_OmikujiActivation.md)
 
-![usage_MaidenOmikuji](../../template/usage/usage_MaidenOmikujiNormal.md)
-
-![](../../template/usage/usage_TarotCard.md)
-
 ![usage_JankenHonda](../../template/usage/usage_JankenHonda.md)
 
 ![usage_FirstCounter](../../template/usage/usage_FirstCounter.md)
@@ -53,40 +49,36 @@
 
 ![usage_CheckNumber](../../template/usage/usage_CheckNumber.md)
 
-## PRO 版ボーナスデータ (Usage)
+![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
-配信で盛り上がる！ミニゲームシリーズが同梱されています。
+![](/template/customization/customization_11_illust.md)
 
-![](../../template/usage/usage_GouseiSuika.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
-![](../../template/usage/usage_BomberSpin.md)
-
-![](../../template/usage/usage_DwarfBomb.md)
-
-![](../../template/usage/usage_MultiplyBonanza.md)
-
-![customization_21_ConfigEditor](/packages/OmikujiBot/template/customization/customization_21_ConfigEditor.md)
-
-![](/packages/OmikujiBot/template/customization/customization_11_illust.md)
-
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
-
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
 ### ストロベリーショコラのイラスト
 
 - pintocuru(せすじピンとしてます)
+- 作者のオリジナルキャラクターです。生成AIを用いて制作し、作者が調整・加工を行っています。
 - 本アプリ専用に制作された素材です。他の用途での使用・転載・再配布は禁止します。
 
 ![](images/Pasted%20image%2020251206151648.png)
 
 あたしのデータはサンプル用だから、自由に置き換えしてもらって結構よ♡
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_92_PackageLicense.md)
+![license_92_PackageLicense](/template/license/license_92_PackageLicense.md)
 
 ## バージョン情報 (Version)
+
+### ver.261022
+
+- **おみくじ BOT のバージョン**: v3.0.0-alpha1
+- 「巫女さんのおみくじ (ノーマル)」を追加。
+- 「メタイベント」機能追加により、高評価・視聴数増加で反応する、新しいおみくじが追加されています。
+- 「簡易プレースホルダー」機能追加により、多くの部分で高機能プレースホルダーから変更されています。
 
 ### ver.260217
 
@@ -109,6 +101,6 @@
   - 今後のリリースは、このバージョンを唯一の PRO 版（ライセンスキー付き）にする予定です
   - 他のリリースは「通常版」のほかに「支援版」として提供する場合もありますが、ライセンスキーはこのバージョンのみです。
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
-<%\* await tp.user.expandEmbeds(tp) %>
+<%\ await tp.user.expandEmbeds(tp) %>

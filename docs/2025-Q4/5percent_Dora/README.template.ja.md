@@ -2,11 +2,11 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、 [どこでもドラちゃん Bot OmikujiBot 5percent_Dora](https://pintocuru.booth.pm/items/7291931) の readme となります。
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -41,19 +41,19 @@
 - 「ドラちゃん」と呼ぶと、ひみつ道具をランダムで 1 つ出してくれます。
   - 「ボロン」した時は、ボロンさせたユーザー名が表示されます
 
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
 #### Q.ドラえもんでしょ？
 
 A: 違います。
 
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ![](./images/dorachan_konjac_2.webp)
 
 「はぁーい、どこでもしずちゃん～」
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_94_PackageLicenseBasic2.md)
+![license_92_PackageLicense](/template/license/license_94_PackageLicenseBasic2.md)
 
 ## バージョン情報 (Version)
 
@@ -70,6 +70,6 @@ A: 違います。
 
 - 「[おみくじ BOT](../../core/OmikujiBot/README.md)」を利用して、ガチャ配信向け BOT として新規公開しました
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

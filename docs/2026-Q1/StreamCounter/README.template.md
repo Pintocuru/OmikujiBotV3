@@ -2,14 +2,14 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、以下の readme となります。
 
 - [おみくじ BOT ライバーカウンター サークル OmikujiBot StreamCounterCircle](https://pintocuru.booth.pm/items/8078258)
 - [おみくじ BOT ライバーカウンター ピクセル OmikujiBot StreamCounterPixel](https://pintocuru.booth.pm/items/8078267)
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -56,11 +56,11 @@
 
 ![usage_FlightSeat](../../template/usage/usage_StreamCounter.md)
 
-![customization_21_ConfigEditor](/packages/OmikujiBot/template/customization/customization_21_ConfigEditor.md)
+![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
@@ -72,7 +72,7 @@
 
 「耳が 6 つある？気にしなくていいから（ｗ」
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_93_PackageLicenseBasic.md)
+![license_92_PackageLicense](/template/license/license_93_PackageLicenseBasic.md)
 
 ## バージョン情報 (Version)
 
@@ -84,6 +84,6 @@
   - 今後の展開のため、 LiverCounter -> StreamCounter と名称を変更しています。
     - 「肝臓カウンター」では いかんぞう！
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp) %>

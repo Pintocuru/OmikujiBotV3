@@ -2,14 +2,14 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、以下の readme となります。
 
 - [おみくじBOT 配信向けｽﾋﾟｷ OmikujiBot TweetSpiki](https://pintocuru.booth.pm/items/8281244)
 - [OmikujiBOT 방송용 스피키 OmikujiBot TweetSpiki](https://pintocuru.booth.pm/items/8281303)
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -45,11 +45,11 @@
 
 ![usage_CheckNumber](../../template/usage/usage_CheckNumber.md)
 
-![customization_21_ConfigEditor](/packages/OmikujiBot/template/customization/customization_21_ConfigEditor.md)
+![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
@@ -65,11 +65,11 @@
 #### 動画で使われた配信向け素材
 
 - 配信用オーバーレイ【ハロウィン】 <https://booth.pm/ja/items/4272539>
-	- Overlay Design：ウサギ先生 (<https://lit.link/usagisensei>)
+  - Overlay Design：ウサギ先生 (<https://lit.link/usagisensei>)
 - ゲーム画面部分
-	- 生成：ChatGPT <https://chatgpt.com/>
+  - 生成：ChatGPT <https://chatgpt.com/>
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_93_PackageLicenseBasic.md)
+![license_92_PackageLicense](/template/license/license_93_PackageLicenseBasic.md)
 
 ## バージョン情報 (Version)
 
@@ -78,6 +78,6 @@
 - **おみくじ BOT のバージョン**: v2.13.3
 - 新規作成
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

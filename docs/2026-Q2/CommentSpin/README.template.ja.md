@@ -2,7 +2,7 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、以下の readme となります。
 
@@ -10,7 +10,7 @@
 - [おみくじBOT クイズせかいはバラエティスロット OmikujiBot VarietySlot](https://pintocuru.booth.pm/items/8231657)
 - [おみくじBOT ペカるLAMP OmikujiBot GogoBonus](https://pintocuru.booth.pm/items/8251498)
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -18,8 +18,8 @@
 
 - わんコメと連携して動作する【おみくじ BOT】を利用した、ランダムにテキストや画像を抽選し、スロット風に表示するテンプレートです。
 - 抽選で使うテキスト・画像は自前のものを利用可能。
-	- 画像は gif/png/wenp/svg。アニメーション gif も OK
-	- 動画は webm/ mp4 が使用可能
+  - 画像は gif/png/wenp/svg。アニメーション gif も OK
+  - 動画は webm/ mp4 が使用可能
 - 画像はレイヤーで使える。重ねて使うことで、表現力があがり再利用性も上がります
 
 ### シーン別・活用例
@@ -36,11 +36,11 @@
 
 ![usage_FlightSeat](../../template/usage/usage_SlotPortrait.md)
 
-![customization_21_ConfigEditor](/packages/OmikujiBot/template/customization/customization_21_ConfigEditor.md)
+![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
@@ -96,8 +96,8 @@
 #### ペカった時の効果音 (通常)
 
 - 下記を Mix したものを使用しています
-	- [Ow Sound](https://freesound.org/people/Topschool/sounds/442602/)
-	- [Psytrance Kick 02](https://freesound.org/people/jalastram/sounds/818654/)
+  - [Ow Sound](https://freesound.org/people/Topschool/sounds/442602/)
+  - [Psytrance Kick 02](https://freesound.org/people/jalastram/sounds/818654/)
 - licensed under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 #### `peka_2`
@@ -129,10 +129,9 @@
 
 ![](images/Pasted%20image%2020260412074654.png)
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_93_PackageLicenseBasic.md)
+![license_92_PackageLicense](/template/license/license_93_PackageLicenseBasic.md)
 
 ## バージョン情報 (Version)
-
 
 ### ver.260423
 
@@ -144,6 +143,6 @@
 - **おみくじ BOT のバージョン**: v2.12.0
 - 新規作成
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

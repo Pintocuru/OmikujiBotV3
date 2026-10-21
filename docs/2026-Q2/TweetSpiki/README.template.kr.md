@@ -198,6 +198,6 @@ OneComme 기능에 대해서는 [문제 해결](https://onecomme.com/docs/troubl
 - **OmikujiBOT**: v2.13.3
 - 신규 작성
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp,'kr') %>

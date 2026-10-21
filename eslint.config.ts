@@ -7,7 +7,6 @@ import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescri
 
 const baseRules: Linter.RulesRecord = {
   // コンポーネント名が複数単語かどうか
-  //'vue/multi-word-component-names': ['error', { ignores: ['App', 'Index'] }],
   'vue/multi-word-component-names': 'off',
   // import パスのうち不要な部分(拡張子 .js など)を禁止
   'import/no-useless-path-segments': ['error', { noUselessIndex: false }],
@@ -15,10 +14,10 @@ const baseRules: Linter.RulesRecord = {
   'import/no-cycle': 'error',
   // 明示的な型付けがない場合でも許可するか
   '@typescript-eslint/no-inferrable-types': 'off',
-  // 'any'型の使用を許可するか
+  // 'any'型の使用を許可するか(Componentでanyを使うので許容)
   '@typescript-eslint/no-explicit-any': 'off',
   // const'の強制
-  'prefer-const': 'off',
+  'prefer-const': 'warn',
   // 未使用の変数 (_ は例外)
   '@typescript-eslint/no-unused-vars': ['warn', {
     argsIgnorePattern: '^_',

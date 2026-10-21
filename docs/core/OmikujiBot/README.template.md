@@ -2,13 +2,13 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) BOT ソフトウェア です。
+![](/template/intro/intro_11.md) BOT ソフトウェア です。
 
 このテンプレートは、下記のパッケージの内容を含みます。
 
-![OmikujiBotPackageBOOTH](/packages/OmikujiBot/template/_common/OmikujiBotPackageBOOTH.md)
+![OmikujiBotPackageBOOTH](/template/_common/OmikujiBotPackageBOOTH.md)
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -59,21 +59,21 @@
 
 ![Installation_52_VersionUp](../../template/installation/Installation_52_VersionUp.md)
 
-![Installation_51_ProUpgradeTemplate](/sharedTemplate/installation/Installation_51_ProUpgradeTemplate.md)
+![Installation_51_ProUpgradeTemplate](/template/installation/Installation_51_ProUpgradeTemplate.md)
 
 ## つかいかた (Usage)
 
 > パッケージによって、利用シーンは様々です。詳しくは、下記の Readme をご覧ください。
 
-![OmikujiBotPackageReadme](/packages/OmikujiBot/template/_common/OmikujiBotPackageReadme.md)
+![OmikujiBotPackageReadme](/template/_common/OmikujiBotPackageReadme.md)
 
 ## カスタマイズ（Customization）
 
-![customization_21_ConfigEditor](/packages/OmikujiBot/template/customization/customization_21_ConfigEditor.md)
+![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
 ## よくある質問 (FAQ)
 
-![faq_11_infoOneComme](/sharedTemplate/faq/faq_11_infoOneComme.md)
+![faq_11_infoOneComme](/template/faq/faq_11_infoOneComme.md)
 
 > おみくじの内容、エディター関連についての内容は [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) の [よくある質問](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F-faq) をご覧ください。
 
@@ -94,14 +94,14 @@ A: おみくじ (omikuji)＋初見 (syoken) から取ってます。前作「[�
 
 それぞれのパッケージでは、各種イラスト素材を使用しています。詳しくは、下記の Readme をご覧ください。
 
-![OmikujiBotPackageReadme](/packages/OmikujiBot/template/_common/OmikujiBotPackageReadme.md)
+![OmikujiBotPackageReadme](/template/_common/OmikujiBotPackageReadme.md)
 
-![license_91_AppLicense](/packages/OmikujiBot/template/license/license_91_AppLicense.md)
+![license_91_AppLicense](/template/license/license_91_AppLicense.md)
 
 ## バージョン情報 (Version)
 
 > 詳細な変更履歴は [Releases](https://github.com/Pintocuru/OmikujiBot-Docs/releases) をご覧ください。
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp) %>

@@ -2,11 +2,11 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/sharedTemplate/intro/intro_11.md) テンプレートです。
+![](/template/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、 [おみくじ BOT じゃんけん OmikujiBot HondaJanken](https://pintocuru.booth.pm/items/7383088) の readme となります。
 
-![](/sharedTemplate/intro/intro_22_IntroOneComme.md)
+![](/template/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -31,13 +31,13 @@
 
 ![usage_JankenHonda](../../template/usage/usage_JankenHonda.md)
 
-![faq_91_OmikujiBotSet](/packages/OmikujiBot/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
 
 #### Q. じゃんけんの勝率低すぎない？
 
 A: これでも高い方です (勝率は約 5%)。[ケイスケ ホンダ](https://dic.pixiv.net/a/%E6%9C%AC%E7%94%B0%E3%81%A8%E3%81%98%E3%82%83%E3%82%93%E3%81%91%E3%82%93) はもっと強いです。
 
-![troubleshooting_91_OmikujiBotSet](/packages/OmikujiBot/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
@@ -48,9 +48,9 @@ A: これでも高い方です (勝率は約 5%)。[ケイスケ ホンダ](http
 
 「俺の負け! でも、今度は絶対、俺が勝つから!また明日やろう!」
 
-![](/sharedTemplate/credits/credits_11_sozai.md)
+![](/template/credits/credits_11_sozai.md)
 
-![license_92_PackageLicense](/packages/OmikujiBot/template/license/license_94_PackageLicenseBasic2.md)
+![license_92_PackageLicense](/template/license/license_94_PackageLicenseBasic2.md)
 
 ## バージョン情報 (Version)
 
@@ -69,6 +69,6 @@ A: これでも高い方です (勝率は約 5%)。[ケイスケ ホンダ](http
 
 - [おみくじ BOT ゆっくり霊夢&魔理沙](/docs/OmikujiBotReimuMarisa/README.md) の機能「じゃんけん」を分離する形で新規作成
 
-![credits_99_sesupin](/sharedTemplate/credits/credits_99_sesupin.md)
+![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp) %>
