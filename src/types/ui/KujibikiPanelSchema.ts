@@ -1,6 +1,6 @@
 // src/types/ui/KujibikiPanelSchema.ts
 import { z } from 'zod'
-import { enterMotions } from '@/types/OmikujiData'
+import { enterMotions } from '../OmikujiData'
 
 /**
  * くじ引き KujibikiPanel

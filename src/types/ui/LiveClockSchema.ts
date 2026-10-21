@@ -1,7 +1,7 @@
 // src/types/ui/LiveClockSchema.ts
 import { z } from 'zod'
-import { normalizedObject } from '@/types/core'
-import { CharacterColorScheme } from '@/types/OmikujiData'
+import { normalizedObject } from '../core'
+import { CharacterColorScheme } from '../OmikujiData'
 
 /**
  * ライブクロック LiveClock

@@ -1,7 +1,7 @@
 // src/types/ui/CookieCounterSchema.ts
 import { z } from 'zod'
-import { CharacterColorScheme, normalizedObject } from '@/types/OmikujiData'
-import { idSchema } from '@/types/core'
+import { CharacterColorScheme, normalizedObject } from '../OmikujiData'
+import { idSchema } from '../core'
 import { streamDefaultKeyLabels } from './StreamCounterSchema'
 
 /**
