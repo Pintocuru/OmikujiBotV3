@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { BubbleComponent, CommentBubbleType } from '@/ui/types'
+  import { BubbleComponent, CommentBubbleType } from '@/types/ui'
   import { BotMessageBubbleType } from '@/generator/types'
   import { FontFamilyType, useFontFamily } from '@/types/OmikujiData'
   import standard from './layouts/Standard.vue'

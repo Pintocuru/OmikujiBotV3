@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
   import { computed, ComputedRef } from 'vue'
-  import { GameRankingSchema } from '@/ui/types'
+  import { GameRankingSchema } from '@/types/ui'
   import { storeToRefs } from 'pinia'
   import { BotMessageExtraType } from '@/generator/types'
   import { useAppStore } from '@/generator/stores/useAppStore'

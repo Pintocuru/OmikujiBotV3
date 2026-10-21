@@ -58,10 +58,7 @@
                     backgroundColor: 'color-mix(in srgb, var(--lc-bg) 90%, black)',
                   }"
                 >
-                  <span
-                    class="countdown font-mono font-black text-5xl"
-                    :style="{ color: 'var(--lc-text)' }"
-                  >
+                  <span class="countdown font-mono font-black text-5xl" :style="{ color: 'var(--lc-text)' }">
                     <span :style="{ '--value': hours, '--digits': 2 }">
                       {{ hours }}
                     </span>
@@ -91,10 +88,7 @@
                     backgroundColor: 'color-mix(in srgb, var(--lc-bg) 90%, black)',
                   }"
                 >
-                  <span
-                    class="countdown font-mono font-black text-5xl"
-                    :style="{ color: 'var(--lc-text)' }"
-                  >
+                  <span class="countdown font-mono font-black text-5xl" :style="{ color: 'var(--lc-text)' }">
                     <span :style="{ '--value': minutes, '--digits': 2 }">
                       {{ minutes }}
                     </span>
@@ -129,9 +123,7 @@
               class="flex items-center justify-center text-base font-mono font-bold"
               :style="{ color: 'var(--lc-name)' }"
             >
-              <span class="text-lg">
-                {{ year }}/{{ month }}/{{ date }} ({{ day }})
-              </span>
+              <span class="text-lg"> {{ year }}/{{ month }}/{{ date }} ({{ day }}) </span>
             </div>
 
             <!-- ゲージバー風メッセージ -->
@@ -180,10 +172,7 @@
             </div>
             <!-- 圧力インジケーター風ドット -->
             <div class="flex gap-2 items-center">
-              <div
-                class="w-1 h-1 rounded-full"
-                :style="{ backgroundColor: 'var(--lc-accent)' }"
-              ></div>
+              <div class="w-1 h-1 rounded-full" :style="{ backgroundColor: 'var(--lc-accent)' }"></div>
               <div
                 v-for="i in 3"
                 :key="i"
@@ -193,10 +182,7 @@
                   animationDelay: `${i * 0.25}s`,
                 }"
               ></div>
-              <div
-                class="w-1 h-1 rounded-full"
-                :style="{ backgroundColor: 'var(--lc-accent)' }"
-              ></div>
+              <div class="w-1 h-1 rounded-full" :style="{ backgroundColor: 'var(--lc-accent)' }"></div>
             </div>
           </div>
         </transition>
@@ -215,18 +201,9 @@
         class="absolute top-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5"
         :class="side.class"
       >
-        <div
-          class="w-4 h-2 rounded-r-sm opacity-70"
-          :style="{ backgroundColor: 'var(--lc-accent)' }"
-        ></div>
-        <div
-          class="w-5 h-3 rounded-r-md shadow opacity-70"
-          :style="{ backgroundColor: 'var(--lc-accent)' }"
-        ></div>
-        <div
-          class="w-4 h-2 rounded-r-sm opacity-70"
-          :style="{ backgroundColor: 'var(--lc-accent)' }"
-        ></div>
+        <div class="w-4 h-2 rounded-r-sm opacity-70" :style="{ backgroundColor: 'var(--lc-accent)' }"></div>
+        <div class="w-5 h-3 rounded-r-md shadow opacity-70" :style="{ backgroundColor: 'var(--lc-accent)' }"></div>
+        <div class="w-4 h-2 rounded-r-sm opacity-70" :style="{ backgroundColor: 'var(--lc-accent)' }"></div>
       </div>
     </div>
   </div>
@@ -235,7 +212,7 @@
 <script setup lang="ts">
   import { ref, watch, computed } from 'vue'
   import { Cog } from 'lucide-vue-next'
-  import { LiveClockType } from '@/ui/types'
+  import { LiveClockType } from '@/types/ui'
   import { useLiveClockTime } from '../composables/useLiveClockTime'
   import RotatingMessage from '../composables/RotatingMessage.vue'
 

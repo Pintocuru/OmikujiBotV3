@@ -26,8 +26,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { CharacterColorType, EnterMotionType } from '@/types/OmikujiData/'
-  import { FontFamilyType, useFontFamily } from '@/types/OmikujiData'
+  import { CharacterColorType, EnterMotionType, FontFamilyType, useFontFamily } from '@/types/OmikujiData/'
   import CommentBubbleItem from './CommentBubbleItem.vue'
   import MotionWrapper from './MotionVariants/MotionWrapper.vue'
 

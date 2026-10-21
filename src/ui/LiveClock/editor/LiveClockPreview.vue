@@ -18,7 +18,7 @@
   import { ref, computed, onMounted } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useFontFamily } from '@/types'
-  import { LiveClockType } from '@/ui/types'
+  import { LiveClockType } from '@/types/ui'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import LiveClockSelector from '@/ui/LiveClock/LiveClockSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'

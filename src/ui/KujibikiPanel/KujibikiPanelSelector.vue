@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
   import { computed, type Component } from 'vue'
-  import { KujibikiComponent, KujibikiPanelType } from '@/ui/types'
+  import { KujibikiComponent, KujibikiPanelType } from '@/types/ui'
   import { BotMessageBubbleType } from '@/generator/types'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
   import omikuji from './layouts/omikuji.vue'

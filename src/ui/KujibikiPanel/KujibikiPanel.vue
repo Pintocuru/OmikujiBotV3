@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted } from 'vue'
-  import { KujibikiPanelSchema } from '@/ui/types'
+  import { KujibikiPanelSchema } from '@/types/ui'
   import KujibikiPanelSelector from './KujibikiPanelSelector.vue'
   import { useFilteredBotMessages } from '../common/useFilteredBotMessages'
   import { useBotDisplay } from '@/ui/common/useBotDisplay'

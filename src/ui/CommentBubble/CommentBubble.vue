@@ -13,7 +13,7 @@
   import { computed, onMounted, onUnmounted } from 'vue'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
-  import { CommentBubbleSchema } from '@/ui/types'
+  import { CommentBubbleSchema } from '@/types/ui'
   import { useFilteredBotMessages } from '@/ui/common/useFilteredBotMessages'
   import CommentBubbleSelector from './CommentBubbleSelector.vue'
   import { useBotDisplay } from '@/ui/common/useBotDisplay'

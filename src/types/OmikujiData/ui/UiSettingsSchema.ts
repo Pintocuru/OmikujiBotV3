@@ -8,7 +8,7 @@ import {
   StreamCounterSchema,
   ToastWidgetsSchema,
   GameRankingSchema,
-} from '@/ui/types'
+} from '@/types/ui'
 
 /**
  * uiKinds UI種別の定義マップ

@@ -62,8 +62,8 @@
     RankingComponent,
     rankingComponentMap,
     rankingSortOrderMap,
-  } from '@/ui/types/GameRankingSchema'
-  import { GameRankingSchema } from '@/ui/types/GameRankingSchema'
+  } from '@/types/ui/GameRankingSchema'
+  import { GameRankingSchema } from '@/types/ui/GameRankingSchema'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import GameRankingSelector from '@/ui/GameRanking/GameRankingSelector.vue'

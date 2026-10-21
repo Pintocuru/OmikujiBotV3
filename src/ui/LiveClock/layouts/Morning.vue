@@ -69,10 +69,7 @@
                 backgroundColor: 'color-mix(in srgb, var(--lc-bg) 90%, transparent)',
               }"
             >
-              <div
-                class="text-sm font-black gap-1 line-clamp-1 opacity-80"
-                :style="{ color: 'var(--lc-text)' }"
-              >
+              <div class="text-sm font-black gap-1 line-clamp-1 opacity-80" :style="{ color: 'var(--lc-text)' }">
                 <RotatingMessage :message="defaultMessage" />
               </div>
             </div>
@@ -116,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-  import { LiveClockType } from '@/ui/types'
+  import { LiveClockType } from '@/types/ui'
   import { useLiveClockTime } from '../composables/useLiveClockTime'
   import { computed } from 'vue'
   import RotatingMessage from '../composables/RotatingMessage.vue'

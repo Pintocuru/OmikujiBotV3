@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
   import { computed, ref, watch } from 'vue'
-  import { CookieCounterType } from '@/ui/types'
+  import { CookieCounterType } from '@/types/ui'
   import SakuraPetal from './SakuraPetal.vue'
   import { useCookieLabelResolver } from '../composables/useCookieLabelResolver'
   import { useTransition, TransitionPresets } from '@vueuse/core'

@@ -14,7 +14,7 @@
   import { useAppStore } from '@/generator/stores/useAppStore'
 
   import StreamCounterSelector from './StreamCounterSelector.vue'
-  import { StreamCounterSchema } from '@/ui/types'
+  import { StreamCounterSchema } from '@/types/ui'
   import { useStreamCounters } from '@/ui/common/useStreamCounters'
 
   const appStore = useAppStore()

@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-  import { LiveClockType } from '@/ui/types'
+  import { LiveClockType } from '@/types/ui'
   import { useLiveClockTime } from '../composables/useLiveClockTime'
   import RotatingMessage from '../composables/RotatingMessage.vue'
 

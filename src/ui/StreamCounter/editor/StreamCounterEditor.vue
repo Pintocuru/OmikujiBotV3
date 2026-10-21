@@ -55,8 +55,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { StreamCounterSchema, StreamCounterVariablesSchema, labelStyleMap, streamComponentMap } from '@/ui/types'
-  import type { StreamDefaultKey, StreamCounterType } from '@/ui/types'
+  import { StreamCounterSchema, StreamCounterVariablesSchema, labelStyleMap, streamComponentMap } from '@/types/ui'
+  import type { StreamDefaultKey, StreamCounterType } from '@/types/ui'
   import StreamCounterPreview from './StreamCounterPreview.vue'
   import ColorCycleEditor from './ColorCycleEditor.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

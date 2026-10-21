@@ -1,6 +1,6 @@
 // src/ui/StreamCounter/composables/DefaultLabels.ts
 import type { Component } from 'vue'
-import { StreamDefaultKey } from '@/ui/types'
+import { StreamDefaultKey } from '@/types/ui'
 import {
   ThumbsUp,
   Eye,

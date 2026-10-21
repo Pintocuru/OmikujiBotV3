@@ -55,7 +55,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { clockComponentMap, LiveClockSchema } from '@/ui/types'
+  import { clockComponentMap, LiveClockSchema } from '@/types/ui'
   import LiveClockPreview from './LiveClockPreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'

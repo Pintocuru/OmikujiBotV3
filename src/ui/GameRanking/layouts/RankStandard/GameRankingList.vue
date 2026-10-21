@@ -66,7 +66,7 @@
   import { generateDummyMessages } from '@/common/MockUser/MockGenerators'
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
   import { BotMessageExtraType } from '@/generator/types'
-  import { GameRankingType } from '@/ui/types'
+  import { GameRankingType } from '@/types/ui'
 
   const props = defineProps<{
     listMessages: BotMessageExtraType[]

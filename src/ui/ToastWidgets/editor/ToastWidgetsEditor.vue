@@ -83,7 +83,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { ToastWidgetsSchema } from '@/ui/types'
+  import { ToastWidgetsSchema } from '@/types/ui'
   import { BotMessageBubbleSchema } from '@/generator/types'
   import { useFontFamily } from '@/types'
   import CharacterSelectorMulti from './CharacterSelectorMulti.vue'

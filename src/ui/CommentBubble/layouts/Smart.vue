@@ -16,7 +16,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { BotMessageBubbleType } from '@/generator/types'
-  import { CommentBubbleType } from '@/ui/types'
+  import { CommentBubbleType } from '@/types/ui'
   import CommentDisplay from './parts/CommentDisplay.vue'
 
   const props = defineProps<{

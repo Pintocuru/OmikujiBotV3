@@ -48,10 +48,7 @@
               </div>
 
               <!-- 下部メッセージ -->
-              <div
-                class="text-xl truncate font-bold line-clamp-1 opacity-80"
-                :style="{ color: 'var(--lc-text)' }"
-              >
+              <div class="text-xl truncate font-bold line-clamp-1 opacity-80" :style="{ color: 'var(--lc-text)' }">
                 <RotatingMessage :message="defaultMessage" />
               </div>
             </div>
@@ -59,10 +56,7 @@
 
           <!-- メッセージ表示 -->
           <div v-else key="msg" class="w-full" :style="{ color: 'var(--lc-text)' }">
-            <div
-              class="flex items-center gap-2 text-lg tracking-[0.2em]"
-              :style="{ color: 'var(--lc-accent)' }"
-            >
+            <div class="flex items-center gap-2 text-lg tracking-[0.2em]" :style="{ color: 'var(--lc-accent)' }">
               <span class="animate-pulse">▶▶</span>
               <span>SIGNAL_RECEIVED</span>
             </div>
@@ -98,7 +92,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { LiveClockType } from '@/ui/types'
+  import { LiveClockType } from '@/types/ui'
   import { useLiveClockTime } from '../composables/useLiveClockTime'
   import RotatingMessage from '../composables/RotatingMessage.vue'
 

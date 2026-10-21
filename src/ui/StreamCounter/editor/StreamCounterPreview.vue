@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { type StreamCounterType } from '@/ui/types'
+  import { type StreamCounterType } from '@/types/ui'
   import { useFontFamily } from '@/types'
   import StreamCounterSelector from '@/ui/StreamCounter/StreamCounterSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'

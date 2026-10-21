@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
   import { ref, watch, onMounted, onUnmounted, computed } from 'vue'
-  import { LiveClockSchema } from '@/ui/types'
+  import { LiveClockSchema } from '@/types/ui'
   import LiveClockSelector from './LiveClockSelector.vue'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import { useBotDisplay } from '@/ui/common/useBotDisplay'

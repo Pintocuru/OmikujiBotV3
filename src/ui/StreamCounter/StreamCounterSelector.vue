@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
   import { computed, toRef, type Component } from 'vue'
-  import { StreamCounterType, LiverComponent, streamComponentMap } from '@/ui/types'
+  import { StreamCounterType, LiverComponent, streamComponentMap } from '@/types/ui'
 
   import BasicCirclePlain from './layouts/BasicCirclePlain.vue'
   import BasicCircle from './layouts/BasicCircle.vue'

@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { ToastWidgetsSchema } from '@/ui/types'
+  import { ToastWidgetsSchema } from '@/types/ui'
   import ViewBotToast from './ViewBotToast.vue'
   import { useAppStore } from '@/generator/stores/useAppStore'
 

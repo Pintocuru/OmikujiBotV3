@@ -74,7 +74,7 @@
   import { processTestPlaceholder } from './TestPlaceholderProcessor'
   import CommentBubbleItem from '@/ui/common/CommentBubbleItem.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import { CommentBubbleSchema } from '@/ui/types/CommentBubbleSchema'
+  import { CommentBubbleSchema } from '@/types/ui/CommentBubbleSchema.js'
 
   const { t } = useI18n()
 

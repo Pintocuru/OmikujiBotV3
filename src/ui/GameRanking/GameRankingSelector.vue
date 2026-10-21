@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { RankingComponent, GameRankingType } from '@/ui/types'
+  import { RankingComponent, GameRankingType } from '@/types/ui'
   import { BotMessageExtraType } from '@/generator/types'
   import suikaGame from './layouts/SuikaGame.vue'
   import standard from './layouts/Standard.vue'

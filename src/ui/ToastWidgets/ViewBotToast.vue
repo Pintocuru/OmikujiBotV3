@@ -36,7 +36,7 @@
   import { useAppStore } from '@/generator/stores/useAppStore'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
   import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
-  import { ToastWidgetsSchema } from '@/ui/types'
+  import { ToastWidgetsSchema } from '@/types/ui'
   import { useFilteredBotMessages } from '../common/useFilteredBotMessages'
 
   // ストアから必要な情報を取得

@@ -1,6 +1,6 @@
 // src/ui/CookieCounter/composables/useCookieLabelResolver.ts
 import { LIVER_TEXT_LABELS } from '@/ui/StreamCounter/composables/DefaultLabels'
-import type { StreamDefaultKey } from '@/ui/types'
+import type { StreamDefaultKey } from '@/types/ui'
 
 /**
  * CookieCounter 専用ラベル解決

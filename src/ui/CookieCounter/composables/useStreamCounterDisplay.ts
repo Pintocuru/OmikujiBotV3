@@ -1,6 +1,6 @@
 // src/ui/CookieCounter/composables/useStreamCounterDisplay.ts
 import { computed, type Ref } from 'vue'
-import type { StreamCounterType } from '@/ui/types'
+import type { StreamCounterType } from '@/types/ui'
 import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
 
 /**

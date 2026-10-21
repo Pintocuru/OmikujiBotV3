@@ -13,7 +13,7 @@
 
   import CookieCounterSelector from './CookieCounterSelector.vue'
   import { useAppStore } from '@/generator/stores/useAppStore'
-  import { CookieCounterSchema } from '@/ui/types'
+  import { CookieCounterSchema } from '@/types/ui'
   import { useStreamCounters } from '@/ui/common/useStreamCounters'
 
   const appStore = useAppStore()

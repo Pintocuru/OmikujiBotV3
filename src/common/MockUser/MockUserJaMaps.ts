@@ -214,6 +214,7 @@ export const MOCK_FAMILY_NAME_JA_MAP: Record<string, string> = {
   rogubo: 'ログボ・',
   migiushironaname: '右斜め後ろ',
   kabushikigaisha: '（株）全日本',
+  super: '超!',
   higeki: '【悲報】',
   oouso: '大嘘',
   kenjo: '嫌儲',

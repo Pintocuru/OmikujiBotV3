@@ -6,7 +6,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { BotMessageExtraType } from '@/generator/types'
-  import { GameRankingType } from '@/ui/types'
+  import { GameRankingType } from '@/types/ui'
   import GameRankingList from './RankStandard/GameRankingList.vue'
 
   const props = defineProps<{

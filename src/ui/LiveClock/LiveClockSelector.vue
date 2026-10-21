@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
   import { computed, type Component } from 'vue'
-  import { ClockComponent, LiveClockType } from '@/ui/types'
+  import { ClockComponent, LiveClockType } from '@/types/ui'
   import morning from './layouts/Morning.vue'
   import soundPlayer from './layouts/SoundPlayer.vue'
   import clearGlass from './layouts/ClearGlass.vue'

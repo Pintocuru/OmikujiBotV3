@@ -119,7 +119,7 @@
 
 <script setup lang="ts">
   import { computed, reactive, watch } from 'vue'
-  import { CookieCounterType } from '@/ui/types'
+  import { CookieCounterType } from '@/types/ui'
   import { useCookieLabelResolver } from '../composables/useCookieLabelResolver'
   import { useTransition, TransitionPresets } from '@vueuse/core'
 

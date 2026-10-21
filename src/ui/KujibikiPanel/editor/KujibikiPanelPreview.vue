@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { KujibikiPanelType } from '@/ui/types'
+  import { KujibikiPanelType } from '@/types/ui'
   import { BotMessageBubbleType } from '@/generator/types'
   import KujibikiPanelSelector from '@/ui/KujibikiPanel/KujibikiPanelSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'

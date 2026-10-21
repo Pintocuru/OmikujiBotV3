@@ -25,7 +25,11 @@
   />
 
   <!-- キャラクター -->
-  <SettingItem v-if="bubble.component === 'standard'" label="常時表示キャラクター" description="未設定の場合、コメントが来たときのみ表示されます">
+  <SettingItem
+    v-if="bubble.component === 'standard'"
+    label="常時表示キャラクター"
+    description="未設定の場合、コメントが来たときのみ表示されます"
+  >
     <CharacterPicker
       :modelValue="bubble.persistentCharacter"
       allowEmpty
@@ -77,7 +81,7 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { CharacterColorScheme, EnterMotionType } from '@/types/OmikujiData'
-  import { BubbleComponent, bubbleComponentMap, CommentBubbleSchema, CommentBubbleType } from '@/ui/types'
+  import { BubbleComponent, bubbleComponentMap, CommentBubbleSchema, CommentBubbleType } from '@/types/ui'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import { enterMotionMap } from '@/maps/OmikujiData'
 
