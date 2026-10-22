@@ -34,7 +34,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { ref, computed } from 'vue'
-  import type { CharacterImageType } from '@/types/'
+  import type { CharacterImageType } from '@/types/OmikujiData'
   import EmotionImageItem from './EmotionImageItem.vue'
   import EmotionLayerEditor from './EmotionLayerEditor.vue'
   import EmotionAnimationEditor from './EmotionAnimationEditor.vue'

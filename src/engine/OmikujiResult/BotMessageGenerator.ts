@@ -5,7 +5,7 @@ import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { VariablePlaceholderProcessor } from '@/engine/VariablePlaceholder/VariableProcessor'
 import { PostOmikujiService } from '@/engine/PostOmikuji/PostOmikujiService'
 import { CharacterManager } from '../CharacterManager/CharacterManager'
-import { BotMessageType, ProcessedPostAction } from '@/generator/types'
+import { BotMessageType, ProcessedPostAction } from '@/types/generator'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { playSoundDelay } from '@/common/sounds'
 

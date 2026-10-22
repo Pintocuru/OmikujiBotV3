@@ -1,5 +1,5 @@
 // src/generator/scripts/EventProcess/ReactionTriggerEvaluator.ts
-import { ReactionStatsManagerType } from '@/generator/types'
+import { ReactionStatsManagerType } from '@/types/generator'
 import type { ReactionTriggerType } from '@/types/OmikujiData'
 import type { ReactionReaction } from '@/types/OmikujiData/events/ReactionTriggerSchema'
 

@@ -1,9 +1,9 @@
 // src/ui/GameRanking/scripts/useGameLogSaver.ts
 import { Ref, watch } from 'vue'
-import { BotMessageExtraType } from '@/generator/types'
+import { BotMessageRankingType } from '@/types/generator'
 import { gameStateApi } from '@/manager/services/gameStateApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'
-import { toGameLog, toRankingMessage } from './toRankingMessage'
+import { toGameLog } from './toGameLog'
 
 /**
  * 配信ID (ファイル名になる): 起動した日時 例 '20261020-2130'
@@ -23,17 +23,17 @@ export const createStreamId = (now: Date = new Date()): string => {
  *
  * TODO(LiveConsole): 送信に失敗したログは再送しない。必要になったら再送キューを足す。
  */
-export const useGameLogSaver = (messages: Ref<BotMessageExtraType[]>, streamId: string = createStreamId()) => {
+export const useGameLogSaver = (messages: Ref<BotMessageRankingType[]>, streamId: string = createStreamId()) => {
   const attempted = new Set<string>() // 送信を試みた id (同じメッセージを二度送らない)
   let queue: Promise<void> = Promise.resolve()
   let warnedConnection = false
 
-  const send = async (extra: BotMessageExtraType): Promise<void> => {
-    const ranking = toRankingMessage(extra)
-    if (!ranking) return
+  const send = async (ranking: BotMessageRankingType): Promise<void> => {
+    const eventKey = ranking.source?.eventKey
+    if (!eventKey) return // どのイベントの記録かわからないものは保存しない
 
     try {
-      await gameStateApi.appendGameLog(streamId, ranking.eventKey, toGameLog(ranking))
+      await gameStateApi.appendGameLog(streamId, eventKey, toGameLog(ranking))
     } catch (error) {
       if (error instanceof ConnectionError) {
         if (!warnedConnection) console.warn('[GameRanking] サーバに接続できないため、ゲームログを保存できません')
@@ -47,10 +47,10 @@ export const useGameLogSaver = (messages: Ref<BotMessageExtraType[]>, streamId: 
   watch(
     messages,
     (list) => {
-      for (const extra of list) {
-        if (attempted.has(extra.id)) continue
-        attempted.add(extra.id)
-        queue = queue.then(() => send(extra))
+      for (const ranking of list) {
+        if (attempted.has(ranking.id)) continue
+        attempted.add(ranking.id)
+        queue = queue.then(() => send(ranking))
       }
     },
     { immediate: true, deep: false }

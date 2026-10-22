@@ -5,7 +5,7 @@ import {
   ExtraSlotsSchema,
   ExtraSlotsType,
   VariablePlaceholderResult,
-} from '@/generator/types'
+} from '@/types/generator'
 import { PlaceholderVariableType } from '../types/VariablePlaceholder'
 import { EXPRESSION_PATTERN, RESERVED_KEYS, VAR_REFERENCE_PATTERN } from './ReservedKeys'
 import { ExpressionEngine } from './ExpressionEngine'

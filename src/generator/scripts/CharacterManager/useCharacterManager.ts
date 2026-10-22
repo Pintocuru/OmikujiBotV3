@@ -2,7 +2,7 @@
 import { computed, MaybeRefOrGetter, toValue } from 'vue'
 import { CharacterAnimationType, CharacterType } from '@/types/OmikujiData'
 import { useAppStore } from '@/generator/stores/useAppStore'
-import { BotMessageBubbleType } from '@/generator/types'
+import { BotMessageBubbleType } from '@/types/generator'
 import { CharacterManager } from '@/engine/CharacterManager/CharacterManager'
 
 /**

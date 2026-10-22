@@ -56,7 +56,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { DisplayOptionType } from '@/types/'
+  import { DisplayOptionType } from '@/types/OmikujiData'
   import CharacterBase64Settings from './CharacterBase64Settings.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'

@@ -1,4 +1,4 @@
-// src/generator/types/stores/MetaState.ts
+// src/types/generator/stores/MetaState.ts
 
 export interface ServiceMetaStoreType {
   subscribe(fn: (meta: MetaUpdateEvent) => void): () => void

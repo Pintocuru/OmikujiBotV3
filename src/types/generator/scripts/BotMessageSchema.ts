@@ -1,31 +1,15 @@
-// src/generator/types/scripts/BotMessageSchema.ts
-import { OmikenCommentSchema, UserNameSchema } from '@/types/OmikenComment'
-import { eventCategory } from '@/types/OmikujiData'
-import { DaisyUIColorSchema, idSchema } from '@/types/core'
+// src/types/generator/scripts/BotMessageSchema.ts
+import { UserNameSchema } from '@/types/OmikenComment'
+import { DaisyUIColorSchema } from '@/types/core'
 import { z } from 'zod'
-
-/**
- * BotMessageBaseSchema
- */
-const BotMessageBaseSchema = z.object({
-  id: idSchema,
-  timestamp: z.string().default(() => new Date().toISOString()),
-  delaySeconds: z.number().default(0),
-  source: z
-    .object({
-      category: z.enum(eventCategory).optional(),
-      eventKey: z.string().optional(),
-      omikujiKey: z.string().optional(),
-    })
-    .optional(),
-  origin: OmikenCommentSchema.optional(),
-})
-export type BotMessageBaseType = z.infer<typeof BotMessageBaseSchema>
+import { BotMessageBaseSchema } from './BotMessageBaseSchema'
+import { BotMessageRankingSchema } from './BotMessageRankingSchema'
 
 /**
  * ExtraMessageSchema
  * TODO:汎用的すぎて型定義では理解できなくなるので、v2のレガシーとして残す。v3のβ版まで利用し、正式版では廃止とする。
  * 代わりに、 BotMessageRankingSchema など、 専用の型定義を増やす方向にする。
+ * ランキング(user と score がある lists)は type: 'ranking' に移行済み。
  */
 export const ExtraListsSchema = z.object({
   listName: z.string().optional(), // 名前
@@ -101,6 +85,7 @@ export type BotMessageEmptyType = z.infer<typeof BotMessageEmptySchema>
 const _BotMessageSchema = z.discriminatedUnion('type', [
   BotMessageBubbleSchema,
   BotMessageExtraSchema,
+  BotMessageRankingSchema,
   BotMessageEmptySchema,
 ])
 export type BotMessageType = z.infer<typeof _BotMessageSchema>

@@ -1,5 +1,5 @@
 // src/generator/stores/MetaState/MetaStateService.ts
-import { MetaServiceStatus, MetaUpdateEvent, NormalizedMeta, ServiceMetaStoreType } from '@/generator/types'
+import { MetaServiceStatus, MetaUpdateEvent, NormalizedMeta, ServiceMetaStoreType } from '@/types/generator'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { ServiceMetaWatcher } from '@/sdk/subscribe/GetServiceMeta'
 import { isDev } from '@/types/env'

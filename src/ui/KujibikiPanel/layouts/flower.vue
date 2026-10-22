@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { BotMessageBubbleType } from '@/generator/types'
+  import { BotMessageBubbleType } from '@/types/generator'
 
   const props = defineProps<{
     messages: BotMessageBubbleType[]

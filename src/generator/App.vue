@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
   import { computed, onMounted } from 'vue'
-  import { uiKinds, useFontFamily } from '@/types'
+  import { uiKinds, useFontFamily } from '@/types/OmikujiData'
   import { useAppInitializer } from '@/generator/composables/useAppInitializer'
   import { useRuleProcessor } from '@/generator/composables/useRuleProcessor'
   import { useAppStore } from '@/generator/stores/useAppStore'

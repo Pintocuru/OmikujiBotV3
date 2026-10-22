@@ -3,7 +3,7 @@ import { EventCategoryType, MikujiItemsType, OmikujiItemPostFlowType, OmikujiIte
 import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { useAppStore } from '@/generator/stores/useAppStore'
-import { BotMessageType } from '@/generator/types'
+import { BotMessageType } from '@/types/generator'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'

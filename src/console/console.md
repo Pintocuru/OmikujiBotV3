@@ -43,15 +43,15 @@
 
 ## 3. 型
 
-- `BotMessageExtraSchema` と `_BotMessageSchema` は**変更していない**(他のパッケージが依存しているため)。
-- ランキング専用の `BotMessageRankingSchema` を新設した(`src/generator/types/scripts/BotMessageRankingSchema.ts`)。`eventKey`・`user.userId`・`score` を必須にしている。`_BotMessageSchema` の union には**まだ加えていない**。
-- 現在は `src/ui/GameRanking/scripts/toRankingMessage.ts` が Extra から変換している。
-- `src/generator/types` から `src/types/generator` への移動は、後で行う。
+- `BotMessageExtraSchema` は、他のパッケージが依存しているため残している(`user` か `lists.order` がないおみくじ側のメッセージ用)。
+- ランキング専用の `BotMessageRankingSchema`(`src/types/generator/scripts/BotMessageRankingSchema.ts`)を `_BotMessageSchema` の union に加えた。`type: 'ranking'`、`user`(`userId` 必須)、`listName`、`symbol`、`label`(表示用の得点)、`score`(比較用の得点)を持つ。`eventKey` は `source.eventKey`。
+- 表示するかどうか(上限・ユーザーごとの重複)は、メッセージでは決めず UI 側(`GameRankingSchema.uniqueUser` など)で決める。
+- `src/generator/types` は `src/types/generator` に移動した。旧パスの再エクスポートが一時的に残っている。
 
 ## 4. GameRanking の scripts
 
 - 削除: `execute.ts`、`types.ts`、`services/UserStatsService.ts`(統計の更新はサーバ側に移した)。
-- 追加: `toRankingMessage.ts`(変換)、`useGameLogSaver.ts`(保存)。
+- 追加: `toGameLog.ts`(`ranking` → API の形)、`useGameLogSaver.ts`(保存)。
 - `services/MessageService.ts` は残している。GameRanking 内でのみ表示するメッセージとして使う予定で、現在はどこからも呼ばれていない。他の UI には渡さない。
 
 ## 5. TODO

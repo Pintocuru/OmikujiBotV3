@@ -1,5 +1,5 @@
 // src/games/types/GameScriptTypes.ts
-import { BotMessageExtraType } from '@/generator/types'
+import { BotMessageRankingType } from '@/types/generator'
 import { BaseRecordType } from '@/types/core'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { PostFlowType } from '@/types/OmikujiData'
@@ -13,7 +13,7 @@ export interface ScriptPreset extends BaseRecordType {
 // ran実行時の返り値
 export type ScriptResult = {
   actions: PostFlowType[]
-  botMessageExtras: BotMessageExtraType[]
+  rankingMessages: BotMessageRankingType[]
 }
 
 // スクリプトのメイン実行クラス

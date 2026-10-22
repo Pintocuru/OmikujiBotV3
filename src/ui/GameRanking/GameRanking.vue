@@ -1,7 +1,7 @@
 <!-- src/ui/GameRanking/GameRanking.vue -->
 <template>
   <GameRankingSelector
-    :botMessageExtras="targetRankingMessages"
+    :rankingMessages="rankingMessages"
     :settings="rankingSettings"
     :fontFamily="appStore.data.ui.fontFamily"
   />
@@ -11,7 +11,7 @@
   import { computed, ComputedRef } from 'vue'
   import { GameRankingSchema } from '@/types/ui'
   import { storeToRefs } from 'pinia'
-  import { BotMessageExtraType } from '@/generator/types'
+  import { BotMessageRankingType } from '@/types/generator'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import GameRankingSelector from './GameRankingSelector.vue'
   import { useGameLogSaver } from './scripts/useGameLogSaver'
@@ -21,12 +21,8 @@
 
   const rankingSettings = computed(() => GameRankingSchema.parse(appStore.data.ui?.settings?.gameRanking ?? {}))
 
-  const rankingMessages: ComputedRef<BotMessageExtraType[]> = computed(() => {
-    return botMessages.value.filter((message): message is BotMessageExtraType => message.type === 'extra')
-  })
-
-  const targetRankingMessages = computed<BotMessageExtraType[]>(() => {
-    return rankingMessages.value
+  const rankingMessages: ComputedRef<BotMessageRankingType[]> = computed(() => {
+    return botMessages.value.filter((message): message is BotMessageRankingType => message.type === 'ranking')
   })
 
   // ランキングに関係するメッセージを受け取るたびに、API でゲームログを保存する

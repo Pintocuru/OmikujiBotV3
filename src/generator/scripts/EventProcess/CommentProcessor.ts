@@ -1,7 +1,7 @@
 // src/generator/scripts/EventProcess/CommentProcessor.ts
 import { CommentEventType, MikujiItemsType } from '@/types/OmikujiData/'
 import { OmikenCommentType } from '@/types/OmikenComment'
-import { BotMessageEmptySchema, BotMessageType } from '@/generator/types'
+import { BotMessageEmptySchema, BotMessageType } from '@/types/generator'
 
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'

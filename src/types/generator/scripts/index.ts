@@ -1,5 +1,6 @@
-// src/generator/types/scripts/index.ts
+// src/types/generator/scripts/index.ts
 
+export * from './BotMessageBaseSchema'
 export * from './BotMessageSchema'
 export * from './BotMessageRankingSchema'
 export * from './OmikujiResultTypes'

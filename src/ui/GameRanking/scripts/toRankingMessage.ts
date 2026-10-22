@@ -1,5 +1,5 @@
 // src/ui/GameRanking/scripts/toRankingMessage.ts
-import { BotMessageExtraType, BotMessageRankingSchema, BotMessageRankingType } from '@/generator/types'
+import { BotMessageExtraType, BotMessageRankingSchema, BotMessageRankingType } from '@/types/generator'
 import { GameLogSchema, GameLogType } from '@/types/api'
 
 /**

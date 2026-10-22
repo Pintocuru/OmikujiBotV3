@@ -1,4 +1,4 @@
-// src/generator/types/scripts/OmikujiResultTypes.ts
+// src/types/generator/scripts/OmikujiResultTypes.ts
 import { PostFlowType } from '@/types/OmikujiData/'
 import { ExtraListsType, ExtraSlotsType } from './BotMessageSchema'
 

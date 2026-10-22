@@ -1,20 +1,18 @@
 // src/games/scriptsEngine/RankingMessage/RankingMessage.ts
 import { OmikenCommentType, UserNameSchema, UserNameType } from '@/types/OmikenComment'
-import { BotMessageExtraSchema, BotMessageExtraType } from '@/generator/types'
+import { BotMessageRankingSchema, BotMessageRankingType } from '@/types/generator'
 
 const UNKNOWN_NAME = 'おみくじBOT'
 
 /**
- * BotMessage構築のパラメータ
+ * ランキングメッセージ構築のパラメータ
  */
-interface BuildBotMessageParams {
+interface BuildRankingMessageParams {
   user: UserNameType
-  bubbleText: string
-  score: number
-  symbol: string
+  score: number // 比較用の得点
+  symbol: string // 名前の補助記号
+  label?: string // 表示用の得点 (省略時は score をそのまま文字にする)
   delaySeconds?: number
-  isUnique?: boolean
-  isOverLimit: boolean
 }
 
 /**
@@ -28,26 +26,18 @@ export function prepareUserInfo(omiken?: OmikenCommentType): UserNameType {
   })
 }
 /**
- * TODO(LiveConsole): この関数は BotMessageExtraType を返す。ランキング(ゲームログ)用には BotMessageRankingType
- *   (@/generator/types) を返す関数に置き換える。score は lists.order に入れている値と同じ。
- *   移行するまで、GameRanking 側の scripts/toRankingMessage.ts が変換して API に保存する。
- *
- * BotMessageを構築する共通関数
- * 吹き出し(comment)とランキング(extra)を個別のメッセージとして出力する
+ * ランキングメッセージ(type: 'ranking')を構築する共通関数
+ * 表示するかどうか(上限・ユーザーごとの重複など)は、ここでは決めず UI 側で決める。
  */
-export function buildBotMessageRanking(params: BuildBotMessageParams): BotMessageExtraType {
-  const { user, score, symbol, delaySeconds = 3.5, isUnique = false, isOverLimit } = params
+export function buildBotMessageRanking(params: BuildRankingMessageParams): BotMessageRankingType {
+  const { user, score, symbol, label = String(score), delaySeconds = 3.5 } = params
 
-  return BotMessageExtraSchema.parse({
+  return BotMessageRankingSchema.parse({
     delaySeconds,
     user,
-    lists: {
-      listName: user.userName,
-      symbol,
-      text: String(score),
-      order: score,
-      isVisible: !isOverLimit,
-      isUnique,
-    },
+    listName: user.userName,
+    symbol,
+    label,
+    score,
   })
 }

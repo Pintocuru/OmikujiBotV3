@@ -2,7 +2,7 @@
 import { ReactionTotals } from './ReactionTotals'
 import { PeakRateTracker } from './PeakRateTracker'
 import { BurstLevelMachine } from './BurstLevelMachine'
-import { BurstLevelChangeCallback, BurstState, ReactionStatsManagerType } from '@/generator/types'
+import { BurstLevelChangeCallback, BurstState, ReactionStatsManagerType } from '@/types/generator'
 
 export class ReactionStatsManager implements ReactionStatsManagerType {
   private totals = new ReactionTotals()

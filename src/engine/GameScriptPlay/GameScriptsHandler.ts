@@ -3,7 +3,7 @@ import { OmikenCommentType } from '@/types/OmikenComment'
 import { PostFlowGameType } from '@/types/OmikujiData/'
 
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
-import { BotMessageType } from '@/generator/types'
+import { BotMessageType } from '@/types/generator'
 import { BotMessageGenerator } from '@/engine/OmikujiResult/BotMessageGenerator'
 
 export class GameScriptsHandler {
@@ -24,7 +24,7 @@ export class GameScriptsHandler {
     const scriptResult = await this.playScript(actionItem, omiken)
     if (!scriptResult) return []
 
-    const { actions, botMessageExtras: scriptMessages } = scriptResult
+    const { actions, rankingMessages: scriptMessages } = scriptResult
 
     // 2. 評価ブロックを処理
     const processedActions = this.generator.processVariables(actions)

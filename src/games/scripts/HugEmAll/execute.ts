@@ -17,23 +17,19 @@ export class ExecuteScript implements ScriptClass {
     const gameResult = this.executeGame(user.userName, params.mode)
 
     // omiken(コメント)がある場合のみランキング用メッセージを付与
-    // TODO(LiveConsole): ランキング用メッセージは BotMessageRankingType (@/generator/types) を直接返す形に移行する。
-    //   現在は BotMessageExtraType を GameRanking 側 (scripts/toRankingMessage.ts) が変換して保存している。
-    const botMessageExtras = omiken
+    const rankingMessages = omiken
       ? [
           buildBotMessageRanking({
             user,
-            bubbleText: gameResult.message,
             score: gameResult.result.payout,
             symbol: '',
-            isOverLimit: false,
           }),
         ]
       : []
 
     return {
       actions: this.buildPostActions(characterKey, gameResult.message),
-      botMessageExtras,
+      rankingMessages,
     }
   }
 

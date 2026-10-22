@@ -8,7 +8,7 @@ import { DisplayVariableResolver } from '@/engine/DisplayVariable/DisplayVariabl
 import { ContentPlaceholder } from '@/engine/ContentPlaceholder/processor'
 import { PlaceholderContext } from '@/engine/ContentPlaceholder/context'
 import { FlowCallExpander } from '@/engine/OmikujiResult/FlowCallExpander'
-import { BotMessageType, ProcessedPostAction } from '@/generator/types'
+import { BotMessageType, ProcessedPostAction } from '@/types/generator'
 
 export class PostActionsHandler {
   private readonly displayResolver: DisplayVariableResolver

@@ -50,7 +50,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { ref, watch, computed } from 'vue'
-  import type { CharacterAnimationType } from '@/types/'
+  import type { CharacterAnimationType } from '@/types/OmikujiData'
   import ImagePreview from '@/common/LayerImage/ImagePreview.vue'
   import { loopMotionMap } from '@/maps/OmikujiData'
 

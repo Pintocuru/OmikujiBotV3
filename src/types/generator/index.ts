@@ -1,3 +1,4 @@
-// src/types/core/index.ts
+// src/types/generator/index.ts
 
-// export * from './AppStatus'
+export * from './scripts'
+export * from './stores'

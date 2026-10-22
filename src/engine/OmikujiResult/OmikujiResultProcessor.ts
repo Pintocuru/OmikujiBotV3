@@ -7,7 +7,7 @@ import { PostActionsHandler } from './PostActionsHandler'
 import { GameScriptsHandler } from '@/engine/GameScriptPlay/GameScriptsHandler'
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
-import { BotMessageType } from '@/generator/types'
+import { BotMessageType } from '@/types/generator'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 /**

@@ -1,6 +1,6 @@
 // src/ui/GameRanking/scripts/toRankingMessage.test.ts
 import { describe, expect, it } from 'vitest'
-import { BotMessageExtraSchema } from '@/generator/types'
+import { BotMessageExtraSchema } from '@/types/generator'
 import { toGameLog, toRankingMessage } from './toRankingMessage'
 import { createStreamId } from './useGameLogSaver'
 

@@ -2,11 +2,11 @@
 import {
   BotMessageBubbleSchema,
   BotMessageExtraSchema,
-  BotMessageExtraType,
+  BotMessageRankingSchema,
   BotMessageType,
   ExtraSlotsType,
   VariablePlaceholderExtra,
-} from '@/generator/types'
+} from '@/types/generator'
 import { PostFlowMessageType } from '@/types/OmikujiData'
 import { CharacterManager } from '../CharacterManager/CharacterManager'
 import { OmikenCommentType, UserNameSchema } from '@/types/OmikenComment'
@@ -34,7 +34,7 @@ export function createBotMessagesFromAction(
   }
 
   // Rankingメッセージ
-  if (hasRanking) messages.push(createRankingMessage(delaySeconds, extra, omiken))
+  if (hasRanking) messages.push(...createRankingMessages(delaySeconds, extra, omiken))
 
   return messages
 }
@@ -48,7 +48,7 @@ export function createBotMessagesFromVariable(
   omiken?: OmikenCommentType
 ): BotMessageType[] {
   const hasRanking = extra?.lists || extra?.slots
-  return hasRanking ? [createRankingMessage(delaySeconds, extra, omiken)] : []
+  return hasRanking ? createRankingMessages(delaySeconds, extra, omiken) : []
 }
 
 /**
@@ -79,16 +79,32 @@ function createBubbleMessage(
 
 /**
  * Rankingメッセージを生成
+ * - user と lists.order がある場合: type 'ranking' (lists.slots があれば slots だけの 'extra' を別に作る)
+ * - user がない場合 (定期的なお知らせなど) や order がない場合: 従来どおりの 'extra'。記録の対象にはならない
  */
-function createRankingMessage(
+function createRankingMessages(
   delaySeconds: number,
   extra: VariablePlaceholderExtra,
   omiken?: OmikenCommentType
-): BotMessageExtraType {
-  return BotMessageExtraSchema.parse({
-    delaySeconds,
-    lists: extra.lists,
-    slots: extra.slots,
-    user: omiken ? UserNameSchema.parse(omiken) : undefined,
-  })
+): BotMessageType[] {
+  const { lists, slots } = extra
+  const user = omiken ? UserNameSchema.parse(omiken) : undefined
+
+  if (user && typeof lists?.order === 'number') {
+    const ranking = BotMessageRankingSchema.safeParse({
+      delaySeconds,
+      user,
+      listName: lists.listName || user.userName,
+      symbol: lists.symbol,
+      label: lists.text,
+      score: lists.order,
+    })
+    if (ranking.success) {
+      const messages: BotMessageType[] = [ranking.data]
+      if (slots) messages.push(BotMessageExtraSchema.parse({ delaySeconds, slots, user }))
+      return messages
+    }
+  }
+
+  return [BotMessageExtraSchema.parse({ delaySeconds, lists, slots, user })]
 }

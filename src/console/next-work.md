@@ -27,9 +27,8 @@
 
 ### 決めること
 
-- [ ] おみくじ側のランキング(`createRankingMessage`)も `ranking` に寄せるか。それとも games 専用にするか。
-- [ ] 表示用の項目(`listName`、`symbol`、`text`、`variant`、`isVisible`、`isUnique`)を、`ranking` に持たせるか。持たせる場合は、必須にするものとデフォルト値で済ませるものを分ける。
-- [ ] `slots` を `ranking` に含めるか。
+- [x] おみくじ側のランキング(`createRankingMessage`)は、 `ranking` に寄せる。
+- [x] `ranking`の表示用の項目には(`listName`(名前)、`symbol`(名前の補助記号)、`score`(得点)を持たせる。
 
 ## 2. 作業B: `src/games` の修正
 
@@ -52,8 +51,7 @@
   2. import を機械的に置換する(`@/generator/types` → `@/types/generator`)。
   3. `vue-tsc --noEmit`、`vitest run`、`eslint` で確認する。
 - 決めること:
-  - [ ] `stores/` の型も一緒に移すか。ストア専用の型なので `src/generator` に残す選択肢もある。
-  - [ ] 旧パスの再エクスポートを一時的に残すか。他のパッケージが依存している場合は、残して段階的に移すのが安全。
+  - [x] 旧パスの再エクスポートを一時的に残す。
 
 ## 4. 進める順番(案)
 

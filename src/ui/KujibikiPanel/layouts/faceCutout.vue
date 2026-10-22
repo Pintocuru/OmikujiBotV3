@@ -19,8 +19,8 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { BotMessageBubbleType } from '@/generator/types'
-  import { getImagePath } from '@/types'
+  import { BotMessageBubbleType } from '@/types/generator'
+  import { getImagePath } from '@/types/env'
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
 
   const props = defineProps<{

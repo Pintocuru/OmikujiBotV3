@@ -17,7 +17,7 @@
 <script setup lang="ts">
   import { ref, computed, onMounted } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { useFontFamily } from '@/types'
+  import { useFontFamily } from '@/types/OmikujiData'
   import { LiveClockType } from '@/types/ui'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import LiveClockSelector from '@/ui/LiveClock/LiveClockSelector.vue'

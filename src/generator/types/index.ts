@@ -1,4 +1,4 @@
 // src/generator/types/index.ts
 
-export * from './scripts'
-export * from './stores'
+// 一時的な再エクスポート(移行完了後に削除)。実体は src/types/generator
+export * from '@/types/generator'

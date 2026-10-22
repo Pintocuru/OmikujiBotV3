@@ -19,7 +19,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { type StreamCounterType } from '@/types/ui'
-  import { useFontFamily } from '@/types'
+  import { useFontFamily } from '@/types/OmikujiData'
   import StreamCounterSelector from '@/ui/StreamCounter/StreamCounterSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

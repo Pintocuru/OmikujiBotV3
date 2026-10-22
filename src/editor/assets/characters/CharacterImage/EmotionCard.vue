@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CharacterImageType } from '@/types/'
+  import { CharacterImageType } from '@/types/OmikujiData'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { GripVertical } from 'lucide-vue-next'
 

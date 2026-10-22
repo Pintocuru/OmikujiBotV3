@@ -34,15 +34,15 @@
 
             <!-- 名前 -->
             <span class="text-lg font-bold truncate" :style="{ color: medal && index < 3 ? '#333' : 'var(--rk-name)' }">
-              {{ msg.lists?.listName || msg.user?.userName || 'Anonymous' }}
+              {{ msg.listName || msg.user.userName || 'Anonymous' }}
             </span>
             <!-- symbol -->
             <span
-              v-if="msg.lists?.symbol !== ''"
+              v-if="msg.symbol"
               class="text-base font-semibold truncate ml-2"
               :style="{ opacity: 0.6 }"
             >
-              {{ msg.lists?.symbol }}
+              {{ msg.symbol }}
             </span>
           </div>
 
@@ -52,7 +52,7 @@
               class="inline-flex h-8 items-center justify-center rounded-lg px-3 text-lg font-bold"
               :style="scoreBadgeStyle"
             >
-              {{ msg.lists?.text || 0 }}
+              {{ msg.label || msg.score }}
             </div>
           </div>
         </div>
@@ -65,11 +65,11 @@
   import { computed } from 'vue'
   import { generateDummyMessages } from '@/common/MockUser/MockGenerators'
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
-  import { BotMessageExtraType } from '@/generator/types'
+  import { BotMessageRankingType } from '@/types/generator'
   import { GameRankingType } from '@/types/ui'
 
   const props = defineProps<{
-    listMessages: BotMessageExtraType[]
+    listMessages: BotMessageRankingType[]
     settings: GameRankingType
     medal?: boolean // true: 1〜3位の行背景を金・銀・銅の固定色にする
   }>()
@@ -77,26 +77,26 @@
   // 表示用メッセージ（空の場合はダミーを生成）
   const displayMessages = computed(() => {
     if (props.listMessages.length > 0) {
-      let data = [...props.listMessages].filter((msg) => msg.lists?.isVisible !== false)
+      let data = [...props.listMessages]
 
       switch (props.settings.sortOrder) {
         case 'high':
           data.sort((a, b) => {
-            const diff = (b.lists?.order || 0) - (a.lists?.order || 0)
+            const diff = b.score - a.score
             if (diff !== 0) return diff
-            return (b.user?.timestamp || 0) - (a.user?.timestamp || 0)
+            return b.user.timestamp - a.user.timestamp
           })
           break
         case 'low':
           data.sort((a, b) => {
-            const diff = (a.lists?.order || 0) - (b.lists?.order || 0)
+            const diff = a.score - b.score
             if (diff !== 0) return diff
-            return (b.user?.timestamp || 0) - (a.user?.timestamp || 0)
+            return b.user.timestamp - a.user.timestamp
           })
           break
         case 'new':
         default:
-          data.sort((a, b) => (b.user?.timestamp || 0) - (a.user?.timestamp || 0))
+          data.sort((a, b) => b.user.timestamp - a.user.timestamp)
           break
       }
 

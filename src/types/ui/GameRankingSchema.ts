@@ -20,5 +20,6 @@ export const GameRankingSchema = z.object({
   color: normalizedObject(CharacterColorScheme),
   limit: z.number().min(1).max(20).default(5).catch(5),
   sortOrder: z.enum(rankingSortOrders).default('new').catch('new'),
+  uniqueUser: z.boolean().default(false).catch(false), // true: 1ユーザーにつき最新の1件だけ表示する
 })
 export type GameRankingType = z.infer<typeof GameRankingSchema>

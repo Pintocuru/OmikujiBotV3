@@ -33,7 +33,7 @@ export class ExecuteScript implements ScriptClass {
 
     return {
       actions: [messageAction],
-      botMessageExtras: [],
+      rankingMessages: [],
     }
   }
 

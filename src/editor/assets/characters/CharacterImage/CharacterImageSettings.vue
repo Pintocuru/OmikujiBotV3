@@ -30,7 +30,7 @@
   import { useI18n } from 'vue-i18n'
   import { computed, nextTick, ref } from 'vue'
   import { Plus } from 'lucide-vue-next'
-  import { CharacterImageSetSchema, CharacterImageType } from '@/types/'
+  import { CharacterImageSetSchema, CharacterImageType } from '@/types/OmikujiData'
   import EmotionPresetButtons from './EmotionPresetButtons.vue'
 
   import EmotionGrid from './EmotionGrid.vue'

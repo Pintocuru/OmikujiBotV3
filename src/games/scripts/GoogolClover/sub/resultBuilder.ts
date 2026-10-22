@@ -1,15 +1,11 @@
 // src/games/scripts/GoogolClover/sub/resultBuilder.ts
 import { CURRENCY_SYMBOL, GOAL_EXPONENT } from './constants'
-// TODO(LiveConsole): ランキング用メッセージは BotMessageRankingType (@/generator/types) を直接返す形に移行する。
-//   (BotMessageExtraSchema を使っている箇所は、GameRanking の保存では scripts/toRankingMessage.ts が変換している)
-import { BotMessageExtraSchema } from '@/generator/types'
-import { BotMessageExtraType } from '@/generator/types'
+import { BotMessageRankingType } from '@/types/generator'
 import type { UserState, SlotExecutionResult } from './types'
 import type { GameExecutionResult } from './game'
 import { calculateScoreValue, formatScoreText, formatShort } from './utils'
-import { UserNameSchema, UserNameType } from '@/types/OmikenComment'
-
-const RANKING_KEY = 'GoogolClover'
+import { UserNameType } from '@/types/OmikenComment'
+import { buildBotMessageRanking } from '@/games/scriptsEngine/RankingMessage/RankingMessage'
 
 /**
  * スロット実行結果からゲーム結果を構築
@@ -23,7 +19,7 @@ export function buildGameResult(result: SlotExecutionResult, user: UserNameType)
   if (failedAt > 0) {
     return {
       bubble: `${userName}はサイコロを振る! ${multipliersDisplay}! ${userName}は奈落へと消えた。`,
-      botMessageExtra: createFailureRankingData(user, result.state.successCount),
+      rankingMessage: createFailureRankingData(user, result.state.successCount),
       shouldDeleteState: true,
       newState: null,
     }
@@ -39,7 +35,7 @@ export function buildGameResult(result: SlotExecutionResult, user: UserNameType)
   if (updatedState.exp >= GOAL_EXPONENT) {
     return {
       bubble: createSuccessBubble(updatedState, userName, multipliersDisplay),
-      botMessageExtra: createSuccessRankingData(updatedState, user, true),
+      rankingMessage: createSuccessRankingData(updatedState, user),
       shouldDeleteState: false,
       newState: updatedState,
     }
@@ -48,7 +44,7 @@ export function buildGameResult(result: SlotExecutionResult, user: UserNameType)
   // 通常の成功
   return {
     bubble: createSuccessBubble(updatedState, userName, multipliersDisplay),
-    botMessageExtra: createSuccessRankingData(updatedState, user),
+    rankingMessage: createSuccessRankingData(updatedState, user),
     shouldDeleteState: false,
     newState: updatedState,
   }
@@ -82,36 +78,23 @@ function createSuccessBubble(state: UserState, userName: string, multipliersDisp
 /**
  * 失敗時のランキングデータ
  */
-function createFailureRankingData(user: UserNameType, successCount: number): BotMessageExtraType {
-  return BotMessageExtraSchema.parse({
-    user: UserNameSchema.parse(user),
-    lists: {
-      listName: user.userName,
-      symbol: `${successCount}回目`,
-      text: '0',
-      order: 0,
-      isUnique: true,
-    },
+function createFailureRankingData(user: UserNameType, successCount: number): BotMessageRankingType {
+  return buildBotMessageRanking({
+    user,
+    score: 0,
+    symbol: `${successCount}回目`,
+    label: '0',
   })
 }
 
 /**
  * 成功時のランキングデータ
  */
-function createSuccessRankingData(state: UserState, user: UserNameType, isGoogol = false): BotMessageExtraType {
-  const scoreText = formatScoreText(state.funds, state.exp)
-  const scoreValue = calculateScoreValue(state.funds, state.exp) * 1000000
-
-  return BotMessageExtraSchema.parse({
-    componentKey: RANKING_KEY,
-    user: UserNameSchema.parse(user),
-    lists: {
-      listName: user.userName,
-      symbol: `${state.successCount}回目`,
-      text: scoreText,
-      order: scoreValue,
-      variant: isGoogol ? 'warning' : undefined,
-      isUnique: true,
-    },
+function createSuccessRankingData(state: UserState, user: UserNameType): BotMessageRankingType {
+  return buildBotMessageRanking({
+    user,
+    score: calculateScoreValue(state.funds, state.exp) * 1000000,
+    symbol: `${state.successCount}回目`,
+    label: formatScoreText(state.funds, state.exp),
   })
 }

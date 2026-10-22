@@ -1,5 +1,5 @@
 // src/ui/common/UiBubbleMap.ts
-import type { CharacterColorType } from '@/types'
+import type { CharacterColorType } from '@/types/OmikujiData'
 
 type UiMapOptions = {
   color: CharacterColorType

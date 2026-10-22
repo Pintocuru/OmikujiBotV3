@@ -2,7 +2,7 @@
 import type { UserState } from './types'
 import { executeSlotSpins } from './slotExecution'
 import { buildGameResult } from './resultBuilder'
-import { BotMessageExtraType } from '@/generator/types'
+import { BotMessageRankingType } from '@/types/generator'
 import { UserNameType } from '@/types/OmikenComment'
 
 /**
@@ -10,7 +10,7 @@ import { UserNameType } from '@/types/OmikenComment'
  */
 export interface GameExecutionResult {
   bubble: string
-  botMessageExtra: BotMessageExtraType
+  rankingMessage: BotMessageRankingType
   shouldDeleteState: boolean
   newState: UserState | null
 }

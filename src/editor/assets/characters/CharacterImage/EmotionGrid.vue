@@ -37,7 +37,7 @@
   import { ref, watch } from 'vue'
   import { VueDraggable } from 'vue-draggable-plus'
   import EmotionCard from './EmotionCard.vue'
-  import type { CharacterImageType } from '@/types/'
+  import type { CharacterImageType } from '@/types/OmikujiData'
 
   // ── 内部用型 ──────────────────────────────────────────────────────────────
   type EmotionEntry = {

@@ -2,7 +2,7 @@
 <template>
   <!-- ランキングプレビュー -->
   <HudPreview :isAdminOnly="true">
-    <GameRankingSelector :botMessageExtras="[]" :settings="ranking" :fontFamily="fontFamily" />
+    <GameRankingSelector :rankingMessages="[]" :settings="ranking" :fontFamily="fontFamily" />
   </HudPreview>
 
   <!-- コンポーネント選択 -->
@@ -51,6 +51,16 @@
       />
     </SettingItem>
   </div>
+
+  <!-- ユーザーごとの重複 -->
+  <SettingItem label="ユーザーごとに1件だけ表示" description="同じユーザーの記録は、最新の1件だけを表示します" layout="vertical">
+    <input
+      type="checkbox"
+      class="toggle toggle-primary"
+      :checked="ranking.uniqueUser"
+      @change="(e) => update('uniqueUser', (e.target as HTMLInputElement).checked)"
+    />
+  </SettingItem>
 </template>
 
 <script setup lang="ts">

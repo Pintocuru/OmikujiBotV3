@@ -1,6 +1,6 @@
 // src/ui/common/useBotDisplay.ts
 import { ref, computed, Ref } from 'vue'
-import type { BotMessageBubbleType } from '@/generator/types'
+import type { BotMessageBubbleType } from '@/types/generator'
 import type { WithDisplay } from '@/types/ui'
 
 // 表示管理中のメッセージ(display を必ず持つ)

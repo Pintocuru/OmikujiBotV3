@@ -1,5 +1,5 @@
 // src/generator/stores/ReactionManager/BurstLevelMachine.ts
-import { BurstLevelChangeCallback } from '@/generator/types'
+import { BurstLevelChangeCallback } from '@/types/generator'
 
 const THRESHOLDS = [0.25, 0.5, 0.75] as const
 const PEAK_RATE_FLOOR = 30

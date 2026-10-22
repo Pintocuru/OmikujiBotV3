@@ -10,7 +10,7 @@ import { EventType, OmikujiItemType, PostFlowType } from '@/types/OmikujiData'
 import { defaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { addWeightPercentages, drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
-import { BotMessageType } from '@/generator/types'
+import { BotMessageType } from '@/types/generator'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 

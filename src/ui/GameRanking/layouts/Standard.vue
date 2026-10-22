@@ -5,37 +5,17 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { BotMessageExtraType } from '@/generator/types'
+  import { BotMessageRankingType } from '@/types/generator'
   import { GameRankingType } from '@/types/ui'
+  import { uniqueByLatestUser } from '../scripts/uniqueByLatestUser'
   import GameRankingList from './RankStandard/GameRankingList.vue'
 
   const props = defineProps<{
-    botMessageExtra: BotMessageExtraType[]
+    rankingMessages: BotMessageRankingType[]
     settings: GameRankingType
   }>()
 
-  const listMessages = computed(() => {
-    const messages = props.botMessageExtra
-    if (!messages.length) return []
-
-    const needsUnique = messages.some((m) => m.lists?.isUnique === true)
-    return needsUnique ? uniqueByLatestUser(messages) : messages
-  })
-
-  function uniqueByLatestUser(messages: BotMessageExtraType[]): BotMessageExtraType[] {
-    const map = new Map<string, BotMessageExtraType>()
-    for (const msg of messages) {
-      const userId = msg.user?.userId
-      if (!userId) continue
-      const prev = map.get(userId)
-      if (!prev) {
-        map.set(userId, msg)
-        continue
-      }
-      const prevTs = prev.user?.timestamp ?? 0
-      const currTs = msg.user?.timestamp ?? 0
-      if (currTs > prevTs) map.set(userId, msg)
-    }
-    return [...map.values()]
-  }
+  const listMessages = computed(() =>
+    props.settings.uniqueUser ? uniqueByLatestUser(props.rankingMessages) : props.rankingMessages
+  )
 </script>

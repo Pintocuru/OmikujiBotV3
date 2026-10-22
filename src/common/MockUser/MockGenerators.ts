@@ -1,13 +1,10 @@
 // src/common/MockUser/MockGenerators.ts
-import { ExtraListsSchema } from '@/generator/types'
-import { BotMessageExtraSchema, BotMessageExtraType } from '@/generator/types'
-import { UserStatsRecord, UserStatsRecordSchema } from '@/generator/types'
+import { BotMessageRankingSchema, BotMessageRankingType } from '@/types/generator'
+import { UserStatsRecord, UserStatsRecordSchema } from '@/types/generator'
 import { LocaleType } from '@/types/OmikujiData/'
 import { RANKING_POINTS_RANGE, SUFFIX_PROBABILITY, USER_STATS_RANGES } from './MockConstants'
 import { MOCK_FAMILY_NAME_JA_LIST, MOCK_USER_GIVEN_JA_LIST } from './MockUserJaMaps'
 import { NAME_SUFFIXES } from './MockUserMaps'
-
-// TODO:責務が重すぎる。分割すること。
 
 // ランキングプレビュー用の設定(GameRanking は ui 側で管理)
 type DummyRankingSettings = { limit?: number; sortOrder?: 'high' | 'low' | 'new' }
@@ -107,13 +104,13 @@ export const generateDummyUserStats = (count: number, locale: LocaleType = 'ja')
 export const generateDummyMessages = (
   settings: DummyRankingSettings,
   locale: LocaleType = 'ja'
-): BotMessageExtraType[] => {
+): BotMessageRankingType[] => {
   const count = settings.limit ?? 10
   const usedNames = new Set<string>()
   const { min, max } = RANKING_POINTS_RANGE
   const nameLimit = givenNameCount(locale)
 
-  const messages: BotMessageExtraType[] = Array.from({ length: count }, () => {
+  const messages: BotMessageRankingType[] = Array.from({ length: count }, () => {
     let listName: string
     do {
       listName = pickGivenName(locale).label
@@ -121,23 +118,21 @@ export const generateDummyMessages = (
     usedNames.add(listName)
 
     const points = randInt(min, max)
-    return BotMessageExtraSchema.parse({
-      lists: ExtraListsSchema.parse({
-        listName,
-        text: String(points),
-        order: points,
-      }),
+    return BotMessageRankingSchema.parse({
+      user: { userName: listName, userId: listName },
+      listName,
+      label: String(points),
+      score: points,
     })
   })
 
   switch (settings.sortOrder) {
     case 'high':
-      return messages.sort((a, b) => (b.lists?.order ?? 0) - (a.lists?.order ?? 0))
+      return messages.sort((a, b) => b.score - a.score)
     case 'low':
-      return messages.sort((a, b) => (a.lists?.order ?? 0) - (b.lists?.order ?? 0))
+      return messages.sort((a, b) => a.score - b.score)
     case 'new':
     default:
       return messages
   }
 }
-

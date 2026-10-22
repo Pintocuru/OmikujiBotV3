@@ -25,11 +25,11 @@
           <!-- コンテンツ -->
           <div class="relative z-10 text-center" :style="{ color: 'var(--rk-text)' }">
             <h3 class="text-2xl font-bold mb-3" :style="{ color: 'var(--rk-name)' }">
-              {{ latestMessage.lists?.listName || latestMessage.user?.userName }}
+              {{ latestMessage.listName || latestMessage.user.userName }}
             </h3>
             <p class="text-base opacity-80">スコア</p>
             <div class="text-6xl font-bold">
-              {{ formatScore(latestMessage.lists?.order || 0) }}
+              {{ formatScore(latestMessage.score) }}
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
   import { computed, watch, ref } from 'vue'
-  import { BotMessageExtraType } from '@/generator/types'
+  import { BotMessageRankingType } from '@/types/generator'
   import { GameRankingType } from '@/types/ui'
   import { Trophy } from 'lucide-vue-next'
   import { useMotion } from '@vueuse/motion'
@@ -48,7 +48,7 @@
   const DISPLAY_DURATION_MS = 8000
 
   const props = defineProps<{
-    scoreMessages: BotMessageExtraType[]
+    scoreMessages: BotMessageRankingType[]
     settings: GameRankingType
   }>()
 

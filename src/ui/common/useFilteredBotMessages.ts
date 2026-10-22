@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'
-import type { BotMessageBubbleType } from '@/generator/types'
-import type { UiKind } from '@/types'
+import type { BotMessageBubbleType } from '@/types/generator'
+import type { UiKind } from '@/types/OmikujiData'
 
 type Options = {
   displaySeconds?: number | null // 表示秒数（0 は無期限）

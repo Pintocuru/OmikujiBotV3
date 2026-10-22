@@ -25,14 +25,13 @@ export class ExecuteScript implements ScriptClass {
     // PostActionの構築
     const postActions = buildPostActions({
       bubble: gameResult.bubble,
-      score: gameResult.botMessageExtra.lists?.order ?? 0,
+      score: gameResult.rankingMessage.score,
       characterKey,
     })
 
     return {
       actions: postActions,
-      // TODO(LiveConsole): BotMessageRankingType を直接返す形に移行する
-      botMessageExtras: [gameResult.botMessageExtra],
+      rankingMessages: [gameResult.rankingMessage],
     }
   }
 
