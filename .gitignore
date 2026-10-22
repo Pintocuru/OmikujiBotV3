@@ -15,11 +15,6 @@ _archive
 .obsidian
 distZipped
 
-# docs の markdown 下書き
-README.special.md
-README.template.md
-README.template.ja.md
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
