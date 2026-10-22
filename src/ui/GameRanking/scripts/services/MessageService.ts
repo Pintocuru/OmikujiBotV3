@@ -1,4 +1,4 @@
-// src/games/scriptsEngine/LogRank/services/MessageService.ts
+// src/ui/GameRanking/scripts/services/MessageService.ts
 import { PostFlowMessageSchema, PostFlowMessageType } from '@/types/OmikujiData'
 import { GameParams } from '../types'
 

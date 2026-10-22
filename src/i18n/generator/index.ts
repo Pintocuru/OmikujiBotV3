@@ -1,3 +1,3 @@
-// src/i18n/ui/index.ts
+// src/i18n/generator/index.ts
 
 // export * from './assets'

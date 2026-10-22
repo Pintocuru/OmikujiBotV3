@@ -1,4 +1,4 @@
-// src/games/scriptsEngine/LogRank/types.ts
+// src/ui/GameRanking/scripts/types.ts
 import { UserNameSchema } from '@/types/OmikenComment'
 import { z } from 'zod'
 

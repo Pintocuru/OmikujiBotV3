@@ -1,4 +1,4 @@
-// src/games/scriptsEngine/LogRank/execute.ts
+// src/ui/GameRanking/scripts/execute.ts
 import { PostFlowType } from '@/types/OmikujiData'
 import { GameLogType, GameStateSchema, GameStateType, UserStatsType } from '@/types/api'
 

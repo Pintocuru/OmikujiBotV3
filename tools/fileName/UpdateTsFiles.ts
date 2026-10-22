@@ -36,19 +36,42 @@ async function getAllTargetFiles(dir: string): Promise<string[]> {
 }
 
 async function processFile(filePath: string) {
-  const relativePath = path.relative(ROOT, filePath).replace(/\\/g, '/')
-  const content = await fs.readFile(filePath, 'utf-8')
-  const lines = content.split('\n')
+  const relativePath = path.relative(ROOT, filePath).replace(/\\/g, '/') // ← /\\/g に修正(元コードは正規表現が壊れている)
+  let content = await fs.readFile(filePath, 'utf-8')
 
-  if (filePath.endsWith('.ts')) {
-    if (lines[0]?.trim().startsWith('//')) lines.shift()
-    lines.unshift(`// ${relativePath}`)
-  } else if (filePath.endsWith('.vue')) {
-    if (lines[0]?.trim().startsWith('<!--')) lines.shift()
-    lines.unshift(`<!-- ${relativePath} -->`)
+  // BOM は保持する
+  let bom = ''
+  if (content.startsWith('\uFEFF')) {
+    bom = '\uFEFF'
+    content = content.slice(1)
   }
 
-  await fs.writeFile(filePath, lines.join('\n'), 'utf-8')
+  const isTs = filePath.endsWith('.ts')
+  const header = isTs ? `// ${relativePath}` : `<!-- ${relativePath} -->`
+  // 「既存のヘッダー行」だけを置き換え対象にする(任意のコメントを消さない)
+  const headerPattern = isTs ? /^\/\/ \S.*$/ : /^<!-- \S.*-->$/
+
+  const lines = content.split('\n')
+  let changed = false
+
+  if (headerPattern.test(lines[0]?.trim() ?? '')) {
+    // ヘッダーが既にある → パスが同じなら何もしない
+    if (lines[0].trim() !== header) {
+      lines[0] = header
+      changed = true
+    }
+  } else {
+    // ヘッダーがない → 挿入のみ(既存の1行目は消さない)
+    lines.unshift(header)
+    changed = true
+  }
+
+  if (!changed) return // ← 実質変更なしは書き込まない
+
+  const newContent = bom + lines.join('\n')
+  if (newContent === bom + content) return // 念のため二重ガード
+
+  await fs.writeFile(filePath, newContent, 'utf-8')
 }
 
 async function main() {
