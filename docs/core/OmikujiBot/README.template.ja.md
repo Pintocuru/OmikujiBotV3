@@ -67,8 +67,6 @@
 
 ![OmikujiBotPackageReadme](/template/_common/OmikujiBotPackageReadme.md)
 
-## カスタマイズ（Customization）
-
 ![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
 
 ## よくある質問 (FAQ)

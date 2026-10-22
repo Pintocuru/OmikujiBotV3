@@ -31,7 +31,6 @@
 - **ゲーム配信**
   - ゲームに集中していても、BOT が代わりに挨拶してくれるので、初見さんを見逃しません。
 
-
 ### ストロベリーショコラのキャラクター設定
 
 ![](images/Pasted%20image%2020251206150838.png)
@@ -50,10 +49,8 @@
 1. [テンプレートのインストール方法](https://github.com/Pintocuru/OmikenReadme/blob/main/docs/TemplateInstall/README.md)
 2. [おみくじ BOT のアップグレード](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_52_VersionUp.md)
 3. [【推奨】おみくじ BOT 演出用 WordParty2.0 の導入方法](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95-installation)
-	- [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
+   - [おみくじ BOT 演出用 WordParty2.0 とは?](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikenWordParty/README.md#%E3%81%93%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%AF%E4%BD%95features)
 4. [おみくじBOT コンフィグエディター PRO (有料版) のご案内](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/installation/Installation_51_ProUpgradeTemplate.md)
-
-
 
 ## つかいかた (Usage)
 
@@ -65,7 +62,6 @@
 - コメントテスターは、わんコメのメニューから「コメントテスター」を選択してご利用ください。
 - OBS 等のストリーミング配信アプリに正しく導入されていれば、コメントに「おみくじ」などのキーワードを送信することで発動します。
 
-
 ### じゃんけん
 
 ![](../../core/OmikujiBot/images/faq-01.webp)
@@ -75,9 +71,8 @@
 - じゃんけんの勝率は 1/2、あいこを「負け」とカウントしても、1/3 だと考えていませんか。
 - この「じゃんけん」は、じゃんけんの猛者 [「ケイスケ ホンダ」](https://dic.pixiv.net/a/%E6%9C%AC%E7%94%B0%E3%81%A8%E3%81%98%E3%82%83%E3%82%93%E3%81%91%E3%82%93) を導入することにより、勝率をたったの 5% まで劇的に減少させることに成功しました。
 - じゃんけんの猛者、降臨！激戦を制するのは誰だ！！
-	- 誰が勝つか、ユーザー同士で競い合え、コメント数も増加します。
-	- [勝ったらコーラ1本プレゼント](https://www.j-cast.com/2019/04/17355553.html)…も夢じゃない!?
-
+  - 誰が勝つか、ユーザー同士で競い合え、コメント数も増加します。
+  - [勝ったらコーラ1本プレゼント](https://www.j-cast.com/2019/04/17355553.html)…も夢じゃない!?
 
 ### 初見判定ちゃん
 
@@ -106,15 +101,12 @@
   - コメント数が 5 回以下の場合は、許容バージョンとして「ホントの初見」というデータも用意しています。
 - 複数アカウントを利用している場合など、同一人物であってもアカウントが異なる場合、わんコメでは区別できないため、「初見」と判定されてしまいます。
 
-
-
 ### ギフトのお礼
 
 > 発動条件 : 1 ポイント以上のスパチャ・ギフト・ビット・お茶爆等
 
 - ギフトに対して、BOT コメントを表示することが出来ます。
 - ギフトに対するリアクションは、わんコメのギフト用読み上げ機能や、 WordPatry 機能で様々な演出が可能なので、控えめに設定しています。
-
 
 ### コメント数チェック (配信内・個人総合)
 
@@ -123,13 +115,11 @@
 - 配信内でのコメント数と、個人の総合コメント数を参照して、特定の回数で BOT がコメントしてくれます。
 - デフォルトでは、50 回、または 100 回ごとにお知らせのトースト表示をしてくれます。
 
-
 ### コメント数を確認する
 
 > 発動ワード : `コメント`
 
 - これまでに投稿したコメント数を、わんコメが起動していた配信枠の範囲でカウントし、結果をトースト通知で表示します。
-
 
 ## カスタマイズ（Customization）
 
@@ -141,10 +131,8 @@
 - アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
 - 詳しくは [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
 
-
 - おみくじの内容は、あなたの配信に合わせて**内容を自由にカスタマイズ**できます。
 - ただし、使用している**キャラクターには著作権があります**ので、原作やイラスト制作者の方々へのご配慮をお願いします。
-
 
 ## よくある質問 (FAQ)
 
@@ -180,17 +168,14 @@
 - [Q. エディターで、おみくじの動作を確認するには](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/faq/23_OmikujiEdit/faq_2303_OmikujiConfirmation.md)
 - [Q. プレースホルダーでおみくじのバリエーションを増やす](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/sub/ContentPlaceholder.md)
 - [Q. プレースホルダー チートシート](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/sub/ContentPlaceholderCheatSheet.md)
-- [Q. 評価ブロック (変数プレースホルダー)とは](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/sub/VariablePlaceholder.md)
-- [Q. 評価ブロック (変数プレースホルダー) チートシート](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/sub/VariablePlaceholderCheatSheet.md)
+- [Q. 評価ブロックとは](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/sub/VariablePlaceholder.md)
+- [Q. 評価ブロック チートシート](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/sub/VariablePlaceholderCheatSheet.md)
 - [Q. おみくじ表示時にサウンドを鳴らす](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/faq/23_OmikujiEdit/faq_2304_OmikujiSound.md)
 - [Q. おみくじ表示時にWordpartyを鳴らす](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/faq/23_OmikujiEdit/faq_2305_OmikujiWordparty.md)
-
-
 
 ## トラブルシューティング (Troubleshooting)
 
 わんコメの機能については [トラブルシューティング](https://onecomme.com/docs/trouble-shooting) または [導入ガイド](https://onecomme.com/docs/guide) をご参照ください。
-
 
 ### 設定・表示・音声関連
 
@@ -202,8 +187,6 @@
 
 - [Q. コメントでおみくじが反応しない](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/troubleshooting/12_infoOmikujiBot/trouble_1204_CommentOmikuji.md)
 - [Q. おみくじが Youtube のコメントに反映されていない](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/troubleshooting/12_infoOmikujiBot/trouble_1205_OmikujiPlatform.md)
-
-
 
 ## クレジット（Credits）
 
@@ -243,8 +226,6 @@
 - 効果音には CC0 ライセンスの素材を使用しています。
 - 詳細は おみくじBOT 本体のクレジット をご確認ください。
 
-
-
 ## バージョン情報 (Version)
 
 ### ver.261022
@@ -253,7 +234,7 @@
 - ゲームは「じゃんけん」に絞り、初見のあいさつやコメント数の管理のみにしました。
 - ショコラの口調を、よりクセのある喋り（ありがとぉ、よろしくねぇ 等、小さい文字の付与）にしました。
 - ライセンスキーの廃止により、PRO版限定の機能（フォント設定など）も使用できるようになりました。
-	- 他のパッケージでは、エディターは有料ですが、このパッケージでは無料で利用できます。
+  - 他のパッケージでは、エディターは有料ですが、このパッケージでは無料で利用できます。
 
 ### ver.260217
 
@@ -275,7 +256,6 @@
 - 「おみくじ BOT」のサンプルデータ、またはライセンス付きの PRO 版として新規作成
   - 今後のリリースは、このバージョンを唯一の PRO 版（ライセンスキー付き）にする予定です
   - 他のリリースは「通常版」のほかに「支援版」として提供する場合もありますが、ライセンスキーはこのバージョンのみです。
-
 
 ---
 
