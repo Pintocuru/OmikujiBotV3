@@ -1,6 +1,6 @@
 // src/maps/engine/trigger/ServiceConditionMap.ts
 import { DisplayMeta } from '@/editor/types/DisplayMeta'
-import { EnabledServiceType, ServiceMetaCondition } from '@/types/engine/trigger'
+import { ServiceMetaCondition } from '@/types/engine/trigger'
 
 // Map定義
 export const serviceMetaConditionMap: Record<ServiceMetaCondition, DisplayMeta> = {
@@ -16,24 +16,4 @@ export const serviceMetaConditionMap: Record<ServiceMetaCondition, DisplayMeta> 
     label: 'チャンネルの登録者数',
     description: 'チャンネルに登録されているユーザー数で判定します',
   },
-}
-
-export const serviceTypeMap: Record<EnabledServiceType, string> = {
-  platforms: '配信プラットフォーム',
-  youtube: 'YouTube',
-  twicas: 'ツイキャス',
-  twitch: 'Twitch',
-  niconama: 'ニコニコ生放送',
-  showroom: 'SHOWROOM',
-  bilibili: 'bilibili',
-  mirrativ: 'Mirrativ',
-  mixch: 'ミクチャ',
-  twitter: 'X(Twitter)',
-  doneru: 'Doneru',
-  tiktok: 'TikTok',
-  streamlabs: 'Streamlabs',
-  kick: 'Kick',
-  vtips: 'VTips',
-  external: '外部サービス',
-  system: 'システム内部',
 }

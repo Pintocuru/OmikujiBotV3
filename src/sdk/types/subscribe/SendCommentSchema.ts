@@ -1,7 +1,6 @@
 // src/sdk/types/subscribe/SendCommentSchema.ts
 import { z } from 'zod'
 import { idSchema } from '@/types/core'
-import { serviceTypeValues } from '../onesdk/Service'
 
 /**
  * Service スキーマ
@@ -47,7 +46,7 @@ export type SendCommentType = z.infer<typeof SendCommentSchema>
  * platform は Youtube 固定
  */
 export const SendTestCommentSchema = z.object({
-  platform: z.enum(serviceTypeValues).default('youtube'), // プラットフォーム（youtube）
+  platform: z.literal('youtube'), // プラットフォーム（youtube）
   hasGift: z.boolean().default(false), // ギフトなし
   unit: z.string().default(''), // 通貨単位なし
   price: z.number().default(1000), // デフォルト価格

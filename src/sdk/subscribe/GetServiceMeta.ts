@@ -1,6 +1,6 @@
 // src/sdk/subscribe/GetServiceMeta.ts
-import { api } from '../client'
-import { PingOneSDK } from '../connection/PingOneSDK'
+import { api } from '@/sdk/client'
+import { PingOneSDK } from '@/sdk/connection/PingOneSDK'
 import { Service, ServiceMeta } from '@onecomme.com/onesdk/types/Service'
 
 type MetaResult = { ok: true; data: ServiceMeta[] } | { ok: false; error: unknown }
