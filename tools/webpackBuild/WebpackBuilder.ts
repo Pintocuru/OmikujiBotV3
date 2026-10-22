@@ -14,6 +14,11 @@ import { createCoreFingerprint } from './utils/BuildFingerprint'
 import { loadBuildMeta } from './utils/BuildMetaStore'
 import path from 'path'
 
+/**
+ * TODO: 使用されていないビルド方法が一部あるため、将来的に内容の変更を検討
+ * Vite での出力に成功しており、検証次第では webpack を廃止し、vite に統一することもある
+ */
+
 export interface WebpackBuilderOptions {
   coreTargets: CoreBuildTarget[]
   packageTargets: PackageBuildTarget[]

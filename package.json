@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "tsx server/start-dev-server.ts",
     "updateFilesName": "tsx tools/fileName/UpdateTsFiles.ts",
-    "build": "tsx packages/build.ts",
-    "build:vite": "tsx packages/build.ts --bundler=vite",
+    "build": "tsx packages/build.ts --bundler=vite",
+    "build:webpack": "tsx packages/build.ts",
     "build:plugin": "vite build --config tools/viteConfig/vite.botPlugin.config.ts"
   },
   "type": "module",
