@@ -67,7 +67,7 @@
 
 ![](images/Pasted%20image%2020251206151648.png)
 
-あたしのデータはサンプル用だから、自由に置き換えしてもらって結構よ♡
+あたしぃのデータはサンプル用だからぁ、自由に置き換えしてもらって結構よぉ♡
 
 ![license_92_PackageLicense](/template/license/license_92_PackageLicense.md)
 
@@ -77,6 +77,7 @@
 
 - **おみくじ BOT のバージョン**: v3.0.0-alpha1
 - ゲームは「じゃんけん」に絞り、初見のあいさつやコメント数の管理のみにしました。
+- ショコラの口調を、よりクセのある喋り（ありがとぉ、よろしくねぇ 等、小さい文字の付与）にしました。
 - ライセンスキーの廃止により、PRO版限定の機能（フォント設定など）も使用できるようになりました。
 	- 他のパッケージでは、エディターは有料ですが、このパッケージでは無料で利用できます。
 
@@ -103,4 +104,4 @@
 
 ![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
 
-<%\ await tp.user.expandEmbeds(tp) %>
+<% await tp.user.expandEmbeds(tp,'ja') %>

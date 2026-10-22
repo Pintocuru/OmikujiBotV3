@@ -2,7 +2,7 @@
 export const appItemsCharactersMessages = {
   ja: {
     appHeader: {
-      title: 'おみくじBOT コンフィグエディター',
+      title: 'おみくじBOT エディター',
       currentVersion: '現在のバージョン: {version}',
       checking: 'チェック中...',
       checkFailed: 'チェック失敗',

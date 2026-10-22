@@ -60,7 +60,7 @@ export const appInfoEditorMessages = {
           },
         },
         editor: {
-          title: 'コンフィグエディター設定',
+          title: 'エディター設定',
           description: 'エディターの見た目・動作・ライセンスなど、アプリ本体の設定',
           theme: {
             label: 'エディターテーマ',

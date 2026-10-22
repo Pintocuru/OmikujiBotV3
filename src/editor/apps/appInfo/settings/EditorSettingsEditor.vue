@@ -1,6 +1,6 @@
 <!-- src/editor/apps/appInfo/settings/EditorSettingsEditor.vue -->
 <template>
-  <!-- コンフィグエディター設定 -->
+  <!-- エディター設定 -->
   <SubSectionHeader
     icon="Settings"
     :title="t('appInfoEditor.settings.editor.title')"
@@ -62,7 +62,9 @@
   >
     <select
       :value="settings.editor.initialCategory"
-      @change="(e) => update('editor', { initialCategory: (e.target as HTMLSelectElement).value as InitialCategoryType })"
+      @change="
+        (e) => update('editor', { initialCategory: (e.target as HTMLSelectElement).value as InitialCategoryType })
+      "
       class="select select-bordered w-full max-w-xs"
     >
       <option v-for="key in initialCategories" :key="key" :value="key">

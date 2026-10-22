@@ -10,9 +10,15 @@ lerna-debug.log*
 node_modules
 dist
 design_raw
+_archive
 *.local
 .obsidian
 distZipped
+
+# docs の markdown 下書き
+README.special.md
+README.template.md
+README.template.ja.md
 
 # Editor directories and files
 .vscode/*

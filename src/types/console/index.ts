@@ -1,3 +1,3 @@
-// src/types/core/index.ts
+// src/types/console/index.ts
 
 // export * from './AppStatus'
