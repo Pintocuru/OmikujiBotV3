@@ -3,7 +3,9 @@
 @import './safeList.css';
 
 @plugin "daisyui" {
-  themes: dark --default;
+  themes:
+    light,
+    dark --default;
 }
 
 /* theme transparent : 背景色を透明化 */

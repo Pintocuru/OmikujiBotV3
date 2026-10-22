@@ -24,7 +24,12 @@ async function getAllTargetFiles(dir: string): Promise<string[]> {
 
       if (entry.isDirectory()) return getAllTargetFiles(fullPath)
 
-      if (entry.isFile() && ((fullPath.endsWith('.ts') && !fullPath.endsWith('.d.ts')) || fullPath.endsWith('.vue'))) {
+      if (
+        entry.isFile() &&
+        ((fullPath.endsWith('.ts') && !fullPath.endsWith('.d.ts')) ||
+          fullPath.endsWith('.vue') ||
+          fullPath.endsWith('.css'))
+      ) {
         return [fullPath]
       }
 
@@ -36,7 +41,7 @@ async function getAllTargetFiles(dir: string): Promise<string[]> {
 }
 
 async function processFile(filePath: string) {
-  const relativePath = path.relative(ROOT, filePath).replace(/\\/g, '/') // ← /\\/g に修正(元コードは正規表現が壊れている)
+  const relativePath = path.relative(ROOT, filePath).replace(/\\/g, '/')
   let content = await fs.readFile(filePath, 'utf-8')
 
   // BOM は保持する
@@ -47,9 +52,10 @@ async function processFile(filePath: string) {
   }
 
   const isTs = filePath.endsWith('.ts')
-  const header = isTs ? `// ${relativePath}` : `<!-- ${relativePath} -->`
+  const isCss = filePath.endsWith('.css')
+  const header = isTs ? `// ${relativePath}` : isCss ? `/* ${relativePath} */` : `<!-- ${relativePath} -->`
   // 「既存のヘッダー行」だけを置き換え対象にする(任意のコメントを消さない)
-  const headerPattern = isTs ? /^\/\/ \S.*$/ : /^<!-- \S.*-->$/
+  const headerPattern = isTs ? /^\/\/ \S.*$/ : isCss ? /^\/\* \S.*\*\/$/ : /^<!-- \S.*-->$/
 
   const lines = content.split('\n')
   let changed = false

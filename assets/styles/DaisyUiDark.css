@@ -3,5 +3,7 @@
 @import './safeList.css';
 
 @plugin "daisyui" {
-  themes: dark --default;
+  themes:
+    light,
+    dark --default;
 }
