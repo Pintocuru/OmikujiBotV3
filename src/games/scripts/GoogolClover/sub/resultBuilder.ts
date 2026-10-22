@@ -1,5 +1,7 @@
 // src/games/scripts/GoogolClover/sub/resultBuilder.ts
 import { CURRENCY_SYMBOL, GOAL_EXPONENT } from './constants'
+// TODO(LiveConsole): ランキング用メッセージは BotMessageRankingType (@/generator/types) を直接返す形に移行する。
+//   (BotMessageExtraSchema を使っている箇所は、GameRanking の保存では scripts/toRankingMessage.ts が変換している)
 import { BotMessageExtraSchema } from '@/generator/types'
 import { BotMessageExtraType } from '@/generator/types'
 import type { UserState, SlotExecutionResult } from './types'

@@ -6,11 +6,14 @@ import { parseWith } from '@server/core/utils/schema'
 import { withLock } from '@server/core/utils/mutex'
 import { DIR_NAME, HTTP } from '@server/core/constants'
 import {
-  GameStateSaveRequestSchema,
+  GameLogAppendRequestSchema,
+  GameStateSchema,
+  GameStateType,
   StreamGameFileSchema,
   StreamGameFileType,
   StreamIdSchema,
   GameStateListItemType,
+  UserStatsSchema,
 } from '@/types/api'
 
 const toFileName = (streamId: string) => `${streamId}.json`
@@ -56,16 +59,19 @@ export async function loadGameState(streamId: string | undefined, eventKey?: str
 }
 
 /**
- * ゲームステートを保存 (state.eventKey の枠を丸ごと上書き。他の eventKey はそのまま残す)
+ * ログを1件追記する (1配信 = 1ファイル、eventKey ごとに state を持つ)
+ * - 同じ log.id が保存済みなら何もしない (appended: false)
+ * - userMap の統計 (回数・累計ポイント・自己ベスト) もここで更新する
+ *   totalWins は、ランキングでは勝敗を使わないため更新しない
  */
-export async function saveGameState(body: unknown): Promise<ApiResult> {
-  const parsed = parseWith(GameStateSaveRequestSchema, body)
+export async function appendGameLog(body: unknown): Promise<ApiResult> {
+  const parsed = parseWith(GameLogAppendRequestSchema, body)
   if (!parsed.ok) return badRequest(parsed.error)
 
-  const { streamId, state } = parsed.data
+  const { streamId, eventKey, log } = parsed.data
 
   return withLock(`game-state:${streamId}`, () =>
-    guard('Save game state', 'Failed to save game state', async () => {
+    guard('Append game log', 'Failed to append game log', async () => {
       const fileName = toFileName(streamId)
       const now = Date.now()
 
@@ -77,16 +83,39 @@ export async function saveGameState(body: unknown): Promise<ApiResult> {
         if (error?.code !== 'ENOENT') throw error
       }
 
+      const state = current?.states[eventKey] ?? GameStateSchema.parse({ eventKey })
+
+      // 重複 (同じ log.id) は保存しない
+      if (state.logs.some((saved) => saved.id === log.id)) {
+        return ok({ streamId, eventKey, updatedAt: current?.updatedAt ?? now, appended: false })
+      }
+
+      // userId をキーに使うので、代入ではなく computed key のスプレッドで更新する
+      const previous = state.userMap[log.userId] ?? UserStatsSchema.parse({ userId: log.userId })
+      const nextState: GameStateType = {
+        ...state,
+        logs: [...state.logs, log],
+        userMap: {
+          ...state.userMap,
+          [log.userId]: {
+            ...previous,
+            totalDraws: previous.totalDraws + 1,
+            totalPoints: previous.totalPoints + log.score,
+            bestScore: Math.max(previous.bestScore, log.score),
+          },
+        },
+      }
+
       const next: StreamGameFileType = {
         streamId,
         createdAt: current?.createdAt ?? now,
         updatedAt: now,
-        states: { ...current?.states, [state.eventKey]: state },
+        states: { ...current?.states, [eventKey]: nextState },
       }
 
       await fileSystem.saveFile(DIR_NAME.streams, fileName, JSON.stringify(next))
-      console.info(`💾 Saved game state: ${fileName} (eventKey: ${state.eventKey || '-'})`)
-      return ok({ streamId, eventKey: state.eventKey, updatedAt: now })
+      console.info(`💾 Appended game log: ${fileName} (eventKey: ${eventKey}, userId: ${log.userId})`)
+      return ok({ streamId, eventKey, updatedAt: now, appended: true })
     })
   )
 }

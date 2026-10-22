@@ -1,12 +1,21 @@
 // src/ui/GameRanking/scripts/services/MessageService.ts
 import { PostFlowMessageSchema, PostFlowMessageType } from '@/types/OmikujiData'
-import { GameParams } from '../types'
+
+/**
+ * メッセージ作成に必要な最小限のパラメータ
+ * TODO(LiveConsole): GameRanking 内でのみ表示するメッセージとして使う予定。現在はどこからも呼ばれていない。
+ *   他の UI に渡すメッセージにはしない(前バージョンで仕組みが煩雑になったため)。
+ */
+export interface RankingMessageParams {
+  user: { userName: string }
+  characterKey: string | null
+}
 
 /**
  * PostActionType型のメッセージを作成
  */
 export const createPostActions = (
-  params: GameParams,
+  params: RankingMessageParams,
   score: number,
   isOverLimit: boolean,
   rank?: number
@@ -27,7 +36,7 @@ export const createPostActions = (
 
 /**
  * ランキング情報を含むメッセージを作成
- * TODO:V3では、ランキングは表示のみにし、アナウンスしない
+ * リストの下部にアナウンスを流す用途
  */
 const createRankingMessage = (userName: string, score: number, rank: number, isOverLimit: boolean): string => {
   if (isOverLimit) return `${userName}さんは上限を超えているから、参考記録だよ。`

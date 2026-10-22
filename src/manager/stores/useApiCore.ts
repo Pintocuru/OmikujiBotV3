@@ -20,7 +20,7 @@ export function useApiCore(state: DataManagerType) {
       return await action()
     } catch (error) {
       const err = error as Error
-      const message = `${err.message}\n開発サーバーが起動していることを確認してください。`
+      const message = `${err.message}\nサーバーが起動していることを確認してください。`
       swalModal.error({ title: '接続エラー', text: message })
       return null
     } finally {

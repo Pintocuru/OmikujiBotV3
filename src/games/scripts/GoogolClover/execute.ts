@@ -31,6 +31,7 @@ export class ExecuteScript implements ScriptClass {
 
     return {
       actions: postActions,
+      // TODO(LiveConsole): BotMessageRankingType を直接返す形に移行する
       botMessageExtras: [gameResult.botMessageExtra],
     }
   }

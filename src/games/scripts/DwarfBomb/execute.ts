@@ -17,6 +17,8 @@ export class ExecuteScript implements ScriptClass {
     const partyEffects = generatePartyEffects(result)
 
     // omiken(コメント)がある場合のみランキング用メッセージを付与
+    // TODO(LiveConsole): ランキング用メッセージは BotMessageRankingType (@/generator/types) を直接返す形に移行する。
+    //   現在は BotMessageExtraType を GameRanking 側 (scripts/toRankingMessage.ts) が変換して保存している。
     const botMessageExtras = omiken
       ? [
           buildBotMessageRanking({

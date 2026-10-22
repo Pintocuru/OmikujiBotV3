@@ -1,6 +1,6 @@
 // src/types/api/game/GameStateApi.ts
 import { z } from 'zod'
-import { GameStateSchema } from './GameStateSchema'
+import { GameLogSchema, GameStateSchema } from './GameStateSchema'
 
 /**
  * 配信ID (ファイル名になるため、英数字・_・- のみ)
@@ -22,23 +22,27 @@ export const StreamGameFileSchema = z.object({
 export type StreamGameFileType = z.infer<typeof StreamGameFileSchema>
 
 /**
- * save-game-state: リクエスト (state の eventKey の枠を、丸ごと上書きする)
+ * append-game-log: リクエスト
+ * eventKey の state に、ログを1件追記する (userMap の統計もサーバ側で更新する)
  */
-export const GameStateSaveRequestSchema = z.object({
+export const GameLogAppendRequestSchema = z.object({
   streamId: StreamIdSchema,
-  state: GameStateSchema,
+  eventKey: z.string().min(1),
+  log: GameLogSchema,
 })
-export type GameStateSaveRequestType = z.infer<typeof GameStateSaveRequestSchema>
+export type GameLogAppendRequestType = z.infer<typeof GameLogAppendRequestSchema>
 
 /**
- * save-game-state: レスポンス
+ * append-game-log: レスポンス
+ * appended が false のときは、同じ log.id が保存済みだったため何もしていない
  */
-export const GameStateSaveResponseSchema = z.object({
+export const GameLogAppendResponseSchema = z.object({
   streamId: StreamIdSchema,
   eventKey: z.string(),
   updatedAt: z.number(),
+  appended: z.boolean(),
 })
-export type GameStateSaveResponseType = z.infer<typeof GameStateSaveResponseSchema>
+export type GameLogAppendResponseType = z.infer<typeof GameLogAppendResponseSchema>
 
 /**
  * list-game-states: 一覧の1件 (更新日時の新しい順)

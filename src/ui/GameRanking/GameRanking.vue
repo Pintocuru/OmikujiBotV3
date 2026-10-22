@@ -14,6 +14,7 @@
   import { BotMessageExtraType } from '@/generator/types'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import GameRankingSelector from './GameRankingSelector.vue'
+  import { useGameLogSaver } from './scripts/useGameLogSaver'
 
   const appStore = useAppStore()
   const { botMessages } = storeToRefs(appStore)
@@ -27,4 +28,7 @@
   const targetRankingMessages = computed<BotMessageExtraType[]>(() => {
     return rankingMessages.value
   })
+
+  // ランキングに関係するメッセージを受け取るたびに、API でゲームログを保存する
+  useGameLogSaver(rankingMessages)
 </script>

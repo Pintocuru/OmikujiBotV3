@@ -1,11 +1,11 @@
 // src/manager/services/gameStateApi.ts
 import { API_ACTION } from '@server/api/actions'
 import {
+  GameLogAppendResponseSchema,
+  GameLogAppendResponseType,
+  GameLogType,
   GameStateListItemSchema,
   GameStateListItemType,
-  GameStateSaveResponseSchema,
-  GameStateSaveResponseType,
-  GameStateType,
   StreamGameFileSchema,
   StreamGameFileType,
 } from '@/types/api'
@@ -38,13 +38,13 @@ class GameStateApiService extends BaseApiClient {
   }
 
   /**
-   * ゲームステートを保存 (state.eventKey の枠を丸ごと上書き)
+   * ログを1件追記 (統計はサーバ側で更新。同じ log.id は無視され、appended が false になる)
    */
-  async saveGameState(streamId: string, state: GameStateType): Promise<GameStateSaveResponseType> {
-    const response = await this.post(API_ACTION.saveGameState.action, { streamId, state })
-    this.validateResponse(response, 'ゲームステートの保存に失敗しました')
+  async appendGameLog(streamId: string, eventKey: string, log: GameLogType): Promise<GameLogAppendResponseType> {
+    const response = await this.post(API_ACTION.appendGameLog.action, { streamId, eventKey, log })
+    this.validateResponse(response, 'ゲームログの追記に失敗しました')
 
-    return GameStateSaveResponseSchema.parse(response.data)
+    return GameLogAppendResponseSchema.parse(response.data)
   }
 
   /**

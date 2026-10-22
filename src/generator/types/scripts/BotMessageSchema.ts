@@ -24,6 +24,8 @@ export type BotMessageBaseType = z.infer<typeof BotMessageBaseSchema>
 
 /**
  * ExtraMessageSchema
+ * TODO:汎用的すぎて型定義では理解できなくなるので、v2のレガシーとして残す。v3のβ版まで利用し、正式版では廃止とする。
+ * 代わりに、 BotMessageRankingSchema など、 専用の型定義を増やす方向にする。
  */
 export const ExtraListsSchema = z.object({
   listName: z.string().optional(), // 名前
@@ -38,6 +40,9 @@ export const ExtraListsSchema = z.object({
 })
 export type ExtraListsType = z.infer<typeof ExtraListsSchema>
 
+/**
+ * TODO:汎用的すぎて型定義では理解できなくなるので、v2のレガシーとして残す。v3のβ版まで利用し、正式版では廃止とする。
+ */
 export const ExtraSlotsSchema = z.object({
   slot0: z.string().optional(),
   slot1: z.string().optional(),

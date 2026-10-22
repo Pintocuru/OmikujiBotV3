@@ -90,8 +90,8 @@ async function handlePostRequest(
     case API_ACTION.saveOmikuji.action:
       return omikujiHandler.saveOmikujiData(body.configData, ctx)
 
-    case API_ACTION.saveGameState.action:
-      return gameStateHandler.saveGameState(body)
+    case API_ACTION.appendGameLog.action:
+      return gameStateHandler.appendGameLog(body)
 
     case API_ACTION.deleteGameState.action:
       return gameStateHandler.deleteGameState(params.streamId || body.streamId)
