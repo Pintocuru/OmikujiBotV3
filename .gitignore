@@ -15,6 +15,9 @@ _archive
 .obsidian
 distZipped
 
+# build(v2からコピーした古いファイルが残っているため)
+build/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
