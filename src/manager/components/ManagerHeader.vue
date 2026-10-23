@@ -18,6 +18,29 @@
     </div>
 
     <div v-if="devStore.isServerConnected" class="flex items-center gap-2">
+      <!-- 一覧の並び替え -->
+      <select v-model="devStore.sortMode" class="select select-xs w-52" title="並び順">
+        <option value="name">名前（A→Z）</option>
+        <option value="modified">更新日時（新しい順）</option>
+        <option value="history">履歴（新しい順）</option>
+      </select>
+      <div v-if="devStore.sortMode !== 'history' && devStore.folderNames.length > 0" class="join">
+        <button
+          @click="expandAllFolders"
+          class="btn btn-ghost btn-xs btn-square join-item tooltip tooltip-bottom"
+          data-tip="全フォルダを開く"
+        >
+          <ChevronsDown class="w-4 h-4" />
+        </button>
+        <button
+          @click="collapseAllFolders"
+          class="btn btn-ghost btn-xs btn-square join-item tooltip tooltip-bottom"
+          data-tip="全フォルダを閉じる"
+        >
+          <ChevronsUp class="w-4 h-4" />
+        </button>
+      </div>
+
       <template v-if="!isExpressMode">
         <button
           @click="loadFromGenerator"
@@ -78,13 +101,20 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { Download, Save } from 'lucide-vue-next'
+  import { Download, Save, ChevronsDown, ChevronsUp } from 'lucide-vue-next'
 
   const omikujiStore = useOmikujiStore()
   const { hasChanged } = storeToRefs(omikujiStore)
   const navigationStore = useNavigationStore()
   const devStore = useManagerStore()
   const { isExpressMode } = storeToRefs(devStore)
+
+  const expandAllFolders = () => {
+    devStore.openFolders = new Set(devStore.folderNames)
+  }
+  const collapseAllFolders = () => {
+    devStore.openFolders = new Set()
+  }
 
   const toggleApiMode = async () => {
     const ok = await devStore.toggleExpressMode()
