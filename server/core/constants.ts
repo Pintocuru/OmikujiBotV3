@@ -22,6 +22,7 @@ export const FILE_NAME = {
 export const DEV_API = {
   port: 3001,
   bodyLimit: '10mb',
+  dummyUserCount: 30, // 開発サーバーに入れるダミーユーザーの人数
 } as const
 
 // HTTP ステータスコード

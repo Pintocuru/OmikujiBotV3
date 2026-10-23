@@ -2,3 +2,4 @@
 
 export * from './UserStatsRecordSchema'
 export * from './UserStatsApi'
+export * from './UserListSchema'

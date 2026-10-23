@@ -12,6 +12,7 @@ export const API_ACTION = {
   listGameStates: { method: 'GET', action: 'list-game-states' },
   loadGameState: { method: 'GET', action: 'load-game-state' },
   loadUserStats: { method: 'GET', action: 'load-user-stats' },
+  loadUsers: { method: 'GET', action: 'load-users' },
 
   // POST
   move: { method: 'POST', action: 'move' },
@@ -23,6 +24,9 @@ export const API_ACTION = {
   deleteGameState: { method: 'POST', action: 'delete-game-state' },
   updateUserStats: { method: 'POST', action: 'update-user-stats' },
   resetUserStats: { method: 'POST', action: 'reset-user-stats' },
+  addManualUser: { method: 'POST', action: 'add-manual-user' },
+  removeManualUser: { method: 'POST', action: 'remove-manual-user' },
+  resetUsers: { method: 'POST', action: 'reset-users' },
 } as const
 
 type ApiActionEntry = (typeof API_ACTION)[keyof typeof API_ACTION]

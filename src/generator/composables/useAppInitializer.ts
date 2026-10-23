@@ -6,6 +6,7 @@ import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { POST_SETTINGS } from '@/sdk/PostSettings'
 import { GetOmikenComments } from '@/sdk/subscribe/OmikenComment/GetOmikenComments'
 import { OmikenCommentType } from '@/types/OmikenComment'
+import { startUserStatsPolling } from '@/generator/stores/UserStats/startUserStatsPolling'
 
 const TIME_THRESHOLD = 10000
 
@@ -59,6 +60,8 @@ export function useAppInitializer() {
       } else {
         // エディタープラグインからデータを読み込む
         await syncWithServer()
+        // LiveConsole で操作した score / team / order などを取り込む (サーバーがなければ何もしない)
+        startUserStatsPolling(appStore.userStatsSync)
         setStatus('ready')
       }
     } catch (error) {

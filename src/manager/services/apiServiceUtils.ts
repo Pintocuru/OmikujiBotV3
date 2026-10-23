@@ -81,6 +81,10 @@ const ERROR_MESSAGES: Record<ApiActionName, string> = {
   'load-user-stats': 'ユーザー統計の取得に失敗しました',
   'update-user-stats': 'ユーザー統計の更新に失敗しました',
   'reset-user-stats': 'ユーザー統計のリセットに失敗しました',
+  'load-users': 'ユーザーリストの取得に失敗しました',
+  'add-manual-user': 'ユーザーの追加に失敗しました',
+  'remove-manual-user': 'ユーザーの削除に失敗しました',
+  'reset-users': 'ユーザーリストのリセットに失敗しました',
 }
 
 /**

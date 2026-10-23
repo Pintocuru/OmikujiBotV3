@@ -9,7 +9,7 @@ import { UserStatsRecord } from './UserStatsRecordSchema'
  * ※ zod 4 は .pick().partial() だと default が効いて未指定が上書きされるため、明示的に定義している。
  */
 export const UserStatsPatchSchema = z.object({
-  order: z.number().optional(),
+  order: z.number().optional(), // 席順。0 は席順なし (設定を外すときに送る)
   team: z.enum(daisyUIColor).nullable().optional(),
   score: z.number().optional(),
   tags: z.array(z.string()).optional(),
@@ -57,6 +57,11 @@ export type UserStatsUpdateResponseType = z.infer<typeof UserStatsUpdateResponse
 export const UserStatsControlSchema = UserStatsPatchSchema.extend({
   rev: z.number(),
   updatedAt: z.number(),
+  // 手動で追加したユーザー (コメントしない ROM 勢など)。コメント由来の記録がないため、名前もここで持つ
+  isManual: z.boolean().optional(),
+  userName: z.string().optional(),
+  // 手動ユーザーを削除した印。差分取得 (since) で削除を伝えるため、レコードは消さずに残す
+  isRemoved: z.boolean().optional(),
 })
 export type UserStatsControlType = z.infer<typeof UserStatsControlSchema>
 

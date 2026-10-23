@@ -6,6 +6,8 @@ import { setupExpressRoutes } from './adapters/expressAdapter'
 import path from 'path'
 import { SERVER_ROOT } from './constants'
 import { DEV_API, DIR_NAME } from './core/constants'
+import { seedCommentUsers } from './core/services/userListService'
+import { generateDummyUserStats } from '@/common/MockUser/MockGenerators'
 
 let server: Server | null = null
 
@@ -18,6 +20,9 @@ export function startDevApiServer(): Server | null {
 
   const app: Application = express()
   const port = DEV_API.port
+
+  // 開発サーバーにはわんコメがなく、コメントを受け取れないため、ダミーのユーザーを入れておく
+  seedCommentUsers(generateDummyUserStats(DEV_API.dummyUserCount))
 
   // ミドルウェア設定
   app.use(cors())

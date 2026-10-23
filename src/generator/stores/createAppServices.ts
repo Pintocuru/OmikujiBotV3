@@ -1,5 +1,6 @@
 // src/generator/stores/createAppServices.ts
 import { UserStatsManager } from './UserStats/UserStatsManager'
+import { UserStatsControlSync } from './UserStats/UserStatsControlSync'
 import { ServiceMetaStore } from './MetaState/MetaStateService'
 import { StreamStatsManager } from './StreamStats/StreamStatsManager'
 import { ReactionStatsManager } from './ReactionManager/ReactionStatsManager'
@@ -8,6 +9,7 @@ import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 
 export function createAppServices() {
   const userStats = new UserStatsManager()
+  const userStatsSync = new UserStatsControlSync(userStats) // LiveConsole で操作した値の取り込み
   const scriptManager = new GameScriptManager()
   const serviceMetaStore = ServiceMetaStore.getInstance()
   const streamStats = new StreamStatsManager()
@@ -26,6 +28,7 @@ export function createAppServices() {
 
   return {
     userStats,
+    userStatsSync,
     scriptManager,
     serviceMetaStore,
     streamStats,

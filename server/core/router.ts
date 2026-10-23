@@ -60,6 +60,9 @@ async function handleGetRequest(action: string, params: Record<string, string>):
     case API_ACTION.loadUserStats.action:
       return userStatsHandler.loadUserStats(params.since)
 
+    case API_ACTION.loadUsers.action:
+      return userStatsHandler.loadUsers()
+
     default:
       return fail(HTTP.NOT_FOUND, `Unknown GET action: ${action}`)
   }
@@ -101,6 +104,15 @@ async function handlePostRequest(
 
     case API_ACTION.resetUserStats.action:
       return userStatsHandler.resetUserStats()
+
+    case API_ACTION.addManualUser.action:
+      return userStatsHandler.addManualUser(body)
+
+    case API_ACTION.removeManualUser.action:
+      return userStatsHandler.removeManualUser(body)
+
+    case API_ACTION.resetUsers.action:
+      return userStatsHandler.resetUsers()
 
     default:
       return fail(HTTP.NOT_FOUND, `Unknown POST action: ${action}`)

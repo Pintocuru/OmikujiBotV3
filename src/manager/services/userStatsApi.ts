@@ -1,6 +1,10 @@
 // src/manager/services/userStatsApi.ts
 import { API_ACTION } from '@server/api/actions'
 import {
+  AddManualUserResponseSchema,
+  AddManualUserResponseType,
+  UserListResponseSchema,
+  UserListResponseType,
   UserStatsLoadResponseSchema,
   UserStatsLoadResponseType,
   UserStatsUpdateResponseSchema,
@@ -23,6 +27,42 @@ class UserStatsApiService extends BaseApiClient {
     this.validateResponse(response, 'ユーザー統計の取得に失敗しました')
 
     return UserStatsLoadResponseSchema.parse(response.data)
+  }
+
+  /**
+   * ユーザーリストを取得 (コメント由来 + 手動追加 + 操作結果)
+   */
+  async loadUsers(): Promise<UserListResponseType> {
+    const response = await this.get(API_ACTION.loadUsers.action)
+    this.validateResponse(response, 'ユーザーリストの取得に失敗しました')
+
+    return UserListResponseSchema.parse(response.data)
+  }
+
+  /**
+   * コメントしないユーザー (ROM 勢など) を手動で追加
+   */
+  async addManualUser(userName: string): Promise<AddManualUserResponseType> {
+    const response = await this.post(API_ACTION.addManualUser.action, { userName })
+    this.validateResponse(response, 'ユーザーの追加に失敗しました')
+
+    return AddManualUserResponseSchema.parse(response.data)
+  }
+
+  /**
+   * 手動で追加したユーザーを削除
+   */
+  async removeManualUser(userId: string): Promise<void> {
+    const response = await this.post(API_ACTION.removeManualUser.action, { userId })
+    this.validateResponse(response, 'ユーザーの削除に失敗しました')
+  }
+
+  /**
+   * コメント由来のユーザーリストを空にする (手動の操作結果と手動ユーザーは残る)
+   */
+  async resetUsers(): Promise<void> {
+    const response = await this.post(API_ACTION.resetUsers.action, {})
+    this.validateResponse(response, 'ユーザーリストのリセットに失敗しました')
   }
 
   /**

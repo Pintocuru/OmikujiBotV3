@@ -1,11 +1,11 @@
 // src/plugin/plugin.ts
 import { OnePlugin, PluginRequest, PluginResponse } from '@onecomme.com/onesdk/types/Plugin'
 import { APP_VERSION } from '@/version'
-import { hoge } from './scripts/hoge'
 import { processOmikenComment } from '@/sdk/subscribe/OmikenComment/OmikenCommentProcessor'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { PLUGIN_KEY, PLUGIN_NAME } from '@/types/env'
 import { pluginRequest } from '@server/adapters/pluginAdapter'
+import { recordUserComment, resetCommentUsers } from '@server/core/services/userListService'
 
 const plugin: OnePlugin = {
   name: `${PLUGIN_NAME}`,
@@ -13,7 +13,7 @@ const plugin: OnePlugin = {
   version: APP_VERSION,
   author: 'Pintocuru',
   url: 'https://pintocuru.booth.pm/items/8025642',
-  permissions: ['filter.comment'],
+  permissions: ['filter.comment', 'clear'],
   defaultState: {},
 
   async init(api, initialData) {
@@ -30,10 +30,16 @@ const plugin: OnePlugin = {
     const omiken = processOmikenComment(comment)
     if (!omiken) return comment
 
-    hoge(omiken)
+    // コメントしたユーザーを、サーバーのユーザーリスト (LiveConsole 用) に記録する
+    recordUserComment(omiken)
 
     // コメント自体はそのまま返す
     return comment
+  },
+
+  // わんコメの「クリア」で、コメント由来のユーザーリストを空にする (手動の操作結果・手動ユーザーは残す)
+  subscribe(type) {
+    if (type === 'clear') resetCommentUsers()
   },
 
   async request(req: PluginRequest): Promise<PluginResponse> {

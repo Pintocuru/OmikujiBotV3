@@ -53,6 +53,11 @@ export class UserStatsManager {
     return record
   }
 
+  // 記録をそのまま登録する (開発用のダミーユーザーなど。通常はコメントから recordComment で作る)
+  upsert(record: UserStatsRecord): void {
+    this.stats.set(record.userId, record)
+  }
+
   // stats からランダムに当選者を選出
   drawWinners(count = 1): { commenter: number; winners: UserStatsRecord[] } {
     const commenter = this.stats.size
@@ -94,6 +99,11 @@ export class UserStatsManager {
     const updated = { ...existing, ...patch }
     this.stats.set(userId, updated)
     return updated
+  }
+
+  // 指定ユーザーを削除 (手動で追加したユーザーを消すときなど)
+  remove(userId: string): boolean {
+    return this.stats.delete(userId)
   }
 
   // セッションリセット

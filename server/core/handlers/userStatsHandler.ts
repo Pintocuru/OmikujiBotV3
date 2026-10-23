@@ -8,7 +8,16 @@ import { ok, badRequest, guard } from '@server/core/utils/result'
 import { parseWith } from '@server/core/utils/schema'
 import { withLock } from '@server/core/utils/mutex'
 import { FILE_NAME } from '@server/core/constants'
-import { UserStatsControlSchema, UserStatsControlType, UserStatsUpdateRequestSchema } from '@/types/api'
+import { randomUUID } from 'node:crypto'
+import { getCommentUsers, resetCommentUsers } from '@server/core/services/userListService'
+import { buildUserList } from '@server/core/utils/userList'
+import {
+  AddManualUserRequestSchema,
+  RemoveManualUserRequestSchema,
+  UserStatsControlSchema,
+  UserStatsControlType,
+  UserStatsUpdateRequestSchema,
+} from '@/types/api'
 
 const LOCK_KEY = 'user-stats'
 
@@ -119,4 +128,72 @@ export async function resetUserStats(): Promise<ApiResult> {
       return ok({ revision })
     })
   )
+}
+
+/**
+ * ユーザーリストを取得 (LiveConsole 用)
+ * コメント由来のユーザー + 手動で追加したユーザー に、操作結果を合わせて返す
+ */
+export async function loadUsers(): Promise<ApiResult> {
+  return withLock(LOCK_KEY, () =>
+    guard('Load users', 'Failed to load users', async () => {
+      const state = await getState()
+      return ok({ revision: state.revision, users: buildUserList(getCommentUsers(), state.users) })
+    })
+  )
+}
+
+/**
+ * 手動でユーザーを追加 (コメントしない ROM 勢など)
+ * userId は 'manual:' + 乱数。操作結果として保存するので、generator も load-user-stats で受け取れる
+ */
+export async function addManualUser(body: unknown): Promise<ApiResult> {
+  const parsed = parseWith(AddManualUserRequestSchema, body)
+  if (!parsed.ok) return badRequest(parsed.error)
+
+  return withLock(LOCK_KEY, () =>
+    guard('Add manual user', 'Failed to add manual user', async () => {
+      const state = await getState()
+      const revision = state.revision + 1
+      const userId = `manual:${randomUUID()}`
+      const users = new Map(state.users)
+      users.set(userId, { rev: revision, updatedAt: Date.now(), isManual: true, userName: parsed.data.userName })
+
+      await commit({ revision, baseRevision: state.baseRevision, users })
+      return ok({ userId, revision })
+    })
+  )
+}
+
+/**
+ * 手動で追加したユーザーを削除
+ * 差分取得 (since) で削除を伝えるため、レコードは消さずに isRemoved を付ける
+ */
+export async function removeManualUser(body: unknown): Promise<ApiResult> {
+  const parsed = parseWith(RemoveManualUserRequestSchema, body)
+  if (!parsed.ok) return badRequest(parsed.error)
+
+  return withLock(LOCK_KEY, async () => {
+    const state = await getState()
+    const previous = state.users.get(parsed.data.userId)
+    if (!previous?.isManual) return badRequest('手動で追加したユーザーではありません')
+
+    return guard('Remove manual user', 'Failed to remove manual user', async () => {
+      const revision = state.revision + 1
+      const users = new Map(state.users)
+      users.set(parsed.data.userId, { ...previous, isRemoved: true, rev: revision, updatedAt: Date.now() })
+
+      await commit({ revision, baseRevision: state.baseRevision, users })
+      return ok({ revision })
+    })
+  })
+}
+
+/**
+ * コメント由来のユーザーリストを空にする (手動の操作結果と手動ユーザーは残る)
+ */
+export async function resetUsers(): Promise<ApiResult> {
+  resetCommentUsers()
+  console.info('🧹 Reset comment users')
+  return ok({ reset: true })
 }
