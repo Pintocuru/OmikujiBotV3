@@ -6,4 +6,4 @@
 
 - 一部の配布パッケージには、**おみくじBOT editor**（おみくじデータ編集用アプリ）が付属しています。
 - アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
-- 詳しくは [おみくじBOT エディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
+- 詳しくは [おみくじBOT エディター README](/core/ConfigEditor/README.md) をご覧ください。

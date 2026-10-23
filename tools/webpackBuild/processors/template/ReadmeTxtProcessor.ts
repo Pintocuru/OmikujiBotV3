@@ -51,7 +51,7 @@ function buildJsonOnlySection(packageType: PackageType | undefined, boothURL: st
 このファイルには「おみくじテンプレートデータ」が含まれています。
 これはジェネレーター本体の「テンプレート読み込み機能」で利用するデータです。
 
-テンプレートの読み込み方法については [【PRO 版】 テンプレート読み込み (json)](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md#pro-%E7%89%88-%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF-json) をご覧ください。
+テンプレートの読み込み方法については [【PRO 版】 テンプレート読み込み (json)](/core/ConfigEditor/README.md#pro-%E7%89%88-%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF-json) をご覧ください。
 (注: この機能はPRO版(有料)限定です)
 
 このファイル単体ではジェネレーターとして動作しません。

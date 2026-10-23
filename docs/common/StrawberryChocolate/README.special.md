@@ -1,4 +1,4 @@
-# おみくじ BOT ストロベリーショコラ OmikujiBot StrawberryChocolate README
+# おみくじBOT ストロベリーショコラ OmikujiBot StrawberryChocolate README
 
 - 使い方特集!
 

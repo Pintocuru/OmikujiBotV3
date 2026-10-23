@@ -1,15 +1,15 @@
-## おみくじ BOT 演出用 WordParty2.0 クレジット・ライセンス（Credits/License）
+## おみくじBOT 演出用 WordParty2.0 クレジット・ライセンス（Credits/License）
 
 ### 共通演出 (common)
 
 #### `ニコニコ本社爆破`
 
 - ニコニ・コモンズ：爆発して画面を覆う炎（フル HD） <https://commons.nicovideo.jp/works/nc121868>
-	- 利用許可範囲 : ネット全般
+  - 利用許可範囲 : ネット全般
 - 効果音 (1): <https://freesound.org/people/sangnamsa/sounds/473941/>
-	- licensed under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
+  - licensed under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 - 効果音 (2): <https://freesound.org/people/qubodup/sounds/189778/>
-	- licensed under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
+  - licensed under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 - 本アプリ専用に制作された動画です。他の用途での使用・転載・再配布は禁止します。
 
 #### `flash`

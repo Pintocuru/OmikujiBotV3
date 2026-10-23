@@ -2,11 +2,11 @@
 
 > キャラクターに関する扱いについては、各パッケージごとに異なります。
 
-#### [Q. おみくじの内容を変更したい](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/faq/23_OmikujiEdit/faq_2201_BubbleColor.md)
+#### [Q. おみくじの内容を変更したい](/template/faq/23_OmikujiEdit/faq_2201_BubbleColor.md)
 
-#### [Q. おみくじが出てくる確率を変更したい](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/faq/23_OmikujiEdit/faq_2202_BubbleOnly.md)
+#### [Q. おみくじが出てくる確率を変更したい](/template/faq/23_OmikujiEdit/faq_2202_BubbleOnly.md)
 
-#### [Q. おみくじをメンバー限定にしたい](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/faq/23_OmikujiEdit/faq_2203_Thumbnail.md)
+#### [Q. おみくじをメンバー限定にしたい](/template/faq/23_OmikujiEdit/faq_2203_Thumbnail.md)
 
 おみくじの出現確率を上げる
 

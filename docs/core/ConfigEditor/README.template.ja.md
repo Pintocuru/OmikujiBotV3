@@ -2,7 +2,7 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![intro_11](../../template/jp/intro/intro_11.md) ジェネレーター BOT 「おみくじ BOT」のデータを編集できるアプリケーションです。
+![intro_11](../../template/jp/intro/intro_11.md) ジェネレーター BOT 「おみくじBOT」のデータを編集できるアプリケーションです。
 
 ![intro_12](../../template/jp/intro/intro_12.md) 下記に同梱している 「おみくじBOT エディター」 の readme となります。
 
@@ -14,9 +14,9 @@
 
 ![](../../images/ConfigEditor-1792763358075.webp)
 
-### おみくじ BOT を自分好みに設定できる、専用エディター
+### おみくじBOT を自分好みに設定できる、専用エディター
 
-【おみくじBOT エディター OmikujiBot editor】は、[おみくじ BOT](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/OmikujiBot/README.md) 専用のエディターです。おみくじの内容や演出を、直感的にカスタマイズできます。
+【おみくじBOT エディター OmikujiBot editor】は、[おみくじBOT](/core/OmikujiBot/README.md) 専用のエディターです。おみくじの内容や演出を、直感的にカスタマイズできます。
 
 1. **おみくじの確率や制限が自由に行える**
    - おみくじの内容や、演出のタイミングを自由に変更可能
@@ -37,9 +37,9 @@
 
 ## インストール (Installation)
 
-### [1. おみくじ BOT のアップグレード / おみくじBOT editor の新規導入](../../template/jp/installation/Installation_52_VersionUp.md)
+### [1. おみくじBOT のアップグレード / おみくじBOT editor の新規導入](../../template/jp/installation/Installation_52_VersionUp.md)
 
-- おみくじBOT editorは、一部のおみくじ BOT のパッケージに付属しています。
+- おみくじBOT editorは、一部のおみくじBOT のパッケージに付属しています。
 - 付属していない場合でも、無料で おみくじBOT editor の導入が可能です。
 
 ## つかいかた (Usage)
@@ -81,19 +81,17 @@ A. 配布データをそのまま再配布することは禁止です。内容�
 
 #### Q. 最新のバージョンより古いデータで作成したファイルは読めますか？
 
-- **v1.0.0 以降**に作成されたファイルは、問題なく読み込めます。
+- v2の最新ファイルは読めますが、一部データが変更されているため、修正してください
 - それ以前 のデータは互換性がないため、読み込むことはできません。
 
 ## トラブルシューティング (Troubleshooting)
-
-希望するおみくじとは異なるものが出てしまう
 
 ### Q. データを記入したのに、ジェネレーターに反映されていない
 
 - このおみくじBOT editorは、自動保存ではありません。
 - 保存ボタンを押し、出力されたファイルを上書きする方法で保存を行う必要があります。
   - 詳しくはつかいかた (Usage) の、【重要】 設定の保存方法をご覧ください。
-- おみくじ BOT プラグイン という、専用プラグインを併用することで、保存作業を大幅に簡略化できます。
+- おみくじBOT プラグイン という、専用プラグインを併用することで、保存作業を大幅に簡略化できます。
 
 ## クレジット・ライセンス（Credits/License）
 
@@ -127,8 +125,6 @@ A. 配布データをそのまま再配布することは禁止です。内容�
 
 > 詳細な変更履歴は [Releases](https://github.com/Pintocuru/OmikujiBot-Docs/releases) をご覧ください。
 
-作成者：せすじピンとしてます @pintocuru
-
-[Twitter](https://twitter.com/pintocuru) | [YouTube](https://www.youtube.com/@pintocuru)
+![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>
