@@ -26,11 +26,22 @@ describe('BotMessageRankingSchema', () => {
 })
 
 describe('toGameLog', () => {
-  it('GameLogSchema の形にする (item / flag は入れない)', () => {
+  it('GameLogSchema の形にする (userName と label(item) を入れる。flag は入れない)', () => {
     const log = toGameLog(ranking({ timestamp: '2026-10-22T12:00:00.000Z' }))
-    expect(log).toMatchObject({ userId: 'u1', score: 30, createdAt: Date.parse('2026-10-22T12:00:00.000Z') })
-    expect(log).not.toHaveProperty('item')
+    expect(log).toMatchObject({
+      userId: 'u1',
+      userName: 'たろう',
+      item: '30点',
+      score: 30,
+      createdAt: Date.parse('2026-10-22T12:00:00.000Z'),
+    })
     expect(log).not.toHaveProperty('flag')
+  })
+
+  it('listName があれば userName に使い、label が空なら item を入れない', () => {
+    const log = toGameLog(ranking({ listName: 'ゲスト', label: '' }))
+    expect(log.userName).toBe('ゲスト')
+    expect(log).not.toHaveProperty('item')
   })
 })
 

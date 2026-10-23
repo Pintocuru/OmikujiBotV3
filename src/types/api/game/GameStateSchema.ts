@@ -8,8 +8,9 @@ import { z } from 'zod'
 export const GameLogSchema = z.object({
   id: idSchema,
   userId: z.string(), // 実行者のユーザーID
+  userName: z.string().optional(), // 実行者の表示名(閲覧用。過去の保存データにはない)
   score: z.number(), // ランキング判定用のメイン数値
-  item: z.string().optional(), // 汎用string
+  item: z.string().optional(), // 汎用string(ランキングでは表示用の得点 label を入れる)
   flag: z.boolean().optional(), // 汎用boolean
   createdAt: z.number().default(() => Date.now()), // 記録日時（ISO 8601形式）
 })
