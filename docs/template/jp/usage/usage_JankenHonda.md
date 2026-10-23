@@ -1,6 +1,7 @@
 ### じゃんけん
 
-![](../../../core/OmikujiBot/images/faq-01.webp)
+![](../../../images/usage-1792727086703.webp)
+
 
 > 発動ワード : `じゃんけん` / `janken`/ `グー`/ `チョキ`/ `パー`
 
