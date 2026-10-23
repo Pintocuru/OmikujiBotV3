@@ -4,7 +4,12 @@
     <CharacterPicker v-model="characterKey" />
   </SettingItem>
 
-  <SettingItem v-if="hasCharacterSelected" icon="Palette" layout="vertical" :label="t('postFlow.messageSettings.icon')">
+  <SettingItem
+    v-if="!!action.characterKey"
+    icon="Palette"
+    layout="vertical"
+    :label="t('postFlow.messageSettings.icon')"
+  >
     <IconSelector :character-key="characterKey" :icon-key="action.iconKey" @update:icon-key="updateIconKey" />
   </SettingItem>
 
@@ -43,8 +48,6 @@
   const { data } = useOmikujiStore()
 
   const soundEnabled = computed(() => data.settings.generator.soundEnabled)
-
-  const hasCharacterSelected = computed(() => !!props.action.characterKey)
 
   const updateAction = (updates: Partial<PostFlowMessageType>) => {
     emit('update:action', { ...props.action, ...updates })

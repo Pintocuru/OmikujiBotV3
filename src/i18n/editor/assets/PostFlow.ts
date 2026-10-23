@@ -107,8 +107,7 @@ export const postFlowMessages = {
       },
       gameScript: {
         gameLabel: 'ゲーム',
-        gameDesc: '実行するゲームスクリプトを選択',
-        characterDesc: 'ゲームに使用するキャラクター',
+        gameDesc: '実行するゲームスクリプト',
         paramLabel: 'パラメータ',
         paramDesc: 'ゲームに渡す文字列',
         paramPlaceholder: 'パラメータを入力',

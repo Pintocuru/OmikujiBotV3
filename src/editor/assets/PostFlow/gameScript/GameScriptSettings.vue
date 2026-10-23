@@ -1,6 +1,12 @@
 <!-- src/editor/assets/PostFlow/gameScript/GameScriptSettings.vue -->
 <template>
-  <SettingItem layout="vertical" icon="Gamepad2" :label="t('postFlow.gameScript.gameLabel')" :description="t('postFlow.gameScript.gameDesc')">
+  <!-- 実行するゲームスクリプト -->
+  <SettingItem
+    layout="vertical"
+    icon="Gamepad2"
+    :label="t('postFlow.gameScript.gameLabel')"
+    :description="t('postFlow.gameScript.gameDesc')"
+  >
     <select v-model="scriptId" class="select select-bordered select-sm w-full">
       <option value="">{{ t('postFlow.common.unselected') }}</option>
       <option v-for="key in getRegisteredGameScriptKeys()" :key="key" :value="key">
@@ -9,16 +15,18 @@
     </select>
   </SettingItem>
 
-  <SettingItem layout="vertical" icon="User" :label="t('postFlow.common.character')" :description="t('postFlow.gameScript.characterDesc')">
-    <select v-model="characterKey" class="select select-bordered select-sm w-full">
-      <option value="">{{ t('postFlow.common.unselected') }}</option>
-      <option v-for="(value, key) in characterMap" :key="key" :value="key">
-        {{ value.name }}
-      </option>
-    </select>
+  <!-- キャラクター -->
+  <SettingItem layout="vertical" icon="User" :label="t('postFlow.common.character')">
+    <CharacterPicker v-model="characterKey" />
   </SettingItem>
 
-  <SettingItem layout="vertical" icon="Code2" :label="t('postFlow.gameScript.paramLabel')" :description="t('postFlow.gameScript.paramDesc')">
+  <!-- パラメータ -->
+  <SettingItem
+    layout="vertical"
+    icon="Code2"
+    :label="t('postFlow.gameScript.paramLabel')"
+    :description="t('postFlow.gameScript.paramDesc')"
+  >
     <input
       v-model="queryString"
       type="text"
@@ -33,9 +41,8 @@
   import { computed } from 'vue'
   import type { PostFlowGameType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
+  import CharacterPicker from '@/editor/parts/CharacterPicker.vue'
 
   const { t } = useI18n()
 
@@ -46,9 +53,6 @@
   const emit = defineEmits<{
     'update:action': [action: PostFlowGameType]
   }>()
-
-  const { data } = useOmikujiStore()
-  const { characterMap } = useCharacterManager(() => data.assets.characters)
 
   const updateAction = (updates: Partial<PostFlowGameType>) => {
     emit('update:action', { ...props.action, ...updates })
