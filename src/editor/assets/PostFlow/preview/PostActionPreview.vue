@@ -18,6 +18,30 @@
       />
     </div>
 
+    <!-- ゲームスクリプト(sampleRun の結果を message と同様に表示) -->
+    <div v-else-if="action.kind === 'gameScript'" class="w-full space-y-8 flex flex-col items-center">
+      <CommentBubbleItem
+        :key="messageKey"
+        :botName="character ? character.displayName : null"
+        :message="gameScriptMessage"
+        :color="character ? character.color : defaultColor"
+        @click="refreshMessage"
+        class="cursor-pointer"
+      />
+      <LayerImage
+        :layers="character?.image?.default?.src ?? []"
+        :size="bubbleSettings.characterSize"
+        :animation="character?.image?.default?.animation"
+      />
+    </div>
+
+    <!-- 変数(評価ブロック):ソースコード風表示 -->
+    <div v-else-if="action.kind === 'variable'" class="w-full px-2">
+      <pre
+        class="text-xs font-mono text-left bg-base-300 text-base-content rounded-lg p-3 max-h-64 overflow-auto whitespace-pre-wrap break-all"
+      ><code>{{ action.message || t('postFlow.actionPreview.noMessage') }}</code></pre>
+    </div>
+
     <!-- サウンドアクション -->
     <div v-else-if="action.kind === 'sound'" class="w-full text-center">
       <Volume2 :size="80" class="mx-auto text-blue-500" />
@@ -63,7 +87,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { computed, ref } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { storeToRefs } from 'pinia'
   import { Volume2, PartyPopper, MessagesSquare, Settings } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -75,6 +99,7 @@
   import CommentBubbleItem from '@/ui/common/CommentBubbleItem.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { CommentBubbleSchema } from '@/types/ui/CommentBubbleSchema'
+  import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 
   const { t } = useI18n()
 
@@ -94,11 +119,11 @@
   const messageKey = ref(0)
   const refreshMessage = () => messageKey.value++
 
-  // キャラクター取得
+  // キャラクター取得(message / gameScript)
   const character = computed(() => {
-    if (props.action.kind !== 'message') return null
+    if (props.action.kind !== 'message' && props.action.kind !== 'gameScript') return null
     const key = props.action.characterKey
-    if (key === null) return null
+    if (!key) return null
     return Object.values(characters.value).find((c) => c.key === key) ?? null
   })
 
@@ -113,6 +138,27 @@
     if (!processed) return t('postFlow.actionPreview.hidden')
     return transformIconPlaceholdersPreview(processed.text)
   })
+
+  // gameScript: sampleRun の返り値をプレビュー用メッセージにする
+  const scriptManager = new GameScriptManager()
+  const gameScriptMessage = ref('')
+  let gameScriptRequestId = 0
+
+  watch(
+    () => {
+      const a = props.action
+      return a.kind === 'gameScript' ? ([a.scriptId, a.queryString, messageKey.value] as const) : null
+    },
+    async (args) => {
+      if (!args) return
+      const [scriptId, queryString] = args
+      const requestId = ++gameScriptRequestId
+      const result = await scriptManager.playSampleScript(scriptId, queryString)
+      if (requestId !== gameScriptRequestId) return // 古い結果は破棄
+      gameScriptMessage.value = transformIconPlaceholdersPreview(result)
+    },
+    { immediate: true }
+  )
 
   function transformIconPlaceholdersPreview(raw: string): string {
     return raw.replace(/\{\{icon\s+([^\}]+)\}\}/g, (_, userId) => {
