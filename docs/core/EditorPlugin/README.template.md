@@ -2,9 +2,9 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/template/intro/intro_11.md) 「おみくじ BOT」 の補助プラグイン です。
+![](../../template/jp/intro/intro_11.md) 「おみくじ BOT」 の補助プラグイン です。
 
-![](/template/intro/intro_22_IntroOneComme.md)
+![](../../template/jp/intro/intro_22_IntroOneComme.md)
 
 ## このプラグインは何？（Features）
 
@@ -25,8 +25,8 @@
 
 ## インストール (Installation)
 
-- [わんコメにプラグインをインストールする](../../template/installation/Installation_93_PluginSet.md)
-- [おみくじBOT コンフィグエディター PRO (有料版) のご案内](../../template/installation/Installation_51_ProUpgradeTemplate.md)
+- [わんコメにプラグインをインストールする](../../template/jp/installation/Installation_93_PluginSet.md)
+- [おみくじBOT コンフィグエディター PRO (有料版) のご案内](../../template/jp/installation/Installation_51_ProUpgradeTemplate.md)
   - 一部機能は、おみくじ BOT の PRO 版ライセンスが必要になります。
 
 ## つかいかた (Usage)
@@ -51,11 +51,11 @@
 
 - 配信内容やテーマに合わせて、別々のおみくじデータを使い分けたいときに便利です。
 - 「新規保存」を押すと、今エディターに表示されている内容をそのままプリセットとして登録できます。
-- ライセンスについては、[おみくじBOT コンフィグエディター PRO (有料版) のご案内](../../template/installation/Installation_51_ProUpgradeTemplate.md) をご覧下さい。
+- ライセンスについては、[おみくじBOT コンフィグエディター PRO (有料版) のご案内](../../template/jp/installation/Installation_51_ProUpgradeTemplate.md) をご覧下さい。
 
 ## よくある質問 (FAQ)
 
-![faq_11_infoOneComme](/template/faq/faq_11_infoOneComme.md)
+![faq_11_infoOneComme](../../template/jp/faq/faq_11_infoOneComme.md)
 
 #### Q. 「サーバーに保存」されたデータはどこにある？
 
@@ -74,7 +74,7 @@
 
 ## トラブルシューティング (Troubleshooting)
 
-![troubleshooting_11_infoOneComme](/template/troubleshooting/troubleshooting_11_infoOneComme.md)
+![troubleshooting_11_infoOneComme](../../template/jp/troubleshooting/troubleshooting_11_infoOneComme.md)
 
 #### Q. プラグインを入れたのにアナウンスが出ません
 
@@ -97,12 +97,12 @@
 - また、ジェネレーター側で保存したデータがある場合、エディター起動時に自動でサーバーから読み込みます。
 - 反映されない場合は、サーバー連携機能の **「サーバーから読み込み」** を押してみてください。
 
-![license_91_AppLicense](/template/license/license_91_AppLicense.md)
+![license_91_AppLicense](../../template/jp/license/license_91_AppLicense.md)
 
 ## バージョン情報 (Version)
 
 > 詳細な変更履歴は [Releases](https://github.com/Pintocuru/OmikujiBot-Docs/releases) をご覧ください。
 
-![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
+![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp) %>

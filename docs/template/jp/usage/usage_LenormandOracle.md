@@ -6,7 +6,7 @@
 	- 気軽に引けるのに、ちょっとしたヒントや気づきが得られることもあるかも。
 	- [おみくじ BOT 用 WordParty](https://booth.pm/ja/items/6048048) を一緒に導入すると、稼働時にアニメーションが入ります。
 
-| ![](../../template/usage/images/LenormandOracle_1.webp) | ![](../../template/usage/images/LenormandOracle_2.webp) | ![](../../template/usage/images/LenormandOracle_3.webp) |
+| ![](images/LenormandOracle_1.webp) | ![](images/LenormandOracle_2.webp) | ![](images/LenormandOracle_3.webp) |
 | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
 
 - カードのに描かれているキャラクターは「おみくじ BOT」のキャラクターです。左から下記のような名前です。

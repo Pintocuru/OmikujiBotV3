@@ -6,7 +6,7 @@
 	- シンプルに引けるので、状況整理や気持ちの切り替えに役立つ示唆が得られることも。
 	- [おみくじ BOT 用 WordParty](https://booth.pm/ja/items/6048048) を一緒に導入すると、稼働時にアニメーションが入ります。
 
-| ![](../../template/usage/images/RunicOracle_1.webp) | ![](../../template/usage/images/RunicOracle_2.webp) | ![](../../template/usage/images/RunicOracle_3.webp) |
+| ![](images/RunicOracle_1.webp) | ![](images/RunicOracle_2.webp) | ![](images/RunicOracle_3.webp) |
 | --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
 
 - カードのに描かれているキャラクターは「おみくじ BOT」のキャラクターです。左から下記のような名前です。

@@ -1,0 +1,25 @@
+filters:
+  and:
+    - file.ext == "md"
+    - '!file.folder.startsWith("_archive")'
+views:
+  - type: table
+    name: template
+    filters:
+      and:
+        - file.folder.startsWith("template")
+    order:
+      - file.name
+      - file.folder
+  - type: table
+    name: products
+    filters:
+      and:
+        - '!file.folder.startsWith("template")'
+        - file.name.startsWith("README.template")
+    order:
+      - file.name
+      - file.folder
+    sort:
+      - property: file.folder
+        direction: ASC

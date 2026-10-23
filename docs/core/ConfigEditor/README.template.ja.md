@@ -2,13 +2,13 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/template/intro/intro_11.md) ジェネレーター BOT 「おみくじ BOT」のデータを編集できるアプリケーションです。
+![](../../template/jp/intro/intro_11.md) ジェネレーター BOT 「おみくじ BOT」のデータを編集できるアプリケーションです。
 
-![](/template/intro/intro_12.md) 下記に同梱している 「コンフィグエディター」 の readme となります。
+![](../../template/jp/intro/intro_12.md) 下記に同梱している 「コンフィグエディター」 の readme となります。
 
-![OmikujiBotPackageBOOTH](/template/_common/OmikujiBotPackageBOOTH.md)
+![OmikujiBotPackageBOOTH](../../template/jp/_common/OmikujiBotPackageBOOTH.md)
 
-![](/template/intro/intro_22_IntroOneComme.md)
+![](../../template/jp/intro/intro_22_IntroOneComme.md)
 
 ## このアプリは何？（Features）
 
@@ -39,7 +39,7 @@
 
 ## インストール (Installation)
 
-### [1. おみくじ BOT のアップグレード / コンフィグエディターの新規導入](../../template/installation/Installation_52_VersionUp.md)
+### [1. おみくじ BOT のアップグレード / コンフィグエディターの新規導入](../../template/jp/installation/Installation_52_VersionUp.md)
 
 - コンフィグエディターは、一部のおみくじ BOT のパッケージに付属しています。
 - 付属していない場合でも、無料で コンフィグエディター の導入が可能です。
@@ -86,7 +86,7 @@
 
 > 📝 読み込み前に、現在のテンプレートをバックアップしておくことをおすすめします。 読み込み後は、設定内容を確認し、必要に応じて微調整してください。
 
-![faq_21_LimitEdit](../../template/faq/faq_91_OmikujiBotSet.md)
+![faq_21_LimitEdit](../../template/jp/faq/faq_91_OmikujiBotSet.md)
 
 ### エディター関連
 
@@ -142,7 +142,7 @@ A. 配布データをそのまま再配布することは禁止です。内容�
 
 - SweetAlert2 <https://sweetalert2.github.io/> - MIT License
 
-![license_91_AppLicense](/template/license/license_91_AppLicense.md)
+![license_91_AppLicense](../../template/jp/license/license_91_AppLicense.md)
 
 ## バージョン情報
 

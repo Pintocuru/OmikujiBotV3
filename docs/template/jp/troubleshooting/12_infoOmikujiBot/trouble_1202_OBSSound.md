@@ -1,6 +1,6 @@
 ## Q. OBS 側で非表示にしていても、BOT のコメントが勝手に動いてしまう
 
-![](./images/troubleshooting-01.webp)
+![](images/troubleshooting-01.webp)
 
 - OBS の **ソース** → 該当する **HTML ファイル** → **プロパティ** を開く
 - **「表示されていないときにソースをシャットダウンする」** のチェックを外してください

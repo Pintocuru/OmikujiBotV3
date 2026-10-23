@@ -2,14 +2,14 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![[/template/intro/intro_11]] WordParty テンプレート です。
+![[../../template/jp/intro/intro_11]] WordParty テンプレート です。
 
 - このテンプレートは、下記の「おみくじ BOT」シリーズのパッケージでのみ使用可能です。
 - それぞれ、最新版で使用できます。バージョンが古い場合、正常に機能しない可能性があります。
 
-![[/template/_common/OmikujiBotPackageBOOTH]]
+![[../../template/jp/_common/OmikujiBotPackageBOOTH]]
 
-![[/template/intro/intro_22_IntroOneComme]]
+![[../../template/jp/intro/intro_22_IntroOneComme]]
 
 ## このテンプレートは何？（Features）
 
@@ -40,7 +40,7 @@
 
 WordParty に関する内容は、[コメントによる演出 - WordParty](https://onecomme.com/docs/feature/wordparty) をご参照ください。
 
-![faq_11_infoOneComme](../../../../template/faq/faq_11_infoOneComme.md)
+![faq_11_infoOneComme](../../template/jp/faq/faq_11_infoOneComme.md)
 
 ### 設定関連
 
@@ -51,7 +51,7 @@ WordParty に関する内容は、[コメントによる演出 - WordParty](http
 
 ## トラブルシューティング (Troubleshooting)
 
-![troubleshooting_11_infoOneComme](../../../../template/troubleshooting/troubleshooting_11_infoOneComme.md)
+![troubleshooting_11_infoOneComme](../../template/jp/troubleshooting/troubleshooting_11_infoOneComme.md)
 
 ### WordPatry エディタで開けない
 
@@ -94,6 +94,6 @@ A: [仕様](https://onecomme.com/docs/feature/wordparty#%E3%81%9D%E3%81%AE%E4%BB
 - 「おみくじ BOT」「おみくじ BOT コンフィグエディター」と揃えるため、バージョニングを揃えることにしました。
 - 過去のリリースノートは [こちら](https://github.com/Pintocuru/OmikujiBot-Docs/releases/tag/v1.0.0-OmikujiBotWordParty)
 
-![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
+![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

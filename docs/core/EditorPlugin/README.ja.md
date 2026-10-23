@@ -29,8 +29,8 @@
 
 ## インストール (Installation)
 
-- [わんコメにプラグインをインストールする](../../template/installation/Installation_93_PluginSet.md)
-- [おみくじBOT コンフィグエディター PRO (有料版) のご案内](../../template/installation/Installation_51_ProUpgradeTemplate.md)
+- [わんコメにプラグインをインストールする](../../template/jp/installation/Installation_93_PluginSet.md)
+- [おみくじBOT コンフィグエディター PRO (有料版) のご案内](../../template/jp/installation/Installation_51_ProUpgradeTemplate.md)
   - 一部機能は、おみくじ BOT の PRO 版ライセンスが必要になります。
 
 ## つかいかた (Usage)

@@ -1,6 +1,6 @@
 ### おみくじを発動させるには
 
-![](../../template/usage/images/92_OmikujiActivation.webp)
+![](images/92_OmikujiActivation.webp)
 
 - 配信で実際に使う前に、**わんコメのコメントテスターで動作確認**することをおすすめします。
 - コメントテスターは、わんコメのメニューから「コメントテスター」を選択してご利用ください。

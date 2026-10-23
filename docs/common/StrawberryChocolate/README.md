@@ -56,7 +56,7 @@
 
 ### おみくじを発動させるには
 
-![](../../template/usage/images/92_OmikujiActivation.webp)
+![](../../template/jp/usage/images/92_OmikujiActivation.webp)
 
 - 配信で実際に使う前に、**わんコメのコメントテスターで動作確認**することをおすすめします。
 - コメントテスターは、わんコメのメニューから「コメントテスター」を選択してご利用ください。
@@ -85,7 +85,7 @@
 
 #### コメントテスターでのテスト方法
 
-![](../../template/usage/images/22_FirstCounter.png)
+![](../../template/jp/usage/images/22_FirstCounter.png)
 
 - おみくじ BOT v1.2 以降では、コメントテスターの「その他」項目から以下にチェックを入れることで「初見判定ちゃん」のテストが可能です。
   - `NEWコメント` : 初見

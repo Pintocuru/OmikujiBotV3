@@ -53,7 +53,7 @@
 
 ## インストール (Installation)
 
-### [1. おみくじ BOT のアップグレード / コンフィグエディターの新規導入](../../template/installation/Installation_52_VersionUp.md)
+### [1. おみくじ BOT のアップグレード / コンフィグエディターの新規導入](../../template/jp/installation/Installation_52_VersionUp.md)
 
 - コンフィグエディターは、一部のおみくじ BOT のパッケージに付属しています。
 - 付属していない場合でも、無料で コンフィグエディター の導入が可能です。

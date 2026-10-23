@@ -2,11 +2,11 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](/template/intro/intro_11.md) テンプレートです。
+![](../../template/jp/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、 [おみくじBOT ストロベリーショコラ OmikujiBot StrawberryChocolate](https://pintocuru.booth.pm/items/7733810) の readme となります。
 
-![](/template/intro/intro_22_IntroOneComme.md)
+![](../../template/jp/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -18,7 +18,7 @@
 - ピンとくる企画のオリジナルキャラクター「ストロベリーショコラ」を BOT キャラクターにしました。
   - 世話好きでお姉さんらしい雰囲気を持ち、甘く丁寧な接客が魅力です。
 
-![features_11_HowToPlay](../../template/features/features_11_HowToPlay.md)
+![features_11_HowToPlay](../../template/jp/features/features_11_HowToPlay.md)
 
 ### ストロベリーショコラのキャラクター設定
 
@@ -33,45 +33,45 @@
   - 呼びかけは「〜さん」と親しみを込めつつ、少し甘えさせてくれるようなニュアンスを持っています。
     - 悪いことをすると「～ちゃん」とからかうことも？
 
-![Installation_92_OmikujiBotPROSet](../../template/installation/Installation_92_OmikujiBotPROSet.md)
+![Installation_92_OmikujiBotPROSet](../../template/jp/installation/Installation_92_OmikujiBotPROSet.md)
 
 ## つかいかた (Usage)
 
-![usage_92_OmikujiActivation](../../template/usage/usage_92_OmikujiActivation.md)
+![usage_92_OmikujiActivation](../../template/jp/usage/usage_92_OmikujiActivation.md)
 
-![usage_MaidenOmikuji](../../template/usage/usage_MaidenOmikujiNormal.md)
+![usage_MaidenOmikuji](../../template/jp/usage/usage_MaidenOmikujiNormal.md)
 
-![](../../template/usage/usage_TarotCard.md)
+![](../../template/jp/usage/usage_TarotCard.md)
 
-![usage_JankenHonda](../../template/usage/usage_JankenHonda.md)
+![usage_JankenHonda](../../template/jp/usage/usage_JankenHonda.md)
 
-![usage_FirstCounter](../../template/usage/usage_FirstCounter.md)
+![usage_FirstCounter](../../template/jp/usage/usage_FirstCounter.md)
 
-![usage_Gift](../../template/usage/usage_Gift.md)
+![usage_Gift](../../template/jp/usage/usage_Gift.md)
 
-![usage_CountStream](../../template/usage/usage_CountStream.md)
+![usage_CountStream](../../template/jp/usage/usage_CountStream.md)
 
-![usage_CheckNumber](../../template/usage/usage_CheckNumber.md)
+![usage_CheckNumber](../../template/jp/usage/usage_CheckNumber.md)
 
 ## PRO 版ボーナスデータ (Usage)
 
 配信で盛り上がる！ミニゲームシリーズが同梱されています。
 
-![](../../template/usage/usage_GouseiSuika.md)
+![](../../template/jp/usage/usage_GouseiSuika.md)
 
-![](../../template/usage/usage_BomberSpin.md)
+![](../../template/jp/usage/usage_BomberSpin.md)
 
-![](../../template/usage/usage_DwarfBomb.md)
+![](../../template/jp/usage/usage_DwarfBomb.md)
 
-![](../../template/usage/usage_MultiplyBonanza.md)
+![](../../template/jp/usage/usage_MultiplyBonanza.md)
 
-![customization_21_ConfigEditor](/template/customization/customization_21_ConfigEditor.md)
+![customization_21_ConfigEditor](../../template/jp/customization/customization_21_ConfigEditor.md)
 
-![](/template/customization/customization_11_illust.md)
+![](../../template/jp/customization/customization_11_illust.md)
 
-![faq_91_OmikujiBotSet](/template/faq/faq_91_OmikujiBotSet.md)
+![faq_91_OmikujiBotSet](../../template/jp/faq/faq_91_OmikujiBotSet.md)
 
-![troubleshooting_91_OmikujiBotSet](/template/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_91_OmikujiBotSet](../../template/jp/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）
 
@@ -84,7 +84,7 @@
 
 あたしのデータはサンプル用だから、自由に置き換えしてもらって結構よ♡
 
-![license_92_PackageLicense](/template/license/license_92_PackageLicense.md)
+![license_92_PackageLicense](../../template/jp/license/license_92_PackageLicense.md)
 
 ## バージョン情報 (Version)
 
@@ -109,6 +109,6 @@
   - 今後のリリースは、このバージョンを唯一の PRO 版（ライセンスキー付き）にする予定です
   - 他のリリースは「通常版」のほかに「支援版」として提供する場合もありますが、ライセンスキーはこのバージョンのみです。
 
-![credits_99_sesupin](/template/credits/credits_99_sesupin.md)
+![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)
 
 <%* await tp.user.expandEmbeds(tp) %>

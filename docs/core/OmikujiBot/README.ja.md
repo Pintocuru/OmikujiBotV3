@@ -80,13 +80,13 @@
 
 #### アップグレード手順
 
-![](../../template/installation/images/Pasted%20image%2020260103155223.png)
+![](../../template/jp/installation/images/Pasted%20image%2020260103155223.png)
 
 1. Github から [最新バージョン](https://github.com/Pintocuru/OmikujiBot-Docs/releases/latest) をダウンロードします。
 2. リリースノート下部の **「Assets」** から、 **「OmikujiBot_core_」** と書かれたファイルをダウンロードします。
 3. ダウンロードした ZIP ファイルを **解凍** します。
 
-![](../../template/installation/images/Pasted%20image%2020260103155557.png)
+![](../../template/jp/installation/images/Pasted%20image%2020260103155557.png)
 
 1. **わんコメを起動** します。
 2. 「テンプレート」画面で、アップグレードしたいテンプレートを選び、右側の **「フォルダを開く」** をクリックします。
@@ -101,7 +101,7 @@
 
 ### 1. PRO 版でできること
 
-![](images/Pasted%20image%2020260122095719.png)
+![](../../template/jp/installation/images/Pasted%20image%2020260122095719.png)
 
 - PRO 版は以下の機能が追加されます
   - コンフィグエディターの「テンプレートの読み込み・出力」が可能になります。
