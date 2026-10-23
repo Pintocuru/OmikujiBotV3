@@ -15,4 +15,18 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, { label: string; des
     description: 'スイカゲーム等の結果をランキングボード形式で表示します。',
     kinds: ['gameRanking'],
   },
+  sesupinTest: {
+    label: 'テストレイアウト(管理者用)',
+    description: 'すべて表示するレイアウト',
+    kinds: [
+      'commentBubble',
+      'cookieCounter',
+      'gameRanking',
+      'kujibikiPanel',
+      'liveClock',
+      'streamCounter',
+      'toastWidgets',
+      'userBoard',
+    ],
+  },
 }

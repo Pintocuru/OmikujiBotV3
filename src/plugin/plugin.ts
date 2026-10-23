@@ -16,7 +16,7 @@ const plugin: OnePlugin = {
   permissions: ['filter.comment', 'clear'],
   defaultState: {},
 
-  async init(api, initialData) {
+  async init(_api, _initialData) {
     try {
       postSystemMessage(`【${PLUGIN_NAME}】を起動しました`, { username: '__INFO__' })
     } catch (error) {
@@ -26,7 +26,7 @@ const plugin: OnePlugin = {
     }
   },
 
-  async filterComment(comment, service, userData) {
+  async filterComment(comment, _service, _userData) {
     const omiken = processOmikenComment(comment)
     if (!omiken) return comment
 

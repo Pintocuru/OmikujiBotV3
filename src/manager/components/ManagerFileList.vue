@@ -3,7 +3,7 @@
   <div class="card bg-base-200 p-2 space-y-2">
     <template v-if="devStore.availableFiles.length > 0">
       <!-- ルート直下 -->
-      <div v-if="rootFiles.length > 0" class="grid grid-cols-2 md:grid-cols-3 gap-1">
+      <div v-if="rootFiles.length > 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
         <ManagerFileItem
           v-for="file in rootFiles"
           :key="file.name"
