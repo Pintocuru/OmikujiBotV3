@@ -7,7 +7,7 @@ import { useCharacterLookup } from './useCharacterLookup'
  * PostFlow内のキャラクター情報を扱うユーティリティ
  */
 export function usePostActionCharacters() {
-  const { resolveEmotion } = useCharacterLookup()
+  const { getCharacter } = useCharacterLookup()
 
   /**
    * アセットが持つ PostFlow 配列を取得（みくじ箱は postFlow 種別のアイテムごとに1配列）
@@ -66,7 +66,9 @@ export function usePostActionCharacters() {
    */
   const isInvalidIconKey = (characterKey: string | null, iconKey: string): boolean => {
     if (!characterKey) return false
-    return resolveEmotion(characterKey, iconKey) !== iconKey
+
+    const character = getCharacter(characterKey)
+    return !character || !(iconKey in character.image)
   }
 
   /**

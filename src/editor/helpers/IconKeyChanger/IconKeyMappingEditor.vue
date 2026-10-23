@@ -69,6 +69,7 @@
    */
   const getValidIconKeys = (characterKey: string): string[] => {
     const character = characterMap.value[characterKey]
+
     if (!character) return []
     return Object.entries(character.image)
       .filter(([_, item]) => item?.src.some((p) => p && p.trim()))
