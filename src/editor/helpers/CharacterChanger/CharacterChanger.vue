@@ -3,23 +3,20 @@
   <!-- トリガーボタン -->
   <div
     class="tooltip tooltip-bottom"
-    :data-tip="
-      hasInvalidCharacters
-        ? '存在しないキャラクターが使用されています！'
-        : 'すべてのイベントのキャラクターを一括変更する'
-    "
+    :data-tip="hasInvalidCharacters ? '存在しないキャラクターが使用されています！' : '使用中のキャラクターを確認する'"
   >
-    <button :class="['btn', hasInvalidCharacters ? 'btn-error animate-pulse' : 'btn-secondary']" @click="openModal">
+    <button :class="['btn', hasInvalidCharacters ? 'btn-error animate-pulse' : 'btn-ghost']" @click="openModal">
       <Users class="w-4 h-4" />
-      {{ changeScope === 'single' ? 'キャラ変更' : '全体キャラ変更' }}
-      <span v-if="hasInvalidCharacters" class="ml-1">⚠️</span>
+      使用キャラ
+      <span v-if="hasInvalidCharacters" class="badge badge-sm">⚠️ 未定義 {{ invalidCharacterCount }}</span>
+      <span v-else class="badge badge-sm badge-outline">{{ uniqueCharacterKeys.length }}</span>
     </button>
   </div>
 
   <!-- モーダル -->
   <div v-if="isModalOpen" class="modal modal-open">
     <div class="modal-box max-w-3xl max-h-[90vh] overflow-y-auto">
-      <h3 class="font-bold text-lg mb-4">{{ scopeLabel }}のキャラクター一括変更</h3>
+      <h3 class="font-bold text-lg mb-4">{{ scopeLabel }}の使用キャラクター</h3>
 
       <div class="space-y-4">
         <!-- 統計情報（カテゴリ全体の場合のみ表示） -->
@@ -32,20 +29,27 @@
         />
 
         <!-- 現在のキャラクター情報 -->
-        <CurrentCharacterList :character-keys="uniqueCharacterKeys" :usage-count="characterUsageCount" />
+        <CurrentCharacterList :character-keys="sortedCharacterKeys" :usage-count="characterUsageCount" />
 
         <!-- エラー警告 -->
         <InvalidCharacterAlert v-if="hasInvalidCharacters" />
 
-        <!-- 個別変更セクション -->
+        <!-- 個別変更セクション（未定義がある場合、または「変更する」を押したときだけ表示） -->
         <CharacterMappingEditor
-          :character-keys="uniqueCharacterKeys"
+          v-if="visibleMappingKeys.length > 0"
+          :character-keys="visibleMappingKeys"
           :character-mappings="characterMappings"
           :usage-count="characterUsageCount"
           :has-changes="hasChanges"
           @clear-all="clearAllMappings"
           @update-mapping="updateMapping"
         />
+
+        <div v-if="!isEditing && uniqueCharacterKeys.length > visibleMappingKeys.length" class="text-center">
+          <button class="btn btn-sm btn-ghost" @click="isEditing = true">
+            {{ visibleMappingKeys.length > 0 ? 'すべてのキャラクターを変更する' : 'キャラクターを変更する' }}
+          </button>
+        </div>
 
         <!-- 変更内容のプレビュー -->
         <MappingPreview
@@ -69,6 +73,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, ref } from 'vue'
   import CharacterStatistics from './CharacterStatistics.vue'
   import CurrentCharacterList from './CurrentCharacterList.vue'
   import InvalidCharacterAlert from './InvalidCharacterAlert.vue'
@@ -85,13 +90,18 @@
   const props = defineProps<{
     category: TargetCategoryType
     selectedId?: string
+    itemId?: string
   }>()
 
   // キャラクターデータ
   const { getCharacterName } = useCharacterLookup()
 
   // データ抽出（selectedIdがある場合は単一イベントのみ対象）
-  const { changeScope, scopeLabel, allTargets, totalItems } = useDataExtractor(props.category, props.selectedId)
+  const { changeScope, scopeLabel, allTargets, totalItems } = useDataExtractor(
+    props.category,
+    () => props.selectedId,
+    () => props.itemId
+  )
 
   // キャラクター統計
   const { uniqueCharacterKeys, characterUsageCount, invalidCharacterCount, hasInvalidCharacters } =
@@ -111,10 +121,24 @@
   // キャラクター更新処理
   const { applyMappingsToAllItems } = useCharacterUpdater(allTargets)
 
+  // 「変更する」を押したときだけ、正常なキャラクターも変更対象に表示する
+  const isEditing = ref(false)
+
+  // 未定義キャラクターを先頭に並べる
+  const isUndefinedKey = (key: string) => !getCharacterName(key)
+  const sortedCharacterKeys = computed(() => [
+    ...uniqueCharacterKeys.value.filter(isUndefinedKey),
+    ...uniqueCharacterKeys.value.filter((key) => !isUndefinedKey(key)),
+  ])
+  const visibleMappingKeys = computed(() =>
+    isEditing.value ? sortedCharacterKeys.value : uniqueCharacterKeys.value.filter(isUndefinedKey)
+  )
+
   /**
    * モーダルを開く（未定義キャラクターは初期選択状態に）
    */
   const openModal = () => {
+    isEditing.value = false
     const initialMappings: Record<string, string> = {}
     uniqueCharacterKeys.value.forEach((charKey) => {
       if (!getCharacterName(charKey)) initialMappings[charKey] = ''

@@ -1,5 +1,5 @@
 // src/editor/helpers/CharacterChanger/composables/useDataExtractor.ts
-import { computed } from 'vue'
+import { computed, toValue, type MaybeRefOrGetter } from 'vue'
 import { EventCategoryType, ActionSetType, MikujiBoxType } from '@/types/OmikujiData/'
 import i18n from '@/editor/i18n'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
@@ -20,19 +20,27 @@ export type ChangeScope = 'category' | 'single'
 /**
  * PostFlow を持つアセット（更新先の単位）
  */
-export type FlowTarget = { category: 'actions'; item: ActionSetType } | { category: 'mikuji'; item: MikujiBoxType }
+export type FlowTarget = { category: 'actions'; item: ActionSetType } | { category: 'mikuji'; item: MikujiBoxType; itemId?: string }
 
 /**
  * 対象のアセット（アクションセット / みくじ箱）を抽出する
  * - actions / mikuji: selectedId はアセットの key
  * - イベント系: selectedId はイベントの id。イベントが参照する omikujiKey のみくじ箱を対象にする
+ * - itemId（category 'mikuji' のみ有効）: みくじ箱内のおみくじアイテム id。指定時はそのアイテムだけを対象にする
  */
-export function useDataExtractor(category: TargetCategoryType, selectedId?: string) {
+export function useDataExtractor(
+  category: TargetCategoryType,
+  selectedIdSource?: MaybeRefOrGetter<string | null | undefined>,
+  itemIdSource?: MaybeRefOrGetter<string | null | undefined>
+) {
   const { getAsset, getAssets } = useGetAssetData()
   const { getEvent, getEvents } = useGetEventData()
 
+  const selectedId = computed(() => toValue(selectedIdSource) || undefined)
+  const itemId = computed(() => toValue(itemIdSource) || undefined)
+
   // 変更スコープ（全体 or 単一）
-  const changeScope = computed<ChangeScope>(() => (selectedId ? 'single' : 'category'))
+  const changeScope = computed<ChangeScope>(() => (selectedId.value ? 'single' : 'category'))
 
   // スコープに応じたラベル
   const scopeLabel = computed(() => {
@@ -42,17 +50,19 @@ export function useDataExtractor(category: TargetCategoryType, selectedId?: stri
 
   const allTargets = computed<FlowTarget[]>(() => {
     if (category === 'actions') {
-      const items = selectedId ? [getAsset('actions', selectedId)] : Object.values(getAssets('actions'))
+      const items = selectedId.value ? [getAsset('actions', selectedId.value)] : Object.values(getAssets('actions'))
       return items.filter((item): item is ActionSetType => !!item).map((item) => ({ category: 'actions', item }))
     }
 
     if (category === 'mikuji') {
-      const items = selectedId ? [getAsset('mikuji', selectedId)] : Object.values(getAssets('mikuji'))
-      return items.filter((item): item is MikujiBoxType => !!item).map((item) => ({ category: 'mikuji', item }))
+      const items = selectedId.value ? [getAsset('mikuji', selectedId.value)] : Object.values(getAssets('mikuji'))
+      return items
+        .filter((item): item is MikujiBoxType => !!item)
+        .map((item): FlowTarget => ({ category: 'mikuji', item, itemId: itemId.value }))
     }
 
     // イベント系：omikujiKey からみくじ箱を引く（重複は除く）
-    const events = selectedId ? [getEvent(category, selectedId)] : getEvents(category)
+    const events = selectedId.value ? [getEvent(category, selectedId.value)] : getEvents(category)
     const omikujiKeys = new Set(events.map((event) => event?.omikujiKey).filter((key): key is string => !!key))
     return Array.from(omikujiKeys).flatMap((key): FlowTarget[] => {
       const box = getAsset('mikuji', key)

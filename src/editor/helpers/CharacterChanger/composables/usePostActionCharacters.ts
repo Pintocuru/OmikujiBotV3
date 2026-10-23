@@ -10,11 +10,19 @@ export function usePostActionCharacters() {
   const { getCharacter } = useCharacterLookup()
 
   /**
+   * みくじ箱内のアイテムが変更対象か（itemId 未指定なら箱内すべて）
+   */
+  const isTargetItem = (target: FlowTarget, omikujiId: string): boolean =>
+    target.category !== 'mikuji' || !target.itemId || target.itemId === omikujiId
+
+  /**
    * アセットが持つ PostFlow 配列を取得（みくじ箱は postFlow 種別のアイテムごとに1配列）
    */
   const getFlowGroups = (target: FlowTarget): PostFlowType[][] => {
     if (target.category === 'actions') return [target.item.postFlows]
-    return target.item.omikuji.flatMap((omikuji) => (omikuji.kind === 'postFlow' ? [omikuji.postFlows] : []))
+    return target.item.omikuji.flatMap((omikuji) =>
+      omikuji.kind === 'postFlow' && isTargetItem(target, omikuji.id) ? [omikuji.postFlows] : []
+    )
   }
 
   /**
@@ -119,6 +127,7 @@ export function usePostActionCharacters() {
   }
 
   return {
+    isTargetItem,
     getFlowGroups,
     extractCharacterKeys,
     countCharacterUsage,

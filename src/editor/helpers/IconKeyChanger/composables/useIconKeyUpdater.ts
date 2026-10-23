@@ -9,7 +9,7 @@ import { usePostActionCharacters } from '@/editor/helpers/CharacterChanger/compo
  */
 export function useIconKeyUpdater(allTargets: ComputedRef<FlowTarget[]>) {
   const omikujiStore = useOmikujiStore()
-  const { applyIconKeyMappings } = usePostActionCharacters()
+  const { applyIconKeyMappings, isTargetItem } = usePostActionCharacters()
 
   /**
    * iconKeyマッピングを適用してアセットを更新
@@ -26,7 +26,7 @@ export function useIconKeyUpdater(allTargets: ComputedRef<FlowTarget[]>) {
       // みくじ箱：postFlow 種別のアイテムのみ更新
       omikujiStore.updateAsset('mikuji', target.item.key, {
         omikuji: target.item.omikuji.map((omikuji) =>
-          omikuji.kind === 'postFlow'
+          omikuji.kind === 'postFlow' && isTargetItem(target, omikuji.id)
             ? { ...omikuji, postFlows: applyIconKeyMappings(omikuji.postFlows, mappings) }
             : omikuji
         ),

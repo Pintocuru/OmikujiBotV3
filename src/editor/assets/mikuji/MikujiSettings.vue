@@ -3,8 +3,8 @@
   <!-- ツールバー -->
   <div class="flex justify-end gap-2">
     <!-- キャラクター一括変更ボタン -->
-    <CharacterChanger :category="category" :selectedId="omikujiKey" />
-    <IconKeyChanger :category="category" :selectedId="omikujiKey" />
+    <CharacterChanger category="mikuji" :selectedId="omikujiKey" :itemId="selectedId ?? undefined" />
+    <IconKeyChanger category="mikuji" :selectedId="omikujiKey" :itemId="selectedId ?? undefined" />
 
     <!-- おみくじテストボタン -->
     <div class="tooltip tooltip-bottom" data-tip="わんコメを起動すると、投稿の確認ができます">

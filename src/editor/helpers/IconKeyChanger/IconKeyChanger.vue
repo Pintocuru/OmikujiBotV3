@@ -2,23 +2,45 @@
 <template>
   <div
     class="tooltip tooltip-bottom"
-    :data-tip="
-      hasInvalidIconKeys ? '不正なアイコンキーが使用されています！' : 'すべてのイベントのアイコンキーを一括変更する'
-    "
+    :data-tip="hasInvalidIconKeys ? '不正なアイコンキーが使用されています！' : '使用中のアイコンを確認する'"
   >
-    <button :class="['btn', hasInvalidIconKeys ? 'btn-error animate-pulse' : 'btn-secondary']" @click="openModal">
+    <button :class="['btn', hasInvalidIconKeys ? 'btn-error animate-pulse' : 'btn-ghost']" @click="openModal">
       <ImageIcon class="w-4 h-4" />
-      {{ changeScope === 'single' ? 'アイコン変更' : '全体アイコン変更' }}
-      <span v-if="hasInvalidIconKeys" class="ml-1">⚠️</span>
+      使用アイコン
+      <span v-if="hasInvalidIconKeys" class="badge badge-sm">⚠️ 不正 {{ invalidIconKeyCount }}</span>
+      <span v-else class="badge badge-sm badge-outline">{{
+        usedIconGroups.reduce((n, g) => n + g.icons.length, 0)
+      }}</span>
     </button>
   </div>
 
   <!-- モーダル -->
   <div v-if="isModalOpen" class="modal modal-open">
     <div class="modal-box max-w-3xl max-h-[90vh] overflow-y-auto">
-      <h3 class="font-bold text-lg mb-4">{{ scopeLabel }}のアイコンキー一括変更</h3>
+      <h3 class="font-bold text-lg mb-4">{{ scopeLabel }}の使用アイコン</h3>
 
       <div class="space-y-4">
+        <!-- 使用中のアイコン（キャラクターごと） -->
+        <div class="bg-base-200 p-4 rounded-lg space-y-3">
+          <p class="text-sm font-semibold text-gray-600">現在使用されているアイコン:</p>
+          <p v-if="usedIconGroups.length === 0" class="text-sm text-gray-500">使用されているアイコンはありません。</p>
+          <div v-for="group in usedIconGroups" :key="group.characterKey">
+            <p class="text-xs text-gray-500 mb-1">
+              {{ getCharacterName(group.characterKey) || group.characterKey || '空欄' }}
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                v-for="icon in group.icons"
+                :key="icon.iconKey"
+                :class="['badge badge-lg', icon.invalid ? 'badge-error animate-pulse' : 'badge-outline']"
+              >
+                {{ icon.invalid ? '⚠️ ' : '' }}{{ icon.iconKey || '空欄' }}
+                <span class="ml-1 text-xs opacity-70">({{ icon.count }}箇所)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
         <!-- エラー統計 -->
         <div v-if="hasInvalidIconKeys" class="stats shadow w-full">
           <div class="stat bg-error/10">
@@ -41,8 +63,9 @@
           <span>すべてのアイコンキーは有効です。</span>
         </div>
 
-        <!-- 変更エディター -->
+        <!-- 変更エディター（不正キーがある場合のみ表示） -->
         <IconKeyMappingEditor
+          v-if="hasInvalidIconKeys"
           :invalid-pairs="invalidIconKeyPairs"
           :icon-key-mappings="iconKeyMappings"
           :usage-count="iconKeyUsageCount"
@@ -84,6 +107,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
   import { ImageIcon, AlertTriangle } from 'lucide-vue-next'
   import IconKeyMappingEditor from './IconKeyMappingEditor.vue'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
@@ -96,14 +120,37 @@
   const props = defineProps<{
     category: TargetCategoryType
     selectedId?: string
+    itemId?: string
   }>()
 
   const { getCharacterName } = useCharacterLookup()
 
-  const { changeScope, scopeLabel, allTargets } = useDataExtractor(props.category, props.selectedId)
+  const { changeScope, scopeLabel, allTargets } = useDataExtractor(
+    props.category,
+    () => props.selectedId,
+    () => props.itemId
+  )
 
   const { invalidIconKeyPairs, iconKeyUsageCount, hasInvalidIconKeys, invalidIconKeyCount } =
     useIconKeyStats(allTargets)
+
+  // 使用中のアイコンをキャラクターごとにまとめる（不正なものを先頭に）
+  const usedIconGroups = computed(() => {
+    const invalidSet = new Set(invalidIconKeyPairs.value.map((p) => `${p.characterKey}:${p.iconKey}`))
+    const groups = new Map<string, { iconKey: string; count: number; invalid: boolean }[]>()
+    Object.entries(iconKeyUsageCount.value).forEach(([compositeKey, count]) => {
+      const i = compositeKey.indexOf(':')
+      const characterKey = compositeKey.slice(0, i)
+      const iconKey = compositeKey.slice(i + 1)
+      const list = groups.get(characterKey) ?? []
+      list.push({ iconKey, count, invalid: invalidSet.has(compositeKey) })
+      groups.set(characterKey, list)
+    })
+    return Array.from(groups, ([characterKey, icons]) => ({
+      characterKey,
+      icons: [...icons.filter((v) => v.invalid), ...icons.filter((v) => !v.invalid)],
+    })).sort((a, b) => Number(b.icons.some((v) => v.invalid)) - Number(a.icons.some((v) => v.invalid)))
+  })
 
   const {
     isModalOpen,
