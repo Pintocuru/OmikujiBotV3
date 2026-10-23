@@ -1,5 +1,5 @@
 // src/editor/stores/composables/useDataMerge.ts
-import { Ref } from 'vue'
+import { Ref, toRaw } from 'vue'
 import {
   assetCategory,
   AssetCategoryType,
@@ -43,7 +43,7 @@ export function useDataMerge(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
 
   // 部分マージ処理
   const processPartialMerge = (importedData: OmikujiDataType, preview: ImportPreview): OmikujiDataType => {
-    const result: OmikujiDataType = structuredClone(data.value)
+    const result: OmikujiDataType = structuredClone(toRaw(data.value))
 
     // events
     const mergeEventCategory = <K extends EventCategoryType>(category: K) => {

@@ -40,51 +40,15 @@ export function useDataExtractor(category: TargetCategoryType, selectedId?: stri
     return t('mapText.scope.category', { category: t(`categories.${category}.label`) })
   })
 
-  /**
-   * この呼び出しに一致するオーバーロードはありません。
-  2 中 1 のオーバーロード, '(getter: ComputedGetter<FlowTarget[]>, debugOptions?: DebuggerOptions | undefined): ComputedRef<FlowTarget[]>' により、次のエラーが発生しました。
-    型 '() => FlowTarget[] | { category: "actions"; item: { id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: $InferEnumOutput<...>; tags: string[]; postFlows: ({ ...; } | ... 5 more ... | { ...; })[]; } | undefined; }[] | { ...; }[]' の引数を型 'ComputedGetter<FlowTarget[]>' のパラメーターに割り当てることはできません。
-      型 'FlowTarget[] | { category: "actions"; item: { id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: $InferEnumOutput<...>; tags: string[]; postFlows: ({ ...; } | ... 5 more ... | { ...; })[]; } | undefined; }[] | { ...; }[]' を型 'FlowTarget[]' に割り当てることはできません。
-        型 '{ category: "actions"; item: { id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: $InferEnumOutput<{ error: "error"; primary: "primary"; ... 5 more ...; warning: "warning"; }>; tags: string[]; postFlows: ({ ...; } | ... 5 mor...' を型 'FlowTarget[]' に割り当てることはできません。
-          型 '{ category: "actions"; item: { id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: $InferEnumOutput<{ error: "error"; primary: "primary"; ... 5 more ...; warning: "warning"; }>; tags: string[]; postFlows: ({ ...; } | ... 5 mor...' を型 'FlowTarget' に割り当てることはできません。
-            型 '{ category: "actions"; item: { id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: import("c:/_root/_nodejs/OmikujiBotV3/node_modules/zod/v4/core/schemas").$InferEnumOutput<{ error: "error"; primary: "primary"; ... 5 more ...;...' は型 '{ category: "actions"; item: { id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: import("c:/_root/_nodejs/OmikujiBotV3/node_modules/zod/v4/core/schemas").$InferEnumOutput<{ error: "error"; primary: "primary"; ... 5 more ...;...' に割り当てられません。同じ名前で 2 つの異なる型が存在しますが、これは関連していません。
-              プロパティ 'item' の型に互換性がありません。
-                型 '{ id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: import("c:/_root/_nodejs/OmikujiBotV3/node_modules/zod/v4/core/schemas").$InferEnumOutput<{ error: "error"; primary: "primary"; secondary: "secondary"; ... 4 more ...; warn...' は型 '{ id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: import("c:/_root/_nodejs/OmikujiBotV3/node_modules/zod/v4/core/schemas").$InferEnumOutput<{ error: "error"; primary: "primary"; secondary: "secondary"; ... 4 more ...; warn...' に割り当てられません。同じ名前で 2 つの異なる型が存在しますが、これは関連していません。
-                  型 'undefined' を型 '{ id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: $InferEnumOutput<{ error: "error"; primary: "primary"; secondary: "secondary"; ... 4 more ...; warning: "warning"; }>; tags: string[]; postFlows: ({ ...; } | ... 5 more ......' に割り当てることはできません。
-  2 中 2 のオーバーロード, '(options: WritableComputedOptions<FlowTarget[], FlowTarget[]>, debugOptions?: DebuggerOptions | undefined): WritableComputedRef<...>' により、次のエラーが発生しました。
-    型 '() => FlowTarget[] | { category: "actions"; item: { id: string; key: string; name: string; description: string; createdAt: string; updatedAt: string; order: number; isEnabled: boolean; tagColor: $InferEnumOutput<...>; tags: string[]; postFlows: ({ ...; } | ... 5 more ... | { ...; })[]; } | undefined; }[] | { ...; }[]' の引数を型 'WritableComputedOptions<FlowTarget[], FlowTarget[]>' のパラメーターに割り当てることはできません。ts(2769)
-function(): FlowTarget[] | {
-    category: "actions";
-    item: {
-        id: string;
-        key: string;
-        name: string;
-        description: string;
-        createdAt: string;
-        updatedAt: string;
-        order: number;
-        isEnabled: boolean;
-        tagColor: $InferEnumOutput<...>;
-        tags: string[];
-        postFlows: ({
-            ...;
-        } | ... 5 more ... | {
-            ...;
-        })[];
-    } | undefined;
-}[] | {
-    ...;
-}[]
-   */
   const allTargets = computed<FlowTarget[]>(() => {
     if (category === 'actions') {
       const items = selectedId ? [getAsset('actions', selectedId)] : Object.values(getAssets('actions'))
-      return items.filter((item) => !!item).map((item) => ({ category: 'actions', item }))
+      return items.filter((item): item is ActionSetType => !!item).map((item) => ({ category: 'actions', item }))
     }
 
     if (category === 'mikuji') {
       const items = selectedId ? [getAsset('mikuji', selectedId)] : Object.values(getAssets('mikuji'))
-      return items.filter((item) => !!item).map((item) => ({ category: 'mikuji', item }))
+      return items.filter((item): item is MikujiBoxType => !!item).map((item) => ({ category: 'mikuji', item }))
     }
 
     // イベント系：omikujiKey からみくじ箱を引く（重複は除く）
