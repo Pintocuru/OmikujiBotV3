@@ -91,7 +91,7 @@ A: [仕様](https://onecomme.com/docs/feature/wordparty#%E3%81%9D%E3%81%AE%E4%BB
 
 ### v1.1.0 25/09/09
 
-- 「おみくじ BOT」「おみくじ BOT コンフィグエディター」と揃えるため、バージョニングを揃えることにしました。
+- 「おみくじ BOT」「おみくじBOT エディター」と揃えるため、バージョニングを揃えることにしました。
 - 過去のリリースノートは [こちら](https://github.com/Pintocuru/OmikujiBot-Docs/releases/tag/v1.0.0-OmikujiBotWordParty)
 
 ![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)

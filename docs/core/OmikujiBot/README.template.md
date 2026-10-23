@@ -28,7 +28,7 @@
    - `おみくじ` とコメントすると、今日の運勢をランダムで表示
    - `じゃんけん` のような複雑なおみくじ結果も表示できる
    - `スイカジェネレーター` などのミニゲームで楽しむ
-2. **[【コンフィグエディター】](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) で多彩なおみくじを自作できる**
+2. **[【おみくじBOT editor】](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) で多彩なおみくじを自作できる**
    - おみくじの内容は、自由に編集可能
    - フキダシの大きさ・色替え・アニメーションも自由に変更可能
    - わんコメの機能「WordParty」を使い、自由に演出を表示可能
@@ -75,7 +75,7 @@
 
 ![faq_11_infoOneComme](../../template/jp/faq/faq_11_infoOneComme.md)
 
-> おみくじの内容、エディター関連についての内容は [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) の [よくある質問](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F-faq) をご覧ください。
+> おみくじの内容、エディター関連についての内容は [おみくじBOT エディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) の [よくある質問](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F-faq) をご覧ください。
 
 - コメントテスターで「初見コメント」を確認するには
 

@@ -4,7 +4,7 @@ export const appInfoEditorMessages = {
     appInfoEditor: {
       appSettings: {
         title: 'アプリ設定',
-        description: 'このコンフィグエディターに関する設定です',
+        description: 'このおみくじBOT editorに関する設定です',
       },
       appFeatures: {
         title: '利用可能な機能',

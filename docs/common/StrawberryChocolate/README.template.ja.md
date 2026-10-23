@@ -2,18 +2,18 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](../../template/jp/intro/intro_11.md) テンプレートです。
+![intro_11](../../template/jp/intro/intro_11.md) テンプレートです。
 
 この内容は、BOOTH で配布している、 [おみくじBOT ストロベリーショコラ OmikujiBot StrawberryChocolate](https://pintocuru.booth.pm/items/7733810) の readme となります。
 
-![](../../template/jp/intro/intro_22_IntroOneComme.md)
+![intro_22_IntroOneComme](../../template/jp/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
 ### わんコメに BOT 機能を付与するジェネレーター
 
 - 【おみくじ BOT】は、わんコメに BOT 機能を付与するジェネレーターです。
-- 特定のワード (おみくじ 等) と、チャットに投稿することで、ランダムな結果を配信画面に表示します。
+- 特定のワード (おみくじ 等) をチャットに投稿することで、ランダムな結果を配信画面に表示します。
 - 初見さん (初めてのコメント) や、通算 100 回目のコメントなど、特定の条件で発動し、配信画面に表示する機能があります。
 - ピンとくる企画のオリジナルキャラクター「ストロベリーショコラ」を BOT キャラクターにしました。
   - 世話好きでお姉さんらしい雰囲気を持ち、甘く丁寧な接客が魅力です。
@@ -22,7 +22,7 @@
 
 ### ストロベリーショコラのキャラクター設定
 
-![](../../images/StrawberryChocolate-1792723579455.webp)
+![ストロベリーショコラのイラスト（笑顔）](../../images/StrawberryChocolate-1792723579455.webp)
 
 - **性格**
   - 世話好きで面倒見がよく、困っている人を見ると放っておけないタイプ。
@@ -51,7 +51,7 @@
 
 ![customization_21_ConfigEditor](../../template/jp/customization/customization_21_ConfigEditor.md)
 
-![](../../template/jp/customization/customization_11_illust.md)
+![customization_11_illust](../../template/jp/customization/customization_11_illust.md)
 
 ![faq_91_OmikujiBotSet](../../template/jp/faq/faq_91_OmikujiBotSet.md)
 
@@ -65,7 +65,7 @@
 - 作者のオリジナルキャラクターです。生成AIを用いて制作し、作者が調整・加工を行っています。
 - 本アプリ専用に制作された素材です。他の用途での使用・転載・再配布は禁止します。
 
-![](../../images/StrawberryChocolate-1792730486518.webp)
+![ストロベリーショコラのイラスト（歌っている姿）](../../images/StrawberryChocolate-1792730486518.webp)
 
 あたしぃのデータはサンプル用だからぁ、自由に置き換えしてもらって結構よぉ♡
 
@@ -104,4 +104,4 @@
 
 ![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)
 
-<% await tp.user.expandEmbeds(tp,'ja') %>
+<%* await tp.user.expandEmbeds(tp,'ja') %>

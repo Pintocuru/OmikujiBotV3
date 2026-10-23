@@ -1,4 +1,4 @@
-## Q. おみくじが Youtube のコメントに反映されていない
+## Q. おみくじが YouTube のコメントに反映されていない
 
 - **おみくじを含む BOT のコメントは、すべて「わんコメ」を経由して動作します**
 - BOT のコメントは **ジェネレーター（ブラウザソース）上にのみ表示される仕組み** です
@@ -7,7 +7,7 @@
     - 視聴者のチャット欄には一切反映されず、コメント履歴にも残りません
 - そのため、BOT のコメントは「配信画面で見える演出」であり、**チャットに書き込む BOT ではない** 点にご注意ください。
 
-### BOT コメントを Youtube のチャットに表示させる方法ってある?
+### BOT コメントを YouTube のチャットに表示させる方法ってある?
 
 - [Nightbot](https://nightbot.tv/) や、 [CastCraft](https://castcraft.live/) を使う方法があります。
-- Youtube・Twitch 限定で [SAMMI](https://sammi.solutions/) を使ってコメントを投稿する方法もあります
+- YouTube・Twitch 限定で [SAMMI](https://sammi.solutions/) を使ってコメントを投稿する方法もあります

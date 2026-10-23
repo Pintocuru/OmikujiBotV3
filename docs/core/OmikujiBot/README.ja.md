@@ -18,8 +18,6 @@
 - [おみくじ BOT ボンバースロット OmikujiBot BomberSpin](https://pintocuru.booth.pm/items/7730686)
 - [どこでもドラちゃん Bot OmikujiBot 5percent_Dora](https://pintocuru.booth.pm/items/7291931)
 
-
-
 ## はじめに（Intro）
 
 - [わんコメ](https://onecomme.com/) の機能を前提としたソフトウェアです。
@@ -44,7 +42,7 @@
    - `おみくじ` とコメントすると、今日の運勢をランダムで表示
    - `じゃんけん` のような複雑なおみくじ結果も表示できる
    - `スイカジェネレーター` などのミニゲームで楽しむ
-2. **[【コンフィグエディター】](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) で多彩なおみくじを自作できる**
+2. **[【おみくじBOT editor】](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) で多彩なおみくじを自作できる**
    - おみくじの内容は、自由に編集可能
    - フキダシの大きさ・色替え・アニメーションも自由に変更可能
    - わんコメの機能「WordParty」を使い、自由に演出を表示可能
@@ -73,17 +71,17 @@
 - 幅の最大値は `2xl = 42rem`（672px）、最小値は `10rem`（160px）です。
   - それ以下にすると、はみ出しなどの表示崩れが起こる可能性があります。
 
-### おみくじ BOT のアップグレード / コンフィグエディターの新規導入
+### おみくじ BOT のアップグレード / おみくじBOT editor の新規導入
 
-> 現在のバージョンは **コンフィグエディター** から確認できます。
-> パッケージに「コンフィグエディター」が含まれていない場合でも、**このアップグレード手順を実行すれば新規導入として利用できます。**
+> 現在のバージョンは **おみくじBOT editor** から確認できます。
+> パッケージに「おみくじBOT editor」が含まれていない場合でも、**このアップグレード手順を実行すれば新規導入として利用できます。**
 
 #### アップグレード手順
 
 ![](../../template/jp/installation/images/Pasted%20image%2020260103155223.png)
 
 1. Github から [最新バージョン](https://github.com/Pintocuru/OmikujiBot-Docs/releases/latest) をダウンロードします。
-2. リリースノート下部の **「Assets」** から、 **「OmikujiBot_core_」** と書かれたファイルをダウンロードします。
+2. リリースノート下部の **「Assets」** から、 **「OmikujiBot_core\_」** と書かれたファイルをダウンロードします。
 3. ダウンロードした ZIP ファイルを **解凍** します。
 
 ![](../../template/jp/installation/images/Pasted%20image%2020260103155557.png)
@@ -91,20 +89,18 @@
 1. **わんコメを起動** します。
 2. 「テンプレート」画面で、アップグレードしたいテンプレートを選び、右側の **「フォルダを開く」** をクリックします。
 3. 解凍したファイルを、開いたフォルダへ **上書き保存** します。
-4. 念のため、**コンフィグエディターを起動し、バージョンが最新になっているか** を確認してください。
+4. 念のため、**おみくじBOT editorを起動し、バージョンが最新になっているか** を確認してください。
 
 - **注意**：アップグレード後、一部設定がデフォルトに戻る場合があります。バックアップは必ず行って下さい。
 
-
-
-## おみくじ BOT コンフィグエディター PRO (有料版) のご案内
+## おみくじBOT エディター PRO (有料版) のご案内
 
 ### 1. PRO 版でできること
 
 ![](../../template/jp/installation/images/Pasted%20image%2020260122095719.png)
 
 - PRO 版は以下の機能が追加されます
-  - コンフィグエディターの「テンプレートの読み込み・出力」が可能になります。
+  - おみくじBOT editor の「テンプレートの読み込み・出力」が可能になります。
   - プラグイン使用時「プリセット管理」機能で、複数のおみくじデータを管理できます
   - フキダシのフォント設定・アニメーション設定を自在に選べるようになります。
 
@@ -114,7 +110,7 @@
 
 1. [おみくじBOT ストロベリーショコラ OmikujiBot StrawberryChocolate](https://pintocuru.booth.pm/items/7733810) より **【PRO 版＋ライセンスキー】** を購入する
 2. ダウンロードした PRO 版の zip ファイル内にある `readme.txt` を開き、ライセンスキーをコピーする
-3. コンフィグエディターのアプリ `editor.html` を起動し、**アプリ情報** を開く
+3. おみくじBOT editor のアプリ `editor.html` を起動し、**アプリ情報** を開く
 4. 「ライセンスキー」欄にコピーしたキーを貼り付ける
 5. 「設定を出力」ボタンをクリックして、既存の js ファイルを上書きする
 
@@ -126,7 +122,6 @@
 ### 過去に上記以外の方法で PRO 版をご購入いただいた方
 
 ライセンスキーはそのまま有効です。今後も PRO 版としてご利用いただけます。アップデートは無償で提供されますので安心してお使いください。
-
 
 ## つかいかた (Usage)
 
@@ -144,25 +139,21 @@
 - [おみくじ BOT ボンバースロット OmikujiBot BomberSpin](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/solo/BomberSpin/README.md)
 - [どこでもドラちゃん Bot OmikujiBot 5percent_Dora README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/solo/5percent_Dora/README.md)
 
-
-
 ## カスタマイズ（Customization）
 
-### 「コンフィグエディター」で自由におみくじを編集できる
+### 「おみくじBOT editor」で自由におみくじを編集できる
 
 ![](../../core/ConfigEditor/images/features-04.webp)
 
-- 一部の配布パッケージには、**コンフィグエディター**（おみくじデータ編集用アプリ）が付属しています。
+- 一部の配布パッケージには、**おみくじBOT editor**（おみくじデータ編集用アプリ）が付属しています。
 - アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
-- 詳しくは [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
-
+- 詳しくは [おみくじBOT エディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) をご覧ください。
 
 ## よくある質問 (FAQ)
 
 わんコメの機能については [よくある質問](https://onecomme.com/docs/faq) または [導入ガイド](https://onecomme.com/docs/guide) をご参照ください。
 
-
-> おみくじの内容、エディター関連についての内容は [おみくじ BOT コンフィグエディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) の [よくある質問](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F-faq) をご覧ください。
+> おみくじの内容、エディター関連についての内容は [おみくじBOT エディター README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md) の [よくある質問](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/README.md#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F-faq) をご覧ください。
 
 - コメントテスターで「初見コメント」を確認するには
 
@@ -174,7 +165,6 @@ A: おみくじ (omikuji)＋初見 (syoken) から取ってます。前作「[�
 
 わんコメの機能については [トラブルシューティング](https://onecomme.com/docs/trouble-shooting) または [導入ガイド](https://onecomme.com/docs/guide) をご参照ください。
 
-
 ### 設定・表示・音声関連
 
 - [Q. OBS 側で非表示にしていても、BOT のコメントが勝手に動いてしまう](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/troubleshooting/12_infoOmikujiBot/trouble_1202_OBSSound.md)
@@ -185,8 +175,6 @@ A: おみくじ (omikuji)＋初見 (syoken) から取ってます。前作「[�
 
 - [Q. コメントでおみくじが反応しない](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/troubleshooting/12_infoOmikujiBot/trouble_1204_CommentOmikuji.md)
 - [Q. おみくじが Youtube のコメントに反映されていない](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/template/troubleshooting/12_infoOmikujiBot/trouble_1205_OmikujiPlatform.md)
-
-
 
 ## クレジット（Credits）
 
@@ -209,8 +197,6 @@ A: おみくじ (omikuji)＋初見 (syoken) から取ってます。前作「[�
 - [おみくじ BOT ボンバースロット OmikujiBot BomberSpin](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/solo/BomberSpin/README.md)
 - [どこでもドラちゃん Bot OmikujiBot 5percent_Dora README](https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/solo/5percent_Dora/README.md)
 
-
-
 ## ライセンス（License）
 
 ### アプリ本体（ジェネレーター・エディター・エディタープラグイン）
@@ -226,16 +212,13 @@ A: おみくじ (omikuji)＋初見 (syoken) から取ってます。前作「[�
 - 効果音には CC0 ライセンスの素材を使用しています。
 - 詳細は おみくじBOT 本体のクレジット をご確認ください。
 
-
 ### パッケージデータ
 
 パッケージごとにライセンス形態（商用利用可否・改変可否など）が異なります。詳しくは各パッケージの README または商品ページをご確認ください。
 
-
 ## バージョン情報 (Version)
 
 > 詳細な変更履歴は [Releases](https://github.com/Pintocuru/OmikujiBot-Docs/releases) をご覧ください。
-
 
 ---
 
