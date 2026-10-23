@@ -22,9 +22,7 @@
 
 ### ストロベリーショコラのキャラクター設定
 
-![[StrawberryChocolate-1792723246916.webp]]
-
-![[StrawberryChocolate-1792722545591.webp|271x300]]
+![](../../images/StrawberryChocolate-1792723579455.webp)
 
 - **性格**
   - 世話好きで面倒見がよく、困っている人を見ると放っておけないタイプ。
