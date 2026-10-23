@@ -11,6 +11,7 @@ type StatsEventListener = (record: UserStatsRecord) => void
 export class UserStatsManager {
   private readonly stats = new Map<string, UserStatsRecord>()
   private readonly listeners = new Set<StatsEventListener>()
+  private readonly changeListeners = new Set<() => void>()
 
   // コメントを受け取った時に呼び出す
   recordComment(omiken: OmikenCommentType): UserStatsRecord {
@@ -49,6 +50,7 @@ export class UserStatsManager {
 
     this.stats.set(userId, record)
     this.notifyListeners(record)
+    this.notifyChange()
 
     return record
   }
@@ -56,6 +58,7 @@ export class UserStatsManager {
   // 記録をそのまま登録する (開発用のダミーユーザーなど。通常はコメントから recordComment で作る)
   upsert(record: UserStatsRecord): void {
     this.stats.set(record.userId, record)
+    this.notifyChange()
   }
 
   // stats からランダムに当選者を選出
@@ -98,23 +101,41 @@ export class UserStatsManager {
     if (!existing) return null
     const updated = { ...existing, ...patch }
     this.stats.set(userId, updated)
+    this.notifyChange()
     return updated
   }
 
   // 指定ユーザーを削除 (手動で追加したユーザーを消すときなど)
   remove(userId: string): boolean {
-    return this.stats.delete(userId)
+    const removed = this.stats.delete(userId)
+    if (removed) this.notifyChange()
+    return removed
   }
 
   // セッションリセット
   reset(): void {
     this.stats.clear()
+    this.notifyChange()
   }
 
   // イベントリスナーを登録（解除用関数を返す）
   onUpdate(listener: StatsEventListener): () => void {
     this.listeners.add(listener)
     return () => this.listeners.delete(listener)
+  }
+
+  /**
+   * 記録が変わったとき (コメント・更新・削除・リセット) に呼ばれるリスナーを登録する (解除用関数を返す)
+   * onUpdate は「コメントで記録が作られた・更新された」だけの通知で、UserStatsControlSync が使う。
+   * こちらは画面の再描画用で、UserStatsControlSync による更新も含む。
+   */
+  onChange(listener: () => void): () => void {
+    this.changeListeners.add(listener)
+    return () => this.changeListeners.delete(listener)
+  }
+
+  private notifyChange(): void {
+    this.changeListeners.forEach((l) => l())
   }
 
   private notifyListeners(record: UserStatsRecord): void {

@@ -17,6 +17,7 @@ export const registerAllUi = () =>
     liveClock: () => import('@/ui/LiveClock/LiveClock.vue'),
     streamCounter: () => import('@/ui/StreamCounter/StreamCounter.vue'),
     toastWidgets: () => import('@/ui/ToastWidgets/ToastWidgets.vue'),
+    userBoard: () => import('@/ui/UserBoard/UserBoard.vue'),
   } satisfies Record<UiKind, UiLoader>)
 
 export const registerAllLayouts = () =>

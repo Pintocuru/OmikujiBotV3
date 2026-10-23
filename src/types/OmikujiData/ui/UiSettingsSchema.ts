@@ -8,6 +8,7 @@ import {
   StreamCounterSchema,
   ToastWidgetsSchema,
   GameRankingSchema,
+  UserBoardSchema,
 } from '@/types/ui'
 
 /**
@@ -21,6 +22,7 @@ export const uiKinds = [
   'liveClock',
   'streamCounter',
   'toastWidgets',
+  'userBoard',
 ] as const
 
 // 型の導出
@@ -38,5 +40,6 @@ export const UiSettingsSchema = z.object({
   liveClock: LiveClockSchema.optional(),
   streamCounter: StreamCounterSchema.optional(),
   toastWidgets: ToastWidgetsSchema.optional(),
+  userBoard: UserBoardSchema.optional(),
 })
 export type UiSettingsType = z.infer<typeof UiSettingsSchema>

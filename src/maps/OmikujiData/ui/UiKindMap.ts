@@ -38,4 +38,9 @@ export const uiKindMap: Record<UiKind, { label: string; icon: LucideIconName; de
     icon: 'Bell',
     description: '通知メッセージをトースト形式で表示します。',
   },
+  userBoard: {
+    label: 'ユーザーボード',
+    icon: 'Users',
+    description: 'ユーザーの得点・チーム・席順を、ランキングやバーで表示します。',
+  },
 }

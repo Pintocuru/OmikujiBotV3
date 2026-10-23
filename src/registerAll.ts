@@ -19,5 +19,6 @@ export const registerAll = () => {
     liveClock: () => import('@/ui/LiveClock/editor/LiveClockEditor.vue'),
     streamCounter: () => import('@/ui/StreamCounter/editor/StreamCounterEditor.vue'),
     toastWidgets: () => import('@/ui/ToastWidgets/editor/ToastWidgetsEditor.vue'),
+    userBoard: () => import('@/ui/UserBoard/editor/UserBoardEditor.vue'),
   } satisfies Record<UiKind, EditorLoader>)
 }
