@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx server/start-dev-server.ts",
     "updateFilesName": "tsx tools/fileName/UpdateTsFiles.ts",
+    "lint": "eslint src",
     "build": "tsx packages/build.ts --bundler=vite",
     "build:webpack": "tsx packages/build.ts",
     "build:plugin": "vite build --config tools/viteConfig/vite.botPlugin.config.ts"
@@ -22,6 +23,7 @@
     "@vueuse/motion": "^3.0.3",
     "animate.css": "^4.1.1",
     "daisyui": "^5.7.28",
+    "dotenv": "^18.0.9",
     "expr-eval-fork": "^3.0.3",
     "lucide-vue-next": "^1.0.0",
     "nanoid": "^5.1.16",
