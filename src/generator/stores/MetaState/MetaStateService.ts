@@ -22,6 +22,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
   private lastError: unknown | null = null
   private status: 'idle' | 'loading' | 'ready' | 'error' = 'idle'
   private errorSubscribers: Array<(error: unknown) => void> = []
+  private isVirtual = false // 仮想配信パネルから値を上書き中(配信が始まるまで実データで上書きしない)
 
   /**
    * メタステートサービスのインスタンスを取得する
@@ -55,7 +56,12 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     const result = await service.fetchMeta((raw) => {
       try {
         // 配信中のサービスの先頭を使う(いなければ先頭)
-        this.handleMeta(raw.find((meta) => meta.isLive) ?? raw[0] ?? null)
+        const incoming = raw.find((meta) => meta.isLive) ?? raw[0] ?? null
+        if (this.isVirtual) {
+          if (!incoming?.isLive) return // 仮想中は、実際に配信が始まるまで値を保つ
+          this.isVirtual = false
+        }
+        this.handleMeta(incoming)
         if (this.status === 'loading') this.setStatus('ready')
       } catch (e) {
         this.notifyError(e)
@@ -215,11 +221,20 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
   }
 
   /**
-   * 開発モード専用: NormalizedMeta を部分的に上書きして subscriber に通知する
+   * 仮想配信パネル用: NormalizedMeta を部分的に上書きして subscriber に通知する
+   * - 配信中(isLive=true)は実データを優先するため何もしない
    */
   _devSetMeta(partial: Partial<NormalizedMeta>) {
-    if (!isDev) return
     const base = this.current ?? DEV_DEFAULT_META
-    this.handleMeta({ ...base, ...partial })
+    if (base.isLive) return
+    this.isVirtual = true
+    this.handleMeta({ ...base, ...partial, isLive: false })
+  }
+
+  /**
+   * 仮想配信パネル用: 仮想の値をやめて、次回の取得から実データに戻す
+   */
+  _devReleaseMeta() {
+    this.isVirtual = false
   }
 }

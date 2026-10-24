@@ -3,22 +3,16 @@
   <h1 class="flex justify-center text-2xl text-primary font-bold text-center relative">
     <div class="flex items-center gap-2">{{ t('appHeader.title') }}</div>
 
-    <!-- 左上データソース表示 -->
-    <div class="absolute top-0 left-0">
+    <!-- 左上: データソースとバージョン(右上は切り替えボタンが使う) -->
+    <div class="absolute top-0 left-0 flex items-center gap-2 text-xs font-normal">
       <span class="badge text-xs" :class="dataSourceClass">
         {{ dataSourceLabel }}
       </span>
-    </div>
-
-    <!-- 右上バージョン表示 -->
-    <div class="absolute top-0 right-0 text-xs opacity-70 flex flex-col items-end">
-      <div>{{ t('appHeader.currentVersion', { version: versionInfo.current }) }}</div>
-      <div v-if="versionInfo.isLoading" class="text-info">{{ t('appHeader.checking') }}</div>
-      <div v-else-if="versionInfo.error" class="text-error" :title="versionInfo.error">{{ t('appHeader.checkFailed') }}</div>
-      <div v-else-if="versionInfo.hasNewVersion" class="text-warning cursor-pointer" @click="showUpdateDialog">
+      <span class="opacity-70">{{ t('appHeader.currentVersion', { version: versionInfo.current }) }}</span>
+      <span v-if="versionInfo.error" class="text-error" :title="versionInfo.error">!</span>
+      <span v-else-if="versionInfo.hasNewVersion" class="text-warning cursor-pointer" @click="showUpdateDialog">
         {{ t('appHeader.newVersion', { version: versionInfo.latest }) }}
-      </div>
-      <div v-else-if="versionInfo.latest" class="text-success">{{ t('appHeader.latest') }}</div>
+      </span>
     </div>
   </h1>
 </template>

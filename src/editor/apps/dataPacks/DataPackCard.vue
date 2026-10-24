@@ -1,4 +1,7 @@
 <!-- src/editor/apps/dataPacks/DataPackCard.vue -->
+<!-- TODO:Githubからのダウンロードなら全部入りなので、これを表示できるようにする。 -->
+<!-- コッチの場合は、サポートなしであることも明記する。 -->
+<!-- BOOTHで配布する機能制限版が有料で、Githubからのダウンロードは無料版なのは、どうなんですかね！サポートの有無ですかー？ -->
 <template>
   <div class="card card-compact bg-base-200 border border-base-300 transition-colors">
     <!-- バナー画像 -->

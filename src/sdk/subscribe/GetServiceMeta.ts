@@ -17,6 +17,14 @@ export class ServiceMetaWatcher {
   }
 
   /**
+   * わんコメのサービス一覧を取得(Service.id などが必要なとき用)
+   */
+  async fetchServices(): Promise<Service[]> {
+    const services = await api.get<Service[]>('/services').then((r) => r.data)
+    return services ?? []
+  }
+
+  /**
    * ライブ配信中のメタ情報を取得
    */
   private async fetchLiveMeta(): Promise<MetaResult> {

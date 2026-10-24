@@ -11,6 +11,10 @@
       <!-- レイアウト -->
       <LayoutEditor />
     </SectionCard>
+
+    <SectionCard variant="warning" icon="Trash2" label="未使用UIの整理" description="リリース前に不要な UI 設定を削除">
+      <UnusedUiSettingsEditor />
+    </SectionCard>
   </template>
 
   <!-- 各 UI の設定（選択中レイアウトが使う UI のうち、main.ts で登録されたもの） -->
@@ -52,6 +56,7 @@
   import { getUiEditorEntries } from './uiEditorRegistry'
   import LayoutEditor from './conditions/LayoutEditor.vue'
   import FontFamilyEditor from './common/FontFamilyEditor.vue'
+  import UnusedUiSettingsEditor from './conditions/UnusedUiSettingsEditor.vue'
   import { UiKind } from '@/types/OmikujiData'
 
   const { t } = useI18n()

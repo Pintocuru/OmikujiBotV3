@@ -3,8 +3,8 @@ import { BotMessageRankingSchema, BotMessageRankingType } from '@/types/generato
 import { UserStatsRecord, UserStatsRecordSchema } from '@/types/generator'
 import { LocaleType } from '@/types/OmikujiData/'
 import { RANKING_POINTS_RANGE, SUFFIX_PROBABILITY, USER_STATS_RANGES } from './MockConstants'
-import { MOCK_FAMILY_NAME_JA_LIST, MOCK_USER_GIVEN_JA_LIST } from './MockUserJaMaps'
-import { NAME_SUFFIXES } from './MockUserMaps'
+import { MOCK_FAMILY_NAME_JA_LIST, MOCK_USER_GIVEN_JA_LIST } from './maps/MockUserJaMaps'
+import { NAME_SUFFIXES } from './maps/MockUserMaps'
 
 // ランキングプレビュー用の設定(GameRanking は ui 側で管理)
 type DummyRankingSettings = { limit?: number; sortOrder?: 'high' | 'low' | 'new' }

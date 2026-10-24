@@ -48,6 +48,13 @@ export function useSettingsOperations(data: Ref<OmikujiDataType>, hasChanged: Re
     updateSettingsSection(section, { [field]: defaults[section][field] } as unknown as Partial<SettingsType[S]>)
   }
 
+  // エディターのテーマを light / dark で切り替える(dark → light、それ以外 → dark)
+  // resetSettingsField はデフォルト値(dark)に戻す専用なので、light への切り替えには使えない
+  const toggleDaisyUiTheme = () => {
+    const next = data.value.settings.developer.daisyUiTheme === 'dark' ? 'light' : 'dark'
+    updateSettingsSection('developer', { daisyUiTheme: next })
+  }
+
   return {
     updateJsonMerge,
     updateItemSettings,
@@ -55,5 +62,6 @@ export function useSettingsOperations(data: Ref<OmikujiDataType>, hasChanged: Re
     updateUi,
     updateSettingsSection,
     resetSettingsField,
+    toggleDaisyUiTheme,
   }
 }

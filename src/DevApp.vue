@@ -1,66 +1,9 @@
 <!-- src/DevApp.vue -->
 <template>
-  <!-- エディター -->
-  <EditorApp v-if="!showMain" />
-
-  <!-- ジェネレーター＋ツール -->
-  <template v-else>
-    <HudPreview :isHeight="false">
-      <GeneratorApp />
-      <template #hud>
-        <DraggableWrapper>
-          <!-- エアコメメーカー -->
-          <AirComment />
-          <!-- メタデータ操作ツール -->
-          <DevMetaController />
-          <!-- リセットボタン -->
-          <button class="btn btn-sm btn-warning" @click="resetAll">セッションリセット</button>
-        </DraggableWrapper>
-      </template>
-
-      <template #hudLeft>
-        <!-- 評価ブロック -->
-        <div
-          v-for="([key, value], i) in Object.entries(appStore.placeholderVariable.getAll())"
-          :key="i"
-          class="flex gap-2"
-        >
-          <span class="font-mono w-50">{{ key }}</span>
-          <span>{{ value }}</span>
-        </div>
-      </template>
-    </HudPreview>
-  </template>
-
-  <!-- 表示トグルボタン -->
-  <div class="fixed top-10 right-0 w-24 h-24 z-9999 group pointer-events-none">
-    <label
-      class="swap swap-rotate absolute top-4 right-4 opacity-0 group-hover:opacity-100 pointer-events-auto transition-opacity duration-200"
-    >
-      <input type="checkbox" v-model="showMain" />
-      <Settings class="swap-on w-8 h-8 text-primary" />
-      <Cpu class="swap-off w-8 h-8 text-primary" />
-    </label>
-  </div>
+  <App />
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import EditorApp from '@/editor/App.vue'
-  import HudPreview from '@/editor/parts/HudPreview.vue'
-  import GeneratorApp from '@/generator/App.vue'
-  import { useAppStore } from '@/generator/stores/useAppStore'
-  import DraggableWrapper from '@/common/DraggableWrapper/DraggableWrapper.vue'
-  import AirComment from '@/editor/dev/AirComment/AirComment.vue'
-  import DevMetaController from '@/editor/dev/DevMetaController/DevMetaController.vue'
-  import { Settings, Cpu } from 'lucide-vue-next'
-
-  const showMain = ref(false)
-  const appStore = useAppStore()
-
-  // リセットボタン
-  function resetAll() {
-    appStore.userStats.reset()
-    appStore.streamStats.reset()
-  }
+  // 開発版と製品版で同じ画面にするため、中身は editor/App.vue に集約している
+  import App from '@/editor/App.vue'
 </script>

@@ -32,7 +32,7 @@ const EditorSettingsSchema = z.object({
 })
 
 const DeveloperSettingsSchema = z.object({
-  daisyUiTheme: z.enum(themes).default('dark').catch('dark'), // エディターのテーマカラー(ビルド後はdarkのみ)
+  daisyUiTheme: z.enum(themes).default('dark').catch('dark'), // エディターのテーマカラー(製品版は light / dark のみ。それ以外の値でも DaisyUI が dark にする)
 })
 
 /**

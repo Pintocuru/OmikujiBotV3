@@ -1,4 +1,4 @@
-// src/common/MockUser/MockUserChMaps.ts
+// src/common/MockUser/maps/MockUserChMaps.ts
 
 /**
  * 中文配信者っぽい名前（名）

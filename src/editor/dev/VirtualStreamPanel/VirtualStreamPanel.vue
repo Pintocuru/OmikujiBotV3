@@ -1,10 +1,10 @@
-<!-- src/editor/dev/DevMetaController/DevMetaController.vue -->
+<!-- src/editor/dev/VirtualStreamPanel/VirtualStreamPanel.vue -->
 <template>
   <div class="card bg-base-200 border border-error/40 shadow-xl">
     <div class="card-body gap-2 p-2">
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-base-300" @click="collapsed = !collapsed">
-        <h1 class="text-sm flex items-center gap-2">Meta Controller</h1>
+        <h1 class="text-sm flex items-center gap-2">仮想配信パネル</h1>
 
         <div class="flex items-center gap-1">
           <span class="text-xs opacity-60">
@@ -15,35 +15,42 @@
 
       <!-- Number fields -->
       <template v-if="!collapsed">
-        <template v-for="key in numberKeys" :key="key">
-          <div class="join">
-            <label class="label pr-2">
-              <span class="label-text text-xs opacity-60 uppercase flex items-center gap-1">
-                {{ key }}
-                <span v-if="isRunning" class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-              </span>
-            </label>
-            <button class="btn btn-xs btn-outline join-item" @click="increment(key, -1)">-1</button>
-            <input
-              type="number"
-              min="0"
-              class="input input-bordered input-xs join-item flex-1 text-center"
-              v-model.number="fields[key]"
-            />
-            <button class="btn btn-xs btn-outline join-item" @click="increment(key, 1)">+1</button>
-          </div>
-        </template>
+        <!-- 製品版の配信メタはわんコメの実データなので、ここからは操作できない -->
+        <p v-if="isLive" class="text-xs text-warning">配信中のため、仮想配信パネルは使用できません</p>
+        <fieldset :disabled="isLive" class="flex flex-col gap-2 min-w-0" :class="{ 'opacity-50': isLive }">
+          <template v-for="key in numberKeys" :key="key">
+            <div class="join">
+              <label class="label pr-2">
+                <span class="label-text text-xs opacity-60 uppercase flex items-center gap-1">
+                  {{ key }}
+                  <span v-if="isRunning" class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+                </span>
+              </label>
+              <button class="btn btn-xs btn-outline join-item" @click="increment(key, -1)">-1</button>
+              <input
+                type="number"
+                min="0"
+                class="input input-bordered input-xs join-item flex-1 text-center"
+                v-model.number="fields[key]"
+              />
+              <button class="btn btn-xs btn-outline join-item" @click="increment(key, 1)">+1</button>
+            </div>
+          </template>
 
-        <!-- Apply -->
-        <div class="join">
-          <button
-            class="btn btn-xs join-item flex-1"
-            :class="isRunning ? 'btn-error' : 'btn-primary'"
-            @click="toggleAuto"
-          >
-            {{ isRunning ? 'STOP' : 'AUTO' }}
-          </button>
-        </div>
+          <!-- Apply -->
+          <div class="join">
+            <button
+              class="btn btn-xs join-item flex-1"
+              :class="isRunning ? 'btn-error' : 'btn-primary'"
+              @click="toggleAuto"
+            >
+              {{ isRunning ? 'STOP' : 'AUTO' }}
+            </button>
+            <button class="btn btn-xs btn-outline join-item" title="次回の取得から実データに戻す" @click="release">
+              実データに戻す
+            </button>
+          </div>
+        </fieldset>
       </template>
     </div>
   </div>
@@ -55,6 +62,13 @@
   import { NormalizedMeta } from '@/types/generator'
 
   const store = ServiceMetaStore.getInstance()
+
+  // 配信中(isLive=true)は実データを優先するため、このパネルは使えない
+  const isLive = ref(store.getCurrent()?.isLive ?? false)
+  const unsubscribe = store.subscribe((event) => {
+    isLive.value = event.current.isLive
+    if (isLive.value && isRunning.value) toggleAuto()
+  })
   const collapsed = ref(true)
 
   type NumericFields = Pick<NormalizedMeta, 'viewer' | 'upVote' | 'follower'>
@@ -154,9 +168,17 @@
     apply()
   }
 
+  function release() {
+    if (isRunning.value) toggleAuto()
+    store._devReleaseMeta()
+  }
+
   function apply() {
     store._devSetMeta?.(fields)
   }
 
-  onUnmounted(stopAuto)
+  onUnmounted(() => {
+    stopAuto()
+    unsubscribe()
+  })
 </script>

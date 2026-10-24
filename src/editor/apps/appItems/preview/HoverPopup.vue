@@ -1,7 +1,7 @@
 <!-- src/editor/apps/appItems/preview/HoverPopup.vue -->
 <template>
   <Teleport to="body">
-    <!-- Teleport 先は App.vue の data-theme の外側なので、同じテーマをここで指定する -->
+    <!-- Teleport 先は EditorApp.vue の data-theme の外側なので、同じテーマをここで指定する -->
     <div v-if="visible" ref="el" class="fixed z-50 pointer-events-none" :style="style" :data-theme="daisyUiTheme">
       <div class="bg-base-200 text-base-content border border-base-300 shadow-lg rounded p-2">
         <slot />
@@ -13,7 +13,6 @@
 <script setup lang="ts">
   import { computed, nextTick, ref, watch } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { isDev } from '@/types/env'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
   const props = defineProps<{
@@ -25,9 +24,9 @@
   const OFFSET = 12
   const MARGIN = 8
 
-  // App.vue と同じテーマ
+  // EditorApp.vue と同じテーマ
   const { data } = storeToRefs(useOmikujiStore())
-  const daisyUiTheme = computed(() => (isDev ? data.value.settings.developer.daisyUiTheme : 'dark'))
+  const daisyUiTheme = computed(() => data.value.settings.developer.daisyUiTheme)
 
   // 画面外にはみ出さないよう、描画後にサイズを測って位置を補正する
   const el = ref<HTMLElement | null>(null)

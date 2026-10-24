@@ -19,6 +19,7 @@ export function buildRawUrl(path: string): string {
 }
 
 // テンプレートリスト
+// TODO:maps のほうに移す。
 const templateList: string[] = [
   'common/StrawberryChocolate/StrawberryChocolate.json',
   '2025-Q4/TarotCard/TarotCard.json',
