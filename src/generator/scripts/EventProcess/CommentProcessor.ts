@@ -8,17 +8,10 @@ import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { checkAllTriggers } from '@/generator/scripts/trigger/TriggerChecker'
 import { OmikujiControlProcessor } from '@/generator/scripts/EventProcess/OmikujiControlProcessor'
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
-import { CooldownManager } from '@/generator/scripts/EventProcess/CooldownManager'
-
-interface ProcessResult {
-  isCommentTriggered: boolean
-  botMessages: BotMessageType[]
-}
 
 export class EventCommentProcessor {
   private readonly store = useAppStore()
   private readonly control = new OmikujiControlProcessor()
-  private readonly cooldown = new CooldownManager()
 
   /**
    * メイン処理: コメントを処理して拡張コメントを作成
@@ -38,15 +31,10 @@ export class EventCommentProcessor {
       const sortedRules = this.getSortedEnabledRules()
 
       for (const rule of sortedRules) {
-        const result = await this.processRule(omiken, rule)
+        const botMessages = await this.processRule(omiken, rule)
 
         // イベントが成功し、botメッセージが生成された場合はここで終了
-        if (result.botMessages.length > 0) {
-          if (result.isCommentTriggered) {
-            this.cooldown.updateLastProcessedTime()
-          }
-          return result.botMessages
-        }
+        if (botMessages.length > 0) return botMessages
       }
 
       return []
@@ -59,36 +47,30 @@ export class EventCommentProcessor {
   /**
    * 単一イベントの処理
    */
-  private async processRule(omiken: OmikenCommentType, event: CommentEventType): Promise<ProcessResult> {
+  private async processRule(omiken: OmikenCommentType, event: CommentEventType): Promise<BotMessageType[]> {
     const { data } = this.store
 
-    // 2. コメントイベントの条件チェック
-    if (!checkAllTriggers(omiken, event.trigger)) {
-      return { isCommentTriggered: false, botMessages: [] }
-    }
+    // コメントイベントの条件チェック
+    if (!checkAllTriggers(omiken, event.trigger)) return []
 
-    // 4. criteria フィルタ適用後に抽選
+    // criteria フィルタ適用後に抽選
     const mikujiBox = data.assets.mikuji[event.omikujiKey]
-    if (!mikujiBox) return { isCommentTriggered: false, botMessages: [] }
+    if (!mikujiBox) return []
 
     const selectedItem = this.lotteryWithCriteria(mikujiBox.omikuji, omiken)
-    if (!selectedItem) return { isCommentTriggered: false, botMessages: [] }
+    if (!selectedItem) return []
 
-    // 5. control 処理 (return / continue / log)
-    const handled = this.control.process(selectedItem, event.key, omiken)
+    // control 処理 (return / continue)
+    const handled = this.control.process(selectedItem, omiken)
     if (handled !== null) {
-      return {
-        isCommentTriggered: handled,
-        botMessages: handled ? [BotMessageEmptySchema.parse({})] : [],
-      }
+      // return: 空メッセージで以降のイベントを止める / continue: 次のイベントへ
+      return handled ? [BotMessageEmptySchema.parse({})] : []
     }
 
-    // 6. 通常アクション (postFlow のみ到達)
-    if (selectedItem.kind !== 'postFlow') return { isCommentTriggered: false, botMessages: [] }
+    // 通常アクション (postFlow のみ到達)
+    if (selectedItem.kind !== 'postFlow') return []
     const omikujiProcessor = new OmikujiProcessor()
-    const botMessages = await omikujiProcessor.executeActionItem(event.key, selectedItem, 'comments', omiken)
-
-    return { isCommentTriggered: false, botMessages }
+    return omikujiProcessor.executeActionItem(event.key, selectedItem, 'comments', omiken)
   }
 
   /**

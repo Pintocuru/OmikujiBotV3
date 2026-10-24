@@ -5,12 +5,13 @@ import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProces
 
 /**
  * postFlow 以外の kind (control: return / continue) を処理するクラス
- * @param eventKey 実行中のイベントの key
  * @param omiken variable 内の <<user>> 等のプレースホルダー解決に使用
  */
-
 export class OmikujiControlProcessor {
-  process(item: OmikujiItemType, eventKey: string, omiken?: OmikenCommentType): boolean | null {
+  /**
+   * @returns postFlow なら null / return なら true / continue なら false
+   */
+  process(item: OmikujiItemType, omiken?: OmikenCommentType): boolean | null {
     switch (item.kind) {
       // 通常アクション (BOTメッセージ送信) は対象外
       case 'postFlow':
@@ -19,14 +20,10 @@ export class OmikujiControlProcessor {
       // 処理の流れを制御する (return / continue)
       case 'control':
         return this.processControl(item, omiken)
-
     }
   }
 
-  private processControl(
-    item: OmikujiItemControlType,
-    omiken?: OmikenCommentType
-  ): boolean {
+  private processControl(item: OmikujiItemControlType, omiken?: OmikenCommentType): boolean {
     // 評価ブロック {{ }} を評価
     if (item.variable.trim()) new OmikujiProcessor().evaluateControlVariable(item.variable, omiken)
 
@@ -40,5 +37,4 @@ export class OmikujiControlProcessor {
         return false
     }
   }
-
 }

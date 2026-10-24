@@ -68,7 +68,7 @@ export class OmikujiProcessor {
   /**
    * おみくじ抽選。
    * criteria フィルタが必要な場合は呼び出し側で事前に適用すること
-   * (コメントイベントは RuleCommentProcessor.lotteryWithCriteria を使用)。
+   * (コメントイベントは EventCommentProcessor.lotteryWithCriteria を使用)。
    * isPriority が true のアイテムが複数ある場合は、配列の先頭側が必ず選ばれる。
    */
   lotteryOmikujiItem(omikujiSet: MikujiItemsType): OmikujiItemType | null {

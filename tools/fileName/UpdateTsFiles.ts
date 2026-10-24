@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // モノレポ用
-const TARGET_DIRS = ['packages', 'assets', 'src', 'tools', 'server', 'build']
+const TARGET_DIRS = ['packages', 'assets', 'src', 'tools', 'server']
 const ROOT = path.resolve(__dirname, '../..')
 
 async function getAllTargetFiles(dir: string): Promise<string[]> {

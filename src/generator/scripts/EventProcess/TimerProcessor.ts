@@ -6,8 +6,6 @@ import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProces
 interface TimerState {
   timerId: number
   initialTimerId?: number
-  intervalMs: number
-  isActive: boolean
 }
 
 /**
@@ -34,25 +32,12 @@ export class EventTimerProcessor {
 
     enabledTimers.forEach((rule) => {
       if (rule.mode === 'onStart') {
-        this.executeOnStart(rule)
+        this.executeEvent(rule)
       } else {
         // mode === 'interval'（デフォルト）
         this.startIntervalTimer(rule)
       }
     })
-  }
-
-  /**
-   * onStart モード: 起動時に一度だけ scheduleBotMessages を直接呼び出す
-   */
-  private async executeOnStart(event: TimerEventType): Promise<void> {
-    try {
-      const appStore = useAppStore()
-      const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikujiKey, 'timers')
-      appStore.scheduleBotMessages(messages)
-    } catch (error) {
-      console.error(`onStart ${event.key} execution error:`, error)
-    }
   }
 
   /**
@@ -71,11 +56,11 @@ export class EventTimerProcessor {
 
     // 初回実行用のタイマー
     const initialTimerId = window.setTimeout(() => {
-      this.executeTimer(rule)
+      this.executeEvent(rule)
 
       // 定期実行を開始
       const intervalTimerId = window.setInterval(() => {
-        this.executeTimer(rule)
+        this.executeEvent(rule)
       }, intervalMs)
 
       // タイマー状態を更新
@@ -88,17 +73,15 @@ export class EventTimerProcessor {
 
     // タイマー状態を記録
     this.activeTimers.set(rule.key, {
-      timerId: 0, // 後で更新される
+      timerId: 0, // 初回実行後に更新される
       initialTimerId,
-      intervalMs,
-      isActive: true,
     })
   }
 
   /**
-   * タイマー実行時の処理
+   * おみくじを実行して BotMessage をスケジュールする (onStart / interval 共通)
    */
-  private async executeTimer(event: TimerEventType): Promise<void> {
+  private async executeEvent(event: TimerEventType): Promise<void> {
     try {
       const appStore = useAppStore()
       const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikujiKey, 'timers')
@@ -119,17 +102,6 @@ export class EventTimerProcessor {
   }
 
   /**
-   * 特定のタイマーを停止
-   */
-  stopTimer(ruleId: string): void {
-    const timerState = this.activeTimers.get(ruleId)
-    if (timerState) {
-      this.clearTimer(timerState)
-      this.activeTimers.delete(ruleId)
-    }
-  }
-
-  /**
    * タイマーをクリア
    */
   private clearTimer(timerState: TimerState): void {
@@ -139,23 +111,5 @@ export class EventTimerProcessor {
     if (timerState.timerId) {
       window.clearInterval(timerState.timerId)
     }
-    timerState.isActive = false
-  }
-
-  /**
-   * アクティブなタイマーの状態を取得
-   */
-  getActiveTimers(): string[] {
-    return Array.from(this.activeTimers.keys()).filter((ruleId) => {
-      const timerState = this.activeTimers.get(ruleId)
-      return timerState?.isActive ?? false
-    })
-  }
-
-  /**
-   * タイマーの詳細情報を取得
-   */
-  getTimerInfo(ruleId: string): TimerState | undefined {
-    return this.activeTimers.get(ruleId)
   }
 }

@@ -3,7 +3,7 @@ import { MetaUpdateEvent } from '@/types/generator'
 import { ServiceConditionType, ServiceTriggerType } from '@/types/OmikujiData/'
 
 /**
- * トリガー条件の評価 ReactionTriggerEvaluator
+ * 配信数値(サービスメタ)トリガー条件の評価
  */
 export function evaluateServiceTrigger(trigger: ServiceTriggerType, event: MetaUpdateEvent): boolean {
   const { condition } = trigger
@@ -31,6 +31,7 @@ export function evaluateServiceTrigger(trigger: ServiceTriggerType, event: MetaU
     case 'elapsedMinutes':
       return evaluateElapsedTime(trigger.elapsedMinutes ?? 0, event.current.startTime)
 
+    // follower は条件なし(常に true)。未知の condition も同様
     case 'follower':
     default:
       return true
@@ -39,7 +40,7 @@ export function evaluateServiceTrigger(trigger: ServiceTriggerType, event: MetaU
 
 /**
  * 単一条件の評価
- * 🔧 FIX: peak 値ではなく peakChanged フラグを受け取る
+ * peak 値ではなく peakChanged フラグを受け取る
  */
 export function evaluateServiceCondition(
   condition: ServiceConditionType,

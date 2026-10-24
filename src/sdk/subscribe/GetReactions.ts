@@ -63,6 +63,13 @@ export async function GetReactions(
   }
 }
 
+/** リアクション購読を解除する(購読中でなければ何もしない) */
+export function unsubscribeReactions(): void {
+  if (currentSubscriberId === null) return
+  OneSDK.unsubscribe(currentSubscriberId)
+  currentSubscriberId = null
+}
+
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
     if (currentSubscriberId !== null) {

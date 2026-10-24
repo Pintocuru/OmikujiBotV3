@@ -13,13 +13,14 @@ const TIME_THRESHOLD = 10000
 export function useAppInitializer() {
   const appStore = useAppStore()
   let isInitialized = false
+  let stopPolling: (() => void) | null = null
 
   const initialize = async () => {
     // 不可解な多重呼び出しの防衛
     if (isInitialized) return
     isInitialized = true
 
-    const { setStatus, setError } = useAppStore()
+    const { setStatus, setError } = appStore
     const commentProcessor = new EventCommentProcessor()
     setStatus('initializing')
 
@@ -61,7 +62,8 @@ export function useAppInitializer() {
         // エディタープラグインからデータを読み込む
         await syncWithServer()
         // LiveConsole で操作した score / team / order などを取り込む (サーバーがなければ何もしない)
-        startUserStatsPolling(appStore.userStatsSync)
+        stopPolling?.()
+        stopPolling = startUserStatsPolling(appStore.userStatsSync)
         setStatus('ready')
       }
     } catch (error) {
@@ -71,7 +73,13 @@ export function useAppInitializer() {
     }
   }
 
-  return { initialize }
+  // アンマウント時にポーリングを止める
+  const dispose = () => {
+    stopPolling?.()
+    stopPolling = null
+  }
+
+  return { initialize, dispose }
 }
 
 // リセット検出
@@ -118,7 +126,6 @@ async function syncWithServer() {
     // ここに来る時点で「本当に予期せぬエラー」のみ
     const msg = `エディタープラグインからデータ読み込みに失敗しました: ${err}`
     console.error(msg)
-    postSystemMessage(msg) // ← これを消す or コンソールだけにする
   }
 }
 

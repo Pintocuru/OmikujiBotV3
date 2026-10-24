@@ -68,7 +68,6 @@ export class BurstLevelMachine {
   }
 
   private fire(n: number, p: number) {
-    if (n === p) return
     for (const cb of this.callbacks) cb(n, p)
   }
 }

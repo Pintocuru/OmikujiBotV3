@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted } from 'vue'
+  import { computed, onMounted, onUnmounted } from 'vue'
   import { uiKinds, useFontFamily } from '@/types/OmikujiData'
   import { useAppInitializer } from '@/generator/composables/useAppInitializer'
   import { useRuleProcessor } from '@/generator/composables/useRuleProcessor'
@@ -64,7 +64,8 @@
   // データと登録内容(registry)から決まるため、store に持たず computed で求める(エディターの読み込み検証と同じ関数)
   const mismatches = computed(() => validateAgainstBuild(appStore.data))
 
-  const { initialize } = useAppInitializer()
+  const { initialize, dispose } = useAppInitializer()
   onMounted(initialize)
+  onUnmounted(dispose)
   useRuleProcessor()
 </script>

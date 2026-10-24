@@ -1,7 +1,7 @@
 // src/generator/scripts/EventProcess/ReactionProcessor.ts
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { evaluateReactionTrigger } from '@/generator/scripts/EventProcess/ReactionTriggerEvaluator'
-import { GetReactions } from '@/sdk/subscribe/GetReactions'
+import { GetReactions, unsubscribeReactions } from '@/sdk/subscribe/GetReactions'
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
 
 /** 10秒間リアクションがなければバーストレベルを1下げる */
@@ -10,6 +10,9 @@ const BURST_DECAY_MS = 10_000
 export class EventReactionProcessor {
   private store = useAppStore()
   private readonly omikujiProcessor = new OmikujiProcessor()
+
+  /** 購読の世代。stop / 再 start で進め、古い購読のコールバックを無効にする */
+  private session = 0
 
   /** デケイタイマーのID。null = 未起動 */
   private decayTimer: ReturnType<typeof setTimeout> | null = null
@@ -20,8 +23,11 @@ export class EventReactionProcessor {
    */
   startReactions(): void {
     this.stopReactions()
+    const session = this.session
 
     GetReactions((aggregated) => {
+      // 停止後(または再起動後)に届いた古い購読のコールバックは無視
+      if (session !== this.session) return
       // リアクション集計を記録し、ルール評価とデケイタイマーをリセット
       this.store.reactionStats.record(aggregated)
       this.evaluateReactionRules()
@@ -35,6 +41,8 @@ export class EventReactionProcessor {
    * リアクション購読を停止し、統計をリセットする。
    */
   stopReactions(): void {
+    this.session++
+    unsubscribeReactions()
     this._clearDecayTimer()
     this.store.reactionStats.reset()
   }

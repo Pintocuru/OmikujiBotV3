@@ -1,6 +1,9 @@
 // src/generator/stores/ReactionManager/ReactionTotals.ts
 import { reactionKeys } from '@/types/OmikujiData'
 
+/** history の保持上限(配信が長いと無制限に増えるため、古いものから捨てる) */
+const MAX_HISTORY = 5000
+
 export class ReactionTotals {
   private history: { timestamp: number; type: string }[] = []
   private total: Record<string, number> = Object.fromEntries(reactionKeys.map((k) => [k, 0]))
@@ -13,6 +16,7 @@ export class ReactionTotals {
       if (this.total[type] !== undefined) this.total[type] += count
       for (let i = 0; i < count; i++) this.history.push({ timestamp: now, type })
     }
+    if (this.history.length > MAX_HISTORY) this.history.splice(0, this.history.length - MAX_HISTORY)
     return sum
   }
 
