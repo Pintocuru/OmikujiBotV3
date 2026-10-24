@@ -1,0 +1,2 @@
+- You can **freely customize the omikuji content** to suit your stream.
+- However, the **characters used are protected by copyright**. Please be considerate of the original creators and illustrators.

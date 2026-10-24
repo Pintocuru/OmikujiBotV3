@@ -1,0 +1,3 @@
+- You can freely customize the omikuji content to suit your stream.
+- Because it contains many parodies and jokes, you are solely responsible for any statements or results.
+- The content has no relation to the original sources or to the intent of the BOT itself.

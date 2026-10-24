@@ -2,14 +2,14 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![[../../template/jp/intro/intro_11]] WordParty テンプレート です。
+![intro_11](../../template/jp/intro/intro_11.md) WordParty テンプレートです。
 
 - このテンプレートは、下記の「おみくじBOT」シリーズのパッケージでのみ使用可能です。
 - それぞれ、最新版で使用できます。バージョンが古い場合、正常に機能しない可能性があります。
 
-![[../../template/jp/_common/OmikujiBotPackageBOOTH]]
+![OmikujiBotPackageBOOTH](../../template/jp/_common/OmikujiBotPackageBOOTH.md)
 
-![[../../template/jp/intro/intro_22_IntroOneComme]]
+![intro_22_IntroOneComme](../../template/jp/intro/intro_22_IntroOneComme.md)
 
 ## このテンプレートは何？（Features）
 
@@ -27,7 +27,7 @@
 
 ![Installation_41_GotoTemplate](/template/jp/installation/Installation_41_GotoTemplate.md)
 
-- WordPatry のテンプレートは、他のジェネレーターと同様の導入が可能です。
+- WordParty のテンプレートは、他のジェネレーターと同様の導入が可能です。
 - 音声を OBS に乗せる場合、追加の設定が必要です。詳細は、わんコメ公式 [音声を配信にのせる方法](https://onecomme.com/docs/feature/wordparty#%E9%9F%B3%E5%A3%B0%E3%82%92%E9%85%8D%E4%BF%A1%E3%81%AB%E3%81%AE%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95) をご覧ください。
 
 ## つかいかた・カスタマイズ (Usage/Customization)
@@ -43,12 +43,12 @@ WordParty に関する内容は、[コメントによる演出 - WordParty](http
 
 ### 設定関連
 
-#### Q. 「初見さん参戦」は おみくじBOT 以外で使ってもいい?
+#### Q. 「初見さん参戦」は おみくじBOT 以外で使ってもいい？
 
 - 一部の動画・音声・画像は、 [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) で公開しており、クレジット不要で使用できます。
 - 素材に関するクレジットは [おみくじBOT用WordParty クレジット・ライセンス](sub/OmikenWordPartyCredits.md) をご覧ください。
 
-#### Q.効果音ラボ の利用規約に違反してない？
+#### Q. 効果音ラボ の利用規約に違反してない？
 
 - [利用規約](https://soundeffect-lab.info/agreement/) では、音源むき出しでもOKとあるので、むき出しですが使用しています
 - 代わりに、わんコメでのWordParty のエディターで編集できなくなっています。
@@ -58,9 +58,9 @@ WordParty に関する内容は、[コメントによる演出 - WordParty](http
 
 ![troubleshooting_11_infoOneComme](../../template/jp/troubleshooting/troubleshooting_11_infoOneComme.md)
 
-### WordPatry エディタで開けない
+### WordParty エディターで開けない
 
-A: [仕様](https://onecomme.com/docs/feature/wordparty#%E3%81%9D%E3%81%AE%E4%BB%96%E4%BB%95%E6%A7%98) です。WordPatry エディタの仕様上、素材の再配布になる恐れがあるため、エディターでひらけないようになっています。
+A: [仕様](https://onecomme.com/docs/feature/wordparty#%E3%81%9D%E3%81%AE%E4%BB%96%E4%BB%95%E6%A7%98) です。WordParty エディターの仕様上、素材の再配布になる恐れがあるため、エディターでひらけないようになっています。
 
 ## クレジット・ライセンス（Credits/License）
 

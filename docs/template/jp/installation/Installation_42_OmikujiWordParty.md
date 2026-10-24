@@ -5,4 +5,4 @@
 - キャラクターのセリフに、効果音やアニメーションが追加で表示されるように。
 - おみくじの結果やじゃんけんの勝敗が、視覚的にわかりやすく表示されます。
 
-詳しくは [おみくじBOT 用 WordParty README](/core/OmikujiBot/README.md) をご覧ください。
+詳しくは [おみくじBOT 用 WordParty README](/core/OmikenWordParty/README.md) をご覧ください。
