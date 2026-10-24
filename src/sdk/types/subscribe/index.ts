@@ -1,3 +1,3 @@
-// tools/types/index.ts
+// src/sdk/types/subscribe/index.ts
 
 export * from './SendCommentSchema'

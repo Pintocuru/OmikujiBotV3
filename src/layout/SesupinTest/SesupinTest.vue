@@ -1,4 +1,4 @@
-<!-- src/layout/GameRanking/GameRanking.vue -->
+<!-- src/layout/SesupinTest/SesupinTest.vue -->
 <template>
   <!-- フキダシ・トーストは専用uiとしてこのままにする -->
   <KujibikiPanel />
