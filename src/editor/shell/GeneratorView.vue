@@ -9,7 +9,7 @@
     </div>
 
     <!-- ツール(右上は切り替えボタンが使うので、上を空ける) -->
-    <aside v-show="showTools" class="w-[26rem] shrink-0 overflow-y-auto space-y-2 pt-14 pr-2 pb-2">
+    <aside v-show="showTools" class="w-104 shrink-0 overflow-y-auto space-y-2 pt-14 pr-2 pb-2">
       <TestComment />
       <VirtualStreamPanel />
       <EvaluationBlock />

@@ -37,9 +37,9 @@
         </button>
       </div>
 
-      <div class="flex items-center gap-1" title="表示倍率(見た目だけ縮小します)">
+      <div class="flex items-center gap-1" title="表示倍率">
         <span class="opacity-60">{{ Math.round(scale * 100) }}%</span>
-        <input type="range" min="0.2" max="1" step="0.1" v-model.number="scale" class="range range-xs w-20" />
+        <input type="range" min="0.2" max="2" step="0.1" v-model.number="scale" class="range range-xs w-30" />
       </div>
 
       <div class="join">
@@ -53,15 +53,13 @@
           {{ bg.label }}
         </button>
       </div>
-
-      <span class="opacity-60">右下をドラッグしてサイズ変更</span>
     </div>
 
     <!-- ステージ: 余白をスクロールできる領域の中に、サイズ可変の枠を置く -->
     <div class="flex-1 min-h-0 overflow-auto rounded bg-base-300 p-2">
       <div
         ref="outerRef"
-        class="relative overflow-hidden outline outline-1 outline-base-content/30"
+        class="relative overflow-hidden outline outline-base-content/30"
         :class="fit ? 'w-full h-full' : 'resize'"
         :style="outerStyle"
       >
@@ -80,14 +78,12 @@
   type BackgroundKey = 'checker' | 'green' | 'dark' | 'light'
 
   const SIZE_PRESETS = [
-    { label: '1920×1080', w: 1920, h: 1080 },
-    { label: '1280×720', w: 1280, h: 720 },
-    { label: '縦長 600×900', w: 600, h: 900 },
+    { label: '300x400', w: 300, h: 400 },
+    { label: '600×900', w: 600, h: 900 },
   ] as const
 
   const BG_OPTIONS: { key: BackgroundKey; label: string }[] = [
     { key: 'checker', label: '透過' },
-    { key: 'green', label: '緑' },
     { key: 'dark', label: '黒' },
     { key: 'light', label: '白' },
   ]
@@ -170,7 +166,8 @@
   .stage-inner :deep(.h-screen) {
     height: 100%;
   }
-  .stage-inner :deep(.transparent-bg) {
-    background-color: transparent !important;
+  /* 100% の高さは、親が高さを持っていないと 0 になる。ジェネレーターのルート(h-screen の親)にも高さを渡す */
+  .stage-inner > :deep(*) {
+    height: 100%;
   }
 </style>

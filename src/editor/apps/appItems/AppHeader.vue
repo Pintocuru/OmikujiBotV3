@@ -1,18 +1,29 @@
 <!-- src/editor/apps/appItems/AppHeader.vue -->
 <template>
   <h1 class="flex justify-center text-2xl text-primary font-bold text-center relative">
+    <!-- タイトル -->
     <div class="flex items-center gap-2">{{ t('appHeader.title') }}</div>
 
-    <!-- 左上: データソースとバージョン(右上は切り替えボタンが使う) -->
-    <div class="absolute top-0 left-0 flex items-center gap-2 text-xs font-normal">
-      <span class="badge text-xs" :class="dataSourceClass">
-        {{ dataSourceLabel }}
-      </span>
-      <span class="opacity-70">{{ t('appHeader.currentVersion', { version: versionInfo.current }) }}</span>
-      <span v-if="versionInfo.error" class="text-error" :title="versionInfo.error">!</span>
-      <span v-else-if="versionInfo.hasNewVersion" class="text-warning cursor-pointer" @click="showUpdateDialog">
-        {{ t('appHeader.newVersion', { version: versionInfo.latest }) }}
-      </span>
+    <!-- 左上: データソースとバージョン（2行） -->
+    <div class="absolute top-0 left-0 flex flex-col items-start gap-1 text-xs font-normal">
+      <div class="flex items-center gap-2">
+        <span class="badge text-xs" :class="dataSourceClass">
+          {{ dataSourceLabel }}
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="opacity-70">{{ versionInfo.current }}</span>
+        <span v-if="versionInfo.error" class="text-error" :title="versionInfo.error">!</span>
+        <span
+          v-else-if="versionInfo.hasNewVersion"
+          class="text-warning cursor-pointer"
+          :title="`新版 ${versionInfo.latest}`"
+          @click="showUpdateDialog"
+        >
+          → {{ versionInfo.latest }}
+        </span>
+      </div>
     </div>
   </h1>
 </template>
