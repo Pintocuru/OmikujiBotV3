@@ -249,7 +249,6 @@ export const postFlowMessages = {
       gameScript: {
         gameLabel: 'Game',
         gameDesc: 'Select the game script to run',
-        characterDesc: 'Character used in the game',
         paramLabel: 'Parameter',
         paramDesc: 'String passed to the game',
         paramPlaceholder: 'Enter a parameter',

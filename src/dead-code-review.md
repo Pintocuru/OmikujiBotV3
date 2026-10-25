@@ -726,3 +726,82 @@ patch 11 適用後の状態が基準(patch 11 → patch 12 の順で適用)。`s
 1. `src/generator`(精読。`TriggerChecker.ts` の `userIds`、`useAppInitializer.ts`)、`src/plugin`
 2. `src/ui`(`useStreamCounters.ts` の未使用 `_`)、`src/i18n`、`src/common` の精読、`src/engine` の精読
 3. `src/types`(報告のみ)、直下ファイル、テスト・ビルド設定
+
+## 8-13. patch 13(2026-10-26 / `src/generator`)
+
+patch 12 適用後の状態が基準(patch 12 → patch 13 の順で適用)。`src/generator` の全ファイル(約 40 件)について出現 1 回の識別子を機械走査し、`scripts/trigger/` の 6 ファイルと `composables/useAppInitializer.ts`、`stores/useAppStatus.ts` を全文確認した。残りは精読していない。`src/plugin` は走査のみ(指摘なし)。
+
+### 修正済み
+
+| 項目 | 変更 | 根拠 |
+| ---- | ---- | ---- |
+| H-1 | `generator/scripts/trigger/checkers/TriggerHelpers.ts` の `checkTimeRange` を削除 | `checkers/CheckTimeRange.ts` に同一実装があり、`TriggerChecker.ts` はそちらだけを import。`TriggerHelpers` の `checkTimeRange` は参照ゼロ(古い実装の重複) |
+
+### 発見事項(修正せず・報告のみ)
+
+- H-2 `generator/stores/UserStats/UserStatsManager.ts` の `getLatest`(確信度 中): 呼び出しゼロ。LiveConsole 向けの用意の可能性があり保留
+- H-3 `TriggerChecker.ts` の `userIds` 条件は `checkUserIdCondition` に接続済みで問題なし。editor 側の `TriggerUserId.vue` が未接続な点は 4-2 のとおり(判定側は使用中のため削除不可)
+- H-4 前回の依頼(2026-10-24)分は反映済みを確認: `useAppInitializer.syncWithServer` の失敗時に `postSystemMessage` は呼ばれていない
+- 環境: `npm ci` が完了せず `vue-tsc` / eslint は未実行
+
+## 9-11. 次に調査する箇所(patch 13 時点)
+
+1. `src/generator` の残り(`stores`、`scripts/EventProcess`)の精読、`src/plugin` の精読
+2. `src/ui`(`useStreamCounters.ts` の未使用 `_`)、`src/i18n`、`src/common` と `src/engine` の精読
+3. `src/types`(報告のみ)、直下ファイル、テスト・ビルド設定
+
+## 8-14. patch 14(2026-10-26 / `src/ui`)
+
+patch 13 適用後の状態が基準(patch 13 → patch 14 の順で適用)。`src/ui` 全 98 ファイルについて、ファイル名による未参照走査と、出現 1 回の識別子の走査を行った。精読はしていない(参照確認のため `counterTypes.ts` と周辺の import を確認)。
+
+### 修正済み
+
+| 項目 | 変更 | 根拠 |
+| ---- | ---- | ---- |
+| I-1 | `ui/ToastWidgets/editor/CharacterSelectorSingle.vue` を削除 | リポジトリ全体(`src` / `docs` / `tools` / `packages` / `server`)で自身以外の参照なし。同じフォルダの `CharacterSelectorMulti.vue` は使用中 |
+| I-2 | `ui/StreamCounter/editor/CounterSelector/counterTypes.ts` の `getCounterLabel` と `EventRule`、不要になった `streamDefaultMap` の import を削除 | `getCounterLabel` は参照ゼロ、`EventRule` は `getCounterLabel` の引数でのみ使用。`CounterItem` は他で使用中のため残した |
+
+### 発見事項(修正せず・報告のみ)
+
+- I-3 `ui/GameRanking/scripts/services/MessageService.ts`(確信度 中): 参照ゼロだが、ファイル内の TODO(LiveConsole)で「GameRanking 内でのみ表示するメッセージとして使う予定」と明記されているため保留(方針どおり残す)
+- 環境: `npm ci` が完了せず `vue-tsc` / eslint は未実行。`ui/common/useStreamCounters.ts:58` の `const _ = previewTick.value` は、`previewTick` への依存を張るための意図的な読み取り(`watchEffect` の再実行トリガー)で、削除不可
+
+## 9-12. 次に調査する箇所(patch 14 時点)
+
+1. `src/ui` の精読(特に `common`、`StreamCounter`、`CookieCounter`、`GameRanking`)
+2. `src/generator` の残り(`stores`、`scripts/EventProcess`)、`src/plugin` の精読
+3. `src/i18n`、`src/common` と `src/engine` の精読、`src/types`(報告のみ)、直下ファイル、テスト・ビルド設定
+
+## 0. 調査対象外(ユーザー指示 / 2026-10-26)
+
+- `src/ui`: 移行中のため、**これ以上調査しない**。patch 14 までの内容は有効(ユーザー確認済み)。以後の「次に調査する箇所」から除外する
+- `src/console`: 調査不要
+
+## 8-15. patch 15(2026-10-26 / `src/i18n/editor` のキー走査)
+
+patch 14 適用後の状態が基準(patch 14 → patch 15 の順で適用)。`src/i18n/editor` の全翻訳ファイルを Node で読み込み、ja の全キー(葉)について (1) `src` / `tools` / `packages` / `server` のコード(i18n 自身を除く)にキー文字列があるか、(2) 親キー + `${` の動的構築があるか、(3) ja / en のキー不一致、を確認した。候補 10 件は全て手で精査した。
+
+### 修正済み
+
+| 項目 | 変更 | 根拠 |
+| ---- | ---- | ---- |
+| J-1 | `category/NavigationSidebarMessagesMap.ts` の `navigation.appInfo`(ja / en)を削除 | 参照なし。カテゴリ名は `categories.{category}.label`(`useSidebarCreate`)で解決され、`navigation.` 配下の動的構築は `navigation.groups.${id}` のみ |
+| J-2 | `assets/PostFlow.ts` の `postFlow.gameScript.characterDesc`(en のみ)を削除 | ja に対応キーがなく、参照もなし |
+
+### 問題なし
+
+- `events/EventTriggers.ts` の `timerInterval.presets.s30` 〜 `s3600`(9 件): `TimerIntervalEditor.vue:66` が `` t(`timerInterval.presets.s${value}`) `` で動的に参照
+- 上記以外の ja キーはすべて参照あり、ja / en の不一致は J-2 の 1 件のみ
+- `src/i18n/{games,generator,ui}/index.ts` は中身がほぼコメントのみ(import 元あり)
+
+### 範囲外(未実施)
+
+- `src/i18n/editor` 以外の翻訳(`games` / `generator` / `ui`)は実体がなく走査対象なし
+- 環境: `npm ci` が完了せず `vue-tsc` / eslint は未実行
+
+## 9-13. 次に調査する箇所(patch 15 時点 / `src/ui`・`src/console` は除外)
+
+1. `src/generator` の残り(`stores`、`scripts/EventProcess`)、`src/plugin` の精読
+2. `src/common` と `src/engine` の精読
+3. `src/maps`、`src/manager`、`src/layout`、`src/games`(精読。games は方針により報告中心)
+4. `src/types`(報告のみ)、直下ファイル、テスト・ビルド設定

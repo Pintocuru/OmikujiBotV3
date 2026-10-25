@@ -10,7 +10,6 @@ export const navigationSidebarMessages = {
       exportConfig: '設定を出力(js)',
       exportConfigTip: '設定ファイルを出力します。保存する場合は必ずこのボタンを押してください。',
       unnamed: '（名前なし）',
-      appInfo: 'アプリ情報',
       groups: {
         events: 'イベント',
         assets: 'アセット',
@@ -166,7 +165,6 @@ export const navigationSidebarMessages = {
       exportConfig: 'Export Config (js)',
       exportConfigTip: 'Export configuration file. Be sure to click this to save.',
       unnamed: '(Unnamed)',
-      appInfo: 'App Info',
       groups: {
         events: 'Events',
         assets: 'Assets',
