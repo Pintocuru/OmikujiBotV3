@@ -189,230 +189,143 @@
 
 ### 4-1. 削除候補
 
-#### A-1 `isCommentMode`(**撤回: 削除不可**。2026-10-25 にコードで再確認)
+#### A-1 `isCommentMode`(**撤回: 削除不可**。2026-10-25 にコードで再確認・信憑性: **高（削除不可が妥当）**)
 
-- 訂正: `src/ui/LiveClock/editor/LiveClockEditor.vue:25` が `<MessageTextDialog v-model="messageText" />` を prop なし(= false)で使っている。false 側は到達するため残す。資料の「全呼び出し元が true」は assets 内のみの確認だった
-- 以下は当初の記述(参考)
-- 場所
-  - `PostFlow/Message/MessageTextDialog.vue` の prop `isCommentMode`
-  - `PostFlow/Message/PlaceholderPanel.vue` の同 prop
-  - `PostFlow/Message/usePlaceholderEditor.ts` の `isCommentMode` と、それに依存する `defaultBasePlaceholderLabel` の分岐
-- 理由: 呼び出し元 4 か所(`MessageSettings`、`BotSettings`、`VariableSettings`、`OmikujiItemControlSettings`)が全て `:isCommentMode="true"` を渡している。false 側は到達しない。トースト/フキダシ分離の廃止の名残と思われる
-- 参照: 上記 4 呼び出し元のみ(assets 内で確認)
-- 影響: 挙動変化なし。`defaultBasePlaceholderLabel`(types 側)が他で未使用になる可能性がある
-- 確信度: 撤回(削除しない)
+- 現コード検証: `src/ui/LiveClock/editor/LiveClockEditor.vue:25` が `<MessageTextDialog v-model="messageText" />` を prop なし（デフォルト `false`）で利用しており、`usePlaceholderEditor` の false 分岐（`defaultBasePlaceholderLabel`）に到達する。そのため削除不可の判断は現行コードに完全一致。
+- 補足: assets 内の 4 箇所（`MessageSettings`、`BotSettings`、`VariableSettings`、`OmikujiItemControlSettings`）はすべて `:isCommentMode="true"` を渡している。
+- 影響: 削除不可（現行維持）。
+- 確信度・信憑性評価: **妥当（削除不可）**
 
-#### A-2 `PostActionItem.vue` の未使用定義
+#### A-2 `PostActionItem.vue` の未使用定義【適用済み(commit 19973c3 / patch 1)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `PostActionItem.vue` では prop `index`、emits `duplicate`/`remove` は既に削除され、`v-for="(_, type) in postFlowKindMap"` に更新済み。`PostFlowsEditor.vue` 側のバインドも削除済みであることを確認。
 
-- 場所
-  - emits `duplicate` / `remove`(どこにも emit されない)
-  - prop `index`(script / template のどちらでも未使用)
-  - `v-for="(meta, type) in postFlowKindMap"` の `meta`
-- 連動箇所: `PostFlowsEditor.vue` の `@duplicate` / `@remove` / `:index`
-- 参照: 複製・削除は `PostActionsTabs` → `usePostActionsTab` 側で処理されている
-- 影響: なし
-- 確信度: 高
+#### A-3 `ActionsEditor.vue` が `PostFlowsEditor` に渡す余剰 prop【適用済み(commit 19973c3 / patch 1)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `ActionsEditor.vue` から `category` / `selectedItemKey` は既に削除済み。`PostFlowsEditor.vue` は `modelValue` のみを受け取っている。
 
-#### A-3 `ActionsEditor.vue` が `PostFlowsEditor` に渡す余剰 prop
+#### A-4 `MikujiSettings.vue` の `category` prop(`MikujiEditor` から渡している分も含む)【適用済み(commit 633a5c6 / patch 2)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `MikujiSettings.vue` から prop `category` は削除され、呼び出し元 5 箇所（`MikujiEditor`, `CommentEditor`, `ReactionEditor`, `ServiceEditor`, `TimerEditor`）からの属性も削除済み。
 
-- 場所: `category` / `selectedItemKey`
-- 理由: `PostFlowsEditor` は `modelValue` のみ受け取るため、余りが DOM 属性として root に出力される
-- 影響: なし
-- 確信度: 高
+#### A-5 `IconSelector.vue` の未使用要素【適用済み(commit 19973c3 / patch 1)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `showHoverSelector` および emit `showSelector` はコードから既に削除済み。
 
-#### A-4 `MikujiSettings.vue` の `category` prop(`MikujiEditor` から渡している分も含む)【修正済み(patch 2)】
+#### A-6 `PlaceholderTextMode.vue` の `error` フィールドと `getErrorMessage`【適用済み(commit 19973c3 / patch 1)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `error` フィールドと `getErrorMessage` はコードから既に削除済み。
 
-- 追記: 呼び出し元は assets 外の `src/editor/events/{comment,reaction,service,timer}/*Editor.vue` にもあり(計 5 か所)。events 調査(patch 2)で prop・`EventCategoryType` の import・呼び出し側 5 か所をまとめて削除した。なお events 側の 3 か所(reaction / service / timer)は `category="comments"` を渡しており、値としても誤りだった
-- 理由: 宣言のみで未使用
-- 影響: なし
-- 確信度: 高
+#### A-7 `TestPlaceholderProcessor.ts` の `highlighted`【適用済み(commit 19973c3 / patch 1)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: no-op な `replace` 呼び出しは既に除去され、`processed.bubble` を直接返すよう修正済み。
 
-#### A-5 `IconSelector.vue` の未使用要素
+#### A-8 `PostActionPreview.vue` の到達不能分岐【適用済み(commit 19973c3 / patch 1)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `if (!processed)` の到達不能分岐は既に削除され、関連 i18n キー `postFlow.actionPreview.hidden` も削除済み。
 
-- 場所: `showHoverSelector`(`@mouseenter` / `@mouseleave` で代入するだけで参照なし)、emit `showSelector`(一度も emit されない)
-- 影響: なし
-- 確信度: 高
-
-#### A-6 `PlaceholderTextMode.vue` の `error` フィールドと `getErrorMessage`
-
-- 理由: `parseAndValidateLine` が `error` メッセージを組み立てるが、template は `hasError` しか使わず表示されない。メッセージは日本語固定(i18n 外)でもある
-- 影響: なし(エラー詳細の表示を将来つけるなら残す)
-- 確信度: 高
-
-#### A-7 `TestPlaceholderProcessor.ts` の `highlighted`
-
-- 場所: `processed.bubble.replace(/\{\{[\s\S]*?\}\}/g, (m) => m)`
-- 理由: コールバックが引数をそのまま返すため no-op。ハイライト実装の残骸
-- 影響: なし(`processed.bubble` をそのまま返せる)
-- 確信度: 高
-
-#### A-8 `PostActionPreview.vue` の到達不能分岐
-
-- 場所: `if (!processed) return t('postFlow.actionPreview.hidden')`
-- 理由: `processTestPlaceholder` は常にオブジェクトを返す(失敗時も `{ text, hasError }`)ため偽にならない
-- 影響: i18n キー `postFlow.actionPreview.hidden` も未使用になる可能性がある(ロケール未確認)
-- 確信度: 高
-
-#### A-9 `MessagePreviewPanel.vue` の try/catch【確信度を下げ、修正せず】
-
-- 追記: try 内で `data.assets.placeholders ?? {}`(引数評価)を行っており、`data.assets` が未定義なら catch に到達しうるため、到達不能とは言えない
-- 理由: `processTestPlaceholder` 自体が内部で例外を握りつぶすため、外側の catch は到達しない
-- 影響: なし
-- 確信度: 中(上記追記のとおり)
+#### A-9 `MessagePreviewPanel.vue` の try/catch【修正見送り】
+- 信憑性: **高（修正見送りの判断が極めて妥当）**
+- 現コード検証: `data.value.assets.placeholders ?? {}` の引数解決時やリアクティブデータアクセスで `data.value.assets` が未定義の場合、例外が発生して catch に到達する可能性があるため、防衛的コードとして残す判断は妥当。
 
 #### A-10 `useEmotionDraft.ts` の未使用戻り値
-
-- 場所: `draftItemFor`、`removeKey`
-- 参照: 利用者は `EmotionEditModal` のみで、`draftValue` / `initDraft` / `updateSrc` / `updateLabel` / `updateAnimation` しか分割代入していない
-- 影響: なし
-- 確信度: 中〜高(assets 外の利用は未確認)
+- 信憑性: **高（デッドコード・リファクタ対象として事実）**
+- 現コード検証: `useEmotionDraft.ts` が返す `draftItemFor` と `removeKey` は、利用側 `EmotionEditModal.vue` で分割代入されておらず、リポジトリ全体を grep しても他からの呼び出しは 0 件。削除による影響なし。
 
 #### A-11 `ActionSetSettings.vue` の `currentKey` prop と関連引数
-
-- 理由: 唯一の呼び出し元 `PostActionItem` が `currentKey` を渡さないため常に `undefined`。`ActionSetValidator` の「自己参照」分岐と、`availableActionSets` の `disabled: key === current` は常に偽。循環検出は `visited` で成立しているため機能は維持される
-- 影響: 削除してよいか、本来は渡すべきか(意図の確認が必要)。渡し忘れなら不具合の可能性
-- 確信度: 中
+- 信憑性: **高（コード事実の指摘として正確・要仕様確認）**
+- 現コード検証: `PostActionItem.vue` から `<ActionSetSettings>` には `currentKey` が渡されておらず常に `undefined`。そのため、自身のキーを除外する `key === current` および `checkCircularReference` の自己参照ショートカットは常に機能していない。ただし `visited` による循環検出機構自体は成立しているため動作不全には至っていない。デッドコード削除とするか、本来渡すべきバグ修正とするかは設計確認が必要。
 
 #### A-12 `WordPartyTestButton.vue` の `pattern` prop
-
-- 理由: 呼び出し元(`PostActionPreview`)が常に `null` を渡し、`:disabled="!pattern && !id"` 以外で使われない
-- 影響: なし(assets 外の呼び出しは未確認)
-- 確信度: 中
+- 信憑性: **高（デッドコードとして事実）**
+- 現コード検証: `PostActionPreview.vue:73` で `:pattern="null"` が固定で渡されており、他からの呼び出し元もない。`WordPartyTestButton.vue` 内部の `:disabled="!pattern && !id"` において `pattern` は常に `null`（実質 `!id` のみ判定）であり、無意味な prop となっている。
 
 #### A-13 `useOmikujiLottery.ts` と `OmikujiItemCriteria.vue` の重複
-
-- 場所: `criteria` / `updateCriteriaKey` / `toggleCondition`(composable 側の戻り値)
-- 理由: `OmikujiItemPriority` は 7 個中 4 個しか使わず、`OmikujiItemCriteria` が同等の処理を再実装している
-- 影響: どちらかに統一(リファクタ)
-- 確信度: 中
+- 信憑性: **高（事実・重複実装）**
+- 現コード検証: `OmikujiItemCriteria.vue` 側で条件判定・トグル・更新処理がローカルに再実装されており、`useOmikujiLottery.ts` の同等ロジックと重複している。
 
 #### A-14 `CharacterEditor.vue` の `SectionType` に含まれる `'serviceSettings'`
-
-- 理由: 対応するセクションが存在しない
-- 確信度: 中
+- 信憑性: **高（デッドコードとして事実）**
+- 現コード検証: `CharacterEditor.vue:91` の型定義 `type SectionType = 'baseSettings' | 'colorSettings' | 'commentVoice' | 'serviceSettings' | 'imageSettings' | null` において、`serviceSettings` に対応するセクション（`SectionCard`）や `categorySectionMap.characters` の項目は一切存在しない。
 
 #### A-15 軽微(低リスクの掃除)
+- 信憑性: **高（すべてコード上の事実と一致）**
+- 現コード検証:
+  - 未使用戻り値: `useBoxOmikujiList` の `box`、`usePlaceholderEditor` の `placeholderMap` / `PLACEHOLDER_ID_PATTERN`、`useWeightValueManagement` の `updateValue`（内部のみ使用で return は不要）など、すべて他所から未参照。
+  - 冗長コード: `PostFlowsEditor.vue` の `props.modelValue.length > 0 && activeTab >= 0`、`CommentVoiceSettings.vue` や `EmotionAnimationEditor.vue` の `v-for="(value, key)"` における未使用 `value`、`PostActionPreview.vue` の `const _ = messageKey.value` などの存在をコード上で確認。
+  - 古いコメント: 各ファイルに残存していることを確認。
 
-- 未使用の戻り値・export
-  - `useBoxOmikujiList` の `box`
-  - `usePlaceholderEditor` の `placeholderMap` / `PLACEHOLDER_ID_PATTERN`
-  - `useOmikujiWeight` の `OMIKUJI_COLORS` の export
-  - `useWeightValueManagement` の `updateValue`
-- 冗長なコード
-  - `PostFlowsEditor.vue` の `length > 0 && activeTab >= 0`、`props?.modelValue`
-  - `OmikujiItemEditor.vue` の未使用 `option`、実質常に true の `shouldShowKindSelector`
-  - `SoundSettings.vue` の未使用 `value`(`v-for="(value, key) in soundMap"`)
-  - `CommentVoiceSettings.vue` の未使用 `value`
-  - `EmotionAnimationEditor.vue` の未使用 `value`
-  - `OmikujiItemToolbar.vue` の空の `<label><span> </span></label>`
-  - `CharacterImageSettings.vue` の `handleUpdateImages`(`pushImages` への単純な委譲)
-  - `PostActionPreview.vue` の `const _ = messageKey.value`(依存追跡のための代入。`void` に統一可能)
-- 古いコメント
-  - `EmotionEditModal.vue`: 「initialEmotionKey は廃止 ✕」「watch を完全削除」
-  - `CharacterColorSettings.vue`: 「ColorModeSelector からの更新」
-  - `SoundTestButton.vue`: 「pattern をサウンド名として再生」
-  - `usePlaceholderEditor.ts`: 「isPlaceholder=false なら空」
-  - `useWeightValueManagement.ts`: 「ActionSetとPlaceholder両方で使用可能」(現状は両方から使われているので正確。ただし配置が `PostFlow/actions/` で不自然)
-- 確信度: 中〜低
+#### B-1 `CommentEditor.vue` の `SectionType` の `'scriptGame'`【適用済み(commit 633a5c6 / patch 2)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `CommentEditor.vue` の `SectionType` から `'scriptGame'` は既に削除済み。
 
-#### B-1 `CommentEditor.vue` の `SectionType` の `'scriptGame'`【修正済み(patch 2)】
+#### B-2 `i18n/editor/events` の未参照キー【適用済み(commit 633a5c6 / patch 2)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `EventTriggers.ts` の `triggerService`、`CommentEditor.ts` および `ReactionEditor.ts` の `disabledNotice` は既に削除済み。
 
-- 理由: `categorySectionMap.comments` に対応するセクションがない(`baseSettings` / `threshold` / `omikujiSet` のみ)。`toggleSection` の呼び出しにも現れない
-- 確信度: 高
-
-#### B-2 `i18n/editor/events` の未参照キー【修正済み(patch 2)】
-
-- `EventTriggers.ts` の `triggerService` ブロック(ja / en 各 11 キー)。参照はリポジトリ全体で定義のみ。サービス用の文言は `serviceTrigger.*` を使用
-- `CommentEditor.ts` / `ReactionEditor.ts` の `disabledNotice`(ja / en)。4 エディターとも `eventCore.disabledNotice.*` を参照している
-- 根拠: 全リポジトリ grep、テンプレートリテラルでキーを組み立てる箇所(`trigger${...}` など)なし
-- 確信度: 高
-
-#### B-3 コメントの誤記・名前の不統一【修正済み(patch 2)】
-
-- `ServiceEditor.vue`: `ServiceTrigger.vue` を `CommentTriggerEditor` という名前で import していた → `ServiceTrigger` に統一
-- `ServiceTrigger.vue`: ベータ版の注意カードのコメントが「登録者数の場合の説明」の重複になっていた → 実態に合わせて修正
-- `TimerIntervalEditor.vue`: モード選択のコメントが「isBaseZero トグル」の重複になっていた → 実態に合わせて修正
-- 確信度: 高(挙動への影響なし)
+#### B-3 コメントの誤記・名前の不統一【適用済み(commit 633a5c6 / patch 2)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `ServiceEditor.vue` の import 名（`ServiceTrigger`）、`ServiceTrigger.vue`、`TimerIntervalEditor.vue` のコメント修正はすべてコードに反映済み。
 
 #### B-4 `ServiceTriggerCondition.vue` の `hasPeak` と `serviceSimpleComparisonConditionMap`【未修正・報告のみ】
-
-- 理由: 唯一の呼び出し元 `ServiceTrigger.vue` が 2 か所とも `:has-peak="true"` を渡す。`false` 側の `serviceSimpleComparisonConditionMap`(`src/maps/OmikujiData/events/ServiceTriggerMap.ts`)の参照はここだけ
-- 保留の理由: 登録者数(`follower`)など、ピークなしの比較を今後つける用途の可能性がある。影響が不明なため
-- 確信度: 中
+- 信憑性: **高（コード事実の指摘として正確・要方針確認）**
+- 現コード検証: `ServiceTrigger.vue` 内の `TriggerMetaCondition` 呼び出し 2 箇所（`upVote` と `viewer`）が共に `:has-peak="true"` を固定で渡しており、`false` 側で使われる `serviceSimpleComparisonConditionMap`（登録者数等のピークなし比較用）は現状どこからも参照されていない。将来機能用として残す判断は妥当。
 
 #### B-5 events の軽微な不統一(報告のみ)
+- 信憑性: **高（指摘の正確性をコードで確認）**
+- 現コード検証: `TimerEditor.vue` の `v-if="selectedItem.isEnabled"` と他エディターの記述差、`TriggerComment`/`TriggerUserId`/`TriggerUsername` の同期ロジック共通性、未使用の v-for 変数など、すべて現行コード上に存在することを確認。
 
-- `TimerEditor.vue` は `v-if="selectedItem.isEnabled"`、他 3 エディターは `!== false`(`isEnabled` が未定義になりうるかで挙動が変わるため、型を確認せず統一はしていない)
-- `SectionCard` の `:variant="selectedItem.isEnabled ? 'secondary' : 'neutral'"` は reaction / timer / service のみで、comment にはない
-- `TriggerComment` / `TriggerUserId` / `TriggerUsername` は textarea と配列の同期処理が同一(共通 composable 化の候補)
-- `ServiceTriggerCondition.vue` の `['lowerBound','upperBound','equal','loop']` が 2 か所に重複
-- 未使用の v-for 変数: `ReactionTriggerEditor` の `v`、`ServiceTrigger` の `value`、`ServiceTriggerCondition` の `info`(A-15 と同種のため修正せず)
-- `ReactionTriggerEditor.vue` は `@/maps/OmikujiData` から 2 行に分けて import している
-- 確信度: 中〜低
+#### C-1 未参照ファイルの削除【適用済み(commit 633a5c6 / patch 3)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `parts/CopyButton.vue` および `helpers/presetsImport/ConfigImport.vue` は既に削除済み。
 
-#### C-1 未参照ファイルの削除【修正済み(patch 3)】
+#### C-2 未参照の i18n キー【適用済み(commit 633a5c6 / patch 3)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `AppItemsCharacters.ts` の `appHeader` 5 キー、`PlaceholderMessages.ts` の `inputMode`/`toggleModeTitle`、`PostFlow.ts` の `messageEditor` は既に削除済み。
 
-- `parts/CopyButton.vue`: import 元なし(`src` / `packages` / `tools` / `server` / `docs` を grep、`import.meta.glob` は i18n のみ)。文言が i18n 化前の直書きで、旧実装に見える
-- `helpers/presetsImport/ConfigImport.vue`: import 元なし。同じ機能は `manager/components/FileMenuDropdown.vue` が `ConfigImportModal` と `useImportManager` を直接使っている。文言は直書き
-- 削除してもよい根拠: 他からの参照・文字列参照・グローバル登録がなく、削除後も `vue-tsc` エラー 0。専用の i18n キーはなし
-- 確信度: 高
-
-#### C-2 未参照の i18n キー【修正済み(patch 3)】
-
-- `appHeader.currentVersion` / `checking` / `checkFailed` / `newVersion` / `latest`(ja / en)。バージョン表示を AppHeader の左上に移した際に不要になったもの。`appHeader.*` の他のキーは `AppHeader.vue` と `useVersionCheck.ts` が使用中
-- `placeholder.inputMode` / `placeholder.toggleModeTitle`(ja / en)
-- `postFlow.messageEditor` ブロック(ja / en、キーは `placeholder` のみ)。patch 1 で削除した `MessageTextEditor.vue` の残り
-- 根拠: 全リポジトリを grep し、テンプレートリテラルでの組み立てなし
-- 確信度: 高
-
-#### C-3 未使用の型・引数・変数【修正済み(patch 3)】
-
-- `types/apps/SidebarType.ts`: 参照ゼロの `SidebarVariant` と `SidebarRecordCategory`、およびそれに付随するコメントと import(`DataCategoryType`)
-- `helpers/IconKeyChanger/IconKeyChanger.vue`: 分割代入のうち未使用の `changeScope`(`useDataExtractor` 側は `CharacterChanger` が使用中なので残す)
-- `stores/composables/useEventProperties.ts`: 未使用の第 1 引数 `data` と、それにだけ必要だった import。呼び出し元は `useOmikujiStore.ts` の 1 か所のみ
-- 確信度: 高
+#### C-3 未使用の型・引数・変数【適用済み(commit 633a5c6 / patch 3)】
+- 信憑性: **高（事実・コード適用済み）**
+- 現コード検証: `SidebarType.ts` の型定義削除、`IconKeyChanger.vue` の未使用変数削除、`useEventProperties.ts` の第 1 引数 `data` 削除はすべてコードに反映済み。
 
 #### C-4 `parts/SectionCard.vue` の `toggle` emit と、呼び出し側の `isOpen` / `toggleSection`【未修正・報告のみ】
+- 信憑性: **高（コード事実の指摘として正確）**
+- 現コード検証: `SectionCard.vue` は prop `isOpen` を宣言しておらず、`toggle` emit も一切実装されていない。呼び出し側各エディターの `@toggle="toggleSection(...)"` や `:isOpen` は実質 no-op。折りたたみ機能の再実装か一斉削除か、UI 設計方針の確認が必要。
 
-- 事実: `SectionCard` は prop `isOpen` を宣言しておらず、`toggle` を emit する処理もない(クリックハンドラなし)。常に展開表示で、呼び出し側が渡す `:isOpen` は DOM 属性として落ちるだけ
-- 影響範囲: `@toggle="toggleSection(...)"` と `toggleSection`、`SectionType` が events 4 エディターと assets 側のエディターにある(`@toggle` を含む行が `src` 全体で 24 行)
-- 保留の理由: 折りたたみ機能を意図的に外したのか、今後つけるのか不明。`activeSection` はサイドバーのハイライトなど別用途でも使われている可能性があるため、一括削除は影響が大きい
-- 確信度: 中(未使用であることは確実、削除の可否は意図の確認が必要)
-
-#### C-5 `apps/dataPacks/` 一式【未修正・報告のみ】
-
-- `DataPacks.vue` は import 元なし。それに連なる `DataPackCard.vue` と `useDataPacks.ts` も実質未使用。`CategoryType` に `dataPacks` がなく、`useCategoryUtils.ts:31` に「いつか…取得できるように」という TODO コメントが残っている
-- 保留の理由: 将来機能(配布パック)として残しているのか、廃止したのか不明。`useDataPacks.ts` の `buildRawUrl` も他から使われていない(同じ理由で保留)
-- 確信度: 中
-- 将来のアップデートで使用。消さないこと。TODOも書いておくこと。
+#### C-5 `apps/dataPacks/` 一式【未修正・保持方針】
+- 信憑性: **高（将来機能として保持の指示あり）**
+- 現コード検証: `DataPacks.vue` は他から import されていない。しかし「将来のアップデートで使用。消さないこと。TODOも書いておくこと。」との方針が示されており、現行コードでも削除せず保持されている。
 
 #### C-6 軽微(報告のみ)
+- 信憑性: **高（コード事実の指摘として正確）**
+- 現コード検証: `JsonMergeEditor.vue` の未使用 v-for 変数、`useSidebarSectionMap.ts` の内部専用 export などの指摘は正確。一部（`JsonMergeEditor` の `remap` → `_remap`）は patch 6 で解消済み。
 
-- `JsonMergeEditor.vue:87` の未使用 v-for 変数 `remap`、`useSidebarSectionMap.ts` の `useUiSections` の `export`(内部利用のみ)、`keyEditorValidation.ts` の `validateKeyFormat` / `validateKeyDuplication` と `importHelpers.ts` の `getItemName` / `checkRecordConflicts` の `export`(内部利用のみ)、`ChangeScope` 型の `export`(他からは未参照)、`evaluationStats.ts` の `NumberSummary` ほかの `export`
-- `AppHeader.vue` の `新版 ${...}` は直書きで i18n 外
-- 確信度: 低(`export` を外すだけの整理で、削除ではない)
+### 4-2. 要確認（コード検証結果）
 
-### 4-2. 要確認
+| 対象 | 内容 | 現コード検証と信憑性評価 |
+| --- | --- | --- |
+| (削除済み)`PostFlow/PostActionsPreview.vue` | assets 内に import なし。単数形と名前重複 | **高（妥当）**: commit `19973c3` で削除済みであることを確認。 |
+| (削除済み)`PostFlow/Message/MessageTextEditor.vue` | `MessageTextDialog` に置き換わっており import なし | **高（妥当）**: commit `19973c3` で削除済みであることを確認。 |
+| `MikujiEditor` 上部の Character/IconKey ボタンと `MikujiSettings` 内の同ボタン | 全体変更とアイテム単位変更の二段構成 | **中〜高**: 意図的 UI 設計（全体一括設定 vs 各アイテムのオーバーライド）。デッドコードではない。 |
+| `const { data } = useOmikujiStore()` の分割代入 | `MessageSettings.vue:48` でリアクティビティ喪失の懸念 | **高（事実）**: `MessageSettings.vue:48` で `const { data } = useOmikujiStore()` と分割代入されており、`data.value` 再代入時にリアクティビティが途切れる不具合の疑いあり。 |
+| `EmotionGrid.vue` の `normalizeKey` | 数字キーに `k` を付与して emit する処理 | **高（事実）**: `EmotionGrid.vue:64` に `const normalizeKey = (key: string) => (/^\d+$/.test(key) ? 'k' + key : key)` が存在。キー比較不一致の懸念あり。 |
+| `PostActionItem.vue` の `createDefaultAction` | Zod スキーマの既定値と重複 | **高（事実）**: `createDefaultAction` と Zod スキーマで初期値生成が二重実装。ただし型安全性・キャッシュ復元との兼ね合いがありリファクタ要検討。 |
+| `ActionsEditor` などの `:isIsEnabled="false"` | prop 名が不自然 | **高（事実）**: `BaseEditor.vue:68` に `isIsEnabled?: boolean`（デフォルト `true`）として定義されており、有効化トグルの表示制御用。プロパティ名のタイポ的命名だが正常に動作している。 |
+| `events/trigger/TriggerUserId.vue` | import 元がなく、条件側 `TriggerChecker.ts` にのみ `userIds` 実装あり | **高（事実）**: `TriggerUserId.vue` は現在どこからも import されていない。判定エンジン側の `trigger.userIds` は実装済みのため、未接続の UI か、不要 UI の残骸。 |
 
-| 対象                                                                           | 内容                                                                                                                                                                          | 要確認の理由                                                                                                                                                 |
-| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| (削除済み)`PostFlow/PostActionsPreview.vue`                                    | assets 内に import なし。`displayText` が variable / gameScript / bot に未対応で旧実装に見える。単数形 `preview/PostActionPreview.vue` と名前が紛らわしい                     | `src/editor` の他ディレクトリからの参照が未検証。専用 i18n キー `postFlow.actionsPreview.*` もあり、削除時はロケールも整理が必要                             |
-| `PostFlow/Message/MessageTextEditor.vue`                                       | `Message` / `Bot` / `variable` の各 Settings は `MessageTextDialog` を使い、このファイルは import されていない                                                                | assets 外の参照が未検証                                                                                                                                      |
-| `MikujiEditor` 上部の Character/IconKey ボタンと `MikujiSettings` 内の同ボタン | 全体変更とアイテム単位変更の二段構成に見える                                                                                                                                  | 意図した設計か未確認                                                                                                                                         |
-| (解決済み → 4-3)`const { data } = useOmikujiStore()` の分割代入                | `useOmikujiStore` を読んで確認。該当は `MessageSettings.vue` のみ(`useBoxOmikujiList` と `MessagePreviewPanel` は該当なし)                                                    | 4-3 に移動                                                                                                                                                   |
-| `EmotionGrid.vue` の `normalizeKey`                                            | 数字だけのキーに `k` を付けて別キー化し、並べ替え時にそのキー名で emit する。キー構成の比較が常に不一致になり、データ側のキーも書き換わる恐れがある                           | 数字キーが実在するか、`CharacterImageType` の制約が未確認                                                                                                    |
-| `PostActionItem.vue` の `createDefaultAction`                                  | Zod スキーマの既定値と重複している                                                                                                                                            | キャッシュ復元との兼ね合いがあり、削除可否は設計判断                                                                                                         |
-| `ActionsEditor` などの `:isIsEnabled="false"`                                  | 名前が不自然                                                                                                                                                                  | `BaseEditor.vue` の prop 定義が未読                                                                                                                          |
-| `events/trigger/TriggerUserId.vue`                                             | import 元がなく、`commentTriggerCondition` にも `userId` がない。一方で `triggerConditions` の型と `TriggerChecker.ts` には `userId` 条件が実装済み(`trigger.userIds` を参照) | 未接続の UI なのか廃止した機能なのか意図が不明。接続するなら `userIds` というキーとの対応が必要。削除する場合は i18n の `triggerUserId`(ja / en)も整理が必要 |
+### 4-3. 機能不具合の疑い(デッドコードではないが調査中に発見・コード検証)
 
-### 4-3. 機能不具合の疑い(デッドコードではないが調査中に発見)
-
-- `EmotionAnimationEditor.vue`: `duration` スライダーと `loop` トグルは `localAnimation` を更新するだけで、`emit('update:animation')` を呼ばない。種別の `@change` でしか保存されないため、速度・ループの変更が保存されない可能性がある
-- `EmotionLayerEditor.vue`: 各レイヤーの「パス設定」ボタンが、どのレイヤーでも常に 0 番目を書き換える(`handleSetDefaultPath` が index を受け取らない)
-- `CommentVoiceSettings.vue`: `v-model="currentDisplayOption.mode"` / `frameId` が props を直接書き換えている。`mode` は `@change` でも更新するため二重更新になる
-- `DelaySecondsAdjuster.vue`: 更新後に delaySeconds でソートするため、`activeTab`(インデックス)と選択中アクションがずれる可能性がある。`basicDelaySeconds` に `?? 1` のフォールバックがなく(`PostActionItem` にはある)、未設定なら NaN になる
-- `PostActionsTabs.vue`: `<button class="tab">` の内側に `MenuDropdown`(button)が入っており、HTML として不正(ネスト button)
-- `MessageSettings.vue:48`: `const { data } = useOmikujiStore()` で分割代入している。`useDataIO.ts:25` と `useDataMerge.ts:31` が `data.value` を再代入するため、ファイル読み込み・マージ後は `soundEnabled`(`data.settings.generator.soundEnabled`)が古い値のまま残る可能性がある(`storeToRefs` なら追従する)
+- `EmotionAnimationEditor.vue`: **信憑性 高（不具合の疑い事実）**
+  - 現コード検証: `duration` スライダーや `loop` チェックボックスは `localAnimation` ref を直接書き換えるのみで、`emit('update:animation')` を呼ぶハンドラーや watcher が存在しない。アニメーション種別（`type`）のセレクトボックスの `@change="applyAnimation"` を通さないと保存されない。
+- `EmotionLayerEditor.vue`: **信憑性 高（不具合の疑い事実）**
+  - 現コード検証: `handleSetDefaultPath` が `props.src.length === 0 ? [newPath] : [newPath, ...props.src.slice(1)]` と常に index 0 番目のレイヤーを書き換える実装になっている。どのレイヤーのボタンを押しても先頭レイヤーが対象になる。
+- `CommentVoiceSettings.vue`: **信憑性 高（不具合の疑い事実）**
+  - 現コード検証: `currentDisplayOption = computed(() => props.modelValue)` に対し、template で `v-model="currentDisplayOption.mode"` や `v-model="currentDisplayOption.frameId"` と props 参照の内部プロパティを直接ミューテーションしている。
+- `DelaySecondsAdjuster.vue`: **信憑性 高（仕様上の懸念事実）**
+  - 現コード検証: 調整処理後に delaySeconds 昇順でソートするため、並び順が変わりタブの index（`activeTab`）とのズレが発生しうる。
+- `PostActionsTabs.vue`: **信憑性 高（構文的瑕疵事実）**
+  - 現コード検証: `<button class="tab">` の内部に `MenuDropdown`（内部で `<button>` を描画）が配置されており、HTML 仕様（button 要素のネスト禁止）に抵触している。
+- `MessageSettings.vue:48`: **信憑性 高（リアクティビティ追従の懸念事実）**
+  - 現コード検証: `const { data } = useOmikujiStore()` で分割代入しており、`storeToRefs` を介していないため、Store の `data.value` 全体置換時に追従しなくなるリスクがある。
 
 ### 4-4. 問題なし(確認できた範囲)
 
@@ -723,12 +636,12 @@ patch 8 適用後の状態が基準(patch 8 → patch 9 の順で適用)。`vue-
 
 ### 修正済み
 
-| 項目 | 変更                                                                                                                               | 根拠                                                                                                                                                                                                                                                                                                                    |
+| 項目 | 変更                                                                                                                               | 根拠・現コード検証による信憑性評価                                                                                                                                                                                                                                                                                                                    |
 | ---- | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| D-33 | `control/StopSpeech.ts`、`service/DetectService.ts`、`subscribe/CommentGuards.ts` を削除                                           | 各 export(`stopSpeech` / `detectServiceFromUrl` / `useCommentGuards`)は、リポジトリ全体(`src` / `server` / `tools` / `packages` / `docs` / `*.md` / `*.json`、`node_modules` 除く)で定義以外に参照なし。import・文字列参照・動的 import もなし。削除後も `vue-tsc` エラー 0。SDK の予備として残していたなら復元してよい |
-| D-34 | `post/PostOneComme.ts` の未使用関数 `postWordParty` を削除                                                                         | 参照なし(同ファイルの `postWordPartyId` は使用中)。`delayPost` は他の関数が使用                                                                                                                                                                                                                                         |
-| D-35 | `subscribe/GetReactions.ts` の未使用引数 `platform` を削除、`subscribe/GetComments.ts` の不要なコメント `// GetComments.ts` を削除 | 呼び出し元(`ReactionProcessor.ts`)は引数 1 つだけ渡している。`--noUnusedParameters` の指摘                                                                                                                                                                                                                              |
-| S-4  | `subscribe/OmikenComment/GetOmikenComments.ts` を Prettier の設定(`semi: false` / `singleQuote: true`)に合わせて整形               | `.prettierrc` と不統一(セミコロン・ダブルクォート)。挙動変更なし(差分は書式のみで、行末は CRLF を維持)                                                                                                                                                                                                                  |
+| D-33 | `service/DetectService.ts`、`subscribe/CommentGuards.ts` を削除、`control/StopSpeech.ts` は保持(TODO追記)                                           | **信憑性 高（部分訂正あり）**: `DetectService.ts` と `CommentGuards.ts` は実際に削除適用済み（参照ゼロ）。一方、`StopSpeech.ts` は「TODO: 将来的に行き過ぎたコメント読み上げを検知して停止させる機能で使用する」というコメントを追加してコード上に保持されており、削除されていない点のみ現行コードと相違（保持が妥当）。 |
+| D-34 | `post/PostOneComme.ts` の未使用関数 `postWordParty` を削除                                                                         | **信憑性 高（事実・コード適用済み）**: 参照なし。`postWordParty` 関数は削除済み。                                                                                                                                                                                                                                         |
+| D-35 | `subscribe/GetReactions.ts` の未使用引数 `platform` を削除、`subscribe/GetComments.ts` の不要なコメント `// GetComments.ts` を削除 | **信憑性 高（事実・コード適用済み）**: 未使用引数および不要ヘッダーコメントは削除済み。                                                                                                                                                                                                                              |
+| S-4  | `subscribe/OmikenComment/GetOmikenComments.ts` を Prettier の設定(`semi: false` / `singleQuote: true`)に合わせて整形               | **信憑性 高（事実・コード適用済み）**: Prettier 準拠の書式整形が適用済み。                                                                                                                                                                                                                  |
 
 ### 発見事項(修正せず・報告のみ)
 
