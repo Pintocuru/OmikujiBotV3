@@ -11,7 +11,7 @@ export function useImageSources(layers: () => string[] | string) {
     rawLayers.value
       .map((l, i) => ({ l, i }))
       .filter(({ l, i }) => l && !errorIndexes.value.has(i))
-      .map(({ l }) => getImagePath(l))
+      .map(({ l, i }) => ({ src: getImagePath(l), index: i }))
   )
 
   const onError = (index: number) => {

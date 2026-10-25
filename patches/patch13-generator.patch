@@ -1,0 +1,58 @@
+diff -ruN /tmp/base/src/dead-code-review.md src/dead-code-review.md
+--- a/src/dead-code-review.md	2026-10-25 15:31:14.632640442 +0000
++++ b/src/dead-code-review.md	2026-10-25 15:31:37.265876516 +0000
+@@ -726,3 +726,26 @@
+ 1. `src/generator`(精読。`TriggerChecker.ts` の `userIds`、`useAppInitializer.ts`)、`src/plugin`
+ 2. `src/ui`(`useStreamCounters.ts` の未使用 `_`)、`src/i18n`、`src/common` の精読、`src/engine` の精読
+ 3. `src/types`(報告のみ)、直下ファイル、テスト・ビルド設定
++
++## 8-13. patch 13(2026-10-26 / `src/generator`)
++
++patch 12 適用後の状態が基準(patch 12 → patch 13 の順で適用)。`src/generator` の全ファイル(約 40 件)について出現 1 回の識別子を機械走査し、`scripts/trigger/` の 6 ファイルと `composables/useAppInitializer.ts`、`stores/useAppStatus.ts` を全文確認した。残りは精読していない。`src/plugin` は走査のみ(指摘なし)。
++
++### 修正済み
++
++| 項目 | 変更 | 根拠 |
++| ---- | ---- | ---- |
++| H-1 | `generator/scripts/trigger/checkers/TriggerHelpers.ts` の `checkTimeRange` を削除 | `checkers/CheckTimeRange.ts` に同一実装があり、`TriggerChecker.ts` はそちらだけを import。`TriggerHelpers` の `checkTimeRange` は参照ゼロ(古い実装の重複) |
++
++### 発見事項(修正せず・報告のみ)
++
++- H-2 `generator/stores/UserStats/UserStatsManager.ts` の `getLatest`(確信度 中): 呼び出しゼロ。LiveConsole 向けの用意の可能性があり保留
++- H-3 `TriggerChecker.ts` の `userIds` 条件は `checkUserIdCondition` に接続済みで問題なし。editor 側の `TriggerUserId.vue` が未接続な点は 4-2 のとおり(判定側は使用中のため削除不可)
++- H-4 前回の依頼(2026-10-24)分は反映済みを確認: `useAppInitializer.syncWithServer` の失敗時に `postSystemMessage` は呼ばれていない
++- 環境: `npm ci` が完了せず `vue-tsc` / eslint は未実行
++
++## 9-11. 次に調査する箇所(patch 13 時点)
++
++1. `src/generator` の残り(`stores`、`scripts/EventProcess`)の精読、`src/plugin` の精読
++2. `src/ui`(`useStreamCounters.ts` の未使用 `_`)、`src/i18n`、`src/common` と `src/engine` の精読
++3. `src/types`(報告のみ)、直下ファイル、テスト・ビルド設定
+diff -ruN /tmp/base/src/generator/scripts/trigger/checkers/TriggerHelpers.ts src/generator/scripts/trigger/checkers/TriggerHelpers.ts
+--- a/src/generator/scripts/trigger/checkers/TriggerHelpers.ts	2026-10-25 15:31:14.680018088 +0000
++++ b/src/generator/scripts/trigger/checkers/TriggerHelpers.ts	2026-10-25 15:31:37.264519158 +0000
+@@ -1,4 +1,4 @@
+-// src/generator/scripts/trigger/checkers/TriggerHelpers.ts
++// src/generator/scripts/trigger/checkers/TriggerHelpers.ts
+ import { CountComparisonCondition, GiftConditionType } from '@/types/engine'
+ 
+ /**
+@@ -39,18 +39,3 @@
+       throw new Error('無効な比較演算子です: ' + count.comparison)
+   }
+ }
+-
+-/**
+- * 時間範囲チェック（追加機能）
+- */
+-export function checkTimeRange(startHour: number, endHour: number): boolean {
+-  const now = new Date()
+-  const currentHour = now.getHours()
+-
+-  if (startHour <= endHour) {
+-    return currentHour >= startHour && currentHour < endHour
+-  } else {
+-    // 日をまたぐ場合（例: 23-7時）
+-    return currentHour >= startHour || currentHour < endHour
+-  }
+-}

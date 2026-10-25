@@ -2,13 +2,13 @@
 <template>
   <div class="relative grid" :style="containerStyle">
     <div
-      v-for="(src, i) in sources"
-      :key="i"
+      v-for="(item, i) in sources"
+      :key="item.index"
       class="col-start-1 row-start-1 animate__animated"
       :class="animationClass"
       :style="{ ...animationStyle, zIndex: sources.length - i }"
     >
-      <MediaLayer class="w-full h-full" :src="src" @error="onError(i)" />
+      <MediaLayer class="w-full h-full" :src="item.src" @error="onError(item.index)" />
     </div>
   </div>
 </template>

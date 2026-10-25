@@ -1,0 +1,50 @@
+diff --git a/src/dead-code-review.md b/src/dead-code-review.md
+index dd0e61c..615f9d4 100644
+--- a/src/dead-code-review.md
++++ b/src/dead-code-review.md
+@@ -479,3 +479,32 @@ patch 2 適用後の状態を基準にしている(`dead-code-review.md` が pat
+ 4. `usePostActionsTab.ts` の戻り値、`ImageSettingsInfo.vue`
+ 5. `src/common`、`src/engine`、`src/games`、`src/generator`(`TriggerChecker.ts` の `userIds` と editor の対応も)、`src/layout`、`src/manager`、`src/plugin`、`src/sdk`、`src/ui`、`src/console`(未着手)
+ 6. テスト・ビルド設定(vite / tsconfig / eslint)、package.json
++
++## 8-4. patch 4(2026-10-25 / `src/editor/stores`・`src/editor/parts` の精読)
++
++patch 3 適用後の状態が基準(patch 3 → patch 4 の順で適用)。`vue-tsc --noEmit` は修正前後ともエラー 0。
++
++### 読み取り済み(全文)
++- `stores/`: `useGetAssetData` / `useGetEventData` / `useNavigationStore` / `useOmikujiStore` と `composables/` の全 10 ファイル
++- `parts/`: `BaseEditDialog` / `CharacterPicker` / `ExternalLinkButton` / `HudPreview` / `InformationCard` / `MenuDropdown` / `ModalFooterActions` / `NoParamsCard` / `SettingItem` / `SubSectionHeader` / `ColorPicker/*`(`SectionCard` は patch 3 で確認済み)
++
++### 修正済み
++| 項目 | 変更 | 根拠 |
++|---|---|---|
++| D-1 | `parts/HudPreview.vue` の左下ブロックのコメント(「右下に配置するHUD用のスロット」の重複)を実態に合わせて修正 | コメントのみ。挙動変更なし |
++
++### 発見事項(修正せず・報告のみ)
++- D-2 `stores` の呼び出し元ゼロの公開 API(確信度 中。`src` / `tools` / `packages` / `server` を grep): `hasEvent`(`useGetEventData`)、`clearSelection`(`useNavigationStore`)、`clearAssets`(`useAssetCRUD`)、`updatePlaceholderValues`(`useAssetProperties`。`data` 引数と `WeightValuesArraySchema` もこれ専用)。`isDataCategory` は store の返り値としては未使用だが内部で使用。CRUD の対称性のために残している可能性があり、保留
++- D-3 `parts` の呼び出し元ゼロの prop / slot(確信度 中。全 `.vue` の開始タグを解析、`v-bind="obj"` による受け渡しなし): `SettingItem` の `showWarning` / `helpUrl` / `helpLabel` / slot `label-extra`(関連 i18n `appInfoEditor.settings.common.warning` / `help`)、`InformationCard` の `icon`、`HudPreview` の slot `hudLeft`、`MenuDropdown` の `disableDelete`、`CharacterPicker` の `size`(既定値 64 のみ使用)。ヘルプリンク(チートシート)など将来用に用意した可能性があり保留
++- D-4 `apps/appInfo/meta/PackageSystemInfo.vue:15-17`: `ExternalLinkButton` の既定スロットに `<ExternalLink>` を渡しているが、`ExternalLinkButton` はスロットを持たないため描画されない(アイコンは本体側にある)。`PackageSystemInfo` 側の `ExternalLink` import は不要になる(`apps` の精読時に確認)
++- D-5 `parts/InformationCard.vue`: `VARIANT_ICON: Record<..., any>` は `Component` 型にできる(型の整理)。確信度 低
++
++### 問題なし
++- `useDataIO` / `useDataMerge(+Helpers)` / `useEventCRUD` / `useEventSort` / `useAssetSort` / `useSettingsOperations`(`resetSettingsField` / `toggleDaisyUiTheme` は使用中)
++- `BaseEditDialog` / `ModalFooterActions` / `NoParamsCard` / `SubSectionHeader` / `ColorPicker` / `ColorPreset` / `ExternalLinkButton`(本体)/ `CharacterPicker`
++
++## 9-2. 次に調査する箇所(patch 4 時点)
++1. `src/editor/apps/`(精読: `BaseSettings/BaseEditor.vue`、`navigation`、`JsonMerge`、`dataPacks`、`appInfo`、`appItems`)。D-4 もここで確認
++2. `src/editor/helpers/`(精読: `KeyEditor`、`presetsImport`、`presetsExport`、`CharacterChanger`、`IconKeyChanger`、`useTestPost` ほか)
++3. `src/editor/ui/`、`src/editor/dev/`、`src/editor/maps`、`src/editor/types`
++4. 以降は「9. 次に調査する箇所」の 3〜6 のとおり(`stores` / `parts` は完了)
+diff --git a/src/editor/parts/HudPreview.vue b/src/editor/parts/HudPreview.vue
+index e35000e..1bf9ebf 100644
+--- a/src/editor/parts/HudPreview.vue
++++ b/src/editor/parts/HudPreview.vue
+@@ -12,7 +12,7 @@
+         <slot name="hud" />
+       </div>
+ 
+-      <!-- 右下に配置するHUD用のスロット -->
++      <!-- 左下に配置するHUD用のスロットとスケール操作 -->
+       <div class="absolute bottom-2 left-2 z-10 space-y-2">
+         <!-- スケール値表示 -->
+         <slot name="hudLeft" />

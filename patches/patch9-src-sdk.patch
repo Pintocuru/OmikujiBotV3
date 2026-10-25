@@ -1,0 +1,295 @@
+diff --git a/src/dead-code-review.md b/src/dead-code-review.md
+index 83144c8..1f9d34b 100644
+--- a/src/dead-code-review.md
++++ b/src/dead-code-review.md
+@@ -5,6 +5,7 @@
+ - 2026-10-25(続き): clone して grep と `vue-tsc --noEmit` / eslint で確認(patch 2: `src/editor/events` + 関連 i18n)。patch 1(assets)は upstream に適用済みであることを確認(`PostActionsPreview.vue` が存在しない)
+ - 2026-10-25(続き 2): patch 2 適用後の状態を基準に patch 3(`src/editor/apps`・`parts`・`helpers`・`stores`・`types` + 関連 i18n)を実施。**この範囲は全ファイルを精読していない**(下の「機械的に走査のみ」を参照)
+ - 2026-10-25(続き 3): patch 7 適用後の HEAD(`bedbfe1`)を基準に patch 8(`src/editor` の `ui`・`dev`・`shell`・`presets`・`maps`・`types` と直下の `App.vue`・`EditorApp.vue`・`i18n.ts`)を実施。これで `src/editor` は全域の精読が完了
++- 2026-10-25(続き 4): patch 8 適用後の状態を基準に patch 9(`src/sdk` 全域)を実施
+ - コミット・プッシュ: 行っていない(`.patch` で提出。patch 3 は patch 2 の適用が前提)
+ 
+ ---
+@@ -634,7 +635,7 @@ patch 7 までが upstream に適用済みであることを確認した上で
+ - D-32 `App.vue` と `EditorApp.vue` の両方が `data-theme` を設定している(`App.vue` に「EditorApp.vue の daisyUiTheme と同じ」というコメントあり。意図的な二重指定)
+ 
+ ### 範囲外で気づいたこと(未調査・変更なし)
+-- `src/sdk/types/`(`subscribe/SendCommentSchema.ts` と `index.ts`)は、`src/types/subscribe/SendCommentSchema.ts` とほぼ同内容の複製に見える。`src/sdk/types` を import している箇所は `grep` でも自身のコメント以外に見つからない。`src/sdk` の調査時に、参照元と `src/types/` との差分を確認する(`src/types/` は編集不可のため、削除するなら `src/sdk/types/` 側)
++- (patch 9 で訂正)`src/sdk/types/` は未使用ではなく、`src/sdk/post/PostOneComme.ts` が `@/sdk/types` から `SendCommentType` / `SendTestCommentSchema` を import している。`src/types/subscribe/SendCommentSchema.ts` とはほぼ同内容の複製で、`engine/PostOmikuji/PostOmikujiService.ts` と `editor/dev/TestComment/TestComment.vue` は `@/types/subscribe` 側を使っている(8-9 の D-36 を参照)
+ 
+ ## 9-6. 次に調査する箇所(patch 8 時点)
+ 1. `src/sdk`(`src/sdk/types/` の複製疑いの確認から。`src/sdk/post/PostOneComme.ts`、`subscribe/GetReactions.ts` の未使用引数 `platform` もここ)
+@@ -643,3 +644,30 @@ patch 7 までが upstream に適用済みであることを確認した上で
+ 4. `src/` 直下の `リポジトリのデッドコードを調査し、不要なコードを削除してください.md`(依頼文のコピー。参照ではなく、残すかどうかはユーザーに確認)
+ 5. 範囲外の `tools/`・`server/` の `--noUnusedLocals` 指摘(`res`、`TemplateJsonProcessor.ts` の未使用 import 2 件)は、`src/` 外のため今回の依頼の対象外
+ 
++## 8-9. patch 9(2026-10-25 / `src/sdk` 全域)
++
++patch 8 適用後の状態が基準(patch 8 → patch 9 の順で適用)。`vue-tsc --noEmit` は修正前後ともエラー 0、`--noUnusedLocals --noUnusedParameters` の `src/sdk` の指摘は 0 件(修正前は `GetReactions.ts` の `platform` の 1 件)。`eslint src/sdk` もエラーなし。`src/sdk` は全 17 ファイルを精読した(`types/` の 2 ファイルは `src/types/subscribe/` と差分を取って確認)。
++
++### 確認した参照関係
++- `client.ts`(axios)← `PostSettings.ts` の `POST_SETTINGS`(`engine` / `generator` / `server` も使用)
++- `PostOneComme.ts` → `postComment` / `postWordPartyId` / `postSpeech` / `postSystemMessage`、`PostWordParty.ts` の `executeWordParty` が `postWordPartyId` を使用
++- `ServiceAPI`(`createService` / `getServices` / `startPolling` / `stopPolling` / `getInstance` は全て呼び出し元あり)、`PingOneSDK`、`GetComments` → `GetOmikenComments` → `OmikenCommentProcessor`、`GetReactions` / `unsubscribeReactions`、`GetServiceMeta`
++
++### 修正済み
++| 項目 | 変更 | 根拠 |
++|---|---|---|
++| D-33 | `control/StopSpeech.ts`、`service/DetectService.ts`、`subscribe/CommentGuards.ts` を削除 | 各 export(`stopSpeech` / `detectServiceFromUrl` / `useCommentGuards`)は、リポジトリ全体(`src` / `server` / `tools` / `packages` / `docs` / `*.md` / `*.json`、`node_modules` 除く)で定義以外に参照なし。import・文字列参照・動的 import もなし。削除後も `vue-tsc` エラー 0。SDK の予備として残していたなら復元してよい |
++| D-34 | `post/PostOneComme.ts` の未使用関数 `postWordParty` を削除 | 参照なし(同ファイルの `postWordPartyId` は使用中)。`delayPost` は他の関数が使用 |
++| D-35 | `subscribe/GetReactions.ts` の未使用引数 `platform` を削除、`subscribe/GetComments.ts` の不要なコメント `// GetComments.ts` を削除 | 呼び出し元(`ReactionProcessor.ts`)は引数 1 つだけ渡している。`--noUnusedParameters` の指摘 |
++| S-4 | `subscribe/OmikenComment/GetOmikenComments.ts` を Prettier の設定(`semi: false` / `singleQuote: true`)に合わせて整形 | `.prettierrc` と不統一(セミコロン・ダブルクォート)。挙動変更なし(差分は書式のみで、行末は CRLF を維持) |
++
++### 発見事項(修正せず・報告のみ)
++- D-36 `src/sdk/types/subscribe/SendCommentSchema.ts` と `src/types/subscribe/SendCommentSchema.ts`(確信度 中): 同内容の複製。差分は `platform` の `.default('youtube')` の有無、`idSchema` の import 元、コメントのみ。`src/types/` は編集不可のため、統一するなら `PostOneComme.ts` の import を `@/types/subscribe` に寄せて `src/sdk/types/` を削除する形になる。ただし `platform` の既定値の差で挙動が変わりうるため、意図の確認が必要
++- D-37 `subscribe/OmikenComment/OmikenCommentProcessor.ts`(確信度 中): `determineAccessLevel` の `roles.has('anonymity')` は、`getUserRoles` が `'anonymity'` を追加しないため到達しない(`'anonymous'` が返らない)。匿名判定が抜け落ちている不具合の可能性があり、削除せず報告のみ。`isCommentTester` / `convertToJPY` の `export` は同ファイル内でのみ使用(確信度 低)
++- D-38 Prettier 違反(確信度 低、改行コードを除く): `GetReactions.ts` ほか 8 ファイルで書式差分が残る(`--end-of-line auto` で確認)。大半は軽微で、今回は挙動に関わらない 1 ファイルのみ整形した
++
++## 9-7. 次に調査する箇所(patch 9 時点)
++1. `src/common`、`src/engine`、`src/games`、`src/generator`(`TriggerChecker.ts` の `userIds` と editor の `TriggerUserId.vue` の対応、`useAppInitializer.ts` ほか)、`src/layout`、`src/manager`、`src/plugin`、`src/ui`(`useStreamCounters.ts` の未使用 `_`)、`src/console`、`src/maps`、`src/i18n`
++2. `src/types`(編集不可。参照されていない型の報告のみ)、`src/registerAll.ts` / `registerRuntime.ts` / `main.ts` / `DevApp.vue` / `version.ts`
++3. 範囲外の `tools/`・`server/` の `--noUnusedLocals` 指摘は、`src/` 外のため今回の依頼の対象外
++
+diff --git a/src/sdk/control/StopSpeech.ts b/src/sdk/control/StopSpeech.ts
+deleted file mode 100644
+index e2ae3a9..0000000
+--- a/src/sdk/control/StopSpeech.ts
++++ /dev/null
+@@ -1,14 +0,0 @@
+-// src/sdk/control/StopSpeech.ts
+-import { api } from '@/sdk/client'
+-
+-/**
+- * 音声合成（Speech）を停止
+- */
+-export async function stopSpeech(): Promise<void> {
+-  try {
+-    await api.delete('/speech')
+-  } catch (error) {
+-    console.error('スピーチの停止に失敗しました', error)
+-    throw error
+-  }
+-}
+diff --git a/src/sdk/post/PostOneComme.ts b/src/sdk/post/PostOneComme.ts
+index 8f8abea..a8b8c4b 100644
+--- a/src/sdk/post/PostOneComme.ts
++++ b/src/sdk/post/PostOneComme.ts
+@@ -9,18 +9,6 @@ export async function postComment(request: SendCommentType, delaySeconds: number
+   return delayPost('/comments', request, delaySeconds, 'わんコメへのコメント投稿に失敗しました')
+ }
+ 
+-/**
+- * WordPartyにリアクションを投稿
+- */
+-export async function postWordParty(content: string, delaySeconds: number = 0): Promise<void> {
+-  return delayPost(
+-    '/reactions',
+-    { reactions: [{ key: content, value: 1 }] },
+-    delaySeconds,
+-    'WordPartyリアクションの投稿に失敗しました'
+-  )
+-}
+-
+ /**
+  * WordPartyのIDを指定してリアクションを投稿
+  */
+diff --git a/src/sdk/service/DetectService.ts b/src/sdk/service/DetectService.ts
+deleted file mode 100644
+index a48518b..0000000
+--- a/src/sdk/service/DetectService.ts
++++ /dev/null
+@@ -1,39 +0,0 @@
+-// src/sdk/service/DetectService.ts
+-import { ServiceType } from '@onecomme.com/onesdk/types/Service'
+-
+-// サービスマップの定数化
+-const SERVICE_DOMAIN_MAP: Record<string, ServiceType> = {
+-  'youtube.com': 'youtube',
+-  'youtu.be': 'youtube',
+-  'twitch.tv': 'twitch',
+-  'twitcasting.tv': 'twicas',
+-  'showroom-live.com': 'showroom',
+-  'live.bilibili.com': 'bilibili',
+-  'mixch.tv': 'mixch',
+-  'nicovideo.jp': 'niconama',
+-  'live.nicovideo.jp': 'niconama',
+-  'kick.com': 'kick',
+-  'tiktok.com': 'tiktok',
+-  'mirrativ.com': 'mirrativ',
+-} as const
+-
+-/**
+- * URLパターンからServiceTypeを判別
+- */
+-export function detectServiceFromUrl(url: string): ServiceType | null {
+-  if (!url) return null
+-
+-  try {
+-    const parsedUrl = new URL(url.toLowerCase().startsWith('http') ? url : `https://${url}`)
+-    const hostname = parsedUrl.hostname.toLowerCase()
+-
+-    // 通常のマッピング
+-    for (const [domain, service] of Object.entries(SERVICE_DOMAIN_MAP)) {
+-      if (hostname.includes(domain)) return service
+-    }
+-
+-    return null
+-  } catch {
+-    return null
+-  }
+-}
+diff --git a/src/sdk/subscribe/CommentGuards.ts b/src/sdk/subscribe/CommentGuards.ts
+deleted file mode 100644
+index 3aecef4..0000000
+--- a/src/sdk/subscribe/CommentGuards.ts
++++ /dev/null
+@@ -1,51 +0,0 @@
+-// src/sdk/subscribe/CommentGuards.ts
+-import { Comment } from '@onecomme.com/onesdk/types/Comment'
+-
+-export function useCommentGuards() {
+-  // 共通の型ガード関数
+-  function hasProperty<T extends keyof any, V>(
+-    comment: Comment,
+-    key: T,
+-    typeGuard: (value: any) => value is V
+-  ): comment is Comment & { data: { [K in T]: V } } {
+-    return key in comment.data && typeGuard((comment.data as any)[key])
+-  }
+-
+-  // 型ガード: membership を持つか
+-  const hasMembership = (comment: Comment) =>
+-    hasProperty(
+-      comment,
+-      'membership',
+-      (value): value is { sub: string; primary: string } =>
+-        typeof value === 'object' &&
+-        value !== null &&
+-        typeof value.sub === 'string' &&
+-        typeof value.primary === 'string'
+-    )
+-
+-  // 型ガード: isModerator を持つか
+-  function isModerator(comment: Comment): comment is Comment & { data: { isModerator: boolean } } {
+-    return hasProperty(comment, 'isModerator', (value): value is boolean => typeof value === 'boolean')
+-  }
+-
+-  // 型ガード: isMember を持つか
+-  function isMember(comment: Comment): comment is Comment & { data: { isMember: boolean } } {
+-    return hasProperty(comment, 'isMember', (value): value is boolean => typeof value === 'boolean')
+-  }
+-
+-  // 型ガード: paidText を持つか
+-  function hasPaidText(comment: Comment): comment is Comment & { data: { paidText: string } } {
+-    return hasProperty(
+-      comment,
+-      'paidText',
+-      (value): value is string => typeof value === 'string' && value.trim() !== ''
+-    )
+-  }
+-
+-  return {
+-    hasMembership,
+-    isModerator,
+-    isMember,
+-    hasPaidText,
+-  }
+-}
+diff --git a/src/sdk/subscribe/GetComments.ts b/src/sdk/subscribe/GetComments.ts
+index bb27898..13addb1 100644
+--- a/src/sdk/subscribe/GetComments.ts
++++ b/src/sdk/subscribe/GetComments.ts
+@@ -3,7 +3,6 @@ import { PingOneSDK } from '@/sdk/connection/PingOneSDK'
+ import OneSDK from '@onecomme.com/onesdk'
+ import { Comment } from '@onecomme.com/onesdk/types/Comment'
+ 
+-// GetComments.ts
+ let currentSubscriberId: number | null = null
+ 
+ export async function GetComments(
+diff --git a/src/sdk/subscribe/GetReactions.ts b/src/sdk/subscribe/GetReactions.ts
+index 0af456f..212470c 100644
+--- a/src/sdk/subscribe/GetReactions.ts
++++ b/src/sdk/subscribe/GetReactions.ts
+@@ -26,10 +26,7 @@ const reverseMap: Record<string, string> = (() => {
+ 
+ let currentSubscriberId: number | null = null
+ 
+-export async function GetReactions(
+-  callback: (aggregated: ReactionMap) => void,
+-  platform: 'youtube' = 'youtube'
+-): Promise<boolean> {
++export async function GetReactions(callback: (aggregated: ReactionMap) => void): Promise<boolean> {
+   try {
+     if (currentSubscriberId !== null) {
+       console.log(`HMR: 既存の購読ID ${currentSubscriberId} を解除します`)
+diff --git a/src/sdk/subscribe/OmikenComment/GetOmikenComments.ts b/src/sdk/subscribe/OmikenComment/GetOmikenComments.ts
+index aba4c80..c3ba72e 100644
+--- a/src/sdk/subscribe/OmikenComment/GetOmikenComments.ts
++++ b/src/sdk/subscribe/OmikenComment/GetOmikenComments.ts
+@@ -1,46 +1,40 @@
+-// src/sdk/subscribe/OmikenComment/GetOmikenComments.ts
+-import { OmikenCommentType } from "@/types/OmikenComment/";
+-import { GetComments } from "../GetComments";
+-import { processOmikenComments } from "./OmikenCommentProcessor";
+-import { Comment } from "@onecomme.com/onesdk/types/Comment";
++// src/sdk/subscribe/OmikenComment/GetOmikenComments.ts
++import { OmikenCommentType } from '@/types/OmikenComment/'
++import { GetComments } from '../GetComments'
++import { processOmikenComments } from './OmikenCommentProcessor'
++import { Comment } from '@onecomme.com/onesdk/types/Comment'
+ 
+ /**
+  * わんコメのコメントをおみくじBOT用に加工
+  */
+ 
+ export async function GetOmikenComments(
+-  callback: (
+-    omikens: OmikenCommentType[],
+-    isReset: boolean,
+-    isFirstLoad: boolean,
+-  ) => void,
++  callback: (omikens: OmikenCommentType[], isReset: boolean, isFirstLoad: boolean) => void
+ ): Promise<boolean> {
+-  let isFirstLoad = true;
++  let isFirstLoad = true
+   const call = (comments: unknown) => {
+     if (!Array.isArray(comments)) {
+-      throw new TypeError(
+-        `[GetOmikenComments] 不正なデータ形式: ${typeof comments}`,
+-      );
++      throw new TypeError(`[GetOmikenComments] 不正なデータ形式: ${typeof comments}`)
+     }
+ 
+     if (comments.length === 0) {
+-      callback([], true, isFirstLoad);
+-      return;
++      callback([], true, isFirstLoad)
++      return
+     }
+ 
+-    const currentIsFirstLoad = isFirstLoad; // ★ 呼び出し時点の値を保持
+-    isFirstLoad = false; // ★ コールバック内でリセット
++    const currentIsFirstLoad = isFirstLoad // ★ 呼び出し時点の値を保持
++    isFirstLoad = false // ★ コールバック内でリセット
+ 
+-    const omikens = processOmikenComments(comments as Comment[]);
+-    callback(omikens, false, currentIsFirstLoad);
+-  };
++    const omikens = processOmikenComments(comments as Comment[])
++    callback(omikens, false, currentIsFirstLoad)
++  }
+ 
+   try {
+-    const result = await GetComments(call, { initialLoad: isFirstLoad });
++    const result = await GetComments(call, { initialLoad: isFirstLoad })
+ 
+-    return result;
++    return result
+   } catch (error) {
+-    console.error("[GetOmikenComments] コメント受信エラー:", error);
+-    throw error;
++    console.error('[GetOmikenComments] コメント受信エラー:', error)
++    throw error
+   }
+ }

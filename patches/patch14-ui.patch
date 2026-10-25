@@ -1,0 +1,110 @@
+diff -ruN /tmp/base/src/dead-code-review.md src/dead-code-review.md
+--- a/src/dead-code-review.md	2026-10-25 15:38:51.552947637 +0000
++++ b/src/dead-code-review.md	2026-10-25 15:39:24.096703995 +0000
+@@ -749,3 +749,25 @@
+ 1. `src/generator` の残り(`stores`、`scripts/EventProcess`)の精読、`src/plugin` の精読
+ 2. `src/ui`(`useStreamCounters.ts` の未使用 `_`)、`src/i18n`、`src/common` と `src/engine` の精読
+ 3. `src/types`(報告のみ)、直下ファイル、テスト・ビルド設定
++
++## 8-14. patch 14(2026-10-26 / `src/ui`)
++
++patch 13 適用後の状態が基準(patch 13 → patch 14 の順で適用)。`src/ui` 全 98 ファイルについて、ファイル名による未参照走査と、出現 1 回の識別子の走査を行った。精読はしていない(参照確認のため `counterTypes.ts` と周辺の import を確認)。
++
++### 修正済み
++
++| 項目 | 変更 | 根拠 |
++| ---- | ---- | ---- |
++| I-1 | `ui/ToastWidgets/editor/CharacterSelectorSingle.vue` を削除 | リポジトリ全体(`src` / `docs` / `tools` / `packages` / `server`)で自身以外の参照なし。同じフォルダの `CharacterSelectorMulti.vue` は使用中 |
++| I-2 | `ui/StreamCounter/editor/CounterSelector/counterTypes.ts` の `getCounterLabel` と `EventRule`、不要になった `streamDefaultMap` の import を削除 | `getCounterLabel` は参照ゼロ、`EventRule` は `getCounterLabel` の引数でのみ使用。`CounterItem` は他で使用中のため残した |
++
++### 発見事項(修正せず・報告のみ)
++
++- I-3 `ui/GameRanking/scripts/services/MessageService.ts`(確信度 中): 参照ゼロだが、ファイル内の TODO(LiveConsole)で「GameRanking 内でのみ表示するメッセージとして使う予定」と明記されているため保留(方針どおり残す)
++- 環境: `npm ci` が完了せず `vue-tsc` / eslint は未実行。`ui/common/useStreamCounters.ts:58` の `const _ = previewTick.value` は、`previewTick` への依存を張るための意図的な読み取り(`watchEffect` の再実行トリガー)で、削除不可
++
++## 9-12. 次に調査する箇所(patch 14 時点)
++
++1. `src/ui` の精読(特に `common`、`StreamCounter`、`CookieCounter`、`GameRanking`)
++2. `src/generator` の残り(`stores`、`scripts/EventProcess`)、`src/plugin` の精読
++3. `src/i18n`、`src/common` と `src/engine` の精読、`src/types`(報告のみ)、直下ファイル、テスト・ビルド設定
+diff -ruN /tmp/base/src/ui/StreamCounter/editor/CounterSelector/counterTypes.ts src/ui/StreamCounter/editor/CounterSelector/counterTypes.ts
+--- a/src/ui/StreamCounter/editor/CounterSelector/counterTypes.ts	2026-10-25 15:38:51.620502113 +0000
++++ b/src/ui/StreamCounter/editor/CounterSelector/counterTypes.ts	2026-10-25 15:39:16.019269473 +0000
+@@ -1,25 +1,7 @@
+ // src/ui/StreamCounter/editor/CounterSelector/counterTypes.ts
+-import { streamDefaultMap } from '@/maps/ui'
+-
+ export interface CounterItem {
+   id: string
+   type: 'default' | 'event' | 'variable'
+   target: string
+   label?: string
+ }
+-
+-export interface EventRule {
+-  key: string
+-  name: string
+-}
+-
+-export const getCounterLabel = (c: CounterItem, eventRules: EventRule[]): string => {
+-  if (c.type === 'default') {
+-    return streamDefaultMap[c.target as keyof typeof streamDefaultMap] ?? c.target
+-  }
+-  if (c.label) return c.label
+-  if (c.type === 'event') {
+-    return eventRules.find((r) => r.key === c.target)?.name ?? c.target
+-  }
+-  return c.target
+-}
+diff -ruN /tmp/base/src/ui/ToastWidgets/editor/CharacterSelectorSingle.vue src/ui/ToastWidgets/editor/CharacterSelectorSingle.vue
+--- a/src/ui/ToastWidgets/editor/CharacterSelectorSingle.vue	2026-10-25 15:38:51.622060738 +0000
++++ b/src/ui/ToastWidgets/editor/CharacterSelectorSingle.vue	1970-01-01 00:00:00.000000000 +0000
+@@ -1,48 +0,0 @@
+-<!-- src/ui/ToastWidgets/editor/CharacterSelectorSingle.vue -->
+-<template>
+-  <div class="flex flex-wrap gap-2">
+-    <!-- null 選択肢 -->
+-    <div
+-      class="badge cursor-pointer p-3 transition-colors duration-150"
+-      :class="{
+-        'badge-primary': isSelected(null),
+-        'badge-ghost': !isSelected(null),
+-      }"
+-      @click="select(null)"
+-    >
+-      なし
+-    </div>
+-
+-    <!-- 通常キャラ一覧 -->
+-    <div
+-      v-for="(character, key) in characters"
+-      :key="key"
+-      class="badge cursor-pointer p-3 transition-colors duration-150"
+-      :class="{
+-        'badge-primary': isSelected(key),
+-        'badge-ghost': !isSelected(key),
+-      }"
+-      @click="select(key as string)"
+-    >
+-      {{ character.name }}
+-    </div>
+-  </div>
+-</template>
+-
+-<script setup lang="ts">
+-  import { CharacterType } from '@/types/OmikujiData'
+-
+-  const props = defineProps<{
+-    characters: Record<string, CharacterType>
+-    selectedKey: string | null
+-  }>()
+-
+-  const emit = defineEmits(['update:selectedKey'])
+-
+-  const isSelected = (key: string | null) => props.selectedKey === key
+-
+-  const select = (key: string | null) => {
+-    if (props.selectedKey === key) return
+-    emit('update:selectedKey', key)
+-  }
+-</script>

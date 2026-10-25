@@ -1,0 +1,396 @@
+diff --git a/src/dead-code-review.md b/src/dead-code-review.md
+index e5d7dca..848c33c 100644
+--- a/src/dead-code-review.md
++++ b/src/dead-code-review.md
+@@ -136,7 +136,9 @@
+ 
+ ### 4-1. 削除候補
+ 
+-#### A-1 `isCommentMode`(常に true の分岐)
++#### A-1 `isCommentMode`(**撤回: 削除不可**。2026-10-25 にコードで再確認)
++- 訂正: `src/ui/LiveClock/editor/LiveClockEditor.vue:25` が `<MessageTextDialog v-model="messageText" />` を prop なし(= false)で使っている。false 側は到達するため残す。資料の「全呼び出し元が true」は assets 内のみの確認だった
++- 以下は当初の記述(参考)
+ - 場所
+   - `PostFlow/Message/MessageTextDialog.vue` の prop `isCommentMode`
+   - `PostFlow/Message/PlaceholderPanel.vue` の同 prop
+@@ -144,7 +146,7 @@
+ - 理由: 呼び出し元 4 か所(`MessageSettings`、`BotSettings`、`VariableSettings`、`OmikujiItemControlSettings`)が全て `:isCommentMode="true"` を渡している。false 側は到達しない。トースト/フキダシ分離の廃止の名残と思われる
+ - 参照: 上記 4 呼び出し元のみ(assets 内で確認)
+ - 影響: 挙動変化なし。`defaultBasePlaceholderLabel`(types 側)が他で未使用になる可能性がある
+-- 確信度: 高
++- 確信度: 撤回(削除しない)
+ 
+ #### A-2 `PostActionItem.vue` の未使用定義
+ - 場所
+@@ -162,7 +164,8 @@
+ - 影響: なし
+ - 確信度: 高
+ 
+-#### A-4 `MikujiSettings.vue` の `category` prop(`MikujiEditor` から渡している分も含む)
++#### A-4 `MikujiSettings.vue` の `category` prop(`MikujiEditor` から渡している分も含む)【未修正・保留】
++- 追記: 呼び出し元は assets 外の `src/editor/events/{comment,reaction,service,timer}/*Editor.vue` にもあり(計 5 か所)、`EventCategoryType` の import も連動するため、events の調査時にまとめて修正する
+ - 理由: 宣言のみで未使用
+ - 影響: なし
+ - 確信度: 高
+@@ -189,10 +192,11 @@
+ - 影響: i18n キー `postFlow.actionPreview.hidden` も未使用になる可能性がある(ロケール未確認)
+ - 確信度: 高
+ 
+-#### A-9 `MessagePreviewPanel.vue` の try/catch
++#### A-9 `MessagePreviewPanel.vue` の try/catch【確信度を下げ、修正せず】
++- 追記: try 内で `data.assets.placeholders ?? {}`(引数評価)を行っており、`data.assets` が未定義なら catch に到達しうるため、到達不能とは言えない
+ - 理由: `processTestPlaceholder` 自体が内部で例外を握りつぶすため、外側の catch は到達しない
+ - 影響: なし
+-- 確信度: 高
++- 確信度: 中(上記追記のとおり)
+ 
+ #### A-10 `useEmotionDraft.ts` の未使用戻り値
+ - 場所: `draftItemFor`、`removeKey`
+@@ -247,7 +251,7 @@
+ 
+ | 対象 | 内容 | 要確認の理由 |
+ |---|---|---|
+-| `PostFlow/PostActionsPreview.vue` | assets 内に import なし。`displayText` が variable / gameScript / bot に未対応で旧実装に見える。単数形 `preview/PostActionPreview.vue` と名前が紛らわしい | `src/editor` の他ディレクトリからの参照が未検証。専用 i18n キー `postFlow.actionsPreview.*` もあり、削除時はロケールも整理が必要 |
++| (削除済み)`PostFlow/PostActionsPreview.vue` | assets 内に import なし。`displayText` が variable / gameScript / bot に未対応で旧実装に見える。単数形 `preview/PostActionPreview.vue` と名前が紛らわしい | `src/editor` の他ディレクトリからの参照が未検証。専用 i18n キー `postFlow.actionsPreview.*` もあり、削除時はロケールも整理が必要 |
+ | `PostFlow/Message/MessageTextEditor.vue` | `Message` / `Bot` / `variable` の各 Settings は `MessageTextDialog` を使い、このファイルは import されていない | assets 外の参照が未検証 |
+ | `MikujiEditor` 上部の Character/IconKey ボタンと `MikujiSettings` 内の同ボタン | 全体変更とアイテム単位変更の二段構成に見える | 意図した設計か未確認 |
+ | `useBoxOmikujiList` / `MessageSettings` / `MessagePreviewPanel` の `const { data } = useOmikujiStore()` | 分割代入しており、`data` がストア内で再代入される実装だとリアクティブ性が切れる | `useOmikujiStore` の実装未読 |
+@@ -307,3 +311,32 @@
+ 6. ロケールファイル(A-8 と `PostActionsPreview` 関連キー)
+ 7. `PostFlow/composables/usePostActionsTab.ts` の中身、`ImageSettingsInfo.vue`
+ 8. テスト、`vite.config`、`package.json`
++
++
++---
++
++## 8. 修正済み箇所と変更内容(2026-10-25 / patch 1: `src/editor/assets` + 関連 i18n)
++
++コードを clone して grep で全リポジトリ(src / tools / packages / server / vite 設定)を確認した上で修正。`vue-tsc --noEmit` は修正前後ともエラー 0、変更ファイルの eslint もエラーなし。
++
++| 項目 | 変更 | 根拠 |
++|---|---|---|
++| 未参照ファイル削除 | `PostFlow/PostActionsPreview.vue`、`PostFlow/Message/MessageTextEditor.vue` | リポジトリ全体で import・文字列参照なし。`import.meta.glob` や動的 import による参照もなし |
++| i18n | `src/i18n/editor/assets/PostFlow.ts` の `postFlow.actionsPreview`(ja/en)、`postFlow.actionPreview.hidden`(ja/en)を削除 | 参照元が上記削除ファイルと A-8 の分岐のみ。テンプレートリテラルによるキー組み立てなし |
++| A-2 | `PostActionItem.vue` の prop `index`、emit `duplicate`/`remove`、`v-for` の未使用 `meta`(`_` に変更)を削除。`PostFlowsEditor.vue` の `:index`/`@duplicate`/`@remove`(PostActionItem 側)を削除 | PostActionItem の利用元は PostFlowsEditor のみ。複製・削除はタブ側(PostActionsTabs)で処理 |
++| A-3 | `ActionsEditor.vue` の PostFlowsEditor への `category` / `selectedItemKey` を削除 | 受け側は `modelValue` のみ |
++| A-5 | `IconSelector.vue` の `showHoverSelector`、emit `showSelector` を削除 | 参照・利用元とも未使用 |
++| A-6 | `PlaceholderTextMode.vue` の `error` フィールドと `getErrorMessage` を削除 | `item.error` はどこでも読まれない(`hasError` のみ使用) |
++| A-7 | `TestPlaceholderProcessor.ts` の no-op な `highlighted` を除去(戻り値は同値) | コールバックが引数をそのまま返すだけ |
++| A-8 | `PostActionPreview.vue` の到達不能な `if (!processed)` を削除 | `processTestPlaceholder` は常にオブジェクトを返す |
++
++### 修正しなかった項目
++- A-1(撤回、LiveClockEditor が false 側を使用)、A-4(events 側の呼び出しを含むため保留)、A-9(確信度低下)
++- A-10〜A-15、4-2 の要確認項目、4-3 の不具合疑い: 確信度が中・低、または意図確認が必要なため報告のみ
++
++## 9. 次に調査する箇所(更新)
++1. `src/editor/events/`(A-4 の `category` 5 か所もここで処理)
++2. `src/editor/apps/`、`parts/`、`helpers/`、`stores/`、`maps/`
++3. `src/maps/OmikujiData`、`src/types/OmikujiData`、ロケール全体
++4. `usePostActionsTab.ts` の戻り値、`ImageSettingsInfo.vue`
++5. `src/common`、`src/engine`、`src/games`、`src/generator`、`src/layout`、`src/manager`、`src/plugin`、`src/sdk`、`src/ui`、`src/console`(未着手)
+diff --git a/src/editor/assets/PostFlow/IconSelector/IconSelector.vue b/src/editor/assets/PostFlow/IconSelector/IconSelector.vue
+index 3fa0af1..f407318 100644
+--- a/src/editor/assets/PostFlow/IconSelector/IconSelector.vue
++++ b/src/editor/assets/PostFlow/IconSelector/IconSelector.vue
+@@ -10,8 +10,6 @@
+     <div class="relative">
+       <button
+         @click="showIconSelector"
+-        @mouseenter="showHoverSelector = true"
+-        @mouseleave="showHoverSelector = false"
+         class="btn btn-sm btn-outline tooltip tooltip-top"
+         :data-tip="t('postFlow.iconSelector.tip')"
+       >
+@@ -44,7 +42,6 @@
+ 
+   const emit = defineEmits<{
+     'update:iconKey': [value: string]
+-    showSelector: [characterKey: string, iconKey: string]
+   }>()
+ 
+   const { characterMap } = useCharacterLookup()
+@@ -55,7 +52,6 @@
+     )
+   })
+ 
+-  const showHoverSelector = ref(false)
+   const iconSelectorModalRef: Ref<InstanceType<typeof IconSelectorModal> | null> = ref(null)
+ 
+   const localIconKey = computed({
+diff --git a/src/editor/assets/PostFlow/Message/MessageTextEditor.vue b/src/editor/assets/PostFlow/Message/MessageTextEditor.vue
+deleted file mode 100644
+index 02454e3..0000000
+--- a/src/editor/assets/PostFlow/Message/MessageTextEditor.vue
++++ /dev/null
+@@ -1,64 +0,0 @@
+-<!-- src/editor/assets/PostFlow/Message/MessageTextEditor.vue -->
+-<template>
+-  <div class="relative w-full">
+-    <!-- input -->
+-    <input
+-      v-model="model"
+-      type="text"
+-      class="input input-bordered input-sm w-full pr-10"
+-      :placeholder="placeholderText"
+-      :class="{ hidden: isTextarea }"
+-    />
+-
+-    <!-- textarea -->
+-    <textarea
+-      v-model="model"
+-      :rows="rows"
+-      class="textarea textarea-bordered textarea-sm w-full pr-10"
+-      :placeholder="placeholderText"
+-      :class="{ hidden: !isTextarea }"
+-    ></textarea>
+-
+-    <!-- toggle -->
+-    <button
+-      type="button"
+-      class="absolute right-2 top-1/2 -translate-y-1/2 btn btn-ghost btn-xs"
+-      @click="isTextarea = !isTextarea"
+-    >
+-      <AlignLeft v-if="!isTextarea" class="w-4 h-4" />
+-      <AlignJustify v-else class="w-4 h-4" />
+-    </button>
+-  </div>
+-</template>
+-
+-<script setup lang="ts">
+-  import { useI18n } from 'vue-i18n'
+-  import { computed, ref } from 'vue'
+-  import { AlignLeft, AlignJustify } from 'lucide-vue-next'
+-
+-  const { t } = useI18n()
+-
+-  const props = withDefaults(
+-    defineProps<{
+-      modelValue: string
+-      placeholder?: string
+-      rows?: number
+-    }>(),
+-    {
+-      rows: 3,
+-    }
+-  )
+-
+-  const emit = defineEmits<{
+-    'update:modelValue': [value: string]
+-  }>()
+-
+-  const isTextarea = ref(true)
+-
+-  const placeholderText = computed(() => props.placeholder ?? t('postFlow.messageEditor.placeholder'))
+-
+-  const model = computed({
+-    get: () => props.modelValue ?? '',
+-    set: (value: string) => emit('update:modelValue', value),
+-  })
+-</script>
+diff --git a/src/editor/assets/PostFlow/PostActionsPreview.vue b/src/editor/assets/PostFlow/PostActionsPreview.vue
+deleted file mode 100644
+index 8ba4048..0000000
+--- a/src/editor/assets/PostFlow/PostActionsPreview.vue
++++ /dev/null
+@@ -1,48 +0,0 @@
+-<!-- src/editor/assets/PostFlow/PostActionsPreview.vue -->
+-<template>
+-  <div class="bg-base-200 rounded p-3 text-sm relative">
+-    <div v-if="actions.length !== 0" class="space-y-0">
+-      <div v-for="(action, index) in actions" :key="index" class="flex-1 min-w-0 flex">
+-        <!-- アイコンやバッジ部分 -->
+-        <PostActionRow :action="action" />
+-
+-        <!-- 本文部分 -->
+-        <div class="flex-1 min-w-0">
+-          <div class="flex flex-wrap gap-1 items-center">
+-            <span class="text-base-content truncate">
+-              {{ displayText(action) }}
+-            </span>
+-          </div>
+-        </div>
+-      </div>
+-    </div>
+-    <div v-else class="text-base-content/70 italic">{{ t('postFlow.actionsPreview.empty') }}</div>
+-  </div>
+-</template>
+-
+-<script setup lang="ts">
+-  import { useI18n } from 'vue-i18n'
+-  import { PostFlowType } from '@/types/OmikujiData'
+-  import PostActionRow from './tooltab/PostActionRow.vue'
+-
+-  const { t } = useI18n()
+-
+-  defineProps<{
+-    actions: PostFlowType[]
+-  }>()
+-
+-  const displayText = (action: PostFlowType) => {
+-    switch (action.kind) {
+-      case 'message':
+-        return action.message || 'error'
+-      case 'wordParty':
+-        return action.wordPartyId
+-      case 'sound':
+-        return action.sound
+-      case 'flowCall':
+-        return t('postFlow.actionsPreview.flowCall', { keys: action.callKeys })
+-      default:
+-        return ''
+-    }
+-  }
+-</script>
+diff --git a/src/editor/assets/PostFlow/PostFlowsEditor.vue b/src/editor/assets/PostFlow/PostFlowsEditor.vue
+index 0afda82..16af44a 100644
+--- a/src/editor/assets/PostFlow/PostFlowsEditor.vue
++++ b/src/editor/assets/PostFlow/PostFlowsEditor.vue
+@@ -25,10 +25,7 @@
+     <template v-else-if="props.modelValue.length > 0 && activeTab >= 0">
+       <PostActionItem
+         :action="currentAction"
+-        :index="activeTab"
+         @update:action="updateCurrentAction"
+-        @duplicate="duplicateAction"
+-        @remove="removeAction"
+       />
+     </template>
+   </div>
+diff --git a/src/editor/assets/PostFlow/items/PostActionItem.vue b/src/editor/assets/PostFlow/items/PostActionItem.vue
+index a3e97c8..c65b77f 100644
+--- a/src/editor/assets/PostFlow/items/PostActionItem.vue
++++ b/src/editor/assets/PostFlow/items/PostActionItem.vue
+@@ -13,7 +13,7 @@
+       <SettingItem layout="vertical" icon="Rocket" :label="t('postFlow.actionItem.typeLabel')" :description="t('postFlow.actionItem.typeDesc')">
+         <div class="flex flex-wrap gap-2">
+           <span
+-            v-for="(meta, type) in postFlowKindMap"
++            v-for="(_, type) in postFlowKindMap"
+             :key="type"
+             class="badge badge-sm cursor-pointer"
+             :class="action.kind === type ? 'badge-primary' : 'badge-outline'"
+@@ -83,13 +83,10 @@
+ 
+   const props = defineProps<{
+     action: PostFlowType
+-    index: number
+   }>()
+ 
+   // Emits
+   const emit = defineEmits<{
+-    duplicate: [index: number]
+-    remove: [index: number]
+     'update:action': [value: PostFlowType]
+   }>()
+ 
+diff --git a/src/editor/assets/PostFlow/preview/PostActionPreview.vue b/src/editor/assets/PostFlow/preview/PostActionPreview.vue
+index 7a50bda..f2b6c9b 100644
+--- a/src/editor/assets/PostFlow/preview/PostActionPreview.vue
++++ b/src/editor/assets/PostFlow/preview/PostActionPreview.vue
+@@ -135,7 +135,6 @@
+     const content = props.action.message
+     if (!content) return t('postFlow.actionPreview.noMessage')
+     const processed = processTestPlaceholder(content, data.value.assets.placeholders)
+-    if (!processed) return t('postFlow.actionPreview.hidden')
+     return transformIconPlaceholdersPreview(processed.text)
+   })
+ 
+diff --git a/src/editor/assets/PostFlow/preview/TestPlaceholderProcessor.ts b/src/editor/assets/PostFlow/preview/TestPlaceholderProcessor.ts
+index 513da73..2484168 100644
+--- a/src/editor/assets/PostFlow/preview/TestPlaceholderProcessor.ts
++++ b/src/editor/assets/PostFlow/preview/TestPlaceholderProcessor.ts
+@@ -37,15 +37,7 @@ export const processTestPlaceholder = (
+     // 未処理 {{ }} が残っていればエラー
+     const hasError = /\{\{[\s\S]*?\}\}/.test(processed.bubble)
+ 
+-    if (hasError) {
+-      const highlighted = processed.bubble.replace(/\{\{[\s\S]*?\}\}/g, (m) => {
+-        return m
+-      })
+-
+-      return { text: highlighted, hasError: true }
+-    }
+-
+-    return { text: processed.bubble, hasError: false }
++    return { text: processed.bubble, hasError }
+   } catch {
+     return {
+       text: message,
+diff --git a/src/editor/assets/actions/ActionsEditor.vue b/src/editor/assets/actions/ActionsEditor.vue
+index d19b9d5..27bf4c8 100644
+--- a/src/editor/assets/actions/ActionsEditor.vue
++++ b/src/editor/assets/actions/ActionsEditor.vue
+@@ -27,7 +27,7 @@
+       :label="s('omikujiSet')?.label"
+       :description="s('omikujiSet')?.description"
+     >
+-      <PostFlowsEditor v-model="postFlows" category="actions" :selectedItemKey="selectedItemKey" />
++      <PostFlowsEditor v-model="postFlows" />
+     </SectionCard>
+   </template>
+ </template>
+diff --git a/src/editor/assets/placeholders/PlaceholderTextMode.vue b/src/editor/assets/placeholders/PlaceholderTextMode.vue
+index 28bab0d..47a1d76 100644
+--- a/src/editor/assets/placeholders/PlaceholderTextMode.vue
++++ b/src/editor/assets/placeholders/PlaceholderTextMode.vue
+@@ -121,18 +121,9 @@
+     return {
+       ...candidate,
+       hasError: !result.success,
+-      error: result.success ? '' : getErrorMessage(result.error),
+     }
+   }
+ 
+-  // エラーメッセージを日本語化
+-  const getErrorMessage = (error: any) => {
+-    const issue = error.issues?.[0]
+-    if (issue?.path?.[0] === 'weight') return '重みは1以上の整数である必要があります'
+-    if (issue?.path?.[0] === 'content') return '内容が必要です'
+-    return '不正な値です'
+-  }
+-
+   // プレビューアイテム
+   const previewItems = computed(() => {
+     return textContent.value
+diff --git a/src/i18n/editor/assets/PostFlow.ts b/src/i18n/editor/assets/PostFlow.ts
+index 0d432f7..bc3b63c 100644
+--- a/src/i18n/editor/assets/PostFlow.ts
++++ b/src/i18n/editor/assets/PostFlow.ts
+@@ -70,10 +70,6 @@ export const postFlowMessages = {
+         icon: 'アイコン',
+         message: 'メッセージ',
+       },
+-      actionsPreview: {
+-        empty: 'Post Actions が設定されていません',
+-        flowCall: 'アクションセット: {keys}',
+-      },
+       flowsEditor: {
+         empty: 'PostActionがありません',
+         addFirst: '最初のアクションを追加',
+@@ -124,7 +120,6 @@ export const postFlowMessages = {
+         none: 'このアクションにはプレビューがありません',
+         invalid: '(不正な処理です)',
+         noMessage: '(メッセージなし)',
+-        hidden: '(このメッセージは表示されません)',
+       },
+       tests: {
+         sound: 'サウンドのテスト実行',
+@@ -226,10 +221,6 @@ export const postFlowMessages = {
+         icon: 'Icon',
+         message: 'Message',
+       },
+-      actionsPreview: {
+-        empty: 'No Post Actions are set',
+-        flowCall: 'Action set: {keys}',
+-      },
+       flowsEditor: {
+         empty: 'No PostActions',
+         addFirst: 'Add the first action',
+@@ -281,7 +272,6 @@ export const postFlowMessages = {
+         none: 'No preview for this action',
+         invalid: '(Invalid action)',
+         noMessage: '(No message)',
+-        hidden: '(This message will not be displayed)',
+       },
+       tests: {
+         sound: 'Test sound',

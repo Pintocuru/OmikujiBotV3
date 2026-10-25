@@ -18,7 +18,7 @@ export function ensureSampleCharacters(data: OmikujiDataType): OmikujiDataType {
     image: {
       default: { label: 'default', src: [] },
       happy: { label: 'happy', src: [] },
-      surprise: { label: 'surprise', src: [] },
+      surprised: { label: 'surprised', src: [] },
       sad: { label: 'sad', src: [] },
       angry: { label: 'angry', src: [] },
       thinking: { label: 'thinking', src: [] },
