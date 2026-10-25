@@ -654,3 +654,75 @@ patch 8 適用後の状態が基準(patch 8 → patch 9 の順で適用)。`vue-
 1. `src/common`、`src/engine`、`src/games`、`src/generator`(`TriggerChecker.ts` の `userIds` と editor の `TriggerUserId.vue` の対応、`useAppInitializer.ts` ほか)、`src/layout`、`src/manager`、`src/plugin`、`src/ui`(`useStreamCounters.ts` の未使用 `_`)、`src/console`、`src/maps`、`src/i18n`
 2. `src/types`(編集不可。参照されていない型の報告のみ)、`src/registerAll.ts` / `registerRuntime.ts` / `main.ts` / `DevApp.vue` / `version.ts`
 3. 範囲外の `tools/`・`server/` の `--noUnusedLocals` 指摘は、`src/` 外のため今回の依頼の対象外
+
+## 8-10. patch 10(2026-10-26 / `src/common`)
+
+HEAD `136782d` を基準(patch 9 適用済み)。`src/common` の全 37 ファイルについて、`src` / `tools` / `packages` / `server` / `docs` を grep し、静的 import・動的 import・`import.meta.glob` の参照を確認した(`src/common` 内に glob / require.context はなし)。
+
+### 修正済み
+
+| 項目 | 変更 | 根拠 |
+| ---- | ---- | ---- |
+| E-1 | `common/DraggableWrapper/DraggableWrapper.vue` を削除 | ファイル名・コンポーネント名ともリポジトリ全体で自身以外の参照なし |
+| E-2 | `common/ErrorInfo/ErrorInfoDaisy.vue` を削除 | 同上。`ErrorInfo.vue` / `ConnectionStatusIndicator.vue` は `generator/App.vue` が使用中 |
+
+### 発見事項(修正せず・報告のみ)
+
+- E-3 `common/MockUser/maps/MockUser{Ch,En,Kr,Th}Maps.ts`(確信度 中): export(`MOCK_*_ZH/EN/KO/TH_*`)は全て参照なし。`MockGenerators.ts` に「en: ... 追加予定」のコメントがあり、多言語対応の準備と思われるため保留
+- E-4 `vue-draggable-plus` は `editor/assets` の `EmotionGrid.vue` / `WeightBar.vue` が使用中のため、E-1 削除後も依存は残す
+
+### 精読していない範囲
+
+- 上記以外の `src/common` は参照数の機械確認のみ(被参照 1 件以上)。`migrations` / `buildValidation` / `EntryCore` は内容未精読
+
+## 9-8. 次に調査する箇所(patch 10 時点)
+
+1. `src/common` の精読(`migrations`、`buildValidation`、`EntryCore`、`LayerImage`、`sounds`)
+2. `src/engine`、`src/games`、`src/generator`(`TriggerChecker.ts` の `userIds`)、`src/layout`、`src/manager`、`src/plugin`、`src/ui`、`src/console`、`src/maps`、`src/i18n`
+3. `src/types`(報告のみ)、`registerAll.ts` ほか直下
+
+## 8-11. patch 11(2026-10-26 / `src/engine`・`games`・`generator`・`layout`・`manager`・`plugin`・`console`・`maps` の機械走査)
+
+patch 10 適用後の状態が基準(patch 10 → patch 11 の順で適用)。この範囲は**精読していない**。次の 2 つの機械走査のみを行った。
+1. ファイル名による import 参照ゼロの `.ts` / `.vue`(`src` / `tools` / `packages` / `server` / `vite.config.ts` / html を grep)
+2. 他ファイルから参照されない `export`(単語一致で `src` / `tools` / `packages` / `server` を grep)
+
+### 修正済み
+
+| 項目 | 変更 | 根拠 |
+| ---- | ---- | ---- |
+| F-1 | `games/scripts/DwarfBomb/game/dwarfTypes.ts` を削除 | 未参照ファイルは走査 1 でこの 1 件のみ。`DwarfSnapshot` は他で未使用(`DwarfBomb/game.ts` はプロパティ名を使うだけで型は import しない) |
+
+### 発見事項(修正せず・報告のみ)
+
+- F-2 `engine/DrawOmikuji/DrawOmikuji.ts`(確信度 中): `drawMultipleOmikuji` / `drawOmikujiWithCondition` / `getOmikujiStatistics`(デバッグ用)は参照ゼロ。エンジンの汎用ユーティリティとして残している可能性があり保留
+- F-3 参照のない `export`(確信度 低。ファイル内では使われているものが多く、`export` を外すだけで済む): `generator/scripts/EventProcess/ServiceTriggerEvaluator.ts` の `evaluateServiceCondition` / `evaluateElapsedTime`、`DefaultPlaceholderBuilder.ts` の `buildBasePlaceholders`、`trigger/checkers/ExpressionChecker.ts` の `buildTriggerExpressionContext`、`ExpressionEvaluator.ts` の `normalizeTriggerExpression`、`manager/services/baseApiClient.ts` の `ApiError`、`console/scripts/summarizeState.ts` の `UserRow` / `resolveUserNames`
+- F-4 games 内(確信度 低): `types/GameScriptTypes.ts` の `ScriptPreset`、`GouseiSuika` の `GameConfigs` / `ItemLottery`、`DwarfBomb/game/gameConfigs.ts` の `RewardItem` / `GoldRewardConfig`、`FortuneRanking/game.ts` の `playSlot`、`MultiplyBonanza/wordPartySelector.ts` の `WORD_PARTY_CONFIG`、`HugEmAll` の `gameModes` / `PLAYER_INITIAL_LIFE` / `ATTACK_PROBABILITIES` / `ATTACK_EFFECTS`。「games の修正は別の機会」の方針のため保留
+- 環境: `npm ci` が完了せず(`node_modules` なし)、今回は `vue-tsc` / eslint を実行できていない。削除した型ファイルは参照ゼロのため影響なしと判断
+
+## 9-9. 次に調査する箇所(patch 11 時点)
+
+1. 上記範囲の精読(優先: `generator`(`TriggerChecker.ts` の `userIds`、`useAppInitializer.ts`)、`engine`、`plugin`)
+2. `src/ui`(`useStreamCounters.ts` の未使用 `_` を含む)、`src/i18n`(キー未使用判定)、`src/common` の精読
+3. `src/types`(報告のみ)、直下ファイル、テスト・ビルド設定
+
+## 8-12. patch 12(2026-10-26 / `src/engine`)
+
+patch 11 適用後の状態が基準(patch 11 → patch 12 の順で適用)。`src/engine` の全 21 ファイルのうち、`DrawOmikuji.ts` は全文を確認した。残りは「出現 1 回の識別子(関数・メソッド・型・定数)」の機械走査のみで、精読はしていない。
+
+### 修正済み
+
+| 項目 | 変更 | 根拠 |
+| ---- | ---- | ---- |
+| F-2(解決) | `engine/DrawOmikuji/DrawOmikuji.ts` の `drawMultipleOmikuji` / `drawOmikujiWithCondition` / `getOmikujiStatistics` を削除 | ユーザーから「仕様が固まったので、参照されていなければ消してよい」と許可(2026-10-26)。リポジトリ全体(`src` / `docs` / `tools` / `packages` / `server`)で定義以外の参照なし。`isValidItems` は `drawOmikuji` が使うため残した |
+
+### 発見事項(修正せず・報告のみ)
+
+- G-1 `engine/ContentPlaceholder/processor.ts` の `clearResolvedValues`、`engine/GameScriptPlay/GameScriptManager.ts` の `allReset` / `listAvailableScripts`(確信度 中): クラスの公開メソッドで、呼び出しはリポジトリ全体でゼロ。許可は `DrawOmikuji.ts` に限られるため保留。削除する場合、`listAvailableScripts` の分だけ `getRegisteredGameScriptKeys` の import も不要になる
+- 環境: `npm ci` が完了せず `vue-tsc` / eslint は未実行
+
+## 9-10. 次に調査する箇所(patch 12 時点)
+
+1. `src/generator`(精読。`TriggerChecker.ts` の `userIds`、`useAppInitializer.ts`)、`src/plugin`
+2. `src/ui`(`useStreamCounters.ts` の未使用 `_`)、`src/i18n`、`src/common` の精読、`src/engine` の精読
+3. `src/types`(報告のみ)、直下ファイル、テスト・ビルド設定

@@ -61,54 +61,6 @@ export function drawOmikuji<T extends OmikujiWeightItem | string>(items: T[]): T
 }
 
 /**
- * 複数回の抽選（重複なし）
- */
-export function drawMultipleOmikuji<T extends OmikujiWeightItem | string>(
-  items: T[],
-  count: number,
-  allowDuplicates: boolean = true
-): T[] {
-  if (!isValidItems(items) || count <= 0) return []
-
-  const results: T[] = []
-  let availableItems = [...items]
-
-  for (let i = 0; i < count; i++) {
-    if (availableItems.length === 0) break
-
-    const selected = drawOmikuji(availableItems)
-    if (selected === null) break
-
-    results.push(selected)
-
-    // 重複を許可しない場合、選択されたアイテムを除外
-    if (!allowDuplicates) {
-      const selectedIndex = availableItems.findIndex((item) => item === selected)
-      if (selectedIndex !== -1) {
-        availableItems.splice(selectedIndex, 1)
-      }
-    }
-  }
-
-  return results
-}
-
-/**
- * 条件付き抽選
- */
-export function drawOmikujiWithCondition<T extends OmikujiWeightItem | string>(
-  items: T[],
-  condition: (item: T) => boolean
-): T | null {
-  if (!isValidItems(items)) return null
-
-  const filteredItems = items.filter(condition)
-  if (filteredItems.length === 0) return null
-
-  return drawOmikuji(filteredItems)
-}
-
-/**
  * おみくじアイテムに weightPercent を付与
  * （既存の機能を保持）
  */
@@ -134,32 +86,4 @@ export function addWeightPercentages<T extends OmikujiWeightItem>(items: T[]): W
       weightPercent: parseFloat(percent.toFixed(2)),
     }
   })
-}
-
-/**
- * デバッグ用：抽選結果の統計情報を取得
- */
-export function getOmikujiStatistics<T extends OmikujiWeightItem | string>(
-  items: T[],
-  testCount: number = 10000
-): Record<string, { count: number; percentage: number }> {
-  const results: Record<string, number> = {}
-
-  for (let i = 0; i < testCount; i++) {
-    const result = drawOmikuji(items)
-    if (result) {
-      const key = typeof result === 'string' ? result : JSON.stringify(result)
-      results[key] = (results[key] || 0) + 1
-    }
-  }
-
-  const statistics: Record<string, { count: number; percentage: number }> = {}
-  for (const [key, count] of Object.entries(results)) {
-    statistics[key] = {
-      count,
-      percentage: parseFloat(((count / testCount) * 100).toFixed(2)),
-    }
-  }
-
-  return statistics
 }

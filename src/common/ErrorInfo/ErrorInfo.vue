@@ -1,132 +1,156 @@
 <!-- src/common/ErrorInfo/ErrorInfo.vue -->
 <template>
-  <div class="bg-white border border-red-300 rounded-lg shadow-lg overflow-hidden">
-    <!-- ヘッダー -->
-    <div class="bg-red-500 text-white px-6 py-4">
-      <h2 class="flex items-center justify-center text-xl font-semibold gap-2">
-        <AlertTriangle class="h-6 w-6" />
-        読み込みエラー
-        <span class="text-base font-normal opacity-80">/ Load Error</span>
-      </h2>
-    </div>
+  <div ref="rootEl" class="w-full h-full flex flex-col items-center justify-center p-2">
+    <!-- 極小画面 -->
+    <template v-if="isXs">
+      <AlertTriangle class="w-6 h-6 text-error shrink-0" />
+    </template>
 
-    <div class="p-6">
-      <!-- エラー説明 -->
-      <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-        <div class="flex items-start gap-3">
-          <XCircle class="h-6 w-6 text-red-500 shrink-0 mt-0.5" />
-          <p class="text-red-800 text-sm">
-            データの読み込みに失敗しました。以下の確認をお願いします。
-            <span class="block text-xs text-red-700/80">Failed to load data. Please check the following.</span>
-          </p>
-        </div>
-      </div>
+    <!-- 通常画面 -->
+    <div v-else class="card bg-base-100 border border-error w-full max-w-2xl shadow-lg">
+      <div class="card-body gap-4 p-4 sm:p-6">
+        <!-- ヘッダー -->
+        <h2 class="flex items-center justify-center gap-2 text-error text-lg sm:text-xl font-bold">
+          <AlertTriangle class="w-6 h-6 shrink-0" />
+          読み込みエラー
+          <span class="text-sm font-normal">/ Load Error</span>
+        </h2>
 
-      <!-- 確認事項セクション -->
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
-        <h3 class="font-bold text-gray-800 mb-3 flex items-center">
-          <ChevronRight class="h-5 w-5 mr-2 text-gray-600" />
-          確認事項
-          <span class="ml-2 text-sm font-normal text-gray-500">/ Checklist</span>
-        </h3>
-
-        <div class="space-y-3 text-sm">
-          <div class="flex items-start gap-3">
-            <span
-              class="inline-flex items-center justify-center h-5 w-5 bg-gray-200 text-gray-700 text-xs font-medium rounded-full shrink-0 mt-0.5"
-              >1</span
-            >
-            <span class="text-gray-700">
-              わんコメが正常に起動していることを確認してください
-              <span class="block text-xs text-gray-500">Make sure OneComme is running properly.</span>
-            </span>
+        <!-- エラー説明 -->
+        <div role="alert" class="alert alert-error">
+          <XCircle class="w-6 h-6 shrink-0" />
+          <div>
+            <p class="text-sm">データの読み込みに失敗しました。以下の確認をお願いします。</p>
+            <p class="text-xs">Failed to load data. Please check the following.</p>
           </div>
+        </div>
 
-          <!-- プラグイン関連の情報表示 -->
-          <template v-if="isPlugin">
+        <!-- 確認事項 -->
+        <section class="rounded-lg border border-base-300 bg-base-200 p-4">
+          <h3 class="mb-3 flex items-center gap-2 font-bold">
+            <ChevronRight class="w-5 h-5 shrink-0" />
+            確認事項
+            <span class="text-sm font-normal">/ Checklist</span>
+          </h3>
+
+          <div class="space-y-3 text-sm">
             <div class="flex items-start gap-3">
-              <span
-                class="inline-flex items-center justify-center h-5 w-5 bg-gray-200 text-gray-700 text-xs font-medium rounded-full shrink-0 mt-0.5"
-                >2</span
-              >
-              <span class="text-gray-700">
-                <span class="font-bold">{{ pluginName ? pluginName : '該当するプラグイン' }}</span>
-                がインストール、有効になっているか確認してください
-                <span class="block text-xs text-gray-500"
-                  >Check that
-                  <span class="font-semibold">{{ pluginName ? pluginName : 'the relevant plugin' }}</span> is installed
-                  and enabled.</span
-                ></span
-              >
+              <span class="badge badge-neutral badge-sm shrink-0 mt-0.5">1</span>
+              <div>
+                <p>わんコメが正常に起動していることを確認してください</p>
+                <p class="text-xs">Make sure OneComme is running properly.</p>
+              </div>
             </div>
-          </template>
+
+            <div v-if="isPlugin" class="flex items-start gap-3">
+              <span class="badge badge-neutral badge-sm shrink-0 mt-0.5">2</span>
+              <div>
+                <p>
+                  <strong>{{ pluginName || '該当するプラグイン' }}</strong>
+                  がインストールされ、有効になっているか確認してください
+                </p>
+                <p class="text-xs">
+                  Check that
+                  <strong>{{ pluginName || 'the relevant plugin' }}</strong>
+                  is installed and enabled.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- エラー解決のヒント -->
+        <section class="rounded-lg border border-info bg-base-200 p-4">
+          <h3 class="mb-3 flex items-center gap-2 font-bold text-info">
+            <Lightbulb class="w-5 h-5 shrink-0" />
+            エラー解決のヒント
+            <span class="text-sm font-normal">/ Troubleshooting tip</span>
+          </h3>
+
+          <div class="flex items-start gap-3 text-sm">
+            <span class="badge badge-info badge-sm shrink-0 mt-0.5">!</span>
+            <div>
+              <p>
+                OBSでの使用時は
+                <strong>コンソールログ</strong>
+                をご確認ください（OBS設定画面の「ログの表示」）。
+              </p>
+              <p class="text-xs">
+                When using OBS, please check the console log ("Show Log" in the OBS settings window).
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- エラー詳細 -->
+        <div v-if="errorDetail" class="text-sm">
+          <p class="font-bold text-warning">エラー詳細 / Error Details</p>
+          <pre class="mt-1 whitespace-pre-wrap break-all text-xs">{{ errorDetail }}</pre>
         </div>
-      </div>
 
-      <!-- エラー解決のヒント -->
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-        <h3 class="font-bold text-blue-800 mb-3 flex items-center">
-          <Lightbulb class="h-5 w-5 mr-2 text-blue-600" />
-          エラー解決のヒント
-          <span class="ml-2 text-sm font-normal text-blue-600">/ Troubleshooting tip</span>
-        </h3>
-
-        <div class="flex items-start gap-3 text-sm">
-          <span
-            class="inline-flex items-center justify-center h-5 w-5 bg-blue-200 text-blue-700 text-xs font-bold rounded-full shrink-0 mt-0.5"
-            >!</span
-          >
-          <span class="text-blue-800">
-            OBSでの使用時は<span class="font-bold">コンソールログ</span>をご確認ください（OBS設定画面の「ログの表示」）
-            <span class="block text-xs text-blue-700/80"
-              >When using OBS, please check the console log ("Show Log" in the OBS settings window).</span
-            >
-          </span>
+        <!-- 再読み込み -->
+        <div class="flex justify-center">
+          <button type="button" class="btn btn-primary" @click="handleReload">
+            <RotateCcw class="w-5 h-5" />
+            再読み込み
+            <span class="text-sm font-normal">/ Reload</span>
+          </button>
         </div>
-      </div>
 
-      <!-- アクションボタン -->
-      <div class="flex justify-center mb-4">
-        <button
-          @click="handleReload"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
-        >
-          <RotateCcw class="h-5 w-5" />
-          再読み込み
-          <span class="text-sm font-normal opacity-90">/ Reload</span>
-        </button>
-      </div>
-
-      <!-- 自動リロードの表示 -->
-      <div class="text-center">
-        <div class="inline-flex items-center gap-2 text-xs text-gray-500">
-          <Clock class="h-4 w-4" />
-          <span>15秒後に自動で再読み込みされます / Reloads automatically in 15 seconds</span>
-        </div>
+        <!-- 自動リロード -->
+        <p class="flex items-center justify-center gap-2 text-center text-xs">
+          <Clock class="w-4 h-4 shrink-0" />
+          15秒後に自動で再読み込みされます
+          <span>/ Reloads automatically in 15 seconds</span>
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue'
+  import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
   import { AlertTriangle, XCircle, ChevronRight, Lightbulb, RotateCcw, Clock } from 'lucide-vue-next'
 
-  // プラグインIDを受け取るプロパティ
   defineProps<{
     isPlugin?: boolean
     pluginName?: string
+    errorDetail?: string
   }>()
 
-  // 再読み込み処理
+  const rootEl = ref<HTMLElement | null>(null)
+  const containerWidth = ref(0)
+  const containerHeight = ref(0)
+
+  const isXs = computed(() => containerWidth.value < 200 || containerHeight.value < 100)
+
+  let resizeObserver: ResizeObserver | null = null
+  let reloadTimer: ReturnType<typeof setTimeout> | null = null
+
   const handleReload = () => {
     window.location.reload()
   }
 
-  // 15秒後に自動リロード
   onMounted(() => {
-    setTimeout(() => {
-      handleReload()
-    }, 15000)
+    if (!rootEl.value) return
+
+    resizeObserver = new ResizeObserver(([entry]) => {
+      if (!entry) return
+
+      containerWidth.value = entry.contentRect.width
+      containerHeight.value = entry.contentRect.height
+    })
+
+    resizeObserver.observe(rootEl.value)
+
+    reloadTimer = setTimeout(handleReload, 15_000)
+  })
+
+  onBeforeUnmount(() => {
+    resizeObserver?.disconnect()
+
+    if (reloadTimer) {
+      clearTimeout(reloadTimer)
+    }
   })
 </script>
