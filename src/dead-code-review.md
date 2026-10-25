@@ -776,6 +776,7 @@ patch 13 適用後の状態が基準(patch 13 → patch 14 の順で適用)。`s
 
 - `src/ui`: 移行中のため、**これ以上調査しない**。patch 14 までの内容は有効(ユーザー確認済み)。以後の「次に調査する箇所」から除外する
 - `src/console`: 調査不要
+- `src/plugin`: ユーザーが全コードを把握しているため、精読不要(2026-10-26 追加)
 
 ## 8-15. patch 15(2026-10-26 / `src/i18n/editor` のキー走査)
 
@@ -805,3 +806,56 @@ patch 14 適用後の状態が基準(patch 14 → patch 15 の順で適用)。`s
 2. `src/common` と `src/engine` の精読
 3. `src/maps`、`src/manager`、`src/layout`、`src/games`(精読。games は方針により報告中心)
 4. `src/types`(報告のみ)、直下ファイル、テスト・ビルド設定
+
+## 8-16. patch 16(2026-10-26 / `src/generator` の残り・ツール検証。コード変更なし)
+
+patch 15 適用後の状態が基準(patch 15 → patch 16 の順で適用)。`npm ci` が完了したため、初めて `vue-tsc --noEmit --noUnusedLocals --noUnusedParameters` と eslint を実行できた。
+
+### 確認結果
+
+- `vue-tsc`(未使用チェック込み)の `src` 内の指摘は、`src/editor` の v-for / コールバックの未使用変数 10 件のみ(`InlinePlaceholderDialog.vue`、`SoundSettings.vue`、`PostActionPreview.vue`(`const _ = messageKey.value` は A-15 のとおり意図的)、`EmotionAnimationEditor.vue`、`EmotionPresetButtons.vue`、`CommentVoiceSettings.vue`、`OmikujiItemEditor.vue` 2 件、`ReactionTriggerEditor.vue`、`ServiceTrigger.vue`)。いずれも `v-for="(value, key)"` の未使用側で、削除ではなく `_` 化などの整形の問題。挙動に影響しないため今回は変更しない(確信度 低・軽微)
+- `src/common` / `src/engine` / `src/generator` / `src/i18n` の eslint はエラー 0、警告 1(`common/buildValidation/validateAgainstBuild.ts:106` の空のアロー関数。意図的な no-op の可能性があり変更なし)
+- `src/generator` の全ファイルを出現 1 回の識別子で走査済み。`EventProcess/ServiceProcessor.ts` を全文確認し、`lastUpVote` / `lastViewer` は購読開始時のスナップショットとして意図どおり使われている。過去指示(CooldownManager の削除、TimerProcessor の `stopTimer` / `getActiveTimers` / `getTimerInfo` の削除)が反映済みであることを確認
+- 範囲外(`tools/` / `server/`)の `--noUnusedLocals` 指摘は従来どおり(`res` 3 件、`TemplateJsonProcessor.ts` の未使用 import 2 件)
+
+### 修正した箇所
+
+- なし(このパッチは `dead-code-review.md` のみ)
+
+## 9-14. 次に調査する箇所(patch 16 時点 / `src/ui`・`src/console`・`src/plugin` は除外)
+
+1. `src/common` と `src/engine` の精読
+2. `src/maps`、`src/manager`、`src/layout`、`src/games`(games は方針により報告中心)
+3. `src/types`(報告のみ)、直下ファイル、テスト・ビルド設定
+
+## 8-17. patch 17(2026-10-26 / `src/common`・`src/engine` の精読)
+
+patch 16 適用後の状態が基準(patch 16 → patch 17 の順で適用)。
+
+### 読み取り済み(全文)
+
+- `common/sounds/`(3 ファイル)、`common/presetsExport/generateContent.ts`、`common/LucideIcon/useLucideIcon.ts`(冒頭・`lucideIconMap` 周辺)
+- `engine/VariablePlaceholder/ReservedKeys.ts`、`engine/KeyValue/KeyValueMap.ts`、`engine/types/index.ts`、`engine/PostOmikuji/BotIcon.ts`
+- `common` の全 export を、他ファイルからの参照有無で走査(参照ゼロ 9 件を手で精査)
+
+### 修正済み
+
+| 項目 | 変更 | 根拠 |
+| ---- | ---- | ---- |
+| K-1 | `common/presetsExport/generateContent.ts` の `generateJsonContent` を削除 | リポジトリ全体(`src` / `tools` / `packages` / `server`)で参照ゼロ。出力は `generateJsContent` のみが使われている(`useConfigExport` / `createPackageProject` / `fileSystemService`)。`JSON.parse` → `JSON.stringify` するだけの実装 |
+
+### 問題なし(参照ゼロの export だが理由あり)
+
+- `buildValidation/validateAgainstBuild.ts` の `UnsupportedKeyType` / `formatUnsupportedKeys`、`SweetAlert2Toast.ts` の `baseModalOptions`、`migrations/v3/sampleCharacter.ts` の `SAMPLE_CHARACTER_KEY`、`LucideIcon/useLucideIcon.ts` の `lucideIconMap`、`sounds/soundUtils.ts` の `SOUND_BASE_PATH`、`MockUser/comments/commentThemes.ts` の `CommentTheme` / `COMMON_COMMENTS`: いずれも同ファイル内で使用されており、`export` を外すだけの軽微な整理(確信度 低、変更なし)
+- `KeyValueMap` の `remove` / `getAll` / `has` / `clear`、`ReservedKeys.ts` の 3 つの export: 使用中
+
+### 発見事項(報告のみ)
+
+- L-1 `engine/ContentPlaceholder/processor.ts:37` の `this.contextValues.clear()` と `clearResolvedValues`(46 行目)は同一処理。後者は G-1 のとおり呼び出しゼロ(確信度 中、前回から継続)
+- 検証: 変更後の `vue-tsc --noEmit` はエラー 0、`eslint src/common` はエラー 0・警告 1(従来の空のアロー関数のみ)
+
+## 9-15. 次に調査する箇所(patch 17 時点 / `src/ui`・`src/console`・`src/plugin` は除外)
+
+1. `src/maps`、`src/manager`、`src/layout`、`src/games`(games は方針により報告中心)
+2. `src/common` の `migrations` / `buildValidation` / `EntryCore` / `LayerImage` の精読(参照確認は済み)
+3. `src/types`(報告のみ)、直下ファイル、テスト・ビルド設定

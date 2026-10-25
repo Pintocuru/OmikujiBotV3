@@ -14,10 +14,3 @@ const omikujiData = ${configData};
 if (typeof window !== 'undefined') window.omikujiData = omikujiData;
 `
 }
-
-// .json での出力テンプレート
-export const generateJsonContent = (configData: string) => {
-  const parsedData = JSON.parse(configData)
-  const templateData = { ...parsedData }
-  return JSON.stringify(templateData)
-}
