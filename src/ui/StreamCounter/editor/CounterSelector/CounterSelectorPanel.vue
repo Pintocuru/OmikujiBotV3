@@ -52,11 +52,11 @@
   }>()
 
   const emit = defineEmits<{
-    (e: 'add', item: Omit<CounterItem, 'id'>): void
-    (e: 'remove', id: string): void
-    (e: 'reset', type: 'default' | 'event'): void
-    (e: 'reorder', items: CounterItem[]): void
-    (e: 'update', payload: { id: string; patch: { target: string; label: string } }): void
+    add: [item: Omit<CounterItem, 'id'>]
+    remove: [id: string]
+    reset: [type: 'default' | 'event']
+    reorder: [items: CounterItem[]]
+    update: [payload: { id: string; patch: { target: string; label: string } }]
   }>()
 
   const counterCount = computed(() => props.counters.length)

@@ -53,7 +53,7 @@
   }>()
 
   const emit = defineEmits<{
-    (e: 'update:modelValue', value: ServiceConditionType): void
+    'update:modelValue': [value: ServiceConditionType]
   }>()
 
   // ★ 初期値生成
@@ -96,7 +96,9 @@
   const comparisonDescription = computed(() => {
     const comparison = props.modelValue?.comparison
     if (!comparison) return ''
-    return te(`mapText.serviceCondition.${comparison}.description`) ? t(`mapText.serviceCondition.${comparison}.description`) : ''
+    return te(`mapText.serviceCondition.${comparison}.description`)
+      ? t(`mapText.serviceCondition.${comparison}.description`)
+      : ''
   })
 
   const updateField = (field: 'comparison' | 'value', value: string | number) => {

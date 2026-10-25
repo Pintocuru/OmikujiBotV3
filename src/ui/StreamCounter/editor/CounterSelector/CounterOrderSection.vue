@@ -27,8 +27,8 @@
   }>()
 
   const emit = defineEmits<{
-    (e: 'remove', id: string): void
-    (e: 'reorder', items: CounterItem[]): void
+    remove: [id: string]
+    reorder: [items: CounterItem[]]
   }>()
 
   const draggableCounters = computed({

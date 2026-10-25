@@ -42,7 +42,7 @@
   }>()
 
   const emit = defineEmits<{
-    (e: 'toggle', key: string, enabled: boolean): void
+    toggle: [key: string, enabled: boolean]
   }>()
 
   // アイコン名文字列 → Lucideコンポーネントに解決

@@ -88,9 +88,9 @@
   }>()
 
   const emit = defineEmits<{
-    (e: 'add', item: Omit<CounterItem, 'id'>): void
-    (e: 'remove', id: string): void
-    (e: 'update', payload: { id: string; patch: { target: string; label: string } }): void
+    add: [item: Omit<CounterItem, 'id'>]
+    remove: [id: string]
+    update: [payload: { id: string; patch: { target: string; label: string } }]
   }>()
 
   const variableInput = reactive({ target: '', label: '' })

@@ -70,7 +70,7 @@
   }>()
 
   const emit = defineEmits<{
-    (e: 'update:colorCycle', value: DaisyUIColorType[]): void
+    'update:colorCycle': [value: DaisyUIColorType[]]
   }>()
 
   const update = (value: DaisyUIColorType[]) => emit('update:colorCycle', value)

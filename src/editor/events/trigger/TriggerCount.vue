@@ -51,7 +51,7 @@
   }>()
 
   const emit = defineEmits<{
-    (e: 'update:modelValue', value: CountConditionType): void
+    'update:modelValue': [value: CountConditionType]
   }>()
 
   const updateField = (field: keyof CountConditionType, value: string) => {
