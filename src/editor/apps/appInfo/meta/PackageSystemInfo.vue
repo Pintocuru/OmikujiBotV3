@@ -12,9 +12,7 @@
     <div class="flex items-center gap-3">
       <span class="text-sm text-base-content/60">{{ meta.generatorVersion }}</span>
 
-      <ExternalLinkButton :url="openLatestRelease()" title="最新バージョンを入手する">
-        <ExternalLink class="w-4 h-4" />
-      </ExternalLinkButton>
+      <ExternalLinkButton :url="openLatestRelease()" title="最新バージョンを入手する" />
     </div>
   </SettingItem>
 
@@ -29,7 +27,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { ExternalLink } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useVersionCheck } from '@/editor/apps/appItems/useVersionCheck'
   import SettingItem from '@/editor/parts/SettingItem.vue'

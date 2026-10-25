@@ -12,7 +12,7 @@
         <slot name="hud" />
       </div>
 
-      <!-- 右下に配置するHUD用のスロット -->
+      <!-- 左下に配置するHUD用のスロットとスケール操作 -->
       <div class="absolute bottom-2 left-2 z-10 space-y-2">
         <!-- スケール値表示 -->
         <slot name="hudLeft" />

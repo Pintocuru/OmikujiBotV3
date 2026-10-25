@@ -479,3 +479,61 @@ patch 2 適用後の状態を基準にしている(`dead-code-review.md` が pat
 4. `usePostActionsTab.ts` の戻り値、`ImageSettingsInfo.vue`
 5. `src/common`、`src/engine`、`src/games`、`src/generator`(`TriggerChecker.ts` の `userIds` と editor の対応も)、`src/layout`、`src/manager`、`src/plugin`、`src/sdk`、`src/ui`、`src/console`(未着手)
 6. テスト・ビルド設定(vite / tsconfig / eslint)、package.json
+
+## 8-4. patch 4(2026-10-25 / `src/editor/stores`・`src/editor/parts` の精読)
+
+patch 3 適用後の状態が基準(patch 3 → patch 4 の順で適用)。`vue-tsc --noEmit` は修正前後ともエラー 0。
+
+### 読み取り済み(全文)
+- `stores/`: `useGetAssetData` / `useGetEventData` / `useNavigationStore` / `useOmikujiStore` と `composables/` の全 10 ファイル
+- `parts/`: `BaseEditDialog` / `CharacterPicker` / `ExternalLinkButton` / `HudPreview` / `InformationCard` / `MenuDropdown` / `ModalFooterActions` / `NoParamsCard` / `SettingItem` / `SubSectionHeader` / `ColorPicker/*`(`SectionCard` は patch 3 で確認済み)
+
+### 修正済み
+| 項目 | 変更 | 根拠 |
+|---|---|---|
+| D-1 | `parts/HudPreview.vue` の左下ブロックのコメント(「右下に配置するHUD用のスロット」の重複)を実態に合わせて修正 | コメントのみ。挙動変更なし |
+
+### 発見事項(修正せず・報告のみ)
+- D-2 `stores` の呼び出し元ゼロの公開 API(確信度 中。`src` / `tools` / `packages` / `server` を grep): `hasEvent`(`useGetEventData`)、`clearSelection`(`useNavigationStore`)、`clearAssets`(`useAssetCRUD`)、`updatePlaceholderValues`(`useAssetProperties`。`data` 引数と `WeightValuesArraySchema` もこれ専用)。`isDataCategory` は store の返り値としては未使用だが内部で使用。CRUD の対称性のために残している可能性があり、保留
+- D-3 `parts` の呼び出し元ゼロの prop / slot(確信度 中。全 `.vue` の開始タグを解析、`v-bind="obj"` による受け渡しなし): `SettingItem` の `showWarning` / `helpUrl` / `helpLabel` / slot `label-extra`(関連 i18n `appInfoEditor.settings.common.warning` / `help`)、`InformationCard` の `icon`、`HudPreview` の slot `hudLeft`、`MenuDropdown` の `disableDelete`、`CharacterPicker` の `size`(既定値 64 のみ使用)。ヘルプリンク(チートシート)など将来用に用意した可能性があり保留
+- D-4 `apps/appInfo/meta/PackageSystemInfo.vue:15-17`: `ExternalLinkButton` の既定スロットに `<ExternalLink>` を渡しているが、`ExternalLinkButton` はスロットを持たないため描画されない(アイコンは本体側にある)。`PackageSystemInfo` 側の `ExternalLink` import は不要になる(`apps` の精読時に確認)
+- D-5 `parts/InformationCard.vue`: `VARIANT_ICON: Record<..., any>` は `Component` 型にできる(型の整理)。確信度 低
+
+### 問題なし
+- `useDataIO` / `useDataMerge(+Helpers)` / `useEventCRUD` / `useEventSort` / `useAssetSort` / `useSettingsOperations`(`resetSettingsField` / `toggleDaisyUiTheme` は使用中)
+- `BaseEditDialog` / `ModalFooterActions` / `NoParamsCard` / `SubSectionHeader` / `ColorPicker` / `ColorPreset` / `ExternalLinkButton`(本体)/ `CharacterPicker`
+
+## 9-2. 次に調査する箇所(patch 4 時点)
+1. `src/editor/apps/`(精読: `BaseSettings/BaseEditor.vue`、`navigation`、`JsonMerge`、`dataPacks`、`appInfo`、`appItems`)。D-4 もここで確認
+2. `src/editor/helpers/`(精読: `KeyEditor`、`presetsImport`、`presetsExport`、`CharacterChanger`、`IconKeyChanger`、`useTestPost` ほか)
+3. `src/editor/ui/`、`src/editor/dev/`、`src/editor/maps`、`src/editor/types`
+4. 以降は「9. 次に調査する箇所」の 3〜6 のとおり(`stores` / `parts` は完了)
+
+## 8-5. patch 5(2026-10-25 / `src/editor/apps` の一部: `BaseSettings`・`JsonMerge`・`appInfo`)
+
+patch 4 適用後の状態が基準(patch 4 → patch 5 の順で適用)。`vue-tsc --noEmit` は修正前後ともエラー 0、変更ファイルの eslint もエラーなし。
+
+### 読み取り済み(全文)
+- `BaseSettings/`(`BaseEditor` / `BaseTagEditor`)、`JsonMerge/`(`JsonMergeEditor` / `JsonMergeRemapEditor` / `JsonMergeSourceFileSelector`)
+- `appInfo/` 全 11 ファイル(`AppInfoEditor` / `AvailableFeatures/*` / `meta/*` / `settings/*`)。全コンポーネントの import 元を確認(`BaseEditor` 9 / `JsonMergeEditor` 2 / その他 1〜4)
+
+### 修正済み
+| 項目 | 変更 | 根拠 |
+|---|---|---|
+| D-4 | `appInfo/meta/PackageSystemInfo.vue`: `ExternalLinkButton` の既定スロットに渡していた `<ExternalLink>` と、その `lucide-vue-next` import を削除 | `ExternalLinkButton` は `<slot>` を持たず(本体側でアイコンを描画)、渡した内容は描画されない。表示は変わらない |
+| S-1 | `JsonMerge/JsonMergeEditor.vue`: 冗長な `md:grid-cols-2`(基準の `grid-cols-2` と同値)を削除 | クラスの効果なし |
+
+### 発見事項(修正せず・報告のみ)
+- D-6 `appInfo/AvailableFeatures/FeatureCard.vue`(確信度 中): 唯一の呼び出し元(`AvailableFeaturesInfo`)が `show-toggle=false` / `is-enabled=true` を固定で渡している。`showToggle` / `featureKey` / `toggle` emit / `handleToggle` / `CheckCircle` / `XCircle` / `isVisible` / 無効時のクラス分岐は現状到達しない。トグル機能を後で使う想定の可能性があり保留
+- S-2 コードスタイルの不統一(確信度 低・保留): `BaseSettings/BaseTagEditor.vue` と `JsonMerge/*` は日本語の文言を直書き(`appInfo` は i18n の `t()` を使用)。i18n 化は文言追加を伴うため今回は対象外
+- S-3 `JsonMerge/JsonMergeRemapEditor.vue` の「元キャラキー」の選択肢が `omiken` / `omiken2` 固定。仕様の可能性があり変更なし
+
+### 問題なし
+- `BaseEditor` / `BaseTagEditor` / `JsonMergeRemapEditor` / `JsonMergeSourceFileSelector` / `AppInfoEditor` / `AvailableFeaturesInfo` / `PackageBasicInfo` / `PackageDistributionInfo` / `EditorSettingsEditor` / `GeneratorSettingsEditor`(未使用の import・変数・関数なし)
+
+## 9-3. 次に調査する箇所(patch 5 時点)
+1. `src/editor/apps/appItems/`(`useVersionCheck` は `PackageSystemInfo` の `openLatestRelease` 以外の使われ方を確認、`preview/*`、`ContentArea` ほか)
+2. `src/editor/apps/dataPacks/`、`src/editor/apps/navigation/`(`SidebarItemMenu` 233 行が最大)
+3. `src/editor/helpers/`(精読)
+4. `src/editor/ui/`、`src/editor/dev/`、`src/editor/maps`、`src/editor/types`
+5. 以降は「9. 次に調査する箇所」の 3〜6 のとおり
