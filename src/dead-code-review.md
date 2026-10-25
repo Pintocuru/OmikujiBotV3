@@ -1,6 +1,6 @@
 # dead-code-review.md(圧縮版)— OmikujiBotV3
 
-最終更新: 2026-10-26(patch 19 時点)。**実行済みの修正は記載しない**。ここにあるのは「未実行の項目」「消してはいけない項目」「次にやること」だけ。
+最終更新: 2026-10-26(patch 20 時点)。**実行済みの修正は記載しない**。ここにあるのは「未実行の項目」「消してはいけない項目」「次にやること」だけ。
 
 ## 0. 調査対象外・方針
 
@@ -48,6 +48,8 @@
 - `PostActionsTabs.vue`: `<button>` の中に `MenuDropdown`(`<button>`)をネスト(HTML 違反)
 - `OmikujiItemCriteria.vue` と `useOmikujiLottery.ts` の条件判定ロジックが重複(統一はリファクタ)
 - `ActionSetSettings.vue`: `currentKey` が渡されず常に `undefined`(自己参照ショートカットが無効。バグ修正か削除かは設計確認)
+- `common/LayerImage/LayerImage.vue` + `useImageSources.ts`: `@error="onError(i)"` の `i` は「空文字を除いた後の `sources`」の添字だが、`errorIndexes` は元の `layers` の添字で管理している。先頭側に空のレイヤーがあると、別の画像を非表示にする(確信度 中)
+- `common/migrations/v3/sampleCharacter.ts`: サンプルキャラの感情キーが `surprise`。アプリの感情キーは `characterEmotions` の `surprised`(`image` は自由キーの record なのでエラーにはならず、`surprised` が無いだけ。確信度 中)
 - `OmikenCommentProcessor`(`sdk/subscribe/OmikenComment/OmikenCommentProcessor.ts`): `roles.has('anonymity')` に到達しない(匿名判定の抜けの可能性)
 - `useTestPost.ts` の `postTestOmikuji`: `priorityItems` が `!item.lottery.isPriority` で絞っており条件が逆に見える(仕様確認)
 - `SectionCard.vue`: `toggle` emit / `isOpen` が未実装で、呼び出し側の `@toggle` / `:isOpen` が no-op(折りたたみを実装するか一斉削除するか)
@@ -99,8 +101,15 @@
 - 参照のない `export`(確信度 低): `GouseiSuika` の `GameConfigs` / `ItemLottery`、`HugEmAll/gameConfig.ts` の `ATTACK_PROBABILITIES` / `ATTACK_EFFECTS` / `PLAYER_INITIAL_LIFE`、`FortuneRanking/execute.ts` の未使用引数 `_omiken`
 - `BomberSpin` / `FortuneRanking` の `game.ts` はスロットの設定がそのまま複製されている(コピー元の一本化は FortuneRanking の扱いと同時に判断)
 
+### 2-5. src/common(patch 20 で精読。報告のみ)
+
+- `LayerImage.vue` の `<style scoped>`(確信度 低): `prefers-reduced-motion` で `animation-duration` などを同じ値(`--animate-duration`)に上書きしており、実質 no-op(視覚効果を抑える意図なら別途必要)
+- `EntryCore/core.ts`(確信度 低): `createAppOneSDK` は OneSDK 未読込時に `undefined` を返すだけで、画面には何も出ない
+- `migrations/index.ts`(確信度 低): 移行時の `console.log` が残っている(動作ログとして意図的な可能性)
+- `buildValidation/validateAgainstBuild.ts`: `UnsupportedKeyType` / `formatUnsupportedKeys` の `export` のみ未使用(patch 17 と同じ。変更なし)
+
 ## 3. 次にやること
 
-1. `src/common` の `migrations` / `buildValidation` / `EntryCore` / `LayerImage` の精読(任意。参照確認・型チェックは済み)
-2. 2-1 の不具合の疑いを、修正対象にするか決める
-3. `FortuneRanking` を登録するか、整理するかを決める(2-4)
+1. 2-1 の不具合の疑いを、修正対象にするか決める(`LayerImage` の `onError` と、サンプルキャラの `surprise` を追加)
+2. `FortuneRanking` を登録するか、整理するかを決める(2-4)
+3. `src/` 内の調査は一通り完了。残りは本人判断の項目のみ

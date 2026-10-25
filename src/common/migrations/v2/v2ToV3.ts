@@ -1,7 +1,7 @@
 // src/common/migrations/v2/v2ToV3.ts
 //
 // v2 (dataVersion < 3) -> v3 のデータ変換。
-// v2 の型定義 (./v2/OmikujiData) を元にしているが、実行時には v2 のスキーマを使わない。
+// v2 のデータ構造を元にしているが、実行時には v2 のスキーマを使わない。
 // 「素のJSON」を読んで v3 の形に組み替えるだけにして、最終的な検証・補完は v3 の OmikujiDataSchema に任せる。
 // ※ zod の配列は要素が1つでも不正だと配列ごと catch されるため、v3 の enum に収まらない値はここで取り除く。
 import { commentTriggerCondition, criteriaThresholdCondition, reactionKeys } from '@/types/OmikujiData'
