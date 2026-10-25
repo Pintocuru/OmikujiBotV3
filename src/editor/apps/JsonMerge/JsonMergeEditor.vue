@@ -84,7 +84,7 @@
           </div>
 
           <JsonMergeRemapEditor
-            v-for="(remap, j) in merge[selectedIndex].remaps"
+            v-for="(_remap, j) in merge[selectedIndex].remaps"
             :key="j"
             :merge-index="selectedIndex"
             :remap-index="j"

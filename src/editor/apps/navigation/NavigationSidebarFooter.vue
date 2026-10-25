@@ -8,7 +8,7 @@
           class="btn btn-xs btn-warning truncate"
           :class="!hasChanged ? 'btn-soft' : ''"
           :data-tip="t('navigation.saveFileTip')"
-          :disabled="!hasChanged || !saveFileName"
+          :disabled="!hasChanged"
           @click="devStore.overwriteConfig(saveFileName)"
         >
           <Save class="w-4 h-4" />
