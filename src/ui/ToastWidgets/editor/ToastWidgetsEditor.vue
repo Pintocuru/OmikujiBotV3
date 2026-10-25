@@ -100,7 +100,7 @@
   import ToastBubbleSelector from '@/ui/ToastWidgets/ToastBubbleSelector.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import CharacterThumbnailsPreview from '@/ui/ToastWidgets/parts/CharacterThumbnailsPreview.vue'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterManager } from '@/generator/composables/useCharacterManager'
   import HudPreview from '@/editor/parts/HudPreview.vue'
 
   const omikujiStore = useOmikujiStore()

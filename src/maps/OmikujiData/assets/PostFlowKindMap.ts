@@ -1,5 +1,5 @@
 // src/maps/OmikujiData/assets/PostFlowKindMap.ts
-import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
+import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
 import { PostFlowKind } from '@/types/OmikujiData'
 
 /**

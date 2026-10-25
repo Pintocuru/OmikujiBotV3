@@ -40,7 +40,7 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { ServiceConditionType } from '@/types/OmikujiData'
   import { serviceConditionMap, serviceSimpleComparisonConditionMap } from '@/maps/OmikujiData'
-  import type { DisplayMeta } from '@/editor/types/DisplayMeta'
+  import type { DisplayMeta } from '@/types/core'
   import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
   const { t, te } = useI18n()

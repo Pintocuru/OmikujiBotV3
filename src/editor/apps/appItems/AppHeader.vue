@@ -34,7 +34,7 @@
   import { storeToRefs } from 'pinia'
   import { useVersionCheck } from './useVersionCheck'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { DATA_SOURCE_MAP } from '@/editor/types'
+  import { DATA_SOURCE_MAP } from '@/editor/maps/DataSourceMap'
 
   // Pinia storeから現在のバージョンを取得
   const { t } = useI18n()

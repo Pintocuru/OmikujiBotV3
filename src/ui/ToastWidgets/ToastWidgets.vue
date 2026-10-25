@@ -34,7 +34,7 @@
   import { useBotDisplay } from '@/ui/common/useBotDisplay'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterManager } from '@/generator/composables/useCharacterManager'
   import { ToastWidgetsSchema } from '@/types/ui'
   import { useFilteredBotMessages } from '../common/useFilteredBotMessages'
 

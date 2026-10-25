@@ -30,7 +30,7 @@
 <script setup lang="ts">
   import { EnterMotionType } from '@/types/OmikujiData'
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterManager } from '@/generator/composables/useCharacterManager'
   import CommentBubbleItem from '@/ui/common/CommentBubbleItem.vue'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
 

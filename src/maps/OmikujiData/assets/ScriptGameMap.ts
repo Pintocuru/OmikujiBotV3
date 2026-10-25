@@ -1,4 +1,5 @@
 // src/maps/OmikujiData/assets/ScriptGameMap.ts
+import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import { ScriptGameKey } from '@/types/OmikujiData'
 
 const DOCS = 'https://github.com/Pintocuru/OmikujiBot-Docs'
@@ -10,7 +11,7 @@ const RAW = `${DOCS}/raw/main`
  */
 export const gameMetaMap: Record<
   ScriptGameKey,
-  { name: string; description: string; icon: string; url: string; banner: string }
+  { name: string; description: string; icon: LucideIconName; url: string; banner: string }
 > = {
   GouseiSuika: {
     name: 'スイカジェネレーター',

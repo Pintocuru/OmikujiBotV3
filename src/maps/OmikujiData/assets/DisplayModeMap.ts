@@ -1,5 +1,5 @@
 // src/maps/OmikujiData/assets/DisplayModeMap.ts
-import { DisplayMeta } from '@/editor/types/DisplayMeta'
+import { DisplayMeta } from '@/types/core'
 import { DisplayModeType } from '@/types/OmikujiData'
 
 /**

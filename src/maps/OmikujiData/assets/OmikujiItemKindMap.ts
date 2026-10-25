@@ -1,5 +1,5 @@
 // src/maps/OmikujiData/assets/OmikujiItemKindMap.ts
-import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
+import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
 import { OmikujiControlCommand, OmikujiItemKind } from '@/types/OmikujiData'
 
 /**

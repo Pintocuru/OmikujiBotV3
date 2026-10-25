@@ -1,5 +1,5 @@
 // src/maps/engine/trigger/CountConditionMap.ts
-import { DisplayMeta } from '@/editor/types/DisplayMeta'
+import { DisplayMeta } from '@/types/core'
 import { CountComparisonCondition, CountUnitCondition } from '@/types/engine/trigger'
 
 /**

@@ -11,7 +11,7 @@ import {
   assetCategory,
 } from '@/types/OmikujiData'
 import { isDev } from '@/types/env'
-import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
+import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
 import { CategoryGroup } from '@/editor/types/apps'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { categoryMap } from '@/maps/OmikujiData'

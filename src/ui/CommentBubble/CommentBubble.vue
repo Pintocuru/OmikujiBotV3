@@ -16,7 +16,7 @@
   import { useFilteredBotMessages } from '@/ui/common/useFilteredBotMessages'
   import { useBotDisplay } from '@/ui/common/useBotDisplay'
   import { useAppStore } from '@/generator/stores/useAppStore'
-  import { useCharacterManager } from '@/generator/scripts/CharacterManager/useCharacterManager'
+  import { useCharacterManager } from '@/generator/composables/useCharacterManager'
 
   const appStore = useAppStore()
 

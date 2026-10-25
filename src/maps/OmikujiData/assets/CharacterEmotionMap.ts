@@ -1,5 +1,5 @@
 // src/maps/OmikujiData/assets/CharacterEmotionMap.ts
-import { DisplayMeta } from '@/editor/types/DisplayMeta'
+import { DisplayMeta } from '@/types/core'
 import { CharacterEmotionType } from '@/types/OmikujiData'
 
 /**

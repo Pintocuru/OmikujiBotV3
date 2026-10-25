@@ -1,4 +1,4 @@
-// src/generator/scripts/CharacterManager/useCharacterManager.ts
+// src/generator/composables/useCharacterManager.ts
 import { computed, MaybeRefOrGetter, toValue } from 'vue'
 import { CharacterAnimationType, CharacterType } from '@/types/OmikujiData'
 import { useAppStore } from '@/generator/stores/useAppStore'

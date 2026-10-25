@@ -1,6 +1,6 @@
 // src/maps/OmikujiData/CategoryMap.ts
 import { CategoryType } from '@/types/OmikujiData'
-import { DisplayMetaLucide } from '@/editor/types/DisplayMeta'
+import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
 
 // Map定義 (Lucide Icon名を含む)
 export const categoryMap: Record<CategoryType, DisplayMetaLucide> = {

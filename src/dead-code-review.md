@@ -1,6 +1,6 @@
 # dead-code-review.md(圧縮版)— OmikujiBotV3
 
-最終更新: 2026-10-26(patch 20 時点)。**実行済みの修正は記載しない**。ここにあるのは「未実行の項目」「消してはいけない項目」「次にやること」だけ。
+最終更新: 2026-10-26(patch 22 時点)。**実行済みの修正は記載しない**。ここにあるのは「未実行の項目」「消してはいけない項目」「次にやること」だけ。
 
 ## 0. 調査対象外・方針
 
@@ -108,8 +108,41 @@
 - `migrations/index.ts`(確信度 低): 移行時の `console.log` が残っている(動作ログとして意図的な可能性)
 - `buildValidation/validateAgainstBuild.ts`: `UnsupportedKeyType` / `formatUnsupportedKeys` の `export` のみ未使用(patch 17 と同じ。変更なし)
 
+### 2-6. ディレクトリ構造(patch 21・22 で調査。`src/console`・`src/plugin` は対象外)
+
+構造全体の階層と責務の分け方は一貫している。以下は、未実行の提案と判断。
+
+#### 提案 A: `ui` / `manager` が使う `editor/parts` を共通の場所へ移す(判断: 現状維持)
+
+- 現状: `ui/*/editor/` が `editor/parts`(`SettingItem` 12 件、`HudPreview` 8 件、`ColorPicker` 4 件、`CharacterPicker` 1 件)と `editor/stores/useOmikujiStore`(11 件)を使う。`manager/` も `editor/stores` と `editor/helpers/presetsImport` を使う
+- 全面移動は不適切
+  - 依存元は `ui/*/editor/` に限られ(例外は `ui/common/DisplayStyleSelector.vue` のみ)、各 UI のエディターが `editor` の部品を使うのは自然な向き(editor の拡張部分)
+  - `useOmikujiStore` は editor 固有のストアで移せない。部品だけ `common` に移すと、`common` → `editor` の依存が増える
+  - `CharacterPicker` は `editor/helpers/CharacterChanger` に依存するため移せない
+- 移せるのは `SettingItem` / `HudPreview` / `ColorPicker`(+ `editor/maps/parts/ColorPicker.ts`)の 3 つ。editor を別パッケージ化する予定がある場合だけ意味がある
+- `manager` → `editor` の 7 件は、API の保存・読込が editor のストアを直接更新する設計のため、構造だけを変えても解消しない(設計の判断)
+
+#### `CharacterManager` の応急処置の残り(提案 C の続き)
+
+- 実施済みなのは、フォルダ名の重複の解消だけ(composable を `generator/composables/` へ移動)。根本の問題は残っている
+  - `useCharacterManager` は、既定で generator のストア(`useAppStore`)を使う。しかし `ui` と `editor` からも使われている(引数 `source` で editor のストアを渡す)
+  - クラス `CharacterManager`(engine)と `useCharacterManager`(generator)は、名前が近いままで、どちらがストアに依存するかが名前から分からない
+- 根本対応の案(実行していない)
+  - 案 2: 名前を役割に合わせて変える(例: クラス `CharacterResolver`、composable `useCharacters`)
+  - 案 3: composable を、ストアに依存しない形(`source` 必須)にして `common` に置き、generator 用のラッパーを別に作る
+
+#### その他(確信度 低、報告のみ)
+
+- `editor/assets/PostFlow` と `editor/apps` のフォルダ名の大文字小文字が混在(`Bot` / `gameScript` / `IconSelector` / `items` ほか)。規則は「機能・コンポーネント単位は Pascal、役割単位(`composables` など)は lower」に寄せるのが自然
+- `editor/assets/actions/`(`ActionsEditor.vue` のみ)と `PostFlow/actions/`(ActionSet 関連)の同名フォルダ
+- `common/buildValidation` は ui / games / sdk のレジストリを束ねる側で、`common` というより `app` 寄りの性質
+- `common/presetsExport/generateContent.ts` と `editor/helpers/presetsExport/` の出力処理が別の場所にある(意図的な分離の可能性)
+- `src/` 直下の `dead-code-review.md` と依頼文コピーは、調査完了後に `docs/` へ移す案(依頼文コピーは削除しない方針)
+- `common/` → `ui` / `games` / `sdk` / `editor` の import(`buildValidation` の 3 件と `EntryCore/editorCore.ts` の 1 件)
+- `engine/` → `generator/stores/MetaState`(`PostOmikujiService.ts` の 1 件)、`types/OmikujiData/ui/UiSchema.ts` → `maps/OmikujiData`(`fontFamilyMap`)、`sdk/subscribe/GetReactions.ts` → `maps/OmikujiData`(`reactionMap`)
+
 ## 3. 次にやること
 
-1. 2-1 の不具合の疑いを、修正対象にするか決める(`LayerImage` の `onError` と、サンプルキャラの `surprise` を追加)
+1. 2-1 の不具合の疑いを、修正対象にするか決める(`LayerImage` の `onError`、サンプルキャラの `surprise`)
 2. `FortuneRanking` を登録するか、整理するかを決める(2-4)
-3. `src/` 内の調査は一通り完了。残りは本人判断の項目のみ
+3. `CharacterManager` の根本対応(案 2 / 案 3)を決める(2-6)。提案 A は現状維持

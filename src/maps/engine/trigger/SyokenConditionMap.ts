@@ -1,5 +1,5 @@
 // src/maps/engine/trigger/SyokenConditionMap.ts
-import { DisplayMeta } from '@/editor/types/DisplayMeta'
+import { DisplayMeta } from '@/types/core'
 import { SyokenConditionType } from '@/types/engine/trigger'
 
 // Map定義

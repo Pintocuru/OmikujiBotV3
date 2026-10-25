@@ -1,6 +1,6 @@
 // src/maps/OmikujiData/events/ServiceTriggerMap.ts
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
-import { DisplayMeta } from '@/editor/types/DisplayMeta'
+import { DisplayMeta } from '@/types/core'
 import { ServiceComparisonConditionType, ServiceTriggerCondition } from '@/types/OmikujiData'
 
 /**

@@ -1,5 +1,5 @@
 // src/maps/engine/trigger/ServiceConditionMap.ts
-import { DisplayMeta } from '@/editor/types/DisplayMeta'
+import { DisplayMeta } from '@/types/core'
 import { ServiceMetaCondition } from '@/types/engine/trigger'
 
 // Map定義

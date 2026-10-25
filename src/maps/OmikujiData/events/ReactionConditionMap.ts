@@ -1,5 +1,5 @@
 // src/maps/OmikujiData/events/ReactionConditionMap.ts
-import { DisplayMeta } from '@/editor/types/DisplayMeta'
+import { DisplayMeta } from '@/types/core'
 import { ReactionConditionType } from '@/types/OmikujiData'
 
 // Map定義
