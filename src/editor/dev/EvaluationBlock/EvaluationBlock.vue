@@ -236,10 +236,8 @@
       formError.value = '値を入力してください'
       return
     }
-    const raw = formValue.value.trim()
     // 引用符つきは常に文字列、それ以外は数値として読めれば数値
-    const isQuoted = /^(['"]).*\1$/.test(raw)
-    const value = isQuoted ? raw.slice(1, -1) : parseVariableValue(raw)
+    const value = parseVariableValue(formValue.value)
 
     appStore.placeholderVariable.getEvaluator().set(key, value)
     formError.value = ''

@@ -55,7 +55,7 @@
   const { isServerConnected } = storeToRefs(devStore)
   const navigationStore = useNavigationStore()
 
-  // インポートマネージャー
+  // テーマと、データ未読込(開発版の起動直後)かどうかの判定
   const daisyUiTheme = computed(() => data.value.settings.developer.daisyUiTheme)
   const isDevWorld = computed(() => dataSource.value === 'unknown')
 

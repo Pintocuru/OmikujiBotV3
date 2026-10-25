@@ -11,7 +11,6 @@ export interface PresetBuildResult<C extends DataCategoryType> {
   events?: C extends EventCategoryType ? Partial<EventCategoryDataMap[C]>[] : never
   /** true なら、追加した events を既存の先頭へ移動する(例: 除外ルール) */
   eventsToTop?: boolean
-  /** 作成後に選択するデータ。events があれば events[0]、無ければ assets の先頭が既定 */
 }
 
 /**

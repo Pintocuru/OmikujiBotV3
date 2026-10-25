@@ -4,6 +4,7 @@
 - 方法: GitHub から各ファイルを取得し、import を手で辿って参照関係を確認(コード検索 API は 0 件しか返さず使えなかった)
 - 2026-10-25(続き): clone して grep と `vue-tsc --noEmit` / eslint で確認(patch 2: `src/editor/events` + 関連 i18n)。patch 1(assets)は upstream に適用済みであることを確認(`PostActionsPreview.vue` が存在しない)
 - 2026-10-25(続き 2): patch 2 適用後の状態を基準に patch 3(`src/editor/apps`・`parts`・`helpers`・`stores`・`types` + 関連 i18n)を実施。**この範囲は全ファイルを精読していない**(下の「機械的に走査のみ」を参照)
+- 2026-10-25(続き 3): patch 7 適用後の HEAD(`bedbfe1`)を基準に patch 8(`src/editor` の `ui`・`dev`・`shell`・`presets`・`maps`・`types` と直下の `App.vue`・`EditorApp.vue`・`i18n.ts`)を実施。これで `src/editor` は全域の精読が完了
 - コミット・プッシュ: 行っていない(`.patch` で提出。patch 3 は patch 2 の適用が前提)
 
 ---
@@ -600,3 +601,45 @@ patch 6 適用後の状態が基準(patch 6 → patch 7 の順で適用)。`vue-
 ## 9-5. 次に調査する箇所(patch 7 時点)
 1. `src/editor/ui/`、`src/editor/dev/`、`src/editor/maps`(`CategorySectionMap` ほか)、`src/editor/types`、`src/editor/presets`、`src/editor/i18n`、`src/editor/` 直下(`EditorApp.vue` ほか)
 2. 以降は「9. 次に調査する箇所」の 3〜6 のとおり(`src/editor/helpers` と `src/editor/apps` は完了)
+
+## 8-8. patch 8(2026-10-25 / `src/editor` の残り: `ui`・`dev`・`shell`・`presets`・`maps`・`types`・直下)
+
+patch 7 までが upstream に適用済みであることを確認した上で実施(`parts/CopyButton.vue` と `helpers/presetsImport/ConfigImport.vue` が存在しない、`useImportManager.loadFromFile` が存在しない)。`vue-tsc --noEmit` は修正前後ともエラー 0、`--noUnusedLocals --noUnusedParameters` は `src/editor/{ui,dev,shell,presets,maps,types}` と直下で指摘 0 件。変更ファイルの eslint もエラーなし。これで `src/editor` は全域の精読を完了した。
+
+### 読み取り済み(全文)
+- `ui/` 全 6 ファイル(`UiEditor` / `uiEditorRegistry` / `common/*` / `conditions/*`)
+- `dev/` 全 4 ファイル(`EvaluationBlock` / `evaluationStats` / `TestComment` / `VirtualStreamPanel`)
+- `shell/` 全 5 ファイル、`presets/` 全 9 ファイル、`maps/` 全 2 ファイル、`types/` 全 8 ファイル
+- `src/editor/App.vue` / `EditorApp.vue` / `i18n.ts`
+- 参照確認のために読んだもの: `apps/navigation/composables/useSidebarPreset.ts`(プリセットの利用側)、`src/i18n/editor/category/NavigationSidebarMessagesMap.ts` の `presets` ブロック
+
+### 確認した参照関係
+- `App.vue` → `EditorApp`(`v-show`)/ `ShellToolbar` / `GeneratorView`(非同期。`GeneratorLoading` が読み込み中表示)。`GeneratorView` → `GeneratorStage` / `TestComment` / `VirtualStreamPanel` / `EvaluationBlock`
+- `presets/index.ts` の `presetMap` 8 カテゴリ → `useSidebarPreset` が `getPresets` で使用。プリセット 24 件の `id` は、`NavigationSidebarMessagesMap.ts` の `presets.{category}.{id}`(ja / en)と過不足なく対応(古い未使用キーなし)
+- `types/` の export は全て外部から参照あり(例外は下の D-27)。`maps/` の `categorySectionMap` / `appInfoSections` / `colorFields` も使用中
+
+### 修正済み
+| 項目 | 変更 | 根拠 |
+|---|---|---|
+| D-24 | `dev/EvaluationBlock/EvaluationBlock.vue` の `submitForm`: 冗長な `isQuoted` 判定を削除し `parseVariableValue(formValue.value)` に統一 | `parseVariableValue` が引用符の除去を同じ規則で処理している。12 パターン(`12` / `'12'` / `"abc"` / `''` / `'a` / `'a'b'` / `0x10` ほか)で、削除前後の結果が一致することを実行して確認 |
+| D-25 | `presets/types.ts`: `PresetBuildResult` の末尾にある、どのメンバにも付いていない孤立コメント(「作成後に選択するデータ…」)を削除 | 該当プロパティは存在しない。挙動は `useSidebarPreset.addPreset`(events[0]、なければ先頭の assets を選択)側に実装済み |
+| D-26 | `types/events/index.ts` を削除。`types/index.ts` の `// export * from './events'` と、`types/apps/index.ts` の `// export * from './presetsImportType'`(コピー元の名残)を削除 | `types/events/index.ts` はコメントのみで export がなく、リポジトリ全体で import なし(`editor/types/events` / `./events` ともに 0 件)。削除前後の `vue-tsc` エラー 0。将来 events 用の型を置く予定があれば、復元するだけでよい |
+| D-28 | `EditorApp.vue`: `daisyUiTheme` / `isDevWorld` の上にあった古いコメント「インポートマネージャー」を実態に合わせて修正 | コメントのみ。インポート処理は `EditorApp` にはない |
+
+### 発見事項(修正せず・報告のみ)
+- D-27 `types/apps/SidebarType.ts`(確信度 低): `CategoryGroupId` は `export` だが外部参照なし(`CategoryGroup` の内部でのみ使用)。`presets/index.ts` の `PresetBuildResult` の再 export も外部から使われていない。`evaluationStats.ts` の `NumberSummary` / `StringSummary` / `WildcardSummary` の `export` も同様(C-6 と同種)
+- D-29 `shell/GeneratorStage.vue`(確信度 中): `BackgroundKey` の `'green'` と `BG_STYLES.green` は、`BG_OPTIONS` に選択肢がなく初期値も `'checker'` なので到達しない。クロマキー用の背景を戻す予定の可能性があり保留。`SIZE_PRESETS` のラベルが `'300x400'`(英字の x)と `'600×900'`(×)で不統一(表示文言のため変更せず)
+- D-30 `dev/VirtualStreamPanel/VirtualStreamPanel.vue`(確信度 低): `store._devSetMeta?.(fields)` は `?.` つき、`store._devReleaseMeta()` は `?.` なし。`ServiceMetaStore` はどちらも必ず持つので `?.` は不要だが、型 `MetaState` 側では `_devSetMeta` が任意メソッドのため残している。ヘッダーに `cursor-pointer` がない(`TestComment` / `EvaluationBlock` にはある)。`TestComment.vue` の `burstSend` は `async` だが `await` がない
+- D-31 `dev/` と `shell/` と `EditorApp.vue` の表示文言・トーストは日本語直書き(i18n 外)。開発用 UI のため意図的な可能性があり、i18n 化は文言追加を伴うので対象外
+- D-32 `App.vue` と `EditorApp.vue` の両方が `data-theme` を設定している(`App.vue` に「EditorApp.vue の daisyUiTheme と同じ」というコメントあり。意図的な二重指定)
+
+### 範囲外で気づいたこと(未調査・変更なし)
+- `src/sdk/types/`(`subscribe/SendCommentSchema.ts` と `index.ts`)は、`src/types/subscribe/SendCommentSchema.ts` とほぼ同内容の複製に見える。`src/sdk/types` を import している箇所は `grep` でも自身のコメント以外に見つからない。`src/sdk` の調査時に、参照元と `src/types/` との差分を確認する(`src/types/` は編集不可のため、削除するなら `src/sdk/types/` 側)
+
+## 9-6. 次に調査する箇所(patch 8 時点)
+1. `src/sdk`(`src/sdk/types/` の複製疑いの確認から。`src/sdk/post/PostOneComme.ts`、`subscribe/GetReactions.ts` の未使用引数 `platform` もここ)
+2. `src/common`、`src/engine`、`src/games`、`src/generator`(`TriggerChecker.ts` の `userIds` と editor の `TriggerUserId.vue` の対応も)、`src/layout`、`src/manager`、`src/plugin`、`src/ui`(`useStreamCounters.ts` の未使用 `_`)、`src/console`、`src/maps`、`src/i18n`
+3. `src/types`(編集不可。参照されていない型の報告のみ)、`src/registerAll.ts` / `registerRuntime.ts` / `main.ts` / `DevApp.vue` / `version.ts`
+4. `src/` 直下の `リポジトリのデッドコードを調査し、不要なコードを削除してください.md`(依頼文のコピー。参照ではなく、残すかどうかはユーザーに確認)
+5. 範囲外の `tools/`・`server/` の `--noUnusedLocals` 指摘(`res`、`TemplateJsonProcessor.ts` の未使用 import 2 件)は、`src/` 外のため今回の依頼の対象外
+
