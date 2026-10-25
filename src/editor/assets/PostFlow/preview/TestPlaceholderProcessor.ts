@@ -37,15 +37,7 @@ export const processTestPlaceholder = (
     // 未処理 {{ }} が残っていればエラー
     const hasError = /\{\{[\s\S]*?\}\}/.test(processed.bubble)
 
-    if (hasError) {
-      const highlighted = processed.bubble.replace(/\{\{[\s\S]*?\}\}/g, (m) => {
-        return m
-      })
-
-      return { text: highlighted, hasError: true }
-    }
-
-    return { text: processed.bubble, hasError: false }
+    return { text: processed.bubble, hasError }
   } catch {
     return {
       text: message,

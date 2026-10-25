@@ -121,16 +121,7 @@
     return {
       ...candidate,
       hasError: !result.success,
-      error: result.success ? '' : getErrorMessage(result.error),
     }
-  }
-
-  // エラーメッセージを日本語化
-  const getErrorMessage = (error: any) => {
-    const issue = error.issues?.[0]
-    if (issue?.path?.[0] === 'weight') return '重みは1以上の整数である必要があります'
-    if (issue?.path?.[0] === 'content') return '内容が必要です'
-    return '不正な値です'
   }
 
   // プレビューアイテム

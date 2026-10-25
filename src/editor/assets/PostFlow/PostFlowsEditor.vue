@@ -25,10 +25,7 @@
     <template v-else-if="props.modelValue.length > 0 && activeTab >= 0">
       <PostActionItem
         :action="currentAction"
-        :index="activeTab"
         @update:action="updateCurrentAction"
-        @duplicate="duplicateAction"
-        @remove="removeAction"
       />
     </template>
   </div>

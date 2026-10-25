@@ -13,7 +13,7 @@
       <SettingItem layout="vertical" icon="Rocket" :label="t('postFlow.actionItem.typeLabel')" :description="t('postFlow.actionItem.typeDesc')">
         <div class="flex flex-wrap gap-2">
           <span
-            v-for="(meta, type) in postFlowKindMap"
+            v-for="(_, type) in postFlowKindMap"
             :key="type"
             class="badge badge-sm cursor-pointer"
             :class="action.kind === type ? 'badge-primary' : 'badge-outline'"
@@ -83,13 +83,10 @@
 
   const props = defineProps<{
     action: PostFlowType
-    index: number
   }>()
 
   // Emits
   const emit = defineEmits<{
-    duplicate: [index: number]
-    remove: [index: number]
     'update:action': [value: PostFlowType]
   }>()
 

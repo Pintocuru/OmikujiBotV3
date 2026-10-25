@@ -70,10 +70,6 @@ export const postFlowMessages = {
         icon: 'アイコン',
         message: 'メッセージ',
       },
-      actionsPreview: {
-        empty: 'Post Actions が設定されていません',
-        flowCall: 'アクションセット: {keys}',
-      },
       flowsEditor: {
         empty: 'PostActionがありません',
         addFirst: '最初のアクションを追加',
@@ -124,7 +120,6 @@ export const postFlowMessages = {
         none: 'このアクションにはプレビューがありません',
         invalid: '(不正な処理です)',
         noMessage: '(メッセージなし)',
-        hidden: '(このメッセージは表示されません)',
       },
       tests: {
         sound: 'サウンドのテスト実行',
@@ -226,10 +221,6 @@ export const postFlowMessages = {
         icon: 'Icon',
         message: 'Message',
       },
-      actionsPreview: {
-        empty: 'No Post Actions are set',
-        flowCall: 'Action set: {keys}',
-      },
       flowsEditor: {
         empty: 'No PostActions',
         addFirst: 'Add the first action',
@@ -281,7 +272,6 @@ export const postFlowMessages = {
         none: 'No preview for this action',
         invalid: '(Invalid action)',
         noMessage: '(No message)',
-        hidden: '(This message will not be displayed)',
       },
       tests: {
         sound: 'Test sound',

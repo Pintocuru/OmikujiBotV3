@@ -10,8 +10,6 @@
     <div class="relative">
       <button
         @click="showIconSelector"
-        @mouseenter="showHoverSelector = true"
-        @mouseleave="showHoverSelector = false"
         class="btn btn-sm btn-outline tooltip tooltip-top"
         :data-tip="t('postFlow.iconSelector.tip')"
       >
@@ -44,7 +42,6 @@
 
   const emit = defineEmits<{
     'update:iconKey': [value: string]
-    showSelector: [characterKey: string, iconKey: string]
   }>()
 
   const { characterMap } = useCharacterLookup()
@@ -55,7 +52,6 @@
     )
   })
 
-  const showHoverSelector = ref(false)
   const iconSelectorModalRef: Ref<InstanceType<typeof IconSelectorModal> | null> = ref(null)
 
   const localIconKey = computed({

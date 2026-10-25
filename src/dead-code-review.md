@@ -136,7 +136,9 @@
 
 ### 4-1. 削除候補
 
-#### A-1 `isCommentMode`(常に true の分岐)
+#### A-1 `isCommentMode`(**撤回: 削除不可**。2026-10-25 にコードで再確認)
+- 訂正: `src/ui/LiveClock/editor/LiveClockEditor.vue:25` が `<MessageTextDialog v-model="messageText" />` を prop なし(= false)で使っている。false 側は到達するため残す。資料の「全呼び出し元が true」は assets 内のみの確認だった
+- 以下は当初の記述(参考)
 - 場所
   - `PostFlow/Message/MessageTextDialog.vue` の prop `isCommentMode`
   - `PostFlow/Message/PlaceholderPanel.vue` の同 prop
@@ -144,7 +146,7 @@
 - 理由: 呼び出し元 4 か所(`MessageSettings`、`BotSettings`、`VariableSettings`、`OmikujiItemControlSettings`)が全て `:isCommentMode="true"` を渡している。false 側は到達しない。トースト/フキダシ分離の廃止の名残と思われる
 - 参照: 上記 4 呼び出し元のみ(assets 内で確認)
 - 影響: 挙動変化なし。`defaultBasePlaceholderLabel`(types 側)が他で未使用になる可能性がある
-- 確信度: 高
+- 確信度: 撤回(削除しない)
 
 #### A-2 `PostActionItem.vue` の未使用定義
 - 場所
@@ -162,7 +164,8 @@
 - 影響: なし
 - 確信度: 高
 
-#### A-4 `MikujiSettings.vue` の `category` prop(`MikujiEditor` から渡している分も含む)
+#### A-4 `MikujiSettings.vue` の `category` prop(`MikujiEditor` から渡している分も含む)【未修正・保留】
+- 追記: 呼び出し元は assets 外の `src/editor/events/{comment,reaction,service,timer}/*Editor.vue` にもあり(計 5 か所)、`EventCategoryType` の import も連動するため、events の調査時にまとめて修正する
 - 理由: 宣言のみで未使用
 - 影響: なし
 - 確信度: 高
@@ -189,10 +192,11 @@
 - 影響: i18n キー `postFlow.actionPreview.hidden` も未使用になる可能性がある(ロケール未確認)
 - 確信度: 高
 
-#### A-9 `MessagePreviewPanel.vue` の try/catch
+#### A-9 `MessagePreviewPanel.vue` の try/catch【確信度を下げ、修正せず】
+- 追記: try 内で `data.assets.placeholders ?? {}`(引数評価)を行っており、`data.assets` が未定義なら catch に到達しうるため、到達不能とは言えない
 - 理由: `processTestPlaceholder` 自体が内部で例外を握りつぶすため、外側の catch は到達しない
 - 影響: なし
-- 確信度: 高
+- 確信度: 中(上記追記のとおり)
 
 #### A-10 `useEmotionDraft.ts` の未使用戻り値
 - 場所: `draftItemFor`、`removeKey`
@@ -247,7 +251,7 @@
 
 | 対象 | 内容 | 要確認の理由 |
 |---|---|---|
-| `PostFlow/PostActionsPreview.vue` | assets 内に import なし。`displayText` が variable / gameScript / bot に未対応で旧実装に見える。単数形 `preview/PostActionPreview.vue` と名前が紛らわしい | `src/editor` の他ディレクトリからの参照が未検証。専用 i18n キー `postFlow.actionsPreview.*` もあり、削除時はロケールも整理が必要 |
+| (削除済み)`PostFlow/PostActionsPreview.vue` | assets 内に import なし。`displayText` が variable / gameScript / bot に未対応で旧実装に見える。単数形 `preview/PostActionPreview.vue` と名前が紛らわしい | `src/editor` の他ディレクトリからの参照が未検証。専用 i18n キー `postFlow.actionsPreview.*` もあり、削除時はロケールも整理が必要 |
 | `PostFlow/Message/MessageTextEditor.vue` | `Message` / `Bot` / `variable` の各 Settings は `MessageTextDialog` を使い、このファイルは import されていない | assets 外の参照が未検証 |
 | `MikujiEditor` 上部の Character/IconKey ボタンと `MikujiSettings` 内の同ボタン | 全体変更とアイテム単位変更の二段構成に見える | 意図した設計か未確認 |
 | `useBoxOmikujiList` / `MessageSettings` / `MessagePreviewPanel` の `const { data } = useOmikujiStore()` | 分割代入しており、`data` がストア内で再代入される実装だとリアクティブ性が切れる | `useOmikujiStore` の実装未読 |
@@ -307,3 +311,32 @@
 6. ロケールファイル(A-8 と `PostActionsPreview` 関連キー)
 7. `PostFlow/composables/usePostActionsTab.ts` の中身、`ImageSettingsInfo.vue`
 8. テスト、`vite.config`、`package.json`
+
+
+---
+
+## 8. 修正済み箇所と変更内容(2026-10-25 / patch 1: `src/editor/assets` + 関連 i18n)
+
+コードを clone して grep で全リポジトリ(src / tools / packages / server / vite 設定)を確認した上で修正。`vue-tsc --noEmit` は修正前後ともエラー 0、変更ファイルの eslint もエラーなし。
+
+| 項目 | 変更 | 根拠 |
+|---|---|---|
+| 未参照ファイル削除 | `PostFlow/PostActionsPreview.vue`、`PostFlow/Message/MessageTextEditor.vue` | リポジトリ全体で import・文字列参照なし。`import.meta.glob` や動的 import による参照もなし |
+| i18n | `src/i18n/editor/assets/PostFlow.ts` の `postFlow.actionsPreview`(ja/en)、`postFlow.actionPreview.hidden`(ja/en)を削除 | 参照元が上記削除ファイルと A-8 の分岐のみ。テンプレートリテラルによるキー組み立てなし |
+| A-2 | `PostActionItem.vue` の prop `index`、emit `duplicate`/`remove`、`v-for` の未使用 `meta`(`_` に変更)を削除。`PostFlowsEditor.vue` の `:index`/`@duplicate`/`@remove`(PostActionItem 側)を削除 | PostActionItem の利用元は PostFlowsEditor のみ。複製・削除はタブ側(PostActionsTabs)で処理 |
+| A-3 | `ActionsEditor.vue` の PostFlowsEditor への `category` / `selectedItemKey` を削除 | 受け側は `modelValue` のみ |
+| A-5 | `IconSelector.vue` の `showHoverSelector`、emit `showSelector` を削除 | 参照・利用元とも未使用 |
+| A-6 | `PlaceholderTextMode.vue` の `error` フィールドと `getErrorMessage` を削除 | `item.error` はどこでも読まれない(`hasError` のみ使用) |
+| A-7 | `TestPlaceholderProcessor.ts` の no-op な `highlighted` を除去(戻り値は同値) | コールバックが引数をそのまま返すだけ |
+| A-8 | `PostActionPreview.vue` の到達不能な `if (!processed)` を削除 | `processTestPlaceholder` は常にオブジェクトを返す |
+
+### 修正しなかった項目
+- A-1(撤回、LiveClockEditor が false 側を使用)、A-4(events 側の呼び出しを含むため保留)、A-9(確信度低下)
+- A-10〜A-15、4-2 の要確認項目、4-3 の不具合疑い: 確信度が中・低、または意図確認が必要なため報告のみ
+
+## 9. 次に調査する箇所(更新)
+1. `src/editor/events/`(A-4 の `category` 5 か所もここで処理)
+2. `src/editor/apps/`、`parts/`、`helpers/`、`stores/`、`maps/`
+3. `src/maps/OmikujiData`、`src/types/OmikujiData`、ロケール全体
+4. `usePostActionsTab.ts` の戻り値、`ImageSettingsInfo.vue`
+5. `src/common`、`src/engine`、`src/games`、`src/generator`、`src/layout`、`src/manager`、`src/plugin`、`src/sdk`、`src/ui`、`src/console`(未着手)

@@ -27,7 +27,7 @@
       :label="s('omikujiSet')?.label"
       :description="s('omikujiSet')?.description"
     >
-      <PostFlowsEditor v-model="postFlows" category="actions" :selectedItemKey="selectedItemKey" />
+      <PostFlowsEditor v-model="postFlows" />
     </SectionCard>
   </template>
 </template>

@@ -135,7 +135,6 @@
     const content = props.action.message
     if (!content) return t('postFlow.actionPreview.noMessage')
     const processed = processTestPlaceholder(content, data.value.assets.placeholders)
-    if (!processed) return t('postFlow.actionPreview.hidden')
     return transformIconPlaceholdersPreview(processed.text)
   })
 
