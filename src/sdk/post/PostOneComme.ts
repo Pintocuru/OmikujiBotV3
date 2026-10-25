@@ -10,18 +10,6 @@ export async function postComment(request: SendCommentType, delaySeconds: number
 }
 
 /**
- * WordPartyにリアクションを投稿
- */
-export async function postWordParty(content: string, delaySeconds: number = 0): Promise<void> {
-  return delayPost(
-    '/reactions',
-    { reactions: [{ key: content, value: 1 }] },
-    delaySeconds,
-    'WordPartyリアクションの投稿に失敗しました'
-  )
-}
-
-/**
  * WordPartyのIDを指定してリアクションを投稿
  */
 export async function postWordPartyId(id: string, delaySeconds: number = 0): Promise<void> {

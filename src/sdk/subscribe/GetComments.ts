@@ -3,7 +3,6 @@ import { PingOneSDK } from '@/sdk/connection/PingOneSDK'
 import OneSDK from '@onecomme.com/onesdk'
 import { Comment } from '@onecomme.com/onesdk/types/Comment'
 
-// GetComments.ts
 let currentSubscriberId: number | null = null
 
 export async function GetComments(
@@ -31,7 +30,7 @@ export async function GetComments(
         if (isFirstCallback && options.initialLoad) {
           callback(comments)
           isFirstCallback = false
-          // ★ 初回データ受信後に commentLimit を通常サイズに戻す
+          // 初回データ受信後に commentLimit を通常サイズに戻す
           await OneSDK.setup({
             permissions: OneSDK.usePermission([OneSDK.PERM.COMMENT]),
             mode: 'all',

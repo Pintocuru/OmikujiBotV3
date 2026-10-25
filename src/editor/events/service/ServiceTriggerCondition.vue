@@ -56,13 +56,13 @@
     'update:modelValue': [value: ServiceConditionType]
   }>()
 
-  // ★ 初期値生成
+  // 初期値生成
   const defaultCondition = (): ServiceConditionType => ({
     comparison: 'changed',
     value: 0,
   })
 
-  // ★ 初回だけ初期値を emit
+  // 初回だけ初期値を emit
   if (!props.modelValue) {
     emit('update:modelValue', defaultCondition())
   }

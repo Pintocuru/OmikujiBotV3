@@ -26,10 +26,7 @@ const reverseMap: Record<string, string> = (() => {
 
 let currentSubscriberId: number | null = null
 
-export async function GetReactions(
-  callback: (aggregated: ReactionMap) => void,
-  platform: 'youtube' = 'youtube'
-): Promise<boolean> {
+export async function GetReactions(callback: (aggregated: ReactionMap) => void): Promise<boolean> {
   try {
     if (currentSubscriberId !== null) {
       console.log(`HMR: 既存の購読ID ${currentSubscriberId} を解除します`)

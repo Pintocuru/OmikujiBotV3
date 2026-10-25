@@ -64,7 +64,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
     if (!result.isConfirmed) return
     const omikujiStore = useOmikujiStore()
 
-    // ★ store の data は触らない。保存用にだけコピーを作る
+    // store の data は触らない。保存用にだけコピーを作る
     const dataForSave = {
       ...omikujiStore.data,
       meta: {
