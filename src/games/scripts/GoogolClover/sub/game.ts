@@ -20,7 +20,6 @@ export interface GameExecutionResult {
  *
  * @param userStates - ユーザー状態のマップ
  * @param context - ユーザー情報
- * @param rankingKey - ランキングキー
  * @returns ゲーム実行結果(bubble、ランキングデータ、状態更新指示)
  */
 export function executeGame(userStates: Map<string, UserState>, context: UserNameType): GameExecutionResult {

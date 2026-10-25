@@ -30,9 +30,7 @@ export const GAME_CONSTANTS = {
   SCORE_MULTIPLIER: { MIN: 1, MAX: 1 },
   INITIAL_LIFE: 3,
   EMOJI_DELAY: 1,
-  SPECIAL_EFFECT_DELAY: 8.5,
   HALF_DIVISOR: 2,
-  RANDOM_THRESHOLD: 6,
 } as const
 
 // ---

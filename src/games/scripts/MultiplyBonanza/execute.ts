@@ -57,7 +57,6 @@ export class ExecuteScript implements ScriptClass {
     const message = engine.createMessage(userName, result)
 
     return {
-      engine,
       result,
       message,
     }

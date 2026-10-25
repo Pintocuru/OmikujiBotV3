@@ -66,14 +66,8 @@ function getRandomReward(successCount: number): { symbol: string; multiplier: nu
   // 第2段階：成功役を重みベースで抽選
   // 成功回数分だけ配列の先頭から除外（progressiveな難易度上昇）
   const skipCount = Math.min(successCount, REWARD_TABLE.length - 1)
+  // skipCount は最大でも length - 1 なので、availableRewards は常に1件以上ある
   const availableRewards = REWARD_TABLE.slice(skipCount)
-
-  // 利用可能な役がない場合は最後の役を使用
-  if (availableRewards.length === 0) {
-    const lastReward = REWARD_TABLE[REWARD_TABLE.length - 1]
-    const multiplier = lastReward.min + Math.random() * (lastReward.max - lastReward.min)
-    return { symbol: lastReward.symbol, multiplier }
-  }
 
   const totalWeight = availableRewards.reduce((sum, r) => sum + r.weight, 0)
   const rand = Math.random() * totalWeight
