@@ -67,12 +67,7 @@
   const { selectedCategory, isOpenCategory, navigateCategory } = useCategoryOpen()
 
   // ドラッグ
-  const { draggableItems, onDragEnd, isDragDisabled } = useNavigationSidebarDrag(computed(() => props.isExpanded))
-  // isDragDisabled（ドラッグ中フラグ）を isDragEnabled として子に渡す
-  const isDragEnabled = computed({
-    get: () => isDragDisabled.value,
-    set: (val) => (isDragDisabled.value = val),
-  })
+  const { draggableItems, onDragEnd, isDragEnabled } = useNavigationSidebarDrag(computed(() => props.isExpanded))
 
   const getDraggableModel = (key: DataCategoryType) =>
     computed({

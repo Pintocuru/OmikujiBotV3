@@ -16,7 +16,7 @@ export const staticSectionPreviewMap: Record<string, Component> = {
   // 共通
   baseSettings: BaseSettings,
   omikujiSet: OmikujiSetPreview,
-  actionSet: ActionSetPreview, // actionSets カテゴリ用（Events の omikujiSet リンク先でも利用）
+  actionSet: ActionSetPreview, // mikuji / actions カテゴリ用 // TODO: actionSet -> actions
 
   // comments
   threshold: ThresholdPreview, // mode デフォルト: 'threshold'

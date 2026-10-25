@@ -1,7 +1,7 @@
 <!-- src/editor/apps/navigation/SidebarObjectItems.vue -->
 <!--
   appInfo / ui 用のセクションリスト。
-  theme / activeSection は SidebarSectionList の props として渡す必要があるため
+  activeSection は SidebarSectionList の props として渡す必要があるため
   useSidebarContext() から取得して中継する。
 -->
 <template>

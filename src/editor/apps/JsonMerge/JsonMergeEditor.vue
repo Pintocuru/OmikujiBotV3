@@ -65,7 +65,7 @@
 
       <div class="space-y-4">
         <!-- イベント名 -->
-        <SettingItem icon="Pencil" label="イベント名" description="識別しやすい名前">
+        <SettingItem icon="Pencil" label="マージ名" description="識別しやすい名前">
           <input type="text" v-model="merge[selectedIndex].name" @input="update" class="input w-full" />
         </SettingItem>
 
@@ -98,8 +98,6 @@
     <div v-else-if="merge.length > 0" class="card bg-base-200 shadow p-6 text-center">
       <p class="text-base-content/60">上のリストからマージ設定をクリックして編集してください</p>
     </div>
-
-    <!-- 追加ボタン -->
   </div>
 </template>
 
@@ -116,7 +114,6 @@
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
-  import { CharacterType } from '@/types/OmikujiData'
   import { generateId } from '@/types/core'
 
   const store = useOmikujiStore()
@@ -144,11 +141,9 @@
   })
 
   // キャラクターデータ
-  const characters = computed(() => {
-    return data.value.assets.characters ?? ({} as Record<string, CharacterType>)
-  })
+  const characters = computed(() => data.value.assets.characters)
 
-  // インデックスに対応した色（OmikujiWeightProgressBarと同じユーティリティを流用）
+  // インデックスに対応した色
   const getColorForIndex = (index: number): string => {
     const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#14b8a6', '#3b82f6', '#8b5cf6', '#ec4899']
     return colors[index % colors.length]

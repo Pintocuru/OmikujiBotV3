@@ -18,7 +18,7 @@ export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => 
   const omikujiStore = useOmikujiStore()
 
   const draggableItems = ref<Partial<Record<DataCategoryType, DraggableSubItem[]>>>({})
-  const isDragDisabled = ref(false)
+  const isDragEnabled = ref(false)
 
   // 戻り値型を明示して ts(2589) を止める。引数は最小の構造型にする
   const toDraggable = (key: string, item: BaseRecordType): DraggableSubItem => ({
@@ -78,5 +78,5 @@ export const useNavigationSidebarDrag = (isExpanded: Readonly<Ref<boolean>>) => 
     }
   }
 
-  return { draggableItems, onDragEnd, isDragDisabled }
+  return { draggableItems, onDragEnd, isDragEnabled }
 }

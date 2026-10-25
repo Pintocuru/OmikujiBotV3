@@ -20,9 +20,6 @@ export const useSidebarCreate = () => {
 
   const categoryLabel = (category: CategoryType) => t(`categories.${category}.label`)
 
-  /** 新規作成できるカテゴリか（Events / Assets のみ） */
-  const canCreate = (category: CategoryType) => isEventCategory(category) || isAssetCategory(category)
-
   /** 新規作成 → 作成したデータを選択 */
   const createItem = (category: CategoryType): string | null => {
     const name = t('navigation.create.defaultName', { category: categoryLabel(category) })
@@ -41,5 +38,5 @@ export const useSidebarCreate = () => {
     return newKey
   }
 
-  return { canCreate, categoryLabel, createItem }
+  return { categoryLabel, createItem }
 }

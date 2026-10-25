@@ -5,6 +5,7 @@ import i18n from '@/editor/i18n'
 
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 
+// TODO: 型定義をエクスポートして、別のファイル(src/editor/types など)に定義するほうがいいのでは？
 export interface VersionInfo {
   current: string
   latest: string | null
@@ -60,6 +61,7 @@ export function useVersionCheck(currentVersion: Ref<string>) {
     error.value = null
 
     try {
+      // TODO: 定数は別のファイルに定義したい
       const res = await fetch('https://api.github.com/repos/Pintocuru/OmikujiBot-Docs/releases/latest')
 
       if (!res.ok) {
@@ -95,11 +97,6 @@ export function useVersionCheck(currentVersion: Ref<string>) {
       confirmButtonText: t('appHeader.openGithub'),
       timer: 15000,
       timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('click', () => {
-          window.open(openLatestRelease(), '_blank')
-        })
-      },
     }).then((result) => {
       if (result.isConfirmed) {
         window.open(openLatestRelease(), '_blank')
@@ -114,26 +111,12 @@ export function useVersionCheck(currentVersion: Ref<string>) {
     return 'https://github.com/Pintocuru/OmikujiBot-Docs/releases/latest'
   }
 
-  /**
-   * バージョン情報をリセット
-   */
-  const resetVersionCheck = () => {
-    latestVersion.value = null
-    error.value = null
-    isLoading.value = false
-  }
-
   return {
     // 状態
     versionInfo,
-    isLatest,
-    hasNewVersion,
-    isLoading,
-    error,
 
     // アクション
     checkVersion,
-    resetVersionCheck,
     showUpdateDialog,
     openLatestRelease,
   }

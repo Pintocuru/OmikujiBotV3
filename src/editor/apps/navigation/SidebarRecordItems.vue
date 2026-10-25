@@ -1,8 +1,8 @@
 <!-- src/editor/apps/navigation/SidebarRecordItems.vue -->
 <template>
   <div>
-    <!-- 新規作成 + プリセット追加（Events / Assets。データが0件でもここから作成できる） -->
-    <div v-if="canCreate(category)" class="flex items-center pr-1">
+    <!-- 新規作成 + プリセット追加（データが0件でもここから作成できる） -->
+    <div class="flex items-center pr-1">
       <button
         class="btn btn-ghost btn-xs flex-1 min-w-0 justify-start gap-1 pl-4 pr-1 text-xs font-normal opacity-70 hover:opacity-100"
         :title="t('navigation.create.buttonTip', { category: categoryLabel(category) })"
@@ -96,7 +96,7 @@
   }>()
 
   const { t } = useI18n()
-  const { canCreate, categoryLabel, createItem } = useSidebarCreate()
+  const { categoryLabel, createItem } = useSidebarCreate()
 
   const { presetsOf, presetLabel, presetDescription, addPreset } = useSidebarPreset()
   const presets = computed(() => presetsOf(props.category))
