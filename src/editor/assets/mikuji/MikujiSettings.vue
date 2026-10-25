@@ -51,7 +51,6 @@
 
 <script setup lang="ts">
   import { toRef } from 'vue'
-  import type { EventCategoryType } from '@/types/OmikujiData/'
   import WeightBar from './weight/WeightBar.vue'
   import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
   import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
@@ -62,7 +61,6 @@
   import { useBoxOmikujiList } from '@/editor/assets/mikuji/composables/useBoxOmikujiList'
 
   const props = defineProps<{
-    category: EventCategoryType | 'mikuji'
     omikujiKey: string
   }>()
 

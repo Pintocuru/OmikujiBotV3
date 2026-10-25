@@ -1,6 +1,6 @@
 <!-- src/editor/events/timer/TimerIntervalEditor.vue -->
 <template>
-  <!-- isBaseZero トグル -->
+  <!-- 動作モード（起動時のみ / 間隔タイマー） -->
   <SettingItem icon="ToggleRight" :label="t('timerInterval.modeLabel')" :description="t('timerInterval.modeDescription')">
     <div class="flex gap-2">
       <!-- 起動時のみ実行 -->

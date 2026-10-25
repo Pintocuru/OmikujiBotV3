@@ -35,7 +35,7 @@ export const useOmikujiStore = defineStore('omikuji', () => {
   const eventCRUD = useEventCRUD(data, hasChanged)
   const assetCRUD = useAssetCRUD(data, hasChanged)
 
-  const eventProperties = useEventProperties(data, eventCRUD)
+  const eventProperties = useEventProperties(eventCRUD)
   const assetProperties = useAssetProperties(data, assetCRUD)
 
   // 並び替え

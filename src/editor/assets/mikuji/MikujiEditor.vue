@@ -27,7 +27,7 @@
       :label="s('omikujiSet')?.label"
       :description="s('omikujiSet')?.description"
     >
-      <MikujiSettings category="mikuji" :omikujiKey="selectedItem.key" />
+      <MikujiSettings :omikujiKey="selectedItem.key" />
     </SectionCard>
   </template>
 </template>

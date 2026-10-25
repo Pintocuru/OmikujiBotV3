@@ -40,7 +40,6 @@
 
           <MikujiSettings
             v-if="hasMikujiBox && selectedItem.omikujiKey"
-            category="comments"
             :omikujiKey="selectedItem.omikujiKey"
           />
           <!-- 存在しないみくじ箱を参照しているとき -->
@@ -91,7 +90,7 @@
   const { t } = useI18n()
 
   // アクティブなセクションの管理
-  type SectionType = 'baseSettings' | 'threshold' | 'scriptGame' | 'omikujiSet' | null
+  type SectionType = 'baseSettings' | 'threshold' | 'omikujiSet' | null
   const navigationStore = useNavigationStore()
   const { activeSection, selectedItemKey } = storeToRefs(navigationStore)
 

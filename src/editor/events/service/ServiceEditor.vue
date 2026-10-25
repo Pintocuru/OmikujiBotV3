@@ -31,7 +31,7 @@
         :label="s('trigger')?.label"
         :description="s('trigger')?.description"
       >
-        <CommentTriggerEditor v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
+        <ServiceTrigger v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
       </SectionCard>
 
       <!-- みくじ箱選択セクション -->
@@ -47,7 +47,7 @@
         :label="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
-        <MikujiSettings category="comments" :omikujiKey="selectedItem.omikujiKey" />
+        <MikujiSettings :omikujiKey="selectedItem.omikujiKey" />
       </SectionCard>
     </template>
 
@@ -64,7 +64,7 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { ServiceEventType } from '@/types/OmikujiData/'
-  import CommentTriggerEditor from './ServiceTrigger.vue'
+  import ServiceTrigger from './ServiceTrigger.vue'
   import GlobalCharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
   import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
   import MikujiSettings from '@/editor/assets/mikuji/MikujiSettings.vue'

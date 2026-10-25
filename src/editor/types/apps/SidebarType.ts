@@ -1,7 +1,7 @@
 // src/editor/types/apps/SidebarType.ts
 import { Ref } from 'vue'
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
-import { CategoryType, DataCategoryType, SettingsCategoryType } from '@/types/OmikujiData'
+import { CategoryType, SettingsCategoryType } from '@/types/OmikujiData'
 import { BaseRecordType } from '@/types/core'
 
 /**
@@ -17,15 +17,6 @@ export type SidebarSectionItem = {
   component?: string
 }
 
-/**
- * 設定系カテゴリ（SettingsCategoryType）のサブ項目の表示バリアント
- * - array : jsonMerge（静的リスト）
- * - object: ui / appInfo（セクションリスト）
- * ※ Events / Assets（DataCategoryType）は SidebarRecordItems 固定のためバリアントを持たない
- */
-export type SidebarVariant = 'array' | 'object'
-
-export type SidebarRecordCategory = DataCategoryType
 export type SidebarArrayCategory = Extract<SettingsCategoryType, 'jsonMerge'>
 export type SidebarObjectCategory = Exclude<SettingsCategoryType, SidebarArrayCategory> // 'ui' | 'appInfo'
 

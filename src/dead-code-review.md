@@ -1,8 +1,10 @@
-# dead-code-review.md — OmikujiBotV3 `src/editor/assets`
+# dead-code-review.md — OmikujiBotV3 `src/editor`(assets / events / apps・parts・helpers・stores・types の一部)
 
 - 調査日: 2026-10-25
 - 方法: GitHub から各ファイルを取得し、import を手で辿って参照関係を確認(コード検索 API は 0 件しか返さず使えなかった)
-- 変更・削除・コミット・プッシュ: 一切なし
+- 2026-10-25(続き): clone して grep と `vue-tsc --noEmit` / eslint で確認(patch 2: `src/editor/events` + 関連 i18n)。patch 1(assets)は upstream に適用済みであることを確認(`PostActionsPreview.vue` が存在しない)
+- 2026-10-25(続き 2): patch 2 適用後の状態を基準に patch 3(`src/editor/apps`・`parts`・`helpers`・`stores`・`types` + 関連 i18n)を実施。**この範囲は全ファイルを精読していない**(下の「機械的に走査のみ」を参照)
+- コミット・プッシュ: 行っていない(`.patch` で提出。patch 3 は patch 2 の適用が前提)
 
 ---
 
@@ -77,8 +79,36 @@
 - `PostFlow/actions/useWeightCalculation.ts`
 - `PostFlow/actions/useWeightValueManagement.ts`
 
+### events(patch 2 で全文確認)
+- `events/comment/CommentEditor.vue`、`CommentTriggerEditor.vue`
+- `events/reaction/ReactionEditor.vue`、`ReactionTriggerEditor.vue`
+- `events/service/ServiceEditor.vue`、`ServiceTrigger.vue`、`ServiceTriggerCondition.vue`
+- `events/timer/TimerEditor.vue`、`TimerIntervalEditor.vue`
+- `events/core/BoxChoiceEditor.vue`
+- `events/trigger/` の 8 ファイル(`TriggerAccess` / `TriggerComment` / `TriggerCount` / `TriggerExpression` / `TriggerGift` / `TriggerSyoken` / `TriggerUserId` / `TriggerUsername`)
+
+### patch 3 で精読したもの
+- `apps/appItems/AppHeader.vue`、`apps/navigation/composables/useSidebarSectionMap.ts`
+- `parts/SectionCard.vue`、`parts/CopyButton.vue`(削除)、`helpers/presetsImport/ConfigImport.vue`(削除)
+- `types/apps/SidebarType.ts`
+- `stores/useOmikujiStore.ts`、`stores/composables/useEventProperties.ts`
+- `helpers/CharacterChanger/composables/useDataExtractor.ts`、`helpers/IconKeyChanger/IconKeyChanger.vue`(該当箇所)、`apps/JsonMerge/JsonMergeEditor.vue`(該当箇所)
+
+### patch 3 で機械的に走査のみ(精読していない)
+- `src/editor/{apps,parts,helpers,stores,maps,types,ui,dev}` の残りのファイル。次の 4 つの機械走査だけを行った
+  1. import グラフ(`src` / `packages` / `tools` / `server` の静的 import・動的 import・`import.meta.glob`)での未参照ファイル
+  2. 他ファイルから参照されない export
+  3. `vue-tsc --noUnusedLocals --noUnusedParameters`
+  4. defineProps / defineEmits の未使用チェック(簡易スクリプト)
+- `src/i18n/editor/**` の全ファイル(ja のキーが他で参照されているか)
+
 ### assets 外(参照確認のために読んだもの)
 - `src/editor/apps/appItems/ContentArea.vue`(エディターのマッピング)
+- `src/editor/maps/category/CategorySectionMap.ts`(全文)
+- `src/editor/assets/mikuji/MikujiSettings.vue`(script 部)
+- `src/generator/scripts/trigger/TriggerChecker.ts`(全文。userId 条件の確認用)
+- `src/types/engine/trigger/TriggerCondition.ts`(全文)
+- `src/i18n/editor/events/` の `CommentEditor.ts` / `ReactionEditor.ts` / `EventTriggers.ts`(該当ブロック)
 
 ---
 
@@ -86,6 +116,7 @@
 
 ### 調査済み
 - `src/editor/assets` 配下はほぼ全ファイルを読了
+- `src/editor/events` 配下の全 17 ファイルを読了(patch 2)。`src/i18n/editor/events/*.ts` の未使用キーを機械的に走査
 - カテゴリ別エディター 4 種(mikuji / actions / placeholders / characters)から、各子コンポーネントへの import 連鎖
 
 ### 未調査・不十分
@@ -96,7 +127,7 @@
   - `src/maps/OmikujiData`、`src/types/OmikujiData`
   - ロケールファイル(i18n キーの未使用判定)
 - テスト、ビルド設定(vite / tsconfig / eslint)、package.json
-- `src/editor` 内の events 系など、`assets` を参照しうる他エディター
+- `src/editor/{apps,parts,helpers,stores,maps,types,ui,dev}` の精読(機械走査のみ。「精読」を要する箇所は 4-2 / 4-3 を参照)
 
 ---
 
@@ -127,6 +158,15 @@
   - `CharacterImageSettings` → `EmotionEditModal` → `EmotionImageItem` / `EmotionLayerEditor` / `EmotionAnimationEditor` / `ImageSettingsInfo`、`useEmotionDraft`
   - `IconSelectorModal` が `EmotionGrid` を `readonly` で再利用(assets 内の横断依存)
 - `PostActionPreview` / `PlaceholderPreview` / `MessagePreviewPanel` → `TestPlaceholderProcessor`
+
+### events の参照関係(patch 2 で確認)
+- `CommentEditor` → `CommentTriggerEditor`(`TriggerComment` / `TriggerAccess` / `TriggerGift` / `TriggerUsername` / `TriggerExpression`)、`BoxChoiceEditor`、`MikujiSettings`
+- `ReactionEditor` → `ReactionTriggerEditor`、`BoxChoiceEditor`、`MikujiSettings`
+- `ServiceEditor` → `ServiceTrigger` → `ServiceTriggerCondition`(`:has-peak="true"` を 2 か所とも渡す)、`BoxChoiceEditor`、`MikujiSettings`
+- `TimerEditor` → `TimerIntervalEditor`、`BoxChoiceEditor`、`MikujiSettings`
+- `TriggerCount` / `TriggerSyoken` は `assets/mikuji/item/OmikujiItemCriteria.vue` が import(events 内からは未使用だが使用中)
+- `TriggerUserId` は import 元なし(リポジトリ全体を grep)。判定側 `src/generator/scripts/trigger/TriggerChecker.ts` には `userId` 条件が実装されている
+- i18n: 4 エディターの無効通知は `eventCore.disabledNotice.*` を使用
 
 ---
 
@@ -164,8 +204,8 @@
 - 影響: なし
 - 確信度: 高
 
-#### A-4 `MikujiSettings.vue` の `category` prop(`MikujiEditor` から渡している分も含む)【未修正・保留】
-- 追記: 呼び出し元は assets 外の `src/editor/events/{comment,reaction,service,timer}/*Editor.vue` にもあり(計 5 か所)、`EventCategoryType` の import も連動するため、events の調査時にまとめて修正する
+#### A-4 `MikujiSettings.vue` の `category` prop(`MikujiEditor` から渡している分も含む)【修正済み(patch 2)】
+- 追記: 呼び出し元は assets 外の `src/editor/events/{comment,reaction,service,timer}/*Editor.vue` にもあり(計 5 か所)。events 調査(patch 2)で prop・`EventCategoryType` の import・呼び出し側 5 か所をまとめて削除した。なお events 側の 3 か所(reaction / service / timer)は `category="comments"` を渡しており、値としても誤りだった
 - 理由: 宣言のみで未使用
 - 影響: なし
 - 確信度: 高
@@ -247,6 +287,71 @@
   - `useWeightValueManagement.ts`: 「ActionSetとPlaceholder両方で使用可能」(現状は両方から使われているので正確。ただし配置が `PostFlow/actions/` で不自然)
 - 確信度: 中〜低
 
+#### B-1 `CommentEditor.vue` の `SectionType` の `'scriptGame'`【修正済み(patch 2)】
+- 理由: `categorySectionMap.comments` に対応するセクションがない(`baseSettings` / `threshold` / `omikujiSet` のみ)。`toggleSection` の呼び出しにも現れない
+- 確信度: 高
+
+#### B-2 `i18n/editor/events` の未参照キー【修正済み(patch 2)】
+- `EventTriggers.ts` の `triggerService` ブロック(ja / en 各 11 キー)。参照はリポジトリ全体で定義のみ。サービス用の文言は `serviceTrigger.*` を使用
+- `CommentEditor.ts` / `ReactionEditor.ts` の `disabledNotice`(ja / en)。4 エディターとも `eventCore.disabledNotice.*` を参照している
+- 根拠: 全リポジトリ grep、テンプレートリテラルでキーを組み立てる箇所(`trigger${...}` など)なし
+- 確信度: 高
+
+#### B-3 コメントの誤記・名前の不統一【修正済み(patch 2)】
+- `ServiceEditor.vue`: `ServiceTrigger.vue` を `CommentTriggerEditor` という名前で import していた → `ServiceTrigger` に統一
+- `ServiceTrigger.vue`: ベータ版の注意カードのコメントが「登録者数の場合の説明」の重複になっていた → 実態に合わせて修正
+- `TimerIntervalEditor.vue`: モード選択のコメントが「isBaseZero トグル」の重複になっていた → 実態に合わせて修正
+- 確信度: 高(挙動への影響なし)
+
+#### B-4 `ServiceTriggerCondition.vue` の `hasPeak` と `serviceSimpleComparisonConditionMap`【未修正・報告のみ】
+- 理由: 唯一の呼び出し元 `ServiceTrigger.vue` が 2 か所とも `:has-peak="true"` を渡す。`false` 側の `serviceSimpleComparisonConditionMap`(`src/maps/OmikujiData/events/ServiceTriggerMap.ts`)の参照はここだけ
+- 保留の理由: 登録者数(`follower`)など、ピークなしの比較を今後つける用途の可能性がある。影響が不明なため
+- 確信度: 中
+
+#### B-5 events の軽微な不統一(報告のみ)
+- `TimerEditor.vue` は `v-if="selectedItem.isEnabled"`、他 3 エディターは `!== false`(`isEnabled` が未定義になりうるかで挙動が変わるため、型を確認せず統一はしていない)
+- `SectionCard` の `:variant="selectedItem.isEnabled ? 'secondary' : 'neutral'"` は reaction / timer / service のみで、comment にはない
+- `TriggerComment` / `TriggerUserId` / `TriggerUsername` は textarea と配列の同期処理が同一(共通 composable 化の候補)
+- `ServiceTriggerCondition.vue` の `['lowerBound','upperBound','equal','loop']` が 2 か所に重複
+- 未使用の v-for 変数: `ReactionTriggerEditor` の `v`、`ServiceTrigger` の `value`、`ServiceTriggerCondition` の `info`(A-15 と同種のため修正せず)
+- `ReactionTriggerEditor.vue` は `@/maps/OmikujiData` から 2 行に分けて import している
+- 確信度: 中〜低
+
+#### C-1 未参照ファイルの削除【修正済み(patch 3)】
+- `parts/CopyButton.vue`: import 元なし(`src` / `packages` / `tools` / `server` / `docs` を grep、`import.meta.glob` は i18n のみ)。文言が i18n 化前の直書きで、旧実装に見える
+- `helpers/presetsImport/ConfigImport.vue`: import 元なし。同じ機能は `manager/components/FileMenuDropdown.vue` が `ConfigImportModal` と `useImportManager` を直接使っている。文言は直書き
+- 削除してもよい根拠: 他からの参照・文字列参照・グローバル登録がなく、削除後も `vue-tsc` エラー 0。専用の i18n キーはなし
+- 確信度: 高
+
+#### C-2 未参照の i18n キー【修正済み(patch 3)】
+- `appHeader.currentVersion` / `checking` / `checkFailed` / `newVersion` / `latest`(ja / en)。バージョン表示を AppHeader の左上に移した際に不要になったもの。`appHeader.*` の他のキーは `AppHeader.vue` と `useVersionCheck.ts` が使用中
+- `placeholder.inputMode` / `placeholder.toggleModeTitle`(ja / en)
+- `postFlow.messageEditor` ブロック(ja / en、キーは `placeholder` のみ)。patch 1 で削除した `MessageTextEditor.vue` の残り
+- 根拠: 全リポジトリを grep し、テンプレートリテラルでの組み立てなし
+- 確信度: 高
+
+#### C-3 未使用の型・引数・変数【修正済み(patch 3)】
+- `types/apps/SidebarType.ts`: 参照ゼロの `SidebarVariant` と `SidebarRecordCategory`、およびそれに付随するコメントと import(`DataCategoryType`)
+- `helpers/IconKeyChanger/IconKeyChanger.vue`: 分割代入のうち未使用の `changeScope`(`useDataExtractor` 側は `CharacterChanger` が使用中なので残す)
+- `stores/composables/useEventProperties.ts`: 未使用の第 1 引数 `data` と、それにだけ必要だった import。呼び出し元は `useOmikujiStore.ts` の 1 か所のみ
+- 確信度: 高
+
+#### C-4 `parts/SectionCard.vue` の `toggle` emit と、呼び出し側の `isOpen` / `toggleSection`【未修正・報告のみ】
+- 事実: `SectionCard` は prop `isOpen` を宣言しておらず、`toggle` を emit する処理もない(クリックハンドラなし)。常に展開表示で、呼び出し側が渡す `:isOpen` は DOM 属性として落ちるだけ
+- 影響範囲: `@toggle="toggleSection(...)"` と `toggleSection`、`SectionType` が events 4 エディターと assets 側のエディターにある(`@toggle` を含む行が `src` 全体で 24 行)
+- 保留の理由: 折りたたみ機能を意図的に外したのか、今後つけるのか不明。`activeSection` はサイドバーのハイライトなど別用途でも使われている可能性があるため、一括削除は影響が大きい
+- 確信度: 中(未使用であることは確実、削除の可否は意図の確認が必要)
+
+#### C-5 `apps/dataPacks/` 一式【未修正・報告のみ】
+- `DataPacks.vue` は import 元なし。それに連なる `DataPackCard.vue` と `useDataPacks.ts` も実質未使用。`CategoryType` に `dataPacks` がなく、`useCategoryUtils.ts:31` に「いつか…取得できるように」という TODO コメントが残っている
+- 保留の理由: 将来機能(配布パック)として残しているのか、廃止したのか不明。`useDataPacks.ts` の `buildRawUrl` も他から使われていない(同じ理由で保留)
+- 確信度: 中
+
+#### C-6 軽微(報告のみ)
+- `JsonMergeEditor.vue:87` の未使用 v-for 変数 `remap`、`useSidebarSectionMap.ts` の `useUiSections` の `export`(内部利用のみ)、`keyEditorValidation.ts` の `validateKeyFormat` / `validateKeyDuplication` と `importHelpers.ts` の `getItemName` / `checkRecordConflicts` の `export`(内部利用のみ)、`ChangeScope` 型の `export`(他からは未参照)、`evaluationStats.ts` の `NumberSummary` ほかの `export`
+- `AppHeader.vue` の `新版 ${...}` は直書きで i18n 外
+- 確信度: 低(`export` を外すだけの整理で、削除ではない)
+
 ### 4-2. 要確認
 
 | 対象 | 内容 | 要確認の理由 |
@@ -254,10 +359,11 @@
 | (削除済み)`PostFlow/PostActionsPreview.vue` | assets 内に import なし。`displayText` が variable / gameScript / bot に未対応で旧実装に見える。単数形 `preview/PostActionPreview.vue` と名前が紛らわしい | `src/editor` の他ディレクトリからの参照が未検証。専用 i18n キー `postFlow.actionsPreview.*` もあり、削除時はロケールも整理が必要 |
 | `PostFlow/Message/MessageTextEditor.vue` | `Message` / `Bot` / `variable` の各 Settings は `MessageTextDialog` を使い、このファイルは import されていない | assets 外の参照が未検証 |
 | `MikujiEditor` 上部の Character/IconKey ボタンと `MikujiSettings` 内の同ボタン | 全体変更とアイテム単位変更の二段構成に見える | 意図した設計か未確認 |
-| `useBoxOmikujiList` / `MessageSettings` / `MessagePreviewPanel` の `const { data } = useOmikujiStore()` | 分割代入しており、`data` がストア内で再代入される実装だとリアクティブ性が切れる | `useOmikujiStore` の実装未読 |
+| (解決済み → 4-3)`const { data } = useOmikujiStore()` の分割代入 | `useOmikujiStore` を読んで確認。該当は `MessageSettings.vue` のみ(`useBoxOmikujiList` と `MessagePreviewPanel` は該当なし) | 4-3 に移動 |
 | `EmotionGrid.vue` の `normalizeKey` | 数字だけのキーに `k` を付けて別キー化し、並べ替え時にそのキー名で emit する。キー構成の比較が常に不一致になり、データ側のキーも書き換わる恐れがある | 数字キーが実在するか、`CharacterImageType` の制約が未確認 |
 | `PostActionItem.vue` の `createDefaultAction` | Zod スキーマの既定値と重複している | キャッシュ復元との兼ね合いがあり、削除可否は設計判断 |
 | `ActionsEditor` などの `:isIsEnabled="false"` | 名前が不自然 | `BaseEditor.vue` の prop 定義が未読 |
+| `events/trigger/TriggerUserId.vue` | import 元がなく、`commentTriggerCondition` にも `userId` がない。一方で `triggerConditions` の型と `TriggerChecker.ts` には `userId` 条件が実装済み(`trigger.userIds` を参照) | 未接続の UI なのか廃止した機能なのか意図が不明。接続するなら `userIds` というキーとの対応が必要。削除する場合は i18n の `triggerUserId`(ja / en)も整理が必要 |
 
 ### 4-3. 機能不具合の疑い(デッドコードではないが調査中に発見)
 
@@ -266,6 +372,7 @@
 - `CommentVoiceSettings.vue`: `v-model="currentDisplayOption.mode"` / `frameId` が props を直接書き換えている。`mode` は `@change` でも更新するため二重更新になる
 - `DelaySecondsAdjuster.vue`: 更新後に delaySeconds でソートするため、`activeTab`(インデックス)と選択中アクションがずれる可能性がある。`basicDelaySeconds` に `?? 1` のフォールバックがなく(`PostActionItem` にはある)、未設定なら NaN になる
 - `PostActionsTabs.vue`: `<button class="tab">` の内側に `MenuDropdown`(button)が入っており、HTML として不正(ネスト button)
+- `MessageSettings.vue:48`: `const { data } = useOmikujiStore()` で分割代入している。`useDataIO.ts:25` と `useDataMerge.ts:31` が `data.value` を再代入するため、ファイル読み込み・マージ後は `soundEnabled`(`data.settings.generator.soundEnabled`)が古い値のまま残る可能性がある(`storeToRefs` なら追従する)
 
 ### 4-4. 問題なし(確認できた範囲)
 
@@ -296,6 +403,8 @@
 - `defaultBasePlaceholderLabel` が他で使われているか: `src/types`、`src/maps` 未読
 - テスト・ビルド設定・開発ツールからの参照: 未調査
 - 動的 import / レジストリ経由の呼び出し: `ContentArea.vue` 以外の仕組みは未確認(`gameScriptRegistry` は存在のみ確認)
+- `BaseEditor.vue` の prop(`category` / `isIsEnabled`)の用途: 簡易スクリプトで「宣言された prop が参照されていない」ものは検出されなかったが、中身は未精読
+- `TimerEditor` の `isEnabled` の型(未定義になりうるか): `src/types/OmikujiData` のイベントスキーマ定義の場所を未特定
 
 ---
 
@@ -334,9 +443,39 @@
 - A-1(撤回、LiveClockEditor が false 側を使用)、A-4(events 側の呼び出しを含むため保留)、A-9(確信度低下)
 - A-10〜A-15、4-2 の要確認項目、4-3 の不具合疑い: 確信度が中・低、または意図確認が必要なため報告のみ
 
+## 8-2. 修正済み箇所と変更内容(2026-10-25 / patch 2: `src/editor/events` + 関連 i18n)
+
+clone して grep で全リポジトリを確認した上で修正。`vue-tsc --noEmit` は修正前後ともエラー 0、変更ファイルの eslint もエラーなし(テストファイルはリポジトリにない)。改行コード(CRLF / LF 混在)は各ファイルの既存のまま維持。
+
+| 項目 | 変更 | 根拠 |
+|---|---|---|
+| A-4 | `MikujiSettings.vue` の prop `category` と `EventCategoryType` import を削除。呼び出し側 5 か所(`MikujiEditor`、`CommentEditor`、`ReactionEditor`、`ServiceEditor`、`TimerEditor`)の `category` 属性を削除 | `MikujiSettings` の呼び出しは上記 5 か所のみ。`category` は script / template のどちらでも参照なし |
+| B-1 | `CommentEditor.vue` の `SectionType` から `'scriptGame'` を削除 | `categorySectionMap.comments` に存在しない |
+| B-2 | `EventTriggers.ts` の `triggerService`(ja / en)、`CommentEditor.ts` と `ReactionEditor.ts` の `disabledNotice`(ja / en)を削除 | 全リポジトリで参照なし、動的キー組み立てなし |
+| B-3 | `ServiceEditor.vue` の import 名を `ServiceTrigger` に統一。`ServiceTrigger.vue` と `TimerIntervalEditor.vue` の誤ったコメントを修正 | 挙動への影響なし |
+
+### 修正しなかった項目
+- B-4(確信度 中)、B-5(中〜低)、`TriggerUserId.vue`(`userId` 条件が判定側に実装済みで、意図が不明)
+- patch 1 から引き続き: A-1(撤回)、A-9、A-10〜A-15、4-2 の要確認項目、4-3 の不具合疑い
+
+## 8-3. 修正済み箇所と変更内容(2026-10-25 / patch 3: `src/editor` の apps・parts・helpers・stores・types + 関連 i18n)
+
+patch 2 適用後の状態を基準にしている(`dead-code-review.md` が patch 2 と重なるため、patch 2 → patch 3 の順で適用する)。`vue-tsc --noEmit` は修正前後ともエラー 0、変更ファイルの eslint もエラーなし。この範囲は機械走査が中心で、精読していない。
+
+| 項目 | 変更 | 根拠 |
+|---|---|---|
+| C-1 | `parts/CopyButton.vue`、`helpers/presetsImport/ConfigImport.vue` を削除 | リポジトリ全体で参照なし |
+| C-2 | `AppItemsCharacters.ts` の `appHeader` 5 キー、`PlaceholderMessages.ts` の `inputMode` / `toggleModeTitle`、`PostFlow.ts` の `messageEditor`(いずれも ja / en)を削除 | 全リポジトリで参照なし、動的キーなし |
+| C-3 | `SidebarType.ts` の `SidebarVariant` / `SidebarRecordCategory`(と未使用 import)、`IconKeyChanger.vue` の未使用 `changeScope`、`useEventProperties` の未使用引数 `data`(`useOmikujiStore.ts` の呼び出しも変更)を削除 | 参照ゼロ、`vue-tsc --noUnusedLocals` |
+
+### 修正しなかった項目
+- C-4(`SectionCard` の折りたたみ関連)、C-5(`dataPacks`)、C-6(軽微な `export` など)、4-3 の `MessageSettings.vue` の分割代入
+- 範囲外で `--noUnusedLocals` が検出したもの(未修正): `server/dev-api.ts`、`src/sdk/subscribe/GetReactions.ts`(`platform`)、`src/ui/common/useStreamCounters.ts`、`tools/viteConfig/*AssetsPlugin.ts`(`res`)、`tools/webpackBuild/processors/template/TemplateJsonProcessor.ts`(未使用 import 2 件)
+
 ## 9. 次に調査する箇所(更新)
-1. `src/editor/events/`(A-4 の `category` 5 か所もここで処理)
-2. `src/editor/apps/`、`parts/`、`helpers/`、`stores/`、`maps/`
-3. `src/maps/OmikujiData`、`src/types/OmikujiData`、ロケール全体
+1. `src/editor/apps/`、`parts/`、`helpers/`、`stores/` の精読(今回は機械走査のみ)。特に `BaseEditor.vue`、`useNavigationStore.ts`、`helpers/KeyEditor`、`helpers/presetsImport`、`apps/navigation`
+2. `src/editor/ui/`、`src/editor/dev/`(機械走査のみ)
+3. `src/maps/OmikujiData`、`src/types/OmikujiData`(`serviceSimpleComparisonConditionMap` の将来用途、`defaultBasePlaceholderLabel`、`isEnabled` の型)
 4. `usePostActionsTab.ts` の戻り値、`ImageSettingsInfo.vue`
-5. `src/common`、`src/engine`、`src/games`、`src/generator`、`src/layout`、`src/manager`、`src/plugin`、`src/sdk`、`src/ui`、`src/console`(未着手)
+5. `src/common`、`src/engine`、`src/games`、`src/generator`(`TriggerChecker.ts` の `userIds` と editor の対応も)、`src/layout`、`src/manager`、`src/plugin`、`src/sdk`、`src/ui`、`src/console`(未着手)
+6. テスト・ビルド設定(vite / tsconfig / eslint)、package.json

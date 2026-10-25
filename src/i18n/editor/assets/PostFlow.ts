@@ -47,9 +47,6 @@ export const postFlowMessages = {
         lineCount: ' / {n} 行',
         cheatSheet: '評価ブロック(評価ブロック) チートリスト',
       },
-      messageEditor: {
-        placeholder: 'メッセージを入力',
-      },
       placeholderPanel: {
         title: 'プレースホルダー',
         inlineTip: '簡易プレースホルダーを挿入',
@@ -197,9 +194,6 @@ export const postFlowMessages = {
         charCount: '{n} characters',
         lineCount: ' / {n} lines',
         cheatSheet: 'Evaluation block (variable placeholder) cheat sheet',
-      },
-      messageEditor: {
-        placeholder: 'Enter a message',
       },
       placeholderPanel: {
         title: 'Placeholders',

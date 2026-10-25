@@ -125,7 +125,7 @@
 
   const { getCharacterName } = useCharacterLookup()
 
-  const { changeScope, scopeLabel, allTargets } = useDataExtractor(
+  const { scopeLabel, allTargets } = useDataExtractor(
     props.category,
     () => props.selectedId,
     () => props.itemId

@@ -3,11 +3,6 @@ export const appItemsCharactersMessages = {
   ja: {
     appHeader: {
       title: 'おみくじBOT エディター',
-      currentVersion: '現在のバージョン: {version}',
-      checking: 'チェック中...',
-      checkFailed: 'チェック失敗',
-      newVersion: '新版: {version} 🔄',
-      latest: '最新版 ✓',
       versionNotFound: 'バージョン情報が取得できませんでした',
       versionFetchFailed: 'バージョン情報取得に失敗しました',
       updateAvailable: '新しいバージョンが利用可能です！\n現在: {current}\n最新: {latest}',
@@ -162,11 +157,6 @@ export const appItemsCharactersMessages = {
   en: {
     appHeader: {
       title: 'Omikuji Bot Config Editor',
-      currentVersion: 'Current version: {version}',
-      checking: 'Checking...',
-      checkFailed: 'Check failed',
-      newVersion: 'New: {version} 🔄',
-      latest: 'Up to date ✓',
       versionNotFound: 'Could not retrieve version information',
       versionFetchFailed: 'Failed to retrieve version information',
       updateAvailable: 'A new version is available!\nCurrent: {current}\nLatest: {latest}',

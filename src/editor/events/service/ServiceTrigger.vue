@@ -59,7 +59,7 @@
     />
   </SettingItem>
 
-  <!-- 登録者数の場合の説明 -->
+  <!-- ベータ版の注意（登録者数・配信経過時間） -->
   <InformationCard v-if="selectedCondition === 'follower' || selectedCondition === 'elapsedMinutes'" variant="warning">
     <p class="leading-relaxed">
       ・{{ t('serviceTrigger.beta.prefix') }}
