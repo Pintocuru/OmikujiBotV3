@@ -13,7 +13,7 @@
         class="btn btn-warning tooltip tooltip-top truncate"
         :class="!hasChanged ? 'btn-soft' : ''"
         data-tip="ファイルを保存"
-        :disabled="!hasChanged || !saveFileName"
+        :disabled="!hasChanged"
       >
         <Save class="w-4 h-4" />
         {{ saveFileName.replace('.json', '') }} の保存

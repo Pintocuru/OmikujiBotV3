@@ -91,7 +91,7 @@ export const useConfigExport = () => {
     } catch (error) {
       console.error(`${type} export error:`, error)
       await swalModal.error({
-        title: `${type === 'config' ? '設定' : 'テンプレート'}ファイルの出力中にエラーが発生しました`,
+        title: '設定ファイルの出力中にエラーが発生しました',
         text: '詳細はコンソールをご確認ください。',
       })
       return false

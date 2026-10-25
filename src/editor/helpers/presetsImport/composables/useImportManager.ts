@@ -28,39 +28,6 @@ export const useImportManager = () => {
   })
 
   /**
-   * ファイルからデータを読み込む
-   */
-  const loadFromFile = async (file: File): Promise<{ success: boolean; data?: any; error?: string }> => {
-    isLoading.value = true
-    loadError.value = ''
-
-    try {
-      const text = await file.text()
-      const jsonData = JSON.parse(text)
-
-      const generatorName = jsonData.meta?.generatorName
-      if (!generatorName || generatorName !== 'omikuji-bot') {
-        return {
-          success: false,
-          error: 'invalid-metadata',
-          data: jsonData,
-        }
-      }
-
-      const validatedData = normalizeData(jsonData)
-      importedData.value = validatedData
-
-      return { success: true, data: validatedData }
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'ファイル読み込みエラー'
-      loadError.value = message
-      return { success: false, error: message }
-    } finally {
-      isLoading.value = false
-    }
-  }
-
-  /**
    * JSONデータから直接読み込む
    */
   const loadFromJsonData = async (jsonData: any): Promise<{ success: boolean; data?: any; error?: string }> => {
@@ -192,7 +159,6 @@ export const useImportManager = () => {
     enabledCategories,
 
     // Actions
-    loadFromFile,
     loadFromJsonData,
     generatePreview,
     updateCategoryConfig,

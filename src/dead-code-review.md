@@ -568,3 +568,35 @@ patch 5 適用後の状態が基準(patch 5 → patch 6 の順で適用)。`vue-
 1. `src/editor/helpers/`(精読: `KeyEditor`、`presetsImport`、`presetsExport`、`CharacterChanger`、`IconKeyChanger`、`useTestPost` ほか)。`useImportManager.loadFromJsonData` の `any` も確認
 2. `src/editor/ui/`、`src/editor/dev/`、`src/editor/maps`(`CategorySectionMap` ほか)、`src/editor/types`、`src/editor/presets`
 3. 以降は「9. 次に調査する箇所」の 3〜6 のとおり(`src/editor/apps` は完了)
+
+## 8-7. patch 7(2026-10-25 / `src/editor/helpers` 全体)
+
+patch 6 適用後の状態が基準(patch 6 → patch 7 の順で適用)。`vue-tsc --noEmit` は修正前後ともエラー 0。`--noUnusedLocals --noUnusedParameters` で `src/editor/helpers` の指摘は 0 件(修正前も 0 件)。変更ファイルの eslint もエラーなし。これで `src/editor/helpers` は全 38 ファイルの精読を完了した。
+
+### 読み取り済み(全文)
+- `CharacterChanger/`(13 ファイル)、`IconKeyChanger/`(6 ファイル)、`KeyEditor/`(8 ファイル)
+- `presetsExport/`(2 ファイル)、`presetsImport/`(8 ファイル)
+- 直下の `useJsonClipboard.ts` / `useScrollToSection.ts` / `useTestPost.ts`(import 元: `OmikujiItemToolbar` / `EditorApp` / `MikujiSettings` ほか)
+
+### 修正済み
+| 項目 | 変更 | 根拠 |
+|---|---|---|
+| D-14 | `presetsImport/composables/useImportManager.ts`: 未使用の `loadFromFile` 関数と return の項目を削除 | リポジトリ全体(`node_modules` 除く)で定義と return 以外の参照なし。呼び出し側(`DataPacks.vue` / `FileMenuDropdown.vue`)は `loadFromJsonData` を使用 |
+| D-15 | `presetsExport/useConfigExport.ts`: `type === 'config' ? '設定' : 'テンプレート'` の到達しない分岐を `'設定ファイルの出力中にエラーが発生しました'` に単純化 | `ExportType` は `'config'` のみ。表示文言は変わらない |
+| D-16 | `presetsExport/ConfigExport.vue`: `:disabled="!hasChanged \|\| !saveFileName"` から `\|\| !saveFileName` を削除 | 親の `<template v-if="saveFileName">` の内側なので常に偽(D-9 と同じ)。挙動変更なし |
+
+### 発見事項(修正せず・報告のみ)
+- D-17 `presetsImport/composables/useImportManager.ts`(確信度 中): 返り値の `hasImportedData` / `hasPreviewData` / `loadError` / `resetImportProcess` は読み取り元なし。`loadFromJsonData` の引数と戻り値は `any`(`ConfigImportModal` / `DataPacks` / `FileMenuDropdown` が `res.data` を使うため型付けには呼び出し側の確認が必要)
+- D-18 `presetsImport/ConfigImportModal.vue`(確信度 低): `computed` の中で `updateComponentConfig` を呼ぶ副作用がある。動作しているため変更しない
+- D-19 `presetsImport/ComponentConfigSection.vue`(確信度 低): `<label>` が入れ子になっていて、「既存の設定」のラジオだけ内側の `<label>` の外にある。HTML の整合性の問題で、未使用コードではないため変更しない
+- D-20 `CharacterChanger/composables/useModalState.ts` と `IconKeyChanger/composables/useIconKeyModalState.ts`、`useCharacterUpdater` と `useIconKeyUpdater` はほぼ同形(重複)。共通化は挙動確認が必要で保留(確信度 低)
+- D-21 `CharacterChanger.vue` / `CurrentCharacterList.vue` / `IconKeyChanger.vue` に同じ `@keyframes pulse` / `.animate-pulse` の scoped 定義が重複(確信度 低)
+- D-22 `useTestPost.ts`(要確認・変更なし): `postTestOmikuji` の `priorityItems` は `!item.lottery.isPriority` で絞り込んでおり、名前と条件が逆に見える。未使用コードではなく仕様の確認が必要
+- D-23 `KeyEditor/composables`: `validateKeyFormat` / `validateKeyDuplication` の `export` は同ファイル内でのみ使用、`KeyUpdateStrategy.updateReferences` は全戦略が持つため `?` は不要、`usePostActionCharacters` の `isInvalidIconKey` は返り値としては未使用(確信度 低・軽微)
+
+### 問題なし
+- `CharacterChanger` / `IconKeyChanger` の全コンポーネントと composables(`ChangeScope` / `totalItems` ほか使用中)、`KeyEditor` 一式、`importHelpers.ts`、`CategoryConfigSection` / `CategoryModeSelector` / `ConflictsList`、`useJsonClipboard`、`useScrollToSection`
+
+## 9-5. 次に調査する箇所(patch 7 時点)
+1. `src/editor/ui/`、`src/editor/dev/`、`src/editor/maps`(`CategorySectionMap` ほか)、`src/editor/types`、`src/editor/presets`、`src/editor/i18n`、`src/editor/` 直下(`EditorApp.vue` ほか)
+2. 以降は「9. 次に調査する箇所」の 3〜6 のとおり(`src/editor/helpers` と `src/editor/apps` は完了)
