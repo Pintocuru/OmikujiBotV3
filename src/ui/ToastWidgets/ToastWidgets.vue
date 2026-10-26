@@ -34,7 +34,7 @@
   import { useBotDisplay } from '@/ui/common/useBotDisplay'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
-  import { useCharacterManager } from '@/generator/composables/useCharacterManager'
+  import { useCharacters } from '@/generator/composables/useCharacters'
   import { ToastWidgetsSchema } from '@/types/ui'
   import { useFilteredBotMessages } from '../common/useFilteredBotMessages'
 
@@ -42,7 +42,7 @@
   const appStore = useAppStore()
   const { data } = storeToRefs(appStore)
   const toastSettings = computed(() => ToastWidgetsSchema.parse(data.value.ui.settings.toastWidgets ?? {}))
-  const { iconSrc, getCharacterColor } = useCharacterManager()
+  const { iconSrc, getCharacterColor } = useCharacters()
 
   const { messages } = useFilteredBotMessages('toastWidgets', {
     userIconSize: 6,

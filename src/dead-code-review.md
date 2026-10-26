@@ -99,15 +99,6 @@
 - 移せるのは `SettingItem` / `HudPreview` / `ColorPicker`(+ `editor/maps/parts/ColorPicker.ts`)の 3 つ。editor を別パッケージ化する予定がある場合だけ意味がある
 - `manager` → `editor` の 7 件は、API の保存・読込が editor のストアを直接更新する設計のため、構造だけを変えても解消しない(設計の判断)
 
-#### `CharacterManager` の名称の重複(未解決)
-
-- 現状、composable `useCharacterManager` は `src/generator/composables/` に置かれている。根本の問題は残っている
-  - `useCharacterManager` は、既定で generator のストア(`useAppStore`)を使う。しかし `ui` と `editor` からも使われている(引数 `source` で editor のストアを渡す)
-  - クラス `CharacterManager`(engine)と `useCharacterManager`(generator)は、名前が近いままで、どちらがストアに依存するかが名前から分からない
-- 対応案
-  - 案 A(承認済み・実行待ち): 名前を役割に合わせて変える(クラス `CharacterResolver`、composable `useCharacters`)
-  - 案 B(未承認): composable を、ストアに依存しない形(`source` 必須)にして `common` に置き、generator 用のラッパーを別に作る
-
 #### その他(確信度 低、報告のみ)
 
 - `editor/assets/PostFlow` と `editor/apps` のフォルダ名の大文字小文字が混在(`Bot` / `gameScript` / `IconSelector` / `items` ほか)。規則は「機能・コンポーネント単位は Pascal、役割単位(`composables` など)は lower」に寄せるのが自然
@@ -120,6 +111,5 @@
 
 ## 3. 次にやること
 
-1. `CharacterManager` の名称整理(2-6 の案 A): `antigravity-handoff.md` の「作業 1」で実行する。完了後、2-6 の「`CharacterManager` の名称の重複(未解決)」の節を削除する
-2. フォルダ名の大文字小文字の統一(2-6): 広範囲のため後回し
-3. `FortuneRanking` の `game.ts` / `params.ts` の整理(2-4)。登録済みのため、いつでも判断できる
+1. フォルダ名の大文字小文字の統一(2-6): 広範囲のため後回し
+2. `FortuneRanking` の `game.ts` / `params.ts` の整理(2-4)。登録済みのため、いつでも判断できる

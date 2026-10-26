@@ -1,10 +1,10 @@
-// src/engine/CharacterManager/CharacterManager.ts
+// src/engine/CharacterResolver/CharacterResolver.ts
 import { CharacterType, CharacterColorType, CharacterColorScheme } from '@/types/OmikujiData'
 
 /**
  * キャラクターの存在・画像・表情など、キャラクター固有の処理を担当
  */
-export class CharacterManager {
+export class CharacterResolver {
   readonly characterMap: Map<string, CharacterType>
   readonly characterArray: CharacterType[]
 

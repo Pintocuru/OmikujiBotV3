@@ -16,11 +16,11 @@
   import { useFilteredBotMessages } from '@/ui/common/useFilteredBotMessages'
   import { useBotDisplay } from '@/ui/common/useBotDisplay'
   import { useAppStore } from '@/generator/stores/useAppStore'
-  import { useCharacterManager } from '@/generator/composables/useCharacterManager'
+  import { useCharacters } from '@/generator/composables/useCharacters'
 
   const appStore = useAppStore()
 
-  const { characterMap, hasImage, iconSrc, getCharacterLayers, getCharacterAnimation } = useCharacterManager(
+  const { characterMap, hasImage, iconSrc, getCharacterLayers, getCharacterAnimation } = useCharacters(
     () => appStore.data.assets.characters
   )
 

@@ -8,7 +8,7 @@ import {
   VariablePlaceholderExtra,
 } from '@/types/generator'
 import { PostFlowMessageType } from '@/types/OmikujiData'
-import { CharacterManager } from '../CharacterManager/CharacterManager'
+import { CharacterResolver } from '../CharacterResolver/CharacterResolver'
 import { OmikenCommentType, UserNameSchema } from '@/types/OmikenComment'
 
 /**
@@ -18,7 +18,7 @@ export function createBotMessagesFromAction(
   action: PostFlowMessageType,
   extra: VariablePlaceholderExtra | undefined,
   delaySeconds: number,
-  characterManager?: CharacterManager,
+  characterResolver?: CharacterResolver,
   omiken?: OmikenCommentType
 ): BotMessageType[] {
   const message = action.message || ''
@@ -29,7 +29,7 @@ export function createBotMessagesFromAction(
   // 評価ブロックだけのメッセージ (評価後に本文が空) は、吹き出しを作らない
   if (message.trim()) {
     messages.push(
-      createBubbleMessage(action.characterKey, action.iconKey, message, delaySeconds, characterManager, extra?.slots)
+      createBubbleMessage(action.characterKey, action.iconKey, message, delaySeconds, characterResolver, extra?.slots)
     )
   }
 
@@ -59,11 +59,11 @@ function createBubbleMessage(
   iconKey: string,
   message: string,
   delaySeconds: number,
-  characterManager?: CharacterManager,
+  characterResolver?: CharacterResolver,
   slots?: ExtraSlotsType
 ): BotMessageType {
-  const resolved = characterManager?.resolveCharacter({ characterKey, iconKey })
-  const character = resolved && characterManager?.getCharacter(resolved.characterKey)
+  const resolved = characterResolver?.resolveCharacter({ characterKey, iconKey })
+  const character = resolved && characterResolver?.getCharacter(resolved.characterKey)
 
   return BotMessageBubbleSchema.parse({
     delaySeconds,

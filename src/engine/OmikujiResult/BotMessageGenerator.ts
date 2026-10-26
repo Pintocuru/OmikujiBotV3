@@ -4,7 +4,7 @@ import { createBotMessagesFromAction, createBotMessagesFromVariable } from './Bo
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { VariablePlaceholderProcessor } from '@/engine/VariablePlaceholder/VariableProcessor'
 import { PostOmikujiService } from '@/engine/PostOmikuji/PostOmikujiService'
-import { CharacterManager } from '../CharacterManager/CharacterManager'
+import { CharacterResolver } from '../CharacterResolver/CharacterResolver'
 import { BotMessageType, ProcessedPostAction } from '@/types/generator'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { playSoundDelay } from '@/common/sounds'
@@ -15,7 +15,7 @@ const EVAL_PATTERN = /\{\{[\s\S]*?\}\}/g
 export class BotMessageGenerator {
   private readonly variableProcessor: VariablePlaceholderProcessor
   private readonly postMessage: PostOmikujiService
-  private readonly characterManager: CharacterManager
+  private readonly characterResolver: CharacterResolver
   private readonly soundEnabled: boolean
   private readonly basicDelaySeconds: number
 
@@ -24,7 +24,7 @@ export class BotMessageGenerator {
 
     this.variableProcessor = new VariablePlaceholderProcessor(variable)
     this.postMessage = new PostOmikujiService(omikujiData)
-    this.characterManager = new CharacterManager(omikujiData.assets.characters)
+    this.characterResolver = new CharacterResolver(omikujiData.assets.characters)
     this.soundEnabled = soundEnabled
     this.basicDelaySeconds = basicDelaySeconds ?? 1
   }
@@ -77,7 +77,7 @@ export class BotMessageGenerator {
 
       switch (action.kind) {
         case 'message':
-          messages.push(...createBotMessagesFromAction(action, extra, delaySeconds, this.characterManager, omiken))
+          messages.push(...createBotMessagesFromAction(action, extra, delaySeconds, this.characterResolver, omiken))
           if (canPlaySound && (action.sound || action.soundPath))
             playSoundDelay(action.sound, action.soundPath, delaySeconds)
           break

@@ -1,7 +1,7 @@
 // src/engine/PostOmikuji/PostOmikujiService.ts
 import { BOT_ICON } from './BotIcon'
 import { ServiceMetaStore } from '@/generator/stores/MetaState/MetaStateService'
-import { CharacterManager } from '@/engine/CharacterManager/CharacterManager'
+import { CharacterResolver } from '@/engine/CharacterResolver/CharacterResolver'
 import { Service } from '@onecomme.com/onesdk/types/Service'
 import { generateDummyUserStats } from '@/common/MockUser/MockGenerators'
 import { ServiceAPI } from '@/sdk/service/ServiceAPI'
@@ -19,13 +19,13 @@ const MAX_REPEAT_COUNT = 30
 export class PostOmikujiService {
   private readonly serviceAPI = ServiceAPI.getInstance()
   private readonly serviceMetaStore = ServiceMetaStore.getInstance()
-  private readonly characterManager: CharacterManager
+  private readonly characterResolver: CharacterResolver
   private readonly basicDelaySeconds: number
   private services: Service[] = []
   private createdServiceIds = new Set<string>()
 
   constructor(omikujiData: OmikujiDataType) {
-    this.characterManager = new CharacterManager(omikujiData.assets.characters)
+    this.characterResolver = new CharacterResolver(omikujiData.assets.characters)
     this.basicDelaySeconds = omikujiData.settings.generator.basicDelaySeconds
   }
 
@@ -67,7 +67,7 @@ export class PostOmikujiService {
     if (!bubble) return
 
     const { delaySeconds = 0, characterKey } = post
-    const character = this.characterManager.getCharacter(characterKey)
+    const character = this.characterResolver.getCharacter(characterKey)
     const displayOption = character?.displayOption
 
     if (!displayOption) return // キャラクターが設定されていない場合は何もしない

@@ -1,20 +1,20 @@
-// src/generator/composables/useCharacterManager.ts
+// src/generator/composables/useCharacters.ts
 import { computed, MaybeRefOrGetter, toValue } from 'vue'
 import { CharacterAnimationType, CharacterType } from '@/types/OmikujiData'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { BotMessageBubbleType } from '@/types/generator'
-import { CharacterManager } from '@/engine/CharacterManager/CharacterManager'
+import { CharacterResolver } from '@/engine/CharacterResolver/CharacterResolver'
 
 /**
- * Vueコンポーネント用：CharacterManager のリアクティブなラッパー
+ * Vueコンポーネント用：CharacterResolver のリアクティブなラッパー
  */
-export const useCharacterManager = (source?: MaybeRefOrGetter<Record<string, CharacterType>>) => {
+export const useCharacters = (source?: MaybeRefOrGetter<Record<string, CharacterType>>) => {
   // source 未指定ならジェネレーターのstore、指定ならそのデータ（エディターは omikujiStore を渡す）
   const appStore = source ? null : useAppStore()
   const getCharacters = () => (source ? toValue(source) : appStore!.data.assets.characters)
 
-  // CharacterManagerのインスタンス
-  const manager = computed(() => new CharacterManager(getCharacters()))
+  // CharacterResolverのインスタンス
+  const manager = computed(() => new CharacterResolver(getCharacters()))
 
   // キャラクターの配列（順序付き）
   const characterMap = computed(() => Object.fromEntries(manager.value.characterMap))
