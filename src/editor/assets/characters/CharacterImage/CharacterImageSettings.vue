@@ -4,13 +4,15 @@
     <input
       type="text"
       class="input input-sm"
+      :class="{ 'input-error': isNumericKey }"
       :placeholder="t('characterImage.newEmotionPlaceholder')"
       v-model="newEmotionKey"
     />
-    <button class="btn btn-sm btn-primary" @click="handleAddEmotion" :disabled="!newEmotionKey.trim()">
+    <button class="btn btn-sm btn-primary" @click="handleAddEmotion" :disabled="!newEmotionKey.trim() || isNumericKey">
       <Plus class="w-4 h-4" />{{ t('characterImage.add') }}
     </button>
   </div>
+  <p v-if="isNumericKey" class="text-error text-xs mb-2">{{ t('characterImage.numericKeyError') }}</p>
 
   <EmotionPresetButtons :existing-keys="Object.keys(currentImages)" @add="handleAddPreset" />
 
@@ -48,6 +50,10 @@
   const editModalRef = ref<InstanceType<typeof EmotionEditModal> | null>(null)
   const newEmotionKey = ref('')
 
+  // 数字だけのキーは JS の仕様でオブジェクトの先頭に昇順で並び、ドラッグした並び順を保存できないため追加させない
+  const NUMERIC_KEY_PATTERN = /^\d+$/
+  const isNumericKey = computed(() => NUMERIC_KEY_PATTERN.test(newEmotionKey.value.trim()))
+
   // 現在の画像データ
   const currentImages = computed(() => props.modelValue ?? CharacterImageSetSchema.parse({}))
 
@@ -77,7 +83,7 @@
 
   const handleAddEmotion = async () => {
     const key = newEmotionKey.value.trim()
-    if (!key || key in currentImages.value) return
+    if (!key || NUMERIC_KEY_PATTERN.test(key) || key in currentImages.value) return
     pushImages({ ...currentImages.value, [key]: { label: key, src: [] } })
     newEmotionKey.value = ''
     await nextTick()

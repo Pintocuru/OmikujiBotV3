@@ -10,8 +10,7 @@
       <!-- 元キャラキー -->
       <SettingItem icon="User" label="元キャラキー">
         <select v-model="localRemap.fromCharacterKey" class="select select-sm select-bordered w-full">
-          <option value="omiken">omiken</option>
-          <option value="omiken2">omiken2</option>
+          <option v-for="key in jsonMergeSourceCharacterKeys" :key="key" :value="key">{{ key }}</option>
         </select>
       </SettingItem>
 
@@ -54,7 +53,7 @@
   import { storeToRefs } from 'pinia'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { characterEmotionMap } from '@/maps/OmikujiData'
+  import { characterEmotionMap, jsonMergeSourceCharacterKeys } from '@/maps/OmikujiData'
   import { CharacterType, JsonMergeRemapType } from '@/types/OmikujiData'
 
   const props = defineProps<{

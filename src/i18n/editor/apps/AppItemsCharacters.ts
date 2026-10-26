@@ -87,6 +87,7 @@ export const appItemsCharactersMessages = {
     },
     characterImage: {
       newEmotionPlaceholder: '新しいエモーションキー（例: surprised）',
+      numericKeyError: '数字だけのキーは使えません（並び順を保存できないため）。英字を含めてください。',
       add: '追加',
       animation: {
         title: 'アニメーション・プレビュー',
@@ -241,6 +242,7 @@ export const appItemsCharactersMessages = {
     },
     characterImage: {
       newEmotionPlaceholder: 'New emotion key (e.g. surprised)',
+      numericKeyError: 'Keys made only of digits are not allowed (their order cannot be saved). Include a letter.',
       add: 'Add',
       animation: {
         title: 'Animation preview',

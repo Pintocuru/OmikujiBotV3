@@ -113,8 +113,9 @@
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
   import { TargetCategoryType, useDataExtractor } from '../CharacterChanger/composables/useDataExtractor'
   import { useIconKeyStats } from './composables/useIconKeyStats'
-  import { useIconKeyModalState } from './composables/useIconKeyModalState'
-  import { useIconKeyUpdater } from './composables/useIconKeyUpdater'
+  import { useMappingModalState } from '@/editor/helpers/shared/useMappingModalState'
+  import { useMappingUpdater } from '@/editor/helpers/shared/useMappingUpdater'
+  import { usePostActionCharacters } from '@/editor/helpers/CharacterChanger/composables/usePostActionCharacters'
   import { useCharacterLookup } from '../CharacterChanger/composables/useCharacterLookup'
 
   const props = defineProps<{
@@ -154,15 +155,16 @@
 
   const {
     isModalOpen,
-    iconKeyMappings,
+    mappings: iconKeyMappings,
     openModal: openModalBase,
     updateMapping,
     closeModal,
     clearAllMappings,
     hasChanges,
-  } = useIconKeyModalState()
+  } = useMappingModalState()
 
-  const { applyMappingsToAllItems } = useIconKeyUpdater(allTargets)
+  const { applyIconKeyMappings } = usePostActionCharacters()
+  const { applyMappingsToAllItems } = useMappingUpdater(allTargets, applyIconKeyMappings)
 
   /**
    * モーダルを開く（不正キーを初期選択状態に）
@@ -194,17 +196,4 @@
   }
 </script>
 
-<style scoped>
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.7;
-    }
-  }
-  .animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-</style>
+<style scoped src="@/editor/helpers/shared/softPulse.css"></style>

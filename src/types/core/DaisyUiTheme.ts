@@ -55,9 +55,3 @@ export const daisyUIColor = [
 ] as const
 export const DaisyUIColorSchema = z.enum(daisyUIColor).default('primary').catch('primary')
 export type DaisyUIColorType = (typeof daisyUIColor)[number]
-
-// 拡張カラー
-// TODO:廃止
-export const daisyUIExtendedColor = [...daisyUIColor, 'base-100', 'base-200', 'base-300'] as const
-export const daisyUIExtendedColorSchema = z.enum(daisyUIExtendedColor).default('base-100').catch('base-100')
-export type DaisyUIExtendedColorType = z.infer<typeof daisyUIExtendedColorSchema>

@@ -70,9 +70,18 @@ export const useImportManager = () => {
 
     const componentConfigs = generateComponentPreview(currentData, validatedImportData)
 
+    // 読み込み側にのみある UI 設定は「読み込み側の設定」で登録しておく
+    const importOnlyComponents = (Object.keys(validatedImportData.ui?.settings ?? {}) as UiKind[]).filter(
+      (key) => !(key in componentConfigs)
+    )
+    for (const key of importOnlyComponents) {
+      componentConfigs[key] = { enabled: true, useImported: true }
+    }
+
     const preview: ImportPreview = {
       recordCategories,
       componentConfigs,
+      importOnlyComponents,
       totalItems,
     }
 

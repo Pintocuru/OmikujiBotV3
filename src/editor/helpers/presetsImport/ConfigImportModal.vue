@@ -67,34 +67,20 @@
   }>()
 
   /**
-   * componentConfigs（既存 + 読み込み側のみ）をマージした表示用マップ
+   * componentConfigs（既存 + 読み込み側のみ）の表示用マップ
    * - 既存にあるキー: isImportOnly=false、ラジオで既存/読み込みを選択可能
-   * - 読み込み側にのみあるキー: isImportOnly=true、enabled=true/useImported=true で初期化済み
+   * - 読み込み側にのみあるキー: isImportOnly=true（generatePreview が enabled=true/useImported=true で登録済み）
    */
   const mergedComponentConfigs = computed(
     (): Record<string, { config: ComponentImportConfig; isImportOnly: boolean }> => {
       const preview = props.importManager.previewData.value
-      const imported = props.importManager.importedData.value
-      if (!preview || !imported) return {}
+      if (!preview) return {}
 
+      const importOnly = new Set<UiKind>(preview.importOnlyComponents)
       const result: Record<string, { config: ComponentImportConfig; isImportOnly: boolean }> = {}
-
-      // 既存の componentConfigs をそのまま追加
       for (const [key, config] of Object.entries(preview.componentConfigs) as [UiKind, ComponentImportConfig][]) {
-        result[key] = { config, isImportOnly: false }
+        result[key] = { config, isImportOnly: importOnly.has(key) }
       }
-
-      // インポートデータの components.settings に存在するキーのうち
-      // componentConfigs に存在しないものを「読み込み側のみ」として追加
-      const importedSettingsKeys = Object.keys(imported.ui?.settings ?? {}) as UiKind[]
-      for (const key of importedSettingsKeys) {
-        if (!(key in result)) {
-          const importOnlyConfig: ComponentImportConfig = { enabled: true, useImported: true }
-          props.importManager.updateComponentConfig(key, importOnlyConfig)
-          result[key] = { config: importOnlyConfig, isImportOnly: true }
-        }
-      }
-
       return result
     }
   )

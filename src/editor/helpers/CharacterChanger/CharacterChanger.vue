@@ -81,8 +81,9 @@
   import MappingPreview from './MappingPreview.vue'
   import { TargetCategoryType, useDataExtractor } from './composables/useDataExtractor'
   import { useCharacterStats } from './composables/useCharacterStats'
-  import { useModalState } from './composables/useModalState'
-  import { useCharacterUpdater } from './composables/useCharacterUpdater'
+  import { useMappingModalState } from '@/editor/helpers/shared/useMappingModalState'
+  import { useMappingUpdater } from '@/editor/helpers/shared/useMappingUpdater'
+  import { usePostActionCharacters } from './composables/usePostActionCharacters'
   import { useCharacterLookup } from './composables/useCharacterLookup'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
   import { Users } from 'lucide-vue-next'
@@ -110,16 +111,17 @@
   // モーダル状態
   const {
     isModalOpen,
-    characterMappings,
+    mappings: characterMappings,
     openModal: openModalBase,
     updateMapping,
     closeModal,
     clearAllMappings,
     hasChanges,
-  } = useModalState()
+  } = useMappingModalState()
 
   // キャラクター更新処理
-  const { applyMappingsToAllItems } = useCharacterUpdater(allTargets)
+  const { applyCharacterMappings } = usePostActionCharacters()
+  const { applyMappingsToAllItems } = useMappingUpdater(allTargets, applyCharacterMappings)
 
   // 「変更する」を押したときだけ、正常なキャラクターも変更対象に表示する
   const isEditing = ref(false)
@@ -156,18 +158,4 @@
   }
 </script>
 
-<style scoped>
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.7;
-    }
-  }
-
-  .animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-</style>
+<style scoped src="@/editor/helpers/shared/softPulse.css"></style>
