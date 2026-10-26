@@ -1,6 +1,6 @@
 // src/maps/common/StatusConfigMap.ts
 import { AppStatus } from '@/types/core'
-import { Loader, Wifi, WifiOff } from 'lucide-vue-next'
+import { Loader, ShieldAlert, Wifi, WifiOff } from 'lucide-vue-next'
 
 // ステータスごとの設定をMapで一元管理
 type StatusConfig = {
@@ -27,6 +27,12 @@ export const statusConfigMap: Record<AppStatus, StatusConfig> = {
     icon: WifiOff,
     label: '未接続 / Disconnected',
     badgeClass: 'text-error border border-error/40',
+    isAlwaysVisible: true,
+  },
+  blocked: {
+    icon: ShieldAlert,
+    label: '導入方法の確認が必要 / Setup required',
+    badgeClass: 'text-warning border border-warning/40',
     isAlwaysVisible: true,
   },
 }

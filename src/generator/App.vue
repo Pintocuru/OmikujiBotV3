@@ -24,6 +24,7 @@
     </div>
 
     <ErrorInfo v-else-if="appStore.status === 'error'" />
+    <ConnectionGuide v-else-if="appStore.status === 'blocked'" />
   </div>
 </template>
 
@@ -34,6 +35,7 @@
   import { useRuleProcessor } from '@/generator/composables/useRuleProcessor'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import ErrorInfo from '@/common/ErrorInfo/ErrorInfo.vue'
+  import ConnectionGuide from '@/common/ErrorInfo/ConnectionGuide.vue'
   import ConnectionStatusIndicator from '@/common/ErrorInfo/ConnectionStatusIndicator.vue'
   import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
   import DataMismatchNotice from '@/common/buildValidation/DataMismatchNotice.vue'
