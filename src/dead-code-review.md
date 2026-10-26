@@ -45,45 +45,24 @@
 
 ### 2-2. 削除候補だが保留(確信度 中)
 
+- DaisyUIExtendedColorType の廃止(DaisyUIColorType に変更)
 - `useImportManager.ts`: `hasImportedData` / `hasPreviewData` / `loadError` / `resetImportProcess` の未使用、`loadFromJsonData` の `any`(未使用整理と型付け推奨、承認待ち)
-
-### 2-3. 軽微・整形(確信度 低。挙動に影響なし)
-
-- `v-for="(value, key)"` 等の未使用変数 10 件(`_` 化): `InlinePlaceholderDialog` / `SoundSettings` / `EmotionAnimationEditor` / `EmotionPresetButtons` / `CommentVoiceSettings` / `OmikujiItemEditor`(2) / `ReactionTriggerEditor` / `ServiceTrigger` ほか
+- `JsonMergeRemapEditor.vue` の元キャラキー `omiken` / `omiken2` 固定(仕様。ただし、ハードコードではなく設定ファイルから読み込めるようにしたほうが良い。)
+- `EmotionGrid.vue`: 数字だけの感情キーは JS の仕様でオブジェクトの先頭に昇順で並ぶため、ドラッグしても並び順を保存できない
+- 参照のない `export`(外すだけ): `useSidebarSectionMap.useUiSections`、`SidebarType.CategoryGroupId`、`evaluationStats` の `*Summary`、`useKeyEditor` 系の `validateKey*`、`ServiceTriggerEvaluator` / `DefaultPlaceholderBuilder` / `ExpressionChecker` / `ExpressionEvaluator` / `baseApiClient.ApiError` / `summarizeState` の一部、`OmikenCommentProcessor` の `isCommentTester` / `convertToJPY`、`common` の `UnsupportedKeyType` ほか
 - 呼び出し元ゼロの戻り値: `useBoxOmikujiList.box`、`usePlaceholderEditor` の `placeholderMap` / `PLACEHOLDER_ID_PATTERN`、`useWeightValueManagement.updateValue`、`useEmotionDraft` の `draftItemFor` / `removeKey`
 - `WordPartyTestButton.vue` の `pattern` prop(`:pattern="null"` 固定)
 - `PostFlowsEditor.vue` の冗長条件(`modelValue.length > 0 && activeTab >= 0`)
-- 参照のない `export`(外すだけ): `useSidebarSectionMap.useUiSections`、`SidebarType.CategoryGroupId`、`evaluationStats` の `*Summary`、`useKeyEditor` 系の `validateKey*`、`ServiceTriggerEvaluator` / `DefaultPlaceholderBuilder` / `ExpressionChecker` / `ExpressionEvaluator` / `baseApiClient.ApiError` / `summarizeState` の一部、`OmikenCommentProcessor` の `isCommentTester` / `convertToJPY`、`common` の `UnsupportedKeyType` ほか
-- `EmotionGrid.vue`: 数字だけの感情キーは JS の仕様でオブジェクトの先頭に昇順で並ぶため、ドラッグしても並び順を保存できない(キーの加工はやめた。仕様として許容)
+- `VirtualStreamPanel.vue` の `?.` の不統一・`cursor-pointer` 抜け、`TestComment.vue` の `burstSend` の不要な `async`
 - 型の整理: `InformationCard` の `VARIANT_ICON: any`、`ContentArea` の `editorMap: any`
 - 重複: `useModalState` と `useIconKeyModalState`、`useCharacterUpdater` と `useIconKeyUpdater`、`@keyframes pulse` の scoped 重複
-- 命名: `isIsEnabled`(`BaseEditor.vue`)は動作に問題なし
 - `ConfigImportModal.vue` の computed 内副作用、`ComponentConfigSection.vue` の `<label>` ネスト
-- `VirtualStreamPanel.vue` の `?.` の不統一・`cursor-pointer` 抜け、`TestComment.vue` の `burstSend` の不要な `async`
-- 日本語直書き(i18n 外): `BaseTagEditor` / `JsonMerge/*` / `dev/` / `shell/` / `EditorApp.vue`(文言追加を伴うため対象外)
-- `JsonMergeRemapEditor.vue` の元キャラキー `omiken` / `omiken2` 固定(仕様。ただし、ハードコードではなく設定ファイルから読み込めるようにしたほうが良い。)
-- Prettier 差分が 8 ファイルに残存(`GetReactions.ts` ほか)
-- `validateAgainstBuild.ts:106` の空のアロー関数(eslint 警告 1。意図的な no-op の可能性)
-- `src/types` の参照ゼロ型 19 件(`ServiceType` / `BotMessageExtraType` / `UiSettingsType` ほか。編集不可のため報告のみ)
-- 範囲外: `server/dev-api.ts`、`tools/viteConfig/*AssetsPlugin.ts`(`res`)、`TemplateJsonProcessor.ts` の未使用 import 2 件(対象外)
-
-### 2-4. src/games(精読済み。報告のみ)
-
-- `FortuneRanking/params.ts`(確信度 中): `GameParamsSchema` / `GameParams`(`fruits: z.string().min(1)`)は未使用で、`execute.ts` の既定値処理と食い違う。`game.ts`(`BomberSpin` の複製)も未使用のため、整理するなら同時に判断する
-- `GoogolClover/execute.ts`(確信度 中): `const {} = this.parseParams(...)` は空の分割代入。`params.ts` は `DwarfBomb` の `mode`(ツルハシ / TNT)のコピーで、このゲームでは使われない
-- `GoogolClover/sub/resultBuilder.ts`(確信度 中): `exp >= GOAL_EXPONENT` の分岐と通常成功の分岐が同一の戻り値。`GOAL_EXPONENT` と `UserState.isGoogol` は目標達成演出の予定の可能性。`SpinResult.symbol` は未読
-- `MultiplyBonanza/gameConfig.ts`(確信度 中): `WIN_MESSAGES` の `[10000, 'JACKPOT']` は、`MAX_WIN`(= 10000)の行が先に一致するため到達しない。`WORD_PARTY_CONFIG.DELAY_SECONDS` の `BASE_PARTY` / `CRACKER1` は未参照(`execute.ts` が 1 / 3.2 を直書き)。`MessageFormatter.getBasePayout` は `PayoutCalculator.calculatePayout` の一部と重複
-- `DwarfBomb/game/gameConfigs.ts`(確信度 低): `REWARD_ITEMS` の `name` / `emoji` / `description` はどこからも読まれない(説明用)
-- `BomberSpin/game.ts`(確信度 低): `randomSymbol` の if 連鎖は `symbols.findIndex` で置換可能、`getHitRate` の引数が `any`
-- 参照のない `export`(確信度 低): `GouseiSuika` の `GameConfigs` / `ItemLottery`、`HugEmAll/gameConfig.ts` の `ATTACK_PROBABILITIES` / `ATTACK_EFFECTS` / `PLAYER_INITIAL_LIFE`、`FortuneRanking/execute.ts` の未使用引数 `_omiken`
-- `BomberSpin` / `FortuneRanking` の `game.ts` はスロットの設定がそのまま複製されている(コピー元の一本化は FortuneRanking の扱いと同時に判断)
 
 ### 2-5. src/common(精読済み。報告のみ)
 
 - `LayerImage.vue` の `<style scoped>`(確信度 低): `prefers-reduced-motion` で `animation-duration` などを同じ値(`--animate-duration`)に上書きしており、実質 no-op(視覚効果を抑える意図なら別途必要)
 - `EntryCore/core.ts`(確信度 低): `createAppOneSDK` は OneSDK 未読込時に `undefined` を返すだけで、画面には何も出ない
 - `migrations/index.ts`(確信度 低): 移行時の `console.log` が残っている(動作ログとして意図的な可能性)
-- `buildValidation/validateAgainstBuild.ts`: `UnsupportedKeyType` / `formatUnsupportedKeys` の `export` のみ未使用
 
 ### 2-6. ディレクトリ構造(調査済み。`src/console`・`src/plugin` は対象外)
 

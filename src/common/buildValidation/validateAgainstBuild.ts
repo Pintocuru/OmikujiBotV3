@@ -95,7 +95,10 @@ type ReportOptions = {
  * 「データ不一致」を画面に表示し、わんコメにもシステムメッセージとして投稿する
  * (わんコメへの投稿はコンソールエラーの代わりを兼ねる)
  */
-export const reportDataMismatch = (items: UnsupportedKey[], { display = 'modal', throttle = false }: ReportOptions = {}) => {
+export const reportDataMismatch = (
+  items: UnsupportedKey[],
+  { display = 'modal', throttle = false }: ReportOptions = {}
+) => {
   const text = formatBuildMismatchMessage(items)
   const title = 'データが不一致です'
 
@@ -103,5 +106,7 @@ export const reportDataMismatch = (items: UnsupportedKey[], { display = 'modal',
   else swalModal.error({ title, text })
 
   // わんコメに接続できない環境では失敗するため、握りつぶす(画面表示は済んでいる)
-  postSystemMessage(`❌ ${title}: ${text}`, { throttle }).catch(() => {})
+  postSystemMessage(`❌ ${title}: ${text}`, { throttle }).catch(() => {
+    // 接続できない環境では通知に失敗しても無視する
+  })
 }
