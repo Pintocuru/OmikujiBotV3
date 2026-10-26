@@ -1,6 +1,4 @@
-//
 // script.js - index.html / editor.html 共通ローダー
-// 配布版：localhostフォールバックなし
 
 window.OmikujiLoader = {
   loadScript(src) {
