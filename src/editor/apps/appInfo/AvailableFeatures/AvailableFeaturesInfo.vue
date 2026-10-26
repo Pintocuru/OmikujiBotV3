@@ -34,7 +34,7 @@
   import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
   import { getGameScriptLoader } from '@/games/gameScriptRegistry'
   import { gameMetaMap, uiKindMap } from '@/maps/OmikujiData'
-  import { uiLayouts, type ScriptGameKey, type UiKind } from '@/types/OmikujiData'
+  import { uiLayouts, type GameScriptKey, type UiKind } from '@/types/OmikujiData'
   import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
 
   type FeatureItem = { key: string; title: string; icon: LucideIconName; description: string }
@@ -42,7 +42,7 @@
 
   const { t } = useI18n()
 
-  // main.ts(registerAll)で登録済みのも�Eだけを表示する
+  // main.ts(registerAll)で登録済みのも�Eだけを表示する
   const uiItems = computed<FeatureItem[]>(() =>
     (Object.keys(uiKindMap) as UiKind[])
       .filter((kind) => getUiLoader(kind))
@@ -66,8 +66,8 @@
   )
 
   const gameScriptItems = computed<FeatureItem[]>(() =>
-    // 表示用メタ(gameMetaMap)を起点にし、登録済みのも�Eだけ残す(uiItems と同じ方弁E
-    (Object.keys(gameMetaMap) as ScriptGameKey[])
+    // 表示用メタ(gameMetaMap)を起点にし、登録済みのも�Eだけ残す(uiItems と同じ方弁E
+    (Object.keys(gameMetaMap) as GameScriptKey[])
       .filter((key) => getGameScriptLoader(key))
       .map((key) => ({
         key,

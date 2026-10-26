@@ -1,6 +1,6 @@
 // src/engine/GameScriptPlay/GameScriptManager.ts
 import { ScriptClass, ScriptResult } from '@/games/types'
-import { PostFlowGameType, ScriptGameKey, isScriptGameKey } from '@/types/OmikujiData'
+import { PostFlowGameType, GameScriptKey, isGameScriptKey } from '@/types/OmikujiData'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { getGameScriptLoader, getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
@@ -17,7 +17,7 @@ export class GameScriptManager {
 
     // 存在しない / このビルドに未登録 / 読み込み失敗は、すべて「データ不一致」として扱う
     const mismatch = new BuildMismatchError([{ type: 'gameScript', key: scriptId }])
-    if (!isScriptGameKey(scriptId)) throw mismatch
+    if (!isGameScriptKey(scriptId)) throw mismatch
     const loader = getGameScriptLoader(scriptId)
     if (!loader) throw mismatch
     let module: Awaited<ReturnType<typeof loader>>
@@ -87,7 +87,7 @@ export class GameScriptManager {
   }
 
   // 利用可能なスクリプトID一覧(UIのセレクト用など)
-  listAvailableScripts(): readonly ScriptGameKey[] {
+  listAvailableScripts(): readonly GameScriptKey[] {
     return getRegisteredGameScriptKeys()
   }
 }

@@ -1,5 +1,5 @@
 // src/common/buildValidation/validateAgainstBuild.ts
-import { uiKinds, isScriptGameKey, type OmikujiDataType } from '@/types/OmikujiData'
+import { uiKinds, isGameScriptKey, type OmikujiDataType } from '@/types/OmikujiData'
 import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
 import { getGameScriptLoader } from '@/games/gameScriptRegistry'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
@@ -58,11 +58,11 @@ export const validateAgainstBuild = (data: OmikujiDataType): UnsupportedKey[] =>
   const { layout } = data.ui
   if (layout && !getLayoutLoader(layout)) unsupported.push({ type: 'layout', key: layout })
 
-  // gameScript: scriptId は文字列なので、scriptGameKeys にない値も未対応として扱う
+  // gameScript: scriptId は文字列なので、gameScriptKeys にない値も未対応として扱う
   const scriptIds = new Set<string>()
   collectGameScriptIds(data.assets, scriptIds)
   for (const scriptId of scriptIds) {
-    if (!isScriptGameKey(scriptId) || !getGameScriptLoader(scriptId)) {
+    if (!isGameScriptKey(scriptId) || !getGameScriptLoader(scriptId)) {
       unsupported.push({ type: 'gameScript', key: scriptId })
     }
   }

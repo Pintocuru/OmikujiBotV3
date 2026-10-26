@@ -14,8 +14,6 @@
 作業の前に、次の 3 点だけ確認する。
 
 1. `git status` が綺麗である(未コミットの変更なし)
-2. `src/generator/composables/useCharacterManager.ts` が存在する(作業 1 の変更前の位置)
-3. `src/types/OmikujiData/assets/ScriptGameSchema.ts` の `scriptGameKeys` に `'FortuneRanking'` がある
 
 1 つでも満たさなければ、**そこで止めて報告**する。すべて満たしたら、次を実行して基準を取る。
 
