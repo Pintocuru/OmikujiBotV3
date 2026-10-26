@@ -1,4 +1,4 @@
 // src/types/core/AppStatus.ts
 
 // 通信状態
-export type AppStatus = 'initializing' | 'ready' | 'error'
+export type AppStatus = 'initializing' | 'ready' | 'error' | 'blocked'

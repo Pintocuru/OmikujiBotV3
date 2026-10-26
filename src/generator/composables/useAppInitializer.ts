@@ -22,6 +22,11 @@ export function useAppInitializer() {
 
     const { setStatus, setError } = appStore
     const commentProcessor = new EventCommentProcessor()
+    // OBS 33 以降は file:// からの http 通信 (axios) が遮断されるため、通信前に導入ガイドへ誘導
+    if (window.location.protocol === 'file:') {
+      setStatus('blocked')
+      return
+    }
     setStatus('initializing')
 
     try {
