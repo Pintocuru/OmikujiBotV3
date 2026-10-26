@@ -35,7 +35,7 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
-    "@onecomme.com/onesdk": "^9.0.0-alpha.2",
+    "@onecomme.com/onesdk": "^9.2.0-beta.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/vite": "^4.3.2",
     "@types/archiver": "^7.0.0",
