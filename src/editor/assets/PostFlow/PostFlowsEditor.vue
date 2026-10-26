@@ -2,11 +2,7 @@
 <template>
   <div class="space-y-2">
     <!-- ツールバー -->
-    <OmikujiItemToolbar
-      :modelValue="modelValue"
-      @update:modelValue="updatePostActions"
-      @reorder="followReorder"
-    />
+    <OmikujiItemToolbar :modelValue="modelValue" @update:modelValue="updatePostActions" @reorder="followReorder" />
 
     <!-- PostActionsタブエディター -->
     <PostActionsTabs
@@ -46,8 +42,7 @@
 
   const props = defineProps<{
     modelValue: PostFlowType[]
-    /** 編集中のアクションセットのキー(flowCall の循環参照チェック用) */
-    currentKey?: string
+    currentKey?: string // 編集中のアクションセットのキー(flowCall の循環参照チェック用) */
   }>()
 
   const emit = defineEmits<{
