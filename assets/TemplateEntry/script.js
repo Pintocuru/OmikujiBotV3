@@ -37,6 +37,34 @@ window.OmikujiLoader = {
     `
   },
 
+  // わんコメ(Vue / onesdk)を読み込めなかったときの共通表示
+  // わんコメ経由 (http://localhost:...) で開いているのに失敗 = 未起動
+  // それ以外 (file:// や OBS の http://absolute/ など) = ローカル読み込み
+  showConnectionError() {
+    const host = location.hostname
+    if (host === 'localhost' || host === '127.0.0.1') {
+      this.showOneCommeError()
+      return
+    }
+    document.body.innerHTML = `
+      <div style="padding:24px;font-family:sans-serif;text-align:center;color:#333">
+        <p style="font-size:40px;margin:0 0 8px">🐕</p>
+        <h1 style="color:#d33;margin:0 0 12px;font-size:22px">わんコメと通信できません</h1>
+        <p style="margin:0 0 12px">次のどちらかが原因です。</p>
+        <p style="margin:0 0 8px">① わんコメが起動していない<br>→ 起動してから、再読み込みしてください。</p>
+        <p style="margin:0 0 16px">
+          ② 「ここをドラッグしてOBSに入れる」を使った<br>
+          →「ブラウザで開く」を OBS のソースにドラッグして入れ直してください。
+        </p>
+        <img
+          src="https://github.com/Pintocuru/OmikujiBotV3/raw/main/docs/images/installation-1792992840724.webp"
+          alt="わんコメでの導入方法"
+          style="max-width:100%;height:auto"
+        />
+      </div>
+    `
+  },
+
   showLoadError(detail = '') {
     document.body.innerHTML = `
       <div style="padding:40px;font-family:sans-serif;color:#d33;text-align:center">
@@ -82,14 +110,15 @@ window.OmikujiLoader = {
 
     try {
       await this._waitForVue()
-    } catch (e) {
-      this.showLoadError('Vue が読み込まれませんでした。')
+    } catch {
+      // Vue は わんコメ(localhost:11180) から読むため、失敗 = 未起動 or ローカル遮断
+      this.showConnectionError()
       return
     }
 
     if (requireOneComme) {
       if (window.__onesdkLoaded === false) {
-        this.showOneCommeError()
+        this.showConnectionError()
         return
       }
       // onesdk の読み込み完了を最大3秒待つ
@@ -108,7 +137,7 @@ window.OmikujiLoader = {
         }, 50)
       })
       if (!sdkReady) {
-        this.showOneCommeError()
+        this.showConnectionError()
         return
       }
     }

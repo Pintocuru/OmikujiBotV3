@@ -5,6 +5,12 @@
     <meta name="referrer" content="no-referrer" />
     <!-- Vue -->
     <script src="http://localhost:11180/templates/custom/__origin/js/vue3.min.js"></script>
+    <!-- わんコメ SDK (バンドルが OneSDK をグローバル参照するため必要) -->
+    <script src="http://localhost:11180/templates/custom/__origin/js/onesdk.js"></script>
+    <!-- わんコメ未起動でもエディターを開けるよう、未定義エラーだけ防ぐ -->
+    <script>
+      window.OneSDK = window.OneSDK || {}
+    </script>
     <!-- おみくじデータ -->
     <script src="./omikujiData.js"></script>
     <!-- 共通ローダー -->
