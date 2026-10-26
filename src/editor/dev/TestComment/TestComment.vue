@@ -229,7 +229,7 @@
     }
   }
 
-  async function burstSend() {
+  function burstSend() {
     for (let i = 0; i < 100; i++) setTimeout(sendComment, i * 5)
   }
 

@@ -27,7 +27,7 @@ export function parseVariableValue(raw: string): VarValue {
   return quoted ? quoted[2] : text
 }
 
-export type NumberSummary = {
+type NumberSummary = {
   count: number
   sum: number
   avg: number
@@ -36,12 +36,12 @@ export type NumberSummary = {
   ranking: { key: string; label: string; value: number }[] // 値の大きい順
 }
 
-export type StringSummary = {
+type StringSummary = {
   count: number
   ranking: { value: string; count: number }[] // 多い順
 }
 
-export type WildcardSummary = {
+type WildcardSummary = {
   matched: number
   numbers: NumberSummary | null
   strings: StringSummary | null

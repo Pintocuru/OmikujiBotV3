@@ -43,21 +43,6 @@
 
 ## 2. 未実行(報告のみ・要判断)
 
-### 2-2. 削除候補だが保留(確信度 中)
-
-- DaisyUIExtendedColorType の廃止(DaisyUIColorType に変更)
-- `useImportManager.ts`: `hasImportedData` / `hasPreviewData` / `loadError` / `resetImportProcess` の未使用、`loadFromJsonData` の `any`(未使用整理と型付け推奨、承認待ち)
-- `JsonMergeRemapEditor.vue` の元キャラキー `omiken` / `omiken2` 固定(仕様。ただし、ハードコードではなく設定ファイルから読み込めるようにしたほうが良い。)
-- `EmotionGrid.vue`: 数字だけの感情キーは JS の仕様でオブジェクトの先頭に昇順で並ぶため、ドラッグしても並び順を保存できない
-- 参照のない `export`(外すだけ): `useSidebarSectionMap.useUiSections`、`SidebarType.CategoryGroupId`、`evaluationStats` の `*Summary`、`useKeyEditor` 系の `validateKey*`、`ServiceTriggerEvaluator` / `DefaultPlaceholderBuilder` / `ExpressionChecker` / `ExpressionEvaluator` / `baseApiClient.ApiError` / `summarizeState` の一部、`OmikenCommentProcessor` の `isCommentTester` / `convertToJPY`、`common` の `UnsupportedKeyType` ほか
-- 呼び出し元ゼロの戻り値: `useBoxOmikujiList.box`、`usePlaceholderEditor` の `placeholderMap` / `PLACEHOLDER_ID_PATTERN`、`useWeightValueManagement.updateValue`、`useEmotionDraft` の `draftItemFor` / `removeKey`
-- `WordPartyTestButton.vue` の `pattern` prop(`:pattern="null"` 固定)
-- `PostFlowsEditor.vue` の冗長条件(`modelValue.length > 0 && activeTab >= 0`)
-- `VirtualStreamPanel.vue` の `?.` の不統一・`cursor-pointer` 抜け、`TestComment.vue` の `burstSend` の不要な `async`
-- 型の整理: `InformationCard` の `VARIANT_ICON: any`、`ContentArea` の `editorMap: any`
-- 重複: `useModalState` と `useIconKeyModalState`、`useCharacterUpdater` と `useIconKeyUpdater`、`@keyframes pulse` の scoped 重複
-- `ConfigImportModal.vue` の computed 内副作用、`ComponentConfigSection.vue` の `<label>` ネスト
-
 ### 2-5. src/common(精読済み。報告のみ)
 
 - `LayerImage.vue` の `<style scoped>`(確信度 低): `prefers-reduced-motion` で `animation-duration` などを同じ値(`--animate-duration`)に上書きしており、実質 no-op(視覚効果を抑える意図なら別途必要)

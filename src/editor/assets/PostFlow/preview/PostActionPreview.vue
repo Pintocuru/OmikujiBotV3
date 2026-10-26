@@ -73,7 +73,6 @@
       <WordPartyTestButton
         v-if="action.kind === 'wordParty'"
         :id="action.wordPartyId"
-        :pattern="null"
         :repeat="action.repeat"
       />
       <SoundTestButton

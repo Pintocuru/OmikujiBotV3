@@ -42,7 +42,7 @@ export function evaluateServiceTrigger(trigger: ServiceTriggerType, event: MetaU
  * 単一条件の評価
  * peak 値ではなく peakChanged フラグを受け取る
  */
-export function evaluateServiceCondition(
+function evaluateServiceCondition(
   condition: ServiceConditionType,
   current: number,
   previous: number,
@@ -77,7 +77,7 @@ export function evaluateServiceCondition(
 /**
  * 経過時間の評価
  */
-export function evaluateElapsedTime(thresholdMinutes: number, startTime: number | null): boolean {
+function evaluateElapsedTime(thresholdMinutes: number, startTime: number | null): boolean {
   if (startTime == null) return false
   return Date.now() - startTime >= thresholdMinutes * 60_000
 }

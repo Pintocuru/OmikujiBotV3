@@ -43,7 +43,7 @@ export type DraggableSubItem = {
 }
 
 /** ナビゲーションのグループ（サブラベル） */
-export type CategoryGroupId = 'events' | 'assets' | 'ui' | 'other'
+type CategoryGroupId = 'events' | 'assets' | 'ui' | 'other'
 export type CategoryGroup<K extends CategoryType = CategoryType> = { id: CategoryGroupId; keys: K[] }
 
 /** provide / inject で子孫に渡す状態 */

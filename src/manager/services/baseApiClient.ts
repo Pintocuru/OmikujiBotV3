@@ -15,7 +15,7 @@ export class ConnectionError extends Error {
  * サーバが code 200 以外を返したときのエラー
  * (HTTP 自体は 200 で、レスポンス body の code に入ってくる)
  */
-export class ApiError extends Error {
+class ApiError extends Error {
   constructor(
     message: string,
     readonly code: number,

@@ -14,13 +14,13 @@ const DAY_7_MS = 7 * 24 * 60 * 60 * 1000
 /**
  * コメントテスター判定
  */
-export const isCommentTester = (comment: Comment): boolean => comment.id === 'COMMENT_TESTER'
+const isCommentTester = (comment: Comment): boolean => comment.id === 'COMMENT_TESTER'
 
 /**
  * 単位が NT$ や $ の場合、数値を掛け算する
  * ドルなら100倍、NT$なら5倍
  */
-export function convertToJPY(price: number | undefined, unit?: string | undefined): number {
+function convertToJPY(price: number | undefined, unit?: string | undefined): number {
   if (!price || price <= 0) return 0
 
   const UnitRates: Record<string, number> = {

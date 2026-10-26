@@ -57,5 +57,5 @@ export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
     selectedId.value = created.id
   }
 
-  return { box, omikujiList, selectedId, selectedIndex, selectedItem, replaceAll, setWeight, updateSelected, add }
+  return { omikujiList, selectedId, selectedIndex, selectedItem, replaceAll, setWeight, updateSelected, add }
 }

@@ -3,7 +3,7 @@
   <div class="card bg-base-200 border border-error/40 shadow-xl">
     <div class="card-body gap-2 p-2">
       <!-- Header -->
-      <div class="flex items-center justify-between border-b border-base-300" @click="collapsed = !collapsed">
+      <div class="flex items-center justify-between border-b border-base-300 cursor-pointer" @click="collapsed = !collapsed">
         <h1 class="text-sm flex items-center gap-2">仮想配信パネル</h1>
 
         <div class="flex items-center gap-1">
@@ -174,7 +174,7 @@
   }
 
   function apply() {
-    store._devSetMeta?.(fields)
+    store._devSetMeta(fields)
   }
 
   onUnmounted(() => {

@@ -14,7 +14,7 @@
         <span class="text-sm">使用する設定:</span>
         <div class="flex gap-2">
           <!-- 読み込み側にのみある設定は「既存の設定」選択肢を表示しない -->
-          <label v-if="!isImportOnly" class="flex items-center gap-1">
+          <template v-if="!isImportOnly">
             <label class="flex items-center gap-1">
               <input
                 type="radio"
@@ -25,15 +25,17 @@
               />
               <span class="text-sm">読み込み側の設定</span>
             </label>
-            <input
-              type="radio"
-              :name="`component-${componentKey}`"
-              :checked="!config.useImported"
-              @change="() => handleUseChange(false)"
-              class="radio radio-sm"
-            />
-            <span class="text-sm">既存の設定</span>
-          </label>
+            <label class="flex items-center gap-1">
+              <input
+                type="radio"
+                :name="`component-${componentKey}`"
+                :checked="!config.useImported"
+                @change="() => handleUseChange(false)"
+                class="radio radio-sm"
+              />
+              <span class="text-sm">既存の設定</span>
+            </label>
+          </template>
         </div>
       </div>
     </div>

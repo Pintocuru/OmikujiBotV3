@@ -109,7 +109,7 @@ function warnOnce(expression: string, reason: unknown): void {
  * - 変数名の一部になっている <<name>> (例: SyokenSagi<<userId>>) は、context の値で置換して変数名を組み立てる。
  *   値が [A-Za-z0-9_] だけで構成されていないとき (ユーザー名など) や context にないときは評価できない扱い
  */
-export function normalizeTriggerExpression(expression: string, context?: TriggerExpressionContext): string | null {
+function normalizeTriggerExpression(expression: string, context?: TriggerExpressionContext): string | null {
   let unresolved = false
 
   const replaced = expression

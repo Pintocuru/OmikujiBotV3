@@ -12,7 +12,7 @@ import { getUiEditorEntries } from '@/editor/ui/uiEditorRegistry'
  * ui カテゴリのセクション項目を返す
  * 共通設定（commonStyle）＋ 選択中レイアウトが使う UI のうち、main.ts で登録済みのもの
  */
-export function useUiSections(): ComputedRef<SidebarSectionItem[]> {
+function useUiSections(): ComputedRef<SidebarSectionItem[]> {
   const { data } = storeToRefs(useOmikujiStore())
 
   return computed<SidebarSectionItem[]>(() => {

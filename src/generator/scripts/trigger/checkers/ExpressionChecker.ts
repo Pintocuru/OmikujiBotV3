@@ -11,7 +11,7 @@ const LEADING_ICON_MARKUP = /^\{\{icon [^}]*\}\}/
  * 判定式に渡す変数を組み立てる。すべて読み取りのみで、store には書き込まない。
  * 優先順位: 標準値 (lc, user など) > placeholderVariable (おみくじの式で作った変数)
  */
-export function buildTriggerExpressionContext(omiken: OmikenCommentType): TriggerExpressionContext {
+function buildTriggerExpressionContext(omiken: OmikenCommentType): TriggerExpressionContext {
   const store = useAppStore()
   const context: TriggerExpressionContext = {}
 

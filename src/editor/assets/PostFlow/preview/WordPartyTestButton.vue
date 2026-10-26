@@ -1,6 +1,6 @@
 <!-- src/editor/assets/PostFlow/preview/WordPartyTestButton.vue -->
 <template>
-  <button @click="handleClick" :disabled="!pattern && !id" class="btn btn-xs btn-secondary">
+  <button @click="handleClick" :disabled="!id" class="btn btn-xs btn-secondary">
     {{ t('postFlow.tests.wordParty') }}
   </button>
 </template>
@@ -13,7 +13,6 @@
 
   const props = defineProps<{
     id?: string
-    pattern: string | null
     repeat?: number | 'viewer' | 'upVote'
   }>()
 

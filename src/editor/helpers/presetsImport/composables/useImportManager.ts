@@ -6,6 +6,10 @@ import { normalizeData } from '@/common/migrations/index'
 import { generateCategoryPreview, generateComponentPreview } from './importHelpers'
 import { CategoryImportConfig, ComponentImportConfig, ImportPreview } from '@/editor/types'
 
+type LoadResult =
+  | { success: true; data: OmikujiDataType }
+  | { success: false; error: string; data?: unknown }
+
 /**
  * インポート処理を管理するComposable
  */
@@ -14,12 +18,9 @@ export const useImportManager = () => {
   const importedData = ref<OmikujiDataType | null>(null)
   const previewData = ref<ImportPreview | null>(null)
   const isLoading = ref(false)
-  const loadError = ref('')
   const showPreviewModal = ref(false)
 
   // Computed
-  const hasImportedData = computed(() => !!importedData.value)
-  const hasPreviewData = computed(() => !!previewData.value)
   const enabledCategories = computed(() => {
     if (!previewData.value) return []
     return Object.entries(previewData.value.recordCategories)
@@ -30,12 +31,11 @@ export const useImportManager = () => {
   /**
    * JSONデータから直接読み込む
    */
-  const loadFromJsonData = async (jsonData: any): Promise<{ success: boolean; data?: any; error?: string }> => {
+  const loadFromJsonData = async (jsonData: unknown): Promise<LoadResult> => {
     isLoading.value = true
-    loadError.value = ''
 
     try {
-      const generatorName = jsonData.meta?.generatorName
+      const generatorName = (jsonData as { meta?: { generatorName?: string } }).meta?.generatorName
       if (!generatorName || generatorName !== 'omikuji-bot') {
         return {
           success: false,
@@ -50,7 +50,6 @@ export const useImportManager = () => {
       return { success: true, data: validatedData }
     } catch (error) {
       const message = error instanceof Error ? error.message : 'データ読み込みエラー'
-      loadError.value = message
       return { success: false, error: message }
     } finally {
       isLoading.value = false
@@ -141,7 +140,6 @@ export const useImportManager = () => {
   const resetImportProcess = () => {
     importedData.value = null
     previewData.value = null
-    loadError.value = ''
     showPreviewModal.value = false
   }
 
@@ -150,12 +148,9 @@ export const useImportManager = () => {
     importedData,
     previewData,
     isLoading,
-    loadError,
     showPreviewModal,
 
     // Computed
-    hasImportedData,
-    hasPreviewData,
     enabledCategories,
 
     // Actions
@@ -166,6 +161,5 @@ export const useImportManager = () => {
     executeImport,
     openPreviewModal,
     closePreviewModal,
-    resetImportProcess,
   }
 }

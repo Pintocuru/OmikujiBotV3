@@ -19,18 +19,16 @@
     CircleDot,
     Star,
     Shield,
-    Layers,
-    Square,
-    LayoutGrid,
+    type LucideIcon,
   } from 'lucide-vue-next'
-  import { DaisyUIExtendedColorType } from '@/types/core'
+  import { DaisyUIColorType } from '@/types/core'
 
   const props = defineProps<{
-    variant?: DaisyUIExtendedColorType
-    icon?: DaisyUIExtendedColorType
+    variant?: DaisyUIColorType
+    icon?: DaisyUIColorType
   }>()
 
-  const VARIANT_CLASS: Record<DaisyUIExtendedColorType, string> = {
+  const VARIANT_CLASS: Record<DaisyUIColorType, string> = {
     info: 'alert-info text-info-content',
     success: 'alert-success text-success-content',
     warning: 'alert-warning text-warning-content',
@@ -41,12 +39,9 @@
     secondary: ' bg-secondary text-secondary-content',
     accent: ' bg-accent text-accent-content',
     neutral: 'bg-neutral text-neutral-content',
-    'base-100': 'bg-base-100 text-base-content',
-    'base-200': 'bg-base-200 text-base-content',
-    'base-300': 'bg-base-300 text-base-content',
   }
 
-  const VARIANT_ICON: Record<DaisyUIExtendedColorType, any> = {
+  const VARIANT_ICON: Record<DaisyUIColorType, LucideIcon> = {
     primary: Sparkles, // 強調・目立たせたい
     secondary: CircleDot, // 補助的
     accent: Star, // 特別感
@@ -55,9 +50,6 @@
     warning: AlertTriangle,
     error: XCircle,
     neutral: Shield, // 中立・保護
-    'base-100': Square,
-    'base-200': Layers,
-    'base-300': LayoutGrid,
   }
 
   const headerClass = computed(() => VARIANT_CLASS[props.variant ?? 'info'])

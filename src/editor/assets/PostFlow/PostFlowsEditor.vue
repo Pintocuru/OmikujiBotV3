@@ -26,7 +26,7 @@
     </template>
 
     <!-- PostActionタブの内容 -->
-    <template v-else-if="props.modelValue.length > 0 && activeTab >= 0">
+    <template v-else-if="activeTab >= 0">
       <PostActionItem :action="currentAction" :current-key="currentKey" @update:action="updateCurrentAction" />
     </template>
   </div>

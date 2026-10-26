@@ -120,7 +120,6 @@ export function useWeightValueManagement(values: () => WeightValuesArrayType, cu
     duplicateValue,
     updateWeight,
     updateContent,
-    updateValue,
     isCircular,
     getCircularPath,
   }

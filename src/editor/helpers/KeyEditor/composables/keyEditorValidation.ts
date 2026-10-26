@@ -6,7 +6,7 @@ const t = (key: string) => i18n.global.t(key)
 /**
  * Keyの基本フォーマットバリデーション
  */
-export function validateKeyFormat(key: string): string | null {
+function validateKeyFormat(key: string): string | null {
   const trimmedKey = key.trim()
   if (!trimmedKey) return t('keyEditor.validation.required')
   if (!/^[a-zA-Z0-9_-]+$/.test(trimmedKey)) return t('keyEditor.validation.format')
@@ -16,7 +16,7 @@ export function validateKeyFormat(key: string): string | null {
 /**
  * Key重複チェック（existingKeys は同カテゴリの全 Key。自分自身は currentKey で除外）
  */
-export function validateKeyDuplication(
+function validateKeyDuplication(
   key: string,
   existingKeys: readonly string[],
   currentKey: string

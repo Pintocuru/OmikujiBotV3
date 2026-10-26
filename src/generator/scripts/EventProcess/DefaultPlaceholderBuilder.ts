@@ -19,7 +19,7 @@ export function sanitizeKey(raw: string): string {
 /**
  * デフォルトのプレースホルダー情報 (配信全体の値)
  */
-export function buildBasePlaceholders(store: AppStore): Record<ServiceMetaCondition, string | number> {
+function buildBasePlaceholders(store: AppStore): Record<ServiceMetaCondition, string | number> {
   const meta = store.serviceMetaStore.getCurrent()
   const { userStats, streamStats } = store
 

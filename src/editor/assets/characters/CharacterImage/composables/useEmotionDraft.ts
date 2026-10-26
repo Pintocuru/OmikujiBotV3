@@ -1,5 +1,5 @@
 // src/editor/assets/characters/CharacterImage/composables/useEmotionDraft.ts
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import type { CharacterImageType, CharacterAnimationType } from '@/types/OmikujiData'
 
 export function useEmotionDraft(getModelValue: () => CharacterImageType) {
@@ -8,8 +8,6 @@ export function useEmotionDraft(getModelValue: () => CharacterImageType) {
   const initDraft = () => {
     draftValue.value = JSON.parse(JSON.stringify(getModelValue()))
   }
-
-  const draftItemFor = (key: string | null) => computed(() => (key ? (draftValue.value[key] ?? null) : null))
 
   // ── 個別更新 ──────────────────────────────────────────────────────────────
 
@@ -29,17 +27,11 @@ export function useEmotionDraft(getModelValue: () => CharacterImageType) {
     draftValue.value[key] = animation ? { ...rest, animation } : { ...rest }
   }
 
-  const removeKey = (key: string) => {
-    delete draftValue.value[key]
-  }
-
   return {
     draftValue,
     initDraft,
-    draftItemFor,
     updateSrc,
     updateLabel,
     updateAnimation,
-    removeKey,
   }
 }

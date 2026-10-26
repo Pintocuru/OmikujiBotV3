@@ -110,7 +110,6 @@ export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boo
     showAddPlaceholder,
     newPlaceholderKey,
     expandedKeys,
-    placeholderMap,
     defaultPlaceholderList,
     sortedUserPlaceholders,
     usedKeys,
@@ -119,6 +118,5 @@ export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boo
     removePlaceholderValue,
     addPlaceholderValue,
     createNewPlaceholder,
-    PLACEHOLDER_ID_PATTERN,
   }
 }

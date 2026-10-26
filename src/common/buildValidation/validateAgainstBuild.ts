@@ -10,7 +10,7 @@ import { postSystemMessage } from '@/sdk/post/PostOneComme'
  * - registerAll() などで登録されていない UI / レイアウト / gameScript をデータが使っていないかを調べる
  */
 
-export type UnsupportedKeyType = 'ui' | 'layout' | 'gameScript'
+type UnsupportedKeyType = 'ui' | 'layout' | 'gameScript'
 export type UnsupportedKey = { type: UnsupportedKeyType; key: string }
 
 const typeLabel: Record<UnsupportedKeyType, string> = {
@@ -20,7 +20,7 @@ const typeLabel: Record<UnsupportedKeyType, string> = {
 }
 
 /** 「UI: xxx、レイアウト: yyy」形式の一覧文字列 */
-export const formatUnsupportedKeys = (items: UnsupportedKey[]): string =>
+const formatUnsupportedKeys = (items: UnsupportedKey[]): string =>
   items.map(({ type, key }) => `${typeLabel[type]}: ${key}`).join('、')
 
 /** ユーザー向けの「データ不一致」文言 */
