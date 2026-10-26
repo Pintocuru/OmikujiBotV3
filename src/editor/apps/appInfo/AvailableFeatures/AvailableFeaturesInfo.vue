@@ -15,7 +15,6 @@
           :title="item.title"
           :icon="item.icon"
           :description="item.description"
-          :show-toggle="false"
           :is-enabled="true"
         />
       </div>
@@ -43,7 +42,7 @@
 
   const { t } = useI18n()
 
-  // main.ts(registerAll)で登録済みのものだけを表示する
+  // main.ts(registerAll)で登録済みのも�Eだけを表示する
   const uiItems = computed<FeatureItem[]>(() =>
     (Object.keys(uiKindMap) as UiKind[])
       .filter((kind) => getUiLoader(kind))
@@ -67,7 +66,7 @@
   )
 
   const gameScriptItems = computed<FeatureItem[]>(() =>
-    // 表示用メタ(gameMetaMap)を起点にし、登録済みのものだけ残す(uiItems と同じ方式)
+    // 表示用メタ(gameMetaMap)を起点にし、登録済みのも�Eだけ残す(uiItems と同じ方弁E
     (Object.keys(gameMetaMap) as ScriptGameKey[])
       .filter((key) => getGameScriptLoader(key))
       .map((key) => ({

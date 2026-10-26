@@ -1,6 +1,6 @@
 // src/sdk/post/PostOneComme.ts
 import { api } from '@/sdk/client'
-import { SendCommentType, SendTestCommentSchema, SendTestCommentType } from '@/sdk/types'
+import { SendCommentType, SendTestCommentSchema, SendTestCommentType } from '@/types/subscribe'
 
 /**
  * わんコメにコメントを投稿

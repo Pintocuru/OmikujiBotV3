@@ -1,3 +1,3 @@
 // src/sdk/types/subscribe/index.ts
 
-export * from './SendCommentSchema'
+export * from '@/types/subscribe/SendCommentSchema'

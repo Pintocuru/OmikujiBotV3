@@ -12,16 +12,6 @@
           <p class="text-sm opacity-70 mt-1">{{ description }}</p>
         </div>
 
-        <!-- スイッチ: showToggle が true のときのみ表示 -->
-        <label v-if="showToggle" class="swap swap-rotate">
-          <input type="checkbox" :checked="isEnabled" @change="handleToggle" />
-          <div class="swap-on">
-            <CheckCircle class="w-6 h-6 text-success" />
-          </div>
-          <div class="swap-off">
-            <XCircle class="w-6 h-6 text-base-content/30" />
-          </div>
-        </label>
       </div>
     </div>
   </div>
@@ -29,7 +19,6 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { CheckCircle, XCircle } from 'lucide-vue-next'
   import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
   const props = defineProps<{
@@ -37,12 +26,6 @@
     icon: LucideIconName
     isEnabled: boolean
     description: string
-    featureKey?: string
-    showToggle?: boolean
-  }>()
-
-  const emit = defineEmits<{
-    toggle: [key: string, enabled: boolean]
   }>()
 
   // アイコン名文字列 → Lucideコンポーネントに解決
@@ -50,11 +33,6 @@
 
   // 無効な機能は表示しない
   const isVisible = computed(() => props.isEnabled)
-
-  function handleToggle() {
-    if (!props.featureKey) return
-    emit('toggle', props.featureKey, !props.isEnabled)
-  }
 
   function getAccessLevelClass(enabled: boolean): string {
     return enabled ? 'border-success' : 'border-base-300 opacity-60'

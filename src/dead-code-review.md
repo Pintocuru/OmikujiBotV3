@@ -45,11 +45,7 @@
 
 ### 2-2. 削除候補だが保留(確信度 中)
 
-- `FeatureCard.vue`: `showToggle` / `featureKey` / `toggle` emit 等(使いづらかったため外した経緯あり。削除推奨・承認済み)
-- `ThresholdPreview.vue`: `mode='criteria'` の分岐と i18n `appPreview.threshold.criteriaTitle`(これ以上の拡張予定なし。また名称は threshold から trigger へ変更済み。削除推奨・承認済み)
-- `useVersionCheck.ts`: `isLatest` / `isLoading` 未使用(準備ではなく廃止した内容。削除推奨・承認済み)
 - `useImportManager.ts`: `hasImportedData` / `hasPreviewData` / `loadError` / `resetImportProcess` の未使用、`loadFromJsonData` の `any`(未使用整理と型付け推奨、承認待ち)
-- `sdk/types/subscribe/SendCommentSchema.ts` と `src/types/subscribe/SendCommentSchema.ts` の複製(編集許可済み。`@/types/subscribe` への一本化推奨・承認済み)
 
 ### 2-3. 軽微・整形(確信度 低。挙動に影響なし)
 

@@ -59,26 +59,21 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { CommentTriggerType, CriteriaThresholdType } from '@/types/OmikujiData'
+  import { CommentTriggerType } from '@/types/OmikujiData'
   import { Filter, User, MessageSquare, Shield, Gift, Sigma } from 'lucide-vue-next'
 
-  type TriggerLike = Partial<CommentTriggerType & CriteriaThresholdType>
+  type TriggerLike = Partial<CommentTriggerType>
 
   const { t, te } = useI18n()
 
-  const props = withDefaults(
-    defineProps<{
-      data: { trigger?: TriggerLike; criteria?: TriggerLike | null } | null
-      mode?: 'threshold' | 'criteria' // 'threshold'（発動条件）or 'criteria'（追加発動条件）
-    }>(),
-    { mode: 'threshold' }
-  )
+  const props = defineProps<{
+    data: { trigger?: TriggerLike } | null
+  }>()
 
-  const title = computed(() => (props.mode === 'criteria' ? t('appPreview.threshold.criteriaTitle') : t('appPreview.threshold.title')))
+  const title = computed(() => t('appPreview.threshold.title'))
 
   const trigger = computed<TriggerLike>(() => {
     if (!props.data) return {}
-    if (props.mode === 'criteria') return props.data.criteria ?? {}
     return props.data.trigger ?? {}
   })
 

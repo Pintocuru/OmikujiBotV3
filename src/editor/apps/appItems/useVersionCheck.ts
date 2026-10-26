@@ -9,9 +9,7 @@ const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global
 export interface VersionInfo {
   current: string
   latest: string | null
-  isLatest: boolean
   hasNewVersion: boolean
-  isLoading: boolean
   error: string | null
 }
 
@@ -29,12 +27,6 @@ export function useVersionCheck(currentVersion: Ref<string>) {
     return v ? v.trim().replace(/^v/, '') : null
   }
 
-  // 最新版かどうか
-  const isLatest = computed(() => {
-    if (!latestVersion.value) return true
-    return normalizeVersion(currentVersion.value) === normalizeVersion(latestVersion.value)
-  })
-
   // 新バージョンが存在するか
   const hasNewVersion = computed(() => {
     if (!latestVersion.value) return false
@@ -45,9 +37,7 @@ export function useVersionCheck(currentVersion: Ref<string>) {
   const versionInfo = computed<VersionInfo>(() => ({
     current: currentVersion.value,
     latest: latestVersion.value,
-    isLatest: isLatest.value,
     hasNewVersion: hasNewVersion.value,
-    isLoading: isLoading.value,
     error: error.value,
   }))
 
