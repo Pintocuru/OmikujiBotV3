@@ -11,7 +11,7 @@
   import { computed, ComputedRef } from 'vue'
   import { GameRankingSchema } from '@/types/ui'
   import { storeToRefs } from 'pinia'
-  import { BotMessageRankingType } from '@/types/generator'
+  import { BotMessageRankingType, toRankingEntry } from '@/types/generator'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import GameRankingSelector from './GameRankingSelector.vue'
   import { useGameLogSaver } from './scripts/useGameLogSaver'
@@ -22,7 +22,11 @@
   const rankingSettings = computed(() => GameRankingSchema.parse(appStore.data.ui?.settings?.gameRanking ?? {}))
 
   const rankingMessages: ComputedRef<BotMessageRankingType[]> = computed(() => {
-    return botMessages.value.filter((message): message is BotMessageRankingType => message.type === 'ranking')
+    // UI が受け取る時に、汎用の slots を ranking へコンバートする
+    return botMessages.value.flatMap((message) => {
+      const entry = toRankingEntry(message)
+      return entry ? [entry] : []
+    })
   })
 
   // ランキングに関係するメッセージを受け取るたびに、API でゲームログを保存する

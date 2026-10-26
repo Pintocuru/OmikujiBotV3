@@ -2,11 +2,15 @@
 import { TimerEventType } from '@/types/OmikujiData/'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
+import { checkTimerExpression } from '@/generator/scripts/trigger/checkers/ExpressionChecker'
 
 interface TimerState {
   timerId: number
-  initialTimerId?: number
+  initialTimerId?: number // interval: 初回実行用 / range: 現在予約中のタイマー
 }
+
+/** ランジの抽選単位 (ms) */
+const RANGE_STEP_MS = 500
 
 /**
  * タイマーイベントの実行を管理
@@ -31,11 +35,16 @@ export class EventTimerProcessor {
       .sort((a, b) => a.order - b.order)
 
     enabledTimers.forEach((rule) => {
-      if (rule.mode === 'onStart') {
-        this.executeEvent(rule)
-      } else {
-        // mode === 'interval'（デフォルト）
-        this.startIntervalTimer(rule)
+      switch (rule.mode) {
+        case 'onStart':
+          this.executeEvent(rule)
+          break
+        case 'range':
+          this.startRangeTimer(rule)
+          break
+        default:
+          // mode === 'interval'（デフォルト）
+          this.startIntervalTimer(rule)
       }
     })
   }
@@ -79,10 +88,41 @@ export class EventTimerProcessor {
   }
 
   /**
-   * おみくじを実行して BotMessage をスケジュールする (onStart / interval 共通)
+   * range モード (ランジ): 最短〜最長の間でランダムな間隔で発火
+   * 毎回 setTimeout を張り直す。次の予約を先に行うので、処理時間が間隔に影響しない
+   */
+  private startRangeTimer(rule: TimerEventType): void {
+    const state: TimerState = { timerId: 0 }
+    this.activeTimers.set(rule.key, state)
+
+    const schedule = () => {
+      state.initialTimerId = window.setTimeout(() => {
+        schedule()
+        void this.executeEvent(rule)
+      }, this.pickRangeDelayMs(rule))
+    }
+    schedule()
+  }
+
+  /**
+   * 0.5秒刻みで [最短, 最長] (両端を含む) から待ち時間を抽選
+   * 最短 > 最長 の場合は入れ替えて扱う
+   */
+  private pickRangeDelayMs(rule: TimerEventType): number {
+    const lo = Math.min(rule.rangeMinSeconds, rule.rangeMaxSeconds)
+    const hi = Math.max(rule.rangeMinSeconds, rule.rangeMaxSeconds)
+    const steps = Math.round(((hi - lo) * 1000) / RANGE_STEP_MS)
+    return lo * 1000 + Math.floor(Math.random() * (steps + 1)) * RANGE_STEP_MS
+  }
+
+  /**
+   * おみくじを実行して BotMessage をスケジュールする (onStart / interval / range 共通)
+   * expression (動作条件) が成立しないときはその回の発火をスキップする (タイマー自体は止めない)
    */
   private async executeEvent(event: TimerEventType): Promise<void> {
     try {
+      if (!checkTimerExpression(event.expression)) return
+
       const appStore = useAppStore()
       const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikujiKey, 'timers')
       appStore.scheduleBotMessages(messages)

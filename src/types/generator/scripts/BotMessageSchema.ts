@@ -2,12 +2,13 @@
 import { z } from 'zod'
 import { UserNameSchema } from '@/types/OmikenComment'
 import { DaisyUIColorSchema } from '@/types/core'
+import { UiKindSchema } from '@/types/OmikujiData'
 import { BotMessageBaseSchema } from './BotMessageBaseSchema'
-import { BotMessageRankingSchema } from './BotMessageRankingSchema'
 
 /**
- * ExtraMessageSchema
- * TODO:廃止。ExtraSlotsSchema に役割を託す。
+ * ExtraListsSchema
+ * 評価ブロック {{ }} の解析結果(engine 内部用)。BotMessage には載らない。
+ * TODO:廃止。BotMessageSlotsSchema (slotN) に役割を託す(評価ブロックの書き方が変わるため別作業)。
  */
 export const ExtraListsSchema = z.object({
   listName: z.string().optional(), // 名前
@@ -21,28 +22,27 @@ export const ExtraListsSchema = z.object({
 export type ExtraListsType = z.infer<typeof ExtraListsSchema>
 
 /**
- * TODO:string/number/boolean のunionにし、汎用的にする。
- * どこかのタイミングでコンバータをかまして、
- * BotMessageRankingSchema のような型定義に変換させる。
- * あと、名前も変える。 BotMessageSlotsSchema とか。
+ * BotMessageSlotsSchema
+ * 汎用スロット。slotN が何を意味するかは uiKey ごとの map (BotMessageSlotMap.ts) で決める。
+ * UI が受け取る時に、用途別の型 (BotMessageRankingSchema など) へコンバートする。
  */
-export const ExtraSlotsSchema = z.object({
-  slot0: z.string().optional(),
-  slot1: z.string().optional(),
-  slot2: z.string().optional(),
-  slot3: z.string().optional(),
-  slot4: z.string().optional(),
-  slot5: z.string().optional(),
-  slot6: z.string().optional(),
-  slot7: z.string().optional(),
-  slot8: z.string().optional(),
-  slot9: z.string().optional(),
+const SlotValueSchema = z.union([z.string(), z.number(), z.boolean()])
+export const BotMessageSlotsSchema = z.object({
+  slot0: SlotValueSchema.optional(),
+  slot1: SlotValueSchema.optional(),
+  slot2: SlotValueSchema.optional(),
+  slot3: SlotValueSchema.optional(),
+  slot4: SlotValueSchema.optional(),
+  slot5: SlotValueSchema.optional(),
+  slot6: SlotValueSchema.optional(),
+  slot7: SlotValueSchema.optional(),
+  slot8: SlotValueSchema.optional(),
+  slot9: SlotValueSchema.optional(),
 })
-export type ExtraSlotsType = z.infer<typeof ExtraSlotsSchema>
+export type BotMessageSlotsType = z.infer<typeof BotMessageSlotsSchema>
 
 /**
  * BotBubbleSchema
- * TODO:廃止(GameScriptで作成するので)
  */
 const BotBubbleSchema = z.object({
   name: z.string().nullable().default(null),
@@ -53,69 +53,27 @@ const BotBubbleSchema = z.object({
 })
 
 /**
- * BotMessageBubbleSchema
- * TODO:これを BotMessageSchema とする。
- * user プロパティを追加。
+ * BotMessageSchema(唯一のメッセージ型)
+ * - uiKey: editor が投稿フォームを選ぶ / どの UI が受け取るかを決める (必須)
+ * - bubble も slots も無い = 旧 empty (処理済みの目印)
  */
-export const BotMessageBubbleSchema = BotMessageBaseSchema.extend({
-  type: z.literal('comment').default('comment'),
+export const BotMessageSchema = BotMessageBaseSchema.extend({
+  uiKey: UiKindSchema,
+  user: UserNameSchema.optional(),
+  bubble: BotBubbleSchema.optional(),
+  slots: BotMessageSlotsSchema.optional(),
+})
+export type BotMessageType = z.infer<typeof BotMessageSchema>
+
+/**
+ * BotMessageBubbleSchema
+ * commentBubble の UI が受け取る時の型 (bubble 必須に絞ったもの)
+ */
+export const BotMessageBubbleSchema = BotMessageSchema.extend({
+  uiKey: z.literal('commentBubble').default('commentBubble'),
   bubble: BotBubbleSchema,
-  slots: ExtraSlotsSchema.optional(),
 })
 export type BotMessageBubbleType = z.infer<typeof BotMessageBubbleSchema>
 
-/**
- * BotMessageExtraSchema
- * TODO:廃止。BotMessageBubbleSchema に統合する。
- */
-export const BotMessageExtraSchema = BotMessageBaseSchema.extend({
-  type: z.literal('extra').default('extra'),
-  user: UserNameSchema.optional(),
-  lists: ExtraListsSchema.optional(),
-  slots: ExtraSlotsSchema.optional(),
-})
-export type BotMessageExtraType = z.infer<typeof BotMessageExtraSchema>
-
-/**
- * BotMessageEmptySchema
- * 評価ブロック等、BotMessage が生成されない場合に使用
- * TODO:これを使うのは不自然ではないか？
- */
-export const BotMessageEmptySchema = BotMessageBaseSchema.extend({
-  type: z.literal('empty').default('empty'),
-})
-export type BotMessageEmptyType = z.infer<typeof BotMessageEmptySchema>
-
-// TODO:廃止。ユニオンではなくなる。
-const _BotMessageSchema = z.discriminatedUnion('type', [
-  BotMessageBubbleSchema,
-  BotMessageExtraSchema,
-  BotMessageRankingSchema,
-  BotMessageEmptySchema,
-])
-export type BotMessageType = z.infer<typeof _BotMessageSchema>
-
-/**
-
-TODO:コンバート例。
-
-export const toBotMessageRanking = (
-  base: BotMessageBaseType,
-  user: BotMessageRankingType['user'],
-  slots: ExtraSlotsType,
-): BotMessageRankingType => {
-  return BotMessageRankingSchema.parse({
-    ...base,
-   hoge:{ 
-    type: 'ranking',
-    user,
-    listName: slots.slot0 ?? '',
-    symbol: slots.slot1 ?? '',
-    label: slots.slot2 ?? '',
-    score: Number(slots.slot3),
-   }
-  })
-}
-
-
- */
+export const isBubbleMessage = (msg: BotMessageType): msg is BotMessageBubbleType =>
+  msg.uiKey === 'commentBubble' && !!msg.bubble

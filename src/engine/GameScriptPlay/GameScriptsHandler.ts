@@ -3,7 +3,7 @@ import { OmikenCommentType } from '@/types/OmikenComment'
 import { PostFlowGameType } from '@/types/OmikujiData/'
 
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
-import { BotMessageType } from '@/types/generator'
+import { BotMessageType, fromRankingEntry } from '@/types/generator'
 import { BotMessageGenerator } from '@/engine/OmikujiResult/BotMessageGenerator'
 
 export class GameScriptsHandler {
@@ -30,6 +30,6 @@ export class GameScriptsHandler {
     const processedActions = this.generator.processVariables(actions)
 
     // 3. わんコメへ投稿 & BotMessage を生成
-    return [...scriptMessages, ...this.generator.postAndGenerate(processedActions, omiken, isOnecommePost)]
+    return [...scriptMessages.map(fromRankingEntry), ...this.generator.postAndGenerate(processedActions, omiken, isOnecommePost)]
   }
 }

@@ -34,15 +34,15 @@
 
             <!-- 名前 -->
             <span class="text-lg font-bold truncate" :style="{ color: medal && index < 3 ? '#333' : 'var(--rk-name)' }">
-              {{ msg.listName || msg.user.userName || 'Anonymous' }}
+              {{ msg.slots.listName || msg.user.userName || 'Anonymous' }}
             </span>
             <!-- symbol -->
             <span
-              v-if="msg.symbol"
+              v-if="msg.slots.symbol"
               class="text-base font-semibold truncate ml-2"
               :style="{ opacity: 0.6 }"
             >
-              {{ msg.symbol }}
+              {{ msg.slots.symbol }}
             </span>
           </div>
 
@@ -52,7 +52,7 @@
               class="inline-flex h-8 items-center justify-center rounded-lg px-3 text-lg font-bold"
               :style="scoreBadgeStyle"
             >
-              {{ msg.label || msg.score }}
+              {{ msg.slots.label || msg.slots.score }}
             </div>
           </div>
         </div>
@@ -82,14 +82,14 @@
       switch (props.settings.sortOrder) {
         case 'high':
           data.sort((a, b) => {
-            const diff = b.score - a.score
+            const diff = b.slots.score - a.slots.score
             if (diff !== 0) return diff
             return b.user.timestamp - a.user.timestamp
           })
           break
         case 'low':
           data.sort((a, b) => {
-            const diff = a.score - b.score
+            const diff = a.slots.score - b.slots.score
             if (diff !== 0) return diff
             return b.user.timestamp - a.user.timestamp
           })

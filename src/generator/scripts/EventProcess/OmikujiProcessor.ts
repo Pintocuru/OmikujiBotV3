@@ -127,24 +127,14 @@ export class OmikujiProcessor {
       messages.push(...result)
     }
 
-    return this.attachSource(messages, category, eventKey, item.key, omiken)
+    return this.attachOrigin(messages, omiken)
   }
 
   /**
-   *  source / origin を付与する共通処理
+   * origin を付与する共通処理
    */
-  private attachSource(
-    messages: BotMessageType[],
-    category: EventCategoryType,
-    eventKey: string,
-    omikujiKey: string,
-    omiken?: OmikenCommentType
-  ): BotMessageType[] {
-    return messages.map((m) => ({
-      ...m,
-      source: { category, eventKey, omikujiKey },
-      origin: omiken,
-    }))
+  private attachOrigin(messages: BotMessageType[], omiken?: OmikenCommentType): BotMessageType[] {
+    return messages.map((m) => ({ ...m, origin: omiken }))
   }
 
   /**

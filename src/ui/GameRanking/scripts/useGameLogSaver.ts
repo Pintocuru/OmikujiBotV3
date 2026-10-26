@@ -29,11 +29,11 @@ export const useGameLogSaver = (messages: Ref<BotMessageRankingType[]>, streamId
   let warnedConnection = false
 
   const send = async (ranking: BotMessageRankingType): Promise<void> => {
-    const eventKey = ranking.source?.eventKey
-    if (!eventKey) return // どのイベントの記録かわからないものは保存しない
+    const gameKey = ranking.slots.gameKey
+    if (!gameKey) return // どのゲームの記録かわからないものは保存しない
 
     try {
-      await gameStateApi.appendGameLog(streamId, eventKey, toGameLog(ranking))
+      await gameStateApi.appendGameLog(streamId, gameKey, toGameLog(ranking))
     } catch (error) {
       if (error instanceof ConnectionError) {
         if (!warnedConnection) console.warn('[GameRanking] サーバに接続できないため、ゲームログを保存できません')

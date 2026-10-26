@@ -1,11 +1,11 @@
 // src/engine/OmikujiResult/BotMessageHelpers.ts
 import {
   BotMessageBubbleSchema,
-  BotMessageExtraSchema,
   BotMessageRankingSchema,
+  BotMessageSlotsType,
   BotMessageType,
-  ExtraSlotsType,
   VariablePlaceholderExtra,
+  fromRankingEntry,
 } from '@/types/generator'
 import { PostFlowMessageType } from '@/types/OmikujiData'
 import { CharacterResolver } from '../CharacterResolver/CharacterResolver'
@@ -22,8 +22,6 @@ export function createBotMessagesFromAction(
   omiken?: OmikenCommentType
 ): BotMessageType[] {
   const message = action.message || ''
-  const hasRanking = !!extra?.lists || !!extra?.slots
-
   const messages: BotMessageType[] = []
 
   // 評価ブロックだけのメッセージ (評価後に本文が空) は、吹き出しを作らない
@@ -34,7 +32,7 @@ export function createBotMessagesFromAction(
   }
 
   // Rankingメッセージ
-  if (hasRanking) messages.push(...createRankingMessages(delaySeconds, extra, omiken))
+  if (extra?.lists) messages.push(...createRankingMessages(delaySeconds, extra, omiken))
 
   return messages
 }
@@ -47,8 +45,7 @@ export function createBotMessagesFromVariable(
   delaySeconds: number,
   omiken?: OmikenCommentType
 ): BotMessageType[] {
-  const hasRanking = extra?.lists || extra?.slots
-  return hasRanking ? createRankingMessages(delaySeconds, extra, omiken) : []
+  return extra?.lists ? createRankingMessages(delaySeconds, extra, omiken) : []
 }
 
 /**
@@ -60,7 +57,7 @@ function createBubbleMessage(
   message: string,
   delaySeconds: number,
   characterResolver?: CharacterResolver,
-  slots?: ExtraSlotsType
+  slots?: BotMessageSlotsType
 ): BotMessageType {
   const resolved = characterResolver?.resolveCharacter({ characterKey, iconKey })
   const character = resolved && characterResolver?.getCharacter(resolved.characterKey)
@@ -79,32 +76,27 @@ function createBubbleMessage(
 
 /**
  * Rankingメッセージを生成
- * - user と lists.order がある場合: type 'ranking' (lists.slots があれば slots だけの 'extra' を別に作る)
- * - user がない場合 (定期的なお知らせなど) や order がない場合: 従来どおりの 'extra'。記録の対象にはならない
+ * - user と lists.order がある場合だけ作る (uiKey 'gameRanking')。
+ * - user がない場合 (定期的なお知らせなど) や order がない場合は作らない (記録の対象にならない)。
  */
 function createRankingMessages(
   delaySeconds: number,
   extra: VariablePlaceholderExtra,
   omiken?: OmikenCommentType
 ): BotMessageType[] {
-  const { lists, slots } = extra
+  const { lists } = extra
   const user = omiken ? UserNameSchema.parse(omiken) : undefined
+  if (!user || typeof lists?.order !== 'number') return []
 
-  if (user && typeof lists?.order === 'number') {
-    const ranking = BotMessageRankingSchema.safeParse({
-      delaySeconds,
-      user,
+  const ranking = BotMessageRankingSchema.safeParse({
+    delaySeconds,
+    user,
+    slots: {
       listName: lists.listName || user.userName,
       symbol: lists.symbol,
       label: lists.text,
       score: lists.order,
-    })
-    if (ranking.success) {
-      const messages: BotMessageType[] = [ranking.data]
-      if (slots) messages.push(BotMessageExtraSchema.parse({ delaySeconds, slots, user }))
-      return messages
-    }
-  }
-
-  return [BotMessageExtraSchema.parse({ delaySeconds, lists, slots, user })]
+    },
+  })
+  return ranking.success ? [fromRankingEntry(ranking.data)] : []
 }

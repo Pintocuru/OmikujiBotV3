@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'
-import type { BotMessageBubbleType } from '@/types/generator'
+import { isBubbleMessage, type BotMessageBubbleType } from '@/types/generator'
 import type { UiKind } from '@/types/OmikujiData'
 
 type Options = {
@@ -46,7 +46,7 @@ export function useFilteredBotMessages(kind: UiKind, options: Options = {}) {
     if (!isKindEnabled.value) return []
 
     return botMessages.value.flatMap((msg) => {
-      if (msg.type !== 'comment') return []
+      if (!isBubbleMessage(msg)) return []
       if (!allowEmpty && !msg.bubble.message?.trim()) return []
       return [buildMessage(msg)]
     })

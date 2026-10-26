@@ -1,7 +1,7 @@
 // src/generator/scripts/EventProcess/CommentProcessor.ts
 import { CommentEventType, MikujiItemsType } from '@/types/OmikujiData/'
 import { OmikenCommentType } from '@/types/OmikenComment'
-import { BotMessageEmptySchema, BotMessageType } from '@/types/generator'
+import { BotMessageSchema, BotMessageType } from '@/types/generator'
 
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
@@ -64,7 +64,7 @@ export class EventCommentProcessor {
     const handled = this.control.process(selectedItem, omiken)
     if (handled !== null) {
       // return: 空メッセージで以降のイベントを止める / continue: 次のイベントへ
-      return handled ? [BotMessageEmptySchema.parse({})] : []
+      return handled ? [BotMessageSchema.parse({ uiKey: 'commentBubble' })] : []
     }
 
     // 通常アクション (postFlow のみ到達)

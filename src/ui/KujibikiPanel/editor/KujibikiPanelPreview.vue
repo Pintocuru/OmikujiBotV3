@@ -56,7 +56,7 @@
     return [
       {
         id: `mock-${currentIndex.value}`,
-        type: 'comment',
+        uiKey: 'commentBubble',
         timestamp: new Date().toISOString(),
         delaySeconds: 0,
         bubble: {

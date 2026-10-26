@@ -2,8 +2,8 @@
 import {
   ExtraListsSchema,
   ExtraListsType,
-  ExtraSlotsSchema,
-  ExtraSlotsType,
+  BotMessageSlotsSchema,
+  BotMessageSlotsType,
   VariablePlaceholderResult,
 } from '@/types/generator'
 import { PlaceholderVariableType } from '../types/VariablePlaceholder'
@@ -93,7 +93,7 @@ export class VariablePlaceholderProcessor {
    */
   private buildExtraData(vars: Record<string, string>): {
     lists?: ExtraListsType
-    slots?: ExtraSlotsType
+    slots?: BotMessageSlotsType
   } {
     const slotEntries: Record<string, string> = {}
     for (let i = 0; i <= 9; i++) {
@@ -107,7 +107,7 @@ export class VariablePlaceholderProcessor {
     if (!hasSlots && !hasListData) return {}
 
     let lists: ExtraListsType | undefined
-    let slots: ExtraSlotsType | undefined
+    let slots: BotMessageSlotsType | undefined
 
     try {
       if (hasListData) {
@@ -121,7 +121,7 @@ export class VariablePlaceholderProcessor {
         })
       }
       if (hasSlots) {
-        slots = ExtraSlotsSchema.parse(slotEntries)
+        slots = BotMessageSlotsSchema.parse(slotEntries)
       }
       return { lists, slots }
     } catch (error) {

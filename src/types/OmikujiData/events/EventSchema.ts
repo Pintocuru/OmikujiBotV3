@@ -28,7 +28,8 @@ export type CommentEventType = z.infer<typeof CommentEventSchema>
  */
 export const TimerEventSchema = BaseEventSchema.extend({
   kind: z.literal('timers').default('timers'), // イベントタイプ（タイマー）
-  mode: z.enum(['interval', 'onStart']).default('interval'), // モード
+  // モード: interval=一定間隔 / onStart=開始時に1回 / range=ランジ(最短〜最長のランダム間隔)
+  mode: z.enum(['interval', 'onStart', 'range']).default('interval'),
 
   // 間隔時間（秒）
   intervalSeconds: z
@@ -37,7 +38,15 @@ export const TimerEventSchema = BaseEventSchema.extend({
     .max(60 * 60)
     .default(60 * 5)
     .catch(60 * 5),
-  isBaseZero: z.boolean().default(false).catch(false), // 0時0分を基準にするか
+  isBaseZero: z.boolean().default(false).catch(false), // 0時0分を基準にするか (range では無視)
+
+  // ランジ (mode === 'range' のとき使用)。0.5秒刻み、最大60秒
+  // 大小関係 (min > max) はスキーマでは見ず、TimerProcessor 側で入れ替えて扱う
+  rangeMinSeconds: z.number().min(1).max(60).multipleOf(0.5).default(5).catch(5),
+  rangeMaxSeconds: z.number().min(1).max(60).multipleOf(0.5).default(60).catch(60),
+
+  // 動作条件 (評価ブロック)。空なら条件なし = 常に動作。全モード共通
+  expression: z.string().default('').catch(''),
 })
 export type TimerEventType = z.infer<typeof TimerEventSchema>
 

@@ -25,7 +25,7 @@ export class ExecuteScript implements ScriptClass {
     // PostActionの構築
     const postActions = buildPostActions({
       bubble: gameResult.bubble,
-      score: gameResult.rankingMessage.score,
+      score: gameResult.rankingMessage.slots.score,
       characterKey,
     })
 

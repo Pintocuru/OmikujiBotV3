@@ -120,17 +120,15 @@ export const generateDummyMessages = (
     const points = randInt(min, max)
     return BotMessageRankingSchema.parse({
       user: { userName: listName, userId: listName },
-      listName,
-      label: String(points),
-      score: points,
+      slots: { listName, label: String(points), score: points },
     })
   })
 
   switch (settings.sortOrder) {
     case 'high':
-      return messages.sort((a, b) => b.score - a.score)
+      return messages.sort((a, b) => b.slots.score - a.slots.score)
     case 'low':
-      return messages.sort((a, b) => a.score - b.score)
+      return messages.sort((a, b) => a.slots.score - b.slots.score)
     case 'new':
     default:
       return messages

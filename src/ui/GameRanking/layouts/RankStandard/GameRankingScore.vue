@@ -25,11 +25,11 @@
           <!-- コンテンツ -->
           <div class="relative z-10 text-center" :style="{ color: 'var(--rk-text)' }">
             <h3 class="text-2xl font-bold mb-3" :style="{ color: 'var(--rk-name)' }">
-              {{ latestMessage.listName || latestMessage.user.userName }}
+              {{ latestMessage.slots.listName || latestMessage.user.userName }}
             </h3>
             <p class="text-base opacity-80">スコア</p>
             <div class="text-6xl font-bold">
-              {{ formatScore(latestMessage.score) }}
+              {{ formatScore(latestMessage.slots.score) }}
             </div>
           </div>
         </div>
