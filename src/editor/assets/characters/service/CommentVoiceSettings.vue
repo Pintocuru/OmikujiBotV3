@@ -7,7 +7,7 @@
       @change="updateDisplayField('mode', ($event.target as HTMLSelectElement).value)"
       class="select select-bordered w-full max-w-xs"
     >
-      <option v-for="(value, key) in displayModeMap" :key="key" :value="key">
+      <option v-for="(_, key) in displayModeMap" :key="key" :value="key">
         {{ t(`mapText.displayMode.${key}.label`) }}
       </option>
     </select>

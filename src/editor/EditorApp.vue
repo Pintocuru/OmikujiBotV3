@@ -1,6 +1,6 @@
 <!-- src/editor/EditorApp.vue -->
 <template>
-  <div class="flex min-h-screen" :data-theme="daisyUiTheme">
+  <div class="flex min-h-screen">
     <!-- サイドバー -->
     <NavigationSidebar />
 
@@ -56,7 +56,6 @@
   const navigationStore = useNavigationStore()
 
   // テーマと、データ未読込(開発版の起動直後)かどうかの判定
-  const daisyUiTheme = computed(() => data.value.settings.developer.daisyUiTheme)
   const isDevWorld = computed(() => dataSource.value === 'unknown')
 
   // 言語設定を vue-i18n に反映(データ読み込み時・設定変更時)

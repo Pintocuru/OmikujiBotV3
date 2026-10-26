@@ -12,7 +12,7 @@
     <div class="space-y-1">
       <label class="text-xs text-base-content/60">{{ t('characterImage.animation.type') }}</label>
       <select class="select select-xs w-full" v-model="localAnimation.type" @change="applyAnimation">
-        <option v-for="(value, key) in loopMotionMap" :key="key" :value="key">
+        <option v-for="(_, key) in loopMotionMap" :key="key" :value="key">
           {{ t(`mapText.loopMotion.${key}.label`) }}
         </option>
       </select>

@@ -15,7 +15,7 @@
   <!-- 条件 -->
   <SettingItem icon="Activity" :label="t('reactionTrigger.conditionLabel')" :description="t('reactionTrigger.conditionDescription')">
     <select class="select select-bordered select-sm w-full" v-model="comparison">
-      <option v-for="(v, key) in reactionConditionMap" :key="key" :value="key">
+      <option v-for="(_, key) in reactionConditionMap" :key="key" :value="key">
         {{ t(`mapText.reactionCondition.${key}.label`) }}
       </option>
     </select>

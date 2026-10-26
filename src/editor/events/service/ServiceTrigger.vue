@@ -3,7 +3,7 @@
   <!-- 条件タイプ選択（単一選択） -->
   <SettingItem icon="Filter" :label="t('serviceTrigger.conditionLabel')" :description="t('serviceTrigger.conditionDescription')">
     <div class="flex flex-wrap gap-2">
-      <label v-for="(value, key) in serviceTriggerConditionMap" :key="key" class="cursor-pointer">
+      <label v-for="(_, key) in serviceTriggerConditionMap" :key="key" class="cursor-pointer">
         <input type="radio" class="hidden" :checked="selectedCondition === key" @change="setCondition(key)" />
         <span class="badge badge-lg select-none" :class="selectedCondition === key ? 'badge-primary' : 'badge-ghost'">
           {{ t(`serviceTrigger.conditions.${key}`) }}

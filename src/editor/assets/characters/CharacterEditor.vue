@@ -88,7 +88,7 @@
   }
 
   // アクティブなセクションの管理
-  type SectionType = 'baseSettings' | 'colorSettings' | 'commentVoice' | 'serviceSettings' | 'imageSettings' | null
+  type SectionType = 'baseSettings' | 'colorSettings' | 'commentVoice' | 'imageSettings' | null
   const navigationStore = useNavigationStore()
   const { selectedItemKey, activeSection } = storeToRefs(navigationStore)
 

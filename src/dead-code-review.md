@@ -12,66 +12,66 @@
 
 ## 1. 消してはいけない(削除不可・保持)
 
-| 対象                                                                               | 理由                                                                                                                                                            |
-| ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `isCommentMode`(`usePlaceholderEditor` / `MessageTextDialog`)                      | `LiveClockEditor.vue` が false 側を使用                                                                                                                         |
-| `apps/dataPacks/` 一式                                                             | 将来のアップデートで使用(TODO 記載済み)                                                                                                                         |
-| `sdk/control/StopSpeech.ts`                                                        | 将来の読み上げ停止機能で使用(TODO 追記済み)                                                                                                                     |
-| `ui/GameRanking/.../MessageService.ts`                                             | LiveConsole 用の TODO あり                                                                                                                                      |
-| `ui/common/useStreamCounters.ts` の `const _ = previewTick.value`                  | `watchEffect` の依存を張る意図的な読み取り                                                                                                                      |
-| `PostActionPreview.vue` の `const _ = messageKey.value`                            | 同上(意図的)                                                                                                                                                    |
-| `MessagePreviewPanel.vue` の try/catch                                             | 防衛的コードとして残す                                                                                                                                          |
-| `events/trigger/TriggerUserId.vue`                                                 | 判定側 `TriggerChecker.ts` に `userIds` 実装済み。UI が未接続なだけ(要:接続するか判断)                                                                          |
-| `ServiceTriggerCondition.vue` の `hasPeak` / `serviceSimpleComparisonConditionMap` | 将来用として保持                                                                                                                                                |
-| `MikujiEditor` と `MikujiSettings` の Character/IconKey ボタン二段構成             | 意図的な UI(全体一括 vs アイテム単位)                                                                                                                           |
-| `LogRank`                                                                          | 廃止予定だがそのまま残す                                                                                                                                        |
-| `common/MockUser/maps/MockUser{Ch,En,Kr,Th}Maps.ts`                                | 多言語対応の準備                                                                                                                                                |
-| `common/DraggableWrapper` 依存 `vue-draggable-plus`                                | `EmotionGrid.vue` / `WeightBar.vue` が使用中                                                                                                                    |
-| `server/presets` の JSON                                                           | 旧形式データ。データ起因のエラーは正常扱い                                                                                                                      |
-| `games/scripts/DwarfBomb/game.ts`(クラス `DwarfBomb`)                              | 参照ゼロだが、冒頭に「使用しない(バックアップ用)」と明記。実際に使うのは `DwarfBomb/game/game.ts`                                                               |
-| `games/scripts/FortuneRanking/game.ts`                                             | `BomberSpin/game.ts` の複製で `execute.ts` から未使用。意図が判断できないため保持(登録済み。占いランキングを作る拡張スクリプトで、エンジンには組み込まない方針) |
-| `games/scripts/HugEmAll/CharacterPrompt.md`                                        | キャラクター用プロンプトの資料                                                                                                                                  |
-| `games/types/GameScriptTypes.ts` の `ScriptPreset`                                 | 参照ゼロだが、旧プリセット形式の名残か判断できないため保持                                                                                                      |
-| `GoogolClover/sub/constants.ts` の `MIN_SPINS` / `MAX_SPINS`                       | コメントアウトした抽選回数ランダム化の行が参照。復活の意図あり                                                                                                  |
+| 対象                                                                                                                           | 理由                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `isCommentMode`(`usePlaceholderEditor` / `MessageTextDialog`)                                                                  | `LiveClockEditor.vue` が false 側を使用                                                                                                                         |
+| `apps/dataPacks/` 一式                                                                                                         | 将来のアップデートで使用(TODO 記載済み)                                                                                                                         |
+| `sdk/control/StopSpeech.ts`                                                                                                    | 将来の読み上げ停止機能で使用(TODO 追記済み)                                                                                                                     |
+| `ui/GameRanking/.../MessageService.ts`                                                                                         | LiveConsole 用の TODO あり                                                                                                                                      |
+| `ui/common/useStreamCounters.ts` の `const _ = previewTick.value`                                                              | `watchEffect` の依存を張る意図的な読み取り                                                                                                                      |
+| `PostActionPreview.vue` の `const _ = messageKey.value`                                                                        | 同上(意図的)                                                                                                                                                    |
+| `MessagePreviewPanel.vue` の try/catch                                                                                         | 防衛的コードとして残す                                                                                                                                          |
+| `events/trigger/TriggerUserId.vue`                                                                                             | 判定側 `TriggerChecker.ts` に `userIds` 実装済み。UI が未接続なだけ(要:接続するか判断)                                                                          |
+| `ServiceTriggerCondition.vue` の `hasPeak` / `serviceSimpleComparisonConditionMap`                                             | 将来用として保持                                                                                                                                                |
+| `MikujiEditor` と `MikujiSettings` の Character/IconKey ボタン二段構成                                                         | 意図的な UI(全体一括 vs アイテム単位)                                                                                                                           |
+| `LogRank`                                                                                                                      | 廃止予定だがそのまま残す                                                                                                                                        |
+| `common/MockUser/maps/MockUser{Ch,En,Kr,Th}Maps.ts`                                                                            | 多言語対応の準備                                                                                                                                                |
+| `common/DraggableWrapper` 依存 `vue-draggable-plus`                                                                            | `EmotionGrid.vue` / `WeightBar.vue` が使用中                                                                                                                    |
+| `server/presets` の JSON                                                                                                       | 旧形式データ。データ起因のエラーは正常扱い                                                                                                                      |
+| `games/scripts/DwarfBomb/game.ts`(クラス `DwarfBomb`)                                                                          | 参照ゼロだが、冒頭に「使用しない(バックアップ用)」と明記。実際に使うのは `DwarfBomb/game/game.ts`                                                               |
+| `games/scripts/FortuneRanking/game.ts`                                                                                         | `BomberSpin/game.ts` の複製で `execute.ts` から未使用。意図が判断できないため保持(登録済み。占いランキングを作る拡張スクリプトで、エンジンには組み込まない方針) |
+| `games/scripts/HugEmAll/CharacterPrompt.md`                                                                                    | キャラクター用プロンプトの資料                                                                                                                                  |
+| `games/types/GameScriptTypes.ts` の `ScriptPreset`                                                                             | 参照ゼロだが、旧プリセット形式の名残か判断できないため保持                                                                                                      |
+| `GoogolClover/sub/constants.ts` の `MIN_SPINS` / `MAX_SPINS`                                                                   | コメントアウトした抽選回数ランダム化の行が参照。復活の意図あり                                                                                                  |
+| `stores`(`hasEvent` / `clearSelection` / `clearAssets` / `updatePlaceholderValues`)                                            | CRUD 操作の対称性維持のため保持                                                                                                                                 |
+| `parts`(`SettingItem` / `InformationCard.icon` / `HudPreview.hudLeft` / `MenuDropdown.disableDelete` / `CharacterPicker.size`) | 共通 UI 部品としての対称性・将来の拡張性のため保持                                                                                                              |
+| `GeneratorStage.vue`(`BackgroundKey` の `'green'` / `BG_STYLES.green`)                                                         | クロマキー背景の将来用設定として保持                                                                                                                            |
+| `engine/ContentPlaceholder/processor.ts`(`clearResolvedValues`)                                                                | インターフェースの整合性・CRUD 的対称性のため保持                                                                                                               |
+| `GameScriptManager.ts`(`allReset` / `listAvailableScripts`)                                                                    | スクリプト管理 API の対称性のため保持                                                                                                                           |
+| `generator/stores/UserStats/UserStatsManager.ts`(`getLatest`)                                                                  | LiveConsole 等の将来用として保持                                                                                                                                |
+| `dataPacks/useDataPacks.ts` の `error`                                                                                         | 将来のデータパック読込エラーハンドリング用として保持                                                                                                            |
+| `src/リポジトリのデッドコードを調査し、不要なコードを削除してください.md`                                                      | 依頼文の記録として保持(操作・削除しない)                                                                                                                        |
 
 ## 2. 未実行(報告のみ・要判断)
 
 ### 2-1. 不具合の疑い(デッドコードではない。要修正か仕様確認)
 
-- `MessageSettings.vue:48`: `const { data } = useOmikujiStore()` の分割代入でリアクティビティ喪失の恐れ(`storeToRefs` 推奨)
-- `EmotionAnimationEditor.vue`: `duration` / `loop` の変更が emit されない(`type` の `@change` 経由でしか保存されない)
-- `EmotionLayerEditor.vue`: `handleSetDefaultPath` が常に index 0 のレイヤーを書き換える
-- `CommentVoiceSettings.vue`: props 由来の computed を `v-model` で直接ミューテーション
-- `EmotionGrid.vue:64` `normalizeKey`: 数字キーに `k` を付与して emit(キー比較不一致の恐れ)
-- `DelaySecondsAdjuster.vue`: 調整後のソートで `activeTab` の index がずれうる
-- `PostActionsTabs.vue`: `<button>` の中に `MenuDropdown`(`<button>`)をネスト(HTML 違反)
-- `OmikujiItemCriteria.vue` と `useOmikujiLottery.ts` の条件判定ロジックが重複(統一はリファクタ)
-- `ActionSetSettings.vue`: `currentKey` が渡されず常に `undefined`(自己参照ショートカットが無効。バグ修正か削除かは設計確認)
-- `OmikenCommentProcessor`(`sdk/subscribe/OmikenComment/OmikenCommentProcessor.ts`): `roles.has('anonymity')` に到達しない(匿名判定の抜けの可能性)
-- `useTestPost.ts` の `postTestOmikuji`: `priorityItems` が `!item.lottery.isPriority` で絞っており条件が逆に見える(仕様確認)
-- `SectionCard.vue`: `toggle` emit / `isOpen` が未実装で、呼び出し側の `@toggle` / `:isOpen` が no-op(折りたたみを実装するか一斉削除するか)
+- `CommentVoiceSettings.vue`: props 由来の computed を `v-model` で直接ミューテーション(現状維持だが大きな問題。単方向データフロー違反の解消が必要)
+- `OmikujiItemCriteria.vue` と `useOmikujiLottery.ts` の条件判定ロジックが重複(現状維持だが、次の機会に共通化リファクタを行う)
+- `MessageSettings.vue:48`: `const { data } = useOmikujiStore()` の分割代入でリアクティビティ喪失の恐れ(`storeToRefs` または store 参照推奨、承認待ち)
+- `EmotionAnimationEditor.vue`: `duration` / `loop` の変更が emit されない(`@change="applyAnimation"` 追加推奨、承認待ち)
+- `EmotionLayerEditor.vue`: `handleSetDefaultPath` が常に index 0 のレイヤーを書き換える(引数 index を渡す修正推奨、承認待ち)
+- `EmotionGrid.vue:64` `normalizeKey`: 数字キーに `k` を付与して emit(キー比較不一致の恐れ。接頭辞付与見直し推奨、承認待ち)
+- `DelaySecondsAdjuster.vue`: 調整後のソートで `activeTab` の index がずれうる(新 index 追跡推奨、承認待ち)
+- `PostActionsTabs.vue`: `<button>` の中に `MenuDropdown`(`<button>`)をネスト(HTML 違反。タブ親要素の `div role="tab"` 化推奨、承認待ち)
+- `ActionSetSettings.vue`: `currentKey` が渡されず常に `undefined`(親からの `currentKey` 伝播推奨、承認待ち)
+- `OmikenCommentProcessor`(`sdk/subscribe/OmikenComment/OmikenCommentProcessor.ts`): `roles.has('anonymity')` に到達しない(匿名判定見直し推奨、承認待ち)
+- `useTestPost.ts` の `postTestOmikuji`: `priorityItems` が `!item.lottery.isPriority` で絞っており条件が逆に見える(論理反転修正推奨、承認待ち)
+- `SectionCard.vue`: `toggle` emit / `isOpen` が未実装で、呼び出し側の `@toggle` / `:isOpen` が no-op(開閉アコーディオンは削除。承認待ち)
 
 ### 2-2. 削除候補だが保留(確信度 中)
 
-- `stores`: `hasEvent` / `clearSelection` / `clearAssets` / `updatePlaceholderValues`(+ `WeightValuesArraySchema`)。CRUD の対称性のため残している可能性
-- `parts`: `SettingItem` の `showWarning` / `helpUrl` / `helpLabel` / slot `label-extra`、`InformationCard.icon`、`HudPreview` の slot `hudLeft`、`MenuDropdown.disableDelete`、`CharacterPicker.size`(関連 i18n `appInfoEditor.settings.common.warning` / `help`)
-- `FeatureCard.vue`: `showToggle` / `featureKey` / `toggle` emit 等(呼び出し側が固定値で到達しない)
-- `ThresholdPreview.vue`: `mode='criteria'` の分岐と i18n `appPreview.threshold.criteriaTitle`
-- `useVersionCheck.ts`: `isLatest` / `isLoading` 未使用。`PackageSystemInfo` は URL 取得のためだけに呼んでいる
-- `dataPacks/useDataPacks.ts`: `error` が常に `null`
-- `useImportManager.ts`: `hasImportedData` / `hasPreviewData` / `loadError` / `resetImportProcess` の未使用、`loadFromJsonData` の `any`
-- `GeneratorStage.vue`: `BackgroundKey` の `'green'` と `BG_STYLES.green`(クロマキー背景を戻す予定の可能性)
-- `engine/ContentPlaceholder/processor.ts` の `clearResolvedValues`(`clear()` と同一処理)、`GameScriptManager.ts` の `allReset` / `listAvailableScripts`(消すなら `getRegisteredGameScriptKeys` の import も不要)
-- `generator/stores/UserStats/UserStatsManager.ts` の `getLatest`(LiveConsole 用の可能性)
-- `sdk/types/subscribe/SendCommentSchema.ts` と `src/types/subscribe/SendCommentSchema.ts` の複製(`PostOneComme.ts` の import を `@/types/subscribe` に寄せて削除する案。`platform` の `.default('youtube')` 差で挙動が変わりうるため意図確認)
-- `src/リポジトリのデッドコードを調査し、不要なコードを削除してください.md`(依頼文のコピー): **削除してよいか確認が必要**
+- `FeatureCard.vue`: `showToggle` / `featureKey` / `toggle` emit 等(使いづらかったため外した経緯あり。削除推奨・承認済み)
+- `ThresholdPreview.vue`: `mode='criteria'` の分岐と i18n `appPreview.threshold.criteriaTitle`(これ以上の拡張予定なし。また名称は threshold から trigger へ変更済み。削除推奨・承認済み)
+- `useVersionCheck.ts`: `isLatest` / `isLoading` 未使用(準備ではなく廃止した内容。削除推奨・承認済み)
+- `useImportManager.ts`: `hasImportedData` / `hasPreviewData` / `loadError` / `resetImportProcess` の未使用、`loadFromJsonData` の `any`(未使用整理と型付け推奨、承認待ち)
+- `sdk/types/subscribe/SendCommentSchema.ts` と `src/types/subscribe/SendCommentSchema.ts` の複製(編集許可済み。`@/types/subscribe` への一本化推奨・承認済み)
 
 ### 2-3. 軽微・整形(確信度 低。挙動に影響なし)
 
 - `v-for="(value, key)"` 等の未使用変数 10 件(`_` 化): `InlinePlaceholderDialog` / `SoundSettings` / `EmotionAnimationEditor` / `EmotionPresetButtons` / `CommentVoiceSettings` / `OmikujiItemEditor`(2) / `ReactionTriggerEditor` / `ServiceTrigger` ほか
 - 呼び出し元ゼロの戻り値: `useBoxOmikujiList.box`、`usePlaceholderEditor` の `placeholderMap` / `PLACEHOLDER_ID_PATTERN`、`useWeightValueManagement.updateValue`、`useEmotionDraft` の `draftItemFor` / `removeKey`
 - `WordPartyTestButton.vue` の `pattern` prop(`:pattern="null"` 固定)
-- `CharacterEditor.vue` の `SectionType` の `'serviceSettings'`
 - `PostFlowsEditor.vue` の冗長条件(`modelValue.length > 0 && activeTab >= 0`)
 - 参照のない `export`(外すだけ): `useSidebarSectionMap.useUiSections`、`SidebarType.CategoryGroupId`、`evaluationStats` の `*Summary`、`useKeyEditor` 系の `validateKey*`、`ServiceTriggerEvaluator` / `DefaultPlaceholderBuilder` / `ExpressionChecker` / `ExpressionEvaluator` / `baseApiClient.ApiError` / `summarizeState` の一部、`OmikenCommentProcessor` の `isCommentTester` / `convertToJPY`、`common` の `UnsupportedKeyType` ほか
 - 型の整理: `InformationCard` の `VARIANT_ICON: any`、`ContentArea` の `editorMap: any`
@@ -80,8 +80,7 @@
 - `ConfigImportModal.vue` の computed 内副作用、`ComponentConfigSection.vue` の `<label>` ネスト
 - `VirtualStreamPanel.vue` の `?.` の不統一・`cursor-pointer` 抜け、`TestComment.vue` の `burstSend` の不要な `async`
 - 日本語直書き(i18n 外): `BaseTagEditor` / `JsonMerge/*` / `dev/` / `shell/` / `EditorApp.vue`(文言追加を伴うため対象外)
-- `JsonMergeRemapEditor.vue` の元キャラキー `omiken` / `omiken2` 固定(仕様の可能性)
-- `App.vue` と `EditorApp.vue` の `data-theme` 二重指定(意図的)
+- `JsonMergeRemapEditor.vue` の元キャラキー `omiken` / `omiken2` 固定(仕様。ただし、ハードコードではなく設定ファイルから読み込めるようにしたほうが良い。)
 - Prettier 差分が 8 ファイルに残存(`GetReactions.ts` ほか)
 - `validateAgainstBuild.ts:106` の空のアロー関数(eslint 警告 1。意図的な no-op の可能性)
 - `src/types` の参照ゼロ型 19 件(`ServiceType` / `BotMessageExtraType` / `UiSettingsType` ほか。編集不可のため報告のみ)

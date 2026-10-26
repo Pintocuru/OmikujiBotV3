@@ -3,7 +3,7 @@
   <div class="flex flex-wrap gap-1">
     <span class="text-xs text-base-content/50 self-center mr-1">{{ t('characterImage.preset.label') }}</span>
     <button
-      v-for="(value, key) in characterEmotionMap"
+      v-for="(_, key) in characterEmotionMap"
       :key="key"
       type="button"
       class="btn btn-xs"

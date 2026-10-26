@@ -7,7 +7,7 @@
   <SettingItem icon="Zap" v-if="shouldShowKindSelector" label="実行内容" description="このおみくじの処理内容を選択します">
     <div class="flex flex-wrap gap-2">
       <span
-        v-for="(option, key) in omikujiItemKindMap"
+        v-for="(_, key) in omikujiItemKindMap"
         :key="key"
         class="badge cursor-pointer select-none"
         :class="omikujiItem.kind === key ? 'badge-primary' : 'badge-ghost'"
@@ -27,7 +27,7 @@
   >
     <div class="flex flex-wrap gap-2">
       <span
-        v-for="(option, command) in omikujiControlCommandMap"
+        v-for="(_, command) in omikujiControlCommandMap"
         :key="command"
         class="badge cursor-pointer select-none"
         :class="omikujiItem.command === command ? 'badge-primary' : 'badge-ghost'"

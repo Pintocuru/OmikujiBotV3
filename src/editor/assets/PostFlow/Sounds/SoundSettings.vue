@@ -4,7 +4,7 @@
     <!-- プリセット選択 -->
     <select v-model="sound" class="select select-bordered select-sm w-full">
       <option value="">{{ t('postFlow.common.none') }}</option>
-      <option v-for="(value, key) in soundMap" :key="key" :value="key">{{ t(`mapText.sound.${key}`) }} ({{ key }})</option>
+      <option v-for="(_, key) in soundMap" :key="key" :value="key">{{ t(`mapText.sound.${key}`) }} ({{ key }})</option>
     </select>
   </SettingItem>
 
