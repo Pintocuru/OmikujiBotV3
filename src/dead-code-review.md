@@ -1,39 +1,38 @@
-# dead-code-review.md(圧縮版)— OmikujiBotV3
+# dead-code-review.md — OmikujiBotV3
 
-最終更新: 2026-10-26(patch 23 時点)。**実行済みの修正は記載しない**。ここにあるのは「未実行の項目」「消してはいけない項目」「次にやること」だけ。
+最終更新: 2026-10-26。**実行済みの修正は記載しない**。ここにあるのは「未実行の項目」「消してはいけない項目」「次にやること」だけ。
 
 ## 0. 調査対象外・方針
 
 - `src/ui`(移行中)、`src/console`、`src/plugin`: 調査しない
-- `src/games`: patch 19 で全 48 ファイルを精読済み(下記 2-4)。今後は触らない
+- `src/games`: 全 48 ファイルを精読済み(下記 2-4)。今後は触らない
 - `src/types`: 編集不可(報告のみ)。`src/types/api` は編集可だが作成途中のため保留
 - テスト(vitest / `*.test.ts`)・ビルド設定(Webpack は正式版で廃止予定): 対象外
-- 確信度が高いものだけ修正し、中・低は報告のみ。コミット・プッシュはしない(`.patch` で提出)
+- 確信度が高いものだけ修正し、中・低は報告のみ。コミット・プッシュはしない(変更は作業ツリーに残す)
 
 ## 1. 消してはいけない(削除不可・保持)
 
-| 対象 | 理由 |
-| --- | --- |
-| `isCommentMode`(`usePlaceholderEditor` / `MessageTextDialog`) | `LiveClockEditor.vue` が false 側を使用 |
-| `apps/dataPacks/` 一式 | 将来のアップデートで使用(TODO 記載済み) |
-| `sdk/control/StopSpeech.ts` | 将来の読み上げ停止機能で使用(TODO 追記済み) |
-| `ui/GameRanking/.../MessageService.ts` | LiveConsole 用の TODO あり |
-| `ui/common/useStreamCounters.ts` の `const _ = previewTick.value` | `watchEffect` の依存を張る意図的な読み取り |
-| `PostActionPreview.vue` の `const _ = messageKey.value` | 同上(意図的) |
-| `MessagePreviewPanel.vue` の try/catch | 防衛的コードとして残す |
-| `events/trigger/TriggerUserId.vue` | 判定側 `TriggerChecker.ts` に `userIds` 実装済み。UI が未接続なだけ(要:接続するか判断) |
-| `ServiceTriggerCondition.vue` の `hasPeak` / `serviceSimpleComparisonConditionMap` | 将来用として保持 |
-| `MikujiEditor` と `MikujiSettings` の Character/IconKey ボタン二段構成 | 意図的な UI(全体一括 vs アイテム単位) |
-| `LogRank` | 廃止予定だがそのまま残す |
-| `common/MockUser/maps/MockUser{Ch,En,Kr,Th}Maps.ts` | 多言語対応の準備 |
-| `common/DraggableWrapper` 依存 `vue-draggable-plus` | `EmotionGrid.vue` / `WeightBar.vue` が使用中 |
-| `server/presets` の JSON | 旧形式データ。データ起因のエラーは正常扱い |
-| `src/リポジトリのデッドコードを調査し、不要なコードを削除してください.md` | 依頼文の控え。削除しない(2026-10-26 ユーザー判断) |
-| `games/scripts/DwarfBomb/game.ts`(クラス `DwarfBomb`) | 参照ゼロだが、冒頭に「使用しない(バックアップ用)」と明記。実際に使うのは `DwarfBomb/game/game.ts` |
-| `games/scripts/FortuneRanking/game.ts` | `BomberSpin/game.ts` の複製で `execute.ts` から未使用。意図が判断できないため保持(登録は patch 23 で実施済み。占いランキングを作る拡張スクリプトで、エンジンには組み込まない方針) |
-| `games/scripts/HugEmAll/CharacterPrompt.md` | キャラクター用プロンプトの資料 |
-| `games/types/GameScriptTypes.ts` の `ScriptPreset` | 参照ゼロだが、旧プリセット形式の名残か判断できないため保持 |
-| `GoogolClover/sub/constants.ts` の `MIN_SPINS` / `MAX_SPINS` | コメントアウトした抽選回数ランダム化の行が参照。復活の意図あり |
+| 対象                                                                               | 理由                                                                                                                                                            |
+| ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `isCommentMode`(`usePlaceholderEditor` / `MessageTextDialog`)                      | `LiveClockEditor.vue` が false 側を使用                                                                                                                         |
+| `apps/dataPacks/` 一式                                                             | 将来のアップデートで使用(TODO 記載済み)                                                                                                                         |
+| `sdk/control/StopSpeech.ts`                                                        | 将来の読み上げ停止機能で使用(TODO 追記済み)                                                                                                                     |
+| `ui/GameRanking/.../MessageService.ts`                                             | LiveConsole 用の TODO あり                                                                                                                                      |
+| `ui/common/useStreamCounters.ts` の `const _ = previewTick.value`                  | `watchEffect` の依存を張る意図的な読み取り                                                                                                                      |
+| `PostActionPreview.vue` の `const _ = messageKey.value`                            | 同上(意図的)                                                                                                                                                    |
+| `MessagePreviewPanel.vue` の try/catch                                             | 防衛的コードとして残す                                                                                                                                          |
+| `events/trigger/TriggerUserId.vue`                                                 | 判定側 `TriggerChecker.ts` に `userIds` 実装済み。UI が未接続なだけ(要:接続するか判断)                                                                          |
+| `ServiceTriggerCondition.vue` の `hasPeak` / `serviceSimpleComparisonConditionMap` | 将来用として保持                                                                                                                                                |
+| `MikujiEditor` と `MikujiSettings` の Character/IconKey ボタン二段構成             | 意図的な UI(全体一括 vs アイテム単位)                                                                                                                           |
+| `LogRank`                                                                          | 廃止予定だがそのまま残す                                                                                                                                        |
+| `common/MockUser/maps/MockUser{Ch,En,Kr,Th}Maps.ts`                                | 多言語対応の準備                                                                                                                                                |
+| `common/DraggableWrapper` 依存 `vue-draggable-plus`                                | `EmotionGrid.vue` / `WeightBar.vue` が使用中                                                                                                                    |
+| `server/presets` の JSON                                                           | 旧形式データ。データ起因のエラーは正常扱い                                                                                                                      |
+| `games/scripts/DwarfBomb/game.ts`(クラス `DwarfBomb`)                              | 参照ゼロだが、冒頭に「使用しない(バックアップ用)」と明記。実際に使うのは `DwarfBomb/game/game.ts`                                                               |
+| `games/scripts/FortuneRanking/game.ts`                                             | `BomberSpin/game.ts` の複製で `execute.ts` から未使用。意図が判断できないため保持(登録済み。占いランキングを作る拡張スクリプトで、エンジンには組み込まない方針) |
+| `games/scripts/HugEmAll/CharacterPrompt.md`                                        | キャラクター用プロンプトの資料                                                                                                                                  |
+| `games/types/GameScriptTypes.ts` の `ScriptPreset`                                 | 参照ゼロだが、旧プリセット形式の名残か判断できないため保持                                                                                                      |
+| `GoogolClover/sub/constants.ts` の `MIN_SPINS` / `MAX_SPINS`                       | コメントアウトした抽選回数ランダム化の行が参照。復活の意図あり                                                                                                  |
 
 ## 2. 未実行(報告のみ・要判断)
 
@@ -88,7 +87,7 @@
 - `src/types` の参照ゼロ型 19 件(`ServiceType` / `BotMessageExtraType` / `UiSettingsType` ほか。編集不可のため報告のみ)
 - 範囲外: `server/dev-api.ts`、`tools/viteConfig/*AssetsPlugin.ts`(`res`)、`TemplateJsonProcessor.ts` の未使用 import 2 件(対象外)
 
-### 2-4. src/games(patch 19 で精読。報告のみ)
+### 2-4. src/games(精読済み。報告のみ)
 
 - `FortuneRanking/params.ts`(確信度 中): `GameParamsSchema` / `GameParams`(`fruits: z.string().min(1)`)は未使用で、`execute.ts` の既定値処理と食い違う。`game.ts`(`BomberSpin` の複製)も未使用のため、整理するなら同時に判断する
 - `GoogolClover/execute.ts`(確信度 中): `const {} = this.parseParams(...)` は空の分割代入。`params.ts` は `DwarfBomb` の `mode`(ツルハシ / TNT)のコピーで、このゲームでは使われない
@@ -99,18 +98,18 @@
 - 参照のない `export`(確信度 低): `GouseiSuika` の `GameConfigs` / `ItemLottery`、`HugEmAll/gameConfig.ts` の `ATTACK_PROBABILITIES` / `ATTACK_EFFECTS` / `PLAYER_INITIAL_LIFE`、`FortuneRanking/execute.ts` の未使用引数 `_omiken`
 - `BomberSpin` / `FortuneRanking` の `game.ts` はスロットの設定がそのまま複製されている(コピー元の一本化は FortuneRanking の扱いと同時に判断)
 
-### 2-5. src/common(patch 20 で精読。報告のみ)
+### 2-5. src/common(精読済み。報告のみ)
 
 - `LayerImage.vue` の `<style scoped>`(確信度 低): `prefers-reduced-motion` で `animation-duration` などを同じ値(`--animate-duration`)に上書きしており、実質 no-op(視覚効果を抑える意図なら別途必要)
 - `EntryCore/core.ts`(確信度 低): `createAppOneSDK` は OneSDK 未読込時に `undefined` を返すだけで、画面には何も出ない
 - `migrations/index.ts`(確信度 低): 移行時の `console.log` が残っている(動作ログとして意図的な可能性)
-- `buildValidation/validateAgainstBuild.ts`: `UnsupportedKeyType` / `formatUnsupportedKeys` の `export` のみ未使用(patch 17 と同じ。変更なし)
+- `buildValidation/validateAgainstBuild.ts`: `UnsupportedKeyType` / `formatUnsupportedKeys` の `export` のみ未使用
 
-### 2-6. ディレクトリ構造(patch 21・22 で調査。`src/console`・`src/plugin` は対象外)
+### 2-6. ディレクトリ構造(調査済み。`src/console`・`src/plugin` は対象外)
 
 構造全体の階層と責務の分け方は一貫している。以下は、未実行の提案と判断。
 
-#### 提案 A: `ui` / `manager` が使う `editor/parts` を共通の場所へ移す(判断: 現状維持)
+#### 提案: `ui` / `manager` が使う `editor/parts` を共通の場所へ移す(判断: 現状維持)
 
 - 現状: `ui/*/editor/` が `editor/parts`(`SettingItem` 12 件、`HudPreview` 8 件、`ColorPicker` 4 件、`CharacterPicker` 1 件)と `editor/stores/useOmikujiStore`(11 件)を使う。`manager/` も `editor/stores` と `editor/helpers/presetsImport` を使う
 - 全面移動は不適切
@@ -120,14 +119,14 @@
 - 移せるのは `SettingItem` / `HudPreview` / `ColorPicker`(+ `editor/maps/parts/ColorPicker.ts`)の 3 つ。editor を別パッケージ化する予定がある場合だけ意味がある
 - `manager` → `editor` の 7 件は、API の保存・読込が editor のストアを直接更新する設計のため、構造だけを変えても解消しない(設計の判断)
 
-#### `CharacterManager` の応急処置の残り(提案 C の続き)
+#### `CharacterManager` の名称の重複(未解決)
 
-- 実施済みなのは、フォルダ名の重複の解消だけ(composable を `generator/composables/` へ移動)。根本の問題は残っている
+- 現状、composable `useCharacterManager` は `src/generator/composables/` に置かれている。根本の問題は残っている
   - `useCharacterManager` は、既定で generator のストア(`useAppStore`)を使う。しかし `ui` と `editor` からも使われている(引数 `source` で editor のストアを渡す)
   - クラス `CharacterManager`(engine)と `useCharacterManager`(generator)は、名前が近いままで、どちらがストアに依存するかが名前から分からない
-- 根本対応の案(実行していない)
-  - 案 2: 名前を役割に合わせて変える(例: クラス `CharacterResolver`、composable `useCharacters`)
-  - 案 3: composable を、ストアに依存しない形(`source` 必須)にして `common` に置き、generator 用のラッパーを別に作る
+- 対応案
+  - 案 A(承認済み・実行待ち): 名前を役割に合わせて変える(クラス `CharacterResolver`、composable `useCharacters`)
+  - 案 B(未承認): composable を、ストアに依存しない形(`source` 必須)にして `common` に置き、generator 用のラッパーを別に作る
 
 #### その他(確信度 低、報告のみ)
 
@@ -141,6 +140,6 @@
 
 ## 3. 次にやること
 
-1. `CharacterManager` の名称整理(案 2): ローカルのエージェントに依頼済み(`antigravity-handoff.md` の T-4)。完了後、2-6 の「応急処置の残り」を削除する
+1. `CharacterManager` の名称整理(2-6 の案 A): `antigravity-handoff.md` の「作業 1」で実行する。完了後、2-6 の「`CharacterManager` の名称の重複(未解決)」の節を削除する
 2. フォルダ名の大文字小文字の統一(2-6): 広範囲のため後回し
 3. `FortuneRanking` の `game.ts` / `params.ts` の整理(2-4)。登録済みのため、いつでも判断できる
