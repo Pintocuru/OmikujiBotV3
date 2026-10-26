@@ -10,7 +10,12 @@
     <!-- 右側: 設定エリア -->
     <div class="col-span-2 space-y-2">
       <!-- ActionType -->
-      <SettingItem layout="vertical" icon="Rocket" :label="t('postFlow.actionItem.typeLabel')" :description="t('postFlow.actionItem.typeDesc')">
+      <SettingItem
+        layout="vertical"
+        icon="Rocket"
+        :label="t('postFlow.actionItem.typeLabel')"
+        :description="t('postFlow.actionItem.typeDesc')"
+      >
         <div class="flex flex-wrap gap-2">
           <span
             v-for="(_, type) in postFlowKindMap"
@@ -83,8 +88,7 @@
 
   const props = defineProps<{
     action: PostFlowType
-    /** 編集中のアクションセットのキー(flowCall の循環参照チェック用) */
-    currentKey?: string
+    currentKey?: string // 編集中のアクションセットのキー(flowCall の循環参照チェック用)
   }>()
 
   // Emits

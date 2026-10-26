@@ -1,6 +1,7 @@
 // src/sdk/post/PostWordParty.ts
 import { postWordPartyId } from './PostOneComme'
 
+// TODO:型定義はtypesに入れること
 export type ExecuteWordPartyParams = {
   wordPartyId?: string
   repeat?: number

@@ -5,8 +5,6 @@ import { BotMessageBaseSchema } from './BotMessageBaseSchema'
 
 /**
  * BotMessageRankingSchema
- * ランキング専用のメッセージ。_BotMessageSchema (BotMessageType) の union に含まれる。
- * BotMessageExtraSchema は汎用で optional が多いため、ランキングに必要な項目だけを持たせた別定義。
  *
  * - eventKey(どのイベントの記録か)は、他のメッセージと同じく source.eventKey に入る。
  * - 表示するかどうか(上限・ユーザーごとの重複など)は、メッセージでは決めず UI 側で決める。
@@ -20,3 +18,28 @@ export const BotMessageRankingSchema = BotMessageBaseSchema.extend({
   score: z.number().finite(), // 比較用の得点 (表示はしない)
 })
 export type BotMessageRankingType = z.infer<typeof BotMessageRankingSchema>
+
+/**
+
+コンバート例。
+export const toBotMessageRanking = (
+  base: BotMessageBaseType,
+  user: BotMessageRankingType['user'],
+  slots: ExtraSlotsType,
+): BotMessageRankingType => {
+  return BotMessageRankingSchema.parse({
+    ...base,
+   // ネストしないと読みづらいので。
+   hoge:{ 
+    type: 'ranking',
+    user,
+    listName: slots.slot0 ?? '',
+    symbol: slots.slot1 ?? '',
+    label: slots.slot2 ?? '',
+    score: Number(slots.slot3),
+   }
+  })
+}
+
+
+ */

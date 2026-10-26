@@ -117,8 +117,6 @@ export class VariablePlaceholderProcessor {
           text: vars['text'],
           order: vars['order'] ? Number(vars['order']) : undefined,
           variant: vars['variant'],
-          isUnique: vars['unique'] === 'true',
-          isVisible: vars['visible'] !== 'false',
           flag: vars['flag'] === 'true',
         })
       }

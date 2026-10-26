@@ -1,15 +1,13 @@
 // src/types/generator/scripts/BotMessageSchema.ts
+import { z } from 'zod'
 import { UserNameSchema } from '@/types/OmikenComment'
 import { DaisyUIColorSchema } from '@/types/core'
-import { z } from 'zod'
 import { BotMessageBaseSchema } from './BotMessageBaseSchema'
 import { BotMessageRankingSchema } from './BotMessageRankingSchema'
 
 /**
  * ExtraMessageSchema
- * TODO:汎用的すぎて型定義では理解できなくなるので、v2のレガシーとして残す。v3のβ版まで利用し、正式版では廃止とする。
- * 代わりに、 BotMessageRankingSchema など、 専用の型定義を増やす方向にする。
- * ランキング(user と score がある lists)は type: 'ranking' に移行済み。
+ * TODO:廃止。ExtraSlotsSchema に役割を託す。
  */
 export const ExtraListsSchema = z.object({
   listName: z.string().optional(), // 名前
@@ -18,14 +16,15 @@ export const ExtraListsSchema = z.object({
   order: z.number().optional(), // 比較用
   variant: DaisyUIColorSchema.optional(), // 得点表示のカラー
   tags: z.array(z.string()).optional(),
-  isVisible: z.boolean().default(true), // リストに載せるか
-  isUnique: z.boolean().default(false), // 1ユーザー1つか複数か
   flag: z.boolean().optional(),
 })
 export type ExtraListsType = z.infer<typeof ExtraListsSchema>
 
 /**
- * TODO:汎用的すぎて型定義では理解できなくなるので、v2のレガシーとして残す。v3のβ版まで利用し、正式版では廃止とする。
+ * TODO:string/number/boolean のunionにし、汎用的にする。
+ * どこかのタイミングでコンバータをかまして、
+ * BotMessageRankingSchema のような型定義に変換させる。
+ * あと、名前も変える。 BotMessageSlotsSchema とか。
  */
 export const ExtraSlotsSchema = z.object({
   slot0: z.string().optional(),
@@ -43,6 +42,7 @@ export type ExtraSlotsType = z.infer<typeof ExtraSlotsSchema>
 
 /**
  * BotBubbleSchema
+ * TODO:廃止(GameScriptで作成するので)
  */
 const BotBubbleSchema = z.object({
   name: z.string().nullable().default(null),
@@ -54,6 +54,8 @@ const BotBubbleSchema = z.object({
 
 /**
  * BotMessageBubbleSchema
+ * TODO:これを BotMessageSchema とする。
+ * user プロパティを追加。
  */
 export const BotMessageBubbleSchema = BotMessageBaseSchema.extend({
   type: z.literal('comment').default('comment'),
@@ -64,6 +66,7 @@ export type BotMessageBubbleType = z.infer<typeof BotMessageBubbleSchema>
 
 /**
  * BotMessageExtraSchema
+ * TODO:廃止。BotMessageBubbleSchema に統合する。
  */
 export const BotMessageExtraSchema = BotMessageBaseSchema.extend({
   type: z.literal('extra').default('extra'),
@@ -76,12 +79,14 @@ export type BotMessageExtraType = z.infer<typeof BotMessageExtraSchema>
 /**
  * BotMessageEmptySchema
  * 評価ブロック等、BotMessage が生成されない場合に使用
+ * TODO:これを使うのは不自然ではないか？
  */
 export const BotMessageEmptySchema = BotMessageBaseSchema.extend({
   type: z.literal('empty').default('empty'),
 })
 export type BotMessageEmptyType = z.infer<typeof BotMessageEmptySchema>
 
+// TODO:廃止。ユニオンではなくなる。
 const _BotMessageSchema = z.discriminatedUnion('type', [
   BotMessageBubbleSchema,
   BotMessageExtraSchema,
@@ -89,3 +94,28 @@ const _BotMessageSchema = z.discriminatedUnion('type', [
   BotMessageEmptySchema,
 ])
 export type BotMessageType = z.infer<typeof _BotMessageSchema>
+
+/**
+
+TODO:コンバート例。
+
+export const toBotMessageRanking = (
+  base: BotMessageBaseType,
+  user: BotMessageRankingType['user'],
+  slots: ExtraSlotsType,
+): BotMessageRankingType => {
+  return BotMessageRankingSchema.parse({
+    ...base,
+   hoge:{ 
+    type: 'ranking',
+    user,
+    listName: slots.slot0 ?? '',
+    symbol: slots.slot1 ?? '',
+    label: slots.slot2 ?? '',
+    score: Number(slots.slot3),
+   }
+  })
+}
+
+
+ */

@@ -5,6 +5,7 @@ import { soundKeys } from './SoundKey'
 
 /**
  * PostFlow タイプのUI表示情報
+ * TODO:bot は廃止(GameScript で代替できる)
  */
 export const postFlowKinds = ['message', 'sound', 'wordParty', 'variable', 'gameScript', 'bot', 'flowCall'] as const
 
