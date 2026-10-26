@@ -40,6 +40,8 @@
   // Emits
   const emit = defineEmits<{
     'update:modelValue': [value: PostFlowType[]]
+    /** ソート後の並び。order[新index] = 元のindex(選択中タブの追従用) */
+    reorder: [order: number[]]
   }>()
 
   // 下限値
@@ -55,19 +57,29 @@
 
   // 全てのdelaySecondsを調整する関数
   const adjustAllDelaySeconds = (adjustment: number) => {
-    const updatedActions = props.modelValue.map((action) => {
+    const adjusted = props.modelValue.map((action, originalIndex) => {
       const newDelay = Math.round((action.delaySeconds + adjustment) * 10) / 10
       // 下限チェック
       const clampedDelay = Math.max(newDelay, minDelaySeconds.value)
       return {
-        ...action,
-        delaySeconds: clampedDelay,
+        originalIndex,
+        action: {
+          ...action,
+          delaySeconds: clampedDelay,
+        },
       }
     })
 
-    // delaySecondsでソート（小さい順）
-    updatedActions.sort((a, b) => a.delaySeconds - b.delaySeconds)
+    // delaySecondsでソート（小さい順。同値は元の順序を保つ）
+    adjusted.sort((a, b) => a.action.delaySeconds - b.action.delaySeconds)
 
-    emit('update:modelValue', updatedActions)
+    emit(
+      'update:modelValue',
+      adjusted.map((e) => e.action)
+    )
+    emit(
+      'reorder',
+      adjusted.map((e) => e.originalIndex)
+    )
   }
 </script>

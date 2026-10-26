@@ -100,11 +100,13 @@ function getUserRoles(data: any): Set<string> {
   if (!data) return new Set(['basic'])
 
   const roles = new Set<string>()
-  const { isOwner, isModerator, isMember, subscriber, premium } = data
+  // 匿名: 多くのサービスは anonymity、Twicas は isAnonymous
+  const { isOwner, isModerator, isMember, subscriber, premium, anonymity, isAnonymous } = data
 
   if (isOwner) roles.add('owner')
   if (isModerator) roles.add('moderator')
   if (isMember || subscriber === '1' || premium) roles.add('member')
+  if (anonymity || isAnonymous) roles.add('anonymity')
   if (roles.size === 0) roles.add('basic')
 
   return roles

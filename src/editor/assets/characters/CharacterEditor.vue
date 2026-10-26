@@ -6,8 +6,6 @@
     <SectionCard
       id="section-baseSettings"
       :icon="s('baseSettings')?.icon"
-      :isOpen="activeSection === 'baseSettings'"
-      @toggle="toggleSection('baseSettings')"
       :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
@@ -18,8 +16,6 @@
     <SectionCard
       id="section-colorSettings"
       :icon="s('colorSettings')?.icon"
-      :isOpen="activeSection === 'colorSettings'"
-      @toggle="toggleSection('colorSettings')"
       :label="s('colorSettings')?.label"
       :description="s('colorSettings')?.description"
     >
@@ -34,8 +30,6 @@
     <SectionCard
       id="section-commentVoice"
       :icon="s('commentVoice')?.icon"
-      :isOpen="activeSection === 'commentVoice'"
-      @toggle="toggleSection('commentVoice')"
       :label="s('commentVoice')?.label"
       :description="s('commentVoice')?.description"
     >
@@ -50,8 +44,6 @@
     <SectionCard
       id="section-imageSettings"
       :icon="s('imageSettings')?.icon"
-      :isOpen="activeSection === 'imageSettings'"
-      @toggle="toggleSection('imageSettings')"
       :label="s('imageSettings')?.label"
       :description="s('imageSettings')?.description"
     >
@@ -87,15 +79,8 @@
     }
   }
 
-  // アクティブなセクションの管理
-  type SectionType = 'baseSettings' | 'colorSettings' | 'commentVoice' | 'imageSettings' | null
   const navigationStore = useNavigationStore()
-  const { selectedItemKey, activeSection } = storeToRefs(navigationStore)
-
-  // セクションの切り替え
-  const toggleSection = (section: SectionType) => {
-    activeSection.value = activeSection.value === section ? null : section
-  }
+  const { selectedItemKey } = storeToRefs(navigationStore)
 
   // Pinia store
   const { getAsset } = useGetAssetData()

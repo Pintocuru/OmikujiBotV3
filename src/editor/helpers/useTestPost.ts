@@ -74,7 +74,7 @@ export function useTestPost() {
       return
     }
 
-    const priorityItems = omikujiSet.filter((item) => 'lottery' in item && !item.lottery.isPriority)
+    const priorityItems = omikujiSet.filter((item) => 'lottery' in item && item.lottery.isPriority)
     const targetSet = priorityItems.length > 0 ? priorityItems : omikujiSet
     const omikujiItem = drawOmikuji(addWeightPercentages(targetSet))
 

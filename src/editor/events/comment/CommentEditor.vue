@@ -5,8 +5,6 @@
     <SectionCard
       id="section-baseSettings"
       :icon="s('baseSettings')?.icon"
-      :isOpen="activeSection === 'baseSettings'"
-      @toggle="toggleSection('baseSettings')"
       :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
@@ -18,8 +16,6 @@
       <SectionCard
         id="section-threshold"
         :icon="s('threshold')?.icon"
-        :isOpen="activeSection === 'threshold'"
-        @toggle="toggleSection('threshold')"
         :label="s('threshold')?.label"
         :description="s('threshold')?.description"
       >
@@ -30,8 +26,6 @@
       <SectionCard
         id="section-omikujiSet"
         :icon="s('omikujiSet')?.icon"
-        :isOpen="activeSection === 'omikujiSet'"
-        @toggle="toggleSection('omikujiSet')"
         :label="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
@@ -89,15 +83,8 @@
 
   const { t } = useI18n()
 
-  // アクティブなセクションの管理
-  type SectionType = 'baseSettings' | 'threshold' | 'omikujiSet' | null
   const navigationStore = useNavigationStore()
-  const { activeSection, selectedItemKey } = storeToRefs(navigationStore)
-
-  // セクションの切り替え
-  const toggleSection = (section: SectionType) => {
-    activeSection.value = activeSection.value === section ? null : section
-  }
+  const { selectedItemKey } = storeToRefs(navigationStore)
 
   // アイコン構造と i18n のテキストを結合して返すヘルパー
   const s = (key: string) => {

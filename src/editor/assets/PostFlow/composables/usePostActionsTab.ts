@@ -88,6 +88,13 @@ export function usePostActionsTab(
     }
   }
 
+  // 並び替え後も同じアクションを選択し続ける（order[新index] = 元のindex）
+  const followReorder = (order: number[]) => {
+    if (activeTab.value < 0) return
+    const next = order.indexOf(activeTab.value)
+    if (next >= 0) activeTab.value = next
+  }
+
   // アクション数が変更された場合のタブ調整
   watch(
     () => actions.value.length,
@@ -112,5 +119,6 @@ export function usePostActionsTab(
     addNewAction,
     duplicateAction,
     removeAction,
+    followReorder,
   }
 }

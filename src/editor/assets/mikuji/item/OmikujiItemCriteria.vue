@@ -40,49 +40,49 @@
   <TriggerUsername
     v-if="activeConditions.has('username')"
     :modelValue="criteria.userName"
-    @update:modelValue="updateCriteria('userName', $event)"
+    @update:modelValue="updateCriteriaKey('userName', $event)"
   />
 
   <!-- アクセスレベル条件 -->
   <TriggerAccess
     v-if="activeConditions.has('access')"
     :modelValue="criteria.access"
-    @update:modelValue="updateCriteria('access', $event)"
+    @update:modelValue="updateCriteriaKey('access', $event)"
   />
 
   <!-- ギフト条件 -->
   <TriggerGift
     v-if="activeConditions.has('gift')"
     :modelValue="criteria.gift"
-    @update:modelValue="updateCriteria('gift', $event)"
+    @update:modelValue="updateCriteriaKey('gift', $event)"
   />
 
   <!-- 初見条件 -->
   <TriggerSyoken
     v-if="activeConditions.has('syoken')"
     :modelValue="criteria.syoken"
-    @update:modelValue="updateCriteria('syoken', $event)"
+    @update:modelValue="updateCriteriaKey('syoken', $event)"
   />
 
   <!-- カウント条件 -->
   <TriggerCount
     v-if="activeConditions.has('count')"
     :modelValue="criteria.count"
-    @update:modelValue="updateCriteria('count', $event)"
+    @update:modelValue="updateCriteriaKey('count', $event)"
   />
 
   <!-- チャットワード条件 -->
   <TriggerComment
     v-if="activeConditions.has('comment')"
     :modelValue="criteria.comment"
-    @update:modelValue="updateCriteria('comment', $event)"
+    @update:modelValue="updateCriteriaKey('comment', $event)"
   />
 
   <!-- 判定式条件 -->
   <TriggerExpression
     v-if="activeConditions.has('expression')"
     :modelValue="criteria.expression"
-    @update:modelValue="updateCriteria('expression', $event)"
+    @update:modelValue="updateCriteriaKey('expression', $event)"
   />
 
   <NoParamsCard v-if="activeConditions.size === 0" message="発動条件が指定されていません" />
@@ -92,13 +92,8 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
 
-  import {
-    CriteriaThresholdCondition,
-    CriteriaThresholdSchema,
-    CriteriaThresholdType,
-    criteriaThresholdCondition,
-    OmikujiItemType,
-  } from '@/types/OmikujiData'
+  import { criteriaThresholdCondition, OmikujiItemType } from '@/types/OmikujiData'
+  import { useOmikujiLottery } from '../composables/useOmikujiLottery'
 
   import TriggerComment from '@/editor/events/trigger/TriggerComment.vue'
   import TriggerAccess from '@/editor/events/trigger/TriggerAccess.vue'
@@ -123,60 +118,12 @@
   // i18n の初期化
   const { t } = useI18n()
 
-  // criteria
-  const criteria = computed(() => {
-    return props.omikujiItem.lottery.criteria ?? CriteriaThresholdSchema.parse({})
-  })
+  // criteria の更新ロジックは useOmikujiLottery と共通
+  const { criteria, updateCriteriaKey, toggleCondition } = useOmikujiLottery(
+    () => props.omikujiItem,
+    (item) => emit('update', item)
+  )
 
   // アクティブな条件
-  const activeConditions = computed(() => {
-    return new Set(criteria.value.conditions)
-  })
-
-  // criteriaを更新したOmikujiItemをemit
-  const updateCriteriaItem = (newCriteria: CriteriaThresholdType) => {
-    const lottery = props.omikujiItem.lottery
-
-    if (lottery.isPriority) {
-      emit('update', {
-        ...props.omikujiItem,
-        lottery: {
-          isPriority: true,
-          weight: lottery.weight,
-          criteria: newCriteria,
-        },
-      })
-    } else {
-      emit('update', {
-        ...props.omikujiItem,
-        lottery: {
-          isPriority: false,
-          weight: lottery.weight,
-          criteria: newCriteria,
-        },
-      })
-    }
-  }
-
-  // 条件のトグル
-  const toggleCondition = (condition: CriteriaThresholdCondition) => {
-    const currentConditions = criteria.value.conditions
-
-    const newConditions = currentConditions.includes(condition)
-      ? currentConditions.filter((c) => c !== condition)
-      : [...currentConditions, condition]
-
-    updateCriteriaItem({
-      ...criteria.value,
-      conditions: newConditions,
-    })
-  }
-
-  // criteriaのプロパティ更新
-  const updateCriteria = <K extends keyof CriteriaThresholdType>(key: K, value: CriteriaThresholdType[K]) => {
-    updateCriteriaItem({
-      ...criteria.value,
-      [key]: value,
-    })
-  }
+  const activeConditions = computed(() => new Set(criteria.value.conditions))
 </script>

@@ -4,7 +4,6 @@
     <div class="modal-box max-w-3xl">
       <SectionCard
         icon="Merge"
-        :is-open="true"
         variant="success"
         label="設定読み込みプレビュー"
         :description="`総項目数: ${importManager.previewData.value ? importManager.previewData.value.totalItems : ''}`"

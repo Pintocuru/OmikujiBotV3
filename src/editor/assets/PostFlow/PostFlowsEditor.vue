@@ -2,7 +2,11 @@
 <template>
   <div class="space-y-2">
     <!-- ツールバー -->
-    <OmikujiItemToolbar :modelValue="modelValue" @update:modelValue="updatePostActions" />
+    <OmikujiItemToolbar
+      :modelValue="modelValue"
+      @update:modelValue="updatePostActions"
+      @reorder="followReorder"
+    />
 
     <!-- PostActionsタブエディター -->
     <PostActionsTabs
@@ -23,10 +27,7 @@
 
     <!-- PostActionタブの内容 -->
     <template v-else-if="props.modelValue.length > 0 && activeTab >= 0">
-      <PostActionItem
-        :action="currentAction"
-        @update:action="updateCurrentAction"
-      />
+      <PostActionItem :action="currentAction" :current-key="currentKey" @update:action="updateCurrentAction" />
     </template>
   </div>
 </template>
@@ -45,6 +46,8 @@
 
   const props = defineProps<{
     modelValue: PostFlowType[]
+    /** 編集中のアクションセットのキー(flowCall の循環参照チェック用) */
+    currentKey?: string
   }>()
 
   const emit = defineEmits<{
@@ -60,6 +63,7 @@
     addNewAction,
     duplicateAction,
     removeAction,
+    followReorder,
   } = usePostActionsTab(
     computed(() => props?.modelValue),
     (_event, actions) => emit('update:modelValue', actions)

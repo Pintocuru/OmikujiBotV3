@@ -5,8 +5,6 @@
     <SectionCard
       id="section-baseSettings"
       :icon="s('baseSettings')?.icon"
-      :isOpen="activeSection === 'baseSettings'"
-      @toggle="toggleSection('baseSettings')"
       :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
@@ -17,8 +15,6 @@
     <SectionCard
       id="section-placeholder"
       :icon="s('placeholder')?.icon"
-      :isOpen="activeSection === 'placeholder'"
-      @toggle="toggleSection('placeholder')"
       :label="s('placeholder')?.label"
       :description="s('placeholder')?.description"
     >
@@ -55,15 +51,8 @@
     }
   }
 
-  // アクティブなセクションの管理
-  type SectionType = 'baseSettings' | 'placeholder' | null
   const navigationStore = useNavigationStore()
-  const { selectedItemKey, activeSection } = storeToRefs(navigationStore)
-
-  // セクションの切り替え
-  const toggleSection = (section: SectionType) => {
-    activeSection.value = activeSection.value === section ? null : section
-  }
+  const { selectedItemKey } = storeToRefs(navigationStore)
 
   // Pinia store
   const { getAsset } = useGetAssetData()

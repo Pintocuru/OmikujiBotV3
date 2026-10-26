@@ -5,7 +5,6 @@
     <SectionCard
       id="section-appSettings"
       icon="Settings"
-      :isOpen="true"
       :label="t('appInfoEditor.appSettings.title')"
       :description="t('appInfoEditor.appSettings.description')"
     >
@@ -17,7 +16,6 @@
     <SectionCard
       id="section-appFeatures"
       icon="Sparkles"
-      :isOpen="true"
       :label="t('appInfoEditor.appFeatures.title')"
       :description="t('appInfoEditor.appFeatures.description')"
     >
@@ -29,7 +27,6 @@
       id="section-packageBasic"
       icon="Info"
       variant="neutral"
-      :isOpen="true"
       :label="t('appInfoEditor.packageBasic.title')"
       :description="t('appInfoEditor.packageBasic.description')"
     >
@@ -41,7 +38,6 @@
       id="section-packageDistribution"
       icon="Package"
       variant="neutral"
-      :isOpen="true"
       :label="t('appInfoEditor.packageDistribution.title')"
       :description="t('appInfoEditor.packageDistribution.description')"
     >
@@ -53,7 +49,6 @@
       id="section-packageSystem"
       icon="Cpu"
       variant="neutral"
-      :isOpen="true"
       :label="t('appInfoEditor.packageSystem.title')"
       :description="t('appInfoEditor.packageSystem.description')"
     >

@@ -27,6 +27,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
+  import { storeToRefs } from 'pinia'
   import CharacterPicker from '@/editor/parts/CharacterPicker.vue'
   import { PostFlowMessageType } from '@/types/OmikujiData'
   import IconSelector from '@/editor/assets/PostFlow/IconSelector/IconSelector.vue'
@@ -45,9 +46,9 @@
     'update:action': [action: PostFlowMessageType]
   }>()
 
-  const { data } = useOmikujiStore()
+  const { data } = storeToRefs(useOmikujiStore())
 
-  const soundEnabled = computed(() => data.settings.generator.soundEnabled)
+  const soundEnabled = computed(() => data.value.settings.generator.soundEnabled)
 
   const updateAction = (updates: Partial<PostFlowMessageType>) => {
     emit('update:action', { ...props.action, ...updates })

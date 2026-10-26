@@ -60,13 +60,11 @@
     reorder: [newImages: CharacterImageType]
   }>()
 
-  // ── images オブジェクト → 配列へ変換 数値だとバグが起こるので修正してる
-  const normalizeKey = (key: string) => (/^\d+$/.test(key) ? `k${key}` : key)
-  const toEntries = (images: CharacterImageType) =>
-    Object.entries(images).map(([key, value]) => ({
-      key: normalizeKey(key),
-      value,
-    }))
+  // ── images オブジェクト → 配列へ変換
+  // キーは加工せずそのまま使う(select / reorder の emit や selectedKey の比較が実キーと一致するため)。
+  // 注意: JS のオブジェクトは「数字だけのキー」を常に昇順で先頭に並べるため、
+  //       数字キーの感情は並び替えを保存できない(ドラッグしても元の位置に戻る)。
+  const toEntries = (images: CharacterImageType) => Object.entries(images).map(([key, value]) => ({ key, value }))
 
   const draggableItems = ref<EmotionEntry[]>(toEntries(props.images))
 

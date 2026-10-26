@@ -10,8 +10,6 @@
     <SectionCard
       id="section-baseSettings"
       :icon="s('baseSettings')?.icon"
-      :isOpen="activeSection === 'baseSettings'"
-      @toggle="toggleSection('baseSettings')"
       :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
@@ -22,12 +20,10 @@
     <SectionCard
       id="section-omikujiSet"
       :icon="s('omikujiSet')?.icon"
-      :isOpen="activeSection === 'omikujiSet'"
-      @toggle="toggleSection('omikujiSet')"
       :label="s('omikujiSet')?.label"
       :description="s('omikujiSet')?.description"
     >
-      <PostFlowsEditor v-model="postFlows" />
+      <PostFlowsEditor v-model="postFlows" :current-key="selectedItemKey ?? undefined" />
     </SectionCard>
   </template>
 </template>
@@ -63,15 +59,8 @@
     }
   }
 
-  // アクティブなセクションの管理
-  type SectionType = 'baseSettings' | 'omikujiSet' | null
   const navigationStore = useNavigationStore()
-  const { activeSection, selectedItemKey } = storeToRefs(navigationStore)
-
-  // セクションの切り替え
-  const toggleSection = (section: SectionType) => {
-    activeSection.value = activeSection.value === section ? null : section
-  }
+  const { selectedItemKey } = storeToRefs(navigationStore)
 
   // Pinia store
   const { updateAsset } = useOmikujiStore()

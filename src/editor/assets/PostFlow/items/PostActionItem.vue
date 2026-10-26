@@ -45,7 +45,7 @@
       <component
         v-if="currentComponent"
         :is="currentComponent"
-        v-bind="{ action: action as any }"
+        v-bind="componentProps"
         @update:action="handleActionUpdate"
       />
     </div>
@@ -83,6 +83,8 @@
 
   const props = defineProps<{
     action: PostFlowType
+    /** 編集中のアクションセットのキー(flowCall の循環参照チェック用) */
+    currentKey?: string
   }>()
 
   // Emits
@@ -107,6 +109,13 @@
 
     return componentMap[props.action.kind]
   })
+
+  // 動的コンポーネントへ渡す props（currentKey は flowCall だけが受け取る）
+  const componentProps = computed(() =>
+    props.action.kind === 'flowCall'
+      ? { action: props.action as any, currentKey: props.currentKey }
+      : { action: props.action as any }
+  )
 
   // 遅延秒数のcomputed
   const delaySeconds = computed({

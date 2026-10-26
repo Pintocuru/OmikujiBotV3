@@ -44,21 +44,6 @@
 
 ## 2. 未実行(報告のみ・要判断)
 
-### 2-1. 不具合の疑い(デッドコードではない。要修正か仕様確認)
-
-- `CommentVoiceSettings.vue`: props 由来の computed を `v-model` で直接ミューテーション(現状維持だが大きな問題。単方向データフロー違反の解消が必要)
-- `OmikujiItemCriteria.vue` と `useOmikujiLottery.ts` の条件判定ロジックが重複(現状維持だが、次の機会に共通化リファクタを行う)
-- `MessageSettings.vue:48`: `const { data } = useOmikujiStore()` の分割代入でリアクティビティ喪失の恐れ(`storeToRefs` または store 参照推奨、承認待ち)
-- `EmotionAnimationEditor.vue`: `duration` / `loop` の変更が emit されない(`@change="applyAnimation"` 追加推奨、承認待ち)
-- `EmotionLayerEditor.vue`: `handleSetDefaultPath` が常に index 0 のレイヤーを書き換える(引数 index を渡す修正推奨、承認待ち)
-- `EmotionGrid.vue:64` `normalizeKey`: 数字キーに `k` を付与して emit(キー比較不一致の恐れ。接頭辞付与見直し推奨、承認待ち)
-- `DelaySecondsAdjuster.vue`: 調整後のソートで `activeTab` の index がずれうる(新 index 追跡推奨、承認待ち)
-- `PostActionsTabs.vue`: `<button>` の中に `MenuDropdown`(`<button>`)をネスト(HTML 違反。タブ親要素の `div role="tab"` 化推奨、承認待ち)
-- `ActionSetSettings.vue`: `currentKey` が渡されず常に `undefined`(親からの `currentKey` 伝播推奨、承認待ち)
-- `OmikenCommentProcessor`(`sdk/subscribe/OmikenComment/OmikenCommentProcessor.ts`): `roles.has('anonymity')` に到達しない(匿名判定見直し推奨、承認待ち)
-- `useTestPost.ts` の `postTestOmikuji`: `priorityItems` が `!item.lottery.isPriority` で絞っており条件が逆に見える(論理反転修正推奨、承認待ち)
-- `SectionCard.vue`: `toggle` emit / `isOpen` が未実装で、呼び出し側の `@toggle` / `:isOpen` が no-op(開閉アコーディオンは削除。承認待ち)
-
 ### 2-2. 削除候補だが保留(確信度 中)
 
 - `FeatureCard.vue`: `showToggle` / `featureKey` / `toggle` emit 等(使いづらかったため外した経緯あり。削除推奨・承認済み)
@@ -74,6 +59,7 @@
 - `WordPartyTestButton.vue` の `pattern` prop(`:pattern="null"` 固定)
 - `PostFlowsEditor.vue` の冗長条件(`modelValue.length > 0 && activeTab >= 0`)
 - 参照のない `export`(外すだけ): `useSidebarSectionMap.useUiSections`、`SidebarType.CategoryGroupId`、`evaluationStats` の `*Summary`、`useKeyEditor` 系の `validateKey*`、`ServiceTriggerEvaluator` / `DefaultPlaceholderBuilder` / `ExpressionChecker` / `ExpressionEvaluator` / `baseApiClient.ApiError` / `summarizeState` の一部、`OmikenCommentProcessor` の `isCommentTester` / `convertToJPY`、`common` の `UnsupportedKeyType` ほか
+- `EmotionGrid.vue`: 数字だけの感情キーは JS の仕様でオブジェクトの先頭に昇順で並ぶため、ドラッグしても並び順を保存できない(キーの加工はやめた。仕様として許容)
 - 型の整理: `InformationCard` の `VARIANT_ICON: any`、`ContentArea` の `editorMap: any`
 - 重複: `useModalState` と `useIconKeyModalState`、`useCharacterUpdater` と `useIconKeyUpdater`、`@keyframes pulse` の scoped 重複
 - 命名: `isIsEnabled`(`BaseEditor.vue`)は動作に問題なし

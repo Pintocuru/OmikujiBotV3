@@ -12,8 +12,6 @@
     <SectionCard
       id="section-baseSettings"
       :icon="s('baseSettings')?.icon"
-      :isOpen="activeSection === 'baseSettings'"
-      @toggle="toggleSection('baseSettings')"
       :variant="selectedItem.isEnabled ? 'secondary' : 'neutral'"
       :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
@@ -26,8 +24,6 @@
       <SectionCard
         id="section-timerInterval"
         :icon="s('timerInterval')?.icon"
-        :isOpen="activeSection === 'timerInterval'"
-        @toggle="toggleSection('timerInterval')"
         :label="s('timerInterval')?.label"
         :description="s('timerInterval')?.description"
       >
@@ -42,8 +38,6 @@
         v-if="hasMikujiBox"
         id="section-omikujiSet"
         :icon="s('omikujiSet')?.icon"
-        :isOpen="activeSection === 'omikujiSet'"
-        @toggle="toggleSection('omikujiSet')"
         :label="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
@@ -82,15 +76,8 @@
 
   const { t } = useI18n()
 
-  // アクティブなセクションの管理
-  type SectionType = 'baseSettings' | 'timerInterval' | 'omikujiSet' | null
   const navigationStore = useNavigationStore()
-  const { selectedItemKey, activeSection } = storeToRefs(navigationStore)
-
-  // セクションの切り替え
-  const toggleSection = (section: SectionType) => {
-    activeSection.value = activeSection.value === section ? null : section
-  }
+  const { selectedItemKey } = storeToRefs(navigationStore)
 
   // アイコン構造と i18n のテキストを結合して返すヘルパー
   const s = (key: string) => {

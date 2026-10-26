@@ -3,7 +3,7 @@
   <!-- mode  -->
   <SettingItem icon="Megaphone" :label="t('characterService.voice.label')" :description="t('characterService.voice.desc')">
     <select
-      v-model="currentDisplayOption.mode"
+      :value="currentDisplayOption.mode"
       @change="updateDisplayField('mode', ($event.target as HTMLSelectElement).value)"
       class="select select-bordered w-full max-w-xs"
     >
@@ -33,7 +33,12 @@
 
     <!-- わんコメの枠を指定 -->
     <SettingItem icon="Hash" :label="t('characterService.voice.frameLabel')" :description="t('characterService.voice.frameDesc')">
-      <input type="text" class="input w-full" v-model="currentDisplayOption.frameId" />
+      <input
+        type="text"
+        class="input w-full"
+        :value="currentDisplayOption.frameId"
+        @input="updateDisplayField('frameId', ($event.target as HTMLInputElement).value)"
+      />
     </SettingItem>
 
     <!-- imageBase64 -->

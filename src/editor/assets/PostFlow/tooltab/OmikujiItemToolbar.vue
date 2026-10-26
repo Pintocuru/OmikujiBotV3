@@ -8,7 +8,11 @@
 
       <div class="flex gap-2">
         <!-- delaySeconds調整コンポーネント -->
-        <DelaySecondsAdjuster :model-value="modelValue" @update:model-value="emit('update:modelValue', $event)" />
+        <DelaySecondsAdjuster
+          :model-value="modelValue"
+          @update:model-value="emit('update:modelValue', $event)"
+          @reorder="emit('reorder', $event)"
+        />
 
         <!-- テスト投稿ボタン -->
         <button
@@ -68,6 +72,7 @@
   // Emits
   const emit = defineEmits<{
     'update:modelValue': [value: PostFlowType[]]
+    reorder: [order: number[]]
   }>()
 
   const { postTestOmikujiItem } = useTestPost()

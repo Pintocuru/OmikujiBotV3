@@ -9,8 +9,6 @@
     <SectionCard
       id="section-baseSettings"
       :icon="s('baseSettings')?.icon"
-      :isOpen="activeSection === 'baseSettings'"
-      @toggle="toggleSection('baseSettings')"
       :variant="selectedItem.isEnabled ? 'secondary' : 'neutral'"
       :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
@@ -23,8 +21,6 @@
       <SectionCard
         id="section-trigger"
         :icon="s('trigger')?.icon"
-        :isOpen="activeSection === 'trigger'"
-        @toggle="toggleSection('trigger')"
         :label="s('trigger')?.label"
         :description="s('trigger')?.description"
       >
@@ -39,8 +35,6 @@
         v-if="hasMikujiBox"
         id="section-omikujiSet"
         :icon="s('omikujiSet')?.icon"
-        :isOpen="activeSection === 'omikujiSet'"
-        @toggle="toggleSection('omikujiSet')"
         :label="s('omikujiSet')?.label"
         :description="s('omikujiSet')?.description"
       >
@@ -89,21 +83,13 @@
     }
   }
 
-  // アクティブなセクションの管理
-  type SectionType = 'baseSettings' | 'trigger' | 'omikujiSet' | null
-
   // Pinia store
   const { updateEvent } = useOmikujiStore()
   const { getEvent } = useGetEventData()
   const { hasAsset } = useGetAssetData()
 
   const navigationStore = useNavigationStore()
-  const { selectedItemKey, activeSection } = storeToRefs(navigationStore)
-
-  // セクションの切り替え
-  const toggleSection = (section: SectionType) => {
-    activeSection.value = activeSection.value === section ? null : section
-  }
+  const { selectedItemKey } = storeToRefs(navigationStore)
 
   const selectedItem = computed({
     get: () => {

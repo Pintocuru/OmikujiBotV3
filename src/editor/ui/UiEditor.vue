@@ -22,8 +22,6 @@
     <SectionCard
       :id="`section-${kind}`"
       :icon="item.icon"
-      :isOpen="activeSection === kind"
-      @toggle="toggleSection(kind)"
       :label="t(`mapText.uiKind.${kind}.label`)"
       :description="t(`mapText.uiKind.${kind}.description`)"
     >
@@ -35,8 +33,6 @@
   <SectionCard
     id="section-commonStyle"
     icon="Palette"
-    :isOpen="activeSection === 'commonStyle'"
-    @toggle="toggleSection('commonStyle')"
     label="共通設定"
     description="フォントなど、すべての表示に共通する設定"
   >
@@ -69,10 +65,6 @@
     const kinds = uiLayoutMap[data.value.ui.layout].kinds
     return Object.entries(getUiEditorEntries()).filter(([kind]) => kinds.includes(kind as UiKind))
   })
-
-  const toggleSection = (section: string) => {
-    activeSection.value = activeSection.value === section ? null : section
-  }
 
   // 開いた時に最初のアイテムを表示（activeSection が未設定のときのみ）
   watch(

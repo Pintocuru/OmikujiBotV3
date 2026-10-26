@@ -11,7 +11,7 @@
       </div>
       <div v-if="description" class="text-sm pr-2">{{ description }}</div>
     </div>
-    <!-- カードを展開 -->
+    <!-- カード本体 -->
     <div class="space-y-2 p-4">
       <slot />
     </div>
@@ -35,11 +35,6 @@
       variant: 'secondary',
     }
   )
-
-  // 親コンポーネントに開閉の切り替えを通知
-  defineEmits<{
-    toggle: []
-  }>()
 
   const headerClass = computed(() => `bg-${props.variant} text-${props.variant}-content`)
 

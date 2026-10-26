@@ -11,7 +11,7 @@
       <div class="flex items-center gap-1">
         <span class="badge badge-xs">{{ index + 1 }}</span>
         <div class="flex-1" />
-        <button type="button" class="btn btn-xs btn-outline" @click="handleSetDefaultPath">
+        <button type="button" class="btn btn-xs btn-outline" @click="handleSetDefaultPath(index)">
           <RotateCcw class="w-3 h-3 mr-1" />{{ t('characterImage.layer.setPath') }}
         </button>
         <button type="button" class="btn btn-ghost btn-xs" @click="handleMoveUp(index)" :disabled="index === 0">
@@ -65,12 +65,14 @@
   const imageExtensions = ['png', 'gif', 'webp', 'jpg', 'jpeg', 'svg', 'webm', 'mp4']
   const extensionIndex = ref(0)
 
-  const handleSetDefaultPath = () => {
+  // 押されたレイヤー(index)のパスだけを既定パスに書き換える
+  const handleSetDefaultPath = (index: number) => {
     const ext = imageExtensions[extensionIndex.value % imageExtensions.length]
     extensionIndex.value++
     const newPath = `${props.selectedItemKey}/${props.emotionKey}.${ext}`
-    const newSrc = props.src.length === 0 ? [newPath] : [newPath, ...props.src.slice(1)]
-    emit('update:src', newSrc)
+    const n = [...layers.value]
+    n[index] = newPath
+    emit('update:src', n)
   }
 
   const handleLayerUpdate = (index: number, value: string) => {

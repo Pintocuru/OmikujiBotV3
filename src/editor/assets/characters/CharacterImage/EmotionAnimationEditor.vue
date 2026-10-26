@@ -31,12 +31,18 @@
           max="5"
           step="0.2"
           v-model.number="localAnimation.duration"
+          @change="applyAnimation"
         />
         <div class="flex justify-between text-xs text-base-content/40"><span>{{ t('characterImage.animation.fast') }}</span><span>{{ t('characterImage.animation.slow') }}</span></div>
       </div>
 
       <div class="flex items-center gap-2">
-        <input type="checkbox" class="toggle toggle-xs toggle-primary" v-model="localAnimation.loop" />
+        <input
+          type="checkbox"
+          class="toggle toggle-xs toggle-primary"
+          v-model="localAnimation.loop"
+          @change="applyAnimation"
+        />
         <label class="text-xs text-base-content/60">
           {{ localAnimation.loop ? t('characterImage.animation.loop') : t('characterImage.animation.once') }}
         </label>
