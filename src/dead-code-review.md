@@ -40,7 +40,6 @@
 | `GameScriptManager.ts`(`allReset` / `listAvailableScripts`)                                                                    | スクリプト管理 API の対称性のため保持                                                                                                                           |
 | `generator/stores/UserStats/UserStatsManager.ts`(`getLatest`)                                                                  | LiveConsole 等の将来用として保持                                                                                                                                |
 | `dataPacks/useDataPacks.ts` の `error`                                                                                         | 将来のデータパック読込エラーハンドリング用として保持                                                                                                            |
-| `src/リポジトリのデッドコードを調査し、不要なコードを削除してください.md`                                                      | 依頼文の記録として保持(操作・削除しない)                                                                                                                        |
 
 ## 2. 未実行(報告のみ・要判断)
 
