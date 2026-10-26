@@ -35,6 +35,7 @@ export const registerAllGameScripts = () =>
     MultiplyBonanza: () => import('@/games/scripts/MultiplyBonanza/execute'),
     GoogolClover: () => import('@/games/scripts/GoogolClover/execute'),
     HugEmAll: () => import('@/games/scripts/HugEmAll/execute'),
+    FortuneRanking: () => import('@/games/scripts/FortuneRanking/execute'),
   } satisfies Record<ScriptGameKey, GameScriptLoader>)
 
 export const registerRuntime = () => {

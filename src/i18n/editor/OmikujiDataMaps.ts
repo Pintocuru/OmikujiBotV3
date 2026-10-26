@@ -125,6 +125,10 @@ export const omikujiDataMapMessages = {
           name: 'ダンジョンスロット',
           description: 'Nolimit City - Kill Em All風のおみくじ',
         },
+        FortuneRanking: {
+          name: '占いランキング',
+          description: '果物などの順位を作成する拡張スクリプト',
+        },
       },
       postFlowKind: {
         message: {
@@ -408,6 +412,10 @@ export const omikujiDataMapMessages = {
         HugEmAll: {
           name: 'Dungeon Slot',
           description: 'Nolimit City - Omikuji inspired by Kill Em All',
+        },
+        FortuneRanking: {
+          name: 'Fortune Ranking',
+          description: 'Extension script that creates rankings (e.g. fruits)',
         },
       },
       postFlowKind: {

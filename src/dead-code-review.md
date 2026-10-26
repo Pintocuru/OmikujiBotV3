@@ -1,6 +1,6 @@
 # dead-code-review.md(圧縮版)— OmikujiBotV3
 
-最終更新: 2026-10-26(patch 22 時点)。**実行済みの修正は記載しない**。ここにあるのは「未実行の項目」「消してはいけない項目」「次にやること」だけ。
+最終更新: 2026-10-26(patch 23 時点)。**実行済みの修正は記載しない**。ここにあるのは「未実行の項目」「消してはいけない項目」「次にやること」だけ。
 
 ## 0. 調査対象外・方針
 
@@ -30,7 +30,7 @@
 | `server/presets` の JSON | 旧形式データ。データ起因のエラーは正常扱い |
 | `src/リポジトリのデッドコードを調査し、不要なコードを削除してください.md` | 依頼文の控え。削除しない(2026-10-26 ユーザー判断) |
 | `games/scripts/DwarfBomb/game.ts`(クラス `DwarfBomb`) | 参照ゼロだが、冒頭に「使用しない(バックアップ用)」と明記。実際に使うのは `DwarfBomb/game/game.ts` |
-| `games/scripts/FortuneRanking/` 一式 | `scriptGameKeys` / `registerAllGameScripts` に未登録で外部参照ゼロ。開発中の可能性があり保持(登録するかは本人判断) |
+| `games/scripts/FortuneRanking/game.ts` | `BomberSpin/game.ts` の複製で `execute.ts` から未使用。意図が判断できないため保持(登録は patch 23 で実施済み。占いランキングを作る拡張スクリプトで、エンジンには組み込まない方針) |
 | `games/scripts/HugEmAll/CharacterPrompt.md` | キャラクター用プロンプトの資料 |
 | `games/types/GameScriptTypes.ts` の `ScriptPreset` | 参照ゼロだが、旧プリセット形式の名残か判断できないため保持 |
 | `GoogolClover/sub/constants.ts` の `MIN_SPINS` / `MAX_SPINS` | コメントアウトした抽選回数ランダム化の行が参照。復活の意図あり |
@@ -48,8 +48,6 @@
 - `PostActionsTabs.vue`: `<button>` の中に `MenuDropdown`(`<button>`)をネスト(HTML 違反)
 - `OmikujiItemCriteria.vue` と `useOmikujiLottery.ts` の条件判定ロジックが重複(統一はリファクタ)
 - `ActionSetSettings.vue`: `currentKey` が渡されず常に `undefined`(自己参照ショートカットが無効。バグ修正か削除かは設計確認)
-- `common/LayerImage/LayerImage.vue` + `useImageSources.ts`: `@error="onError(i)"` の `i` は「空文字を除いた後の `sources`」の添字だが、`errorIndexes` は元の `layers` の添字で管理している。先頭側に空のレイヤーがあると、別の画像を非表示にする(確信度 中)
-- `common/migrations/v3/sampleCharacter.ts`: サンプルキャラの感情キーが `surprise`。アプリの感情キーは `characterEmotions` の `surprised`(`image` は自由キーの record なのでエラーにはならず、`surprised` が無いだけ。確信度 中)
 - `OmikenCommentProcessor`(`sdk/subscribe/OmikenComment/OmikenCommentProcessor.ts`): `roles.has('anonymity')` に到達しない(匿名判定の抜けの可能性)
 - `useTestPost.ts` の `postTestOmikuji`: `priorityItems` が `!item.lottery.isPriority` で絞っており条件が逆に見える(仕様確認)
 - `SectionCard.vue`: `toggle` emit / `isOpen` が未実装で、呼び出し側の `@toggle` / `:isOpen` が no-op(折りたたみを実装するか一斉削除するか)
@@ -92,7 +90,7 @@
 
 ### 2-4. src/games(patch 19 で精読。報告のみ)
 
-- `FortuneRanking/game.ts`(確信度 中): `BomberSpin/game.ts` の複製(`playSlot`)で、`execute.ts` から import されていない。`FortuneRanking/params.ts` の `GameParamsSchema` / `GameParams`(`fruits: z.string().min(1)`)も未使用で、`execute.ts` の既定値処理と食い違う。ディレクトリ全体が未登録のため保留
+- `FortuneRanking/params.ts`(確信度 中): `GameParamsSchema` / `GameParams`(`fruits: z.string().min(1)`)は未使用で、`execute.ts` の既定値処理と食い違う。`game.ts`(`BomberSpin` の複製)も未使用のため、整理するなら同時に判断する
 - `GoogolClover/execute.ts`(確信度 中): `const {} = this.parseParams(...)` は空の分割代入。`params.ts` は `DwarfBomb` の `mode`(ツルハシ / TNT)のコピーで、このゲームでは使われない
 - `GoogolClover/sub/resultBuilder.ts`(確信度 中): `exp >= GOAL_EXPONENT` の分岐と通常成功の分岐が同一の戻り値。`GOAL_EXPONENT` と `UserState.isGoogol` は目標達成演出の予定の可能性。`SpinResult.symbol` は未読
 - `MultiplyBonanza/gameConfig.ts`(確信度 中): `WIN_MESSAGES` の `[10000, 'JACKPOT']` は、`MAX_WIN`(= 10000)の行が先に一致するため到達しない。`WORD_PARTY_CONFIG.DELAY_SECONDS` の `BASE_PARTY` / `CRACKER1` は未参照(`execute.ts` が 1 / 3.2 を直書き)。`MessageFormatter.getBasePayout` は `PayoutCalculator.calculatePayout` の一部と重複
@@ -143,6 +141,6 @@
 
 ## 3. 次にやること
 
-1. 2-1 の不具合の疑いを、修正対象にするか決める(`LayerImage` の `onError`、サンプルキャラの `surprise`)
-2. `FortuneRanking` を登録するか、整理するかを決める(2-4)
-3. `CharacterManager` の根本対応(案 2 / 案 3)を決める(2-6)。提案 A は現状維持
+1. `CharacterManager` の名称整理(案 2): ローカルのエージェントに依頼済み(`antigravity-handoff.md` の T-4)。完了後、2-6 の「応急処置の残り」を削除する
+2. フォルダ名の大文字小文字の統一(2-6): 広範囲のため後回し
+3. `FortuneRanking` の `game.ts` / `params.ts` の整理(2-4)。登録済みのため、いつでも判断できる

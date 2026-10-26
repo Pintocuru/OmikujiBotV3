@@ -55,4 +55,11 @@ export const gameMetaMap: Record<
     url: '',
     banner: '',
   },
+  FortuneRanking: {
+    name: '占いランキング',
+    description: '果物などの順位を作成する拡張スクリプト',
+    icon: 'Sparkles',
+    url: '',
+    banner: '',
+  },
 }
