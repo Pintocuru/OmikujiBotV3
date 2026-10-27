@@ -12,6 +12,7 @@ export const registerAll = () => {
 
   // エディターの登録
   registerUiEditor({
+    characterStage: () => import('@/ui/CharacterStage/editor/CharacterStageEditor.vue'),
     commentBubble: () => import('@/ui/CommentBubble/editor/CommentBubbleEditor.vue'),
     cookieCounter: () => import('@/ui/CookieCounter/editor/CookieCounterEditor.vue'),
     gameRanking: () => import('@/ui/GameRanking/editor/GameRankingEditor.vue'),

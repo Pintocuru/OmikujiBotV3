@@ -19,6 +19,7 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, { label: string; des
     label: 'テストレイアウト(管理者用)',
     description: 'すべて表示するレイアウト',
     kinds: [
+      'characterStage',
       'commentBubble',
       'cookieCounter',
       'gameRanking',

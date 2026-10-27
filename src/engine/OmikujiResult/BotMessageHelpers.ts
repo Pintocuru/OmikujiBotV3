@@ -29,9 +29,8 @@ export function createBotMessagesFromAction(
   const slots = Object.keys(merged).length > 0 ? (merged as BotMessageSlotsType) : undefined
 
   if (spec.bubble) {
-    // 評価ブロックだけのメッセージ (評価後に本文が空) は、吹き出しを作らない
+    // 本文が空でも作る (空メッセージを弾くのは UI 側の責務)
     const message = action.message || ''
-    if (!message.trim()) return []
     return [createBubbleMessage(action, message, delaySeconds, characterResolver, user, slots)]
   }
 

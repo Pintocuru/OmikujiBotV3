@@ -22,7 +22,12 @@
       <IconSelector :character-key="characterKey" :icon-key="action.iconKey" @update:icon-key="updateIconKey" />
     </SettingItem>
 
-    <SettingItem icon="MessageSquare" layout="vertical" :label="t('postFlow.messageSettings.message')">
+    <SettingItem
+      v-if="spec.bubble === 'comment'"
+      icon="MessageSquare"
+      layout="vertical"
+      :label="t('postFlow.messageSettings.message')"
+    >
       <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
     </SettingItem>
   </template>

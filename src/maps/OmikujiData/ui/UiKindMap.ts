@@ -3,6 +3,11 @@ import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import type { UiKind } from '@/types/OmikujiData'
 
 export const uiKindMap: Record<UiKind, { label: string; icon: LucideIconName; description: string }> = {
+  characterStage: {
+    label: 'キャラクターステージ',
+    icon: 'UserSquare',
+    description: 'キャラクター画像だけを、指定した位置・秒数で表示します(演出用)。',
+  },
   commentBubble: {
     label: 'フキダシ',
     icon: 'MessageSquare',

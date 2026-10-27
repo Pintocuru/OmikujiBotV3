@@ -1,6 +1,7 @@
 // src/types/OmikujiData/ui/UiSettingsSchema.ts
 import { z } from 'zod'
 import {
+  CharacterStageSchema,
   CommentBubbleSchema,
   CookieCounterSchema,
   KujibikiPanelSchema,
@@ -15,6 +16,7 @@ import {
  * uiKinds UI種別の定義マップ
  */
 export const uiKinds = [
+  'characterStage',
   'commentBubble',
   'cookieCounter',
   'gameRanking',
@@ -33,6 +35,7 @@ export type UiKind = z.infer<typeof UiKindSchema>
  * UI設定
  */
 export const UiSettingsSchema = z.object({
+  characterStage: CharacterStageSchema.optional(),
   commentBubble: CommentBubbleSchema.optional(),
   cookieCounter: CookieCounterSchema.optional(),
   gameRanking: GameRankingSchema.optional(),

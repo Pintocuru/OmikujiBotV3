@@ -11,6 +11,7 @@ import type { GameScriptKey, UiKind, UiLayoutType } from '@/types/OmikujiData'
 // UI
 export const registerAllUi = () =>
   registerUi({
+    characterStage: () => import('@/ui/CharacterStage/CharacterStage.vue'),
     commentBubble: () => import('@/ui/CommentBubble/CommentBubble.vue'),
     cookieCounter: () => import('@/ui/CookieCounter/CookieCounter.vue'),
     gameRanking: () => import('@/ui/GameRanking/GameRanking.vue'),
