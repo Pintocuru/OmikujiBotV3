@@ -1,4 +1,4 @@
-//
+// src/editor/constants/dataPackTemplates.ts
 
 // テンプレートリスト
 export const templateList: string[] = [

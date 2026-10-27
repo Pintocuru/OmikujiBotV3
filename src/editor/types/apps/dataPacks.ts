@@ -1,5 +1,4 @@
-//
-
+// src/editor/types/apps/dataPacks.ts
 import { MetaDataType } from '@/types/core'
 
 // 型定義

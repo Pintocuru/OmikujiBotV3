@@ -1,3 +1,3 @@
-// src/manager/types/index.ts
+// src/console/types/index.ts
 
 //
