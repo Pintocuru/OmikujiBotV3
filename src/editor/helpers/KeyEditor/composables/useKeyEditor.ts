@@ -1,7 +1,7 @@
 // src/editor/helpers/KeyEditor/composables/useKeyEditor.ts
 import { ref, computed, readonly, watch } from 'vue'
-import { validateKey as validateKeyUtil } from './keyEditorValidation'
-import { updateStrategies } from './keyUpdateStrategies'
+import { validateKey as validateKeyUtil } from '../keyEditorValidation'
+import { updateStrategies } from '../keyUpdateStrategies'
 import { CharacterUsage, UpdateResult } from '../types'
 import { eventCategory, AssetCategoryType } from '@/types/OmikujiData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'

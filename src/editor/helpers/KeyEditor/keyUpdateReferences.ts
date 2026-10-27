@@ -1,4 +1,4 @@
-// src/editor/helpers/KeyEditor/composables/keyUpdateReferences.ts
+// src/editor/helpers/KeyEditor/keyUpdateReferences.ts
 import type { PostFlowType, WeightValuesArrayType } from '@/types/OmikujiData/'
 import { eventCategory, hasPostFlowMessage } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

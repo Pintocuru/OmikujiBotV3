@@ -114,3 +114,14 @@
 #### スキップ(変更なし)
 
 - `console/scripts/summarizeState.ts` / `userConsole.ts`: §5 で「問題なし・camelCase のまま維持」
+
+#### patch 9: `KeyEditor/composables/` の関数3ファイルを `KeyEditor/` 直下へ移動(patch 7 の保留分を解消)
+
+- 設計判断: `use*` プレフィックスの判定基準は「ref / computed 等のリアクティブな状態を返すか」。内部で `useXxxStore()` を呼ぶだけではコンポーザブルとしない。3ファイルともリアクティブな戻り値なし(`validateKey` は string、`updateXxxReferences` は void の破壊的更新、`updateStrategies` は定数マップ。`ref(` / `computed(` / `reactive(` の使用は 0 件を確認)のため、リネームせず camelCase のまま `composables/` の外へ移動。`composables/` には `useKeyEditor.ts` のみ残る。ロジック変更なし
+- 移動(git mv): `keyEditorValidation.ts` / `keyUpdateReferences.ts` / `keyUpdateStrategies.ts`(`src/editor/helpers/KeyEditor/composables/` → `src/editor/helpers/KeyEditor/`)
+- 影響ファイル:
+  - 上記3ファイル(1行目のパスコメントのみ更新。`keyUpdateStrategies.ts` は `'../types'` → `'./types'`、`'./keyUpdateReferences'` は同階層のまま)
+  - `composables/useKeyEditor.ts`(import 2行: `'./keyEditorValidation'` → `'../keyEditorValidation'`、`'./keyUpdateStrategies'` → `'../keyUpdateStrategies'`)
+- 旧パス残存検索(`composables/(keyEditorValidation|keyUpdateReferences|keyUpdateStrategies)` を src 全文): 0件
+- 検証: npm run lint 成功 / npm run tsc 成功。ローカル clone 上で実行(未 push)
+- patch 7 で保留した「keyEditor*.ts 4件」は本 patch で完了。patch 7 の `KeyEditor/types.ts` はそのまま維持
