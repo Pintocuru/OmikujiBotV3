@@ -15,15 +15,15 @@
     />
 
     <!-- タブコンテンツ -->
-    <!-- アクションが空の場合 -->
-    <template v-if="props.modelValue.length === 0">
-      <NoParamsCard :message="t('postFlow.flowsEditor.empty')" />
-      <button @click="addNewAction" class="btn btn-primary btn-sm">{{ t('postFlow.flowsEditor.addFirst') }}</button>
+    <!-- PostActionタブの内容 -->
+    <template v-if="currentAction">
+      <PostActionItem :action="currentAction" :current-key="currentKey" @update:action="updateCurrentAction" />
     </template>
 
-    <!-- PostActionタブの内容 -->
-    <template v-else-if="activeTab >= 0">
-      <PostActionItem :action="currentAction" :current-key="currentKey" @update:action="updateCurrentAction" />
+    <!-- アクションが空の場合 -->
+    <template v-else>
+      <NoParamsCard :message="t('postFlow.flowsEditor.empty')" />
+      <button @click="addNewAction" class="btn btn-primary btn-sm">{{ t('postFlow.flowsEditor.addFirst') }}</button>
     </template>
   </div>
 </template>

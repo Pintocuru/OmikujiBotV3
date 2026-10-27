@@ -1,4 +1,3 @@
-// src/editor/assets/PostFlow/composables/usePostActionsTab.ts
 import { computed, Ref, ref, watch } from 'vue'
 import { PostFlowMessageSchema, PostFlowMessageType, PostFlowType } from '@/types/OmikujiData/'
 import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
@@ -9,102 +8,82 @@ export function usePostActionsTab(
 ) {
   const { characterArray } = useCharacterLookup()
 
-  // アクティブなタブのインデックス（-1はプレースホルダータブ）
-  const activeTab = ref(0)
+  // アクティブなタブのインデックス。-1 は「アクションが0件」を表す
+  const activeTab = ref(actions.value.length > 0 ? 0 : -1)
 
   // 現在選択されているアクション
-  const currentAction = computed(() => {
-    return actions.value[activeTab.value] || null
-  })
+  const currentAction = computed(() =>
+    activeTab.value >= 0 ? actions.value[activeTab.value] ?? null : null
+  )
 
-  // タブの切り替え
+  // タブの切り替え（閉じる概念はなし。常に開いたまま）
   const setActiveTab = (index: number) => {
-    // 同じタブをクリックで閉じる
-    if (index === activeTab.value) {
-      activeTab.value = -2
-    } else if (index >= 0 && index < actions.value.length) {
-      // PostActionタブ
+    if (index >= 0 && index < actions.value.length) {
       activeTab.value = index
     }
   }
 
-  // アクションの更新
   const updateCurrentAction = (updatedAction: PostFlowType) => {
+    if (activeTab.value < 0) return
     const newActions = [...actions.value]
     newActions[activeTab.value] = updatedAction
     emit('update:actions', newActions)
   }
 
-  // 新しいアクションの追加
   const addNewAction = () => {
     const newAction: PostFlowMessageType = PostFlowMessageSchema.parse({
       characterKey: characterArray.value[0]?.key ?? null,
-      delaySeconds: actions.value.length > 0 ? Math.max(...actions.value.map((a) => a.delaySeconds)) + 1 : 0,
+      delaySeconds:
+        actions.value.length > 0
+          ? Math.max(...actions.value.map((a) => a.delaySeconds)) + 1
+          : 0,
     })
-
     const newActions = [...actions.value, newAction]
     emit('update:actions', newActions)
-
-    // 新しく追加されたアクションのタブに切り替え
     activeTab.value = newActions.length - 1
   }
 
-  // アクションの複製
   const duplicateAction = (index: number) => {
-    if (index >= 0 && index < actions.value.length) {
-      const actionToDuplicate = { ...actions.value[index] }
-      // 複製時は遅延時間を少し後ろにずらす
-      actionToDuplicate.delaySeconds = actionToDuplicate.delaySeconds + 0.5
-
-      // 複製されたアクションを元のアクションの直後に挿入
-      const newActions = [...actions.value]
-      newActions.splice(index + 1, 0, actionToDuplicate)
-      emit('update:actions', newActions)
-
-      // 複製されたアクションのタブに切り替え
-      activeTab.value = index + 1
-    }
+    if (index < 0 || index >= actions.value.length) return
+    const actionToDuplicate = { ...actions.value[index] }
+    actionToDuplicate.delaySeconds += 0.5
+    const newActions = [...actions.value]
+    newActions.splice(index + 1, 0, actionToDuplicate)
+    emit('update:actions', newActions)
+    activeTab.value = index + 1
   }
 
-  // アクションの削除
   const removeAction = (index: number) => {
-    if (index >= 0 && index < actions.value.length) {
-      const newActions = actions.value.filter((_, i) => i !== index)
-      emit('update:actions', newActions)
+    if (index < 0 || index >= actions.value.length) return
+    const newActions = actions.value.filter((_, i) => i !== index)
+    emit('update:actions', newActions)
 
-      // アクティブタブの調整
-      if (activeTab.value === index) {
-        // 削除されたタブが選択されていた場合
-        if (newActions.length === 0) {
-          activeTab.value = -1 // プレースホルダータブに戻る
-        } else if (index >= newActions.length) {
-          activeTab.value = newActions.length - 1
-        }
-        // 削除されたタブより前のタブが選択されていた場合は何もしない
-      } else if (activeTab.value > index) {
-        // 削除されたタブより後ろのタブが選択されていた場合、インデックスを調整
-        activeTab.value = activeTab.value - 1
-      }
+    if (newActions.length === 0) {
+      activeTab.value = -1
+    } else if (activeTab.value === index) {
+      // 削除したタブを選択していた → 同じ位置 or 末尾に寄せる
+      activeTab.value = Math.min(index, newActions.length - 1)
+    } else if (activeTab.value > index) {
+      activeTab.value -= 1
     }
   }
 
-  // 並び替え後も同じアクションを選択し続ける（order[新index] = 元のindex）
   const followReorder = (order: number[]) => {
     if (activeTab.value < 0) return
     const next = order.indexOf(activeTab.value)
     if (next >= 0) activeTab.value = next
   }
 
-  // アクション数が変更された場合のタブ調整
+  // 選択中インデックスが範囲外になったら補正するだけ
   watch(
     () => actions.value.length,
-    (newLength, oldLength) => {
-      if (newLength === 0 && activeTab.value >= 0) {
-        activeTab.value = -1 // プレースホルダータブに戻る
-      } else if (activeTab.value >= newLength && newLength > 0) {
-        activeTab.value = newLength - 1
-      } else if (newLength > 0 && activeTab.value === -1 && oldLength === 0) {
-        // 初回アクション追加時は最初のアクションタブを選択
+    (len) => {
+      if (len === 0) {
+        activeTab.value = -1
+      } else if (activeTab.value >= len) {
+        activeTab.value = len - 1
+      } else if (activeTab.value < 0) {
+        // 0件→1件以上になったら先頭を選択（初回追加時など）
         activeTab.value = 0
       }
     },
