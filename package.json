@@ -5,6 +5,7 @@
   "description": "おみくじ付きBOTジェネレーターとエディター",
   "scripts": {
     "dev": "tsx server/start-dev-server.ts",
+    "dev:console": "vite dev --config tools/viteConfig/vite.console.config.ts",
     "updateFilesName": "tsx tools/fileName/UpdateTsFiles.ts",
     "lint": "eslint src",
     "tsc": "npx vue-tsc --noEmit",

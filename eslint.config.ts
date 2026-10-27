@@ -17,7 +17,7 @@ const baseRules: Linter.RulesRecord = {
   // 'any'型の使用を許可するか(Componentでanyを使うので許容)
   '@typescript-eslint/no-explicit-any': 'off',
   // const'の強制
-  'prefer-const': 'warn',
+  'prefer-const': 'off',
   // 未使用の変数 (_ は例外)
   '@typescript-eslint/no-unused-vars': ['warn', {
     argsIgnorePattern: '^_',
