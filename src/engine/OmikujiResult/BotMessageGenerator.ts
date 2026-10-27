@@ -1,6 +1,6 @@
 // src/engine/OmikujiResult/BotMessageGenerator.ts
 import { PostFlowType, OmikujiDataType, hasPostFlowMessage } from '@/types/OmikujiData/'
-import { createBotMessagesFromAction, createBotMessagesFromVariable } from './BotMessageHelpers'
+import { createBotMessagesFromAction } from './BotMessageHelpers'
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { VariablePlaceholderProcessor } from '@/engine/VariablePlaceholder/VariableProcessor'
 import { PostOmikujiService } from '@/engine/PostOmikuji/PostOmikujiService'
@@ -34,6 +34,17 @@ export class BotMessageGenerator {
    */
   processVariables(actions: PostFlowType[]): ProcessedPostAction[] {
     return actions.map((action): ProcessedPostAction => {
+      // message は本文と slots の両方を評価する (slots は uiKey ごとの入力欄の値)
+      if (action.kind === 'message') {
+        const processed = action.message ? this.variableProcessor.process(action.message) : undefined
+        const slots = Object.fromEntries(
+          Object.entries(action.slots).map(([key, text]) => [key, this.variableProcessor.process(text).bubble])
+        )
+        return {
+          action: { ...action, message: processed?.bubble ?? action.message, slots },
+          extra: processed?.extra,
+        }
+      }
       if (!hasPostFlowMessage(action) || !action.message) return { action }
 
       // 変数処理の実行（ランキング抽出等）
@@ -83,8 +94,7 @@ export class BotMessageGenerator {
           break
 
         case 'variable':
-          // 投稿なし・音声なし。変数処理と BotMessage 生成のみ
-          messages.push(...createBotMessagesFromVariable(extra, delaySeconds, omiken))
+          // 投稿なし・音声なし・BotMessage 生成なし (変数処理のみ)
           break
 
         case 'sound':
@@ -103,6 +113,10 @@ export class BotMessageGenerator {
   stripVariables(actions: PostFlowType[]): ProcessedPostAction[] {
     return actions.map((action): ProcessedPostAction => {
       if (action.kind !== 'message' && action.kind !== 'variable') return { action }
+      if (action.kind === 'message') {
+        const slots = Object.fromEntries(Object.entries(action.slots).map(([k, t]) => [k, t.replace(EVAL_PATTERN, '')]))
+        return { action: { ...action, message: (action.message ?? '').replace(EVAL_PATTERN, ''), slots } }
+      }
       if (!action.message) return { action }
 
       return { action: { ...action, message: action.message.replace(EVAL_PATTERN, '') } }

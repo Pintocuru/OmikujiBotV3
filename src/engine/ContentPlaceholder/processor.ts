@@ -52,6 +52,13 @@ export class ContentPlaceholder {
    */
   processPostActions(postActions: PostFlowType[]): PostFlowType[] {
     return postActions.map((action) => {
+      if (action.kind === 'message') {
+        return {
+          ...action,
+          message: this.processText(action.message),
+          slots: Object.fromEntries(Object.entries(action.slots).map(([k, v]) => [k, this.processText(v)])),
+        }
+      }
       if (hasPostFlowMessage(action)) {
         return {
           ...action,

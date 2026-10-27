@@ -31,20 +31,32 @@ export const KujibikiSlotMap = {
   detail: { slot: 'slot1', title: '解説', description: '結果の解説文' },
 } as const satisfies Record<string, SlotMeta>
 
-// slots を使わない UI は {} にする(null にしない。editor が分岐しなくて済む)
-const NO_SLOTS = {} as const satisfies Record<string, SlotMeta>
-
 /**
- * 全 UiKind 分を必須にする(UiKind を足したときの追加漏れはコンパイルエラーになる)
- * TODO: slots を使う UI が増えたら、ここに対応する map を足す。
+ * UI ごとの「投稿メッセージの仕様」
+ * - bubble: キャラ・本文(吹き出し)を使うか
+ * - slots: slotN の意味 (editor の入力欄になる)
+ * 全 UiKind 分を必須にする(UiKind を足したときの追加漏れはコンパイルエラーになる)。
+ * 投稿を受け取らない UI は bubble: false かつ slots: {} (editor の UI 選択には出ない)。
  */
-export const UiSlotMaps = {
-  commentBubble: NO_SLOTS,
-  gameRanking: RankingSlotMap,
-  cookieCounter: NO_SLOTS,
-  kujibikiPanel: KujibikiSlotMap,
-  liveClock: NO_SLOTS,
-  streamCounter: NO_SLOTS,
-  toastWidgets: NO_SLOTS,
-  userBoard: NO_SLOTS,
-} as const satisfies Record<UiKind, Record<string, SlotMeta>>
+export type UiMessageSpec = { bubble: boolean; slots: Record<string, SlotMeta> }
+
+export const UiMessageSpecs = {
+  commentBubble: { bubble: true, slots: {} },
+  toastWidgets: { bubble: true, slots: {} },
+  liveClock: { bubble: true, slots: {} }, // TODO: slots を使うなら map を足す
+  kujibikiPanel: { bubble: true, slots: KujibikiSlotMap },
+  gameRanking: { bubble: false, slots: RankingSlotMap },
+  userBoard: { bubble: false, slots: {} },
+  cookieCounter: { bubble: false, slots: {} },
+  streamCounter: { bubble: false, slots: {} },
+} as const satisfies Record<UiKind, UiMessageSpec>
+
+export const getUiMessageSpec = (kind: UiKind): UiMessageSpec => UiMessageSpecs[kind]
+
+/** 投稿を受け取れる UI か (editor の UI 選択に出すか) */
+export const acceptsPost = (kind: UiKind): boolean => {
+  const spec = getUiMessageSpec(kind)
+  return spec.bubble || Object.keys(spec.slots).length > 0
+}
+
+export const postUiKinds = (Object.keys(UiMessageSpecs) as UiKind[]).filter(acceptsPost)

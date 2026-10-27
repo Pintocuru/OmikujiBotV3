@@ -1,7 +1,5 @@
 // src/engine/VariablePlaceholder/VariableProcessor.ts
 import {
-  ExtraListsSchema,
-  ExtraListsType,
   BotMessageSlotsSchema,
   BotMessageSlotsType,
   VariablePlaceholderResult,
@@ -44,7 +42,6 @@ export class VariablePlaceholderProcessor {
     return {
       bubble: processed,
       extra: {
-        lists: extra.lists,
         slots: extra.slots,
       },
       hasError: hasUnresolved,
@@ -89,41 +86,18 @@ export class VariablePlaceholderProcessor {
   }
 
   /**
-   * 予約語処理
+   * 評価ブロックの slot0〜slot9 を取り出す(editor のフォームで入れた slots を上書きする用)
    */
-  private buildExtraData(vars: Record<string, string>): {
-    lists?: ExtraListsType
-    slots?: BotMessageSlotsType
-  } {
+  private buildExtraData(vars: Record<string, string>): { slots?: BotMessageSlotsType } {
     const slotEntries: Record<string, string> = {}
     for (let i = 0; i <= 9; i++) {
       const key = `slot${i}`
       if (vars[key] !== undefined) slotEntries[key] = vars[key]
     }
-
-    const hasSlots = Object.keys(slotEntries).length > 0
-    const hasListData = vars['text'] !== undefined || vars['flag'] === 'true'
-
-    if (!hasSlots && !hasListData) return {}
-
-    let lists: ExtraListsType | undefined
-    let slots: BotMessageSlotsType | undefined
+    if (Object.keys(slotEntries).length === 0) return {}
 
     try {
-      if (hasListData) {
-        lists = ExtraListsSchema.parse({
-          listName: vars['name'],
-          symbol: vars['symbol'],
-          text: vars['text'],
-          order: vars['order'] ? Number(vars['order']) : undefined,
-          variant: vars['variant'],
-          flag: vars['flag'] === 'true',
-        })
-      }
-      if (hasSlots) {
-        slots = BotMessageSlotsSchema.parse(slotEntries)
-      }
-      return { lists, slots }
+      return { slots: BotMessageSlotsSchema.parse(slotEntries) }
     } catch (error) {
       console.warn('Extra data construction failed:', error)
       return {}

@@ -150,6 +150,7 @@
         const characterKey = character.key
 
         return BotMessageBubbleSchema.parse({
+          uiKey: 'toastWidgets',
           bubble: {
             name: 'テストユーザー',
             message: messageText,

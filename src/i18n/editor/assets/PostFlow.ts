@@ -66,6 +66,8 @@ export const postFlowMessages = {
       messageSettings: {
         icon: 'アイコン',
         message: 'メッセージ',
+        uiKey: '表示先のUI',
+        noPost: 'このUIには投稿を表示するメッセージはありません',
       },
       flowsEditor: {
         empty: 'PostActionがありません',
@@ -213,6 +215,8 @@ export const postFlowMessages = {
       },
       messageSettings: {
         icon: 'Icon',
+        uiKey: 'Target UI',
+        noPost: 'This UI has no messages to display.',
         message: 'Message',
       },
       flowsEditor: {

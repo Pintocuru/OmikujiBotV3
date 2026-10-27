@@ -56,7 +56,7 @@
     return [
       {
         id: `mock-${currentIndex.value}`,
-        uiKey: 'commentBubble',
+        uiKey: 'kujibikiPanel',
         timestamp: new Date().toISOString(),
         delaySeconds: 0,
         bubble: {

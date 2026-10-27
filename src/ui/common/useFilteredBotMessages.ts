@@ -46,7 +46,7 @@ export function useFilteredBotMessages(kind: UiKind, options: Options = {}) {
     if (!isKindEnabled.value) return []
 
     return botMessages.value.flatMap((msg) => {
-      if (!isBubbleMessage(msg)) return []
+      if (!isBubbleMessage(msg) || msg.uiKey !== kind) return []
       if (!allowEmpty && !msg.bubble.message?.trim()) return []
       return [buildMessage(msg)]
     })

@@ -10,6 +10,13 @@ export class DisplayVariableResolver {
    */
   processPostActions(postActions: PostFlowType[]): PostFlowType[] {
     return postActions.map((action) => {
+      if (action.kind === 'message') {
+        return {
+          ...action,
+          message: this.resolve(action.message),
+          slots: Object.fromEntries(Object.entries(action.slots).map(([k, v]) => [k, this.resolve(v)])),
+        }
+      }
       if (hasPostFlowMessage(action)) {
         return {
           ...action,

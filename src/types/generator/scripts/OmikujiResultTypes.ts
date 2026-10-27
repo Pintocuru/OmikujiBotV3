@@ -1,13 +1,12 @@
 // src/types/generator/scripts/OmikujiResultTypes.ts
 import { PostFlowType } from '@/types/OmikujiData/'
-import { BotMessageSlotsType, ExtraListsType } from './BotMessageSchema'
+import { BotMessageSlotsType } from './BotMessageSchema'
 
 /**
  * 評価ブロックの解析結果
  * VariablePlaceholderProcessor.ts の ProcessResult と構造を一致させる
  */
 export interface VariablePlaceholderExtra {
-  lists?: ExtraListsType
   slots?: BotMessageSlotsType
 }
 

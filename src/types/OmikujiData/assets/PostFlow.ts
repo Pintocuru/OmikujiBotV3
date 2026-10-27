@@ -2,6 +2,7 @@
 import { z } from 'zod'
 import { WeightValuesArraySchema } from './PlaceholderSchema'
 import { soundKeys } from './SoundKey'
+import { UiKindSchema } from '../ui/UiSettingsSchema'
 
 /**
  * PostFlow タイプのUI表示情報
@@ -33,6 +34,8 @@ const SoundMixin = {
 // PostFlow Message
 export const PostFlowMessageSchema = PostFlowBaseSchema.extend({
   kind: z.literal('message').default('message'),
+  uiKey: UiKindSchema.default('commentBubble').catch('commentBubble'), // 表示先の UI
+  slots: z.record(z.string(), z.string()).default({}).catch({}), // slotN の値 (UiMessageSpecs の map で意味が決まる)
   characterKey: z.string().nullable().default(null).catch(null),
   iconKey: z.string().default('default').catch('default'),
   ...SoundMixin,

@@ -137,6 +137,8 @@
         return {
           kind,
           delaySeconds,
+          uiKey: 'commentBubble',
+          slots: {},
           characterKey: null,
           iconKey: 'default',
           sound: '',

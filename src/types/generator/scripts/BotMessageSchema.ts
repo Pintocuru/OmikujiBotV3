@@ -1,25 +1,8 @@
 // src/types/generator/scripts/BotMessageSchema.ts
 import { z } from 'zod'
 import { UserNameSchema } from '@/types/OmikenComment'
-import { DaisyUIColorSchema } from '@/types/core'
 import { UiKindSchema } from '@/types/OmikujiData'
 import { BotMessageBaseSchema } from './BotMessageBaseSchema'
-
-/**
- * ExtraListsSchema
- * 評価ブロック {{ }} の解析結果(engine 内部用)。BotMessage には載らない。
- * TODO:廃止。BotMessageSlotsSchema (slotN) に役割を託す(評価ブロックの書き方が変わるため別作業)。
- */
-export const ExtraListsSchema = z.object({
-  listName: z.string().optional(), // 名前
-  symbol: z.string().optional(), // 名前の隣につけるやつ
-  text: z.string().default(''), // 表示用得点
-  order: z.number().optional(), // 比較用
-  variant: DaisyUIColorSchema.optional(), // 得点表示のカラー
-  tags: z.array(z.string()).optional(),
-  flag: z.boolean().optional(),
-})
-export type ExtraListsType = z.infer<typeof ExtraListsSchema>
 
 /**
  * BotMessageSlotsSchema
@@ -67,13 +50,13 @@ export type BotMessageType = z.infer<typeof BotMessageSchema>
 
 /**
  * BotMessageBubbleSchema
- * commentBubble の UI が受け取る時の型 (bubble 必須に絞ったもの)
+ * bubble を使う UI (commentBubble / toastWidgets など) が受け取る時の型 (bubble 必須に絞ったもの)
  */
 export const BotMessageBubbleSchema = BotMessageSchema.extend({
-  uiKey: z.literal('commentBubble').default('commentBubble'),
+  uiKey: UiKindSchema.default('commentBubble'),
   bubble: BotBubbleSchema,
 })
 export type BotMessageBubbleType = z.infer<typeof BotMessageBubbleSchema>
 
 export const isBubbleMessage = (msg: BotMessageType): msg is BotMessageBubbleType =>
-  msg.uiKey === 'commentBubble' && !!msg.bubble
+  !!msg.bubble
