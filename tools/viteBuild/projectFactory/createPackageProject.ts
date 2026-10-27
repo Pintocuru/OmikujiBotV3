@@ -7,6 +7,7 @@ import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { APP_VERSION, BUILD_DATE } from '@/version'
 import { DEFAULT_FILES_TO_COPY } from './defaults'
 import { findJsonPath } from './findJsonPath'
+import { DOCS_RAW_BASE } from '../constants/repositoryUrls'
 
 /**
  * パッケージプロジェクト設定を生成する
@@ -28,8 +29,7 @@ export function createPackageProject(
     key: id,
     name: params.title,
     tags: params.tags,
-    // TODO:OmikujiBot-Docs -> OmikujiBotV3 に変更
-    banner: `https://raw.githubusercontent.com/Pintocuru/OmikujiBot-Docs/refs/heads/main/${params.category}/${series}/${id}.webp`,
+    banner: `${DOCS_RAW_BASE}${params.category}/${series}/${id}.webp`,
     licenseLabel: params.licenseLabel,
 
     // Vite のアクセスポイント: packages/<category>/<key>/main.ts (色違いは同じ main.ts を使う)
@@ -43,8 +43,7 @@ export function createPackageProject(
       name: `おみくじBOT ${params.title} ${colorLabel}OmikujiBot ${id}`,
       label: `${params.title} ${colorLabel} ${id}`,
       boothURL: `https://pintocuru.booth.pm/items/${params.boothId}`,
-      // TODO:OmikujiBot-Docs -> OmikujiBotV3 に変更
-      readmeURL: `https://github.com/Pintocuru/OmikujiBot-Docs/tree/main/${params.category}/${series}/README.ja.md`,
+      readmeURL: `${DOCS_RAW_BASE}${params.category}/${series}/README.ja.md`,
       description: params.description,
     },
 

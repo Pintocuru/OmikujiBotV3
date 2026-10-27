@@ -4,12 +4,10 @@ import { resolvePackageBuildConfigs } from './core/ConfigResolver'
 import { executePackageBuild } from './core/BuildExecutor'
 import { buildZipFolders } from './utils/ZipBuilder'
 
-export interface ViteBuilderOptions {
+interface ViteBuilderOptions {
   packageTargets: PackageBuildTarget[]
-  /** 最初の Vite ビルドの直前に1回だけ実行 (型チェックなど) */
-  onBeforeBuild?: () => void | Promise<void>
-  /** 全ビルド後に dist 直下のフォルダを個別に ZIP 化する (既定: true = 配布用) */
-  zip?: boolean
+  onBeforeBuild?: () => void | Promise<void> // 最初の Vite ビルドの直前に1回だけ実行 (型チェックなど)
+  zip?: boolean // 全ビルド後に dist 直下のフォルダを個別に ZIP 化する (既定: true = 配布用)
 }
 
 export class ViteBuilder {
@@ -21,9 +19,8 @@ export class ViteBuilder {
   /**
    * パッケージプロジェクト設定を登録
    */
-  registerPackageProject(configOrConfigs: ProjectPackageConfig | ProjectPackageConfig[]): void {
-    const configs = Array.isArray(configOrConfigs) ? configOrConfigs : [configOrConfigs]
-    configs.forEach((config) => this.packageProjects.set(config.key, config))
+  registerPackageProject(configs: Map<string, ProjectPackageConfig>): void {
+    this.packageProjects = new Map(configs)
   }
 
   /**
@@ -33,19 +30,19 @@ export class ViteBuilder {
     const { packageTargets, onBeforeBuild, zip = true } = options
 
     if (packageTargets.length === 0) {
-      console.warn('[Build] No build targets provided')
+      console.warn('⚠️ ビルド対象が指定されていません')
       return
     }
 
-    console.log('[Build] Starting build process')
-    console.log(`  - Package builds: ${packageTargets.length}`)
+    console.log('🚀 ビルド処理を開始します')
+    console.log(`📦 パッケージビルド数: ${packageTargets.length}`)
 
     try {
-      console.log('\n[Package Build Phase] Starting...')
+      console.log('📦 パッケージビルドフェーズ 開始...')
 
       const resolvedConfigs = resolvePackageBuildConfigs(packageTargets, this.packageProjects, this.commonData)
       if (resolvedConfigs.length === 0) {
-        console.warn('[Package Build] No valid build configurations generated')
+        console.warn('⚠️ 有効なビルド設定が生成されませんでした')
         return
       }
 
@@ -58,16 +55,16 @@ export class ViteBuilder {
         await executePackageBuild(config)
       }
 
-      console.log('[Package Build Phase] Completed')
+      console.log('✅ パッケージビルドフェーズ 完了')
 
       // ZIP化 (先頭のパッケージの packageRoot を対象にする)
       if (zip) {
         await buildZipFolders(this.packageProjects.get(packageTargets[0].project)!.packageRoot)
       }
 
-      console.log('[Build] All builds completed successfully!')
+      console.log('🎉 すべてのビルドが正常に完了しました！')
     } catch (error) {
-      console.error('[Build] Build process failed:', error)
+      console.error('❌ ビルド処理が失敗しました:', error)
       throw error
     }
   }

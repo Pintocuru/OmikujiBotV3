@@ -16,7 +16,7 @@ import { createViteAliases } from '@tools/viteConfig/CreateViteAliases'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 dotenv.config({ path: path.resolve(__dirname, '../.env.development') })
-if (!process.env.PACKAGE_ROOT) throw new Error('.envファイルが読めないみたい')
+if (!process.env.PACKAGE_ROOT) throw new Error('⚠️ .envファイルが読めないみたい')
 const packageRoot = process.env.PACKAGE_ROOT
 
 // --bundler=vite で、パッケージ(FULL)を Vite で試験ビルド (既定: webpack = 配布用)
@@ -29,16 +29,12 @@ async function runPreBuildChecks() {
   // dist削除
   cleanDist(packageRoot)
 
-  // EsLint
-  // console.log('[Check] Running ESLint...')
-  // execSync('npx eslint src', { stdio: 'inherit' })
-
   // vue-tsc
-  console.log('[Check] Running vue-tsc...')
+  console.log('🔍 vue-tsc を実行中...')
   execSync('npx vue-tsc --noEmit', {
     stdio: 'inherit',
   })
-  console.log('[Check] All checks passed')
+  console.log('✅ すべてのチェックに合格しました')
 
   // shims-vue.d.ts を生成
   await CreateShimsVue(packageRoot)
@@ -63,7 +59,7 @@ const alias = { ...createViteAliases(projectRoot) }
 
     // 型チェック + ESLint
     await builder.build({
-      coreTargets: [],
+      coreTargets: [], // TODO:coreTargets はもういない…
       packageTargets,
       onBeforeBuild: runPreBuildChecks,
       bundler,
@@ -72,9 +68,9 @@ const alias = { ...createViteAliases(projectRoot) }
     // shims-vue.d.ts を削除
     RemoveShimsVue(packageRoot)
 
-    console.log('[Build] All builds completed successfully!')
+    console.log('🎉 すべてのビルドが正常に完了しました！')
   } catch (error) {
-    console.error('[Build] Build failed:', error)
+    console.error('❌ ビルドが失敗しました:', error)
     process.exit(1)
   }
 })()
@@ -84,7 +80,7 @@ function cleanDist(root: string) {
   const distPath = path.join(root, 'dist')
 
   if (fs.existsSync(distPath)) {
-    console.log(`[Clean] Removing dist: ${distPath}`)
+    console.log(`🧹 dist を削除します: ${distPath}`)
     fs.rmSync(distPath, { recursive: true, force: true })
   }
 }

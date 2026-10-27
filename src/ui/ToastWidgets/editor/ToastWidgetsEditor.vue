@@ -93,7 +93,7 @@
   import { ToastWidgetsSchema, type ToastComponent } from '@/types/ui'
   import { toastComponentMap } from '@/maps/ui'
   import { BotMessageBubbleSchema } from '@/types/generator'
-  import { useFontFamily } from '@/types/OmikujiData'
+  import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import CharacterSelectorMulti from './CharacterSelectorMulti.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'

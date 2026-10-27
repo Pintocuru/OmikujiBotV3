@@ -18,6 +18,7 @@ import { categoryMap } from '@/maps/OmikujiData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { isFullRegistered } from '@/editor/registrationState'
+import { templateList } from '@/editor/constants'
 
 export const useCategoryUtils = () => {
   const omikujiStore = useOmikujiStore()
@@ -29,8 +30,8 @@ export const useCategoryUtils = () => {
    * ナビゲーションのアイテム数バッジ表示
    */
   const getCategoryItemCount = (category: CategoryType): number => {
-    // TODO:いつか dataPacks も「パッケージ数」を取得できるようにする
-    if (category === 'appInfo' || category === 'ui' || category === 'dataPacks') return 0
+    if (category === 'dataPacks') return templateList.length
+    if (category === 'appInfo' || category === 'ui') return 0
     if (category === 'jsonMerge') return data.value.jsonMerge.length
     // 残りは Event か Asset のどちらか
     return isEventCategory(category) ? getEventCount(category) : getAssetCount(category)

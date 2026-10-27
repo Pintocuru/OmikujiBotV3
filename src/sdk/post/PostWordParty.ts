@@ -1,18 +1,15 @@
 // src/sdk/post/PostWordParty.ts
 import { postWordPartyId } from './PostOneComme'
 
-// TODO:型定義はtypesに入れること
-export type ExecuteWordPartyParams = {
-  wordPartyId?: string
-  repeat?: number
-  delaySeconds?: number
-}
-
 export async function executeWordParty({
   wordPartyId,
   repeat = 1,
   delaySeconds = 0,
-}: ExecuteWordPartyParams): Promise<void> {
+}: {
+  wordPartyId?: string
+  repeat?: number
+  delaySeconds?: number
+}): Promise<void> {
   const count = Math.max(1, repeat)
 
   for (let i = 0; i < count; i++) {

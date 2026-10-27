@@ -8,7 +8,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import type { UserStatsRecord } from '@/types/api'
-  import { FontFamilyType, useFontFamily } from '@/types/OmikujiData'
+  import { FontFamilyType } from '@/types/OmikujiData'
+  import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import type { UserBoardKind, UserBoardType } from '@/types/ui'
   import RankingBoard from './layouts/RankingBoard.vue'
   import SeatBoard from './layouts/SeatBoard.vue'

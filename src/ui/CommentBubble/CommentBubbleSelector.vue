@@ -15,7 +15,8 @@
   import { computed } from 'vue'
   import { BubbleComponent, CommentBubbleType, ShownCharacter } from '@/types/ui'
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
-  import { FontFamilyType, useFontFamily } from '@/types/OmikujiData'
+  import { FontFamilyType } from '@/types/OmikujiData'
+  import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import standard from './layouts/Standard.vue'
   import smart from './layouts/Smart.vue'
 

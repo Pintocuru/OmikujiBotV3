@@ -11,7 +11,8 @@
   import { BotMessageRankingType } from '@/types/generator'
   import suikaGame from './layouts/SuikaGame.vue'
   import standard from './layouts/Standard.vue'
-  import { FontFamilyType, useFontFamily } from '@/types/OmikujiData'
+  import { FontFamilyType } from '@/types/OmikujiData'
+  import { useFontFamily } from '@/common/FontFamily/fontFamily'
 
   const props = defineProps<{
     rankingMessages: BotMessageRankingType[]

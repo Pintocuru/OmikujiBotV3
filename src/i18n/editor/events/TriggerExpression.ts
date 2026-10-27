@@ -16,10 +16,8 @@ export const triggerExpressionMessages = {
     triggerExpression: {
       label: 'Expression',
       description: 'Triggers only when the expression evaluates to true.',
-      // TODO:hints の翻訳をなおすこと。
       hints: {
-        variable:
-          '• Wrap a variable name in double angle brackets to use its value (lc, tc, user, price, viewer, etc.)',
+        variable: '• Only default placeholders can be used (lc, tc, user, price, viewer, etc.)',
         operator: '• Comparison (> >= < <= == !=) and logic (and, or, not) are available',
         userVariable: '• Variables created by omikuji expressions can also be read (read-only)',
         example: 'Example:',

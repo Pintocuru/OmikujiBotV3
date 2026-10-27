@@ -7,7 +7,13 @@
   </div>
 
   <!-- フォントファミリー -->
-  <SettingItem icon="Type" layout="vertical" label="フォントファミリー" description="表示に使用するフォント" forceMode="pro">
+  <SettingItem
+    icon="Type"
+    layout="vertical"
+    label="フォントファミリー"
+    description="表示に使用するフォント"
+    forceMode="pro"
+  >
     <div class="w-full space-y-3">
       <!-- カテゴリタブ -->
       <div role="tablist" class="tabs tabs-bordered tabs-sm w-full">
@@ -71,8 +77,9 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useCommonStyleUpdate } from './useCommonStyleUpdate'
-  import { FontFamilyType, useFontFamily } from '@/types/OmikujiData'
   import { fontFamilyMap } from '@/maps/OmikujiData'
+  import { FontFamilyType } from '@/types/OmikujiData'
+  import { useFontFamily } from '@/common/FontFamily/fontFamily'
 
   type FontCategory = 'gothic' | 'mincho' | 'rounded' | 'handwriting' | 'display'
 
