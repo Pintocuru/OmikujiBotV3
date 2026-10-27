@@ -7,6 +7,7 @@
 - Vue 3 + TypeScript(`type: module`)、Vue SFC を使用。
 - 原則: **「同じディレクトリ内で同じ役割のファイルは、同じ命名パターンにする」**。この原則に反する場合、個別の好みより優先する。
 - 既存ファイルとの整合が取れる場合を除き、本規則に合わせてリネームを行う。変更が多くなることは許容する。
+- **ファイル先頭のパスコメント(`// src/xxx/yyy.ts`)は一切無視してよい**。内容の誤記・古さの指摘や、移動・リネームに伴う更新は不要(作者の独自ツールで一括修正するため)。
 
 ## 1. ケーススタイル定義
 
@@ -86,32 +87,3 @@
    - 各ゲームディレクトリ直下は `execute.ts` / `params.ts` / `game.ts` のみ。
    - 補助ファイルは `sub/` ディレクトリへ(camelCase)。`game/` という名前のサブディレクトリは使わない(直下の `game.ts` と紛らわしいため)。
    - `gameConfig.ts`(単数形)に統一。`DwarfBomb/game/` 配下は `DwarfBomb/sub/` へ統合。
-
-## 5. リネーム移行リスト(検出済み)
-
-| 現行                                                     | 問題                            | 新名称                                                                              |
-| -------------------------------------------------------- | ------------------------------- | ----------------------------------------------------------------------------------- |
-| `common/sounds/PlaySound.ts`                             | camel の `soundUtils.ts` と同居 | `playSound.ts`                                                                      |
-| `ui/KujibikiPanel/layouts/faceCutout.vue` 等4件          | .vue の camelCase               | `FaceCutout.vue` / `Flower.vue` / `Omikuji.vue` / `Tarot.vue`                       |
-| `ui/LiveClock/composables/RotatingMessage.vue`           | composables 内 .vue             | `ui/LiveClock/layouts/RotatingMessage.vue` へ移動                                   |
-| `DevApp.vue`                                             | Dev プレフィックス              | **存続自体が不要**(`editor/App.vue` を呼んでいるだけ)。後回しとし、段階的に削除する |
-| `AppDevWorld.vue`                                        | Dev プレフィックス              | **そのまま維持**(固有名詞として例外扱い)                                            |
-| `editor/dev/` ディレクトリ                               | dev の名残                      | `editor/preview/` にリネーム                                                        |
-| `manager/DataManager.vue`                                | .vue に Manager                 | `ManagerView.vue`                                                                   |
-| `types/OmikujiData/assets/PostFlow.ts`                   | 接尾辞なし型ファイル            | `PostFlowSchema.ts`                                                                 |
-| `editor/helpers/KeyEditor/composables/keyEditor*.ts` 4件 | camelCase 型/関数群             | 型は `types.ts`、関数は `useXxx.ts` 形式へ                                          |
-| `editor/types/helpers/presetsImportType.ts`              | 接尾辞乱立                      | `PresetsImportSchema.ts` または `types.ts`                                          |
-| `console/scripts/summarizeState.ts` / `userConsole.ts`   | (問題なし・参考)                | camelCase のまま維持                                                                |
-
-※ リネーム時は必ず import パス・コンポーネント登録・動的 import も更新すること。`vue-tsc --noEmit` と `eslint src` を通してからコミットする。
-
-## 6. 生成AIへの依頼テンプレート
-
-```
-docs/conventions/naming.md の命名規則に従って <作業内容> を行ってください。
-- .vue は PascalCase、TS は「クラス= PascalCase / 関数 = camelCase」
-- 型ファイルは *Schema.ts か types.ts のみ
-- Dev プレフィックス禁止(AppDevWorld.vue は例外)
-- Mikuji(みくじ箱)と Omikuji / OmikujiItem(おみくじ)は別物。Mikuji 系ファイル名はリネーム禁止
-- 既存ファイルのケースが混在している場合は本規則へ合わせてリネームも提案すること
-```
