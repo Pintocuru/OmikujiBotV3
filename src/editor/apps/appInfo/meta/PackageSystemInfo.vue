@@ -12,7 +12,7 @@
     <div class="flex items-center gap-3">
       <span class="text-sm text-base-content/60">{{ meta.generatorVersion }}</span>
 
-      <ExternalLinkButton :url="openLatestRelease()" title="最新バージョンを入手する" />
+      <ExternalLinkButton :url="LATEST_RELEASE_PAGE_URL" title="最新バージョンを入手する" />
     </div>
   </SettingItem>
 
@@ -28,9 +28,9 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useVersionCheck } from '@/editor/apps/appItems/useVersionCheck'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ExternalLinkButton from '@/editor/parts/ExternalLinkButton.vue'
+  import { LATEST_RELEASE_PAGE_URL } from '@/editor/constants/versionCheck'
 
   // Store
   const omikujiStore = useOmikujiStore()
@@ -38,8 +38,4 @@
 
   // メタ情報の参照
   const meta = computed(() => data.value.meta)
-  const generatorVersion = computed(() => meta.value.generatorVersion)
-
-  // バージョンチェック機能（URL取得のみ使用）
-  const { openLatestRelease } = useVersionCheck(generatorVersion)
 </script>

@@ -13,6 +13,14 @@
 
   <template v-else>
     <!-- タグフィルター -->
+    <InformationCard variant="warning" icon="primary">
+      <p>
+        Githubからダウンロードしてくれてありがとう！<br />
+        お礼に全機能が使えるデータパックを公開しています。無料だよ！<br />
+        ただ、サポートはしていません。気軽にカスタムしてみてね。
+      </p>
+    </InformationCard>
+
     <div v-if="allTags.length > 0" class="flex flex-wrap items-center gap-2 mb-4">
       <span class="text-xs text-base-content/50">タグ絞り込み:</span>
       <button
@@ -61,14 +69,15 @@
 
 <script setup lang="ts">
   import { onMounted } from 'vue'
+  import { OmikujiDataType } from '@/types/OmikujiData'
   import { useDataPacks, type DataPackEntry } from './useDataPacks'
   import DataPackCard from './DataPackCard.vue'
   import ConfigImportModal from '@/editor/helpers/presetsImport/ConfigImportModal.vue'
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
-  import { OmikujiDataType } from '@/types/OmikujiData'
+  import InformationCard from '@/editor/parts/InformationCard.vue'
+  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 
   const { packs, loading, error, isEmpty, fetchAll, allTags, selectedTags, toggleTag, clearTags } = useDataPacks()
   const importManager = useImportManager()

@@ -2,11 +2,11 @@
 import { ref, computed, Ref } from 'vue'
 import Swal from 'sweetalert2'
 import i18n from '@/editor/i18n'
+import { LATEST_RELEASE_API_URL, LATEST_RELEASE_PAGE_URL } from '@/editor/constants/versionCheck'
 
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 
-// TODO: 型定義をエクスポートして、別のファイル(src/editor/types など)に定義するほうがいいのでは？
-export interface VersionInfo {
+interface VersionInfo {
   current: string
   latest: string | null
   hasNewVersion: boolean
@@ -51,8 +51,7 @@ export function useVersionCheck(currentVersion: Ref<string>) {
     error.value = null
 
     try {
-      // TODO: 定数は別のファイルに定義したい
-      const res = await fetch('https://api.github.com/repos/Pintocuru/OmikujiBot-Docs/releases/latest')
+      const res = await fetch(LATEST_RELEASE_API_URL)
 
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`)
@@ -89,16 +88,9 @@ export function useVersionCheck(currentVersion: Ref<string>) {
       timerProgressBar: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        window.open(openLatestRelease(), '_blank')
+        window.open(LATEST_RELEASE_PAGE_URL, '_blank')
       }
     })
-  }
-
-  /**
-   * 最新リリースページのURLを取得
-   */
-  const openLatestRelease = (): string => {
-    return 'https://github.com/Pintocuru/OmikujiBot-Docs/releases/latest'
   }
 
   return {
@@ -108,6 +100,5 @@ export function useVersionCheck(currentVersion: Ref<string>) {
     // アクション
     checkVersion,
     showUpdateDialog,
-    openLatestRelease,
   }
 }

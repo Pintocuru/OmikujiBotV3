@@ -2,44 +2,8 @@
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import { MetaDataType } from '@/types/core'
-
-// 型定義
-export interface DataPackEntry {
-  path: string
-  rawUrl: string
-  bannerUrl: string | null
-  meta: MetaDataType
-  json: Record<string, unknown>
-}
-
-// GitHub Raw URL ユーティリティ
-const REPO_BASE = 'https://raw.githubusercontent.com/Pintocuru/OmikujiBot-Docs/main'
-export function buildRawUrl(path: string): string {
-  return `${REPO_BASE}/${path}`
-}
-
-// テンプレートリスト
-// TODO:maps のほうに移す。
-const templateList: string[] = [
-  'common/StrawberryChocolate/StrawberryChocolate.json',
-  '2025-Q4/TarotCard/TarotCard.json',
-  '2025-Q4/MaidenOmikuji/MaidenOmikujiNormal.json',
-  '2025-Q4/FlowerFortune/FlowerFortune.json',
-  '2025-Q4/BigBangFortune/BigBangFortune.json',
-  '2025-Q4/CardStation/CardStation.json',
-  '2025-Q4/HondaJanken/HondaJanken.json',
-  '2026-Q1/StreamCounter/StreamCounterCircle.json',
-  '2026-Q1/StreamCounter/StreamCounterPixelOhayou.json',
-  '2026-Q1/LiveClock/LiveClockMorning.json',
-  '2026-Q1/BreakingSyoken/BreakingSyoken.json',
-  '2026-Q1/FlightSeat/FlightSeatNine.json',
-  '2026-Q1/HonjoFox/HonjoFox.json',
-  '2025-Q4/BomberSpin/BomberSpin.json',
-  '2025-Q4/GouseiSuika/GouseiSuika.json',
-  '2026-Q1/LenormandOracle/LenormandOracle.json',
-  '2026-Q1/RunicOracle/RunicOracle.json',
-  '2026-Q1/FlightSeat/FlightSeatGraduation.json',
-]
+import { DataPackEntry } from '@/editor/types'
+import { templateList, REPO_BASE } from '@/editor/constants'
 
 // JSON ローダー
 async function loadTemplateJson(rawUrl: string): Promise<Record<string, unknown>> {
@@ -96,7 +60,7 @@ export function useDataPacks() {
     const results: DataPackEntry[] = []
 
     for (const path of templateList) {
-      const rawUrl = buildRawUrl(path)
+      const rawUrl = `${REPO_BASE}/${path}`
 
       try {
         const json = await loadTemplateJson(rawUrl)
