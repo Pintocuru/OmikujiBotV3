@@ -1,4 +1,4 @@
-<!-- src/editor/dev/VirtualStreamPanel/VirtualStreamPanel.vue -->
+<!-- src/editor/preview/VirtualStreamPanel/VirtualStreamPanel.vue -->
 <template>
   <div class="card bg-base-200 border border-error/40 shadow-xl">
     <div class="card-body gap-2 p-2">

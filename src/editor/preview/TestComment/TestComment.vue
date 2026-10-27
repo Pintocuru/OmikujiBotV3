@@ -1,4 +1,4 @@
-<!-- src/editor/dev/TestComment/TestComment.vue -->
+<!-- src/editor/preview/TestComment/TestComment.vue -->
 <template>
   <div class="card bg-base-200 border border-base-300 shadow-2xl w-full">
     <div class="card-body gap-2 p-2">

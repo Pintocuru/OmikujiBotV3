@@ -89,7 +89,7 @@
   import { computed } from 'vue'
   import { LiveClockType } from '@/types/ui'
   import { useLiveClockTime } from '../composables/useLiveClockTime'
-  import RotatingMessage from '../composables/RotatingMessage.vue'
+  import RotatingMessage from './RotatingMessage.vue'
 
   const props = defineProps<{
     settings: LiveClockType

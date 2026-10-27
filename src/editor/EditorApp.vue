@@ -10,7 +10,7 @@
       <AppHeader />
 
       <!-- おみくじデータ管理 -->
-      <DataManager v-if="isServerConnected" />
+      <ManagerView v-if="isServerConnected" />
 
       <!-- 設定書き出し -->
       <div class="flex justify-between">
@@ -44,7 +44,7 @@
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import DataManager from '@/manager/DataManager.vue'
+  import ManagerView from '@/manager/ManagerView.vue'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { generatorApi } from '@/manager/services/generatorApi'
 

@@ -1,6 +1,6 @@
 // src/editor/stores/composables/useDataMergeHelpers.ts
 import type { OmikujiDataType, EventCategoryType, AssetCategoryType } from '@/types/OmikujiData'
-import type { ImportMode } from '@/editor/types/helpers/presetsImportType'
+import type { ImportMode } from '@/editor/types/helpers/types'
 
 // 実データ(配列 / Record)の型をカテゴリ名から引く
 type EventsData = OmikujiDataType['events']

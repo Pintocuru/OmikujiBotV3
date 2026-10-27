@@ -1,4 +1,4 @@
-// src/editor/dev/EvaluationBlock/evaluationStats.ts
+// src/editor/preview/EvaluationBlock/evaluationStats.ts
 
 export type VarValue = string | number
 export type VarEntry = [string, VarValue]

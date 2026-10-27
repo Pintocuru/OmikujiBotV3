@@ -1,7 +1,7 @@
 // src/types/OmikujiData/assets/OmikujiItemSchema.ts
 import { z } from 'zod'
 import { CriteriaThresholdSchema } from '../events/CommentCriteriaSchema'
-import { PostFlowArraySchema } from './PostFlow'
+import { PostFlowArraySchema } from './PostFlowSchema'
 import { normalizedObject } from '../../core/ParsedDefault'
 import { BaseSchema } from '@/types/core'
 

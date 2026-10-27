@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/composables/RotatingMessage.vue -->
+<!-- src/ui/LiveClock/layouts/RotatingMessage.vue -->
 <template>
   <transition name="msg-slide" mode="out-in">
     <span :key="message" v-html="message" />

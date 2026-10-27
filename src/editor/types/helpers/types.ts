@@ -1,4 +1,4 @@
-// src/editor/types/helpers/presetsImportType.ts
+// src/editor/types/helpers/types.ts
 import { DataCategoryType, UiKind } from '@/types/OmikujiData/'
 
 export type ImportMode = 'full-replace' | 'partial-replace' | 'partial-merge'

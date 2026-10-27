@@ -1,4 +1,4 @@
-// src/common/sounds/PlaySound.ts
+// src/common/sounds/playSound.ts
 import { resolveSound } from './soundUtils'
 
 /**

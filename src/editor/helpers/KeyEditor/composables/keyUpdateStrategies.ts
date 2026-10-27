@@ -1,7 +1,7 @@
 // src/editor/helpers/KeyEditor/composables/keyUpdateStrategies.ts
 import { AssetCategoryType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { KeyUpdateStrategy } from './keyEditorTypes'
+import { KeyUpdateStrategy } from '../types'
 import {
   updateMikujiReferences,
   updateCharacterReferences,

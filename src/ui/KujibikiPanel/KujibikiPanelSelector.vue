@@ -23,10 +23,10 @@
   import { KujibikiComponent, KujibikiPanelType } from '@/types/ui'
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
-  import omikuji from './layouts/omikuji.vue'
-  import flower from './layouts/flower.vue'
-  import tarot from './layouts/tarot.vue'
-  import faceCutout from './layouts/faceCutout.vue'
+  import omikuji from './layouts/Omikuji.vue'
+  import flower from './layouts/Flower.vue'
+  import tarot from './layouts/Tarot.vue'
+  import faceCutout from './layouts/FaceCutout.vue'
 
   const props = defineProps<{
     settings: KujibikiPanelType

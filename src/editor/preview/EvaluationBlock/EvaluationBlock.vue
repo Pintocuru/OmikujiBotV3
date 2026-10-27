@@ -1,4 +1,4 @@
-<!-- src/editor/dev/EvaluationBlock/EvaluationBlock.vue -->
+<!-- src/editor/preview/EvaluationBlock/EvaluationBlock.vue -->
 <template>
   <div class="card bg-base-200/90 backdrop-blur border border-base-300 shadow-xl w-full">
     <div class="card-body gap-2 p-2">

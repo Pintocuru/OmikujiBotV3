@@ -33,9 +33,9 @@
   import GeneratorApp from '@/generator/App.vue'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import GeneratorStage from './GeneratorStage.vue'
-  import TestComment from '@/editor/dev/TestComment/TestComment.vue'
-  import VirtualStreamPanel from '@/editor/dev/VirtualStreamPanel/VirtualStreamPanel.vue'
-  import EvaluationBlock from '@/editor/dev/EvaluationBlock/EvaluationBlock.vue'
+  import TestComment from '@/editor/preview/TestComment/TestComment.vue'
+  import VirtualStreamPanel from '@/editor/preview/VirtualStreamPanel/VirtualStreamPanel.vue'
+  import EvaluationBlock from '@/editor/preview/EvaluationBlock/EvaluationBlock.vue'
 
   const appStore = useAppStore()
   const showTools = ref(true)
