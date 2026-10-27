@@ -150,6 +150,10 @@ export const navigationSidebarMessages = {
         label: 'アイテム',
         description: 'ジェネレーターで表示できる、アイテムの設定を行います',
       },
+      dataPacks: {
+        label: 'データパック',
+        description: '配布されているデータパックを読み込みます',
+      },
       appInfo: {
         label: 'アプリ情報',
         description: 'ライセンスや使用できる機能を確認できます',
@@ -307,6 +311,10 @@ export const navigationSidebarMessages = {
       ui: {
         label: 'Items',
         description: 'Configures items displayed in the generator',
+      },
+      dataPacks: {
+        label: 'Data Packs',
+        description: 'Load distributed data packs',
       },
       appInfo: {
         label: 'App Info',

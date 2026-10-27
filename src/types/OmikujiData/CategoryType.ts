@@ -6,7 +6,7 @@ import { EventCategoryType, eventCategory } from './events'
 /**
  * settingsCategory
  */
-export const settingsCategoryLabel = ['jsonMerge', 'ui', 'appInfo'] as const
+export const settingsCategoryLabel = ['jsonMerge', 'ui', 'dataPacks', 'appInfo'] as const
 export type SettingsCategoryType = (typeof settingsCategoryLabel)[number]
 
 /**

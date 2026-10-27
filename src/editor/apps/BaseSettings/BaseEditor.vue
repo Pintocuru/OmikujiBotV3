@@ -53,10 +53,11 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { BaseRecordType } from '@/types/core'
-  import { assetCategory, AssetCategoryType, EventCategoryType } from '@/types/OmikujiData/'
+  import { DataCategoryType } from '@/types/OmikujiData'
   import BaseTagEditor from './BaseTagEditor.vue'
   import KeyEditor from '@/editor/helpers/KeyEditor/KeyEditor.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
+  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
   // vue-i18n の初期化
   const { t } = useI18n()
@@ -64,7 +65,7 @@
   const props = withDefaults(
     defineProps<{
       modelValue: BaseRecordType
-      category: EventCategoryType | AssetCategoryType | null
+      category: DataCategoryType | null
       isIsEnabled?: boolean
       isDescription?: boolean
     }>(),
@@ -78,8 +79,7 @@
     'update:modelValue': [value: BaseRecordType]
   }>()
 
-  const isAssetCategory = (c: EventCategoryType | AssetCategoryType | null): c is AssetCategoryType =>
-    c !== null && assetCategory.includes(c as AssetCategoryType)
+  const { isAssetCategory } = useGetAssetData()
 
   // 各プロパティのcomputed getter/setter
   const createComputed = <T extends keyof BaseRecordType>(key: T) =>

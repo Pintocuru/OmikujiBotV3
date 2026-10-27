@@ -43,26 +43,30 @@
       :disabled="!isDragEnabled"
       @end="emit('dragEnd', category)"
     >
-      <SidebarSubItem
-        v-for="item in localItems.filter((i) => i?.key)"
-        :key="item.key"
-        :category="category"
-        :itemKey="item.key"
-        :label="item.label ?? ''"
-        :isEnabled="item.isEnabled"
-        :isDragEnabled="isDragEnabled"
-        :isSelected="selectedItemKey === item.key"
-        :sections="getSidebarSections(category)"
-        draggable
-        @select="navigationStore.selectItem(item.key, 'baseSettings')"
-        @item-dblclick="handleItemDblclick"
-      >
-        <template v-if="item.rawItem" #menu>
-          <div @dblclick.stop>
-            <SidebarItemMenu :item="item.rawItem" :category="category" />
-          </div>
-        </template>
-      </SidebarSubItem>
+      <!-- レコード + 選択中のおみくじアイテム一覧を1つにまとめ、ドラッグの単位を崩さない -->
+      <div v-for="item in localItems.filter((i) => i?.key)" :key="item.key">
+        <SidebarSubItem
+          :category="category"
+          :itemKey="item.key"
+          :label="item.label ?? ''"
+          :isEnabled="item.isEnabled"
+          :isDragEnabled="isDragEnabled"
+          :isSelected="selectedItemKey === item.key"
+          :sections="getSidebarSections(category)"
+          draggable
+          @select="navigationStore.selectItem(item.key, 'baseSettings')"
+          @item-dblclick="handleItemDblclick"
+        >
+          <template v-if="item.rawItem" #menu>
+            <div @dblclick.stop>
+              <SidebarItemMenu :item="item.rawItem" :category="category" />
+            </div>
+          </template>
+        </SidebarSubItem>
+
+        <!-- おみくじアイテム一覧(mikuji と、omikujiKey を持つ events のみ) -->
+        <SidebarMikujiItems v-if="selectedItemKey === item.key && selectedMikujiKey" :omikujiKey="selectedMikujiKey" />
+      </div>
     </VueDraggable>
   </div>
 </template>
@@ -78,6 +82,8 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SidebarSubItem from './SidebarSubItem.vue'
   import SidebarItemMenu from './SidebarItemMenu.vue'
+  import SidebarMikujiItems from './SidebarMikujiItems.vue'
+  import { useGetEventData } from '@/editor/stores/useGetEventData'
   import { useSidebarCreate } from './composables/useSidebarCreate'
   import { useSidebarPreset } from './composables/useSidebarPreset'
   import type { PresetDefinition } from '@/editor/presets'
@@ -109,6 +115,16 @@
 
   const navigationStore = useNavigationStore()
   const { selectedItemKey } = storeToRefs(navigationStore)
+
+  // 選択中レコードが指すおみくじBOXのキー(mikuji=レコード自身 / events=omikujiKey / それ以外=null)
+  const { getEvent, isEventCategory } = useGetEventData()
+  const selectedMikujiKey = computed<string | null>(() => {
+    const key = selectedItemKey.value
+    if (!key) return null
+    if (props.category === 'mikuji') return key
+    if (isEventCategory(props.category)) return getEvent(props.category, key)?.omikujiKey || null
+    return null
+  })
 
   const localItems = computed({
     get: () => props.modelValue,

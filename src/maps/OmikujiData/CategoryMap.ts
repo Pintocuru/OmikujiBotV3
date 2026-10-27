@@ -54,6 +54,11 @@ export const categoryMap: Record<CategoryType, DisplayMetaLucide> = {
     description: 'ジェネレーターで表示できる、アイテムの設定を行います',
     icon: 'LayoutGrid',
   },
+  dataPacks: {
+    label: 'データパック',
+    description: '配布されているデータパックを読み込みます',
+    icon: 'Download',
+  },
   appInfo: {
     label: 'アプリ情報',
     description: 'ライセンスや使用できる機能を確認できます',

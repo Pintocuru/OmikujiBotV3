@@ -1,6 +1,6 @@
 <!-- src/editor/apps/JsonMerge/JsonMergeEditor.vue -->
 <template>
-  <!-- 便利ボタン群 -->
+  <!-- マージ設定を追加 -->
   <div class="flex justify-end gap-2">
     <button @click="addMerge" class="btn btn-primary">
       <Plus class="w-4 h-4" />

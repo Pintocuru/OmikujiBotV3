@@ -18,8 +18,8 @@ export function useGetEventData() {
   }
 
   // カテゴリ判定
-  const isEventCategory = (category: CategoryType): category is EventCategoryType =>
-    (eventCategory as readonly string[]).includes(category)
+  const isEventCategory = (category: CategoryType | null): category is EventCategoryType =>
+    category !== null && (eventCategory as readonly string[]).includes(category)
 
   // イベント存在確認
   const hasEvent = <K extends EventCategoryType>(category: K, key: string): boolean => {

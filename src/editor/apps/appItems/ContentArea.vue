@@ -47,6 +47,7 @@
   import UiEditor from '@/editor/ui/UiEditor.vue'
   import AppInfoEditor from '@/editor/apps/appInfo/AppInfoEditor.vue'
   import JsonMergeEditor from '@/editor/apps/JsonMerge/JsonMergeEditor.vue'
+  import DataPacks from '@/editor/apps/dataPacks/DataPacks.vue'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
   const { t } = useI18n()
@@ -77,6 +78,7 @@
 
     //
     ui: UiEditor,
+    dataPacks: DataPacks,
     appInfo: AppInfoEditor,
   } as const
   const currentEditor = computed(() => editorMap[selectedCategory.value])

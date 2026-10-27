@@ -1,5 +1,5 @@
 <!-- src/editor/apps/navigation/NavigationSidebarSettingsCategories.vue -->
-<!-- SettingsCategoryType（jsonMerge / ui / appInfo）を扱う。データ系と違い、新規作成・ドラッグは持たない -->
+<!-- SettingsCategoryType（jsonMerge / ui / dataPacks / appInfo）を扱う。データ系と違い、新規作成・ドラッグは持たない -->
 <template>
   <div class="flex flex-col gap-0.5 px-2 pb-2 flex-1">
     <template v-for="group in settingsCategoryGroups" :key="group.id">
@@ -30,7 +30,7 @@
           leave-from-class="opacity-100 max-h-96"
           leave-to-class="opacity-0 max-h-0"
         >
-          <div v-if="isExpanded && selectedCategory === key && isOpenCategory[key]">
+          <div v-if="isExpanded && selectedCategory === key && isOpenCategory[key] && key !== 'dataPacks'">
             <template v-for="entry in [resolveSettingsEntry(key)]" :key="entry.category">
               <!-- Array：jsonMerge の静的リスト -->
               <SidebarArrayItems

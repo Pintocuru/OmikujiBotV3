@@ -1,8 +1,9 @@
 // src/editor/assets/mikuji/composables/useBoxOmikujiList.ts
-import { computed, ref, watch, type Ref } from 'vue'
+import { computed, watch, type Ref } from 'vue'
 import { OmikujiItemSchema, type MikujiBoxType, type OmikujiItemType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+import { useMikujiSelectionStore } from '@/editor/stores/useMikujiSelectionStore'
 import { updateItemWeight } from './useOmikujiWeight'
 
 export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
@@ -19,7 +20,14 @@ export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
     updateAsset('mikuji', omikujiKey.value, { ...box.value, omikuji })
   }
 
-  const selectedId = ref<string | null>(null)
+  // 選択状態はサイドバーと共有するため、BOXキーごとにストアへ置く
+  const selection = useMikujiSelectionStore()
+  const selectedId = computed<string | null>({
+    get: () => (omikujiKey.value ? (selection.selectedIdByBox[omikujiKey.value] ?? null) : null),
+    set: (id) => {
+      if (omikujiKey.value) selection.selectedIdByBox[omikujiKey.value] = id
+    },
+  })
 
   const selectedIndex = computed(() => {
     if (!selectedId.value) return null
@@ -29,7 +37,16 @@ export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
 
   const selectedItem = computed(() => (selectedIndex.value === null ? null : omikujiList.value[selectedIndex.value]))
 
-  watch(omikujiKey, () => (selectedId.value = omikujiList.value[0]?.id ?? null), { immediate: true })
+  // BOXが切り替わったとき、選択が無効(未選択・削除済み)なら先頭へ
+  watch(
+    omikujiKey,
+    () => {
+      if (!omikujiList.value.some((v) => v.id === selectedId.value)) {
+        selectedId.value = omikujiList.value[0]?.id ?? null
+      }
+    },
+    { immediate: true }
+  )
 
   // 削除などで選択中が消えたら先頭へ
   watch(omikujiList, (list) => {

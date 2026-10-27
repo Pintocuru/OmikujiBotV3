@@ -3,6 +3,7 @@ import { registerUiEditor } from '@/editor/ui/uiEditorRegistry'
 import type { Component } from 'vue'
 import type { UiKind } from '@/types/OmikujiData'
 import { registerRuntime } from '@/registerRuntime'
+import { isFullRegistered } from '@/editor/registrationState'
 
 type EditorLoader = () => Promise<{ default: Component }>
 
@@ -22,4 +23,7 @@ export const registerAll = () => {
     toastWidgets: () => import('@/ui/ToastWidgets/editor/ToastWidgetsEditor.vue'),
     userBoard: () => import('@/ui/UserBoard/editor/UserBoardEditor.vue'),
   } satisfies Record<UiKind, EditorLoader>)
+
+  // 全部入りの印(DataPacks など、全 UI 前提の機能の表示に使う)
+  isFullRegistered.value = true
 }

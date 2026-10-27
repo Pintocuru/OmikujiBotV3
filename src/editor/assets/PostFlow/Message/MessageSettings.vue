@@ -33,13 +33,27 @@
   </template>
 
   <!-- UI ごとの slots (UiMessageSpecs の map から入力欄を作る) -->
-  <SettingItem v-for="meta in slotMetas" :key="meta.slot" icon="MessageSquare" layout="vertical" :label="meta.title">
-    <MessageTextDialog
-      :modelValue="action.slots[meta.slot] ?? ''"
-      :isCommentMode="true"
-      @update:modelValue="updateSlot(meta.slot, $event)"
-    />
-    <p class="mt-1 text-xs opacity-60">{{ meta.description }}</p>
+  <SettingItem
+    v-if="slotMetas.length > 0"
+    icon="MessageSquare"
+    layout="vertical"
+    :label="t('postFlow.messageSettings.slots')"
+  >
+    <div v-for="meta in slotMetas" :key="meta.slot" class="mb-2">
+      <p class="mb-1 text-sm font-medium">
+        {{ meta.title }}
+        <span class="ml-2 text-xs opacity-60">
+          {{ meta.description }}
+        </span>
+      </p>
+
+      <input
+        type="text"
+        class="input input-bordered input-sm w-full"
+        :value="action.slots[meta.slot] ?? ''"
+        @input="updateSlot(meta.slot, ($event.target as HTMLInputElement).value)"
+      />
+    </div>
   </SettingItem>
 
   <!-- 投稿を受け取らない UI (データ不整合の保険) -->

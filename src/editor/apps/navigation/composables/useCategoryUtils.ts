@@ -17,6 +17,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { categoryMap } from '@/maps/OmikujiData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
+import { isFullRegistered } from '@/editor/registrationState'
 
 export const useCategoryUtils = () => {
   const omikujiStore = useOmikujiStore()
@@ -28,8 +29,8 @@ export const useCategoryUtils = () => {
    * ナビゲーションのアイテム数バッジ表示
    */
   const getCategoryItemCount = (category: CategoryType): number => {
-    // if (category === 'dataPacks') return 0 // TODO:いつか「パッケージ数」を取得できるようにする
-    if (category === 'appInfo' || category === 'ui') return 0
+    // TODO:いつか dataPacks も「パッケージ数」を取得できるようにする
+    if (category === 'appInfo' || category === 'ui' || category === 'dataPacks') return 0
     if (category === 'jsonMerge') return data.value.jsonMerge.length
     // 残りは Event か Asset のどちらか
     return isEventCategory(category) ? getEventCount(category) : getAssetCount(category)
@@ -43,6 +44,9 @@ export const useCategoryUtils = () => {
 
     // 開発者のみの機能
     if (!isDev) excludeKeys.push('jsonMerge')
+
+    // 全部入り(registerAll)でないビルドでは、全 UI 前提の DataPacks を出さない
+    if (!isFullRegistered.value) excludeKeys.push('dataPacks')
 
     return Object.fromEntries(
       Object.entries(categoryMap).filter(([key]) => !excludeKeys.includes(key as CategoryType))
@@ -70,7 +74,7 @@ export const useCategoryUtils = () => {
   const settingsCategoryGroups = computed<CategoryGroup<SettingsCategoryType>[]>(() => {
     const groups: CategoryGroup<SettingsCategoryType>[] = [
       { id: 'ui', keys: pick(['ui']) as SettingsCategoryType[] },
-      { id: 'other', keys: pick(['jsonMerge', 'appInfo']) as SettingsCategoryType[] }, // 表示順は categoryMap に従う
+      { id: 'other', keys: pick(['jsonMerge', 'dataPacks', 'appInfo']) as SettingsCategoryType[] }, // 表示順は categoryMap に従う
     ]
     return groups.filter((group) => group.keys.length > 0)
   })

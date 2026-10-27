@@ -18,8 +18,8 @@ export function useGetAssetData() {
   }
 
   // カテゴリ判定
-  const isAssetCategory = (category: CategoryType): category is AssetCategoryType =>
-    (assetCategory as readonly string[]).includes(category)
+  const isAssetCategory = (category: CategoryType | null): category is AssetCategoryType =>
+    category !== null && (assetCategory as readonly string[]).includes(category)
 
   // アセット存在確認
   const hasAsset = <K extends AssetCategoryType>(category: K, key: string): boolean => {
