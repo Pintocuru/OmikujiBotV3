@@ -1,7 +1,7 @@
 // tools/webpackBuild/processors/template/ReadmeTxtProcessor.ts
 import fs from 'fs'
 import path from 'path'
-import { PackageType, ResolvedPackageBuildConfig } from '@tools/types'
+import { PackageType, ResolvedPackageBuildConfig } from '@tools/types/WebpackBuilder'
 
 interface TemplateTxtOutput {
   packageName: string

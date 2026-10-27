@@ -67,7 +67,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import type { DataPackEntry } from './useDataPacks'
+  import { DataPackEntry } from '@/editor/types'
   import { Download, FileText, Image } from 'lucide-vue-next'
 
   defineProps<{

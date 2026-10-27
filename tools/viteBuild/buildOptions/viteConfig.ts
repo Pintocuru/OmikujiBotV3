@@ -3,7 +3,7 @@ import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import type { InlineConfig } from 'vite'
-import { ViteBuildInput } from '../types'
+import { ViteBuildInput } from '@tools/types'
 import { externalDynamicImportPlugin, failOnCircularDependency } from './plugins'
 
 /**

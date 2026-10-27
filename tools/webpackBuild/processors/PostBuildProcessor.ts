@@ -1,6 +1,6 @@
 // tools/webpackBuild/processors/PostBuildProcessor.ts
 import path from 'path'
-import { ResolvedPackageBuildConfig } from '@tools/types'
+import { ResolvedPackageBuildConfig } from '@tools/types/WebpackBuilder'
 import { TemplateJsonProcessor } from './template/TemplateJsonProcessor'
 import { generateReadmeTxt } from './template/ReadmeTxtProcessor'
 import { updateJsonMetadata } from './json/UpdateJsonMetadata'

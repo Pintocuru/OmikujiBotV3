@@ -1,7 +1,7 @@
 // packages/build.ts
 import { SystemCommonData } from '@tools/types'
-import { CreateShimsVue, RemoveShimsVue } from '@tools/webpackBuild/utils/CreateShimsVue'
-import { WebpackBuilder } from '@tools/webpackBuild/WebpackBuilder'
+import { CreateShimsVue, RemoveShimsVue } from '@tools/viteBuild/utils/CreateShimsVue'
+import { ViteBuilder } from '@tools/viteBuild/ViteBuilder'
 import { APP_VERSION, DATA_VERSION } from '@/version'
 // import { alias } from '../vite.config'
 import dotenv from 'dotenv'
@@ -18,9 +18,6 @@ const __dirname = path.dirname(__filename)
 dotenv.config({ path: path.resolve(__dirname, '../.env.development') })
 if (!process.env.PACKAGE_ROOT) throw new Error('⚠️ .envファイルが読めないみたい')
 const packageRoot = process.env.PACKAGE_ROOT
-
-// --bundler=vite で、パッケージ(FULL)を Vite で試験ビルド (既定: webpack = 配布用)
-const bundler = process.argv.includes('--bundler=vite') ? 'vite' : 'webpack'
 
 /**
  * 型チェック + ESLint を本番前チェックとして実行
@@ -54,15 +51,13 @@ const alias = { ...createViteAliases(projectRoot) }
       dataVersion: DATA_VERSION,
     }
 
-    const builder = new WebpackBuilder(systemCommonData)
+    const builder = new ViteBuilder(systemCommonData)
     builder.registerPackageProject(getPackageProjects(packageRoot))
 
     // 型チェック + ESLint
     await builder.build({
-      coreTargets: [], // TODO:coreTargets はもういない…
       packageTargets,
       onBeforeBuild: runPreBuildChecks,
-      bundler,
     })
 
     // shims-vue.d.ts を削除

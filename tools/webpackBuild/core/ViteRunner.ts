@@ -5,7 +5,7 @@ import fs from 'fs'
 import { build } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
-import { WebpackBuildInput } from '@tools/types'
+import { WebpackBuildInput } from '@tools/types/WebpackBuilder'
 import type { Plugin } from 'vite'
 import { createHtmlTemplate } from '../buildOptions/plugins'
 

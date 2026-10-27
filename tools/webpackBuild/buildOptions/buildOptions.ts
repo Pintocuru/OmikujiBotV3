@@ -2,7 +2,7 @@
 import webpack from 'webpack'
 import path from 'path'
 import fs from 'fs'
-import { WebpackBuildInput } from '@tools/types'
+import { WebpackBuildInput } from '@tools/types/WebpackBuilder'
 import { createModuleRules } from './moduleRules'
 import { createOptimizationConfig } from './optimization'
 import { createPlugins } from './plugins'

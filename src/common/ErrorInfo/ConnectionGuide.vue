@@ -35,5 +35,5 @@
 
   // GitHub 上の導入方法画像 (docs/images にファイルを追加してから、ファイル名を差し替える)
   const GUIDE_IMAGE_URL =
-    'https://raw.githubusercontent.com/Pintocuru/OmikujiBotV3/HEAD/docs/images/obs-browser-source-guide.webp'
+    'https://github.com/Pintocuru/OmikujiBotV3/raw/main/docs/images/installation-1792992840724.webp'
 </script>

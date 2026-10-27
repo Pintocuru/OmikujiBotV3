@@ -1,7 +1,7 @@
 // tools/viteBuild/processors/file/FileCopier.ts
 import { promises } from 'fs'
 import path from 'path'
-import { CopyFileItem } from '@tools/viteBuild/types'
+import { CopyFileItem } from '@tools/types'
 
 /**
  * CopyFileItem のファイルをコピー

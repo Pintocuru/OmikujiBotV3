@@ -1,5 +1,5 @@
 // tools/viteBuild/core/BuildExecutor.ts
-import { ResolvedPackageBuildConfig } from '@tools/viteBuild/types'
+import { ResolvedPackageBuildConfig } from '@tools/types'
 import { processPostBuild } from '../processors/PostBuildProcessor'
 import { cleanOutputDir, copyFiles } from '../processors/file/FileCopier'
 import { runVite } from './ViteRunner'

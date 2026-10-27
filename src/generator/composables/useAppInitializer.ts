@@ -12,21 +12,11 @@ const TIME_THRESHOLD = 10000
 
 export function useAppInitializer() {
   const appStore = useAppStore()
-  let isInitialized = false
   let stopPolling: (() => void) | null = null
 
   const initialize = async () => {
-    // 不可解な多重呼び出しの防衛
-    if (isInitialized) return
-    isInitialized = true
-
     const { setStatus, setError } = appStore
     const commentProcessor = new EventCommentProcessor()
-    // OBS 33 以降は file:// からの http 通信 (axios) が遮断されるため、通信前に導入ガイドへ誘導
-    if (window.location.protocol === 'file:') {
-      setStatus('blocked')
-      return
-    }
     setStatus('initializing')
 
     try {
@@ -61,6 +51,7 @@ export function useAppInitializer() {
         }
       })
 
+      // GetOmikenComments が失敗した場合、エラーを表示
       if (!isInit) {
         setStatus('error')
       } else {

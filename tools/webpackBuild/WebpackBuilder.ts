@@ -6,7 +6,7 @@ import {
   PackageBuildTarget,
   SystemCommonData,
   ResolvedCoreBuildConfig,
-} from '@tools/types'
+} from '@tools/types/WebpackBuilder'
 import { resolveCoreBuildConfigs, resolvePackageBuildConfigs } from './core/ConfigResolver'
 import { executeCoreBuild, executePackageBuild, Bundler } from './core/BuildExecutor'
 import { buildZipFolders } from './utils/ZipBuilder'

@@ -2,7 +2,7 @@
 import path from 'path'
 import fs from 'fs'
 import { build } from 'vite'
-import { ViteBuildInput } from '../types'
+import { ViteBuildInput } from '@tools/types'
 import { createViteBuildConfig } from '../buildOptions/viteConfig'
 
 /**

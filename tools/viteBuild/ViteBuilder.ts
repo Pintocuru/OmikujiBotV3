@@ -1,5 +1,5 @@
 // tools/viteBuild/ViteBuilder.ts
-import { ProjectPackageConfig, PackageBuildTarget, SystemCommonData } from '@tools/viteBuild/types'
+import { ProjectPackageConfig, PackageBuildTarget, SystemCommonData } from '@tools/types'
 import { resolvePackageBuildConfigs } from './core/ConfigResolver'
 import { executePackageBuild } from './core/BuildExecutor'
 import { buildZipFolders } from './utils/ZipBuilder'
@@ -19,8 +19,8 @@ export class ViteBuilder {
   /**
    * パッケージプロジェクト設定を登録
    */
-  registerPackageProject(configs: Map<string, ProjectPackageConfig>): void {
-    this.packageProjects = new Map(configs)
+  registerPackageProject(configs: ProjectPackageConfig[]): void {
+    this.packageProjects = new Map(configs.map((config) => [config.key, config]))
   }
 
   /**

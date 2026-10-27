@@ -1,6 +1,6 @@
 // tools/viteBuild/processors/json/GenerateOutputFiles.ts
 import { PackageJsonType } from '@/types/core'
-import { ResolvedPackageBuildConfig } from '@tools/viteBuild/types'
+import { ResolvedPackageBuildConfig } from '@tools/types'
 import fs from 'fs'
 import path from 'path'
 

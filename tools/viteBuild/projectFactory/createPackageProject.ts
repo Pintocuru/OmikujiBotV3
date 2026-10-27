@@ -1,7 +1,7 @@
 // tools/viteBuild/projectFactory/createPackageProject.ts
 import fs from 'fs'
 import path from 'path'
-import { ProjectPackageConfig, ProjectParams } from '@tools/viteBuild/types'
+import { ProjectPackageConfig, ProjectParams } from '@tools/types'
 import { processMerge } from '@tools/JsonMerge/JsonMergeProcessor'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { APP_VERSION, BUILD_DATE } from '@/version'

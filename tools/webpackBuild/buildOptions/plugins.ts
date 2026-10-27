@@ -1,6 +1,6 @@
 // tools/webpackBuild/buildOptions/plugins.ts
 import webpack from 'webpack'
-import { WebpackBuildInput } from '@tools/types'
+import { WebpackBuildInput } from '@tools/types/WebpackBuilder'
 import { VueLoaderPlugin } from 'vue-loader'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'

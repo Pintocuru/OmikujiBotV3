@@ -38,5 +38,5 @@
     "build/**/*.ts",
     "*.ts"
   ],
-  "exclude": ["node_modules", "archives", "**/*.test.ts"]
+  "exclude": ["node_modules", "archives", "**/*.test.ts", "build/**/*"]
 }

@@ -1,7 +1,7 @@
 // tools/viteBuild/processors/template/TemplateJsonProcessor.ts
 import fs from 'fs'
 import path from 'path'
-import { ResolvedPackageBuildConfig } from '@tools/viteBuild/types'
+import { ResolvedPackageBuildConfig } from '@tools/types'
 
 /**
  * template.json生成処理

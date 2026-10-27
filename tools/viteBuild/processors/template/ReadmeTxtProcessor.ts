@@ -1,7 +1,7 @@
 // tools/viteBuild/processors/template/ReadmeTxtProcessor.ts
 import fs from 'fs'
 import path from 'path'
-import { PackageType, ResolvedPackageBuildConfig } from '@tools/viteBuild/types'
+import { PackageType, ResolvedPackageBuildConfig } from '@tools/types'
 
 interface TemplateTxtOutput {
   packageName: string

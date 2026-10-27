@@ -5,7 +5,7 @@ import {
   SystemCommonData,
   ResolvedPackageBuildConfig,
   PackageType,
-} from '@tools/viteBuild/types'
+} from '@tools/types'
 
 const sanitizeName = (str: string) => str.replace(/[<>:"/\\|?*]/g, '_')
 

@@ -1,5 +1,5 @@
 // packages/common/StrawberryChocolate/build.ts
-import { createPackageProject } from '@tools/webpackBuild/projectFactory'
+import { createPackageProject } from '@tools/viteBuild/projectFactory'
 import { PackageBuildTarget, ProjectPackageConfig, ProjectParams } from '@tools/types'
 
 const PROJECT = {

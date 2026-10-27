@@ -1,5 +1,5 @@
 // tools/webpackBuild/core/BuildExecutor.ts
-import { ResolvedCoreBuildConfig, ResolvedPackageBuildConfig } from '@tools/types'
+import { ResolvedCoreBuildConfig, ResolvedPackageBuildConfig } from '@tools/types/WebpackBuilder'
 import { processPostBuild } from '../processors/PostBuildProcessor'
 import { runWebpack } from './WebpackRunner'
 import { runVite } from './ViteRunner'

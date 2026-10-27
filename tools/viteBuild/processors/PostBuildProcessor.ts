@@ -1,6 +1,6 @@
 // tools/viteBuild/processors/PostBuildProcessor.ts
 import path from 'path'
-import { ResolvedPackageBuildConfig } from '@tools/viteBuild/types'
+import { ResolvedPackageBuildConfig } from '@tools/types'
 import { TemplateJsonProcessor } from './template/TemplateJsonProcessor'
 import { generateReadmeTxt } from './template/ReadmeTxtProcessor'
 import { updateJsonMetadata } from './json/UpdateJsonMetadata'

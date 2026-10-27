@@ -8,7 +8,7 @@ import {
   ResolvedCoreBuildConfig,
   ResolvedPackageBuildConfig,
   PackageType,
-} from '@tools/types'
+} from '@tools/types/WebpackBuilder'
 
 const sanitizeName = (str: string) => str.replace(/[<>:"/\\|?*]/g, '_')
 

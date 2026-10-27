@@ -1,5 +1,5 @@
 // tools/webpackBuild/projectFactory/createCoreProject.ts
-import { ProjectCoreConfig } from '@tools/types'
+import { ProjectCoreConfig } from '@tools/types/WebpackBuilder'
 import { APP_VERSION, BUILD_DATE } from '@/version'
 import { HTML_SCRIPT_TAGS } from './defaults'
 

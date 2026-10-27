@@ -70,7 +70,8 @@
 <script setup lang="ts">
   import { onMounted } from 'vue'
   import { OmikujiDataType } from '@/types/OmikujiData'
-  import { useDataPacks, type DataPackEntry } from './useDataPacks'
+  import { DataPackEntry } from '@/editor/types'
+  import { useDataPacks } from './useDataPacks'
   import DataPackCard from './DataPackCard.vue'
   import ConfigImportModal from '@/editor/helpers/presetsImport/ConfigImportModal.vue'
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'
