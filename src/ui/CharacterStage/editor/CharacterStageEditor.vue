@@ -1,5 +1,8 @@
 <!-- src/ui/CharacterStage/editor/CharacterStageEditor.vue -->
 <template>
+  <!-- プレビュー表示(登場位置の範囲・大きさ・登場アニメーションの確認用) -->
+  <CharacterStagePreview :settings="stage" />
+
   <!-- キャラクターの大きさ(標準値。投稿側は倍率だけ渡す) -->
   <SettingItem
     label="キャラクターの大きさ"
@@ -94,12 +97,15 @@
   import { enterMotionMap } from '@/maps/OmikujiData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
+  import CharacterStagePreview from './CharacterStagePreview.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
   const { updateItemSettings } = omikujiStore
 
-  const stage = computed(() => data.value.ui.settings.characterStage ?? CharacterStageSchema.parse({}))
+  // 保存データは変更した項目だけの部分オブジェクトになりうる(updateItemSettings がマージするだけ)ため、
+  // 本番(CharacterStage.vue)と同じく parse して、未設定の項目をスキーマの既定値で埋める
+  const stage = computed(() => CharacterStageSchema.parse(data.value.ui.settings.characterStage ?? {}))
 
   const axes = [
     { label: '既定の位置X', description: '0〜100(%)。キャラの中心が基準。最小と最大が違えば範囲内でランダム', min: 'xMin', max: 'xMax' },

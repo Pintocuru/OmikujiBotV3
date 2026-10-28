@@ -4,25 +4,13 @@ import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { useCharacters } from '@/generator/composables/useCharacters'
 import { isBubbleMessage } from '@/types/generator'
-import type { CharacterAnimationType, EnterMotionType } from '@/types/OmikujiData'
-import type { BotDisplayState, CharacterStageType } from '@/types/ui'
-import { pickInRange, resolveStageSlots } from './resolveStageSlots'
+import type { CharacterStageType } from '@/types/ui'
+import { resolveStageSlots } from './resolveStageSlots'
+import { buildStageItem } from './buildStageItem'
+import type { StageItem } from './types'
 
 // Leave アニメーションが終わらなかった場合の保険(after-leave が来ない場合でも取り除く)
 const FORCE_REMOVE_DELAY = 3000
-
-/** 画面に出している画像 1 枚(= 1 メッセージ) */
-export type StageItem = {
-  id: string
-  layers: string[]
-  animation?: CharacterAnimationType
-  size: number // px
-  x: number // % (キャラの中心)。表示開始時に 1 回だけ抽選
-  y: number // % (キャラの下辺)。表示開始時に 1 回だけ抽選
-  motion: EnterMotionType
-  z: number // 後から出たものほど大きい(前面)
-  display: BotDisplayState
-}
 
 /**
  * CharacterStage の表示管理
@@ -73,17 +61,14 @@ export const useCharacterStage = (settings: Ref<CharacterStageType>) => {
     // clearPrevious: 同じ UI で表示中のものだけを消す(このメッセージ自身は消さない)
     if (spec.clearPrevious) items.value.filter((i) => i.display.visible).forEach((i) => hide(i.id))
 
-    const item: StageItem = {
+    const item: StageItem = buildStageItem({
       id: msg.id,
       layers,
       animation: getCharacterAnimation(msg),
-      size: Math.round(settings.value.characterSize * spec.scale),
-      x: pickInRange(spec.xMin, spec.xMax),
-      y: pickInRange(spec.yMin, spec.yMax),
-      motion: spec.motion,
+      spec,
+      characterSize: settings.value.characterSize,
       z: ++zCounter,
-      display: { visible: true, hideTimeout: undefined },
-    }
+    })
     if (spec.seconds > 0) {
       item.display.hideTimeout = setTimeout(() => hide(item.id), spec.seconds * 1000) as unknown as number
     }
