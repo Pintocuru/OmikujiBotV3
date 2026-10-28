@@ -83,7 +83,3 @@
    - `MikujiEditor.vue` / `MikujiSettings.vue` / `MikujiBoxSchema.ts` 等の `Mikuji` 名は**リネーム禁止**。新規ファイルもこの区別に従うこと。
 5. **`Syoken`** は歴史的経緯(OmikujiBotは初見を大事にしている)により維持。
 6. **ドキュメントを `src/` に置かない**。ルールに関する事は `docs/conventions/` へ移動。
-7. **games/scripts の内部構造を統一**:
-   - 各ゲームディレクトリ直下は `execute.ts` / `params.ts` / `game.ts` のみ。
-   - 補助ファイルは `sub/` ディレクトリへ(camelCase)。`game/` という名前のサブディレクトリは使わない(直下の `game.ts` と紛らわしいため)。
-   - `gameConfig.ts`(単数形)に統一。`DwarfBomb/game/` 配下は `DwarfBomb/sub/` へ統合。

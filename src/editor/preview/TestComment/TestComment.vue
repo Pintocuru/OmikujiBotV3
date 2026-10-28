@@ -124,22 +124,9 @@
     pickTestComment,
   } from '@/common/MockUser'
   import { postComment } from '@/sdk/post/PostOneComme'
-  import { ServiceMetaWatcher } from '@/sdk/subscribe/GetServiceMeta'
+  import { getPostServiceId, resetPostServiceId } from '@/sdk/service/getPostServiceId'
   import { CommentPickSchema } from '@/types/subscribe'
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
-
-  // 投稿先サービス: わんコメのサービス一覧の先頭の id を使う(取得は1回だけ)
-  let servicePromise: Promise<string | null> | null = null
-  function resolveServiceId(): Promise<string | null> {
-    servicePromise ??= ServiceMetaWatcher.getInstance()
-      .fetchServices()
-      .then((services) => services[0]?.id ?? null)
-      .catch((e) => {
-        console.error(e)
-        return null
-      })
-    return servicePromise
-  }
 
   const isRunning = ref(false)
   const intervalSec = ref(2)
@@ -200,9 +187,9 @@
         ? pickTestComment('chat', customComments.value)
         : pickTestComment(selectedTheme.value)
 
-    const serviceId = await resolveServiceId()
+    const serviceId = await getPostServiceId()
     if (!serviceId) {
-      servicePromise = null // 次回また取得し直す
+      resetPostServiceId() // 次回また取得し直す
       lastComment.value = '投稿先のサービスが取得できません(わんコメを確認してください)'
       if (isRunning.value) toggleRunning()
       return

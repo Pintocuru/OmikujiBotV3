@@ -18,7 +18,7 @@ export type ScriptResult = {
 
 // スクリプトのメイン実行クラス
 export interface ScriptClass {
-  run(queryString: string, characterKey: string | null, omiken?: OmikenCommentType): ScriptResult // メイン実行関数
+  run(queryString: string, characterKey: string | null, omiken?: OmikenCommentType): ScriptResult | Promise<ScriptResult> // メイン実行関数
   sampleRun?(queryString?: string): string // エディター用サンプルゲーム関数
   getGameState?(): GameStateType // ゲームステート取得(任意)
 }

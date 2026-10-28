@@ -40,6 +40,7 @@ export const registerAllGameScripts = () =>
     GoogolClover: () => import('@/games/scripts/game/GoogolClover/execute'),
     HugEmAll: () => import('@/games/scripts/game/HugEmAll/execute'),
     FortuneRanking: () => import('@/games/scripts/tool/FortuneRanking/execute'),
+    CommentBot: () => import('@/games/scripts/tool/CommentBot/execute'),
   } satisfies Record<GameScriptKey, GameScriptLoader>)
 
 // runtime(editor除く)

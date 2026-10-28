@@ -7,7 +7,6 @@ import { Comment } from '@onecomme.com/onesdk/types/Comment'
 /**
  * わんコメのコメントをおみくじBOT用に加工
  */
-
 export async function GetOmikenComments(
   callback: (omikens: OmikenCommentType[], isReset: boolean, isFirstLoad: boolean) => void
 ): Promise<boolean> {
@@ -17,13 +16,15 @@ export async function GetOmikenComments(
       throw new TypeError(`[GetOmikenComments] 不正なデータ形式: ${typeof comments}`)
     }
 
+    // 初回の受信(履歴)は、空配列でも「初回」を消費する。
+    // 消費しないと、履歴が空の配信で最初に来た本物のコメントが履歴扱いになり、応答されない
+    const currentIsFirstLoad = isFirstLoad // 呼び出し時点の値を保持
+    isFirstLoad = false
+
     if (comments.length === 0) {
-      callback([], true, isFirstLoad)
+      callback([], true, currentIsFirstLoad)
       return
     }
-
-    const currentIsFirstLoad = isFirstLoad // 呼び出し時点の値を保持
-    isFirstLoad = false // コールバック内でリセット
 
     const omikens = processOmikenComments(comments as Comment[])
     callback(omikens, false, currentIsFirstLoad)

@@ -62,4 +62,11 @@ export const gameMetaMap: Record<
     url: '',
     banner: '',
   },
+  CommentBot: {
+    name: 'コメントBOT',
+    description: 'BOTとしてわんコメにコメントを自動投稿する拡張スクリプト',
+    icon: 'Bot',
+    url: '',
+    banner: '',
+  },
 }

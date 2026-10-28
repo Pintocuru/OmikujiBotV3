@@ -129,6 +129,10 @@ export const omikujiDataMapMessages = {
           name: '占いランキング',
           description: '果物などの順位を作成する拡張スクリプト',
         },
+        CommentBot: {
+          name: 'コメントBOT',
+          description: 'BOTとしてわんコメにコメントを自動投稿する拡張スクリプト',
+        },
       },
       postFlowKind: {
         message: {
@@ -416,6 +420,10 @@ export const omikujiDataMapMessages = {
         FortuneRanking: {
           name: 'Fortune Ranking',
           description: 'Extension script that creates rankings (e.g. fruits)',
+        },
+        CommentBot: {
+          name: 'Comment Bot',
+          description: 'Extension script that automatically posts comments to OneComme as the BOT',
         },
       },
       postFlowKind: {
