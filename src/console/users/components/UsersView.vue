@@ -1,4 +1,4 @@
-<!-- src/console/components/UsersView.vue -->
+<!-- src/console/users/components/UsersView.vue -->
 <!-- TODO:コードが長すぎるので責務ごとに分割したい -->
 <!-- ユーザーの得点・チーム・席順を操作する画面 (OBS の表示に反映される) -->
 <template>

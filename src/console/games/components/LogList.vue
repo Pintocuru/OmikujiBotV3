@@ -1,4 +1,4 @@
-<!-- src/console/components/LogList.vue -->
+<!-- src/console/games/components/LogList.vue -->
 <template>
   <p v-if="rows.length === 0" class="py-8 text-center opacity-60">まだ記録がありません</p>
   <ul v-else class="flex flex-col divide-y divide-base-300">

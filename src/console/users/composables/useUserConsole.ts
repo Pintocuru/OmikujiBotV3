@@ -1,4 +1,4 @@
-// src/console/composables/useUserConsole.ts
+// src/console/users/composables/useUserConsole.ts
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { userStatsApi } from '@/manager/services/userStatsApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'

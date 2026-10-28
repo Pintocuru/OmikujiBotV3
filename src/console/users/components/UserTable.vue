@@ -1,4 +1,4 @@
-<!-- src/console/components/UserTable.vue -->
+<!-- src/console/users/components/UserTable.vue -->
 <template>
   <p v-if="users.length === 0" class="py-8 text-center opacity-60">該当するユーザーがいません</p>
   <div v-else class="overflow-x-auto">

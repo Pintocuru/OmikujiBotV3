@@ -1,4 +1,4 @@
-// src/console/scripts/userConsole.ts
+// src/console/users/scripts/userConsole.ts
 // LiveConsole のユーザー操作画面で使う、並び替え・絞り込み・集計 (純粋関数)
 import { TeamCountType, TeamFilter, TeamTotal, UserSortKey } from '@/console/types'
 import { UserListItemType, UserStatsUpdateType } from '@/types/api'

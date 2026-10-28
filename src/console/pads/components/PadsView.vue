@@ -1,4 +1,4 @@
-<!-- src/console/components/PadsView.vue -->
+<!-- src/console/pads/components/PadsView.vue -->
 <!-- ポン出しのボタンを押す画面 (押すと、OBS のジェネレーターで「ポン出しイベント」が発火する) -->
 <template>
   <div class="flex flex-col">

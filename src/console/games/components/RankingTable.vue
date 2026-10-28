@@ -1,4 +1,4 @@
-<!-- src/console/components/RankingTable.vue -->
+<!-- src/console/games/components/RankingTable.vue -->
 <template>
   <div class="flex flex-col gap-3">
     <div class="flex flex-wrap items-center gap-4">

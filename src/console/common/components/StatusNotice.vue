@@ -1,4 +1,4 @@
-<!-- src/console/components/StatusNotice.vue -->
+<!-- src/console/common/components/StatusNotice.vue -->
 <!-- サーバーに接続できない / 読み込みに失敗した、ときの案内 -->
 <template>
   <main v-if="status === 'offline'" class="mx-auto max-w-xl p-8">

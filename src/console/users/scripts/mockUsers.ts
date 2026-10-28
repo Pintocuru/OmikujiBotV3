@@ -1,4 +1,4 @@
-// src/console/scripts/mockUsers.ts
+// src/console/users/scripts/mockUsers.ts
 // 開発サーバー用: コメント由来のユーザーのテストデータを作る純粋関数
 import { generateDummyUserStats } from '@/common/MockUser'
 import type { UserStatsRecord } from '@/types/api'

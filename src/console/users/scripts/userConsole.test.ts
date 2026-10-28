@@ -1,4 +1,4 @@
-// src/console/scripts/userConsole.test.ts
+// src/console/users/scripts/userConsole.test.ts
 import { describe, expect, it } from 'vitest'
 import type { UserListItemType } from '@/types/api'
 import { buildTeamTotals, pickTeams } from './userConsole'

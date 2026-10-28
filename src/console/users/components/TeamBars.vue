@@ -1,4 +1,4 @@
-<!-- src/console/components/TeamBars.vue -->
+<!-- src/console/users/components/TeamBars.vue -->
 <!-- チームごとの合計得点 (チーム色ごとのバー) -->
 <template>
   <section v-if="totals.length !== 0" class="rounded-box bg-base-200 p-3">

@@ -1,4 +1,4 @@
-<!-- src/console/components/UserStatsTable.vue -->
+<!-- src/console/games/components/UserStatsTable.vue -->
 <template>
   <p v-if="rows.length === 0" class="py-8 text-center opacity-60">まだ記録がありません</p>
   <div v-else class="overflow-x-auto">

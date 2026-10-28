@@ -1,4 +1,4 @@
-<!-- src/console/components/GameLogsView.vue -->
+<!-- src/console/games/components/GameLogsView.vue -->
 <!-- ゲームの記録 (配信ごとのランキング・ユーザー別・ログ) を見る画面 -->
 <template>
   <div class="flex flex-col">

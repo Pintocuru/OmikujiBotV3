@@ -1,4 +1,4 @@
-// tools/viteBuild/types.ts
+// tools/types/ViteBuild.ts
 // Vite 版ビルダーの型定義 (tools/types/WebpackBuilder.ts の Vite 専用版)
 // ※ 構造は webpack 版と同じ。packages/ 側は import 元を差し替えるだけで使える
 

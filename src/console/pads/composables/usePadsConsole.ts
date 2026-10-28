@@ -1,4 +1,4 @@
-// src/console/composables/usePadsConsole.ts
+// src/console/pads/composables/usePadsConsole.ts
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { padApi } from '@/manager/services/padApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'

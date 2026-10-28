@@ -1,4 +1,4 @@
-// src/console/composables/useMockUsers.ts
+// src/console/users/composables/useMockUsers.ts
 // 開発サーバー用: コメント由来のテスト用ユーザーを追加する
 // 本番 (わんコメのプラグイン) ではコメントでユーザーが増えるが、開発サーバーにはコメントが来ないため、ここで代わりに追加する
 import { ref } from 'vue'

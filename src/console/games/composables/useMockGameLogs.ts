@@ -1,4 +1,4 @@
-// src/console/composables/useMockGameLogs.ts
+// src/console/games/composables/useMockGameLogs.ts
 // 開発サーバー用: ゲームの記録にテストデータを追加する
 // 本番 (わんコメのプラグイン) では GameRanking が append-game-log を呼ぶが、開発サーバーには呼び手がいないため、ここで代わりに呼ぶ
 import { ref } from 'vue'

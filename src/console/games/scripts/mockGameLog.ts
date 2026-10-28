@@ -1,4 +1,4 @@
-// src/console/scripts/mockGameLog.ts
+// src/console/games/scripts/mockGameLog.ts
 // 開発サーバー用: ゲームの記録 (GameRanking が追記するログ) のテストデータを作る純粋関数
 import { generateDummyMessages } from '@/common/MockUser'
 import { GameLogSchema, type GameLogType } from '@/types/api'

@@ -1,4 +1,4 @@
-<!-- src/console/components/StreamList.vue -->
+<!-- src/console/games/components/StreamList.vue -->
 <template>
   <ul class="menu bg-base-200 rounded-box w-full gap-1">
     <li class="menu-title">配信 ({{ streams.length }})</li>

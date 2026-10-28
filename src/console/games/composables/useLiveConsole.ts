@@ -1,4 +1,4 @@
-// src/console/composables/useLiveConsole.ts
+// src/console/games/composables/useLiveConsole.ts
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { gameStateApi } from '@/manager/services/gameStateApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'

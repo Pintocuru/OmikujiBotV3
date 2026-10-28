@@ -1,4 +1,4 @@
-// src/console/composables/useTeamCount.ts
+// src/console/users/composables/useTeamCount.ts
 import { computed, ref, watch } from 'vue'
 import { teamCounts, type TeamCountType } from '@/console/types'
 import { pickTeams } from '../scripts/userConsole'

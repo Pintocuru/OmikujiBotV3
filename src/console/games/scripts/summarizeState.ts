@@ -1,4 +1,4 @@
-// src/console/scripts/summarizeState.ts
+// src/console/games/scripts/summarizeState.ts
 // 1つの eventKey の GameState から、LiveConsole で表示する形を作る (純粋関数)
 import { RankingSortOrder, RankingRow } from '@/console/types'
 import { GameLogType, GameStateType } from '@/types/api'
