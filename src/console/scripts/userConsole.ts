@@ -1,17 +1,8 @@
 // src/console/scripts/userConsole.ts
 // LiveConsole のユーザー操作画面で使う、並び替え・絞り込み・集計 (純粋関数)
-import type { UserListItemType, UserStatsUpdateType } from '@/types/api'
-import type { DaisyUIColorType } from '@/types/core'
-
-export type UserSortKey = 'recent' | 'score' | 'order' | 'name'
-export type TeamFilter = 'all' | 'none' | DaisyUIColorType
-
-export const userSortLabels: Record<UserSortKey, string> = {
-  recent: 'コメントが新しい順',
-  score: '得点が高い順',
-  order: '席順',
-  name: '名前順',
-}
+import { TeamFilter, TeamTotal, UserSortKey } from '@/console/types'
+import { UserListItemType, UserStatsUpdateType } from '@/types/api'
+import { DaisyUIColorType } from '@/types/core'
 
 const byName = (a: UserListItemType, b: UserListItemType) => a.userName.localeCompare(b.userName, 'ja')
 
@@ -37,19 +28,16 @@ export function sortUsers(users: UserListItemType[], key: UserSortKey): UserList
 /**
  * 名前 (または userId) の部分一致と、チームで絞り込む
  */
-export function filterUsers(users: UserListItemType[], options: { query: string; team: TeamFilter }): UserListItemType[] {
+export function filterUsers(
+  users: UserListItemType[],
+  options: { query: string; team: TeamFilter }
+): UserListItemType[] {
   const query = options.query.trim().toLowerCase()
   return users.filter((user) => {
     if (options.team === 'none' && user.team !== null) return false
     if (options.team !== 'all' && options.team !== 'none' && user.team !== options.team) return false
     return query === '' || user.userName.toLowerCase().includes(query) || user.userId.toLowerCase().includes(query)
   })
-}
-
-export interface TeamTotal {
-  team: DaisyUIColorType
-  totalScore: number
-  memberCount: number
 }
 
 /**

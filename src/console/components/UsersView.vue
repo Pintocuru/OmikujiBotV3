@@ -39,7 +39,11 @@
           <button class="btn btn-sm" :disabled="visibleUsers.length === 0" @click="confirmApplyOrders">
             この並びを席順にする
           </button>
-          <button class="btn btn-sm" :disabled="visibleUsers.every((u) => u.order === null)" @click="confirmClearOrders">
+          <button
+            class="btn btn-sm"
+            :disabled="visibleUsers.every((u) => u.order === null)"
+            @click="confirmClearOrders"
+          >
             席順を外す
           </button>
           <button class="btn btn-sm btn-outline btn-warning" @click="confirmReset">コメントのユーザーを空にする</button>
@@ -80,17 +84,11 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { daisyUIColor } from '@/types/core'
+
+  import { TeamFilter, UserSortKey, userSortLabels } from '@/console/types'
   import { useUserConsole } from '../composables/useUserConsole'
   import { formatTime } from '../scripts/summarizeState'
-  import {
-    buildTeamTotals,
-    filterUsers,
-    sortUsers,
-    TEAM_STYLE,
-    userSortLabels,
-    type TeamFilter,
-    type UserSortKey,
-  } from '../scripts/userConsole'
+  import { buildTeamTotals, filterUsers, sortUsers, TEAM_STYLE } from '../scripts/userConsole'
   import StatusNotice from './StatusNotice.vue'
   import TeamBars from './TeamBars.vue'
   import UserTable from './UserTable.vue'
@@ -131,14 +129,20 @@
     await addManualUser(name)
   }
 
+  // TODO: ダイアログは SweetAlert2 を使うこと。
   const confirmApplyOrders = () => {
-    if (window.confirm(`いま表示している ${visibleUsers.value.length} 人を、この並びで席順 (1, 2, 3...) にします。よろしいですか?`)) {
+    if (
+      window.confirm(
+        `いま表示している ${visibleUsers.value.length} 人を、この並びで席順 (1, 2, 3...) にします。よろしいですか?`
+      )
+    ) {
       void applyOrders(visibleUsers.value)
     }
   }
 
   const confirmClearOrders = () => {
-    if (window.confirm('いま表示しているユーザーの席順を外します。よろしいですか?')) void clearOrders(visibleUsers.value)
+    if (window.confirm('いま表示しているユーザーの席順を外します。よろしいですか?'))
+      void clearOrders(visibleUsers.value)
   }
 
   const confirmReset = () => {

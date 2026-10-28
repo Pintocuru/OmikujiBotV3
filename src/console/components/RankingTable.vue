@@ -40,7 +40,9 @@
             <td>{{ row.userName }}</td>
             <td class="text-right font-mono">
               {{ row.label }}
-              <span v-if="row.label !== String(row.score)" class="ml-1 text-xs opacity-50">({{ formatNumber(row.score) }})</span>
+              <span v-if="row.label !== String(row.score)" class="ml-1 text-xs opacity-50"
+                >({{ formatNumber(row.score) }})</span
+              >
             </td>
             <td class="text-right text-xs opacity-70">{{ formatDateTime(row.createdAt) }}</td>
           </tr>
@@ -52,8 +54,9 @@
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
-  import type { GameStateType } from '@/types/api'
-  import { buildRanking, formatDateTime, formatNumber, type RankingSortOrder } from '../scripts/summarizeState'
+  import { GameStateType } from '@/types/api'
+  import { buildRanking, formatDateTime, formatNumber } from '../scripts/summarizeState'
+  import { RankingSortOrder } from '@/console/types'
 
   const props = defineProps<{ state: GameStateType }>()
 

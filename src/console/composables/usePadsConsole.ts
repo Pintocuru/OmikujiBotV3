@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { padApi } from '@/manager/services/padApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'
 import { padGridSize, padIds, padLayouts, type PadIdType, type PadLayoutType } from '@/types/OmikujiData'
-import type { ConsoleStatus } from './useLiveConsole'
+import { ConsoleStatus } from '@/console/types'
 
 const STORAGE_KEY = 'liveConsole.padLayout'
 const FLASH_MS = 250

@@ -5,7 +5,7 @@ import { ConnectionError } from '@/manager/services/baseApiClient'
 import type { UserListItemType, UserStatsUpdateType } from '@/types/api'
 import type { DaisyUIColorType } from '@/types/core'
 import { buildClearOrderUpdates, buildOrderUpdates, chunkUpdates } from '../scripts/userConsole'
-import type { ConsoleStatus } from './useLiveConsole'
+import { ConsoleStatus } from '@/console/types'
 
 const REFRESH_INTERVAL_MS = 5000
 
@@ -103,7 +103,8 @@ export function useUserConsole() {
     const updates = buildOrderUpdates(visibleUsers)
     const orderOf = new Map(updates.map((u) => [u.userId, u.set!.order!]))
     return mutate(
-      () => (users.value = users.value.map((u) => (orderOf.has(u.userId) ? { ...u, order: orderOf.get(u.userId)! } : u))),
+      () =>
+        (users.value = users.value.map((u) => (orderOf.has(u.userId) ? { ...u, order: orderOf.get(u.userId)! } : u))),
       () => sendUpdates(updates)
     )
   }

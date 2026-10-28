@@ -3,8 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { gameStateApi } from '@/manager/services/gameStateApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'
 import type { GameStateListItemType, GameStateType, StreamGameFileType } from '@/types/api'
-
-export type ConsoleStatus = 'loading' | 'online' | 'offline' | 'error'
+import { ConsoleStatus } from '@/console/types'
 
 const REFRESH_INTERVAL_MS = 5000
 

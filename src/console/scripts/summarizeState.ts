@@ -1,20 +1,10 @@
 // src/console/scripts/summarizeState.ts
 // 1つの eventKey の GameState から、LiveConsole で表示する形を作る (純粋関数)
-import type { GameLogType, GameStateType } from '@/types/api'
+import { RankingSortOrder, RankingRow } from '@/console/types'
+import { GameLogType, GameStateType } from '@/types/api'
 
-export type RankingSortOrder = 'high' | 'low' | 'new'
-
-export interface RankingRow {
-  rank: number
-  logId: string
-  userId: string
-  userName: string
-  score: number
-  label: string // 表示用の得点 (保存されていなければ score を文字にしたもの)
-  createdAt: number
-}
-
-export interface UserRow {
+// ?
+interface UserRow {
   userId: string
   userName: string
   totalDraws: number
