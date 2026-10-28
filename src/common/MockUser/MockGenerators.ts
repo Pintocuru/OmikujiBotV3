@@ -1,6 +1,6 @@
 // src/common/MockUser/MockGenerators.ts
 import { BotMessageRankingSchema, BotMessageRankingType } from '@/types/generator'
-import { UserStatsRecord, UserStatsRecordSchema } from '@/types/generator'
+import { UserStatsRecord, UserStatsRecordSchema } from '@/types/api'
 import { LocaleType } from '@/types/OmikujiData/'
 import { RANKING_POINTS_RANGE, SUFFIX_PROBABILITY, USER_STATS_RANGES } from './MockConstants'
 import { MOCK_FAMILY_NAME_JA_LIST, MOCK_USER_GIVEN_JA_LIST } from './maps/MockUserJaMaps'
