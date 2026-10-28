@@ -16,6 +16,7 @@ import * as m_events_CommentEditor from './events/CommentEditor'
 import * as m_events_CommentTriggerEditor from './events/CommentTriggerEditor'
 import * as m_events_EventCore from './events/EventCore'
 import * as m_events_EventTriggers from './events/EventTriggers'
+import * as m_events_PadEditor from './events/PadEditor'
 import * as m_events_ReactionEditor from './events/ReactionEditor'
 import * as m_events_TriggerAccess from './events/TriggerAccess'
 import * as m_events_TriggerComment from './events/TriggerComment'
@@ -37,6 +38,7 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'events/CommentTriggerEditor': m_events_CommentTriggerEditor,
   'events/EventCore': m_events_EventCore,
   'events/EventTriggers': m_events_EventTriggers,
+  'events/PadEditor': m_events_PadEditor,
   'events/ReactionEditor': m_events_ReactionEditor,
   'events/TriggerAccess': m_events_TriggerAccess,
   'events/TriggerComment': m_events_TriggerComment,

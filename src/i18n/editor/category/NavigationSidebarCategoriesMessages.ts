@@ -22,6 +22,10 @@ export const navigationSidebarCategoriesMessages = {
         label: 'リアクションイベント(Youtube)',
         description: '視聴者のリアクション（❤ 😄 🎉 😳 💯）でおみくじを発動します',
       },
+      pads: {
+        label: 'ポン出しイベント',
+        description: 'LiveConsole のポン出しボタンが押されたとき、おみくじを発動します',
+      },
       mikuji: {
         label: 'みくじ箱',
         description: 'おみくじの内容を作成します',
@@ -73,6 +77,10 @@ export const navigationSidebarCategoriesMessages = {
       reactions: {
         label: 'Reactions (YouTube)',
         description: 'Triggers omikuji on viewer reactions (❤ 😄 🎉 😳 💯)',
+      },
+      pads: {
+        label: 'Pad Events',
+        description: 'Triggers omikuji when a pad button is pressed in LiveConsole',
       },
       mikuji: {
         label: 'Omikuji Box',

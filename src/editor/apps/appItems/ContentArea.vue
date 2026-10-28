@@ -37,6 +37,7 @@
   import TimerEventEditor from '@/editor/events/timer/TimerEditor.vue'
   import ServiceEventEditor from '@/editor/events/service/ServiceEditor.vue'
   import ReactionEventEditor from '@/editor/events/reaction/ReactionEditor.vue'
+  import PadEventEditor from '@/editor/events/pad/PadEditor.vue'
 
   import MikujiEditor from '@/editor/assets/mikuji/MikujiEditor.vue'
   import ActionsEditor from '@/editor/assets/actions/ActionsEditor.vue'
@@ -69,6 +70,7 @@
     timers: TimerEventEditor,
     services: ServiceEventEditor,
     reactions: ReactionEventEditor,
+    pads: PadEventEditor,
 
     // assets
     mikuji: MikujiEditor,

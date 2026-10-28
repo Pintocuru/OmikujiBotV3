@@ -3,3 +3,4 @@
 
 export * from './game'
 export * from './userStats'
+export * from './pad'

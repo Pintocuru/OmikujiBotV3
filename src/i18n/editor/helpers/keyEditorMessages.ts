@@ -28,6 +28,7 @@ export const keyEditorMessages = {
           timers: 'タイマーイベント',
           services: '配信数値イベント',
           reactions: 'リアクションイベント',
+          pads: 'ポン出しイベント',
         },
       },
       warning: {
@@ -69,6 +70,7 @@ export const keyEditorMessages = {
           timers: 'Timer events',
           services: 'Stream stats events',
           reactions: 'Reaction events',
+          pads: 'Pad events',
         },
       },
       warning: {

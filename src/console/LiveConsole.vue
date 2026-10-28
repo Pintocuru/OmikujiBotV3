@@ -20,6 +20,7 @@
     </header>
 
     <UsersView v-if="view === 'users'" />
+    <PadsView v-else-if="view === 'pads'" />
     <GameLogsView v-else />
   </div>
 </template>
@@ -28,12 +29,16 @@
   import { ref, watch } from 'vue'
   import GameLogsView from './components/GameLogsView.vue'
   import UsersView from './components/UsersView.vue'
+  import PadsView from './components/PadsView.vue'
 
-  const views = { users: 'ユーザー操作', games: 'ゲームの記録' } as const
+  const views = { users: 'ユーザー操作', pads: 'ポン出し', games: 'ゲームの記録' } as const
   type ViewKey = keyof typeof views
 
   // 再読み込みしても、同じ画面に戻れるよう URL の # に覚えておく (例: console.html#games)
-  const fromHash = (): ViewKey => (location.hash === '#games' ? 'games' : 'users')
+  const fromHash = (): ViewKey => {
+    const key = location.hash.slice(1)
+    return key in views ? (key as ViewKey) : 'users'
+  }
   const view = ref<ViewKey>(fromHash())
   watch(view, (key) => history.replaceState(null, '', `#${key}`))
 </script>

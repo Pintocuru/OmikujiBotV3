@@ -29,6 +29,11 @@ export const categoryMap: Record<CategoryType, DisplayMetaLucide> = {
     description: '視聴者のリアクション（❤ 😄 🎉 😳 💯）でおみくじを発動します',
     icon: 'Smile',
   },
+  pads: {
+    label: 'ポン出しイベント',
+    description: 'LiveConsole のポン出しボタンが押されたとき、おみくじを発動します',
+    icon: 'LayoutGrid',
+  },
   mikuji: {
     label: 'みくじ箱',
     description: 'おみくじの内容を作成します',

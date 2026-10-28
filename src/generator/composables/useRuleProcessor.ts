@@ -4,6 +4,7 @@ import { useAppStore } from '@/generator/stores/useAppStore'
 import { EventTimerProcessor } from '@/generator/scripts/EventProcess/TimerProcessor'
 import { EventServiceProcessor } from '@/generator/scripts/EventProcess/ServiceProcessor'
 import { EventReactionProcessor } from '../scripts/EventProcess/ReactionProcessor'
+import { EventPadProcessor } from '@/generator/scripts/EventProcess/PadProcessor'
 
 export function useRuleProcessor() {
   const appStore = useAppStore()
@@ -20,6 +21,7 @@ export function useRuleProcessor() {
         processor.timer.stop()
         processor.service.stop()
         processor.reaction.stop()
+        processor.pad.stop()
       }
       console.log('🔄 RuleProcessor起動')
 
@@ -32,6 +34,8 @@ export function useRuleProcessor() {
       processor.service.start()
       console.log('▶️ リアクションイベント起動')
       processor.reaction.start()
+      console.log('▶️ ポン出しイベント起動')
+      processor.pad.start()
     },
     { immediate: true }
   )
@@ -42,6 +46,7 @@ export function useRuleProcessor() {
     processor.timer.stop()
     processor.service.stop()
     processor.reaction.stop()
+    processor.pad.stop()
   })
 }
 
@@ -52,6 +57,7 @@ function createRuleProcessor() {
   const timer = new EventTimerProcessor()
   const service = new EventServiceProcessor()
   const reaction = new EventReactionProcessor()
+  const pad = new EventPadProcessor()
 
   return {
     timer: {
@@ -65,6 +71,10 @@ function createRuleProcessor() {
     reaction: {
       start: reaction.startReactions.bind(reaction),
       stop: reaction.stopReactions.bind(reaction),
+    },
+    pad: {
+      start: pad.startPads.bind(pad),
+      stop: pad.stopPads.bind(pad),
     },
   }
 }

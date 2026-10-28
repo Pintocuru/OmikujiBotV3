@@ -39,7 +39,7 @@ export function useKeyEditor() {
    * event → omikujiKey → mikuji → postFlow の message を辿る
    */
   function getCharacterUsage(characterKey: string): CharacterUsage {
-    const usage: CharacterUsage = { comments: [], timers: [], services: [], reactions: [] }
+    const usage: CharacterUsage = { comments: [], timers: [], services: [], reactions: [], pads: [] }
 
     eventCategory.forEach((category) => {
       getEvents(category).forEach((event) => {

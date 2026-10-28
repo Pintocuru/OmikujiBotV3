@@ -170,7 +170,7 @@ const EVENT_MAP = [
   { from: 'comments', to: 'comments', kind: 'comments' },
   { from: 'timers', to: 'timers', kind: 'timers' },
   { from: 'metas', to: 'services', kind: 'services' }, // metas -> services
-  { from: 'reactions', to: 'reactions', kind: 'reaction' }, // v3 の kind は 'reaction'
+  { from: 'reactions', to: 'reactions', kind: 'reactions' }, // kind はカテゴリ名と同じ
 ] as const
 
 function migrateTrigger(from: string, trigger: unknown): Obj | undefined {

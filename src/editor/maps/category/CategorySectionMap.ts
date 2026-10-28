@@ -27,6 +27,11 @@ export const categorySectionMap: Record<DataCategoryType, SidebarSectionItem[]> 
     { section: 'trigger', icon: 'Filter', component: 'trigger' },
     { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
   ],
+  pads: [
+    { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
+    { section: 'trigger', icon: 'Filter', component: 'padTrigger' },
+    { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
+  ],
 
   // assets
   mikuji: [

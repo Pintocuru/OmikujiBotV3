@@ -4,6 +4,7 @@ import { CommentTriggerSchema } from './CommentTriggerSchema'
 import { ServiceTriggerSchema } from './ServiceTriggerSchema'
 import { normalizedObject } from '../../core/ParsedDefault'
 import { ReactionTriggerSchema } from './ReactionTriggerSchema'
+import { PadTriggerSchema } from './PadTriggerSchema'
 import { BaseRecordSchema } from '@/types/core'
 
 /**
@@ -63,12 +64,22 @@ export type ServiceEventType = z.infer<typeof ServiceEventSchema>
  * reaction スキーマ
  */
 export const ReactionEventSchema = BaseEventSchema.extend({
-  kind: z.literal('reaction').default('reaction'),
+  // 旧データは 'reaction' (単数) だった。item が1つ不正だと配列ごと空になるため、catch で 'reactions' に直して読む
+  kind: z.literal('reactions').default('reactions').catch('reactions'),
   trigger: normalizedObject(ReactionTriggerSchema),
 })
 export type ReactionEventType = z.infer<typeof ReactionEventSchema>
 
 /**
+ * pads スキーマ (ポン出し: LiveConsole のボタンが押されたとき)
+ */
+export const PadEventSchema = BaseEventSchema.extend({
+  kind: z.literal('pads').default('pads'),
+  trigger: normalizedObject(PadTriggerSchema),
+})
+export type PadEventType = z.infer<typeof PadEventSchema>
+
+/**
  * 型
  */
-export type EventType = CommentEventType | TimerEventType | ServiceEventType | ReactionEventType
+export type EventType = CommentEventType | TimerEventType | ServiceEventType | ReactionEventType | PadEventType

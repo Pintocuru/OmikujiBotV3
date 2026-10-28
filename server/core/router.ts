@@ -5,6 +5,7 @@ import * as generatorHandler from './handlers/generatorHandler'
 import * as omikujiHandler from './handlers/omikujiHandler'
 import * as gameStateHandler from './handlers/gameStateHandler'
 import * as userStatsHandler from './handlers/userStatsHandler'
+import * as padHandler from './handlers/padHandler'
 import { API_ACTION } from '@server/api/actions'
 import { HTTP } from './constants'
 import { ok, fail, badRequest } from './utils/result'
@@ -63,6 +64,9 @@ async function handleGetRequest(action: string, params: Record<string, string>):
     case API_ACTION.loadUsers.action:
       return userStatsHandler.loadUsers()
 
+    case API_ACTION.loadPadStatus.action:
+      return padHandler.loadPadStatus(params.since)
+
     default:
       return fail(HTTP.NOT_FOUND, `Unknown GET action: ${action}`)
   }
@@ -113,6 +117,9 @@ async function handlePostRequest(
 
     case API_ACTION.resetUsers.action:
       return userStatsHandler.resetUsers()
+
+    case API_ACTION.triggerPad.action:
+      return padHandler.triggerPad(body)
 
     default:
       return fail(HTTP.NOT_FOUND, `Unknown POST action: ${action}`)

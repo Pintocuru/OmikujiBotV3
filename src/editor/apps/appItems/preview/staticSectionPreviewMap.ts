@@ -7,6 +7,7 @@ import ThresholdPreview from './ThresholdPreview.vue'
 import OmikujiSetPreview from './OmikujiSetPreview.vue'
 import TimerIntervalPreview from './TimerIntervalPreview.vue'
 import TriggerPreview from './TriggerPreview.vue'
+import PadTriggerPreview from './PadTriggerPreview.vue'
 import PlaceholderPreview from './PlaceholderPreview.vue'
 import ColorSettingsPreview from './ColorSettingsPreview.vue'
 import CommentVoicePreview from './CommentVoicePreview.vue'
@@ -27,6 +28,9 @@ export const staticSectionPreviewMap: Record<string, Component> = {
   // services / reactions
   // SidebarSectionList 側で :mode="category" を渡すこと
   trigger: TriggerPreview,
+
+  // pads
+  padTrigger: PadTriggerPreview,
 
   // placeholders
   placeholder: PlaceholderPreview,
