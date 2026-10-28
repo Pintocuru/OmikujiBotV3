@@ -17,6 +17,7 @@
     <!-- 接続の状態表示 -->
     <StatusNotice :status="status" :errorMessage="errorMessage" />
 
+    <!-- ツールボックス -->
     <main v-if="status === 'loading' || status === 'online'" class="mx-auto flex w-full max-w-6xl flex-col gap-3 p-4">
       <div v-if="actionError" class="alert alert-error py-2 text-sm">
         <span class="break-all">操作に失敗しました: {{ actionError }}</span>
@@ -62,40 +63,17 @@
         </div>
 
         <!-- チームごとの並び替え -->
-        <select v-if="teams.length > 0" v-model="teamFilter" class="select select-sm select-bordered">
+        <select v-if="teams.length > 0" v-model="teamFilter" class="select select-sm">
           <option value="all">すべてのチーム</option>
           <option value="none">チームなし</option>
           <option v-for="team in teams" :key="team" :value="team">{{ TEAM_STYLE[team].label }}</option>
         </select>
         <span class="text-sm opacity-60">{{ visibleUsers.length }} / {{ users.length }}人</span>
-
-        <div class="ml-auto flex flex-wrap gap-2">
-          <button class="btn btn-sm" :disabled="visibleUsers.length === 0" @click="confirmApplyOrders">
-            この並びを席順にする
-          </button>
-          <button
-            class="btn btn-sm"
-            :disabled="visibleUsers.every((u) => u.order === null)"
-            @click="confirmClearOrders"
-          >
-            席順を外す
-          </button>
-          <button class="btn btn-sm btn-outline btn-warning" @click="confirmReset">コメントのユーザーを空にする</button>
-          <!-- 開発サーバー専用: 開発サーバーにはコメントが来ないので、空にしたあとはここからユーザーを増やす -->
-          <button
-            v-if="isDev"
-            class="btn btn-sm btn-outline btn-accent"
-            :disabled="addingMock"
-            title="開発用: コメントしたユーザーとして、テスト用のユーザーを追加します(本番では表示されません)"
-            @click="addMockUsersAndRefresh"
-          >
-            🧪 テスト用ユーザーを追加
-          </button>
-        </div>
       </div>
 
-      <!-- 手動でユーザーを追加 (コメントしない ROM 勢など) -->
+      <!-- ユーザー追加・消去 -->
       <div class="flex flex-wrap items-center gap-2 rounded-box bg-base-200 p-3">
+        <!-- 手動でユーザーを追加 (コメントしない ROM 勢など) -->
         <span class="text-sm font-bold">ユーザーを追加</span>
         <input
           v-model="newUserName"
@@ -106,8 +84,23 @@
           @keydown.enter="addUser"
         />
         <button class="btn btn-sm btn-primary" :disabled="newUserName.trim() === ''" @click="addUser">追加</button>
+
+        <div class="ml-auto flex flex-wrap gap-2">
+          <button class="btn btn-sm btn-outline btn-warning" @click="confirmReset">ユーザーを空にする</button>
+          <!-- 開発サーバー専用: 開発サーバーにはコメントが来ないので、空にしたあとはここからユーザーを増やす -->
+          <button
+            v-if="isDev"
+            class="btn btn-sm btn-outline btn-accent"
+            :disabled="addingMock"
+            title="開発用: コメントしたユーザーとして、テスト用のユーザーを追加します(本番では表示されません)"
+            @click="addMockUsersAndRefresh"
+          >
+            🧪 テストユーザーを追加
+          </button>
+        </div>
       </div>
 
+      <!-- ユーザーリスト -->
       <p v-if="status === 'loading'" class="py-8 text-center opacity-60">読み込み中...</p>
       <p v-else-if="users.length === 0" class="py-8 text-center opacity-60">
         まだユーザーがいません。コメントがあると、ここに増えていきます。コメントしない人は「ユーザーを追加」から入れられます。
@@ -152,8 +145,6 @@
     setScore,
     setTeam,
     setOrder,
-    applyOrders,
-    clearOrders,
     addManualUser,
     removeManualUser,
     resetCommentUsers,
@@ -188,22 +179,6 @@
     if (name === '') return
     newUserName.value = ''
     await addManualUser(name)
-  }
-
-  // TODO: ダイアログは SweetAlert2 を使うこと。
-  const confirmApplyOrders = () => {
-    if (
-      window.confirm(
-        `いま表示している ${visibleUsers.value.length} 人を、この並びで席順 (1, 2, 3...) にします。よろしいですか?`
-      )
-    ) {
-      void applyOrders(visibleUsers.value)
-    }
-  }
-
-  const confirmClearOrders = () => {
-    if (window.confirm('いま表示しているユーザーの席順を外します。よろしいですか?'))
-      void clearOrders(visibleUsers.value)
   }
 
   const confirmReset = () => {
