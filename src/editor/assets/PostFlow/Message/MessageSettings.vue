@@ -33,8 +33,14 @@
   </template>
 
   <!-- UI ごとの slots (UiMessageSpecs の map から入力欄を作る) -->
+  <component
+    v-if="slotsEditor"
+    :is="slotsEditor"
+    :slots="action.slots"
+    @update:slots="updateAction({ slots: $event })"
+  />
   <SettingItem
-    v-if="slotMetas.length > 0"
+    v-else-if="slotMetas.length > 0"
     icon="MessageSquare"
     layout="vertical"
     :label="t('postFlow.messageSettings.slots')"
@@ -69,6 +75,7 @@
 </template>
 
 <script setup lang="ts">
+  import { defineAsyncComponent, type Component } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
@@ -96,6 +103,12 @@
   const { data } = storeToRefs(useOmikujiStore())
 
   const soundEnabled = computed(() => data.value.settings.generator.soundEnabled)
+
+  // UI 固有の slots 編集画面(無い UI は汎用の text 入力)
+  const slotsEditorMap: Partial<Record<UiKind, Component>> = {
+    characterStage: defineAsyncComponent(() => import('./edit/CharacterStageSlotsEditor.vue')),
+  }
+  const slotsEditor = computed(() => slotsEditorMap[props.action.uiKey])
 
   const updateAction = (updates: Partial<PostFlowMessageType>) => {
     emit('update:action', { ...props.action, ...updates })
