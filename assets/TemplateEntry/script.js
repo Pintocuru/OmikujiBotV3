@@ -1,4 +1,4 @@
-// script.js - index.html / editor.html 共通ローダー
+// script.js - index.html / editor.html / console.html 共通ローダー
 
 window.OmikujiLoader = {
   loadScript(src) {
@@ -103,7 +103,7 @@ window.OmikujiLoader = {
     return files
   },
 
-  // entry: 'main'(ジェネレーター) / 'editor'(エディター)
+  // entry: 'main'(ジェネレーター) / 'editor'(エディター) / 'console'(LiveConsole)
   async run({ entry, mountFn, requireOneComme = false }) {
     // 配布フォルダ直下が基準。ファイル名は entrypoints.js の一覧 (scripts/xxx) をそのまま使う
     const BASE = './'

@@ -13,6 +13,10 @@ export type UserSortKey = 'recent' | 'score' | 'order' | 'name'
 // ?
 export type TeamFilter = 'all' | 'none' | DaisyUIColorType
 
+// チームの数。0 は「チーム区分なし」(チームの表示を OFF にする)。1チームは区分にならないので、2〜8
+export const teamCounts = [0, 2, 3, 4, 5, 6, 7, 8] as const
+export type TeamCountType = (typeof teamCounts)[number]
+
 // ?
 export interface RankingRow {
   rank: number

@@ -118,6 +118,11 @@ async function handlePostRequest(
     case API_ACTION.resetUsers.action:
       return userStatsHandler.resetUsers()
 
+    case API_ACTION.seedMockUsers.action:
+      // 開発サーバー専用。プラグインでは、存在しないアクションと同じ応答にする
+      if (!ctx.allowMock) return fail(HTTP.NOT_FOUND, `Unknown POST action: ${action}`)
+      return userStatsHandler.seedMockUsers(body)
+
     case API_ACTION.triggerPad.action:
       return padHandler.triggerPad(body)
 

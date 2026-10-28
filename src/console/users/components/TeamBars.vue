@@ -16,7 +16,9 @@
             :style="{ width: barWidth(total.totalScore) }"
           />
         </div>
-        <span class="w-28 shrink-0 text-right font-mono">{{ formatNumber(total.totalScore) }}点 / {{ total.memberCount }}人</span>
+        <span class="w-28 shrink-0 text-right font-mono"
+          >{{ formatNumber(total.totalScore) }}点 / {{ total.memberCount }}人</span
+        >
       </li>
     </ul>
   </section>
@@ -24,8 +26,9 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { formatNumber } from '../scripts/summarizeState'
-  import { TEAM_STYLE, type TeamTotal } from '../scripts/userConsole'
+  import { formatNumber } from '@/console/common/scripts/formatters'
+  import type { TeamTotal } from '@/console/types'
+  import { TEAM_STYLE } from '../scripts/userConsole'
 
   const props = defineProps<{ totals: TeamTotal[] }>()
 

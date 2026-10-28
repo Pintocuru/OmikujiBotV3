@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="referrer" content="no-referrer" />
+    <title>LiveConsole</title>
+    <!-- Vue -->
+    <script src="http://localhost:11180/templates/custom/__origin/js/vue3.min.js"></script>
+    <!-- わんコメ SDK (バンドルが OneSDK をグローバル参照するため必要) -->
+    <script src="http://localhost:11180/templates/custom/__origin/js/onesdk.js"></script>
+    <!-- わんコメ未起動でも LiveConsole を開けるよう、未定義エラーだけ防ぐ -->
+    <script>
+      window.OneSDK = window.OneSDK || {}
+    </script>
+    <!-- おみくじデータ -->
+    <script src="./omikujiData.js"></script>
+    <!-- 共通ローダー -->
+    <script src="./script.js"></script>
+  </head>
+  <body>
+    <div id="App"></div>
+    <script>
+      // DOMContentLoaded で実行。defer との競合なし
+      document.addEventListener('DOMContentLoaded', function () {
+        OmikujiLoader.run({
+          entry: 'console',
+          requireOneComme: false,
+          mountFn() {
+            if (window.OmikujiBot?.mountConsole) {
+              window.OmikujiBot.mountConsole()
+            } else {
+              console.error('mountConsole が見つかりません')
+            }
+          },
+        })
+      })
+    </script>
+  </body>
+</html>

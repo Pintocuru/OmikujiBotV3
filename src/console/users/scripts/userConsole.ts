@@ -1,8 +1,8 @@
 // src/console/scripts/userConsole.ts
 // LiveConsole のユーザー操作画面で使う、並び替え・絞り込み・集計 (純粋関数)
-import { TeamFilter, TeamTotal, UserSortKey } from '@/console/types'
+import { TeamCountType, TeamFilter, TeamTotal, UserSortKey } from '@/console/types'
 import { UserListItemType, UserStatsUpdateType } from '@/types/api'
-import { DaisyUIColorType } from '@/types/core'
+import { daisyUIColor, DaisyUIColorType } from '@/types/core'
 
 const byName = (a: UserListItemType, b: UserListItemType) => a.userName.localeCompare(b.userName, 'ja')
 
@@ -41,12 +41,21 @@ export function filterUsers(
 }
 
 /**
- * チームごとの合計得点 (メンバーがいるチームだけ。合計が高い順)
+ * 使うチーム (チーム色の先頭から count 色)。0 (チーム区分なし) のときは空
  */
-export function buildTeamTotals(users: UserListItemType[]): TeamTotal[] {
+export function pickTeams(count: TeamCountType): DaisyUIColorType[] {
+  return daisyUIColor.slice(0, count)
+}
+
+/**
+ * チームごとの合計得点 (メンバーがいるチームだけ。合計が高い順)
+ * teams を渡すと、そのチームだけを数える (使っていないチームに割り当て済みのユーザーは、合計に含めない)
+ */
+export function buildTeamTotals(users: UserListItemType[], teams?: readonly DaisyUIColorType[]): TeamTotal[] {
   const map = new Map<DaisyUIColorType, TeamTotal>()
   for (const user of users) {
     if (user.team === null) continue
+    if (teams && !teams.includes(user.team)) continue
     const total = map.get(user.team) ?? { team: user.team, totalScore: 0, memberCount: 0 }
     total.totalScore += user.score
     total.memberCount += 1

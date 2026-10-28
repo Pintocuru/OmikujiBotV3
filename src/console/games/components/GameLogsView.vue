@@ -11,12 +11,29 @@
         自動更新
       </label>
       <button class="btn btn-sm" @click="refresh">更新</button>
+      <!-- 開発サーバー専用: 本番では GameRanking が記録を追記するが、開発サーバーには追記する側がいない -->
+      <button
+        v-if="isDev"
+        class="btn btn-sm btn-outline btn-accent"
+        :disabled="adding"
+        title="開発用: テスト用のゲームの記録を追加します(本番では表示されません)"
+        @click="addMockLogs"
+      >
+        🧪 テスト用の記録を追加
+      </button>
+    </div>
+
+    <div v-if="mockError" class="alert alert-error mx-4 mt-3 py-2 text-sm">
+      <span class="break-all">テスト用の記録を追加できませんでした: {{ mockError }}</span>
     </div>
 
     <StatusNotice :status="status" :errorMessage="errorMessage" />
 
     <!-- 本体 -->
-    <main v-if="status === 'loading' || status === 'online'" class="mx-auto grid max-w-6xl gap-4 p-4 md:grid-cols-[18rem_1fr]">
+    <main
+      v-if="status === 'loading' || status === 'online'"
+      class="mx-auto grid max-w-6xl gap-4 p-4 md:grid-cols-[18rem_1fr]"
+    >
       <aside>
         <StreamList
           :streams="streams"
@@ -78,9 +95,11 @@
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
+  import { isDev } from '@/types/env'
   import { useLiveConsole } from '../composables/useLiveConsole'
-  import { formatTime } from '../scripts/summarizeState'
-  import StatusNotice from './StatusNotice.vue'
+  import { useMockGameLogs } from '../composables/useMockGameLogs'
+  import { formatTime } from '@/console/common/scripts/formatters'
+  import StatusNotice from '@/console/common/components/StatusNotice.vue'
   import StreamList from './StreamList.vue'
   import RankingTable from './RankingTable.vue'
   import UserStatsTable from './UserStatsTable.vue'
@@ -102,6 +121,16 @@
     selectEventKey,
     removeStream,
   } = useLiveConsole()
+
+  // 開発サーバー専用: テスト用の記録を追加して、追加した配信・イベントを開く
+  const { adding, mockError, addMockGameLogs } = useMockGameLogs()
+  const addMockLogs = async () => {
+    const added = await addMockGameLogs(selectedStreamId.value, selectedEventKey.value)
+    if (!added) return
+    await refresh()
+    await selectStream(added.streamId)
+    selectEventKey(added.eventKey)
+  }
 
   const views = { ranking: 'ランキング', users: 'ユーザー別', logs: 'ログ' } as const
   const view = ref<keyof typeof views>('ranking')

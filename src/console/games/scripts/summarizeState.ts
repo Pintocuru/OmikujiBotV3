@@ -97,18 +97,3 @@ export function formatStreamId(streamId: string): string {
   const m = /^(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})$/.exec(streamId)
   return m ? `${m[1]}/${m[2]}/${m[3]} ${m[4]}:${m[5]}` : streamId
 }
-
-export function formatDateTime(timestamp: number): string {
-  if (!timestamp) return '-'
-  const d = new Date(timestamp)
-  const p = (n: number) => String(n).padStart(2, '0')
-  return `${d.getFullYear()}/${p(d.getMonth() + 1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`
-}
-
-export function formatTime(timestamp: number): string {
-  return timestamp ? formatDateTime(timestamp).slice(11) : '-'
-}
-
-export function formatNumber(value: number): string {
-  return value.toLocaleString('ja-JP', { maximumFractionDigits: 2 })
-}

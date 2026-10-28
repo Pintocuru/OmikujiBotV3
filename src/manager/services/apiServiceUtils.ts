@@ -85,6 +85,7 @@ const ERROR_MESSAGES: Record<ApiActionName, string> = {
   'add-manual-user': 'ユーザーの追加に失敗しました',
   'remove-manual-user': 'ユーザーの削除に失敗しました',
   'reset-users': 'ユーザーリストのリセットに失敗しました',
+  'seed-mock-users': 'テスト用ユーザーの追加に失敗しました',
   'load-pad-status': 'ポン出しの状態の取得に失敗しました',
   'trigger-pad': 'ポン出しの発火に失敗しました',
 }

@@ -5,7 +5,7 @@ import { ProjectPackageConfig, ProjectParams } from '@tools/types'
 import { processMerge } from '@tools/JsonMerge/JsonMergeProcessor'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { APP_VERSION, BUILD_DATE } from '@/version'
-import { DEFAULT_FILES_TO_COPY } from './defaults'
+import { CONSOLE_FILES_TO_COPY, DEFAULT_FILES_TO_COPY } from './defaults'
 import { findJsonPath } from './findJsonPath'
 import { DOCS_RAW_BASE } from '../constants/repositoryUrls'
 
@@ -16,7 +16,7 @@ export function createPackageProject(
   packageRoot: string,
   color: string,
   params: ProjectParams,
-  options: { withEditor?: boolean; update?: boolean } = {}
+  options: { withEditor?: boolean; withConsole?: boolean; update?: boolean } = {}
 ): ProjectPackageConfig {
   const id = `${params.key}${color}`
   const colorLabel = color ? `${color} ` : ''
@@ -33,10 +33,12 @@ export function createPackageProject(
     licenseLabel: params.licenseLabel,
 
     // Vite のアクセスポイント: packages/<category>/<key>/main.ts (色違いは同じ main.ts を使う)
-    // 有料版は editor.ts も追加する (ジェネレーターとエディターは別の entry = 別ページで読み込む)
+    // withEditor: true なら editor.ts、withConsole: true なら console.ts も追加する
+    // (ジェネレーター・エディター・コンソールは別の entry = 別ページで読み込む)
     entryPoints: {
       main: resolvePackageEntry(packageRoot, params, 'main.ts'),
       ...(options.withEditor ? { editor: resolvePackageEntry(packageRoot, params, 'editor.ts') } : {}),
+      ...(options.withConsole ? { console: resolvePackageEntry(packageRoot, params, 'console.ts') } : {}),
     },
 
     template: {
@@ -53,13 +55,15 @@ export function createPackageProject(
     filesToCopy: [
       ...(params.extraFiles ?? []),
       ...DEFAULT_FILES_TO_COPY,
+      // console.html は、withConsole のパッケージだけに入れる
+      ...(options.withConsole ? CONSOLE_FILES_TO_COPY : []),
       // UPDATE は既存環境へ上書きするので thumb.gif は同梱しない
       ...(options.update ? [] : [{ from: `packages/${params.category}/${series}/thumb/${id}.gif`, to: 'thumb.gif' }]),
     ],
   }
 }
 
-/** パッケージの entry ファイル (main.ts / editor.ts) の絶対パスを解決する (無ければ早めに失敗させる) */
+/** パッケージの entry ファイル (main.ts / editor.ts / console.ts) の絶対パスを解決する (無ければ早めに失敗させる) */
 function resolvePackageEntry(packageRoot: string, params: ProjectParams, fileName: string): string {
   const entry = path.resolve(packageRoot, 'packages', params.category, params.key, fileName)
   if (!fs.existsSync(entry)) {

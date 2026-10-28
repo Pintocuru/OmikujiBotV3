@@ -9,11 +9,12 @@ import { parseWith } from '@server/core/utils/schema'
 import { withLock } from '@server/core/utils/mutex'
 import { FILE_NAME } from '@server/core/constants'
 import { randomUUID } from 'node:crypto'
-import { getCommentUsers, resetCommentUsers } from '@server/core/services/userListService'
+import { getCommentUsers, resetCommentUsers, seedCommentUsers } from '@server/core/services/userListService'
 import { buildUserList } from '@server/core/utils/userList'
 import {
   AddManualUserRequestSchema,
   RemoveManualUserRequestSchema,
+  SeedMockUsersRequestSchema,
   UserStatsControlSchema,
   UserStatsControlType,
   UserStatsUpdateRequestSchema,
@@ -196,4 +197,17 @@ export async function resetUsers(): Promise<ApiResult> {
   resetCommentUsers()
   console.info('🧹 Reset comment users')
   return ok({ reset: true })
+}
+
+/**
+ * ダミーのユーザーを、コメント由来のユーザーとして追加 (開発サーバー専用。router で ctx.allowMock を確認している)
+ * 「コメントのユーザーを空にする」のあとに、開発サーバーでもユーザーを増やせるようにするためのもの
+ */
+export async function seedMockUsers(body: unknown): Promise<ApiResult> {
+  const parsed = parseWith(SeedMockUsersRequestSchema, body)
+  if (!parsed.ok) return badRequest(parsed.error)
+
+  seedCommentUsers(parsed.data.users)
+  console.info(`🧪 Seeded mock comment users: ${parsed.data.users.length}`)
+  return ok({ added: parsed.data.users.length })
 }

@@ -28,7 +28,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import type { GameStateType } from '@/types/api'
-  import { buildUserRows, formatDateTime, formatNumber } from '../scripts/summarizeState'
+  import { formatDateTime, formatNumber } from '@/console/common/scripts/formatters'
+  import { buildUserRows } from '../scripts/summarizeState'
 
   const props = defineProps<{ state: GameStateType }>()
   const rows = computed(() => buildUserRows(props.state))

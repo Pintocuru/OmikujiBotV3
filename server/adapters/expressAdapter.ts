@@ -10,6 +10,7 @@ import { HTTP } from '@server/core/constants'
  */
 const EXPRESS_CONTEXT: RequestContext = {
   omikujiOutputDir: SERVER_ROOT,
+  allowMock: true, // 開発サーバーにはわんコメがないため、ダミーデータを追加するアクションを許可する
 }
 
 /**

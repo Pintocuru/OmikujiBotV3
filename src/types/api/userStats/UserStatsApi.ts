@@ -1,7 +1,7 @@
 // src/types/api/userStats/UserStatsApi.ts
 import { daisyUIColor } from '@/types/core'
 import { z } from 'zod'
-import { UserStatsRecord } from './UserStatsRecordSchema'
+import { UserStatsRecord, UserStatsRecordSchema } from './UserStatsRecordSchema'
 
 /**
  * 外部 (ブラウザ) から変更できるフィールド
@@ -77,3 +77,17 @@ export const UserStatsLoadResponseSchema = z.object({
   users: z.record(z.string(), UserStatsControlSchema),
 })
 export type UserStatsLoadResponseType = z.infer<typeof UserStatsLoadResponseSchema>
+
+/**
+ * seed-mock-users (開発サーバー専用): リクエスト / レスポンス
+ * コメント由来のユーザーとして、ダミーのユーザーを追加する (開発サーバーにはわんコメがなく、コメントが来ないため)
+ */
+export const SeedMockUsersRequestSchema = z.object({
+  users: z.array(UserStatsRecordSchema).min(1).max(300),
+})
+export type SeedMockUsersRequestType = z.infer<typeof SeedMockUsersRequestSchema>
+
+export const SeedMockUsersResponseSchema = z.object({
+  added: z.number(),
+})
+export type SeedMockUsersResponseType = z.infer<typeof SeedMockUsersResponseSchema>

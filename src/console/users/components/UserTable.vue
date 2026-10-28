@@ -7,7 +7,7 @@
         <tr>
           <th class="w-20">席順</th>
           <th>ユーザー</th>
-          <th>チーム</th>
+          <th v-if="teams.length > 0">チーム</th>
           <th class="text-right">得点</th>
           <th class="w-10" />
         </tr>
@@ -40,14 +40,17 @@
             </div>
           </td>
 
-          <!-- チーム -->
-          <td>
+          <!-- チーム (チーム区分なしのときは列ごと隠す) -->
+          <td v-if="teams.length > 0">
             <div class="flex items-center gap-1">
               <button
-                v-for="team in daisyUIColor"
+                v-for="team in teamsOf(user)"
                 :key="team"
                 class="h-5 w-5 rounded-full border-2"
-                :class="[TEAM_STYLE[team].solid, user.team === team ? 'border-base-content' : 'border-transparent opacity-60']"
+                :class="[
+                  TEAM_STYLE[team].solid,
+                  user.team === team ? 'border-base-content' : 'border-transparent opacity-60',
+                ]"
                 :title="TEAM_STYLE[team].label"
                 @click="emit('setTeam', user.userId, user.team === team ? null : team)"
               />
@@ -58,7 +61,12 @@
           <!-- 得点 -->
           <td>
             <div class="flex items-center justify-end gap-1">
-              <button v-for="delta in [-10, -1]" :key="delta" class="btn btn-xs" @click="emit('addScore', user.userId, delta)">
+              <button
+                v-for="delta in [-10, -1]"
+                :key="delta"
+                class="btn btn-xs"
+                @click="emit('addScore', user.userId, delta)"
+              >
                 {{ delta }}
               </button>
               <input
@@ -67,7 +75,12 @@
                 :value="user.score"
                 @change="onScore(user, $event)"
               />
-              <button v-for="delta in [1, 10]" :key="delta" class="btn btn-xs btn-primary" @click="emit('addScore', user.userId, delta)">
+              <button
+                v-for="delta in [1, 10]"
+                :key="delta"
+                class="btn btn-xs btn-primary"
+                @click="emit('addScore', user.userId, delta)"
+              >
                 +{{ delta }}
               </button>
             </div>
@@ -92,10 +105,10 @@
 
 <script setup lang="ts">
   import type { UserListItemType } from '@/types/api'
-  import { daisyUIColor, type DaisyUIColorType } from '@/types/core'
+  import type { DaisyUIColorType } from '@/types/core'
   import { TEAM_STYLE } from '../scripts/userConsole'
 
-  defineProps<{ users: UserListItemType[] }>()
+  const props = defineProps<{ users: UserListItemType[]; teams: readonly DaisyUIColorType[] }>()
 
   const emit = defineEmits<{
     addScore: [userId: string, delta: number]
@@ -105,6 +118,10 @@
     remove: [userId: string]
   }>()
 
+  // 使っていないチームに割り当て済みのユーザーは、そのチームのボタンも出す (割り当てが見えなくならないように)
+  const teamsOf = (user: UserListItemType): readonly DaisyUIColorType[] =>
+    user.team !== null && !props.teams.includes(user.team) ? [...props.teams, user.team] : props.teams
+
   const numberOf = (event: Event): number | null => {
     const value = (event.target as HTMLInputElement).value
     return value.trim() !== '' && Number.isFinite(Number(value)) ? Number(value) : null
@@ -112,7 +129,8 @@
 
   const onScore = (user: UserListItemType, event: Event) => {
     const score = numberOf(event)
-    if (score === null) (event.target as HTMLInputElement).value = String(user.score) // 空や不正な値は、元に戻す
+    if (score === null)
+      (event.target as HTMLInputElement).value = String(user.score) // 空や不正な値は、元に戻す
     else if (score !== user.score) emit('setScore', user.userId, score)
   }
 
@@ -120,12 +138,14 @@
   const onOrder = (user: UserListItemType, event: Event) => {
     const input = event.target as HTMLInputElement
     const order = input.value.trim() === '' ? 0 : numberOf(event)
-    if (order === null || order < 0) input.value = user.order === null ? '' : String(user.order) // 不正な値は、元に戻す
+    if (order === null || order < 0)
+      input.value = user.order === null ? '' : String(user.order) // 不正な値は、元に戻す
     else if (order === 0 && user.order !== null) emit('setOrder', user.userId, 0)
     else if (order > 0 && Math.floor(order) !== user.order) emit('setOrder', user.userId, Math.floor(order))
   }
 
   const confirmRemove = (user: UserListItemType) => {
-    if (window.confirm(`「${user.userName}」を削除します。得点などの記録も消えます。よろしいですか?`)) emit('remove', user.userId)
+    if (window.confirm(`「${user.userName}」を削除します。得点などの記録も消えます。よろしいですか?`))
+      emit('remove', user.userId)
   }
 </script>

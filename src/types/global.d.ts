@@ -8,6 +8,7 @@ declare global {
     OmikujiBot?: {
       mountGenerator?: () => void
       mountEditor?: () => void
+      mountConsole?: () => void
       assetBase?: string
     }
   }

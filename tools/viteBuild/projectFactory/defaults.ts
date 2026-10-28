@@ -9,3 +9,8 @@ export const DEFAULT_FILES_TO_COPY = [
   { from: 'assets/TemplateEntry/script.js', to: 'script.js' },
   { from: 'assets/sounds/', to: 'assets/sounds/' },
 ]
+
+/**
+ * LiveConsole (console.ts) を同梱するパッケージだけに足すファイル
+ **/
+export const CONSOLE_FILES_TO_COPY = [{ from: 'assets/TemplateEntry/console.html', to: 'console.html' }]

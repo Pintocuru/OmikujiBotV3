@@ -17,7 +17,7 @@ export async function executePackageBuild(config: ResolvedPackageBuildConfig): P
     console.log(`  [Clean] Output directory: ${distPath}`)
 
     if (config.packageType === 'FULL' || config.packageType === 'UPDATE') {
-      // FULL / UPDATE: パッケージの entryPoints (main.ts / editor.ts) を Vite でビルド
+      // FULL / UPDATE: パッケージの entryPoints (main.ts / editor.ts / console.ts) を Vite でビルド
       await runVite(config, outputSubDir)
       console.log(`  [vite] Entry: ${JSON.stringify(config.entryPoints)}`)
     } else {

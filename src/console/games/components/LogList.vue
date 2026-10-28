@@ -6,7 +6,9 @@
       <span class="w-20 shrink-0 font-mono text-xs opacity-60">{{ formatTime(row.createdAt) }}</span>
       <span class="grow truncate">{{ row.userName }}</span>
       <span class="font-mono">{{ row.label }}</span>
-      <span v-if="row.label !== String(row.score)" class="font-mono text-xs opacity-50">({{ formatNumber(row.score) }})</span>
+      <span v-if="row.label !== String(row.score)" class="font-mono text-xs opacity-50"
+        >({{ formatNumber(row.score) }})</span
+      >
     </li>
   </ul>
 </template>
@@ -14,7 +16,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import type { GameStateType } from '@/types/api'
-  import { buildLogRows, formatNumber, formatTime } from '../scripts/summarizeState'
+  import { formatNumber, formatTime } from '@/console/common/scripts/formatters'
+  import { buildLogRows } from '../scripts/summarizeState'
 
   const props = defineProps<{ state: GameStateType }>()
   const rows = computed(() => buildLogRows(props.state))

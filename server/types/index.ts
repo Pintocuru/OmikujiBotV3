@@ -29,4 +29,6 @@ export interface UnifiedRequest {
 export interface RequestContext {
   /** omikujiData.js の出力先ディレクトリ */
   omikujiOutputDir: string
+  /** 開発用のアクション (ダミーデータの追加など) を許可するか。Express の開発サーバーだけ true */
+  allowMock?: boolean
 }

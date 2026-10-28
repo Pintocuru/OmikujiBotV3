@@ -55,7 +55,8 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { GameStateType } from '@/types/api'
-  import { buildRanking, formatDateTime, formatNumber } from '../scripts/summarizeState'
+  import { formatDateTime, formatNumber } from '@/console/common/scripts/formatters'
+  import { buildRanking } from '../scripts/summarizeState'
   import { RankingSortOrder } from '@/console/types'
 
   const props = defineProps<{ state: GameStateType }>()

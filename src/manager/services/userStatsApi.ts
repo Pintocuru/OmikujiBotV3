@@ -3,6 +3,9 @@ import { API_ACTION } from '@server/api/actions'
 import {
   AddManualUserResponseSchema,
   AddManualUserResponseType,
+  SeedMockUsersResponseSchema,
+  SeedMockUsersResponseType,
+  UserStatsRecord,
   UserListResponseSchema,
   UserListResponseType,
   UserStatsLoadResponseSchema,
@@ -63,6 +66,16 @@ class UserStatsApiService extends BaseApiClient {
   async resetUsers(): Promise<void> {
     const response = await this.post(API_ACTION.resetUsers.action, {})
     this.validateResponse(response, 'ユーザーリストのリセットに失敗しました')
+  }
+
+  /**
+   * ダミーのユーザーを、コメント由来のユーザーとして追加 (開発サーバー専用。プラグインでは使えない)
+   */
+  async seedMockUsers(users: UserStatsRecord[]): Promise<SeedMockUsersResponseType> {
+    const response = await this.post(API_ACTION.seedMockUsers.action, { users })
+    this.validateResponse(response, 'テスト用ユーザーの追加に失敗しました')
+
+    return SeedMockUsersResponseSchema.parse(response.data)
   }
 
   /**

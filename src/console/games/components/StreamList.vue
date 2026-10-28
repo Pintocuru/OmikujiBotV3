@@ -27,7 +27,8 @@
 
 <script setup lang="ts">
   import type { GameStateListItemType } from '@/types/api'
-  import { formatDateTime, formatStreamId } from '../scripts/summarizeState'
+  import { formatDateTime } from '@/console/common/scripts/formatters'
+  import { formatStreamId } from '../scripts/summarizeState'
 
   defineProps<{
     streams: GameStateListItemType[]

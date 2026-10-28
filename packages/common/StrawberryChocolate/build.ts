@@ -25,9 +25,12 @@ const PROJECT = {
 } satisfies ProjectParams
 
 // バリエーション定義
-const COLOR_VARIANTS = [
-  '',
-  // 'Pro'
+// - color: パッケージ名に付く色違いの名前 ('' = 色なし)
+// - withEditor: editor.ts (エディター) を同梱する
+// - withConsole: console.ts (LiveConsole。ポン出し・ユーザー操作・ゲームの記録) を同梱する
+const VARIANTS = [
+  { color: '', withEditor: true, withConsole: true },
+  // { color: 'Pro', withEditor: true, withConsole: true },
 ] as const
 
 // ビルドターゲット
@@ -38,8 +41,7 @@ const buildTargets: PackageBuildTarget[] = [
 
 // プロジェクト一覧
 function getProjects(packageRoot: string): ProjectPackageConfig[] {
-  // 無料版(色なし)は generator のみ、有料版(Pro)は generator + editor を同梱する
-  return COLOR_VARIANTS.map((color) => createPackageProject(packageRoot, color, PROJECT, { withEditor: true }))
+  return VARIANTS.map(({ color, ...options }) => createPackageProject(packageRoot, color, PROJECT, options))
 }
 
 export default { getProjects, buildTargets }

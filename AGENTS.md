@@ -221,3 +221,40 @@
 - 変更しなかったもの: `botName`(CommentBubble 等の表示用 props)、`GameScriptMap` の `CommentBot`、`server/presets` の旧形式 JSON
 - 旧名称残存検索(`PostFlowBot` / `kind: 'bot'` / `case 'bot'` / `PostFlow/Bot` / `BotSettings` / `postFlow.bot` / `postFlowKind.bot` を src・server・tools・docs 全文、presets を除く): 0件
 - 検証: npm run tsc は変更前後とも既存エラー7件(UserStatsRecord 未 export 等。本作業と無関係、増減なし)。変更ファイルの eslint 成功。ローカル clone 上で実行(未 push)
+
+### LiveConsole 改修(patch 単位)
+
+着手前ベースライン: npm run tsc は既存エラー5件(`UserStatsRecord` 未 export 2件 / `TeamBars.vue` 3件)。eslint は成功。
+
+#### patch 1: パッケージへの console 同梱(`withConsole`)
+
+- 設計判断: console は全パッケージには入れず、`getProjects` 内の `VARIANTS`(`color` / `withEditor` / `withConsole`)で色違いごとに on/off する。StrawberryChocolate の色なし版は `withConsole: true`。`console.html` は `withConsole` のパッケージだけにコピーする。tools/webpackBuild は廃止予定のため対応しない
+- 追加: `packages/common/StrawberryChocolate/console.ts`(`window.OmikujiBot.mountConsole`) / `assets/TemplateEntry/console.html`
+- 変更: `tools/viteBuild/projectFactory/{createPackageProject,defaults,index}.ts` / `packages/common/StrawberryChocolate/build.ts` / `src/types/global.d.ts`(`mountConsole`) / `assets/TemplateEntry/script.js` と `BuildExecutor.ts`(コメントのみ)
+- 検証: console エントリ単体の Vite ビルド成功(`scripts/console.js` / `console.css`)。`npm run build` 全体は未実行
+- 依頼とコードの食い違い: patch 3・4 の対象(ユーザーのモック・チーム種類)は `RankingTable.vue` ではなく `UsersView.vue` 系にあったため、そちらを変更した
+
+#### patch 2: ゲームの記録に開発専用ボタン
+
+- 設計判断: `isDev` のときだけ「テスト用の記録を追加」を表示。`append-game-log` を1件ずつ呼ぶ(同じ配信ファイルへの追記を順番に処理させるため)。命名は `Dev` 禁止(naming.md §4-3)のため `Mock` を使用
+- 追加: `useMockGameLogs.ts` / `mockGameLog.ts` / 変更: `GameLogsView.vue`
+- 検証: 開発サーバーへ実際に追記できることを HTTP で確認
+
+#### patch 3: ユーザー操作画面に開発専用ボタン
+
+- 設計判断: 開発サーバーにはコメントが来ないため、新アクション `seed-mock-users` を追加。`RequestContext.allowMock`(Express のみ true)で制限し、プラグインでは存在しないアクションと同じ 404。ダミーはクライアントで作り、サーバーは `MockUser` に依存しない。追加のたびに userId が重ならないよう batch を付与
+- 追加: `useMockUsers.ts` / `mockUsers.ts` / 変更: `UsersView.vue` / `server/{api/actions,core/router,core/handlers/userStatsHandler,adapters/expressAdapter,types/index}.ts` / `src/types/api/userStats/UserStatsApi.ts` / `src/manager/services/{userStatsApi,apiServiceUtils}.ts`
+- 検証: 起動時30人 → 空にする(0人) → 追加で増える / 不正入力は 400 / allowMock なしは 404
+
+#### patch 4: チーム数の選択(チーム区分なし / 2〜8)
+
+- 設計判断: 既定は 8(従来どおり)。選択は localStorage に保存。表示だけを変え、割り当て済みのチームは消さない。使っていないチームの割り当て済みユーザーは、行のボタンに出す(見えなくならないように)が、合計には含めない。0 はチーム列・合計・絞り込みを隠す
+- 追加: `useTeamCount.ts` / `userConsole.test.ts`(6件) / 変更: `UsersView.vue` / `UserTable.vue` / `userConsole.ts`(`pickTeams` / `buildTeamTotals(users, teams?)`) / `types/ConsoleStatus.ts`(`teamCounts`)
+- 同時修正: `TeamBars.vue` の `TeamTotal` import を `@/console/types` に直した(既存 tsc エラー3件が解消)
+- 検証: vitest 6件成功 / npm run tsc は既存エラー2件のみ
+
+#### patch 5: `src/console` を機能別フォルダに分割
+
+- 設計判断: `pads/` `users/` `games/` が各 `components/` `composables/` `scripts/` を持つ。複数画面で使う `StatusNotice.vue` と日時・数値の整形関数(`formatters.ts`、`summarizeState.ts` から分離)は `common/` に置く。`LiveConsole.vue` / `main.ts` / `types/` は直下のまま。ロジック変更なし
+- 未実施: `useLiveConsole` → `useGameConsole` への改名(games 専用のため候補)
+- 検証: npm run lint 成功 / npm run tsc は既存エラー2件のみ(`UserStatsRecord` 未 export。本作業と無関係) / vitest 成功。ローカル clone 上で実行(未 push)

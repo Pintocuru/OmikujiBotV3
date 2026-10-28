@@ -10,7 +10,9 @@
       <label class="label gap-2 text-sm">
         ボタン構成
         <select v-model.number="layout" class="select select-sm select-bordered">
-          <option v-for="n in padLayouts" :key="n" :value="n">{{ n }}個 ({{ padGridSize[n] }}×{{ padGridSize[n] }})</option>
+          <option v-for="n in padLayouts" :key="n" :value="n">
+            {{ n }}個 ({{ padGridSize[n] }}×{{ padGridSize[n] }})
+          </option>
         </select>
       </label>
     </div>
@@ -44,7 +46,7 @@
 <script setup lang="ts">
   import { padGridSize, padLayouts } from '@/types/OmikujiData'
   import { usePadsConsole } from '../composables/usePadsConsole'
-  import StatusNotice from './StatusNotice.vue'
+  import StatusNotice from '@/console/common/components/StatusNotice.vue'
 
   const { layout, gridSize, pads, status, errorMessage, lastPressed, flashingPadId, press } = usePadsConsole()
 </script>

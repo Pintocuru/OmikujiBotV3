@@ -27,9 +27,9 @@
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
-  import GameLogsView from './components/GameLogsView.vue'
-  import UsersView from './components/UsersView.vue'
-  import PadsView from './components/PadsView.vue'
+  import GameLogsView from './games/components/GameLogsView.vue'
+  import UsersView from './users/components/UsersView.vue'
+  import PadsView from './pads/components/PadsView.vue'
 
   const views = { pads: 'ポン出し', users: 'ユーザー操作', games: 'ゲームの記録' } as const
   type ViewKey = keyof typeof views

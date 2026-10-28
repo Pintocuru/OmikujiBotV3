@@ -28,6 +28,7 @@ export const API_ACTION = {
   addManualUser: { method: 'POST', action: 'add-manual-user' },
   removeManualUser: { method: 'POST', action: 'remove-manual-user' },
   resetUsers: { method: 'POST', action: 'reset-users' },
+  seedMockUsers: { method: 'POST', action: 'seed-mock-users' }, // 開発サーバー専用 (ctx.allowMock)
   triggerPad: { method: 'POST', action: 'trigger-pad' },
 } as const
 
