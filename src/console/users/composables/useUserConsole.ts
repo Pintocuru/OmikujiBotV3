@@ -7,7 +7,7 @@ import type { DaisyUIColorType } from '@/types/core'
 import { buildClearOrderUpdates, buildOrderUpdates, chunkUpdates } from '../scripts/userConsole'
 import { ConsoleStatus } from '@/console/types'
 
-const REFRESH_INTERVAL_MS = 5000
+const REFRESH_INTERVAL_MS = 3000
 
 /**
  * ユーザー操作画面のデータと操作
