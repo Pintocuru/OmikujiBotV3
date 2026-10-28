@@ -31,11 +31,6 @@ export const postFlowKindMap: Record<PostFlowKind, DisplayMetaLucide> = {
     description: '予め作成されたゲームを呼び出します',
     icon: 'Gamepad2',
   },
-  bot: {
-    label: 'BOTちゃん',
-    description: 'BOTキャラクターの立ち絵や表情・吹き出しの設定を変更します',
-    icon: 'Bot',
-  },
   flowCall: {
     label: 'アクションセット',
     description: '登録済みのアクションセット（一連の処理プリセット）を呼び出します',

@@ -6,9 +6,8 @@ import { UiKindSchema } from '../ui/UiSettingsSchema'
 
 /**
  * PostFlow タイプのUI表示情報
- * TODO:bot は廃止(GameScript で代替できる)
  */
-export const postFlowKinds = ['message', 'sound', 'wordParty', 'variable', 'gameScript', 'bot', 'flowCall'] as const
+export const postFlowKinds = ['message', 'sound', 'wordParty', 'variable', 'gameScript', 'flowCall'] as const
 
 // スキーマと型の定義
 export const PostFlowKindSchema = z.enum(postFlowKinds).default('message').catch('message')
@@ -68,14 +67,6 @@ export const PostFlowVariableSchema = PostFlowBaseSchema.extend({
 })
 export type PostFlowVariableType = z.infer<typeof PostFlowVariableSchema>
 
-// PostFlow bot BOTちゃん
-export const PostFlowBotSchema = PostFlowBaseSchema.extend({
-  kind: z.literal('bot'),
-  botName: z.string().default('').catch(''),
-  message: z.string().catch(''),
-})
-export type PostFlowBotType = z.infer<typeof PostFlowBotSchema>
-
 // PostFlow flowCall アクションセット
 export const PostFlowCallSchema = PostFlowBaseSchema.extend({
   kind: z.literal('flowCall'),
@@ -95,13 +86,13 @@ export type PostFlowGameType = z.infer<typeof PostFlowGameSchema>
 /**
  * message プロパティを持つ PostFlow のユニオン型
  */
-export type PostFlowWithMessageType = PostFlowMessageType | PostFlowVariableType | PostFlowBotType
+export type PostFlowWithMessageType = PostFlowMessageType | PostFlowVariableType
 
 /**
  * 与えられた PostFlow が message プロパティを保持しているか判定する
  */
 export const hasPostFlowMessage = (flow: PostFlowType): flow is PostFlowWithMessageType => {
-  return flow.kind === 'message' || flow.kind === 'variable' || flow.kind === 'bot'
+  return flow.kind === 'message' || flow.kind === 'variable'
 }
 
 // PostFlow わんコメ・BOTちゃんに投稿する型定義
@@ -110,7 +101,6 @@ export const PostFlowSchema = z.discriminatedUnion('kind', [
   PostFlowSoundSchema,
   PostFlowWordPartySchema,
   PostFlowVariableSchema,
-  PostFlowBotSchema,
   PostFlowCallSchema,
   PostFlowGameSchema,
 ])

@@ -202,3 +202,22 @@
 - 変更ファイル: `src/console/LiveConsole.vue`
 - 検証: npm run tsc は既存エラー2件のみ / eslint 成功 / Express 開発サーバー(`server/start-dev-server.ts`)に対し、実際の HTTP 経路で `load-pad-status` → `trigger-pad` → `load-pad-status&since=0` が期待どおり
 - 未確認: ブラウザでの目視確認。`package.json` の `dev:console` が指す `tools/viteConfig/vite.console.config.ts` はリポジトリに存在しない(既存の問題。今回は触っていない)ため、console 単体のビルドは行っていない
+
+### PostFlow `bot` 種別の廃止(patch 単位)
+
+#### patch 1: `postFlowKinds` から `'bot'` を廃止
+
+- 設計判断: BOTちゃん(`kind: 'bot'`)は利用が少なく、エンジンの標準機能にしない。gameScript(`CommentBot`)でプラグインとして実現できたため。`PostFlowBotSchema` / `PostFlowBotType` ごと削除し、`PostFlowWithMessageType` と `hasPostFlowMessage` は `message` / `variable` のみにした。`src/types` の変更は依頼による
+- 影響ファイル:
+  - `src/types/OmikujiData/assets/PostFlowSchema.ts`(`postFlowKinds` / スキーマ / 型 / ユニオン / TODO コメント)
+  - `src/engine/PostOmikuji/PostOmikujiService.ts`(`kind === 'bot'` の投稿処理と未使用になった `generateDummyUserStats` の import)
+  - `src/engine/OmikujiResult/OmikujiResultProcessor.ts`(`case 'bot'`)
+  - `src/editor/assets/PostFlow/items/PostActionItem.vue`(コンポーネントマップ / 初期値 / スキーマ解析の分岐)
+  - `src/editor/assets/PostFlow/Bot/BotSettings.vue`(削除。`Bot/` ディレクトリごと消える)
+  - `src/editor/apps/appItems/preview/ActionSetPreview.vue`(略称・バッジ色のマップ)
+  - `src/maps/OmikujiData/assets/PostFlowKindMap.ts`、`src/i18n/editor/OmikujiDataMaps.ts`(ja/en)、`src/i18n/editor/assets/PostFlow.ts`(ja/en の `postFlow.bot`)
+  - `src/common/migrations/v2/v2ToV3.ts`(v2 の `bot` の変換を削除。`default` の「未知の種別は捨てる」に落ちる)
+- 旧データへの影響(要注意): `PostFlowArraySchema` は配列の1件でも不正だと配列ごと `[]` になる(`.catch([])`)。保存済みデータに `kind: 'bot'` を含む postFlows があると、そのアクションセット/おみくじ項目の postFlows 全体が空になる。マイグレーションは追加していない(zod に任せる方針のため)。必要なら別 patch で `'bot'` だけ除外する前処理を検討する
+- 変更しなかったもの: `botName`(CommentBubble 等の表示用 props)、`GameScriptMap` の `CommentBot`、`server/presets` の旧形式 JSON
+- 旧名称残存検索(`PostFlowBot` / `kind: 'bot'` / `case 'bot'` / `PostFlow/Bot` / `BotSettings` / `postFlow.bot` / `postFlowKind.bot` を src・server・tools・docs 全文、presets を除く): 0件
+- 検証: npm run tsc は変更前後とも既存エラー7件(UserStatsRecord 未 export 等。本作業と無関係、増減なし)。変更ファイルの eslint 成功。ローカル clone 上で実行(未 push)

@@ -155,10 +155,6 @@ export const omikujiDataMapMessages = {
           label: 'ゲームスクリプト',
           description: '予め作成されたゲームを呼び出します',
         },
-        bot: {
-          label: 'BOTちゃん',
-          description: 'BOTキャラクターの立ち絵や表情・吹き出しの設定を変更します',
-        },
         flowCall: {
           label: 'アクションセット',
           description: '登録済みのアクションセット（一連の処理プリセット）を呼び出します',
@@ -446,10 +442,6 @@ export const omikujiDataMapMessages = {
         gameScript: {
           label: 'Game script',
           description: 'Calls a prebuilt game',
-        },
-        bot: {
-          label: 'BOT-chan',
-          description: 'Changes the BOT character\'s portrait, expression, and speech bubble settings',
         },
         flowCall: {
           label: 'Action set',

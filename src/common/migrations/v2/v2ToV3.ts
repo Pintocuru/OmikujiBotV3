@@ -67,8 +67,6 @@ function migratePostFlow(old: unknown): Obj | null {
       return { ...base, kind: 'wordParty', wordPartyId: str(f.wordPartyId) || str(f.wordParty), repeat: f.repeat }
     case 'variable':
       return { ...base, kind: 'variable', message: messageText(f.message) }
-    case 'bot':
-      return { ...base, kind: 'bot', botName: f.botName, message: messageText(f.message) }
     case 'actionSet':
     case 'flowCall':
       // actionSet -> flowCall / actionSetKeys -> callKeys

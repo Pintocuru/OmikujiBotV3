@@ -26,7 +26,7 @@
       </span>
 
       <!-- 各 kind 別のサマリー -->
-      <!-- message / variable / bot: message 本文 -->
+      <!-- message / variable: message 本文 -->
       <span v-if="hasPostFlowMessage(flow) && flow.message" class="truncate flex-1 opacity-80">
         {{ flow.message }}
       </span>
@@ -86,7 +86,6 @@
       wordParty: 'WP',
       variable: 'VAR',
       gameScript: 'GAME',
-      bot: 'BOT',
       flowCall: 'CALL',
     }
     return shortLabels[kind] ?? t(`mapText.postFlowKind.${kind}.label`)
@@ -99,7 +98,6 @@
       wordParty: 'badge-accent',
       variable: 'badge-warning',
       gameScript: 'badge-info',
-      bot: 'badge-info',
       flowCall: 'badge-neutral',
     }
     return classMap[kind] ?? 'badge-ghost'

@@ -10,12 +10,6 @@ export const postFlowMessages = {
         unselected: '未選択',
         character: 'キャラクター',
       },
-      bot: {
-        nameLabel: 'BOTの名前',
-        nameDesc: '空白時はランダムになります',
-        messageLabel: 'メッセージ内容',
-        messageDesc: 'プレースホルダーが使えます',
-      },
       iconSelector: {
         tip: 'アイコンの一覧を表示します',
         title: '{name} - アイコン選択',
@@ -159,12 +153,6 @@ export const postFlowMessages = {
         none: '(None)',
         unselected: 'Not selected',
         character: 'Character',
-      },
-      bot: {
-        nameLabel: 'Bot name',
-        nameDesc: 'Random if left blank',
-        messageLabel: 'Message content',
-        messageDesc: 'Placeholders can be used',
       },
       iconSelector: {
         tip: 'Show the icon list',

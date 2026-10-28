@@ -65,7 +65,6 @@
     PostFlowKind,
     PostFlowVariableSchema,
     PostFlowGameSchema,
-    PostFlowBotSchema,
     PostFlowCallSchema,
     PostFlowMessageSchema,
     PostFlowSoundSchema,
@@ -78,7 +77,6 @@
   import ActionSetSettings from '../actions/ActionSetSettings.vue'
   import PostActionPreview from '../preview/PostActionPreview.vue'
   import GameScriptSettings from '../gameScript/GameScriptSettings.vue'
-  import BotSettings from '../Bot/BotSettings.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { postFlowKindMap } from '@/maps/OmikujiData'
@@ -107,7 +105,6 @@
       wordParty: WordPartySettings,
       variable: VariableSettings,
       gameScript: GameScriptSettings,
-      bot: BotSettings,
       flowCall: ActionSetSettings,
     }
 
@@ -178,14 +175,6 @@
           queryString: '',
         } satisfies Extract<PostFlowType, { kind: 'gameScript' }>
 
-      case 'bot':
-        return {
-          kind,
-          delaySeconds,
-          botName: '',
-          message: '',
-        } satisfies Extract<PostFlowType, { kind: 'bot' }>
-
       case 'flowCall':
         return {
           kind,
@@ -230,9 +219,6 @@
         break
       case 'gameScript':
         newAction = PostFlowGameSchema.parse(actionData)
-        break
-      case 'bot':
-        newAction = PostFlowBotSchema.parse(actionData)
         break
       case 'flowCall':
         newAction = PostFlowCallSchema.parse(actionData)

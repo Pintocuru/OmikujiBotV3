@@ -3,7 +3,6 @@ import { BOT_ICON } from './BotIcon'
 import { ServiceMetaStore } from '@/generator/stores/MetaState/MetaStateService'
 import { CharacterResolver } from '@/engine/CharacterResolver/CharacterResolver'
 import { Service } from '@onecomme.com/onesdk/types/Service'
-import { generateDummyUserStats } from '@/common/MockUser/MockGenerators'
 import { ServiceAPI } from '@/sdk/service/ServiceAPI'
 import { CharacterType, OmikujiDataType, PostFlowMessageType, PostFlowType } from '@/types/OmikujiData'
 import { executeWordParty } from '@/sdk/post/PostWordParty'
@@ -41,15 +40,6 @@ export class PostOmikujiService {
   private async processPost(post: PostFlowType): Promise<void> {
     // enableSecondary が false なら全部投稿
     if (post.kind === 'message') await this.processMessagePost(post)
-
-    // コメントテスター の投稿
-    if (post.kind === 'bot') {
-      const dummyUser = generateDummyUserStats(1)[0]
-      await postSystemMessage(post.message, {
-        username: post.botName ? post.botName : dummyUser.userName,
-        delaySeconds: post.delaySeconds,
-      })
-    }
 
     // WordParty の投稿
     if (post.kind === 'wordParty') {

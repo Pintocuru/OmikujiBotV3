@@ -80,7 +80,6 @@ export class OmikujiResultProcessor {
         case 'flowCall':
         case 'message':
         case 'variable':
-        case 'bot':
         case 'sound':
         case 'wordParty':
           messages = this.postActionsHandler.process([actionItem], defaultPlaceholders, omiken, isOnecommePost)
