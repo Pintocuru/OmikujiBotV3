@@ -15,11 +15,19 @@ function getDataVersion(data: unknown): number {
 }
 
 /**
+ * おみくじデータとして読めるもの(meta を持つオブジェクト)かどうか
+ * omikujiData.js が無い・読めない場合の window.omikujiData(undefined)はここで弾かれる
+ */
+export function isOmikujiDataLike(data: unknown): boolean {
+  return !!data && typeof data === 'object' && 'meta' in data
+}
+
+/**
  * データを現在のアプリのバージョンに合わせてマイグレーションする
  */
 export function normalizeData(data: unknown): OmikujiDataType {
   // データにメタ情報がなければ、初期データとして扱う
-  if (!data || typeof data !== 'object' || !('meta' in data)) {
+  if (!isOmikujiDataLike(data)) {
     // OmikujiDataSchemaのデフォルト値を返す
     return ensureSampleCharacters(
       OmikujiDataSchema.parse({
@@ -41,7 +49,7 @@ export function normalizeData(data: unknown): OmikujiDataType {
   }
 
   // まずは生データをそのまま使う
-  let updatedData: any = { ...data }
+  let updatedData: any = { ...(data as object) }
 
   /**
    * マイグレーション実行

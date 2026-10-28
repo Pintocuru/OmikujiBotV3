@@ -102,6 +102,7 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { Download, Save, ChevronsDown, ChevronsUp } from 'lucide-vue-next'
+  import { FILE_NAME } from '@server/core/constants'
 
   const omikujiStore = useOmikujiStore()
   const { hasChanged } = storeToRefs(omikujiStore)
@@ -144,7 +145,7 @@
       const { loadData } = useOmikujiStore()
       const id = window.omikujiData?.meta.id
       const data = await generatorApi.loadGeneratorConfig(id)
-      const fileName = id ? `packages/${id}.json` : 'generator.json'
+      const fileName = id ? `packages/${id}.json` : FILE_NAME.generator
 
       if (!data) {
         swalToast.warning({

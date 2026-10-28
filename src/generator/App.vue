@@ -6,7 +6,7 @@
 
     <!-- 初期化完了後のメイン表示 -->
     <div
-      v-if="appStore.status === 'ready'"
+      v-if="appStore.status === 'ready' && appStore.hasData"
       class="h-screen overflow-hidden"
       :class="[fontFamily]"
       data-theme="transparent"
@@ -23,6 +23,9 @@
       </template>
     </div>
 
+    <!-- 初期化は完了したが、omikujiData.js もサーバーもデータがない -->
+    <NoDataInfo v-else-if="appStore.status === 'ready'" :error-detail="appStore.dataErrorDetail ?? undefined" />
+
     <ErrorInfo v-else-if="appStore.status === 'error'" />
   </div>
 </template>
@@ -35,6 +38,7 @@
   import { useRuleProcessor } from '@/generator/composables/useRuleProcessor'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import ErrorInfo from '@/common/ErrorInfo/ErrorInfo.vue'
+  import NoDataInfo from '@/common/ErrorInfo/NoDataInfo.vue'
   import ConnectionStatusIndicator from '@/common/ErrorInfo/ConnectionStatusIndicator.vue'
   import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
   import DataMismatchNotice from '@/common/buildValidation/DataMismatchNotice.vue'

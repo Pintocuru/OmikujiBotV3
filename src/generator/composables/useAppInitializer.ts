@@ -57,6 +57,13 @@ export function useAppInitializer() {
       } else {
         // エディタープラグインからデータを読み込む
         await syncWithServer()
+        // omikujiData.js もサーバーもデータなし: 画面(App.vue)に表示し、わんコメにも伝える
+        if (!appStore.hasData) {
+          postSystemMessage('おみくじデータを読み込めませんでした(omikujiData.js もサーバーのデータもありません)', {
+            speech: false,
+            throttle: true,
+          })
+        }
         // LiveConsole で操作した score / team / order などを取り込む (サーバーがなければ何もしない)
         stopPolling?.()
         stopPolling = startUserStatsPolling(appStore.userStatsSync)
@@ -122,6 +129,7 @@ async function syncWithServer() {
     // ここに来る時点で「本当に予期せぬエラー」のみ
     const msg = `エディタープラグインからデータ読み込みに失敗しました: ${err}`
     console.error(msg)
+    if (!appStore.hasData) appStore.dataErrorDetail = String(err)
   }
 }
 

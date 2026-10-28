@@ -2,7 +2,7 @@
 import { Ref } from 'vue'
 import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
 import { DataSource } from '@/editor/types'
-import { normalizeData } from '@/common/migrations/index'
+import { isOmikujiDataLike, normalizeData } from '@/common/migrations/index'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { reportDataMismatch, validateAgainstBuild } from '@/common/buildValidation/validateAgainstBuild'
 
@@ -33,10 +33,17 @@ export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource
   }
 
   // グローバルの omikujiData.js を開く
-  const openLocalOmikujiData = (): boolean => {
-    const result = loadData(window.omikujiData)
-    if (result) dataSource.value = 'local'
-    return result
+  // loaded: omikujiData.js を読み込んだ / empty: omikujiData.js が無い・読めないため初期データで開始した
+  // rejected: 読み込みを拒否した(エラー表示済み)
+  const openLocalOmikujiData = (): 'loaded' | 'empty' | 'rejected' => {
+    if (!isOmikujiDataLike(window.omikujiData)) {
+      if (!loadData(undefined)) return 'rejected'
+      dataSource.value = 'unknown' // 実際には何も読んでいない(NO DATA)
+      return 'empty'
+    }
+    if (!loadData(window.omikujiData)) return 'rejected'
+    dataSource.value = 'local'
+    return 'loaded'
   }
 
   // データをJSON形式でエクスポート

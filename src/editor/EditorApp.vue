@@ -56,7 +56,7 @@
   const navigationStore = useNavigationStore()
 
   // テーマと、データ未読込(開発版の起動直後)かどうかの判定
-  const isDevWorld = computed(() => dataSource.value === 'unknown')
+  const isDevWorld = computed(() => isDev && dataSource.value === 'unknown')
 
   // 言語設定を vue-i18n に反映(データ読み込み時・設定変更時)
   watch(
@@ -99,8 +99,17 @@
     }
 
     // ローカルを読む
-    if (!omikujiStore.openLocalOmikujiData()) return // 読み込み拒否(エラー表示済み)
+    const result = omikujiStore.openLocalOmikujiData()
+    if (result === 'rejected') return // 読み込み拒否(エラー表示済み)
     navigationStore.selectCategory(data.value.settings.editor.initialCategory)
+    if (result === 'empty') {
+      // サーバーにも omikujiData.js にもデータがなかった: 読み込んだと偽らず、初期データで開始したことを伝える
+      swalToast.info({
+        title: 'データがありません',
+        text: 'omikujiData.js が見つからないため、初期データで開始しました。',
+      })
+      return
+    }
     swalToast.success({
       title: '読み込み完了',
       text: 'omikujiData.js を読み込みました。',
