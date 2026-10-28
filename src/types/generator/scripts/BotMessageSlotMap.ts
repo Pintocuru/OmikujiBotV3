@@ -1,6 +1,8 @@
 // src/types/generator/scripts/BotMessageSlotMap.ts
 import type { UiKind } from '@/types/OmikujiData'
 
+// TODO:map は maps に移動
+
 export type SlotName = `slot${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
 
 /** slotN が何を意味するか。editor の表示にも使う */
@@ -42,13 +44,25 @@ export const KujibikiSlotMap = {
  */
 export const CharacterStageSlotMap = {
   seconds: { slot: 'slot0', title: '表示秒数', description: '0 は無期限。空なら UI 設定の既定値' },
-  xMin: { slot: 'slot1', title: '位置X 最小', description: '0〜100(%)。最小と最大が同じなら固定、違えば範囲内でランダム' },
+  xMin: {
+    slot: 'slot1',
+    title: '位置X 最小',
+    description: '0〜100(%)。最小と最大が同じなら固定、違えば範囲内でランダム',
+  },
   xMax: { slot: 'slot2', title: '位置X 最大', description: '0〜100(%)' },
   yMin: { slot: 'slot3', title: '位置Y 最小', description: '0〜100(%)。画面上端が 0。キャラの下辺が基準' },
   yMax: { slot: 'slot4', title: '位置Y 最大', description: '0〜100(%)' },
   scale: { slot: 'slot5', title: 'サイズ倍率', description: '1 が標準。空なら 1' },
-  motion: { slot: 'slot6', title: '登場・退場モーション', description: 'モーションのキー(例: fade, slideUp)。空なら UI 設定の既定値' },
-  clearPrevious: { slot: 'slot7', title: '前の表示を消す', description: 'true なら、これまでの表示を消してから表示する' },
+  motion: {
+    slot: 'slot6',
+    title: '登場・退場モーション',
+    description: 'モーションのキー(例: fade, slideUp)。空なら UI 設定の既定値',
+  },
+  clearPrevious: {
+    slot: 'slot7',
+    title: '前の表示を消す',
+    description: 'true なら、これまでの表示を消してから表示する',
+  },
 } as const satisfies Record<string, SlotMeta>
 export type CharacterStageSlotKey = keyof typeof CharacterStageSlotMap
 
