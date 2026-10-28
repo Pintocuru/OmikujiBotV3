@@ -54,7 +54,6 @@
                 :title="TEAM_STYLE[team].label"
                 @click="emit('setTeam', user.userId, user.team === team ? null : team)"
               />
-              <span v-if="user.team === null" class="ml-1 text-xs opacity-50">なし</span>
             </div>
           </td>
 

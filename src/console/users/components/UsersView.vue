@@ -1,4 +1,5 @@
 <!-- src/console/components/UsersView.vue -->
+<!-- TODO:コードが長すぎるので責務ごとに分割したい -->
 <!-- ユーザーの得点・チーム・席順を操作する画面 (OBS の表示に反映される) -->
 <template>
   <div class="flex flex-col">
@@ -13,6 +14,7 @@
       <button class="btn btn-sm" @click="refresh">更新</button>
     </div>
 
+    <!-- 接続の状態表示 -->
     <StatusNotice :status="status" :errorMessage="errorMessage" />
 
     <main v-if="status === 'loading' || status === 'online'" class="mx-auto flex w-full max-w-6xl flex-col gap-3 p-4">
@@ -24,20 +26,42 @@
         <span class="break-all">テスト用ユーザーを追加できませんでした: {{ mockError }}</span>
       </div>
 
+      <!-- チームごとの得点 -->
       <TeamBars v-if="teams.length > 0" :totals="teamTotals" />
 
       <!-- 絞り込み・並び替え -->
-      <div class="flex flex-wrap items-center gap-3">
-        <input v-model="query" type="search" placeholder="名前で検索" class="input input-sm input-bordered w-44" />
-        <select v-model="sortKey" class="select select-sm select-bordered">
-          <option v-for="(label, key) in userSortLabels" :key="key" :value="key">{{ label }}</option>
-        </select>
-        <label class="flex items-center gap-1 text-sm">
-          チーム
-          <select v-model.number="teamCount" class="select select-sm select-bordered">
-            <option v-for="count in teamCounts" :key="count" :value="count">{{ teamCountLabel(count) }}</option>
-          </select>
-        </label>
+      <div class="flex flex-wrap items-center gap-4">
+        <!-- 名前検索ボックス -->
+        <input v-model="query" type="search" placeholder="名前で検索" class="input input-sm input-bordered" />
+
+        <!-- ソート -->
+        <ul tabindex="0" class="dropdown-content bg-base-100 flex gap-1">
+          <li v-for="(label, key) in userSortLabels" :key="key" class="list-none">
+            <a @click="sortKey = key" class="badge cursor-pointer" :class="{ 'badge-primary': sortKey === key }">
+              {{ label }}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="flex flex-wrap items-center gap-4">
+        <!-- チーム増設 -->
+        <span class="text-sm">チーム</span>
+        <div class="w-full max-w-xs">
+          <input type="range" class="range range-sm" min="0" max="8" step="1" v-model.number="teamCount" />
+          <div class="flex justify-between px-2.5 mt-2 text-xs">
+            <span>-</span>
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+            <span>6</span>
+            <span>7</span>
+            <span>8</span>
+          </div>
+        </div>
+
+        <!-- チームごとの並び替え -->
         <select v-if="teams.length > 0" v-model="teamFilter" class="select select-sm select-bordered">
           <option value="all">すべてのチーム</option>
           <option value="none">チームなし</option>
@@ -106,7 +130,7 @@
   import { computed, ref, watch } from 'vue'
   import { isDev } from '@/types/env'
 
-  import { TeamCountType, TeamFilter, teamCounts, UserSortKey, userSortLabels } from '@/console/types'
+  import { TeamFilter, UserSortKey, userSortLabels } from '@/console/types'
   import { useMockUsers } from '../composables/useMockUsers'
   import { useTeamCount } from '../composables/useTeamCount'
   import { useUserConsole } from '../composables/useUserConsole'
@@ -147,7 +171,6 @@
 
   // チームの数 (0 = チーム区分なし)。使わなくなったチームで絞り込んだままにならないよう、「すべてのチーム」に戻す
   const { teamCount, teams } = useTeamCount()
-  const teamCountLabel = (count: TeamCountType) => (count === 0 ? 'チーム区分なし' : `${count}チーム`)
   watch(teams, (value) => {
     if (teamFilter.value !== 'all' && teamFilter.value !== 'none' && !value.includes(teamFilter.value))
       teamFilter.value = 'all'

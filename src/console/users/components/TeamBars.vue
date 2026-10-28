@@ -1,12 +1,9 @@
 <!-- src/console/components/TeamBars.vue -->
 <!-- チームごとの合計得点 (チーム色ごとのバー) -->
 <template>
-  <section class="rounded-box bg-base-200 p-3">
+  <section v-if="totals.length !== 0" class="rounded-box bg-base-200 p-3">
     <h2 class="mb-2 text-sm font-bold">チーム合計</h2>
-    <p v-if="totals.length === 0" class="text-sm opacity-60">
-      チームを割り当てると、ここに合計得点が出ます(ユーザーの色ボタンで割り当て)
-    </p>
-    <ul v-else class="flex flex-col gap-1.5">
+    <ul class="flex flex-col gap-1.5">
       <li v-for="total in totals" :key="total.team" class="flex items-center gap-2 text-sm">
         <span class="w-20 shrink-0 truncate">{{ TEAM_STYLE[total.team].label }}</span>
         <div class="h-5 grow rounded bg-base-300">
