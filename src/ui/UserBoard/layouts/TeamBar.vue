@@ -1,5 +1,5 @@
-<!-- src/ui/UserBoard/layouts/TeamBoard.vue -->
-<!-- チーム合計 (チーム色ごとのバー) -->
+<!-- src/ui/UserBoard/layouts/TeamBar.vue -->
+<!-- チームの得点 (チーム色ごとのバー) -->
 <template>
   <div v-if="bars.length > 0" class="flex flex-col gap-2 rounded-2xl p-3 shadow-xl" :style="boardRootStyle(settings)">
     <div v-for="bar in bars" :key="bar.team" class="flex items-center gap-2">

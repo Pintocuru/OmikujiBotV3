@@ -46,6 +46,7 @@ const toRange = (min: number, max: number): [number, number] => (min <= max ? [m
 export const resolveStageSlots = (slots: BotMessageSlotsType | undefined, defaults: CharacterStageType): StageSpec => {
   const s = slots ?? {}
 
+  // 秒数
   const seconds = toNumber(s.slot0)
   const [xMin, xMax] = toRange(
     clampPercent(toNumber(s.slot1) ?? defaults.xMin),

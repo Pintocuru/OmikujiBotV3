@@ -46,6 +46,6 @@ export const uiKindMap: Record<UiKind, { label: string; icon: LucideIconName; de
   userBoard: {
     label: 'ユーザーボード',
     icon: 'Users',
-    description: 'ユーザーの得点・チーム・席順を、ランキングやバーで表示します。',
+    description: 'ユーザーの得点・チームを、得点リストやチームのバー・スコアボードで表示します。',
   },
 }

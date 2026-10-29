@@ -1,6 +1,6 @@
 <!-- src/editor/assets/PostFlow/Message/MessageSettings.vue -->
 <template>
-  <!-- 表示先の UI。UI ごとに下のフォームが変わる -->
+  <!-- 表示先のUI UIごとに下のフォームが変わる -->
   <SettingItem layout="vertical" :icon="uiKindMap[action.uiKey].icon" :label="t('postFlow.messageSettings.uiKey')">
     <select v-model="uiKey" class="select select-bordered w-full">
       <option v-for="kind in selectableKinds" :key="kind" :value="kind">{{ uiKindMap[kind].label }}</option>
@@ -13,6 +13,7 @@
       <CharacterPicker v-model="characterKey" />
     </SettingItem>
 
+    <!-- アイコン -->
     <SettingItem
       v-if="!!action.characterKey"
       icon="Palette"
@@ -22,6 +23,7 @@
       <IconSelector :character-key="characterKey" :icon-key="action.iconKey" @update:icon-key="updateIconKey" />
     </SettingItem>
 
+    <!-- メッセージ -->
     <SettingItem
       v-if="spec.bubble === 'comment'"
       icon="MessageSquare"

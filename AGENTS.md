@@ -292,3 +292,16 @@
 - 影響: 上記コンポーネント一式 / `src/console/types/ConsoleStatus.ts`
 
 - 検証: npm run tsc は既存エラー2件のみ(増減なし)/ eslint(src/console・SweetAlert2・UserStats・types/api)成功 / prettier 成功 / vitest 9件成功(ピン留め優先・`defaultTeamName` を追加)。ブラウザでの目視確認は未実施。ローカル clone 上で実行(未 push)
+
+### UserBoard(`src/ui/UserBoard`)のコンポーネント化(patch 単位)
+
+着手前ベースライン: npm run tsc は既存エラー2件(`UserStatsRecord` が `@/types/generator` に無い。本作業と無関係)。
+
+#### patch 6: `board` を `component` に置換し、チーム得点・個人得点の3種類を用意
+
+- 設計判断: `UserBoardSchema.board`(ranking/team/seats)を、`ToastWidgetsSchema` などと同じ `component`(`ranking` / `teamBar` / `teamScore`)に置換。型は `UserBoardComponent`、表示名は `maps/ui/UserBoardMap.ts` の `userBoardComponentMap`。不正値・旧データの `board` は zod の catch で `ranking` に戻る(マイグレーションはしない)
+- 3種類: `ranking`(個人の得点リスト、旧 RankingBoard)/ `teamBar`(チーム得点のバー、旧 TeamBoard)/ `teamScore`(新規。チーム色ごとの大きな得点を横に並べるスコアボード。1位のチームを枠で強調、0点以下は強調しない)。`layouts/` のファイル名は GameRanking に合わせて component 名の PascalCase に変更
+- 削除: 席順(`seats` / `SeatBoard.vue` / `buildSeats`)。席順の廃止(patch 2)に合わせた
+- 影響: `src/types/ui/UserBoardSchema.ts` / `src/maps/ui/UserBoardMap.ts` / `src/maps/OmikujiData/ui/UiKindMap.ts`(説明文)/ `src/ui/UserBoard/` 一式。エディターは「表示のしかた」で選択、表示件数は `ranking` のみ
+- 未対応: データ側の `order`(patch 2 参照)は残置。ピン留めは OBS 側(UserBoard)に反映していない。チーム名(console の localStorage)は OBS から読めないため、スコアボードにも名前は出さず、チーム色と人数のみ
+- 検証: npm run tsc は既存エラー2件のみ / eslint・prettier 成功 / vitest 成功(スキーマの既定値、ranking、team を追加)。ブラウザ・OBS での目視確認は未実施

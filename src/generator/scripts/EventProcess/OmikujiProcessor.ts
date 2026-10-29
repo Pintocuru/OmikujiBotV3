@@ -109,6 +109,7 @@ export class OmikujiProcessor {
   /**
    * postFlows を順番に実行する。
    * 前の flow (variable など) の結果に後の flow が依存する可能性があるため、並列にはしない。
+   * TODO:読み取られない数値がある
    */
   private async runPostFlows(
     eventKey: string,

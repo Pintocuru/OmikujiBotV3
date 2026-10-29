@@ -52,6 +52,7 @@ export const useCharacterStage = (settings: Ref<CharacterStageType>) => {
     forceTimers.set(id, setTimeout(() => remove(id), FORCE_REMOVE_DELAY) as unknown as number)
   }
 
+  //
   const show = (msg: Parameters<typeof getCharacterLayers>[0]) => {
     const layers = getCharacterLayers(msg)
     if (layers.length === 0) return // キャラ未指定・画像なしは表示しない

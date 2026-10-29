@@ -1,7 +1,7 @@
 <!-- src/ui/UserBoard/UserBoardSelector.vue -->
 <template>
   <div class="relative" :class="useFontFamily(fontFamily)">
-    <component :is="currentBoard" :users="users" :settings="settings" />
+    <component :is="currentComponent" :users="users" :settings="settings" />
   </div>
 </template>
 
@@ -10,10 +10,10 @@
   import type { UserStatsRecord } from '@/types/api'
   import { FontFamilyType } from '@/types/OmikujiData'
   import { useFontFamily } from '@/common/FontFamily/fontFamily'
-  import type { UserBoardKind, UserBoardType } from '@/types/ui'
-  import RankingBoard from './layouts/RankingBoard.vue'
-  import SeatBoard from './layouts/SeatBoard.vue'
-  import TeamBoard from './layouts/TeamBoard.vue'
+  import type { UserBoardComponent, UserBoardType } from '@/types/ui'
+  import ranking from './layouts/Ranking.vue'
+  import teamBar from './layouts/TeamBar.vue'
+  import teamScore from './layouts/TeamScore.vue'
 
   const props = defineProps<{
     users: UserStatsRecord[]
@@ -21,11 +21,11 @@
     fontFamily?: FontFamilyType
   }>()
 
-  const boardMap: Record<UserBoardKind, any> = {
-    ranking: RankingBoard,
-    team: TeamBoard,
-    seats: SeatBoard,
+  const componentMap: Record<UserBoardComponent, any> = {
+    ranking,
+    teamBar,
+    teamScore,
   }
 
-  const currentBoard = computed(() => boardMap[props.settings.board] ?? RankingBoard)
+  const currentComponent = computed(() => componentMap[props.settings.component] ?? ranking)
 </script>

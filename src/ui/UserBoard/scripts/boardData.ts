@@ -53,22 +53,6 @@ export function buildTeamBars(users: UserStatsRecord[]): TeamBar[] {
   return bars.map((bar) => ({ ...bar, ratio: Math.max(Math.max(bar.totalScore, 0) / max, 0.03) }))
 }
 
-export interface SeatRow {
-  order: number
-  user: UserStatsRecord
-}
-
-/**
- * 席順: 席順が設定されている (order が 1 以上) ユーザーを、席順の小さい順に並べる
- */
-export function buildSeats(users: UserStatsRecord[], limit: number): SeatRow[] {
-  return users
-    .filter((u): u is UserStatsRecord & { order: number } => typeof u.order === 'number' && u.order > 0)
-    .sort((a, b) => a.order - b.order || byName(a, b))
-    .map((user) => ({ order: user.order, user }))
-    .slice(0, limit)
-}
-
 /**
  * 設定画面のプレビュー用のダミー (実際の配信では使わない)
  */
@@ -85,7 +69,6 @@ export function buildPreviewUsers(): UserStatsRecord[] {
     isSyoken: false,
     team: teams[index],
     score: (names.length - index) * 10,
-    order: index + 1,
     tags: [],
     badges: [],
     giftPrice: 0,

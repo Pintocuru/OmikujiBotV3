@@ -1,6 +1,11 @@
 <!-- src/ui/UserBoard/layouts/UserAvatar.vue -->
 <template>
-  <img :src="src" alt="" class="shrink-0 rounded-full object-cover" :style="{ width: `${size}px`, height: `${size}px` }" />
+  <img
+    :src="src"
+    alt=""
+    class="shrink-0 rounded-full object-cover"
+    :style="{ width: `${size}px`, height: `${size}px` }"
+  />
 </template>
 
 <script setup lang="ts">
