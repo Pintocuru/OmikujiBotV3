@@ -11,7 +11,8 @@
     "tsc": "npx vue-tsc --noEmit",
     "build": "tsx packages/build.ts --bundler=vite",
     "build:webpack": "tsx packages/build.ts",
-    "build:plugin": "vite build --config tools/viteConfig/vite.botPlugin.config.ts"
+    "build:plugin": "vite build --config tools/viteConfig/vite.botPlugin.config.ts",
+    "check": "vue-typecheck --checker tsc"
   },
   "type": "module",
   "author": "Pintocuru",
@@ -37,6 +38,7 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@mttzzz/vue-typecheck": "github:mttzzz/vue-typecheck",
     "@onecomme.com/onesdk": "^9.2.0-beta.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/vite": "^4.3.2",
@@ -73,7 +75,7 @@
     "terser-webpack-plugin": "^5.6.1",
     "ts-loader": "^9.6.2",
     "tsx": "^4.23.13",
-    "typescript": "^6.0.3",
+    "typescript": "^7",
     "url": "^0.11.4",
     "vite": "^8.3.4",
     "vite-plugin-checker": "^0.14.5",

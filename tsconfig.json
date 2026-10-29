@@ -35,7 +35,6 @@
     "packages/**/*.vue",
     "server/**/*.ts",
     "tools/**/*.ts",
-    "build/**/*.ts",
     "*.ts"
   ],
   "exclude": ["node_modules", "archives", "**/*.test.ts", "build/**/*"]
