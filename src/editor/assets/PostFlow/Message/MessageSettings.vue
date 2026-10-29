@@ -2,9 +2,28 @@
 <template>
   <!-- 表示先のUI UIごとに下のフォームが変わる -->
   <SettingItem layout="vertical" :icon="uiKindMap[action.uiKey].icon" :label="t('postFlow.messageSettings.uiKey')">
-    <select v-model="uiKey" class="select select-bordered w-full">
-      <option v-for="kind in selectableKinds" :key="kind" :value="kind">{{ uiKindMap[kind].label }}</option>
-    </select>
+    <!-- CharacterPicker 同様に role="radiogroup" を使ったアイコン＋名前の選択式 -->
+    <div class="flex flex-wrap gap-2" role="radiogroup">
+      <button
+        v-for="kind in selectableKinds"
+        :key="kind"
+        type="button"
+        role="radio"
+        :aria-checked="uiKey === kind"
+        class="flex flex-col items-center gap-1 rounded-lg border-2 p-2 transition cursor-pointer"
+        :class="[uiKey === kind ? 'border-primary bg-primary/10' : 'border-base-300 hover:border-primary/50']"
+        @click="uiKey = kind"
+      >
+        <!-- アイコン表示用ラッパー (サイズを固定して中央寄せ) -->
+        <div class="flex items-center justify-center w-8 h-8">
+          <component :is="resolveLucideIcon(uiKindMap[kind].icon)" class="w-5 h-5" />
+        </div>
+        <!-- 名前表示 (class は text-xs の大きさ) -->
+        <span class="text-xs truncate max-w-20" :title="uiKindMap[kind].label">
+          {{ uiKindMap[kind].label }}
+        </span>
+      </button>
+    </div>
   </SettingItem>
 
   <!-- bubble を使う UI: キャラ・アイコン・本文 -->
@@ -91,6 +110,7 @@
   import { getUiMessageSpec, postUiKinds } from '@/types/generator'
   import type { UiKind } from '@/types/OmikujiData'
   import { uiSlotsEditorMap } from '@/maps/ui/UiSlotsEditorMap'
+  import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
   const { t } = useI18n()
 

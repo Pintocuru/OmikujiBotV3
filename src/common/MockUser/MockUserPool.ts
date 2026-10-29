@@ -1,5 +1,5 @@
 // src/common/MockUser/MockUserPool.ts
-import { UserStatsRecord } from '@/types/generator'
+import { UserStatsRecord } from '@/types/api'
 import { LocaleType } from '@/types/OmikujiData/'
 import { generateDummyUserStats } from './MockGenerators'
 

@@ -95,7 +95,10 @@
     if (timer) clearTimeout(timer)
     hideTimers.delete(id)
     item.display.visible = false
-    forceTimers.set(id, setTimeout(() => remove(id), item.motionDuration * 1000 + FORCE_REMOVE_MARGIN) as unknown as number)
+    forceTimers.set(
+      id,
+      setTimeout(() => remove(id), item.motionDuration * 1000 + FORCE_REMOVE_MARGIN) as unknown as number
+    )
   }
 
   const hideAll = () => items.value.filter((i) => i.display.visible).forEach((i) => hide(i.id))
