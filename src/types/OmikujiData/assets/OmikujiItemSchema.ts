@@ -39,11 +39,7 @@ export const OmikujiLotterySchema = z.discriminatedUnion('isPriority', [OmikujiP
 export type LotteryType = z.infer<typeof OmikujiLotterySchema>
 
 /**
- * 全種別共通のベース。抽選設定 (lottery) は全種別が持つ。
- *
- * 注意: discriminatedUnion の判別子 (kind) に .default() / .catch() を付けると、
- * 「kind 省略」が undefined として値を占有する。占有できるのは1種別だけなので、
- * 省略時の既定種別である postFlow のみ .default() を付け、他は素の z.literal() にする。
+ * 全種別共通のベース
  */
 const OmikujiItemBase = BaseSchema.extend({
   lottery: normalizedObject(OmikujiLotterySchema),
