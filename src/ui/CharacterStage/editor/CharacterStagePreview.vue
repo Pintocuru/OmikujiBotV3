@@ -50,8 +50,8 @@
 
   // 重ねて出せる上限(「無期限」設定でも積み上がりすぎないように)
   const MAX_ITEMS = 5
-  // Leave アニメーションが終わらなかった場合の保険
-  const FORCE_REMOVE_DELAY = 3000
+  // Leave アニメーションが終わらなかった場合の保険(モーションの秒数に、この余裕を足した時間で取り除く)
+  const FORCE_REMOVE_MARGIN = 1000
   // 設定を触り終えてから出し直すまでの待ち(スライダー操作中に連続で出さない)
   const RESPAWN_DELAY = 300
 
@@ -95,7 +95,7 @@
     if (timer) clearTimeout(timer)
     hideTimers.delete(id)
     item.display.visible = false
-    forceTimers.set(id, setTimeout(() => remove(id), FORCE_REMOVE_DELAY) as unknown as number)
+    forceTimers.set(id, setTimeout(() => remove(id), item.motionDuration * 1000 + FORCE_REMOVE_MARGIN) as unknown as number)
   }
 
   const hideAll = () => items.value.filter((i) => i.display.visible).forEach((i) => hide(i.id))

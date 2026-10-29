@@ -1,4 +1,4 @@
-<!-- src/console/users/components/UsersView.vue -->
+<!-- src/console/users/UsersView.vue -->
 <!-- ユーザーの得点・チーム・ピン留めを操作する画面 (OBS の表示に反映される) -->
 <!-- 画面の部品: UsersToolbar / StatusNotice / UsersToolbox / UserAddRemove / UserTable。ここは組み立てと状態の受け渡しだけ -->
 <template>

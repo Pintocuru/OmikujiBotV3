@@ -77,7 +77,6 @@
 </template>
 
 <script setup lang="ts">
-  import { defineAsyncComponent, type Component } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
@@ -91,6 +90,7 @@
   import { uiKindMap } from '@/maps/OmikujiData/ui'
   import { getUiMessageSpec, postUiKinds } from '@/types/generator'
   import type { UiKind } from '@/types/OmikujiData'
+  import { uiSlotsEditorMap } from '@/maps/ui/UiSlotsEditorMap'
 
   const { t } = useI18n()
 
@@ -106,11 +106,7 @@
 
   const soundEnabled = computed(() => data.value.settings.generator.soundEnabled)
 
-  // UI 固有の slots 編集画面(無い UI は汎用の text 入力)
-  const slotsEditorMap: Partial<Record<UiKind, Component>> = {
-    characterStage: defineAsyncComponent(() => import('./edit/CharacterStageSlotsEditor.vue')),
-  }
-  const slotsEditor = computed(() => slotsEditorMap[props.action.uiKey])
+  const slotsEditor = computed(() => uiSlotsEditorMap[props.action.uiKey])
 
   const updateAction = (updates: Partial<PostFlowMessageType>) => {
     emit('update:action', { ...props.action, ...updates })

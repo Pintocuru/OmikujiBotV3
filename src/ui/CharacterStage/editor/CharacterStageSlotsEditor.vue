@@ -1,4 +1,4 @@
-<!-- src/ui/CharacterStage/editor/CharacterStageSlotsEditor.vue -->
+<!-- src/editor/assets/PostFlow/Message/edit/CharacterStageSlotsEditor.vue -->
 <template>
   <SettingItem layout="vertical" icon="MessageSquare" :label="t('postFlow.messageSettings.slots')">
     <p class="mb-2 text-xs opacity-60">空欄の項目は UI 設定の既定値が使われます</p>
@@ -90,6 +90,27 @@
         <option value="">(既定: {{ enterMotionMap[defaults.motion]?.label }})</option>
         <option v-for="(v, k) in enterMotionMap" :key="k" :value="k">{{ v.label }}</option>
       </select>
+    </div>
+
+    <!-- アニメーション速度(登場・退場とも) -->
+    <div class="mb-3">
+      <p class="mb-1 text-sm font-medium">{{ meta.motionDuration.title }}</p>
+      <div class="flex items-center gap-2">
+        <input
+          type="number"
+          min="0.4"
+          max="5"
+          step="0.2"
+          class="input input-bordered input-sm w-28"
+          placeholder="1"
+          :value="getRaw('motionDuration')"
+          @change="setNumber('motionDuration', $event, { min: 0.4, max: 5 })"
+        />
+        <span class="text-sm">秒(小さいほど速い)</span>
+        <button v-if="getRaw('motionDuration') !== ''" class="btn btn-ghost btn-xs" @click="clear('motionDuration')">
+          既定に戻す
+        </button>
+      </div>
     </div>
 
     <!-- 前の表示を消す -->
