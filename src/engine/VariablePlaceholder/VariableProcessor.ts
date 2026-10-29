@@ -1,9 +1,5 @@
 // src/engine/VariablePlaceholder/VariableProcessor.ts
-import {
-  BotMessageSlotsSchema,
-  BotMessageSlotsType,
-  VariablePlaceholderResult,
-} from '@/types/generator'
+import { BotMessageSlotsSchema, BotMessageSlotsType, VariablePlaceholderResult } from '@/types/generator'
 import { PlaceholderVariableType } from '../types/VariablePlaceholder'
 import { EXPRESSION_PATTERN, RESERVED_KEYS, VAR_REFERENCE_PATTERN } from './ReservedKeys'
 import { ExpressionEngine } from './ExpressionEngine'

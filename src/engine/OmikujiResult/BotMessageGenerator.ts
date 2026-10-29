@@ -36,6 +36,7 @@ export class BotMessageGenerator {
     return actions.map((action): ProcessedPostAction => {
       // message は本文と slots の両方を評価する (slots は uiKey ごとの入力欄の値)
       if (action.kind === 'message') {
+        // 予約語は、message と slots の処理が終わるまで残す
         const processed = action.message ? this.variableProcessor.process(action.message) : undefined
         const slots = Object.fromEntries(
           Object.entries(action.slots).map(([key, text]) => [key, this.variableProcessor.process(text).bubble])
@@ -48,9 +49,6 @@ export class BotMessageGenerator {
       if (!hasPostFlowMessage(action) || !action.message) return { action }
 
       // 変数処理の実行（ランキング抽出等）
-      // 評価後の本文 (bubble) を action.message に反映する。
-      // 反映しないと、評価ブロック {{ }} が本文に残り、BotMessage 側ではそのまま表示され、
-      // わんコメ投稿 (cleanPostMessage) では {{ }} が丸ごと消えてしまう
       const { bubble, extra } = this.variableProcessor.process(action.message)
       return { action: { ...action, message: bubble }, extra }
     })

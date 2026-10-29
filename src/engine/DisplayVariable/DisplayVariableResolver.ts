@@ -17,6 +17,14 @@ export class DisplayVariableResolver {
           slots: Object.fromEntries(Object.entries(action.slots).map(([k, v]) => [k, this.resolve(v)])),
         }
       }
+      // wordParty の wordPartyId を [[key]] で置換
+      if (action.kind === 'wordParty') {
+        return { ...action, wordPartyId: this.resolve(action.wordPartyId) }
+      }
+      // gameScript の queryString を [[key]] で置換
+      if (action.kind === 'gameScript') {
+        return { ...action, queryString: this.resolve(action.queryString) }
+      }
       if (hasPostFlowMessage(action)) {
         return {
           ...action,

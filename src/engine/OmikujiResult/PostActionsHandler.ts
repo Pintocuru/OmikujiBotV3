@@ -75,4 +75,11 @@ export class PostActionsHandler {
 
     return resolved
   }
+
+  /**
+   *  評価ブロックは通さず、[[key]] と <<placeholder>> だけ置換する (gameScript の queryString 用)
+   */
+  resolveFlows(postFlows: PostFlowType[], defaultPlaceholders: Record<string, string | number>): PostFlowType[] {
+    return this.resolvePlaceholders(postFlows, defaultPlaceholders)
+  }
 }

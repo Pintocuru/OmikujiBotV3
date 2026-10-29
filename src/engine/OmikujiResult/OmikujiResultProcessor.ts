@@ -72,9 +72,14 @@ export class OmikujiResultProcessor {
       let messages: BotMessageType[]
 
       switch (actionItem.kind) {
-        case 'gameScript':
-          messages = await this.gameScriptsHandler.process(actionItem, omiken, isOnecommePost)
+        case 'gameScript': {
+          const [resolved] = this.postActionsHandler.resolveFlows([actionItem], defaultPlaceholders)
+          messages =
+            resolved.kind === 'gameScript'
+              ? await this.gameScriptsHandler.process(resolved, omiken, isOnecommePost)
+              : []
           break
+        }
 
         // variable は式の評価のみ (吹き出しは作らない。lists / slots がある場合のみ Ranking メッセージ)
         case 'flowCall':

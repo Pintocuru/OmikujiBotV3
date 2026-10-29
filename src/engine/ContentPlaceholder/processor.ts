@@ -59,6 +59,14 @@ export class ContentPlaceholder {
           slots: Object.fromEntries(Object.entries(action.slots).map(([k, v]) => [k, this.processText(v)])),
         }
       }
+      // wordParty の wordPartyId に <<...>> が含まれている場合、置換する
+      if (action.kind === 'wordParty') {
+        return { ...action, wordPartyId: this.processText(action.wordPartyId) }
+      }
+      // gameScript の queryString
+      if (action.kind === 'gameScript') {
+        return { ...action, queryString: this.processText(action.queryString) }
+      }
       if (hasPostFlowMessage(action)) {
         return {
           ...action,
