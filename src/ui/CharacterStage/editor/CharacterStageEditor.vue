@@ -1,8 +1,5 @@
 <!-- src/ui/CharacterStage/editor/CharacterStageEditor.vue -->
 <template>
-  <!-- プレビュー表示(登場位置の範囲・大きさ・登場アニメーションの確認用) -->
-  <CharacterStagePreview :settings="stage" />
-
   <!-- キャラクターの大きさ(標準値。投稿側は倍率だけ渡す) -->
   <SettingItem
     label="キャラクターの大きさ"
@@ -97,7 +94,6 @@
   import { enterMotionMap } from '@/maps/OmikujiData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import CharacterStagePreview from './CharacterStagePreview.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
@@ -108,7 +104,12 @@
   const stage = computed(() => CharacterStageSchema.parse(data.value.ui.settings.characterStage ?? {}))
 
   const axes = [
-    { label: '既定の位置X', description: '0〜100(%)。キャラの中心が基準。最小と最大が違えば範囲内でランダム', min: 'xMin', max: 'xMax' },
+    {
+      label: '既定の位置X',
+      description: '0〜100(%)。キャラの中心が基準。最小と最大が違えば範囲内でランダム',
+      min: 'xMin',
+      max: 'xMax',
+    },
     { label: '既定の位置Y', description: '0〜100(%)。画面上端が 0、キャラの下辺が基準', min: 'yMin', max: 'yMax' },
   ] as const
 

@@ -1,8 +1,18 @@
 <!-- src/editor/assets/PostFlow/preview/PostActionPreview.vue -->
 <template>
   <div class="h-full flex flex-col items-center justify-center space-y-4">
+    <!-- characterStage のメッセージ -->
+    <div v-if="action.kind === 'message' && action.uiKey === 'characterStage'" class="w-full">
+      <CharacterStagePreview
+        :settings="stageSettings"
+        :slots="action.slots"
+        :character-key="action.characterKey"
+        :icon-key="action.iconKey"
+      />
+    </div>
+
     <!-- メッセージアクション -->
-    <div v-if="action.kind === 'message'" class="w-full space-y-8 flex flex-col items-center">
+    <div v-else-if="action.kind === 'message'" class="w-full space-y-8 flex flex-col items-center">
       <CommentBubbleItem
         :key="messageKey"
         :botName="character ? character.displayName : null"
@@ -70,11 +80,7 @@
 
     <!-- テストボタン -->
     <div class="w-full text-center mt-2">
-      <WordPartyTestButton
-        v-if="action.kind === 'wordParty'"
-        :id="action.wordPartyId"
-        :repeat="action.repeat"
-      />
+      <WordPartyTestButton v-if="action.kind === 'wordParty'" :id="action.wordPartyId" :repeat="action.repeat" />
       <SoundTestButton
         v-if="soundEnabled && (action.kind === 'sound' || action.kind === 'message')"
         :sound="action.sound"
@@ -99,6 +105,8 @@
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { CommentBubbleSchema } from '@/types/ui/CommentBubbleSchema'
   import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
+  import { CharacterStageSchema } from '@/types/ui'
+  import CharacterStagePreview from '@/ui/CharacterStage/editor/CharacterStagePreview.vue'
 
   const { t } = useI18n()
 
@@ -112,6 +120,7 @@
   const soundEnabled = computed(() => data.value.settings.generator.soundEnabled)
   const characters = computed(() => data.value.assets.characters)
   const bubbleSettings = computed(() => CommentBubbleSchema.parse(data.value.ui.settings.commentBubble ?? {}))
+  const stageSettings = computed(() => CharacterStageSchema.parse(data.value.ui.settings.characterStage ?? {}))
   const defaultColor = CharacterColorScheme.parse({})
 
   // リフレッシュキー
