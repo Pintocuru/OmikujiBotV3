@@ -4,7 +4,7 @@ import { userStatsApi } from '@/manager/services/userStatsApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'
 import type { UserListItemType, UserStatsUpdateType } from '@/types/api'
 import type { DaisyUIColorType } from '@/types/core'
-import { buildClearOrderUpdates, buildOrderUpdates, chunkUpdates } from '../scripts/userConsole'
+import { chunkUpdates } from '../scripts/userConsole'
 import { ConsoleStatus } from '@/console/types'
 
 const REFRESH_INTERVAL_MS = 3000
@@ -91,33 +91,12 @@ export function useUserConsole() {
       () => sendUpdates([{ userId, set: { team } }])
     )
 
-  /** 席順を設定する。0 を送ると席順なし (null) になる */
-  const setOrder = (userId: string, order: number) =>
+  /** ピン留めを付ける / 外す (ピン留めしたユーザーは、ユーザーリストの先頭に固定される) */
+  const setPinned = (userId: string, pinned: boolean) =>
     mutate(
-      () => patchUser(userId, { order: order === 0 ? null : order }),
-      () => sendUpdates([{ userId, set: { order } }])
+      () => patchUser(userId, { pinned }),
+      () => sendUpdates([{ userId, set: { pinned } }])
     )
-
-  /** 画面に出ている並びを、席順 (1, 2, 3, ...) にする */
-  const applyOrders = (visibleUsers: UserListItemType[]) => {
-    const updates = buildOrderUpdates(visibleUsers)
-    const orderOf = new Map(updates.map((u) => [u.userId, u.set!.order!]))
-    return mutate(
-      () =>
-        (users.value = users.value.map((u) => (orderOf.has(u.userId) ? { ...u, order: orderOf.get(u.userId)! } : u))),
-      () => sendUpdates(updates)
-    )
-  }
-
-  /** 画面に出ているユーザーの席順を外す */
-  const clearOrders = (visibleUsers: UserListItemType[]) => {
-    const updates = buildClearOrderUpdates(visibleUsers)
-    const targets = new Set(updates.map((u) => u.userId))
-    return mutate(
-      () => (users.value = users.value.map((u) => (targets.has(u.userId) ? { ...u, order: null } : u))),
-      () => sendUpdates(updates)
-    )
-  }
 
   const addManualUser = (userName: string) =>
     mutate(
@@ -157,9 +136,7 @@ export function useUserConsole() {
     addScore,
     setScore,
     setTeam,
-    setOrder,
-    applyOrders,
-    clearOrders,
+    setPinned,
     addManualUser,
     removeManualUser,
     resetCommentUsers,

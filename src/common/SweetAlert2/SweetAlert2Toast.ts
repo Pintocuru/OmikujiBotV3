@@ -111,6 +111,18 @@ export const swalModal = {
     })
   },
 
+  /** 実行してよいかの確認 (結果の isConfirmed で判定) */
+  confirm(options: SweetAlertOptions = {}) {
+    return Swal.fire({
+      icon: 'question',
+      title: '確認',
+      showCancelButton: true,
+      confirmButtonText: '実行する',
+      cancelButtonText: 'キャンセル',
+      ...options,
+    })
+  },
+
   confirmTriple(options: SweetAlertOptions = {}) {
     return Swal.fire({
       icon: 'question',

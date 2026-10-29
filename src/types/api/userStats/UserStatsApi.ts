@@ -10,6 +10,7 @@ import { UserStatsRecord, UserStatsRecordSchema } from './UserStatsRecordSchema'
  */
 export const UserStatsPatchSchema = z.object({
   order: z.number().optional(), // 席順。0 は席順なし (設定を外すときに送る)
+  pinned: z.boolean().optional(), // ピン留め。false で外す
   team: z.enum(daisyUIColor).nullable().optional(),
   score: z.number().optional(),
   tags: z.array(z.string()).optional(),

@@ -258,3 +258,37 @@
 - 設計判断: `pads/` `users/` `games/` が各 `components/` `composables/` `scripts/` を持つ。複数画面で使う `StatusNotice.vue` と日時・数値の整形関数(`formatters.ts`、`summarizeState.ts` から分離)は `common/` に置く。`LiveConsole.vue` / `main.ts` / `types/` は直下のまま。ロジック変更なし
 - 未実施: `useLiveConsole` → `useGameConsole` への改名(games 専用のため候補)
 - 検証: npm run lint 成功 / npm run tsc は既存エラー2件のみ(`UserStatsRecord` 未 export。本作業と無関係) / vitest 成功。ローカル clone 上で実行(未 push)
+
+### LiveConsole ユーザー操作画面(`src/console/users`)改修(patch 単位)
+
+着手前ベースライン: npm run tsc は既存エラー2件(`UserStatsRecord` が `@/types/generator` に無い。本作業と無関係)。
+
+#### patch 1: `UsersView.vue` の責務分割
+
+- 設計判断: UsersView は「組み立てと状態の受け渡し」だけにした。部品は `UsersToolbar`(ツールバー)/`ConnectionBadge`(接続状態バッジ。接続のエラー表示は既存 `StatusNotice`)/`UsersToolbox`(検索・並び替え・チーム数・絞り込み)/`UserAddRemove`(追加・空にする・開発用テストユーザー)/`UserTable`(リスト)。入力値は `defineModel` で親と共有、ロジックは既存 composable のまま
+- 影響: `src/console/users/components/` のみ(新規5ファイル)
+
+#### patch 2: 席順を廃止し、ピン留めに置換
+
+- 設計判断: ピン留めは `pinned: boolean`。`UserStatsPatchSchema` / `UserStatsRecordSchema`(optional)/ `UserListItemSchema`(default false)に追加。サーバーの `updateUserStats` は `...set` で汎用マージのためハンドラ変更なし。並びは `sortUsers` が「ピン留め優先 → 選んだ並び」(絞り込み後も有効)
+- 削除: コンソールの席順入力・`setOrder` / `applyOrders` / `clearOrders`・`buildOrderUpdates` / `buildClearOrderUpdates`・`UserSortKey` の `'order'`
+- 影響: `src/types/api/userStats/*` / `server/core/utils/userList.ts` / `src/generator/stores/UserStats/UserStatsControlSync.ts`(pinned を取り込み)/ console users 一式
+- **未着手(要判断)**: データ側の `order`(`UserStatsRecordSchema` / `UserStatsPatchSchema` / `UserListItemSchema` / サーバー / Sync)と OBS 側 `src/ui/UserBoard`(`SeatBoard.vue`・`boardData.ts` が `order` を使用)は、console 外のため残している。席順を完全に廃止する場合は SeatBoard の扱いも決める必要がある。ピン留めを OBS 側(UserBoard)の表示へ反映する処理も未実装
+
+#### patch 3: チーム名
+
+- 設計判断: チーム色(DaisyUIColorType)は保存データのキーなので変更せず、表示名だけ別に持つ。初期名は色の並び順で「チーム1〜8」(`defaultTeamName`。チーム数を変えても名前が動かない)。付けた名前は localStorage(`liveConsole.teamNames`、20文字まで)。空欄 = 初期名。ブラウザごとの設定で、OBS 表示には使わない
+- UI: ツールボックスに小さい「✎ チーム名」ボタン → `TeamNameDialog.vue`(native `<dialog>` + DaisyUI modal)。`TEAM_STYLE.label` は廃止(色の名前は画面に出さない)
+- 影響: `useTeamNames.ts`(新規)/ `TeamNameDialog.vue`(新規)/ `TeamBars` / `UserTable` / `UsersToolbox`
+
+#### patch 4: `window.confirm` → SweetAlert2
+
+- 設計判断: 削除は既存 `swalModal.confirmDelete`、「ユーザーを空にする」は汎用の `swalModal.confirm` を `SweetAlert2Toast.ts` に追加して使用。結果は `isConfirmed` で判定
+- 影響: `UserTable.vue` / `UserAddRemove.vue` / `SweetAlert2Toast.ts`。`src/console/games/components/StreamList.vue` の `window.confirm` は依頼範囲外のため未変更
+
+#### patch 5: i18n 向けの文言分離
+
+- 設計判断: 文言を `users/maps/UsersMessageMap.ts`(画面ごとにグループ化。引数つきは関数)に集約。`userSortLabels` を `console/types` から `users/maps/UserSortMap.ts` へ移動(旧 TODO の対応)。コンポーネントに日本語の直書きは残していない(コメントを除く)。i18n 化時はこの map を翻訳ファイルに差し替える
+- 影響: 上記コンポーネント一式 / `src/console/types/ConsoleStatus.ts`
+
+- 検証: npm run tsc は既存エラー2件のみ(増減なし)/ eslint(src/console・SweetAlert2・UserStats・types/api)成功 / prettier 成功 / vitest 9件成功(ピン留め優先・`defaultTeamName` を追加)。ブラウザでの目視確認は未実施。ローカル clone 上で実行(未 push)

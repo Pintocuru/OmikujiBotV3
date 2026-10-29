@@ -1,28 +1,40 @@
 // src/console/users/scripts/userConsole.ts
 // LiveConsole のユーザー操作画面で使う、並び替え・絞り込み・集計 (純粋関数)
 import { TeamCountType, TeamFilter, TeamTotal, UserSortKey } from '@/console/types'
-import { UserListItemType, UserStatsUpdateType } from '@/types/api'
-import { daisyUIColor, DaisyUIColorType } from '@/types/core'
+import { UserListItemType } from '@/types/api'
+import { DaisyUIColorType } from '@/types/core'
 
 const byName = (a: UserListItemType, b: UserListItemType) => a.userName.localeCompare(b.userName, 'ja')
 
+// チーム割り当て用の順序
+const teamColorOrder: readonly DaisyUIColorType[] = [
+  'error',
+  'info',
+  'warning',
+  'success',
+  'primary',
+  'secondary',
+  'accent',
+  'neutral',
+]
+
 /**
  * 並び替え (元の配列は変えない)
+ * - ピン留めしたユーザーは、どの並びでも先頭 (ピン留めの中は、選んだ並び順)
  * - recent: 最後のコメントが新しい順。コメントしていないユーザー (手動追加) は最後
- * - order: 席順の小さい順。席順が未設定のユーザーは最後
  */
 export function sortUsers(users: UserListItemType[], key: UserSortKey): UserListItemType[] {
-  const list = [...users]
-  switch (key) {
-    case 'recent':
-      return list.sort((a, b) => b.lastCommentAt - a.lastCommentAt || byName(a, b))
-    case 'score':
-      return list.sort((a, b) => b.score - a.score || byName(a, b))
-    case 'order':
-      return list.sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity) || byName(a, b))
-    case 'name':
-      return list.sort(byName)
+  const compare = (a: UserListItemType, b: UserListItemType): number => {
+    switch (key) {
+      case 'recent':
+        return b.lastCommentAt - a.lastCommentAt || byName(a, b)
+      case 'score':
+        return b.score - a.score || byName(a, b)
+      case 'name':
+        return byName(a, b)
+    }
   }
+  return [...users].sort((a, b) => Number(b.pinned) - Number(a.pinned) || compare(a, b))
 }
 
 /**
@@ -43,8 +55,9 @@ export function filterUsers(
 /**
  * 使うチーム (チーム色の先頭から count 色)。0 (チーム区分なし) のときは空
  */
+
 export function pickTeams(count: TeamCountType): DaisyUIColorType[] {
-  return daisyUIColor.slice(0, count)
+  return teamColorOrder.slice(0, count)
 }
 
 /**
@@ -65,20 +78,6 @@ export function buildTeamTotals(users: UserListItemType[], teams?: readonly Dais
 }
 
 /**
- * いまの並びを、席順 (1, 2, 3, ...) として保存するための更新
- */
-export function buildOrderUpdates(users: UserListItemType[]): UserStatsUpdateType[] {
-  return users.map((user, index) => ({ userId: user.userId, set: { order: index + 1 } }))
-}
-
-/**
- * 席順を外すための更新 (order 0 = 席順なし)。席順が設定されているユーザーだけが対象
- */
-export function buildClearOrderUpdates(users: UserListItemType[]): UserStatsUpdateType[] {
-  return users.filter((user) => user.order !== null).map((user) => ({ userId: user.userId, set: { order: 0 } }))
-}
-
-/**
  * update-user-stats は 1回で最大200ユーザー。それを超える分を分ける
  */
 export function chunkUpdates<T>(updates: T[], size = 200): T[][] {
@@ -90,13 +89,20 @@ export function chunkUpdates<T>(updates: T[], size = 200): T[][] {
 /**
  * チーム色の見た目。Tailwind がクラス名を見つけられるよう、文字列のまま書いておく
  */
-export const TEAM_STYLE: Record<DaisyUIColorType, { solid: string; label: string }> = {
-  primary: { solid: 'bg-primary text-primary-content', label: 'primary' },
-  secondary: { solid: 'bg-secondary text-secondary-content', label: 'secondary' },
-  accent: { solid: 'bg-accent text-accent-content', label: 'accent' },
-  neutral: { solid: 'bg-neutral text-neutral-content', label: 'neutral' },
-  info: { solid: 'bg-info text-info-content', label: 'info' },
-  success: { solid: 'bg-success text-success-content', label: 'success' },
-  warning: { solid: 'bg-warning text-warning-content', label: 'warning' },
-  error: { solid: 'bg-error text-error-content', label: 'error' },
+export const TEAM_STYLE: Record<DaisyUIColorType, { solid: string }> = {
+  primary: { solid: 'bg-primary text-primary-content' },
+  secondary: { solid: 'bg-secondary text-secondary-content' },
+  accent: { solid: 'bg-accent text-accent-content' },
+  neutral: { solid: 'bg-neutral text-neutral-content' },
+  info: { solid: 'bg-info text-info-content' },
+  success: { solid: 'bg-success text-success-content' },
+  warning: { solid: 'bg-warning text-warning-content' },
+  error: { solid: 'bg-error text-error-content' },
+}
+
+/**
+ * チームの初期の名前 (「チーム1」〜「チーム8」)。チーム色の並び順で決まるので、チームの数を変えても名前は変わらない
+ */
+export function defaultTeamName(team: DaisyUIColorType): string {
+  return `チーム${teamColorOrder.indexOf(team) + 1}`
 }

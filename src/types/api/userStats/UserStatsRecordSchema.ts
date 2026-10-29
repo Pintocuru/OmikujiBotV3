@@ -13,6 +13,7 @@ export const UserStatsRecordSchema = z.object({
   no: z.number().default(0), // コメント数(配信内)
   isSyoken: z.boolean().default(false), // その配信で初見かどうか
   order: z.number().optional(), // 並び替え用（UI 側で自由に使える）
+  pinned: z.boolean().optional(), // ピン留め (LiveConsole で操作。ユーザーリストの先頭に固定する)
   team: z.enum(daisyUIColor).nullable().default(null),
   score: z.number().default(0),
   tags: z.array(z.string()).default([]), // タグ

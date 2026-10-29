@@ -3,7 +3,7 @@
 import type { UserListItemType, UserStatsControlType, UserStatsRecord } from '@/types/api'
 
 /**
- * コメント由来のユーザー + 手動ユーザー に、操作結果 (score / team / order / tags / badges) を合わせる
+ * コメント由来のユーザー + 手動ユーザー に、操作結果 (score / team / order / pinned / tags / badges) を合わせる
  * - 並びは、最後のコメントが新しい順 (手動ユーザーは最後)。LiveConsole 側で並べ替えて使う
  * - 操作結果がないユーザーは、score 0 / team なし。コメント由来の score は使わない (サーバーの操作結果が正)
  * - 削除済み (isRemoved) の手動ユーザーは含めない
@@ -24,6 +24,7 @@ export function buildUserList(
       score: control?.score ?? 0,
       team: control?.team ?? null,
       order: control?.order || null, // 0 は席順なし
+      pinned: control?.pinned ?? false,
       tags: control?.tags ?? [],
       badges: control?.badges ?? [],
     }
@@ -44,6 +45,7 @@ export function buildUserList(
       score: control.score ?? 0,
       team: control.team ?? null,
       order: control.order || null, // 0 は席順なし
+      pinned: control.pinned ?? false,
       tags: control.tags ?? [],
       badges: control.badges ?? [],
     })

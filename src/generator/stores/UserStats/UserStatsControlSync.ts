@@ -1,5 +1,5 @@
 // src/generator/stores/UserStats/UserStatsControlSync.ts
-// サーバーの操作結果 (LiveConsole で操作した score / team / order / tags / badges) を、UserStatsManager に取り込む。
+// サーバーの操作結果 (LiveConsole で操作した score / team / order / pinned / tags / badges) を、UserStatsManager に取り込む。
 //
 // - 操作結果はサーバーが正。取り込むときは、これらのフィールドを丸ごと上書きする。
 // - まだコメントしていないユーザーの操作結果は、ここで持っておき、そのユーザーが初めてコメントしたときに反映する。
@@ -8,10 +8,10 @@ import { UserStatsRecordSchema } from '@/types/api'
 import type { UserStatsControlType, UserStatsLoadResponseType, UserStatsRecord } from '@/types/api'
 import type { UserStatsManager } from './UserStatsManager'
 
-type ControlFields = Pick<UserStatsRecord, 'score' | 'team' | 'order' | 'tags' | 'badges'>
+type ControlFields = Pick<UserStatsRecord, 'score' | 'team' | 'order' | 'pinned' | 'tags' | 'badges'>
 
 /** 操作結果がないとき (リセット後など) の値 */
-const DEFAULT_FIELDS: ControlFields = { score: 0, team: null, order: undefined, tags: [], badges: [] }
+const DEFAULT_FIELDS: ControlFields = { score: 0, team: null, order: undefined, pinned: undefined, tags: [], badges: [] }
 
 const toFields = (control: UserStatsControlType | undefined): ControlFields =>
   control
@@ -19,6 +19,7 @@ const toFields = (control: UserStatsControlType | undefined): ControlFields =>
         score: control.score ?? 0,
         team: control.team ?? null,
         order: control.order || undefined, // 0 は席順なし
+        pinned: control.pinned || undefined,
         tags: control.tags ?? [],
         badges: control.badges ?? [],
       }
@@ -93,5 +94,6 @@ const isSame = (record: UserStatsRecord, next: ControlFields): boolean =>
   record.score === next.score &&
   record.team === next.team &&
   record.order === next.order &&
+  record.pinned === next.pinned &&
   JSON.stringify(record.tags) === JSON.stringify(next.tags) &&
   JSON.stringify(record.badges) === JSON.stringify(next.badges)

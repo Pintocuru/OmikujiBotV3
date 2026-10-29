@@ -28,7 +28,7 @@
 <script setup lang="ts">
   import { ref, watch } from 'vue'
   import GameLogsView from './games/components/GameLogsView.vue'
-  import UsersView from './users/components/UsersView.vue'
+  import UsersView from './users/UsersView.vue'
   import PadsView from './pads/components/PadsView.vue'
 
   const views = { pads: 'ポン出し', users: 'ユーザー操作', games: 'ゲームの記録' } as const

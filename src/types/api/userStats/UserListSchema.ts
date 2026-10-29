@@ -7,7 +7,7 @@ import { z } from 'zod'
 /**
  * ユーザーリストの1件
  * - isManual: 手動で追加したユーザー (コメントしていない人。userId は 'manual:' で始まる)
- * - score / team / order / tags / badges は、操作結果 (update-user-stats) の値
+ * - score / team / order / pinned / tags / badges は、操作結果 (update-user-stats) の値
  */
 export const UserListItemSchema = z.object({
   userId: z.string(),
@@ -19,6 +19,7 @@ export const UserListItemSchema = z.object({
   score: z.number().default(0),
   team: z.enum(daisyUIColor).nullable().default(null),
   order: z.number().nullable().default(null),
+  pinned: z.boolean().default(false), // ピン留め (LiveConsole のユーザーリストで、常に先頭に表示する)
   tags: z.array(z.string()).default([]),
   badges: z.array(z.string()).default([]),
 })
