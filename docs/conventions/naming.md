@@ -83,3 +83,79 @@
    - `MikujiEditor.vue` / `MikujiSettings.vue` / `MikujiBoxSchema.ts` 等の `Mikuji` 名は**リネーム禁止**。新規ファイルもこの区別に従うこと。
 5. **`Syoken`** は歴史的経緯(OmikujiBotは初見を大事にしている)により維持。
 6. **ドキュメントを `src/` に置かない**。ルールに関する事は `docs/conventions/` へ移動。
+
+## 6. 用語表(ドメイン用語)
+
+新規コード・UI 文言・i18n キー・コメント・AI への依頼のすべてで、この表に従う。
+
+### 6.1 シナリオ系(§8.1 の旧名称から改名)
+
+| 用語                 | UI 表示          | 意味                                                                           | 型・キー                                                                           |
+| -------------------- | ---------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| Scenario             | シナリオ         | 名前を持ち、再利用できるステップの並び。**assets にあるものだけを指す**        | `ScenarioSchema.ts` / `ScenarioType` / `assets.scenarios` / カテゴリ `'scenarios'` |
+| ScenarioStep         | ステップ         | シナリオを構成する処理 1 件                                                    | `ScenarioStepSchema.ts` / `ScenarioStepType` / プロパティ `steps`                  |
+| ScenarioStepKind     | ステップの種類   | `message` / `sound` / `wordParty` / `variable` / `gameScript` / `scenarioCall` | `ScenarioStepKind`                                                                 |
+| scenarioCall         | シナリオ呼び出し | 別のシナリオを `callKeys` の重み付き抽選で呼ぶステップ                         | kind `'scenarioCall'` / `callKeys`(名称維持)                                       |
+| OmikujiItem の steps | ステップ実行     | おみくじアイテムが直接持つ、名前のないステップの並び。Scenario とは呼ばない    | `OmikujiItem.kind: 'steps'` / `steps`                                              |
+
+### 6.2 変更しない用語
+
+| 用語                    | UI 表示          | 備考                                                                        |
+| ----------------------- | ---------------- | --------------------------------------------------------------------------- |
+| Mikuji / `Mikuji*`      | みくじ箱         | §4-4。リネーム禁止                                                          |
+| Omikuji / OmikujiItem   | おみくじ         | みくじ箱の中身                                                              |
+| Syoken                  | 初見さん         | §4-5。歴史的経緯で維持                                                      |
+| `delaySeconds`          | 遅延秒数         | ステップ共通のプロパティ                                                    |
+| gameScript / GameScript | ゲームスクリプト | ステップの種類の 1 つ。実行されるスクリプト本体を指す(ステップ自体ではない) |
+| `callKeys`              | –                | 呼び出し先シナリオの key 配列                                               |
+
+### 6.3 そのほかの用語
+
+| 用語                | 意味                                                                                     |
+| ------------------- | ---------------------------------------------------------------------------------------- |
+| Event               | トリガー(comments / timers / services / reactions / pads)。`omikujiKey` でみくじ箱を指す |
+| Post / 投稿         | わんコメへの送信だけを指す(`PostOmikujiService` / `PostOneComme`)                        |
+| Preset / プリセット | エディターの「新規作成テンプレート」(`src/editor/presets`)だけを指す                     |
+| Manager             | §4-1                                                                                     |
+| BotMessage          | ジェネレーターが UI へ渡すメッセージ                                                     |
+
+## 7. 混同防止ルール
+
+1. **Scenario は assets のものだけ**。おみくじアイテム内の並びは `steps` と呼ぶ。
+2. **`action` / `Action` を単独の用語として使わない**(識別子・UI 文言・i18n キー・コメント)。ステップは `step`、その配列は `steps`。
+3. **`Post` は「わんコメへの投稿」に限る**。投稿しないステップ(sound / variable / scenarioCall / gameScript)に `Post` を付けない。
+4. **変数名**: ステップ 1 件は `step`、配列は `steps`。ステップの意味で `flow` / `action` / `item` を使わない(`item` は OmikujiItem やアセット 1 件の意味)。
+5. **UI 文言**: 「シナリオ」「ステップ」を使う。「アクション」「アクションセット」「PostAction」「BOTアクション」は使わない。
+6. **「プリセット」は §6.3 の意味に限る**。シナリオの説明文に使わない。
+7. **i18n キー**: `scenario.*` / `scenarioStep.*`。フォルダ名・コンポーネント名も `Scenario*` / `ScenarioStep*` にする(`PostAction*` は作らない)。
+8. **保存データの値(キー名・`kind` の値)を変えるときは、必ず `migrations` に変換を書く**。zod の `.catch([])` により、1 件でも不正だとステップ配列ごと空になる。
+9. **`omikujiSet` は「みくじ箱の中身(おみくじアイテムの配列)」に限る**。セクションキーとして他の意味で使わない(§8 参照)。
+10. ステップの種類ごとの型名は `ScenarioStep` + 種類名(例: `ScenarioStepMessageType` / `ScenarioStepGameScriptType`)にし、`kind` の値と型名を一致させる(現状 `PostFlowGameType` と `gameScript` が不一致)。
+
+## 8. 旧名称と既知の問題
+
+### 8.1 旧名称(新規使用禁止)
+
+| 旧                                                                   | 新                                                    |
+| -------------------------------------------------------------------- | ----------------------------------------------------- |
+| `ActionSet` / `actionSet` / アクションセット                         | `Scenario` / シナリオ                                 |
+| `PostFlow` / `postFlow`                                              | `ScenarioStep` / `step`                               |
+| `postFlows`                                                          | `steps`                                               |
+| `PostAction*` / `postAction*` / `PostActions`                        | `ScenarioStep*`                                       |
+| `flowCall` / `FlowCallExpander` / `flowSets`                         | `scenarioCall` / `ScenarioCallExpander` / `scenarios` |
+| `assets.actions` / `'actions'`                                       | `assets.scenarios` / `'scenarios'`                    |
+| `ProcessedPostAction.action` / `ScriptResult.actions` / `actionItem` | `.step` / `steps` / `step`                            |
+| `OmikujiItem.kind: 'postFlow'` / BOTアクション                       | `'steps'` / ステップ実行                              |
+| v2 の `actionSets` / `postActions` / `actionSetKeys`                 | `v2ToV3.ts` の変換元としてのみ残す                    |
+
+### 8.2 今回の改名とは別に見つかった問題(未対応)
+
+- セクションキー `omikujiSet` が複数の意味で使われている(events のおみくじ、mikuji / actions のステップ一覧)。`CategorySectionMap` では mikuji も `component: 'actionSet'` を使い、`ActionSetPreview` を共有している。`staticSectionPreviewMap` に TODO あり。
+- `ActionSetPreview` は `postFlows` を読むが、みくじ箱のデータは `omikuji` を持つ。mikuji でのプレビュー表示は**未確認**。
+- `OmikujiItemToolbar.vue`(`tooltab/`)は、ステップ列のツールバーなのに名前が OmikujiItem。
+- `editor/assets/PostFlow/actions/`(`ActionSetSettings.vue` ほか)は、実際は `scenarioCall` ステップの編集部品。フォルダ名と中身が合っていない。
+- `GameScriptsHandler`(複数形)は 1 件ずつ処理する。`GameScriptManager` との単複が不統一。
+- `tools/JsonMerge/KeySuffix.ts` は events と mikuji のキーにだけ接尾辞を付ける。assets.actions(→scenarios)と `callKeys` は対象外のため、マージ時にキーが衝突し得る(コード上の確認のみ・実行は未確認)。
+- システムメッセージ(例: 「アクションセットの展開が最大階層に達しました」)がエンジン内に日本語で直書きされている。用語変更時に取りこぼしやすい。
+- `settings.editor.initialCategory` は `.catch('comments')` のため、カテゴリ名を変えると保存済みの起動カテゴリが警告なく `comments` に戻る。
+- 現在の移行は dataVersion 3 未満だけが対象。v3 の旧名称データ(`assets.actions` / `postFlows`)を読み込むと、警告なく空として扱われる。
