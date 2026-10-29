@@ -1,48 +1,9 @@
 <!-- src/editor/assets/PostFlow/preview/PostActionPreview.vue -->
 <template>
   <div class="h-full flex flex-col items-center justify-center space-y-4">
-    <!-- characterStage のメッセージ -->
-    <div v-if="action.kind === 'message' && action.uiKey === 'characterStage'" class="w-full">
-      <CharacterStagePreview
-        :settings="stageSettings"
-        :slots="action.slots"
-        :character-key="action.characterKey"
-        :icon-key="action.iconKey"
-      />
-    </div>
-
-    <!-- メッセージアクション -->
-    <div v-else-if="action.kind === 'message'" class="w-full space-y-8 flex flex-col items-center">
-      <CommentBubbleItem
-        :key="messageKey"
-        :botName="character ? character.displayName : null"
-        :message="processedMessage"
-        :color="character ? character.color : defaultColor"
-        @click="refreshMessage"
-        class="cursor-pointer"
-      />
-      <LayerImage
-        :layers="character?.image?.[action.iconKey]?.src ?? []"
-        :size="bubbleSettings.characterSize"
-        :animation="character?.image?.[action.iconKey]?.animation"
-      />
-    </div>
-
-    <!-- ゲームスクリプト(sampleRun の結果を message と同様に表示) -->
-    <div v-else-if="action.kind === 'gameScript'" class="w-full space-y-8 flex flex-col items-center">
-      <CommentBubbleItem
-        :key="messageKey"
-        :botName="character ? character.displayName : null"
-        :message="gameScriptMessage"
-        :color="character ? character.color : defaultColor"
-        @click="refreshMessage"
-        class="cursor-pointer"
-      />
-      <LayerImage
-        :layers="character?.image?.default?.src ?? []"
-        :size="bubbleSettings.characterSize"
-        :animation="character?.image?.default?.animation"
-      />
+    <!-- message / gameScript: UI ごとのプレビュー(uiEditorRegistry に登録。無ければ CommentBubblePreview) -->
+    <div v-if="previewProps" class="w-full">
+      <component :is="previewComponent" v-bind="previewProps" @refresh="refreshMessage" />
     </div>
 
     <!-- 変数(評価ブロック):ソースコード風表示 -->
@@ -92,21 +53,17 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { computed, ref, watch } from 'vue'
+  import { computed, ref, watch, type Component } from 'vue'
   import { storeToRefs } from 'pinia'
   import { Volume2, PartyPopper, MessagesSquare, Settings } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { CharacterColorScheme } from '@/types/OmikujiData'
   import type { PostFlowType } from '@/types/OmikujiData'
   import SoundTestButton from './SoundTestButton.vue'
   import WordPartyTestButton from './WordPartyTestButton.vue'
   import { processTestPlaceholder } from './TestPlaceholderProcessor'
-  import CommentBubbleItem from '@/ui/common/CommentBubbleItem.vue'
-  import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import { CommentBubbleSchema } from '@/types/ui/CommentBubbleSchema'
+  import CommentBubblePreview from './CommentBubblePreview.vue'
+  import { getUiPreview } from '@/editor/ui/uiEditorRegistry'
   import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
-  import { CharacterStageSchema } from '@/types/ui'
-  import CharacterStagePreview from '@/ui/CharacterStage/editor/CharacterStagePreview.vue'
 
   const { t } = useI18n()
 
@@ -118,22 +75,9 @@
   const { data } = storeToRefs(omikujiStore)
 
   const soundEnabled = computed(() => data.value.settings.generator.soundEnabled)
-  const characters = computed(() => data.value.assets.characters)
-  const bubbleSettings = computed(() => CommentBubbleSchema.parse(data.value.ui.settings.commentBubble ?? {}))
-  const stageSettings = computed(() => CharacterStageSchema.parse(data.value.ui.settings.characterStage ?? {}))
-  const defaultColor = CharacterColorScheme.parse({})
-
   // リフレッシュキー
   const messageKey = ref(0)
   const refreshMessage = () => messageKey.value++
-
-  // キャラクター取得(message / gameScript)
-  const character = computed(() => {
-    if (props.action.kind !== 'message' && props.action.kind !== 'gameScript') return null
-    const key = props.action.characterKey
-    if (!key) return null
-    return Object.values(characters.value).find((c) => c.key === key) ?? null
-  })
 
   // メッセージ処理
   const processedMessage = computed(() => {
@@ -166,6 +110,21 @@
     },
     { immediate: true }
   )
+
+  // message / gameScript を UI のプレビューに渡す。gameScript は CommentBubblePreview 固定
+  const previewComponent = computed<Component>(() =>
+    props.action.kind === 'message' ? (getUiPreview(props.action.uiKey) ?? CommentBubblePreview) : CommentBubblePreview
+  )
+  const previewProps = computed(() => {
+    const a = props.action
+    if (a.kind === 'message') {
+      return { message: processedMessage.value, slots: a.slots, characterKey: a.characterKey, iconKey: a.iconKey }
+    }
+    if (a.kind === 'gameScript') {
+      return { message: gameScriptMessage.value, characterKey: a.characterKey, iconKey: 'default' }
+    }
+    return null
+  })
 
   function transformIconPlaceholdersPreview(raw: string): string {
     return raw.replace(/\{\{icon\s+([^\}]+)\}\}/g, (_, userId) => {

@@ -38,7 +38,10 @@
 
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-  import type { CharacterStageType } from '@/types/ui'
+  import { CharacterStageSchema, type CharacterStageType } from '@/types/ui'
+  import type { BotMessageSlotsType } from '@/types/generator'
+  import { storeToRefs } from 'pinia'
+  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
   import CharacterStageLayer from '../CharacterStageLayer.vue'
@@ -46,7 +49,20 @@
   import { resolveStageSlots } from '../resolveStageSlots'
   import type { StageItem } from '../types'
 
-  const props = defineProps<{ settings: CharacterStageType }>()
+  // settings を渡さなければ、保存済みの UI 設定を使う(PostFlow のプレビュー用)
+  // slots / characterKey / iconKey は PostFlow の message から渡る。本番と同じく slots が UI 設定より優先される
+  const props = defineProps<{
+    settings?: CharacterStageType
+    slots?: BotMessageSlotsType
+    characterKey?: string
+    iconKey?: string
+    message?: string // 使わない(UI プレビュー共通の props)
+  }>()
+
+  const { data } = storeToRefs(useOmikujiStore())
+  const settings = computed(
+    () => props.settings ?? CharacterStageSchema.parse(data.value.ui.settings.characterStage ?? {})
+  )
 
   // 重ねて出せる上限(「無期限」設定でも積み上がりすぎないように)
   const MAX_ITEMS = 5
@@ -61,8 +77,12 @@
   const characters = computed(() => characterArray.value.filter((c) => hasImage(c.key)))
   const canPreview = computed(() => characters.value.length > 0)
 
-  // 選択はプレビュー内だけの状態(保存しない)。未選択・消えたキーなら先頭
-  const selectedKey = ref('')
+  // 選択はプレビュー内だけの状態(保存しない)。初期値は action のキャラ。未選択・消えたキーなら先頭
+  const selectedKey = ref(props.characterKey ?? '')
+  watch(
+    () => props.characterKey,
+    (key) => (selectedKey.value = key ?? '')
+  )
   const activeKey = computed(() =>
     characters.value.some((c) => c.key === selectedKey.value) ? selectedKey.value : (characters.value[0]?.key ?? '')
   )
@@ -103,25 +123,25 @@
 
   const hideAll = () => items.value.filter((i) => i.display.visible).forEach((i) => hide(i.id))
 
-  // 本番と同じ手順(resolveStageSlots → buildStageItem)で 1 枚出す。slots は空なので UI 設定の既定値どおり
+  // 本番と同じ手順(resolveStageSlots → buildStageItem)で 1 枚出す。slots が空の項目は UI 設定の既定値
   const spawn = () => {
     const key = activeKey.value
     if (!key) return
 
-    const emotion = resolveEmotion(key, 'default')
+    const emotion = resolveEmotion(key, props.iconKey || 'default')
     const layers = iconSrc(key, emotion)
     if (layers.length === 0) return
 
     const visible = items.value.filter((i) => i.display.visible)
     visible.slice(0, Math.max(0, visible.length - (MAX_ITEMS - 1))).forEach((i) => hide(i.id))
 
-    const spec = resolveStageSlots(undefined, props.settings)
+    const spec = resolveStageSlots(props.slots, settings.value)
     const item = buildStageItem({
       id: `preview-${++counter}`,
       layers,
       animation: getCharacter(key)?.image[emotion]?.animation,
       spec,
-      characterSize: props.settings.characterSize,
+      characterSize: settings.value.characterSize,
       z: counter,
     })
     if (spec.seconds > 0) {
@@ -140,7 +160,7 @@
     }, RESPAWN_DELAY) as unknown as number
   }
 
-  watch(() => props.settings, respawn, { deep: true })
+  watch(() => [settings.value, props.slots, props.iconKey], respawn, { deep: true })
   watch(activeKey, respawn)
   onMounted(spawn)
 
@@ -151,7 +171,7 @@
 
   // 位置レンジの目印。Y は下辺基準なので、枠の下辺が Y の位置になる
   const rangeStyle = computed(() => {
-    const { xMin, xMax, yMin, yMax } = props.settings
+    const { xMin, xMax, yMin, yMax } = settings.value
     return {
       left: `${xMin}%`,
       width: `${xMax - xMin}%`,

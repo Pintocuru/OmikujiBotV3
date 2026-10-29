@@ -109,7 +109,7 @@
   import { uiKindMap } from '@/maps/OmikujiData/ui'
   import { getUiMessageSpec, postUiKinds } from '@/types/generator'
   import type { UiKind } from '@/types/OmikujiData'
-  import { uiSlotsEditorMap } from '@/maps/ui/UiSlotsEditorMap'
+  import { getUiSlotsEditor } from '@/editor/ui/uiEditorRegistry'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
   const { t } = useI18n()
@@ -126,7 +126,7 @@
 
   const soundEnabled = computed(() => data.value.settings.generator.soundEnabled)
 
-  const slotsEditor = computed(() => uiSlotsEditorMap[props.action.uiKey])
+  const slotsEditor = computed(() => getUiSlotsEditor(props.action.uiKey))
 
   const updateAction = (updates: Partial<PostFlowMessageType>) => {
     emit('update:action', { ...props.action, ...updates })
