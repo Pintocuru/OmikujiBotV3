@@ -27,11 +27,13 @@
       leaveMotion?: EnterMotionType
       autoHide?: boolean
       hideDelay?: number
+      duration?: number // 登場・退場のモーションの秒数
     }>(),
     {
       visible: true,
       autoHide: false,
       hideDelay: 3000,
+      duration: 1,
     }
   )
 
@@ -55,7 +57,7 @@
     })
 
   const animationStyle = computed(() => ({
-    '--animate-duration': '1s',
+    '--animate-duration': `${props.duration}s`,
     '--animate-iteration-count': '1',
   }))
 

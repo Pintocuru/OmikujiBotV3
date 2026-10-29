@@ -9,8 +9,8 @@ import { resolveStageSlots } from './resolveStageSlots'
 import { buildStageItem } from './buildStageItem'
 import type { StageItem } from './types'
 
-// Leave アニメーションが終わらなかった場合の保険(after-leave が来ない場合でも取り除く)
-const FORCE_REMOVE_DELAY = 3000
+// モーションの秒数(item.motionDuration)に、この余裕を足した時間で取り除く
+const FORCE_REMOVE_MARGIN = 1000
 
 /**
  * CharacterStage の表示管理
@@ -49,7 +49,10 @@ export const useCharacterStage = (settings: Ref<CharacterStageType>) => {
     if (!item || !item.display.visible) return
     clearTimer(item)
     item.display.visible = false
-    forceTimers.set(id, setTimeout(() => remove(id), FORCE_REMOVE_DELAY) as unknown as number)
+    forceTimers.set(
+      id,
+      setTimeout(() => remove(id), item.motionDuration * 1000 + FORCE_REMOVE_MARGIN) as unknown as number
+    )
   }
 
   //

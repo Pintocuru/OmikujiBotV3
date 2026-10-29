@@ -11,6 +11,7 @@
       v-model:visible="item.display.visible"
       :motion="item.motion"
       :leave-motion="item.motion"
+      :duration="item.motionDuration"
       :auto-hide="false"
       @after-leave="() => emit('remove', item.id)"
     >

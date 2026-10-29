@@ -38,7 +38,7 @@ export const KujibikiSlotMap = {
  * - 値は文字列で届く(editor・評価ブロック経由)ことがあるため、UI 側で number / boolean に変換する
  * - 空の slot は、UI 設定(CharacterStageSchema)の既定値にフォールバックする
  * - 位置は % 。X はキャラの中心、Y は下辺が基準(Y は画面上端が 0、下端が 100)
- * - slot8, slot9 は空き
+ * - slot9 は空き
  * - TODO: SlotMeta に型・範囲の情報がないため、editor では全 slot が文字列の入力欄になる(数値・boolean 用の入力欄は未対応)。
  *   不正値は UI 側(resolveStageSlots)で既定値に落としている。必要なら SlotMeta を拡張する
  */
@@ -62,6 +62,11 @@ export const CharacterStageSlotMap = {
     slot: 'slot7',
     title: '前の表示を消す',
     description: 'true なら、これまでの表示を消してから表示する',
+  },
+  motionDuration: {
+    slot: 'slot8',
+    title: 'アニメーション速度',
+    description: '登場・退場のモーションの秒数。0.4〜5(小さいほど速い)。空なら 1',
   },
 } as const satisfies Record<string, SlotMeta>
 export type CharacterStageSlotKey = keyof typeof CharacterStageSlotMap

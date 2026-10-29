@@ -13,6 +13,7 @@ export type StageSpec = {
   scale: number
   motion: EnterMotionType
   clearPrevious: boolean
+  motionDuration: number // 秒。登場・退場のモーションに共通
 }
 
 type SlotValue = BotMessageSlotsType[keyof BotMessageSlotsType]
@@ -36,6 +37,10 @@ const toBoolean = (v: SlotValue): boolean => {
 
 const clampPercent = (n: number) => Math.min(100, Math.max(0, n))
 
+// モーション速度(秒)。EmotionAnimationEditor のアニメーション速度と同じ範囲
+const DEFAULT_MOTION_DURATION = 1
+const clampDuration = (n: number) => Math.min(5, Math.max(0.4, n))
+
 // 最小 > 最大のときは入れ替える
 const toRange = (min: number, max: number): [number, number] => (min <= max ? [min, max] : [max, min])
 
@@ -58,6 +63,7 @@ export const resolveStageSlots = (slots: BotMessageSlotsType | undefined, defaul
   )
   const scale = toNumber(s.slot5)
   const motionKey = typeof s.slot6 === 'string' ? s.slot6.trim() : ''
+  const motionDuration = toNumber(s.slot8)
 
   return {
     seconds: seconds !== undefined && seconds >= 0 ? seconds : defaults.seconds,
@@ -68,6 +74,7 @@ export const resolveStageSlots = (slots: BotMessageSlotsType | undefined, defaul
     scale: scale !== undefined && scale > 0 ? scale : 1,
     motion: (enterMotions as readonly string[]).includes(motionKey) ? (motionKey as EnterMotionType) : defaults.motion,
     clearPrevious: toBoolean(s.slot7),
+    motionDuration: motionDuration !== undefined ? clampDuration(motionDuration) : DEFAULT_MOTION_DURATION,
   }
 }
 

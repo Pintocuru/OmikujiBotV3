@@ -30,6 +30,7 @@ export const buildStageItem = ({
   x: pickInRange(spec.xMin, spec.xMax, random),
   y: pickInRange(spec.yMin, spec.yMax, random),
   motion: spec.motion,
+  motionDuration: spec.motionDuration,
   z,
   display: { visible: true, hideTimeout: undefined },
 })

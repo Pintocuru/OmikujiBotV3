@@ -8,7 +8,7 @@ const defaults = CharacterStageSchema.parse({})
 describe('resolveStageSlots', () => {
   it('slots が空なら UI 設定の既定値', () => {
     const r = resolveStageSlots(undefined, defaults)
-    expect(r).toMatchObject({ seconds: 10, xMin: 20, xMax: 80, yMin: 100, yMax: 100, scale: 1, motion: 'fade', clearPrevious: false })
+    expect(r).toMatchObject({ seconds: 10, xMin: 20, xMax: 80, yMin: 100, yMax: 100, scale: 1, motion: 'fade', clearPrevious: false, motionDuration: 1 })
   })
   it('文字列の数値・boolean を変換する', () => {
     const r = resolveStageSlots({ slot0: '3', slot1: '10', slot2: '30', slot5: '1.5', slot6: 'slideUp', slot7: 'true' }, defaults)
@@ -24,6 +24,13 @@ describe('resolveStageSlots', () => {
   it('最小 > 最大は入れ替え、範囲外は 0〜100 に収める', () => {
     const r = resolveStageSlots({ slot1: 90, slot2: 10, slot3: -5, slot4: 150 }, defaults)
     expect(r).toMatchObject({ xMin: 10, xMax: 90, yMin: 0, yMax: 100 })
+  })
+  it('モーション速度は秒数。空・不正値は 1、範囲外は 0.4〜5 に収める', () => {
+    expect(resolveStageSlots({ slot8: '2.4' }, defaults).motionDuration).toBe(2.4)
+    expect(resolveStageSlots({ slot8: '' }, defaults).motionDuration).toBe(1)
+    expect(resolveStageSlots({ slot8: 'abc' }, defaults).motionDuration).toBe(1)
+    expect(resolveStageSlots({ slot8: 0.1 }, defaults).motionDuration).toBe(0.4)
+    expect(resolveStageSlots({ slot8: 99 }, defaults).motionDuration).toBe(5)
   })
 })
 
