@@ -18,6 +18,7 @@
       </select>
     </div>
 
+    <!-- アニメーション速度(秒) -->
     <template v-if="localAnimation.type !== 'none'">
       <div class="space-y-1">
         <div class="flex justify-between">
@@ -33,7 +34,10 @@
           v-model.number="localAnimation.duration"
           @change="applyAnimation"
         />
-        <div class="flex justify-between text-xs text-base-content/40"><span>{{ t('characterImage.animation.fast') }}</span><span>{{ t('characterImage.animation.slow') }}</span></div>
+        <div class="flex justify-between text-xs text-base-content/40">
+          <span>{{ t('characterImage.animation.fast') }}</span
+          ><span>{{ t('characterImage.animation.slow') }}</span>
+        </div>
       </div>
 
       <div class="flex items-center gap-2">

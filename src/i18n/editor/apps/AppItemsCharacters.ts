@@ -92,7 +92,7 @@ export const appItemsCharactersMessages = {
       animation: {
         title: 'アニメーション・プレビュー',
         type: '動作タイプ',
-        speed: '速度（秒）',
+        speed: 'アニメーション速度(秒)',
         fast: '速い',
         slow: '遅い',
         loop: 'ループ再生',
