@@ -1,8 +1,8 @@
 // src/maps/OmikujiData/ui/UiKindMap.ts
-import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import type { UiKind } from '@/types/OmikujiData'
+import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
 
-export const uiKindMap: Record<UiKind, { label: string; icon: LucideIconName; description: string }> = {
+export const uiKindMap: Record<UiKind, DisplayMetaLucide> = {
   characterStage: {
     label: 'キャラクターステージ',
     icon: 'UserSquare',

@@ -11,8 +11,7 @@
     "tsc": "npx vue-tsc --noEmit",
     "build": "tsx packages/build.ts --bundler=vite",
     "build:webpack": "tsx packages/build.ts",
-    "build:plugin": "vite build --config tools/viteConfig/vite.botPlugin.config.ts",
-    "check": "vue-typecheck --checker tsc"
+    "build:plugin": "vite build --config tools/viteConfig/vite.botPlugin.config.ts"
   },
   "type": "module",
   "author": "Pintocuru",
