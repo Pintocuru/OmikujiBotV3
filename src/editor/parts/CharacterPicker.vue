@@ -1,4 +1,5 @@
 <!-- src/editor/parts/CharacterPicker.vue -->
+<!-- ! 廃止 -->
 <template>
   <div class="flex flex-wrap gap-2 max-h-64 overflow-y-auto p-1" role="radiogroup">
     <!-- 未選択 -->

@@ -1,23 +1,24 @@
 <!-- src/editor/assets/PostFlow/gameScript/GameScriptSettings.vue -->
 <template>
   <!-- 実行するゲームスクリプト -->
-  <SettingItem
-    layout="vertical"
-    icon="Gamepad2"
-    :label="t('postFlow.gameScript.gameLabel')"
-    :description="t('postFlow.gameScript.gameDesc')"
-  >
-    <select v-model="scriptId" class="select select-bordered select-sm w-full">
-      <option value="">{{ t('postFlow.common.unselected') }}</option>
-      <option v-for="key in getRegisteredGameScriptKeys()" :key="key" :value="key">
-        {{ t(`mapText.gameMeta.${key}.name`) }}
-      </option>
-    </select>
+  <SettingItem layout="vertical" icon="Gamepad2" :label="t('postFlow.gameScript.gameLabel')">
+    <IconRadioGroup
+      v-model="scriptId"
+      :map="gameMetaMap"
+      :keys="gameKeys"
+      allow-empty
+      :empty-label="t('postFlow.common.unselected')"
+      :aria-label="t('postFlow.gameScript.gameLabel')"
+    />
   </SettingItem>
 
   <!-- キャラクター -->
   <SettingItem layout="vertical" icon="User" :label="t('postFlow.common.character')">
-    <CharacterPicker v-model="characterKey" />
+    <CharacterIconPicker
+      :character-key="characterKey"
+      :is-icon-key="false"
+      @select="characterKey = $event.characterKey"
+    />
   </SettingItem>
 
   <!-- パラメータ -->
@@ -39,10 +40,12 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import type { PostFlowGameType } from '@/types/OmikujiData'
+  import { isGameScriptKey, type GameScriptKey, type PostFlowGameType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
-  import CharacterPicker from '@/editor/parts/CharacterPicker.vue'
+  import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
+  import { gameMetaMap } from '@/maps/games'
+  import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
 
   const { t } = useI18n()
 
@@ -58,13 +61,19 @@
     emit('update:action', { ...props.action, ...updates })
   }
 
+  const gameKeys = getRegisteredGameScriptKeys()
+
+  const scriptId = computed<GameScriptKey | ''>({
+    get: () => (isGameScriptKey(props.action.scriptId) ? props.action.scriptId : ''),
+    set: (value) => updateAction({ scriptId: value }),
+  })
+
   function createActionComputed<K extends keyof PostFlowGameType>(key: K) {
     return computed({
       get: () => props.action[key],
       set: (value: PostFlowGameType[K]) => updateAction({ [key]: value } as Partial<PostFlowGameType>),
     })
   }
-  const scriptId = createActionComputed('scriptId')
   const characterKey = createActionComputed('characterKey')
   const queryString = createActionComputed('queryString')
 </script>

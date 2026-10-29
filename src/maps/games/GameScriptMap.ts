@@ -11,59 +11,59 @@ const RAW = `${DOCS}/raw/main`
  */
 export const gameMetaMap: Record<
   GameScriptKey,
-  { name: string; description: string; icon: LucideIconName; url: string; banner: string }
+  { label: string; description: string; icon: LucideIconName; url: string; banner: string }
 > = {
   GouseiSuika: {
-    name: 'スイカジェネレーター',
+    label: 'スイカジェネレーター',
     description: '米兜科技 - 合成大西瓜風のおみくじ',
     icon: 'Apple',
     url: `${MAIN}/2025-Q4/GouseiSuika/GouseiSuika.md`,
     banner: `${RAW}/2025-Q4/GouseiSuika/GouseiSuika.webp`,
   },
   BomberSpin: {
-    name: 'ボンバースロット',
+    label: 'ボンバースロット',
     description: 'APPLI - BOMBERSPIN2風のおみくじ',
     icon: 'Bomb',
     url: `${MAIN}/2025-Q4/BomberSpin/BomberSpin.md`,
     banner: `${RAW}/2025-Q4/BomberSpin/BomberSpin.webp`,
   },
   DwarfBomb: {
-    name: 'うさぎスロット',
+    label: 'うさぎスロット',
     description: 'Nolimit City - Fire in the Hole風のおみくじ',
     icon: 'Rabbit',
     url: `${MAIN}/2025-Q4/BomberSpin/DwarfBomb.md`,
     banner: `${RAW}/2025-Q4/BomberSpin/BomberSpinDwarf.webp`,
   },
   MultiplyBonanza: {
-    name: '桜吹雪スロット',
+    label: '桜吹雪スロット',
     description: 'Wing - FURAIJIN風のおみくじ',
     icon: 'Flower2',
     url: `${MAIN}/2025-Q4/BomberSpin/MultiplyBonanza.md`,
     banner: `${RAW}/2025-Q4/BomberSpin/BomberSpinSakura.webp`,
   },
   GoogolClover: {
-    name: 'グーゴルクローバー',
+    label: 'グーゴルクローバー',
     description: 'Future Friends Games - CloverPit風のおみくじ',
     icon: 'Clover',
     url: `${MAIN}/GoogolClover/GoogolClover.md`,
     banner: `${RAW}/GoogolClover/GoogolClover.webp`,
   },
   HugEmAll: {
-    name: 'ダンジョンスロット',
+    label: 'ダンジョンスロット',
     description: 'Nolimit City - Kill Em All風のおみくじ',
     icon: 'Swords',
     url: '',
     banner: '',
   },
   FortuneRanking: {
-    name: '占いランキング',
+    label: '占いランキング',
     description: '果物などの順位を作成する拡張スクリプト',
     icon: 'Sparkles',
     url: '',
     banner: '',
   },
   CommentBot: {
-    name: 'コメントBOT',
+    label: 'コメントBOT',
     description: 'BOTとしてわんコメにコメントを自動投稿する拡張スクリプト',
     icon: 'Bot',
     url: '',

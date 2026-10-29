@@ -3,7 +3,7 @@ import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
 import { PostFlowKind } from '@/types/OmikujiData'
 
 /**
- * アクション種別のUI表示マップ (Lucide Icon名を含む)
+ * アクション種別のUI表示マップ
  */
 export const postFlowKindMap: Record<PostFlowKind, DisplayMetaLucide> = {
   message: {

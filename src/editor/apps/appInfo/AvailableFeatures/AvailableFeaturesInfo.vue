@@ -29,13 +29,14 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { uiLayouts, GameScriptKey, UiKind } from '@/types/OmikujiData'
   import FeatureCard from './FeatureCard.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
-  import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
   import { getGameScriptLoader } from '@/games/gameScriptRegistry'
-  import { gameMetaMap, uiKindMap } from '@/maps/OmikujiData'
-  import { uiLayouts, type GameScriptKey, type UiKind } from '@/types/OmikujiData'
+  import { uiKindMap } from '@/maps/OmikujiData'
+  import { gameMetaMap } from '@/maps/games'
   import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
+  import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
   type FeatureItem = { key: string; title: string; icon: LucideIconName; description: string }
   type FeatureSection = { id: 'ui' | 'layout' | 'gameScript'; icon: LucideIconName; items: FeatureItem[] }
@@ -66,7 +67,6 @@
   )
 
   const gameScriptItems = computed<FeatureItem[]>(() =>
-    // 表示用メタ(gameMetaMap)を起点にし、登録済みのも�Eだけ残す(uiItems と同じ方弁E
     (Object.keys(gameMetaMap) as GameScriptKey[])
       .filter((key) => getGameScriptLoader(key))
       .map((key) => ({
