@@ -1,7 +1,7 @@
 // src/editor/helpers/shared/useMappingUpdater.ts
 import { ComputedRef } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { PostFlowType } from '@/types/OmikujiData'
+import { ScenarioStepType } from '@/types/OmikujiData'
 import { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
 import { usePostActionCharacters } from '@/editor/helpers/CharacterChanger/composables/usePostActionCharacters'
 
@@ -9,7 +9,7 @@ import { usePostActionCharacters } from '@/editor/helpers/CharacterChanger/compo
  * マッピングを postFlow に適用する関数
  * (usePostActionCharacters の applyCharacterMappings / applyIconKeyMappings を渡す)
  */
-type ApplyMappings = (flows: PostFlowType[], mappings: Record<string, string>) => PostFlowType[]
+type ApplyMappings = (flows: ScenarioStepType[], mappings: Record<string, string>) => ScenarioStepType[]
 
 /**
  * マッピングの一括更新処理を提供(キャラクター変更・iconKey 変更で共用)
@@ -23,9 +23,9 @@ export function useMappingUpdater(allTargets: ComputedRef<FlowTarget[]>, applyMa
    */
   const applyMappingsToAllItems = (mappings: Record<string, string>) => {
     allTargets.value.forEach((target) => {
-      if (target.category === 'actions') {
-        omikujiStore.updateAsset('actions', target.item.key, {
-          postFlows: applyMappings(target.item.postFlows, mappings),
+      if (target.category === 'scenarios') {
+        omikujiStore.updateAsset('scenarios', target.item.key, {
+          steps: applyMappings(target.item.steps, mappings),
         })
         return
       }
@@ -33,8 +33,8 @@ export function useMappingUpdater(allTargets: ComputedRef<FlowTarget[]>, applyMa
       // みくじ箱：postFlow 種別のアイテムのみ更新（weight・lottery などはそのまま保持）
       omikujiStore.updateAsset('mikuji', target.item.key, {
         omikuji: target.item.omikuji.map((omikuji) =>
-          omikuji.kind === 'postFlow' && isTargetItem(target, omikuji.id)
-            ? { ...omikuji, postFlows: applyMappings(omikuji.postFlows, mappings) }
+          omikuji.kind === 'steps' && isTargetItem(target, omikuji.id)
+            ? { ...omikuji, steps: applyMappings(omikuji.steps, mappings) }
             : omikuji
         ),
       })

@@ -14,7 +14,7 @@ export class OmikujiControlProcessor {
   process(item: OmikujiItemType, omiken?: OmikenCommentType): boolean | null {
     switch (item.kind) {
       // 通常ステップ (BOTメッセージ送信) は対象外
-      case 'postFlow':
+      case 'steps':
         return null
 
       // 処理の流れを制御する (return / continue)

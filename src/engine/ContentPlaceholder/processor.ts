@@ -1,11 +1,11 @@
 // src/engine/ContentPlaceholder/processor.ts
 import {
   PlaceholderType,
-  PostFlowType,
+  ScenarioStepType,
   WeightValueType,
   WeightValuesArrayType,
   handelNormalizedValues,
-  hasPostFlowMessage,
+  hasScenarioStepMessage,
 } from '@/types/OmikujiData'
 import { findMatchingClosingBracket, isInlineRandomSyntax, parseInlineValues, selectRandomValue } from './parser'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
@@ -50,7 +50,7 @@ export class ContentPlaceholder {
   /**
    * PostAction配列のプレースホルダーを置換して返す
    */
-  processPostActions(postActions: PostFlowType[]): PostFlowType[] {
+  processPostActions(postActions: ScenarioStepType[]): ScenarioStepType[] {
     return postActions.map((action) => {
       if (action.kind === 'message') {
         return {
@@ -67,7 +67,7 @@ export class ContentPlaceholder {
       if (action.kind === 'gameScript') {
         return { ...action, queryString: this.processText(action.queryString) }
       }
-      if (hasPostFlowMessage(action)) {
+      if (hasScenarioStepMessage(action)) {
         return {
           ...action,
           message: this.processText(action.message),

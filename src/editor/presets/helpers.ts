@@ -1,9 +1,9 @@
 // src/editor/presets/helpers.ts
 import { generateId } from '@/types/core'
-import { MikujiBoxSchema, OmikujiItemSchema, PostFlowArraySchema } from '@/types/OmikujiData/'
+import { MikujiBoxSchema, OmikujiItemSchema, ScenarioStepArraySchema } from '@/types/OmikujiData/'
 import type { z } from 'zod'
 
-type PostFlowInput = z.input<typeof PostFlowArraySchema>
+type PostFlowInput = z.input<typeof ScenarioStepArraySchema>
 
 /** postFlow を1件実行するだけのみくじ箱を作る(events の omikujiKey 用に key を返す) */
 export const buildSimpleMikuji = (name: string, postFlows: PostFlowInput) => {
@@ -11,7 +11,7 @@ export const buildSimpleMikuji = (name: string, postFlows: PostFlowInput) => {
   const mikuji = {
     key,
     name,
-    omikuji: [OmikujiItemSchema.parse({ name, kind: 'postFlow', postFlows })],
+    omikuji: [OmikujiItemSchema.parse({ name, kind: 'steps', postFlows })],
   } satisfies Partial<z.infer<typeof MikujiBoxSchema>>
   return { key, mikuji }
 }

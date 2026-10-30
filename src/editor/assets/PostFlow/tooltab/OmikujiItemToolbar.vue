@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { PostFlowType, PostFlowArraySchema } from '@/types/OmikujiData'
+  import { ScenarioStepType, ScenarioStepArraySchema } from '@/types/OmikujiData'
   import DelaySecondsAdjuster from './DelaySecondsAdjuster.vue'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { useTestPost } from '@/editor/helpers/useTestPost'
@@ -66,21 +66,21 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    modelValue: PostFlowType[]
+    modelValue: ScenarioStepType[]
   }>()
 
   // Emits
   const emit = defineEmits<{
-    'update:modelValue': [value: PostFlowType[]]
+    'update:modelValue': [value: ScenarioStepType[]]
     reorder: [order: number[]]
   }>()
 
   const { postTestOmikujiItem } = useTestPost()
 
   // PostFlowType[] 用クリップボード
-  const clipboard = useJsonClipboard<PostFlowType[]>({
+  const clipboard = useJsonClipboard<ScenarioStepType[]>({
     parse: (raw) => {
-      const result = PostFlowArraySchema.safeParse(raw)
+      const result = ScenarioStepArraySchema.safeParse(raw)
       return result.success ? result.data : null
     },
   })

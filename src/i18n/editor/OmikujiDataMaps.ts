@@ -155,7 +155,7 @@ export const omikujiDataMapMessages = {
           label: 'ゲームスクリプト',
           description: '予め作成されたゲームを呼び出します',
         },
-        flowCall: {
+        scenarioCall: {
           label: 'シナリオ',
           description: '登録済みのシナリオ（一連の処理プリセット）を呼び出します',
         },
@@ -443,7 +443,7 @@ export const omikujiDataMapMessages = {
           label: 'Game script',
           description: 'Calls a prebuilt game',
         },
-        flowCall: {
+        scenarioCall: {
           label: 'Action set',
           description: 'Calls a registered action set (a preset of a series of actions)',
         },

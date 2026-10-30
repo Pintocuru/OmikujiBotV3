@@ -1,5 +1,5 @@
 // src/types/generator/scripts/OmikujiResultTypes.ts
-import { PostFlowType } from '@/types/OmikujiData/'
+import { ScenarioStepType } from '@/types/OmikujiData/'
 import { BotMessageSlotsType } from './BotMessageSchema'
 
 /**
@@ -20,7 +20,7 @@ export interface VariablePlaceholderResult {
 /**
  * 処理済みのステップと解析結果をセットにした型
  */
-export interface ProcessedPostAction {
-  action: PostFlowType
+export interface ProcessedStep {
+  step: ScenarioStepType
   extra?: VariablePlaceholderExtra
 }

@@ -1,8 +1,8 @@
 <!-- src/editor/assets/actions/ActionsEditor.vue -->
 <template>
   <div class="flex justify-end gap-2">
-    <CharacterChanger category="actions" />
-    <IconKeyChanger category="actions" />
+    <CharacterChanger category="scenarios" />
+    <IconKeyChanger category="scenarios" />
   </div>
 
   <template v-if="selectedItem">
@@ -13,7 +13,7 @@
       :label="s('baseSettings')?.label"
       :description="s('baseSettings')?.description"
     >
-      <BaseSettingsEditor v-model="selectedItem" category="actions" :isIsEnabled="false" />
+      <BaseSettingsEditor v-model="selectedItem" category="scenarios" :isIsEnabled="false" />
     </SectionCard>
 
     <!-- おみくじ設定セクション -->
@@ -44,13 +44,13 @@
 
   import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
-  import { ActionSetType } from '@/types/OmikujiData'
+  import { ScenarioType } from '@/types/OmikujiData'
 
   const { t } = useI18n()
 
   // アイコン構造と i18n のテキストを結合して返すヘルパー
   const s = (key: string) => {
-    const item = categorySectionMap.actions.find((i) => i.section === key)
+    const item = categorySectionMap.scenarios.find((i) => i.section === key)
     if (!item) return null
     return {
       ...item,
@@ -70,19 +70,19 @@
   const selectedItem = computed({
     get: () => {
       if (!selectedItemKey.value) return null
-      return getAsset('actions', selectedItemKey.value)
+      return getAsset('scenarios', selectedItemKey.value)
     },
-    set: (value: ActionSetType) => {
-      updateAsset('actions', value.key, value)
+    set: (value: ScenarioType) => {
+      updateAsset('scenarios', value.key, value)
     },
   })
 
   const postFlows = computed({
-    get: () => selectedItem.value?.postFlows || [],
+    get: () => selectedItem.value?.steps || [],
     set: (newActions) => {
       if (!selectedItem.value) return
-      updateAsset('actions', selectedItem.value.key, {
-        postFlows: [...newActions],
+      updateAsset('scenarios', selectedItem.value.key, {
+        steps: [...newActions],
       })
     },
   })

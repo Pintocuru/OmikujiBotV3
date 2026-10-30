@@ -40,7 +40,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { isGameScriptKey, type GameScriptKey, type PostFlowGameType } from '@/types/OmikujiData'
+  import { isGameScriptKey, type GameScriptKey, type ScenarioStepGameType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
   import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
@@ -50,14 +50,14 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: PostFlowGameType
+    action: ScenarioStepGameType
   }>()
 
   const emit = defineEmits<{
-    'update:action': [action: PostFlowGameType]
+    'update:action': [action: ScenarioStepGameType]
   }>()
 
-  const updateAction = (updates: Partial<PostFlowGameType>) => {
+  const updateAction = (updates: Partial<ScenarioStepGameType>) => {
     emit('update:action', { ...props.action, ...updates })
   }
 
@@ -68,10 +68,10 @@
     set: (value) => updateAction({ scriptId: value }),
   })
 
-  function createActionComputed<K extends keyof PostFlowGameType>(key: K) {
+  function createActionComputed<K extends keyof ScenarioStepGameType>(key: K) {
     return computed({
       get: () => props.action[key],
-      set: (value: PostFlowGameType[K]) => updateAction({ [key]: value } as Partial<PostFlowGameType>),
+      set: (value: ScenarioStepGameType[K]) => updateAction({ [key]: value } as Partial<ScenarioStepGameType>),
     })
   }
   const characterKey = createActionComputed('characterKey')

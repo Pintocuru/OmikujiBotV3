@@ -7,7 +7,7 @@ import {
   VariablePlaceholderExtra,
   getUiMessageSpec,
 } from '@/types/generator'
-import { PostFlowMessageType } from '@/types/OmikujiData'
+import { ScenarioStepMessageType } from '@/types/OmikujiData'
 import { CharacterResolver } from '../CharacterResolver/CharacterResolver'
 import { OmikenCommentType, UserNameSchema } from '@/types/OmikenComment'
 
@@ -17,7 +17,7 @@ import { OmikenCommentType, UserNameSchema } from '@/types/OmikenComment'
  * - slots は、editor のフォームの値を、評価ブロックの slotN が上書きする
  */
 export function createBotMessagesFromAction(
-  action: PostFlowMessageType,
+  action: ScenarioStepMessageType,
   extra: VariablePlaceholderExtra | undefined,
   delaySeconds: number,
   characterResolver?: CharacterResolver,
@@ -42,7 +42,7 @@ export function createBotMessagesFromAction(
  * Bubbleメッセージを生成
  */
 function createBubbleMessage(
-  action: PostFlowMessageType,
+  action: ScenarioStepMessageType,
   message: string,
   delaySeconds: number,
   characterResolver?: CharacterResolver,

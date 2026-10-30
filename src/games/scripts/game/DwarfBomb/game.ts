@@ -1,6 +1,6 @@
 // src/games/scripts/game/DwarfBomb/game.ts
 // ! 使用しない(バックアップ用)
-import { PostFlowWordPartyType } from '@/types/OmikujiData/'
+import { ScenarioStepWordPartyType } from '@/types/OmikujiData/'
 import { RewardType, Dwarf, GameResult, GAME_CONFIG } from './game/gameConfigs'
 
 export class DwarfBomb {
@@ -57,9 +57,9 @@ export class DwarfBomb {
   /**
    * ゲーム結果に基づいて演出効果を生成する
    */
-  generatePartyEffects(gameResult: GameResult): PostFlowWordPartyType[] {
+  generatePartyEffects(gameResult: GameResult): ScenarioStepWordPartyType[] {
     const { items, day } = gameResult
-    const effects: PostFlowWordPartyType[] = []
+    const effects: ScenarioStepWordPartyType[] = []
 
     // 共通 push 用ヘルパー
     const addEffect = (wordParty: string, times = 1) => {

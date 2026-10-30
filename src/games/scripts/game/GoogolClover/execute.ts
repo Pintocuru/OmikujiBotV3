@@ -30,7 +30,7 @@ export class ExecuteScript implements ScriptClass {
     })
 
     return {
-      actions: postActions,
+      steps: postActions,
       rankingMessages: [gameResult.rankingMessage],
     }
   }

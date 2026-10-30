@@ -1,6 +1,6 @@
 // src/editor/helpers/CharacterChanger/composables/useDataExtractor.ts
 import { computed, toValue, type MaybeRefOrGetter } from 'vue'
-import { EventCategoryType, ActionSetType, MikujiBoxType } from '@/types/OmikujiData/'
+import { EventCategoryType, ScenarioType, MikujiBoxType } from '@/types/OmikujiData/'
 import i18n from '@/editor/i18n'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
@@ -10,7 +10,7 @@ import { useGetEventData } from '@/editor/stores/useGetEventData'
  */
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 
-export type TargetCategoryType = EventCategoryType | 'mikuji' | 'actions'
+export type TargetCategoryType = EventCategoryType | 'mikuji' | 'scenarios'
 
 /**
  * 変更スコープタイプ
@@ -18,10 +18,10 @@ export type TargetCategoryType = EventCategoryType | 'mikuji' | 'actions'
 export type ChangeScope = 'category' | 'single'
 
 /**
- * PostFlow を持つアセット（更新先の単位）
+ * ???
  */
 export type FlowTarget =
-  { category: 'actions'; item: ActionSetType } | { category: 'mikuji'; item: MikujiBoxType; itemId?: string }
+  { category: 'scenarios'; item: ScenarioType } | { category: 'mikuji'; item: MikujiBoxType; itemId?: string }
 
 /**
  * 対象のアセット（シナリオ / みくじ箱）を抽出
@@ -47,9 +47,9 @@ export function useDataExtractor(
   })
 
   const allTargets = computed<FlowTarget[]>(() => {
-    if (category === 'actions') {
-      const items = selectedId.value ? [getAsset('actions', selectedId.value)] : Object.values(getAssets('actions'))
-      return items.filter((item): item is ActionSetType => !!item).map((item) => ({ category: 'actions', item }))
+    if (category === 'scenarios') {
+      const items = selectedId.value ? [getAsset('scenarios', selectedId.value)] : Object.values(getAssets('scenarios'))
+      return items.filter((item): item is ScenarioType => !!item).map((item) => ({ category: 'scenarios', item }))
     }
 
     if (category === 'mikuji') {

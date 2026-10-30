@@ -1,6 +1,6 @@
 // src/games/scripts/game/MultiplyBonanza/wordPartySelector.ts
 import { GameResult } from './gameConfig'
-import { PostFlowWordPartyType } from '@/types/OmikujiData'
+import { ScenarioStepWordPartyType } from '@/types/OmikujiData'
 
 /**
  * WordParty演出の設定
@@ -47,8 +47,8 @@ export class WordPartySelector {
   /**
    * ゲーム結果に基づいてWordPartyを選択
    */
-  selectWordParties(result: GameResult): PostFlowWordPartyType[] {
-    const parties: PostFlowWordPartyType[] = []
+  selectWordParties(result: GameResult): ScenarioStepWordPartyType[] {
+    const parties: ScenarioStepWordPartyType[] = []
     const { payout } = result
     const { THRESHOLDS } = WORD_PARTY_CONFIG
 
@@ -73,7 +73,7 @@ export class WordPartySelector {
   /**
    * 小当たり時のエフェクト (50-99枚)
    */
-  private addSmallWinEffects(parties: PostFlowWordPartyType[], payout: number): void {
+  private addSmallWinEffects(parties: ScenarioStepWordPartyType[], payout: number): void {
     const { PROBABILITY_FACTORS, DELAY_SECONDS } = WORD_PARTY_CONFIG
     const fujinProbability = Math.min(Math.max(payout / PROBABILITY_FACTORS.SMALL_FUJIN, 0), 1)
 
@@ -90,7 +90,7 @@ export class WordPartySelector {
   /**
    * 中当たり時のエフェクト (100-999枚)
    */
-  private addMediumWinEffects(parties: PostFlowWordPartyType[], result: GameResult): void {
+  private addMediumWinEffects(parties: ScenarioStepWordPartyType[], result: GameResult): void {
     const { PROBABILITY_FACTORS, DELAY_SECONDS, SYMBOL_THRESHOLDS } = WORD_PARTY_CONFIG
 
     // シンボル数に応じたCracker演出
@@ -128,7 +128,7 @@ export class WordPartySelector {
   /**
    * 大当たり時のエフェクト (1000-9999枚)
    */
-  private addLargeWinEffects(parties: PostFlowWordPartyType[], result: GameResult): void {
+  private addLargeWinEffects(parties: ScenarioStepWordPartyType[], result: GameResult): void {
     const { PROBABILITY_FACTORS, DELAY_SECONDS, SYMBOL_THRESHOLDS } = WORD_PARTY_CONFIG
 
     // シンボル数に応じたCracker演出
@@ -174,7 +174,7 @@ export class WordPartySelector {
   /**
    * MAX WIN時のエフェクト (10000枚以上)
    */
-  private addMaxWinEffects(parties: PostFlowWordPartyType[]): void {
+  private addMaxWinEffects(parties: ScenarioStepWordPartyType[]): void {
     const { DELAY_SECONDS } = WORD_PARTY_CONFIG
 
     // 全ての演出を表示

@@ -1,5 +1,5 @@
 // src/games/scripts/game/DwarfBomb/execute.ts
-import { PostFlowMessageSchema, PostFlowType } from '@/types/OmikujiData'
+import { ScenarioStepMessageSchema, ScenarioStepType } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { ScriptClass, ScriptResult } from '@/games/types'
 
@@ -28,7 +28,7 @@ export class ExecuteScript implements ScriptClass {
       : []
 
     return {
-      actions: this.buildPostActions(partyEffects, characterKey, result.message),
+      steps: this.buildPostActions(partyEffects, characterKey, result.message),
       rankingMessages,
     }
   }
@@ -44,11 +44,11 @@ export class ExecuteScript implements ScriptClass {
   }
 
   private buildPostActions(
-    partyEffects: PostFlowType[],
+    partyEffects: ScenarioStepType[],
     characterKey: string | null,
     bubbleText: string
-  ): PostFlowType[] {
-    const messageAction = PostFlowMessageSchema.parse({
+  ): ScenarioStepType[] {
+    const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,
       message: bubbleText,

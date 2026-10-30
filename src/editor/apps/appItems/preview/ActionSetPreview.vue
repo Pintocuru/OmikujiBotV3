@@ -27,7 +27,7 @@
 
       <!-- 各 kind 別のサマリー -->
       <!-- message / variable: message 本文 -->
-      <span v-if="hasPostFlowMessage(flow) && flow.message" class="truncate flex-1 opacity-80">
+      <span v-if="hasScenarioStepMessage(flow) && flow.message" class="truncate flex-1 opacity-80">
         {{ flow.message }}
       </span>
 
@@ -49,8 +49,8 @@
         {{ flow.wordPartyId }}
       </span>
 
-      <!-- flowCall: 呼び出しキー数または内容 -->
-      <span v-if="flow.kind === 'flowCall' && flow.callKeys?.length" class="opacity-70 truncate flex-1 text-xs">
+      <!-- scenarioCall: 呼び出しキー数または内容 -->
+      <span v-if="flow.kind === 'scenarioCall' && flow.callKeys?.length" class="opacity-70 truncate flex-1 text-xs">
         {{ formatCallKeys(flow.callKeys) }}
       </span>
 
@@ -61,7 +61,9 @@
     </div>
 
     <!-- 省略表示 -->
-    <div v-if="postFlows.length > 4" class="text-xs opacity-40 text-right">{{ t('appPreview.more', { n: postFlows.length - 4 }) }}</div>
+    <div v-if="postFlows.length > 4" class="text-xs opacity-40 text-right">
+      {{ t('appPreview.more', { n: postFlows.length - 4 }) }}
+    </div>
   </div>
 </template>
 
@@ -69,43 +71,43 @@
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { Zap } from 'lucide-vue-next'
-  import { ActionSetType, PostFlowKind, PostFlowType, hasPostFlowMessage } from '@/types/OmikujiData'
+  import { ScenarioType, ScenarioStepKind, ScenarioStepType, hasScenarioStepMessage } from '@/types/OmikujiData'
 
   const { t } = useI18n()
 
   const props = defineProps<{
-    data: Partial<ActionSetType> | null
+    data: Partial<ScenarioType> | null
   }>()
 
-  const postFlows = computed<PostFlowType[]>(() => props.data?.postFlows ?? [])
+  const postFlows = computed<ScenarioStepType[]>(() => props.data?.steps ?? [])
 
-  function flowKindLabel(kind: PostFlowKind): string {
-    const shortLabels: Partial<Record<PostFlowKind, string>> = {
+  function flowKindLabel(kind: ScenarioStepKind): string {
+    const shortLabels: Partial<Record<ScenarioStepKind, string>> = {
       message: 'MSG',
       sound: 'SND',
       wordParty: 'WP',
       variable: 'VAR',
       gameScript: 'GAME',
-      flowCall: 'CALL',
+      scenarioCall: 'CALL',
     }
     return shortLabels[kind] ?? t(`mapText.postFlowKind.${kind}.label`)
   }
 
-  function flowKindBadgeClass(kind: PostFlowKind): string {
-    const classMap: Record<PostFlowKind, string> = {
+  function flowKindBadgeClass(kind: ScenarioStepKind): string {
+    const classMap: Record<ScenarioStepKind, string> = {
       message: 'badge-primary',
       sound: 'badge-secondary',
       wordParty: 'badge-accent',
       variable: 'badge-warning',
       gameScript: 'badge-info',
-      flowCall: 'badge-neutral',
+      scenarioCall: 'badge-neutral',
     }
     return classMap[kind] ?? 'badge-ghost'
   }
 
   function formatCallKeys(keys: unknown[]): string {
     const first = keys[0]
-    const keyStr = typeof first === 'string' ? first : (first as { content?: string })?.content ?? ''
+    const keyStr = typeof first === 'string' ? first : ((first as { content?: string })?.content ?? '')
     return keys.length > 1 ? `${keyStr} (+${keys.length - 1})` : keyStr
   }
 </script>

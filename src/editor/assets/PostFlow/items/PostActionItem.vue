@@ -14,7 +14,7 @@
         <IconRadioGroup
           v-model="kind"
           :map="postFlowKindMap"
-          :keys="postFlowKinds"
+          :keys="scenarioStepKinds"
           :aria-label="t('postFlow.actionItem.typeLabel')"
         />
       </SettingItem>
@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { postFlowKinds, type PostFlowType } from '@/types/OmikujiData'
+  import { scenarioStepKinds, type ScenarioStepType } from '@/types/OmikujiData'
   import { postFlowKindMap } from '@/maps/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
@@ -59,12 +59,12 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: PostFlowType
-    currentKey?: string // 編集中のシナリオのキー(flowCall の循環参照チェック用)
+    action: ScenarioStepType
+    currentKey?: string // 編集中のシナリオのキー(scenarioCall の循環参照チェック用)
   }>()
 
   const emit = defineEmits<{
-    'update:action': [value: PostFlowType]
+    'update:action': [value: ScenarioStepType]
   }>()
 
   const { basicDelaySeconds, currentComponent, componentProps, delaySeconds, kind, handleActionUpdate } =

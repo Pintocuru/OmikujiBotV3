@@ -1,5 +1,5 @@
 // src/editor/helpers/CharacterChanger/composables/usePostActionCharacters.ts
-import { PostFlowType } from '@/types/OmikujiData/'
+import { ScenarioStepType } from '@/types/OmikujiData/'
 import { FlowTarget } from './useDataExtractor'
 import { useCharacterLookup } from './useCharacterLookup'
 
@@ -16,19 +16,19 @@ export function usePostActionCharacters() {
     target.category !== 'mikuji' || !target.itemId || target.itemId === omikujiId
 
   /**
-   * アセットが持つ PostFlow 配列を取得（みくじ箱は postFlow 種別のアイテムごとに1配列）
+   * アセットが持つ steps 配列を取得（みくじ箱は steps 種別のアイテムごとに1配列）
    */
-  const getFlowGroups = (target: FlowTarget): PostFlowType[][] => {
-    if (target.category === 'actions') return [target.item.postFlows]
+  const getFlowGroups = (target: FlowTarget): ScenarioStepType[][] => {
+    if (target.category === 'scenarios') return [target.item.steps]
     return target.item.omikuji.flatMap((omikuji) =>
-      omikuji.kind === 'postFlow' && isTargetItem(target, omikuji.id) ? [omikuji.postFlows] : []
+      omikuji.kind === 'steps' && isTargetItem(target, omikuji.id) ? [omikuji.steps] : []
     )
   }
 
   /**
    * PostFlow が参照しているキャラクターキー（message / gameScript）
    */
-  const getFlowCharacterKey = (flow: PostFlowType): string | null => {
+  const getFlowCharacterKey = (flow: ScenarioStepType): string | null => {
     if (flow.kind === 'message' || flow.kind === 'gameScript') return flow.characterKey?.trim() || null
     return null
   }
@@ -36,7 +36,7 @@ export function usePostActionCharacters() {
   /**
    * 使用されているキャラクターキーを抽出
    */
-  const extractCharacterKeys = (flows: PostFlowType[]): string[] => {
+  const extractCharacterKeys = (flows: ScenarioStepType[]): string[] => {
     const keys = new Set<string>()
     flows.forEach((flow) => {
       const key = getFlowCharacterKey(flow)
@@ -48,7 +48,7 @@ export function usePostActionCharacters() {
   /**
    * キャラクター使用箇所数をカウント
    */
-  const countCharacterUsage = (flows: PostFlowType[]): Record<string, number> => {
+  const countCharacterUsage = (flows: ScenarioStepType[]): Record<string, number> => {
     const counts: Record<string, number> = {}
     flows.forEach((flow) => {
       const key = getFlowCharacterKey(flow)
@@ -60,7 +60,7 @@ export function usePostActionCharacters() {
   /**
    * キャラクターマッピングに基づいて PostFlow 配列を更新
    */
-  const applyCharacterMappings = (flows: PostFlowType[], mappings: Record<string, string>): PostFlowType[] => {
+  const applyCharacterMappings = (flows: ScenarioStepType[], mappings: Record<string, string>): ScenarioStepType[] => {
     return flows.map((flow) => {
       if (flow.kind !== 'message' && flow.kind !== 'gameScript') return flow
       const newKey = mappings[flow.characterKey || '']
@@ -82,7 +82,7 @@ export function usePostActionCharacters() {
   /**
    * 不正なiconKeyの { characterKey, iconKey } ペアを抽出
    */
-  const extractInvalidIconKeyPairs = (flows: PostFlowType[]): { characterKey: string; iconKey: string }[] => {
+  const extractInvalidIconKeyPairs = (flows: ScenarioStepType[]): { characterKey: string; iconKey: string }[] => {
     const seen = new Set<string>()
     const pairs: { characterKey: string; iconKey: string }[] = []
 
@@ -103,7 +103,7 @@ export function usePostActionCharacters() {
   /**
    * iconKey使用回数をカウント（キーは "characterKey:iconKey" の複合形式）
    */
-  const countIconKeyUsage = (flows: PostFlowType[]): Record<string, number> => {
+  const countIconKeyUsage = (flows: ScenarioStepType[]): Record<string, number> => {
     const counts: Record<string, number> = {}
 
     flows.forEach((flow) => {
@@ -118,7 +118,7 @@ export function usePostActionCharacters() {
   /**
    * iconKeyマッピングを適用（mappingsのキーは "characterKey:iconKey" 複合形式）
    */
-  const applyIconKeyMappings = (flows: PostFlowType[], mappings: Record<string, string>): PostFlowType[] => {
+  const applyIconKeyMappings = (flows: ScenarioStepType[], mappings: Record<string, string>): ScenarioStepType[] => {
     return flows.map((flow) => {
       if (flow.kind !== 'message' || !flow.characterKey) return flow
       const newIconKey = mappings[`${flow.characterKey}:${flow.iconKey}`]

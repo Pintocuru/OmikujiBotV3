@@ -11,7 +11,7 @@ import { getPostServiceId, resetPostServiceId } from '@/sdk/service/getPostServi
 import { clampUserCount, DEFAULT_THEME, isCommentThemeKey } from './params'
 
 // BOT 機能: 返り値は常に空
-const EMPTY_RESULT: ScriptResult = { actions: [], rankingMessages: [] }
+const EMPTY_RESULT: ScriptResult = { steps: [], rankingMessages: [] }
 
 // 頻繁に呼ばれるため、ユーザープールは人数が同じ間は使い回す
 let poolCache: { size: number; pool: MockUserPool } | null = null

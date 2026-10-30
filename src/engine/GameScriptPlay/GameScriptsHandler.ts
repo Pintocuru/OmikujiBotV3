@@ -1,6 +1,6 @@
 // src/engine/GameScriptPlay/GameScriptsHandler.ts
 import { OmikenCommentType } from '@/types/OmikenComment'
-import { PostFlowGameType } from '@/types/OmikujiData/'
+import { ScenarioStepGameType } from '@/types/OmikujiData/'
 
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 import { BotMessageType, fromRankingEntry } from '@/types/generator'
@@ -16,7 +16,7 @@ export class GameScriptsHandler {
    * gameScripts処理
    */
   async process(
-    actionItem: PostFlowGameType,
+    actionItem: ScenarioStepGameType,
     omiken?: OmikenCommentType,
     isOnecommePost?: boolean
   ): Promise<BotMessageType[]> {
@@ -24,12 +24,15 @@ export class GameScriptsHandler {
     const scriptResult = await this.playScript(actionItem, omiken)
     if (!scriptResult) return []
 
-    const { actions, rankingMessages: scriptMessages } = scriptResult
+    const { steps: actions, rankingMessages: scriptMessages } = scriptResult
 
     // 2. 評価ブロックを処理
     const processedActions = this.generator.processVariables(actions)
 
     // 3. わんコメへ投稿 & BotMessage を生成
-    return [...scriptMessages.map(fromRankingEntry), ...this.generator.postAndGenerate(processedActions, omiken, isOnecommePost)]
+    return [
+      ...scriptMessages.map(fromRankingEntry),
+      ...this.generator.postAndGenerate(processedActions, omiken, isOnecommePost),
+    ]
   }
 }

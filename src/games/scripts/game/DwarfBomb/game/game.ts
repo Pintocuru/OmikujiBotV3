@@ -1,5 +1,5 @@
 // src/games/scripts/game/DwarfBomb/game/game.ts
-import { PostFlowWordPartyType } from '@/types/OmikujiData/'
+import { ScenarioStepWordPartyType } from '@/types/OmikujiData/'
 import { GameResult, GAME_CONFIG, RewardType } from './gameConfigs'
 import { createDwarfs, getTotalGold, createMessage } from './dwarfUtils'
 import { selectReward, applyReward } from './rewards'
@@ -49,9 +49,9 @@ export function playGame(userName: string, mode: string = ''): GameResult {
 
 // ---- WordParty 演出生成 ----
 
-export function generatePartyEffects(gameResult: GameResult): PostFlowWordPartyType[] {
+export function generatePartyEffects(gameResult: GameResult): ScenarioStepWordPartyType[] {
   const { items, day } = gameResult
-  const effects: PostFlowWordPartyType[] = []
+  const effects: ScenarioStepWordPartyType[] = []
 
   const addEffect = (wordParty: string, times: number) => {
     for (let i = 0; i < times; i++) {

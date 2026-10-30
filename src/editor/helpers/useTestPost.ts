@@ -6,7 +6,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
-import { EventType, OmikujiItemType, PostFlowType } from '@/types/OmikujiData'
+import { EventType, OmikujiItemType, ScenarioStepType } from '@/types/OmikujiData'
 import { defaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { addWeightPercentages, drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
@@ -53,7 +53,7 @@ export function useTestPost() {
     })
   }
 
-  const postTestOmikujiItem = async (postFlows: PostFlowType[], omikujiItem?: OmikujiItemType) => {
+  const postTestOmikujiItem = async (postFlows: ScenarioStepType[], omikujiItem?: OmikujiItemType) => {
     const resultProcessor = new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable)
     const botMessages = (
       await Promise.all(
@@ -86,13 +86,13 @@ export function useTestPost() {
       return
     }
 
-    if (omikujiItem.kind !== 'postFlow') {
+    if (omikujiItem.kind !== 'steps') {
       // return/continue/reset/log は投稿するBOTアクションを持たないため、結果だけ通知する
       showOmikujiResultToast(omikujiItem)
       return
     }
 
-    postTestOmikujiItem(omikujiItem.postFlows, omikujiItem)
+    postTestOmikujiItem(omikujiItem.steps, omikujiItem)
   }
 
   return {

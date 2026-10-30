@@ -22,7 +22,7 @@ const assetKey = (
  */
 export const updateStrategies: Record<AssetCategoryType, KeyUpdateStrategy> = {
   mikuji: assetKey('mikuji', updateMikujiReferences),
-  actions: assetKey('actions', updateActionSetReferences),
+  scenarios: assetKey('scenarios', updateActionSetReferences),
   placeholders: assetKey('placeholders', updatePlaceholderReferences),
   characters: assetKey('characters', updateCharacterReferences),
 }

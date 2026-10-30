@@ -2,15 +2,15 @@
 import type {
   OmikujiDataType,
   JsonMergeRemapType,
-  PostFlowType,
-  PostFlowMessageType,
-  PostFlowGameType,
+  ScenarioStepType,
+  ScenarioStepMessageType,
+  ScenarioStepGameType,
 } from '@/types/OmikujiData/'
 
 /**
  * message の characterKey / iconKey にリマップルールを適用
  */
-function remapMessage(flow: PostFlowMessageType, remaps: JsonMergeRemapType[]): PostFlowMessageType {
+function remapMessage(flow: ScenarioStepMessageType, remaps: JsonMergeRemapType[]): ScenarioStepMessageType {
   let remapped = flow
 
   for (const remap of remaps) {
@@ -32,7 +32,7 @@ function remapMessage(flow: PostFlowMessageType, remaps: JsonMergeRemapType[]): 
 /**
  * gameScript の characterKey にリマップルールを適用
  */
-function remapGameScript(flow: PostFlowGameType, remaps: JsonMergeRemapType[]): PostFlowGameType {
+function remapGameScript(flow: ScenarioStepGameType, remaps: JsonMergeRemapType[]): ScenarioStepGameType {
   // characterKeyが空の場合は早期return
   if (!flow.characterKey) return flow
 
@@ -48,7 +48,7 @@ function remapGameScript(flow: PostFlowGameType, remaps: JsonMergeRemapType[]): 
 /**
  * PostFlow の配列に対してリマップルールを適用
  */
-function remapPostFlows(postFlows: PostFlowType[], remaps: JsonMergeRemapType[]): PostFlowType[] {
+function remapPostFlows(postFlows: ScenarioStepType[], remaps: JsonMergeRemapType[]): ScenarioStepType[] {
   return postFlows.map((flow) => {
     if (flow.kind === 'message') return remapMessage(flow, remaps)
     if (flow.kind === 'gameScript') return remapGameScript(flow, remaps)
@@ -69,14 +69,14 @@ export function applyRemaps(data: OmikujiDataType, remaps: JsonMergeRemapType[])
   for (const box of Object.values(clonedData.assets.mikuji)) {
     for (const item of box.omikuji) {
       if ('postFlows' in item) {
-        item.postFlows = remapPostFlows(item.postFlows, remaps)
+        item.steps = remapPostFlows(item.steps, remaps)
       }
     }
   }
 
   // actions
-  for (const actionSet of Object.values(clonedData.assets.actions)) {
-    actionSet.postFlows = remapPostFlows(actionSet.postFlows, remaps)
+  for (const actionSet of Object.values(clonedData.assets.scenarios)) {
+    actionSet.steps = remapPostFlows(actionSet.steps, remaps)
   }
 
   return clonedData

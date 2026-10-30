@@ -1,5 +1,5 @@
 // src/games/scripts/tool/FortuneRanking/execute.ts
-import { PostFlowMessageSchema } from '@/types/OmikujiData'
+import { ScenarioStepMessageSchema } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { ScriptClass, ScriptResult } from '@/games/types'
 
@@ -24,7 +24,7 @@ export class ExecuteScript implements ScriptClass {
       })
       .join('')
 
-    const messageAction = PostFlowMessageSchema.parse({
+    const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 0,
       characterKey,
       message: placeholders + '占いランキングを作成したよ',
@@ -32,7 +32,7 @@ export class ExecuteScript implements ScriptClass {
     })
 
     return {
-      actions: [messageAction],
+      steps: [messageAction],
       rankingMessages: [],
     }
   }

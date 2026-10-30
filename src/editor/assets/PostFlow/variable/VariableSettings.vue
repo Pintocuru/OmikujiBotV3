@@ -8,22 +8,22 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { PostFlowVariableType } from '@/types/OmikujiData'
+  import { ScenarioStepVariableType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import MessageTextDialog from '../Message/MessageTextDialog.vue'
 
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: PostFlowVariableType
+    action: ScenarioStepVariableType
   }>()
 
   const emit = defineEmits<{
-    'update:action': [action: PostFlowVariableType]
+    'update:action': [action: ScenarioStepVariableType]
   }>()
 
   // --- Helper Functions ---
-  const updateAction = (updates: Partial<PostFlowVariableType>) => {
+  const updateAction = (updates: Partial<ScenarioStepVariableType>) => {
     emit('update:action', { ...props.action, ...updates })
   }
 

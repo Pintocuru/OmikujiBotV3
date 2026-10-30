@@ -6,7 +6,7 @@ import { OmikujiControlCommand, OmikujiItemKind } from '@/types/OmikujiData'
  * omikujiItemKinds カテゴリのUI表示情報
  */
 export const omikujiItemKindMap: Record<OmikujiItemKind, DisplayMetaLucide> = {
-  postFlow: {
+  steps: {
     label: 'シナリオ',
     description: '下記の内容をわんコメやジェネレーターで表示します',
     icon: 'Bot',

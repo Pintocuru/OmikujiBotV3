@@ -1,12 +1,12 @@
 // src/editor/assets/PostFlow/items/usePostActionItem.ts
 import { computed, ref } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import type { PostFlowKind, PostFlowType } from '@/types/OmikujiData'
+import type { ScenarioStepKind, ScenarioStepType } from '@/types/OmikujiData'
 import { createDefaultAction } from './createDefaultAction'
 import { actionSchemaMap, settingsComponentMap } from './postActionKinds'
 
-type Props = { action: PostFlowType; currentKey?: string }
-type Emit = (event: 'update:action', value: PostFlowType) => void
+type Props = { action: ScenarioStepType; currentKey?: string }
+type Emit = (event: 'update:action', value: ScenarioStepType) => void
 
 export const usePostActionItem = (props: Props, emit: Emit) => {
   const omikujiStore = useOmikujiStore()
@@ -15,9 +15,9 @@ export const usePostActionItem = (props: Props, emit: Emit) => {
   // 現在表示する設定コンポーネント
   const currentComponent = computed(() => settingsComponentMap[props.action.kind])
 
-  // 動的コンポーネントへ渡す props (currentKey は flowCall だけが受け取る)
+  // 動的コンポーネントへ渡す props (currentKey は scenarioCall だけが受け取る)
   const componentProps = computed(() =>
-    props.action.kind === 'flowCall'
+    props.action.kind === 'scenarioCall'
       ? { action: props.action as any, currentKey: props.currentKey }
       : { action: props.action as any }
   )
@@ -28,9 +28,9 @@ export const usePostActionItem = (props: Props, emit: Emit) => {
   })
 
   // kind 別の生データキャッシュ (切り替えても入力内容を失わない)
-  const rawActionCache = ref<Partial<Record<PostFlowKind, PostFlowType>>>({})
+  const rawActionCache = ref<Partial<Record<ScenarioStepKind, ScenarioStepType>>>({})
 
-  const updateActionType = (newKind: PostFlowKind) => {
+  const updateActionType = (newKind: ScenarioStepKind) => {
     const current = props.action
     if (current.kind === newKind) return
 
@@ -45,12 +45,12 @@ export const usePostActionItem = (props: Props, emit: Emit) => {
   }
 
   // IconRadioGroup の v-model 用
-  const kind = computed<PostFlowKind>({
+  const kind = computed<ScenarioStepKind>({
     get: () => props.action.kind,
     set: updateActionType,
   })
 
-  const handleActionUpdate = (updated: PostFlowType) => emit('update:action', updated)
+  const handleActionUpdate = (updated: ScenarioStepType) => emit('update:action', updated)
 
   return { basicDelaySeconds, currentComponent, componentProps, delaySeconds, kind, handleActionUpdate }
 }

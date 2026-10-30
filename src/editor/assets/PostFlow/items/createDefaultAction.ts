@@ -1,7 +1,7 @@
 // src/editor/assets/PostFlow/items/createDefaultAction.ts
-import type { PostFlowKind, PostFlowType } from '@/types/OmikujiData'
+import type { ScenarioStepKind, ScenarioStepType } from '@/types/OmikujiData'
 
-export const createDefaultAction = (kind: PostFlowKind, delaySeconds: number): PostFlowType => {
+export const createDefaultAction = (kind: ScenarioStepKind, delaySeconds: number): ScenarioStepType => {
   switch (kind) {
     case 'message':
       return {
@@ -14,13 +14,16 @@ export const createDefaultAction = (kind: PostFlowKind, delaySeconds: number): P
         sound: '',
         soundPath: '',
         message: '',
-      } satisfies Extract<PostFlowType, { kind: 'message' }>
+      } satisfies Extract<ScenarioStepType, { kind: 'message' }>
     case 'sound':
-      return { kind, delaySeconds, sound: '', soundPath: '' } satisfies Extract<PostFlowType, { kind: 'sound' }>
+      return { kind, delaySeconds, sound: '', soundPath: '' } satisfies Extract<ScenarioStepType, { kind: 'sound' }>
     case 'wordParty':
-      return { kind, delaySeconds, wordPartyId: '', repeat: 1 } satisfies Extract<PostFlowType, { kind: 'wordParty' }>
+      return { kind, delaySeconds, wordPartyId: '', repeat: 1 } satisfies Extract<
+        ScenarioStepType,
+        { kind: 'wordParty' }
+      >
     case 'variable':
-      return { kind, delaySeconds, message: '' } satisfies Extract<PostFlowType, { kind: 'variable' }>
+      return { kind, delaySeconds, message: '' } satisfies Extract<ScenarioStepType, { kind: 'variable' }>
     case 'gameScript':
       return {
         kind,
@@ -28,8 +31,8 @@ export const createDefaultAction = (kind: PostFlowKind, delaySeconds: number): P
         scriptId: '',
         characterKey: '',
         queryString: '',
-      } satisfies Extract<PostFlowType, { kind: 'gameScript' }>
-    case 'flowCall':
-      return { kind, delaySeconds, callKeys: [] } satisfies Extract<PostFlowType, { kind: 'flowCall' }>
+      } satisfies Extract<ScenarioStepType, { kind: 'gameScript' }>
+    case 'scenarioCall':
+      return { kind, delaySeconds, callKeys: [] } satisfies Extract<ScenarioStepType, { kind: 'scenarioCall' }>
   }
 }

@@ -1,5 +1,5 @@
 // src/ui/GameRanking/scripts/services/MessageService.ts
-import { PostFlowMessageSchema, PostFlowMessageType } from '@/types/OmikujiData'
+import { ScenarioStepMessageSchema, ScenarioStepMessageType } from '@/types/OmikujiData'
 
 /**
  * メッセージ作成に必要な最小限のパラメータ
@@ -19,11 +19,11 @@ export const createPostActions = (
   score: number,
   isOverLimit: boolean,
   rank?: number
-): PostFlowMessageType[] => {
+): ScenarioStepMessageType[] => {
   const { user, characterKey } = params
 
   return [
-    PostFlowMessageSchema.parse({
+    ScenarioStepMessageSchema.parse({
       delaySeconds: 8,
       characterKey,
       message: rank

@@ -1,5 +1,5 @@
 // src/editor/presets/assetPresets.ts
-import { PostFlowArraySchema } from '@/types/OmikujiData/'
+import { ScenarioStepArraySchema } from '@/types/OmikujiData/'
 import { buildFortune, buildWeightedMikuji, message } from './helpers'
 import type { PresetDefinition } from './types'
 
@@ -50,16 +50,16 @@ const coinToss: PresetDefinition<'mikuji'> = {
 
 export const mikujiPresets = [omikuji5, fortune, coinToss]
 
-/** actions */
-const thanks: PresetDefinition<'actions'> = {
+/** scenarios */
+const thanks: PresetDefinition<'scenarios'> = {
   id: 'thanks',
-  category: 'actions',
+  category: 'scenarios',
   build: () => ({
     assets: {
-      actions: [
+      scenarios: [
         {
           name: 'お礼',
-          postFlows: PostFlowArraySchema.parse([
+          steps: ScenarioStepArraySchema.parse([
             message('<<user>> さん、ありがとうございます！'),
             { ...message('また来てくださいね'), delaySeconds: 2 },
           ]),
@@ -69,13 +69,13 @@ const thanks: PresetDefinition<'actions'> = {
   }),
 }
 
-const cheer: PresetDefinition<'actions'> = {
+const cheer: PresetDefinition<'scenarios'> = {
   id: 'cheer',
-  category: 'actions',
+  category: 'scenarios',
   build: () => ({
     assets: {
-      actions: [
-        { name: '応援', postFlows: PostFlowArraySchema.parse([message('みんなで盛り上がっていきましょう！')]) },
+      scenarios: [
+        { name: '応援', steps: ScenarioStepArraySchema.parse([message('みんなで盛り上がっていきましょう！')]) },
       ],
     },
   }),

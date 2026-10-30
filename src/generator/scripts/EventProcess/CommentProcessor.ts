@@ -68,7 +68,7 @@ export class EventCommentProcessor {
     }
 
     // 通常ステップ (postFlow のみ到達)
-    if (selectedItem.kind !== 'postFlow') return []
+    if (selectedItem.kind !== 'steps') return []
     const omikujiProcessor = new OmikujiProcessor()
     return omikujiProcessor.executeActionItem(event.key, selectedItem, 'comments', omiken)
   }

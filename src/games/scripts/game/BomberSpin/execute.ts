@@ -1,5 +1,5 @@
 // src/games/scripts/game/BomberSpin/execute.ts
-import { PostFlowMessageSchema, PostFlowType } from '@/types/OmikujiData'
+import { ScenarioStepMessageSchema, ScenarioStepType } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { ScriptClass, ScriptResult } from '@/games/types'
 
@@ -29,7 +29,7 @@ export class ExecuteScript implements ScriptClass {
       : []
 
     return {
-      actions: this.buildPostActions(gameResult, characterKey),
+      steps: this.buildPostActions(gameResult, characterKey),
       rankingMessages,
     }
   }
@@ -57,8 +57,8 @@ export class ExecuteScript implements ScriptClass {
   /**
    * ステップ の構築
    */
-  private buildPostActions(gameResult: ReturnType<typeof playGame>, characterKey: string | null): PostFlowType[] {
-    const messageAction = PostFlowMessageSchema.parse({
+  private buildPostActions(gameResult: ReturnType<typeof playGame>, characterKey: string | null): ScenarioStepType[] {
+    const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,
       message: gameResult.message,

@@ -1,5 +1,5 @@
 // src/games/scripts/game/GouseiSuika/game.ts
-import { PostFlowWordPartyType } from '@/types/OmikujiData'
+import { ScenarioStepWordPartyType } from '@/types/OmikujiData'
 import { GAME_CONFIGS, GAME_CONSTANTS, GameConfigDetails, GameConfigItem, GameResult } from './gameConfigs'
 import { GameParams } from './params'
 
@@ -8,7 +8,7 @@ import { GameParams } from './params'
  */
 export class GachaGame {
   private totalPoints = 0
-  private postArray: PostFlowWordPartyType[] = []
+  private postArray: ScenarioStepWordPartyType[] = []
   private readonly gameConfig: GameConfigDetails
 
   constructor(private readonly params: GameParams) {

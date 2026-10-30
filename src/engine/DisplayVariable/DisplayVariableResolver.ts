@@ -1,5 +1,5 @@
 // src/engine/DisplayVariable/DisplayVariableResolver.ts
-import { hasPostFlowMessage, PostFlowType } from '@/types/OmikujiData'
+import { hasScenarioStepMessage, ScenarioStepType } from '@/types/OmikujiData'
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 
 export class DisplayVariableResolver {
@@ -8,7 +8,7 @@ export class DisplayVariableResolver {
   /**
    * PostAction配列のプレースホルダーを置換して返す
    */
-  processPostActions(postActions: PostFlowType[]): PostFlowType[] {
+  processPostActions(postActions: ScenarioStepType[]): ScenarioStepType[] {
     return postActions.map((action) => {
       if (action.kind === 'message') {
         return {
@@ -25,7 +25,7 @@ export class DisplayVariableResolver {
       if (action.kind === 'gameScript') {
         return { ...action, queryString: this.resolve(action.queryString) }
       }
-      if (hasPostFlowMessage(action)) {
+      if (hasScenarioStepMessage(action)) {
         return {
           ...action,
           message: this.resolve(action.message),

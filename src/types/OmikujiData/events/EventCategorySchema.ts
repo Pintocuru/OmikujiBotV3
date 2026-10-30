@@ -1,7 +1,13 @@
 // src/types/OmikujiData/events/EventCategorySchema.ts
 import { z } from 'zod'
 import { normalizedArray } from '../../core/ParsedDefault'
-import { CommentEventSchema, PadEventSchema, ReactionEventSchema, ServiceEventSchema, TimerEventSchema } from './EventSchema'
+import {
+  CommentEventSchema,
+  PadEventSchema,
+  ReactionEventSchema,
+  ServiceEventSchema,
+  TimerEventSchema,
+} from './EventSchema'
 
 /**
  * eventCategory
@@ -31,6 +37,5 @@ export const EventCategorySchema = z.object({
   services: normalizedArray(ServiceEventSchema),
   reactions: normalizedArray(ReactionEventSchema),
   pads: normalizedArray(PadEventSchema),
-  // queues: normalizedArray(QueueEventSchema),
 })
 export type OmikujiDataEventType = z.infer<typeof EventCategorySchema>

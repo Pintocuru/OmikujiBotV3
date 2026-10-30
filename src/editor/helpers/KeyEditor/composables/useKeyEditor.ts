@@ -48,8 +48,8 @@ export function useKeyEditor() {
 
         const hasUsage = box.omikuji.some(
           (item) =>
-            item.kind === 'postFlow' &&
-            item.postFlows.some(
+            item.kind === 'steps' &&
+            item.steps.some(
               (flow) => (flow.kind === 'message' || flow.kind === 'gameScript') && flow.characterKey === characterKey
             )
         )

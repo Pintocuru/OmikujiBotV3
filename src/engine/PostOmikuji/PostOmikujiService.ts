@@ -4,7 +4,7 @@ import { ServiceMetaStore } from '@/generator/stores/MetaState/MetaStateService'
 import { CharacterResolver } from '@/engine/CharacterResolver/CharacterResolver'
 import { Service } from '@onecomme.com/onesdk/types/Service'
 import { ServiceAPI } from '@/sdk/service/ServiceAPI'
-import { CharacterType, OmikujiDataType, PostFlowMessageType, PostFlowType } from '@/types/OmikujiData'
+import { CharacterType, OmikujiDataType, ScenarioStepMessageType, ScenarioStepType } from '@/types/OmikujiData'
 import { executeWordParty } from '@/sdk/post/PostWordParty'
 import { postComment, postSpeech, postSystemMessage } from '@/sdk/post/PostOneComme'
 import { SendCommentSchema, SendCommentType } from '@/types/subscribe'
@@ -31,13 +31,13 @@ export class PostOmikujiService {
   /**
    * 複数の投稿ステップを並列実行
    */
-  async post(posts: PostFlowType[]): Promise<void> {
+  async post(posts: ScenarioStepType[]): Promise<void> {
     this.services = (await this.serviceAPI.getServices()) ?? []
     await Promise.all(posts.map((post) => this.processPost(post)))
   }
 
   // ディスパッチ
-  private async processPost(post: PostFlowType): Promise<void> {
+  private async processPost(post: ScenarioStepType): Promise<void> {
     // enableSecondary が false なら全部投稿
     if (post.kind === 'message') await this.processMessagePost(post)
 
@@ -52,7 +52,7 @@ export class PostOmikujiService {
   }
 
   // メッセージ投稿
-  private async processMessagePost(post: PostFlowMessageType): Promise<void> {
+  private async processMessagePost(post: ScenarioStepMessageType): Promise<void> {
     const bubble = cleanPostMessage(post.message)
     if (!bubble) return
 

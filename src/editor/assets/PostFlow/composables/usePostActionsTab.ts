@@ -1,11 +1,11 @@
 // src/editor/assets/PostFlow/composables/usePostActionsTab.ts
 import { computed, Ref, ref, watch } from 'vue'
-import { PostFlowMessageSchema, PostFlowMessageType, PostFlowType } from '@/types/OmikujiData/'
+import { ScenarioStepMessageSchema, ScenarioStepMessageType, ScenarioStepType } from '@/types/OmikujiData/'
 import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
 
 export function usePostActionsTab(
-  actions: Ref<PostFlowType[]>,
-  emit: (event: 'update:actions', actions: PostFlowType[]) => void
+  actions: Ref<ScenarioStepType[]>,
+  emit: (event: 'update:actions', actions: ScenarioStepType[]) => void
 ) {
   const { characterArray } = useCharacterLookup()
 
@@ -22,7 +22,7 @@ export function usePostActionsTab(
     }
   }
 
-  const updateCurrentAction = (updatedAction: PostFlowType) => {
+  const updateCurrentAction = (updatedAction: ScenarioStepType) => {
     if (activeTab.value < 0) return
     const newActions = [...actions.value]
     newActions[activeTab.value] = updatedAction
@@ -30,7 +30,7 @@ export function usePostActionsTab(
   }
 
   const addNewAction = () => {
-    const newAction: PostFlowMessageType = PostFlowMessageSchema.parse({
+    const newAction: ScenarioStepMessageType = ScenarioStepMessageSchema.parse({
       characterKey: characterArray.value[0]?.key ?? null,
       delaySeconds: actions.value.length > 0 ? Math.max(...actions.value.map((a) => a.delaySeconds)) + 1 : 0,
     })

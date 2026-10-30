@@ -1,11 +1,11 @@
 // src/engine/OmikujiResult/BotMessageGenerator.ts
-import { PostFlowType, OmikujiDataType, hasPostFlowMessage } from '@/types/OmikujiData/'
+import { ScenarioStepType, OmikujiDataType, hasScenarioStepMessage } from '@/types/OmikujiData/'
 import { createBotMessagesFromAction } from './BotMessageHelpers'
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { VariablePlaceholderProcessor } from '@/engine/VariablePlaceholder/VariableProcessor'
 import { PostOmikujiService } from '@/engine/PostOmikuji/PostOmikujiService'
 import { CharacterResolver } from '../CharacterResolver/CharacterResolver'
-import { BotMessageType, ProcessedPostAction } from '@/types/generator'
+import { BotMessageType, ProcessedStep } from '@/types/generator'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { playSoundDelay } from '@/common/sounds'
 
@@ -32,8 +32,8 @@ export class BotMessageGenerator {
   /**
    * 評価ブロックを処理し、解析結果を保持する型に変換
    */
-  processVariables(actions: PostFlowType[]): ProcessedPostAction[] {
-    return actions.map((action): ProcessedPostAction => {
+  processVariables(actions: ScenarioStepType[]): ProcessedStep[] {
+    return actions.map((action): ProcessedStep => {
       // message は本文と slots の両方を評価する (slots は uiKey ごとの入力欄の値)
       if (action.kind === 'message') {
         // 予約語は、message と slots の処理が終わるまで残す
@@ -42,15 +42,15 @@ export class BotMessageGenerator {
           Object.entries(action.slots).map(([key, text]) => [key, this.variableProcessor.process(text).bubble])
         )
         return {
-          action: { ...action, message: processed?.bubble ?? action.message, slots },
+          step: { ...action, message: processed?.bubble ?? action.message, slots },
           extra: processed?.extra,
         }
       }
-      if (!hasPostFlowMessage(action) || !action.message) return { action }
+      if (!hasScenarioStepMessage(action) || !action.message) return { step: action }
 
       // 変数処理の実行（ランキング抽出等）
       const { bubble, extra } = this.variableProcessor.process(action.message)
-      return { action: { ...action, message: bubble }, extra }
+      return { step: { ...action, message: bubble }, extra }
     })
   }
 
@@ -58,13 +58,13 @@ export class BotMessageGenerator {
    * わんコメへ投稿し、BotMessageを生成
    */
   postAndGenerate(
-    processedActions: ProcessedPostAction[],
+    processedActions: ProcessedStep[],
     omiken?: OmikenCommentType,
     isOnecommePost?: boolean
   ): BotMessageType[] {
     if (isOnecommePost) {
       // variable は投稿対象から除外
-      const postTargets = processedActions.map((a) => a.action).filter((action) => action.kind !== 'variable')
+      const postTargets = processedActions.map((a) => a.step).filter((action) => action.kind !== 'variable')
       this.postMessage.post(postTargets)
     }
     return this.generate(processedActions, omiken, isOnecommePost)
@@ -74,14 +74,14 @@ export class BotMessageGenerator {
    * 処理済みステップからBotMessageを生成
    */
   private generate(
-    processedActions: ProcessedPostAction[],
+    processedActions: ProcessedStep[],
     omiken?: OmikenCommentType,
     isOnecommePost?: boolean
   ): BotMessageType[] {
     const messages: BotMessageType[] = []
     const canPlaySound = this.soundEnabled && !!isOnecommePost
 
-    for (const { action, extra } of processedActions) {
+    for (const { step: action, extra } of processedActions) {
       const delaySeconds = action.delaySeconds + this.basicDelaySeconds
 
       switch (action.kind) {
@@ -108,16 +108,16 @@ export class BotMessageGenerator {
   /**
    * 評価ブロック {{ }} を計算せずに除去する（ダミー演出用）
    */
-  stripVariables(actions: PostFlowType[]): ProcessedPostAction[] {
-    return actions.map((action): ProcessedPostAction => {
-      if (action.kind !== 'message' && action.kind !== 'variable') return { action }
+  stripVariables(actions: ScenarioStepType[]): ProcessedStep[] {
+    return actions.map((action): ProcessedStep => {
+      if (action.kind !== 'message' && action.kind !== 'variable') return { step: action }
       if (action.kind === 'message') {
         const slots = Object.fromEntries(Object.entries(action.slots).map(([k, t]) => [k, t.replace(EVAL_PATTERN, '')]))
-        return { action: { ...action, message: (action.message ?? '').replace(EVAL_PATTERN, ''), slots } }
+        return { step: { ...action, message: (action.message ?? '').replace(EVAL_PATTERN, ''), slots } }
       }
-      if (!action.message) return { action }
+      if (!action.message) return { step: action }
 
-      return { action: { ...action, message: action.message.replace(EVAL_PATTERN, '') } }
+      return { step: { ...action, message: action.message.replace(EVAL_PATTERN, '') } }
     })
   }
 }

@@ -1,11 +1,11 @@
 // src/editor/helpers/KeyEditor/keyUpdateReferences.ts
-import type { PostFlowType, WeightValuesArrayType } from '@/types/OmikujiData/'
-import { eventCategory, hasPostFlowMessage } from '@/types/OmikujiData/'
+import type { ScenarioStepType, WeightValuesArrayType } from '@/types/OmikujiData/'
+import { eventCategory, hasScenarioStepMessage } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
-type PostFlowUpdater = (flow: PostFlowType) => PostFlowType
+type PostFlowUpdater = (flow: ScenarioStepType) => ScenarioStepType
 type WeightValueItem = WeightValuesArrayType[number] // string | { weight, content }
 
 const contentOf = (item: WeightValueItem): string => (typeof item === 'string' ? item : item.content)
@@ -31,9 +31,9 @@ function updateMikujiPostFlows(updateFn: PostFlowUpdater): void {
 
   Object.values(getAssets('mikuji')).forEach((box) => {
     const omikuji = mapIfChanged(box.omikuji, (item) => {
-      if (item.kind !== 'postFlow') return item
-      const postFlows = mapIfChanged(item.postFlows, updateFn)
-      return postFlows ? { ...item, postFlows } : item
+      if (item.kind !== 'steps') return item
+      const postFlows = mapIfChanged(item.steps, updateFn)
+      return postFlows ? { ...item, steps: postFlows } : item
     })
     if (omikuji) updateAsset('mikuji', box.key, { omikuji })
   })
@@ -46,9 +46,9 @@ function updateActionAssetPostFlows(updateFn: PostFlowUpdater): void {
   const { updateAsset } = useOmikujiStore()
   const { getAssets } = useGetAssetData()
 
-  Object.values(getAssets('actions')).forEach((actionSet) => {
-    const postFlows = mapIfChanged(actionSet.postFlows, updateFn)
-    if (postFlows) updateAsset('actions', actionSet.key, { postFlows })
+  Object.values(getAssets('scenarios')).forEach((actionSet) => {
+    const postFlows = mapIfChanged(actionSet.steps, updateFn)
+    if (postFlows) updateAsset('scenarios', actionSet.key, { steps: postFlows })
   })
 }
 
@@ -104,17 +104,17 @@ export function updatePlaceholderReferences(oldKey: string, newKey: string): voi
 
   // postFlows 内の参照（message を持つのは message / variable / bot）
   updateAllPostFlows((flow) => {
-    if (!hasPostFlowMessage(flow) || !flow.message.includes(oldPlaceholder)) return flow
+    if (!hasScenarioStepMessage(flow) || !flow.message.includes(oldPlaceholder)) return flow
     return { ...flow, message: replaceAll(flow.message, oldPlaceholder, newPlaceholder) }
   })
 }
 
 /**
- * actionSet（flowCall）参照の更新
+ * actionSet（scenarioCall）参照の更新
  */
 export function updateActionSetReferences(oldKey: string, newKey: string): void {
   updateAllPostFlows((flow) => {
-    if (flow.kind !== 'flowCall') return flow
+    if (flow.kind !== 'scenarioCall') return flow
 
     const callKeys = mapIfChanged(flow.callKeys, (item) =>
       contentOf(item) === oldKey ? withContent(item, newKey) : item

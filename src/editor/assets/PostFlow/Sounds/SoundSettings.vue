@@ -1,6 +1,11 @@
 <!-- src/editor/assets/PostFlow/Sounds/SoundSettings.vue -->
 <template>
-  <SettingItem icon="Volume2" layout="vertical" :label="t('postFlow.sound.label')" :description="t('postFlow.sound.desc')">
+  <SettingItem
+    icon="Volume2"
+    layout="vertical"
+    :label="t('postFlow.sound.label')"
+    :description="t('postFlow.sound.desc')"
+  >
     <!-- プリセット選択 -->
     <select v-model="sound" class="select select-bordered select-sm w-full">
       <option value="">{{ t('postFlow.common.none') }}</option>
@@ -9,7 +14,12 @@
   </SettingItem>
 
   <!-- カスタムパス -->
-  <SettingItem icon="Volume2" layout="vertical" :label="t('postFlow.sound.customLabel')" :description="t('postFlow.sound.customDesc')">
+  <SettingItem
+    icon="Volume2"
+    layout="vertical"
+    :label="t('postFlow.sound.customLabel')"
+    :description="t('postFlow.sound.customDesc')"
+  >
     <input
       v-model="soundPath"
       type="text"
@@ -22,22 +32,22 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { PostFlowMessageType, PostFlowSoundType } from '@/types/OmikujiData'
+  import { ScenarioStepMessageType, ScenarioStepSoundType } from '@/types/OmikujiData'
   import { soundMap } from '@/maps/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: PostFlowMessageType | PostFlowSoundType
+    action: ScenarioStepMessageType | ScenarioStepSoundType
   }>()
 
   const emit = defineEmits<{
-    'update:action': [action: PostFlowMessageType | PostFlowSoundType]
+    'update:action': [action: ScenarioStepMessageType | ScenarioStepSoundType]
   }>()
 
-  const updateAction = (updates: Partial<PostFlowMessageType | PostFlowSoundType>) => {
-    const updatedAction = { ...props.action, ...updates } as PostFlowMessageType | PostFlowSoundType
+  const updateAction = (updates: Partial<ScenarioStepMessageType | ScenarioStepSoundType>) => {
+    const updatedAction = { ...props.action, ...updates } as ScenarioStepMessageType | ScenarioStepSoundType
     emit('update:action', updatedAction)
   }
 

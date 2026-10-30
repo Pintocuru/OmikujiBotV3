@@ -12,7 +12,12 @@
     </SettingItem>
 
     <!-- Repeat -->
-    <SettingItem layout="vertical" icon="Repeat" :label="t('postFlow.wordParty.repeatLabel')" :description="t('postFlow.wordParty.repeatDesc')">
+    <SettingItem
+      layout="vertical"
+      icon="Repeat"
+      :label="t('postFlow.wordParty.repeatLabel')"
+      :description="t('postFlow.wordParty.repeatDesc')"
+    >
       <div class="flex items-center gap-2 flex-1">
         <select v-model="repeatMode" class="select select-bordered select-sm w-32">
           <option value="none">{{ t('postFlow.wordParty.none') }}</option>
@@ -42,21 +47,21 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { PostFlowWordPartyType } from '@/types/OmikujiData'
+  import { ScenarioStepWordPartyType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: PostFlowWordPartyType
+    action: ScenarioStepWordPartyType
   }>()
 
   const emit = defineEmits<{
-    'update:action': [action: PostFlowWordPartyType]
+    'update:action': [action: ScenarioStepWordPartyType]
   }>()
 
   // 共通のupdateAction関数
-  const updateAction = (updates: Partial<PostFlowWordPartyType>) => {
+  const updateAction = (updates: Partial<ScenarioStepWordPartyType>) => {
     emit('update:action', { ...props.action, ...updates })
   }
 

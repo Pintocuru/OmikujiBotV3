@@ -69,8 +69,9 @@ function migratePostFlow(old: unknown): Obj | null {
       return { ...base, kind: 'variable', message: messageText(f.message) }
     case 'actionSet':
     case 'flowCall':
-      // actionSet -> flowCall / actionSetKeys -> callKeys
-      return { ...base, kind: 'flowCall', callKeys: f.actionSetKeys ?? f.callKeys }
+    case 'scenarioCall':
+      // actionSet -> scenarioCall / actionSetKeys -> callKeys
+      return { ...base, kind: 'scenarioCall', callKeys: f.actionSetKeys ?? f.callKeys }
     default:
       return null // 未知の種別は捨てる（残すと postFlows 全体が catch される）
   }

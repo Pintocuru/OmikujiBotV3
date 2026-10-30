@@ -31,7 +31,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { PostFlowType } from '@/types/OmikujiData/'
+  import { ScenarioStepType } from '@/types/OmikujiData/'
   import PostActionsTabs from './tooltab/PostActionsTabs.vue'
   import OmikujiItemToolbar from '@/editor/assets/PostFlow/tooltab/OmikujiItemToolbar.vue'
   import PostActionItem from './items/PostActionItem.vue'
@@ -41,12 +41,12 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    modelValue: PostFlowType[]
-    currentKey?: string // 編集中のシナリオのキー(flowCall の循環参照チェック用) */
+    modelValue: ScenarioStepType[]
+    currentKey?: string // 編集中のシナリオのキー(scenarioCall の循環参照チェック用)
   }>()
 
   const emit = defineEmits<{
-    'update:modelValue': [value: PostFlowType[]]
+    'update:modelValue': [value: ScenarioStepType[]]
   }>()
 
   // タブロジックをコンポーザブルから取得
@@ -64,7 +64,7 @@
     (_event, actions) => emit('update:modelValue', actions)
   )
 
-  const updatePostActions = (newActions: PostFlowType[]) => {
+  const updatePostActions = (newActions: ScenarioStepType[]) => {
     emit('update:modelValue', newActions)
   }
 </script>

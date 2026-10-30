@@ -1,5 +1,5 @@
 // src/games/scripts/game/GouseiSuika/gameConfigs.ts
-import { PostFlowWordPartyType } from '@/types/OmikujiData'
+import { ScenarioStepWordPartyType } from '@/types/OmikujiData'
 
 /**
  * 型定義
@@ -22,7 +22,7 @@ export type GameConfigItem = {
 
 export interface GameResult {
   points: number
-  postArray: PostFlowWordPartyType[]
+  postArray: ScenarioStepWordPartyType[]
 }
 
 // ゲーム関連の定数

@@ -26,7 +26,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { PostFlowType } from '@/types/OmikujiData/'
+  import { ScenarioStepType } from '@/types/OmikujiData/'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { Minus, Plus } from 'lucide-vue-next'
 
@@ -34,12 +34,12 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    modelValue: PostFlowType[]
+    modelValue: ScenarioStepType[]
   }>()
 
   // Emits
   const emit = defineEmits<{
-    'update:modelValue': [value: PostFlowType[]]
+    'update:modelValue': [value: ScenarioStepType[]]
     /** ソート後の並び。order[新index] = 元のindex(選択中タブの追従用) */
     reorder: [order: number[]]
   }>()

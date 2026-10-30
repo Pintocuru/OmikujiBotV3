@@ -1,5 +1,5 @@
 // src/engine/OmikujiResult/PostActionsHandler.ts
-import { ActionSetType, OmikujiDataType, PostFlowType, PostFlowVariableType } from '@/types/OmikujiData/'
+import { ScenarioType, OmikujiDataType, ScenarioStepType, ScenarioStepVariableType } from '@/types/OmikujiData/'
 import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
@@ -8,13 +8,13 @@ import { DisplayVariableResolver } from '@/engine/DisplayVariable/DisplayVariabl
 import { ContentPlaceholder } from '@/engine/ContentPlaceholder/processor'
 import { PlaceholderContext } from '@/engine/ContentPlaceholder/context'
 import { FlowCallExpander } from '@/engine/OmikujiResult/FlowCallExpander'
-import { BotMessageType, ProcessedPostAction } from '@/types/generator'
+import { BotMessageType, ProcessedStep } from '@/types/generator'
 
 export class PostActionsHandler {
   private readonly displayResolver: DisplayVariableResolver
   private readonly placeProcess: ContentPlaceholder
   private readonly placeContext: PlaceholderContext = new PlaceholderContext()
-  private readonly actionSets: Record<string, ActionSetType>
+  private readonly actionSets: Record<string, ScenarioType>
 
   constructor(
     omikujiData: OmikujiDataType,
@@ -23,14 +23,14 @@ export class PostActionsHandler {
   ) {
     this.displayResolver = new DisplayVariableResolver(variable)
     this.placeProcess = new ContentPlaceholder(omikujiData.assets.placeholders)
-    this.actionSets = omikujiData.assets.actions
+    this.actionSets = omikujiData.assets.scenarios
   }
 
   /**
    * postActions処理
    */
   process(
-    postFlows: PostFlowType[],
+    postFlows: ScenarioStepType[],
     defaultPlaceholders: Record<string, string | number>,
     omiken?: OmikenCommentType,
     isOnecommePost?: boolean
@@ -40,7 +40,7 @@ export class PostActionsHandler {
     const resolvedActions = this.resolvePlaceholders(expandedActions, defaultPlaceholders)
 
     // 評価ブロック {{ }} の処理
-    const processedActions: ProcessedPostAction[] = isOnecommePost
+    const processedActions: ProcessedStep[] = isOnecommePost
       ? this.generator.processVariables(resolvedActions) // 本番：計算して置換
       : this.generator.stripVariables(resolvedActions) // ダミー：計算せず除去
 
@@ -52,7 +52,7 @@ export class PostActionsHandler {
    * control アイテムの variable (評価ブロック {{ }}) を評価
    */
   evaluateVariable(variable: string, defaultPlaceholders: Record<string, string | number>): void {
-    const flow: PostFlowVariableType = { kind: 'variable', delaySeconds: 0, message: variable }
+    const flow: ScenarioStepVariableType = { kind: 'variable', delaySeconds: 0, message: variable }
     const resolved = this.resolvePlaceholders([flow], defaultPlaceholders)
     this.generator.processVariables(resolved)
   }
@@ -61,9 +61,9 @@ export class PostActionsHandler {
    * 表示変数 [[key]] と <<placeholder>> を置換する
    */
   private resolvePlaceholders(
-    actions: PostFlowType[],
+    actions: ScenarioStepType[],
     defaultPlaceholders: Record<string, string | number>
-  ): PostFlowType[] {
+  ): ScenarioStepType[] {
     const displayResolved = this.displayResolver.processPostActions(actions)
 
     this.placeContext.updateValues(defaultPlaceholders)
@@ -77,7 +77,10 @@ export class PostActionsHandler {
   /**
    *  評価ブロックは通さず、[[key]] と <<placeholder>> だけ置換する (gameScript の queryString 用)
    */
-  resolveFlows(postFlows: PostFlowType[], defaultPlaceholders: Record<string, string | number>): PostFlowType[] {
+  resolveFlows(
+    postFlows: ScenarioStepType[],
+    defaultPlaceholders: Record<string, string | number>
+  ): ScenarioStepType[] {
     return this.resolvePlaceholders(postFlows, defaultPlaceholders)
   }
 }

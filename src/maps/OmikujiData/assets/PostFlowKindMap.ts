@@ -1,11 +1,11 @@
 // src/maps/OmikujiData/assets/PostFlowKindMap.ts
 import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
-import { PostFlowKind } from '@/types/OmikujiData'
+import { ScenarioStepKind } from '@/types/OmikujiData'
 
 /**
  * シナリオ種別のUI表示マップ
  */
-export const postFlowKindMap: Record<PostFlowKind, DisplayMetaLucide> = {
+export const postFlowKindMap: Record<ScenarioStepKind, DisplayMetaLucide> = {
   message: {
     label: 'メッセージ',
     description: 'わんコメやジェネレーターに送信・表示するテキストを設定します',
@@ -31,7 +31,7 @@ export const postFlowKindMap: Record<PostFlowKind, DisplayMetaLucide> = {
     description: '予め作成されたゲームを呼び出します',
     icon: 'Gamepad2',
   },
-  flowCall: {
+  scenarioCall: {
     label: 'シナリオ',
     description: '登録済みのシナリオ（一連の処理プリセット）を呼び出します',
     icon: 'MessagesSquare',

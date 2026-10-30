@@ -1,5 +1,5 @@
 // src/games/scripts/game/HugEmAll/execute.ts
-import { PostFlowMessageSchema, PostFlowType } from '@/types/OmikujiData'
+import { ScenarioStepMessageSchema, ScenarioStepType } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { ScriptClass, ScriptResult } from '@/games/types'
 
@@ -28,7 +28,7 @@ export class ExecuteScript implements ScriptClass {
       : []
 
     return {
-      actions: this.buildPostActions(characterKey, gameResult.message),
+      steps: this.buildPostActions(characterKey, gameResult.message),
       rankingMessages,
     }
   }
@@ -61,8 +61,8 @@ export class ExecuteScript implements ScriptClass {
   /**
    * ステップ の構築
    */
-  private buildPostActions(characterKey: string | null, bubbleText: string): PostFlowType[] {
-    const messageAction = PostFlowMessageSchema.parse({
+  private buildPostActions(characterKey: string | null, bubbleText: string): ScenarioStepType[] {
+    const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,
       message: bubbleText,

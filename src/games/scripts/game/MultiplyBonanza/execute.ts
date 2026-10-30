@@ -1,5 +1,5 @@
 // src/games/scripts/game/MultiplyBonanza/execute.ts
-import { PostFlowMessageSchema, PostFlowType } from '@/types/OmikujiData'
+import { ScenarioStepMessageSchema, ScenarioStepType } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { ScriptClass, ScriptResult } from '@/games/types'
 
@@ -32,7 +32,7 @@ export class ExecuteScript implements ScriptClass {
       : []
 
     return {
-      actions: this.buildPostActions(gameResult, wordPartyActions, characterKey),
+      steps: this.buildPostActions(gameResult, wordPartyActions, characterKey),
       rankingMessages,
     }
   }
@@ -65,7 +65,7 @@ export class ExecuteScript implements ScriptClass {
   /**
    * WordPartyの選択
    */
-  private selectWordParties(gameResult: ReturnType<GameEngine['playGame']>): PostFlowType[] {
+  private selectWordParties(gameResult: ReturnType<GameEngine['playGame']>): ScenarioStepType[] {
     const selector = new WordPartySelector()
     return selector.selectWordParties(gameResult)
   }
@@ -78,10 +78,10 @@ export class ExecuteScript implements ScriptClass {
       result: ReturnType<GameEngine['playGame']>
       message: string
     },
-    wordPartyActions: PostFlowType[],
+    wordPartyActions: ScenarioStepType[],
     characterKey: string | null
-  ): PostFlowType[] {
-    const messageAction = PostFlowMessageSchema.parse({
+  ): ScenarioStepType[] {
+    const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,
       message: gameResult.message,

@@ -15,7 +15,7 @@
     <!-- クールダウン -->
     <SettingItem
       icon="Timer"
-      v-if="omikujiItem.kind === 'postFlow'"
+      v-if="omikujiItem.kind === 'steps'"
       layout="vertical"
       label="クールダウン"
       description="これ以降の実行を一定時間ブロックします（秒）"
@@ -58,7 +58,7 @@
 
   // クールダウン更新
   const updateCooldown = (value: string) => {
-    if (props.omikujiItem.kind !== 'postFlow') return
+    if (props.omikujiItem.kind !== 'steps') return
 
     const num = parseFloat(value)
     const safe = isNaN(num) || num < 0 ? 0 : num

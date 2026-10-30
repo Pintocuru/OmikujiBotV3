@@ -1,5 +1,5 @@
 // src/games/scripts/game/GoogolClover/sub/postActionBuilder.ts
-import { PostFlowType, PostFlowMessageSchema } from '@/types/OmikujiData'
+import { ScenarioStepType, ScenarioStepMessageSchema } from '@/types/OmikujiData'
 
 /**
  * PostActionの構築ロジック
@@ -14,11 +14,11 @@ interface PostActionBuildParams {
 /**
  * ゲーム結果に基づいてPostActionを構築
  */
-export function buildPostActions(params: PostActionBuildParams): PostFlowType[] {
+export function buildPostActions(params: PostActionBuildParams): ScenarioStepType[] {
   const { bubble, score, characterKey } = params
 
   // メッセージ
-  const messageAction = PostFlowMessageSchema.parse({
+  const messageAction = ScenarioStepMessageSchema.parse({
     delaySeconds: 3.5,
     characterKey,
     message: bubble,
@@ -26,18 +26,18 @@ export function buildPostActions(params: PostActionBuildParams): PostFlowType[] 
   })
 
   // 共通シナリオ
-  const commonActions: PostFlowType[] = [
+  const commonActions: ScenarioStepType[] = [
     { kind: 'wordParty', delaySeconds: -1, wordPartyId: 'MaidenOmikujiLottery', repeat: 1 },
   ]
 
   // 成功時のシナリオ
-  const successActions: PostFlowType[] = [
+  const successActions: ScenarioStepType[] = [
     { kind: 'wordParty', delaySeconds: 0, wordPartyId: 'MaidenOmikuji01', repeat: 1 },
     { kind: 'sound', delaySeconds: 1, sound: 'carnival', soundPath: '' },
   ]
 
   // 失敗時のシナリオ
-  const failureActions: PostFlowType[] = [
+  const failureActions: ScenarioStepType[] = [
     { kind: 'wordParty', delaySeconds: 0, wordPartyId: 'MaidenOmikuji08', repeat: 1 },
     { kind: 'sound', delaySeconds: 1, sound: 'fail', soundPath: '' },
     { kind: 'wordParty', delaySeconds: 1, wordPartyId: 'GoogolCloverFail', repeat: 1 },

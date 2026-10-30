@@ -1,20 +1,18 @@
 // src/types/OmikujiData/assets/OmikujiItemSchema.ts
 import { z } from 'zod'
 import { CriteriaThresholdSchema } from '../events/CommentCriteriaSchema'
-import { PostFlowArraySchema } from './PostFlowSchema'
+import { ScenarioStepArraySchema } from './ScenarioStepSchema'
 import { normalizedObject } from '../../core/ParsedDefault'
 import { BaseSchema } from '@/types/core'
 
 /**
  * omikujiItemKinds: おみくじアイテムの種別
- * - postFlow: シナリオを実行する
+ * - steps: シナリオを実行する
  * - control : 処理の流れを制御する (command: return / continue)
  */
-export const omikujiItemKinds = ['postFlow', 'control'] as const
-
-// スキーマと型の定義
-export const OmikujiItemKindSchema = z.enum(omikujiItemKinds)
-export type OmikujiItemKind = z.infer<typeof OmikujiItemKindSchema>
+const omikujiItemKinds = ['steps', 'control'] as const
+const _OmikujiItemKindSchema = z.enum(omikujiItemKinds)
+export type OmikujiItemKind = z.infer<typeof _OmikujiItemKindSchema>
 
 /**
  * おみくじアイテム
@@ -46,20 +44,20 @@ const OmikujiItemBase = BaseSchema.extend({
 })
 
 // BOTアクションを実行する
-export const OmikujiItemPostFlowSchema = OmikujiItemBase.extend({
-  kind: z.literal('postFlow').default('postFlow'), // kind 省略時は postFlow
-  postFlows: PostFlowArraySchema,
+export const OmikujiItemStepsSchema = OmikujiItemBase.extend({
+  kind: z.literal('steps').default('steps'), // kind 省略時は postFlow
+  steps: ScenarioStepArraySchema,
   cooldownSeconds: z.number().min(0).optional(), // 設定した秒数の間、重複実行をブロックする
 })
-export type OmikujiItemPostFlowType = z.infer<typeof OmikujiItemPostFlowSchema>
+export type OmikujiItemStepsType = z.infer<typeof OmikujiItemStepsSchema>
 
 /**
  * 処理の流れを制御する (return / continue)
  * - return  : 処理を終了する
  * - continue: 次のイベントへ処理を進める
  */
-export const omikujiControlCommands = ['return', 'continue'] as const
-export const OmikujiControlCommandSchema = z.enum(omikujiControlCommands)
+const omikujiControlCommands = ['return', 'continue'] as const
+const OmikujiControlCommandSchema = z.enum(omikujiControlCommands)
 export type OmikujiControlCommand = z.infer<typeof OmikujiControlCommandSchema>
 
 export const OmikujiItemControlSchema = OmikujiItemBase.extend({
@@ -69,5 +67,5 @@ export const OmikujiItemControlSchema = OmikujiItemBase.extend({
 })
 export type OmikujiItemControlType = z.infer<typeof OmikujiItemControlSchema>
 
-export const OmikujiItemSchema = z.discriminatedUnion('kind', [OmikujiItemPostFlowSchema, OmikujiItemControlSchema])
+export const OmikujiItemSchema = z.discriminatedUnion('kind', [OmikujiItemStepsSchema, OmikujiItemControlSchema])
 export type OmikujiItemType = z.infer<typeof OmikujiItemSchema>

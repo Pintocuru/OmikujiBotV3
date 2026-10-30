@@ -1,5 +1,5 @@
 // src/generator/scripts/EventProcess/OmikujiProcessor.ts
-import { EventCategoryType, MikujiItemsType, OmikujiItemPostFlowType, OmikujiItemType } from '@/types/OmikujiData'
+import { EventCategoryType, MikujiItemsType, OmikujiItemStepsType, OmikujiItemType } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { useAppStore } from '@/generator/stores/useAppStore'
@@ -60,7 +60,7 @@ export class OmikujiProcessor {
     const item = this.lotteryOmikujiItem(omikujiSet)
 
     // return / continue / reset / log は何もしない
-    if (!item || item.kind !== 'postFlow') return []
+    if (!item || item.kind !== 'steps') return []
 
     return this.runPostFlows(eventKey, item, category, omiken, isDummy)
   }
@@ -92,7 +92,7 @@ export class OmikujiProcessor {
    */
   async executeActionItem(
     eventKey: string,
-    item: OmikujiItemPostFlowType,
+    item: OmikujiItemStepsType,
     category: EventCategoryType,
     omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
@@ -113,7 +113,7 @@ export class OmikujiProcessor {
    */
   private async runPostFlows(
     eventKey: string,
-    item: OmikujiItemPostFlowType,
+    item: OmikujiItemStepsType,
     category: EventCategoryType,
     omiken: OmikenCommentType | undefined,
     isDummy: boolean
@@ -121,7 +121,7 @@ export class OmikujiProcessor {
     const defaultPlaceholders = this.getDefaultPlaceholders(omiken)
     const messages: BotMessageType[] = []
 
-    for (const flow of item.postFlows) {
+    for (const flow of item.steps) {
       const result = isDummy
         ? await this.omikujiResult.processDummy(flow, defaultPlaceholders, omiken)
         : await this.omikujiResult.process(flow, defaultPlaceholders, omiken)

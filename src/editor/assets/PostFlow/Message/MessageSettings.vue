@@ -70,7 +70,7 @@
   <SoundSettings
     v-if="soundEnabled"
     :action="action"
-    @update:action="emit('update:action', $event as PostFlowMessageType)"
+    @update:action="emit('update:action', $event as ScenarioStepMessageType)"
   />
 </template>
 
@@ -79,7 +79,7 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
-  import { PostFlowMessageType } from '@/types/OmikujiData'
+  import { ScenarioStepMessageType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import MessageTextDialog from './MessageTextDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -93,11 +93,11 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: PostFlowMessageType
+    action: ScenarioStepMessageType
   }>()
 
   const emit = defineEmits<{
-    'update:action': [action: PostFlowMessageType]
+    'update:action': [action: ScenarioStepMessageType]
   }>()
 
   const { data } = storeToRefs(useOmikujiStore())
@@ -106,7 +106,7 @@
 
   const slotsEditor = computed(() => getUiSlotsEditor(props.action.uiKey))
 
-  const updateAction = (updates: Partial<PostFlowMessageType>) => {
+  const updateAction = (updates: Partial<ScenarioStepMessageType>) => {
     emit('update:action', { ...props.action, ...updates })
   }
 

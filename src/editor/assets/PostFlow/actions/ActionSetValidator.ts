@@ -1,12 +1,12 @@
 // src/editor/assets/PostFlow/actions/ActionSetValidator.ts
-import { PostFlowType } from '@/types/OmikujiData'
+import { ScenarioStepType } from '@/types/OmikujiData'
 
 /**
  * シナリオの循環参照をチェックする
  */
 export function checkCircularReference(
   targetKey: string,
-  actionSets: Record<string, { postFlows: PostFlowType[] }>,
+  actionSets: Record<string, { postFlows: ScenarioStepType[] }>,
   currentKey?: string,
   visited: Set<string> = new Set()
 ): string[] | null {
@@ -26,7 +26,7 @@ export function checkCircularReference(
   visited.add(targetKey)
 
   for (const action of actionSet.postFlows) {
-    if (action.kind !== 'flowCall') continue
+    if (action.kind !== 'scenarioCall') continue
 
     const keys = action.callKeys ?? []
 

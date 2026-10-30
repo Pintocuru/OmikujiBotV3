@@ -1,7 +1,7 @@
 // src/types/OmikujiData/assets/AssetCategorySchema.ts
 import { z } from 'zod'
 import { normalizedRecord } from '../../core/ParsedDefault'
-import { ActionSetSchema } from './ActionSetSchema'
+import { ScenarioSchema } from './ScenarioSchema'
 import { CharacterSchema } from './CharacterSchema'
 import { MikujiBoxSchema } from './MikujiBoxSchema'
 import { PlaceholderSchema } from './PlaceholderSchema'
@@ -9,13 +9,13 @@ import { PlaceholderSchema } from './PlaceholderSchema'
 /**
  * assetCategory
  */
-export const assetCategory = ['mikuji', 'actions', 'placeholders', 'characters'] as const
+export const assetCategory = ['mikuji', 'scenarios', 'placeholders', 'characters'] as const
 export type AssetCategoryType = (typeof assetCategory)[number]
 
 // カテゴリごとのアセットアイテム型
 export type AssetCategoryDataMap = {
   mikuji: z.infer<typeof MikujiBoxSchema>
-  actions: z.infer<typeof ActionSetSchema>
+  scenarios: z.infer<typeof ScenarioSchema>
   placeholders: z.infer<typeof PlaceholderSchema>
   characters: z.infer<typeof CharacterSchema>
 }
@@ -23,7 +23,7 @@ export type AssetCategoryDataMap = {
 // カテゴリごとのスキーマ
 export const AssetCategorySchemaMap = {
   mikuji: MikujiBoxSchema,
-  actions: ActionSetSchema,
+  scenarios: ScenarioSchema,
   placeholders: PlaceholderSchema,
   characters: CharacterSchema,
 } as const
@@ -31,7 +31,7 @@ export const AssetCategorySchemaMap = {
 // Asset データ全体
 export const AssetCategorySchema = z.object({
   mikuji: normalizedRecord(MikujiBoxSchema),
-  actions: normalizedRecord(ActionSetSchema),
+  scenarios: normalizedRecord(ScenarioSchema),
   placeholders: normalizedRecord(PlaceholderSchema),
   characters: normalizedRecord(CharacterSchema),
 })

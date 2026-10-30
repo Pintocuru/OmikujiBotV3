@@ -17,12 +17,12 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { PostFlowType } from '@/types/OmikujiData'
+  import { ScenarioStepType } from '@/types/OmikujiData'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { postFlowKindMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
-    action: PostFlowType
+    action: ScenarioStepType
   }>()
 
   const resolvedIcon = computed(() => {

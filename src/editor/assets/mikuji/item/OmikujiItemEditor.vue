@@ -4,7 +4,12 @@
   <OmikujiItemHeader :omikujiItem="omikujiItem" @update="updateItem" />
 
   <!-- 実行内容 -->
-  <SettingItem icon="Zap" v-if="shouldShowKindSelector" label="実行内容" description="このおみくじの処理内容を選択します">
+  <SettingItem
+    icon="Zap"
+    v-if="shouldShowKindSelector"
+    label="実行内容"
+    description="このおみくじの処理内容を選択します"
+  >
     <div class="flex flex-wrap gap-2">
       <span
         v-for="(_, key) in omikujiItemKindMap"
@@ -41,8 +46,8 @@
 
   <!-- postFlow 編集 -->
   <PostFlowEditor
-    v-if="omikujiItem.kind === 'postFlow'"
-    :modelValue="omikujiItem.postFlows"
+    v-if="omikujiItem.kind === 'steps'"
+    :modelValue="omikujiItem.steps"
     @update:modelValue="updatePostFlows"
   />
 
@@ -58,7 +63,7 @@
     OmikujiItemKind,
     OmikujiItemSchema,
     OmikujiItemType,
-    PostFlowType,
+    ScenarioStepType,
   } from '@/types/OmikujiData/'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
@@ -120,8 +125,8 @@
   }
 
   // postFlows更新
-  const updatePostFlows = (postFlows: PostFlowType[]) => {
-    if (props.omikujiItem.kind !== 'postFlow') return
+  const updatePostFlows = (postFlows: ScenarioStepType[]) => {
+    if (props.omikujiItem.kind !== 'steps') return
     updateItemProperties({ postFlows })
   }
 

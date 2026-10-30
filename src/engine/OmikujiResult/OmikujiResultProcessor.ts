@@ -1,5 +1,5 @@
 // src/engine/OmikujiResult/OmikujiResultProcessor.ts
-import { OmikujiDataType, PostFlowType } from '@/types/OmikujiData/'
+import { OmikujiDataType, ScenarioStepType } from '@/types/OmikujiData/'
 import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { BotMessageGenerator } from './BotMessageGenerator'
@@ -31,7 +31,7 @@ export class OmikujiResultProcessor {
    * おみくじ結果を処理してBotMessageを生成
    */
   async process(
-    actionItem: PostFlowType,
+    actionItem: ScenarioStepType,
     defaultPlaceholders: Record<string, string | number>,
     omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
@@ -43,7 +43,7 @@ export class OmikujiResultProcessor {
    * わんコメへの投稿・サウンド再生は行わない。
    */
   async processDummy(
-    actionItem: PostFlowType,
+    actionItem: ScenarioStepType,
     defaultPlaceholders: Record<string, string | number>,
     omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
@@ -63,7 +63,7 @@ export class OmikujiResultProcessor {
   }
 
   private async run(
-    actionItem: PostFlowType,
+    actionItem: ScenarioStepType,
     defaultPlaceholders: Record<string, string | number>,
     omiken?: OmikenCommentType,
     isOnecommePost?: boolean
@@ -82,7 +82,7 @@ export class OmikujiResultProcessor {
         }
 
         // variable は式の評価のみ (吹き出しは作らない。lists / slots がある場合のみ Ranking メッセージ)
-        case 'flowCall':
+        case 'scenarioCall':
         case 'message':
         case 'variable':
         case 'sound':

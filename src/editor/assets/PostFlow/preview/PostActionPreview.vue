@@ -26,7 +26,7 @@
     </div>
 
     <!-- シナリオ呼び出し -->
-    <div v-else-if="action.kind === 'flowCall'" class="w-full text-center">
+    <div v-else-if="action.kind === 'scenarioCall'" class="w-full text-center">
       <MessagesSquare :size="80" class="mx-auto text-red-500" />
       <p class="text-sm opacity-70 mt-2">{{ t('postFlow.actionPreview.actionSet') }}</p>
     </div>
@@ -57,7 +57,7 @@
   import { storeToRefs } from 'pinia'
   import { Volume2, PartyPopper, MessagesSquare, Settings } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import type { PostFlowType } from '@/types/OmikujiData'
+  import type { ScenarioStepType } from '@/types/OmikujiData'
   import SoundTestButton from './SoundTestButton.vue'
   import WordPartyTestButton from './WordPartyTestButton.vue'
   import { processTestPlaceholder } from './TestPlaceholderProcessor'
@@ -68,7 +68,7 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: PostFlowType
+    action: ScenarioStepType
   }>()
 
   const omikujiStore = useOmikujiStore()
