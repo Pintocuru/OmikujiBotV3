@@ -7,6 +7,7 @@ import { POST_SETTINGS } from '@/sdk/PostSettings'
 import { GetOmikenComments } from '@/sdk/subscribe/OmikenComment/GetOmikenComments'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { startUserStatsPolling } from '@/generator/stores/UserStats/startUserStatsPolling'
+import { formatParseIssuesSummary } from '@/types/core/ParseIssues'
 
 const TIME_THRESHOLD = 10000
 
@@ -63,6 +64,13 @@ export function useAppInitializer() {
             speech: false,
             throttle: true,
           })
+        }
+        // 不正な要素を除外して読み込んだ場合: 動作は続け、わんコメに1回だけ知らせる (詳細はコンソール)
+        if (appStore.dataIssues.length > 0) {
+          postSystemMessage(
+            `おみくじデータの不正な要素を除外して読み込みました: ${formatParseIssuesSummary(appStore.dataIssues)} (詳細はコンソール)`,
+            { speech: false, throttle: true }
+          )
         }
         // LiveConsole で操作した score / team / order などを取り込む (サーバーがなければ何もしない)
         stopPolling?.()

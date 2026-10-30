@@ -16,7 +16,7 @@ export type UserBoardComponent = (typeof userBoardComponents)[number]
 
 export const UserBoardSchema = z.object({
   component: z.enum(userBoardComponents).default('ranking').catch('ranking'), // 表示するコンポーネント
-  color: normalizedObject(CharacterColorScheme),
+  color: normalizedObject(CharacterColorScheme, 'ui.UserBoard.color'),
   limit: z.number().min(1).max(30).default(10).catch(10), // ranking の表示件数
 })
 export type UserBoardType = z.infer<typeof UserBoardSchema>

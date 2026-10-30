@@ -42,8 +42,8 @@ export const CookieCounterImagesSchema = z.object({
 
 export const CookieCounterSchema = z.object({
   component: z.enum(cookieComponents).default('sakura').catch('sakura'), // カウンタースタイル
-  color: normalizedObject(CharacterColorScheme),
+  color: normalizedObject(CharacterColorScheme, 'ui.CookieCounter.color'),
   counters: z.array(CookieCounterCountersSchema).max(8).default([]), // 任意のカウンター
-  images: normalizedObject(CookieCounterImagesSchema),
+  images: normalizedObject(CookieCounterImagesSchema, 'ui.CookieCounter.images'),
 })
 export type CookieCounterType = z.infer<typeof CookieCounterSchema>

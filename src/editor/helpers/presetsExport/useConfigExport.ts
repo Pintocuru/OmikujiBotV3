@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { confirmSaveWithIssues } from '@/editor/helpers/confirmSaveWithIssues'
 
 type ExportType = 'config'
 
@@ -57,6 +58,7 @@ export const useConfigExport = () => {
   // エクスポート処理
   const exportFile = async (type: ExportType): Promise<boolean> => {
     if (isExporting.value) return false
+    if (!(await confirmSaveWithIssues())) return false
 
     try {
       isExporting.value = true

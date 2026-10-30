@@ -1,12 +1,13 @@
 // src/types/OmikujiData/assets/MikujiBoxSchema.ts
 import { z } from 'zod'
 import { BaseRecordSchema } from '@/types/core'
+import { normalizedArray } from '@/types/core/ParsedDefault'
 import { OmikujiItemSchema } from './OmikujiItemSchema'
 
 /**
  * みくじ items
  */
-export const MikujiItemsSchema = z.array(OmikujiItemSchema).default([]).catch([])
+export const MikujiItemsSchema = normalizedArray(OmikujiItemSchema, 'assets.mikuji.items')
 export type MikujiItemsType = z.infer<typeof MikujiItemsSchema>
 
 /**

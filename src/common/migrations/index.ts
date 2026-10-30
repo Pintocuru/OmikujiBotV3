@@ -1,5 +1,6 @@
 // src/common/migrations/index.ts
 import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
+import { collectParseIssues, ParseIssue } from '@/types/core/ParseIssues'
 import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { APP_VERSION, DATA_VERSION } from '@/version'
 import { ensureSampleCharacters } from './v3/sampleCharacter'
@@ -36,22 +37,32 @@ export function isOmikujiDataLike(data: unknown): boolean {
   return !!data && typeof data === 'object' && 'meta' in data
 }
 
+/** 読み込み結果。issues は、検証で除外した要素・既定値に戻したフィールド(空なら全て正常) */
+export interface NormalizeResult {
+  data: OmikujiDataType
+  issues: ParseIssue[]
+}
+
 /**
  * データを現在のアプリのバージョンに合わせてマイグレーションする
+ * 不正な要素は除外して読み込みを続け、除外した内容を issues で返す
  */
-export function normalizeData(data: unknown): OmikujiDataType {
+export function normalizeData(data: unknown): NormalizeResult {
   // データにメタ情報がなければ、初期データとして扱う
   if (!isOmikujiDataLike(data)) {
     // OmikujiDataSchemaのデフォルト値を返す
-    return ensureSampleCharacters(
-      OmikujiDataSchema.parse({
-        meta: {
-          generatorName: 'omikuji-bot',
-          generatorVersion: APP_VERSION,
-          dataVersion: DATA_VERSION,
-        },
-      })
-    )
+    return {
+      data: ensureSampleCharacters(
+        OmikujiDataSchema.parse({
+          meta: {
+            generatorName: 'omikuji-bot',
+            generatorVersion: APP_VERSION,
+            dataVersion: DATA_VERSION,
+          },
+        })
+      ),
+      issues: [],
+    }
   }
 
   // 読み込むデータが現在よりも新しい場合
@@ -93,7 +104,7 @@ export function normalizeData(data: unknown): OmikujiDataType {
   }
 
   // スキーマで保証
-  return ensureSampleCharacters(
+  const parsed = collectParseIssues(() =>
     OmikujiDataSchema.parse({
       ...updatedData,
       meta: {
@@ -103,4 +114,5 @@ export function normalizeData(data: unknown): OmikujiDataType {
       },
     })
   )
+  return { data: ensureSampleCharacters(parsed.data), issues: parsed.issues }
 }

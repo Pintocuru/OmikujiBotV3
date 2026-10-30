@@ -32,10 +32,10 @@ export const EventCategorySchemaMap = {
 } as const
 
 export const EventCategorySchema = z.object({
-  comments: normalizedArray(CommentEventSchema),
-  timers: normalizedArray(TimerEventSchema),
-  services: normalizedArray(ServiceEventSchema),
-  reactions: normalizedArray(ReactionEventSchema),
-  pads: normalizedArray(PadEventSchema),
+  comments: normalizedArray(CommentEventSchema, 'events.comments'),
+  timers: normalizedArray(TimerEventSchema, 'events.timers'),
+  services: normalizedArray(ServiceEventSchema, 'events.services'),
+  reactions: normalizedArray(ReactionEventSchema, 'events.reactions'),
+  pads: normalizedArray(PadEventSchema, 'events.pads'),
 })
 export type OmikujiDataEventType = z.infer<typeof EventCategorySchema>

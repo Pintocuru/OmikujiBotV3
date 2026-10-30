@@ -27,7 +27,7 @@ const defaultMessage = `<<
 
 export const LiveClockSchema = z.object({
   component: z.enum(clockComponents).default('morning').catch('morning'),
-  color: normalizedObject(CharacterColorScheme), // キャラクター配色 (name / text / background / accent)
+  color: normalizedObject(CharacterColorScheme, 'ui.LiveClock.color'), // キャラクター配色 (name / text / background / accent)
   isSecond: z.boolean().default(false).catch(false), // 秒数を入れるか
   isDate: z.boolean().default(false).catch(false), // 日付をいれるか
   defaultMessage: z.string().default(defaultMessage).catch(defaultMessage),

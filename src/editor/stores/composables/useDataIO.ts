@@ -4,17 +4,19 @@ import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
 import { DataSource } from '@/editor/types'
 import { isOmikujiDataLike, normalizeData } from '@/common/migrations/index'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+import type { ParseIssue } from '@/types/core/ParseIssues'
+import { logParseIssues } from '@/common/ParseIssues/logParseIssues'
 import { reportDataMismatch, validateAgainstBuild } from '@/common/buildValidation/validateAgainstBuild'
 
 /**
  * データの入出力（読み込み・保存・エクスポート）を提供
  */
-export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource>) {
+export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource>, loadIssues: Ref<ParseIssue[]>) {
   // データを読み込み、マイグレーションとバリデーションを行う
   // このビルドで未対応のキーを含むデータは、ストアに入れず拒否する(読み込みはここ1か所)
   const loadData = (loadData: unknown): boolean => {
     try {
-      const normalized = normalizeData(loadData)
+      const { data: normalized, issues } = normalizeData(loadData)
 
       const unsupported = validateAgainstBuild(normalized)
       if (unsupported.length > 0) {
@@ -23,6 +25,8 @@ export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource
       }
 
       data.value = normalized
+      loadIssues.value = issues
+      logParseIssues('editor', issues)
       dataSource.value = 'api'
       return true
     } catch (error) {

@@ -53,8 +53,8 @@ export type DisplayOptionType = z.infer<typeof DisplayOptionSchema>
  */
 export const CharacterSchema = BaseRecordSchema.extend({
   displayName: z.string().default('').catch(''),
-  color: normalizedObject(CharacterColorScheme),
-  image: normalizedObject(CharacterImageSetSchema),
-  displayOption: normalizedObject(DisplayOptionSchema),
+  color: normalizedObject(CharacterColorScheme, 'assets.characters.color'),
+  image: normalizedObject(CharacterImageSetSchema, 'assets.characters.image'),
+  displayOption: normalizedObject(DisplayOptionSchema, 'assets.characters.displayOption'),
 })
 export type CharacterType = z.infer<typeof CharacterSchema>

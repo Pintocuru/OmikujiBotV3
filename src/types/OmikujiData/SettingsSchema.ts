@@ -39,9 +39,9 @@ const DeveloperSettingsSchema = z.object({
  * エディター設定
  */
 export const SettingsSchema = z.object({
-  generator: normalizedObject(GeneratorSettingsSchema),
-  editor: normalizedObject(EditorSettingsSchema),
-  developer: normalizedObject(DeveloperSettingsSchema),
+  generator: normalizedObject(GeneratorSettingsSchema, 'settings.generator'),
+  editor: normalizedObject(EditorSettingsSchema, 'settings.editor'),
+  developer: normalizedObject(DeveloperSettingsSchema, 'settings.developer'),
 })
 
 export type SettingsType = z.infer<typeof SettingsSchema>

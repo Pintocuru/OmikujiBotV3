@@ -1,5 +1,6 @@
 // src/types/OmikujiData/assets/PostFlowSchema.ts
 import { z } from 'zod'
+import { normalizedArray } from '../../core/ParsedDefault'
 import { WeightValuesArraySchema } from './PlaceholderSchema'
 import { soundKeys } from './SoundKey'
 import { UiKindSchema } from '../ui/UiSettingsSchema'
@@ -107,11 +108,7 @@ export type ScenarioStepType = z.infer<typeof ScenarioStepSchema>
 /**
  * ScenarioStepArray わんコメ・BOTちゃんに投稿する型定義
  */
-export const ScenarioStepArraySchema = z
-  .array(ScenarioStepSchema)
-  .default([])
-  .catch([])
-  .transform((actions) => {
-    // delaySecondsが小さい順に並べ替え
-    return actions.sort((a, b) => a.delaySeconds - b.delaySeconds)
-  })
+export const ScenarioStepArraySchema = normalizedArray(ScenarioStepSchema, 'assets.scenarios.steps').transform((steps) => {
+  // delaySecondsが小さい順に並べ替え
+  return steps.sort((a, b) => a.delaySeconds - b.delaySeconds)
+})

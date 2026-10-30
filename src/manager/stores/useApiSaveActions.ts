@@ -6,6 +6,7 @@ import { generatorApi } from '@/manager/services/generatorApi'
 import { omikujiApi } from '@/manager/services/omikujiApi'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { confirmSaveWithIssues } from '@/editor/helpers/confirmSaveWithIssues'
 
 export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncActionHandler) {
   // サーバチェック
@@ -26,6 +27,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
     const omikujiStore = useOmikujiStore()
     const trimmedFileName = fileName.trim()
     if (!trimmedFileName) return false
+    if (!(await confirmSaveWithIssues())) return false
 
     return await handleAsyncAction(async () => {
       const configData = JSON.stringify(omikujiStore.data)
@@ -62,6 +64,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
       confirmButtonText: '保存',
     })
     if (!result.isConfirmed) return
+    if (!(await confirmSaveWithIssues())) return
     const omikujiStore = useOmikujiStore()
 
     // store の data は触らない。保存用にだけコピーを作る
@@ -96,6 +99,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
     })
 
     if (!result.isConfirmed) return
+    if (!(await confirmSaveWithIssues())) return
 
     const omikujiStore = useOmikujiStore()
 
@@ -122,6 +126,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
     })
 
     if (!result.isConfirmed) return
+    if (!(await confirmSaveWithIssues())) return
 
     const omikujiStore = useOmikujiStore()
 

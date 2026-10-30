@@ -12,6 +12,7 @@ import { useEventProperties } from './composables/useEventProperties'
 import { useAssetProperties } from './composables/useAssetProperties'
 import { useEventSort } from './composables/useEventSort'
 import { useAssetSort } from './composables/useAssetSort'
+import type { ParseIssue } from '@/types/core/ParseIssues'
 
 /**
  * おみくじデータの中心的なstore
@@ -22,13 +23,18 @@ export const useOmikujiStore = defineStore('omikuji', () => {
 
   // 変更追跡
   const hasChanged = ref(false)
-  const resetChangeState = () => (hasChanged.value = false)
+  // 読み込み時に除外した要素・既定値に戻したフィールド。保存すると除外分は消えるため、保存済みになったら空にする
+  const loadIssues = ref<ParseIssue[]>([])
+  const resetChangeState = () => {
+    hasChanged.value = false
+    loadIssues.value = []
+  }
 
   // 読み込んだデータの種類
   const dataSource = ref<DataSource>('unknown')
 
   // データIO・マージ
-  const dataIO = useDataIO(data, dataSource)
+  const dataIO = useDataIO(data, dataSource, loadIssues)
   const dataMerge = useDataMerge(data, hasChanged)
 
   // Assets操作
@@ -50,6 +56,7 @@ export const useOmikujiStore = defineStore('omikuji', () => {
     data,
     hasChanged,
     resetChangeState,
+    loadIssues,
     dataSource,
 
     // データIO・マージ

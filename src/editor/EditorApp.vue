@@ -9,6 +9,9 @@
       <!-- ヘッダー -->
       <AppHeader />
 
+      <!-- 読み込み時に除外した要素の通知 -->
+      <DataIssuesBanner />
+
       <!-- おみくじデータ管理 -->
       <ManagerView v-if="isServerConnected" />
 
@@ -34,6 +37,7 @@
   import { OmikujiDataType } from '@/types/OmikujiData'
 
   import AppHeader from './apps/appItems/AppHeader.vue'
+  import DataIssuesBanner from './apps/appItems/DataIssuesBanner.vue'
   import AppDevWorld from './apps/appItems/AppDevWorld.vue'
   import NavigationSidebar from './apps/navigation/NavigationSidebar.vue'
   import ContentArea from './apps/appItems/ContentArea.vue'

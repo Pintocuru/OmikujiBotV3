@@ -12,10 +12,10 @@ import { PackageJsonSchema } from '../core'
  * おみくじデータ全体のメインスキーマ
  */
 export const OmikujiDataSchema = PackageJsonSchema.extend({
-  events: normalizedObject(EventCategorySchema),
-  assets: normalizedObject(AssetCategorySchema),
-  ui: normalizedObject(UiSchema),
+  events: normalizedObject(EventCategorySchema, 'events'),
+  assets: normalizedObject(AssetCategorySchema, 'assets'),
+  ui: normalizedObject(UiSchema, 'ui'),
   jsonMerge: JsonMergeSchema.catch([]),
-  settings: normalizedObject(SettingsSchema),
+  settings: normalizedObject(SettingsSchema, 'settings'),
 })
 export type OmikujiDataType = z.infer<typeof OmikujiDataSchema>

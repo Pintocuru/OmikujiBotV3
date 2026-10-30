@@ -22,7 +22,8 @@ export function useDataMerge(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
   const mergeDataSets = (importedRawData: unknown, preview: ImportPreview): boolean => {
     try {
       // インポートデータにマイグレーション&バリデーションを適用
-      const importedData = normalizeData(importedRawData)
+      const { data: importedData, issues } = normalizeData(importedRawData)
+      if (issues.length > 0) console.warn(`[merge] ${issues.length}件の不正な要素を除外しました`, issues)
 
       const result = processPartialMerge(importedData, preview)
 

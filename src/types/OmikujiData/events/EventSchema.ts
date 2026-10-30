@@ -20,7 +20,7 @@ export type BaseEventType = z.infer<typeof BaseEventSchema>
  */
 export const CommentEventSchema = BaseEventSchema.extend({
   kind: z.literal('comments').default('comments'),
-  trigger: normalizedObject(CommentTriggerSchema),
+  trigger: normalizedObject(CommentTriggerSchema, 'events.comments.trigger'),
 })
 export type CommentEventType = z.infer<typeof CommentEventSchema>
 
@@ -56,7 +56,7 @@ export type TimerEventType = z.infer<typeof TimerEventSchema>
  */
 export const ServiceEventSchema = BaseEventSchema.extend({
   kind: z.literal('services').default('services'),
-  trigger: normalizedObject(ServiceTriggerSchema),
+  trigger: normalizedObject(ServiceTriggerSchema, 'events.services.trigger'),
 })
 export type ServiceEventType = z.infer<typeof ServiceEventSchema>
 
@@ -66,7 +66,7 @@ export type ServiceEventType = z.infer<typeof ServiceEventSchema>
 export const ReactionEventSchema = BaseEventSchema.extend({
   // 旧データは 'reaction' (単数) だった。item が1つ不正だと配列ごと空になるため、catch で 'reactions' に直して読む
   kind: z.literal('reactions').default('reactions').catch('reactions'),
-  trigger: normalizedObject(ReactionTriggerSchema),
+  trigger: normalizedObject(ReactionTriggerSchema, 'events.reactions.trigger'),
 })
 export type ReactionEventType = z.infer<typeof ReactionEventSchema>
 
@@ -75,7 +75,7 @@ export type ReactionEventType = z.infer<typeof ReactionEventSchema>
  */
 export const PadEventSchema = BaseEventSchema.extend({
   kind: z.literal('pads').default('pads'),
-  trigger: normalizedObject(PadTriggerSchema),
+  trigger: normalizedObject(PadTriggerSchema, 'events.pads.trigger'),
 })
 export type PadEventType = z.infer<typeof PadEventSchema>
 

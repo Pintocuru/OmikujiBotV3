@@ -21,7 +21,7 @@ export type OmikujiItemKind = z.infer<typeof _OmikujiItemKindSchema>
 const OmikujiPrioritySchema = z.object({
   isPriority: z.literal(true),
   weight: z.number().min(0).default(1),
-  criteria: normalizedObject(CriteriaThresholdSchema),
+  criteria: normalizedObject(CriteriaThresholdSchema, 'assets.mikuji.items.criteria'),
 })
 
 // 通常アイテム（weight を使う）
@@ -39,14 +39,12 @@ export type LotteryType = z.infer<typeof OmikujiLotterySchema>
  * 全種別共通のベース
  */
 const OmikujiItemBase = BaseSchema.extend({
-  lottery: normalizedObject(OmikujiLotterySchema),
+  lottery: normalizedObject(OmikujiLotterySchema, 'assets.mikuji.items.lottery'),
 })
 
 // シナリオを実行する
 export const OmikujiItemStepsSchema = OmikujiItemBase.extend({
   kind: z.literal('steps').default('steps'), // kind 省略時は steps
-  // 実行する ScenarioType の key。空・存在しない key は実行時エラー(わんコメへ通知)。
-  // ※ ここで min(1) にしない: 1件の不正でみくじ箱の配列ごと catch されるため、スキーマは '' を許し、実行時に弾く
   stepKey: z.string().default('').catch(''),
   cooldownSeconds: z.number().min(0).optional(), // 設定した秒数の間、重複実行をブロックする
 })

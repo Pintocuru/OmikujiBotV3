@@ -44,7 +44,8 @@ export const useImportManager = () => {
         }
       }
 
-      const validatedData = normalizeData(jsonData)
+      const { data: validatedData, issues } = normalizeData(jsonData)
+      if (issues.length > 0) console.warn(`[import] ${issues.length}件の不正な要素を除外しました`, issues)
       importedData.value = validatedData
 
       return { success: true, data: validatedData }

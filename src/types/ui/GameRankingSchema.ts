@@ -17,7 +17,7 @@ export type RankingSortOrder = (typeof rankingSortOrders)[number]
 // ゲームランキングのスキーマ
 export const GameRankingSchema = z.object({
   component: z.enum(rankingComponents).default('standard').catch('standard'),
-  color: normalizedObject(CharacterColorScheme),
+  color: normalizedObject(CharacterColorScheme, 'ui.GameRanking.color'),
   limit: z.number().min(1).max(20).default(5).catch(5),
   sortOrder: z.enum(rankingSortOrders).default('new').catch('new'),
   uniqueUser: z.boolean().default(false).catch(false), // true: 1ユーザーにつき最新の1件だけ表示する

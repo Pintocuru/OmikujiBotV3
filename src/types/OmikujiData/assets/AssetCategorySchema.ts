@@ -30,9 +30,9 @@ export const AssetCategorySchemaMap = {
 
 // Asset データ全体
 export const AssetCategorySchema = z.object({
-  mikuji: normalizedRecord(MikujiBoxSchema),
-  scenarios: normalizedRecord(ScenarioSchema),
-  placeholders: normalizedRecord(PlaceholderSchema),
-  characters: normalizedRecord(CharacterSchema),
+  mikuji: normalizedRecord(MikujiBoxSchema, 'assets.mikuji'),
+  scenarios: normalizedRecord(ScenarioSchema, 'assets.scenarios'),
+  placeholders: normalizedRecord(PlaceholderSchema, 'assets.placeholders'),
+  characters: normalizedRecord(CharacterSchema, 'assets.characters'),
 })
 export type OmikujiDataAssetsType = z.infer<typeof AssetCategorySchema>
