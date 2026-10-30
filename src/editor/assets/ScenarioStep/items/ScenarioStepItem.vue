@@ -13,7 +13,8 @@
       <SettingItem layout="vertical" icon="Rocket" :label="t('scenarioStep.stepItem.typeLabel')">
         <IconRadioGroup
           v-model="kind"
-          :map="scenarioStepKindMap"
+          i18n-prefix="mapText.scenarioStepKind"
+          :icons="scenarioStepKindIcons"
           :keys="scenarioStepKinds"
           :aria-label="t('scenarioStep.stepItem.typeLabel')"
         />
@@ -50,7 +51,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { scenarioStepKinds, type ScenarioStepType } from '@/types/OmikujiData'
-  import { scenarioStepKindMap } from '@/maps/OmikujiData'
+  import { scenarioStepKindIcons } from '@/maps/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
   import ScenarioStepPreview from '../preview/ScenarioStepPreview.vue'

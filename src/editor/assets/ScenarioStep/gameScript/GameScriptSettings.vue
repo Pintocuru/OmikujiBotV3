@@ -4,7 +4,8 @@
   <SettingItem layout="vertical" icon="Gamepad2" :label="t('scenarioStep.gameScript.gameLabel')">
     <IconRadioGroup
       v-model="scriptId"
-      :map="gameMetaMap"
+      i18n-prefix="mapText.gameMeta"
+      :icons="gameIcons"
       :keys="gameKeys"
       allow-empty
       :empty-label="t('scenarioStep.common.unselected')"
@@ -44,7 +45,7 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
   import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
-  import { gameMetaMap } from '@/maps/games'
+  import { gameIcons } from '@/maps/games'
   import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
 
   const { t } = useI18n()

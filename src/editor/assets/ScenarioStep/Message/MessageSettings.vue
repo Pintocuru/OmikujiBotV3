@@ -2,23 +2,22 @@
 <template>
   <!-- 表示先のUI UIごとに下のフォームが変わる -->
   <SettingItem layout="vertical" :icon="uiKindMap[step.uiKey].icon" :label="t('scenarioStep.messageSettings.uiKey')">
-    <IconRadioGroup
-      v-model="uiKey"
-      :map="uiKindMap"
-      :keys="selectableKinds"
-      :aria-label="t('scenarioStep.messageSettings.uiKey')"
-    />
+    <SettingItem layout="vertical" :icon="uiKindIcons[step.uiKey]" :label="t('scenarioStep.messageSettings.uiKey')">
+      <IconRadioGroup
+        v-model="uiKey"
+        i18n-prefix="mapText.uiKind"
+        :icons="uiKindIcons"
+        :keys="selectableKinds"
+        :aria-label="t('scenarioStep.messageSettings.uiKey')"
+      />
+    </SettingItem>
   </SettingItem>
 
   <!-- bubble を使う UI: キャラ・アイコン・本文 -->
   <template v-if="spec.bubble">
     <!-- キャラクター選択 -->
     <SettingItem layout="vertical" icon="User" :label="t('scenarioStep.common.character')">
-      <CharacterIconPicker
-        :character-key="step.characterKey ?? ''"
-        :icon-key="step.iconKey"
-        @select="updateStep"
-      />
+      <CharacterIconPicker :character-key="step.characterKey ?? ''" :icon-key="step.iconKey" @select="updateStep" />
     </SettingItem>
 
     <!-- メッセージ -->
@@ -33,12 +32,7 @@
   </template>
 
   <!-- UI ごとの slots (UiMessageSpecs の map から入力欄を作る) -->
-  <component
-    v-if="slotsEditor"
-    :is="slotsEditor"
-    :slots="step.slots"
-    @update:slots="updateStep({ slots: $event })"
-  />
+  <component v-if="slotsEditor" :is="slotsEditor" :slots="step.slots" @update:slots="updateStep({ slots: $event })" />
   <SettingItem
     v-else-if="slotMetas.length > 0"
     icon="MessageSquare"
@@ -84,7 +78,7 @@
   import MessageTextDialog from './MessageTextDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SoundSettings from '../Sounds/SoundSettings.vue'
-  import { uiKindMap } from '@/maps/OmikujiData/ui'
+  import { uiKindIcons, uiKindMap } from '@/maps/OmikujiData/ui'
   import { getUiMessageSpec, postUiKinds } from '@/types/generator'
   import type { UiKind } from '@/types/OmikujiData'
   import { getUiSlotsEditor } from '@/editor/ui/uiEditorRegistry'

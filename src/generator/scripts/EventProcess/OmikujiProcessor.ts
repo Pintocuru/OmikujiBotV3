@@ -1,5 +1,11 @@
 // src/generator/scripts/EventProcess/OmikujiProcessor.ts
-import { EventCategoryType, MikujiItemsType, OmikujiItemStepsType, OmikujiItemType } from '@/types/OmikujiData'
+import {
+  EventCategoryType,
+  MikujiItemsType,
+  OmikujiItemStepsType,
+  OmikujiItemType,
+  ScenarioStepType,
+} from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { useAppStore } from '@/generator/stores/useAppStore'
@@ -118,10 +124,11 @@ export class OmikujiProcessor {
     omiken: OmikenCommentType | undefined,
     isDummy: boolean
   ): Promise<BotMessageType[]> {
+    const steps = this.resolveScenarioSteps(item)
     const defaultPlaceholders = this.getDefaultPlaceholders(omiken)
     const messages: BotMessageType[] = []
 
-    for (const step of item.steps) {
+    for (const step of steps) {
       const result = isDummy
         ? await this.omikujiResult.processDummy(step, defaultPlaceholders, omiken)
         : await this.omikujiResult.process(step, defaultPlaceholders, omiken)
@@ -129,6 +136,29 @@ export class OmikujiProcessor {
     }
 
     return this.attachOrigin(messages, omiken)
+  }
+
+  /**
+   * stepKey から実行するシナリオの steps を取得する。
+   * 空・存在しない key は実行時エラーとしてわんコメへ通知する(スキーマ側は '' を許容している)。
+   */
+  private resolveScenarioSteps(item: OmikujiItemStepsType): ScenarioStepType[] {
+    const key = item.stepKey
+    if (!key) {
+      const msg = 'おみくじアイテムにシナリオ(stepKey)が設定されていません'
+      console.error(msg)
+      postSystemMessage(msg)
+      return []
+    }
+
+    const scenario = this.store.data.assets.scenarios[key]
+    if (!scenario) {
+      const msg = `シナリオ "${key}" が見つかりません`
+      console.error(msg)
+      postSystemMessage(msg)
+      return []
+    }
+    return scenario.steps
   }
 
   /**
