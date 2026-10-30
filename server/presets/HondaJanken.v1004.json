@@ -6,9 +6,11 @@
     "version": "ver2026.03.19-2.9.0-beta5",
     "generatorName": "omikuji-bot",
     "generatorVersion": "3.0.0-alpha1",
-    "dataVersion": 3.0000001003,
+    "dataVersion": 3.0000001004,
     "author": "Pintocuru(せすじピンとしてます)",
-    "tags": ["じゃんけん"],
+    "tags": [
+      "じゃんけん"
+    ],
     "license": "利用規約に従う",
     "url": "https://pintocuru.booth.pm/items/7383088",
     "banner": "https://raw.githubusercontent.com/Pintocuru/OmikujiBot-Docs/refs/heads/main/2025-Q4/HondaJanken/HondaJanken.gif"
@@ -25,15 +27,23 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "omikujiKey": "HondaJanken",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["^じゃんけん", "^ジャンケン", "^janken"],
+          "comment": [
+            "^じゃんけん",
+            "^ジャンケン",
+            "^janken"
+          ],
           "expression": ""
         }
       },
@@ -47,15 +57,24 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "omikujiKey": "HondaJankenRock",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["^グー", "^ぐー", "✊️", "👊"],
+          "comment": [
+            "^グー",
+            "^ぐー",
+            "✊️",
+            "👊"
+          ],
           "expression": ""
         }
       },
@@ -69,15 +88,23 @@
         "order": 3,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "omikujiKey": "HondaJankenScissors",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["^チョキ", "^ちょき", "✌️"],
+          "comment": [
+            "^チョキ",
+            "^ちょき",
+            "✌️"
+          ],
           "expression": ""
         }
       },
@@ -91,15 +118,24 @@
         "order": 4,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "omikujiKey": "HondaJankenPaper",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["^パー", "^ぱー", "✋️", "🖐️"],
+          "comment": [
+            "^パー",
+            "^ぱー",
+            "✋️",
+            "🖐️"
+          ],
           "expression": ""
         }
       }
@@ -120,96 +156,72 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "HondaJanken_8d2b99bc-9209-48a0-aefe-af206ffc999b",
             "id": "cdff0850-4464-4dbd-b4b3-3428753fee77",
             "key": "8d2b99bc-9209-48a0-aefe-af206ffc999b",
             "name": "グー",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.297Z",
             "updatedAt": "2025-08-11T15:34:29.297Z",
-            "lottery": { "isPriority": false, "weight": 38, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 1,
-                "kind": "scenarioCall",
-                "callKeys": [
-                  { "weight": 35, "content": "HondaJankenRockA" },
-                  { "weight": 3, "content": "HondaJankenRockB" }
-                ]
-              }
-            ],
+            "lottery": {
+              "isPriority": false,
+              "weight": 38,
+              "criteria": null
+            },
             "cooldownSeconds": 2
           },
           {
+            "kind": "steps",
+            "stepKey": "HondaJanken_d7546009-ad4c-4808-830e-222ecf1d1b64",
             "id": "242c21ad-4fe7-4d08-8d6c-5e1d9b36cfe0",
             "key": "d7546009-ad4c-4808-830e-222ecf1d1b64",
             "name": "チョキ",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.297Z",
             "updatedAt": "2025-08-11T15:34:29.297Z",
-            "lottery": { "isPriority": false, "weight": 38, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 1,
-                "kind": "scenarioCall",
-                "callKeys": [
-                  { "weight": 35, "content": "HondaJankenScissorsA" },
-                  { "weight": 3, "content": "HondaJankenScissorsB" }
-                ]
-              }
-            ],
+            "lottery": {
+              "isPriority": false,
+              "weight": 38,
+              "criteria": null
+            },
             "cooldownSeconds": 2
           },
           {
+            "kind": "steps",
+            "stepKey": "HondaJanken_61a4d743-7b0a-48a3-a3b0-14e94c8ce911",
             "id": "409808af-54c7-429b-aa1b-fac7f9455b9b",
             "key": "61a4d743-7b0a-48a3-a3b0-14e94c8ce911",
             "name": "パー",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.297Z",
             "updatedAt": "2025-08-11T15:34:29.297Z",
-            "lottery": { "isPriority": false, "weight": 38, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 1,
-                "kind": "scenarioCall",
-                "callKeys": [
-                  { "weight": 35, "content": "HondaJankenPaperA" },
-                  { "weight": 3, "content": "HondaJankenPaperB" }
-                ]
-              }
-            ],
+            "lottery": {
+              "isPriority": false,
+              "weight": 38,
+              "criteria": null
+            },
             "cooldownSeconds": 2
           },
           {
+            "kind": "steps",
+            "stepKey": "HondaJanken_acd7e5a8-a7dc-46c0-8912-db577cbc2eae",
             "id": "b688de07-d644-4127-bd3e-b2ed72fd89c3",
             "key": "acd7e5a8-a7dc-46c0-8912-db577cbc2eae",
             "name": "勝利",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.297Z",
             "updatedAt": "2025-08-11T15:34:29.297Z",
-            "lottery": { "isPriority": false, "weight": 6, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 1,
-                "kind": "scenarioCall",
-                "callKeys": [
-                  "HondaJankenVictoryRockA",
-                  "HondaJankenVictoryScissorsA",
-                  "HondaJankenVictoryPaperA",
-                  "HondaJankenVictoryA",
-                  "HondaJankenVictoryRockB",
-                  "HondaJankenVictoryScissorsB",
-                  "HondaJankenVictoryPaperB",
-                  "HondaJankenVictoryB"
-                ]
-              }
-            ],
+            "lottery": {
+              "isPriority": false,
+              "weight": 6,
+              "criteria": null
+            },
             "cooldownSeconds": 2
           }
         ]
@@ -224,49 +236,39 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "HondaJanken_8d2b99bc-9209-48a0-aefe-af206ffc999b",
             "id": "7af2597e-1573-43c1-9e47-f55595102049",
             "key": "12857c74-9b42-4191-b548-9028fc82e1e8",
             "name": "グー",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.297Z",
             "updatedAt": "2025-08-11T15:34:29.297Z",
-            "lottery": { "isPriority": false, "weight": 19, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 1,
-                "kind": "scenarioCall",
-                "callKeys": [
-                  { "weight": 35, "content": "HondaJankenRockA" },
-                  { "weight": 3, "content": "HondaJankenRockB" }
-                ]
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 19,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "HondaJankenRock_8acc4353-d3bd-4a5d-b96d-56142181eba6",
             "id": "816cb592-b6ef-4699-8f8f-6b5a0bdd9035",
             "key": "8acc4353-d3bd-4a5d-b96d-56142181eba6",
             "name": "グー勝利",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.297Z",
             "updatedAt": "2025-08-11T15:34:29.297Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 1,
-                "kind": "scenarioCall",
-                "callKeys": [
-                  { "weight": 3, "content": "HondaJankenVictoryRockA" },
-                  { "weight": 3, "content": "HondaJankenVictoryRockB" },
-                  "HondaJankenVictoryA",
-                  "HondaJankenVictoryB"
-                ]
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -280,49 +282,39 @@
         "order": 3,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "HondaJanken_d7546009-ad4c-4808-830e-222ecf1d1b64",
             "id": "064baa39-2dd4-48a2-a044-572103f01e4b",
             "key": "958e6f84-07c2-4422-8fb0-dc81306a0799",
             "name": "チョキ",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.297Z",
             "updatedAt": "2025-08-11T15:34:29.297Z",
-            "lottery": { "isPriority": false, "weight": 19, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 1,
-                "kind": "scenarioCall",
-                "callKeys": [
-                  { "weight": 35, "content": "HondaJankenScissorsA" },
-                  { "weight": 3, "content": "HondaJankenScissorsB" }
-                ]
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 19,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "HondaJankenScissors_f66eb02e-7dc7-4091-b477-d26332f68a6c",
             "id": "9b6fa18c-274e-4560-97e3-e02cf34f7ef0",
             "key": "f66eb02e-7dc7-4091-b477-d26332f68a6c",
             "name": "チョキ勝利",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.297Z",
             "updatedAt": "2025-08-11T15:34:29.297Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 1,
-                "kind": "scenarioCall",
-                "callKeys": [
-                  { "weight": 3, "content": "HondaJankenVictoryScissorsA" },
-                  { "weight": 3, "content": "HondaJankenVictoryScissorsB" },
-                  "HondaJankenVictoryA",
-                  "HondaJankenVictoryB"
-                ]
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -336,49 +328,39 @@
         "order": 4,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "HondaJanken_61a4d743-7b0a-48a3-a3b0-14e94c8ce911",
             "id": "4a5cb593-ebc6-491d-a6fa-0d790e4230dd",
             "key": "f03e4b08-f297-4e62-a81a-f3b4c7e8d691",
             "name": "パー",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.297Z",
             "updatedAt": "2025-08-11T15:34:29.297Z",
-            "lottery": { "isPriority": false, "weight": 19, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 1,
-                "kind": "scenarioCall",
-                "callKeys": [
-                  { "weight": 35, "content": "HondaJankenPaperA" },
-                  { "weight": 3, "content": "HondaJankenPaperB" }
-                ]
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 19,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "HondaJankenPaper_45d2613d-1b64-47ef-a9b1-fa0b7f4fddab",
             "id": "279f8b69-9d05-4b66-91f1-451173af1f63",
             "key": "45d2613d-1b64-47ef-a9b1-fa0b7f4fddab",
             "name": "パー勝利",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.297Z",
             "updatedAt": "2025-08-11T15:34:29.297Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 1,
-                "kind": "scenarioCall",
-                "callKeys": [
-                  { "weight": 3, "content": "HondaJankenVictoryPaperA" },
-                  { "weight": 3, "content": "HondaJankenVictoryPaperB" },
-                  "HondaJankenVictoryA",
-                  "HondaJankenVictoryB"
-                ]
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       }
@@ -394,7 +376,9 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
           {
             "delaySeconds": 0,
@@ -417,7 +401,9 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
           {
             "delaySeconds": 0,
@@ -440,11 +426,29 @@
         "order": 3,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyA"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_3", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenLose", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyA"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_3",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenLose",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -466,11 +470,29 @@
         "order": 4,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyB"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_3", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenLose", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyB"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_3",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenLose",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -492,11 +514,29 @@
         "order": 5,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyA"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_1", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenLose", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyA"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_1",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenLose",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -518,11 +558,29 @@
         "order": 6,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyB"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_1", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenLose", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyB"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_1",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenLose",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -544,11 +602,29 @@
         "order": 7,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyA"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_2", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenLose", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyA"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_2",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenLose",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -570,11 +646,29 @@
         "order": 8,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyB"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_2", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenLose", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyB"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_2",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenLose",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -596,11 +690,29 @@
         "order": 9,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyA"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_2", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenWin", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyA"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_2",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenWin",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -622,11 +734,29 @@
         "order": 10,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyB"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_2", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenWin", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyB"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_2",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenWin",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -648,11 +778,29 @@
         "order": 11,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyA"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_3", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenWin", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyA"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_3",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenWin",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -674,11 +822,29 @@
         "order": 12,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyB"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_3", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenWin", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyB"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_3",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenWin",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -700,11 +866,29 @@
         "order": 13,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyA"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_1", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenWin", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyA"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_1",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenWin",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -726,11 +910,29 @@
         "order": 14,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyB"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_1", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenWin", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyB"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_1",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenWin",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -752,11 +954,29 @@
         "order": 15,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyA"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_4", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenWin", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyA"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_4",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenWin",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -778,11 +998,29 @@
         "order": 16,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["HondaJankenReadyB"] },
-          { "delaySeconds": 0.4, "kind": "wordParty", "wordPartyId": "HondaJanken_4", "repeat": 1 },
-          { "delaySeconds": 1.9, "kind": "wordParty", "wordPartyId": "HondaJankenWin", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenReadyB"
+            ]
+          },
+          {
+            "delaySeconds": 0.4,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJanken_4",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.9,
+            "kind": "wordParty",
+            "wordPartyId": "HondaJankenWin",
+            "repeat": 1
+          },
           {
             "delaySeconds": 4,
             "kind": "message",
@@ -791,6 +1029,208 @@
             "sound": "decision",
             "soundPath": "",
             "message": "{{text='勝ち'}}{{symbol='I Love You'}}{{unique='false'}}{{variant='warning'}}<<HondaJankenOre>>の負け!<<HondaJankenV>>"
+          }
+        ]
+      },
+      "HondaJanken_8d2b99bc-9209-48a0-aefe-af206ffc999b": {
+        "id": "jf7zuiQbso_hV3rO5yLdxQ",
+        "key": "HondaJanken_8d2b99bc-9209-48a0-aefe-af206ffc999b",
+        "name": "グー",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.297Z",
+        "updatedAt": "2026-10-30T10:14:58.898Z",
+        "order": 17,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 1,
+            "kind": "scenarioCall",
+            "callKeys": [
+              {
+                "weight": 35,
+                "content": "HondaJankenRockA"
+              },
+              {
+                "weight": 3,
+                "content": "HondaJankenRockB"
+              }
+            ]
+          }
+        ]
+      },
+      "HondaJanken_d7546009-ad4c-4808-830e-222ecf1d1b64": {
+        "id": "xvDOtlhkgVA2LR25n20VhQ",
+        "key": "HondaJanken_d7546009-ad4c-4808-830e-222ecf1d1b64",
+        "name": "チョキ",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.297Z",
+        "updatedAt": "2026-10-30T10:14:58.898Z",
+        "order": 18,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 1,
+            "kind": "scenarioCall",
+            "callKeys": [
+              {
+                "weight": 35,
+                "content": "HondaJankenScissorsA"
+              },
+              {
+                "weight": 3,
+                "content": "HondaJankenScissorsB"
+              }
+            ]
+          }
+        ]
+      },
+      "HondaJanken_61a4d743-7b0a-48a3-a3b0-14e94c8ce911": {
+        "id": "0HjQaBc-vLYthyIquuHNeA",
+        "key": "HondaJanken_61a4d743-7b0a-48a3-a3b0-14e94c8ce911",
+        "name": "パー",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.297Z",
+        "updatedAt": "2026-10-30T10:14:58.898Z",
+        "order": 19,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 1,
+            "kind": "scenarioCall",
+            "callKeys": [
+              {
+                "weight": 35,
+                "content": "HondaJankenPaperA"
+              },
+              {
+                "weight": 3,
+                "content": "HondaJankenPaperB"
+              }
+            ]
+          }
+        ]
+      },
+      "HondaJanken_acd7e5a8-a7dc-46c0-8912-db577cbc2eae": {
+        "id": "2X-iTnaQpmMHncfFIpgULg",
+        "key": "HondaJanken_acd7e5a8-a7dc-46c0-8912-db577cbc2eae",
+        "name": "勝利",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.297Z",
+        "updatedAt": "2026-10-30T10:14:58.898Z",
+        "order": 20,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 1,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "HondaJankenVictoryRockA",
+              "HondaJankenVictoryScissorsA",
+              "HondaJankenVictoryPaperA",
+              "HondaJankenVictoryA",
+              "HondaJankenVictoryRockB",
+              "HondaJankenVictoryScissorsB",
+              "HondaJankenVictoryPaperB",
+              "HondaJankenVictoryB"
+            ]
+          }
+        ]
+      },
+      "HondaJankenRock_8acc4353-d3bd-4a5d-b96d-56142181eba6": {
+        "id": "tS2usdYbMFMRdH-1YqJPuA",
+        "key": "HondaJankenRock_8acc4353-d3bd-4a5d-b96d-56142181eba6",
+        "name": "グー勝利",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.297Z",
+        "updatedAt": "2026-10-30T10:14:58.898Z",
+        "order": 21,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 1,
+            "kind": "scenarioCall",
+            "callKeys": [
+              {
+                "weight": 3,
+                "content": "HondaJankenVictoryRockA"
+              },
+              {
+                "weight": 3,
+                "content": "HondaJankenVictoryRockB"
+              },
+              "HondaJankenVictoryA",
+              "HondaJankenVictoryB"
+            ]
+          }
+        ]
+      },
+      "HondaJankenScissors_f66eb02e-7dc7-4091-b477-d26332f68a6c": {
+        "id": "n2KDWzelAfPU32SfNYeKHA",
+        "key": "HondaJankenScissors_f66eb02e-7dc7-4091-b477-d26332f68a6c",
+        "name": "チョキ勝利",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.297Z",
+        "updatedAt": "2026-10-30T10:14:58.898Z",
+        "order": 22,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 1,
+            "kind": "scenarioCall",
+            "callKeys": [
+              {
+                "weight": 3,
+                "content": "HondaJankenVictoryScissorsA"
+              },
+              {
+                "weight": 3,
+                "content": "HondaJankenVictoryScissorsB"
+              },
+              "HondaJankenVictoryA",
+              "HondaJankenVictoryB"
+            ]
+          }
+        ]
+      },
+      "HondaJankenPaper_45d2613d-1b64-47ef-a9b1-fa0b7f4fddab": {
+        "id": "MvyNkJc9IbSgzWPeRUOuIQ",
+        "key": "HondaJankenPaper_45d2613d-1b64-47ef-a9b1-fa0b7f4fddab",
+        "name": "パー勝利",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.297Z",
+        "updatedAt": "2026-10-30T10:14:58.898Z",
+        "order": 23,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 1,
+            "kind": "scenarioCall",
+            "callKeys": [
+              {
+                "weight": 3,
+                "content": "HondaJankenVictoryPaperA"
+              },
+              {
+                "weight": 3,
+                "content": "HondaJankenVictoryPaperB"
+              },
+              "HondaJankenVictoryA",
+              "HondaJankenVictoryB"
+            ]
           }
         ]
       }
@@ -806,8 +1246,12 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
-        "values": ["ケイスケ ホンダ"]
+        "tags": [
+          "じゃんけん"
+        ],
+        "values": [
+          "ケイスケ ホンダ"
+        ]
       },
       "HondaJankenOre": {
         "id": "HondaJankenOre",
@@ -819,8 +1263,12 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
-        "values": ["俺"]
+        "tags": [
+          "じゃんけん"
+        ],
+        "values": [
+          "俺"
+        ]
       },
       "HondaJankenA1": {
         "id": "HondaJankenA1",
@@ -832,7 +1280,9 @@
         "order": 3,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "values": [
           "負けは次につながるチャンスです!ネバーギブアップ!",
           "じゃんけんの向こう側に何があるか、考えてみてください。",
@@ -850,7 +1300,9 @@
         "order": 4,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "values": [
           "<<HondaJankenName>> の心なんて読めるわけがない、そう思ってないですか。あきらめへん人だけに見える景色があるはずです。",
           "ちゃんと分析してます?じっくり結果に向き合ってください。",
@@ -867,7 +1319,9 @@
         "order": 5,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "values": [
           "たかがじゃんけん、そう思ってないですか？それやったら明日も、<<HondaJankenOre>>が勝ちますよ。",
           "ウラのウラのウラまで読む訓練をしてくださいね。どこまで読もうとするかで結果が変わってきます。",
@@ -885,7 +1339,9 @@
         "order": 6,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "values": [
           "自信を持って勝負にしっかりと向き合える、そう思えるまで、準備してください。",
           "ただの運やと思ってませんか?運も実力のうち!聞いたことありますよね?",
@@ -902,7 +1358,9 @@
         "order": 7,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "values": [
           "なんで負けたか、明日まで考えといてください。そしたら何かが見えてくるはずです。",
           "どんな事でも絶対に勝つんや!というメンタリティーが大事ですよ。",
@@ -920,7 +1378,9 @@
         "order": 8,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "values": [
           "複雑に考えてないですか?答えはシンプルです。<<HondaJankenName>>の心を読む、それだけです。",
           "正確にはじゃんけんを味方につけた<<HondaJankenOre>>の勝ち!",
@@ -937,7 +1397,9 @@
         "order": 9,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["じゃんけん"],
+        "tags": [
+          "じゃんけん"
+        ],
         "values": [
           "やるやん。明日は<<HondaJankenOre>>にリベンジさせて。",
           "でも、今度は絶対、<<HondaJankenOre>>が勝つから!また明日やろう!",
@@ -959,16 +1421,53 @@
         "tagColor": "primary",
         "tags": [],
         "displayName": "サンプル",
-        "color": { "name": "#FFCDD2", "text": "#FFFFFF", "background": "#C62828", "accent": "#EF9A9A" },
-        "image": {
-          "default": { "label": "通常", "src": [] },
-          "happy": { "label": "嬉しい", "src": ["omiken/happy.webp"] },
-          "surprised": { "label": "驚き", "src": ["omiken/surprised.webp"] },
-          "sad": { "label": "悲しみ", "src": ["omiken/sad.webp"] },
-          "angry": { "label": "怒り", "src": ["omiken/angry.webp"] },
-          "thinking": { "label": "考え中", "src": ["omiken/thinking.webp"] }
+        "color": {
+          "name": "#FFCDD2",
+          "text": "#FFFFFF",
+          "background": "#C62828",
+          "accent": "#EF9A9A"
         },
-        "displayOption": { "mode": "comment", "imageBase64": "", "frameId": "" }
+        "image": {
+          "default": {
+            "label": "通常",
+            "src": []
+          },
+          "happy": {
+            "label": "嬉しい",
+            "src": [
+              "omiken/happy.webp"
+            ]
+          },
+          "surprised": {
+            "label": "驚き",
+            "src": [
+              "omiken/surprised.webp"
+            ]
+          },
+          "sad": {
+            "label": "悲しみ",
+            "src": [
+              "omiken/sad.webp"
+            ]
+          },
+          "angry": {
+            "label": "怒り",
+            "src": [
+              "omiken/angry.webp"
+            ]
+          },
+          "thinking": {
+            "label": "考え中",
+            "src": [
+              "omiken/thinking.webp"
+            ]
+          }
+        },
+        "displayOption": {
+          "mode": "comment",
+          "imageBase64": "",
+          "frameId": ""
+        }
       },
       "omiken2": {
         "id": "79qb1jM6r7cdMmwqvCO5T",
@@ -982,30 +1481,70 @@
         "tagColor": "primary",
         "tags": [],
         "displayName": "サンプル",
-        "color": { "name": "#FFECB3", "text": "#212121", "background": "#FF8F00", "accent": "#FFE082" },
-        "image": {
-          "default": { "label": "通常", "src": [] },
-          "sad": { "label": "悲しみ", "src": [] },
-          "angry": { "label": "怒り", "src": [] },
-          "thinking": { "label": "考え中", "src": [] },
-          "happy": { "label": "嬉しい", "src": [] },
-          "surprised": { "label": "驚き", "src": [] }
+        "color": {
+          "name": "#FFECB3",
+          "text": "#212121",
+          "background": "#FF8F00",
+          "accent": "#FFE082"
         },
-        "displayOption": { "mode": "comment", "imageBase64": "", "frameId": "" }
+        "image": {
+          "default": {
+            "label": "通常",
+            "src": []
+          },
+          "sad": {
+            "label": "悲しみ",
+            "src": []
+          },
+          "angry": {
+            "label": "怒り",
+            "src": []
+          },
+          "thinking": {
+            "label": "考え中",
+            "src": []
+          },
+          "happy": {
+            "label": "嬉しい",
+            "src": []
+          },
+          "surprised": {
+            "label": "驚き",
+            "src": []
+          }
+        },
+        "displayOption": {
+          "mode": "comment",
+          "imageBase64": "",
+          "frameId": ""
+        }
       }
     }
   },
   "ui": {
     "layout": "commentBubble",
     "settings": {
-      "commentBubble": { "persistentCharacter": "omiken", "characterSize": 48, "bubbleMotion": "slideUp" }
+      "commentBubble": {
+        "persistentCharacter": "omiken",
+        "characterSize": 48,
+        "bubbleMotion": "slideUp"
+      }
     },
     "fontFamily": "default"
   },
   "jsonMerge": [],
   "settings": {
-    "generator": { "commentType": "OneComme", "soundEnabled": true, "basicDelaySeconds": 1 },
-    "editor": { "locale": "ja", "initialCategory": "comments" },
-    "developer": { "daisyUiTheme": "corporate" }
+    "generator": {
+      "commentType": "OneComme",
+      "soundEnabled": true,
+      "basicDelaySeconds": 1
+    },
+    "editor": {
+      "locale": "ja",
+      "initialCategory": "comments"
+    },
+    "developer": {
+      "daisyUiTheme": "corporate"
+    }
   }
 }

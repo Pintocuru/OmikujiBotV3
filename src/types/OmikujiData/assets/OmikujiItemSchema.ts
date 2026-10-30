@@ -1,13 +1,12 @@
 // src/types/OmikujiData/assets/OmikujiItemSchema.ts
 import { z } from 'zod'
 import { CriteriaThresholdSchema } from '../events/CommentCriteriaSchema'
-import { ScenarioStepArraySchema } from './ScenarioStepSchema'
 import { normalizedObject } from '../../core/ParsedDefault'
 import { BaseSchema } from '@/types/core'
 
 /**
  * omikujiItemKinds: おみくじアイテムの種別
- * - steps: シナリオを実行する
+ * - steps: シナリオ(assets.scenarios)を stepKey で指定して実行する
  * - control : 処理の流れを制御する (command: return / continue)
  */
 const omikujiItemKinds = ['steps', 'control'] as const
@@ -43,10 +42,12 @@ const OmikujiItemBase = BaseSchema.extend({
   lottery: normalizedObject(OmikujiLotterySchema),
 })
 
-// ステップ実行を実行する
+// シナリオを実行する
 export const OmikujiItemStepsSchema = OmikujiItemBase.extend({
   kind: z.literal('steps').default('steps'), // kind 省略時は steps
-  steps: ScenarioStepArraySchema,
+  // 実行する ScenarioType の key。空・存在しない key は実行時エラー(わんコメへ通知)。
+  // ※ ここで min(1) にしない: 1件の不正でみくじ箱の配列ごと catch されるため、スキーマは '' を許し、実行時に弾く
+  stepKey: z.string().default('').catch(''),
   cooldownSeconds: z.number().min(0).optional(), // 設定した秒数の間、重複実行をブロックする
 })
 export type OmikujiItemStepsType = z.infer<typeof OmikujiItemStepsSchema>

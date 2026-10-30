@@ -17,24 +17,12 @@
     description="トリガーの種類を選択"
     :variant="activeConditions.size === 0 ? 'warning' : undefined"
   >
-    <!-- TODO: ここに IconRadioGroup.vue を適用 -->
-    <div class="flex flex-wrap gap-2">
-      <label v-for="condition in criteriaThresholdCondition" :key="condition" class="cursor-pointer">
-        <input
-          type="checkbox"
-          class="hidden"
-          :checked="activeConditions.has(condition)"
-          @change="toggleCondition(condition)"
-        />
-        <span
-          class="badge badge-lg select-none"
-          :class="activeConditions.has(condition) ? 'badge-primary' : 'badge-ghost'"
-        >
-          <!-- commentTriggerから流用 -->
-          {{ t(`commentTrigger.conditions.${condition}.label`) }}
-        </span>
-      </label>
-    </div>
+    <IconCheckGroup
+      v-model="conditions"
+      i18n-prefix="commentTrigger.conditions"
+      :icons="triggerConditionIcons"
+      :keys="criteriaThresholdCondition"
+    />
   </SettingItem>
 
   <!-- ユーザーネーム条件 -->
@@ -107,6 +95,8 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
+  import IconCheckGroup from '@/editor/parts/IconCheckGroup.vue'
+  import { triggerConditionIcons } from '@/maps/engine/trigger/TriggerConditionIcons'
 
   const props = defineProps<{
     omikujiItem: OmikujiItemType
@@ -127,4 +117,15 @@
 
   // アクティブな条件
   const activeConditions = computed(() => new Set(criteria.value.conditions))
+
+  // IconCheckGroup 用の v-model(配列)
+  const conditions = computed({
+    get: () => criteria.value.conditions,
+    set: (next) => {
+      const prev = criteria.value.conditions
+      // IconCheckGroup は1回の操作で1件だけ増減するので、差分は1件になる
+      const changed = [...prev.filter((k) => !next.includes(k)), ...next.filter((k) => !prev.includes(k))]
+      changed.forEach(toggleCondition)
+    },
+  })
 </script>

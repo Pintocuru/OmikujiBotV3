@@ -6,9 +6,11 @@
     "version": "ver2026.03.19-2.9.0-beta5",
     "generatorName": "omikuji-bot",
     "generatorVersion": "3.0.0-alpha3",
-    "dataVersion": 3.0000001003,
+    "dataVersion": 3.0000001004,
     "author": "Pintocuru(せすじピンとしてます)",
-    "tags": ["超おみくじ"],
+    "tags": [
+      "超おみくじ"
+    ],
     "license": "CC-BY 4.0",
     "url": "https://pintocuru.booth.pm/items/7440428",
     "banner": "https://raw.githubusercontent.com/Pintocuru/OmikujiBot-Docs/refs/heads/main/2025-Q4/BigBangFortune/BigBangFortune.gif"
@@ -25,15 +27,25 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ"],
+        "tags": [
+          "超おみくじ"
+        ],
         "omikujiKey": "BigBangFortune",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["超", "爆発", "BigBang", "BigFortune", "BigOracle"],
+          "comment": [
+            "超",
+            "爆発",
+            "BigBang",
+            "BigFortune",
+            "BigOracle"
+          ],
           "expression": ""
         }
       }
@@ -55,42 +67,24 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ"],
+        "tags": [
+          "超おみくじ"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "BigBangFortune_1757756121625",
             "id": "a9400b70-a469-4f18-832b-a6d893adbb97",
             "key": "1757756121625",
             "name": "超おみくじ",
             "description": "",
             "createdAt": "2025-09-13T09:35:21.625Z",
             "updatedAt": "2025-09-13T09:35:21.625Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": null,
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": ""
-              },
-              { "delaySeconds": 0.1, "kind": "variable", "message": "{{<<BigBangLottery>>}}" },
-              {
-                "delaySeconds": 3,
-                "kind": "message",
-                "uiKey": "kujibikiPanel",
-                "slots": { "slot0": "【[[text]]】" },
-                "characterKey": "omiken",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "<<user>>の運勢は【[[text]]】希少度は[[symbol]][[mark]]"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       }
@@ -106,10 +100,66 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "イントロ"],
+        "tags": [
+          "超おみくじ",
+          "イントロ"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "BigBang_back", "repeat": 1 },
-          { "delaySeconds": 2, "kind": "wordParty", "wordPartyId": "CommonBombFire", "repeat": 1 }
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "BigBang_back",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "wordParty",
+            "wordPartyId": "CommonBombFire",
+            "repeat": 1
+          }
+        ]
+      },
+      "BigBangFortune_1757756121625": {
+        "id": "A7wrZLBmm73UQpI9PmuQPA",
+        "key": "BigBangFortune_1757756121625",
+        "name": "超おみくじ",
+        "description": "",
+        "createdAt": "2025-09-13T09:35:21.625Z",
+        "updatedAt": "2026-10-30T10:14:41.892Z",
+        "order": 2,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": null,
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": ""
+          },
+          {
+            "delaySeconds": 0.1,
+            "kind": "variable",
+            "message": "{{<<BigBangLottery>>}}"
+          },
+          {
+            "delaySeconds": 3,
+            "kind": "message",
+            "uiKey": "kujibikiPanel",
+            "slots": {
+              "slot0": "【[[text]]】"
+            },
+            "characterKey": "omiken",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "<<user>>の運勢は【[[text]]】希少度は[[symbol]][[mark]]"
+          }
         ]
       }
     },
@@ -124,7 +174,11 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "装飾", "吉"],
+        "tags": [
+          "超おみくじ",
+          "装飾",
+          "吉"
+        ],
         "values": [
           "光彩",
           "星霜",
@@ -218,7 +272,10 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "装飾"],
+        "tags": [
+          "超おみくじ",
+          "装飾"
+        ],
         "values": [
           "魑魅",
           "魍魎",
@@ -312,7 +369,10 @@
         "order": 4,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "占い結果"],
+        "tags": [
+          "超おみくじ",
+          "占い結果"
+        ],
         "values": [
           {
             "weight": 122,
@@ -326,9 +386,18 @@
             "weight": 154,
             "content": "<<BigBangNumber>>text='<<BigBangDecoB>><<BigBangDecoB>>凶';symbol=<<BigBangB2>>;mark='!!';"
           },
-          { "weight": 215, "content": "<<BigBangNumber>>text='<<BigBangDecoB>>凶';symbol=<<BigBangB1>>;mark='!';" },
-          { "weight": 46, "content": "<<BigBangG0>>mark='';" },
-          { "weight": 245, "content": "<<BigBangNumber>>text='<<BigBangDecoG>>吉';symbol=<<BigBangG1>>;mark='!';" },
+          {
+            "weight": 215,
+            "content": "<<BigBangNumber>>text='<<BigBangDecoB>>凶';symbol=<<BigBangB1>>;mark='!';"
+          },
+          {
+            "weight": 46,
+            "content": "<<BigBangG0>>mark='';"
+          },
+          {
+            "weight": 245,
+            "content": "<<BigBangNumber>>text='<<BigBangDecoG>>吉';symbol=<<BigBangG1>>;mark='!';"
+          },
           {
             "weight": 270,
             "content": "<<BigBangNumber>>text='<<BigBangDecoG>><<BigBangDecoG>>吉';symbol=<<BigBangG2>>;mark='!!';"
@@ -357,7 +426,10 @@
             "weight": 138,
             "content": "<<BigBangNumber>>text='<<BigBangDecoG>><<BigBangDecoG>><<BigBangDecoG>><<BigBangDecoG>><<BigBangDecoG>><<BigBangDecoG>><<BigBangDecoG>><<BigBangDecoG>>吉';symbol=<<BigBangG8>>;mark='!!!!!!!!';"
           },
-          { "weight": 5, "content": "text='<<BigBangG9>>吉';symbol='9999無量大数';mark='!!!!!!!!!';" }
+          {
+            "weight": 5,
+            "content": "text='<<BigBangG9>>吉';symbol='9999無量大数';mark='!!!!!!!!!';"
+          }
         ]
       },
       "BigBangB4": {
@@ -370,12 +442,27 @@
         "order": 5,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "凶"],
+        "tags": [
+          "超おみくじ",
+          "凶"
+        ],
         "values": [
-          { "weight": 32, "content": "str(ra1,'瞬息',ra2,'弾指',ra3,'刹那')" },
-          { "weight": 31, "content": "str(ra1,'弾指',ra2,'刹那',ra3,'六徳')" },
-          { "weight": 30, "content": "str(ra1,'刹那',ra2,'六徳',ra3,'虚空')" },
-          { "weight": 29, "content": "str(ra1,'六徳',ra2,'虚空',ra3,'清浄')" }
+          {
+            "weight": 32,
+            "content": "str(ra1,'瞬息',ra2,'弾指',ra3,'刹那')"
+          },
+          {
+            "weight": 31,
+            "content": "str(ra1,'弾指',ra2,'刹那',ra3,'六徳')"
+          },
+          {
+            "weight": 30,
+            "content": "str(ra1,'刹那',ra2,'六徳',ra3,'虚空')"
+          },
+          {
+            "weight": 29,
+            "content": "str(ra1,'六徳',ra2,'虚空',ra3,'清浄')"
+          }
         ]
       },
       "BigBangB3": {
@@ -388,12 +475,27 @@
         "order": 6,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "凶"],
+        "tags": [
+          "超おみくじ",
+          "凶"
+        ],
         "values": [
-          { "weight": 36, "content": "str(ra1,'漠',ra2,'模糊',ra3,'逡巡')" },
-          { "weight": 35, "content": "str(ra1,'模糊',ra2,'逡巡',ra3,'須臾')" },
-          { "weight": 34, "content": "str(ra1,'逡巡',ra2,'須臾',ra3,'瞬息')" },
-          { "weight": 33, "content": "str(ra1,'須臾',ra2,'瞬息',ra3,'弾指')" }
+          {
+            "weight": 36,
+            "content": "str(ra1,'漠',ra2,'模糊',ra3,'逡巡')"
+          },
+          {
+            "weight": 35,
+            "content": "str(ra1,'模糊',ra2,'逡巡',ra3,'須臾')"
+          },
+          {
+            "weight": 34,
+            "content": "str(ra1,'逡巡',ra2,'須臾',ra3,'瞬息')"
+          },
+          {
+            "weight": 33,
+            "content": "str(ra1,'須臾',ra2,'瞬息',ra3,'弾指')"
+          }
         ]
       },
       "BigBangB2": {
@@ -406,12 +508,27 @@
         "order": 7,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "凶"],
+        "tags": [
+          "超おみくじ",
+          "凶"
+        ],
         "values": [
-          { "weight": 40, "content": "str(ra1,'微',ra2,'繊',ra3,'沙')" },
-          { "weight": 39, "content": "str(ra1,'繊',ra2,'沙',ra3,'塵')" },
-          { "weight": 38, "content": "str(ra1,'沙',ra2,'塵',ra3,'漠')" },
-          { "weight": 37, "content": "str(ra1,'塵',ra2,'漠',ra3,'模糊')" }
+          {
+            "weight": 40,
+            "content": "str(ra1,'微',ra2,'繊',ra3,'沙')"
+          },
+          {
+            "weight": 39,
+            "content": "str(ra1,'繊',ra2,'沙',ra3,'塵')"
+          },
+          {
+            "weight": 38,
+            "content": "str(ra1,'沙',ra2,'塵',ra3,'漠')"
+          },
+          {
+            "weight": 37,
+            "content": "str(ra1,'塵',ra2,'漠',ra3,'模糊')"
+          }
         ]
       },
       "BigBangB1": {
@@ -424,13 +541,31 @@
         "order": 8,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "凶"],
+        "tags": [
+          "超おみくじ",
+          "凶"
+        ],
         "values": [
-          { "weight": 45, "content": "str(ra1,'割',ra2,'厘',ra3,'毛')" },
-          { "weight": 44, "content": "str(ra1,'厘',ra2,'毛',ra3,'糸')" },
-          { "weight": 43, "content": "str(ra1,'毛',ra2,'糸',ra3,'忽')" },
-          { "weight": 42, "content": "str(ra1,'糸',ra2,'忽',ra3,'微')" },
-          { "weight": 41, "content": "str(ra1,'忽',ra2,'微',ra3,'繊')" }
+          {
+            "weight": 45,
+            "content": "str(ra1,'割',ra2,'厘',ra3,'毛')"
+          },
+          {
+            "weight": 44,
+            "content": "str(ra1,'厘',ra2,'毛',ra3,'糸')"
+          },
+          {
+            "weight": 43,
+            "content": "str(ra1,'毛',ra2,'糸',ra3,'忽')"
+          },
+          {
+            "weight": 42,
+            "content": "str(ra1,'糸',ra2,'忽',ra3,'微')"
+          },
+          {
+            "weight": 41,
+            "content": "str(ra1,'忽',ra2,'微',ra3,'繊')"
+          }
         ]
       },
       "BigBangG0": {
@@ -443,7 +578,11 @@
         "order": 9,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "吉", "凶"],
+        "tags": [
+          "超おみくじ",
+          "吉",
+          "凶"
+        ],
         "values": [
           "{{<<BigBangNumber>>text='大吉';r=rand(8,9);symbol=str(r,'.',rb1,rb2);}}",
           "{{<<BigBangNumber>>text='吉';r=rand(7,8);symbol=str(r,'.',rb1,rb2);}}",
@@ -464,13 +603,31 @@
         "order": 10,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "吉"],
+        "tags": [
+          "超おみくじ",
+          "吉"
+        ],
         "values": [
-          { "weight": 51, "content": "str(ra1,rb1,'万',rb2,'000')" },
-          { "weight": 50, "content": "str(ra1,'万',ra2,rb1,'00')" },
-          { "weight": 49, "content": "str(ra1,rb1,rb2,'0')" },
-          { "weight": 48, "content": "str(ra1,rb1,rb2)" },
-          { "weight": 47, "content": "str(ra1,rb1,'.',ra2)" }
+          {
+            "weight": 51,
+            "content": "str(ra1,rb1,'万',rb2,'000')"
+          },
+          {
+            "weight": 50,
+            "content": "str(ra1,'万',ra2,rb1,'00')"
+          },
+          {
+            "weight": 49,
+            "content": "str(ra1,rb1,rb2,'0')"
+          },
+          {
+            "weight": 48,
+            "content": "str(ra1,rb1,rb2)"
+          },
+          {
+            "weight": 47,
+            "content": "str(ra1,rb1,'.',ra2)"
+          }
         ]
       },
       "BigBangG2": {
@@ -483,13 +640,31 @@
         "order": 11,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "吉"],
+        "tags": [
+          "超おみくじ",
+          "吉"
+        ],
         "values": [
-          { "weight": 56, "content": "str(ra1,rb1,rb2,'億')" },
-          { "weight": 55, "content": "str(ra2,rb1,'億',ra1,'000万')" },
-          { "weight": 54, "content": "str(ra1,'億',ra2,rb1,'00万')" },
-          { "weight": 53, "content": "str(ra1,rb1,rb2,'0万')" },
-          { "weight": 52, "content": "str(ra1,rb1,rb2,'万')" }
+          {
+            "weight": 56,
+            "content": "str(ra1,rb1,rb2,'億')"
+          },
+          {
+            "weight": 55,
+            "content": "str(ra2,rb1,'億',ra1,'000万')"
+          },
+          {
+            "weight": 54,
+            "content": "str(ra1,'億',ra2,rb1,'00万')"
+          },
+          {
+            "weight": 53,
+            "content": "str(ra1,rb1,rb2,'0万')"
+          },
+          {
+            "weight": 52,
+            "content": "str(ra1,rb1,rb2,'万')"
+          }
         ]
       },
       "BigBangG3": {
@@ -502,14 +677,35 @@
         "order": 12,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "吉"],
+        "tags": [
+          "超おみくじ",
+          "吉"
+        ],
         "values": [
-          { "weight": 62, "content": "'5000兆'" },
-          { "weight": 61, "content": "str(ra1,rb1,rb2,'0兆')" },
-          { "weight": 60, "content": "str(ra1,rb1,rb2,'兆')" },
-          { "weight": 59, "content": "str(ra2,rb1,'兆',ra1,'000億')" },
-          { "weight": 58, "content": "str(ra1,'兆',ra2,rb1,'00億')" },
-          { "weight": 57, "content": "str(ra1,rb1,rb2,'0億')" }
+          {
+            "weight": 62,
+            "content": "'5000兆'"
+          },
+          {
+            "weight": 61,
+            "content": "str(ra1,rb1,rb2,'0兆')"
+          },
+          {
+            "weight": 60,
+            "content": "str(ra1,rb1,rb2,'兆')"
+          },
+          {
+            "weight": 59,
+            "content": "str(ra2,rb1,'兆',ra1,'000億')"
+          },
+          {
+            "weight": 58,
+            "content": "str(ra1,'兆',ra2,rb1,'00億')"
+          },
+          {
+            "weight": 57,
+            "content": "str(ra1,rb1,rb2,'0億')"
+          }
         ]
       },
       "BigBangG4": {
@@ -522,17 +718,47 @@
         "order": 13,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "吉"],
+        "tags": [
+          "超おみくじ",
+          "吉"
+        ],
         "values": [
-          { "weight": 56, "content": "str(ra1,rb1,rb2,'0垓')" },
-          { "weight": 55, "content": "'602垓2140京7600兆'" },
-          { "weight": 55, "content": "str(ra1,rb1,rb2,'垓')" },
-          { "weight": 56, "content": "str(ra2,rb1,'垓',ra1,'000京')" },
-          { "weight": 57, "content": "str(ra1,'垓',ra2,rb1,'00京')" },
-          { "weight": 58, "content": "str(ra1,rb1,rb2,'0京')" },
-          { "weight": 59, "content": "str(ra1,rb1,rb2,'京')" },
-          { "weight": 60, "content": "str(ra2,rb1,'京',ra1,'000兆')" },
-          { "weight": 61, "content": "str(ra1,'京',ra2,rb1,'00兆')" }
+          {
+            "weight": 56,
+            "content": "str(ra1,rb1,rb2,'0垓')"
+          },
+          {
+            "weight": 55,
+            "content": "'602垓2140京7600兆'"
+          },
+          {
+            "weight": 55,
+            "content": "str(ra1,rb1,rb2,'垓')"
+          },
+          {
+            "weight": 56,
+            "content": "str(ra2,rb1,'垓',ra1,'000京')"
+          },
+          {
+            "weight": 57,
+            "content": "str(ra1,'垓',ra2,rb1,'00京')"
+          },
+          {
+            "weight": 58,
+            "content": "str(ra1,rb1,rb2,'0京')"
+          },
+          {
+            "weight": 59,
+            "content": "str(ra1,rb1,rb2,'京')"
+          },
+          {
+            "weight": 60,
+            "content": "str(ra2,rb1,'京',ra1,'000兆')"
+          },
+          {
+            "weight": 61,
+            "content": "str(ra1,'京',ra2,rb1,'00兆')"
+          }
         ]
       },
       "BigBangG5": {
@@ -545,20 +771,59 @@
         "order": 14,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "吉"],
+        "tags": [
+          "超おみくじ",
+          "吉"
+        ],
         "values": [
-          { "weight": 42, "content": "str(ra1,rb1,rb2,'0溝')" },
-          { "weight": 43, "content": "str(ra1,rb1,rb2,'溝')" },
-          { "weight": 44, "content": "str(ra2,rb1,'溝',ra1,'000穣')" },
-          { "weight": 45, "content": "str(ra1,'溝',ra2,rb1,'00穣')" },
-          { "weight": 46, "content": "str(ra1,rb1,rb2,'0穣')" },
-          { "weight": 47, "content": "str(ra1,rb1,rb2,'穣')" },
-          { "weight": 48, "content": "str(ra2,rb1,'穣',ra1,'000𥝱')" },
-          { "weight": 49, "content": "str(ra1,'穣',ra2,rb1,'00𥝱')" },
-          { "weight": 50, "content": "str(ra1,rb1,rb2,'0𥝱')" },
-          { "weight": 51, "content": "str(ra1,rb1,rb2,'𥝱')" },
-          { "weight": 52, "content": "str(ra2,rb1,'𥝱',ra1,'000垓')" },
-          { "weight": 53, "content": "str(ra1,'𥝱',ra2,rb1,'00垓')" }
+          {
+            "weight": 42,
+            "content": "str(ra1,rb1,rb2,'0溝')"
+          },
+          {
+            "weight": 43,
+            "content": "str(ra1,rb1,rb2,'溝')"
+          },
+          {
+            "weight": 44,
+            "content": "str(ra2,rb1,'溝',ra1,'000穣')"
+          },
+          {
+            "weight": 45,
+            "content": "str(ra1,'溝',ra2,rb1,'00穣')"
+          },
+          {
+            "weight": 46,
+            "content": "str(ra1,rb1,rb2,'0穣')"
+          },
+          {
+            "weight": 47,
+            "content": "str(ra1,rb1,rb2,'穣')"
+          },
+          {
+            "weight": 48,
+            "content": "str(ra2,rb1,'穣',ra1,'000𥝱')"
+          },
+          {
+            "weight": 49,
+            "content": "str(ra1,'穣',ra2,rb1,'00𥝱')"
+          },
+          {
+            "weight": 50,
+            "content": "str(ra1,rb1,rb2,'0𥝱')"
+          },
+          {
+            "weight": 51,
+            "content": "str(ra1,rb1,rb2,'𥝱')"
+          },
+          {
+            "weight": 52,
+            "content": "str(ra2,rb1,'𥝱',ra1,'000垓')"
+          },
+          {
+            "weight": 53,
+            "content": "str(ra1,'𥝱',ra2,rb1,'00垓')"
+          }
         ]
       },
       "BigBangG6": {
@@ -571,20 +836,59 @@
         "order": 15,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "吉"],
+        "tags": [
+          "超おみくじ",
+          "吉"
+        ],
         "values": [
-          { "weight": 30, "content": "str(ra1,rb1,rb2,'0載')" },
-          { "weight": 31, "content": "str(ra1,rb1,rb2,'載')" },
-          { "weight": 32, "content": "str(ra2,rb1,'載',ra1,'000正')" },
-          { "weight": 33, "content": "str(ra1,'載',ra2,rb1,'00正')" },
-          { "weight": 34, "content": "str(ra1,rb1,rb2,'0正')" },
-          { "weight": 35, "content": "str(ra1,rb1,rb2,'正')" },
-          { "weight": 36, "content": "str(ra2,rb1,'正',ra1,'000澗')" },
-          { "weight": 37, "content": "str(ra1,'正',ra2,rb1,'00澗')" },
-          { "weight": 38, "content": "str(ra1,rb1,rb2,'0澗')" },
-          { "weight": 39, "content": "str(ra1,rb1,rb2,'澗')" },
-          { "weight": 40, "content": "str(ra2,rb1,'澗',ra1,'000溝')" },
-          { "weight": 41, "content": "str(ra1,'澗',ra2,rb1,'00溝')" }
+          {
+            "weight": 30,
+            "content": "str(ra1,rb1,rb2,'0載')"
+          },
+          {
+            "weight": 31,
+            "content": "str(ra1,rb1,rb2,'載')"
+          },
+          {
+            "weight": 32,
+            "content": "str(ra2,rb1,'載',ra1,'000正')"
+          },
+          {
+            "weight": 33,
+            "content": "str(ra1,'載',ra2,rb1,'00正')"
+          },
+          {
+            "weight": 34,
+            "content": "str(ra1,rb1,rb2,'0正')"
+          },
+          {
+            "weight": 35,
+            "content": "str(ra1,rb1,rb2,'正')"
+          },
+          {
+            "weight": 36,
+            "content": "str(ra2,rb1,'正',ra1,'000澗')"
+          },
+          {
+            "weight": 37,
+            "content": "str(ra1,'正',ra2,rb1,'00澗')"
+          },
+          {
+            "weight": 38,
+            "content": "str(ra1,rb1,rb2,'0澗')"
+          },
+          {
+            "weight": 39,
+            "content": "str(ra1,rb1,rb2,'澗')"
+          },
+          {
+            "weight": 40,
+            "content": "str(ra2,rb1,'澗',ra1,'000溝')"
+          },
+          {
+            "weight": 41,
+            "content": "str(ra1,'澗',ra2,rb1,'00溝')"
+          }
         ]
       },
       "BigBangG7": {
@@ -597,20 +901,59 @@
         "order": 16,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "吉"],
+        "tags": [
+          "超おみくじ",
+          "吉"
+        ],
         "values": [
-          { "weight": 18, "content": "str(ra1,rb1,rb2,'0阿僧祇')" },
-          { "weight": 19, "content": "str(ra1,rb1,rb2,'阿僧祇')" },
-          { "weight": 20, "content": "str(ra2,rb1,'阿僧祇',ra1,'000恒河沙')" },
-          { "weight": 21, "content": "str(ra1,'阿僧祇',ra2,rb1,'00恒河沙')" },
-          { "weight": 22, "content": "str(ra1,rb1,rb2,'0恒河沙')" },
-          { "weight": 23, "content": "str(ra1,rb1,rb2,'恒河沙')" },
-          { "weight": 24, "content": "str(ra2,rb1,'恒河沙',ra1,'000極')" },
-          { "weight": 25, "content": "str(ra1,'恒河沙',ra2,rb1,'00極')" },
-          { "weight": 26, "content": "str(ra1,rb1,rb2,'0極')" },
-          { "weight": 27, "content": "str(ra1,rb1,rb2,'極')" },
-          { "weight": 28, "content": "str(ra2,rb1,'極',ra1,'000載')" },
-          { "weight": 29, "content": "str(ra1,'極',ra2,rb1,'00載')" }
+          {
+            "weight": 18,
+            "content": "str(ra1,rb1,rb2,'0阿僧祇')"
+          },
+          {
+            "weight": 19,
+            "content": "str(ra1,rb1,rb2,'阿僧祇')"
+          },
+          {
+            "weight": 20,
+            "content": "str(ra2,rb1,'阿僧祇',ra1,'000恒河沙')"
+          },
+          {
+            "weight": 21,
+            "content": "str(ra1,'阿僧祇',ra2,rb1,'00恒河沙')"
+          },
+          {
+            "weight": 22,
+            "content": "str(ra1,rb1,rb2,'0恒河沙')"
+          },
+          {
+            "weight": 23,
+            "content": "str(ra1,rb1,rb2,'恒河沙')"
+          },
+          {
+            "weight": 24,
+            "content": "str(ra2,rb1,'恒河沙',ra1,'000極')"
+          },
+          {
+            "weight": 25,
+            "content": "str(ra1,'恒河沙',ra2,rb1,'00極')"
+          },
+          {
+            "weight": 26,
+            "content": "str(ra1,rb1,rb2,'0極')"
+          },
+          {
+            "weight": 27,
+            "content": "str(ra1,rb1,rb2,'極')"
+          },
+          {
+            "weight": 28,
+            "content": "str(ra2,rb1,'極',ra1,'000載')"
+          },
+          {
+            "weight": 29,
+            "content": "str(ra1,'極',ra2,rb1,'00載')"
+          }
         ]
       },
       "BigBangG8": {
@@ -623,20 +966,59 @@
         "order": 17,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "吉"],
+        "tags": [
+          "超おみくじ",
+          "吉"
+        ],
         "values": [
-          { "weight": 6, "content": "str(ra1,rb1,rb2,'0無量大数')" },
-          { "weight": 7, "content": "str(ra1,rb1,rb2,'無量大数')" },
-          { "weight": 8, "content": "str(ra2,rb1,'無量大数',ra1,'000不可思議')" },
-          { "weight": 9, "content": "str(ra1,'無量大数',ra2,rb1,'00不可思議')" },
-          { "weight": 10, "content": "str(ra1,rb1,rb2,'0不可思議')" },
-          { "weight": 11, "content": "str(ra1,rb1,rb2,'不可思議')" },
-          { "weight": 12, "content": "str(ra2,rb1,'不可思議',ra1,'000那由他')" },
-          { "weight": 13, "content": "str(ra1,'不可思議',ra2,rb1,'00那由他')" },
-          { "weight": 14, "content": "str(ra1,rb1,rb2,'0那由他')" },
-          { "weight": 15, "content": "str(ra1,rb1,rb2,'那由他')" },
-          { "weight": 16, "content": "str(ra2,rb1,'那由他',ra1,'000阿僧祇')" },
-          { "weight": 17, "content": "str(ra1,'那由他',ra2,rb1,'00阿僧祇')" }
+          {
+            "weight": 6,
+            "content": "str(ra1,rb1,rb2,'0無量大数')"
+          },
+          {
+            "weight": 7,
+            "content": "str(ra1,rb1,rb2,'無量大数')"
+          },
+          {
+            "weight": 8,
+            "content": "str(ra2,rb1,'無量大数',ra1,'000不可思議')"
+          },
+          {
+            "weight": 9,
+            "content": "str(ra1,'無量大数',ra2,rb1,'00不可思議')"
+          },
+          {
+            "weight": 10,
+            "content": "str(ra1,rb1,rb2,'0不可思議')"
+          },
+          {
+            "weight": 11,
+            "content": "str(ra1,rb1,rb2,'不可思議')"
+          },
+          {
+            "weight": 12,
+            "content": "str(ra2,rb1,'不可思議',ra1,'000那由他')"
+          },
+          {
+            "weight": 13,
+            "content": "str(ra1,'不可思議',ra2,rb1,'00那由他')"
+          },
+          {
+            "weight": 14,
+            "content": "str(ra1,rb1,rb2,'0那由他')"
+          },
+          {
+            "weight": 15,
+            "content": "str(ra1,rb1,rb2,'那由他')"
+          },
+          {
+            "weight": 16,
+            "content": "str(ra2,rb1,'那由他',ra1,'000阿僧祇')"
+          },
+          {
+            "weight": 17,
+            "content": "str(ra1,'那由他',ra2,rb1,'00阿僧祇')"
+          }
         ]
       },
       "BigBangG9": {
@@ -649,7 +1031,10 @@
         "order": 18,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ", "吉"],
+        "tags": [
+          "超おみくじ",
+          "吉"
+        ],
         "values": [
           "完全究極神聖幻滅霊装宝輪魔哭祝厄冥界崩律禁忌煌命断罪輪廻",
           "天地開闢万象創世究極神聖光輪臨御福徳円満万寿虹霓閃光往生",
@@ -676,7 +1061,9 @@
         "isEnabled": true,
         "tagColor": "primary",
         "tags": [],
-        "values": ["ra1 = rand(1,9);ra2 = rand(1,9);ra3 = rand(1,9);rb1 = rand(0,9);rb2 = rand(0,9);"]
+        "values": [
+          "ra1 = rand(1,9);ra2 = rand(1,9);ra3 = rand(1,9);rb1 = rand(0,9);rb2 = rand(0,9);"
+        ]
       }
     },
     "characters": {
@@ -690,18 +1077,47 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ"],
+        "tags": [
+          "超おみくじ"
+        ],
         "displayName": "サンプル",
-        "color": { "name": "#D1C4E9", "text": "#FFFFFF", "background": "#4527A0", "accent": "#B39DDB" },
-        "image": {
-          "default": { "label": "default", "src": [] },
-          "happy": { "label": "happy", "src": [] },
-          "surprised": { "label": "surprised", "src": [] },
-          "sad": { "label": "sad", "src": [] },
-          "angry": { "label": "angry", "src": [] },
-          "thinking": { "label": "thinking", "src": [] }
+        "color": {
+          "name": "#D1C4E9",
+          "text": "#FFFFFF",
+          "background": "#4527A0",
+          "accent": "#B39DDB"
         },
-        "displayOption": { "mode": "comment", "imageBase64": "", "frameId": "" }
+        "image": {
+          "default": {
+            "label": "default",
+            "src": []
+          },
+          "happy": {
+            "label": "happy",
+            "src": []
+          },
+          "surprised": {
+            "label": "surprised",
+            "src": []
+          },
+          "sad": {
+            "label": "sad",
+            "src": []
+          },
+          "angry": {
+            "label": "angry",
+            "src": []
+          },
+          "thinking": {
+            "label": "thinking",
+            "src": []
+          }
+        },
+        "displayOption": {
+          "mode": "comment",
+          "imageBase64": "",
+          "frameId": ""
+        }
       },
       "bduRAb7MvPGGo99jEsbaW": {
         "id": "A02SChT7B5xpdHjOFJDch",
@@ -713,11 +1129,22 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["超おみくじ"],
+        "tags": [
+          "超おみくじ"
+        ],
         "displayName": "",
-        "color": { "name": "#212121", "text": "#212121", "background": "#FAFAFA", "accent": "#FF9800" },
+        "color": {
+          "name": "#212121",
+          "text": "#212121",
+          "background": "#FAFAFA",
+          "accent": "#FF9800"
+        },
         "image": {},
-        "displayOption": { "mode": "comment", "imageBase64": "", "frameId": "" }
+        "displayOption": {
+          "mode": "comment",
+          "imageBase64": "",
+          "frameId": ""
+        }
       }
     }
   },
@@ -735,8 +1162,17 @@
   },
   "jsonMerge": [],
   "settings": {
-    "generator": { "commentType": "OneComme", "soundEnabled": true, "basicDelaySeconds": 1 },
-    "editor": { "locale": "ja", "initialCategory": "comments" },
-    "developer": { "daisyUiTheme": "dim" }
+    "generator": {
+      "commentType": "OneComme",
+      "soundEnabled": true,
+      "basicDelaySeconds": 1
+    },
+    "editor": {
+      "locale": "ja",
+      "initialCategory": "comments"
+    },
+    "developer": {
+      "daisyUiTheme": "dim"
+    }
   }
 }

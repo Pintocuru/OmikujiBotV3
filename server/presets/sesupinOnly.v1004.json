@@ -6,7 +6,7 @@
     "version": "0.0.1",
     "generatorName": "omikuji-bot",
     "generatorVersion": "3.0.0-alpha2",
-    "dataVersion": 3.0000001003,
+    "dataVersion": 3.0000001004,
     "author": "Pintocuru",
     "tags": [],
     "license": "CC-BY 4.0"
@@ -23,15 +23,26 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじ", "巫女さんのおみくじ"],
+        "tags": [
+          "おみくじ",
+          "巫女さんのおみくじ"
+        ],
         "omikujiKey": "MaidenOmikujiNormal",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["みくじ", "omikuji", "^御神籤", "^運勢", "^うんせい"],
+          "comment": [
+            "みくじ",
+            "omikuji",
+            "^御神籤",
+            "^運勢",
+            "^うんせい"
+          ],
           "expression": ""
         }
       },
@@ -49,11 +60,17 @@
         "omikujiKey": "U2qH92rg1Rr4vXyavD49_",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["すいか", "スイカ", "suika"],
+          "comment": [
+            "すいか",
+            "スイカ",
+            "suika"
+          ],
           "expression": ""
         }
       },
@@ -75,7 +92,9 @@
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["おみくじ"],
+          "comment": [
+            "おみくじ"
+          ],
           "expression": ""
         }
       },
@@ -97,7 +116,9 @@
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["おみくじ"],
+          "comment": [
+            "おみくじ"
+          ],
           "expression": ""
         }
       },
@@ -115,11 +136,15 @@
         "omikujiKey": "5029bb44-b06d-4c51-998a-85b043c0b8df",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["おみくじ"],
+          "comment": [
+            "おみくじ"
+          ],
           "expression": ""
         }
       },
@@ -137,11 +162,16 @@
         "omikujiKey": "EidolonGacha",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment", "access"],
+          "conditions": [
+            "comment",
+            "access"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["おみくじ"],
+          "comment": [
+            "おみくじ"
+          ],
           "expression": ""
         }
       },
@@ -159,11 +189,15 @@
         "omikujiKey": "StageSelect",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["おみくじ"],
+          "comment": [
+            "おみくじ"
+          ],
           "expression": ""
         }
       },
@@ -181,11 +215,15 @@
         "omikujiKey": "GoogolClover",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["おみくじ"],
+          "comment": [
+            "おみくじ"
+          ],
           "expression": ""
         }
       },
@@ -203,11 +241,15 @@
         "omikujiKey": "1768783978877-0qxn6h",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["おみくじ"],
+          "comment": [
+            "おみくじ"
+          ],
           "expression": ""
         }
       },
@@ -225,11 +267,15 @@
         "omikujiKey": "3be9b811-71d0-4aed-9ae0-7387dac9122d",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["カップ"],
+          "comment": [
+            "カップ"
+          ],
           "expression": ""
         }
       }
@@ -254,303 +300,199 @@
         "tags": [],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_1757806025003",
             "id": "51ba308e-729d-4bee-86f8-a91476072a28",
             "key": "1757806025003",
             "name": "はずれ",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 49667, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "cafelatte",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "---"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 49667,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_ijq9vbvr737PGg0g8cAVU",
             "id": "ijq9vbvr737PGg0g8cAVU",
             "key": "ijq9vbvr737PGg0g8cAVU",
             "name": "リプレイ(1/8)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 8192, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "8"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 8192,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_h5CitD9vpLS8jFy70p8N6",
             "id": "h5CitD9vpLS8jFy70p8N6",
             "key": "h5CitD9vpLS8jFy70p8N6",
             "name": "下段黄7(1/16)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 4096, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "16"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 4096,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_W9RX35XtjzkouWjxRMAE1",
             "id": "W9RX35XtjzkouWjxRMAE1",
             "key": "W9RX35XtjzkouWjxRMAE1",
             "name": "斜め黄7(1/32)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 2048, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "32"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 2048,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_H2tdthB11UO5VZK5Z1BJ6",
             "id": "H2tdthB11UO5VZK5Z1BJ6",
             "key": "H2tdthB11UO5VZK5Z1BJ6",
             "name": "中央リプ(1/64)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 1024, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "64"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1024,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_bVPBueCQLkjReICqK1bah",
             "id": "bVPBueCQLkjReICqK1bah",
             "key": "bVPBueCQLkjReICqK1bah",
             "name": "フェイクリプ(1/256)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 256, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "256\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 256,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_mPHVTjq6hKiM5WTz9u-nW",
             "id": "mPHVTjq6hKiM5WTz9u-nW",
             "key": "mPHVTjq6hKiM5WTz9u-nW",
             "name": "中央黄7(1/512)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 128, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "512\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 128,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_y9mGQL1Q78rB38IGo0a87",
             "id": "y9mGQL1Q78rB38IGo0a87",
             "key": "y9mGQL1Q78rB38IGo0a87",
             "name": "紫7(1/1024)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 64, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "1024\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 64,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_lWuxDBZd0rtqZYsVH11PB",
             "id": "lWuxDBZd0rtqZYsVH11PB",
             "key": "lWuxDBZd0rtqZYsVH11PB",
             "name": "青7(1/2048)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 32, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "2048\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 32,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_-VZLG-k3hZR0RPK0Pic3M",
             "id": "-VZLG-k3hZR0RPK0Pic3M",
             "key": "-VZLG-k3hZR0RPK0Pic3M",
             "name": "赤7(1/4096)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 16, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "4096\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 16,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_EsUErWW9_SDQD1kYciHr9",
             "id": "EsUErWW9_SDQD1kYciHr9",
             "key": "EsUErWW9_SDQD1kYciHr9",
             "name": "GOD(1/8192)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 8, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "8192\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 8,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_U8L4IJDATuaJes8XKXewM",
             "id": "U8L4IJDATuaJes8XKXewM",
             "key": "U8L4IJDATuaJes8XKXewM",
             "name": "冥王(1/163884)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 4, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "16384\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 4,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_copy_1775626734159_mK-zJdXnTRWffvzuieg4K",
             "id": "mK-zJdXnTRWffvzuieg4K",
             "key": "mK-zJdXnTRWffvzuieg4K",
             "name": "レアSIN(1/65536)",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "65536\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -567,27 +509,19 @@
         "tags": [],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "FruitFortune_1757806025003",
             "id": "51ba308e-729d-4bee-86f8-a91476072a28",
             "key": "1757806025003",
             "name": "スイカ",
             "description": "",
             "createdAt": "2025-09-13T23:27:05.003Z",
             "updatedAt": "2025-09-13T23:27:05.003Z",
-            "lottery": { "isPriority": false, "weight": 30, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "<<\n  'すいか',\n  'めろん',\n  'いちご',\n  'ぶどう',\n  'カレー'\n>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 30,
+              "criteria": null
+            }
           }
         ]
       },
@@ -604,109 +538,64 @@
         "tags": [],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "EidolonGacha_cbe3bd6b-b592-4aa6-b6ea-489993898dec",
             "id": "d72e24bb-79c8-4b7f-88ed-1a8996f096c5",
             "key": "cbe3bd6b-b592-4aa6-b6ea-489993898dec",
             "name": "幻獣ガチャ:アンコモン",
             "description": "",
             "createdAt": "2025-09-02T03:45:59.053Z",
             "updatedAt": "2025-09-02T03:45:59.053Z",
-            "lottery": { "isPriority": false, "weight": 43, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["EidolonGachaDragon"] },
-              { "delaySeconds": 2, "kind": "wordParty", "wordPartyId": "EidolonGacha_CapsuleUncommon", "repeat": 1 },
-              {
-                "delaySeconds": 3.5,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "decision",
-                "soundPath": "",
-                "message": "<<user>>の幻獣ガチャ!<<GachaFirstSecond>>【<<GachaRarityUncommon>>吉!】"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 43,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "EidolonGacha_1756784759053",
             "id": "b90f6c05-7c7d-412c-a934-8d8837bd2bfb",
             "key": "1756784759053",
             "name": "幻獣ガチャ:レア",
             "description": "",
             "createdAt": "2025-09-02T03:45:59.053Z",
             "updatedAt": "2025-09-02T03:45:59.053Z",
-            "lottery": { "isPriority": false, "weight": 35, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["EidolonGachaDragon"] },
-              { "delaySeconds": 2, "kind": "wordParty", "wordPartyId": "EidolonGacha_CapsuleRare", "repeat": 1 },
-              { "delaySeconds": 3, "kind": "wordParty", "wordPartyId": "EidolonGacha_CapsuleNameRare", "repeat": 1 },
-              {
-                "delaySeconds": 3.5,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "decision",
-                "soundPath": "",
-                "message": "<<user>>の幻獣ガチャ!<<GachaFirstSecond>>激レア!!【<<GachaRarityRare>>吉!】"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 35,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "EidolonGacha_51d3adb2-6a15-438b-9c80-a3327102a87b",
             "id": "f9493334-c787-44b6-90eb-fe7e29ec192b",
             "key": "51d3adb2-6a15-438b-9c80-a3327102a87b",
             "name": "幻獣ガチャ:SSR",
             "description": "",
             "createdAt": "2025-09-02T03:45:59.053Z",
             "updatedAt": "2025-09-02T03:45:59.053Z",
-            "lottery": { "isPriority": false, "weight": 20, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["EidolonGachaDragon"] },
-              { "delaySeconds": 2, "kind": "wordParty", "wordPartyId": "EidolonGacha_CapsuleSSR", "repeat": 1 },
-              { "delaySeconds": 3, "kind": "wordParty", "wordPartyId": "EidolonGacha_CapsuleNameSSR", "repeat": 1 },
-              { "delaySeconds": 3, "kind": "wordParty", "wordPartyId": "EidolonGacha_CapsuleNameSSRDora", "repeat": 1 },
-              {
-                "delaySeconds": 3.5,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "decision",
-                "soundPath": "",
-                "message": "<<user>>の幻獣ガチャ!<<GachaFirstSecond>>超激レア!!!【<<GachaRaritySSR>>吉!】"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 20,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "EidolonGacha_a2ff6922-8ce2-4bd8-8cc6-4b654c22246d",
             "id": "7272a9da-88a4-4b5c-a5cf-b537de07a358",
             "key": "a2ff6922-8ce2-4bd8-8cc6-4b654c22246d",
             "name": "幻獣ガチャ:SecretRare",
             "description": "",
             "createdAt": "2025-09-02T03:45:59.053Z",
             "updatedAt": "2025-09-02T03:45:59.053Z",
-            "lottery": { "isPriority": false, "weight": 2, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["EidolonGachaDragon"] },
-              { "delaySeconds": 2, "kind": "wordParty", "wordPartyId": "EidolonGacha_CapsuleSecret", "repeat": 1 },
-              { "delaySeconds": 3, "kind": "wordParty", "wordPartyId": "EidolonGacha_CapsuleNameSSR", "repeat": 1 },
-              { "delaySeconds": 3, "kind": "wordParty", "wordPartyId": "EidolonGacha_CapsuleNameSSRDora", "repeat": 1 },
-              {
-                "delaySeconds": 3.5,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "decision",
-                "soundPath": "",
-                "message": "<<user>>の幻獣ガチャ!<<GachaFirstSecond>>伝説の究極レア!!!!【福沢諭吉!】"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 2,
+              "criteria": null
+            }
           }
         ]
       },
@@ -723,28 +612,19 @@
         "tags": [],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "StageSelect_e446aa2d-b9d5-4a6d-96fe-c9bd9a8887be",
             "id": "1855b469-01b1-4a7d-84b5-1bc84b1b602e",
             "key": "e446aa2d-b9d5-4a6d-96fe-c9bd9a8887be",
             "name": "",
             "description": "",
             "createdAt": "2025-08-11T03:50:57.708Z",
             "updatedAt": "2025-08-11T03:50:57.708Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "!抽選回す", "repeat": 1 },
-              {
-                "delaySeconds": 2,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "collect",
-                "soundPath": "",
-                "message": "今回のステージは…<<StageRandom>>!"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -761,42 +641,34 @@
         "tags": [],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "GoogolClover_1759673656457",
             "id": "171c331f-a275-4468-bcf3-439c7e603335",
             "key": "1759673656457",
             "name": "",
             "description": "",
             "createdAt": "2025-10-05T14:14:16.457Z",
             "updatedAt": "2025-10-05T14:14:16.457Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "gameScript",
-                "scriptId": "GoogolClover",
-                "characterKey": "cafelatte",
-                "queryString": ""
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "GoogolClover_1759673656457",
             "id": "609a4c4c-373f-4b8a-80a9-27d4f38a1432",
             "key": "68f4ddba-942f-452c-b116-6027ae100a6f",
             "name": "",
             "description": "",
             "createdAt": "2026-02-10T00:21:37.146Z",
             "updatedAt": "2026-02-10T00:21:37.146Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "gameScript",
-                "scriptId": "GoogolClover",
-                "characterKey": "cafelatte",
-                "queryString": ""
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -813,27 +685,19 @@
         "tags": [],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "1768783978877-0qxn6h_7bdd8e09-b4f2-4fb6-953b-4c75a5ffce58",
             "id": "6ecf29f4-e0da-46ab-853f-1a127721ef7a",
             "key": "7bdd8e09-b4f2-4fb6-953b-4c75a5ffce58",
             "name": "",
             "description": "",
             "createdAt": "2026-01-19T00:51:36.052Z",
             "updatedAt": "2026-01-19T00:51:36.057Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "",
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "{{text='<<RiderLicenseUp>><<RiderLicenseBottom>>'}}<<user>>さんは【[[text]]】"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -850,23 +714,19 @@
         "tags": [],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "U2qH92rg1Rr4vXyavD49__C9_7a_fCTBp4QFm3MLteD",
             "id": "caFFTPuuBa-7vX0d4D3-e",
             "key": "C9_7a_fCTBp4QFm3MLteD",
             "name": "suika",
             "description": "",
             "createdAt": "2026-10-20T14:33:16.983Z",
             "updatedAt": "2026-10-20T14:33:16.984Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "gameScript",
-                "scriptId": "GouseiSuika",
-                "characterKey": "chocolate",
-                "queryString": ""
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -880,217 +740,130 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじ", "巫女さんのおみくじ"],
+        "tags": [
+          "おみくじ",
+          "巫女さんのおみくじ"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "MaidenOmikujiNormal_c4dcf0cd-554d-4dfc-8880-eab00077e9fc",
             "id": "83c93b75-3f18-452d-81e7-e5f319fa7a95",
             "key": "c4dcf0cd-554d-4dfc-8880-eab00077e9fc",
             "name": "おみくじ:大吉",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.296Z",
             "updatedAt": "2025-08-11T15:34:29.296Z",
-            "lottery": { "isPriority": false, "weight": 15, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "characterStage",
-                "slots": { "slot0": "aaa", "slot1": "aaaaaaa" },
-                "characterKey": null,
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "aaaaa"
-              },
-              { "delaySeconds": 1, "kind": "wordParty", "wordPartyId": "MaidenOmikuji01", "repeat": 1 },
-              {
-                "delaySeconds": 2,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "omiken",
-                "iconKey": "happy",
-                "sound": "baseball",
-                "soundPath": "",
-                "message": "{{text='大吉'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji01>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 15,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "MaidenOmikujiNormal_ea8cfca6-7c08-46e5-96b3-d93cdf95783a",
             "id": "7a229cef-6cd6-47de-a546-2af62db03a96",
             "key": "ea8cfca6-7c08-46e5-96b3-d93cdf95783a",
             "name": "おみくじ:吉",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.296Z",
             "updatedAt": "2025-08-11T15:34:29.296Z",
-            "lottery": { "isPriority": false, "weight": 20, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "MaidenOmikujiLottery", "repeat": 1 },
-              { "delaySeconds": 1, "kind": "wordParty", "wordPartyId": "MaidenOmikuji02", "repeat": 1 },
-              {
-                "delaySeconds": 2,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "omiken",
-                "iconKey": "happy",
-                "sound": "twinkle",
-                "soundPath": "",
-                "message": "{{text='吉'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji02>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 20,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "MaidenOmikujiNormal_5cd77096-dca9-4714-a0a9-e24b5b8cee62",
             "id": "0dc10379-b0ed-40be-b8d1-e48d4cc048d9",
             "key": "5cd77096-dca9-4714-a0a9-e24b5b8cee62",
             "name": "おみくじ:中吉",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.296Z",
             "updatedAt": "2025-08-11T15:34:29.296Z",
-            "lottery": { "isPriority": false, "weight": 20, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "MaidenOmikujiLottery", "repeat": 1 },
-              { "delaySeconds": 1, "kind": "wordParty", "wordPartyId": "MaidenOmikuji03", "repeat": 1 },
-              {
-                "delaySeconds": 2,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "omiken",
-                "iconKey": "default",
-                "sound": "congrats",
-                "soundPath": "",
-                "message": "{{text='中吉'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji03>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 20,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "MaidenOmikujiNormal_e6d4e9f7-e72c-4e31-9f18-920557fec162",
             "id": "d08766c7-c56f-4afc-a4ad-144c3338928b",
             "key": "e6d4e9f7-e72c-4e31-9f18-920557fec162",
             "name": "おみくじ:小吉",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.296Z",
             "updatedAt": "2025-08-11T15:34:29.296Z",
-            "lottery": { "isPriority": false, "weight": 15, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "MaidenOmikujiLottery", "repeat": 1 },
-              { "delaySeconds": 1, "kind": "wordParty", "wordPartyId": "MaidenOmikuji04", "repeat": 1 },
-              {
-                "delaySeconds": 2,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "omiken",
-                "iconKey": "default",
-                "sound": "jingle",
-                "soundPath": "",
-                "message": "{{text='小吉'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji04>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 15,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "MaidenOmikujiNormal_81e073ba-a404-4dff-b066-be59b9cc2010",
             "id": "0cfeeeab-0a6a-4f11-807f-dd83bf4596ee",
             "key": "81e073ba-a404-4dff-b066-be59b9cc2010",
             "name": "おみくじ:末吉",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.296Z",
             "updatedAt": "2025-08-11T15:34:29.296Z",
-            "lottery": { "isPriority": false, "weight": 15, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "MaidenOmikujiLottery", "repeat": 1 },
-              { "delaySeconds": 1, "kind": "wordParty", "wordPartyId": "MaidenOmikuji05", "repeat": 1 },
-              {
-                "delaySeconds": 2,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "omiken",
-                "iconKey": "thinking",
-                "sound": "bounce",
-                "soundPath": "",
-                "message": "{{text='末吉'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji05>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 15,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "MaidenOmikujiNormal_1066e6ff-58ad-4264-b684-09cc0dd8ca6d",
             "id": "b1e83100-c347-4068-9583-c593d2d808bd",
             "key": "1066e6ff-58ad-4264-b684-09cc0dd8ca6d",
             "name": "おみくじ:凶",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.296Z",
             "updatedAt": "2025-08-11T15:34:29.296Z",
-            "lottery": { "isPriority": false, "weight": 10, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "MaidenOmikujiLottery", "repeat": 1 },
-              { "delaySeconds": 1, "kind": "wordParty", "wordPartyId": "MaidenOmikuji06", "repeat": 1 },
-              {
-                "delaySeconds": 2,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "omiken",
-                "iconKey": "sad",
-                "sound": "fail",
-                "soundPath": "",
-                "message": "{{text='凶'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji06>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 10,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "MaidenOmikujiNormal_768d962f-2271-4da6-845b-f2034172b99c",
             "id": "eda51ff4-5431-4e96-8e5c-35bad6a9edd2",
             "key": "768d962f-2271-4da6-845b-f2034172b99c",
             "name": "おみくじ:大凶",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.296Z",
             "updatedAt": "2025-08-11T15:34:29.296Z",
-            "lottery": { "isPriority": false, "weight": 5, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "MaidenOmikujiLottery", "repeat": 1 },
-              { "delaySeconds": 1, "kind": "wordParty", "wordPartyId": "MaidenOmikuji08", "repeat": 1 },
-              {
-                "delaySeconds": 2,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "omiken",
-                "iconKey": "sad",
-                "sound": "explosion",
-                "soundPath": "",
-                "message": "{{text='大凶'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji07>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 5,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "MaidenOmikujiNormal_1c6e7104-a7f6-45c3-90f2-48f0c627acee",
             "id": "3402e7a6-f42e-4727-9c0b-f27e3caabe77",
             "key": "1c6e7104-a7f6-45c3-90f2-48f0c627acee",
             "name": "おみくじ:残念賞",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.296Z",
             "updatedAt": "2025-08-11T15:34:29.296Z",
-            "lottery": { "isPriority": false, "weight": 0, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "MaidenOmikujiLottery", "repeat": 1 },
-              { "delaySeconds": 1, "kind": "wordParty", "wordPartyId": "MaidenOmikuji07", "repeat": 1 },
-              {
-                "delaySeconds": 2,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "omiken",
-                "iconKey": "thinking",
-                "sound": "explosion",
-                "soundPath": "",
-                "message": "{{text='残念賞'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji08>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 0,
+              "criteria": null
+            }
           }
         ]
       }
@@ -1108,8 +881,952 @@
         "tagColor": "primary",
         "tags": [],
         "steps": [
-          { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "EidolonGacha_Dragon", "repeat": 1 },
-          { "delaySeconds": 1.8, "kind": "wordParty", "wordPartyId": "CommonFlash", "repeat": 1 }
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "EidolonGacha_Dragon",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1.8,
+            "kind": "wordParty",
+            "wordPartyId": "CommonFlash",
+            "repeat": 1
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_1757806025003": {
+        "id": "KUwLqH4bC_BQ7fQ0Kq4w-A",
+        "key": "FruitFortune_copy_1775626734159_1757806025003",
+        "name": "はずれ",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 2,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "cafelatte",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "---"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_ijq9vbvr737PGg0g8cAVU": {
+        "id": "7nUmOCyniP3eFNzEoPQXug",
+        "key": "FruitFortune_copy_1775626734159_ijq9vbvr737PGg0g8cAVU",
+        "name": "リプレイ(1/8)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 3,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "8"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_h5CitD9vpLS8jFy70p8N6": {
+        "id": "wl-1nuwDihbwHGOF1mbKDA",
+        "key": "FruitFortune_copy_1775626734159_h5CitD9vpLS8jFy70p8N6",
+        "name": "下段黄7(1/16)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 4,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "16"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_W9RX35XtjzkouWjxRMAE1": {
+        "id": "ienuSWx3TFsVm9-cwwJ_qA",
+        "key": "FruitFortune_copy_1775626734159_W9RX35XtjzkouWjxRMAE1",
+        "name": "斜め黄7(1/32)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 5,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "32"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_H2tdthB11UO5VZK5Z1BJ6": {
+        "id": "dl5lW7lznssfKIZqS_-KvA",
+        "key": "FruitFortune_copy_1775626734159_H2tdthB11UO5VZK5Z1BJ6",
+        "name": "中央リプ(1/64)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 6,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "64"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_bVPBueCQLkjReICqK1bah": {
+        "id": "YpMw_ncNczTkfI5CELRGeA",
+        "key": "FruitFortune_copy_1775626734159_bVPBueCQLkjReICqK1bah",
+        "name": "フェイクリプ(1/256)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 7,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "256\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_mPHVTjq6hKiM5WTz9u-nW": {
+        "id": "Wpikw1QGHITjZqql5zuo6A",
+        "key": "FruitFortune_copy_1775626734159_mPHVTjq6hKiM5WTz9u-nW",
+        "name": "中央黄7(1/512)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 8,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "512\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_y9mGQL1Q78rB38IGo0a87": {
+        "id": "o2jOJTm1wytjZ5EleEINIQ",
+        "key": "FruitFortune_copy_1775626734159_y9mGQL1Q78rB38IGo0a87",
+        "name": "紫7(1/1024)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 9,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "1024\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_lWuxDBZd0rtqZYsVH11PB": {
+        "id": "T4h4cevnfJFs32Os7evT8g",
+        "key": "FruitFortune_copy_1775626734159_lWuxDBZd0rtqZYsVH11PB",
+        "name": "青7(1/2048)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 10,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "2048\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_-VZLG-k3hZR0RPK0Pic3M": {
+        "id": "iaXX4UuYHFrIKviMOd9kBQ",
+        "key": "FruitFortune_copy_1775626734159_-VZLG-k3hZR0RPK0Pic3M",
+        "name": "赤7(1/4096)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 11,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "4096\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_EsUErWW9_SDQD1kYciHr9": {
+        "id": "EPjpPOrCbOjj2dwC8K_EvA",
+        "key": "FruitFortune_copy_1775626734159_EsUErWW9_SDQD1kYciHr9",
+        "name": "GOD(1/8192)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 12,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "8192\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_U8L4IJDATuaJes8XKXewM": {
+        "id": "JqhBGqpLAC1K7ZC7lRrhtg",
+        "key": "FruitFortune_copy_1775626734159_U8L4IJDATuaJes8XKXewM",
+        "name": "冥王(1/163884)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 13,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "16384\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
+          }
+        ]
+      },
+      "FruitFortune_copy_1775626734159_mK-zJdXnTRWffvzuieg4K": {
+        "id": "uAB7kMJ6m8yYnI35402C9A",
+        "key": "FruitFortune_copy_1775626734159_mK-zJdXnTRWffvzuieg4K",
+        "name": "レアSIN(1/65536)",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 14,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "65536\n{{\n  slot0 = 'true';  // 演出するか\n  slot1 = '10'  // 演出秒数\n }}"
+          }
+        ]
+      },
+      "FruitFortune_1757806025003": {
+        "id": "7E0ykwWnBVO05_1ML4fAuw",
+        "key": "FruitFortune_1757806025003",
+        "name": "スイカ",
+        "description": "",
+        "createdAt": "2025-09-13T23:27:05.003Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 15,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "<<\n  'すいか',\n  'めろん',\n  'いちご',\n  'ぶどう',\n  'カレー'\n>>"
+          }
+        ]
+      },
+      "EidolonGacha_cbe3bd6b-b592-4aa6-b6ea-489993898dec": {
+        "id": "zTDT0ZMJOzceuOqJYlQIbg",
+        "key": "EidolonGacha_cbe3bd6b-b592-4aa6-b6ea-489993898dec",
+        "name": "幻獣ガチャ:アンコモン",
+        "description": "",
+        "createdAt": "2025-09-02T03:45:59.053Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 16,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "EidolonGachaDragon"
+            ]
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "wordParty",
+            "wordPartyId": "EidolonGacha_CapsuleUncommon",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 3.5,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "decision",
+            "soundPath": "",
+            "message": "<<user>>の幻獣ガチャ!<<GachaFirstSecond>>【<<GachaRarityUncommon>>吉!】"
+          }
+        ]
+      },
+      "EidolonGacha_1756784759053": {
+        "id": "lLWNOgVxry_xZUQRrJlk0Q",
+        "key": "EidolonGacha_1756784759053",
+        "name": "幻獣ガチャ:レア",
+        "description": "",
+        "createdAt": "2025-09-02T03:45:59.053Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 17,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "EidolonGachaDragon"
+            ]
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "wordParty",
+            "wordPartyId": "EidolonGacha_CapsuleRare",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 3,
+            "kind": "wordParty",
+            "wordPartyId": "EidolonGacha_CapsuleNameRare",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 3.5,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "decision",
+            "soundPath": "",
+            "message": "<<user>>の幻獣ガチャ!<<GachaFirstSecond>>激レア!!【<<GachaRarityRare>>吉!】"
+          }
+        ]
+      },
+      "EidolonGacha_51d3adb2-6a15-438b-9c80-a3327102a87b": {
+        "id": "jR268vmTyrYH3LuexX3wjg",
+        "key": "EidolonGacha_51d3adb2-6a15-438b-9c80-a3327102a87b",
+        "name": "幻獣ガチャ:SSR",
+        "description": "",
+        "createdAt": "2025-09-02T03:45:59.053Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 18,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "EidolonGachaDragon"
+            ]
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "wordParty",
+            "wordPartyId": "EidolonGacha_CapsuleSSR",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 3,
+            "kind": "wordParty",
+            "wordPartyId": "EidolonGacha_CapsuleNameSSR",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 3,
+            "kind": "wordParty",
+            "wordPartyId": "EidolonGacha_CapsuleNameSSRDora",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 3.5,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "decision",
+            "soundPath": "",
+            "message": "<<user>>の幻獣ガチャ!<<GachaFirstSecond>>超激レア!!!【<<GachaRaritySSR>>吉!】"
+          }
+        ]
+      },
+      "EidolonGacha_a2ff6922-8ce2-4bd8-8cc6-4b654c22246d": {
+        "id": "Cw6RUd_uDNKx-k5XEB_mYA",
+        "key": "EidolonGacha_a2ff6922-8ce2-4bd8-8cc6-4b654c22246d",
+        "name": "幻獣ガチャ:SecretRare",
+        "description": "",
+        "createdAt": "2025-09-02T03:45:59.053Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 19,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "EidolonGachaDragon"
+            ]
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "wordParty",
+            "wordPartyId": "EidolonGacha_CapsuleSecret",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 3,
+            "kind": "wordParty",
+            "wordPartyId": "EidolonGacha_CapsuleNameSSR",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 3,
+            "kind": "wordParty",
+            "wordPartyId": "EidolonGacha_CapsuleNameSSRDora",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 3.5,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "decision",
+            "soundPath": "",
+            "message": "<<user>>の幻獣ガチャ!<<GachaFirstSecond>>伝説の究極レア!!!!【福沢諭吉!】"
+          }
+        ]
+      },
+      "StageSelect_e446aa2d-b9d5-4a6d-96fe-c9bd9a8887be": {
+        "id": "wO9Nk1Zk2drN1jnC4tX86Q",
+        "key": "StageSelect_e446aa2d-b9d5-4a6d-96fe-c9bd9a8887be",
+        "name": "",
+        "description": "",
+        "createdAt": "2025-08-11T03:50:57.708Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 20,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "!抽選回す",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "collect",
+            "soundPath": "",
+            "message": "今回のステージは…<<StageRandom>>!"
+          }
+        ]
+      },
+      "GoogolClover_1759673656457": {
+        "id": "35_wbjtgZDAN8OmspxSDdA",
+        "key": "GoogolClover_1759673656457",
+        "name": "",
+        "description": "",
+        "createdAt": "2025-10-05T14:14:16.457Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 21,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "gameScript",
+            "scriptId": "GoogolClover",
+            "characterKey": "cafelatte",
+            "queryString": ""
+          }
+        ]
+      },
+      "1768783978877-0qxn6h_7bdd8e09-b4f2-4fb6-953b-4c75a5ffce58": {
+        "id": "nPmGF0AeEAbgMoQL3Ve-Ow",
+        "key": "1768783978877-0qxn6h_7bdd8e09-b4f2-4fb6-953b-4c75a5ffce58",
+        "name": "",
+        "description": "",
+        "createdAt": "2026-01-19T00:51:36.052Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 22,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "",
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "{{text='<<RiderLicenseUp>><<RiderLicenseBottom>>'}}<<user>>さんは【[[text]]】"
+          }
+        ]
+      },
+      "U2qH92rg1Rr4vXyavD49__C9_7a_fCTBp4QFm3MLteD": {
+        "id": "FZWK-Mu48ihaT-xypXdlGw",
+        "key": "U2qH92rg1Rr4vXyavD49__C9_7a_fCTBp4QFm3MLteD",
+        "name": "suika",
+        "description": "",
+        "createdAt": "2026-10-20T14:33:16.983Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 23,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "gameScript",
+            "scriptId": "GouseiSuika",
+            "characterKey": "chocolate",
+            "queryString": ""
+          }
+        ]
+      },
+      "MaidenOmikujiNormal_c4dcf0cd-554d-4dfc-8880-eab00077e9fc": {
+        "id": "OUynbefAVJa-zGqA0t5a2g",
+        "key": "MaidenOmikujiNormal_c4dcf0cd-554d-4dfc-8880-eab00077e9fc",
+        "name": "おみくじ:大吉",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.296Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 24,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "characterStage",
+            "slots": {
+              "slot0": "aaa",
+              "slot1": "aaaaaaa"
+            },
+            "characterKey": null,
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "aaaaa"
+          },
+          {
+            "delaySeconds": 1,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikuji01",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "omiken",
+            "iconKey": "happy",
+            "sound": "baseball",
+            "soundPath": "",
+            "message": "{{text='大吉'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji01>>"
+          }
+        ]
+      },
+      "MaidenOmikujiNormal_ea8cfca6-7c08-46e5-96b3-d93cdf95783a": {
+        "id": "uFgCDOJgXqL2QsDb09eHfg",
+        "key": "MaidenOmikujiNormal_ea8cfca6-7c08-46e5-96b3-d93cdf95783a",
+        "name": "おみくじ:吉",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.296Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 25,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikujiLottery",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikuji02",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "omiken",
+            "iconKey": "happy",
+            "sound": "twinkle",
+            "soundPath": "",
+            "message": "{{text='吉'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji02>>"
+          }
+        ]
+      },
+      "MaidenOmikujiNormal_5cd77096-dca9-4714-a0a9-e24b5b8cee62": {
+        "id": "MTVYp0s3PdUJQ_EkEmAW1Q",
+        "key": "MaidenOmikujiNormal_5cd77096-dca9-4714-a0a9-e24b5b8cee62",
+        "name": "おみくじ:中吉",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.296Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 26,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikujiLottery",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikuji03",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "omiken",
+            "iconKey": "default",
+            "sound": "congrats",
+            "soundPath": "",
+            "message": "{{text='中吉'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji03>>"
+          }
+        ]
+      },
+      "MaidenOmikujiNormal_e6d4e9f7-e72c-4e31-9f18-920557fec162": {
+        "id": "DS29YI6FIMnr-iQnP6IWkw",
+        "key": "MaidenOmikujiNormal_e6d4e9f7-e72c-4e31-9f18-920557fec162",
+        "name": "おみくじ:小吉",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.296Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 27,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikujiLottery",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikuji04",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "omiken",
+            "iconKey": "default",
+            "sound": "jingle",
+            "soundPath": "",
+            "message": "{{text='小吉'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji04>>"
+          }
+        ]
+      },
+      "MaidenOmikujiNormal_81e073ba-a404-4dff-b066-be59b9cc2010": {
+        "id": "2UQuEvigPhI7VtqJxHyhWw",
+        "key": "MaidenOmikujiNormal_81e073ba-a404-4dff-b066-be59b9cc2010",
+        "name": "おみくじ:末吉",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.296Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 28,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikujiLottery",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikuji05",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "omiken",
+            "iconKey": "thinking",
+            "sound": "bounce",
+            "soundPath": "",
+            "message": "{{text='末吉'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji05>>"
+          }
+        ]
+      },
+      "MaidenOmikujiNormal_1066e6ff-58ad-4264-b684-09cc0dd8ca6d": {
+        "id": "ci_YgVgLIZ66mORXEwCLAQ",
+        "key": "MaidenOmikujiNormal_1066e6ff-58ad-4264-b684-09cc0dd8ca6d",
+        "name": "おみくじ:凶",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.296Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 29,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikujiLottery",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikuji06",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "omiken",
+            "iconKey": "sad",
+            "sound": "fail",
+            "soundPath": "",
+            "message": "{{text='凶'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji06>>"
+          }
+        ]
+      },
+      "MaidenOmikujiNormal_768d962f-2271-4da6-845b-f2034172b99c": {
+        "id": "AzD842-MipZnHnEdQdnLTQ",
+        "key": "MaidenOmikujiNormal_768d962f-2271-4da6-845b-f2034172b99c",
+        "name": "おみくじ:大凶",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.296Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 30,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikujiLottery",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikuji08",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "omiken",
+            "iconKey": "sad",
+            "sound": "explosion",
+            "soundPath": "",
+            "message": "{{text='大凶'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji07>>"
+          }
+        ]
+      },
+      "MaidenOmikujiNormal_1c6e7104-a7f6-45c3-90f2-48f0c627acee": {
+        "id": "yt4m7Ow39A_Nii3Mzz_HuA",
+        "key": "MaidenOmikujiNormal_1c6e7104-a7f6-45c3-90f2-48f0c627acee",
+        "name": "おみくじ:残念賞",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.296Z",
+        "updatedAt": "2026-10-30T10:15:03.340Z",
+        "order": 31,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikujiLottery",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 1,
+            "kind": "wordParty",
+            "wordPartyId": "MaidenOmikuji07",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 2,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "omiken",
+            "iconKey": "thinking",
+            "sound": "explosion",
+            "soundPath": "",
+            "message": "{{text='残念賞'}}<<user>>さんの運勢は【[[text]]】<<MaidenOmikuji08>>"
+          }
         ]
       }
     },
@@ -1158,265 +1875,1042 @@
           "​7970-2961-8736:Nチキ",
           "2832-5326-5515:コッコサッカー",
           "7217-8163-2051:Alubia Solteto",
-          { "weight": 2, "content": "7373-4535-6827:ハムスターこっこ" },
-          { "weight": 2, "content": "0114-56813038:ファイナルスタジアム" },
-          { "weight": 2, "content": "5805-7422-0193:ばねこっこ" },
-          { "weight": 2, "content": "8247-6347-2295:こっこ３" },
-          { "weight": 2, "content": "​​2015 1054 5348:Best Best And Best!!!" },
-          { "weight": 2, "content": "0369-1203-1177:ぬけがけこっこ" },
-          { "weight": 2, "content": "1305-5188-8037:トマキケこっこ2" },
-          { "weight": 2, "content": "1798-6311-4448:海辺こっこ" },
-          { "weight": 2, "content": "1896-9888-5826:ブロックこっこ" },
-          { "weight": 2, "content": "3105-1818-3746:とまきけこっこ" },
-          { "weight": 2, "content": "3449-5351-3324:高重力こっこ" },
-          { "weight": 2, "content": "3925-3205-2282:雲隠れこっこ" },
-          { "weight": 2, "content": "4345-9693-4109:Digital Blast Ball" },
-          { "weight": 2, "content": "4728-8687-2075:雨宿りこっこ" },
-          { "weight": 2, "content": "4915-0379-3422:Kingamond Arena" },
-          { "weight": 2, "content": "5609-3719-8831:いすとりこっこ" },
-          { "weight": 2, "content": "9635-1439-1604:カイテンこっこ2" },
-          { "weight": 2, "content": "2812-9870-5605:ばいきんぐこっこ" },
-          { "weight": 2, "content": "7593-5334-6559:Car Survival" },
-          { "weight": 2, "content": "9850-2594-6081:SnowStorm" },
-          { "weight": 2, "content": "0004-1036-9716:ふわコロバトル" },
-          { "weight": 2, "content": "0262-1240-5727:Plataforma Giratoria" },
-          { "weight": 2, "content": "0359-2749-0206:ジャンプ・ロー・パニック" },
-          { "weight": 2, "content": "0577-9489-8052:BLAST FALL" },
-          { "weight": 2, "content": "1016-4881-7070:ヘキササークル" },
-          { "weight": 2, "content": "1679-7058-5575:BICHO" },
-          { "weight": 2, "content": "2525-2599-0122:OIL PIT" },
-          { "weight": 2, "content": "2712-0443-0096:CHAOS SURVIVAL1" },
-          { "weight": 2, "content": "2786-5346-1849:積み木サバイバル" },
-          { "weight": 2, "content": "3850-8723-0291:JUNGLE CRUISE" },
-          { "weight": 2, "content": "5075-2414-6578:ぐらさば" },
-          { "weight": 2, "content": "5262-9825-8649:ローラーダービー" },
-          { "weight": 2, "content": "5682-0882-9627:ポコポコサバイバル" },
-          { "weight": 2, "content": "6247-2496-3636:Hex-A-Rumble(5th anniv ver)" },
-          { "weight": 2, "content": "6355-9028-9493:トマきけスペースこっこ" },
-          { "weight": 2, "content": "6374-4149-6756:Avocado" },
-          { "weight": 2, "content": "6399-5679-6968:COCOA CLASH" },
-          { "weight": 2, "content": "6807-1202-3933:止まるなキケンスペースWithブラスト" },
-          { "weight": 2, "content": "8363-6397-5099:Re:イニG" },
-          { "weight": 2, "content": "8533-4534-8937:ぐるぐるまわる" },
-          { "weight": 2, "content": "9531-5562-7005:DOMINANCE FIGHT" },
-          { "weight": 2, "content": "9852-3881-6656:Bean Highway" },
-          { "weight": 2, "content": "9983-9123-4746:スモークランティス" },
-          { "weight": 2, "content": "5203-1748-1746:バトルリバイバルソロ" },
-          { "weight": 2, "content": "​​6807-1202-3933 :止まるなキケンスペースWithブラスト" },
-          { "weight": 2, "content": "3218-0753-5846:喉の乾きを癒す飲み物" },
-          { "weight": 2, "content": "2447-7334-0804:Hole In The Wall" },
-          { "weight": 2, "content": "5663-5434-9928:ゆきだまこっこ" },
-          { "weight": 2, "content": "1522-4822-0180:Helipierto TorreBBVA" },
-          { "weight": 2, "content": "3218-0753-5846:Thirst Quenching Drinks" },
-          { "weight": 2, "content": "7103-8778-9439:ホログラサバイバルスペース" },
-          { "weight": 2, "content": "970006859393:ドアこっこ" },
-          { "weight": 2, "content": "9941-1708-4748:kodak" },
-          { "weight": 2, "content": "6598-9209-5714:Temple Tumble" },
-          { "weight": 2, "content": "7263-2225-4585:1ふんダッシュ" },
-          { "weight": 2, "content": "403768318260:1しゅうねんこっこ" },
-          { "weight": 2, "content": "0457-0680-1340:Snow Lantis!" },
-          { "weight": 2, "content": "1520-8158-3506:D Rex Boss Fight" },
-          { "weight": 3, "content": "4364-1153-7173:ばうんどこっこ" },
-          { "weight": 3, "content": "2707-8927-3519:ハリケーンこっこDX" },
-          { "weight": 3, "content": "2236-8466-1035:Yamiチキンパニック!" },
-          { "weight": 3, "content": "1797-6605-5095:FIELD TEST 006" },
-          { "weight": 3, "content": "1532-4223-0118:ジャンプこっこ" },
-          { "weight": 3, "content": "3946-0142-2192:こっこたわー" },
-          { "weight": 3, "content": "5431-2245-5061:ドラムこっこ" },
-          { "weight": 3, "content": "5827-5742-1385:ハチャメチャこっこ" },
-          { "weight": 3, "content": "6634-4315-8791:きけんこっこ" },
-          { "weight": 3, "content": "7583-5895-0141:崩壊こっこふぉ〜とれすリメイク版" },
-          { "weight": 3, "content": "7600-3465-0913:レーザーこっこ" },
-          { "weight": 3, "content": "8057-8675-9350:やまこっこ" },
-          { "weight": 3, "content": "9214-6315-1193:ドアに次ぐドアこっこ" },
-          { "weight": 3, "content": "0654 4880 2223:Swamp Of Forest" },
-          { "weight": 3, "content": "0312-7994-7621:よけかわすこっこ2" },
-          { "weight": 3, "content": "1101-3950-3260:歯こっこ" },
-          { "weight": 3, "content": "1587-4018-0877:リアルタイム翻訳こっこ" },
-          { "weight": 3, "content": "1666-7578-6203:ブランこっこ" },
-          { "weight": 3, "content": "1909-6534-8814:まるたこっこ" },
-          { "weight": 3, "content": "2589-9142-2639:パキパキこっこ" },
-          { "weight": 3, "content": "2987-4032-8985:THE LORD OF THE" },
-          { "weight": 3, "content": "3585-4721-7813:はかいこっこ" },
-          { "weight": 3, "content": "4178-8753-5007:タイルこっこ" },
-          { "weight": 3, "content": "4283-2367-6171:ファンこっこ" },
-          { "weight": 3, "content": "4582-6475-1806:Flooded Factory" },
-          { "weight": 3, "content": "5251-0301-3045:こっこタイム" },
-          { "weight": 3, "content": "6708-1069-9372:Kingamond Arena(Chicen)" },
-          { "weight": 3, "content": "7565-7711-1309:ガリガリなキツネザルこっこ" },
-          { "weight": 3, "content": "0024-3669-2428:こっこ" },
-          { "weight": 3, "content": "1228-2279-5958:HEX A GON&KOKKO" },
-          { "weight": 3, "content": "1952-9750-5289:バンパーチキン　はねちき" },
-          { "weight": 3, "content": "2118-8445-5589:AIRこっこ" },
-          { "weight": 3, "content": "2432-8934-3570:ふるてぃるとこっこ" },
-          { "weight": 3, "content": "6145-4420-6345:ロールこっこ" },
-          { "weight": 3, "content": "9157-5570-8782:おじゃまシンロールファン" },
-          { "weight": 3, "content": "9801-3043-7095:こっこ２(ブラボあり)" },
-          { "weight": 3, "content": "0225-9522-7517:くらやみこっこ" },
-          { "weight": 3, "content": "0266-0140-2295:CASTLE IN THE SKY" },
-          { "weight": 3, "content": "0376-2298-6306:Wrecking Ball Roulette" },
-          { "weight": 3, "content": "0377-4139-9791:マーブルバランス" },
-          { "weight": 3, "content": "0575-3771-3041:Castle Siege" },
-          { "weight": 3, "content": "0589-7502-2033:フォールガイズ版勝ち抜き格闘" },
-          { "weight": 3, "content": "0755-9730-6093:チャッキーのスピードサーキット" },
-          { "weight": 3, "content": "1128-4503-8590:Aura Wall" },
-          { "weight": 3, "content": "1332-6215-3485:て リングスピナー かんたん" },
-          { "weight": 3, "content": "1337-4699-0946:Lava Walk" },
-          { "weight": 3, "content": "1611-5006-9838:CityWark" },
-          { "weight": 3, "content": "1676-7546-9087:ブラストラクション" },
-          { "weight": 3, "content": "1789-1303-4446:CIRCULAR MAYHEM" },
-          { "weight": 3, "content": "1849-7293-6429:Stop&GO Jump Club" },
-          { "weight": 3, "content": "1996-0003-9362:すらいむにおちるな!" },
-          { "weight": 3, "content": "2180-1400-9294:ウォールパニックこっこ" },
-          { "weight": 3, "content": "2415-6851-6329:ピンポールサバイバー" },
-          { "weight": 3, "content": "2501-1378-5714:Log Jam Redux" },
-          { "weight": 3, "content": "2504-6275-8989:ボックスパニックファイナル" },
-          { "weight": 3, "content": "2671-6726-0734:Project Boss Fight" },
-          { "weight": 3, "content": "2699-1971-7273:Random Medusa" },
-          { "weight": 3, "content": "2765-7017-6317:Slime Rod Survival" },
-          { "weight": 3, "content": "2822-1455-5547:ピラミッドアウトレインボー" },
-          { "weight": 3, "content": "3303-7150-3607:explosive Eruption" },
-          { "weight": 3, "content": "3948-9689-4123:Minecraft Zombi" },
-          { "weight": 3, "content": "4000-3478-1717:止まるなキケン・雲海" },
-          { "weight": 3, "content": "4130-2056-8814:ドッジ・ダイブ・サバイバル" },
-          { "weight": 3, "content": "4174-2695-2869:Rolling Survival" },
-          { "weight": 3, "content": "4440-8104-9591:CHAIR GAME" },
-          { "weight": 3, "content": "4482-5479-9581:海洋アリーナ(Hard)" },
-          { "weight": 3, "content": "4572-7468-9717:ICE MOUNT" },
-          { "weight": 3, "content": "4693-3037-1041:Traapeza Cliffhanger" },
-          { "weight": 3, "content": "4829-9277-8859:DESLIZATE AL LIMITE" },
-          { "weight": 3, "content": "5063-6188-8174:Block Rush" },
-          { "weight": 3, "content": "5090-7518-2604:火山島で窃盗" },
-          { "weight": 3, "content": "5114-7626-1329:End Sweep Official Rule" },
-          { "weight": 3, "content": "5289-4446-0558:bad colors" },
-          { "weight": 3, "content": "5409-5451-3971:ぽよぱに" },
-          { "weight": 3, "content": "5469-4667-5804:ポップコーンBONBON" },
-          { "weight": 3, "content": "5571-9797-6268:Paniwue Sur La Place Gommeuse" },
-          { "weight": 3, "content": "5633-3820-9483:Blunder Blocks" },
-          { "weight": 3, "content": "6038-9512-4209:SHIP PANIC" },
-          { "weight": 3, "content": "6487-3411-6029:Chicken Demolition" },
-          { "weight": 3, "content": "6697-0375-9371:Chicken Champ Legends" },
-          { "weight": 3, "content": "6930-4744-3699:Space Tunnel" },
-          { "weight": 3, "content": "7369-6327-5989:ROTATE & ELIMINATE" },
-          { "weight": 3, "content": "8105-2043-2901:海洋アリーナ" },
-          { "weight": 3, "content": "8133-5596-9781:Hex-A-Showdown" },
-          { "weight": 3, "content": "8222-5854-3151:デスカウントダウン" },
-          { "weight": 3, "content": "8234-5154-2299:Laser Challemge" },
-          { "weight": 3, "content": "8344-1519-0900:椅子取り" },
-          { "weight": 3, "content": "8650-5695-6803:Disc-o Laser Show" },
-          { "weight": 3, "content": "8696-9975-7168:ライドバトロ・ステラ" },
-          { "weight": 3, "content": "8853-5574-5215:たこやきパーティー" },
-          { "weight": 3, "content": "8992-3057-5604:Chick N Field" },
-          { "weight": 3, "content": "9005-7701-6604:Torre Tambaleante" },
-          { "weight": 3, "content": "9147-5285-0097:ミニスペース2025Ver" },
-          { "weight": 3, "content": "9366-4247-3382:トマきけこっこ" },
-          { "weight": 3, "content": "9585-4220-8610:Hex-Spinner" },
-          { "weight": 3, "content": "9720-5488-7978:Rubber Chicken Simple" },
-          { "weight": 3, "content": "9741-5278-7219:リニューアルブラストボール" },
-          { "weight": 3, "content": "9809-9354-4326:The Getaway" },
-          { "weight": 3, "content": "9970-6677-9108:Cuartel Digital" },
-          { "weight": 3, "content": "1441-3230-7937:Jump Rope" },
-          { "weight": 3, "content": "7572-8742-5326:SF76-Discothewue V2" },
-          { "weight": 3, "content": "8365-0671-2044:Builders Revenge" },
-          { "weight": 3, "content": "9336-9070-5404:Sword Swing" },
-          { "weight": 3, "content": "6078-6234-4159:Snowy Knockout" },
-          { "weight": 3, "content": "5713-2308-8529:ツリークライム" },
-          { "weight": 3, "content": "7252-6787-7802:Top Of The Trash" },
-          { "weight": 3, "content": "0105-8744-9937:April Fools Dodge Dive Survive" },
-          { "weight": 3, "content": "1698-5024-9390:Beach Liege" },
-          { "weight": 3, "content": "0930-1346-2839:Disco Diver" },
-          { "weight": 3, "content": "1025-0210-4986:Rotation Yeetropolis The Semi Final" },
-          { "weight": 3, "content": "3809-7218-2913:Mini Bouncy Castle Park" },
-          { "weight": 3, "content": "0918-9148-9180:Virtual Dash" },
-          { "weight": 3, "content": "​​9168-1881-8241:Laser Festival" },
-          { "weight": 3, "content": "5475 1341 2182:Black Or White" },
-          { "weight": 3, "content": "​​3808-2915-3846:未テスト" },
-          { "weight": 3, "content": "9543-3488-6040:HEX-A-CONE" },
-          { "weight": 3, "content": "704580099802:Slime Climb V2" },
-          { "weight": 3, "content": "​​1950-1399-4552:バトルリバイバルver3" },
-          { "weight": 3, "content": "7584の7344の6004:スライムの壁" },
-          { "weight": 3, "content": "9530-0362-9393:Lizard Champ" },
-          { "weight": 3, "content": "​3527-9726-0494:みそボンこっこ" },
-          { "weight": 3, "content": "2755-5270-8947:無差別こっこ" },
-          { "weight": 3, "content": "1597の5538の0217:Bowling Survival!" },
-          { "weight": 3, "content": "0264-2299-7118:チキンバースト" },
-          { "weight": 3, "content": "0962-4793-6733:Tempo Of Time" },
-          { "weight": 4, "content": "9114-6610-1043:増水こつこ" },
-          { "weight": 4, "content": "9404-0558-8948:シーソーこっこ" },
-          { "weight": 4, "content": "​9543-3488-6040:HEX-A=CONE" },
-          { "weight": 4, "content": "0552-9569-3257:ウォールこっこ" },
-          { "weight": 4, "content": "1238-4120-2361:四国こっこ" },
-          { "weight": 4, "content": "1488-8514-0849:勝ち抜きこっこ" },
-          { "weight": 4, "content": "4594-1640-9989:穴のあくランニングマシンこっこ" },
-          { "weight": 4, "content": "5142-6503-7470:すぴーどこっこ" },
-          { "weight": 4, "content": "3280-9164-2802:ボンバーガイズ" },
-          { "weight": 4, "content": "2558-0535-0145:ピアノこっこ" },
-          { "weight": 4, "content": "6693-5354-3900:カイヘイこっこ" },
-          { "weight": 4, "content": "9992-8700-4091:かんらんしゃこっこ(FERRIS" },
-          { "weight": 4, "content": "0446-5394-4406:Chicken Tournament" },
-          { "weight": 4, "content": "0688-7186-0681:20秒障害物競走11" },
-          { "weight": 4, "content": "1005-0144-3855:20秒障害物競走10" },
-          { "weight": 4, "content": "1368-9060-1768:PUNCH" },
-          { "weight": 4, "content": "1425-8061-6325:ROLL'N' SURVIVE" },
-          { "weight": 4, "content": "1599-0002-5734:Forest Walk" },
-          { "weight": 4, "content": "1932-2481-0193:20秒障害物競走8" },
-          { "weight": 4, "content": "2130-6704-3778:HEX-A-DIWINDLE さきぼそりヘキサ" },
-          { "weight": 4, "content": "2247-7565-4476:super Volcano スーパーボルケーノ" },
-          { "weight": 4, "content": "2339-0972-0569:Jungle is Massive" },
-          { "weight": 4, "content": "2426-2077-1977:ホップドローム" },
-          { "weight": 4, "content": "2682-8506-3899:20秒障害物競走9" },
-          { "weight": 4, "content": "2890-3698-4965:WormHole" },
-          { "weight": 4, "content": "3298-6726-4118:スライムボール・ショーダウン" },
-          { "weight": 4, "content": "3323-7766-3284:THE TUMBLE TANK" },
-          { "weight": 4, "content": "3455-1690-1506:Survival Project 3" },
-          { "weight": 4, "content": "3515-9668-9362:Death Laser Panic" },
-          { "weight": 4, "content": "3613-4797-9449:スライムロデオ" },
-          { "weight": 4, "content": "4041-9276-8107:古代のカオスな倉庫" },
-          { "weight": 4, "content": "4075-5124-3056:20秒障害物競走12" },
-          { "weight": 4, "content": "4652-9380-6758:とってとってとっちゃってX" },
-          { "weight": 4, "content": "4660-3809-2718:20秒障害物競走6" },
-          { "weight": 4, "content": "4841-5974-2295:20秒障害物競走" },
-          { "weight": 4, "content": "4958-0222-6626:チキンストーム" },
-          { "weight": 4, "content": "5340-3992-8947:20秒障害物競走4" },
-          { "weight": 4, "content": "5719-8071-4943:TrrWall" },
-          { "weight": 4, "content": "6068-3654-4416:LASER TRACER" },
-          { "weight": 4, "content": "6237-2627-3605:ホロビタセイ 救出編" },
-          { "weight": 4, "content": "6731-9061-2270:ほうかい！？こっこ・ふぉ～とれす！！(さいげん)" },
-          { "weight": 4, "content": "7025-6757-8636:20秒障害物競走7" },
-          { "weight": 4, "content": "7054-1491-3823:20秒障害物競走3" },
-          { "weight": 4, "content": "7131-6385-2520:Jenga Tower Survival" },
-          { "weight": 4, "content": "7341-7088-7129:Virtual Ring" },
-          { "weight": 4, "content": "7510-8787-6879:20秒障害物競走2" },
-          { "weight": 4, "content": "7547-6979-5814:ドアダッシュサバイバル" },
-          { "weight": 4, "content": "7855-3360-4913:氷のバトル・ロワイアル" },
-          { "weight": 4, "content": "8375-9941-7502:dark wark" },
-          { "weight": 4, "content": "8541-5253-0290:サイクルスライム" },
-          { "weight": 4, "content": "8557-4535-7173:スライム飛び交うこっこ" },
-          { "weight": 4, "content": "8666-7932-6204:Preickly Ring" },
-          { "weight": 4, "content": "9576-0593-1926:20秒障害物競走5" },
-          { "weight": 4, "content": "759403373295:Slimeball Survival7" },
-          { "weight": 4, "content": "4717-1544-5415:Jungle Jumpers" },
-          { "weight": 4, "content": "5462-1197-4897:クエスト屋今日は休んでヴァカンスなインフィニティーメダルがぉ！" },
-          { "weight": 4, "content": "1347-0984-4467:Ice Walk" },
-          { "weight": 4, "content": "1465-5103-9890:Disco LaserShow" },
-          { "weight": 4, "content": "6410 ​​3027 ​​3712:Falling Block" },
-          { "weight": 4, "content": "0883-1909-2083:Deluxe Circle Of Chicken!" },
-          { "weight": 4, "content": "8000-7002-6909:Color Show" },
-          { "weight": 4, "content": "9543-9243-5354:Bridge Traffic" },
-          { "weight": 4, "content": "4003-6438-0955:スライム・ショード・クライシス" },
-          { "weight": 4, "content": "2502の9804の1856:Naval Destruction Battle" },
-          { "weight": 4, "content": "7594の0337の3295:Slimeball Survival 7" },
-          { "weight": 4, "content": "4240の2874の9249:Wild BlastBall X" },
-          { "weight": 4, "content": "1019-4138-3022:Fruit Fight!" },
-          { "weight": 4, "content": "0202-8286-2041:Train Rush" },
-          { "weight": 4, "content": "8740-5550-5909:Whack My Balls" },
-          { "weight": 4, "content": "5706-5981-8230:LavaLand" },
-          { "weight": 5, "content": "5041-0026-9700:Itachi - Boss Fight" },
-          { "weight": 5, "content": "5342-2333-9383:PYRAMID CHAOS" },
-          { "weight": 5, "content": "8432-7885-0636:今日のコッコ占い" },
-          { "weight": 5, "content": "8783-6379-2561:ものを避けて走ってスライム来たら物に乗って" },
-          { "weight": 5, "content": "6410-3027-3712:Falling Blocs" },
-          { "weight": 5, "content": "9664-2138-5675:Jungle Wall" }
+          {
+            "weight": 2,
+            "content": "7373-4535-6827:ハムスターこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "0114-56813038:ファイナルスタジアム"
+          },
+          {
+            "weight": 2,
+            "content": "5805-7422-0193:ばねこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "8247-6347-2295:こっこ３"
+          },
+          {
+            "weight": 2,
+            "content": "​​2015 1054 5348:Best Best And Best!!!"
+          },
+          {
+            "weight": 2,
+            "content": "0369-1203-1177:ぬけがけこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "1305-5188-8037:トマキケこっこ2"
+          },
+          {
+            "weight": 2,
+            "content": "1798-6311-4448:海辺こっこ"
+          },
+          {
+            "weight": 2,
+            "content": "1896-9888-5826:ブロックこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "3105-1818-3746:とまきけこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "3449-5351-3324:高重力こっこ"
+          },
+          {
+            "weight": 2,
+            "content": "3925-3205-2282:雲隠れこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "4345-9693-4109:Digital Blast Ball"
+          },
+          {
+            "weight": 2,
+            "content": "4728-8687-2075:雨宿りこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "4915-0379-3422:Kingamond Arena"
+          },
+          {
+            "weight": 2,
+            "content": "5609-3719-8831:いすとりこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "9635-1439-1604:カイテンこっこ2"
+          },
+          {
+            "weight": 2,
+            "content": "2812-9870-5605:ばいきんぐこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "7593-5334-6559:Car Survival"
+          },
+          {
+            "weight": 2,
+            "content": "9850-2594-6081:SnowStorm"
+          },
+          {
+            "weight": 2,
+            "content": "0004-1036-9716:ふわコロバトル"
+          },
+          {
+            "weight": 2,
+            "content": "0262-1240-5727:Plataforma Giratoria"
+          },
+          {
+            "weight": 2,
+            "content": "0359-2749-0206:ジャンプ・ロー・パニック"
+          },
+          {
+            "weight": 2,
+            "content": "0577-9489-8052:BLAST FALL"
+          },
+          {
+            "weight": 2,
+            "content": "1016-4881-7070:ヘキササークル"
+          },
+          {
+            "weight": 2,
+            "content": "1679-7058-5575:BICHO"
+          },
+          {
+            "weight": 2,
+            "content": "2525-2599-0122:OIL PIT"
+          },
+          {
+            "weight": 2,
+            "content": "2712-0443-0096:CHAOS SURVIVAL1"
+          },
+          {
+            "weight": 2,
+            "content": "2786-5346-1849:積み木サバイバル"
+          },
+          {
+            "weight": 2,
+            "content": "3850-8723-0291:JUNGLE CRUISE"
+          },
+          {
+            "weight": 2,
+            "content": "5075-2414-6578:ぐらさば"
+          },
+          {
+            "weight": 2,
+            "content": "5262-9825-8649:ローラーダービー"
+          },
+          {
+            "weight": 2,
+            "content": "5682-0882-9627:ポコポコサバイバル"
+          },
+          {
+            "weight": 2,
+            "content": "6247-2496-3636:Hex-A-Rumble(5th anniv ver)"
+          },
+          {
+            "weight": 2,
+            "content": "6355-9028-9493:トマきけスペースこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "6374-4149-6756:Avocado"
+          },
+          {
+            "weight": 2,
+            "content": "6399-5679-6968:COCOA CLASH"
+          },
+          {
+            "weight": 2,
+            "content": "6807-1202-3933:止まるなキケンスペースWithブラスト"
+          },
+          {
+            "weight": 2,
+            "content": "8363-6397-5099:Re:イニG"
+          },
+          {
+            "weight": 2,
+            "content": "8533-4534-8937:ぐるぐるまわる"
+          },
+          {
+            "weight": 2,
+            "content": "9531-5562-7005:DOMINANCE FIGHT"
+          },
+          {
+            "weight": 2,
+            "content": "9852-3881-6656:Bean Highway"
+          },
+          {
+            "weight": 2,
+            "content": "9983-9123-4746:スモークランティス"
+          },
+          {
+            "weight": 2,
+            "content": "5203-1748-1746:バトルリバイバルソロ"
+          },
+          {
+            "weight": 2,
+            "content": "​​6807-1202-3933 :止まるなキケンスペースWithブラスト"
+          },
+          {
+            "weight": 2,
+            "content": "3218-0753-5846:喉の乾きを癒す飲み物"
+          },
+          {
+            "weight": 2,
+            "content": "2447-7334-0804:Hole In The Wall"
+          },
+          {
+            "weight": 2,
+            "content": "5663-5434-9928:ゆきだまこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "1522-4822-0180:Helipierto TorreBBVA"
+          },
+          {
+            "weight": 2,
+            "content": "3218-0753-5846:Thirst Quenching Drinks"
+          },
+          {
+            "weight": 2,
+            "content": "7103-8778-9439:ホログラサバイバルスペース"
+          },
+          {
+            "weight": 2,
+            "content": "970006859393:ドアこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "9941-1708-4748:kodak"
+          },
+          {
+            "weight": 2,
+            "content": "6598-9209-5714:Temple Tumble"
+          },
+          {
+            "weight": 2,
+            "content": "7263-2225-4585:1ふんダッシュ"
+          },
+          {
+            "weight": 2,
+            "content": "403768318260:1しゅうねんこっこ"
+          },
+          {
+            "weight": 2,
+            "content": "0457-0680-1340:Snow Lantis!"
+          },
+          {
+            "weight": 2,
+            "content": "1520-8158-3506:D Rex Boss Fight"
+          },
+          {
+            "weight": 3,
+            "content": "4364-1153-7173:ばうんどこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "2707-8927-3519:ハリケーンこっこDX"
+          },
+          {
+            "weight": 3,
+            "content": "2236-8466-1035:Yamiチキンパニック!"
+          },
+          {
+            "weight": 3,
+            "content": "1797-6605-5095:FIELD TEST 006"
+          },
+          {
+            "weight": 3,
+            "content": "1532-4223-0118:ジャンプこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "3946-0142-2192:こっこたわー"
+          },
+          {
+            "weight": 3,
+            "content": "5431-2245-5061:ドラムこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "5827-5742-1385:ハチャメチャこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "6634-4315-8791:きけんこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "7583-5895-0141:崩壊こっこふぉ〜とれすリメイク版"
+          },
+          {
+            "weight": 3,
+            "content": "7600-3465-0913:レーザーこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "8057-8675-9350:やまこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "9214-6315-1193:ドアに次ぐドアこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "0654 4880 2223:Swamp Of Forest"
+          },
+          {
+            "weight": 3,
+            "content": "0312-7994-7621:よけかわすこっこ2"
+          },
+          {
+            "weight": 3,
+            "content": "1101-3950-3260:歯こっこ"
+          },
+          {
+            "weight": 3,
+            "content": "1587-4018-0877:リアルタイム翻訳こっこ"
+          },
+          {
+            "weight": 3,
+            "content": "1666-7578-6203:ブランこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "1909-6534-8814:まるたこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "2589-9142-2639:パキパキこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "2987-4032-8985:THE LORD OF THE"
+          },
+          {
+            "weight": 3,
+            "content": "3585-4721-7813:はかいこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "4178-8753-5007:タイルこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "4283-2367-6171:ファンこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "4582-6475-1806:Flooded Factory"
+          },
+          {
+            "weight": 3,
+            "content": "5251-0301-3045:こっこタイム"
+          },
+          {
+            "weight": 3,
+            "content": "6708-1069-9372:Kingamond Arena(Chicen)"
+          },
+          {
+            "weight": 3,
+            "content": "7565-7711-1309:ガリガリなキツネザルこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "0024-3669-2428:こっこ"
+          },
+          {
+            "weight": 3,
+            "content": "1228-2279-5958:HEX A GON&KOKKO"
+          },
+          {
+            "weight": 3,
+            "content": "1952-9750-5289:バンパーチキン　はねちき"
+          },
+          {
+            "weight": 3,
+            "content": "2118-8445-5589:AIRこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "2432-8934-3570:ふるてぃるとこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "6145-4420-6345:ロールこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "9157-5570-8782:おじゃまシンロールファン"
+          },
+          {
+            "weight": 3,
+            "content": "9801-3043-7095:こっこ２(ブラボあり)"
+          },
+          {
+            "weight": 3,
+            "content": "0225-9522-7517:くらやみこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "0266-0140-2295:CASTLE IN THE SKY"
+          },
+          {
+            "weight": 3,
+            "content": "0376-2298-6306:Wrecking Ball Roulette"
+          },
+          {
+            "weight": 3,
+            "content": "0377-4139-9791:マーブルバランス"
+          },
+          {
+            "weight": 3,
+            "content": "0575-3771-3041:Castle Siege"
+          },
+          {
+            "weight": 3,
+            "content": "0589-7502-2033:フォールガイズ版勝ち抜き格闘"
+          },
+          {
+            "weight": 3,
+            "content": "0755-9730-6093:チャッキーのスピードサーキット"
+          },
+          {
+            "weight": 3,
+            "content": "1128-4503-8590:Aura Wall"
+          },
+          {
+            "weight": 3,
+            "content": "1332-6215-3485:て リングスピナー かんたん"
+          },
+          {
+            "weight": 3,
+            "content": "1337-4699-0946:Lava Walk"
+          },
+          {
+            "weight": 3,
+            "content": "1611-5006-9838:CityWark"
+          },
+          {
+            "weight": 3,
+            "content": "1676-7546-9087:ブラストラクション"
+          },
+          {
+            "weight": 3,
+            "content": "1789-1303-4446:CIRCULAR MAYHEM"
+          },
+          {
+            "weight": 3,
+            "content": "1849-7293-6429:Stop&GO Jump Club"
+          },
+          {
+            "weight": 3,
+            "content": "1996-0003-9362:すらいむにおちるな!"
+          },
+          {
+            "weight": 3,
+            "content": "2180-1400-9294:ウォールパニックこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "2415-6851-6329:ピンポールサバイバー"
+          },
+          {
+            "weight": 3,
+            "content": "2501-1378-5714:Log Jam Redux"
+          },
+          {
+            "weight": 3,
+            "content": "2504-6275-8989:ボックスパニックファイナル"
+          },
+          {
+            "weight": 3,
+            "content": "2671-6726-0734:Project Boss Fight"
+          },
+          {
+            "weight": 3,
+            "content": "2699-1971-7273:Random Medusa"
+          },
+          {
+            "weight": 3,
+            "content": "2765-7017-6317:Slime Rod Survival"
+          },
+          {
+            "weight": 3,
+            "content": "2822-1455-5547:ピラミッドアウトレインボー"
+          },
+          {
+            "weight": 3,
+            "content": "3303-7150-3607:explosive Eruption"
+          },
+          {
+            "weight": 3,
+            "content": "3948-9689-4123:Minecraft Zombi"
+          },
+          {
+            "weight": 3,
+            "content": "4000-3478-1717:止まるなキケン・雲海"
+          },
+          {
+            "weight": 3,
+            "content": "4130-2056-8814:ドッジ・ダイブ・サバイバル"
+          },
+          {
+            "weight": 3,
+            "content": "4174-2695-2869:Rolling Survival"
+          },
+          {
+            "weight": 3,
+            "content": "4440-8104-9591:CHAIR GAME"
+          },
+          {
+            "weight": 3,
+            "content": "4482-5479-9581:海洋アリーナ(Hard)"
+          },
+          {
+            "weight": 3,
+            "content": "4572-7468-9717:ICE MOUNT"
+          },
+          {
+            "weight": 3,
+            "content": "4693-3037-1041:Traapeza Cliffhanger"
+          },
+          {
+            "weight": 3,
+            "content": "4829-9277-8859:DESLIZATE AL LIMITE"
+          },
+          {
+            "weight": 3,
+            "content": "5063-6188-8174:Block Rush"
+          },
+          {
+            "weight": 3,
+            "content": "5090-7518-2604:火山島で窃盗"
+          },
+          {
+            "weight": 3,
+            "content": "5114-7626-1329:End Sweep Official Rule"
+          },
+          {
+            "weight": 3,
+            "content": "5289-4446-0558:bad colors"
+          },
+          {
+            "weight": 3,
+            "content": "5409-5451-3971:ぽよぱに"
+          },
+          {
+            "weight": 3,
+            "content": "5469-4667-5804:ポップコーンBONBON"
+          },
+          {
+            "weight": 3,
+            "content": "5571-9797-6268:Paniwue Sur La Place Gommeuse"
+          },
+          {
+            "weight": 3,
+            "content": "5633-3820-9483:Blunder Blocks"
+          },
+          {
+            "weight": 3,
+            "content": "6038-9512-4209:SHIP PANIC"
+          },
+          {
+            "weight": 3,
+            "content": "6487-3411-6029:Chicken Demolition"
+          },
+          {
+            "weight": 3,
+            "content": "6697-0375-9371:Chicken Champ Legends"
+          },
+          {
+            "weight": 3,
+            "content": "6930-4744-3699:Space Tunnel"
+          },
+          {
+            "weight": 3,
+            "content": "7369-6327-5989:ROTATE & ELIMINATE"
+          },
+          {
+            "weight": 3,
+            "content": "8105-2043-2901:海洋アリーナ"
+          },
+          {
+            "weight": 3,
+            "content": "8133-5596-9781:Hex-A-Showdown"
+          },
+          {
+            "weight": 3,
+            "content": "8222-5854-3151:デスカウントダウン"
+          },
+          {
+            "weight": 3,
+            "content": "8234-5154-2299:Laser Challemge"
+          },
+          {
+            "weight": 3,
+            "content": "8344-1519-0900:椅子取り"
+          },
+          {
+            "weight": 3,
+            "content": "8650-5695-6803:Disc-o Laser Show"
+          },
+          {
+            "weight": 3,
+            "content": "8696-9975-7168:ライドバトロ・ステラ"
+          },
+          {
+            "weight": 3,
+            "content": "8853-5574-5215:たこやきパーティー"
+          },
+          {
+            "weight": 3,
+            "content": "8992-3057-5604:Chick N Field"
+          },
+          {
+            "weight": 3,
+            "content": "9005-7701-6604:Torre Tambaleante"
+          },
+          {
+            "weight": 3,
+            "content": "9147-5285-0097:ミニスペース2025Ver"
+          },
+          {
+            "weight": 3,
+            "content": "9366-4247-3382:トマきけこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "9585-4220-8610:Hex-Spinner"
+          },
+          {
+            "weight": 3,
+            "content": "9720-5488-7978:Rubber Chicken Simple"
+          },
+          {
+            "weight": 3,
+            "content": "9741-5278-7219:リニューアルブラストボール"
+          },
+          {
+            "weight": 3,
+            "content": "9809-9354-4326:The Getaway"
+          },
+          {
+            "weight": 3,
+            "content": "9970-6677-9108:Cuartel Digital"
+          },
+          {
+            "weight": 3,
+            "content": "1441-3230-7937:Jump Rope"
+          },
+          {
+            "weight": 3,
+            "content": "7572-8742-5326:SF76-Discothewue V2"
+          },
+          {
+            "weight": 3,
+            "content": "8365-0671-2044:Builders Revenge"
+          },
+          {
+            "weight": 3,
+            "content": "9336-9070-5404:Sword Swing"
+          },
+          {
+            "weight": 3,
+            "content": "6078-6234-4159:Snowy Knockout"
+          },
+          {
+            "weight": 3,
+            "content": "5713-2308-8529:ツリークライム"
+          },
+          {
+            "weight": 3,
+            "content": "7252-6787-7802:Top Of The Trash"
+          },
+          {
+            "weight": 3,
+            "content": "0105-8744-9937:April Fools Dodge Dive Survive"
+          },
+          {
+            "weight": 3,
+            "content": "1698-5024-9390:Beach Liege"
+          },
+          {
+            "weight": 3,
+            "content": "0930-1346-2839:Disco Diver"
+          },
+          {
+            "weight": 3,
+            "content": "1025-0210-4986:Rotation Yeetropolis The Semi Final"
+          },
+          {
+            "weight": 3,
+            "content": "3809-7218-2913:Mini Bouncy Castle Park"
+          },
+          {
+            "weight": 3,
+            "content": "0918-9148-9180:Virtual Dash"
+          },
+          {
+            "weight": 3,
+            "content": "​​9168-1881-8241:Laser Festival"
+          },
+          {
+            "weight": 3,
+            "content": "5475 1341 2182:Black Or White"
+          },
+          {
+            "weight": 3,
+            "content": "​​3808-2915-3846:未テスト"
+          },
+          {
+            "weight": 3,
+            "content": "9543-3488-6040:HEX-A-CONE"
+          },
+          {
+            "weight": 3,
+            "content": "704580099802:Slime Climb V2"
+          },
+          {
+            "weight": 3,
+            "content": "​​1950-1399-4552:バトルリバイバルver3"
+          },
+          {
+            "weight": 3,
+            "content": "7584の7344の6004:スライムの壁"
+          },
+          {
+            "weight": 3,
+            "content": "9530-0362-9393:Lizard Champ"
+          },
+          {
+            "weight": 3,
+            "content": "​3527-9726-0494:みそボンこっこ"
+          },
+          {
+            "weight": 3,
+            "content": "2755-5270-8947:無差別こっこ"
+          },
+          {
+            "weight": 3,
+            "content": "1597の5538の0217:Bowling Survival!"
+          },
+          {
+            "weight": 3,
+            "content": "0264-2299-7118:チキンバースト"
+          },
+          {
+            "weight": 3,
+            "content": "0962-4793-6733:Tempo Of Time"
+          },
+          {
+            "weight": 4,
+            "content": "9114-6610-1043:増水こつこ"
+          },
+          {
+            "weight": 4,
+            "content": "9404-0558-8948:シーソーこっこ"
+          },
+          {
+            "weight": 4,
+            "content": "​9543-3488-6040:HEX-A=CONE"
+          },
+          {
+            "weight": 4,
+            "content": "0552-9569-3257:ウォールこっこ"
+          },
+          {
+            "weight": 4,
+            "content": "1238-4120-2361:四国こっこ"
+          },
+          {
+            "weight": 4,
+            "content": "1488-8514-0849:勝ち抜きこっこ"
+          },
+          {
+            "weight": 4,
+            "content": "4594-1640-9989:穴のあくランニングマシンこっこ"
+          },
+          {
+            "weight": 4,
+            "content": "5142-6503-7470:すぴーどこっこ"
+          },
+          {
+            "weight": 4,
+            "content": "3280-9164-2802:ボンバーガイズ"
+          },
+          {
+            "weight": 4,
+            "content": "2558-0535-0145:ピアノこっこ"
+          },
+          {
+            "weight": 4,
+            "content": "6693-5354-3900:カイヘイこっこ"
+          },
+          {
+            "weight": 4,
+            "content": "9992-8700-4091:かんらんしゃこっこ(FERRIS"
+          },
+          {
+            "weight": 4,
+            "content": "0446-5394-4406:Chicken Tournament"
+          },
+          {
+            "weight": 4,
+            "content": "0688-7186-0681:20秒障害物競走11"
+          },
+          {
+            "weight": 4,
+            "content": "1005-0144-3855:20秒障害物競走10"
+          },
+          {
+            "weight": 4,
+            "content": "1368-9060-1768:PUNCH"
+          },
+          {
+            "weight": 4,
+            "content": "1425-8061-6325:ROLL'N' SURVIVE"
+          },
+          {
+            "weight": 4,
+            "content": "1599-0002-5734:Forest Walk"
+          },
+          {
+            "weight": 4,
+            "content": "1932-2481-0193:20秒障害物競走8"
+          },
+          {
+            "weight": 4,
+            "content": "2130-6704-3778:HEX-A-DIWINDLE さきぼそりヘキサ"
+          },
+          {
+            "weight": 4,
+            "content": "2247-7565-4476:super Volcano スーパーボルケーノ"
+          },
+          {
+            "weight": 4,
+            "content": "2339-0972-0569:Jungle is Massive"
+          },
+          {
+            "weight": 4,
+            "content": "2426-2077-1977:ホップドローム"
+          },
+          {
+            "weight": 4,
+            "content": "2682-8506-3899:20秒障害物競走9"
+          },
+          {
+            "weight": 4,
+            "content": "2890-3698-4965:WormHole"
+          },
+          {
+            "weight": 4,
+            "content": "3298-6726-4118:スライムボール・ショーダウン"
+          },
+          {
+            "weight": 4,
+            "content": "3323-7766-3284:THE TUMBLE TANK"
+          },
+          {
+            "weight": 4,
+            "content": "3455-1690-1506:Survival Project 3"
+          },
+          {
+            "weight": 4,
+            "content": "3515-9668-9362:Death Laser Panic"
+          },
+          {
+            "weight": 4,
+            "content": "3613-4797-9449:スライムロデオ"
+          },
+          {
+            "weight": 4,
+            "content": "4041-9276-8107:古代のカオスな倉庫"
+          },
+          {
+            "weight": 4,
+            "content": "4075-5124-3056:20秒障害物競走12"
+          },
+          {
+            "weight": 4,
+            "content": "4652-9380-6758:とってとってとっちゃってX"
+          },
+          {
+            "weight": 4,
+            "content": "4660-3809-2718:20秒障害物競走6"
+          },
+          {
+            "weight": 4,
+            "content": "4841-5974-2295:20秒障害物競走"
+          },
+          {
+            "weight": 4,
+            "content": "4958-0222-6626:チキンストーム"
+          },
+          {
+            "weight": 4,
+            "content": "5340-3992-8947:20秒障害物競走4"
+          },
+          {
+            "weight": 4,
+            "content": "5719-8071-4943:TrrWall"
+          },
+          {
+            "weight": 4,
+            "content": "6068-3654-4416:LASER TRACER"
+          },
+          {
+            "weight": 4,
+            "content": "6237-2627-3605:ホロビタセイ 救出編"
+          },
+          {
+            "weight": 4,
+            "content": "6731-9061-2270:ほうかい！？こっこ・ふぉ～とれす！！(さいげん)"
+          },
+          {
+            "weight": 4,
+            "content": "7025-6757-8636:20秒障害物競走7"
+          },
+          {
+            "weight": 4,
+            "content": "7054-1491-3823:20秒障害物競走3"
+          },
+          {
+            "weight": 4,
+            "content": "7131-6385-2520:Jenga Tower Survival"
+          },
+          {
+            "weight": 4,
+            "content": "7341-7088-7129:Virtual Ring"
+          },
+          {
+            "weight": 4,
+            "content": "7510-8787-6879:20秒障害物競走2"
+          },
+          {
+            "weight": 4,
+            "content": "7547-6979-5814:ドアダッシュサバイバル"
+          },
+          {
+            "weight": 4,
+            "content": "7855-3360-4913:氷のバトル・ロワイアル"
+          },
+          {
+            "weight": 4,
+            "content": "8375-9941-7502:dark wark"
+          },
+          {
+            "weight": 4,
+            "content": "8541-5253-0290:サイクルスライム"
+          },
+          {
+            "weight": 4,
+            "content": "8557-4535-7173:スライム飛び交うこっこ"
+          },
+          {
+            "weight": 4,
+            "content": "8666-7932-6204:Preickly Ring"
+          },
+          {
+            "weight": 4,
+            "content": "9576-0593-1926:20秒障害物競走5"
+          },
+          {
+            "weight": 4,
+            "content": "759403373295:Slimeball Survival7"
+          },
+          {
+            "weight": 4,
+            "content": "4717-1544-5415:Jungle Jumpers"
+          },
+          {
+            "weight": 4,
+            "content": "5462-1197-4897:クエスト屋今日は休んでヴァカンスなインフィニティーメダルがぉ！"
+          },
+          {
+            "weight": 4,
+            "content": "1347-0984-4467:Ice Walk"
+          },
+          {
+            "weight": 4,
+            "content": "1465-5103-9890:Disco LaserShow"
+          },
+          {
+            "weight": 4,
+            "content": "6410 ​​3027 ​​3712:Falling Block"
+          },
+          {
+            "weight": 4,
+            "content": "0883-1909-2083:Deluxe Circle Of Chicken!"
+          },
+          {
+            "weight": 4,
+            "content": "8000-7002-6909:Color Show"
+          },
+          {
+            "weight": 4,
+            "content": "9543-9243-5354:Bridge Traffic"
+          },
+          {
+            "weight": 4,
+            "content": "4003-6438-0955:スライム・ショード・クライシス"
+          },
+          {
+            "weight": 4,
+            "content": "2502の9804の1856:Naval Destruction Battle"
+          },
+          {
+            "weight": 4,
+            "content": "7594の0337の3295:Slimeball Survival 7"
+          },
+          {
+            "weight": 4,
+            "content": "4240の2874の9249:Wild BlastBall X"
+          },
+          {
+            "weight": 4,
+            "content": "1019-4138-3022:Fruit Fight!"
+          },
+          {
+            "weight": 4,
+            "content": "0202-8286-2041:Train Rush"
+          },
+          {
+            "weight": 4,
+            "content": "8740-5550-5909:Whack My Balls"
+          },
+          {
+            "weight": 4,
+            "content": "5706-5981-8230:LavaLand"
+          },
+          {
+            "weight": 5,
+            "content": "5041-0026-9700:Itachi - Boss Fight"
+          },
+          {
+            "weight": 5,
+            "content": "5342-2333-9383:PYRAMID CHAOS"
+          },
+          {
+            "weight": 5,
+            "content": "8432-7885-0636:今日のコッコ占い"
+          },
+          {
+            "weight": 5,
+            "content": "8783-6379-2561:ものを避けて走ってスライム来たら物に乗って"
+          },
+          {
+            "weight": 5,
+            "content": "6410-3027-3712:Falling Blocs"
+          },
+          {
+            "weight": 5,
+            "content": "9664-2138-5675:Jungle Wall"
+          }
         ]
       },
       "FruitFortune": {
@@ -1430,7 +2924,9 @@
         "isEnabled": true,
         "tagColor": "primary",
         "tags": [],
-        "values": ["{{a = rand(1,9)}}{{b = rand(1,9)}} {{a}}、{{b}}"]
+        "values": [
+          "{{a = rand(1,9)}}{{b = rand(1,9)}} {{a}}、{{b}}"
+        ]
       },
       "GachaFirstSecond": {
         "id": "GachaFirstSecond",
@@ -1444,8 +2940,14 @@
         "tagColor": "primary",
         "tags": [],
         "values": [
-          { "weight": 4, "content": "【<<GachaRarityCommon>>吉】【<<GachaRarityCommon>>吉】" },
-          { "weight": 5, "content": "【<<GachaRarityCommon>>吉】【<<GachaRarityUncommon>>吉】" },
+          {
+            "weight": 4,
+            "content": "【<<GachaRarityCommon>>吉】【<<GachaRarityCommon>>吉】"
+          },
+          {
+            "weight": 5,
+            "content": "【<<GachaRarityCommon>>吉】【<<GachaRarityUncommon>>吉】"
+          },
           "【<<GachaRarityUncommon>>吉】【<<GachaRarityUncommon>>吉】"
         ]
       },
@@ -2256,7 +3758,9 @@
         "order": 10,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["くいしんぼうライセンス"],
+        "tags": [
+          "くいしんぼうライセンス"
+        ],
         "values": [
           "期待の",
           "うまれたての",
@@ -2389,7 +3893,9 @@
         "order": 11,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["くいしんぼうライセンス"],
+        "tags": [
+          "くいしんぼうライセンス"
+        ],
         "values": [
           "新星",
           "コレクター",
@@ -2522,7 +4028,10 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじ", "巫女さんのおみくじ"],
+        "tags": [
+          "おみくじ",
+          "巫女さんのおみくじ"
+        ],
         "values": [
           "人との縁が幸運を呼び込みそう。感謝の気持ちを忘れないことが大事よ。",
           "健康運が特に好調ね。心身ともに充実した日々になるわ。",
@@ -2556,7 +4065,10 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじ", "巫女さんのおみくじ"],
+        "tags": [
+          "おみくじ",
+          "巫女さんのおみくじ"
+        ],
         "values": [
           "積極的に行動すると運気は上がるわ。新しい挑戦はチャンスよ。",
           "周囲の人々に感謝の気持ちを忘れずにね。",
@@ -2590,7 +4102,10 @@
         "order": 3,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじ", "巫女さんのおみくじ"],
+        "tags": [
+          "おみくじ",
+          "巫女さんのおみくじ"
+        ],
         "values": [
           "思いがけない幸運があるかも。チャンスを逃さないようにね。",
           "周囲の人との協力が大切よ。助けを求めることを恐れないで。",
@@ -2624,7 +4139,10 @@
         "order": 4,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじ", "巫女さんのおみくじ"],
+        "tags": [
+          "おみくじ",
+          "巫女さんのおみくじ"
+        ],
         "values": [
           "いまは焦らず、一歩ずつ進むことね。努力すれば、願いは叶うと出ているわ。",
           "いまは慎重に行動が必要な時。きっと吉へと導かれるわ。慌てない事が大切よ。",
@@ -2658,7 +4176,10 @@
         "order": 5,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじ", "巫女さんのおみくじ"],
+        "tags": [
+          "おみくじ",
+          "巫女さんのおみくじ"
+        ],
         "values": [
           "油断が思わぬ結果に繋がるわ。慎重に行動して。",
           "今は試練の時期ね。乗り越えれば、大きな成長が待ってるわ。",
@@ -2692,7 +4213,10 @@
         "order": 6,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじ", "巫女さんのおみくじ"],
+        "tags": [
+          "おみくじ",
+          "巫女さんのおみくじ"
+        ],
         "values": [
           "運気はやや下がり気味。慎重に行動するといいわ。",
           "周囲の人とのトラブルに注意して。喧嘩になったら、頭を冷やすことね。",
@@ -2726,7 +4250,10 @@
         "order": 7,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじ", "巫女さんのおみくじ"],
+        "tags": [
+          "おみくじ",
+          "巫女さんのおみくじ"
+        ],
         "values": [
           "運気が深く沈み込みやすい時期。一度立ち止まって状況を整理してね。",
           "人間関係の誤解が連鎖しやすいわ。言葉選びを丁寧に、早めのフォローが鍵よ。",
@@ -2760,7 +4287,10 @@
         "order": 8,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじ", "巫女さんのおみくじ"],
+        "tags": [
+          "おみくじ",
+          "巫女さんのおみくじ"
+        ],
         "values": [
           "笑いすぎに注意だぜ。腹筋が崩壊するかもしれないぜ。",
           "終わったわ、風が強すぎるぜ。強すぎてお亡くなりだぜ。",
@@ -2796,55 +4326,131 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじBOT", "ショコラ"],
+        "tags": [
+          "おみくじBOT",
+          "ショコラ"
+        ],
         "displayName": "ショコラ",
-        "color": { "name": "#eed84f", "text": "#FFEBEE", "background": "#D32F2F", "accent": "#FF9800" },
+        "color": {
+          "name": "#eed84f",
+          "text": "#FFEBEE",
+          "background": "#D32F2F",
+          "accent": "#FF9800"
+        },
         "image": {
-          "default": { "label": "デフォルト(default)", "src": ["chocolate/default.webp", "chocolate/face.webp"] },
+          "default": {
+            "label": "デフォルト(default)",
+            "src": [
+              "chocolate/default.webp",
+              "chocolate/face.webp"
+            ]
+          },
           "happy": {
             "label": "嬉しい(happy)",
-            "src": ["chocolate/happy.webp", "chocolate/face.webp"],
-            "animation": { "type": "joyful", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/happy.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "joyful",
+              "duration": 1.5,
+              "loop": true
+            }
           },
           "excited": {
             "label": "excited",
-            "src": ["chocolate/excited.webp", "chocolate/face.webp"],
-            "animation": { "type": "wobble", "duration": 5, "loop": true }
+            "src": [
+              "chocolate/excited.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "wobble",
+              "duration": 5,
+              "loop": true
+            }
           },
           "blushing": {
             "label": "blushing",
-            "src": ["chocolate/blushing.webp", "chocolate/face.webp"],
-            "animation": { "type": "gentle", "duration": 1, "loop": true }
+            "src": [
+              "chocolate/blushing.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "gentle",
+              "duration": 1,
+              "loop": true
+            }
           },
           "surprised": {
             "label": "驚き(surprised)",
-            "src": ["chocolate/surprised.webp", "chocolate/face.webp"],
-            "animation": { "type": "bounce", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/surprised.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "bounce",
+              "duration": 1.5,
+              "loop": true
+            }
           },
           "sad": {
             "label": "悲しみ(sad)",
-            "src": ["chocolate/sad.webp", "chocolate/face.webp"],
-            "animation": { "type": "joyful", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/sad.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "joyful",
+              "duration": 1.5,
+              "loop": true
+            }
           },
           "angry": {
             "label": "怒り(angry)",
-            "src": ["chocolate/angry.webp", "chocolate/face.webp"],
-            "animation": { "type": "rubberBand", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/angry.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "rubberBand",
+              "duration": 1.5,
+              "loop": true
+            }
           },
           "thinking": {
             "label": "考え中(thinking)",
-            "src": ["chocolate/thinking.webp", "chocolate/face.webp"],
-            "animation": { "type": "tilt", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/thinking.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "tilt",
+              "duration": 1.5,
+              "loop": true
+            }
           },
           "wink": {
             "label": "wink",
-            "src": ["chocolate/wink.webp", "chocolate/face.webp"],
-            "animation": { "type": "swing", "duration": 5, "loop": true }
+            "src": [
+              "chocolate/wink.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "swing",
+              "duration": 5,
+              "loop": true
+            }
           },
           "singing": {
             "label": "singing",
-            "src": ["chocolate/singing.webp"],
-            "animation": { "type": "tada", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/singing.webp"
+            ],
+            "animation": {
+              "type": "tada",
+              "duration": 1.5,
+              "loop": true
+            }
           }
         },
         "displayOption": {
@@ -2865,20 +4471,63 @@
         "tagColor": "primary",
         "tags": [],
         "displayName": "カペラテ",
-        "color": { "name": "#FFB74D", "text": "#FFF3E0", "background": "#F57C00", "accent": "#FF9800" },
+        "color": {
+          "name": "#FFB74D",
+          "text": "#FFF3E0",
+          "background": "#F57C00",
+          "accent": "#FF9800"
+        },
         "image": {
-          "default": { "label": "デフォルト(default)", "src": ["cafelatte/default.webp"] },
-          "happy": { "label": "嬉しい(happy)", "src": [] },
-          "excited": { "label": "excited", "src": [] },
-          "laughing": { "label": "laughing", "src": [] },
-          "blushing": { "label": "blushing", "src": [] },
-          "surprised": { "label": "驚き(surprised)", "src": [] },
-          "sad": { "label": "悲しみ(sad)", "src": [] },
-          "angry": { "label": "怒り(angry)", "src": [] },
-          "thinking": { "label": "考え中(thinking)", "src": [] },
-          "wink": { "label": "wink", "src": [] },
-          "singing": { "label": "singing", "src": [] },
-          "sleepy": { "label": "sleepy", "src": [] }
+          "default": {
+            "label": "デフォルト(default)",
+            "src": [
+              "cafelatte/default.webp"
+            ]
+          },
+          "happy": {
+            "label": "嬉しい(happy)",
+            "src": []
+          },
+          "excited": {
+            "label": "excited",
+            "src": []
+          },
+          "laughing": {
+            "label": "laughing",
+            "src": []
+          },
+          "blushing": {
+            "label": "blushing",
+            "src": []
+          },
+          "surprised": {
+            "label": "驚き(surprised)",
+            "src": []
+          },
+          "sad": {
+            "label": "悲しみ(sad)",
+            "src": []
+          },
+          "angry": {
+            "label": "怒り(angry)",
+            "src": []
+          },
+          "thinking": {
+            "label": "考え中(thinking)",
+            "src": []
+          },
+          "wink": {
+            "label": "wink",
+            "src": []
+          },
+          "singing": {
+            "label": "singing",
+            "src": []
+          },
+          "sleepy": {
+            "label": "sleepy",
+            "src": []
+          }
         },
         "displayOption": {
           "mode": "comment",
@@ -2898,16 +4547,53 @@
         "tagColor": "primary",
         "tags": [],
         "displayName": "サンプル",
-        "color": { "name": "#FFCDD2", "text": "#FFFFFF", "background": "#C62828", "accent": "#EF9A9A" },
-        "image": {
-          "default": { "label": "default", "src": [] },
-          "happy": { "label": "嬉しい", "src": ["omiken/happy.webp"] },
-          "surprised": { "label": "驚き", "src": ["omiken/surprised.webp"] },
-          "sad": { "label": "悲しみ", "src": ["omiken/sad.webp"] },
-          "angry": { "label": "怒り", "src": ["omiken/angry.webp"] },
-          "thinking": { "label": "考え中", "src": ["omiken/thinking.webp"] }
+        "color": {
+          "name": "#FFCDD2",
+          "text": "#FFFFFF",
+          "background": "#C62828",
+          "accent": "#EF9A9A"
         },
-        "displayOption": { "mode": "comment", "imageBase64": "", "frameId": "" }
+        "image": {
+          "default": {
+            "label": "default",
+            "src": []
+          },
+          "happy": {
+            "label": "嬉しい",
+            "src": [
+              "omiken/happy.webp"
+            ]
+          },
+          "surprised": {
+            "label": "驚き",
+            "src": [
+              "omiken/surprised.webp"
+            ]
+          },
+          "sad": {
+            "label": "悲しみ",
+            "src": [
+              "omiken/sad.webp"
+            ]
+          },
+          "angry": {
+            "label": "怒り",
+            "src": [
+              "omiken/angry.webp"
+            ]
+          },
+          "thinking": {
+            "label": "考え中",
+            "src": [
+              "omiken/thinking.webp"
+            ]
+          }
+        },
+        "displayOption": {
+          "mode": "comment",
+          "imageBase64": "",
+          "frameId": ""
+        }
       }
     }
   },
@@ -2922,7 +4608,12 @@
       },
       "gameRanking": {
         "component": "suikaGame",
-        "color": { "name": "#212121", "text": "#212121", "background": "#FAFAFA", "accent": "#FF9800" },
+        "color": {
+          "name": "#212121",
+          "text": "#212121",
+          "background": "#FAFAFA",
+          "accent": "#FF9800"
+        },
         "limit": 5,
         "sortOrder": "new",
         "uniqueUser": false
@@ -2932,8 +4623,17 @@
   },
   "jsonMerge": [],
   "settings": {
-    "generator": { "commentType": "OneComme", "soundEnabled": true, "basicDelaySeconds": 1 },
-    "editor": { "locale": "ja", "initialCategory": "ui" },
-    "developer": { "daisyUiTheme": "dark" }
+    "generator": {
+      "commentType": "OneComme",
+      "soundEnabled": true,
+      "basicDelaySeconds": 1
+    },
+    "editor": {
+      "locale": "ja",
+      "initialCategory": "ui"
+    },
+    "developer": {
+      "daisyUiTheme": "dark"
+    }
   }
 }

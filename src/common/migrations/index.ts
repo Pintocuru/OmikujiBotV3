@@ -15,6 +15,13 @@ const LEGACY_DATA_VERSION_LIMIT = 3
  */
 const SCENARIO_RENAME_DATA_VERSION = 3.0000001003
 
+/**
+ * おみくじアイテムの steps(インライン) -> stepKey(assets.scenarios の key) へ変更した dataVersion。
+ * これ未満の v3 データは steps が消えて実行できないため、tools/migrateStepKey.mjs での変換を求める。
+ * package.json の data_version と同じか、それ以下にする。
+ */
+const STEP_KEY_DATA_VERSION = 3.0000001004
+
 /** データの dataVersion を数値で取得する。存在しない場合は v1 と見なす */
 function getDataVersion(data: unknown): number {
   const v = (data as any)?.meta?.dataVersion
@@ -58,6 +65,13 @@ export function normalizeData(data: unknown): OmikujiDataType {
   // Scenario / ScenarioStep 改名前の v3 データ(旧名称のままでは steps が空になる)
   if (incomingVersion >= LEGACY_DATA_VERSION_LIMIT && incomingVersion < SCENARIO_RENAME_DATA_VERSION) {
     const msg = `このデータは旧名称の v${incomingVersion} 形式です。\n読み込むには、assets.actions → scenarios などへの名称変換が必要です。`
+    swalToast.error({ title: '読み込みエラー', text: msg })
+    throw new Error(msg)
+  }
+
+  // steps(インライン) 方式の v3 データ(そのままだと stepKey が空になる)
+  if (incomingVersion >= SCENARIO_RENAME_DATA_VERSION && incomingVersion < STEP_KEY_DATA_VERSION) {
+    const msg = `このデータは steps 方式の v${incomingVersion} 形式です。\n読み込むには、tools/migrateStepKey.mjs での変換が必要です。`
     swalToast.error({ title: '読み込みエラー', text: msg })
     throw new Error(msg)
   }

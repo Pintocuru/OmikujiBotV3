@@ -129,7 +129,34 @@ function specialType(old: Obj): string {
   return str(obj(old.behavior).type, 'return')
 }
 
-function migrateOmikujiItem(oldItem: unknown): Obj {
+/**
+ * おみくじアイテムのインライン steps を assets.scenarios へ切り出す(stepKey 方式)。
+ * 中身が同一の steps は1つのシナリオにまとめる(まとめる対象は、ここで生成したシナリオ同士)。
+ * 戻り値は stepKey。
+ */
+type ScenarioExtractor = (steps: Obj[], preferredKey: string, old: Obj) => string
+
+function createScenarioExtractor(scenarios: Obj): ScenarioExtractor {
+  const bySignature = new Map<string, string>()
+  const has = (key: string) => Object.prototype.hasOwnProperty.call(scenarios, key)
+  let seq = Object.keys(scenarios).length
+
+  return (steps, preferredKey, old) => {
+    const signature = JSON.stringify(steps)
+    const found = bySignature.get(signature)
+    if (found) return found
+
+    // 既存のシナリオ(actionSets 由来)や生成済みシナリオと key が被らないようにする
+    let key = preferredKey
+    while (has(key)) key += '_'
+
+    scenarios[key] = { ...baseRecord(old), id: undefined, key, order: seq++, steps }
+    bySignature.set(signature, key)
+    return key
+  }
+}
+
+function migrateOmikujiItem(oldItem: unknown, scenarioKey: string, extractScenario: ScenarioExtractor): Obj {
   const old = obj(oldItem)
   const base = {
     id: old.id,
@@ -155,7 +182,7 @@ function migrateOmikujiItem(oldItem: unknown): Obj {
   return {
     ...base,
     kind: 'steps',
-    steps: migrateSteps(old),
+    stepKey: extractScenario(migrateSteps(old), scenarioKey, old),
     cooldownSeconds: typeof old.actionCooldownSeconds === 'number' ? old.actionCooldownSeconds : undefined,
   }
 }
@@ -187,8 +214,9 @@ function migrateTrigger(from: string, trigger: unknown): Obj | undefined {
   }
 }
 
-function migrateEvents(old: Obj, mikuji: Obj): Obj {
+function migrateEvents(old: Obj, mikuji: Obj, scenarios: Obj): Obj {
   const events: Obj = {}
+  const extractScenario = createScenarioExtractor(scenarios)
   const usedKeys = new Set<string>()
 
   for (const { from, to, kind } of EVENT_MAP) {
@@ -203,7 +231,10 @@ function migrateEvents(old: Obj, mikuji: Obj): Obj {
         ...baseRecord(ev),
         id: undefined, // みくじ箱は新規ID
         key: boxKey,
-        omikuji: arr(ev.omikuji).map(migrateOmikujiItem),
+        omikuji: arr(ev.omikuji).map((item, i) =>
+          // シナリオの key: みくじ箱key_アイテムkey(アイテムに key が無ければ連番)
+          migrateOmikujiItem(item, `${boxKey}_${str(obj(item).key) || i + 1}`, extractScenario)
+        ),
       }
 
       const trigger = migrateTrigger(from, ev.trigger)
@@ -330,18 +361,20 @@ function migrateSettings(settings: unknown): Obj {
 export function migrateV2ToV3(data: unknown): Obj {
   const old = obj(data)
   const mikuji: Obj = {}
-  const events = migrateEvents(old, mikuji)
+  // actionSets 由来のシナリオを先に作り、おみくじアイテムのインライン steps はそこへ追加する(stepKey 方式)
+  const scenarios = migrateRecord(old.actionSets, (key, a) => ({
+    ...baseRecord(a),
+    key,
+    steps: migrateSteps(a),
+  }))
+  const events = migrateEvents(old, mikuji, scenarios)
 
   return {
     meta: old.meta,
     events,
     assets: {
       mikuji,
-      scenarios: migrateRecord(old.actionSets, (key, a) => ({
-        ...baseRecord(a),
-        key,
-        steps: migrateSteps(a),
-      })),
+      scenarios,
       placeholders: migrateRecord(old.placeholders, (key, p) => ({ ...baseRecord(p), key, values: p.values })),
       characters: migrateRecord(old.characters, migrateCharacter),
     },

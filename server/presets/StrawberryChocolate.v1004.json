@@ -6,7 +6,7 @@
     "version": "2026.10.28-3.0.0-alpha2",
     "generatorName": "omikuji-bot",
     "generatorVersion": "3.0.0-alpha2",
-    "dataVersion": 3.0000001003,
+    "dataVersion": 3.0000001004,
     "author": "Pintocuru(せすじピンとしてます)",
     "tags": [
       "ショコラ",
@@ -35,15 +35,24 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見詐欺"],
+        "tags": [
+          "ショコラ",
+          "初見詐欺"
+        ],
         "omikujiKey": "FirstSagiChocolate",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment", "expression"],
+          "conditions": [
+            "comment",
+            "expression"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["初見(?!さん)", "はじめまして"],
+          "comment": [
+            "初見(?!さん)",
+            "はじめまして"
+          ],
           "expression": "SyokenSagi<<userId>> < 1"
         }
       },
@@ -57,15 +66,22 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "コメント数表示"],
+        "tags": [
+          "ショコラ",
+          "コメント数表示"
+        ],
         "omikujiKey": "CheckNumberChocolate",
         "kind": "comments",
         "trigger": {
-          "conditions": ["comment"],
+          "conditions": [
+            "comment"
+          ],
           "userName": [],
           "access": [],
           "gift": [],
-          "comment": ["^コメント$"],
+          "comment": [
+            "^コメント$"
+          ],
           "expression": ""
         }
       },
@@ -79,14 +95,21 @@
         "order": 3,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "ギフト"],
+        "tags": [
+          "ショコラ",
+          "ギフト"
+        ],
         "omikujiKey": "GiftChocolate",
         "kind": "comments",
         "trigger": {
-          "conditions": ["gift"],
+          "conditions": [
+            "gift"
+          ],
           "userName": [],
           "access": [],
-          "gift": ["all"],
+          "gift": [
+            "all"
+          ],
           "comment": [],
           "expression": ""
         }
@@ -101,10 +124,20 @@
         "order": 4,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見判定"],
+        "tags": [
+          "ショコラ",
+          "初見判定"
+        ],
         "omikujiKey": "FirstSyokenChocolate",
         "kind": "comments",
-        "trigger": { "conditions": [], "userName": [], "access": [], "gift": [], "comment": [], "expression": "" }
+        "trigger": {
+          "conditions": [],
+          "userName": [],
+          "access": [],
+          "gift": [],
+          "comment": [],
+          "expression": ""
+        }
       },
       {
         "id": "CountStreamChocolate",
@@ -116,10 +149,20 @@
         "order": 5,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "コメントチェック"],
+        "tags": [
+          "ショコラ",
+          "コメントチェック"
+        ],
         "omikujiKey": "CountStreamChocolate",
         "kind": "comments",
-        "trigger": { "conditions": [], "userName": [], "access": [], "gift": [], "comment": [], "expression": "" }
+        "trigger": {
+          "conditions": [],
+          "userName": [],
+          "access": [],
+          "gift": [],
+          "comment": [],
+          "expression": ""
+        }
       }
     ],
     "timers": [
@@ -133,7 +176,10 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "告知"],
+        "tags": [
+          "ショコラ",
+          "告知"
+        ],
         "omikujiKey": "PromotionToastChocolate",
         "kind": "timers",
         "mode": "interval",
@@ -155,13 +201,21 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "閲覧数チェック"],
+        "tags": [
+          "ショコラ",
+          "閲覧数チェック"
+        ],
         "omikujiKey": "UpVotePeekChocolate",
         "kind": "services",
         "trigger": {
           "condition": "upVote",
-          "upVote": { "comparison": "greaterThanPeak" },
-          "viewer": { "comparison": "changed", "value": 0 }
+          "upVote": {
+            "comparison": "greaterThanPeak"
+          },
+          "viewer": {
+            "comparison": "changed",
+            "value": 0
+          }
         }
       },
       {
@@ -174,10 +228,18 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "閲覧数チェック"],
+        "tags": [
+          "ショコラ",
+          "閲覧数チェック"
+        ],
         "omikujiKey": "ViewerPeekChocolate",
         "kind": "services",
-        "trigger": { "condition": "viewer", "viewer": { "comparison": "greaterThanPeak" } }
+        "trigger": {
+          "condition": "viewer",
+          "viewer": {
+            "comparison": "greaterThanPeak"
+          }
+        }
       }
     ],
     "reactions": [
@@ -191,12 +253,20 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ"],
+        "tags": [
+          "ショコラ"
+        ],
         "omikujiKey": "ReactionCountChocolate",
         "kind": "reactions",
         "trigger": {
           "platform": "youtube",
-          "reactions": ["heart", "smile", "celebrate", "surprise", "praise"],
+          "reactions": [
+            "heart",
+            "smile",
+            "celebrate",
+            "surprise",
+            "praise"
+          ],
           "comparison": "burstReach",
           "value": 1,
           "triggerLevel": 3
@@ -217,7 +287,10 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見詐欺"],
+        "tags": [
+          "ショコラ",
+          "初見詐欺"
+        ],
         "omikuji": [
           {
             "id": "bbd7a17a-b8b1-4284-a0ae-a572a52e0bd6",
@@ -230,12 +303,20 @@
               "isPriority": true,
               "weight": 1,
               "criteria": {
-                "conditions": ["syoken"],
+                "conditions": [
+                  "syoken"
+                ],
                 "userName": [],
                 "access": [],
                 "gift": [],
-                "syoken": ["syoken"],
-                "count": { "comparison": "equal", "unit": "tc", "value": 1 },
+                "syoken": [
+                  "syoken"
+                ],
+                "count": {
+                  "comparison": "equal",
+                  "unit": "tc",
+                  "value": 1
+                },
                 "comment": [],
                 "expression": ""
               }
@@ -245,6 +326,8 @@
             "variable": ""
           },
           {
+            "kind": "steps",
+            "stepKey": "FirstSagiChocolate_1767486455920",
             "id": "1767486455920",
             "key": "1767486455920",
             "name": "ホントの初見(2-5回)",
@@ -255,46 +338,37 @@
               "isPriority": true,
               "weight": 1,
               "criteria": {
-                "conditions": ["count"],
+                "conditions": [
+                  "count"
+                ],
                 "userName": [],
                 "access": [],
                 "gift": [],
                 "syoken": [],
-                "count": { "comparison": "upperBound", "unit": "tc", "value": 5 },
+                "count": {
+                  "comparison": "upperBound",
+                  "unit": "tc",
+                  "value": 5
+                },
                 "comment": [],
                 "expression": ""
               }
-            },
-            "kind": "steps",
-            "steps": [{ "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["FirstSyokenChocolateHappy"] }]
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FirstSagiChocolate_b3c8e1aa-aaaf-4330-b1e-6f4d3cfa73cb",
             "id": "b3c8e1aa-aaaf-4330-b1e-6f4d3cfa73cb",
             "key": "b3c8e1aa-aaaf-4330-b1e-6f4d3cfa73cb",
             "name": "初見詐欺",
             "description": "",
             "createdAt": "2025-08-16T09:51:49.474Z",
             "updatedAt": "2025-08-16T09:51:49.474Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "FirstSyoken", "repeat": 1 },
-              {
-                "delaySeconds": 0.1,
-                "kind": "variable",
-                "message": "{{\n// 初見詐欺カウント+1\nSyokenSagi<<userId>> = SyokenSagi<<userId>> + 1;\n\nringo = ringo + 1;\n}}"
-              },
-              {
-                "delaySeconds": 1.5,
-                "kind": "scenarioCall",
-                "callKeys": [
-                  { "weight": 4, "content": "FirstSagiChocolateThinking" },
-                  { "weight": 4, "content": "FirstSagiChocolateSurprised" },
-                  { "weight": 4, "content": "FirstSagiChocolateSad" },
-                  "FirstSagiChocolateFake"
-                ]
-              }
-            ],
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            },
             "cooldownSeconds": 0
           }
         ]
@@ -309,9 +383,14 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "コメント数表示"],
+        "tags": [
+          "ショコラ",
+          "コメント数表示"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "CheckNumberChocolate_4d17c161-f7ce-48a1-a819-863431a8b73c",
             "id": "4d17c161-f7ce-48a1-a819-863431a8b73c",
             "key": "4d17c161-f7ce-48a1-a819-863431a8b73c",
             "name": "コメント数表示 1-100",
@@ -322,32 +401,26 @@
               "isPriority": true,
               "weight": 1,
               "criteria": {
-                "conditions": ["count"],
+                "conditions": [
+                  "count"
+                ],
                 "userName": [],
                 "access": [],
                 "gift": [],
                 "syoken": [],
-                "count": { "comparison": "upperBound", "unit": "tc", "value": 99 },
+                "count": {
+                  "comparison": "upperBound",
+                  "unit": "tc",
+                  "value": 99
+                },
                 "comment": [],
                 "expression": ""
               }
-            },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "blushing",
-                "sound": "transition",
-                "soundPath": "",
-                "message": "<<user>>さぁん、\n<<\n'もう[<<tc>>]回もお話ししてくれてるのねぇ♡',\n'最近よく見かけると思ったらぁ、もう[<<tc>>]回だったのねぇ♡',\n'[<<tc>>]回も来てくれてるのぉ？ ちゃんと覚えてるわよぉ♡',\n'気づけば[<<tc>>]回ねぇ♪ いつも来てくれて嬉しいわぁ♡',\n'[<<tc>>]回もコメントしてくれてるのねぇ。ありがとぉ♡'\n>>"
-              }
-            ]
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "CheckNumberChocolate_K8-r_6IOHFbHbXO6_0o_0",
             "id": "K8-r_6IOHFbHbXO6_0o_0",
             "key": "K8-r_6IOHFbHbXO6_0o_0",
             "name": "コメント数表示 100-10000",
@@ -358,32 +431,26 @@
               "isPriority": true,
               "weight": 1,
               "criteria": {
-                "conditions": ["count"],
+                "conditions": [
+                  "count"
+                ],
                 "userName": [],
                 "access": [],
                 "gift": [],
                 "syoken": [],
-                "count": { "comparison": "upperBound", "unit": "tc", "value": 9999 },
+                "count": {
+                  "comparison": "upperBound",
+                  "unit": "tc",
+                  "value": 9999
+                },
                 "comment": [],
                 "expression": ""
               }
-            },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "blushing",
-                "sound": "transition",
-                "soundPath": "",
-                "message": "<<user>>さぁん、\n<<\n  '[<<tc>>]回！？ そんなに来てくれてるなんてぇ感激しちゃうわぁ♡',\n  'もう[<<tc>>]回なのねぇ…あなた、もう立派な常連さんじゃない♡',\n  '[<<tc>>]回もコメントしてくれたのぉ？ いつも支えてくれてありがとぉ♡',\n  '気づけばぁ[<<tc>>]回…ここまで来るとぉ相棒みたいなものねぇ♡',\n  '[<<tc>>]回も会いに来てくれてるのねぇ。あたしぃ、とっても嬉しいわぁ♡'\n>>"
-              }
-            ]
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "CheckNumberChocolate_A3VB_a7802HDXXdKA3FZ_",
             "id": "A3VB_a7802HDXXdKA3FZ_",
             "key": "A3VB_a7802HDXXdKA3FZ_",
             "name": "コメント数表示 10000-",
@@ -394,30 +461,22 @@
               "isPriority": true,
               "weight": 1,
               "criteria": {
-                "conditions": ["count"],
+                "conditions": [
+                  "count"
+                ],
                 "userName": [],
                 "access": [],
                 "gift": [],
                 "syoken": [],
-                "count": { "comparison": "lowerBound", "unit": "tc", "value": 10000 },
+                "count": {
+                  "comparison": "lowerBound",
+                  "unit": "tc",
+                  "value": 10000
+                },
                 "comment": [],
                 "expression": ""
               }
-            },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "blushing",
-                "sound": "transition",
-                "soundPath": "",
-                "message": "<<user>>さぁん、\n<<\n '[<<tc>>]回!? そんな数字、なかなか見られないわよぉ～♡',\n  'もう[<<tc>>]回なのぉ？ そこまで来ると伝説級の常連さんねぇ♡',\n  '[<<tc>>]回もコメントしてくれてるなんてぇ、本当にありがとぉ♡',\n  'ここまで[<<tc>>]回も来てくれたのねぇ。あなたには頭が上がらないわぁ♡',\n  '[<<tc>>]回…ずーっと見守ってくれているのねぇ。とっても頼もしいわぁ♡'\n>>"
-              }
-            ]
+            }
           }
         ]
       },
@@ -431,31 +490,25 @@
         "order": 3,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "ギフト"],
+        "tags": [
+          "ショコラ",
+          "ギフト"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "GiftChocolate_7688204f-b7de-4516-bc4d-a7cfb379dfc3",
             "id": "7688204f-b7de-4516-bc4d-a7cfb379dfc3",
             "key": "7688204f-b7de-4516-bc4d-a7cfb379dfc3",
             "name": "ギフト",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.297Z",
             "updatedAt": "2025-08-11T15:34:29.297Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              { "delaySeconds": 0, "kind": "sound", "sound": "cash", "soundPath": "" },
-              {
-                "delaySeconds": 0.5,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "blushing",
-                "sound": "carnival",
-                "soundPath": "",
-                "message": "<<\n  '<<user>>さぁん、ギフトありがとぉ！配信主もきっと喜ぶわ♡',\n  'あら、<<user>>さぁんからギフトだなんて…大切に受け取らせてもらうわね♡',\n  'ふふっ、<<user>>さぁんからのギフト、とっても嬉しいわ。大事にするね♡',\n  '<<user>>さぁん、ギフトありがとぉ。あなたの優しさに癒されます♡',\n  'あらあら、<<user>>さぁんからギフトなんて…配信主も愛されてるわね。'\n>>\n"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -469,9 +522,14 @@
         "order": 4,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見判定"],
+        "tags": [
+          "ショコラ",
+          "初見判定"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "FirstSagiChocolate_1767486455920",
             "id": "315c1260-131e-44d0-8020-1ab5cd420621",
             "key": "315c1260-131e-44d0-8020-1ab5cd420621",
             "name": "初見",
@@ -482,20 +540,28 @@
               "isPriority": true,
               "weight": 1,
               "criteria": {
-                "conditions": ["syoken"],
+                "conditions": [
+                  "syoken"
+                ],
                 "userName": [],
                 "access": [],
                 "gift": [],
-                "syoken": ["syoken"],
-                "count": { "comparison": "lowerBound", "unit": "lc", "value": 1 },
+                "syoken": [
+                  "syoken"
+                ],
+                "count": {
+                  "comparison": "lowerBound",
+                  "unit": "lc",
+                  "value": 1
+                },
                 "comment": [],
                 "expression": ""
               }
-            },
-            "kind": "steps",
-            "steps": [{ "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["FirstSyokenChocolateHappy"] }]
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FirstSyokenChocolate_1767509750837",
             "id": "1767509750837",
             "key": "1767509750837",
             "name": "久しぶり",
@@ -506,20 +572,28 @@
               "isPriority": true,
               "weight": 1,
               "criteria": {
-                "conditions": ["syoken"],
+                "conditions": [
+                  "syoken"
+                ],
                 "userName": [],
                 "access": [],
                 "gift": [],
-                "syoken": ["again"],
-                "count": { "comparison": "lowerBound", "unit": "lc", "value": 1 },
+                "syoken": [
+                  "again"
+                ],
+                "count": {
+                  "comparison": "lowerBound",
+                  "unit": "lc",
+                  "value": 1
+                },
                 "comment": [],
                 "expression": ""
               }
-            },
-            "kind": "steps",
-            "steps": [{ "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["FirstComebackChocolateWink"] }]
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "FirstSyokenChocolate_1767509789237",
             "id": "1767509789237",
             "key": "1767509789237",
             "name": "こんにちは",
@@ -530,18 +604,24 @@
               "isPriority": true,
               "weight": 1,
               "criteria": {
-                "conditions": ["syoken"],
+                "conditions": [
+                  "syoken"
+                ],
                 "userName": [],
                 "access": [],
                 "gift": [],
-                "syoken": ["firstVisit"],
-                "count": { "comparison": "lowerBound", "unit": "lc", "value": 1 },
+                "syoken": [
+                  "firstVisit"
+                ],
+                "count": {
+                  "comparison": "lowerBound",
+                  "unit": "lc",
+                  "value": 1
+                },
                 "comment": [],
                 "expression": ""
               }
-            },
-            "kind": "steps",
-            "steps": [{ "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["FirstVisitChocolateBlushing"] }]
+            }
           }
         ]
       },
@@ -555,9 +635,14 @@
         "order": 5,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "コメントチェック"],
+        "tags": [
+          "ショコラ",
+          "コメントチェック"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "CountStreamChocolate_b5aac496-d7d5-4748-913b-cbcba4e34454",
             "id": "b5aac496-d7d5-4748-913b-cbcba4e34454",
             "key": "b5aac496-d7d5-4748-913b-cbcba4e34454",
             "name": "配信枠コメント50回",
@@ -568,20 +653,26 @@
               "isPriority": true,
               "weight": 1,
               "criteria": {
-                "conditions": ["count"],
+                "conditions": [
+                  "count"
+                ],
                 "userName": [],
                 "access": [],
                 "gift": [],
                 "syoken": [],
-                "count": { "comparison": "loop", "unit": "lc", "value": 50 },
+                "count": {
+                  "comparison": "loop",
+                  "unit": "lc",
+                  "value": 50
+                },
                 "comment": [],
                 "expression": ""
               }
-            },
-            "kind": "steps",
-            "steps": [{ "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["CountStreamChocolate"] }]
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "CountStreamChocolate_1767511957448",
             "id": "1767511957448",
             "key": "1767511957448",
             "name": "個人コメント100回",
@@ -592,18 +683,22 @@
               "isPriority": true,
               "weight": 1,
               "criteria": {
-                "conditions": ["count"],
+                "conditions": [
+                  "count"
+                ],
                 "userName": [],
                 "access": [],
                 "gift": [],
                 "syoken": [],
-                "count": { "comparison": "loop", "unit": "tc", "value": 100 },
+                "count": {
+                  "comparison": "loop",
+                  "unit": "tc",
+                  "value": 100
+                },
                 "comment": [],
                 "expression": ""
               }
-            },
-            "kind": "steps",
-            "steps": [{ "delaySeconds": 0, "kind": "scenarioCall", "callKeys": ["CountUserChocolate"] }]
+            }
           }
         ]
       },
@@ -617,76 +712,55 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "閲覧数チェック"],
+        "tags": [
+          "ショコラ",
+          "閲覧数チェック"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "ViewCountDisplayChocolate_70762039-889c-47fd-8195-fe2fb87da00f",
             "id": "70762039-889c-47fd-8195-fe2fb87da00f",
             "key": "70762039-889c-47fd-8195-fe2fb87da00f",
             "name": "閲覧数:Chocolate",
             "description": "",
             "createdAt": "2025-08-16T09:51:49.474Z",
             "updatedAt": "2025-08-16T09:51:49.474Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "cute",
-                "soundPath": "",
-                "message": "<<\n  '<<viewer>>人が見てくれているわ。ありがとぉ♡',\n  'わぁ、今は<<viewer>>人も来てくれてるのね。嬉しいわ♡',\n  '今の視聴者さんは<<viewer>>人よ。来てくれて嬉しいわ♡',\n  'ただいま<<viewer>>人よ。みんなのおかげで賑やかね♡',\n  '<<viewer>>人…ふふ、思ったより来てくれてるわね。ありがとぉ♡',\n  '今は<<viewer>>人が見てくれてるわ。ゆっくりしていってね♡',\n  '<<viewer>>人も来てくれてるなんて…ちょっと照れちゃうわね♡'\n>>\n"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "ViewCountDisplayChocolate_09344253-0890-47c8-9df1-18426f32481f",
             "id": "09344253-0890-47c8-9df1-18426f32481f",
             "key": "09344253-0890-47c8-9df1-18426f32481f",
             "name": "高評価数:Chocolate",
             "description": "",
             "createdAt": "2025-08-16T09:51:49.474Z",
             "updatedAt": "2025-08-16T09:51:49.474Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "cute",
-                "soundPath": "",
-                "message": "<<\n  '高評価は<<upVote>>よ。押してくれると嬉しいな♡',\n  '高評価<<upVote>>…あなたのひと押し、待ってるわ♡',\n  '今の高評価は<<upVote>>ね。もっと増えたら嬉しいな♡',\n  '高評価<<upVote>>…ふふ、ちゃんと見てるわよ♡',\n  '高評価は<<upVote>>よ。あなたも押してくれるでしょ？♡'\n>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           },
           {
+            "kind": "steps",
+            "stepKey": "ViewCountDisplayChocolate_K9pPYSJ8U43Ch19O9KfSo",
             "id": "K9pPYSJ8U43Ch19O9KfSo",
             "key": "K9pPYSJ8U43Ch19O9KfSo",
             "name": "ユーザー読み上げ:Chocolate",
             "description": "",
             "createdAt": "2025-08-16T09:51:49.474Z",
             "updatedAt": "2025-08-16T09:51:49.474Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "default",
-                "sound": "cute",
-                "soundPath": "",
-                "message": "<<\n'【<<commenter>>人】もコメントしてくれてるのね…うれしいわ♡',\n'【<<commenter>>人】もいるなんて…にぎやかで素敵ね♡',\n'【<<commenter>>人】もコメントしてくれてるの？ふふ、幸せね♡',\n\n'【<<winner>>さん】のコメント、ちゃんと見てるわよ♡',\n'【<<winner>>さん】のコメント、ふふ…嬉しかったわ♡',\n'【<<winner>>】さん、ちゃんと気づいてるわよ…ありがとぉ♡',\n\n'登録者数【<<follower>>】人…いつもありがとぉ、愛してるわ♡',\n'登録者数【<<follower>>】人…全部、あなたたちのおかげよ♡',\n'登録者数【<<follower>>】人…これからも一緒にいてね♡'\n>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -700,30 +774,25 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "告知"],
+        "tags": [
+          "ショコラ",
+          "告知"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "PromotionToastChocolate_33d7982c-d477-4975-989e-0f010a5fc0a6",
             "id": "33d7982c-d477-4975-989e-0f010a5fc0a6",
             "key": "33d7982c-d477-4975-989e-0f010a5fc0a6",
             "name": "チャンネル登録告知",
             "description": "",
             "createdAt": "2025-08-11T15:34:29.298Z",
             "updatedAt": "2025-08-11T15:34:29.298Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "happy",
-                "sound": "news",
-                "soundPath": "",
-                "message": "<<\n  'チャンネル登録すると、配信主が喜ぶのよぉ、よろしくね♡',\n  '忘れてないかしらん？チャンネル登録と高評価は、配信主の栄養剤よぉ♡',\n  'チャンネル登録は、気軽に押してねぇ♡',\n  '高評価を押すとぉ、すごいのよぉ。配信主のモチベがあがるのよぉ～♡',\n  'コメントは配信の華よねぇ。気軽にどんどん付けて欲しいわぁ♡'\n>>\n"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -737,30 +806,25 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "閲覧数チェック"],
+        "tags": [
+          "ショコラ",
+          "閲覧数チェック"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "UpVotePeekChocolate_1d22b839-1139-41cf-8f79-de9fb36e78f2",
             "id": "1578ab2f-5b8f-4ca1-8533-7a9aff477371",
             "key": "1d22b839-1139-41cf-8f79-de9fb36e78f2",
             "name": "高評価がピーク時よりも多いとき",
             "description": "",
             "createdAt": "2026-02-05T01:23:18.358Z",
             "updatedAt": "2026-02-05T01:23:18.358Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "blushing",
-                "sound": "jingle",
-                "soundPath": "",
-                "message": "高評価ありがとぉ！<<\n'お姉さん、嬉しいわぁ♡',\n'ふふっ、ありがとねぇ♡',\n'<<upVote>>個にもなったのよぉ♡',\n'ほらぁ、<<upVote>> 個まで増えてるわぁ♡',\n'配信も一段と盛り上がるわねぇ♡'\n>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -774,30 +838,25 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "閲覧数チェック"],
+        "tags": [
+          "ショコラ",
+          "閲覧数チェック"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "ViewerPeekChocolate_2d23214d-4e5d-4da7-bbf2-76d03ff4a65f",
             "id": "2173ccc8-199e-44d4-982f-1fa0e65af2e0",
             "key": "2d23214d-4e5d-4da7-bbf2-76d03ff4a65f",
             "name": "視聴数がピーク時よりも多いとき",
             "description": "",
             "createdAt": "2026-02-14T05:02:52.611Z",
             "updatedAt": "2026-02-14T05:02:52.611Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "blushing",
-                "sound": "notification",
-                "soundPath": "",
-                "message": "<<\n'あらぁ、視聴数がぐっと増えたわねぇ♡',\n'視聴数が伸びてるわぁ、うれしい♡',\n'視聴数、今どんどん増えてるわよぉ♡',\n'こんなに視聴数が増えるなんてぇ、素敵ねぇ♡',\n'視聴数が伸びてるわぁ、いい感じねぇ♡',\n'今、視聴数が上がったわねぇ♡ちゃんと見てるわよぉ～',\n'視聴数が増えてきたわぁ。もっと盛り上がりましょ♡',\n'また視聴数が増えたわねぇ、みんなのおかげよぉ♡'\n>>"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -811,30 +870,24 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ"],
+        "tags": [
+          "ショコラ"
+        ],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "ReactionCountChocolate_kuVhhlOz6J1dw3uzj4Lxb",
             "id": "EjxscTtsT59NmXTxIwQi5",
             "key": "kuVhhlOz6J1dw3uzj4Lxb",
             "name": "レベルMAX時",
             "description": "",
             "createdAt": "2026-04-07T13:11:38.292Z",
             "updatedAt": "2026-04-07T13:11:38.292Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": "chocolate",
-                "iconKey": "blushing",
-                "sound": "twinkle",
-                "soundPath": "",
-                "message": "<<\n  'リアクションいっぱいねぇ！とってもうれしいわぁ♡',\n  'わぁ♡ たくさんのリアクションで感激よぉ♡',\n  'すっごーい！こんなにリアクションあっていいのぉ！？ありがとぉ♡',\n'たくさんのリアクションねぇ！もっと盛り上げちゃってぇ♡',\n'わぁ♡ リアクションがたくさんでぇ、画面がにぎやかねぇ♡',\n'ちょっとちょっと、リアクションすごいことになってるじゃないのぉ♡',\n'リアクションの多さにびっくりよぉ！みんなありがとねぇ♡'\n>>"
-              }
-            ],
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            },
             "cooldownSeconds": 3
           }
         ]
@@ -852,27 +905,19 @@
         "tags": [],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "Y6_8HBi8KGRsKgAreI51j_OgO9oqV_4m4C99mpIz8m5",
             "id": "xEXJwEyF9uRxALRFvKxbn",
             "key": "OgO9oqV_4m4C99mpIz8m5",
             "name": "時報",
             "description": "",
             "createdAt": "2026-10-19T13:33:41.250Z",
             "updatedAt": "2026-10-19T13:33:41.250Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": null,
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "時報です。"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       },
@@ -889,27 +934,19 @@
         "tags": [],
         "omikuji": [
           {
+            "kind": "steps",
+            "stepKey": "cCucd9L0bzrsQPfSiKQCT_FSORoqC-GwjCHM5M50qtN",
             "id": "_uQB5F00kWoHDP5JYSOZ0",
             "key": "FSORoqC-GwjCHM5M50qtN",
             "name": "定期告知",
             "description": "",
             "createdAt": "2026-10-19T13:33:49.126Z",
             "updatedAt": "2026-10-19T13:33:49.126Z",
-            "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "steps",
-            "steps": [
-              {
-                "delaySeconds": 0,
-                "kind": "message",
-                "uiKey": "commentBubble",
-                "slots": {},
-                "characterKey": null,
-                "iconKey": "default",
-                "sound": "",
-                "soundPath": "",
-                "message": "コメントはお気軽にどうぞ！「おみくじ」でおみくじも引けます"
-              }
-            ]
+            "lottery": {
+              "isPriority": false,
+              "weight": 1,
+              "criteria": null
+            }
           }
         ]
       }
@@ -925,7 +962,11 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見詐欺", "thinking"],
+        "tags": [
+          "ショコラ",
+          "初見詐欺",
+          "thinking"
+        ],
         "steps": [
           {
             "delaySeconds": 0,
@@ -950,7 +991,10 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見詐欺"],
+        "tags": [
+          "ショコラ",
+          "初見詐欺"
+        ],
         "steps": [
           {
             "delaySeconds": 0,
@@ -975,7 +1019,10 @@
         "order": 3,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見詐欺"],
+        "tags": [
+          "ショコラ",
+          "初見詐欺"
+        ],
         "steps": [
           {
             "delaySeconds": 0,
@@ -1000,7 +1047,10 @@
         "order": 4,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見詐欺"],
+        "tags": [
+          "ショコラ",
+          "初見詐欺"
+        ],
         "steps": [
           {
             "delaySeconds": 0,
@@ -1036,9 +1086,17 @@
         "order": 6,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見判定"],
+        "tags": [
+          "ショコラ",
+          "初見判定"
+        ],
         "steps": [
-          { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "FirstSyoken", "repeat": 1 },
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "FirstSyoken",
+            "repeat": 1
+          },
           {
             "delaySeconds": 1.5,
             "kind": "message",
@@ -1062,7 +1120,10 @@
         "order": 7,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見判定"],
+        "tags": [
+          "ショコラ",
+          "初見判定"
+        ],
         "steps": [
           {
             "delaySeconds": 0,
@@ -1087,7 +1148,10 @@
         "order": 8,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見判定"],
+        "tags": [
+          "ショコラ",
+          "初見判定"
+        ],
         "steps": [
           {
             "delaySeconds": 0,
@@ -1112,7 +1176,10 @@
         "order": 9,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "コメントチェック"],
+        "tags": [
+          "ショコラ",
+          "コメントチェック"
+        ],
         "steps": [
           {
             "delaySeconds": 0,
@@ -1137,7 +1204,10 @@
         "order": 10,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "コメントチェック"],
+        "tags": [
+          "ショコラ",
+          "コメントチェック"
+        ],
         "steps": [
           {
             "delaySeconds": 0,
@@ -1149,6 +1219,486 @@
             "sound": "baseball",
             "soundPath": "",
             "message": "<<\n'<<user>>さぁんのコメント、もう<<tc>>回になったわぁ。たくさんありがとぉ♡',\n'<<user>>さぁん、コメントが<<tc>>回よぉ。こんなに来てくれて、嬉しいわぁ♡',\n'<<user>>さぁんのコメント、<<tc>>回ね。ふふ、いっぱいお話ししてくれて、ありがとぉ♡',\n'<<user>>さぁん、もう<<tc>>回もコメントしてるのねぇ。ちゃんと見てるわよ♡',\n'<<user>>さぁんのコメントが<<tc>>回！そんなに来てくれるなんて、素敵ねぇ♡',\n'<<user>>さぁん、<<tc>>回もコメントしてくれてるわぁ。いつもありがとぉ♡'\n>>"
+          }
+        ]
+      },
+      "FirstSagiChocolate_1767486455920": {
+        "id": "SyVilgv3x0XQ9ROcMI7b4w",
+        "key": "FirstSagiChocolate_1767486455920",
+        "name": "ホントの初見(2-5回)",
+        "description": "",
+        "createdAt": "2026-01-04T00:27:35.920Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 11,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "FirstSyokenChocolateHappy"
+            ]
+          }
+        ]
+      },
+      "FirstSagiChocolate_b3c8e1aa-aaaf-4330-b1e-6f4d3cfa73cb": {
+        "id": "ZbWleGcXMsMjsFkPf0gCPA",
+        "key": "FirstSagiChocolate_b3c8e1aa-aaaf-4330-b1e-6f4d3cfa73cb",
+        "name": "初見詐欺",
+        "description": "",
+        "createdAt": "2025-08-16T09:51:49.474Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 12,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "wordParty",
+            "wordPartyId": "FirstSyoken",
+            "repeat": 1
+          },
+          {
+            "delaySeconds": 0.1,
+            "kind": "variable",
+            "message": "{{\n// 初見詐欺カウント+1\nSyokenSagi<<userId>> = SyokenSagi<<userId>> + 1;\n\nringo = ringo + 1;\n}}"
+          },
+          {
+            "delaySeconds": 1.5,
+            "kind": "scenarioCall",
+            "callKeys": [
+              {
+                "weight": 4,
+                "content": "FirstSagiChocolateThinking"
+              },
+              {
+                "weight": 4,
+                "content": "FirstSagiChocolateSurprised"
+              },
+              {
+                "weight": 4,
+                "content": "FirstSagiChocolateSad"
+              },
+              "FirstSagiChocolateFake"
+            ]
+          }
+        ]
+      },
+      "CheckNumberChocolate_4d17c161-f7ce-48a1-a819-863431a8b73c": {
+        "id": "j_X1iEPx2HztSXVkDp7W2Q",
+        "key": "CheckNumberChocolate_4d17c161-f7ce-48a1-a819-863431a8b73c",
+        "name": "コメント数表示 1-100",
+        "description": "",
+        "createdAt": "2025-08-16T09:51:49.474Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 13,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "blushing",
+            "sound": "transition",
+            "soundPath": "",
+            "message": "<<user>>さぁん、\n<<\n'もう[<<tc>>]回もお話ししてくれてるのねぇ♡',\n'最近よく見かけると思ったらぁ、もう[<<tc>>]回だったのねぇ♡',\n'[<<tc>>]回も来てくれてるのぉ？ ちゃんと覚えてるわよぉ♡',\n'気づけば[<<tc>>]回ねぇ♪ いつも来てくれて嬉しいわぁ♡',\n'[<<tc>>]回もコメントしてくれてるのねぇ。ありがとぉ♡'\n>>"
+          }
+        ]
+      },
+      "CheckNumberChocolate_K8-r_6IOHFbHbXO6_0o_0": {
+        "id": "N2SnCvsMsEcelr8vXYVnEg",
+        "key": "CheckNumberChocolate_K8-r_6IOHFbHbXO6_0o_0",
+        "name": "コメント数表示 100-10000",
+        "description": "",
+        "createdAt": "2025-08-16T09:51:49.474Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 14,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "blushing",
+            "sound": "transition",
+            "soundPath": "",
+            "message": "<<user>>さぁん、\n<<\n  '[<<tc>>]回！？ そんなに来てくれてるなんてぇ感激しちゃうわぁ♡',\n  'もう[<<tc>>]回なのねぇ…あなた、もう立派な常連さんじゃない♡',\n  '[<<tc>>]回もコメントしてくれたのぉ？ いつも支えてくれてありがとぉ♡',\n  '気づけばぁ[<<tc>>]回…ここまで来るとぉ相棒みたいなものねぇ♡',\n  '[<<tc>>]回も会いに来てくれてるのねぇ。あたしぃ、とっても嬉しいわぁ♡'\n>>"
+          }
+        ]
+      },
+      "CheckNumberChocolate_A3VB_a7802HDXXdKA3FZ_": {
+        "id": "sJYLZukpy00nuw1tUqmrmg",
+        "key": "CheckNumberChocolate_A3VB_a7802HDXXdKA3FZ_",
+        "name": "コメント数表示 10000-",
+        "description": "",
+        "createdAt": "2025-08-16T09:51:49.474Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 15,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "blushing",
+            "sound": "transition",
+            "soundPath": "",
+            "message": "<<user>>さぁん、\n<<\n '[<<tc>>]回!? そんな数字、なかなか見られないわよぉ～♡',\n  'もう[<<tc>>]回なのぉ？ そこまで来ると伝説級の常連さんねぇ♡',\n  '[<<tc>>]回もコメントしてくれてるなんてぇ、本当にありがとぉ♡',\n  'ここまで[<<tc>>]回も来てくれたのねぇ。あなたには頭が上がらないわぁ♡',\n  '[<<tc>>]回…ずーっと見守ってくれているのねぇ。とっても頼もしいわぁ♡'\n>>"
+          }
+        ]
+      },
+      "GiftChocolate_7688204f-b7de-4516-bc4d-a7cfb379dfc3": {
+        "id": "jeRaYAHvo0kk4aNU3J9dhg",
+        "key": "GiftChocolate_7688204f-b7de-4516-bc4d-a7cfb379dfc3",
+        "name": "ギフト",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.297Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 16,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "sound",
+            "sound": "cash",
+            "soundPath": ""
+          },
+          {
+            "delaySeconds": 0.5,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "blushing",
+            "sound": "carnival",
+            "soundPath": "",
+            "message": "<<\n  '<<user>>さぁん、ギフトありがとぉ！配信主もきっと喜ぶわ♡',\n  'あら、<<user>>さぁんからギフトだなんて…大切に受け取らせてもらうわね♡',\n  'ふふっ、<<user>>さぁんからのギフト、とっても嬉しいわ。大事にするね♡',\n  '<<user>>さぁん、ギフトありがとぉ。あなたの優しさに癒されます♡',\n  'あらあら、<<user>>さぁんからギフトなんて…配信主も愛されてるわね。'\n>>\n"
+          }
+        ]
+      },
+      "FirstSyokenChocolate_1767509750837": {
+        "id": "gkT4S4WZeZr_rTUtiqoUbA",
+        "key": "FirstSyokenChocolate_1767509750837",
+        "name": "久しぶり",
+        "description": "",
+        "createdAt": "2026-01-04T06:55:50.837Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 17,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "FirstComebackChocolateWink"
+            ]
+          }
+        ]
+      },
+      "FirstSyokenChocolate_1767509789237": {
+        "id": "gRCQL3bfEDkkTzmxeikkKA",
+        "key": "FirstSyokenChocolate_1767509789237",
+        "name": "こんにちは",
+        "description": "",
+        "createdAt": "2026-01-04T06:56:29.237Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 18,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "FirstVisitChocolateBlushing"
+            ]
+          }
+        ]
+      },
+      "CountStreamChocolate_b5aac496-d7d5-4748-913b-cbcba4e34454": {
+        "id": "yYHlR6bDQ77o_qsI3zAhTA",
+        "key": "CountStreamChocolate_b5aac496-d7d5-4748-913b-cbcba4e34454",
+        "name": "配信枠コメント50回",
+        "description": "",
+        "createdAt": "2025-08-16T09:51:49.474Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 19,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "CountStreamChocolate"
+            ]
+          }
+        ]
+      },
+      "CountStreamChocolate_1767511957448": {
+        "id": "5Q0kw5XGf-1SN_u94FgrcA",
+        "key": "CountStreamChocolate_1767511957448",
+        "name": "個人コメント100回",
+        "description": "",
+        "createdAt": "2026-01-04T07:32:37.448Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 20,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "scenarioCall",
+            "callKeys": [
+              "CountUserChocolate"
+            ]
+          }
+        ]
+      },
+      "ViewCountDisplayChocolate_70762039-889c-47fd-8195-fe2fb87da00f": {
+        "id": "mcl3xOIdhBDh6xYSvB_FQg",
+        "key": "ViewCountDisplayChocolate_70762039-889c-47fd-8195-fe2fb87da00f",
+        "name": "閲覧数:Chocolate",
+        "description": "",
+        "createdAt": "2025-08-16T09:51:49.474Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 21,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "cute",
+            "soundPath": "",
+            "message": "<<\n  '<<viewer>>人が見てくれているわ。ありがとぉ♡',\n  'わぁ、今は<<viewer>>人も来てくれてるのね。嬉しいわ♡',\n  '今の視聴者さんは<<viewer>>人よ。来てくれて嬉しいわ♡',\n  'ただいま<<viewer>>人よ。みんなのおかげで賑やかね♡',\n  '<<viewer>>人…ふふ、思ったより来てくれてるわね。ありがとぉ♡',\n  '今は<<viewer>>人が見てくれてるわ。ゆっくりしていってね♡',\n  '<<viewer>>人も来てくれてるなんて…ちょっと照れちゃうわね♡'\n>>\n"
+          }
+        ]
+      },
+      "ViewCountDisplayChocolate_09344253-0890-47c8-9df1-18426f32481f": {
+        "id": "7lhSJ9dzXz4fm_DOedyh2g",
+        "key": "ViewCountDisplayChocolate_09344253-0890-47c8-9df1-18426f32481f",
+        "name": "高評価数:Chocolate",
+        "description": "",
+        "createdAt": "2025-08-16T09:51:49.474Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 22,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "cute",
+            "soundPath": "",
+            "message": "<<\n  '高評価は<<upVote>>よ。押してくれると嬉しいな♡',\n  '高評価<<upVote>>…あなたのひと押し、待ってるわ♡',\n  '今の高評価は<<upVote>>ね。もっと増えたら嬉しいな♡',\n  '高評価<<upVote>>…ふふ、ちゃんと見てるわよ♡',\n  '高評価は<<upVote>>よ。あなたも押してくれるでしょ？♡'\n>>"
+          }
+        ]
+      },
+      "ViewCountDisplayChocolate_K9pPYSJ8U43Ch19O9KfSo": {
+        "id": "1OytoK2Zo2Y-IuQXuPBHaw",
+        "key": "ViewCountDisplayChocolate_K9pPYSJ8U43Ch19O9KfSo",
+        "name": "ユーザー読み上げ:Chocolate",
+        "description": "",
+        "createdAt": "2025-08-16T09:51:49.474Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 23,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "default",
+            "sound": "cute",
+            "soundPath": "",
+            "message": "<<\n'【<<commenter>>人】もコメントしてくれてるのね…うれしいわ♡',\n'【<<commenter>>人】もいるなんて…にぎやかで素敵ね♡',\n'【<<commenter>>人】もコメントしてくれてるの？ふふ、幸せね♡',\n\n'【<<winner>>さん】のコメント、ちゃんと見てるわよ♡',\n'【<<winner>>さん】のコメント、ふふ…嬉しかったわ♡',\n'【<<winner>>】さん、ちゃんと気づいてるわよ…ありがとぉ♡',\n\n'登録者数【<<follower>>】人…いつもありがとぉ、愛してるわ♡',\n'登録者数【<<follower>>】人…全部、あなたたちのおかげよ♡',\n'登録者数【<<follower>>】人…これからも一緒にいてね♡'\n>>"
+          }
+        ]
+      },
+      "PromotionToastChocolate_33d7982c-d477-4975-989e-0f010a5fc0a6": {
+        "id": "8EdLxWtzNW9ssaG-BVhFQg",
+        "key": "PromotionToastChocolate_33d7982c-d477-4975-989e-0f010a5fc0a6",
+        "name": "チャンネル登録告知",
+        "description": "",
+        "createdAt": "2025-08-11T15:34:29.298Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 24,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "happy",
+            "sound": "news",
+            "soundPath": "",
+            "message": "<<\n  'チャンネル登録すると、配信主が喜ぶのよぉ、よろしくね♡',\n  '忘れてないかしらん？チャンネル登録と高評価は、配信主の栄養剤よぉ♡',\n  'チャンネル登録は、気軽に押してねぇ♡',\n  '高評価を押すとぉ、すごいのよぉ。配信主のモチベがあがるのよぉ～♡',\n  'コメントは配信の華よねぇ。気軽にどんどん付けて欲しいわぁ♡'\n>>\n"
+          }
+        ]
+      },
+      "UpVotePeekChocolate_1d22b839-1139-41cf-8f79-de9fb36e78f2": {
+        "id": "OlKKwdrzhMBy9Z53l-KtVQ",
+        "key": "UpVotePeekChocolate_1d22b839-1139-41cf-8f79-de9fb36e78f2",
+        "name": "高評価がピーク時よりも多いとき",
+        "description": "",
+        "createdAt": "2026-02-05T01:23:18.358Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 25,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "blushing",
+            "sound": "jingle",
+            "soundPath": "",
+            "message": "高評価ありがとぉ！<<\n'お姉さん、嬉しいわぁ♡',\n'ふふっ、ありがとねぇ♡',\n'<<upVote>>個にもなったのよぉ♡',\n'ほらぁ、<<upVote>> 個まで増えてるわぁ♡',\n'配信も一段と盛り上がるわねぇ♡'\n>>"
+          }
+        ]
+      },
+      "ViewerPeekChocolate_2d23214d-4e5d-4da7-bbf2-76d03ff4a65f": {
+        "id": "EMm4NeLF-CqQAFXkH0hWeA",
+        "key": "ViewerPeekChocolate_2d23214d-4e5d-4da7-bbf2-76d03ff4a65f",
+        "name": "視聴数がピーク時よりも多いとき",
+        "description": "",
+        "createdAt": "2026-02-14T05:02:52.611Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 26,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "blushing",
+            "sound": "notification",
+            "soundPath": "",
+            "message": "<<\n'あらぁ、視聴数がぐっと増えたわねぇ♡',\n'視聴数が伸びてるわぁ、うれしい♡',\n'視聴数、今どんどん増えてるわよぉ♡',\n'こんなに視聴数が増えるなんてぇ、素敵ねぇ♡',\n'視聴数が伸びてるわぁ、いい感じねぇ♡',\n'今、視聴数が上がったわねぇ♡ちゃんと見てるわよぉ～',\n'視聴数が増えてきたわぁ。もっと盛り上がりましょ♡',\n'また視聴数が増えたわねぇ、みんなのおかげよぉ♡'\n>>"
+          }
+        ]
+      },
+      "ReactionCountChocolate_kuVhhlOz6J1dw3uzj4Lxb": {
+        "id": "tkaE7zQF4cLPxnopw2tFug",
+        "key": "ReactionCountChocolate_kuVhhlOz6J1dw3uzj4Lxb",
+        "name": "レベルMAX時",
+        "description": "",
+        "createdAt": "2026-04-07T13:11:38.292Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 27,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": "chocolate",
+            "iconKey": "blushing",
+            "sound": "twinkle",
+            "soundPath": "",
+            "message": "<<\n  'リアクションいっぱいねぇ！とってもうれしいわぁ♡',\n  'わぁ♡ たくさんのリアクションで感激よぉ♡',\n  'すっごーい！こんなにリアクションあっていいのぉ！？ありがとぉ♡',\n'たくさんのリアクションねぇ！もっと盛り上げちゃってぇ♡',\n'わぁ♡ リアクションがたくさんでぇ、画面がにぎやかねぇ♡',\n'ちょっとちょっと、リアクションすごいことになってるじゃないのぉ♡',\n'リアクションの多さにびっくりよぉ！みんなありがとねぇ♡'\n>>"
+          }
+        ]
+      },
+      "Y6_8HBi8KGRsKgAreI51j_OgO9oqV_4m4C99mpIz8m5": {
+        "id": "uYEpTmGpu6fAbY5M9TpZyA",
+        "key": "Y6_8HBi8KGRsKgAreI51j_OgO9oqV_4m4C99mpIz8m5",
+        "name": "時報",
+        "description": "",
+        "createdAt": "2026-10-19T13:33:41.250Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 28,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": null,
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "時報です。"
+          }
+        ]
+      },
+      "cCucd9L0bzrsQPfSiKQCT_FSORoqC-GwjCHM5M50qtN": {
+        "id": "6qIjOjMh_kMEaSFvNPRTcg",
+        "key": "cCucd9L0bzrsQPfSiKQCT_FSORoqC-GwjCHM5M50qtN",
+        "name": "定期告知",
+        "description": "",
+        "createdAt": "2026-10-19T13:33:49.126Z",
+        "updatedAt": "2026-10-30T10:15:09.190Z",
+        "order": 29,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "steps": [
+          {
+            "delaySeconds": 0,
+            "kind": "message",
+            "uiKey": "commentBubble",
+            "slots": {},
+            "characterKey": null,
+            "iconKey": "default",
+            "sound": "",
+            "soundPath": "",
+            "message": "コメントはお気軽にどうぞ！「おみくじ」でおみくじも引けます"
           }
         ]
       }
@@ -1164,7 +1714,10 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "初見判定"],
+        "tags": [
+          "ショコラ",
+          "初見判定"
+        ],
         "values": [
           "<<user>>さぁん、来てくれてありがとぉ♡ ゆっくり楽しんでねぇ～",
           "わぁ、<<user>>さぁん、初めましてぇ！仲良くしてくれるとぉ嬉しいなぁ♡",
@@ -1183,8 +1736,13 @@
         "order": 2,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "じゃんけん"],
-        "values": ["ショコラ"]
+        "tags": [
+          "ショコラ",
+          "じゃんけん"
+        ],
+        "values": [
+          "ショコラ"
+        ]
       },
       "HondaJankenOre": {
         "id": "HondaJankenOre",
@@ -1196,8 +1754,13 @@
         "order": 3,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["ショコラ", "じゃんけん"],
-        "values": ["あたしぃ"]
+        "tags": [
+          "ショコラ",
+          "じゃんけん"
+        ],
+        "values": [
+          "あたしぃ"
+        ]
       }
     },
     "characters": {
@@ -1211,55 +1774,131 @@
         "order": 1,
         "isEnabled": true,
         "tagColor": "primary",
-        "tags": ["おみくじBOT", "ショコラ"],
+        "tags": [
+          "おみくじBOT",
+          "ショコラ"
+        ],
         "displayName": "ショコラ",
-        "color": { "name": "#eed84f", "text": "#FFEBEE", "background": "#D32F2F", "accent": "#FF9800" },
+        "color": {
+          "name": "#eed84f",
+          "text": "#FFEBEE",
+          "background": "#D32F2F",
+          "accent": "#FF9800"
+        },
         "image": {
-          "default": { "label": "デフォルト(default)", "src": ["chocolate/default.webp", "chocolate/face.webp"] },
+          "default": {
+            "label": "デフォルト(default)",
+            "src": [
+              "chocolate/default.webp",
+              "chocolate/face.webp"
+            ]
+          },
           "happy": {
             "label": "嬉しい(happy)",
-            "src": ["chocolate/happy.webp", "chocolate/face.webp"],
-            "animation": { "type": "joyful", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/happy.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "joyful",
+              "duration": 1.5,
+              "loop": true
+            }
           },
           "excited": {
             "label": "ワクワク(excited)",
-            "src": ["chocolate/excited.webp", "chocolate/face.webp"],
-            "animation": { "type": "wobble", "duration": 5, "loop": true }
+            "src": [
+              "chocolate/excited.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "wobble",
+              "duration": 5,
+              "loop": true
+            }
           },
           "blushing": {
             "label": "照れ(blushing)",
-            "src": ["chocolate/blushing.webp", "chocolate/face.webp"],
-            "animation": { "type": "gentle", "duration": 1, "loop": true }
+            "src": [
+              "chocolate/blushing.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "gentle",
+              "duration": 1,
+              "loop": true
+            }
           },
           "surprised": {
             "label": "驚き(surprised)",
-            "src": ["chocolate/surprised.webp", "chocolate/face.webp"],
-            "animation": { "type": "bounce", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/surprised.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "bounce",
+              "duration": 1.5,
+              "loop": true
+            }
           },
           "sad": {
             "label": "悲しみ(sad)",
-            "src": ["chocolate/sad.webp", "chocolate/face.webp"],
-            "animation": { "type": "joyful", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/sad.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "joyful",
+              "duration": 1.5,
+              "loop": true
+            }
           },
           "angry": {
             "label": "怒り(angry)",
-            "src": ["chocolate/angry.webp", "chocolate/face.webp"],
-            "animation": { "type": "rubberBand", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/angry.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "rubberBand",
+              "duration": 1.5,
+              "loop": true
+            }
           },
           "thinking": {
             "label": "考え中(thinking)",
-            "src": ["chocolate/thinking.webp", "chocolate/face.webp"],
-            "animation": { "type": "tilt", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/thinking.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "tilt",
+              "duration": 1.5,
+              "loop": true
+            }
           },
           "wink": {
             "label": "おふざけ(wink)",
-            "src": ["chocolate/wink.webp", "chocolate/face.webp"],
-            "animation": { "type": "swing", "duration": 5, "loop": true }
+            "src": [
+              "chocolate/wink.webp",
+              "chocolate/face.webp"
+            ],
+            "animation": {
+              "type": "swing",
+              "duration": 5,
+              "loop": true
+            }
           },
           "singing": {
             "label": "誇らしげ(singing)",
-            "src": ["chocolate/singing.webp"],
-            "animation": { "type": "tada", "duration": 1.5, "loop": true }
+            "src": [
+              "chocolate/singing.webp"
+            ],
+            "animation": {
+              "type": "tada",
+              "duration": 1.5,
+              "loop": true
+            }
           }
         },
         "displayOption": {
@@ -1309,16 +1948,45 @@
           "fromIconKey": "default",
           "toIconKey": "default"
         },
-        { "fromCharacterKey": "omiken", "toCharacterKey": "chocolate", "fromIconKey": "happy", "toIconKey": "happy" },
-        { "fromCharacterKey": "omiken2", "toCharacterKey": "chocolate", "fromIconKey": "happy", "toIconKey": "happy" },
-        { "fromCharacterKey": "omiken", "toCharacterKey": "chocolate", "fromIconKey": "sad", "toIconKey": "sad" },
-        { "fromCharacterKey": "omiken2", "toCharacterKey": "chocolate", "fromIconKey": "sad", "toIconKey": "sad" }
+        {
+          "fromCharacterKey": "omiken",
+          "toCharacterKey": "chocolate",
+          "fromIconKey": "happy",
+          "toIconKey": "happy"
+        },
+        {
+          "fromCharacterKey": "omiken2",
+          "toCharacterKey": "chocolate",
+          "fromIconKey": "happy",
+          "toIconKey": "happy"
+        },
+        {
+          "fromCharacterKey": "omiken",
+          "toCharacterKey": "chocolate",
+          "fromIconKey": "sad",
+          "toIconKey": "sad"
+        },
+        {
+          "fromCharacterKey": "omiken2",
+          "toCharacterKey": "chocolate",
+          "fromIconKey": "sad",
+          "toIconKey": "sad"
+        }
       ]
     }
   ],
   "settings": {
-    "generator": { "commentType": "OneComme", "soundEnabled": true, "basicDelaySeconds": 1 },
-    "editor": { "locale": "ja", "initialCategory": "comments" },
-    "developer": { "daisyUiTheme": "cupcake" }
+    "generator": {
+      "commentType": "OneComme",
+      "soundEnabled": true,
+      "basicDelaySeconds": 1
+    },
+    "editor": {
+      "locale": "ja",
+      "initialCategory": "comments"
+    },
+    "developer": {
+      "daisyUiTheme": "cupcake"
+    }
   }
 }
