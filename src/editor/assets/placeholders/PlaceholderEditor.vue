@@ -4,9 +4,9 @@
     <!-- 基本設定 -->
     <SectionCard
       id="section-baseSettings"
-      :icon="s('baseSettings')?.icon"
-      :label="s('baseSettings')?.label"
-      :description="s('baseSettings')?.description"
+      icon="SlidersHorizontal"
+      label-key="categorySections.baseSettings.label"
+      description-key="categorySections.baseSettings.description"
     >
       <BaseSettingsEditor v-model="selectedItem" category="placeholders" :isIsEnabled="false" />
     </SectionCard>
@@ -14,9 +14,9 @@
     <!-- プレースホルダー設定 -->
     <SectionCard
       id="section-placeholder"
-      :icon="s('placeholder')?.icon"
-      :label="s('placeholder')?.label"
-      :description="s('placeholder')?.description"
+      icon="Brackets"
+      label-key="categorySections.placeholder.label"
+      description-key="categorySections.placeholder.description"
     >
       <PlaceholderValuesEditor v-model="selectedItem" />
     </SectionCard>
@@ -26,9 +26,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { useI18n } from 'vue-i18n'
 
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import PlaceholderValuesEditor from './PlaceholderValuesEditor.vue'
 
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -38,19 +36,6 @@
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'
 
-  const { t } = useI18n()
-
-  // アイコン構造と i18n のテキストを結合して返すヘルパー
-  const s = (key: string) => {
-    const item = categorySectionMap.placeholders.find((i) => i.section === key)
-    if (!item) return null
-    return {
-      ...item,
-      label: t(`categorySections.${item.section}.label`),
-      description: t(`categorySections.${item.section}.description`),
-    }
-  }
-
   const navigationStore = useNavigationStore()
   const { selectedItemKey } = storeToRefs(navigationStore)
 
@@ -58,7 +43,7 @@
   const { getAsset } = useGetAssetData()
   const { updateAsset } = useOmikujiStore()
 
-  // 選択されたアイテムの取得（読み取り専用）
+  // 選択されたアイテムを取得
   const selectedItem = computed({
     get: () => {
       if (!selectedItemKey.value) return null

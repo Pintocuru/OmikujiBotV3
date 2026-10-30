@@ -4,9 +4,9 @@
     <!-- 基本設定セクション -->
     <SectionCard
       id="section-baseSettings"
-      :icon="s('baseSettings')?.icon"
-      :label="s('baseSettings')?.label"
-      :description="s('baseSettings')?.description"
+      icon="SlidersHorizontal"
+      label-key="categorySections.baseSettings.label"
+      description-key="categorySections.baseSettings.description"
     >
       <BaseEditor v-model="selectedItem" category="comments" />
     </SectionCard>
@@ -15,9 +15,9 @@
       <!-- 条件設定セクション -->
       <SectionCard
         id="section-threshold"
-        :icon="s('threshold')?.icon"
-        :label="s('threshold')?.label"
-        :description="s('threshold')?.description"
+        icon="Filter"
+        label-key="categorySections.threshold.label"
+        description-key="categorySections.threshold.description"
       >
         <CommentTriggerEditor v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
       </SectionCard>
@@ -53,24 +53,12 @@
   import InformationCard from '@/editor/parts/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
 
   const { t } = useI18n()
 
   const navigationStore = useNavigationStore()
   const { selectedItemKey } = storeToRefs(navigationStore)
-
-  // アイコン構造と i18n のテキストを結合して返すヘルパー
-  const s = (key: string) => {
-    const item = categorySectionMap.comments.find((i) => i.section === key)
-    if (!item) return null
-    return {
-      ...item,
-      label: t(`categorySections.${item.section}.label`),
-      description: t(`categorySections.${item.section}.description`),
-    }
-  }
 
   // Pinia store
   const { updateEvent } = useOmikujiStore()

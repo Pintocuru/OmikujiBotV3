@@ -11,10 +11,10 @@
     <!-- 基本設定セクション -->
     <SectionCard
       id="section-baseSettings"
-      :icon="s('baseSettings')?.icon"
+      icon="SlidersHorizontal"
       :variant="selectedItem.isEnabled ? 'secondary' : 'neutral'"
-      :label="s('baseSettings')?.label"
-      :description="s('baseSettings')?.description"
+      label-key="categorySections.baseSettings.label"
+      description-key="categorySections.baseSettings.description"
     >
       <BaseSettingsEditor v-model="selectedItem" category="services" />
     </SectionCard>
@@ -23,9 +23,9 @@
       <!-- 条件設定セクション -->
       <SectionCard
         id="section-trigger"
-        :icon="s('trigger')?.icon"
-        :label="s('trigger')?.label"
-        :description="s('trigger')?.description"
+        icon="Filter"
+        label-key="categorySections.trigger.label"
+        description-key="categorySections.trigger.description"
       >
         <ServiceTrigger v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
       </SectionCard>
@@ -39,45 +39,28 @@
     </template>
 
     <!-- 無効のときのメッセージ -->
-    <InformationCard v-else variant="error" class="mt-4 p-4">
-      {{ t('eventCore.disabledNotice.title') }}<br />
-      {{ t('eventCore.disabledNotice.action') }}
-    </InformationCard>
+    <DisabledEventNotice v-else />
   </template>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { useI18n } from 'vue-i18n'
   import { ServiceEventType } from '@/types/OmikujiData/'
+
   import ServiceTrigger from './ServiceTrigger.vue'
   import GlobalCharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
   import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
 
   import OmikujiSections from '@/editor/events/core/OmikujiSections.vue'
   import BoxChoiceEditor from '@/editor/events/core/BoxChoiceEditor.vue'
+  import DisabledEventNotice from '@/editor/events/core/DisabledEventNotice.vue'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 
-  import InformationCard from '@/editor/parts/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
-
-  const { t } = useI18n()
-
-  // アイコン構造と i18n のテキストを結合して返すヘルパー
-  const s = (key: string) => {
-    const item = categorySectionMap.services.find((i) => i.section === key)
-    if (!item) return null
-    return {
-      ...item,
-      label: t(`categorySections.${item.section}.label`),
-      description: t(`categorySections.${item.section}.description`),
-    }
-  }
 
   const navigationStore = useNavigationStore()
   const { selectedItemKey } = storeToRefs(navigationStore)

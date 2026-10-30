@@ -3,9 +3,9 @@
   <!-- おみくじ設定 -->
   <SectionCard
     id="section-omikujiSet"
-    :icon="s('omikujiSet')?.icon"
-    :label="s('omikujiSet')?.label"
-    :description="s('omikujiSet')?.description"
+    icon="ListChecks"
+    label-key="categorySections.omikujiSet.label"
+    description-key="categorySections.omikujiSet.description"
   >
     <div class="space-y-4">
       <!-- みくじ箱の選択(イベント側のみ) -->
@@ -32,9 +32,9 @@
   <SectionCard
     v-if="box.selectedItem?.kind === 'steps'"
     id="section-scenario"
-    :icon="s('scenario')?.icon"
-    :label="s('scenario')?.label"
-    :description="s('scenario')?.description"
+    icon="ListChecks"
+    label-key="categorySections.scenario.label"
+    description-key="categorySections.scenario.description"
   >
     <ScenarioChoiceEditor :modelValue="box.selectedItem" @update:modelValue="box.updateSelected" />
     <ScenarioStepsEditor v-if="scenario" v-model="steps" :current-key="scenario.key" />
@@ -52,7 +52,6 @@
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import { useBoxOmikujiList } from '@/editor/assets/mikuji/composables/useBoxOmikujiList'
   import { EventCategoryType } from '@/types/OmikujiData'
 
@@ -62,16 +61,6 @@
     omikujiKey: string
     category: EventCategoryType | 'mikuji'
   }>()
-
-  const s = (key: string) => {
-    const item = categorySectionMap[props.category].find((i) => i.section === key)
-    if (!item) return null
-    return {
-      ...item,
-      label: t(`categorySections.${item.section}.label`),
-      description: t(`categorySections.${item.section}.description`),
-    }
-  }
 
   const { updateAsset } = useOmikujiStore()
   const { getAsset, hasAsset } = useGetAssetData()

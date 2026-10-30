@@ -5,9 +5,9 @@
     <!-- 基本情報 -->
     <SectionCard
       id="section-baseSettings"
-      :icon="s('baseSettings')?.icon"
-      :label="s('baseSettings')?.label"
-      :description="s('baseSettings')?.description"
+      icon="SlidersHorizontal"
+      label-key="categorySections.baseSettings.label"
+      description-key="categorySections.baseSettings.description"
     >
       <BaseSettingsEditor v-model="selectedItem" category="characters" :isIsEnabled="false" />
     </SectionCard>
@@ -15,9 +15,9 @@
     <!-- フキダシカラー設定 -->
     <SectionCard
       id="section-colorSettings"
-      :icon="s('colorSettings')?.icon"
-      :label="s('colorSettings')?.label"
-      :description="s('colorSettings')?.description"
+      icon="Palette"
+      label-key="categorySections.colorSettings.label"
+      description-key="categorySections.colorSettings.description"
     >
       <CharacterColorSettings
         :botName="selectedItem.displayName"
@@ -29,9 +29,9 @@
     <!-- BOTコメント表現設定 -->
     <SectionCard
       id="section-commentVoice"
-      :icon="s('commentVoice')?.icon"
-      :label="s('commentVoice')?.label"
-      :description="s('commentVoice')?.description"
+      icon="MessageSquare"
+      label-key="categorySections.commentVoice.label"
+      description-key="categorySections.commentVoice.description"
     >
       <CommentVoiceSettings
         :modelValue="selectedItem.displayOption"
@@ -43,9 +43,9 @@
     <!-- ジェネレーター用画像設定 -->
     <SectionCard
       id="section-imageSettings"
-      :icon="s('imageSettings')?.icon"
-      :label="s('imageSettings')?.label"
-      :description="s('imageSettings')?.description"
+      icon="Image"
+      label-key="categorySections.imageSettings.label"
+      description-key="categorySections.imageSettings.description"
     >
       <CharacterImageSettings :modelValue="selectedItem.image" :selectedItemKey="selectedItemKey" />
     </SectionCard>
@@ -55,7 +55,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { useI18n } from 'vue-i18n'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import CharacterColorSettings from './color/CharacterColorSettings.vue'
   import CharacterImageSettings from './CharacterImage/CharacterImageSettings.vue'
@@ -64,20 +63,6 @@
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import SectionCard from '@/editor/parts/SectionCard.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
-
-  const { t } = useI18n()
-
-  // アイコン構造と i18n のテキストを結合して返すヘルパー
-  const s = (key: string) => {
-    const item = categorySectionMap.characters.find((i) => i.section === key)
-    if (!item) return null
-    return {
-      ...item,
-      label: t(`categorySections.${item.section}.label`),
-      description: t(`categorySections.${item.section}.description`),
-    }
-  }
 
   const navigationStore = useNavigationStore()
   const { selectedItemKey } = storeToRefs(navigationStore)

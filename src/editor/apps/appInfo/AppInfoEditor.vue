@@ -5,8 +5,8 @@
     <SectionCard
       id="section-appSettings"
       icon="Settings"
-      :label="t('appInfoEditor.appSettings.title')"
-      :description="t('appInfoEditor.appSettings.description')"
+      label-key="appInfoEditor.appSettings.title"
+      description-key="appInfoEditor.appSettings.description"
     >
       <GeneratorSettingsEditor />
       <EditorSettingsEditor />
@@ -16,8 +16,8 @@
     <SectionCard
       id="section-appFeatures"
       icon="Sparkles"
-      :label="t('appInfoEditor.appFeatures.title')"
-      :description="t('appInfoEditor.appFeatures.description')"
+      label-key="appInfoEditor.appFeatures.title"
+      description-key="appInfoEditor.appFeatures.description"
     >
       <AvailableFeaturesInfo />
     </SectionCard>
@@ -27,8 +27,8 @@
       id="section-packageBasic"
       icon="Info"
       variant="neutral"
-      :label="t('appInfoEditor.packageBasic.title')"
-      :description="t('appInfoEditor.packageBasic.description')"
+      label-key="appInfoEditor.packageBasic.title"
+      description-key="appInfoEditor.packageBasic.description"
     >
       <PackageBasicInfo />
     </SectionCard>
@@ -38,8 +38,8 @@
       id="section-packageDistribution"
       icon="Package"
       variant="neutral"
-      :label="t('appInfoEditor.packageDistribution.title')"
-      :description="t('appInfoEditor.packageDistribution.description')"
+      label-key="appInfoEditor.packageDistribution.title"
+      description-key="appInfoEditor.packageDistribution.description"
     >
       <PackageDistributionInfo />
     </SectionCard>
@@ -49,8 +49,8 @@
       id="section-packageSystem"
       icon="Cpu"
       variant="neutral"
-      :label="t('appInfoEditor.packageSystem.title')"
-      :description="t('appInfoEditor.packageSystem.description')"
+      label-key="appInfoEditor.packageSystem.title"
+      description-key="appInfoEditor.packageSystem.description"
     >
       <PackageSystemInfo />
     </SectionCard>
@@ -58,8 +58,6 @@
 </template>
 
 <script setup lang="ts">
-  import { useI18n } from 'vue-i18n'
-
   import GeneratorSettingsEditor from './settings/GeneratorSettingsEditor.vue'
   import EditorSettingsEditor from './settings/EditorSettingsEditor.vue'
   import AvailableFeaturesInfo from './AvailableFeatures/AvailableFeaturesInfo.vue'
@@ -67,6 +65,4 @@
   import PackageDistributionInfo from './meta/PackageDistributionInfo.vue'
   import PackageSystemInfo from './meta/PackageSystemInfo.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'
-
-  const { t } = useI18n()
 </script>

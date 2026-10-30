@@ -9,9 +9,9 @@
     <!-- 基本設定セクション -->
     <SectionCard
       id="section-baseSettings"
-      :icon="s('baseSettings')?.icon"
-      :label="s('baseSettings')?.label"
-      :description="s('baseSettings')?.description"
+      icon="SlidersHorizontal"
+      label-key="categorySections.baseSettings.label"
+      description-key="categorySections.baseSettings.description"
     >
       <BaseSettingsEditor v-model="selectedItem" category="scenarios" :isIsEnabled="false" />
     </SectionCard>
@@ -19,9 +19,9 @@
     <!-- おみくじ設定セクション -->
     <SectionCard
       id="section-omikujiSet"
-      :icon="s('omikujiSet')?.icon"
-      :label="s('omikujiSet')?.label"
-      :description="s('omikujiSet')?.description"
+      icon="ListChecks"
+      label-key="categorySections.omikujiSet.label"
+      description-key="categorySections.omikujiSet.description"
     >
       <ScenarioStepsEditor v-model="steps" :current-key="selectedItemKey ?? undefined" />
     </SectionCard>
@@ -31,7 +31,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { useI18n } from 'vue-i18n'
 
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
@@ -42,22 +41,8 @@
   import SectionCard from '@/editor/parts/SectionCard.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { ScenarioType } from '@/types/OmikujiData'
-
-  const { t } = useI18n()
-
-  // アイコン構造と i18n のテキストを結合して返すヘルパー
-  const s = (key: string) => {
-    const item = categorySectionMap.scenarios.find((i) => i.section === key)
-    if (!item) return null
-    return {
-      ...item,
-      label: t(`categorySections.${item.section}.label`),
-      description: t(`categorySections.${item.section}.description`),
-    }
-  }
 
   const navigationStore = useNavigationStore()
   const { selectedItemKey } = storeToRefs(navigationStore)
@@ -66,7 +51,7 @@
   const { updateAsset } = useOmikujiStore()
   const { getAsset } = useGetAssetData()
 
-  // v-modelを使用したselectedCharacterの実装
+  // 選択されたシナリオを取得
   const selectedItem = computed({
     get: () => {
       if (!selectedItemKey.value) return null

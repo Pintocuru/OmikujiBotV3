@@ -9,9 +9,9 @@
     <!-- 基本設定セクション -->
     <SectionCard
       id="section-baseSettings"
-      :icon="s('baseSettings')?.icon"
-      :label="s('baseSettings')?.label"
-      :description="s('baseSettings')?.description"
+      icon="SlidersHorizontal"
+      label-key="categorySections.baseSettings.label"
+      description-key="categorySections.baseSettings.description"
     >
       <BaseSettingsEditor v-model="selectedItem" category="mikuji" :isIsEnabled="false" />
     </SectionCard>
@@ -24,7 +24,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { useI18n } from 'vue-i18n'
   import { MikujiBoxType } from '@/types/OmikujiData'
 
   import OmikujiSections from '@/editor/events/core/OmikujiSections.vue'
@@ -36,20 +35,6 @@
   import SectionCard from '@/editor/parts/SectionCard.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
-
-  const { t } = useI18n()
-
-  // アイコン構造と i18n のテキストを結合して返すヘルパー
-  const s = (key: string) => {
-    const item = categorySectionMap.mikuji.find((i) => i.section === key)
-    if (!item) return null
-    return {
-      ...item,
-      label: t(`categorySections.${item.section}.label`),
-      description: t(`categorySections.${item.section}.description`),
-    }
-  }
 
   const navigationStore = useNavigationStore()
   const { selectedItemKey } = storeToRefs(navigationStore)
@@ -58,7 +43,7 @@
   const { updateAsset } = useOmikujiStore()
   const { getAsset } = useGetAssetData()
 
-  // v-modelを使用したselectedCharacterの実装
+  // 選択されたおみくじを取得
   const selectedItem = computed({
     get: () => {
       if (!selectedItemKey.value) return null

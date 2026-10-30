@@ -8,10 +8,10 @@
     <!-- 基本設定セクション -->
     <SectionCard
       id="section-baseSettings"
-      :icon="s('baseSettings')?.icon"
+      icon="SlidersHorizontal"
       :variant="selectedItem.isEnabled ? 'secondary' : 'neutral'"
-      :label="s('baseSettings')?.label"
-      :description="s('baseSettings')?.description"
+      label-key="categorySections.baseSettings.label"
+      description-key="categorySections.baseSettings.description"
     >
       <BaseSettingsEditor v-model="selectedItem" category="pads" />
     </SectionCard>
@@ -20,9 +20,9 @@
       <!-- 条件設定セクション -->
       <SectionCard
         id="section-trigger"
-        :icon="s('trigger')?.icon"
-        :label="s('trigger')?.label"
-        :description="s('trigger')?.description"
+        icon="Filter"
+        label-key="categorySections.trigger.label"
+        description-key="categorySections.trigger.description"
       >
         <PadTriggerEditor v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
       </SectionCard>
@@ -36,10 +36,7 @@
     </template>
 
     <!-- 無効のときのメッセージ -->
-    <InformationCard v-else variant="error" class="mt-4 p-4">
-      {{ t('eventCore.disabledNotice.title') }}<br />
-      {{ t('eventCore.disabledNotice.action') }}
-    </InformationCard>
+    <DisabledEventNotice v-else />
   </template>
 </template>
 
@@ -48,10 +45,10 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { PadEventType } from '@/types/OmikujiData/'
-  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
 
   import PadTriggerEditor from './PadTriggerEditor.vue'
   import BoxChoiceEditor from '@/editor/events/core/BoxChoiceEditor.vue'
+  import DisabledEventNotice from '@/editor/events/core/DisabledEventNotice.vue'
 
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import OmikujiSections from '@/editor/events/core/OmikujiSections.vue'
@@ -62,17 +59,6 @@
   import { useGetEventData } from '@/editor/stores/useGetEventData'
 
   const { t } = useI18n()
-
-  // アイコン構造と i18n のテキストを結合して返すヘルパー
-  const s = (key: string) => {
-    const item = categorySectionMap.pads.find((i) => i.section === key)
-    if (!item) return null
-    return {
-      ...item,
-      label: t(`categorySections.${item.section}.label`),
-      description: t(`categorySections.${item.section}.description`),
-    }
-  }
 
   // Pinia store
   const { updateEvent } = useOmikujiStore()
