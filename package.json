@@ -1,6 +1,6 @@
 {
   "name": "omikuji-bot",
-  "version": "3.0.0-alpha3",
+  "version": "3.0.0-alpha4",
   "data_version": 3.0000001004,
   "description": "おみくじ付きBOTジェネレーターとエディター",
   "scripts": {

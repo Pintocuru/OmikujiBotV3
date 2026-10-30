@@ -58,7 +58,21 @@
   const { isExporting, exportFile } = useConfigExport()
 
   const handleOpenLocalOmikujiData = () => {
-    if (!omikujiStore.openLocalOmikujiData()) return // 読み込み拒否(エラー表示済み)
+    const result = omikujiStore.openLocalOmikujiData()
+    // 読み込みに失敗した場合
+    if (result === 'empty') {
+      swalToast.error({ title: '読み込み失敗', text: 'omikujiData.js が空、またはデータが見つかりませんでした。' })
+      return
+    }
+
+    if (result === 'rejected') {
+      swalToast.error({
+        title: '読み込み拒否',
+        text: 'omikujiData.js の読み込みがキャンセルされたか、拒否されました。',
+      })
+      return
+    }
+
     navigationStore.selectCategory(data.value.settings.editor.initialCategory)
     swalToast.success({ title: '読み込み完了', text: 'omikujiData.js を読み込みました。' })
   }

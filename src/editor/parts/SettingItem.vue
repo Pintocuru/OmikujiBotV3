@@ -1,4 +1,3 @@
-<!-- src/editor/parts/SettingItem.vue -->
 <template>
   <div
     class="p-2 rounded-md shadow-lg bg-base-300 text-base-content"
@@ -38,13 +37,16 @@
 
         <slot name="label-extra" />
       </label>
+
       <span v-if="description" class="text-xs line-clamp-3 wrap-break-word" :title="description">
         {{ description }}
       </span>
     </div>
+
     <div class="flex-1 min-w-0">
       <slot />
     </div>
+
     <button
       v-if="showReset"
       class="btn btn-ghost btn-xs"
@@ -65,15 +67,20 @@
 
   const props = withDefaults(
     defineProps<{
-      label: string
+      // i18n 用
+      labelKey?: string
+      descriptionKey?: string
+      // 開発用
+      label?: string
       description?: string
+      // オプション
       variant?: DaisyUIColorType | null
       icon?: LucideIconName
       showReset?: boolean
       showWarning?: boolean
       layout?: 'horizontal' | 'vertical'
-      helpUrl?: string // チートシート等のヘルプページURL
-      helpLabel?: string // リンクの表示テキスト
+      helpUrl?: string
+      helpLabel?: string
     }>(),
     {
       showReset: false,
@@ -84,6 +91,9 @@
   defineEmits<{ reset: [] }>()
 
   const { t } = useI18n()
+
+  const label = computed(() => (props.labelKey ? t(props.labelKey) : (props.label ?? '')))
+  const description = computed(() => (props.descriptionKey ? t(props.descriptionKey) : (props.description ?? '')))
 
   const isVertical = computed(() => props.layout === 'vertical')
 
