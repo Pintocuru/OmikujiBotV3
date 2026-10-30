@@ -1,11 +1,5 @@
 // src/generator/scripts/EventProcess/OmikujiProcessor.ts
-import {
-  EventCategoryType,
-  MikujiItemsType,
-  OmikujiItemStepsType,
-  OmikujiItemType,
-  ScenarioStepType,
-} from '@/types/OmikujiData'
+import { MikujiItemsType, OmikujiItemStepsType, OmikujiItemType, ScenarioStepType } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { useAppStore } from '@/generator/stores/useAppStore'
@@ -28,56 +22,24 @@ export class OmikujiProcessor {
   }
 
   /**
-   * おみくじ抽選 & 実行 (本番用)
+   * おみくじ抽選 & 実行
    * @param omikujiKey data.assets.mikuji のキー (event.omikujiKey)
    */
-  async executeOmikuji(
-    eventKey: string,
-    omikujiKey: string,
-    category: EventCategoryType,
-    omiken?: OmikenCommentType
-  ): Promise<BotMessageType[]> {
-    return this.runFlow(eventKey, omikujiKey, category, omiken, false)
-  }
-
-  /**
-   * おみくじ抽選 & 実行 (スロット演出用)
-   */
-  async executeDummyOmikuji(
-    eventKey: string,
-    omikujiKey: string,
-    category: EventCategoryType,
-    omiken?: OmikenCommentType
-  ): Promise<BotMessageType[]> {
-    return this.runFlow(eventKey, omikujiKey, category, omiken, true)
-  }
-
-  /**
-   * 共通の実行フロー
-   */
-  private async runFlow(
-    eventKey: string,
-    omikujiKey: string,
-    category: EventCategoryType,
-    omiken?: OmikenCommentType,
-    isDummy: boolean = false
-  ): Promise<BotMessageType[]> {
+  async executeOmikuji(omikujiKey: string, omiken?: OmikenCommentType): Promise<BotMessageType[]> {
     const omikujiSet = this.store.data.assets.mikuji[omikujiKey]?.omikuji ?? []
     const item = this.lotteryOmikujiItem(omikujiSet)
 
     // return / continue / reset / log は何もしない
     if (!item || item.kind !== 'steps') return []
 
-    return this.runSteps(eventKey, item, category, omiken, isDummy)
+    return this.runSteps(item, omiken)
   }
 
   /**
-   * おみくじ抽選。
-   * criteria フィルタが必要な場合は呼び出し側で事前に適用すること
-   * (コメントイベントは EventCommentProcessor.lotteryWithCriteria を使用)。
-   * isPriority が true のアイテムが複数ある場合は、配列の先頭側が必ず選ばれる。
+   * おみくじ抽選
+   * isPriority が true のアイテムが複数ある場合は、配列の先頭側が必ず選ばれる
    */
-  lotteryOmikujiItem(omikujiSet: MikujiItemsType): OmikujiItemType | null {
+  private lotteryOmikujiItem(omikujiSet: MikujiItemsType): OmikujiItemType | null {
     try {
       // weight / isPriority は item.lottery の中にあるため、drawOmikuji 用にフラット化する
       const candidates = omikujiSet.map((item) => {
@@ -86,27 +48,13 @@ export class OmikujiProcessor {
       })
       return drawOmikuji(candidates)?.item ?? null
     } catch (error) {
-      const msg = `おみくじ実行エラー ${error}`
-      console.error(msg)
-      postSystemMessage(msg)
+      this.reportError(`おみくじ実行エラー ${error}`)
       return null
     }
   }
 
   /**
-   * 抽選済みの kind が 'steps' のアイテムを実行する (コメントイベント用)
-   */
-  async executeActionItem(
-    eventKey: string,
-    item: OmikujiItemStepsType,
-    category: EventCategoryType,
-    omiken?: OmikenCommentType
-  ): Promise<BotMessageType[]> {
-    return this.runSteps(eventKey, item, category, omiken, false)
-  }
-
-  /**
-   * control アイテムの variable (評価ブロック {{ }}) を評価する (コメントイベント用)
+   * control アイテムの variable (評価ブロック) を評価する
    */
   evaluateControlVariable(variable: string, omiken?: OmikenCommentType): void {
     this.omikujiResult.evaluateVariable(variable, this.getDefaultPlaceholders(omiken))
@@ -115,23 +63,14 @@ export class OmikujiProcessor {
   /**
    * steps を順番に実行する。
    * 前の step (variable など) の結果に後の step が依存する可能性があるため、並列にはしない。
-   * TODO:読み取られない数値がある
    */
-  private async runSteps(
-    eventKey: string,
-    item: OmikujiItemStepsType,
-    category: EventCategoryType,
-    omiken: OmikenCommentType | undefined,
-    isDummy: boolean
-  ): Promise<BotMessageType[]> {
+  async runSteps(item: OmikujiItemStepsType, omiken: OmikenCommentType | undefined): Promise<BotMessageType[]> {
     const steps = this.resolveScenarioSteps(item)
     const defaultPlaceholders = this.getDefaultPlaceholders(omiken)
     const messages: BotMessageType[] = []
 
     for (const step of steps) {
-      const result = isDummy
-        ? await this.omikujiResult.processDummy(step, defaultPlaceholders, omiken)
-        : await this.omikujiResult.process(step, defaultPlaceholders, omiken)
+      const result = await this.omikujiResult.process(step, defaultPlaceholders, omiken)
       messages.push(...result)
     }
 
@@ -145,17 +84,13 @@ export class OmikujiProcessor {
   private resolveScenarioSteps(item: OmikujiItemStepsType): ScenarioStepType[] {
     const key = item.stepKey
     if (!key) {
-      const msg = 'おみくじアイテムにシナリオ(stepKey)が設定されていません'
-      console.error(msg)
-      postSystemMessage(msg)
+      this.reportError('おみくじアイテムにシナリオ(stepKey)が設定されていません')
       return []
     }
 
     const scenario = this.store.data.assets.scenarios[key]
     if (!scenario) {
-      const msg = `シナリオ "${key}" が見つかりません`
-      console.error(msg)
-      postSystemMessage(msg)
+      this.reportError(`シナリオ "${key}" が見つかりません`)
       return []
     }
     return scenario.steps
@@ -173,5 +108,13 @@ export class OmikujiProcessor {
    */
   private getDefaultPlaceholders(omiken?: OmikenCommentType): Record<string, string | number> {
     return buildDefaultPlaceholders(this.store, omiken)
+  }
+
+  /**
+   * 実行時エラーをコンソールとわんコメの両方へ通知する
+   */
+  private reportError(msg: string): void {
+    console.error(msg)
+    postSystemMessage(msg)
   }
 }

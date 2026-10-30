@@ -68,7 +68,7 @@ export class EventServiceProcessor {
 
     for (const event of enabledEvents) {
       if (evaluateServiceTrigger(event.trigger, resolvedEvent)) {
-        const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikujiKey, 'services')
+        const messages = await this.omikujiProcessor.executeOmikuji(event.omikujiKey)
         this.store.scheduleBotMessages(messages)
       }
     }

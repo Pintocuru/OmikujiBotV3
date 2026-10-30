@@ -70,7 +70,7 @@ export class EventCommentProcessor {
     // 通常ステップ (kind が 'steps' のみ到達)
     if (selectedItem.kind !== 'steps') return []
     const omikujiProcessor = new OmikujiProcessor()
-    return omikujiProcessor.executeActionItem(event.key, selectedItem, 'comments', omiken)
+    return omikujiProcessor.runSteps(selectedItem, omiken)
   }
 
   /**

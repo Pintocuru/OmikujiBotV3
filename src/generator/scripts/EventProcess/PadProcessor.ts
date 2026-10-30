@@ -87,7 +87,7 @@ export class EventPadProcessor {
 
     for (const event of events) {
       try {
-        const messages = await this.omikujiProcessor.executeOmikuji(event.key, event.omikujiKey, 'pads')
+        const messages = await this.omikujiProcessor.executeOmikuji(event.omikujiKey)
         this.store.scheduleBotMessages(messages)
       } catch (error) {
         console.error(`Pad ${event.key} execution error:`, error)
