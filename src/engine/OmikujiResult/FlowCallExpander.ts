@@ -13,7 +13,7 @@ export class FlowCallExpander {
     visited: Set<string> = new Set()
   ): PostFlowType[] {
     if (depth >= this.MAX_DEPTH) {
-      const msg = `アクションセットの展開が最大階層(${this.MAX_DEPTH})に達しました`
+      const msg = `シナリオの展開が最大階層(${this.MAX_DEPTH})に達しました`
       console.warn(msg)
       postSystemMessage(msg, { username: 'warn' })
       return flow
@@ -60,7 +60,7 @@ export class FlowCallExpander {
     // 展開
     const targetActionSet = flowSets[targetKey]
     if (!targetActionSet) {
-      const msg = `アクションセット "${targetKey}" が見つかりません`
+      const msg = `シナリオ "${targetKey}" が見つかりません`
       console.error(msg)
       postSystemMessage(msg)
       return []

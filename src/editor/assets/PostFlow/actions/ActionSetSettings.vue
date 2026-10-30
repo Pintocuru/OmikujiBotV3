@@ -7,7 +7,9 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
           <!-- 重み -->
           <div class="w-full sm:w-32">
-            <label class="text-xs text-gray-500 mb-1 block"> {{ t('postFlow.actionSet.weight', { percent: getWeightPercentage(value.weight) }) }} </label>
+            <label class="text-xs text-gray-500 mb-1 block">
+              {{ t('postFlow.actionSet.weight', { percent: getWeightPercentage(value.weight) }) }}
+            </label>
             <input
               type="number"
               :value="value.weight"
@@ -17,7 +19,7 @@
             />
           </div>
 
-          <!-- アクションセット選択 -->
+          <!-- シナリオ選択 -->
           <div class="flex-1">
             <label class="text-xs text-gray-500 mb-1 block">{{ t('postFlow.actionSet.label') }}</label>
             <select
@@ -57,7 +59,9 @@
       <NoParamsCard :message="t('postFlow.actionSet.empty')" />
     </div>
 
-    <button @click="addValue(handleUpdate)" class="btn btn-primary w-full mt-4">{{ t('postFlow.actionSet.addValue') }}</button>
+    <button @click="addValue(handleUpdate)" class="btn btn-primary w-full mt-4">
+      {{ t('postFlow.actionSet.addValue') }}
+    </button>
   </div>
 </template>
 

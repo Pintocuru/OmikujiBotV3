@@ -13,19 +13,19 @@
       ><code>{{ action.message || t('postFlow.actionPreview.noMessage') }}</code></pre>
     </div>
 
-    <!-- サウンドアクション -->
+    <!-- サウンド -->
     <div v-else-if="action.kind === 'sound'" class="w-full text-center">
       <Volume2 :size="80" class="mx-auto text-blue-500" />
       <p class="text-sm opacity-70 mt-2">{{ t('postFlow.actionPreview.sound') }}</p>
     </div>
 
-    <!-- WordPartyアクション -->
+    <!-- WordParty -->
     <div v-else-if="action.kind === 'wordParty'" class="w-full text-center">
       <PartyPopper :size="80" class="mx-auto text-purple-500" />
       <p class="text-sm opacity-70 mt-2">WordParty</p>
     </div>
 
-    <!-- アクションセット呼び出し -->
+    <!-- シナリオ呼び出し -->
     <div v-else-if="action.kind === 'flowCall'" class="w-full text-center">
       <MessagesSquare :size="80" class="mx-auto text-red-500" />
       <p class="text-sm opacity-70 mt-2">{{ t('postFlow.actionPreview.actionSet') }}</p>

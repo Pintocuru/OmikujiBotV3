@@ -4,7 +4,7 @@ export const categorySectionMessages = {
     categorySections: {
       baseSettings: { label: '基本設定', description: '基本設定' },
       trigger: { label: '発動条件', description: '「おみくじを引く」発動条件の設定' },
-      omikujiSet: { label: 'アクション設定', description: 'おみくじの抽選設定や、おみくじの内容です' },
+      omikujiSet: { label: 'ステップ設定', description: 'おみくじの抽選設定や、おみくじの内容です' },
       threshold: { label: '発動条件', description: '「おみくじを引く」発動条件の設定' },
       timerInterval: { label: 'タイマー設定', description: '発動する間隔やタイミングの設定' },
       placeholder: { label: 'プレースホルダー設定', description: '抽選するプレースホルダーを編集します' },

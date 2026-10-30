@@ -9,7 +9,7 @@ import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 
 /**
  * サイドバーからの新規作成
- * Events / Assets のカテゴリに、スキーマの既定値で空のデータを1件追加し、そのデータを選択する
+ * Events / Assets のカテゴリに、スキーマの既定値で空のデータを1件追加し、そのデータを選択
  */
 export const useSidebarCreate = () => {
   const { t } = useI18n()

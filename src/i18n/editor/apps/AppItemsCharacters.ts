@@ -18,8 +18,8 @@ export const appItemsCharactersMessages = {
         disabled: '無効',
       },
       actionSet: {
-        title: 'アクションセット',
-        empty: 'アクション未設定',
+        title: 'シナリオ',
+        empty: 'シナリオ未設定',
       },
       color: {
         title: 'フキダシカラー',

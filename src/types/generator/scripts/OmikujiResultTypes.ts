@@ -5,6 +5,7 @@ import { BotMessageSlotsType } from './BotMessageSchema'
 /**
  * 評価ブロックの解析結果
  * VariablePlaceholderProcessor.ts の ProcessResult と構造を一致させる
+ * TODO: これらって今も必要なのか?
  */
 export interface VariablePlaceholderExtra {
   slots?: BotMessageSlotsType
@@ -17,7 +18,7 @@ export interface VariablePlaceholderResult {
 }
 
 /**
- * 処理済みのアクションと解析結果をセットにした型
+ * 処理済みのステップと解析結果をセットにした型
  */
 export interface ProcessedPostAction {
   action: PostFlowType

@@ -9,13 +9,11 @@ export function usePostActionsTab(
 ) {
   const { characterArray } = useCharacterLookup()
 
-  // アクティブなタブのインデックス。-1 は「アクションが0件」を表す
+  // アクティブなタブのインデックス。-1 は「ステップが0件」を表す
   const activeTab = ref(actions.value.length > 0 ? 0 : -1)
 
   // 現在選択されているアクション
-  const currentAction = computed(() =>
-    activeTab.value >= 0 ? actions.value[activeTab.value] ?? null : null
-  )
+  const currentAction = computed(() => (activeTab.value >= 0 ? (actions.value[activeTab.value] ?? null) : null))
 
   // タブの切り替え（閉じる概念はなし。常に開いたまま）
   const setActiveTab = (index: number) => {
@@ -34,10 +32,7 @@ export function usePostActionsTab(
   const addNewAction = () => {
     const newAction: PostFlowMessageType = PostFlowMessageSchema.parse({
       characterKey: characterArray.value[0]?.key ?? null,
-      delaySeconds:
-        actions.value.length > 0
-          ? Math.max(...actions.value.map((a) => a.delaySeconds)) + 1
-          : 0,
+      delaySeconds: actions.value.length > 0 ? Math.max(...actions.value.map((a) => a.delaySeconds)) + 1 : 0,
     })
     const newActions = [...actions.value, newAction]
     emit('update:actions', newActions)

@@ -67,7 +67,7 @@ export const PostFlowVariableSchema = PostFlowBaseSchema.extend({
 })
 export type PostFlowVariableType = z.infer<typeof PostFlowVariableSchema>
 
-// PostFlow flowCall アクションセット
+// PostFlow flowCall シナリオ
 export const PostFlowCallSchema = PostFlowBaseSchema.extend({
   kind: z.literal('flowCall'),
   callKeys: WeightValuesArraySchema,

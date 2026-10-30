@@ -13,7 +13,7 @@ export class OmikujiControlProcessor {
    */
   process(item: OmikujiItemType, omiken?: OmikenCommentType): boolean | null {
     switch (item.kind) {
-      // 通常アクション (BOTメッセージ送信) は対象外
+      // 通常ステップ (BOTメッセージ送信) は対象外
       case 'postFlow':
         return null
 

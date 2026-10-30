@@ -60,7 +60,7 @@
 
   const props = defineProps<{
     action: PostFlowType
-    currentKey?: string // 編集中のアクションセットのキー(flowCall の循環参照チェック用)
+    currentKey?: string // 編集中のシナリオのキー(flowCall の循環参照チェック用)
   }>()
 
   const emit = defineEmits<{

@@ -40,7 +40,7 @@ export const categoryMap: Record<CategoryType, DisplayMetaLucide> = {
     icon: 'Package',
   },
   actions: {
-    label: 'アクションセット',
+    label: 'シナリオ',
     description: 'BOTのコメント・WordPartyの指定のプリセットを作成します',
     icon: 'Zap',
   },

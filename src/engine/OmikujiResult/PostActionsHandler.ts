@@ -35,23 +35,21 @@ export class PostActionsHandler {
     omiken?: OmikenCommentType,
     isOnecommePost?: boolean
   ): BotMessageType[] {
-    // 1. アクション展開とプレースホルダー置換
+    // ステップ展開とプレースホルダー置換
     const expandedActions = FlowCallExpander.expand(postFlows, this.actionSets)
     const resolvedActions = this.resolvePlaceholders(expandedActions, defaultPlaceholders)
 
-    // 2. 評価ブロック {{ }} の処理
+    // 評価ブロック {{ }} の処理
     const processedActions: ProcessedPostAction[] = isOnecommePost
       ? this.generator.processVariables(resolvedActions) // 本番：計算して置換
       : this.generator.stripVariables(resolvedActions) // ダミー：計算せず除去
 
-    // 3. BotMessage 生成
+    // BotMessage 生成
     return this.generator.postAndGenerate(processedActions, omiken, isOnecommePost)
   }
 
   /**
-   * control アイテムの variable (評価ブロック {{ }}) を評価する。
-   * postFlows の kind:'variable' と同じ処理 (表示変数 → プレースホルダー → 式評価) を通すが、
-   * 目的は変数状態の更新のみ。投稿・サウンド・BotMessage 生成は行わない。
+   * control アイテムの variable (評価ブロック {{ }}) を評価
    */
   evaluateVariable(variable: string, defaultPlaceholders: Record<string, string | number>): void {
     const flow: PostFlowVariableType = { kind: 'variable', delaySeconds: 0, message: variable }

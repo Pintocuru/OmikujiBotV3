@@ -2,7 +2,7 @@
 
 ![](../../../../images/23_OmikujiEdit-1792765783947.webp)
 
-- 「**おみくじ設定**」のアクションタイプが **「WordParty」** の場合に設定が可能です。
+- 「**おみくじ設定**」のステップタイプが **「WordParty」** の場合に設定が可能です。
 - 任意の WordParty テンプレートで設定した **「パターン」** に一致する文章を入力すると、その WordParty の演出が実行されます。
   - **WordParty の ID のみ対応**しており、**パターン一致では反応しません**。
   - パターンの仕様は わんコメ公式 [WordPartyエディターの見方と設定](https://onecomme.com/docs/feature/wordparty-editor) をご覧ください

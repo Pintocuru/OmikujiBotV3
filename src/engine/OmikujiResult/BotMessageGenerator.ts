@@ -71,7 +71,7 @@ export class BotMessageGenerator {
   }
 
   /**
-   * 処理済みアクションからBotMessageを生成
+   * 処理済みステップからBotMessageを生成
    */
   private generate(
     processedActions: ProcessedPostAction[],

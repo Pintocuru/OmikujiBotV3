@@ -67,7 +67,7 @@ export class EventCommentProcessor {
       return handled ? [BotMessageSchema.parse({ uiKey: 'commentBubble' })] : []
     }
 
-    // 通常アクション (postFlow のみ到達)
+    // 通常ステップ (postFlow のみ到達)
     if (selectedItem.kind !== 'postFlow') return []
     const omikujiProcessor = new OmikujiProcessor()
     return omikujiProcessor.executeActionItem(event.key, selectedItem, 'comments', omiken)

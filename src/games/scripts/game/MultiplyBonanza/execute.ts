@@ -71,7 +71,7 @@ export class ExecuteScript implements ScriptClass {
   }
 
   /**
-   * PostAction の構築
+   * ステップ の構築
    */
   private buildPostActions(
     gameResult: {

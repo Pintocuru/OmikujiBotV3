@@ -65,7 +65,7 @@ export const postFlowMessages = {
       },
       flowsEditor: {
         empty: 'PostActionがありません',
-        addFirst: '最初のアクションを追加',
+        addFirst: '最初のステップを追加',
       },
       sound: {
         label: 'サウンド',
@@ -87,11 +87,11 @@ export const postFlowMessages = {
       },
       actionSet: {
         weight: '重み ({percent}%)',
-        label: 'アクションセット',
+        label: 'シナリオ',
         choose: '-- 選択してください --',
         circularShort: '(循環参照)',
         circular: '⚠️ 循環参照: {path}',
-        empty: 'アクションセットが空です',
+        empty: 'シナリオが空です',
         addValue: '+ 値を追加',
       },
       gameScript: {
@@ -102,15 +102,15 @@ export const postFlowMessages = {
         paramPlaceholder: 'パラメータを入力',
       },
       actionItem: {
-        typeLabel: 'アクションタイプ',
+        typeLabel: 'ステップタイプ',
         typeDesc: '種類を選択します',
         delayLabel: '遅延秒数',
-        delayDesc: 'この秒数後に下記のアクションを実行します',
+        delayDesc: 'この秒数後に下記のステップを実行します',
       },
       actionPreview: {
         sound: 'サウンド',
-        actionSet: 'アクションセット',
-        none: 'このアクションにはプレビューがありません',
+        actionSet: 'シナリオ',
+        none: 'このステップにはプレビューがありません',
         invalid: '(不正な処理です)',
         noMessage: '(メッセージなし)',
       },

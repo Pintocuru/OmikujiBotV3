@@ -60,7 +60,7 @@
         />
       </div>
 
-      <!-- モーダルアクション -->
+      <!-- モーダル -->
       <ModalFooterActions
         class="mt-6"
         :on-cancel="closeModal"

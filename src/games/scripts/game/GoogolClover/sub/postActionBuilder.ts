@@ -17,7 +17,7 @@ interface PostActionBuildParams {
 export function buildPostActions(params: PostActionBuildParams): PostFlowType[] {
   const { bubble, score, characterKey } = params
 
-  // メッセージアクション
+  // メッセージ
   const messageAction = PostFlowMessageSchema.parse({
     delaySeconds: 3.5,
     characterKey,
@@ -25,18 +25,18 @@ export function buildPostActions(params: PostActionBuildParams): PostFlowType[] 
     sound: 'decision',
   })
 
-  // 共通アクション
+  // 共通シナリオ
   const commonActions: PostFlowType[] = [
     { kind: 'wordParty', delaySeconds: -1, wordPartyId: 'MaidenOmikujiLottery', repeat: 1 },
   ]
 
-  // 成功時のアクション
+  // 成功時のシナリオ
   const successActions: PostFlowType[] = [
     { kind: 'wordParty', delaySeconds: 0, wordPartyId: 'MaidenOmikuji01', repeat: 1 },
     { kind: 'sound', delaySeconds: 1, sound: 'carnival', soundPath: '' },
   ]
 
-  // 失敗時のアクション
+  // 失敗時のシナリオ
   const failureActions: PostFlowType[] = [
     { kind: 'wordParty', delaySeconds: 0, wordPartyId: 'MaidenOmikuji08', repeat: 1 },
     { kind: 'sound', delaySeconds: 1, sound: 'fail', soundPath: '' },

@@ -33,7 +33,7 @@ export class GameEngine {
   }
 
   /**
-   * 敵のパターンを選択する
+   * 敵のパターンを選択
    */
   private selectEnemyPattern(): EnemyPattern {
     const totalWeight = ENEMY_PATTERNS.reduce((sum, pattern) => sum + pattern.weight, 0)

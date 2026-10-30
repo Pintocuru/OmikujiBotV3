@@ -20,7 +20,7 @@ export function useWeightValueManagement(values: () => WeightValuesArrayType, cu
   // weight 計算
   const { getWeightPercentage } = useWeightCalculation(displayValues)
 
-  // アクションセット一覧（ActionSet用）
+  // シナリオ一覧（ActionSet用）
   const availableActionSets = computed(() => {
     if (!data.value?.assets.actions) return []
 

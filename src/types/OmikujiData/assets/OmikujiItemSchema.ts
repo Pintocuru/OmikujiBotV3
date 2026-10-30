@@ -7,7 +7,7 @@ import { BaseSchema } from '@/types/core'
 
 /**
  * omikujiItemKinds: おみくじアイテムの種別
- * - postFlow: BOTアクションを実行する
+ * - postFlow: シナリオを実行する
  * - control : 処理の流れを制御する (command: return / continue)
  */
 export const omikujiItemKinds = ['postFlow', 'control'] as const

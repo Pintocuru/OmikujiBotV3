@@ -2,7 +2,7 @@
 import { PostFlowType } from '@/types/OmikujiData'
 
 /**
- * アクションセットの循環参照をチェックする
+ * シナリオの循環参照をチェックする
  */
 export function checkCircularReference(
   targetKey: string,

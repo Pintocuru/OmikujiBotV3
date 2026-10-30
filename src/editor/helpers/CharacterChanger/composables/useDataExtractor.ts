@@ -6,7 +6,7 @@ import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 
 /**
- * 対象カテゴリ（イベント系 / みくじ箱 / アクションセット）
+ * 対象カテゴリ（イベント系 / みくじ箱 / シナリオ）
  */
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 
@@ -20,13 +20,11 @@ export type ChangeScope = 'category' | 'single'
 /**
  * PostFlow を持つアセット（更新先の単位）
  */
-export type FlowTarget = { category: 'actions'; item: ActionSetType } | { category: 'mikuji'; item: MikujiBoxType; itemId?: string }
+export type FlowTarget =
+  { category: 'actions'; item: ActionSetType } | { category: 'mikuji'; item: MikujiBoxType; itemId?: string }
 
 /**
- * 対象のアセット（アクションセット / みくじ箱）を抽出する
- * - actions / mikuji: selectedId はアセットの key
- * - イベント系: selectedId はイベントの id。イベントが参照する omikujiKey のみくじ箱を対象にする
- * - itemId（category 'mikuji' のみ有効）: みくじ箱内のおみくじアイテム id。指定時はそのアイテムだけを対象にする
+ * 対象のアセット（シナリオ / みくじ箱）を抽出
  */
 export function useDataExtractor(
   category: TargetCategoryType,

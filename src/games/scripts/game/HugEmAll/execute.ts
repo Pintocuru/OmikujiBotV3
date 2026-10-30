@@ -59,7 +59,7 @@ export class ExecuteScript implements ScriptClass {
   }
 
   /**
-   * PostAction の構築
+   * ステップ の構築
    */
   private buildPostActions(characterKey: string | null, bubbleText: string): PostFlowType[] {
     const messageAction = PostFlowMessageSchema.parse({

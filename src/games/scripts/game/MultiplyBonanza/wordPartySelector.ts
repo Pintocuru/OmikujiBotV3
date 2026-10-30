@@ -41,11 +41,11 @@ export const WORD_PARTY_CONFIG = {
 
 /**
  * WordParty抽選を管理するクラス
- * 配当額に応じて適切なWordPartyエフェクトを選択する
+ * 配当額に応じて適切なWordPartyエフェクトを選択
  */
 export class WordPartySelector {
   /**
-   * ゲーム結果に基づいてWordPartyアクションを選択する
+   * ゲーム結果に基づいてWordPartyを選択
    */
   selectWordParties(result: GameResult): PostFlowWordPartyType[] {
     const parties: PostFlowWordPartyType[] = []

@@ -31,7 +31,7 @@ export const navigationSidebarCategoriesMessages = {
         description: 'おみくじの内容を作成します',
       },
       actions: {
-        label: 'アクションセット',
+        label: 'シナリオ',
         description: 'BOTのコメント・WordPartyの指定のプリセットを作成します',
       },
       placeholders: {

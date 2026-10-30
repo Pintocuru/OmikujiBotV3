@@ -20,7 +20,7 @@
       <PostActionItem :action="currentAction" :current-key="currentKey" @update:action="updateCurrentAction" />
     </template>
 
-    <!-- アクションが空の場合 -->
+    <!-- ステップが空の場合 -->
     <template v-else>
       <NoParamsCard :message="t('postFlow.flowsEditor.empty')" />
       <button @click="addNewAction" class="btn btn-primary btn-sm">{{ t('postFlow.flowsEditor.addFirst') }}</button>
@@ -42,7 +42,7 @@
 
   const props = defineProps<{
     modelValue: PostFlowType[]
-    currentKey?: string // 編集中のアクションセットのキー(flowCall の循環参照チェック用) */
+    currentKey?: string // 編集中のシナリオのキー(flowCall の循環参照チェック用) */
   }>()
 
   const emit = defineEmits<{

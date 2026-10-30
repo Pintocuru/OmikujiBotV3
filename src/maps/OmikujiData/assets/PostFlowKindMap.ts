@@ -3,7 +3,7 @@ import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
 import { PostFlowKind } from '@/types/OmikujiData'
 
 /**
- * アクション種別のUI表示マップ
+ * シナリオ種別のUI表示マップ
  */
 export const postFlowKindMap: Record<PostFlowKind, DisplayMetaLucide> = {
   message: {
@@ -13,7 +13,7 @@ export const postFlowKindMap: Record<PostFlowKind, DisplayMetaLucide> = {
   },
   sound: {
     label: 'サウンド',
-    description: 'アクション実行時に再生する効果音やBGMを設定します',
+    description: 'シナリオ実行時に再生する効果音やBGMを設定します',
     icon: 'Volume2',
   },
   wordParty: {
@@ -32,8 +32,8 @@ export const postFlowKindMap: Record<PostFlowKind, DisplayMetaLucide> = {
     icon: 'Gamepad2',
   },
   flowCall: {
-    label: 'アクションセット',
-    description: '登録済みのアクションセット（一連の処理プリセット）を呼び出します',
+    label: 'シナリオ',
+    description: '登録済みのシナリオ（一連の処理プリセット）を呼び出します',
     icon: 'MessagesSquare',
   },
 }

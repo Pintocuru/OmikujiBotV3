@@ -29,14 +29,14 @@ export class PostOmikujiService {
   }
 
   /**
-   * 複数の投稿アクションを並列実行
+   * 複数の投稿ステップを並列実行
    */
   async post(posts: PostFlowType[]): Promise<void> {
     this.services = (await this.serviceAPI.getServices()) ?? []
     await Promise.all(posts.map((post) => this.processPost(post)))
   }
 
-  //  Private: ディスパッチ
+  // ディスパッチ
   private async processPost(post: PostFlowType): Promise<void> {
     // enableSecondary が false なら全部投稿
     if (post.kind === 'message') await this.processMessagePost(post)
@@ -51,7 +51,7 @@ export class PostOmikujiService {
     }
   }
 
-  //  Private: メッセージ投稿
+  // メッセージ投稿
   private async processMessagePost(post: PostFlowMessageType): Promise<void> {
     const bubble = cleanPostMessage(post.message)
     if (!bubble) return
@@ -99,8 +99,7 @@ export class PostOmikujiService {
     return delay + this.basicDelaySeconds
   }
 
-  //  Private: サービス管理
-
+  // サービス管理
   /**
    * キャラクターの frameId を解決し、未作成なら新規作成して返す。
    * 利用可能な枠がない場合は null を返す。
@@ -133,8 +132,7 @@ export class PostOmikujiService {
     }
   }
 
-  //  Private: ユーティリティ
-
+  // ユーティリティ
   private resolveRepeatCount(repeat?: number | 'viewer' | 'upVote'): number {
     if (!repeat) return 1
     if (typeof repeat === 'number') return Math.min(repeat, MAX_REPEAT_COUNT)

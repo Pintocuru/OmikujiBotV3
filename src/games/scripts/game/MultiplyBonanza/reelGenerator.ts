@@ -35,7 +35,7 @@ export class ReelGenerator {
   }
 
   /**
-   * 重み付けでシンボルを選択する
+   * 重み付けでシンボルを選択
    * ブースト値分だけ高レアリティが出やすくなる
    */
   private selectSymbolByWeight(boost: number): number {

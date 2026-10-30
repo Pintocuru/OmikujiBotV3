@@ -141,7 +141,7 @@ export const omikujiDataMapMessages = {
         },
         sound: {
           label: 'サウンド',
-          description: 'アクション実行時に再生する効果音やBGMを設定します',
+          description: 'シナリオ実行時に再生する効果音やBGMを設定します',
         },
         wordParty: {
           label: 'WordParty',
@@ -156,28 +156,28 @@ export const omikujiDataMapMessages = {
           description: '予め作成されたゲームを呼び出します',
         },
         flowCall: {
-          label: 'アクションセット',
-          description: '登録済みのアクションセット（一連の処理プリセット）を呼び出します',
+          label: 'シナリオ',
+          description: '登録済みのシナリオ（一連の処理プリセット）を呼び出します',
         },
       },
       omikujiItemKind: {
         postFlow: {
-          label: 'BOTアクション',
+          label: 'シナリオ',
           description: '下記の内容をわんコメやジェネレーターで表示します',
         },
         control: {
           label: '処理を制御する',
-          description: 'BOTアクションを何もせず、処理の流れを制御します。',
+          description: 'シナリオを行わず、処理の流れを制御します。',
         },
       },
       omikujiControlCommand: {
         return: {
           label: '処理を終了する(return)',
-          description: 'BOTアクションを何もせず、このイベントで処理を終了します。',
+          description: 'シナリオを行わず、このイベントで処理を終了します。',
         },
         continue: {
           label: '次のイベントへ進む(continue)',
-          description: 'BOTアクションを何もせず、次のイベントへ処理を進めます。',
+          description: 'シナリオを行わず、次のイベントへ処理を進めます。',
         },
       },
       reactionCondition: {
@@ -361,7 +361,7 @@ export const omikujiDataMapMessages = {
         },
         headShake: {
           label: 'Head shake',
-          description: 'Animation like shaking one\'s head',
+          description: "Animation like shaking one's head",
         },
         pulse: {
           label: 'Pulse',

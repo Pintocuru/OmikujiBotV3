@@ -55,7 +55,7 @@ export class ExecuteScript implements ScriptClass {
   }
 
   /**
-   * PostAction の構築（bubble のみ）
+   * ステップ の構築
    */
   private buildPostActions(gameResult: ReturnType<typeof playGame>, characterKey: string | null): PostFlowType[] {
     const messageAction = PostFlowMessageSchema.parse({

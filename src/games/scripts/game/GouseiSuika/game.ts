@@ -72,7 +72,7 @@ export class GachaGame {
   }
 
   /**
-   * 大きいアイテムを選択する
+   * 大きいアイテムを選択
    */
   private selectBigItem(): GameConfigItem {
     for (const item of this.gameConfig.big) {
