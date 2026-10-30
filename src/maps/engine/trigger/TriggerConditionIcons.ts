@@ -2,7 +2,7 @@
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import { TriggerConditionType } from '@/types/engine'
 
-export const conditionIcons: Record<TriggerConditionType, LucideIconName> = {
+export const triggerConditionIcons: Record<TriggerConditionType, LucideIconName> = {
   comment: 'MessageSquare',
   syoken: 'Sparkles',
   access: 'Shield',

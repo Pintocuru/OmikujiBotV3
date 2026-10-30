@@ -17,24 +17,12 @@
     :label="t('commentTrigger.setting.label')"
     :description="t('commentTrigger.setting.description')"
   >
-    <!-- TODO: ここに IconRadioGroup.vue を適用 -->
-    <div class="flex flex-wrap gap-2">
-      <label v-for="condition in commentTriggerCondition" :key="condition" class="cursor-pointer">
-        <input
-          type="checkbox"
-          class="hidden"
-          :checked="conditions.includes(condition)"
-          @change="toggleCondition(condition)"
-        />
-        <span
-          class="badge badge-lg select-none"
-          :class="conditions.includes(condition) ? 'badge-primary' : 'badge-ghost'"
-        >
-          <!-- i18nのキーからラベルを取得 -->
-          {{ t(`commentTrigger.conditions.${condition}.label`) }}
-        </span>
-      </label>
-    </div>
+    <IconCheckGroup
+      v-model="conditions"
+      i18n-prefix="commentTrigger.conditions"
+      :icons="triggerConditionIcons"
+      :keys="commentTriggerCondition"
+    />
   </SettingItem>
 
   <!-- 各条件の詳細設定 -->
@@ -73,6 +61,8 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
+  import { triggerConditionIcons } from '@/maps/engine/trigger/TriggerConditionIcons'
+  import IconCheckGroup from '@/editor/parts/IconCheckGroup.vue'
 
   const props = defineProps<{
     modelValue: CommentTriggerType
