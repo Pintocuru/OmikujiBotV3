@@ -32,7 +32,7 @@
   <SectionCard
     v-if="box.selectedItem?.kind === 'steps'"
     id="section-scenario"
-    icon="ListChecks"
+    icon="Box"
     label-key="categorySections.scenario.label"
     description-key="categorySections.scenario.description"
   >

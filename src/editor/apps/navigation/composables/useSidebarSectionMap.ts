@@ -1,9 +1,9 @@
 // src/editor/apps/navigation/composables/useSidebarSectionMap.ts
 import { ComputedRef, computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { DataCategoryType, UiKind } from '@/types/OmikujiData/'
+import { UiKind } from '@/types/OmikujiData/'
 import { SidebarObjectCategory, SidebarSectionItem } from '@/editor/types/apps'
-import { appInfoSections, categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
+import { appInfoSections } from '@/editor/maps/category/CategorySectionMap'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { uiLayoutMap } from '@/maps/OmikujiData'
 import { getUiEditorEntries } from '@/editor/ui/uiEditorRegistry'
@@ -26,13 +26,6 @@ function useUiSections(): ComputedRef<SidebarSectionItem[]> {
 
     return [{ section: 'commonStyle', icon: 'Palette' }, ...dynamic]
   })
-}
-
-/**
- * Events / Assets のセクション項目を返す
- */
-export function getSidebarSections(category: DataCategoryType): SidebarSectionItem[] {
-  return categorySectionMap[category]
 }
 
 /**

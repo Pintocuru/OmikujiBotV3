@@ -52,7 +52,7 @@
           :isEnabled="item.isEnabled"
           :isDragEnabled="isDragEnabled"
           :isSelected="selectedItemKey === item.key"
-          :sections="getSidebarSections(category)"
+          :sections="categorySectionMap[category]"
           draggable
           @select="navigationStore.selectItem(item.key, 'baseSettings')"
           @item-dblclick="handleItemDblclick"
@@ -78,7 +78,6 @@
   import { VueDraggable } from 'vue-draggable-plus'
   import { DataCategoryType } from '@/types/OmikujiData/'
   import { DraggableSubItem } from '@/editor/types/apps'
-  import { getSidebarSections } from './composables/useSidebarSectionMap'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import SidebarSubItem from './SidebarSubItem.vue'
   import SidebarItemMenu from './SidebarItemMenu.vue'
@@ -88,6 +87,7 @@
   import { useSidebarPreset } from './composables/useSidebarPreset'
   import type { PresetDefinition } from '@/editor/presets'
   import { Menu, Plus } from 'lucide-vue-next'
+  import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
 
   const props = defineProps<{
     category: DataCategoryType

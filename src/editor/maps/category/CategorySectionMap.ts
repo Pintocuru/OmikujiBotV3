@@ -3,7 +3,8 @@ import { DataCategoryType } from '@/types/OmikujiData'
 import { SidebarSectionItem } from '@/editor/types/apps'
 
 /**
- * Events / Assets カテゴリのセクション項目
+ * サイドバー用 Events / Assets カテゴリのセクション項目
+ * TODO: component は プレビューだが、廃止予定。
  */
 export const categorySectionMap: Record<DataCategoryType, SidebarSectionItem[]> = {
   // event
@@ -11,37 +12,43 @@ export const categorySectionMap: Record<DataCategoryType, SidebarSectionItem[]> 
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
     { section: 'threshold', icon: 'Filter', component: 'threshold' },
     { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
+    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
   ],
   timers: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
     { section: 'timerInterval', icon: 'Clock', component: 'timerInterval' },
     { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
+    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
   ],
   services: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
     { section: 'trigger', icon: 'Filter', component: 'trigger' },
     { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
+    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
   ],
   reactions: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
     { section: 'trigger', icon: 'Filter', component: 'trigger' },
     { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
+    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
   ],
   pads: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
     { section: 'trigger', icon: 'Filter', component: 'padTrigger' },
     { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
+    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
   ],
 
   // assets
   mikuji: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
     { section: 'omikujiSet', icon: 'ListChecks', component: 'scenario' },
+    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
   ],
 
   scenarios: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'omikujiSet', icon: 'ListChecks', component: 'scenario' },
+    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
   ],
   placeholders: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },

@@ -18,7 +18,7 @@
 
     <!-- おみくじ設定セクション -->
     <SectionCard
-      id="section-omikujiSet"
+      id="section-scenario"
       icon="ListChecks"
       label-key="categorySections.omikujiSet.label"
       description-key="categorySections.omikujiSet.description"
