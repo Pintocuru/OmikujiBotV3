@@ -7,7 +7,7 @@ export class ScenarioCallExpander {
   private static readonly MAX_DEPTH = 10
 
   static expand(
-    flow: ScenarioStepType[],
+    steps: ScenarioStepType[],
     scenarios: Record<string, ScenarioType>,
     depth: number = 0,
     visited: Set<string> = new Set()
@@ -16,35 +16,35 @@ export class ScenarioCallExpander {
       const msg = `シナリオの展開が最大階層(${this.MAX_DEPTH})に達しました`
       console.warn(msg)
       postSystemMessage(msg, { username: 'warn' })
-      return flow
+      return steps
     }
 
-    const expandedActions: ScenarioStepType[] = []
+    const expandedSteps: ScenarioStepType[] = []
 
-    for (const action of flow) {
+    for (const step of steps) {
       // scenarioCallなら呼び出して展開
-      if (action.kind === 'scenarioCall') {
-        const expandedAction = this.expandSingleScenarioCall(action, scenarios, depth, visited)
-        expandedActions.push(...expandedAction)
+      if (step.kind === 'scenarioCall') {
+        const calledSteps = this.expandSingleScenarioCall(step, scenarios, depth, visited)
+        expandedSteps.push(...calledSteps)
       } else {
-        expandedActions.push(action)
+        expandedSteps.push(step)
       }
     }
 
-    return expandedActions
+    return expandedSteps
   }
 
   /**
    *
    */
   private static expandSingleScenarioCall(
-    flow: ScenarioStepCallType,
+    callStep: ScenarioStepCallType,
     scenarios: Record<string, ScenarioType>,
     depth: number,
     visited: Set<string>
   ): ScenarioStepType[] {
     // 抽選を行う
-    const normalized = handelNormalizedValues(flow.callKeys)
+    const normalized = handelNormalizedValues(callStep.callKeys)
     const targetKeyObject = drawOmikuji(normalized)
     if (!targetKeyObject) return []
     const targetKey = targetKeyObject.content
@@ -69,15 +69,15 @@ export class ScenarioCallExpander {
     const newVisited = new Set(visited)
     newVisited.add(targetKey)
 
-    const adjustedActions = this.adjustDelays(targetScenario.steps, flow.delaySeconds)
+    const adjustedSteps = this.adjustDelays(targetScenario.steps, callStep.delaySeconds)
 
-    return this.expand(adjustedActions, scenarios, depth + 1, newVisited)
+    return this.expand(adjustedSteps, scenarios, depth + 1, newVisited)
   }
 
-  private static adjustDelays(actions: ScenarioStepType[], baseDelay: number): ScenarioStepType[] {
-    return actions.map((action) => ({
-      ...action,
-      delaySeconds: (action.delaySeconds || 0) + baseDelay,
+  private static adjustDelays(steps: ScenarioStepType[], baseDelay: number): ScenarioStepType[] {
+    return steps.map((step) => ({
+      ...step,
+      delaySeconds: (step.delaySeconds || 0) + baseDelay,
     }))
   }
 }

@@ -36,13 +36,13 @@ export class ScenarioStepHandler {
     isOnecommePost?: boolean
   ): BotMessageType[] {
     // ステップ展開とプレースホルダー置換
-    const expandedActions = ScenarioCallExpander.expand(steps, this.scenarios)
-    const resolvedActions = this.resolvePlaceholders(expandedActions, defaultPlaceholders)
+    const expandedSteps = ScenarioCallExpander.expand(steps, this.scenarios)
+    const resolvedSteps = this.resolvePlaceholders(expandedSteps, defaultPlaceholders)
 
     // 評価ブロック {{ }} の処理
     const processedActions: ProcessedStep[] = isOnecommePost
-      ? this.generator.processVariables(resolvedActions) // 本番：計算して置換
-      : this.generator.stripVariables(resolvedActions) // ダミー：計算せず除去
+      ? this.generator.processVariables(resolvedSteps) // 本番：計算して置換
+      : this.generator.stripVariables(resolvedSteps) // ダミー：計算せず除去
 
     // BotMessage 生成
     return this.generator.postAndGenerate(processedActions, omiken, isOnecommePost)
@@ -52,8 +52,8 @@ export class ScenarioStepHandler {
    * control アイテムの variable (評価ブロック {{ }}) を評価
    */
   evaluateVariable(variable: string, defaultPlaceholders: Record<string, string | number>): void {
-    const flow: ScenarioStepVariableType = { kind: 'variable', delaySeconds: 0, message: variable }
-    const resolved = this.resolvePlaceholders([flow], defaultPlaceholders)
+    const step: ScenarioStepVariableType = { kind: 'variable', delaySeconds: 0, message: variable }
+    const resolved = this.resolvePlaceholders([step], defaultPlaceholders)
     this.generator.processVariables(resolved)
   }
 
@@ -61,10 +61,10 @@ export class ScenarioStepHandler {
    * 表示変数 [[key]] と <<placeholder>> を置換する
    */
   private resolvePlaceholders(
-    actions: ScenarioStepType[],
+    steps: ScenarioStepType[],
     defaultPlaceholders: Record<string, string | number>
   ): ScenarioStepType[] {
-    const displayResolved = this.displayResolver.processSteps(actions)
+    const displayResolved = this.displayResolver.processSteps(steps)
 
     this.placeContext.updateValues(defaultPlaceholders)
     this.placeProcess.updateResolvedValues(this.placeContext.getAll())
@@ -77,7 +77,7 @@ export class ScenarioStepHandler {
   /**
    *  評価ブロックは通さず、[[key]] と <<placeholder>> だけ置換する (gameScript の queryString 用)
    */
-  resolveFlows(
+  resolveSteps(
     steps: ScenarioStepType[],
     defaultPlaceholders: Record<string, string | number>
   ): ScenarioStepType[] {

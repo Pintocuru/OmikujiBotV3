@@ -4,61 +4,61 @@ import { ScenarioStepMessageSchema, ScenarioStepMessageType, ScenarioStepType } 
 import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
 
 export function useScenarioStepTabs(
-  actions: Ref<ScenarioStepType[]>,
-  emit: (event: 'update:actions', actions: ScenarioStepType[]) => void
+  steps: Ref<ScenarioStepType[]>,
+  emit: (event: 'update:steps', steps: ScenarioStepType[]) => void
 ) {
   const { characterArray } = useCharacterLookup()
 
   // アクティブなタブのインデックス。-1 は「ステップが0件」を表す
-  const activeTab = ref(actions.value.length > 0 ? 0 : -1)
+  const activeTab = ref(steps.value.length > 0 ? 0 : -1)
 
   // 現在選択されているアクション
-  const currentAction = computed(() => (activeTab.value >= 0 ? (actions.value[activeTab.value] ?? null) : null))
+  const currentStep = computed(() => (activeTab.value >= 0 ? (steps.value[activeTab.value] ?? null) : null))
 
   // タブの切り替え（閉じる概念はなし。常に開いたまま）
   const setActiveTab = (index: number) => {
-    if (index >= 0 && index < actions.value.length) {
+    if (index >= 0 && index < steps.value.length) {
       activeTab.value = index
     }
   }
 
-  const updateCurrentAction = (updatedAction: ScenarioStepType) => {
+  const updateCurrentStep = (updatedStep: ScenarioStepType) => {
     if (activeTab.value < 0) return
-    const newActions = [...actions.value]
-    newActions[activeTab.value] = updatedAction
-    emit('update:actions', newActions)
+    const newSteps = [...steps.value]
+    newSteps[activeTab.value] = updatedStep
+    emit('update:steps', newSteps)
   }
 
-  const addNewAction = () => {
-    const newAction: ScenarioStepMessageType = ScenarioStepMessageSchema.parse({
+  const addNewStep = () => {
+    const newStep: ScenarioStepMessageType = ScenarioStepMessageSchema.parse({
       characterKey: characterArray.value[0]?.key ?? null,
-      delaySeconds: actions.value.length > 0 ? Math.max(...actions.value.map((a) => a.delaySeconds)) + 1 : 0,
+      delaySeconds: steps.value.length > 0 ? Math.max(...steps.value.map((a) => a.delaySeconds)) + 1 : 0,
     })
-    const newActions = [...actions.value, newAction]
-    emit('update:actions', newActions)
-    activeTab.value = newActions.length - 1
+    const newSteps = [...steps.value, newStep]
+    emit('update:steps', newSteps)
+    activeTab.value = newSteps.length - 1
   }
 
-  const duplicateAction = (index: number) => {
-    if (index < 0 || index >= actions.value.length) return
-    const actionToDuplicate = { ...actions.value[index] }
+  const duplicateStep = (index: number) => {
+    if (index < 0 || index >= steps.value.length) return
+    const actionToDuplicate = { ...steps.value[index] }
     actionToDuplicate.delaySeconds += 0.5
-    const newActions = [...actions.value]
-    newActions.splice(index + 1, 0, actionToDuplicate)
-    emit('update:actions', newActions)
+    const newSteps = [...steps.value]
+    newSteps.splice(index + 1, 0, actionToDuplicate)
+    emit('update:steps', newSteps)
     activeTab.value = index + 1
   }
 
-  const removeAction = (index: number) => {
-    if (index < 0 || index >= actions.value.length) return
-    const newActions = actions.value.filter((_, i) => i !== index)
-    emit('update:actions', newActions)
+  const removeStep = (index: number) => {
+    if (index < 0 || index >= steps.value.length) return
+    const newSteps = steps.value.filter((_, i) => i !== index)
+    emit('update:steps', newSteps)
 
-    if (newActions.length === 0) {
+    if (newSteps.length === 0) {
       activeTab.value = -1
     } else if (activeTab.value === index) {
       // 削除したタブを選択していた → 同じ位置 or 末尾に寄せる
-      activeTab.value = Math.min(index, newActions.length - 1)
+      activeTab.value = Math.min(index, newSteps.length - 1)
     } else if (activeTab.value > index) {
       activeTab.value -= 1
     }
@@ -72,7 +72,7 @@ export function useScenarioStepTabs(
 
   // 選択中インデックスが範囲外になったら補正するだけ
   watch(
-    () => actions.value.length,
+    () => steps.value.length,
     (len) => {
       if (len === 0) {
         activeTab.value = -1
@@ -88,12 +88,12 @@ export function useScenarioStepTabs(
 
   return {
     activeTab,
-    currentAction,
+    currentStep,
     setActiveTab,
-    updateCurrentAction,
-    addNewAction,
-    duplicateAction,
-    removeAction,
+    updateCurrentStep,
+    addNewStep,
+    duplicateStep,
+    removeStep,
     followReorder,
   }
 }

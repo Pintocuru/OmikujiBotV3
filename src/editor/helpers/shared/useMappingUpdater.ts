@@ -9,7 +9,7 @@ import { useScenarioStepCharacters } from '@/editor/helpers/CharacterChanger/com
  * マッピングをステップに適用する関数
  * (useScenarioStepCharacters の applyCharacterMappings / applyIconKeyMappings を渡す)
  */
-type ApplyMappings = (flows: ScenarioStepType[], mappings: Record<string, string>) => ScenarioStepType[]
+type ApplyMappings = (steps: ScenarioStepType[], mappings: Record<string, string>) => ScenarioStepType[]
 
 /**
  * マッピングの一括更新処理を提供(キャラクター変更・iconKey 変更で共用)

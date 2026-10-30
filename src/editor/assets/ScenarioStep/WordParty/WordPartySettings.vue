@@ -53,28 +53,28 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: ScenarioStepWordPartyType
+    step: ScenarioStepWordPartyType
   }>()
 
   const emit = defineEmits<{
-    'update:action': [action: ScenarioStepWordPartyType]
+    'update:step': [step: ScenarioStepWordPartyType]
   }>()
 
-  // 共通のupdateAction関数
-  const updateAction = (updates: Partial<ScenarioStepWordPartyType>) => {
-    emit('update:action', { ...props.action, ...updates })
+  // 共通のupdateStep関数
+  const updateStep = (updates: Partial<ScenarioStepWordPartyType>) => {
+    emit('update:step', { ...props.step, ...updates })
   }
 
   // WordParty ID用のcomputedプロパティ
   const wordPartyIdValue = computed({
-    get: () => props.action.wordPartyId,
-    set: (value) => updateAction({ wordPartyId: value }),
+    get: () => props.step.wordPartyId,
+    set: (value) => updateStep({ wordPartyId: value }),
   })
 
   // Repeat モードの判定
   const repeatMode = computed({
     get: (): 'none' | 'fixed' | 'viewer' | 'upVote' => {
-      const repeat = props.action.repeat
+      const repeat = props.step.repeat
       if (repeat === undefined) return 'none'
       if (typeof repeat === 'number') return 'fixed'
       if (repeat === 'viewer') return 'viewer'
@@ -88,19 +88,19 @@
         viewer: 'viewer' as const,
         upVote: 'upVote' as const,
       }
-      updateAction({ repeat: repeatValues[mode] })
+      updateStep({ repeat: repeatValues[mode] })
     },
   })
 
   // 固定値の数値
   const repeatNumber = computed({
     get: (): number => {
-      const repeat = props.action.repeat
+      const repeat = props.step.repeat
       return typeof repeat === 'number' ? repeat : 1
     },
     set: (value: number) => {
       const clampedValue = Math.min(Math.max(value, 1), 20)
-      updateAction({ repeat: clampedValue })
+      updateStep({ repeat: clampedValue })
     },
   })
 </script>

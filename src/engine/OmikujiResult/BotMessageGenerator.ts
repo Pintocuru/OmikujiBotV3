@@ -1,6 +1,6 @@
 // src/engine/OmikujiResult/BotMessageGenerator.ts
 import { ScenarioStepType, OmikujiDataType, hasScenarioStepMessage } from '@/types/OmikujiData/'
-import { createBotMessagesFromAction } from './BotMessageHelpers'
+import { createBotMessagesFromStep } from './BotMessageHelpers'
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { VariablePlaceholderProcessor } from '@/engine/VariablePlaceholder/VariableProcessor'
 import { PostOmikujiService } from '@/engine/PostOmikuji/PostOmikujiService'
@@ -32,25 +32,25 @@ export class BotMessageGenerator {
   /**
    * 評価ブロックを処理し、解析結果を保持する型に変換
    */
-  processVariables(actions: ScenarioStepType[]): ProcessedStep[] {
-    return actions.map((action): ProcessedStep => {
+  processVariables(steps: ScenarioStepType[]): ProcessedStep[] {
+    return steps.map((step): ProcessedStep => {
       // message は本文と slots の両方を評価する (slots は uiKey ごとの入力欄の値)
-      if (action.kind === 'message') {
+      if (step.kind === 'message') {
         // 予約語は、message と slots の処理が終わるまで残す
-        const processed = action.message ? this.variableProcessor.process(action.message) : undefined
+        const processed = step.message ? this.variableProcessor.process(step.message) : undefined
         const slots = Object.fromEntries(
-          Object.entries(action.slots).map(([key, text]) => [key, this.variableProcessor.process(text).bubble])
+          Object.entries(step.slots).map(([key, text]) => [key, this.variableProcessor.process(text).bubble])
         )
         return {
-          step: { ...action, message: processed?.bubble ?? action.message, slots },
+          step: { ...step, message: processed?.bubble ?? step.message, slots },
           extra: processed?.extra,
         }
       }
-      if (!hasScenarioStepMessage(action) || !action.message) return { step: action }
+      if (!hasScenarioStepMessage(step) || !step.message) return { step }
 
       // 変数処理の実行（ランキング抽出等）
-      const { bubble, extra } = this.variableProcessor.process(action.message)
-      return { step: { ...action, message: bubble }, extra }
+      const { bubble, extra } = this.variableProcessor.process(step.message)
+      return { step: { ...step, message: bubble }, extra }
     })
   }
 
@@ -58,37 +58,37 @@ export class BotMessageGenerator {
    * わんコメへ投稿し、BotMessageを生成
    */
   postAndGenerate(
-    processedActions: ProcessedStep[],
+    processedSteps: ProcessedStep[],
     omiken?: OmikenCommentType,
     isOnecommePost?: boolean
   ): BotMessageType[] {
     if (isOnecommePost) {
       // variable は投稿対象から除外
-      const postTargets = processedActions.map((a) => a.step).filter((action) => action.kind !== 'variable')
+      const postTargets = processedSteps.map((a) => a.step).filter((step) => step.kind !== 'variable')
       this.postMessage.post(postTargets)
     }
-    return this.generate(processedActions, omiken, isOnecommePost)
+    return this.generate(processedSteps, omiken, isOnecommePost)
   }
 
   /**
    * 処理済みステップからBotMessageを生成
    */
   private generate(
-    processedActions: ProcessedStep[],
+    processedSteps: ProcessedStep[],
     omiken?: OmikenCommentType,
     isOnecommePost?: boolean
   ): BotMessageType[] {
     const messages: BotMessageType[] = []
     const canPlaySound = this.soundEnabled && !!isOnecommePost
 
-    for (const { step: action, extra } of processedActions) {
-      const delaySeconds = action.delaySeconds + this.basicDelaySeconds
+    for (const { step, extra } of processedSteps) {
+      const delaySeconds = step.delaySeconds + this.basicDelaySeconds
 
-      switch (action.kind) {
+      switch (step.kind) {
         case 'message':
-          messages.push(...createBotMessagesFromAction(action, extra, delaySeconds, this.characterResolver, omiken))
-          if (canPlaySound && (action.sound || action.soundPath))
-            playSoundDelay(action.sound, action.soundPath, delaySeconds)
+          messages.push(...createBotMessagesFromStep(step, extra, delaySeconds, this.characterResolver, omiken))
+          if (canPlaySound && (step.sound || step.soundPath))
+            playSoundDelay(step.sound, step.soundPath, delaySeconds)
           break
 
         case 'variable':
@@ -96,8 +96,8 @@ export class BotMessageGenerator {
           break
 
         case 'sound':
-          if (canPlaySound && (action.sound || action.soundPath))
-            playSoundDelay(action.sound, action.soundPath, delaySeconds)
+          if (canPlaySound && (step.sound || step.soundPath))
+            playSoundDelay(step.sound, step.soundPath, delaySeconds)
           break
       }
     }
@@ -108,16 +108,16 @@ export class BotMessageGenerator {
   /**
    * 評価ブロック {{ }} を計算せずに除去する（ダミー演出用）
    */
-  stripVariables(actions: ScenarioStepType[]): ProcessedStep[] {
-    return actions.map((action): ProcessedStep => {
-      if (action.kind !== 'message' && action.kind !== 'variable') return { step: action }
-      if (action.kind === 'message') {
-        const slots = Object.fromEntries(Object.entries(action.slots).map(([k, t]) => [k, t.replace(EVAL_PATTERN, '')]))
-        return { step: { ...action, message: (action.message ?? '').replace(EVAL_PATTERN, ''), slots } }
+  stripVariables(steps: ScenarioStepType[]): ProcessedStep[] {
+    return steps.map((step): ProcessedStep => {
+      if (step.kind !== 'message' && step.kind !== 'variable') return { step }
+      if (step.kind === 'message') {
+        const slots = Object.fromEntries(Object.entries(step.slots).map(([k, t]) => [k, t.replace(EVAL_PATTERN, '')]))
+        return { step: { ...step, message: (step.message ?? '').replace(EVAL_PATTERN, ''), slots } }
       }
-      if (!action.message) return { step: action }
+      if (!step.message) return { step }
 
-      return { step: { ...action, message: action.message.replace(EVAL_PATTERN, '') } }
+      return { step: { ...step, message: step.message.replace(EVAL_PATTERN, '') } }
     })
   }
 }

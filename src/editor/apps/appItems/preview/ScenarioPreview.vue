@@ -14,49 +14,49 @@
     <div v-if="!steps.length" class="text-xs opacity-40 ml-1">{{ t('appPreview.scenario.empty') }}</div>
 
     <!-- steps リスト（最大4件） -->
-    <div v-for="(flow, i) in steps.slice(0, 4)" :key="i" class="flex items-center gap-1.5 text-xs ml-1">
+    <div v-for="(step, i) in steps.slice(0, 4)" :key="i" class="flex items-center gap-1.5 text-xs ml-1">
       <!-- kind バッジ -->
-      <span class="badge badge-xs shrink-0" :class="flowKindBadgeClass(flow.kind)">
-        {{ flowKindLabel(flow.kind) }}
+      <span class="badge badge-xs shrink-0" :class="stepKindBadgeClass(step.kind)">
+        {{ stepKindLabel(step.kind) }}
       </span>
 
       <!-- 遅延秒数（設定されている場合） -->
-      <span v-if="flow.delaySeconds" class="badge badge-xs badge-ghost text-[10px] px-1 shrink-0">
-        {{ flow.delaySeconds }}s
+      <span v-if="step.delaySeconds" class="badge badge-xs badge-ghost text-[10px] px-1 shrink-0">
+        {{ step.delaySeconds }}s
       </span>
 
       <!-- 各 kind 別のサマリー -->
       <!-- message / variable: message 本文 -->
-      <span v-if="hasScenarioStepMessage(flow) && flow.message" class="truncate flex-1 opacity-80">
-        {{ flow.message }}
+      <span v-if="hasScenarioStepMessage(step) && step.message" class="truncate flex-1 opacity-80">
+        {{ step.message }}
       </span>
 
       <!-- message: characterKey -->
       <span
-        v-if="flow.kind === 'message' && flow.characterKey"
+        v-if="step.kind === 'message' && step.characterKey"
         class="badge badge-xs badge-ghost shrink-0 max-w-20 truncate"
       >
-        {{ flow.characterKey }}
+        {{ step.characterKey }}
       </span>
 
       <!-- sound: sound / soundPath -->
-      <span v-if="flow.kind === 'sound' && (flow.sound || flow.soundPath)" class="truncate flex-1 opacity-80 font-mono">
-        {{ flow.sound || flow.soundPath }}
+      <span v-if="step.kind === 'sound' && (step.sound || step.soundPath)" class="truncate flex-1 opacity-80 font-mono">
+        {{ step.sound || step.soundPath }}
       </span>
 
       <!-- wordParty: wordPartyId -->
-      <span v-if="flow.kind === 'wordParty' && flow.wordPartyId" class="truncate flex-1 opacity-80 font-mono">
-        {{ flow.wordPartyId }}
+      <span v-if="step.kind === 'wordParty' && step.wordPartyId" class="truncate flex-1 opacity-80 font-mono">
+        {{ step.wordPartyId }}
       </span>
 
       <!-- scenarioCall: 呼び出しキー数または内容 -->
-      <span v-if="flow.kind === 'scenarioCall' && flow.callKeys?.length" class="opacity-70 truncate flex-1 text-xs">
-        {{ formatCallKeys(flow.callKeys) }}
+      <span v-if="step.kind === 'scenarioCall' && step.callKeys?.length" class="opacity-70 truncate flex-1 text-xs">
+        {{ formatCallKeys(step.callKeys) }}
       </span>
 
       <!-- gameScript: scriptId -->
-      <span v-if="flow.kind === 'gameScript' && flow.scriptId" class="truncate flex-1 opacity-80 font-mono">
-        {{ flow.scriptId }}
+      <span v-if="step.kind === 'gameScript' && step.scriptId" class="truncate flex-1 opacity-80 font-mono">
+        {{ step.scriptId }}
       </span>
     </div>
 
@@ -81,7 +81,7 @@
 
   const steps = computed<ScenarioStepType[]>(() => props.data?.steps ?? [])
 
-  function flowKindLabel(kind: ScenarioStepKind): string {
+  function stepKindLabel(kind: ScenarioStepKind): string {
     const shortLabels: Partial<Record<ScenarioStepKind, string>> = {
       message: 'MSG',
       sound: 'SND',
@@ -93,7 +93,7 @@
     return shortLabels[kind] ?? t(`mapText.scenarioStepKind.${kind}.label`)
   }
 
-  function flowKindBadgeClass(kind: ScenarioStepKind): string {
+  function stepKindBadgeClass(kind: ScenarioStepKind): string {
     const classMap: Record<ScenarioStepKind, string> = {
       message: 'badge-primary',
       sound: 'badge-secondary',

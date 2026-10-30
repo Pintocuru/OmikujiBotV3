@@ -1,6 +1,6 @@
 // src/engine/GameScriptPlay/GameScriptManager.ts
 import { ScriptClass, ScriptResult } from '@/games/types'
-import { ScenarioStepGameType, GameScriptKey, isGameScriptKey } from '@/types/OmikujiData'
+import { ScenarioStepGameScriptType, GameScriptKey, isGameScriptKey } from '@/types/OmikujiData'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { getGameScriptLoader, getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
@@ -32,7 +32,10 @@ export class GameScriptManager {
     return instance
   }
 
-  playScript = async (gameScripts: ScenarioStepGameType, omiken?: OmikenCommentType): Promise<ScriptResult | null> => {
+  playScript = async (
+    gameScripts: ScenarioStepGameScriptType,
+    omiken?: OmikenCommentType
+  ): Promise<ScriptResult | null> => {
     if (!gameScripts) return null
     const { scriptId, queryString, characterKey } = gameScripts
     if (!scriptId) return null

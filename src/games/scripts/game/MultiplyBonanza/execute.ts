@@ -18,7 +18,7 @@ export class ExecuteScript implements ScriptClass {
     const gameResult = this.executeGame(user.userName, params.mode)
 
     // ゲーム結果に基づいてWordPartyを生成
-    const wordPartyActions = this.selectWordParties(gameResult.result)
+    const wordPartySteps = this.selectWordParties(gameResult.result)
 
     // omiken(コメント)がある場合のみランキング用メッセージを付与
     const rankingMessages = omiken
@@ -32,7 +32,7 @@ export class ExecuteScript implements ScriptClass {
       : []
 
     return {
-      steps: this.buildSteps(gameResult, wordPartyActions, characterKey),
+      steps: this.buildSteps(gameResult, wordPartySteps, characterKey),
       rankingMessages,
     }
   }
@@ -78,7 +78,7 @@ export class ExecuteScript implements ScriptClass {
       result: ReturnType<GameEngine['playGame']>
       message: string
     },
-    wordPartyActions: ScenarioStepType[],
+    wordPartySteps: ScenarioStepType[],
     characterKey: string | null
   ): ScenarioStepType[] {
     const messageAction = ScenarioStepMessageSchema.parse({
@@ -91,7 +91,7 @@ export class ExecuteScript implements ScriptClass {
     return [
       { kind: 'wordParty', delaySeconds: 1, repeat: 1, wordPartyId: gameResult.result.party },
       { kind: 'wordParty', delaySeconds: 3.2, repeat: 1, wordPartyId: 'MultiplyBonanzaCracker1' },
-      ...wordPartyActions,
+      ...wordPartySteps,
       messageAction,
     ]
   }

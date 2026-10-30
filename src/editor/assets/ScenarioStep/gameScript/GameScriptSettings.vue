@@ -40,7 +40,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { isGameScriptKey, type GameScriptKey, type ScenarioStepGameType } from '@/types/OmikujiData'
+  import { isGameScriptKey, type GameScriptKey, type ScenarioStepGameScriptType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
   import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
@@ -50,30 +50,31 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: ScenarioStepGameType
+    step: ScenarioStepGameScriptType
   }>()
 
   const emit = defineEmits<{
-    'update:action': [action: ScenarioStepGameType]
+    'update:step': [step: ScenarioStepGameScriptType]
   }>()
 
-  const updateAction = (updates: Partial<ScenarioStepGameType>) => {
-    emit('update:action', { ...props.action, ...updates })
+  const updateStep = (updates: Partial<ScenarioStepGameScriptType>) => {
+    emit('update:step', { ...props.step, ...updates })
   }
 
   const gameKeys = getRegisteredGameScriptKeys()
 
   const scriptId = computed<GameScriptKey | ''>({
-    get: () => (isGameScriptKey(props.action.scriptId) ? props.action.scriptId : ''),
-    set: (value) => updateAction({ scriptId: value }),
+    get: () => (isGameScriptKey(props.step.scriptId) ? props.step.scriptId : ''),
+    set: (value) => updateStep({ scriptId: value }),
   })
 
-  function createActionComputed<K extends keyof ScenarioStepGameType>(key: K) {
+  function createStepComputed<K extends keyof ScenarioStepGameScriptType>(key: K) {
     return computed({
-      get: () => props.action[key],
-      set: (value: ScenarioStepGameType[K]) => updateAction({ [key]: value } as Partial<ScenarioStepGameType>),
+      get: () => props.step[key],
+      set: (value: ScenarioStepGameScriptType[K]) =>
+        updateStep({ [key]: value } as Partial<ScenarioStepGameScriptType>),
     })
   }
-  const characterKey = createActionComputed('characterKey')
-  const queryString = createActionComputed('queryString')
+  const characterKey = createStepComputed('characterKey')
+  const queryString = createStepComputed('queryString')
 </script>

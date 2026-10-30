@@ -4,8 +4,8 @@
   <div class="tabs tabs-box" role="tablist">
     <!-- ステップタブ（内側にメニューの button を持つため、button ではなく div role="tab" にする） -->
     <div
-      v-for="(action, index) in props.modelValue"
-      :key="`action-${index}`"
+      v-for="(step, index) in props.modelValue"
+      :key="`step-${index}`"
       class="tab"
       :class="props.activeTab === index ? 'tab-active bg-info text-info-content' : ''"
       role="tab"
@@ -18,7 +18,7 @@
       <!-- 左側：バッジと内容 -->
       <div class="flex items-center">
         <span class="badge badge-sm badge-primary mr-2">{{ index + 1 }}</span>
-        <ScenarioStepRow :action="action" />
+        <ScenarioStepRow :step="step" />
       </div>
 
       <!-- 右側：メニュー -->

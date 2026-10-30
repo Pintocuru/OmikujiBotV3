@@ -2,7 +2,7 @@
 import type { Component } from 'vue'
 import {
   ScenarioStepCallSchema,
-  ScenarioStepGameSchema,
+  ScenarioStepGameScriptSchema,
   ScenarioStepMessageSchema,
   ScenarioStepSoundSchema,
   ScenarioStepVariableSchema,
@@ -33,6 +33,6 @@ export const stepSchemaMap: Record<ScenarioStepKind, { parse: (value: unknown) =
   sound: ScenarioStepSoundSchema,
   wordParty: ScenarioStepWordPartySchema,
   variable: ScenarioStepVariableSchema,
-  gameScript: ScenarioStepGameSchema,
+  gameScript: ScenarioStepGameScriptSchema,
   scenarioCall: ScenarioStepCallSchema,
 }

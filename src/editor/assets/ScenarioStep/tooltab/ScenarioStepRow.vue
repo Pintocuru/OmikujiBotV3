@@ -3,7 +3,7 @@
   <div class="flex items-center gap-2 p-1">
     <!-- 遅延秒数 -->
     <div class="flex items-center gap-2 shrink-0">
-      <span class="badge badge-accent badge-sm rounded tooltip"> {{ action.delaySeconds }}s </span>
+      <span class="badge badge-accent badge-sm rounded tooltip"> {{ step.delaySeconds }}s </span>
     </div>
 
     <!-- 種別アイコン -->
@@ -22,11 +22,11 @@
   import { scenarioStepKindMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
-    action: ScenarioStepType
+    step: ScenarioStepType
   }>()
 
   const resolvedIcon = computed(() => {
-    const iconName = scenarioStepKindMap[props.action.kind]?.icon
+    const iconName = scenarioStepKindMap[props.step.kind]?.icon
     return resolveLucideIcon(iconName)
   })
 </script>

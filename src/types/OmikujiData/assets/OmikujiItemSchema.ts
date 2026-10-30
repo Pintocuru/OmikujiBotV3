@@ -45,7 +45,7 @@ const OmikujiItemBase = BaseSchema.extend({
 
 // ステップ実行を実行する
 export const OmikujiItemStepsSchema = OmikujiItemBase.extend({
-  kind: z.literal('steps').default('steps'), // kind 省略時は postFlow
+  kind: z.literal('steps').default('steps'), // kind 省略時は steps
   steps: ScenarioStepArraySchema,
   cooldownSeconds: z.number().min(0).optional(), // 設定した秒数の間、重複実行をブロックする
 })

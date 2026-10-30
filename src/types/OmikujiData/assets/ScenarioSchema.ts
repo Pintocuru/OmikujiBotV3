@@ -4,7 +4,7 @@ import { BaseRecordSchema } from '@/types/core'
 import { ScenarioStepArraySchema } from './ScenarioStepSchema'
 
 /**
- * ActionSet
+ * Scenario
  */
 export const ScenarioSchema = BaseRecordSchema.extend({
   steps: ScenarioStepArraySchema,

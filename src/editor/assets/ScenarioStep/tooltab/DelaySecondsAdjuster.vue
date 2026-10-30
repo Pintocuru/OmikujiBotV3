@@ -52,30 +52,30 @@
   const canDecreaseDelay = computed(() => {
     if (props.modelValue.length === 0) return false
     // 全てのdelaySecondsが下限より大きいかチェック
-    return props.modelValue.some((action) => action.delaySeconds > minDelaySeconds.value)
+    return props.modelValue.some((step) => step.delaySeconds > minDelaySeconds.value)
   })
 
   // 全てのdelaySecondsを調整する関数
   const adjustAllDelaySeconds = (adjustment: number) => {
-    const adjusted = props.modelValue.map((action, originalIndex) => {
-      const newDelay = Math.round((action.delaySeconds + adjustment) * 10) / 10
+    const adjusted = props.modelValue.map((step, originalIndex) => {
+      const newDelay = Math.round((step.delaySeconds + adjustment) * 10) / 10
       // 下限チェック
       const clampedDelay = Math.max(newDelay, minDelaySeconds.value)
       return {
         originalIndex,
-        action: {
-          ...action,
+        step: {
+          ...step,
           delaySeconds: clampedDelay,
         },
       }
     })
 
     // delaySecondsでソート（小さい順。同値は元の順序を保つ）
-    adjusted.sort((a, b) => a.action.delaySeconds - b.action.delaySeconds)
+    adjusted.sort((a, b) => a.step.delaySeconds - b.step.delaySeconds)
 
     emit(
       'update:modelValue',
-      adjusted.map((e) => e.action)
+      adjusted.map((e) => e.step)
     )
     emit(
       'reorder',

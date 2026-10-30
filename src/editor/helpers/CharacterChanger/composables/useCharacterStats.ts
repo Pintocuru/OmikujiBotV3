@@ -9,17 +9,17 @@ import { useCharacterLookup } from './useCharacterLookup'
  */
 export function useCharacterStats(allTargets: ComputedRef<FlowTarget[]>) {
   const { characterArray } = useCharacterLookup()
-  const { getFlowGroups, extractCharacterKeys, countCharacterUsage } = useScenarioStepCharacters()
+  const { getStepGroups, extractCharacterKeys, countCharacterUsage } = useScenarioStepCharacters()
 
   // 全ステップ配列
-  const flowGroups = computed(() => allTargets.value.flatMap(getFlowGroups))
+  const stepGroups = computed(() => allTargets.value.flatMap(getStepGroups))
 
   /**
    * 使用されている全キャラクターキー
    */
   const uniqueCharacterKeys = computed(() => {
     const keys = new Set<string>()
-    flowGroups.value.forEach((flows) => extractCharacterKeys(flows).forEach((key) => keys.add(key)))
+    stepGroups.value.forEach((steps) => extractCharacterKeys(steps).forEach((key) => keys.add(key)))
     return Array.from(keys)
   })
 
@@ -28,8 +28,8 @@ export function useCharacterStats(allTargets: ComputedRef<FlowTarget[]>) {
    */
   const characterUsageCount = computed(() => {
     const counts: Record<string, number> = {}
-    flowGroups.value.forEach((flows) => {
-      Object.entries(countCharacterUsage(flows)).forEach(([key, count]) => {
+    stepGroups.value.forEach((steps) => {
+      Object.entries(countCharacterUsage(steps)).forEach(([key, count]) => {
         counts[key] = (counts[key] || 0) + count
       })
     })

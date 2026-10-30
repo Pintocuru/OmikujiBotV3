@@ -76,16 +76,16 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: ScenarioStepCallType
+    step: ScenarioStepCallType
     currentKey?: string
   }>()
 
   const emit = defineEmits<{
-    'update:action': [action: ScenarioStepCallType]
+    'update:step': [step: ScenarioStepCallType]
   }>()
 
   // callKeys を取得
-  const getValues = () => props.action.callKeys
+  const getValues = () => props.step.callKeys
 
   // currentKey を取得
   const getCurrentKey = () => props.currentKey
@@ -106,6 +106,6 @@
 
   // 更新処理
   const handleUpdate = (newValues: WeightValuesArrayType) => {
-    emit('update:action', { ...props.action, callKeys: newValues })
+    emit('update:step', { ...props.step, callKeys: newValues })
   }
 </script>

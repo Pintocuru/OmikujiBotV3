@@ -25,10 +25,10 @@ export function checkCircularReference(
 
   visited.add(targetKey)
 
-  for (const action of scenario.steps) {
-    if (action.kind !== 'scenarioCall') continue
+  for (const step of scenario.steps) {
+    if (step.kind !== 'scenarioCall') continue
 
-    const keys = action.callKeys ?? []
+    const keys = step.callKeys ?? []
 
     // 参照先キーを抽出（string または WeightValueType.content）
     const referencedKeys = keys

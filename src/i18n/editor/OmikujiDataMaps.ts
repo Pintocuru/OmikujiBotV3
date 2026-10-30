@@ -455,7 +455,7 @@ export const omikujiDataMapMessages = {
         },
         control: {
           label: 'Control flow',
-          description: 'Controls the flow of processing without any BOT action.',
+          description: 'Controls the flow of processing without running any steps.',
         },
       },
       omikujiControlCommand: {

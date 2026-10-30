@@ -77,7 +77,7 @@
   const characters = computed(() => characterArray.value.filter((c) => hasImage(c.key)))
   const canPreview = computed(() => characters.value.length > 0)
 
-  // 選択はプレビュー内だけの状態(保存しない)。初期値は action のキャラ。未選択・消えたキーなら先頭
+  // 選択はプレビュー内だけの状態(保存しない)。初期値は step のキャラ。未選択・消えたキーなら先頭
   const selectedKey = ref(props.characterKey ?? '')
   watch(
     () => props.characterKey,

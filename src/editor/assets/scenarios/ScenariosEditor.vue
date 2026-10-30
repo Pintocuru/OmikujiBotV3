@@ -79,10 +79,10 @@
 
   const steps = computed({
     get: () => selectedItem.value?.steps || [],
-    set: (newActions) => {
+    set: (newSteps) => {
       if (!selectedItem.value) return
       updateAsset('scenarios', selectedItem.value.key, {
-        steps: [...newActions],
+        steps: [...newSteps],
       })
     },
   })

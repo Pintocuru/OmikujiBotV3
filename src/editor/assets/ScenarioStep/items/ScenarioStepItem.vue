@@ -4,7 +4,7 @@
   <div class="grid grid-cols-3 gap-4">
     <!-- 左側: プレビューエリア -->
     <div class="col-span-1 min-h-xs">
-      <ScenarioStepPreview :action="action" />
+      <ScenarioStepPreview :step="step" />
     </div>
 
     <!-- 右側: 設定エリア -->
@@ -41,7 +41,7 @@
         v-if="currentComponent"
         :is="currentComponent"
         v-bind="componentProps"
-        @update:action="handleActionUpdate"
+        @update:step="handleStepUpdate"
       />
     </div>
   </div>
@@ -59,14 +59,14 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: ScenarioStepType
+    step: ScenarioStepType
     currentKey?: string // 編集中のシナリオのキー(scenarioCall の循環参照チェック用)
   }>()
 
   const emit = defineEmits<{
-    'update:action': [value: ScenarioStepType]
+    'update:step': [value: ScenarioStepType]
   }>()
 
-  const { basicDelaySeconds, currentComponent, componentProps, delaySeconds, kind, handleActionUpdate } =
+  const { basicDelaySeconds, currentComponent, componentProps, delaySeconds, kind, handleStepUpdate } =
     useScenarioStepItem(props, emit)
 </script>

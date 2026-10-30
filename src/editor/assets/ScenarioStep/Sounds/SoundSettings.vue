@@ -39,27 +39,27 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: ScenarioStepMessageType | ScenarioStepSoundType
+    step: ScenarioStepMessageType | ScenarioStepSoundType
   }>()
 
   const emit = defineEmits<{
-    'update:action': [action: ScenarioStepMessageType | ScenarioStepSoundType]
+    'update:step': [step: ScenarioStepMessageType | ScenarioStepSoundType]
   }>()
 
-  const updateAction = (updates: Partial<ScenarioStepMessageType | ScenarioStepSoundType>) => {
-    const updatedAction = { ...props.action, ...updates } as ScenarioStepMessageType | ScenarioStepSoundType
-    emit('update:action', updatedAction)
+  const updateStep = (updates: Partial<ScenarioStepMessageType | ScenarioStepSoundType>) => {
+    const updatedStep = { ...props.step, ...updates } as ScenarioStepMessageType | ScenarioStepSoundType
+    emit('update:step', updatedStep)
   }
 
   // プリセット選択時は soundPath をクリア
   const sound = computed({
-    get: () => props.action.sound || '',
-    set: (value) => updateAction({ sound: value || undefined, soundPath: '' }),
+    get: () => props.step.sound || '',
+    set: (value) => updateStep({ sound: value || undefined, soundPath: '' }),
   })
 
   // カスタムパス入力時は sound をクリア
   const soundPath = computed({
-    get: () => props.action.soundPath || '',
-    set: (value) => updateAction({ soundPath: value || '', sound: value ? '' : props.action.sound }),
+    get: () => props.step.soundPath || '',
+    set: (value) => updateStep({ soundPath: value || '', sound: value ? '' : props.step.sound }),
   })
 </script>

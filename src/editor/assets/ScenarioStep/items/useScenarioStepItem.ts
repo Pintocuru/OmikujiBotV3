@@ -5,52 +5,52 @@ import type { ScenarioStepKind, ScenarioStepType } from '@/types/OmikujiData'
 import { createDefaultStep } from './createDefaultStep'
 import { stepSchemaMap, settingsComponentMap } from './scenarioStepKinds'
 
-type Props = { action: ScenarioStepType; currentKey?: string }
-type Emit = (event: 'update:action', value: ScenarioStepType) => void
+type Props = { step: ScenarioStepType; currentKey?: string }
+type Emit = (event: 'update:step', value: ScenarioStepType) => void
 
 export const useScenarioStepItem = (props: Props, emit: Emit) => {
   const omikujiStore = useOmikujiStore()
   const basicDelaySeconds = computed(() => omikujiStore.data.settings.generator.basicDelaySeconds ?? 1)
 
   // 現在表示する設定コンポーネント
-  const currentComponent = computed(() => settingsComponentMap[props.action.kind])
+  const currentComponent = computed(() => settingsComponentMap[props.step.kind])
 
   // 動的コンポーネントへ渡す props (currentKey は scenarioCall だけが受け取る)
   const componentProps = computed(() =>
-    props.action.kind === 'scenarioCall'
-      ? { action: props.action as any, currentKey: props.currentKey }
-      : { action: props.action as any }
+    props.step.kind === 'scenarioCall'
+      ? { step: props.step as any, currentKey: props.currentKey }
+      : { step: props.step as any }
   )
 
   const delaySeconds = computed({
-    get: () => props.action.delaySeconds,
-    set: (value) => emit('update:action', { ...props.action, delaySeconds: value }),
+    get: () => props.step.delaySeconds,
+    set: (value) => emit('update:step', { ...props.step, delaySeconds: value }),
   })
 
   // kind 別の生データキャッシュ (切り替えても入力内容を失わない)
-  const rawActionCache = ref<Partial<Record<ScenarioStepKind, ScenarioStepType>>>({})
+  const rawStepCache = ref<Partial<Record<ScenarioStepKind, ScenarioStepType>>>({})
 
-  const updateActionType = (newKind: ScenarioStepKind) => {
-    const current = props.action
+  const updateStepType = (newKind: ScenarioStepKind) => {
+    const current = props.step
     if (current.kind === newKind) return
 
-    rawActionCache.value[current.kind] = { ...current }
+    rawStepCache.value[current.kind] = { ...current }
 
-    const restored = rawActionCache.value[newKind] ?? createDefaultStep(newKind, current.delaySeconds)
+    const restored = rawStepCache.value[newKind] ?? createDefaultStep(newKind, current.delaySeconds)
 
     emit(
-      'update:action',
+      'update:step',
       stepSchemaMap[newKind].parse({ ...restored, kind: newKind, delaySeconds: current.delaySeconds })
     )
   }
 
   // IconRadioGroup の v-model 用
   const kind = computed<ScenarioStepKind>({
-    get: () => props.action.kind,
-    set: updateActionType,
+    get: () => props.step.kind,
+    set: updateStepType,
   })
 
-  const handleActionUpdate = (updated: ScenarioStepType) => emit('update:action', updated)
+  const handleStepUpdate = (updated: ScenarioStepType) => emit('update:step', updated)
 
-  return { basicDelaySeconds, currentComponent, componentProps, delaySeconds, kind, handleActionUpdate }
+  return { basicDelaySeconds, currentComponent, componentProps, delaySeconds, kind, handleStepUpdate }
 }

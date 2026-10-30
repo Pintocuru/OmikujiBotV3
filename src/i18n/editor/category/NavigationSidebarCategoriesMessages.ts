@@ -87,7 +87,7 @@ export const navigationSidebarCategoriesMessages = {
         description: 'Creates the omikuji contents',
       },
       scenarios: {
-        label: 'Action Sets',
+        label: 'Scenarios',
         description: 'Creates presets for BOT comments and WordParty',
       },
       placeholders: {

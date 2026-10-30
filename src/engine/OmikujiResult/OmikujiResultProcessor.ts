@@ -73,7 +73,7 @@ export class OmikujiResultProcessor {
 
       switch (step.kind) {
         case 'gameScript': {
-          const [resolved] = this.scenarioStepHandler.resolveFlows([step], defaultPlaceholders)
+          const [resolved] = this.scenarioStepHandler.resolveSteps([step], defaultPlaceholders)
           messages =
             resolved.kind === 'gameScript'
               ? await this.gameScriptsHandler.process(resolved, omiken, isOnecommePost)

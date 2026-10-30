@@ -51,29 +51,29 @@ export class ContentPlaceholder {
    * ステップ配列のプレースホルダーを置換して返す
    */
   processSteps(steps: ScenarioStepType[]): ScenarioStepType[] {
-    return steps.map((action) => {
-      if (action.kind === 'message') {
+    return steps.map((step) => {
+      if (step.kind === 'message') {
         return {
-          ...action,
-          message: this.processText(action.message),
-          slots: Object.fromEntries(Object.entries(action.slots).map(([k, v]) => [k, this.processText(v)])),
+          ...step,
+          message: this.processText(step.message),
+          slots: Object.fromEntries(Object.entries(step.slots).map(([k, v]) => [k, this.processText(v)])),
         }
       }
       // wordParty の wordPartyId に <<...>> が含まれている場合、置換する
-      if (action.kind === 'wordParty') {
-        return { ...action, wordPartyId: this.processText(action.wordPartyId) }
+      if (step.kind === 'wordParty') {
+        return { ...step, wordPartyId: this.processText(step.wordPartyId) }
       }
       // gameScript の queryString
-      if (action.kind === 'gameScript') {
-        return { ...action, queryString: this.processText(action.queryString) }
+      if (step.kind === 'gameScript') {
+        return { ...step, queryString: this.processText(step.queryString) }
       }
-      if (hasScenarioStepMessage(action)) {
+      if (hasScenarioStepMessage(step)) {
         return {
-          ...action,
-          message: this.processText(action.message),
+          ...step,
+          message: this.processText(step.message),
         }
       }
-      return action
+      return step
     })
   }
 

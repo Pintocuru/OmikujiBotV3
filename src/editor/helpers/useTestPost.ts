@@ -57,7 +57,7 @@ export function useTestPost() {
     const resultProcessor = new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable)
     const botMessages = (
       await Promise.all(
-        steps.map((flow) => resultProcessor.process(flow, defaultPlaceholdersShortLabels, MOCK_COMMENT))
+        steps.map((step) => resultProcessor.process(step, defaultPlaceholdersShortLabels, MOCK_COMMENT))
       )
     ).flat()
 

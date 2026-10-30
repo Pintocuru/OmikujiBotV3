@@ -79,7 +79,7 @@ export const keyEditorMessages = {
           mikuji: 'Events that use this mikuji box are updated automatically.',
           scenarios: 'Steps that call this scenario are updated automatically.',
           placeholders: 'Messages and other placeholders that use this placeholder are updated automatically.',
-          characters: 'Post flows (mikuji boxes and action sets) that use this character are updated automatically.',
+          characters: 'Steps (in mikuji boxes and scenarios) that use this character are updated automatically.',
         },
       },
     },

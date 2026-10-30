@@ -26,7 +26,7 @@
   const { data } = storeToRefs(useOmikujiStore())
   const settings = computed(() => data.value.ui.settings.kujibikiPanel ?? KujibikiPanelSchema.parse({}))
 
-  // action の内容を 1 件の表示メッセージにする(KujibikiPanelPreview のモックと同じ形)
+  // step の内容を 1 件の表示メッセージにする(KujibikiPanelPreview のモックと同じ形)
   const messages = computed<DisplayedBotMessage[]>(() => [
     {
       id: 'preview-kujibiki',

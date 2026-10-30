@@ -5,7 +5,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
-type StepUpdater = (flow: ScenarioStepType) => ScenarioStepType
+type StepUpdater = (step: ScenarioStepType) => ScenarioStepType
 type WeightValueItem = WeightValuesArrayType[number] // string | { weight, content }
 
 const contentOf = (item: WeightValueItem): string => (typeof item === 'string' ? item : item.content)
@@ -76,10 +76,10 @@ export function updateMikujiReferences(oldKey: string, newKey: string): void {
  * キャラクター参照の更新（message / gameScript が characterKey を持つ）
  */
 export function updateCharacterReferences(oldKey: string, newKey: string): void {
-  updateAllSteps((flow) =>
-    (flow.kind === 'message' || flow.kind === 'gameScript') && flow.characterKey === oldKey
-      ? { ...flow, characterKey: newKey }
-      : flow
+  updateAllSteps((step) =>
+    (step.kind === 'message' || step.kind === 'gameScript') && step.characterKey === oldKey
+      ? { ...step, characterKey: newKey }
+      : step
   )
 }
 
@@ -103,9 +103,9 @@ export function updatePlaceholderReferences(oldKey: string, newKey: string): voi
   })
 
   // steps 内の参照（message を持つのは message / variable / bot）
-  updateAllSteps((flow) => {
-    if (!hasScenarioStepMessage(flow) || !flow.message.includes(oldPlaceholder)) return flow
-    return { ...flow, message: replaceAll(flow.message, oldPlaceholder, newPlaceholder) }
+  updateAllSteps((step) => {
+    if (!hasScenarioStepMessage(step) || !step.message.includes(oldPlaceholder)) return step
+    return { ...step, message: replaceAll(step.message, oldPlaceholder, newPlaceholder) }
   })
 }
 
@@ -113,12 +113,12 @@ export function updatePlaceholderReferences(oldKey: string, newKey: string): voi
  * scenario（scenarioCall）参照の更新
  */
 export function updateScenarioReferences(oldKey: string, newKey: string): void {
-  updateAllSteps((flow) => {
-    if (flow.kind !== 'scenarioCall') return flow
+  updateAllSteps((step) => {
+    if (step.kind !== 'scenarioCall') return step
 
-    const callKeys = mapIfChanged(flow.callKeys, (item) =>
+    const callKeys = mapIfChanged(step.callKeys, (item) =>
       contentOf(item) === oldKey ? withContent(item, newKey) : item
     )
-    return callKeys ? { ...flow, callKeys } : flow
+    return callKeys ? { ...step, callKeys } : step
   })
 }

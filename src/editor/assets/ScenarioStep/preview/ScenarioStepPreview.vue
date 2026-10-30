@@ -7,26 +7,26 @@
     </div>
 
     <!-- 変数(評価ブロック):ソースコード風表示 -->
-    <div v-else-if="action.kind === 'variable'" class="w-full px-2">
+    <div v-else-if="step.kind === 'variable'" class="w-full px-2">
       <pre
         class="text-xs font-mono text-left bg-base-300 text-base-content rounded-lg p-3 max-h-64 overflow-auto whitespace-pre-wrap break-all"
-      ><code>{{ action.message || t('scenarioStep.stepPreview.noMessage') }}</code></pre>
+      ><code>{{ step.message || t('scenarioStep.stepPreview.noMessage') }}</code></pre>
     </div>
 
     <!-- サウンド -->
-    <div v-else-if="action.kind === 'sound'" class="w-full text-center">
+    <div v-else-if="step.kind === 'sound'" class="w-full text-center">
       <Volume2 :size="80" class="mx-auto text-blue-500" />
       <p class="text-sm opacity-70 mt-2">{{ t('scenarioStep.stepPreview.sound') }}</p>
     </div>
 
     <!-- WordParty -->
-    <div v-else-if="action.kind === 'wordParty'" class="w-full text-center">
+    <div v-else-if="step.kind === 'wordParty'" class="w-full text-center">
       <PartyPopper :size="80" class="mx-auto text-purple-500" />
       <p class="text-sm opacity-70 mt-2">WordParty</p>
     </div>
 
     <!-- シナリオ呼び出し -->
-    <div v-else-if="action.kind === 'scenarioCall'" class="w-full text-center">
+    <div v-else-if="step.kind === 'scenarioCall'" class="w-full text-center">
       <MessagesSquare :size="80" class="mx-auto text-red-500" />
       <p class="text-sm opacity-70 mt-2">{{ t('scenarioStep.stepPreview.scenarioCall') }}</p>
     </div>
@@ -41,11 +41,11 @@
 
     <!-- テストボタン -->
     <div class="w-full text-center mt-2">
-      <WordPartyTestButton v-if="action.kind === 'wordParty'" :id="action.wordPartyId" :repeat="action.repeat" />
+      <WordPartyTestButton v-if="step.kind === 'wordParty'" :id="step.wordPartyId" :repeat="step.repeat" />
       <SoundTestButton
-        v-if="soundEnabled && (action.kind === 'sound' || action.kind === 'message')"
-        :sound="action.sound"
-        :soundPath="action.soundPath"
+        v-if="soundEnabled && (step.kind === 'sound' || step.kind === 'message')"
+        :sound="step.sound"
+        :soundPath="step.soundPath"
       />
     </div>
   </div>
@@ -68,7 +68,7 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: ScenarioStepType
+    step: ScenarioStepType
   }>()
 
   const omikujiStore = useOmikujiStore()
@@ -83,8 +83,8 @@
   const processedMessage = computed(() => {
     const _ = messageKey.value
 
-    if (props.action.kind !== 'message') return t('scenarioStep.stepPreview.invalid')
-    const content = props.action.message
+    if (props.step.kind !== 'message') return t('scenarioStep.stepPreview.invalid')
+    const content = props.step.message
     if (!content) return t('scenarioStep.stepPreview.noMessage')
     const processed = processTestPlaceholder(content, data.value.assets.placeholders)
     return transformIconPlaceholdersPreview(processed.text)
@@ -97,7 +97,7 @@
 
   watch(
     () => {
-      const a = props.action
+      const a = props.step
       return a.kind === 'gameScript' ? ([a.scriptId, a.queryString, messageKey.value] as const) : null
     },
     async (args) => {
@@ -113,10 +113,10 @@
 
   // message / gameScript を UI のプレビューに渡す。gameScript は CommentBubblePreview 固定
   const previewComponent = computed<Component>(() =>
-    props.action.kind === 'message' ? (getUiPreview(props.action.uiKey) ?? CommentBubblePreview) : CommentBubblePreview
+    props.step.kind === 'message' ? (getUiPreview(props.step.uiKey) ?? CommentBubblePreview) : CommentBubblePreview
   )
   const previewProps = computed(() => {
-    const a = props.action
+    const a = props.step
     if (a.kind === 'message') {
       return { message: processedMessage.value, slots: a.slots, characterKey: a.characterKey, iconKey: a.iconKey }
     }

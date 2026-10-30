@@ -73,13 +73,13 @@ export const ScenarioStepCallSchema = ScenarioStepBaseSchema.extend({
 export type ScenarioStepCallType = z.infer<typeof ScenarioStepCallSchema>
 
 // ScenarioStep gameScript
-export const ScenarioStepGameSchema = ScenarioStepBaseSchema.extend({
+export const ScenarioStepGameScriptSchema = ScenarioStepBaseSchema.extend({
   kind: z.literal('gameScript'),
   scriptId: z.string().default('').catch(''),
   characterKey: z.string().default('').catch(''),
   queryString: z.string().default('').catch(''),
 })
-export type ScenarioStepGameType = z.infer<typeof ScenarioStepGameSchema>
+export type ScenarioStepGameScriptType = z.infer<typeof ScenarioStepGameScriptSchema>
 
 /**
  * message プロパティを持つ ScenarioStep のユニオン型
@@ -100,7 +100,7 @@ export const ScenarioStepSchema = z.discriminatedUnion('kind', [
   ScenarioStepWordPartySchema,
   ScenarioStepVariableSchema,
   ScenarioStepCallSchema,
-  ScenarioStepGameSchema,
+  ScenarioStepGameScriptSchema,
 ])
 export type ScenarioStepType = z.infer<typeof ScenarioStepSchema>
 

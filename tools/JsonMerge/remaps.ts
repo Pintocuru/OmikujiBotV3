@@ -4,14 +4,14 @@ import type {
   JsonMergeRemapType,
   ScenarioStepType,
   ScenarioStepMessageType,
-  ScenarioStepGameType,
+  ScenarioStepGameScriptType,
 } from '@/types/OmikujiData/'
 
 /**
  * message の characterKey / iconKey にリマップルールを適用
  */
-function remapMessage(flow: ScenarioStepMessageType, remaps: JsonMergeRemapType[]): ScenarioStepMessageType {
-  let remapped = flow
+function remapMessage(step: ScenarioStepMessageType, remaps: JsonMergeRemapType[]): ScenarioStepMessageType {
+  let remapped = step
 
   for (const remap of remaps) {
     // characterKeyの置き換え
@@ -32,27 +32,27 @@ function remapMessage(flow: ScenarioStepMessageType, remaps: JsonMergeRemapType[
 /**
  * gameScript の characterKey にリマップルールを適用
  */
-function remapGameScript(flow: ScenarioStepGameType, remaps: JsonMergeRemapType[]): ScenarioStepGameType {
+function remapGameScript(step: ScenarioStepGameScriptType, remaps: JsonMergeRemapType[]): ScenarioStepGameScriptType {
   // characterKeyが空の場合は早期return
-  if (!flow.characterKey) return flow
+  if (!step.characterKey) return step
 
   for (const remap of remaps) {
-    if (remap.fromCharacterKey && remap.toCharacterKey && flow.characterKey === remap.fromCharacterKey) {
-      return { ...flow, characterKey: remap.toCharacterKey } // characterKeyは1つしかないので、マッチしたら終了
+    if (remap.fromCharacterKey && remap.toCharacterKey && step.characterKey === remap.fromCharacterKey) {
+      return { ...step, characterKey: remap.toCharacterKey } // characterKeyは1つしかないので、マッチしたら終了
     }
   }
 
-  return flow
+  return step
 }
 
 /**
  * ステップの配列に対してリマップルールを適用
  */
 function remapSteps(steps: ScenarioStepType[], remaps: JsonMergeRemapType[]): ScenarioStepType[] {
-  return steps.map((flow) => {
-    if (flow.kind === 'message') return remapMessage(flow, remaps)
-    if (flow.kind === 'gameScript') return remapGameScript(flow, remaps)
-    return flow
+  return steps.map((step) => {
+    if (step.kind === 'message') return remapMessage(step, remaps)
+    if (step.kind === 'gameScript') return remapGameScript(step, remaps)
+    return step
   })
 }
 
@@ -74,7 +74,7 @@ export function applyRemaps(data: OmikujiDataType, remaps: JsonMergeRemapType[])
     }
   }
 
-  // actions
+  // scenarios
   for (const scenario of Object.values(clonedData.assets.scenarios)) {
     scenario.steps = remapSteps(scenario.steps, remaps)
   }

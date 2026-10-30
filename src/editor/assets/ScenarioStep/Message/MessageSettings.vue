@@ -1,7 +1,7 @@
 <!-- src/editor/assets/ScenarioStep/Message/MessageSettings.vue -->
 <template>
   <!-- 表示先のUI UIごとに下のフォームが変わる -->
-  <SettingItem layout="vertical" :icon="uiKindMap[action.uiKey].icon" :label="t('scenarioStep.messageSettings.uiKey')">
+  <SettingItem layout="vertical" :icon="uiKindMap[step.uiKey].icon" :label="t('scenarioStep.messageSettings.uiKey')">
     <IconRadioGroup
       v-model="uiKey"
       :map="uiKindMap"
@@ -15,9 +15,9 @@
     <!-- キャラクター選択 -->
     <SettingItem layout="vertical" icon="User" :label="t('scenarioStep.common.character')">
       <CharacterIconPicker
-        :character-key="action.characterKey ?? ''"
-        :icon-key="action.iconKey"
-        @select="updateAction"
+        :character-key="step.characterKey ?? ''"
+        :icon-key="step.iconKey"
+        @select="updateStep"
       />
     </SettingItem>
 
@@ -36,8 +36,8 @@
   <component
     v-if="slotsEditor"
     :is="slotsEditor"
-    :slots="action.slots"
-    @update:slots="updateAction({ slots: $event })"
+    :slots="step.slots"
+    @update:slots="updateStep({ slots: $event })"
   />
   <SettingItem
     v-else-if="slotMetas.length > 0"
@@ -56,7 +56,7 @@
       <input
         type="text"
         class="input input-bordered input-sm w-full"
-        :value="action.slots[meta.slot] ?? ''"
+        :value="step.slots[meta.slot] ?? ''"
         @input="updateSlot(meta.slot, ($event.target as HTMLInputElement).value)"
       />
     </div>
@@ -69,8 +69,8 @@
 
   <SoundSettings
     v-if="soundEnabled"
-    :action="action"
-    @update:action="emit('update:action', $event as ScenarioStepMessageType)"
+    :step="step"
+    @update:step="emit('update:step', $event as ScenarioStepMessageType)"
   />
 </template>
 
@@ -93,41 +93,41 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: ScenarioStepMessageType
+    step: ScenarioStepMessageType
   }>()
 
   const emit = defineEmits<{
-    'update:action': [action: ScenarioStepMessageType]
+    'update:step': [step: ScenarioStepMessageType]
   }>()
 
   const { data } = storeToRefs(useOmikujiStore())
 
   const soundEnabled = computed(() => data.value.settings.generator.soundEnabled)
 
-  const slotsEditor = computed(() => getUiSlotsEditor(props.action.uiKey))
+  const slotsEditor = computed(() => getUiSlotsEditor(props.step.uiKey))
 
-  const updateAction = (updates: Partial<ScenarioStepMessageType>) => {
-    emit('update:action', { ...props.action, ...updates })
+  const updateStep = (updates: Partial<ScenarioStepMessageType>) => {
+    emit('update:step', { ...props.step, ...updates })
   }
 
   const bubbleText = computed<string>({
-    get: () => props.action.message ?? '',
-    set: (value) => updateAction({ message: value }),
+    get: () => props.step.message ?? '',
+    set: (value) => updateStep({ message: value }),
   })
 
   // 表示先の UI
-  const spec = computed(() => getUiMessageSpec(props.action.uiKey))
+  const spec = computed(() => getUiMessageSpec(props.step.uiKey))
   const slotMetas = computed(() => Object.values(spec.value.slots))
   // 投稿を受け取れる UI だけ選べる。現在値が受け取れない UI (データ不整合) の場合は、それも並べる
   const selectableKinds = computed<UiKind[]>(() =>
-    postUiKinds.includes(props.action.uiKey) ? postUiKinds : [props.action.uiKey, ...postUiKinds]
+    postUiKinds.includes(props.step.uiKey) ? postUiKinds : [props.step.uiKey, ...postUiKinds]
   )
   const uiKey = computed<UiKind>({
-    get: () => props.action.uiKey,
-    set: (value) => updateAction({ uiKey: value }),
+    get: () => props.step.uiKey,
+    set: (value) => updateStep({ uiKey: value }),
   })
 
   const updateSlot = (slot: string, value: string) => {
-    updateAction({ slots: { ...props.action.slots, [slot]: value } })
+    updateStep({ slots: { ...props.step.slots, [slot]: value } })
   }
 </script>

@@ -16,45 +16,45 @@ import { OmikenCommentType, UserNameSchema } from '@/types/OmikenComment'
  * - uiKey ごとの仕様 (bubble を使うか・slots) は UiMessageSpecs で決まる
  * - slots は、editor のフォームの値を、評価ブロックの slotN が上書きする
  */
-export function createBotMessagesFromAction(
-  action: ScenarioStepMessageType,
+export function createBotMessagesFromStep(
+  step: ScenarioStepMessageType,
   extra: VariablePlaceholderExtra | undefined,
   delaySeconds: number,
   characterResolver?: CharacterResolver,
   omiken?: OmikenCommentType
 ): BotMessageType[] {
-  const spec = getUiMessageSpec(action.uiKey)
+  const spec = getUiMessageSpec(step.uiKey)
   const user = omiken ? UserNameSchema.parse(omiken) : undefined
-  const merged = { ...action.slots, ...extra?.slots }
+  const merged = { ...step.slots, ...extra?.slots }
   const slots = Object.keys(merged).length > 0 ? (merged as BotMessageSlotsType) : undefined
 
   if (spec.bubble) {
     // 本文が空でも作る (空メッセージを弾くのは UI 側の責務)
-    const message = action.message || ''
-    return [createBubbleMessage(action, message, delaySeconds, characterResolver, user, slots)]
+    const message = step.message || ''
+    return [createBubbleMessage(step, message, delaySeconds, characterResolver, user, slots)]
   }
 
   // bubble を使わない UI は slots だけを渡す
-  return slots ? [BotMessageSchema.parse({ uiKey: action.uiKey, delaySeconds, user, slots })] : []
+  return slots ? [BotMessageSchema.parse({ uiKey: step.uiKey, delaySeconds, user, slots })] : []
 }
 
 /**
  * Bubbleメッセージを生成
  */
 function createBubbleMessage(
-  action: ScenarioStepMessageType,
+  step: ScenarioStepMessageType,
   message: string,
   delaySeconds: number,
   characterResolver?: CharacterResolver,
   user?: BotMessageType['user'],
   slots?: BotMessageSlotsType
 ): BotMessageType {
-  const { characterKey, iconKey } = action
+  const { characterKey, iconKey } = step
   const resolved = characterResolver?.resolveCharacter({ characterKey, iconKey })
   const character = resolved && characterResolver?.getCharacter(resolved.characterKey)
 
   return BotMessageBubbleSchema.parse({
-    uiKey: action.uiKey,
+    uiKey: step.uiKey,
     delaySeconds,
     user,
     bubble: {

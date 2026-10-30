@@ -18,7 +18,7 @@ export function useScenarioStepCharacters() {
   /**
    * アセットが持つ steps 配列を取得（みくじ箱は steps 種別のアイテムごとに1配列）
    */
-  const getFlowGroups = (target: FlowTarget): ScenarioStepType[][] => {
+  const getStepGroups = (target: FlowTarget): ScenarioStepType[][] => {
     if (target.category === 'scenarios') return [target.item.steps]
     return target.item.omikuji.flatMap((omikuji) =>
       omikuji.kind === 'steps' && isTargetItem(target, omikuji.id) ? [omikuji.steps] : []
@@ -28,18 +28,18 @@ export function useScenarioStepCharacters() {
   /**
    * ステップが参照しているキャラクターキー（message / gameScript）
    */
-  const getFlowCharacterKey = (flow: ScenarioStepType): string | null => {
-    if (flow.kind === 'message' || flow.kind === 'gameScript') return flow.characterKey?.trim() || null
+  const getStepCharacterKey = (step: ScenarioStepType): string | null => {
+    if (step.kind === 'message' || step.kind === 'gameScript') return step.characterKey?.trim() || null
     return null
   }
 
   /**
    * 使用されているキャラクターキーを抽出
    */
-  const extractCharacterKeys = (flows: ScenarioStepType[]): string[] => {
+  const extractCharacterKeys = (steps: ScenarioStepType[]): string[] => {
     const keys = new Set<string>()
-    flows.forEach((flow) => {
-      const key = getFlowCharacterKey(flow)
+    steps.forEach((step) => {
+      const key = getStepCharacterKey(step)
       if (key) keys.add(key)
     })
     return Array.from(keys).sort()
@@ -48,10 +48,10 @@ export function useScenarioStepCharacters() {
   /**
    * キャラクター使用箇所数をカウント
    */
-  const countCharacterUsage = (flows: ScenarioStepType[]): Record<string, number> => {
+  const countCharacterUsage = (steps: ScenarioStepType[]): Record<string, number> => {
     const counts: Record<string, number> = {}
-    flows.forEach((flow) => {
-      const key = getFlowCharacterKey(flow)
+    steps.forEach((step) => {
+      const key = getStepCharacterKey(step)
       if (key) counts[key] = (counts[key] || 0) + 1
     })
     return counts
@@ -60,11 +60,11 @@ export function useScenarioStepCharacters() {
   /**
    * キャラクターマッピングに基づいて ステップ配列を更新
    */
-  const applyCharacterMappings = (flows: ScenarioStepType[], mappings: Record<string, string>): ScenarioStepType[] => {
-    return flows.map((flow) => {
-      if (flow.kind !== 'message' && flow.kind !== 'gameScript') return flow
-      const newKey = mappings[flow.characterKey || '']
-      return newKey ? { ...flow, characterKey: newKey } : flow
+  const applyCharacterMappings = (steps: ScenarioStepType[], mappings: Record<string, string>): ScenarioStepType[] => {
+    return steps.map((step) => {
+      if (step.kind !== 'message' && step.kind !== 'gameScript') return step
+      const newKey = mappings[step.characterKey || '']
+      return newKey ? { ...step, characterKey: newKey } : step
     })
   }
 
@@ -82,18 +82,18 @@ export function useScenarioStepCharacters() {
   /**
    * 不正なiconKeyの { characterKey, iconKey } ペアを抽出
    */
-  const extractInvalidIconKeyPairs = (flows: ScenarioStepType[]): { characterKey: string; iconKey: string }[] => {
+  const extractInvalidIconKeyPairs = (steps: ScenarioStepType[]): { characterKey: string; iconKey: string }[] => {
     const seen = new Set<string>()
     const pairs: { characterKey: string; iconKey: string }[] = []
 
-    flows.forEach((flow) => {
-      if (flow.kind !== 'message' || !flow.characterKey) return
-      if (!isInvalidIconKey(flow.characterKey, flow.iconKey)) return
+    steps.forEach((step) => {
+      if (step.kind !== 'message' || !step.characterKey) return
+      if (!isInvalidIconKey(step.characterKey, step.iconKey)) return
 
-      const key = `${flow.characterKey}:${flow.iconKey}`
+      const key = `${step.characterKey}:${step.iconKey}`
       if (!seen.has(key)) {
         seen.add(key)
-        pairs.push({ characterKey: flow.characterKey, iconKey: flow.iconKey })
+        pairs.push({ characterKey: step.characterKey, iconKey: step.iconKey })
       }
     })
 
@@ -103,12 +103,12 @@ export function useScenarioStepCharacters() {
   /**
    * iconKey使用回数をカウント（キーは "characterKey:iconKey" の複合形式）
    */
-  const countIconKeyUsage = (flows: ScenarioStepType[]): Record<string, number> => {
+  const countIconKeyUsage = (steps: ScenarioStepType[]): Record<string, number> => {
     const counts: Record<string, number> = {}
 
-    flows.forEach((flow) => {
-      if (flow.kind !== 'message' || !flow.characterKey) return
-      const key = `${flow.characterKey}:${flow.iconKey}`
+    steps.forEach((step) => {
+      if (step.kind !== 'message' || !step.characterKey) return
+      const key = `${step.characterKey}:${step.iconKey}`
       counts[key] = (counts[key] || 0) + 1
     })
 
@@ -118,17 +118,17 @@ export function useScenarioStepCharacters() {
   /**
    * iconKeyマッピングを適用（mappingsのキーは "characterKey:iconKey" 複合形式）
    */
-  const applyIconKeyMappings = (flows: ScenarioStepType[], mappings: Record<string, string>): ScenarioStepType[] => {
-    return flows.map((flow) => {
-      if (flow.kind !== 'message' || !flow.characterKey) return flow
-      const newIconKey = mappings[`${flow.characterKey}:${flow.iconKey}`]
-      return newIconKey ? { ...flow, iconKey: newIconKey } : flow
+  const applyIconKeyMappings = (steps: ScenarioStepType[], mappings: Record<string, string>): ScenarioStepType[] => {
+    return steps.map((step) => {
+      if (step.kind !== 'message' || !step.characterKey) return step
+      const newIconKey = mappings[`${step.characterKey}:${step.iconKey}`]
+      return newIconKey ? { ...step, iconKey: newIconKey } : step
     })
   }
 
   return {
     isTargetItem,
-    getFlowGroups,
+    getStepGroups,
     extractCharacterKeys,
     countCharacterUsage,
     applyCharacterMappings,

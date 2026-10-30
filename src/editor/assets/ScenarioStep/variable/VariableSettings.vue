@@ -15,20 +15,20 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    action: ScenarioStepVariableType
+    step: ScenarioStepVariableType
   }>()
 
   const emit = defineEmits<{
-    'update:action': [action: ScenarioStepVariableType]
+    'update:step': [step: ScenarioStepVariableType]
   }>()
 
   // --- Helper Functions ---
-  const updateAction = (updates: Partial<ScenarioStepVariableType>) => {
-    emit('update:action', { ...props.action, ...updates })
+  const updateStep = (updates: Partial<ScenarioStepVariableType>) => {
+    emit('update:step', { ...props.step, ...updates })
   }
 
   const bubbleText = computed<string>({
-    get: () => props.action.message ?? '',
-    set: (value) => updateAction({ message: value }),
+    get: () => props.step.message ?? '',
+    set: (value) => updateStep({ message: value }),
   })
 </script>

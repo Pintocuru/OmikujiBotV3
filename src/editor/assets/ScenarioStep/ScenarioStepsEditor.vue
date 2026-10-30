@@ -9,21 +9,21 @@
       :modelValue="modelValue"
       :activeTab="activeTab"
       @select-tab="setActiveTab"
-      @add="addNewAction"
-      @duplicate="duplicateAction"
-      @remove="removeAction"
+      @add="addNewStep"
+      @duplicate="duplicateStep"
+      @remove="removeStep"
     />
 
     <!-- タブコンテンツ -->
     <!-- ステップタブの内容 -->
-    <template v-if="currentAction">
-      <ScenarioStepItem :action="currentAction" :current-key="currentKey" @update:action="updateCurrentAction" />
+    <template v-if="currentStep">
+      <ScenarioStepItem :step="currentStep" :current-key="currentKey" @update:step="updateCurrentStep" />
     </template>
 
     <!-- ステップが空の場合 -->
     <template v-else>
       <NoParamsCard :message="t('scenarioStep.stepsEditor.empty')" />
-      <button @click="addNewAction" class="btn btn-primary btn-sm">{{ t('scenarioStep.stepsEditor.addFirst') }}</button>
+      <button @click="addNewStep" class="btn btn-primary btn-sm">{{ t('scenarioStep.stepsEditor.addFirst') }}</button>
     </template>
   </div>
 </template>
@@ -52,19 +52,19 @@
   // タブロジックをコンポーザブルから取得
   const {
     activeTab,
-    currentAction,
+    currentStep,
     setActiveTab,
-    updateCurrentAction,
-    addNewAction,
-    duplicateAction,
-    removeAction,
+    updateCurrentStep,
+    addNewStep,
+    duplicateStep,
+    removeStep,
     followReorder,
   } = useScenarioStepTabs(
     computed(() => props?.modelValue),
-    (_event, actions) => emit('update:modelValue', actions)
+    (_event, steps) => emit('update:modelValue', steps)
   )
 
-  const updateSteps = (newActions: ScenarioStepType[]) => {
-    emit('update:modelValue', newActions)
+  const updateSteps = (newSteps: ScenarioStepType[]) => {
+    emit('update:modelValue', newSteps)
   }
 </script>

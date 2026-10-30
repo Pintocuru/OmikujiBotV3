@@ -7,10 +7,10 @@ import { useScenarioStepCharacters } from '@/editor/helpers/CharacterChanger/com
  * iconKey使用状況の統計情報を提供
  */
 export function useIconKeyStats(allTargets: ComputedRef<FlowTarget[]>) {
-  const { getFlowGroups, extractInvalidIconKeyPairs, countIconKeyUsage } = useScenarioStepCharacters()
+  const { getStepGroups, extractInvalidIconKeyPairs, countIconKeyUsage } = useScenarioStepCharacters()
 
   // 全ステップ配列
-  const flowGroups = computed(() => allTargets.value.flatMap(getFlowGroups))
+  const stepGroups = computed(() => allTargets.value.flatMap(getStepGroups))
 
   /**
    * 不正な { characterKey, iconKey } ペアの一覧（重複なし）
@@ -19,8 +19,8 @@ export function useIconKeyStats(allTargets: ComputedRef<FlowTarget[]>) {
     const seen = new Set<string>()
     const pairs: { characterKey: string; iconKey: string }[] = []
 
-    flowGroups.value.forEach((flows) => {
-      extractInvalidIconKeyPairs(flows).forEach((pair) => {
+    stepGroups.value.forEach((steps) => {
+      extractInvalidIconKeyPairs(steps).forEach((pair) => {
         const key = `${pair.characterKey}:${pair.iconKey}`
         if (!seen.has(key)) {
           seen.add(key)
@@ -38,8 +38,8 @@ export function useIconKeyStats(allTargets: ComputedRef<FlowTarget[]>) {
   const iconKeyUsageCount = computed(() => {
     const counts: Record<string, number> = {}
 
-    flowGroups.value.forEach((flows) => {
-      Object.entries(countIconKeyUsage(flows)).forEach(([key, count]) => {
+    stepGroups.value.forEach((steps) => {
+      Object.entries(countIconKeyUsage(steps)).forEach(([key, count]) => {
         counts[key] = (counts[key] || 0) + count
       })
     })

@@ -108,7 +108,7 @@ export class OmikujiProcessor {
 
   /**
    * steps を順番に実行する。
-   * 前の flow (variable など) の結果に後の flow が依存する可能性があるため、並列にはしない。
+   * 前の step (variable など) の結果に後の step が依存する可能性があるため、並列にはしない。
    * TODO:読み取られない数値がある
    */
   private async runSteps(
@@ -121,10 +121,10 @@ export class OmikujiProcessor {
     const defaultPlaceholders = this.getDefaultPlaceholders(omiken)
     const messages: BotMessageType[] = []
 
-    for (const flow of item.steps) {
+    for (const step of item.steps) {
       const result = isDummy
-        ? await this.omikujiResult.processDummy(flow, defaultPlaceholders, omiken)
-        : await this.omikujiResult.process(flow, defaultPlaceholders, omiken)
+        ? await this.omikujiResult.processDummy(step, defaultPlaceholders, omiken)
+        : await this.omikujiResult.process(step, defaultPlaceholders, omiken)
       messages.push(...result)
     }
 

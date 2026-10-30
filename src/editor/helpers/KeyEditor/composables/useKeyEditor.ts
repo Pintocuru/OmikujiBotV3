@@ -50,7 +50,7 @@ export function useKeyEditor() {
           (item) =>
             item.kind === 'steps' &&
             item.steps.some(
-              (flow) => (flow.kind === 'message' || flow.kind === 'gameScript') && flow.characterKey === characterKey
+              (step) => (step.kind === 'message' || step.kind === 'gameScript') && step.characterKey === characterKey
             )
         )
 
