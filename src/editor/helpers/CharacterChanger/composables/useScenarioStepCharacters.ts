@@ -1,13 +1,15 @@
 // src/editor/helpers/CharacterChanger/composables/useScenarioStepCharacters.ts
-import { ScenarioStepType } from '@/types/OmikujiData/'
+import { ScenarioStepType, ScenarioType } from '@/types/OmikujiData/'
 import { FlowTarget } from './useDataExtractor'
 import { useCharacterLookup } from './useCharacterLookup'
+import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
 /**
  * ステップ内のキャラクター情報を扱うユーティリティ
  */
 export function useScenarioStepCharacters() {
   const { getCharacter } = useCharacterLookup()
+  const { getAsset } = useGetAssetData()
 
   /**
    * みくじ箱内のアイテムが変更対象か（itemId 未指定なら箱内すべて）
@@ -16,14 +18,25 @@ export function useScenarioStepCharacters() {
     target.category !== 'mikuji' || !target.itemId || target.itemId === omikujiId
 
   /**
+   * 対象が参照しているシナリオ(みくじ箱は steps 種別アイテムの stepKey から重複なしで解決)
+   */
+  const getTargetScenarios = (target: FlowTarget): ScenarioType[] => {
+    if (target.category === 'scenarios') return [target.item]
+
+    const scenarios = new Map<string, ScenarioType>()
+    target.item.omikuji.forEach((omikuji) => {
+      if (omikuji.kind !== 'steps' || !isTargetItem(target, omikuji.id)) return
+      const scenario = getAsset('scenarios', omikuji.stepKey)
+      if (scenario) scenarios.set(scenario.key, scenario)
+    })
+    return [...scenarios.values()]
+  }
+
+  /**
    * アセットが持つ steps 配列を取得（みくじ箱は steps 種別のアイテムごとに1配列）
    */
-  const getStepGroups = (target: FlowTarget): ScenarioStepType[][] => {
-    if (target.category === 'scenarios') return [target.item.steps]
-    return target.item.omikuji.flatMap((omikuji) =>
-      omikuji.kind === 'steps' && isTargetItem(target, omikuji.id) ? [omikuji.steps] : []
-    )
-  }
+  const getStepGroups = (target: FlowTarget): ScenarioStepType[][] =>
+    getTargetScenarios(target).map((scenario) => scenario.steps)
 
   /**
    * ステップが参照しているキャラクターキー（message / gameScript）
@@ -129,6 +142,7 @@ export function useScenarioStepCharacters() {
   return {
     isTargetItem,
     getStepGroups,
+    getTargetScenarios,
     extractCharacterKeys,
     countCharacterUsage,
     applyCharacterMappings,

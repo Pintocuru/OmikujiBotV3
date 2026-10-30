@@ -86,13 +86,24 @@ export function useTestPost() {
       return
     }
 
+    // return/continue/reset/log は投稿するステップ実行を持たないため、結果だけ通知する
     if (omikujiItem.kind !== 'steps') {
-      // return/continue/reset/log は投稿するステップ実行を持たないため、結果だけ通知する
       showOmikujiResultToast(omikujiItem)
       return
     }
 
-    postTestOmikujiItem(omikujiItem.steps, omikujiItem)
+    const scenario = data.value.assets.scenarios[omikujiItem.stepKey]
+    if (!scenario) {
+      swalToast.error({
+        title: 'シナリオが見つかりません',
+        text: omikujiItem.stepKey
+          ? `シナリオ "${omikujiItem.stepKey}" が存在しません。`
+          : 'シナリオ(stepKey)が設定されていません。',
+      })
+      return
+    }
+
+    postTestOmikujiItem(scenario.steps, omikujiItem)
   }
 
   return {

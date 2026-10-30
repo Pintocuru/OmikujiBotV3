@@ -43,16 +43,18 @@ export function useKeyEditor() {
 
     eventCategory.forEach((category) => {
       getEvents(category).forEach((event) => {
-        const box = getAsset('mikuji', event.omikujiKey)
-        if (!box) return
+        const mikuji = getAsset('mikuji', event.omikujiKey)
+        if (!mikuji) return
 
-        const hasUsage = box.omikuji.some(
-          (item) =>
-            item.kind === 'steps' &&
-            item.steps.some(
+        const hasUsage = mikuji.omikuji.some((item) => {
+          if (item.kind !== 'steps') return false
+          const scenario = getAsset('scenarios', item.stepKey)
+          return (
+            scenario?.steps.some(
               (step) => (step.kind === 'message' || step.kind === 'gameScript') && step.characterKey === characterKey
-            )
-        )
+            ) ?? false
+          )
+        })
 
         if (hasUsage) usage[category].push(event.id)
       })

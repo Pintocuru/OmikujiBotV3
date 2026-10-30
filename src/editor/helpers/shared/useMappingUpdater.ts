@@ -1,7 +1,7 @@
 // src/editor/helpers/shared/useMappingUpdater.ts
 import { ComputedRef } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { ScenarioStepType } from '@/types/OmikujiData'
+import { ScenarioStepType, ScenarioType } from '@/types/OmikujiData'
 import { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
 import { useScenarioStepCharacters } from '@/editor/helpers/CharacterChanger/composables/useScenarioStepCharacters'
 
@@ -16,27 +16,20 @@ type ApplyMappings = (steps: ScenarioStepType[], mappings: Record<string, string
  */
 export function useMappingUpdater(allTargets: ComputedRef<FlowTarget[]>, applyMappings: ApplyMappings) {
   const omikujiStore = useOmikujiStore()
-  const { isTargetItem } = useScenarioStepCharacters()
+  const { getTargetScenarios } = useScenarioStepCharacters()
 
   /**
    * マッピングを適用してアセットを更新
    */
   const applyMappingsToAllItems = (mappings: Record<string, string>) => {
+    const scenarios = new Map<string, ScenarioType>()
     allTargets.value.forEach((target) => {
-      if (target.category === 'scenarios') {
-        omikujiStore.updateAsset('scenarios', target.item.key, {
-          steps: applyMappings(target.item.steps, mappings),
-        })
-        return
-      }
+      getTargetScenarios(target).forEach((scenario) => scenarios.set(scenario.key, scenario))
+    })
 
-      // みくじ箱：kind が 'steps' のアイテムのみ更新（weight・lottery などはそのまま保持）
-      omikujiStore.updateAsset('mikuji', target.item.key, {
-        omikuji: target.item.omikuji.map((omikuji) =>
-          omikuji.kind === 'steps' && isTargetItem(target, omikuji.id)
-            ? { ...omikuji, steps: applyMappings(omikuji.steps, mappings) }
-            : omikuji
-        ),
+    scenarios.forEach((scenario) => {
+      omikujiStore.updateAsset('scenarios', scenario.key, {
+        steps: applyMappings(scenario.steps, mappings),
       })
     })
   }

@@ -23,23 +23,6 @@ const mapIfChanged = <T>(items: readonly T[], fn: (item: T) => T): T[] | null =>
 const replaceAll = (text: string, from: string, to: string): string => text.split(from).join(to)
 
 /**
- * mikuji（みくじ箱）内の kind が 'steps' のアイテムの steps 更新
- */
-function updateMikujiSteps(updateFn: StepUpdater): void {
-  const { updateAsset } = useOmikujiStore()
-  const { getAssets } = useGetAssetData()
-
-  Object.values(getAssets('mikuji')).forEach((box) => {
-    const omikuji = mapIfChanged(box.omikuji, (item) => {
-      if (item.kind !== 'steps') return item
-      const steps = mapIfChanged(item.steps, updateFn)
-      return steps ? { ...item, steps: steps } : item
-    })
-    if (omikuji) updateAsset('mikuji', box.key, { omikuji })
-  })
-}
-
-/**
  * scenarios（Scenario）の steps 更新
  */
 function updateScenarioAssetSteps(updateFn: StepUpdater): void {
@@ -54,7 +37,6 @@ function updateScenarioAssetSteps(updateFn: StepUpdater): void {
 
 // steps を持つ全カテゴリへ適用
 function updateAllSteps(updateFn: StepUpdater): void {
-  updateMikujiSteps(updateFn)
   updateScenarioAssetSteps(updateFn)
 }
 
@@ -110,9 +92,25 @@ export function updatePlaceholderReferences(oldKey: string, newKey: string): voi
 }
 
 /**
+ * みくじアイテム(kind: 'steps')の stepKey 更新
+ */
+function updateMikujiStepKeys(oldKey: string, newKey: string): void {
+  const { updateAsset } = useOmikujiStore()
+  const { getAssets } = useGetAssetData()
+
+  Object.values(getAssets('mikuji')).forEach((box) => {
+    const omikuji = mapIfChanged(box.omikuji, (item) =>
+      item.kind === 'steps' && item.stepKey === oldKey ? { ...item, stepKey: newKey } : item
+    )
+    if (omikuji) updateAsset('mikuji', box.key, { omikuji })
+  })
+}
+
+/**
  * scenario（scenarioCall）参照の更新
  */
 export function updateScenarioReferences(oldKey: string, newKey: string): void {
+  updateMikujiStepKeys(oldKey, newKey)
   updateAllSteps((step) => {
     if (step.kind !== 'scenarioCall') return step
 

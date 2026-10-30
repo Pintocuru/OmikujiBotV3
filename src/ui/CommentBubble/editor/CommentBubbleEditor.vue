@@ -30,11 +30,18 @@
     label="常時表示キャラクター"
     description="未設定の場合、コメントが来たときのみ表示されます"
   >
-    <CharacterPicker
-      :modelValue="bubble.persistentCharacter"
-      allowEmpty
-      emptyLabel="なし"
-      @update:modelValue="(key) => update('persistentCharacter', key)"
+    <button
+      type="button"
+      class="btn btn-ghost btn-sm mt-2"
+      :disabled="!bubble.persistentCharacter"
+      @click="update('persistentCharacter', '')"
+    >
+      なし
+    </button>
+    <CharacterIconPicker
+      :character-key="bubble.persistentCharacter"
+      :is-icon-key="false"
+      @select="(p) => update('persistentCharacter', p.characterKey)"
     />
   </SettingItem>
 
@@ -90,7 +97,7 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
-  import CharacterPicker from '@/editor/parts/CharacterPicker.vue'
+  import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
 
