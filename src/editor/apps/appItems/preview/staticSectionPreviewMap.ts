@@ -20,7 +20,7 @@ export const staticSectionPreviewMap: Record<string, Component> = {
   scenario: ScenarioPreview, // mikuji / scenarios カテゴリ用 // TODO: scenario -> scenarios
 
   // comments
-  threshold: ThresholdPreview, // mode デフォルト: 'threshold'
+  threshold: ThresholdPreview, // mode デフォルト: 'threshold' // TODO: threshold -> trigger だが、使われていない…？
 
   // timers
   timerInterval: TimerIntervalPreview,
