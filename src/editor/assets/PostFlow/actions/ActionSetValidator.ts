@@ -6,7 +6,7 @@ import { ScenarioStepType } from '@/types/OmikujiData'
  */
 export function checkCircularReference(
   targetKey: string,
-  actionSets: Record<string, { postFlows: ScenarioStepType[] }>,
+  actionSets: Record<string, { steps: ScenarioStepType[] }>,
   currentKey?: string,
   visited: Set<string> = new Set()
 ): string[] | null {
@@ -21,11 +21,11 @@ export function checkCircularReference(
   if (visited.has(targetKey)) return [targetKey]
 
   const actionSet = actionSets[targetKey]
-  if (!actionSet?.postFlows) return null
+  if (!actionSet?.steps) return null
 
   visited.add(targetKey)
 
-  for (const action of actionSet.postFlows) {
+  for (const action of actionSet.steps) {
     if (action.kind !== 'scenarioCall') continue
 
     const keys = action.callKeys ?? []

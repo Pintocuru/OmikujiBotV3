@@ -18,7 +18,7 @@ const presetMap: Partial<Record<DataCategoryType, readonly PresetDefinition<any>
   services: servicePresets,
   reactions: reactionPresets,
   mikuji: mikujiPresets,
-  actions: actionPresets,
+  scenarios: actionPresets,
   placeholders: placeholderPresets,
   characters: characterPresets,
 }

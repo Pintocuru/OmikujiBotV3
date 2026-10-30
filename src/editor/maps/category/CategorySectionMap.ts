@@ -39,7 +39,7 @@ export const categorySectionMap: Record<DataCategoryType, SidebarSectionItem[]> 
     { section: 'omikujiSet', icon: 'ListChecks', component: 'actionSet' },
   ],
 
-  actions: [
+  scenarios: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
     { section: 'omikujiSet', icon: 'ListChecks', component: 'actionSet' },
   ],

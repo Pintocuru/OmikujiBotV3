@@ -39,7 +39,7 @@ export const categoryMap: Record<CategoryType, DisplayMetaLucide> = {
     description: 'おみくじの内容を作成します',
     icon: 'Package',
   },
-  actions: {
+  scenarios: {
     label: 'シナリオ',
     description: 'BOTのコメント・WordPartyの指定のプリセットを作成します',
     icon: 'Zap',

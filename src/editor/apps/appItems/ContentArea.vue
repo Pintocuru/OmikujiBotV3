@@ -74,7 +74,7 @@
 
     // assets
     mikuji: MikujiEditor,
-    actions: ActionsEditor,
+    scenarios: ActionsEditor,
     placeholders: PlaceholderEditor,
     characters: CharacterEditor,
 

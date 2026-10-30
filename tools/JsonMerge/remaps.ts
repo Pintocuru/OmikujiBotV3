@@ -65,10 +65,10 @@ export function applyRemaps(data: OmikujiDataType, remaps: JsonMergeRemapType[])
 
   const clonedData: OmikujiDataType = JSON.parse(JSON.stringify(data))
 
-  // mikuji: postFlows を持つアイテム(kind 省略時も postFlow 扱い)のみ
+  // mikuji: kind が 'steps' のアイテムのみ
   for (const box of Object.values(clonedData.assets.mikuji)) {
     for (const item of box.omikuji) {
-      if ('postFlows' in item) {
+      if (item.kind === 'steps') {
         item.steps = remapPostFlows(item.steps, remaps)
       }
     }
