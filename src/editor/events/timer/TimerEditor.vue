@@ -30,19 +30,12 @@
         <TimerIntervalEditor v-model="selectedItem" />
       </SectionCard>
 
-      <!-- みくじ箱選択セクション -->
-      <BoxChoiceEditor v-model="selectedItem" />
-
-      <!-- おみくじ設定セクション -->
-      <SectionCard
-        v-if="hasMikujiBox"
-        id="section-omikujiSet"
-        :icon="s('omikujiSet')?.icon"
-        :label="s('omikujiSet')?.label"
-        :description="s('omikujiSet')?.description"
-      >
-        <MikujiSettings :omikujiKey="selectedItem.omikujiKey" />
-      </SectionCard>
+      <!-- おみくじ設定 / シナリオ設定セット -->
+      <OmikujiSections :omikujiKey="selectedItem.omikujiKey" category="timers">
+        <template #choice>
+          <BoxChoiceEditor v-model="selectedItem" />
+        </template>
+      </OmikujiSections>
     </template>
 
     <!-- 無効のときのメッセージ -->
@@ -64,7 +57,7 @@
 
   import GlobalCharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
   import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
-  import MikujiSettings from '@/editor/assets/mikuji/MikujiSettings.vue'
+  import OmikujiSections from '@/editor/events/core/OmikujiSections.vue'
   import BoxChoiceEditor from '@/editor/events/core/BoxChoiceEditor.vue'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
@@ -72,7 +65,6 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
-  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
   const { t } = useI18n()
 
@@ -93,7 +85,6 @@
   // Pinia store
   const { updateEvent } = useOmikujiStore()
   const { getEvent } = useGetEventData()
-  const { hasAsset } = useGetAssetData()
 
   const selectedItem = computed({
     get: () => {
@@ -105,11 +96,5 @@
       if (!selectedItemKey.value || !value) return
       updateEvent('timers', selectedItemKey.value, value)
     },
-  })
-
-  // 該当する assets.mikuji[omikujiKey] がある場合のみ true
-  const hasMikujiBox = computed(() => {
-    const key = selectedItem.value?.omikujiKey
-    return !!key && hasAsset('mikuji', key)
   })
 </script>

@@ -16,15 +16,8 @@
       <BaseSettingsEditor v-model="selectedItem" category="mikuji" :isIsEnabled="false" />
     </SectionCard>
 
-    <!-- おみくじ設定セクション -->
-    <SectionCard
-      id="section-omikujiSet"
-      :icon="s('omikujiSet')?.icon"
-      :label="s('omikujiSet')?.label"
-      :description="s('omikujiSet')?.description"
-    >
-      <MikujiSettings :omikujiKey="selectedItem.key" />
-    </SectionCard>
+    <!-- おみくじ設定 / シナリオ設定セット -->
+    <OmikujiSections :omikujiKey="selectedItem.key" category="mikuji" />
   </template>
 </template>
 
@@ -34,7 +27,7 @@
   import { useI18n } from 'vue-i18n'
   import { MikujiBoxType } from '@/types/OmikujiData'
 
-  import MikujiSettings from './MikujiSettings.vue'
+  import OmikujiSections from '@/editor/events/core/OmikujiSections.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'

@@ -44,33 +44,19 @@
     </div>
   </SettingItem>
 
-  <!-- steps 編集 -->
-  <ScenarioStepsEditor
-    v-if="omikujiItem.kind === 'steps'"
-    :modelValue="omikujiItem.steps"
-    @update:modelValue="updateSteps"
-  />
-
-  <!-- control 固有の設定 (おみくじカウント・評価ブロック) -->
-  <OmikujiItemControlSettings v-else-if="isControlItem(omikujiItem)" :item="omikujiItem" @update="updateItem" />
+  <!-- Control の種類 -->
+  <OmikujiItemControlSettings v-if="isControlItem(omikujiItem)" :item="omikujiItem" @update="updateItem" />
 </template>
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import {
-    OmikujiControlCommand,
-    OmikujiItemKind,
-    OmikujiItemSchema,
-    OmikujiItemType,
-    ScenarioStepType,
-  } from '@/types/OmikujiData/'
+  import { OmikujiControlCommand, OmikujiItemKind, OmikujiItemSchema, OmikujiItemType } from '@/types/OmikujiData/'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import OmikujiItemHeader from './OmikujiItemHeader.vue'
   import OmikujiItemControlSettings from './OmikujiItemControlSettings.vue'
 
-  import ScenarioStepsEditor from '@/editor/assets/ScenarioStep/ScenarioStepsEditor.vue'
   import { omikujiItemKindMap, omikujiControlCommandMap } from '@/maps/OmikujiData'
 
   const { t } = useI18n()
@@ -122,12 +108,6 @@
   const updateCommand = (command: OmikujiControlCommand) => {
     if (!isControlItem(props.omikujiItem)) return
     updateItemProperties({ command })
-  }
-
-  // steps更新
-  const updateSteps = (steps: ScenarioStepType[]) => {
-    if (props.omikujiItem.kind !== 'steps') return
-    updateItemProperties({ steps })
   }
 
   const shouldShowKindSelector = computed(() => {

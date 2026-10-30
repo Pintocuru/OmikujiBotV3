@@ -22,35 +22,12 @@
         <CommentTriggerEditor v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
       </SectionCard>
 
-      <!-- おみくじ設定セクション -->
-      <SectionCard
-        id="section-omikujiSet"
-        :icon="s('omikujiSet')?.icon"
-        :label="s('omikujiSet')?.label"
-        :description="s('omikujiSet')?.description"
-      >
-        <div class="space-y-4">
+      <!-- おみくじ設定 / シナリオ設定セット -->
+      <OmikujiSections :omikujiKey="selectedItem.omikujiKey" category="comments">
+        <template #choice>
           <BoxChoiceEditor v-model="selectedItem" />
-
-          <MikujiSettings
-            v-if="hasMikujiBox && selectedItem.omikujiKey"
-            :omikujiKey="selectedItem.omikujiKey"
-          />
-          <!-- 存在しないみくじ箱を参照しているとき -->
-          <NoParamsCard
-            v-else-if="!hasMikujiBox && selectedItem.omikujiKey"
-            iconName="Package"
-            :message="t('eventCore.boxChoiceEditor.omikujiKey.none')"
-            :sub="t('commentEditor.omikujiKeyMissing')"
-          />
-          <!-- 未選択のとき -->
-          <NoParamsCard
-            v-else
-            :message="t('eventCore.boxChoiceEditor.omikujiKey.none')"
-            :sub="t('commentEditor.omikujiKeyUnselected')"
-          />
-        </div>
-      </SectionCard>
+        </template>
+      </OmikujiSections>
     </template>
 
     <!-- 無効のときのメッセージ -->
@@ -68,18 +45,16 @@
   import { CommentEventType } from '@/types/OmikujiData/'
 
   import CommentTriggerEditor from './CommentTriggerEditor.vue'
+  import OmikujiSections from '@/editor/events/core/OmikujiSections.vue'
   import BoxChoiceEditor from '@/editor/events/core/BoxChoiceEditor.vue'
 
   import BaseEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
-  import MikujiSettings from '@/editor/assets/mikuji/MikujiSettings.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import InformationCard from '@/editor/parts/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'
-  import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { categorySectionMap } from '@/editor/maps/category/CategorySectionMap'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
-  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
   const { t } = useI18n()
 
@@ -100,7 +75,6 @@
   // Pinia store
   const { updateEvent } = useOmikujiStore()
   const { getEvent } = useGetEventData()
-  const { hasAsset } = useGetAssetData()
 
   const selectedItem = computed({
     get: () => {
@@ -112,11 +86,5 @@
       if (!selectedItemKey.value || !value) return
       updateEvent('comments', selectedItemKey.value, value)
     },
-  })
-
-  // 該当する assets.mikuji[omikujiKey] がある場合のみ true
-  const hasMikujiBox = computed(() => {
-    const key = selectedItem.value?.omikujiKey
-    return !!key && hasAsset('mikuji', key)
   })
 </script>
