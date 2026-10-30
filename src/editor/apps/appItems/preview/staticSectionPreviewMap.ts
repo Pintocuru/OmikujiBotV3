@@ -1,4 +1,5 @@
 // src/editor/apps/appItems/preview/staticSectionPreviewMap.ts
+// TODO:プレビュー機能は不要かも…使いづらかったので
 import type { Component } from 'vue'
 
 import BaseSettings from './BaseSettings.vue'
