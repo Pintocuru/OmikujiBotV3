@@ -17,6 +17,7 @@
     description="トリガーの種類を選択"
     :variant="activeConditions.size === 0 ? 'warning' : undefined"
   >
+    <!-- TODO: ここに IconRadioGroup.vue を適用 -->
     <div class="flex flex-wrap gap-2">
       <label v-for="condition in criteriaThresholdCondition" :key="condition" class="cursor-pointer">
         <input

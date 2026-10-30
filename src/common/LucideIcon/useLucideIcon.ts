@@ -75,6 +75,9 @@ import {
   Fingerprint,
   Trash2,
   Download,
+  Shield,
+  Tv,
+  IdCard,
 } from 'lucide-vue-next'
 
 // map（as const で literal 型を保持）
@@ -151,6 +154,9 @@ export const lucideIconMap = {
   Fingerprint,
   Trash2,
   Download,
+  Shield,
+  Tv,
+  IdCard,
 } as const
 
 // map から union 型を生成

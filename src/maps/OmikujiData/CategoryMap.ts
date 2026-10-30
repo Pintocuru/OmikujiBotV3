@@ -1,6 +1,8 @@
 // src/maps/OmikujiData/CategoryMap.ts
 import { CategoryType } from '@/types/OmikujiData'
 import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
+import { DisplayMeta } from '@/types/core'
+import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
 // Map定義 (Lucide Icon名を含む)
 export const categoryMap: Record<CategoryType, DisplayMetaLucide> = {
@@ -69,4 +71,75 @@ export const categoryMap: Record<CategoryType, DisplayMetaLucide> = {
     description: 'ライセンスや使用できる機能を確認できます',
     icon: 'Info',
   },
+}
+
+export const categoryMetaMap: Record<CategoryType, DisplayMeta> = {
+  jsonMerge: {
+    label: 'JSONマージ(Dev)',
+    description: 'ビルド時、jsonファイルをマージして出力します',
+  },
+  comments: {
+    label: 'コメントイベント',
+    description: 'チャット内容やユーザー情報を基におみくじを発動します',
+  },
+  timers: {
+    label: 'タイマーイベント',
+    description: '指定した時間経過で、自動的におみくじを発動します',
+  },
+  services: {
+    label: '配信数値イベント',
+    description: '配信の視聴数・高評価の変動でおみくじを発動します',
+  },
+  reactions: {
+    label: 'リアクションイベント(Youtube)',
+    description: '視聴者のリアクション（❤ 😄 🎉 😳 💯）でおみくじを発動します',
+  },
+  pads: {
+    label: 'ポン出しイベント',
+    description: 'LiveConsole のポン出しボタンが押されたとき、おみくじを発動します',
+  },
+  mikuji: {
+    label: 'みくじ箱',
+    description: 'おみくじの内容を作成します',
+  },
+  scenarios: {
+    label: 'シナリオ',
+    description: 'BOTのコメント・WordPartyの指定のプリセットを作成します',
+  },
+  placeholders: {
+    label: 'プレースホルダー',
+    description: 'コメントやタイマーで利用できる、高性能なプレースホルダーを設定します',
+  },
+  characters: {
+    label: 'キャラクター',
+    description: 'BOTメッセージのキャラクターや吹き出し・トーストの色を設定します',
+  },
+  ui: {
+    label: 'アイテム',
+    description: 'ジェネレーターで表示できる、アイテムの設定を行います',
+  },
+  dataPacks: {
+    label: 'データパック',
+    description: '配布されているデータパックを読み込みます',
+  },
+  appInfo: {
+    label: 'アプリ情報',
+    description: 'ライセンスや使用できる機能を確認できます',
+  },
+}
+
+export const categoryIcons: Record<CategoryType, LucideIconName> = {
+  jsonMerge: 'Layers',
+  comments: 'MessageSquare',
+  timers: 'Timer',
+  services: 'ThumbsUp',
+  reactions: 'Smile',
+  pads: 'LayoutGrid',
+  mikuji: 'Package',
+  scenarios: 'Zap',
+  placeholders: 'Brackets',
+  characters: 'Users',
+  ui: 'LayoutGrid',
+  dataPacks: 'Download',
+  appInfo: 'Info',
 }

@@ -13,10 +13,10 @@
       <div class="flex items-center justify-center w-8 h-8">
         <component :is="resolveLucideIcon('Ban')" class="w-5 h-5" />
       </div>
-      <span class="text-xs truncate max-w-20">{{ emptyLabel }}</span>
+      <span class="text-xs truncate max-w-20">{{ emptyLabel ?? t('common.none') }}</span>
     </button>
 
-    <div v-for="key in keys" :key="key" class="tooltip" :data-tip="map[key].description">
+    <div v-for="key in keys" :key="key" class="tooltip" :data-tip="t(`${i18nPrefix}.${key}.description`)">
       <button
         type="button"
         role="radio"
@@ -26,30 +26,31 @@
         @click="modelValue = key"
       >
         <div class="flex items-center justify-center w-8 h-8">
-          <component :is="resolveLucideIcon(map[key].icon)" class="w-5 h-5" />
+          <component :is="resolveLucideIcon(icons[key])" class="w-5 h-5" />
         </div>
-        <span class="text-xs truncate max-w-20">
-          {{ map[key].label }}
-        </span>
+        <span class="text-xs truncate max-w-20">{{ t(`${i18nPrefix}.${key}.label`) }}</span>
       </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts" generic="K extends string">
-  import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
-  import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
+  import { useI18n } from 'vue-i18n'
+  import { resolveLucideIcon, type LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
   withDefaults(
     defineProps<{
-      map: Record<K, DisplayMetaLucide>
+      i18nPrefix: string /** i18n キー接頭辞。`<prefix>.<key>.label` / `.description` を参照する */
+      icons: Record<K, LucideIconName> /** 言語非依存のアイコン定義 */
       keys: readonly K[]
       ariaLabel?: string
       allowEmpty?: boolean
-      emptyLabel?: string
+      emptyLabel?: string /** 省略時は t('common.none') */
     }>(),
-    { allowEmpty: false, emptyLabel: 'なし' }
+    { allowEmpty: false }
   )
+
+  const { t } = useI18n()
 
   const modelValue = defineModel<K | ''>({ required: true })
 </script>
