@@ -23,7 +23,7 @@ const mapIfChanged = <T>(items: readonly T[], fn: (item: T) => T): T[] | null =>
 const replaceAll = (text: string, from: string, to: string): string => text.split(from).join(to)
 
 /**
- * mikuji（みくじ箱）内の postFlow アイテムの steps 更新
+ * mikuji（みくじ箱）内の kind が 'steps' のアイテムの steps 更新
  */
 function updateMikujiSteps(updateFn: StepUpdater): void {
   const { updateAsset } = useOmikujiStore()
@@ -40,7 +40,7 @@ function updateMikujiSteps(updateFn: StepUpdater): void {
 }
 
 /**
- * actions（ActionSet）の steps 更新
+ * scenarios（Scenario）の steps 更新
  */
 function updateScenarioAssetSteps(updateFn: StepUpdater): void {
   const { updateAsset } = useOmikujiStore()

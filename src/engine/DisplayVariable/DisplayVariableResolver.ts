@@ -6,7 +6,7 @@ export class DisplayVariableResolver {
   constructor(private readonly context: PlaceholderVariableType) {}
 
   /**
-   * PostAction配列のプレースホルダーを置換して返す
+   * ステップ配列のプレースホルダーを置換して返す
    */
   processSteps(steps: ScenarioStepType[]): ScenarioStepType[] {
     return steps.map((action) => {

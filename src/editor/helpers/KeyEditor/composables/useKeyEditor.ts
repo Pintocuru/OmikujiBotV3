@@ -36,7 +36,7 @@ export function useKeyEditor() {
 
   /**
    * キャラクター使用箇所の取得
-   * event → omikujiKey → mikuji → postFlow の message を辿る
+   * event → omikujiKey → mikuji → steps の message を辿る
    */
   function getCharacterUsage(characterKey: string): CharacterUsage {
     const usage: CharacterUsage = { comments: [], timers: [], services: [], reactions: [], pads: [] }

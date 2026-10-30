@@ -4,12 +4,12 @@ import { OmikenCommentType } from '@/types/OmikenComment'
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
 
 /**
- * postFlow 以外の kind (control: return / continue) を処理するクラス
+ * 'steps' 以外の kind (control: return / continue) を処理するクラス
  * @param omiken variable 内の <<user>> 等のプレースホルダー解決に使用
  */
 export class OmikujiControlProcessor {
   /**
-   * @returns postFlow なら null / return なら true / continue なら false
+   * @returns 'steps' なら null / return なら true / continue なら false
    */
   process(item: OmikujiItemType, omiken?: OmikenCommentType): boolean | null {
     switch (item.kind) {

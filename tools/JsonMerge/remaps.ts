@@ -46,7 +46,7 @@ function remapGameScript(flow: ScenarioStepGameType, remaps: JsonMergeRemapType[
 }
 
 /**
- * PostFlow の配列に対してリマップルールを適用
+ * ステップの配列に対してリマップルールを適用
  */
 function remapSteps(steps: ScenarioStepType[], remaps: JsonMergeRemapType[]): ScenarioStepType[] {
   return steps.map((flow) => {
@@ -58,7 +58,7 @@ function remapSteps(steps: ScenarioStepType[], remaps: JsonMergeRemapType[]): Sc
 
 /**
  * OmikujiData全体に対してリマップを適用
- * 対象: assets.mikuji(各アイテムの steps) と assets.actions
+ * 対象: assets.mikuji(各アイテムの steps) と assets.scenarios
  */
 export function applyRemaps(data: OmikujiDataType, remaps: JsonMergeRemapType[]): OmikujiDataType {
   if (!remaps?.length) return data

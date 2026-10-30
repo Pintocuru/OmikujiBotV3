@@ -8,8 +8,8 @@ type Loader = () => Promise<{ default: Component }>
 
 /**
  * 登録の単位。Loader だけを渡した場合は editor のみ(従来どおり)
- * - slotsEditor: PostFlow の message で、その UI 固有の slots 編集画面(無い UI は汎用の text 入力)
- * - preview: PostFlow の message で、その UI 固有のプレビュー(無い UI は CommentBubblePreview)
+ * - slotsEditor: ScenarioStep の message で、その UI 固有の slots 編集画面(無い UI は汎用の text 入力)
+ * - preview: ScenarioStep の message で、その UI 固有のプレビュー(無い UI は CommentBubblePreview)
  * 登録した UI の分だけ import が残るので、パッケージ単体のエントリでは必要な UI だけ渡す
  */
 export type UiEditorDef = {

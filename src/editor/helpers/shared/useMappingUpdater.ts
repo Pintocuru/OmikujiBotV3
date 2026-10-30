@@ -6,7 +6,7 @@ import { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDat
 import { useScenarioStepCharacters } from '@/editor/helpers/CharacterChanger/composables/useScenarioStepCharacters'
 
 /**
- * マッピングを postFlow に適用する関数
+ * マッピングをステップに適用する関数
  * (useScenarioStepCharacters の applyCharacterMappings / applyIconKeyMappings を渡す)
  */
 type ApplyMappings = (flows: ScenarioStepType[], mappings: Record<string, string>) => ScenarioStepType[]
@@ -30,7 +30,7 @@ export function useMappingUpdater(allTargets: ComputedRef<FlowTarget[]>, applyMa
         return
       }
 
-      // みくじ箱：postFlow 種別のアイテムのみ更新（weight・lottery などはそのまま保持）
+      // みくじ箱：kind が 'steps' のアイテムのみ更新（weight・lottery などはそのまま保持）
       omikujiStore.updateAsset('mikuji', target.item.key, {
         omikuji: target.item.omikuji.map((omikuji) =>
           omikuji.kind === 'steps' && isTargetItem(target, omikuji.id)

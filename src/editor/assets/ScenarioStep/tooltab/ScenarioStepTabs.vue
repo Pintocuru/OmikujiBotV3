@@ -2,7 +2,7 @@
 <template>
   <!-- タブヘッダー -->
   <div class="tabs tabs-box" role="tablist">
-    <!-- PostActionタブ（内側にメニューの button を持つため、button ではなく div role="tab" にする） -->
+    <!-- ステップタブ（内側にメニューの button を持つため、button ではなく div role="tab" にする） -->
     <div
       v-for="(action, index) in props.modelValue"
       :key="`action-${index}`"

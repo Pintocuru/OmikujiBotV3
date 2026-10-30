@@ -4,7 +4,7 @@ import { FlowTarget } from './useDataExtractor'
 import { useCharacterLookup } from './useCharacterLookup'
 
 /**
- * PostFlow内のキャラクター情報を扱うユーティリティ
+ * ステップ内のキャラクター情報を扱うユーティリティ
  */
 export function useScenarioStepCharacters() {
   const { getCharacter } = useCharacterLookup()
@@ -26,7 +26,7 @@ export function useScenarioStepCharacters() {
   }
 
   /**
-   * PostFlow が参照しているキャラクターキー（message / gameScript）
+   * ステップが参照しているキャラクターキー（message / gameScript）
    */
   const getFlowCharacterKey = (flow: ScenarioStepType): string | null => {
     if (flow.kind === 'message' || flow.kind === 'gameScript') return flow.characterKey?.trim() || null
@@ -58,7 +58,7 @@ export function useScenarioStepCharacters() {
   }
 
   /**
-   * キャラクターマッピングに基づいて PostFlow 配列を更新
+   * キャラクターマッピングに基づいて ステップ配列を更新
    */
   const applyCharacterMappings = (flows: ScenarioStepType[], mappings: Record<string, string>): ScenarioStepType[] => {
     return flows.map((flow) => {

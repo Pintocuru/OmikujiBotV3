@@ -2,7 +2,7 @@
 import { ScenarioStepType, ScenarioStepMessageSchema } from '@/types/OmikujiData'
 
 /**
- * PostActionの構築ロジック
+ * ステップの構築ロジック
  */
 
 interface StepBuildParams {
@@ -12,7 +12,7 @@ interface StepBuildParams {
 }
 
 /**
- * ゲーム結果に基づいてPostActionを構築
+ * ゲーム結果に基づいてステップを構築
  */
 export function buildSteps(params: StepBuildParams): ScenarioStepType[] {
   const { bubble, score, characterKey } = params

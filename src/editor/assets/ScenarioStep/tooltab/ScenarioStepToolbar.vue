@@ -77,7 +77,7 @@
 
   const { postTestOmikujiItem } = useTestPost()
 
-  // PostFlowType[] 用クリップボード
+  // ScenarioStepType[] 用クリップボード
   const clipboard = useJsonClipboard<ScenarioStepType[]>({
     parse: (raw) => {
       const result = ScenarioStepArraySchema.safeParse(raw)

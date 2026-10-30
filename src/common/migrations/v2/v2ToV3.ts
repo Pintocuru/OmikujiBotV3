@@ -38,13 +38,13 @@ function baseRecord(old: Obj): Obj {
 }
 
 // ---------------------------------------------------------------------------
-// PostFlow
+// ScenarioStep
 // ---------------------------------------------------------------------------
 
 /** v2 の message は { bubble, isToast } -> v3 は文字列（トースト/フキダシの分離は廃止） */
 const messageText = (m: unknown): string => (typeof m === 'string' ? m : str(obj(m).bubble))
 
-function migratePostFlow(old: unknown): Obj | null {
+function migrateStep(old: unknown): Obj | null {
   const f = obj(old)
   const kind = f.actionType ?? f.kind ?? 'message'
   const base = { delaySeconds: f.delaySeconds }
@@ -73,11 +73,11 @@ function migratePostFlow(old: unknown): Obj | null {
       // actionSet -> scenarioCall / actionSetKeys -> callKeys
       return { ...base, kind: 'scenarioCall', callKeys: f.actionSetKeys ?? f.callKeys }
     default:
-      return null // 未知の種別は捨てる（残すと postFlows 全体が catch される）
+      return null // 未知の種別は捨てる（残すと steps 全体が catch される）
   }
 }
 
-/** v2 の gameScripts（ActionSet の1形態）-> v3 の gameScript PostFlow */
+/** v2 の gameScripts（v2 の actionSets の1形態）-> v3 の gameScript ステップ */
 function migrateGameScript(gs: unknown): Obj[] {
   const g = obj(gs)
   if (!g.scriptId) return []
@@ -92,15 +92,15 @@ function migrateGameScript(gs: unknown): Obj[] {
   ]
 }
 
-function migratePostFlows(old: Obj): Obj[] {
+function migrateSteps(old: Obj): Obj[] {
   switch (old.type ?? 'postActions') {
     case 'gameScripts':
       return migrateGameScript(old.gameScripts)
     case 'special':
-      return [] // 特殊動作は ActionSet では表現しない（おみくじアイテム側の control/log）
+      return [] // 特殊動作はシナリオでは表現しない（おみくじアイテム側の control/log）
     default:
       return arr(old.postActions)
-        .map(migratePostFlow)
+        .map(migrateStep)
         .filter((x): x is Obj => x !== null)
   }
 }
@@ -154,8 +154,8 @@ function migrateOmikujiItem(oldItem: unknown): Obj {
 
   return {
     ...base,
-    kind: 'postFlow',
-    postFlows: migratePostFlows(old),
+    kind: 'steps',
+    steps: migrateSteps(old),
     cooldownSeconds: typeof old.actionCooldownSeconds === 'number' ? old.actionCooldownSeconds : undefined,
   }
 }
@@ -303,7 +303,7 @@ function migrateUi(components: unknown): Obj {
 }
 
 // v2 の initialCategory -> v3 のカテゴリ名
-const CATEGORY_RENAME: Record<string, string> = { metas: 'services', actionSets: 'actions', components: 'ui' }
+const CATEGORY_RENAME: Record<string, string> = { metas: 'services', actionSets: 'scenarios', components: 'ui' }
 
 function migrateSettings(settings: unknown): Obj {
   const s = obj(settings)
@@ -337,10 +337,10 @@ export function migrateV2ToV3(data: unknown): Obj {
     events,
     assets: {
       mikuji,
-      actions: migrateRecord(old.actionSets, (key, a) => ({
+      scenarios: migrateRecord(old.actionSets, (key, a) => ({
         ...baseRecord(a),
         key,
-        postFlows: migratePostFlows(a),
+        steps: migrateSteps(a),
       })),
       placeholders: migrateRecord(old.placeholders, (key, p) => ({ ...baseRecord(p), key, values: p.values })),
       characters: migrateRecord(old.characters, migrateCharacter),

@@ -12,7 +12,7 @@ export interface RankingMessageParams {
 }
 
 /**
- * PostActionType型のメッセージを作成
+ * ScenarioStepType型のメッセージを作成
  */
 export const createSteps = (
   params: RankingMessageParams,

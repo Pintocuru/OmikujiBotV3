@@ -22,7 +22,7 @@ export class ScenarioCallExpander {
     const expandedActions: ScenarioStepType[] = []
 
     for (const action of flow) {
-      // flowCallなら呼び出して展開
+      // scenarioCallなら呼び出して展開
       if (action.kind === 'scenarioCall') {
         const expandedAction = this.expandSingleScenarioCall(action, scenarios, depth, visited)
         expandedActions.push(...expandedAction)

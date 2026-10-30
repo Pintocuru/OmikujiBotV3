@@ -9,7 +9,7 @@ import { useScenarioStepCharacters } from '@/editor/helpers/CharacterChanger/com
 export function useIconKeyStats(allTargets: ComputedRef<FlowTarget[]>) {
   const { getFlowGroups, extractInvalidIconKeyPairs, countIconKeyUsage } = useScenarioStepCharacters()
 
-  // 全 PostFlow 配列
+  // 全ステップ配列
   const flowGroups = computed(() => allTargets.value.flatMap(getFlowGroups))
 
   /**

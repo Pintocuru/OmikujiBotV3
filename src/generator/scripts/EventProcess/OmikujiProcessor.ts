@@ -88,7 +88,7 @@ export class OmikujiProcessor {
   }
 
   /**
-   * 抽選済みの postFlow アイテムを実行する (コメントイベント用)
+   * 抽選済みの kind が 'steps' のアイテムを実行する (コメントイベント用)
    */
   async executeActionItem(
     eventKey: string,

@@ -5,7 +5,7 @@ import type { z } from 'zod'
 
 type StepsInput = z.input<typeof ScenarioStepArraySchema>
 
-/** postFlow を1件実行するだけのみくじ箱を作る(events の omikujiKey 用に key を返す) */
+/** ステップを1件実行するだけのみくじ箱を作る(events の omikujiKey 用に key を返す) */
 export const buildSimpleMikuji = (name: string, steps: StepsInput) => {
   const key = generateId()
   const mikuji = {

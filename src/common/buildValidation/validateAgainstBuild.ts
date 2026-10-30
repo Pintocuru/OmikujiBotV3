@@ -27,7 +27,7 @@ const formatUnsupportedKeys = (items: UnsupportedKey[]): string =>
 export const formatBuildMismatchMessage = (items: UnsupportedKey[]): string =>
   `このデータは、このビルドで未対応の機能(${formatUnsupportedKeys(items)})を含んでいます。対応するビルドで開いてください`
 
-/** データ内の postFlow(kind: 'gameScript')から scriptId を集める。assets 配下のどこにあっても拾える */
+/** データ内の step(kind: 'gameScript')から scriptId を集める。assets 配下のどこにあっても拾える */
 const collectGameScriptIds = (node: unknown, found: Set<string>): void => {
   if (Array.isArray(node)) {
     node.forEach((child) => collectGameScriptIds(child, found))

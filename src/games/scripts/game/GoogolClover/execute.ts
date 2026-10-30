@@ -22,7 +22,7 @@ export class ExecuteScript implements ScriptClass {
     // ゲームの実行
     const gameResult = executeGame(this.userStates, user)
 
-    // PostActionの構築
+    // ステップの構築
     const steps = buildSteps({
       bubble: gameResult.bubble,
       score: gameResult.rankingMessage.slots.score,

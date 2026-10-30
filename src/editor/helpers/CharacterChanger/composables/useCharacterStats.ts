@@ -11,7 +11,7 @@ export function useCharacterStats(allTargets: ComputedRef<FlowTarget[]>) {
   const { characterArray } = useCharacterLookup()
   const { getFlowGroups, extractCharacterKeys, countCharacterUsage } = useScenarioStepCharacters()
 
-  // 全 PostFlow 配列
+  // 全ステップ配列
   const flowGroups = computed(() => allTargets.value.flatMap(getFlowGroups))
 
   /**

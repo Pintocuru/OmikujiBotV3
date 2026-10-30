@@ -12,7 +12,7 @@ import { CharacterResolver } from '../CharacterResolver/CharacterResolver'
 import { OmikenCommentType, UserNameSchema } from '@/types/OmikenComment'
 
 /**
- * PostFlowMessage から BotMessage を生成
+ * ScenarioStepMessage から BotMessage を生成
  * - uiKey ごとの仕様 (bubble を使うか・slots) は UiMessageSpecs で決まる
  * - slots は、editor のフォームの値を、評価ブロックの slotN が上書きする
  */

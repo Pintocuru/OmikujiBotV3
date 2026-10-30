@@ -44,7 +44,7 @@
     </div>
   </SettingItem>
 
-  <!-- postFlow 編集 -->
+  <!-- steps 編集 -->
   <ScenarioStepsEditor
     v-if="omikujiItem.kind === 'steps'"
     :modelValue="omikujiItem.steps"

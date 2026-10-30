@@ -8,7 +8,7 @@ import { checkCircularReference } from './ScenarioValidator'
 
 /**
  * 重み付き値を管理するコンポーザブル
- * ActionSetとPlaceholder両方で使用可能
+ * scenarioCall と Placeholder 両方で使用可能
  */
 export function useWeightValueManagement(values: () => WeightValuesArrayType, currentKey?: () => string | undefined) {
   const omikujiStore = useOmikujiStore()
@@ -20,7 +20,7 @@ export function useWeightValueManagement(values: () => WeightValuesArrayType, cu
   // weight 計算
   const { getWeightPercentage } = useWeightCalculation(displayValues)
 
-  // シナリオ一覧（ActionSet用）
+  // シナリオ一覧（scenarioCall用）
   const availableScenarios = computed(() => {
     if (!data.value?.assets.scenarios) return []
 
@@ -96,7 +96,7 @@ export function useWeightValueManagement(values: () => WeightValuesArrayType, cu
     emitUpdate(updated)
   }
 
-  // 循環参照チェック（ActionSet用）
+  // 循環参照チェック（scenarioCall用）
   const isCircular = (key: string) => {
     if (!key || !data.value?.assets.scenarios) return false
     const current = currentKey?.()

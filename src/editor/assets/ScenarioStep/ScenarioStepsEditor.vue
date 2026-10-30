@@ -4,7 +4,7 @@
     <!-- ツールバー -->
     <ScenarioStepToolbar :modelValue="modelValue" @update:modelValue="updateSteps" @reorder="followReorder" />
 
-    <!-- PostActionsタブエディター -->
+    <!-- ステップタブエディター -->
     <ScenarioStepTabs
       :modelValue="modelValue"
       :activeTab="activeTab"
@@ -15,7 +15,7 @@
     />
 
     <!-- タブコンテンツ -->
-    <!-- PostActionタブの内容 -->
+    <!-- ステップタブの内容 -->
     <template v-if="currentAction">
       <ScenarioStepItem :action="currentAction" :current-key="currentKey" @update:action="updateCurrentAction" />
     </template>

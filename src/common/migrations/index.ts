@@ -8,6 +8,13 @@ import { migrateV2ToV3 } from './v2/v2ToV3'
 /** これ未満の dataVersion は旧形式（v2 以前）。v3 の形式へ変換が必要 */
 const LEGACY_DATA_VERSION_LIMIT = 3
 
+/**
+ * Scenario / ScenarioStep への改名(assets.actions -> scenarios, postFlows -> steps など)を含む dataVersion。
+ * v3 以上でこれ未満のデータは旧名称のまま。読み込むと steps が空になるため、読み込みを止める。
+ * package.json の data_version と同じか、それ以下にする。
+ */
+const SCENARIO_RENAME_DATA_VERSION = 3.0000001003
+
 /** データの dataVersion を数値で取得する。存在しない場合は v1 と見なす */
 function getDataVersion(data: unknown): number {
   const v = (data as any)?.meta?.dataVersion
@@ -44,6 +51,13 @@ export function normalizeData(data: unknown): OmikujiDataType {
   const incomingVersion = getDataVersion(data)
   if (incomingVersion > DATA_VERSION) {
     const msg = `このデータは v${incomingVersion} 形式です。\nこのアプリ（v${DATA_VERSION}）では読み込めません。`
+    swalToast.error({ title: '読み込みエラー', text: msg })
+    throw new Error(msg)
+  }
+
+  // Scenario / ScenarioStep 改名前の v3 データ(旧名称のままでは steps が空になる)
+  if (incomingVersion >= LEGACY_DATA_VERSION_LIMIT && incomingVersion < SCENARIO_RENAME_DATA_VERSION) {
+    const msg = `このデータは旧名称の v${incomingVersion} 形式です。\n読み込むには、assets.actions → scenarios などへの名称変換が必要です。`
     swalToast.error({ title: '読み込みエラー', text: msg })
     throw new Error(msg)
   }

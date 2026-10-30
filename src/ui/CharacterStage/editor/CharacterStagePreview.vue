@@ -49,8 +49,8 @@
   import { resolveStageSlots } from '../resolveStageSlots'
   import type { StageItem } from '../types'
 
-  // settings を渡さなければ、保存済みの UI 設定を使う(PostFlow のプレビュー用)
-  // slots / characterKey / iconKey は PostFlow の message から渡る。本番と同じく slots が UI 設定より優先される
+  // settings を渡さなければ、保存済みの UI 設定を使う(ScenarioStep のプレビュー用)
+  // slots / characterKey / iconKey は ScenarioStep の message から渡る。本番と同じく slots が UI 設定より優先される
   const props = defineProps<{
     settings?: CharacterStageType
     slots?: BotMessageSlotsType
