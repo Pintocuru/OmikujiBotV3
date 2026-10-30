@@ -65,8 +65,8 @@
             "createdAt": "2025-09-13T09:35:21.625Z",
             "updatedAt": "2025-09-13T09:35:21.625Z",
             "lottery": { "isPriority": false, "weight": 1, "criteria": null },
-            "kind": "postFlow",
-            "postFlows": [
+            "kind": "steps",
+            "steps": [
               {
                 "delaySeconds": 0,
                 "kind": "message",
@@ -95,7 +95,7 @@
         ]
       }
     },
-    "actions": {
+    "scenarios": {
       "BigBangIntro": {
         "id": "1768283592738-fbfv3r",
         "key": "BigBangIntro",
@@ -107,7 +107,7 @@
         "isEnabled": true,
         "tagColor": "primary",
         "tags": ["超おみくじ", "イントロ"],
-        "postFlows": [
+        "steps": [
           { "delaySeconds": 0, "kind": "wordParty", "wordPartyId": "BigBang_back", "repeat": 1 },
           { "delaySeconds": 2, "kind": "wordParty", "wordPartyId": "CommonBombFire", "repeat": 1 }
         ]
