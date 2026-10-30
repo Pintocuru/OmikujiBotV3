@@ -1,4 +1,4 @@
-<!-- src/editor/assets/PostFlow/preview/CommentBubblePreview.vue -->
+<!-- src/editor/assets/ScenarioStep/preview/CommentBubblePreview.vue -->
 <template>
   <div class="w-full space-y-8 flex flex-col items-center">
     <CommentBubbleItem

@@ -28,7 +28,7 @@ export class ExecuteScript implements ScriptClass {
       : []
 
     return {
-      steps: this.buildPostActions(characterKey, gameResult.message),
+      steps: this.buildSteps(characterKey, gameResult.message),
       rankingMessages,
     }
   }
@@ -61,7 +61,7 @@ export class ExecuteScript implements ScriptClass {
   /**
    * ステップ の構築
    */
-  private buildPostActions(characterKey: string | null, bubbleText: string): ScenarioStepType[] {
+  private buildSteps(characterKey: string | null, bubbleText: string): ScenarioStepType[] {
     const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,

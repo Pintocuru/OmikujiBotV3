@@ -1,4 +1,4 @@
-// src/editor/assets/PostFlow/items/postActionKinds.ts
+// src/editor/assets/ScenarioStep/items/scenarioStepKinds.ts
 import type { Component } from 'vue'
 import {
   ScenarioStepCallSchema,
@@ -14,7 +14,7 @@ import MessageSettings from '../Message/MessageSettings.vue'
 import SoundSettings from '../Sounds/SoundSettings.vue'
 import WordPartySettings from '../WordParty/WordPartySettings.vue'
 import VariableSettings from '../variable/VariableSettings.vue'
-import ActionSetSettings from '../actions/ActionSetSettings.vue'
+import ScenarioCallSettings from '../scenarioCall/ScenarioCallSettings.vue'
 import GameScriptSettings from '../gameScript/GameScriptSettings.vue'
 
 // kind → 設定コンポーネント
@@ -24,11 +24,11 @@ export const settingsComponentMap: Record<ScenarioStepKind, Component> = {
   wordParty: WordPartySettings,
   variable: VariableSettings,
   gameScript: GameScriptSettings,
-  scenarioCall: ActionSetSettings,
+  scenarioCall: ScenarioCallSettings,
 }
 
 // kind → スキーマ (parse の結果だけ使うので、構造的な型にしてバージョン差を避ける)
-export const actionSchemaMap: Record<ScenarioStepKind, { parse: (value: unknown) => ScenarioStepType }> = {
+export const stepSchemaMap: Record<ScenarioStepKind, { parse: (value: unknown) => ScenarioStepType }> = {
   message: ScenarioStepMessageSchema,
   sound: ScenarioStepSoundSchema,
   wordParty: ScenarioStepWordPartySchema,

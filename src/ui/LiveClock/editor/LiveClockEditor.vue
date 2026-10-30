@@ -60,7 +60,7 @@
   import LiveClockPreview from './LiveClockPreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import MessageTextDialog from '@/editor/assets/PostFlow/Message/MessageTextDialog.vue'
+  import MessageTextDialog from '@/editor/assets/ScenarioStep/Message/MessageTextDialog.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
 

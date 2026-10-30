@@ -48,8 +48,8 @@ function remapGameScript(flow: ScenarioStepGameType, remaps: JsonMergeRemapType[
 /**
  * PostFlow の配列に対してリマップルールを適用
  */
-function remapPostFlows(postFlows: ScenarioStepType[], remaps: JsonMergeRemapType[]): ScenarioStepType[] {
-  return postFlows.map((flow) => {
+function remapSteps(steps: ScenarioStepType[], remaps: JsonMergeRemapType[]): ScenarioStepType[] {
+  return steps.map((flow) => {
     if (flow.kind === 'message') return remapMessage(flow, remaps)
     if (flow.kind === 'gameScript') return remapGameScript(flow, remaps)
     return flow
@@ -58,7 +58,7 @@ function remapPostFlows(postFlows: ScenarioStepType[], remaps: JsonMergeRemapTyp
 
 /**
  * OmikujiData全体に対してリマップを適用
- * 対象: assets.mikuji(各アイテムの postFlows) と assets.actions
+ * 対象: assets.mikuji(各アイテムの steps) と assets.actions
  */
 export function applyRemaps(data: OmikujiDataType, remaps: JsonMergeRemapType[]): OmikujiDataType {
   if (!remaps?.length) return data
@@ -69,14 +69,14 @@ export function applyRemaps(data: OmikujiDataType, remaps: JsonMergeRemapType[])
   for (const box of Object.values(clonedData.assets.mikuji)) {
     for (const item of box.omikuji) {
       if (item.kind === 'steps') {
-        item.steps = remapPostFlows(item.steps, remaps)
+        item.steps = remapSteps(item.steps, remaps)
       }
     }
   }
 
   // actions
-  for (const actionSet of Object.values(clonedData.assets.scenarios)) {
-    actionSet.steps = remapPostFlows(actionSet.steps, remaps)
+  for (const scenario of Object.values(clonedData.assets.scenarios)) {
+    scenario.steps = remapSteps(scenario.steps, remaps)
   }
 
   return clonedData

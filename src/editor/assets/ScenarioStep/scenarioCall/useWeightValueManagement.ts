@@ -1,10 +1,10 @@
-// src/editor/assets/PostFlow/actions/useWeightValueManagement.ts
+// src/editor/assets/ScenarioStep/scenarioCall/useWeightValueManagement.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { WeightValueType, WeightValueSchema, handelNormalizedValues, WeightValuesArrayType } from '@/types/OmikujiData'
 import { useWeightCalculation } from './useWeightCalculation'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { checkCircularReference } from './ActionSetValidator'
+import { checkCircularReference } from './ScenarioValidator'
 
 /**
  * 重み付き値を管理するコンポーザブル
@@ -21,17 +21,17 @@ export function useWeightValueManagement(values: () => WeightValuesArrayType, cu
   const { getWeightPercentage } = useWeightCalculation(displayValues)
 
   // シナリオ一覧（ActionSet用）
-  const availableActionSets = computed(() => {
+  const availableScenarios = computed(() => {
     if (!data.value?.assets.scenarios) return []
 
     const current = currentKey?.()
 
-    return Object.entries(data.value.assets.scenarios).map(([key, actionSet]) => {
+    return Object.entries(data.value.assets.scenarios).map(([key, scenario]) => {
       const circularPath = checkCircularReference(key, data.value.assets.scenarios, current)
 
       return {
         key,
-        name: actionSet.name || key,
+        name: scenario.name || key,
         disabled: circularPath !== null || key === current,
         circularPath,
       }
@@ -114,7 +114,7 @@ export function useWeightValueManagement(values: () => WeightValuesArrayType, cu
   return {
     displayValues,
     getWeightPercentage,
-    availableActionSets,
+    availableScenarios,
     addValue,
     removeValue,
     duplicateValue,

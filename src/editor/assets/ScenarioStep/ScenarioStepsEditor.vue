@@ -1,11 +1,11 @@
-<!-- src/editor/assets/PostFlow/PostFlowsEditor.vue -->
+<!-- src/editor/assets/ScenarioStep/ScenarioStepsEditor.vue -->
 <template>
   <div class="space-y-2">
     <!-- ツールバー -->
-    <OmikujiItemToolbar :modelValue="modelValue" @update:modelValue="updatePostActions" @reorder="followReorder" />
+    <ScenarioStepToolbar :modelValue="modelValue" @update:modelValue="updateSteps" @reorder="followReorder" />
 
     <!-- PostActionsタブエディター -->
-    <PostActionsTabs
+    <ScenarioStepTabs
       :modelValue="modelValue"
       :activeTab="activeTab"
       @select-tab="setActiveTab"
@@ -17,13 +17,13 @@
     <!-- タブコンテンツ -->
     <!-- PostActionタブの内容 -->
     <template v-if="currentAction">
-      <PostActionItem :action="currentAction" :current-key="currentKey" @update:action="updateCurrentAction" />
+      <ScenarioStepItem :action="currentAction" :current-key="currentKey" @update:action="updateCurrentAction" />
     </template>
 
     <!-- ステップが空の場合 -->
     <template v-else>
-      <NoParamsCard :message="t('postFlow.flowsEditor.empty')" />
-      <button @click="addNewAction" class="btn btn-primary btn-sm">{{ t('postFlow.flowsEditor.addFirst') }}</button>
+      <NoParamsCard :message="t('scenarioStep.stepsEditor.empty')" />
+      <button @click="addNewAction" class="btn btn-primary btn-sm">{{ t('scenarioStep.stepsEditor.addFirst') }}</button>
     </template>
   </div>
 </template>
@@ -32,11 +32,11 @@
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { ScenarioStepType } from '@/types/OmikujiData/'
-  import PostActionsTabs from './tooltab/PostActionsTabs.vue'
-  import OmikujiItemToolbar from '@/editor/assets/PostFlow/tooltab/OmikujiItemToolbar.vue'
-  import PostActionItem from './items/PostActionItem.vue'
+  import ScenarioStepTabs from './tooltab/ScenarioStepTabs.vue'
+  import ScenarioStepToolbar from '@/editor/assets/ScenarioStep/tooltab/ScenarioStepToolbar.vue'
+  import ScenarioStepItem from './items/ScenarioStepItem.vue'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
-  import { usePostActionsTab } from './composables/usePostActionsTab'
+  import { useScenarioStepTabs } from './composables/useScenarioStepTabs'
 
   const { t } = useI18n()
 
@@ -59,12 +59,12 @@
     duplicateAction,
     removeAction,
     followReorder,
-  } = usePostActionsTab(
+  } = useScenarioStepTabs(
     computed(() => props?.modelValue),
     (_event, actions) => emit('update:modelValue', actions)
   )
 
-  const updatePostActions = (newActions: ScenarioStepType[]) => {
+  const updateSteps = (newActions: ScenarioStepType[]) => {
     emit('update:modelValue', newActions)
   }
 </script>

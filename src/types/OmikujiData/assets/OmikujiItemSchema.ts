@@ -43,7 +43,7 @@ const OmikujiItemBase = BaseSchema.extend({
   lottery: normalizedObject(OmikujiLotterySchema),
 })
 
-// BOTアクションを実行する
+// ステップ実行を実行する
 export const OmikujiItemStepsSchema = OmikujiItemBase.extend({
   kind: z.literal('steps').default('steps'), // kind 省略時は postFlow
   steps: ScenarioStepArraySchema,

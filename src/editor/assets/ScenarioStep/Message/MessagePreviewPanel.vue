@@ -1,19 +1,19 @@
-<!-- src/editor/assets/PostFlow/Message/MessagePreviewPanel.vue -->
+<!-- src/editor/assets/ScenarioStep/Message/MessagePreviewPanel.vue -->
 <template>
   <div class="flex-1 overflow-y-auto p-1 flex flex-col gap-2 items-center justify-start">
     <div class="w-full">
-      <div class="divider text-xs my-1">{{ t('postFlow.preview.title') }}</div>
+      <div class="divider text-xs my-1">{{ t('scenarioStep.preview.title') }}</div>
       <div class="chat chat-start">
         <div class="chat-bubble text-sm whitespace-pre-wrap wrap-break-word" v-html="renderedPreview" />
       </div>
       <p v-if="!draftText.trim()" class="text-xs text-center text-base-content/40 mt-1">
-        {{ t('postFlow.preview.hint') }}
+        {{ t('scenarioStep.preview.hint') }}
       </p>
 
       <!-- プレースホルダー展開例 -->
 
-      <div class="divider text-xs my-1">{{ t('postFlow.preview.expansion') }}</div>
-      <div v-if="hasError">{{ t('postFlow.preview.hasError') }}</div>
+      <div class="divider text-xs my-1">{{ t('scenarioStep.preview.expansion') }}</div>
+      <div v-if="hasError">{{ t('scenarioStep.preview.hasError') }}</div>
       <div
         v-if="expandedPreviewDisplay.length"
         class="rounded-lg px-3 py-2 text-xs font-mono whitespace-pre-wrap wrap-break-word cursor-pointer transition-colors select-none relative group"
@@ -22,7 +22,7 @@
             ? 'bg-error/10 text-error border border-error/30'
             : 'bg-base-200 text-base-content/70 hover:bg-base-300',
         ]"
-        :title="t('postFlow.preview.clickRefresh')"
+        :title="t('scenarioStep.preview.clickRefresh')"
         v-html="expandedPreviewDisplay"
         @click="refresh"
       />
@@ -64,7 +64,7 @@
 
   // レンダリング済みプレビュー（バッジ表示）
   const renderedPreview = computed(() => {
-    if (!props.draftText.trim()) return '<span class="opacity-50">' + t('postFlow.preview.empty') + '</span>'
+    if (!props.draftText.trim()) return '<span class="opacity-50">' + t('scenarioStep.preview.empty') + '</span>'
     return escapeHtml(props.draftText).replace(/&lt;&lt;([^&]+)&gt;&gt;/g, (_, key) => {
       const trimmed = key.trim()
       return `<span class="badge badge-sm badge-accent font-mono mx-0.5">&lt;&lt;${escapeHtml(trimmed)}&gt;&gt;</span>`

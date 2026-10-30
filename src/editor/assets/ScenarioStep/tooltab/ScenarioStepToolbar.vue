@@ -1,4 +1,4 @@
-<!-- src/editor/assets/PostFlow/tooltab/OmikujiItemToolbar.vue -->
+<!-- src/editor/assets/ScenarioStep/tooltab/ScenarioStepToolbar.vue -->
 <template>
   <div class="form-control">
     <div class="flex justify-between items-center mb-1">
@@ -18,35 +18,35 @@
         <button
           @click="() => postTestOmikujiItem(modelValue)"
           class="btn btn-sm btn-info tooltip tooltip-top"
-          :data-tip="t('postFlow.toolbar.testTip')"
+          :data-tip="t('scenarioStep.toolbar.testTip')"
           :disabled="modelValue.length === 0"
         >
           <Send :size="16" />
-          {{ t('postFlow.toolbar.test') }}
+          {{ t('scenarioStep.toolbar.test') }}
         </button>
 
         <!-- JSONコピー -->
         <button
           @click="handleCopy"
           class="btn btn-sm btn-secondary tooltip tooltip-top"
-          :data-tip="t('postFlow.toolbar.copyTip')"
+          :data-tip="t('scenarioStep.toolbar.copyTip')"
           type="button"
           :disabled="clipboard.isCopying.value"
         >
           <ClipboardCopy :size="16" />
-          {{ t('postFlow.toolbar.copy') }}
+          {{ t('scenarioStep.toolbar.copy') }}
         </button>
 
         <!-- JSONペースト -->
         <button
           @click="handlePaste"
           class="btn btn-sm btn-secondary tooltip tooltip-top"
-          :data-tip="t('postFlow.toolbar.pasteTip')"
+          :data-tip="t('scenarioStep.toolbar.pasteTip')"
           type="button"
           :disabled="clipboard.isPasting.value"
         >
           <ClipboardPaste :size="16" />
-          {{ t('postFlow.toolbar.paste') }}
+          {{ t('scenarioStep.toolbar.paste') }}
         </button>
       </div>
     </div>
@@ -94,22 +94,22 @@
 
     if (parsed === null) {
       swalToast.error({
-        title: t('postFlow.toolbar.pasteFailed', { error: clipboard.lastError.value }),
+        title: t('scenarioStep.toolbar.pasteFailed', { error: clipboard.lastError.value }),
       })
       return
     }
 
     const result = await swalModal.confirmTriple({
-      title: t('postFlow.toolbar.pasteTitle'),
-      text: t('postFlow.toolbar.pasteText'),
+      title: t('scenarioStep.toolbar.pasteTitle'),
+      text: t('scenarioStep.toolbar.pasteText'),
     })
 
     if (result.isConfirmed) {
       emit('update:modelValue', parsed)
-      swalToast.success({ title: t('postFlow.toolbar.pasteOverwrite') })
+      swalToast.success({ title: t('scenarioStep.toolbar.pasteOverwrite') })
     } else if (result.isDenied) {
       emit('update:modelValue', [...props.modelValue, ...parsed])
-      swalToast.success({ title: t('postFlow.toolbar.pasteMerge') })
+      swalToast.success({ title: t('scenarioStep.toolbar.pasteMerge') })
     }
   }
 </script>

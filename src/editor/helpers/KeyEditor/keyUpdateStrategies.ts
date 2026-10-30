@@ -6,7 +6,7 @@ import {
   updateMikujiReferences,
   updateCharacterReferences,
   updatePlaceholderReferences,
-  updateActionSetReferences,
+  updateScenarioReferences,
 } from './keyUpdateReferences'
 
 const assetKey = (
@@ -22,7 +22,7 @@ const assetKey = (
  */
 export const updateStrategies: Record<AssetCategoryType, KeyUpdateStrategy> = {
   mikuji: assetKey('mikuji', updateMikujiReferences),
-  scenarios: assetKey('scenarios', updateActionSetReferences),
+  scenarios: assetKey('scenarios', updateScenarioReferences),
   placeholders: assetKey('placeholders', updatePlaceholderReferences),
   characters: assetKey('characters', updateCharacterReferences),
 }

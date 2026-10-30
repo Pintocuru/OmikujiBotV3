@@ -1,4 +1,4 @@
-<!-- src/editor/assets/PostFlow/actions/ActionSetSettings.vue -->
+<!-- src/editor/assets/ScenarioStep/scenarioCall/ScenarioCallSettings.vue -->
 <template>
   <div>
     <!-- 重み付きリスト表示 -->
@@ -8,7 +8,7 @@
           <!-- 重み -->
           <div class="w-full sm:w-32">
             <label class="text-xs text-gray-500 mb-1 block">
-              {{ t('postFlow.actionSet.weight', { percent: getWeightPercentage(value.weight) }) }}
+              {{ t('scenarioStep.scenarioCall.weight', { percent: getWeightPercentage(value.weight) }) }}
             </label>
             <input
               type="number"
@@ -21,28 +21,28 @@
 
           <!-- シナリオ選択 -->
           <div class="flex-1">
-            <label class="text-xs text-gray-500 mb-1 block">{{ t('postFlow.actionSet.label') }}</label>
+            <label class="text-xs text-gray-500 mb-1 block">{{ t('scenarioStep.scenarioCall.label') }}</label>
             <select
               :value="value.content"
               @change="updateContent(index, $event, handleUpdate)"
               class="select select-bordered select-sm w-full"
               :class="{ 'select-error': isCircular(value.content) }"
             >
-              <option value="">{{ t('postFlow.actionSet.choose') }}</option>
+              <option value="">{{ t('scenarioStep.scenarioCall.choose') }}</option>
 
               <option
-                v-for="option in availableActionSets"
+                v-for="option in availableScenarios"
                 :key="option.key"
                 :value="option.key"
                 :disabled="option.disabled"
               >
-                {{ option.name }} {{ option.disabled ? t('postFlow.actionSet.circularShort') : '' }}
+                {{ option.name }} {{ option.disabled ? t('scenarioStep.scenarioCall.circularShort') : '' }}
               </option>
             </select>
 
             <!-- 循環参照警告 -->
             <div v-if="isCircular(value.content)" class="alert alert-error py-1 mt-1 text-xs">
-              {{ t('postFlow.actionSet.circular', { path: getCircularPath(value.content) }) }}
+              {{ t('scenarioStep.scenarioCall.circular', { path: getCircularPath(value.content) }) }}
             </div>
           </div>
 
@@ -56,11 +56,11 @@
 
     <!-- 空の場合 -->
     <div v-else>
-      <NoParamsCard :message="t('postFlow.actionSet.empty')" />
+      <NoParamsCard :message="t('scenarioStep.scenarioCall.empty')" />
     </div>
 
     <button @click="addValue(handleUpdate)" class="btn btn-primary w-full mt-4">
-      {{ t('postFlow.actionSet.addValue') }}
+      {{ t('scenarioStep.scenarioCall.addValue') }}
     </button>
   </div>
 </template>
@@ -94,7 +94,7 @@
   const {
     displayValues,
     getWeightPercentage,
-    availableActionSets,
+    availableScenarios,
     addValue,
     removeValue,
     duplicateValue,

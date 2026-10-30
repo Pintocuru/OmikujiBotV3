@@ -1,7 +1,7 @@
-// src/editor/assets/PostFlow/items/createDefaultAction.ts
+// src/editor/assets/ScenarioStep/items/createDefaultStep.ts
 import type { ScenarioStepKind, ScenarioStepType } from '@/types/OmikujiData'
 
-export const createDefaultAction = (kind: ScenarioStepKind, delaySeconds: number): ScenarioStepType => {
+export const createDefaultStep = (kind: ScenarioStepKind, delaySeconds: number): ScenarioStepType => {
   switch (kind) {
     case 'message':
       return {

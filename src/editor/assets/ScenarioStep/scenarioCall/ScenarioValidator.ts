@@ -1,4 +1,4 @@
-// src/editor/assets/PostFlow/actions/ActionSetValidator.ts
+// src/editor/assets/ScenarioStep/scenarioCall/ScenarioValidator.ts
 import { ScenarioStepType } from '@/types/OmikujiData'
 
 /**
@@ -6,11 +6,11 @@ import { ScenarioStepType } from '@/types/OmikujiData'
  */
 export function checkCircularReference(
   targetKey: string,
-  actionSets: Record<string, { steps: ScenarioStepType[] }>,
+  scenarios: Record<string, { steps: ScenarioStepType[] }>,
   currentKey?: string,
   visited: Set<string> = new Set()
 ): string[] | null {
-  if (!targetKey || !actionSets) return null
+  if (!targetKey || !scenarios) return null
 
   // 自分自身を参照している場合
   if (currentKey && targetKey === currentKey) {
@@ -20,12 +20,12 @@ export function checkCircularReference(
   // 既に訪問済みなら循環参照
   if (visited.has(targetKey)) return [targetKey]
 
-  const actionSet = actionSets[targetKey]
-  if (!actionSet?.steps) return null
+  const scenario = scenarios[targetKey]
+  if (!scenario?.steps) return null
 
   visited.add(targetKey)
 
-  for (const action of actionSet.steps) {
+  for (const action of scenario.steps) {
     if (action.kind !== 'scenarioCall') continue
 
     const keys = action.callKeys ?? []
@@ -36,7 +36,7 @@ export function checkCircularReference(
       .filter((k) => k && typeof k === 'string')
 
     for (const nextKey of referencedKeys) {
-      const circularPath = checkCircularReference(nextKey, actionSets, currentKey, new Set(visited))
+      const circularPath = checkCircularReference(nextKey, scenarios, currentKey, new Set(visited))
       if (circularPath) return [targetKey, ...circularPath]
     }
   }

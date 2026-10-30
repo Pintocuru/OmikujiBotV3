@@ -5,7 +5,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
-type PostFlowUpdater = (flow: ScenarioStepType) => ScenarioStepType
+type StepUpdater = (flow: ScenarioStepType) => ScenarioStepType
 type WeightValueItem = WeightValuesArrayType[number] // string | { weight, content }
 
 const contentOf = (item: WeightValueItem): string => (typeof item === 'string' ? item : item.content)
@@ -23,39 +23,39 @@ const mapIfChanged = <T>(items: readonly T[], fn: (item: T) => T): T[] | null =>
 const replaceAll = (text: string, from: string, to: string): string => text.split(from).join(to)
 
 /**
- * mikuji（みくじ箱）内の postFlow アイテムの postFlows 更新
+ * mikuji（みくじ箱）内の postFlow アイテムの steps 更新
  */
-function updateMikujiPostFlows(updateFn: PostFlowUpdater): void {
+function updateMikujiSteps(updateFn: StepUpdater): void {
   const { updateAsset } = useOmikujiStore()
   const { getAssets } = useGetAssetData()
 
   Object.values(getAssets('mikuji')).forEach((box) => {
     const omikuji = mapIfChanged(box.omikuji, (item) => {
       if (item.kind !== 'steps') return item
-      const postFlows = mapIfChanged(item.steps, updateFn)
-      return postFlows ? { ...item, steps: postFlows } : item
+      const steps = mapIfChanged(item.steps, updateFn)
+      return steps ? { ...item, steps: steps } : item
     })
     if (omikuji) updateAsset('mikuji', box.key, { omikuji })
   })
 }
 
 /**
- * actions（ActionSet）の postFlows 更新
+ * actions（ActionSet）の steps 更新
  */
-function updateActionAssetPostFlows(updateFn: PostFlowUpdater): void {
+function updateScenarioAssetSteps(updateFn: StepUpdater): void {
   const { updateAsset } = useOmikujiStore()
   const { getAssets } = useGetAssetData()
 
-  Object.values(getAssets('scenarios')).forEach((actionSet) => {
-    const postFlows = mapIfChanged(actionSet.steps, updateFn)
-    if (postFlows) updateAsset('scenarios', actionSet.key, { steps: postFlows })
+  Object.values(getAssets('scenarios')).forEach((scenario) => {
+    const steps = mapIfChanged(scenario.steps, updateFn)
+    if (steps) updateAsset('scenarios', scenario.key, { steps: steps })
   })
 }
 
-// postFlows を持つ全カテゴリへ適用
-function updateAllPostFlows(updateFn: PostFlowUpdater): void {
-  updateMikujiPostFlows(updateFn)
-  updateActionAssetPostFlows(updateFn)
+// steps を持つ全カテゴリへ適用
+function updateAllSteps(updateFn: StepUpdater): void {
+  updateMikujiSteps(updateFn)
+  updateScenarioAssetSteps(updateFn)
 }
 
 /**
@@ -76,7 +76,7 @@ export function updateMikujiReferences(oldKey: string, newKey: string): void {
  * キャラクター参照の更新（message / gameScript が characterKey を持つ）
  */
 export function updateCharacterReferences(oldKey: string, newKey: string): void {
-  updateAllPostFlows((flow) =>
+  updateAllSteps((flow) =>
     (flow.kind === 'message' || flow.kind === 'gameScript') && flow.characterKey === oldKey
       ? { ...flow, characterKey: newKey }
       : flow
@@ -102,18 +102,18 @@ export function updatePlaceholderReferences(oldKey: string, newKey: string): voi
     if (values) updateAsset('placeholders', placeholder.key, { values })
   })
 
-  // postFlows 内の参照（message を持つのは message / variable / bot）
-  updateAllPostFlows((flow) => {
+  // steps 内の参照（message を持つのは message / variable / bot）
+  updateAllSteps((flow) => {
     if (!hasScenarioStepMessage(flow) || !flow.message.includes(oldPlaceholder)) return flow
     return { ...flow, message: replaceAll(flow.message, oldPlaceholder, newPlaceholder) }
   })
 }
 
 /**
- * actionSet（scenarioCall）参照の更新
+ * scenario（scenarioCall）参照の更新
  */
-export function updateActionSetReferences(oldKey: string, newKey: string): void {
-  updateAllPostFlows((flow) => {
+export function updateScenarioReferences(oldKey: string, newKey: string): void {
+  updateAllSteps((flow) => {
     if (flow.kind !== 'scenarioCall') return flow
 
     const callKeys = mapIfChanged(flow.callKeys, (item) =>

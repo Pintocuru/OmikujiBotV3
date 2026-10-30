@@ -1,8 +1,8 @@
-<!-- src/editor/assets/PostFlow/WordParty/WordPartySettings.vue -->
+<!-- src/editor/assets/ScenarioStep/WordParty/WordPartySettings.vue -->
 <template>
   <div class="space-y-2">
     <!-- WordParty ID -->
-    <SettingItem layout="vertical" icon="PartyPopper" label="WordParty" :description="t('postFlow.wordParty.idDesc')">
+    <SettingItem layout="vertical" icon="PartyPopper" label="WordParty" :description="t('scenarioStep.wordParty.idDesc')">
       <input
         type="text"
         v-model="wordPartyIdValue"
@@ -15,15 +15,15 @@
     <SettingItem
       layout="vertical"
       icon="Repeat"
-      :label="t('postFlow.wordParty.repeatLabel')"
-      :description="t('postFlow.wordParty.repeatDesc')"
+      :label="t('scenarioStep.wordParty.repeatLabel')"
+      :description="t('scenarioStep.wordParty.repeatDesc')"
     >
       <div class="flex items-center gap-2 flex-1">
         <select v-model="repeatMode" class="select select-bordered select-sm w-32">
-          <option value="none">{{ t('postFlow.wordParty.none') }}</option>
-          <option value="fixed">{{ t('postFlow.wordParty.fixed') }}</option>
-          <option value="viewer">{{ t('postFlow.wordParty.viewer') }}</option>
-          <option value="upVote">{{ t('postFlow.wordParty.upVote') }}</option>
+          <option value="none">{{ t('scenarioStep.wordParty.none') }}</option>
+          <option value="fixed">{{ t('scenarioStep.wordParty.fixed') }}</option>
+          <option value="viewer">{{ t('scenarioStep.wordParty.viewer') }}</option>
+          <option value="upVote">{{ t('scenarioStep.wordParty.upVote') }}</option>
         </select>
 
         <input
@@ -33,11 +33,11 @@
           class="input input-bordered input-sm w-24"
           min="1"
           max="20"
-          :placeholder="t('postFlow.wordParty.count')"
+          :placeholder="t('scenarioStep.wordParty.count')"
         />
 
         <span v-if="repeatMode === 'viewer' || repeatMode === 'upVote'" class="text-xs text-gray-500">
-          {{ t('postFlow.wordParty.max') }}
+          {{ t('scenarioStep.wordParty.max') }}
         </span>
       </div>
     </SettingItem>

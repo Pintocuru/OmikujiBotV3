@@ -17,7 +17,7 @@ export const appItemsCharactersMessages = {
         enabled: '有効',
         disabled: '無効',
       },
-      actionSet: {
+      scenario: {
         title: 'シナリオ',
         empty: 'シナリオ未設定',
       },
@@ -172,9 +172,9 @@ export const appItemsCharactersMessages = {
         enabled: 'Enabled',
         disabled: 'Disabled',
       },
-      actionSet: {
-        title: 'Action sets',
-        empty: 'No actions set',
+      scenario: {
+        title: 'Scenarios',
+        empty: 'No scenarios set',
       },
       color: {
         title: 'Bubble colors',

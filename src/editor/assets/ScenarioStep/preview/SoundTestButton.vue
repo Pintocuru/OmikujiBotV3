@@ -1,8 +1,8 @@
-<!-- src/editor/assets/PostFlow/preview/SoundTestButton.vue -->
+<!-- src/editor/assets/ScenarioStep/preview/SoundTestButton.vue -->
 <template>
   <!-- サウンドのテスト実行 -->
   <button @click="handleClick" :disabled="!sound && !soundPath" class="btn btn-xs btn-secondary">
-    {{ t('postFlow.tests.sound') }}
+    {{ t('scenarioStep.tests.sound') }}
   </button>
 </template>
 

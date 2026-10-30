@@ -9,7 +9,7 @@ import * as m_apps_AppInfoEditor from './apps/AppInfoEditor'
 import * as m_apps_AppItemsCharacters from './apps/AppItemsCharacters'
 import * as m_apps_BaseSettingsEditor from './apps/BaseSettingsEditor'
 import * as m_assets_PlaceholderMessages from './assets/PlaceholderMessages'
-import * as m_assets_PostFlow from './assets/PostFlow'
+import * as m_assets_ScenarioStep from './assets/ScenarioStep'
 import * as m_category_CategorySectionMessagesMap from './category/CategorySectionMessagesMap'
 import * as m_category_NavigationSidebarMessagesMap from './category/NavigationSidebarMessagesMap'
 import * as m_events_CommentEditor from './events/CommentEditor'
@@ -31,7 +31,7 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'apps/AppItemsCharacters': m_apps_AppItemsCharacters,
   'apps/BaseSettingsEditor': m_apps_BaseSettingsEditor,
   'assets/PlaceholderMessages': m_assets_PlaceholderMessages,
-  'assets/PostFlow': m_assets_PostFlow,
+  'assets/ScenarioStep': m_assets_ScenarioStep,
   'category/CategorySectionMessagesMap': m_category_CategorySectionMessagesMap,
   'category/NavigationSidebarMessagesMap': m_category_NavigationSidebarMessagesMap,
   'events/CommentEditor': m_events_CommentEditor,

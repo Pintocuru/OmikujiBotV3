@@ -1,4 +1,4 @@
-<!-- src/editor/assets/PostFlow/tooltab/PostActionsTabs.vue -->
+<!-- src/editor/assets/ScenarioStep/tooltab/ScenarioStepTabs.vue -->
 <template>
   <!-- タブヘッダー -->
   <div class="tabs tabs-box" role="tablist">
@@ -18,7 +18,7 @@
       <!-- 左側：バッジと内容 -->
       <div class="flex items-center">
         <span class="badge badge-sm badge-primary mr-2">{{ index + 1 }}</span>
-        <PostActionRow :action="action" />
+        <ScenarioStepRow :action="action" />
       </div>
 
       <!-- 右側：メニュー -->
@@ -28,14 +28,14 @@
     </div>
 
     <!-- 追加ボタン -->
-    <button type="button" class="tab tab-sm" @click="emit('add')">{{ t('postFlow.tabs.add') }}</button>
+    <button type="button" class="tab tab-sm" @click="emit('add')">{{ t('scenarioStep.tabs.add') }}</button>
   </div>
 </template>
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { ScenarioStepType } from '@/types/OmikujiData/'
-  import PostActionRow from './PostActionRow.vue'
+  import ScenarioStepRow from './ScenarioStepRow.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
 
   const { t } = useI18n()

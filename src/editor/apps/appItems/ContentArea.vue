@@ -40,7 +40,7 @@
   import PadEventEditor from '@/editor/events/pad/PadEditor.vue'
 
   import MikujiEditor from '@/editor/assets/mikuji/MikujiEditor.vue'
-  import ActionsEditor from '@/editor/assets/actions/ActionsEditor.vue'
+  import ScenariosEditor from '@/editor/assets/scenarios/ScenariosEditor.vue'
   import PlaceholderEditor from '@/editor/assets/placeholders/PlaceholderEditor.vue'
   import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
 
@@ -74,7 +74,7 @@
 
     // assets
     mikuji: MikujiEditor,
-    scenarios: ActionsEditor,
+    scenarios: ScenariosEditor,
     placeholders: PlaceholderEditor,
     characters: CharacterEditor,
 

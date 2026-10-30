@@ -14,7 +14,7 @@ export interface RankingMessageParams {
 /**
  * PostActionType型のメッセージを作成
  */
-export const createPostActions = (
+export const createSteps = (
   params: RankingMessageParams,
   score: number,
   isOverLimit: boolean,

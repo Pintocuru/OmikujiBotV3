@@ -62,7 +62,7 @@ export class OmikujiProcessor {
     // return / continue / reset / log は何もしない
     if (!item || item.kind !== 'steps') return []
 
-    return this.runPostFlows(eventKey, item, category, omiken, isDummy)
+    return this.runSteps(eventKey, item, category, omiken, isDummy)
   }
 
   /**
@@ -96,7 +96,7 @@ export class OmikujiProcessor {
     category: EventCategoryType,
     omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
-    return this.runPostFlows(eventKey, item, category, omiken, false)
+    return this.runSteps(eventKey, item, category, omiken, false)
   }
 
   /**
@@ -107,11 +107,11 @@ export class OmikujiProcessor {
   }
 
   /**
-   * postFlows を順番に実行する。
+   * steps を順番に実行する。
    * 前の flow (variable など) の結果に後の flow が依存する可能性があるため、並列にはしない。
    * TODO:読み取られない数値がある
    */
-  private async runPostFlows(
+  private async runSteps(
     eventKey: string,
     item: OmikujiItemStepsType,
     category: EventCategoryType,

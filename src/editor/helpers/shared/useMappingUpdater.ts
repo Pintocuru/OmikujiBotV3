@@ -3,11 +3,11 @@ import { ComputedRef } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { ScenarioStepType } from '@/types/OmikujiData'
 import { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
-import { usePostActionCharacters } from '@/editor/helpers/CharacterChanger/composables/usePostActionCharacters'
+import { useScenarioStepCharacters } from '@/editor/helpers/CharacterChanger/composables/useScenarioStepCharacters'
 
 /**
  * マッピングを postFlow に適用する関数
- * (usePostActionCharacters の applyCharacterMappings / applyIconKeyMappings を渡す)
+ * (useScenarioStepCharacters の applyCharacterMappings / applyIconKeyMappings を渡す)
  */
 type ApplyMappings = (flows: ScenarioStepType[], mappings: Record<string, string>) => ScenarioStepType[]
 
@@ -16,7 +16,7 @@ type ApplyMappings = (flows: ScenarioStepType[], mappings: Record<string, string
  */
 export function useMappingUpdater(allTargets: ComputedRef<FlowTarget[]>, applyMappings: ApplyMappings) {
   const omikujiStore = useOmikujiStore()
-  const { isTargetItem } = usePostActionCharacters()
+  const { isTargetItem } = useScenarioStepCharacters()
 
   /**
    * マッピングを適用してアセットを更新

@@ -36,12 +36,12 @@ export const categorySectionMap: Record<DataCategoryType, SidebarSectionItem[]> 
   // assets
   mikuji: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'omikujiSet', icon: 'ListChecks', component: 'actionSet' },
+    { section: 'omikujiSet', icon: 'ListChecks', component: 'scenario' },
   ],
 
   scenarios: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'omikujiSet', icon: 'ListChecks', component: 'actionSet' },
+    { section: 'omikujiSet', icon: 'ListChecks', component: 'scenario' },
   ],
   placeholders: [
     { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },

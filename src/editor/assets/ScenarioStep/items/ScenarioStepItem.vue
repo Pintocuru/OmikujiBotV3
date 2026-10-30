@@ -1,21 +1,21 @@
-<!-- src/editor/assets/PostFlow/items/PostActionItem.vue -->
+<!-- src/editor/assets/ScenarioStep/items/ScenarioStepItem.vue -->
 <template>
   <!-- グリッドレイアウト: 左1/3がプレビュー、右2/3が設定 -->
   <div class="grid grid-cols-3 gap-4">
     <!-- 左側: プレビューエリア -->
     <div class="col-span-1 min-h-xs">
-      <PostActionPreview :action="action" />
+      <ScenarioStepPreview :action="action" />
     </div>
 
     <!-- 右側: 設定エリア -->
     <div class="col-span-2 space-y-2">
       <!-- ActionType -->
-      <SettingItem layout="vertical" icon="Rocket" :label="t('postFlow.actionItem.typeLabel')">
+      <SettingItem layout="vertical" icon="Rocket" :label="t('scenarioStep.stepItem.typeLabel')">
         <IconRadioGroup
           v-model="kind"
-          :map="postFlowKindMap"
+          :map="scenarioStepKindMap"
           :keys="scenarioStepKinds"
-          :aria-label="t('postFlow.actionItem.typeLabel')"
+          :aria-label="t('scenarioStep.stepItem.typeLabel')"
         />
       </SettingItem>
 
@@ -23,8 +23,8 @@
       <SettingItem
         layout="vertical"
         icon="Clock"
-        :label="t('postFlow.actionItem.delayLabel')"
-        :description="t('postFlow.actionItem.delayDesc')"
+        :label="t('scenarioStep.stepItem.delayLabel')"
+        :description="t('scenarioStep.stepItem.delayDesc')"
       >
         <input
           type="number"
@@ -50,11 +50,11 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { scenarioStepKinds, type ScenarioStepType } from '@/types/OmikujiData'
-  import { postFlowKindMap } from '@/maps/OmikujiData'
+  import { scenarioStepKindMap } from '@/maps/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
-  import PostActionPreview from '../preview/PostActionPreview.vue'
-  import { usePostActionItem } from './usePostActionItem'
+  import ScenarioStepPreview from '../preview/ScenarioStepPreview.vue'
+  import { useScenarioStepItem } from './useScenarioStepItem'
 
   const { t } = useI18n()
 
@@ -68,5 +68,5 @@
   }>()
 
   const { basicDelaySeconds, currentComponent, componentProps, delaySeconds, kind, handleActionUpdate } =
-    usePostActionItem(props, emit)
+    useScenarioStepItem(props, emit)
 </script>

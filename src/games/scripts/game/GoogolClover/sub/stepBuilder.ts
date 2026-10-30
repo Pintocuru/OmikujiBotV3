@@ -1,11 +1,11 @@
-// src/games/scripts/game/GoogolClover/sub/postActionBuilder.ts
+// src/games/scripts/game/GoogolClover/sub/stepBuilder.ts
 import { ScenarioStepType, ScenarioStepMessageSchema } from '@/types/OmikujiData'
 
 /**
  * PostActionの構築ロジック
  */
 
-interface PostActionBuildParams {
+interface StepBuildParams {
   bubble: string
   score: number
   characterKey: string | null
@@ -14,7 +14,7 @@ interface PostActionBuildParams {
 /**
  * ゲーム結果に基づいてPostActionを構築
  */
-export function buildPostActions(params: PostActionBuildParams): ScenarioStepType[] {
+export function buildSteps(params: StepBuildParams): ScenarioStepType[] {
   const { bubble, score, characterKey } = params
 
   // メッセージ

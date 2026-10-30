@@ -134,7 +134,7 @@ export const omikujiDataMapMessages = {
           description: 'BOTとしてわんコメにコメントを自動投稿する拡張スクリプト',
         },
       },
-      postFlowKind: {
+      scenarioStepKind: {
         message: {
           label: 'メッセージ',
           description: 'わんコメやジェネレーターに送信・表示するテキストを設定します',
@@ -157,12 +157,12 @@ export const omikujiDataMapMessages = {
         },
         scenarioCall: {
           label: 'シナリオ',
-          description: '登録済みのシナリオ（一連の処理プリセット）を呼び出します',
+          description: '登録済みのシナリオ（名前を付けたステップの並び）を呼び出します',
         },
       },
       omikujiItemKind: {
-        postFlow: {
-          label: 'シナリオ',
+        steps: {
+          label: 'ステップ実行',
           description: '下記の内容をわんコメやジェネレーターで表示します',
         },
         control: {
@@ -422,14 +422,14 @@ export const omikujiDataMapMessages = {
           description: 'Extension script that automatically posts comments to OneComme as the BOT',
         },
       },
-      postFlowKind: {
+      scenarioStepKind: {
         message: {
           label: 'Message',
           description: 'Sets the text sent to or displayed in OneComme and the generator',
         },
         sound: {
           label: 'Sound',
-          description: 'Sets the sound effect or BGM played when the action runs',
+          description: 'Sets the sound effect or BGM played when the step runs',
         },
         wordParty: {
           label: 'WordParty',
@@ -444,13 +444,13 @@ export const omikujiDataMapMessages = {
           description: 'Calls a prebuilt game',
         },
         scenarioCall: {
-          label: 'Action set',
-          description: 'Calls a registered action set (a preset of a series of actions)',
+          label: 'Scenario',
+          description: 'Calls a registered scenario (a named sequence of steps)',
         },
       },
       omikujiItemKind: {
-        postFlow: {
-          label: 'BOT action',
+        steps: {
+          label: 'Run steps',
           description: 'Displays the content below in OneComme and the generator',
         },
         control: {

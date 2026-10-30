@@ -1,4 +1,4 @@
-// src/editor/assets/PostFlow/actions/useWeightCalculation.ts
+// src/editor/assets/ScenarioStep/scenarioCall/useWeightCalculation.ts
 import { computed, Ref } from 'vue'
 
 type WeightItem = {

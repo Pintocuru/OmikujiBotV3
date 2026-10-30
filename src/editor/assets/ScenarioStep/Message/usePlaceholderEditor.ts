@@ -1,4 +1,4 @@
-// src/editor/assets/PostFlow/Message/usePlaceholderEditor.ts
+// src/editor/assets/ScenarioStep/Message/usePlaceholderEditor.ts
 import { computed, Ref, ref } from 'vue'
 import { PlaceholderSchema, PlaceholderType, handelNormalizedValues } from '@/types/OmikujiData'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

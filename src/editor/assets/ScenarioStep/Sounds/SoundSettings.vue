@@ -1,14 +1,14 @@
-<!-- src/editor/assets/PostFlow/Sounds/SoundSettings.vue -->
+<!-- src/editor/assets/ScenarioStep/Sounds/SoundSettings.vue -->
 <template>
   <SettingItem
     icon="Volume2"
     layout="vertical"
-    :label="t('postFlow.sound.label')"
-    :description="t('postFlow.sound.desc')"
+    :label="t('scenarioStep.sound.label')"
+    :description="t('scenarioStep.sound.desc')"
   >
     <!-- プリセット選択 -->
     <select v-model="sound" class="select select-bordered select-sm w-full">
-      <option value="">{{ t('postFlow.common.none') }}</option>
+      <option value="">{{ t('scenarioStep.common.none') }}</option>
       <option v-for="(_, key) in soundMap" :key="key" :value="key">{{ t(`mapText.sound.${key}`) }} ({{ key }})</option>
     </select>
   </SettingItem>
@@ -17,13 +17,13 @@
   <SettingItem
     icon="Volume2"
     layout="vertical"
-    :label="t('postFlow.sound.customLabel')"
-    :description="t('postFlow.sound.customDesc')"
+    :label="t('scenarioStep.sound.customLabel')"
+    :description="t('scenarioStep.sound.customDesc')"
   >
     <input
       v-model="soundPath"
       type="text"
-      :placeholder="t('postFlow.sound.customPlaceholder')"
+      :placeholder="t('scenarioStep.sound.customPlaceholder')"
       class="input input-bordered input-sm w-full"
     />
   </SettingItem>

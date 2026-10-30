@@ -1,7 +1,7 @@
-<!-- src/editor/assets/PostFlow/preview/WordPartyTestButton.vue -->
+<!-- src/editor/assets/ScenarioStep/preview/WordPartyTestButton.vue -->
 <template>
   <button @click="handleClick" :disabled="!id" class="btn btn-xs btn-secondary">
-    {{ t('postFlow.tests.wordParty') }}
+    {{ t('scenarioStep.tests.wordParty') }}
   </button>
 </template>
 

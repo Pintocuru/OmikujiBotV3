@@ -1,4 +1,4 @@
-<!-- src/editor/assets/actions/ActionsEditor.vue -->
+<!-- src/editor/assets/scenarios/ScenariosEditor.vue -->
 <template>
   <div class="flex justify-end gap-2">
     <CharacterChanger category="scenarios" />
@@ -23,7 +23,7 @@
       :label="s('omikujiSet')?.label"
       :description="s('omikujiSet')?.description"
     >
-      <PostFlowsEditor v-model="postFlows" :current-key="selectedItemKey ?? undefined" />
+      <ScenarioStepsEditor v-model="steps" :current-key="selectedItemKey ?? undefined" />
     </SectionCard>
   </template>
 </template>
@@ -35,7 +35,7 @@
 
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
-  import PostFlowsEditor from '@/editor/assets/PostFlow/PostFlowsEditor.vue'
+  import ScenarioStepsEditor from '@/editor/assets/ScenarioStep/ScenarioStepsEditor.vue'
   import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
   import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
 
@@ -77,7 +77,7 @@
     },
   })
 
-  const postFlows = computed({
+  const steps = computed({
     get: () => selectedItem.value?.steps || [],
     set: (newActions) => {
       if (!selectedItem.value) return

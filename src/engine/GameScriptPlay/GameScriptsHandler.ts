@@ -16,12 +16,12 @@ export class GameScriptsHandler {
    * gameScripts処理
    */
   async process(
-    actionItem: ScenarioStepGameType,
+    step: ScenarioStepGameType,
     omiken?: OmikenCommentType,
     isOnecommePost?: boolean
   ): Promise<BotMessageType[]> {
     // 1. スクリプトの実行
-    const scriptResult = await this.playScript(actionItem, omiken)
+    const scriptResult = await this.playScript(step, omiken)
     if (!scriptResult) return []
 
     const { steps: actions, rankingMessages: scriptMessages } = scriptResult

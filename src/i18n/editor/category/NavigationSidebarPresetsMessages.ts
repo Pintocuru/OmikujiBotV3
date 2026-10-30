@@ -39,7 +39,7 @@ export const navigationSidebarPresetsMessages = {
         },
         coinToss: { label: 'コイントス', description: '表・裏をランダムに返します' },
       },
-      actions: {
+      scenarios: {
         thanks: { label: 'お礼', description: 'お礼のあと、2秒後にもう一言続けます' },
         cheer: { label: '応援', description: '盛り上げのメッセージを1件投稿します' },
       },
@@ -97,7 +97,7 @@ export const navigationSidebarPresetsMessages = {
         },
         coinToss: { label: 'Coin toss', description: 'Returns heads or tails' },
       },
-      actions: {
+      scenarios: {
         thanks: { label: 'Thanks', description: 'A thank-you followed by one more line after 2 seconds' },
         cheer: { label: 'Cheer', description: 'Posts one cheering message' },
       },

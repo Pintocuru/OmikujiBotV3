@@ -49,7 +49,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { WeightValuesArrayType } from '@/types/OmikujiData'
-  import { useWeightValueManagement } from '@/editor/assets/PostFlow/actions/useWeightValueManagement'
+  import { useWeightValueManagement } from '@/editor/assets/ScenarioStep/scenarioCall/useWeightValueManagement'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
 

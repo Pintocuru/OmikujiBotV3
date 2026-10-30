@@ -1,11 +1,11 @@
-// src/maps/OmikujiData/assets/PostFlowKindMap.ts
+// src/maps/OmikujiData/assets/ScenarioStepKindMap.ts
 import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
 import { ScenarioStepKind } from '@/types/OmikujiData'
 
 /**
  * シナリオ種別のUI表示マップ
  */
-export const postFlowKindMap: Record<ScenarioStepKind, DisplayMetaLucide> = {
+export const scenarioStepKindMap: Record<ScenarioStepKind, DisplayMetaLucide> = {
   message: {
     label: 'メッセージ',
     description: 'わんコメやジェネレーターに送信・表示するテキストを設定します',

@@ -83,7 +83,7 @@
   import { useCharacterStats } from './composables/useCharacterStats'
   import { useMappingModalState } from '@/editor/helpers/shared/useMappingModalState'
   import { useMappingUpdater } from '@/editor/helpers/shared/useMappingUpdater'
-  import { usePostActionCharacters } from './composables/usePostActionCharacters'
+  import { useScenarioStepCharacters } from './composables/useScenarioStepCharacters'
   import { useCharacterLookup } from './composables/useCharacterLookup'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
   import { Users } from 'lucide-vue-next'
@@ -120,7 +120,7 @@
   } = useMappingModalState()
 
   // キャラクター更新処理
-  const { applyCharacterMappings } = usePostActionCharacters()
+  const { applyCharacterMappings } = useScenarioStepCharacters()
   const { applyMappingsToAllItems } = useMappingUpdater(allTargets, applyCharacterMappings)
 
   // 「変更する」を押したときだけ、正常なキャラクターも変更対象に表示する

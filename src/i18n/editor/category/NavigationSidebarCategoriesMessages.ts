@@ -30,7 +30,7 @@ export const navigationSidebarCategoriesMessages = {
         label: 'みくじ箱',
         description: 'おみくじの内容を作成します',
       },
-      actions: {
+      scenarios: {
         label: 'シナリオ',
         description: 'BOTのコメント・WordPartyの指定のプリセットを作成します',
       },
@@ -86,7 +86,7 @@ export const navigationSidebarCategoriesMessages = {
         label: 'Omikuji Box',
         description: 'Creates the omikuji contents',
       },
-      actions: {
+      scenarios: {
         label: 'Action Sets',
         description: 'Creates presets for BOT comments and WordParty',
       },

@@ -1,20 +1,20 @@
-<!-- src/editor/assets/PostFlow/tooltab/DelaySecondsAdjuster.vue -->
+<!-- src/editor/assets/ScenarioStep/tooltab/DelaySecondsAdjuster.vue -->
 <template>
   <div class="flex gap-1 items-center pr-2">
     <button
       @click="adjustAllDelaySeconds(-0.1)"
       class="btn btn-sm btn-ghost tooltip tooltip-top"
-      :data-tip="t('postFlow.delay.decreaseTip')"
+      :data-tip="t('scenarioStep.delay.decreaseTip')"
       :disabled="modelValue.length === 0 || !canDecreaseDelay"
       type="button"
     >
       <Minus :size="16" />
     </button>
-    <span class="text-xs text-base-content/70">{{ t('postFlow.delay.label') }}</span>
+    <span class="text-xs text-base-content/70">{{ t('scenarioStep.delay.label') }}</span>
     <button
       @click="adjustAllDelaySeconds(0.1)"
       class="btn btn-sm btn-ghost tooltip tooltip-top"
-      :data-tip="t('postFlow.delay.increaseTip')"
+      :data-tip="t('scenarioStep.delay.increaseTip')"
       :disabled="modelValue.length === 0"
       type="button"
     >

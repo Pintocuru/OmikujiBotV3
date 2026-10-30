@@ -50,8 +50,8 @@ export class ContentPlaceholder {
   /**
    * PostAction配列のプレースホルダーを置換して返す
    */
-  processPostActions(postActions: ScenarioStepType[]): ScenarioStepType[] {
-    return postActions.map((action) => {
+  processSteps(steps: ScenarioStepType[]): ScenarioStepType[] {
+    return steps.map((action) => {
       if (action.kind === 'message') {
         return {
           ...action,

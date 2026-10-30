@@ -53,11 +53,11 @@ export function useTestPost() {
     })
   }
 
-  const postTestOmikujiItem = async (postFlows: ScenarioStepType[], omikujiItem?: OmikujiItemType) => {
+  const postTestOmikujiItem = async (steps: ScenarioStepType[], omikujiItem?: OmikujiItemType) => {
     const resultProcessor = new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable)
     const botMessages = (
       await Promise.all(
-        postFlows.map((flow) => resultProcessor.process(flow, defaultPlaceholdersShortLabels, MOCK_COMMENT))
+        steps.map((flow) => resultProcessor.process(flow, defaultPlaceholdersShortLabels, MOCK_COMMENT))
       )
     ).flat()
 
@@ -87,7 +87,7 @@ export function useTestPost() {
     }
 
     if (omikujiItem.kind !== 'steps') {
-      // return/continue/reset/log は投稿するBOTアクションを持たないため、結果だけ通知する
+      // return/continue/reset/log は投稿するステップ実行を持たないため、結果だけ通知する
       showOmikujiResultToast(omikujiItem)
       return
     }

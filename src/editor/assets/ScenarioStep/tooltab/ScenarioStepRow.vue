@@ -1,4 +1,4 @@
-<!-- src/editor/assets/PostFlow/tooltab/PostActionRow.vue -->
+<!-- src/editor/assets/ScenarioStep/tooltab/ScenarioStepRow.vue -->
 <template>
   <div class="flex items-center gap-2 p-1">
     <!-- 遅延秒数 -->
@@ -19,14 +19,14 @@
   import { computed } from 'vue'
   import { ScenarioStepType } from '@/types/OmikujiData'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
-  import { postFlowKindMap } from '@/maps/OmikujiData'
+  import { scenarioStepKindMap } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     action: ScenarioStepType
   }>()
 
   const resolvedIcon = computed(() => {
-    const iconName = postFlowKindMap[props.action.kind]?.icon
+    const iconName = scenarioStepKindMap[props.action.kind]?.icon
     return resolveLucideIcon(iconName)
   })
 </script>

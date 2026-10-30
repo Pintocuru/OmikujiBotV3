@@ -3,15 +3,15 @@ import { generateId } from '@/types/core'
 import { MikujiBoxSchema, OmikujiItemSchema, ScenarioStepArraySchema } from '@/types/OmikujiData/'
 import type { z } from 'zod'
 
-type PostFlowInput = z.input<typeof ScenarioStepArraySchema>
+type StepsInput = z.input<typeof ScenarioStepArraySchema>
 
 /** postFlow を1件実行するだけのみくじ箱を作る(events の omikujiKey 用に key を返す) */
-export const buildSimpleMikuji = (name: string, postFlows: PostFlowInput) => {
+export const buildSimpleMikuji = (name: string, steps: StepsInput) => {
   const key = generateId()
   const mikuji = {
     key,
     name,
-    omikuji: [OmikujiItemSchema.parse({ name, kind: 'steps', postFlows })],
+    omikuji: [OmikujiItemSchema.parse({ name, kind: 'steps', steps })],
   } satisfies Partial<z.infer<typeof MikujiBoxSchema>>
   return { key, mikuji }
 }
@@ -33,7 +33,7 @@ export const buildWeightedMikuji = (
       OmikujiItemSchema.parse({
         name: item,
         lottery: { isPriority: false, weight },
-        postFlows: [message(toMessage(item))],
+        steps: [message(toMessage(item))],
       })
     ),
   } satisfies Partial<z.infer<typeof MikujiBoxSchema>>

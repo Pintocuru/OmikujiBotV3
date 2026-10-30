@@ -1,20 +1,20 @@
-<!-- src/editor/apps/appItems/preview/ActionSetPreview.vue -->
+<!-- src/editor/apps/appItems/preview/ScenarioPreview.vue -->
 <template>
   <div class="space-y-1.5 min-w-45 max-w-65">
     <!-- ヘッダー -->
     <div class="flex items-center justify-between pb-0.5 border-b border-base-300">
       <div class="flex items-center gap-1.5 text-xs font-semibold opacity-70">
         <Zap class="w-3 h-3" />
-        <span>{{ t('appPreview.actionSet.title') }}</span>
+        <span>{{ t('appPreview.scenario.title') }}</span>
       </div>
-      <span class="badge badge-xs badge-primary">{{ t('appPreview.count', { n: postFlows.length }) }}</span>
+      <span class="badge badge-xs badge-primary">{{ t('appPreview.count', { n: steps.length }) }}</span>
     </div>
 
     <!-- 空 -->
-    <div v-if="!postFlows.length" class="text-xs opacity-40 ml-1">{{ t('appPreview.actionSet.empty') }}</div>
+    <div v-if="!steps.length" class="text-xs opacity-40 ml-1">{{ t('appPreview.scenario.empty') }}</div>
 
-    <!-- postFlows リスト（最大4件） -->
-    <div v-for="(flow, i) in postFlows.slice(0, 4)" :key="i" class="flex items-center gap-1.5 text-xs ml-1">
+    <!-- steps リスト（最大4件） -->
+    <div v-for="(flow, i) in steps.slice(0, 4)" :key="i" class="flex items-center gap-1.5 text-xs ml-1">
       <!-- kind バッジ -->
       <span class="badge badge-xs shrink-0" :class="flowKindBadgeClass(flow.kind)">
         {{ flowKindLabel(flow.kind) }}
@@ -61,8 +61,8 @@
     </div>
 
     <!-- 省略表示 -->
-    <div v-if="postFlows.length > 4" class="text-xs opacity-40 text-right">
-      {{ t('appPreview.more', { n: postFlows.length - 4 }) }}
+    <div v-if="steps.length > 4" class="text-xs opacity-40 text-right">
+      {{ t('appPreview.more', { n: steps.length - 4 }) }}
     </div>
   </div>
 </template>
@@ -79,7 +79,7 @@
     data: Partial<ScenarioType> | null
   }>()
 
-  const postFlows = computed<ScenarioStepType[]>(() => props.data?.steps ?? [])
+  const steps = computed<ScenarioStepType[]>(() => props.data?.steps ?? [])
 
   function flowKindLabel(kind: ScenarioStepKind): string {
     const shortLabels: Partial<Record<ScenarioStepKind, string>> = {
@@ -90,7 +90,7 @@
       gameScript: 'GAME',
       scenarioCall: 'CALL',
     }
-    return shortLabels[kind] ?? t(`mapText.postFlowKind.${kind}.label`)
+    return shortLabels[kind] ?? t(`mapText.scenarioStepKind.${kind}.label`)
   }
 
   function flowKindBadgeClass(kind: ScenarioStepKind): string {

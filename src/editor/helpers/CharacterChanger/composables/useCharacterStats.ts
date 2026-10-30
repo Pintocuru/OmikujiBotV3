@@ -1,7 +1,7 @@
 // src/editor/helpers/CharacterChanger/composables/useCharacterStats.ts
 import { computed, ComputedRef } from 'vue'
 import { FlowTarget } from './useDataExtractor'
-import { usePostActionCharacters } from './usePostActionCharacters'
+import { useScenarioStepCharacters } from './useScenarioStepCharacters'
 import { useCharacterLookup } from './useCharacterLookup'
 
 /**
@@ -9,7 +9,7 @@ import { useCharacterLookup } from './useCharacterLookup'
  */
 export function useCharacterStats(allTargets: ComputedRef<FlowTarget[]>) {
   const { characterArray } = useCharacterLookup()
-  const { getFlowGroups, extractCharacterKeys, countCharacterUsage } = usePostActionCharacters()
+  const { getFlowGroups, extractCharacterKeys, countCharacterUsage } = useScenarioStepCharacters()
 
   // 全 PostFlow 配列
   const flowGroups = computed(() => allTargets.value.flatMap(getFlowGroups))

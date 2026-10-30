@@ -26,7 +26,7 @@ const omikuji: PresetDefinition<'comments'> = {
               OmikujiItemSchema.parse({
                 name,
                 lottery: { isPriority: false, weight },
-                postFlows: [message(`<<user>> さんの運勢は【${name}】です！`)],
+                steps: [message(`<<user>> さんの運勢は【${name}】です！`)],
               })
             ),
           },

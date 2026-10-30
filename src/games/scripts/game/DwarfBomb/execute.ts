@@ -28,7 +28,7 @@ export class ExecuteScript implements ScriptClass {
       : []
 
     return {
-      steps: this.buildPostActions(partyEffects, characterKey, result.message),
+      steps: this.buildSteps(partyEffects, characterKey, result.message),
       rankingMessages,
     }
   }
@@ -43,7 +43,7 @@ export class ExecuteScript implements ScriptClass {
     return GameParamsSchema.parse(parseQueryString(queryString))
   }
 
-  private buildPostActions(
+  private buildSteps(
     partyEffects: ScenarioStepType[],
     characterKey: string | null,
     bubbleText: string

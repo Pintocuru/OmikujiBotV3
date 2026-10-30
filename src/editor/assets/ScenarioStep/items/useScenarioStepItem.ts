@@ -1,14 +1,14 @@
-// src/editor/assets/PostFlow/items/usePostActionItem.ts
+// src/editor/assets/ScenarioStep/items/useScenarioStepItem.ts
 import { computed, ref } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import type { ScenarioStepKind, ScenarioStepType } from '@/types/OmikujiData'
-import { createDefaultAction } from './createDefaultAction'
-import { actionSchemaMap, settingsComponentMap } from './postActionKinds'
+import { createDefaultStep } from './createDefaultStep'
+import { stepSchemaMap, settingsComponentMap } from './scenarioStepKinds'
 
 type Props = { action: ScenarioStepType; currentKey?: string }
 type Emit = (event: 'update:action', value: ScenarioStepType) => void
 
-export const usePostActionItem = (props: Props, emit: Emit) => {
+export const useScenarioStepItem = (props: Props, emit: Emit) => {
   const omikujiStore = useOmikujiStore()
   const basicDelaySeconds = computed(() => omikujiStore.data.settings.generator.basicDelaySeconds ?? 1)
 
@@ -36,11 +36,11 @@ export const usePostActionItem = (props: Props, emit: Emit) => {
 
     rawActionCache.value[current.kind] = { ...current }
 
-    const restored = rawActionCache.value[newKind] ?? createDefaultAction(newKind, current.delaySeconds)
+    const restored = rawActionCache.value[newKind] ?? createDefaultStep(newKind, current.delaySeconds)
 
     emit(
       'update:action',
-      actionSchemaMap[newKind].parse({ ...restored, kind: newKind, delaySeconds: current.delaySeconds })
+      stepSchemaMap[newKind].parse({ ...restored, kind: newKind, delaySeconds: current.delaySeconds })
     )
   }
 

@@ -1,9 +1,9 @@
-// src/editor/assets/PostFlow/composables/usePostActionsTab.ts
+// src/editor/assets/ScenarioStep/composables/useScenarioStepTabs.ts
 import { computed, Ref, ref, watch } from 'vue'
 import { ScenarioStepMessageSchema, ScenarioStepMessageType, ScenarioStepType } from '@/types/OmikujiData/'
 import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
 
-export function usePostActionsTab(
+export function useScenarioStepTabs(
   actions: Ref<ScenarioStepType[]>,
   emit: (event: 'update:actions', actions: ScenarioStepType[]) => void
 ) {

@@ -1,6 +1,6 @@
-<!-- src/editor/assets/PostFlow/variable/VariableSettings.vue -->
+<!-- src/editor/assets/ScenarioStep/variable/VariableSettings.vue -->
 <template>
-  <SettingItem icon="Code2" layout="vertical" :label="t('postFlow.variable.label')">
+  <SettingItem icon="Code2" layout="vertical" :label="t('scenarioStep.variable.label')">
     <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
   </SettingItem>
 </template>

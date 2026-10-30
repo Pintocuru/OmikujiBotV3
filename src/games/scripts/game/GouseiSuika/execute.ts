@@ -28,7 +28,7 @@ export class ExecuteScript implements ScriptClass {
       : []
 
     return {
-      steps: this.buildPostActions(gameResult.postArray, characterKey, bubbleText),
+      steps: this.buildSteps(gameResult.postArray, characterKey, bubbleText),
       rankingMessages,
     }
   }
@@ -47,7 +47,7 @@ export class ExecuteScript implements ScriptClass {
   /**
    * ステップ の構築
    */
-  private buildPostActions(
+  private buildSteps(
     postArray: ScenarioStepType[],
     characterKey: string | null,
     bubbleText: string

@@ -1,13 +1,13 @@
 // src/editor/helpers/IconKeyChanger/composables/useIconKeyStats.ts
 import { computed, ComputedRef } from 'vue'
 import { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
-import { usePostActionCharacters } from '@/editor/helpers/CharacterChanger/composables/usePostActionCharacters'
+import { useScenarioStepCharacters } from '@/editor/helpers/CharacterChanger/composables/useScenarioStepCharacters'
 
 /**
  * iconKey使用状況の統計情報を提供
  */
 export function useIconKeyStats(allTargets: ComputedRef<FlowTarget[]>) {
-  const { getFlowGroups, extractInvalidIconKeyPairs, countIconKeyUsage } = usePostActionCharacters()
+  const { getFlowGroups, extractInvalidIconKeyPairs, countIconKeyUsage } = useScenarioStepCharacters()
 
   // 全 PostFlow 配列
   const flowGroups = computed(() => allTargets.value.flatMap(getFlowGroups))

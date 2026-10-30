@@ -10,7 +10,7 @@
   import { OmikujiItemControlType } from '@/types/OmikujiData/'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import MessageTextDialog from '@/editor/assets/PostFlow/Message/MessageTextDialog.vue'
+  import MessageTextDialog from '@/editor/assets/ScenarioStep/Message/MessageTextDialog.vue'
 
   const props = defineProps<{
     item: OmikujiItemControlType

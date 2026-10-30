@@ -1,14 +1,14 @@
-// src/engine/OmikujiResult/FlowCallExpander.ts
+// src/engine/OmikujiResult/ScenarioCallExpander.ts
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { ScenarioType, handelNormalizedValues, ScenarioStepCallType, ScenarioStepType } from '@/types/OmikujiData/'
 
-export class FlowCallExpander {
+export class ScenarioCallExpander {
   private static readonly MAX_DEPTH = 10
 
   static expand(
     flow: ScenarioStepType[],
-    flowSets: Record<string, ScenarioType>,
+    scenarios: Record<string, ScenarioType>,
     depth: number = 0,
     visited: Set<string> = new Set()
   ): ScenarioStepType[] {
@@ -24,7 +24,7 @@ export class FlowCallExpander {
     for (const action of flow) {
       // flowCallなら呼び出して展開
       if (action.kind === 'scenarioCall') {
-        const expandedAction = this.expandSingleFlowCall(action, flowSets, depth, visited)
+        const expandedAction = this.expandSingleScenarioCall(action, scenarios, depth, visited)
         expandedActions.push(...expandedAction)
       } else {
         expandedActions.push(action)
@@ -37,9 +37,9 @@ export class FlowCallExpander {
   /**
    *
    */
-  private static expandSingleFlowCall(
+  private static expandSingleScenarioCall(
     flow: ScenarioStepCallType,
-    flowSets: Record<string, ScenarioType>,
+    scenarios: Record<string, ScenarioType>,
     depth: number,
     visited: Set<string>
   ): ScenarioStepType[] {
@@ -58,8 +58,8 @@ export class FlowCallExpander {
     }
 
     // 展開
-    const targetActionSet = flowSets[targetKey]
-    if (!targetActionSet) {
+    const targetScenario = scenarios[targetKey]
+    if (!targetScenario) {
       const msg = `シナリオ "${targetKey}" が見つかりません`
       console.error(msg)
       postSystemMessage(msg)
@@ -69,9 +69,9 @@ export class FlowCallExpander {
     const newVisited = new Set(visited)
     newVisited.add(targetKey)
 
-    const adjustedActions = this.adjustDelays(targetActionSet.steps, flow.delaySeconds)
+    const adjustedActions = this.adjustDelays(targetScenario.steps, flow.delaySeconds)
 
-    return this.expand(adjustedActions, flowSets, depth + 1, newVisited)
+    return this.expand(adjustedActions, scenarios, depth + 1, newVisited)
   }
 
   private static adjustDelays(actions: ScenarioStepType[], baseDelay: number): ScenarioStepType[] {

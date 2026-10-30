@@ -1,4 +1,4 @@
-<!-- src/editor/assets/PostFlow/Message/InlinePlaceholderDialog.vue -->
+<!-- src/editor/assets/ScenarioStep/Message/InlinePlaceholderDialog.vue -->
 <!--
   簡易プレースホルダー入力ダイアログ
   << '候補1', '候補2', '候補3' >> 形式のテキストを生成して挿入する
@@ -10,7 +10,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
           <Braces :size="18" class="text-accent" />
-          <h3 class="font-bold text-base">{{ t('postFlow.inlinePh.title') }}</h3>
+          <h3 class="font-bold text-base">{{ t('scenarioStep.inlinePh.title') }}</h3>
         </div>
         <button class="btn btn-sm btn-ghost btn-circle" @click="close">
           <X :size="16" />
@@ -21,18 +21,18 @@
       <div class="alert alert-info text-xs py-2">
         <Info :size="14" />
         <span>
-          {{ t('postFlow.inlinePh.descPre') }}<code class="font-mono">&lt;&lt; '候補A', '候補B' &gt;&gt;</code>{{ t('postFlow.inlinePh.descMid') }}
-          <code class="font-mono">&lt;&lt;user&gt;&gt;</code>{{ t('postFlow.inlinePh.descPost') }}
+          {{ t('scenarioStep.inlinePh.descPre') }}<code class="font-mono">&lt;&lt; '候補A', '候補B' &gt;&gt;</code>{{ t('scenarioStep.inlinePh.descMid') }}
+          <code class="font-mono">&lt;&lt;user&gt;&gt;</code>{{ t('scenarioStep.inlinePh.descPost') }}
         </span>
       </div>
 
       <!-- 候補リスト -->
       <div class="flex flex-col gap-2">
         <div class="flex items-center justify-between">
-          <span class="text-sm font-semibold">{{ t('postFlow.inlinePh.candidates') }}</span>
+          <span class="text-sm font-semibold">{{ t('scenarioStep.inlinePh.candidates') }}</span>
           <button class="btn btn-xs btn-ghost gap-1" @click="addItem">
             <Plus :size="12" />
-            {{ t('postFlow.common.add') }}
+            {{ t('scenarioStep.common.add') }}
           </button>
         </div>
 
@@ -43,7 +43,7 @@
               v-model="items[idx]"
               type="text"
               class="input input-bordered input-sm flex-1 font-mono text-sm"
-              :placeholder="t('postFlow.inlinePh.candidatePlaceholder', { n: idx + 1, ph: '<<user>>' })"
+              :placeholder="t('scenarioStep.inlinePh.candidatePlaceholder', { n: idx + 1, ph: '<<user>>' })"
               @keydown.enter="idx === items.length - 1 ? addItem() : undefined"
             />
             <button
@@ -59,10 +59,10 @@
 
       <!-- フッター -->
       <div class="flex justify-end gap-2">
-        <button class="btn btn-sm btn-ghost" @click="close">{{ t('postFlow.common.cancel') }}</button>
+        <button class="btn btn-sm btn-ghost" @click="close">{{ t('scenarioStep.common.cancel') }}</button>
         <button class="btn btn-sm btn-accent gap-1" :disabled="!canInsert" @click="insert">
           <CornerDownLeft :size="14" />
-          {{ t('postFlow.common.insert') }}
+          {{ t('scenarioStep.common.insert') }}
         </button>
       </div>
     </div>

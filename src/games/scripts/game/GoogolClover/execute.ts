@@ -6,7 +6,7 @@ import { GameParams, GameParamsSchema } from './params'
 import { prepareUserInfo } from '@/games/shared/rankingMessage'
 import { parseQueryString } from '@/games/shared/parseQueryString'
 import { executeGame } from './sub/game'
-import { buildPostActions } from './sub/postActionBuilder'
+import { buildSteps } from './sub/stepBuilder'
 import { UserState } from './sub/types'
 
 export class ExecuteScript implements ScriptClass {
@@ -23,14 +23,14 @@ export class ExecuteScript implements ScriptClass {
     const gameResult = executeGame(this.userStates, user)
 
     // PostActionの構築
-    const postActions = buildPostActions({
+    const steps = buildSteps({
       bubble: gameResult.bubble,
       score: gameResult.rankingMessage.slots.score,
       characterKey,
     })
 
     return {
-      steps: postActions,
+      steps: steps,
       rankingMessages: [gameResult.rankingMessage],
     }
   }

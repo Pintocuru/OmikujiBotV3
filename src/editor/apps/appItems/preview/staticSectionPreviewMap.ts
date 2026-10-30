@@ -2,7 +2,7 @@
 import type { Component } from 'vue'
 
 import BaseSettings from './BaseSettings.vue'
-import ActionSetPreview from './ActionSetPreview.vue'
+import ScenarioPreview from './ScenarioPreview.vue'
 import ThresholdPreview from './ThresholdPreview.vue'
 import OmikujiSetPreview from './OmikujiSetPreview.vue'
 import TimerIntervalPreview from './TimerIntervalPreview.vue'
@@ -17,7 +17,7 @@ export const staticSectionPreviewMap: Record<string, Component> = {
   // 共通
   baseSettings: BaseSettings,
   omikujiSet: OmikujiSetPreview,
-  actionSet: ActionSetPreview, // mikuji / actions カテゴリ用 // TODO: actionSet -> actions
+  scenario: ScenarioPreview, // mikuji / actions カテゴリ用 // TODO: scenario -> actions
 
   // comments
   threshold: ThresholdPreview, // mode デフォルト: 'threshold'

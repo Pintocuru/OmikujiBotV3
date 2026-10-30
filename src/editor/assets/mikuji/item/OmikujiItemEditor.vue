@@ -45,10 +45,10 @@
   </SettingItem>
 
   <!-- postFlow 編集 -->
-  <PostFlowEditor
+  <ScenarioStepsEditor
     v-if="omikujiItem.kind === 'steps'"
     :modelValue="omikujiItem.steps"
-    @update:modelValue="updatePostFlows"
+    @update:modelValue="updateSteps"
   />
 
   <!-- control 固有の設定 (おみくじカウント・評価ブロック) -->
@@ -70,7 +70,7 @@
   import OmikujiItemHeader from './OmikujiItemHeader.vue'
   import OmikujiItemControlSettings from './OmikujiItemControlSettings.vue'
 
-  import PostFlowEditor from '@/editor/assets/PostFlow/PostFlowsEditor.vue'
+  import ScenarioStepsEditor from '@/editor/assets/ScenarioStep/ScenarioStepsEditor.vue'
   import { omikujiItemKindMap, omikujiControlCommandMap } from '@/maps/OmikujiData'
 
   const { t } = useI18n()
@@ -124,10 +124,10 @@
     updateItemProperties({ command })
   }
 
-  // postFlows更新
-  const updatePostFlows = (postFlows: ScenarioStepType[]) => {
+  // steps更新
+  const updateSteps = (steps: ScenarioStepType[]) => {
     if (props.omikujiItem.kind !== 'steps') return
-    updateItemProperties({ postFlows })
+    updateItemProperties({ steps })
   }
 
   const shouldShowKindSelector = computed(() => {

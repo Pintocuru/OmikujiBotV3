@@ -115,7 +115,7 @@
   import { useIconKeyStats } from './composables/useIconKeyStats'
   import { useMappingModalState } from '@/editor/helpers/shared/useMappingModalState'
   import { useMappingUpdater } from '@/editor/helpers/shared/useMappingUpdater'
-  import { usePostActionCharacters } from '@/editor/helpers/CharacterChanger/composables/usePostActionCharacters'
+  import { useScenarioStepCharacters } from '@/editor/helpers/CharacterChanger/composables/useScenarioStepCharacters'
   import { useCharacterLookup } from '../CharacterChanger/composables/useCharacterLookup'
 
   const props = defineProps<{
@@ -163,7 +163,7 @@
     hasChanges,
   } = useMappingModalState()
 
-  const { applyIconKeyMappings } = usePostActionCharacters()
+  const { applyIconKeyMappings } = useScenarioStepCharacters()
   const { applyMappingsToAllItems } = useMappingUpdater(allTargets, applyIconKeyMappings)
 
   /**

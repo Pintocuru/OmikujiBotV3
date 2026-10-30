@@ -1,4 +1,4 @@
-<!-- src/editor/assets/PostFlow/Message/MessageTextDialog.vue -->
+<!-- src/editor/assets/ScenarioStep/Message/MessageTextDialog.vue -->
 <template>
   <!-- 1行インライン表示 -->
   <div class="flex gap-2 items-center w-full">
@@ -6,16 +6,16 @@
       v-model="displayValue"
       rows="3"
       class="textarea textarea-bordered textarea-sm w-full"
-      :placeholder="t('postFlow.messageDialog.inlinePlaceholder', { ph: '<<userName>>' })"
+      :placeholder="t('scenarioStep.messageDialog.inlinePlaceholder', { ph: '<<userName>>' })"
     ></textarea>
     <button class="btn btn-sm btn-primary gap-1" @click="openDialog">
       <PencilLine :size="14" />
-      <span class="hidden sm:inline">{{ t('postFlow.messageDialog.detailEdit') }}</span>
+      <span class="hidden sm:inline">{{ t('scenarioStep.messageDialog.detailEdit') }}</span>
     </button>
   </div>
 
   <!-- メインダイアログ -->
-  <BaseEditDialog ref="baseDialog" :title="t('postFlow.messageDialog.dialogTitle')" icon="MessageSquare" @save="handleSave">
+  <BaseEditDialog ref="baseDialog" :title="t('scenarioStep.messageDialog.dialogTitle')" icon="MessageSquare" @save="handleSave">
     <!-- 左: プレビュー -->
     <template #sidebar-left>
       <MessagePreviewPanel :draft-text="draftText" />
@@ -24,16 +24,16 @@
     <!-- 中央: エディター -->
     <div class="flex flex-col h-full">
       <div class="px-3 py-2 bg-base-200 border-b border-base-300 shrink-0 flex items-center justify-between">
-        <span class="text-xs font-semibold text-base-content">{{ t('postFlow.messageDialog.editTitle') }}</span>
+        <span class="text-xs font-semibold text-base-content">{{ t('scenarioStep.messageDialog.editTitle') }}</span>
         <div class="flex items-center gap-2">
           <button class="md:hidden btn btn-xs btn-ghost gap-1" @click="showInlinePreview = !showInlinePreview">
             <Eye :size="12" />
-            {{ t('postFlow.preview.title') }}
+            {{ t('scenarioStep.preview.title') }}
           </button>
           <div class="flex gap-1">
             <kbd class="kbd kbd-xs">Ctrl</kbd>
             <kbd class="kbd kbd-xs">Enter</kbd>
-            <span class="text-xs text-base-content/50 ml-1">{{ t('postFlow.messageDialog.saveWith') }}</span>
+            <span class="text-xs text-base-content/50 ml-1">{{ t('scenarioStep.messageDialog.saveWith') }}</span>
           </div>
         </div>
       </div>
@@ -51,12 +51,12 @@
           ref="textareaRef"
           v-model="draftText"
           class="textarea textarea-bordered flex-1 font-mono text-sm resize-none leading-relaxed w-full"
-          :placeholder="t('postFlow.messageDialog.textareaPlaceholder', { userName: '<<userName>>', r: '<<r>>' })"
+          :placeholder="t('scenarioStep.messageDialog.textareaPlaceholder', { userName: '<<userName>>', r: '<<r>>' })"
           @keydown.ctrl.enter="handleSave"
         />
         <div class="text-right text-xs text-base-content/40">
-          {{ t('postFlow.messageDialog.charCount', { n: draftText.length }) }}
-          <span v-if="lineCount > 1">{{ t('postFlow.messageDialog.lineCount', { n: lineCount }) }}</span>
+          {{ t('scenarioStep.messageDialog.charCount', { n: draftText.length }) }}
+          <span v-if="lineCount > 1">{{ t('scenarioStep.messageDialog.lineCount', { n: lineCount }) }}</span>
         </div>
       </div>
     </div>
@@ -79,7 +79,7 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        {{ t('postFlow.messageDialog.cheatSheet') }}
+        {{ t('scenarioStep.messageDialog.cheatSheet') }}
       </a>
     </template>
   </BaseEditDialog>

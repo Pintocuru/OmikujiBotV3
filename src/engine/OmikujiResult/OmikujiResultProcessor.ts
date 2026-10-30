@@ -3,7 +3,7 @@ import { OmikujiDataType, ScenarioStepType } from '@/types/OmikujiData/'
 import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { BotMessageGenerator } from './BotMessageGenerator'
-import { PostActionsHandler } from './PostActionsHandler'
+import { ScenarioStepHandler } from './ScenarioStepHandler'
 import { GameScriptsHandler } from '@/engine/GameScriptPlay/GameScriptsHandler'
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
@@ -14,7 +14,7 @@ import { postSystemMessage } from '@/sdk/post/PostOneComme'
  * おみくじ結果の処理とBotMessage生成を担当
  */
 export class OmikujiResultProcessor {
-  private readonly postActionsHandler: PostActionsHandler
+  private readonly scenarioStepHandler: ScenarioStepHandler
   private readonly gameScriptsHandler: GameScriptsHandler
 
   constructor(
@@ -23,7 +23,7 @@ export class OmikujiResultProcessor {
     variable: PlaceholderVariableType
   ) {
     const generator = new BotMessageGenerator(omikujiData, variable)
-    this.postActionsHandler = new PostActionsHandler(omikujiData, variable, generator)
+    this.scenarioStepHandler = new ScenarioStepHandler(omikujiData, variable, generator)
     this.gameScriptsHandler = new GameScriptsHandler(playScript, generator)
   }
 
@@ -31,11 +31,11 @@ export class OmikujiResultProcessor {
    * おみくじ結果を処理してBotMessageを生成
    */
   async process(
-    actionItem: ScenarioStepType,
+    step: ScenarioStepType,
     defaultPlaceholders: Record<string, string | number>,
     omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
-    return this.run(actionItem, defaultPlaceholders, omiken, true) // 投稿あり固定
+    return this.run(step, defaultPlaceholders, omiken, true) // 投稿あり固定
   }
 
   /**
@@ -43,11 +43,11 @@ export class OmikujiResultProcessor {
    * わんコメへの投稿・サウンド再生は行わない。
    */
   async processDummy(
-    actionItem: ScenarioStepType,
+    step: ScenarioStepType,
     defaultPlaceholders: Record<string, string | number>,
     omiken?: OmikenCommentType
   ): Promise<BotMessageType[]> {
-    return this.run(actionItem, defaultPlaceholders, omiken, false)
+    return this.run(step, defaultPlaceholders, omiken, false)
   }
 
   /**
@@ -55,7 +55,7 @@ export class OmikujiResultProcessor {
    */
   evaluateVariable(variable: string, defaultPlaceholders: Record<string, string | number>): void {
     try {
-      this.postActionsHandler.evaluateVariable(variable, defaultPlaceholders)
+      this.scenarioStepHandler.evaluateVariable(variable, defaultPlaceholders)
     } catch (error) {
       console.error('variable 評価エラー', error)
       postSystemMessage(`variable 評価エラー ${error}`)
@@ -63,7 +63,7 @@ export class OmikujiResultProcessor {
   }
 
   private async run(
-    actionItem: ScenarioStepType,
+    step: ScenarioStepType,
     defaultPlaceholders: Record<string, string | number>,
     omiken?: OmikenCommentType,
     isOnecommePost?: boolean
@@ -71,9 +71,9 @@ export class OmikujiResultProcessor {
     try {
       let messages: BotMessageType[]
 
-      switch (actionItem.kind) {
+      switch (step.kind) {
         case 'gameScript': {
-          const [resolved] = this.postActionsHandler.resolveFlows([actionItem], defaultPlaceholders)
+          const [resolved] = this.scenarioStepHandler.resolveFlows([step], defaultPlaceholders)
           messages =
             resolved.kind === 'gameScript'
               ? await this.gameScriptsHandler.process(resolved, omiken, isOnecommePost)
@@ -87,7 +87,7 @@ export class OmikujiResultProcessor {
         case 'variable':
         case 'sound':
         case 'wordParty':
-          messages = this.postActionsHandler.process([actionItem], defaultPlaceholders, omiken, isOnecommePost)
+          messages = this.scenarioStepHandler.process([step], defaultPlaceholders, omiken, isOnecommePost)
           break
       }
 

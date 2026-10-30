@@ -1,19 +1,19 @@
-<!-- src/editor/assets/PostFlow/Message/MessageSettings.vue -->
+<!-- src/editor/assets/ScenarioStep/Message/MessageSettings.vue -->
 <template>
   <!-- 表示先のUI UIごとに下のフォームが変わる -->
-  <SettingItem layout="vertical" :icon="uiKindMap[action.uiKey].icon" :label="t('postFlow.messageSettings.uiKey')">
+  <SettingItem layout="vertical" :icon="uiKindMap[action.uiKey].icon" :label="t('scenarioStep.messageSettings.uiKey')">
     <IconRadioGroup
       v-model="uiKey"
       :map="uiKindMap"
       :keys="selectableKinds"
-      :aria-label="t('postFlow.messageSettings.uiKey')"
+      :aria-label="t('scenarioStep.messageSettings.uiKey')"
     />
   </SettingItem>
 
   <!-- bubble を使う UI: キャラ・アイコン・本文 -->
   <template v-if="spec.bubble">
     <!-- キャラクター選択 -->
-    <SettingItem layout="vertical" icon="User" :label="t('postFlow.common.character')">
+    <SettingItem layout="vertical" icon="User" :label="t('scenarioStep.common.character')">
       <CharacterIconPicker
         :character-key="action.characterKey ?? ''"
         :icon-key="action.iconKey"
@@ -26,7 +26,7 @@
       v-if="spec.bubble === 'comment'"
       icon="MessageSquare"
       layout="vertical"
-      :label="t('postFlow.messageSettings.message')"
+      :label="t('scenarioStep.messageSettings.message')"
     >
       <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
     </SettingItem>
@@ -43,7 +43,7 @@
     v-else-if="slotMetas.length > 0"
     icon="MessageSquare"
     layout="vertical"
-    :label="t('postFlow.messageSettings.slots')"
+    :label="t('scenarioStep.messageSettings.slots')"
   >
     <div v-for="meta in slotMetas" :key="meta.slot" class="mb-2">
       <p class="mb-1 text-sm font-medium">
@@ -64,7 +64,7 @@
 
   <!-- 投稿を受け取らない UI (データ不整合の保険) -->
   <p v-if="!spec.bubble && slotMetas.length === 0" class="text-sm opacity-60">
-    {{ t('postFlow.messageSettings.noPost') }}
+    {{ t('scenarioStep.messageSettings.noPost') }}
   </p>
 
   <SoundSettings

@@ -1,7 +1,7 @@
 // src/i18n/editor/assets/PostFlow.ts
-export const postFlowMessages = {
+export const scenarioStepMessages = {
   ja: {
-    postFlow: {
+    scenarioStep: {
       common: {
         cancel: 'キャンセル',
         add: '追加',
@@ -63,8 +63,8 @@ export const postFlowMessages = {
         uiKey: '表示先のUI',
         noPost: 'このUIには投稿を表示するメッセージはありません',
       },
-      flowsEditor: {
-        empty: 'PostActionがありません',
+      stepsEditor: {
+        empty: 'ステップがありません',
         addFirst: '最初のステップを追加',
       },
       sound: {
@@ -85,7 +85,7 @@ export const postFlowMessages = {
         count: '回数',
         max: '(最大20回)',
       },
-      actionSet: {
+      scenarioCall: {
         weight: '重み ({percent}%)',
         label: 'シナリオ',
         choose: '-- 選択してください --',
@@ -101,15 +101,15 @@ export const postFlowMessages = {
         paramDesc: 'ゲームに渡す文字列',
         paramPlaceholder: 'パラメータを入力',
       },
-      actionItem: {
+      stepItem: {
         typeLabel: 'ステップタイプ',
         typeDesc: '種類を選択します',
         delayLabel: '遅延秒数',
         delayDesc: 'この秒数後に下記のステップを実行します',
       },
-      actionPreview: {
+      stepPreview: {
         sound: 'サウンド',
-        actionSet: 'シナリオ',
+        scenarioCall: 'シナリオ',
         none: 'このステップにはプレビューがありません',
         invalid: '(不正な処理です)',
         noMessage: '(メッセージなし)',
@@ -126,11 +126,11 @@ export const postFlowMessages = {
       toolbar: {
         testTip: 'わんコメを起動すると、投稿の確認ができます',
         test: 'テスト投稿',
-        copyTip: 'PostActions を JSON としてクリップボードにコピーします',
+        copyTip: 'ステップを JSON としてクリップボードにコピーします',
         copy: 'JSONコピー',
-        pasteTip: 'クリップボードの JSON を PostActions として読み込みます',
+        pasteTip: 'クリップボードの JSON をステップとして読み込みます',
         paste: 'JSONペースト',
-        pasteFailed: '[OmikujiItemToolbar] JSONペースト失敗: {error}',
+        pasteFailed: '[ScenarioStepToolbar] JSONペースト失敗: {error}',
         pasteTitle: 'JSONを貼り付けます',
         pasteText: '現在のデータをどうしますか？',
         pasteOverwrite: 'クリップボードから貼り付けました（上書き）',
@@ -145,7 +145,7 @@ export const postFlowMessages = {
     },
   },
   en: {
-    postFlow: {
+    scenarioStep: {
       common: {
         cancel: 'Cancel',
         add: 'Add',
@@ -207,9 +207,9 @@ export const postFlowMessages = {
         noPost: 'This UI has no messages to display.',
         message: 'Message',
       },
-      flowsEditor: {
-        empty: 'No PostActions',
-        addFirst: 'Add the first action',
+      stepsEditor: {
+        empty: 'No steps',
+        addFirst: 'Add the first step',
       },
       sound: {
         label: 'Sound',
@@ -229,13 +229,13 @@ export const postFlowMessages = {
         count: 'Count',
         max: '(max 20)',
       },
-      actionSet: {
+      scenarioCall: {
         weight: 'Weight ({percent}%)',
-        label: 'Action set',
+        label: 'Scenario',
         choose: '-- Select --',
         circularShort: '(circular reference)',
         circular: '⚠️ Circular reference: {path}',
-        empty: 'The action set is empty',
+        empty: 'The scenario is empty',
         addValue: '+ Add value',
       },
       gameScript: {
@@ -245,17 +245,17 @@ export const postFlowMessages = {
         paramDesc: 'String passed to the game',
         paramPlaceholder: 'Enter a parameter',
       },
-      actionItem: {
-        typeLabel: 'Action type',
+      stepItem: {
+        typeLabel: 'Step type',
         typeDesc: 'Select the type',
         delayLabel: 'Delay (seconds)',
-        delayDesc: 'Runs the action below after this many seconds',
+        delayDesc: 'Runs the step below after this many seconds',
       },
-      actionPreview: {
+      stepPreview: {
         sound: 'Sound',
-        actionSet: 'Action set',
-        none: 'No preview for this action',
-        invalid: '(Invalid action)',
+        scenarioCall: 'Scenario',
+        none: 'No preview for this step',
+        invalid: '(Invalid step)',
         noMessage: '(No message)',
       },
       tests: {
@@ -270,11 +270,11 @@ export const postFlowMessages = {
       toolbar: {
         testTip: 'Start OneComme to check the post',
         test: 'Test post',
-        copyTip: 'Copy PostActions to the clipboard as JSON',
+        copyTip: 'Copy steps to the clipboard as JSON',
         copy: 'Copy JSON',
-        pasteTip: 'Load JSON from the clipboard as PostActions',
+        pasteTip: 'Load JSON from the clipboard as steps',
         paste: 'Paste JSON',
-        pasteFailed: '[OmikujiItemToolbar] JSON paste failed: {error}',
+        pasteFailed: '[ScenarioStepToolbar] JSON paste failed: {error}',
         pasteTitle: 'Paste JSON',
         pasteText: 'What would you like to do with the current data?',
         pasteOverwrite: 'Pasted from clipboard (overwritten)',

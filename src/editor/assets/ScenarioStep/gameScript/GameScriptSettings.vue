@@ -1,19 +1,19 @@
-<!-- src/editor/assets/PostFlow/gameScript/GameScriptSettings.vue -->
+<!-- src/editor/assets/ScenarioStep/gameScript/GameScriptSettings.vue -->
 <template>
   <!-- 実行するゲームスクリプト -->
-  <SettingItem layout="vertical" icon="Gamepad2" :label="t('postFlow.gameScript.gameLabel')">
+  <SettingItem layout="vertical" icon="Gamepad2" :label="t('scenarioStep.gameScript.gameLabel')">
     <IconRadioGroup
       v-model="scriptId"
       :map="gameMetaMap"
       :keys="gameKeys"
       allow-empty
-      :empty-label="t('postFlow.common.unselected')"
-      :aria-label="t('postFlow.gameScript.gameLabel')"
+      :empty-label="t('scenarioStep.common.unselected')"
+      :aria-label="t('scenarioStep.gameScript.gameLabel')"
     />
   </SettingItem>
 
   <!-- キャラクター -->
-  <SettingItem layout="vertical" icon="User" :label="t('postFlow.common.character')">
+  <SettingItem layout="vertical" icon="User" :label="t('scenarioStep.common.character')">
     <CharacterIconPicker
       :character-key="characterKey"
       :is-icon-key="false"
@@ -25,14 +25,14 @@
   <SettingItem
     layout="vertical"
     icon="Code2"
-    :label="t('postFlow.gameScript.paramLabel')"
-    :description="t('postFlow.gameScript.paramDesc')"
+    :label="t('scenarioStep.gameScript.paramLabel')"
+    :description="t('scenarioStep.gameScript.paramDesc')"
   >
     <input
       v-model="queryString"
       type="text"
       class="input input-bordered input-sm w-full"
-      :placeholder="t('postFlow.gameScript.paramPlaceholder')"
+      :placeholder="t('scenarioStep.gameScript.paramPlaceholder')"
     />
   </SettingItem>
 </template>

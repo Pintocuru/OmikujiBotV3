@@ -32,7 +32,7 @@ export class ExecuteScript implements ScriptClass {
       : []
 
     return {
-      steps: this.buildPostActions(gameResult, wordPartyActions, characterKey),
+      steps: this.buildSteps(gameResult, wordPartyActions, characterKey),
       rankingMessages,
     }
   }
@@ -73,7 +73,7 @@ export class ExecuteScript implements ScriptClass {
   /**
    * ステップ の構築
    */
-  private buildPostActions(
+  private buildSteps(
     gameResult: {
       result: ReturnType<GameEngine['playGame']>
       message: string

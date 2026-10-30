@@ -1,4 +1,4 @@
-// src/editor/helpers/CharacterChanger/composables/usePostActionCharacters.ts
+// src/editor/helpers/CharacterChanger/composables/useScenarioStepCharacters.ts
 import { ScenarioStepType } from '@/types/OmikujiData/'
 import { FlowTarget } from './useDataExtractor'
 import { useCharacterLookup } from './useCharacterLookup'
@@ -6,7 +6,7 @@ import { useCharacterLookup } from './useCharacterLookup'
 /**
  * PostFlow内のキャラクター情報を扱うユーティリティ
  */
-export function usePostActionCharacters() {
+export function useScenarioStepCharacters() {
   const { getCharacter } = useCharacterLookup()
 
   /**

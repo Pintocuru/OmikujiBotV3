@@ -1,4 +1,4 @@
-<!-- src/editor/assets/PostFlow/preview/PostActionPreview.vue -->
+<!-- src/editor/assets/ScenarioStep/preview/ScenarioStepPreview.vue -->
 <template>
   <div class="h-full flex flex-col items-center justify-center space-y-4">
     <!-- message / gameScript: UI ごとのプレビュー(uiEditorRegistry に登録。無ければ CommentBubblePreview) -->
@@ -10,13 +10,13 @@
     <div v-else-if="action.kind === 'variable'" class="w-full px-2">
       <pre
         class="text-xs font-mono text-left bg-base-300 text-base-content rounded-lg p-3 max-h-64 overflow-auto whitespace-pre-wrap break-all"
-      ><code>{{ action.message || t('postFlow.actionPreview.noMessage') }}</code></pre>
+      ><code>{{ action.message || t('scenarioStep.stepPreview.noMessage') }}</code></pre>
     </div>
 
     <!-- サウンド -->
     <div v-else-if="action.kind === 'sound'" class="w-full text-center">
       <Volume2 :size="80" class="mx-auto text-blue-500" />
-      <p class="text-sm opacity-70 mt-2">{{ t('postFlow.actionPreview.sound') }}</p>
+      <p class="text-sm opacity-70 mt-2">{{ t('scenarioStep.stepPreview.sound') }}</p>
     </div>
 
     <!-- WordParty -->
@@ -28,14 +28,14 @@
     <!-- シナリオ呼び出し -->
     <div v-else-if="action.kind === 'scenarioCall'" class="w-full text-center">
       <MessagesSquare :size="80" class="mx-auto text-red-500" />
-      <p class="text-sm opacity-70 mt-2">{{ t('postFlow.actionPreview.actionSet') }}</p>
+      <p class="text-sm opacity-70 mt-2">{{ t('scenarioStep.stepPreview.scenarioCall') }}</p>
     </div>
 
     <!-- 評価ブロックなど、プレビューがない場合 -->
     <div v-else class="w-full text-center opacity-60">
       <div class="flex flex-col items-center space-y-2">
         <Settings :size="64" class="text-gray-400" />
-        <p class="text-sm">{{ t('postFlow.actionPreview.none') }}</p>
+        <p class="text-sm">{{ t('scenarioStep.stepPreview.none') }}</p>
       </div>
     </div>
 
@@ -83,9 +83,9 @@
   const processedMessage = computed(() => {
     const _ = messageKey.value
 
-    if (props.action.kind !== 'message') return t('postFlow.actionPreview.invalid')
+    if (props.action.kind !== 'message') return t('scenarioStep.stepPreview.invalid')
     const content = props.action.message
-    if (!content) return t('postFlow.actionPreview.noMessage')
+    if (!content) return t('scenarioStep.stepPreview.noMessage')
     const processed = processTestPlaceholder(content, data.value.assets.placeholders)
     return transformIconPlaceholdersPreview(processed.text)
   })

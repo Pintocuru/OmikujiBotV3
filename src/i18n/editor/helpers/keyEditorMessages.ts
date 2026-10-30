@@ -35,10 +35,10 @@ export const keyEditorMessages = {
         base: 'Keyを変更すると、この{target}を参照している他の設定も影響を受ける可能性があります。',
         notes: {
           mikuji: 'このみくじ箱を指定しているイベントの設定が自動的に更新されます。',
-          actions: 'このシナリオを呼び出している投稿フローが自動的に更新されます。',
+          scenarios: 'このシナリオを呼び出しているステップが自動的に更新されます。',
           placeholders:
             'このプレースホルダーを使っているメッセージや他のプレースホルダーの内容が自動的に更新されます。',
-          characters: 'このキャラクターを使っている投稿フロー(みくじ箱・シナリオ)が自動的に更新されます。',
+          characters: 'このキャラクターを使っているステップ(みくじ箱・シナリオ)が自動的に更新されます。',
         },
       },
     },
@@ -77,7 +77,7 @@ export const keyEditorMessages = {
         base: 'Changing the key may affect other settings that reference this {target}.',
         notes: {
           mikuji: 'Events that use this mikuji box are updated automatically.',
-          actions: 'Post flows that call this action set are updated automatically.',
+          scenarios: 'Steps that call this scenario are updated automatically.',
           placeholders: 'Messages and other placeholders that use this placeholder are updated automatically.',
           characters: 'Post flows (mikuji boxes and action sets) that use this character are updated automatically.',
         },
