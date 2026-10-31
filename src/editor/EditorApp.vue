@@ -8,11 +8,8 @@
     <div class="h-full min-w-0 overflow-y-auto overflow-x-hidden p-4 pb-16 space-y-4">
       <!-- 開発版の起動時、データが読まれていないことを示す -->
       <AppDevWorld v-if="isDevWorld" />
+      <TopPage v-else-if="isTopPage" />
       <ContentArea v-else />
-
-      <!-- コンテンツ 
-      <TopPage v-else />
-      -->
     </div>
   </div>
 </template>
@@ -26,14 +23,13 @@
 
   import AppDevWorld from './content/AppDevWorld.vue'
   import TopPage from './content/TopPage.vue'
-
   import ContentArea from './content/ContentArea.vue'
   import SidebarDrawer from './sidebar/SidebarDrawer.vue'
   import { useOmikujiStore } from './stores/useOmikujiStore'
+  import { useNavigationStore } from './stores/useNavigationStore'
   import i18n from './i18n'
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { generatorApi } from '@/manager/services/generatorApi'
 
@@ -42,7 +38,7 @@
   const devStore = useManagerStore()
   const { data, dataSource } = storeToRefs(omikujiStore)
   const { isServerConnected } = storeToRefs(devStore)
-  const navigationStore = useNavigationStore()
+  const { isTopPage } = storeToRefs(useNavigationStore())
 
   // テーマと、データ未読込(開発版の起動直後)かどうかの判定
   const isDevWorld = computed(() => isDev && dataSource.value === 'unknown')
@@ -72,7 +68,6 @@
         const lowData = (await generatorApi.loadGeneratorConfig()) as OmikujiDataType
         if (lowData) {
           if (!omikujiStore.loadData(lowData)) return // 読み込み拒否(エラー表示済み)
-          navigationStore.selectCategory(data.value.settings.editor.initialCategory)
           swalToast.success({
             title: '読み込み完了',
             text: `${lowData.meta.name} を読み込みました`,
@@ -87,7 +82,6 @@
     // ローカルを読む
     const result = omikujiStore.openLocalOmikujiData()
     if (result === 'rejected') return // 読み込み拒否(エラー表示済み)
-    navigationStore.selectCategory(data.value.settings.editor.initialCategory)
     if (result === 'empty') {
       // サーバーにも omikujiData.js にもデータがなかった: 読み込んだと偽らず、初期データで開始したことを伝える
       swalToast.info({
