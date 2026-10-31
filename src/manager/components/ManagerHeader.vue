@@ -46,11 +46,11 @@
           @click="loadFromGenerator"
           :disabled="devStore.isSaving"
           class="btn btn-secondary btn-sm tooltip tooltip-top"
-          data-tip="ジェネレーターの設定を読み込む"
+          data-tip="「ジェネレーター用に保存」した設定を読み込む"
         >
           <span v-if="devStore.isSaving" class="loading loading-spinner loading-xs mr-2"></span>
           <Download class="w-4 h-4 mr-2" />
-          サーバーから読み込み
+          ジェネレーター用を読み込み
         </button>
       </template>
     </div>

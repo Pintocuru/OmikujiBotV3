@@ -54,11 +54,11 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
 
     const result = await swalModal.confirmDelete({
       icon: 'info',
-      title: 'ジェネレーターに保存',
+      title: 'ジェネレーター用に保存',
       html: `
-    <p>現在の設定をジェネレーター用として保存しますか？</p>
+    <p>現在の設定を、ジェネレーターが読み込むデータとして保存しますか？</p>
     <p style="font-size: 0.8em; color: #666; margin-top: 8px;">
-      プリセットID: ${generatorId}
+      ID「${generatorId}」の保存済みデータは上書きされます。
     </p>
   `,
       confirmButtonText: '保存',
@@ -82,7 +82,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
       await fetchFileList()
       omikujiStore.resetChangeState()
 
-      swalToast.success({ title: 'ジェネレーター用設定を保存しました' })
+      swalToast.success({ title: 'ジェネレーター用に保存しました' })
       state.isServerConnected.value = true
       return null
     }, 'isSaving')

@@ -123,6 +123,18 @@ export const swalModal = {
     })
   },
 
+  /** 文字列の入力 (入力値は結果の value、決定されたかは isConfirmed で判定) */
+  prompt(options: SweetAlertOptions = {}) {
+    return Swal.fire({
+      input: 'text',
+      showCancelButton: true,
+      confirmButtonText: '決定',
+      cancelButtonText: 'キャンセル',
+      target: 'body',
+      ...options,
+    })
+  },
+
   confirmTriple(options: SweetAlertOptions = {}) {
     return Swal.fire({
       icon: 'question',

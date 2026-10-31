@@ -66,11 +66,10 @@
   import { useI18n } from 'vue-i18n'
   import { Cpu, FolderOpen, Menu, Moon, Settings, Sun } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import ManagerView from '@/manager/ManagerView.vue'
+  import { useOpenLocal } from '@/manager/composables/useOpenLocal'
   import { DATA_SOURCE_MAP } from '@/editor/maps/DataSourceMap'
-  import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { useSidebarDrawer } from '@/editor/sidebar/composables/useSidebarDrawer'
   import IssuesBadge from './IssuesBadge.vue'
   import SaveMenu from './SaveMenu.vue'
@@ -85,7 +84,6 @@
   const omikujiStore = useOmikujiStore()
   const { data, dataSource } = storeToRefs(omikujiStore)
   const { toggleDaisyUiTheme } = omikujiStore
-  const navigationStore = useNavigationStore()
   const { isServerConnected, saveFileName } = storeToRefs(useManagerStore())
   const { toggle: toggleSidebar } = useSidebarDrawer()
 
@@ -108,25 +106,13 @@
 
   // ファイルを開く: サーバーに接続していれば選択ダイアログ、していなければローカルの omikujiData.js を直接読む
   const isFileDialogOpen = ref(false)
+  const { openLocal } = useOpenLocal()
   const onOpen = () => {
     if (isServerConnected.value) {
       isFileDialogOpen.value = true
       return
     }
-    const result = omikujiStore.openLocalOmikujiData()
-    if (result === 'empty') {
-      swalToast.error({ title: '読み込み失敗', text: 'omikujiData.js が空、またはデータが見つかりませんでした。' })
-      return
-    }
-    if (result === 'rejected') {
-      swalToast.error({
-        title: '読み込み拒否',
-        text: 'omikujiData.js の読み込みがキャンセルされたか、拒否されました。',
-      })
-      return
-    }
-    navigationStore.selectCategory(data.value.settings.editor.initialCategory)
-    swalToast.success({ title: '読み込み完了', text: 'omikujiData.js を読み込みました。' })
+    void openLocal()
   }
 
   // ジェネレーターを開けるのは、わんコメに接続できているとき(エディターに戻るのは常に可能)
