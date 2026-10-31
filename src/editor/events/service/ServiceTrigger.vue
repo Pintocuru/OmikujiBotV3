@@ -1,7 +1,7 @@
 <!-- src/editor/events/service/ServiceTrigger.vue -->
 <template>
   <!-- 条件タイプ選択（単一選択） -->
-  <SettingItem icon="Filter" :label="t('serviceTrigger.conditionLabel')" :description="t('serviceTrigger.conditionDescription')">
+  <SettingItem icon="Filter" labelKey="serviceTrigger.conditionLabel" descriptionKey="serviceTrigger.conditionDescription">
     <div class="flex flex-wrap gap-2">
       <label v-for="(_, key) in serviceTriggerConditionMap" :key="key" class="cursor-pointer">
         <input type="radio" class="hidden" :checked="selectedCondition === key" @change="setCondition(key)" />
@@ -46,8 +46,8 @@
   <SettingItem
     icon="Clock"
     v-if="selectedCondition === 'elapsedMinutes'"
-    :label="t('serviceTrigger.elapsedLabel')"
-    :description="t('serviceTrigger.elapsedDescription')"
+    labelKey="serviceTrigger.elapsedLabel"
+    descriptionKey="serviceTrigger.elapsedDescription"
   >
     <input
       type="number"

@@ -2,8 +2,8 @@
 <template>
   <SettingItem
     icon="ListOrdered"
-    :label="t('eventCore.scenarioChoiceEditor.stepKey.label')"
-    :description="t('eventCore.scenarioChoiceEditor.stepKey.description')"
+    labelKey="eventCore.scenarioChoiceEditor.stepKey.label"
+    descriptionKey="eventCore.scenarioChoiceEditor.stepKey.description"
   >
     <select v-model="stepKey" class="select w-full">
       <option value="">{{ t('eventCore.scenarioChoiceEditor.stepKey.none') }}</option>

@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerCount.vue -->
 <template>
-  <SettingItem icon="Hash" :label="t('triggerCount.label')" :description="t('triggerCount.description')">
+  <SettingItem icon="Hash" labelKey="triggerCount.label" descriptionKey="triggerCount.description">
     <!-- 対象の値 -->
     <div class="flex flex-wrap gap-2 pb-2">
       <span

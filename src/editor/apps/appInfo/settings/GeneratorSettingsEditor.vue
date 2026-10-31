@@ -4,7 +4,7 @@
   <SubSectionHeader
     icon="Sparkles"
     :title="t('appInfoEditor.settings.generator.title')"
-    :description="t('appInfoEditor.settings.generator.description')"
+    descriptionKey="appInfoEditor.settings.generator.description"
   />
 
   <!-- コメント購読タイプ -->
@@ -12,8 +12,8 @@
     icon="MessageSquare"
     v-if="isDev"
     variant="warning"
-    :label="t('appInfoEditor.settings.generator.commentType.label')"
-    :description="t('appInfoEditor.settings.generator.commentType.description')"
+    labelKey="appInfoEditor.settings.generator.commentType.label"
+    descriptionKey="appInfoEditor.settings.generator.commentType.description"
   >
     <select
       :value="settings.generator.commentType"
@@ -29,8 +29,8 @@
   <!-- 基本ディレイ時間設定 -->
   <SettingItem
     icon="Timer"
-    :label="t('appInfoEditor.settings.generator.basicDelaySeconds.label')"
-    :description="t('appInfoEditor.settings.generator.basicDelaySeconds.description')"
+    labelKey="appInfoEditor.settings.generator.basicDelaySeconds.label"
+    descriptionKey="appInfoEditor.settings.generator.basicDelaySeconds.description"
     :showReset="true"
     @reset="reset('generator', 'basicDelaySeconds')"
   >
@@ -54,8 +54,8 @@
   <!-- 効果音を鳴らす -->
   <SettingItem
     icon="Volume2"
-    :label="t('appInfoEditor.settings.generator.soundEnabled.label')"
-    :description="t('appInfoEditor.settings.generator.soundEnabled.description')"
+    labelKey="appInfoEditor.settings.generator.soundEnabled.label"
+    descriptionKey="appInfoEditor.settings.generator.soundEnabled.description"
     :showReset="true"
     @reset="reset('generator', 'soundEnabled')"
   >

@@ -1,6 +1,6 @@
 <!-- src/ui/CharacterStage/editor/CharacterStageSlotsEditor.vue -->
 <template>
-  <SettingItem layout="vertical" icon="MessageSquare" :label="t('scenarioStep.messageSettings.slots')">
+  <SettingItem layout="vertical" icon="MessageSquare" labelKey="scenarioStep.messageSettings.slots">
     <p class="mb-2 text-xs opacity-60">空欄の項目は UI 設定の既定値が使われます</p>
 
     <!-- 表示秒数 -->
@@ -131,15 +131,12 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { CharacterStageSchema } from '@/types/ui'
   import { enterMotionMap } from '@/maps/OmikujiData'
   import { CharacterStageSlotMap, type CharacterStageSlotKey } from '@/types/generator'
-
-  const { t } = useI18n()
 
   const props = defineProps<{ slots: Record<string, string> }>()
   const emit = defineEmits<{ 'update:slots': [slots: Record<string, string>] }>()

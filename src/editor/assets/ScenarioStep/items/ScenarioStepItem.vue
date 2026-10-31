@@ -10,7 +10,7 @@
     <!-- 右側: 設定エリア -->
     <div class="col-span-2 space-y-2">
       <!-- ActionType -->
-      <SettingItem layout="vertical" icon="Rocket" :label="t('scenarioStep.stepItem.typeLabel')">
+      <SettingItem layout="vertical" icon="Rocket" labelKey="scenarioStep.stepItem.typeLabel">
         <IconRadioGroup
           v-model="kind"
           i18n-prefix="mapText.scenarioStepKind"
@@ -24,8 +24,8 @@
       <SettingItem
         layout="vertical"
         icon="Clock"
-        :label="t('scenarioStep.stepItem.delayLabel')"
-        :description="t('scenarioStep.stepItem.delayDesc')"
+        labelKey="scenarioStep.stepItem.delayLabel"
+        descriptionKey="scenarioStep.stepItem.delayDesc"
       >
         <input
           type="number"

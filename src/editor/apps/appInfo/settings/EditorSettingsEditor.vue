@@ -12,8 +12,8 @@
     icon="Palette"
     v-if="isDev"
     variant="warning"
-    label="appInfoEditor.settings.editor.theme.label"
-    description="appInfoEditor.settings.editor.theme.description"
+    labelKey="appInfoEditor.settings.editor.theme.label"
+    descriptionKey="appInfoEditor.settings.editor.theme.description"
     :showReset="true"
     @reset="reset('developer', 'daisyUiTheme')"
   >
@@ -36,8 +36,8 @@
   <!-- 言語設定 -->
   <SettingItem
     icon="Languages"
-    label="appInfoEditor.settings.editor.locale.label"
-    description="appInfoEditor.settings.editor.locale.description"
+    labelKey="appInfoEditor.settings.editor.locale.label"
+    descriptionKey="appInfoEditor.settings.editor.locale.description"
     :showReset="true"
     @reset="reset('editor', 'locale')"
   >
@@ -55,8 +55,8 @@
   <!-- 起動時に開くカテゴリ -->
   <SettingItem
     icon="LayoutGrid"
-    label="appInfoEditor.settings.editor.initialCategory.label"
-    description="appInfoEditor.settings.editor.initialCategory.description"
+    labelKey="appInfoEditor.settings.editor.initialCategory.label"
+    descriptionKey="appInfoEditor.settings.editor.initialCategory.description"
     :showReset="true"
     @reset="reset('editor', 'initialCategory')"
   >

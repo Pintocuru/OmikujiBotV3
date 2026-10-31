@@ -1,7 +1,7 @@
 <!-- src/editor/assets/characters/service/CommentVoiceSettings.vue -->
 <template>
   <!-- mode  -->
-  <SettingItem icon="Megaphone" :label="t('characterService.voice.label')" :description="t('characterService.voice.desc')">
+  <SettingItem icon="Megaphone" labelKey="characterService.voice.label" descriptionKey="characterService.voice.desc">
     <select
       :value="currentDisplayOption.mode"
       @change="updateDisplayField('mode', ($event.target as HTMLSelectElement).value)"
@@ -32,7 +32,11 @@
     </InformationCard>
 
     <!-- わんコメの枠を指定 -->
-    <SettingItem icon="Hash" :label="t('characterService.voice.frameLabel')" :description="t('characterService.voice.frameDesc')">
+    <SettingItem
+      icon="Hash"
+      labelKey="characterService.voice.frameLabel"
+      descriptionKey="characterService.voice.frameDesc"
+    >
       <input
         type="text"
         class="input w-full"

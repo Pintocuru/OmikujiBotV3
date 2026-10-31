@@ -1,18 +1,15 @@
 <!-- src/editor/assets/ScenarioStep/variable/VariableSettings.vue -->
 <template>
-  <SettingItem icon="Code2" layout="vertical" :label="t('scenarioStep.variable.label')">
+  <SettingItem icon="Code2" layout="vertical" labelKey="scenarioStep.variable.label">
     <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
   </SettingItem>
 </template>
 
 <script setup lang="ts">
-  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { ScenarioStepVariableType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import MessageTextDialog from '../Message/MessageTextDialog.vue'
-
-  const { t } = useI18n()
 
   const props = defineProps<{
     step: ScenarioStepVariableType

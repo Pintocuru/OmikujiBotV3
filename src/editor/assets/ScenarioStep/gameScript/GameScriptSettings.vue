@@ -1,7 +1,7 @@
 <!-- src/editor/assets/ScenarioStep/gameScript/GameScriptSettings.vue -->
 <template>
   <!-- 実行するゲームスクリプト -->
-  <SettingItem layout="vertical" icon="Gamepad2" :label="t('scenarioStep.gameScript.gameLabel')">
+  <SettingItem layout="vertical" icon="Gamepad2" labelKey="scenarioStep.gameScript.gameLabel">
     <IconRadioGroup
       v-model="scriptId"
       i18n-prefix="mapText.gameMeta"
@@ -14,7 +14,7 @@
   </SettingItem>
 
   <!-- キャラクター -->
-  <SettingItem layout="vertical" icon="User" :label="t('scenarioStep.common.character')">
+  <SettingItem layout="vertical" icon="User" labelKey="scenarioStep.common.character">
     <CharacterIconPicker
       :character-key="characterKey"
       :is-icon-key="false"
@@ -26,8 +26,8 @@
   <SettingItem
     layout="vertical"
     icon="Code2"
-    :label="t('scenarioStep.gameScript.paramLabel')"
-    :description="t('scenarioStep.gameScript.paramDesc')"
+    labelKey="scenarioStep.gameScript.paramLabel"
+    descriptionKey="scenarioStep.gameScript.paramDesc"
   >
     <input
       v-model="queryString"

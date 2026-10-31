@@ -1,6 +1,6 @@
 <!-- src/editor/events/pad/PadTriggerEditor.vue -->
 <template>
-  <SettingItem icon="LayoutGrid" :label="t('padTrigger.padLabel')" :description="t('padTrigger.padDescription')">
+  <SettingItem icon="LayoutGrid" labelKey="padTrigger.padLabel" descriptionKey="padTrigger.padDescription">
     <!-- グリッドサイズ切り替えタブ -->
     <div role="tablist" class="tabs tabs-sm mb-2 w-fit">
       <button

@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerUserId.vue -->
 <template>
-  <SettingItem icon="Fingerprint" :label="t('triggerUserId.label')" :description="t('triggerUserId.description')">
+  <SettingItem icon="Fingerprint" labelKey="triggerUserId.label" descriptionKey="triggerUserId.description">
     <textarea
       v-model="textValue"
       @input="updateModelValue"

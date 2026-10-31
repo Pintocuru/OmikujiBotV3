@@ -3,8 +3,8 @@
   <!-- 動作モード（起動時のみ / 一定間隔 / ランダム間隔） -->
   <SettingItem
     icon="ToggleRight"
-    :label="t('timerInterval.modeLabel')"
-    :description="t('timerInterval.modeDescription')"
+    labelKey="timerInterval.modeLabel"
+    descriptionKey="timerInterval.modeDescription"
   >
     <div class="flex gap-2">
       <!-- 起動時のみ実行 -->
@@ -40,8 +40,8 @@
     <!-- プリセット選択 -->
     <SettingItem
       icon="Timer"
-      :label="t('timerInterval.intervalLabel')"
-      :description="t('timerInterval.intervalDescription')"
+      labelKey="timerInterval.intervalLabel"
+      descriptionKey="timerInterval.intervalDescription"
     >
       <select v-model="intervalSeconds" class="select select-bordered w-full">
         <option v-for="preset in intervalPresets" :key="preset.value" :value="preset.value">
@@ -53,8 +53,8 @@
     <!-- isBaseZero トグル -->
     <SettingItem
       icon="Clock"
-      :label="t('timerInterval.baseZeroLabel')"
-      :description="t('timerInterval.baseZeroDescription')"
+      labelKey="timerInterval.baseZeroLabel"
+      descriptionKey="timerInterval.baseZeroDescription"
     >
       <label class="label cursor-pointer justify-start gap-4">
         <input type="checkbox" class="toggle toggle-primary" v-model="isBaseZero" />
@@ -69,8 +69,8 @@
   <SettingItem
     v-if="mode === 'range'"
     icon="Timer"
-    :label="t('timerInterval.rangeLabel')"
-    :description="t('timerInterval.rangeDescription')"
+    labelKey="timerInterval.rangeLabel"
+    descriptionKey="timerInterval.rangeDescription"
   >
     <div class="flex flex-wrap items-center gap-2">
       <label class="flex items-center gap-2">
@@ -105,8 +105,8 @@
   <!-- 動作条件 (全モード共通) -->
   <SettingItem
     icon="Brackets"
-    :label="t('timerInterval.conditionLabel')"
-    :description="t('timerInterval.conditionDescription')"
+    labelKey="timerInterval.conditionLabel"
+    descriptionKey="timerInterval.conditionDescription"
   >
     <textarea
       v-model="expression"

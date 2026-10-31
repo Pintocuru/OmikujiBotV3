@@ -1,8 +1,8 @@
 <!-- src/editor/assets/ScenarioStep/Message/MessageSettings.vue -->
 <template>
   <!-- 表示先のUI UIごとに下のフォームが変わる -->
-  <SettingItem layout="vertical" :icon="uiKindMap[step.uiKey].icon" :label="t('scenarioStep.messageSettings.uiKey')">
-    <SettingItem layout="vertical" :icon="uiKindIcons[step.uiKey]" :label="t('scenarioStep.messageSettings.uiKey')">
+  <SettingItem layout="vertical" :icon="uiKindMap[step.uiKey].icon" labelKey="scenarioStep.messageSettings.uiKey">
+    <SettingItem layout="vertical" :icon="uiKindIcons[step.uiKey]" labelKey="scenarioStep.messageSettings.uiKey">
       <IconRadioGroup
         v-model="uiKey"
         i18n-prefix="mapText.uiKind"
@@ -16,7 +16,7 @@
   <!-- bubble を使う UI: キャラ・アイコン・本文 -->
   <template v-if="spec.bubble">
     <!-- キャラクター選択 -->
-    <SettingItem layout="vertical" icon="User" :label="t('scenarioStep.common.character')">
+    <SettingItem layout="vertical" icon="User" labelKey="scenarioStep.common.character">
       <CharacterIconPicker :character-key="step.characterKey ?? ''" :icon-key="step.iconKey" @select="updateStep" />
     </SettingItem>
 
@@ -25,7 +25,7 @@
       v-if="spec.bubble === 'comment'"
       icon="MessageSquare"
       layout="vertical"
-      :label="t('scenarioStep.messageSettings.message')"
+      labelKey="scenarioStep.messageSettings.message"
     >
       <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
     </SettingItem>
@@ -37,7 +37,7 @@
     v-else-if="slotMetas.length > 0"
     icon="MessageSquare"
     layout="vertical"
-    :label="t('scenarioStep.messageSettings.slots')"
+    labelKey="scenarioStep.messageSettings.slots"
   >
     <div v-for="meta in slotMetas" :key="meta.slot" class="mb-2">
       <p class="mb-1 text-sm font-medium">

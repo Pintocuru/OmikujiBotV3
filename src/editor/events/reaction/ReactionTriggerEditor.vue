@@ -1,7 +1,7 @@
 <!-- src/editor/events/reaction/ReactionTriggerEditor.vue -->
 <template>
   <!-- リアクション選択 -->
-  <SettingItem icon="ThumbsUp" :label="t('reactionTrigger.targetLabel')" :description="t('reactionTrigger.targetDescription')">
+  <SettingItem icon="ThumbsUp" labelKey="reactionTrigger.targetLabel" descriptionKey="reactionTrigger.targetDescription">
     <div class="flex flex-wrap gap-2">
       <label v-for="(label, key) in reactionMap.youtube" :key="key" class="cursor-pointer">
         <input type="checkbox" class="hidden" :checked="reactions.includes(key)" @change="toggleReaction(key)" />
@@ -13,7 +13,7 @@
   </SettingItem>
 
   <!-- 条件 -->
-  <SettingItem icon="Activity" :label="t('reactionTrigger.conditionLabel')" :description="t('reactionTrigger.conditionDescription')">
+  <SettingItem icon="Activity" labelKey="reactionTrigger.conditionLabel" descriptionKey="reactionTrigger.conditionDescription">
     <select class="select select-bordered select-sm w-full" v-model="comparison">
       <option v-for="(_, key) in reactionConditionMap" :key="key" :value="key">
         {{ t(`mapText.reactionCondition.${key}.label`) }}
@@ -27,7 +27,7 @@
   </SettingItem>
 
   <!-- 数値指定 -->
-  <SettingItem icon="Sliders" :label="t('reactionTrigger.thresholdLabel')" :description="t('reactionTrigger.thresholdDescription')">
+  <SettingItem icon="Sliders" labelKey="reactionTrigger.thresholdLabel" descriptionKey="reactionTrigger.thresholdDescription">
     <input
       type="number"
       min="0"
@@ -38,7 +38,7 @@
   </SettingItem>
 
   <!-- レベルでの発動 -->
-  <SettingItem icon="Zap" v-if="comparison !== 'milestone'" :label="t('reactionTrigger.levelLabel')" :description="t('reactionTrigger.levelDescription')">
+  <SettingItem icon="Zap" v-if="comparison !== 'milestone'" labelKey="reactionTrigger.levelLabel" descriptionKey="reactionTrigger.levelDescription">
     <div class="w-full space-y-2">
       <!-- スライダー -->
       <input

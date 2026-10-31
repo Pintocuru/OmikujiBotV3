@@ -3,7 +3,7 @@
   <!-- Base64画像設定エリア -->
   <SettingItem
     icon="Image"
-    :label="t('characterService.base64.label')"
+    labelKey="characterService.base64.label"
     :description="t('characterService.base64.desc', { size: imageSize })"
     containerClass="form-control flex-row items-center gap-2 mt-2"
   >

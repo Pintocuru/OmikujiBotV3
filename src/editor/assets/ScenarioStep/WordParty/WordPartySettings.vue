@@ -2,7 +2,7 @@
 <template>
   <div class="space-y-2">
     <!-- WordParty ID -->
-    <SettingItem layout="vertical" icon="PartyPopper" label="WordParty" :description="t('scenarioStep.wordParty.idDesc')">
+    <SettingItem layout="vertical" icon="PartyPopper" label="WordParty" descriptionKey="scenarioStep.wordParty.idDesc">
       <input
         type="text"
         v-model="wordPartyIdValue"
@@ -15,8 +15,8 @@
     <SettingItem
       layout="vertical"
       icon="Repeat"
-      :label="t('scenarioStep.wordParty.repeatLabel')"
-      :description="t('scenarioStep.wordParty.repeatDesc')"
+      labelKey="scenarioStep.wordParty.repeatLabel"
+      descriptionKey="scenarioStep.wordParty.repeatDesc"
     >
       <div class="flex items-center gap-2 flex-1">
         <select v-model="repeatMode" class="select select-bordered select-sm w-32">

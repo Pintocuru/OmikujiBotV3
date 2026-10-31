@@ -3,8 +3,8 @@
   <!-- みくじ箱選択 -->
   <SettingItem
     icon="Package"
-    :label="t('eventCore.boxChoiceEditor.omikujiKey.label')"
-    :description="t('eventCore.boxChoiceEditor.omikujiKey.description')"
+    labelKey="eventCore.boxChoiceEditor.omikujiKey.label"
+    descriptionKey="eventCore.boxChoiceEditor.omikujiKey.description"
   >
     <select v-model="omikujiKey" class="select w-full">
       <option value="">{{ t('eventCore.boxChoiceEditor.omikujiKey.none') }}</option>

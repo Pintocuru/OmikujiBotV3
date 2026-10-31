@@ -14,8 +14,8 @@
   <!-- 適用する発動条件 -->
   <SettingItem
     icon="Filter"
-    :label="t('commentTrigger.setting.label')"
-    :description="t('commentTrigger.setting.description')"
+    labelKey="commentTrigger.setting.label"
+    descriptionKey="commentTrigger.setting.description"
   >
     <IconCheckGroup
       v-model="conditions"
@@ -49,7 +49,7 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
 
-  import { CommentTriggerCondition, commentTriggerCondition, CommentTriggerType } from '@/types/OmikujiData'
+  import { commentTriggerCondition, CommentTriggerType } from '@/types/OmikujiData'
 
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import TriggerComment from '@/editor/events/trigger/TriggerComment.vue'
@@ -93,15 +93,4 @@
   const gift = createComputed('gift')
   const userName = createComputed('userName')
   const expression = createComputed('expression')
-
-  // Utils
-  const toggleInArray = <T,>(array: T[], value: T): T[] => {
-    const index = array.indexOf(value)
-    return index > -1 ? array.filter((_, i) => i !== index) : [...array, value]
-  }
-
-  // Handlers
-  const toggleCondition = (condition: CommentTriggerCondition) => {
-    conditions.value = toggleInArray(conditions.value, condition)
-  }
 </script>

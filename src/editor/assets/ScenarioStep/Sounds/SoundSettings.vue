@@ -3,8 +3,8 @@
   <SettingItem
     icon="Volume2"
     layout="vertical"
-    :label="t('scenarioStep.sound.label')"
-    :description="t('scenarioStep.sound.desc')"
+    labelKey="scenarioStep.sound.label"
+    descriptionKey="scenarioStep.sound.desc"
   >
     <!-- プリセット選択 -->
     <select v-model="sound" class="select select-bordered select-sm w-full">
@@ -17,8 +17,8 @@
   <SettingItem
     icon="Volume2"
     layout="vertical"
-    :label="t('scenarioStep.sound.customLabel')"
-    :description="t('scenarioStep.sound.customDesc')"
+    labelKey="scenarioStep.sound.customLabel"
+    descriptionKey="scenarioStep.sound.customDesc"
   >
     <input
       v-model="soundPath"

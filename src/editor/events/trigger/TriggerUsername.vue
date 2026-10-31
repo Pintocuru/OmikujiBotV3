@@ -1,6 +1,6 @@
 <!-- src/editor/events/trigger/TriggerUsername.vue -->
 <template>
-  <SettingItem icon="User" :label="t('triggerUsername.label')" :description="t('triggerUsername.description')">
+  <SettingItem icon="User" labelKey="triggerUsername.label" descriptionKey="triggerUsername.description">
     <textarea
       v-model="textValue"
       @input="updateModelValue"
