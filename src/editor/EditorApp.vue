@@ -8,9 +8,11 @@
     <div class="h-full min-w-0 overflow-y-auto overflow-x-hidden p-4 pb-16 space-y-4">
       <!-- 開発版の起動時、データが読まれていないことを示す -->
       <AppDevWorld v-if="isDevWorld" />
-
-      <!-- コンテンツ -->
       <ContentArea v-else />
+
+      <!-- コンテンツ 
+      <TopPage v-else />
+      -->
     </div>
   </div>
 </template>
@@ -23,6 +25,8 @@
   import { OmikujiDataType } from '@/types/OmikujiData'
 
   import AppDevWorld from './content/AppDevWorld.vue'
+  import TopPage from './content/TopPage.vue'
+
   import ContentArea from './content/ContentArea.vue'
   import SidebarDrawer from './sidebar/SidebarDrawer.vue'
   import { useOmikujiStore } from './stores/useOmikujiStore'
