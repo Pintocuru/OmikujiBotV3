@@ -15,6 +15,7 @@ export const useNavigationStore = defineStore('navigation', () => {
   /**
    * 状態
    */
+  const isTopPage = ref(true)
   const selectedCategory = ref<CategoryType>('comments')
   const selectedItemKey = ref<string | null>(null)
   const activeSection = ref<string | null>(null)
@@ -54,8 +55,13 @@ export const useNavigationStore = defineStore('navigation', () => {
   /**
    * 操作
    */
+  const showTopPage = () => {
+    isTopPage.value = true
+  }
+
   const selectCategory = (category?: CategoryType) => {
     const safeCategory = category ?? 'comments'
+    isTopPage.value = false
     selectedCategory.value = safeCategory
     // 選択中のタブは、ContentArea 側で新しいカテゴリのタブに合わせ直す
     activeSection.value = null
@@ -114,6 +120,7 @@ export const useNavigationStore = defineStore('navigation', () => {
   )
 
   return {
+    isTopPage,
     isEventCategory,
     isAssetCategory,
     selectedCategory,
@@ -123,6 +130,7 @@ export const useNavigationStore = defineStore('navigation', () => {
     categoryArray,
     selectedItem,
     isDataCategory,
+    showTopPage,
     selectCategory,
     selectItem,
     clearSelection,
