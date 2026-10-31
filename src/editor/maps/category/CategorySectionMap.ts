@@ -18,10 +18,7 @@ export const categorySectionMap: Record<DataCategoryType, ContentTabDef[]> = {
   mikuji: [{ section: 'omikujiSet', icon: 'ListChecks' }],
 
   scenarios: [{ section: 'scenario', icon: 'Box' }],
-  placeholders: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal' },
-    { section: 'placeholder', icon: 'Brackets' },
-  ],
+  placeholders: [{ section: 'placeholder', icon: 'Brackets' }],
   characters: [
     { section: 'imageSettings', icon: 'Image' },
     { section: 'colorSettings', icon: 'Palette' },
