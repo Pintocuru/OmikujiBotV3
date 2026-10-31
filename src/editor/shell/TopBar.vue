@@ -112,12 +112,13 @@
   // ファイルを開く: サーバーに接続していれば選択ダイアログ、していなければローカルの omikujiData.js を直接読む
   const isFileDialogOpen = ref(false)
   const { openLocal } = useOpenLocal()
-  const onOpen = () => {
+  const onOpen = async () => {
     if (isServerConnected.value) {
       isFileDialogOpen.value = true
       return
     }
-    void openLocal()
+    // 読み込み成功後、useOpenLocal 側で TopPage に戻る
+    await openLocal()
   }
 
   // ジェネレーターを開けるのは、わんコメに接続できているとき(エディターに戻るのは常に可能)
