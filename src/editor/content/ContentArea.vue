@@ -23,6 +23,9 @@
   />
 
   <template v-else>
+    <!-- Events / Assets: 基本設定の概要と使用キャラクター -->
+    <ContentSummary v-if="isCurrentDataCategory" :key="selectedCategory" />
+
     <!-- Events / Assets: 現在のアイテムと接続を表示するヘッダー -->
     <ContentHeader v-if="isCurrentDataCategory" />
     <!-- ui / appInfo: セクションのタブ -->
@@ -42,6 +45,7 @@
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import ContentHeader from './ContentHeader.vue'
+  import ContentSummary from './ContentSummary.vue'
   import ContentTabs from './ContentTabs.vue'
   import { useContentTabs } from './composables/useContentTabs'
 
