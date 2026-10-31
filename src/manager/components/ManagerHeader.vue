@@ -52,41 +52,6 @@
           <Download class="w-4 h-4 mr-2" />
           サーバーから読み込み
         </button>
-
-        <button
-          @click="devStore.saveToGenerator"
-          :disabled="devStore.isSaving"
-          class="btn btn-primary btn-sm tooltip tooltip-top"
-          data-tip="ジェネレーター用設定として保存"
-        >
-          <span v-if="devStore.isSaving" class="loading loading-spinner loading-xs mr-2"></span>
-          <Save class="w-4 h-4 mr-2" />
-          サーバーに保存
-        </button>
-      </template>
-      <template v-else>
-        <button
-          @click="devStore.overwriteOmikujiData"
-          :disabled="devStore.isSaving"
-          class="btn btn-primary btn-sm tooltip tooltip-top"
-          data-tip="server/omikujiData.js を上書き保存"
-        >
-          <span v-if="devStore.isSaving" class="loading loading-spinner loading-xs mr-2"></span>
-          <Save class="w-4 h-4 mr-2" />
-          omikujiData.js に保存
-        </button>
-
-        <button
-          v-if="isDev"
-          @click="saveConfigAutoName"
-          :disabled="devStore.isSaving"
-          class="btn btn-success btn-sm tooltip tooltip-bottom"
-          data-tip="現在の設定を日付ファイル名で保存"
-        >
-          <span v-if="devStore.isSaving" class="loading loading-spinner loading-xs mr-2"></span>
-          <Save class="w-4 h-4 mr-2" />
-          新規保存
-        </button>
       </template>
     </div>
   </div>
@@ -95,13 +60,12 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
   import { isDev } from '@/types/env'
-  import { generateDateFileName } from '@/manager/services/apiServiceUtils'
   import { generatorApi } from '@/manager/services/generatorApi'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { Download, Save, ChevronsDown, ChevronsUp } from 'lucide-vue-next'
+  import { Download, ChevronsDown, ChevronsUp } from 'lucide-vue-next'
   import { FILE_NAME } from '@server/core/constants'
 
   const omikujiStore = useOmikujiStore()
@@ -168,12 +132,5 @@
         text: String(error),
       })
     }
-  }
-
-  // 日付ファイル名で保存 > 即開く
-  const saveConfigAutoName = async () => {
-    const fileName = generateDateFileName()
-    await devStore.saveConfig(fileName)
-    await devStore.applyConfigFile(fileName)
   }
 </script>

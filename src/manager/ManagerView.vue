@@ -1,35 +1,61 @@
 <!-- src/manager/ManagerView.vue -->
+<!-- 保存済みファイルを選んで開くダイアログ。上部バーの「開く」から表示する -->
 <template>
-  <div id="section-presetManager" class="card bg-linear-to-r from-primary to-secondary">
-    <div class="card-body px-4 py-2">
-      <!-- ヘッダー -->
-      <ManagerHeader />
+  <dialog ref="dialogRef" class="modal" @close="open = false">
+    <div class="modal-box max-w-5xl w-11/12 p-0 overflow-hidden text-base-content">
+      <div class="card bg-linear-to-r from-primary to-secondary rounded-none">
+        <div class="card-body px-4 py-2">
+          <!-- ヘッダー -->
+          <ManagerHeader />
+
+          <!-- 接続ステータス -->
+          <div class="text-xs flex items-center text-primary-content gap-2">
+            <div class="status" :class="devStore.isServerConnected ? 'status-info' : 'status-error'" />
+            <span>{{
+              !devStore.isServerConnected
+                ? 'サーバー未接続'
+                : isExpressMode
+                  ? '開発サーバー接続'
+                  : 'プラグインサーバー接続'
+            }}</span>
+          </div>
+        </div>
+      </div>
 
       <!-- 読み込みセクション -->
-      <ManagerFileList v-if="devStore.isServerConnected" />
-
-      <!-- 接続ステータス -->
-      <div class="text-xs flex items-center text-primary-content gap-2">
-        <div class="status" :class="devStore.isServerConnected ? 'status-info' : 'status-error'" />
-        <span>{{
-          !devStore.isServerConnected ? 'サーバー未接続' : isExpressMode ? '開発サーバー接続' : 'プラグインサーバー接続'
-        }}</span>
+      <div class="p-2 max-h-[65vh] overflow-y-auto">
+        <ManagerFileList v-if="devStore.isServerConnected" />
       </div>
     </div>
-  </div>
+    <form method="dialog" class="modal-backdrop"><button>close</button></form>
+  </dialog>
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue'
+  import { ref, watch } from 'vue'
   import { storeToRefs } from 'pinia'
   import ManagerHeader from './components/ManagerHeader.vue'
   import ManagerFileList from './components/ManagerFileList.vue'
   import { useManagerStore } from './stores/useManagerStore'
 
-  const devStore = useManagerStore()
-  const { isExpressMode } = storeToRefs(devStore)
+  const open = defineModel<boolean>('open', { default: false })
 
-  onMounted(() => {
-    devStore.fetchFileList()
+  const devStore = useManagerStore()
+  const { isExpressMode, saveFileName } = storeToRefs(devStore)
+  const dialogRef = ref<HTMLDialogElement | null>(null)
+
+  // 開くたびに一覧を取り直す
+  watch(open, (isOpen) => {
+    const dialog = dialogRef.value
+    if (!dialog) return
+    if (isOpen && !dialog.open) {
+      void devStore.fetchFileList()
+      dialog.showModal()
+    } else if (!isOpen && dialog.open) {
+      dialog.close()
+    }
   })
+
+  // ファイルを読み込んだら閉じる
+  watch(saveFileName, () => (open.value = false))
 </script>

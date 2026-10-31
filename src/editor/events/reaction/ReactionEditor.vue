@@ -7,7 +7,7 @@
 
     <!-- 基本設定セクション -->
     <SectionCard
-      id="section-baseSettings"
+      sectionKey="baseSettings"
       icon="SlidersHorizontal"
       :variant="selectedItem.isEnabled ? 'secondary' : 'neutral'"
       label-key="categorySections.baseSettings.label"
@@ -19,7 +19,7 @@
     <template v-if="selectedItem.isEnabled !== false">
       <!-- 条件設定セクション -->
       <SectionCard
-        id="section-trigger"
+        sectionKey="trigger"
         icon="Filter"
         label-key="categorySections.trigger.label"
         description-key="categorySections.trigger.description"

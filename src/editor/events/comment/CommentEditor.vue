@@ -3,7 +3,7 @@
   <template v-if="selectedItem">
     <!-- 基本設定セクション -->
     <SectionCard
-      id="section-baseSettings"
+      sectionKey="baseSettings"
       icon="SlidersHorizontal"
       label-key="categorySections.baseSettings.label"
       description-key="categorySections.baseSettings.description"
@@ -14,7 +14,7 @@
     <template v-if="selectedItem.isEnabled !== false">
       <!-- 条件設定セクション -->
       <SectionCard
-        id="section-threshold"
+        sectionKey="threshold"
         icon="Filter"
         label-key="categorySections.threshold.label"
         description-key="categorySections.threshold.description"

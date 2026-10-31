@@ -1,30 +1,16 @@
 <!-- src/editor/EditorApp.vue -->
 <template>
-  <div class="flex min-h-screen">
-    <!-- サイドバー -->
-    <NavigationSidebar />
+  <div class="relative h-full overflow-hidden">
+    <!-- サイドバー: 普段は隠し、左端のホバーか上部バーのボタンで開く -->
+    <SidebarDrawer />
 
-    <!-- メインコンテンツ -->
-    <div class="flex-1 min-w-0 p-4 pb-32 overflow-x-hidden space-y-4">
-      <!-- ヘッダー -->
-      <AppHeader />
-
-      <!-- 読み込み時に除外した要素の通知 -->
-      <DataIssuesBanner />
-
-      <!-- おみくじデータ管理 -->
-      <ManagerView v-if="isServerConnected" />
-
-      <!-- 設定書き出し -->
-      <div class="flex justify-between">
-        <ConfigExport />
-      </div>
-
-      <!-- 開発版の起動時に「開発者用プリセット管理」を目立たせるためのダミー -->
+    <!-- メインコンテンツ: この領域だけがスクロールする(上部バーは動かない) -->
+    <div class="h-full min-w-0 overflow-y-auto overflow-x-hidden p-4 pb-16 space-y-4">
+      <!-- 開発版の起動時、データが読まれていないことを示す -->
       <AppDevWorld v-if="isDevWorld" />
 
       <!-- コンテンツ -->
-      <ContentArea />
+      <ContentArea v-else />
     </div>
   </div>
 </template>
@@ -36,19 +22,14 @@
   import { isDev } from '@/types/env'
   import { OmikujiDataType } from '@/types/OmikujiData'
 
-  import AppHeader from './apps/appItems/AppHeader.vue'
-  import DataIssuesBanner from './apps/appItems/DataIssuesBanner.vue'
-  import AppDevWorld from './apps/appItems/AppDevWorld.vue'
-  import NavigationSidebar from './apps/navigation/NavigationSidebar.vue'
-  import ContentArea from './apps/appItems/ContentArea.vue'
-  import ConfigExport from './helpers/presetsExport/ConfigExport.vue'
-  import { useScrollToSection } from './helpers/useScrollToSection'
+  import AppDevWorld from './content/AppDevWorld.vue'
+  import ContentArea from './content/ContentArea.vue'
+  import SidebarDrawer from './sidebar/SidebarDrawer.vue'
   import { useOmikujiStore } from './stores/useOmikujiStore'
   import i18n from './i18n'
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import ManagerView from '@/manager/ManagerView.vue'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { generatorApi } from '@/manager/services/generatorApi'
 
@@ -70,9 +51,6 @@
     },
     { immediate: true }
   )
-
-  // スクロール監視
-  useScrollToSection()
 
   onMounted(async () => {
     let isHealth = false

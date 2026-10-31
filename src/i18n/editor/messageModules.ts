@@ -24,6 +24,7 @@ import * as m_events_TriggerExpression from './events/TriggerExpression'
 import * as m_events_TriggerGift from './events/TriggerGift'
 import * as m_events_TriggerUsername from './events/TriggerUsername'
 import * as m_helpers_keyEditorMessages from './helpers/keyEditorMessages'
+import * as m_shell_ShellMessages from './shell/ShellMessages'
 
 export const messageModules: Record<string, Record<string, unknown>> = {
   'OmikujiDataMaps': m_OmikujiDataMaps,
@@ -46,4 +47,5 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'events/TriggerGift': m_events_TriggerGift,
   'events/TriggerUsername': m_events_TriggerUsername,
   'helpers/keyEditorMessages': m_helpers_keyEditorMessages,
+  'shell/ShellMessages': m_shell_ShellMessages,
 }

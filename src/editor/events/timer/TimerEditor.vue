@@ -10,7 +10,7 @@
   <template v-if="selectedItem">
     <!-- 基本設定セクション -->
     <SectionCard
-      id="section-baseSettings"
+      sectionKey="baseSettings"
       icon="SlidersHorizontal"
       :variant="selectedItem.isEnabled ? 'secondary' : 'neutral'"
       label-key="categorySections.baseSettings.label"
@@ -22,7 +22,7 @@
     <template v-if="selectedItem.isEnabled">
       <!-- タイマー設定セクション -->
       <SectionCard
-        id="section-timerInterval"
+        sectionKey="timerInterval"
         icon="Timer"
         label-key="categorySections.timerInterval.label"
         description-key="categorySections.timerInterval.description"

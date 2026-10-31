@@ -8,7 +8,7 @@
   <template v-if="selectedItem">
     <!-- 基本設定セクション -->
     <SectionCard
-      id="section-baseSettings"
+      sectionKey="baseSettings"
       icon="SlidersHorizontal"
       label-key="categorySections.baseSettings.label"
       description-key="categorySections.baseSettings.description"
@@ -18,7 +18,7 @@
 
     <!-- おみくじ設定セクション -->
     <SectionCard
-      id="section-scenario"
+      sectionKey="scenario"
       icon="ListChecks"
       label-key="categorySections.omikujiSet.label"
       description-key="categorySections.omikujiSet.description"

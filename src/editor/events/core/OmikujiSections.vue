@@ -2,7 +2,7 @@
 <template>
   <!-- おみくじ設定 -->
   <SectionCard
-    id="section-omikujiSet"
+    sectionKey="omikujiSet"
     icon="ListChecks"
     label-key="categorySections.omikujiSet.label"
     description-key="categorySections.omikujiSet.description"
@@ -31,7 +31,7 @@
   <!-- シナリオ設定 -->
   <SectionCard
     v-if="box.selectedItem?.kind === 'steps'"
-    id="section-scenario"
+    sectionKey="scenario"
     icon="Box"
     label-key="categorySections.scenario.label"
     description-key="categorySections.scenario.description"

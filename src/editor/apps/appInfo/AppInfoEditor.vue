@@ -3,7 +3,7 @@
   <div class="space-y-4">
     <!-- アプリ設定 -->
     <SectionCard
-      id="section-appSettings"
+      sectionKey="appSettings"
       icon="Settings"
       label-key="appInfoEditor.appSettings.title"
       description-key="appInfoEditor.appSettings.description"
@@ -14,7 +14,7 @@
 
     <!-- 利用可能な機能(登録済みのUI・レイアウト・ゲームスクリプト) -->
     <SectionCard
-      id="section-appFeatures"
+      sectionKey="appFeatures"
       icon="Sparkles"
       label-key="appInfoEditor.appFeatures.title"
       description-key="appInfoEditor.appFeatures.description"
@@ -24,7 +24,7 @@
 
     <!-- meta:基本情報 -->
     <SectionCard
-      id="section-packageBasic"
+      sectionKey="packageBasic"
       icon="Info"
       variant="neutral"
       label-key="appInfoEditor.packageBasic.title"
@@ -35,7 +35,7 @@
 
     <!-- meta:配布情報 -->
     <SectionCard
-      id="section-packageDistribution"
+      sectionKey="packageDistribution"
       icon="Package"
       variant="neutral"
       label-key="appInfoEditor.packageDistribution.title"
@@ -46,7 +46,7 @@
 
     <!-- meta:システム情報 -->
     <SectionCard
-      id="section-packageSystem"
+      sectionKey="packageSystem"
       icon="Cpu"
       variant="neutral"
       label-key="appInfoEditor.packageSystem.title"

@@ -4,7 +4,7 @@
   <template v-if="selectedItemKey && selectedItem">
     <!-- 基本情報 -->
     <SectionCard
-      id="section-baseSettings"
+      sectionKey="baseSettings"
       icon="SlidersHorizontal"
       label-key="categorySections.baseSettings.label"
       description-key="categorySections.baseSettings.description"
@@ -14,7 +14,7 @@
 
     <!-- フキダシカラー設定 -->
     <SectionCard
-      id="section-colorSettings"
+      sectionKey="colorSettings"
       icon="Palette"
       label-key="categorySections.colorSettings.label"
       description-key="categorySections.colorSettings.description"
@@ -28,7 +28,7 @@
 
     <!-- BOTコメント表現設定 -->
     <SectionCard
-      id="section-commentVoice"
+      sectionKey="commentVoice"
       icon="MessageSquare"
       label-key="categorySections.commentVoice.label"
       description-key="categorySections.commentVoice.description"
@@ -42,7 +42,7 @@
 
     <!-- ジェネレーター用画像設定 -->
     <SectionCard
-      id="section-imageSettings"
+      sectionKey="imageSettings"
       icon="Image"
       label-key="categorySections.imageSettings.label"
       description-key="categorySections.imageSettings.description"

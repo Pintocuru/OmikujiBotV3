@@ -1,6 +1,7 @@
 <!-- src/editor/parts/SectionCard.vue -->
 <template>
-  <div class="transition-all bg-base-200">
+  <!-- sectionKey があるときは、ContentArea のタブで選択中のものだけ表示する -->
+  <div v-show="isActive" :id="sectionKey ? `section-${sectionKey}` : undefined" class="transition-all bg-base-200">
     <div class="flex justify-between items-center p-2 rounded-t-xl" :class="headerClass">
       <div class="flex items-center gap-2 font-bold text-xl">
         <!-- アイコン -->
@@ -21,7 +22,9 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { DaisyUIColorType } from '@/types/core'
   import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
@@ -32,6 +35,8 @@
       description?: string
       descriptionKey?: string
       icon: LucideIconName
+      // ContentArea のタブのキー。省略すると常に表示する
+      sectionKey?: string
       variant?: DaisyUIColorType
     }>(),
     {
@@ -40,6 +45,8 @@
   )
 
   const { t } = useI18n()
+  const { activeSection } = storeToRefs(useNavigationStore())
+  const isActive = computed(() => !props.sectionKey || activeSection.value === props.sectionKey)
 
   const label = computed(() => (props.labelKey ? t(props.labelKey) : (props.label ?? '')))
   const description = computed(() => (props.descriptionKey ? t(props.descriptionKey) : (props.description ?? '')))

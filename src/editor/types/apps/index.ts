@@ -2,4 +2,5 @@
 
 // 各型定義の公開
 export * from './SidebarType'
+export * from './ContentTab'
 export * from './dataPacks'

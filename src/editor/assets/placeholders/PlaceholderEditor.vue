@@ -3,7 +3,7 @@
   <template v-if="selectedItem">
     <!-- 基本設定 -->
     <SectionCard
-      id="section-baseSettings"
+      sectionKey="baseSettings"
       icon="SlidersHorizontal"
       label-key="categorySections.baseSettings.label"
       description-key="categorySections.baseSettings.description"
@@ -13,7 +13,7 @@
 
     <!-- プレースホルダー設定 -->
     <SectionCard
-      id="section-placeholder"
+      sectionKey="placeholder"
       icon="Brackets"
       label-key="categorySections.placeholder.label"
       description-key="categorySections.placeholder.description"

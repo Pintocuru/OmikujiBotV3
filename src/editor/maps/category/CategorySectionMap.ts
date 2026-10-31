@@ -1,72 +1,72 @@
 // src/editor/maps/category/CategorySectionMap.ts
 import { DataCategoryType } from '@/types/OmikujiData'
-import { SidebarSectionItem } from '@/editor/types/apps'
+import { ContentTabDef } from '@/editor/types/apps'
 
 /**
- * サイドバー用 Events / Assets カテゴリのセクション項目
- * TODO: component は プレビューだが、廃止予定。
+ * Events / Assets カテゴリの、ContentArea に出すタブ(左から順)
+ * section は各エディターの SectionCard の sectionKey と一致させる
  */
-export const categorySectionMap: Record<DataCategoryType, SidebarSectionItem[]> = {
+export const categorySectionMap: Record<DataCategoryType, ContentTabDef[]> = {
   // event
   comments: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'threshold', icon: 'Filter', component: 'threshold' },
-    { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
-    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
+    { section: 'baseSettings', icon: 'SlidersHorizontal' },
+    { section: 'threshold', icon: 'Filter' },
+    { section: 'omikujiSet', icon: 'ListChecks' },
+    { section: 'scenario', icon: 'Box' },
   ],
   timers: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'timerInterval', icon: 'Clock', component: 'timerInterval' },
-    { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
-    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
+    { section: 'baseSettings', icon: 'SlidersHorizontal' },
+    { section: 'timerInterval', icon: 'Clock' },
+    { section: 'omikujiSet', icon: 'ListChecks' },
+    { section: 'scenario', icon: 'Box' },
   ],
   services: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'trigger', icon: 'Filter', component: 'trigger' },
-    { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
-    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
+    { section: 'baseSettings', icon: 'SlidersHorizontal' },
+    { section: 'trigger', icon: 'Filter' },
+    { section: 'omikujiSet', icon: 'ListChecks' },
+    { section: 'scenario', icon: 'Box' },
   ],
   reactions: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'trigger', icon: 'Filter', component: 'trigger' },
-    { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
-    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
+    { section: 'baseSettings', icon: 'SlidersHorizontal' },
+    { section: 'trigger', icon: 'Filter' },
+    { section: 'omikujiSet', icon: 'ListChecks' },
+    { section: 'scenario', icon: 'Box' },
   ],
   pads: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'trigger', icon: 'Filter', component: 'padTrigger' },
-    { section: 'omikujiSet', icon: 'ListChecks', component: 'omikujiSet' },
-    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
+    { section: 'baseSettings', icon: 'SlidersHorizontal' },
+    { section: 'trigger', icon: 'Filter' },
+    { section: 'omikujiSet', icon: 'ListChecks' },
+    { section: 'scenario', icon: 'Box' },
   ],
 
   // assets
   mikuji: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'omikujiSet', icon: 'ListChecks', component: 'scenario' },
-    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
+    { section: 'baseSettings', icon: 'SlidersHorizontal' },
+    { section: 'omikujiSet', icon: 'ListChecks' },
+    { section: 'scenario', icon: 'Box' },
   ],
 
   scenarios: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'scenario', icon: 'Box', component: 'omikujiSet' },
+    { section: 'baseSettings', icon: 'SlidersHorizontal' },
+    { section: 'scenario', icon: 'Box' },
   ],
   placeholders: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'placeholder', icon: 'Brackets', component: 'placeholder' },
+    { section: 'baseSettings', icon: 'SlidersHorizontal' },
+    { section: 'placeholder', icon: 'Brackets' },
   ],
   characters: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal', component: 'baseSettings' },
-    { section: 'colorSettings', icon: 'Palette', component: 'colorSettings' },
-    { section: 'commentVoice', icon: 'MessageSquare', component: 'commentVoice' },
-    { section: 'imageSettings', icon: 'Image', component: 'imageSettings' },
+    { section: 'baseSettings', icon: 'SlidersHorizontal' },
+    { section: 'colorSettings', icon: 'Palette' },
+    { section: 'commentVoice', icon: 'MessageSquare' },
+    { section: 'imageSettings', icon: 'Image' },
   ],
 }
 
 /**
- * appInfo のセクション項目
- * （AppInfoEditor.vue の SectionCard#id から "section-" を除いたもの）
+ * appInfo のタブ
+ * （AppInfoEditor.vue の SectionCard の sectionKey と一致させる）
  */
-export const appInfoSections: SidebarSectionItem[] = [
+export const appInfoSections: ContentTabDef[] = [
   { section: 'appSettings', icon: 'Settings' },
   { section: 'appFeatures', icon: 'Sparkles' },
   { section: 'packageBasic', icon: 'Info' },

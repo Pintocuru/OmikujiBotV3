@@ -57,7 +57,8 @@ export const useNavigationStore = defineStore('navigation', () => {
   const selectCategory = (category?: CategoryType) => {
     const safeCategory = category ?? 'comments'
     selectedCategory.value = safeCategory
-    activeSection.value = 'Top'
+    // 選択中のタブは、ContentArea 側で新しいカテゴリのタブに合わせ直す
+    activeSection.value = null
 
     if (!isDataCategory(safeCategory)) {
       selectedItemKey.value = null
