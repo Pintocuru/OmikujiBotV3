@@ -1,7 +1,7 @@
 <!-- src/editor/content/ContentArea.vue -->
 <template>
   <!-- カテゴリ帯 -->
-  <div class="flex items-center justify-between px-4 py-3 bg-primary text-primary-content">
+  <div class="flex items-center justify-between px-4 py-2 rounded-t-xl bg-primary text-primary-content">
     <div class="flex items-center gap-2 text-lg font-bold">
       <component :is="currentIcon" class="w-6 h-6" />
       {{ t(`categories.${selectedCategory}.label`) }}
