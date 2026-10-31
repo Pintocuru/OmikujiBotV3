@@ -21,7 +21,7 @@
       <div class="space-y-4">
         <!-- 統計情報（カテゴリ全体の場合のみ表示） -->
         <CharacterStatistics
-          v-if="changeScope === 'category'"
+          v-if="changeScope === 'category' && !props.targets"
           :total-items="totalItems"
           :unique-character-count="uniqueCharacterKeys.length"
           :invalid-character-count="invalidCharacterCount"
@@ -79,7 +79,7 @@
   import InvalidCharacterAlert from './InvalidCharacterAlert.vue'
   import CharacterMappingEditor from './CharacterMappingEditor.vue'
   import MappingPreview from './MappingPreview.vue'
-  import { TargetCategoryType, useDataExtractor } from './composables/useDataExtractor'
+  import { TargetCategoryType, FlowTarget, useDataExtractor } from './composables/useDataExtractor'
   import { useCharacterStats } from './composables/useCharacterStats'
   import { useMappingModalState } from '@/editor/helpers/shared/useMappingModalState'
   import { useMappingUpdater } from '@/editor/helpers/shared/useMappingUpdater'
@@ -92,17 +92,20 @@
     category: TargetCategoryType
     selectedId?: string
     itemId?: string
+    targets?: FlowTarget[]
   }>()
 
   // キャラクターデータ
   const { getCharacterName } = useCharacterLookup()
 
   // データ抽出（selectedIdがある場合は単一イベントのみ対象）
-  const { changeScope, scopeLabel, allTargets, totalItems } = useDataExtractor(
+  const { changeScope, scopeLabel, allTargets: extractedTargets, totalItems } = useDataExtractor(
     props.category,
     () => props.selectedId,
     () => props.itemId
   )
+
+  const allTargets = computed(() => props.targets ?? extractedTargets.value)
 
   // キャラクター統計
   const { uniqueCharacterKeys, characterUsageCount, invalidCharacterCount, hasInvalidCharacters } =
