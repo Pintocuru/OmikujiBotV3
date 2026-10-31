@@ -1,4 +1,4 @@
-// src/editor/apps/navigation/composables/useCategoryUtils.ts
+// src/editor/sidebar/composables/useCategoryUtils.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import {

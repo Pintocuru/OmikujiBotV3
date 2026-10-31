@@ -1,4 +1,4 @@
-<!-- src/editor/apps/navigation/SidebarItemMenu.vue -->
+<!-- src/editor/sidebar/records/RecordMenu.vue -->
 <template>
   <div class="dropdown dropdown-end" @click.stop>
     <button tabindex="0" class="btn btn-ghost btn-xs opacity-0 group-hover:opacity-100 transition-opacity">

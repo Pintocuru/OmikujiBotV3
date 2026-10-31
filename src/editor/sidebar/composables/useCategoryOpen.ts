@@ -1,4 +1,4 @@
-// src/editor/apps/navigation/composables/useCategoryOpen.ts
+// src/editor/sidebar/composables/useCategoryOpen.ts
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { CategoryType } from '@/types/OmikujiData/'

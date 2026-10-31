@@ -1,4 +1,4 @@
-// src/editor/apps/navigation/composables/useSidebarCreate.ts
+// src/editor/sidebar/composables/useSidebarCreate.ts
 import { useI18n } from 'vue-i18n'
 import { CategoryType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

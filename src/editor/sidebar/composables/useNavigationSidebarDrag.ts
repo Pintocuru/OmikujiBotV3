@@ -1,4 +1,4 @@
-// src/editor/apps/navigation/composables/useNavigationSidebarDrag.ts
+// src/editor/sidebar/composables/useNavigationSidebarDrag.ts
 import { ref, watch, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 import { DataCategoryType } from '@/types/OmikujiData/'
