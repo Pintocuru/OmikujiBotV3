@@ -111,7 +111,7 @@
   const { getAsset } = useGetAssetData()
   const { getEvent, isEventCategory } = useGetEventData()
   const { getCharacter, getCharacterName, iconSrc } = useCharacterLookup()
-  const { scenariosOfPlaceholder, parentPlaceholders } = useReferenceGraph()
+  const { scenariosOfPlaceholder, parentPlaceholders, calledScenarios } = useReferenceGraph()
 
   const editOpen = ref(false)
 
@@ -133,8 +133,10 @@
     }
 
     if (category === 'scenarios') {
-      const scenario = getAsset('scenarios', key)
-      return scenario ? [{ category: 'scenarios', item: scenario }] : []
+      return calledScenarios(key).flatMap(({ key: scenarioKey }) => {
+        const scenario = getAsset('scenarios', scenarioKey)
+        return scenario ? [{ category: 'scenarios' as const, item: scenario }] : []
+      })
     }
 
     if (category === 'placeholders') {
@@ -151,7 +153,9 @@
 
       const scenarioKeys = new Set(
         [...placeholderKeys].flatMap((placeholderKey) =>
-          scenariosOfPlaceholder(placeholderKey).map((scenario) => scenario.key)
+          scenariosOfPlaceholder(placeholderKey).flatMap((scenario) =>
+            calledScenarios(scenario.key).map((called) => called.key)
+          )
         )
       )
       return [...scenarioKeys].flatMap((scenarioKey) => {
