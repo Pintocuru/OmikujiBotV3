@@ -3,26 +3,23 @@
 <template>
   <LaneLayout>
     <template #downstream>
+      <!-- みくじ箱の変更ボタン -->
+      <div class="tooltip tooltip-bottom" :data-tip="t('connections.changeBox')">
+        <button
+          class="btn btn-xs btn-ghost btn-square"
+          :aria-label="t('connections.changeBox')"
+          @click="pickerOpen = true"
+        >
+          <ArrowLeftRight class="w-3.5 h-3.5" />
+        </button>
+      </div>
+
       <template v-if="box">
         <LinkGroup
           :label="t('categories.mikuji.label')"
           :items="[{ category: 'mikuji', key: box.key, name: box.name || box.key }]"
         >
-          <div class="tooltip tooltip-bottom" :data-tip="t('connections.changeBox')">
-            <button
-              class="btn btn-xs btn-ghost btn-square"
-              :aria-label="t('connections.changeBox')"
-              @click="pickerOpen = true"
-            >
-              <ArrowLeftRight class="w-3.5 h-3.5" />
-            </button>
-          </div>
         </LinkGroup>
-
-        <template v-if="scenarioItems.length > 0">
-          <ArrowRight class="w-4 h-4 mb-2 opacity-60 shrink-0" />
-          <LinkGroup :label="t('categories.scenarios.label')" :items="scenarioItems" />
-        </template>
       </template>
 
       <!-- 未接続 / 参照切れ -->
@@ -46,24 +43,21 @@
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { ArrowLeftRight, ArrowRight } from 'lucide-vue-next'
+  import { ArrowLeftRight } from 'lucide-vue-next'
   import type { EventCategoryType } from '@/types/OmikujiData'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useOmikujiConnections } from '../composables/useOmikujiConnections'
   import MikujiPickerDialog from '@/editor/events/core/MikujiPickerDialog.vue'
   import LaneLayout from './LaneLayout.vue'
   import LinkGroup from './LinkGroup.vue'
-  import type { LinkItem } from './types'
 
   const { t } = useI18n()
   const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())
   const { getEvent } = useGetEventData()
   const { getAsset } = useGetAssetData()
   const { updateEvent, addAsset } = useOmikujiStore()
-  const { connectedScenarios } = useOmikujiConnections()
 
   const pickerOpen = ref(false)
 
@@ -74,9 +68,6 @@
   )
   const omikujiKey = computed(() => event.value?.omikujiKey ?? '')
   const box = computed(() => (omikujiKey.value ? (getAsset('mikuji', omikujiKey.value) ?? null) : null))
-  const scenarioItems = computed<LinkItem[]>(() =>
-    box.value ? connectedScenarios(box.value.key).map((s) => ({ category: 'scenarios', ...s })) : []
-  )
 
   /** イベントのみくじ箱を切り替える('' で接続解除) */
   const onSelectBox = (key: string) => {

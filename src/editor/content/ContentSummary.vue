@@ -44,6 +44,7 @@
         <div v-for="character in characters" :key="character.key" class="flex items-center gap-2 min-w-0">
           <div class="avatar">
             <div class="relative w-12 h-12 rounded-lg bg-base-300 overflow-hidden">
+              <!-- TODO: クリックでキャラクター管理を開くようにする -->
               <template v-if="character.images.length">
                 <img
                   v-for="(src, index) in character.images"
@@ -52,6 +53,7 @@
                   class="absolute inset-0 w-full h-full object-contain"
                 />
               </template>
+              <!-- キーが見つからない場合はハテナアイコン -->
               <div v-else class="w-full h-full flex items-center justify-center text-base-content/50">
                 <ImageOff v-if="character.exists" class="w-6 h-6" />
                 <CircleHelp v-else class="w-7 h-7 text-warning" />

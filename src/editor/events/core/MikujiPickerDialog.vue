@@ -81,14 +81,14 @@
     close()
   }
 
-  /** 新しいみくじ箱を作成して、すぐ接続する */
+  // 新しいみくじ箱を作成して、すぐ接続する
   const createAndSelect = () => {
     const key = addAsset('mikuji')
     emit('select', key)
     close()
   }
 
-  /** 名前・説明変更のため、該当するみくじ箱へ飛ぶ */
+  // 名前・説明変更のため、該当するみくじ箱へ飛ぶ
   const goToBox = (key: string) => {
     close()
     navigationStore.selectCategory('mikuji')

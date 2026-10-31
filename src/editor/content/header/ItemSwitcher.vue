@@ -3,7 +3,7 @@
 <template>
   <div class="flex items-center gap-1">
     <div class="dropdown">
-      <button tabindex="0" class="btn btn-sm btn-primary gap-1 max-w-64">
+      <button tabindex="0" class="btn btn-primary">
         <component :is="resolveLucideIcon(categoryMap[selectedCategory].icon)" class="w-4 h-4 shrink-0" />
         <span class="truncate">{{ currentName }}</span>
         <TriangleAlert v-if="isCyclic(selectedItemKey)" class="w-4 h-4 shrink-0" />
