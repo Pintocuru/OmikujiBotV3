@@ -111,7 +111,7 @@
   import { ImageIcon, AlertTriangle } from 'lucide-vue-next'
   import IconKeyMappingEditor from './IconKeyMappingEditor.vue'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
-  import { TargetCategoryType, useDataExtractor } from '../CharacterChanger/composables/useDataExtractor'
+  import { TargetCategoryType, FlowTarget, useDataExtractor } from '../CharacterChanger/composables/useDataExtractor'
   import { useIconKeyStats } from './composables/useIconKeyStats'
   import { useMappingModalState } from '@/editor/helpers/shared/useMappingModalState'
   import { useMappingUpdater } from '@/editor/helpers/shared/useMappingUpdater'
@@ -122,15 +122,18 @@
     category: TargetCategoryType
     selectedId?: string
     itemId?: string
+    targets?: FlowTarget[]
   }>()
 
   const { getCharacterName } = useCharacterLookup()
 
-  const { scopeLabel, allTargets } = useDataExtractor(
+  const { scopeLabel, allTargets: extractedTargets } = useDataExtractor(
     props.category,
     () => props.selectedId,
     () => props.itemId
   )
+
+  const allTargets = computed(() => props.targets ?? extractedTargets.value)
 
   const { invalidIconKeyPairs, iconKeyUsageCount, hasInvalidIconKeys, invalidIconKeyCount } =
     useIconKeyStats(allTargets)
