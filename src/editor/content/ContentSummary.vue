@@ -1,6 +1,6 @@
 <!-- src/editor/content/ContentSummary.vue -->
 <template>
-  <div class="flex w-full flex-col gap-3">
+  <div class="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
     <!-- 基本設定の概要 -->
     <section class="w-full rounded-box border border-base-300 bg-base-200/40 p-4 min-w-0">
       <div class="flex items-center justify-between gap-2 mb-3">
@@ -11,27 +11,19 @@
         </button>
       </div>
 
+      <!-- 名称 -->
       <dl v-if="selectedItem" class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-2 text-sm">
-        <dt class="opacity-60">{{ t('baseSettings.key.label') }}</dt>
-        <dd class="break-all font-mono">{{ selectedItem.key }}</dd>
-
+        <!-- イベント名 -->
         <dt class="opacity-60">{{ t('baseSettings.eventName.label') }}</dt>
-        <dd class="break-words">{{ selectedItem.name || '—' }}</dd>
+        <dd class="wrap-break-word">{{ selectedItem.name || '—' }}</dd>
 
+        <!-- 説明 -->
         <template v-if="selectedItem.description">
           <dt class="opacity-60">{{ t('baseSettings.description.label') }}</dt>
-          <dd class="break-words">{{ selectedItem.description }}</dd>
+          <dd class="wrap-break-word">{{ selectedItem.description }}</dd>
         </template>
 
-        <template v-if="selectedItem.isEnabled !== undefined">
-          <dt class="opacity-60">{{ t('baseSettings.isEnabled.label') }}</dt>
-          <dd>
-            <span :class="['badge badge-sm', selectedItem.isEnabled === false ? 'badge-warning' : 'badge-success']">
-              {{ selectedItem.isEnabled === false ? '無効' : '有効' }}
-            </span>
-          </dd>
-        </template>
-
+        <!-- タグ -->
         <template v-if="selectedItem.tags?.length">
           <dt class="opacity-60">{{ t('baseSettings.tags.label') }}</dt>
           <dd class="flex flex-wrap gap-1">
@@ -115,9 +107,11 @@
   // 選択中のアイテムから、キャラクター抽出対象となるシナリオ / みくじ箱を解決する
   const scenariosFromBox = (boxKey: string): FlowTarget[] => {
     const box = getAsset('mikuji', boxKey)
-    const keys = new Set((box?.omikuji ?? []).flatMap((item) =>
-      item.kind === 'steps' && item.stepKey ? calledScenarios(item.stepKey).map((scenario) => scenario.key) : []
-    ))
+    const keys = new Set(
+      (box?.omikuji ?? []).flatMap((item) =>
+        item.kind === 'steps' && item.stepKey ? calledScenarios(item.stepKey).map((scenario) => scenario.key) : []
+      )
+    )
     return [...keys].flatMap((scenarioKey) => {
       const scenario = getAsset('scenarios', scenarioKey)
       return scenario ? [{ category: 'scenarios' as const, item: scenario }] : []
@@ -186,6 +180,4 @@
       }
     })
   )
-
-
 </script>
