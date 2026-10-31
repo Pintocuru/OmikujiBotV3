@@ -2,10 +2,6 @@
 <template>
   <!-- ツールバー -->
   <div class="flex justify-end gap-2">
-    <!-- キャラクター一括変更ボタン -->
-    <CharacterChanger category="mikuji" :selectedId="omikujiKey" :itemId="selectedId ?? undefined" />
-    <IconKeyChanger category="mikuji" :selectedId="omikujiKey" :itemId="selectedId ?? undefined" />
-
     <!-- おみくじテストボタン -->
     <div class="tooltip tooltip-bottom" data-tip="わんコメを起動すると、投稿の確認ができます">
       <button class="btn btn-info" @click="postTestOmikuji(omikujiList)" :disabled="omikujiList.length === 0">
@@ -29,24 +25,12 @@
     @select="selectedId = $event"
   />
 
+  <!-- TODO:以下の内容は、ダイアログで表示する -->
   <!-- 選択されたアイテムの編集 -->
   <template v-if="selectedItem && selectedIndex !== null">
-    <!-- 帯ヘッダー -->
-    <div
-      class="flex items-center justify-between px-4 py-2 font-bold text-white"
-      :style="{ backgroundColor: getColorForIndex(selectedIndex) }"
-    >
-      <h3 class="text-sm md:text-base">おみくじ編集: {{ selectedItem.name || `アイテム${selectedIndex + 1}` }}</h3>
-    </div>
-
     <!-- 本文 -->
     <OmikujiItemEditor :omikujiItem="selectedItem" @update="updateSelected" />
   </template>
-
-  <!-- 選択していない場合のメッセージ -->
-  <div v-else class="card bg-base-200 shadow p-6 text-center">
-    <p class="text-base-content/60">上のリストからおみくじアイテムをクリックして編集してください</p>
-  </div>
 </template>
 
 <script setup lang="ts">

@@ -1,13 +1,8 @@
 <!-- src/editor/assets/mikuji/weight/WeightBar.vue -->
 <template>
-  <div v-if="omikujiItems.length > 0" class="space-y-2">
+  <div v-if="omikujiItems.length > 0" class="">
     <!-- 凡例（ドラッグ可能） -->
-    <VueDraggable
-      v-model="draggableItems"
-      handle=".legend-drag-handle"
-      :animation="200"
-      class="grid grid-cols-2 xl:grid-cols-3 gap-2"
-    >
+    <VueDraggable v-model="draggableItems" handle=".legend-drag-handle" :animation="200" class="w-full space-y-2">
       <WeightItem
         v-for="(item, index) in draggableItems"
         :key="item.id ?? `legend-${index}`"
