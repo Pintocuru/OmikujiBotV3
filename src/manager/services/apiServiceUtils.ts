@@ -70,6 +70,7 @@ const ERROR_MESSAGES: Record<ApiActionName, string> = {
   load: '設定の読み込みに失敗しました',
   'load-generator': '設定の読み込みに失敗しました',
   'list-packages': 'パッケージ一覧の取得に失敗しました',
+  'delete-package': 'パッケージの削除に失敗しました',
   move: '設定ファイルの移動に失敗しました',
   save: '設定の保存に失敗しました',
   delete: '設定ファイルの削除に失敗しました',

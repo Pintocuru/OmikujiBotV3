@@ -97,6 +97,9 @@ async function handlePostRequest(
     case API_ACTION.saveGenerator.action:
       return generatorHandler.saveGeneratorConfig(body.data, body.fileName)
 
+    case API_ACTION.deletePackage.action:
+      return generatorHandler.deletePackage(params.fileName || body.fileName)
+
     case API_ACTION.saveOmikuji.action:
       return omikujiHandler.saveOmikujiData(body.configData, ctx)
 

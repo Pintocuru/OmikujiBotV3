@@ -21,6 +21,7 @@ export const API_ACTION = {
   save: { method: 'POST', action: 'save' },
   delete: { method: 'POST', action: 'delete' },
   saveGenerator: { method: 'POST', action: 'save-generator' },
+  deletePackage: { method: 'POST', action: 'delete-package' },
   saveOmikuji: { method: 'POST', action: 'save-omikuji' },
   appendGameLog: { method: 'POST', action: 'append-game-log' },
   deleteGameState: { method: 'POST', action: 'delete-game-state' },

@@ -1,7 +1,11 @@
 <!-- src/manager/ManagerView.vue -->
 <!-- 保存済みのデータを選んで開くダイアログ。上部バーの「開く」から表示する -->
 <template>
-  <dialog ref="dialogRef" class="modal" @close="open = false">
+  <!--
+    <dialog> + showModal() にすると、ブラウザの最前面レイヤーに入り、SweetAlert2 の確認ダイアログが後ろに回り込む。
+    そのため、DaisyUI の modal-open で開閉する(z-index が SweetAlert2 より低いので、確認ダイアログが手前に出る)
+  -->
+  <div class="modal" :class="{ 'modal-open': open }" role="dialog" aria-modal="true" @click.self="open = false">
     <div class="modal-box max-w-5xl w-11/12 p-0 overflow-hidden text-base-content">
       <div class="card bg-linear-to-r from-primary to-secondary rounded-none">
         <div class="card-body px-4 py-2">
@@ -49,12 +53,11 @@
         <ManagerPackageList v-else-if="tab === 'packages' && open" :key="packageListKey" @open="onOpenPackage" />
       </div>
     </div>
-    <form method="dialog" class="modal-backdrop"><button>close</button></form>
-  </dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
-  import { ref, watch } from 'vue'
+  import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { Download, FileCode } from 'lucide-vue-next'
@@ -72,25 +75,24 @@
   const { openLocal } = useOpenLocal()
   const { openPackage } = useOpenPackage()
   const { isExpressMode, saveFileName } = storeToRefs(devStore)
-  const dialogRef = ref<HTMLDialogElement | null>(null)
-
   const tab = ref<'presets' | 'packages'>('presets')
   // 開くたびにパッケージ一覧を取り直すためのキー
   const packageListKey = ref(0)
 
   // 開くたびに一覧を取り直す
   watch(open, (isOpen) => {
-    const dialog = dialogRef.value
-    if (!dialog) return
-    if (isOpen && !dialog.open) {
-      tab.value = 'presets'
-      packageListKey.value++
-      void devStore.fetchFileList()
-      dialog.showModal()
-    } else if (!isOpen && dialog.open) {
-      dialog.close()
-    }
+    if (!isOpen) return
+    tab.value = 'presets'
+    packageListKey.value++
+    void devStore.fetchFileList()
   })
+
+  // Esc で閉じる(確認ダイアログ SweetAlert2 が出ている間は、そちらを優先する)
+  const onKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' && open.value && !document.querySelector('.swal2-container')) open.value = false
+  }
+  onMounted(() => window.addEventListener('keydown', onKeydown))
+  onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
   // 開けたら閉じる
   const onOpenLocal = async () => {

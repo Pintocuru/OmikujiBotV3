@@ -38,6 +38,14 @@ class GeneratorApiService extends BaseApiClient {
   }
 
   /**
+   * packages の設定を削除 (fileName は "<id>.json")
+   */
+  async deletePackage(fileName: string): Promise<void> {
+    const response = await this.post(API_ACTION.deletePackage.action, { fileName })
+    this.validateResponse(response, 'パッケージの削除に失敗しました')
+  }
+
+  /**
    * ジェネレーター用設定を保存
    */
   async saveGeneratorConfig(data: string): Promise<any> {

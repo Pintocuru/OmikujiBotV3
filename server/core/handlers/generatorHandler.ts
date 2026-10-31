@@ -44,6 +44,26 @@ export async function listPackages(): Promise<ApiResult> {
 }
 
 /**
+ * packages に保存されている Generator 設定を削除
+ * (fileName 必須。server 直下の generator.json は対象外)
+ */
+export async function deletePackage(fileName: string): Promise<ApiResult> {
+  if (!fileName) return badRequest('fileName is required')
+  if (!validatePackageFileName(fileName)) return badRequest('Invalid file name')
+
+  return guard(
+    'Delete package',
+    'Failed to delete package',
+    async () => {
+      await fileSystem.deleteFile(DIR_NAME.packages, fileName)
+      console.info(`🗑️ Deleted package: ${fileName}`)
+      return ok({ message: 'Package deleted successfully', fileName })
+    },
+    { notFound: 'Package not found' }
+  )
+}
+
+/**
  * Generator設定を保存
  */
 export async function saveGeneratorConfig(data: string, fileName?: string | null): Promise<ApiResult> {
