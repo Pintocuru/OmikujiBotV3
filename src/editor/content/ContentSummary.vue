@@ -92,7 +92,6 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { CircleHelp, ImageOff, Pencil } from 'lucide-vue-next'
-  import type { EventCategoryType } from '@/types/OmikujiData'
   import type { FlowTarget, TargetCategoryType } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
   import { useCharacterStats } from '@/editor/helpers/CharacterChanger/composables/useCharacterStats'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
@@ -116,20 +115,29 @@
   const editOpen = ref(false)
 
   // 選択中のアイテムから、キャラクター抽出対象となるシナリオ / みくじ箱を解決する
+  const scenariosFromBox = (boxKey: string): FlowTarget[] => {
+    const box = getAsset('mikuji', boxKey)
+    const keys = new Set((box?.omikuji ?? []).flatMap((item) =>
+      item.kind === 'steps' && item.stepKey ? calledScenarios(item.stepKey).map((scenario) => scenario.key) : []
+    ))
+    return [...keys].flatMap((scenarioKey) => {
+      const scenario = getAsset('scenarios', scenarioKey)
+      return scenario ? [{ category: 'scenarios' as const, item: scenario }] : []
+    })
+  }
+
   const allTargets = computed<FlowTarget[]>(() => {
     const category = selectedCategory.value
     const key = selectedItemKey.value
     if (!key) return []
 
     if (isEventCategory(category)) {
-      const event = getEvent(category as EventCategoryType, key)
-      const box = event?.omikujiKey ? getAsset('mikuji', event.omikujiKey) : undefined
-      return box ? [{ category: 'mikuji', item: box }] : []
+      const event = getEvent(category, key)
+      return event?.omikujiKey ? scenariosFromBox(event.omikujiKey) : []
     }
 
     if (category === 'mikuji') {
-      const box = getAsset('mikuji', key)
-      return box ? [{ category: 'mikuji', item: box }] : []
+      return scenariosFromBox(key)
     }
 
     if (category === 'scenarios') {
@@ -181,20 +189,10 @@
     })
   )
 
-  // 既存チェンジャーは対象カテゴリ単位で動作する。プレースホルダーは参照先シナリオごとに対象を分ける。
-  const changerTargets = computed<{ category: TargetCategoryType; selectedId?: string }[]>(() => {
-    const category = selectedCategory.value
-    const key = selectedItemKey.value
-    if (!key) return []
-
-    if (category === 'placeholders') {
-      return allTargets.value
-        .filter((target): target is Extract<FlowTarget, { category: 'scenarios' }> => target.category === 'scenarios')
-        .map(({ item }) => ({ category: 'scenarios', selectedId: item.key }))
-    }
-
-    if (isEventCategory(category)) return [{ category, selectedId: key }]
-    if (category === 'mikuji' || category === 'scenarios') return [{ category, selectedId: key }]
-    return []
-  })
+  // 実際に参照されるシナリオごとに変更対象を分ける
+  const changerTargets = computed<{ category: TargetCategoryType; selectedId?: string }[]>(() =>
+    allTargets.value
+      .filter((target): target is Extract<FlowTarget, { category: 'scenarios' }> => target.category === 'scenarios')
+      .map(({ item }) => ({ category: 'scenarios', selectedId: item.key }))
+  )
 </script>
