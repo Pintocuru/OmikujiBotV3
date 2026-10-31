@@ -23,10 +23,8 @@
   />
 
   <template v-else>
-    <!-- TODO:新コンポーネント。
-         左側：現在のアイテムの「基本設定」を表示する
-         右側：シナリオで使われているキャラクター。イベント・みくじ箱・プレースホルダーの場合、シナリオまで辿ること。
-         -->
+    <!-- Events / Assets: 基本設定の概要と使用キャラクター -->
+    <ContentSummary v-if="isCurrentDataCategory" :key="selectedCategory" />
 
     <!-- Events / Assets: 現在のアイテムと接続を表示するヘッダー -->
     <ContentHeader v-if="isCurrentDataCategory" />
@@ -47,6 +45,7 @@
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import ContentHeader from './ContentHeader.vue'
+  import ContentSummary from './ContentSummary.vue'
   import ContentTabs from './ContentTabs.vue'
   import { useContentTabs } from './composables/useContentTabs'
 

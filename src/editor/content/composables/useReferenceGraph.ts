@@ -174,6 +174,10 @@ export function useReferenceGraph() {
     return [...events.values()]
   }
 
+  /** シナリオから呼び出されるシナリオ(自身を含む。循環参照は重複排除) */
+  const calledScenarios = (scenarioKey: string) =>
+    toRefs(reachable(graph.value.scenarioCalls, [scenarioKey]), 'scenarios')
+
   /** シナリオが使っているプレースホルダー(組み込みの `<<userId>>` などは対象外) */
   const placeholdersOfScenario = (scenarioKey: string) =>
     toRefs(graph.value.scenarioPlaceholders.get(scenarioKey), 'placeholders')
@@ -209,6 +213,7 @@ export function useReferenceGraph() {
 
   return {
     eventsUsingCharacter,
+    calledScenarios,
     placeholdersOfScenario,
     scenariosOfPlaceholder,
     childPlaceholders,
