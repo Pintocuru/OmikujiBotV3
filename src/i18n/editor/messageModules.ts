@@ -28,9 +28,10 @@ import * as m_events_TriggerUsername from './events/TriggerUsername'
 import * as m_helpers_keyEditorMessages from './helpers/keyEditorMessages'
 import * as m_shell_ShellMessages from './shell/ShellMessages'
 import * as m_ui_UiSettingsMessages from './ui/UiSettingsMessages'
+import * as m_content_ConnectionMessages from './content/ConnectionMessages'
 
 export const messageModules: Record<string, Record<string, unknown>> = {
-  'OmikujiDataMaps': m_OmikujiDataMaps,
+  OmikujiDataMaps: m_OmikujiDataMaps,
   'apps/AppInfoEditor': m_apps_AppInfoEditor,
   'apps/AppItemsCharacters': m_apps_AppItemsCharacters,
   'apps/BaseSettingsEditor': m_apps_BaseSettingsEditor,
@@ -40,6 +41,7 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'assets/ScenarioStep': m_assets_ScenarioStep,
   'category/CategorySectionMessagesMap': m_category_CategorySectionMessagesMap,
   'category/NavigationSidebarMessagesMap': m_category_NavigationSidebarMessagesMap,
+  'content/ConnectionMessages': m_content_ConnectionMessages,
   'events/CommentEditor': m_events_CommentEditor,
   'events/CommentTriggerEditor': m_events_CommentTriggerEditor,
   'events/EventCore': m_events_EventCore,

@@ -24,7 +24,13 @@
 
   <template v-else>
     <!-- タブ（サブ項目） -->
-    <ContentTabs v-if="tabs.length > 0" v-model:activeSection="activeSection" :tabs="tabs" />
+    <!-- タブ(サブ項目): 接続カテゴリは接続パネル付きヘッダーに置き換え -->
+    <ConnectionHeader
+      v-if="isConnectionCategory && tabs.length > 0"
+      v-model:activeSection="activeSection"
+      :tabs="tabs"
+    />
+    <ContentTabs v-else-if="tabs.length > 0" v-model:activeSection="activeSection" :tabs="tabs" />
 
     <component :is="currentEditor" />
   </template>
@@ -34,7 +40,7 @@
   import { computed, type Component } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { CategoryType } from '@/types/OmikujiData'
+  import { CategoryType, eventCategory } from '@/types/OmikujiData'
   import { categoryMap } from '@/maps/OmikujiData'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import ContentTabs from './ContentTabs.vue'
@@ -57,6 +63,7 @@
   import JsonMergeEditor from '@/editor/apps/JsonMerge/JsonMergeEditor.vue'
   import DataPacks from '@/editor/apps/dataPacks/DataPacks.vue'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
+  import ConnectionHeader from './ConnectionHeader.vue'
 
   const { t } = useI18n()
   const navigationStore = useNavigationStore()
@@ -92,4 +99,10 @@
     appInfo: AppInfoEditor,
   } as const
   const currentEditor = computed(() => editorMap[selectedCategory.value])
+
+  // events + mikuji + scenarios は接続表示付きヘッダーを使う
+  const connectionCategories = [...eventCategory, 'mikuji', 'scenarios'] as const
+  const isConnectionCategory = computed(() =>
+    (connectionCategories as readonly string[]).includes(selectedCategory.value)
+  )
 </script>
