@@ -12,7 +12,7 @@ export const connectionMessages = {
       cycle: '循環参照があります: {path}(どれかの参照を外してください)',
       changeBox: 'みくじ箱を変更',
       usedPlaceholders: '使用しているプレースホルダー',
-      noPlaceholders: '使用しているプレースホルダーはありません…',
+      noPlaceholders: 'なし',
       placeholderUsers: '使われている場所',
       noPlaceholderUsers: 'どこからも使われていません…',
       switcher: {
