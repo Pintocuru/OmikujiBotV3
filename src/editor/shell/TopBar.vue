@@ -11,7 +11,7 @@
     >
       <Menu class="w-5 h-5" />
     </button>
-    <button type="button" class="font-bold text-lg whitespace-nowrap hover:opacity-80" @click="useNavigationStore().showTopPage()">{{ t('appHeader.title') }}</button>
+    <button type="button" class="font-bold text-lg whitespace-nowrap hover:opacity-80" @click="navigationStore.showTopPage()">{{ t('appHeader.title') }}</button>
 
     <!-- データソース・ファイル名・バージョン -->
     <div class="flex items-center gap-2 min-w-0 flex-1">
@@ -82,6 +82,7 @@
   const { t } = useI18n()
 
   const omikujiStore = useOmikujiStore()
+  const navigationStore = useNavigationStore()
   const { data, dataSource } = storeToRefs(omikujiStore)
   const { toggleDaisyUiTheme } = omikujiStore
   const { isServerConnected, saveFileName } = storeToRefs(useManagerStore())
