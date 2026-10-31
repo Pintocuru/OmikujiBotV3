@@ -7,18 +7,24 @@
       <!-- イベント: イベント → みくじ箱 → シナリオ -->
       <div v-if="mode === 'event'" class="rounded-box border border-base-300 bg-base-200/60 p-3">
         <div class="flex flex-wrap items-center gap-2">
+          <!-- TODO:これをプルダウンメニューにして、縦移動できるようにする -->
           <span class="text-sm font-bold max-w-56 truncate">{{ itemName }}</span>
           <ArrowRight class="w-4 h-4 opacity-60 shrink-0" />
 
           <!-- 接続済み -->
           <template v-if="box">
-            <button class="btn btn-sm btn-outline gap-1" @click="pickerOpen = true">
+            みくじ箱
+            <button class="btn btn-sm btn-outline gap-1" @click="goToBox(box.key)">
+              <!-- TODO:ここは「シナリオ」のアイコンに変更 -->
               <Package class="w-4 h-4 shrink-0" />
               <span class="max-w-48 truncate">{{ box.name || box.key }}</span>
             </button>
-            <a class="link link-hover text-xs" @click="goToBox(box.key)">{{ t('connections.editLink') }}</a>
+            <!-- 接続済み -->
+            <a class="link link-hover text-xs" @click="pickerOpen = true">みくじ箱の変更</a>
+
             <template v-if="scenarios.length > 0">
               <ArrowRight class="w-4 h-4 opacity-60 shrink-0" />
+              シナリオ
               <button
                 v-for="scenario in scenarios"
                 :key="scenario.key"
@@ -57,8 +63,9 @@
       <!-- みくじ箱: 左=接続されたイベント / 右=接続されたシナリオ -->
       <div
         v-else-if="mode === 'mikuji'"
-        class="rounded-box border border-base-300 bg-base-200/60 p-3 grid gap-3 md:grid-cols-2"
+        class="rounded-box border border-base-300 bg-base-200/60 p-3 grid gap-3 md:grid-cols-3"
       >
+        <!-- 接続されたイベント  -->
         <div>
           <div class="text-xs font-bold opacity-70 mb-1">{{ t('connections.linkedEvents') }}</div>
           <div v-if="linkedEvents.length === 0" class="rounded-lg bg-neutral text-neutral-content p-2 text-sm">
@@ -76,6 +83,18 @@
             </button>
           </div>
         </div>
+        <!-- 現在のみくじ箱  -->
+        <div class="flex">
+          <!-- TODO:これをプルダウンメニューにして、縦移動できるようにする -->
+
+          <ArrowRight class="w-4 h-4 opacity-60 shrink-0" />
+          <span>みくじ箱</span>
+          <span class="text-sm font-bold max-w-56 truncate">{{ itemName }}</span>
+
+          <ArrowRight class="w-4 h-4 opacity-60 shrink-0" />
+        </div>
+
+        <!-- 接続されたシナリオ  -->
         <div>
           <div class="text-xs font-bold opacity-70 mb-1">{{ t('connections.linkedScenarios') }}</div>
           <div v-if="linkedScenarios.length === 0" class="rounded-lg bg-neutral text-neutral-content p-2 text-sm">
@@ -96,8 +115,10 @@
 
       <!-- シナリオ: 参照元一覧(複数の可能性あり) -->
       <div v-else-if="mode === 'scenario'" class="rounded-box border border-base-300 bg-base-200/60 p-3">
+        <!-- 接続されたみくじ箱  -->
         <div class="text-xs font-bold opacity-70 mb-1">{{ t('connections.sources') }}</div>
         <div v-if="hasSources" class="flex flex-wrap gap-1">
+          みくじ箱
           <button
             v-for="source in sourceMikuji"
             :key="source.key"
@@ -115,6 +136,20 @@
           >
             {{ source.name }}
           </button>
+
+          <!-- 現在のシナリオ  -->
+          <div class="flex">
+            <!-- TODO:これをプルダウンメニューにして、縦移動できるようにする -->
+
+            <ArrowRight class="w-4 h-4 opacity-60 shrink-0" />
+            <span>シナリオ</span>
+            <span class="text-sm font-bold max-w-56 truncate">{{ itemName }}</span>
+          </div>
+
+          <!-- 使用しているプレースホルダー  -->
+          <!-- TODO:実装 -->
+          <ArrowRight class="w-4 h-4 opacity-60 shrink-0" />
+          <span>プレースホルダー</span>
         </div>
         <!-- どこからも参照されていないとき(暗い背景) -->
         <div v-else class="flex flex-wrap items-center gap-2 rounded-lg bg-neutral text-neutral-content px-3 py-2">

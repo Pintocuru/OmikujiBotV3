@@ -8,57 +8,24 @@ import { ContentTabDef } from '@/editor/types/apps'
  */
 export const categorySectionMap: Record<DataCategoryType, ContentTabDef[]> = {
   // event
-  comments: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal' },
-    { section: 'threshold', icon: 'Filter' },
-    { section: 'omikujiSet', icon: 'ListChecks' },
-    { section: 'scenario', icon: 'Box' },
-  ],
-  timers: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal' },
-    { section: 'timerInterval', icon: 'Clock' },
-    { section: 'omikujiSet', icon: 'ListChecks' },
-    { section: 'scenario', icon: 'Box' },
-  ],
-  services: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal' },
-    { section: 'trigger', icon: 'Filter' },
-    { section: 'omikujiSet', icon: 'ListChecks' },
-    { section: 'scenario', icon: 'Box' },
-  ],
-  reactions: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal' },
-    { section: 'trigger', icon: 'Filter' },
-    { section: 'omikujiSet', icon: 'ListChecks' },
-    { section: 'scenario', icon: 'Box' },
-  ],
-  pads: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal' },
-    { section: 'trigger', icon: 'Filter' },
-    { section: 'omikujiSet', icon: 'ListChecks' },
-    { section: 'scenario', icon: 'Box' },
-  ],
+  comments: [{ section: 'threshold', icon: 'Filter' }],
+  timers: [{ section: 'timerInterval', icon: 'Clock' }],
+  services: [{ section: 'trigger', icon: 'Filter' }],
+  reactions: [{ section: 'trigger', icon: 'Filter' }],
+  pads: [{ section: 'trigger', icon: 'Filter' }],
 
   // assets
-  mikuji: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal' },
-    { section: 'omikujiSet', icon: 'ListChecks' },
-    { section: 'scenario', icon: 'Box' },
-  ],
+  mikuji: [{ section: 'omikujiSet', icon: 'ListChecks' }],
 
-  scenarios: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal' },
-    { section: 'scenario', icon: 'Box' },
-  ],
+  scenarios: [{ section: 'scenario', icon: 'Box' }],
   placeholders: [
     { section: 'baseSettings', icon: 'SlidersHorizontal' },
     { section: 'placeholder', icon: 'Brackets' },
   ],
   characters: [
-    { section: 'baseSettings', icon: 'SlidersHorizontal' },
+    { section: 'imageSettings', icon: 'Image' },
     { section: 'colorSettings', icon: 'Palette' },
     { section: 'commentVoice', icon: 'MessageSquare' },
-    { section: 'imageSettings', icon: 'Image' },
   ],
 }
 

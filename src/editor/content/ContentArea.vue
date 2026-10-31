@@ -30,6 +30,7 @@
       v-model:activeSection="activeSection"
       :tabs="tabs"
     />
+    <!-- TODO: カテゴリが events と mikuji scenarios であるなら、もうこれは使わない -->
     <ContentTabs v-else-if="tabs.length > 0" v-model:activeSection="activeSection" :tabs="tabs" />
 
     <component :is="currentEditor" />
