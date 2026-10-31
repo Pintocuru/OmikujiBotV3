@@ -51,34 +51,13 @@
       </option>
     </select>
   </SettingItem>
-
-  <!-- 起動時に開くカテゴリ -->
-  <SettingItem
-    icon="LayoutGrid"
-    labelKey="appInfoEditor.settings.editor.initialCategory.label"
-    descriptionKey="appInfoEditor.settings.editor.initialCategory.description"
-    :showReset="true"
-    @reset="reset('editor', 'initialCategory')"
-  >
-    <select
-      :value="settings.editor.initialCategory"
-      @change="
-        (e) => update('editor', { initialCategory: (e.target as HTMLSelectElement).value as InitialCategoryType })
-      "
-      class="select select-bordered w-full max-w-xs"
-    >
-      <option v-for="key in initialCategories" :key="key" :value="key">
-        {{ t(`categories.${key}.label`) }}
-      </option>
-    </select>
-  </SettingItem>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { initialCategories, locales, type InitialCategoryType, type LocaleType } from '@/types/OmikujiData'
+  import { locales, type LocaleType } from '@/types/OmikujiData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
