@@ -2,8 +2,8 @@
 <!-- Events / Assets 用のヘッダー。現在のアイテムと、その前後の接続(参照元 → 現在 → 参照先)を表示する -->
 <template>
   <div class="sticky top-0 z-10 bg-base-100 px-1 py-2">
-    <div class="rounded-box border border-base-300 bg-base-200/60 p-3 flex flex-wrap items-end justify-between gap-3">
-      <component :is="lane" />
+    <div class="rounded-box border border-base-300 bg-base-200/60 p-3 space-y-3">
+      <component :is="lane" v-if="lane" />
 
       <!-- 循環参照(シナリオの呼び出し / プレースホルダーの入れ子) -->
       <div v-if="cyclePath" class="alert alert-error alert-soft w-full py-2 text-sm">
@@ -27,7 +27,6 @@
   import PlaceholderLane from './header/PlaceholderLane.vue'
   import CharacterLane from './header/CharacterLane.vue'
   import { useReferenceGraph } from './composables/useReferenceGraph'
-  import ItemSwitcher from './header/ItemSwitcher.vue'
 
   const { t } = useI18n()
   const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())
@@ -35,14 +34,14 @@
   const { isEventCategory } = useGetEventData()
 
   /** カテゴリごとの接続表示 */
-  const lane = computed<Component>(() => {
+  const lane = computed<Component | null>(() => {
     const category = selectedCategory.value
     if (isEventCategory(category)) return EventLane
     if (category === 'mikuji') return MikujiLane
     if (category === 'scenarios') return ScenarioLane
     if (category === 'placeholders') return PlaceholderLane
     if (category === 'characters') return CharacterLane
-    return ItemSwitcher
+    return null
   })
 
   // 選択中のアイテムが循環に含まれるとき、その経路

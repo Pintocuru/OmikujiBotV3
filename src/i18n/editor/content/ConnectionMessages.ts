@@ -42,6 +42,12 @@ export const connectionMessages = {
         eventsCount: 'イベント {count}件',
         scenariosCount: 'シナリオ {count}件',
       },
+      summary: {
+        characters: '使用キャラクター',
+        noCharacters: '使用されているキャラクターはありません。',
+        undefinedCharacter: '未定義: {key}',
+        noImage: '画像なし',
+      },
       connectDialog: {
         title: 'おみくじ箱に追加',
         hint: '選択した箱に、このシナリオがおみくじアイテムとして追加されます。',
@@ -92,6 +98,12 @@ export const connectionMessages = {
         edit: 'Edit',
         eventsCount: '{count} event(s)',
         scenariosCount: '{count} scenario(s)',
+      },
+      summary: {
+        characters: 'Characters in use',
+        noCharacters: 'No characters are in use.',
+        undefinedCharacter: 'Undefined: {key}',
+        noImage: 'No image',
       },
       connectDialog: {
         title: 'Add to an omikuji box',

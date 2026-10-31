@@ -36,7 +36,7 @@
     <!-- 使用キャラクター -->
     <section class="w-full rounded-box border border-base-300 bg-base-200/40 p-4 min-w-0">
       <div class="flex items-center justify-between gap-2 mb-3">
-        <h3 class="font-semibold">使用キャラクター</h3>
+        <h3 class="font-semibold">{{ t('connections.summary.characters') }}</h3>
         <span class="badge badge-sm badge-outline">{{ characters.length }}</span>
       </div>
 
@@ -60,12 +60,16 @@
           </div>
           <div class="min-w-0">
             <p class="text-sm font-medium truncate">{{ character.name }}</p>
-            <p v-if="!character.exists" class="text-xs text-warning">未定義: {{ character.key }}</p>
-            <p v-else-if="!character.images.length" class="text-xs opacity-60">画像なし</p>
+            <p v-if="!character.exists" class="text-xs text-warning">
+              {{ t('connections.summary.undefinedCharacter', { key: character.key }) }}
+            </p>
+            <p v-else-if="!character.images.length" class="text-xs opacity-60">
+              {{ t('connections.summary.noImage') }}
+            </p>
           </div>
         </div>
       </div>
-      <p v-else class="text-sm opacity-60">使用されているキャラクターはありません。</p>
+      <p v-else class="text-sm opacity-60">{{ t('connections.summary.noCharacters') }}</p>
 
       <div v-if="allTargets.length" class="flex flex-wrap gap-2 mt-4 pt-3 border-t border-base-300">
         <CharacterChanger category="scenarios" :targets="allTargets" />
@@ -78,93 +82,30 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { CircleHelp, ImageOff, Pencil } from 'lucide-vue-next'
-  import type { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
   import { useCharacterStats } from '@/editor/helpers/CharacterChanger/composables/useCharacterStats'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
   import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
   import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
-  import { useGetEventData } from '@/editor/stores/useGetEventData'
-  import { useReferenceGraph } from './composables/useReferenceGraph'
+  import { useCharacterTargets } from './composables/useCharacterTargets'
   import { useSelectedItem } from './composables/useSelectedItem'
   import ItemEditDialog from './header/ItemEditDialog.vue'
 
   const { t } = useI18n()
-  const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())
+  const { selectedItemKey } = storeToRefs(useNavigationStore())
   const { selectedItem } = useSelectedItem()
-  const { getAsset } = useGetAssetData()
-  const { getEvent, isEventCategory } = useGetEventData()
   const { getCharacter, getCharacterName, iconSrc } = useCharacterLookup()
-  const { scenariosOfPlaceholder, parentPlaceholders, calledScenarios } = useReferenceGraph()
+  const { allTargets } = useCharacterTargets()
 
   const editOpen = ref(false)
 
-  // 選択中のアイテムから、キャラクター抽出対象となるシナリオ / みくじ箱を解決する
-  const scenariosFromBox = (boxKey: string): FlowTarget[] => {
-    const box = getAsset('mikuji', boxKey)
-    const keys = new Set(
-      (box?.omikuji ?? []).flatMap((item) =>
-        item.kind === 'steps' && item.stepKey ? calledScenarios(item.stepKey).map((scenario) => scenario.key) : []
-      )
-    )
-    return [...keys].flatMap((scenarioKey) => {
-      const scenario = getAsset('scenarios', scenarioKey)
-      return scenario ? [{ category: 'scenarios' as const, item: scenario }] : []
-    })
-  }
-
-  const allTargets = computed<FlowTarget[]>(() => {
-    const category = selectedCategory.value
-    const key = selectedItemKey.value
-    if (!key) return []
-
-    if (isEventCategory(category)) {
-      const event = getEvent(category, key)
-      return event?.omikujiKey ? scenariosFromBox(event.omikujiKey) : []
-    }
-
-    if (category === 'mikuji') {
-      return scenariosFromBox(key)
-    }
-
-    if (category === 'scenarios') {
-      return calledScenarios(key).flatMap(({ key: scenarioKey }) => {
-        const scenario = getAsset('scenarios', scenarioKey)
-        return scenario ? [{ category: 'scenarios' as const, item: scenario }] : []
-      })
-    }
-
-    if (category === 'placeholders') {
-      const placeholderKeys = new Set<string>([key])
-      const queue = [key]
-      while (queue.length) {
-        const current = queue.pop()!
-        for (const parent of parentPlaceholders(current)) {
-          if (placeholderKeys.has(parent.key)) continue
-          placeholderKeys.add(parent.key)
-          queue.push(parent.key)
-        }
-      }
-
-      const scenarioKeys = new Set(
-        [...placeholderKeys].flatMap((placeholderKey) =>
-          scenariosOfPlaceholder(placeholderKey).flatMap((scenario) =>
-            calledScenarios(scenario.key).map((called) => called.key)
-          )
-        )
-      )
-      return [...scenarioKeys].flatMap((scenarioKey) => {
-        const scenario = getAsset('scenarios', scenarioKey)
-        return scenario ? [{ category: 'scenarios' as const, item: scenario }] : []
-      })
-    }
-
-    return []
+  // 別のアイテムへ移ったとき、開きっぱなしの編集ダイアログを閉じる
+  watch(selectedItemKey, () => {
+    editOpen.value = false
   })
 
   const { uniqueCharacterKeys } = useCharacterStats(allTargets)

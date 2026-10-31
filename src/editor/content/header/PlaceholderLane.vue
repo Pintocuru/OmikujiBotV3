@@ -1,31 +1,31 @@
 <!-- src/editor/content/header/PlaceholderLane.vue -->
 <!-- プレースホルダー: 使っているシナリオ・上位のプレースホルダー → 現在 → 中で使っているプレースホルダー -->
 <template>
-  <div class="flex flex-wrap items-end gap-x-2 gap-y-3">
-    <LinkGroup
-      :label="t('connections.placeholderUsers')"
-      :items="upstreamItems"
-      :emptyText="t('connections.noPlaceholderUsers')"
-    />
-    <ArrowRight class="w-4 h-4 mb-2 opacity-60 shrink-0" />
-    <ItemSwitcher />
-    <ArrowRight class="w-4 h-4 mb-2 opacity-60 shrink-0" />
-    <LinkGroup
-      :label="t('connections.childPlaceholders')"
-      :items="childItems"
-      :emptyText="t('connections.noChildPlaceholders')"
-    />
-  </div>
+  <LaneLayout>
+    <template #upstream>
+      <LinkGroup
+        :label="t('connections.placeholderUsers')"
+        :items="upstreamItems"
+        :emptyText="t('connections.noPlaceholderUsers')"
+      />
+    </template>
+    <template #downstream>
+      <LinkGroup
+        :label="t('connections.childPlaceholders')"
+        :items="childItems"
+        :emptyText="t('connections.noChildPlaceholders')"
+      />
+    </template>
+  </LaneLayout>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { ArrowRight } from 'lucide-vue-next'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useReferenceGraph } from '../composables/useReferenceGraph'
-  import ItemSwitcher from './ItemSwitcher.vue'
+  import LaneLayout from './LaneLayout.vue'
   import LinkGroup from './LinkGroup.vue'
   import type { LinkItem } from './types'
 

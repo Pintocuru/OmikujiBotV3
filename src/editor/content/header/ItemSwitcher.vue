@@ -1,5 +1,5 @@
 <!-- src/editor/content/header/ItemSwitcher.vue -->
-<!-- 現在のアイテム名。プルダウンで同じカテゴリの別アイテムへ移動でき、鉛筆ボタンで基本設定を編集する -->
+<!-- 現在のアイテム名。プルダウンで同じカテゴリの別アイテムへ移動できる(基本設定の編集は ContentSummary 側) -->
 <template>
   <div class="flex items-center gap-1">
     <div class="dropdown">
@@ -17,7 +17,9 @@
       >
         <li v-for="item in items" :key="item.key">
           <button :class="{ 'menu-active': item.key === selectedItemKey }" @click="select(item.key)">
-            <span class="truncate" :class="{ 'opacity-50': item.isEnabled === false }">{{ item.name || item.key }}</span>
+            <span class="truncate" :class="{ 'opacity-50': item.isEnabled === false }">{{
+              item.name || item.key
+            }}</span>
             <TriangleAlert
               v-if="isCyclic(item.key)"
               class="w-3.5 h-3.5 shrink-0 text-error"
@@ -27,26 +29,17 @@
         </li>
       </ul>
     </div>
-
-    <div class="tooltip tooltip-bottom" :data-tip="t('connections.switcher.edit')">
-      <button class="btn btn-sm btn-ghost btn-square" @click="editOpen = true">
-        <Pencil class="w-4 h-4" />
-      </button>
-    </div>
-
-    <ItemEditDialog v-model:open="editOpen" />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+  import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { ChevronsUpDown, Pencil, TriangleAlert } from 'lucide-vue-next'
+  import { ChevronsUpDown, TriangleAlert } from 'lucide-vue-next'
   import { categoryMap } from '@/maps/OmikujiData'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import ItemEditDialog from './ItemEditDialog.vue'
   import { useReferenceGraph } from '../composables/useReferenceGraph'
 
   const { t } = useI18n()
@@ -54,8 +47,6 @@
   const { selectedCategory, selectedItemKey, selectedItem, categoryArray } = storeToRefs(navigationStore)
 
   const { cyclicScenarioKeys, cyclicPlaceholderKeys } = useReferenceGraph()
-
-  const editOpen = ref(false)
 
   /** 循環参照に含まれるアイテムか(シナリオ・プレースホルダーのみ) */
   const isCyclic = (key: string | null) => {
