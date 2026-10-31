@@ -43,7 +43,7 @@ export const useOpenPackage = () => {
       if (!omikujiStore.loadData(data)) return false // 読み込み拒否(エラー表示済み)
       // パッケージはプリセットのファイルではないので、上書き保存の対象を外す
       devStore.setSaveFileName()
-      navigationStore.selectCategory(data.settings?.editor?.initialCategory ?? 'comments')
+      navigationStore.showTopPage()
       omikujiStore.resetChangeState()
 
       swalToast.success({ title: 'ジェネレーター設定を読み込みました' })
