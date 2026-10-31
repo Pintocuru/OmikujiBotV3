@@ -1,36 +1,24 @@
 <!-- src/editor/parts/BaseEditDialog.vue -->
+<!-- BaseDialog に「キャンセル / 保存して閉じる」と左右サイドバーを足したもの。即時反映で良いなら BaseDialog を直接使う -->
 <template>
-  <dialog ref="dialogRef" class="modal modal-bottom sm:modal-middle">
-    <div class="modal-box w-11/12 max-w-5xl h-[80vh] flex flex-col overflow-hidden">
-      <!-- ヘッダー -->
-      <div class="pb-4 shrink-0">
-        <SubSectionHeader :icon="icon" :title="title">
-          <button class="btn btn-sm btn-ghost btn-circle" @click="handleCancel">
-            <X :size="16" />
-          </button>
-        </SubSectionHeader>
+  <BaseDialog :open="open" :title="title" :icon="icon" size="3xl" @update:open="onUpdateOpen">
+    <!-- 本体: 左サイドバー・メイン・右サイドバー -->
+    <div class="flex min-h-0 divide-x divide-base-300">
+      <div v-if="$slots['sidebar-left']" class="hidden md:flex w-60 shrink-0 flex-col bg-base-100">
+        <slot name="sidebar-left" />
       </div>
 
-      <!-- 本体: 左サイドバー・メイン・右サイドバー -->
-      <div class="flex flex-1 min-h-0 divide-x divide-base-300">
-        <!-- 左サイドバー (オプション) -->
-        <div v-if="$slots['sidebar-left']" class="hidden md:flex w-60 shrink-0 flex-col bg-base-100">
-          <slot name="sidebar-left" />
-        </div>
-
-        <!-- メインコンテンツ -->
-        <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
-          <slot />
-        </div>
-
-        <!-- 右サイドバー (オプション) -->
-        <div v-if="$slots['sidebar-right']" class="hidden lg:flex w-72 shrink-0 flex-col bg-base-100">
-          <slot name="sidebar-right" />
-        </div>
+      <div class="flex-1 flex flex-col min-w-0">
+        <slot />
       </div>
 
-      <!-- フッター -->
-      <div class="flex justify-between items-center px-4 py-2 border-t border-base-300 bg-base-200 shrink-0">
+      <div v-if="$slots['sidebar-right']" class="hidden lg:flex w-72 shrink-0 flex-col bg-base-100">
+        <slot name="sidebar-right" />
+      </div>
+    </div>
+
+    <template #actions>
+      <div class="flex w-full items-center justify-between gap-2">
         <!-- 左側: 任意の補足情報スロット -->
         <div class="text-xs text-base-content">
           <slot name="footer-info" />
@@ -44,20 +32,15 @@
           </button>
         </div>
       </div>
-    </div>
-
-    <!-- バックドロップクリックでキャンセル -->
-    <form method="dialog" class="modal-backdrop">
-      <button @click="handleCancel">close</button>
-    </form>
-  </dialog>
+    </template>
+  </BaseDialog>
 </template>
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
-  import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
-  import { X, Check } from 'lucide-vue-next'
+  import { Check } from 'lucide-vue-next'
+  import BaseDialog from '@/editor/parts/BaseDialog.vue'
+  import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
   defineProps<{
     title: string
@@ -67,25 +50,34 @@
 
   const emit = defineEmits<{
     save: [] // 保存ボタン押下
-    cancel: [] // キャンセル / × / バックドロップ押下
+    cancel: [] // キャンセル / × / バックドロップ / Esc
   }>()
 
-  const dialogRef = ref<HTMLDialogElement | null>(null)
+  const open = ref(false)
 
   const handleSave = () => {
     emit('save')
-    dialogRef.value?.close()
+    open.value = false
   }
 
   const handleCancel = () => {
     emit('cancel')
-    dialogRef.value?.close()
+    open.value = false
+  }
+
+  // BaseDialog 側の ×・バックドロップ・Esc はキャンセル扱い
+  const onUpdateOpen = (value: boolean) => {
+    if (!value) handleCancel()
   }
 
   // 外部から開くための公開メソッド
-  const showModal = () => dialogRef.value?.showModal()
+  const showModal = () => {
+    open.value = true
+  }
   // 外部から閉じるための公開メソッド（保存・キャンセル処理は呼ばない）
-  const close = () => dialogRef.value?.close()
+  const close = () => {
+    open.value = false
+  }
 
   defineExpose({ showModal, close })
 </script>
