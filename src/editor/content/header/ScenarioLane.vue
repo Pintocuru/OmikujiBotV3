@@ -29,6 +29,7 @@
   import { ArrowRight } from 'lucide-vue-next'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useOmikujiConnections } from '../composables/useOmikujiConnections'
+  import { useReferenceGraph } from '../composables/useReferenceGraph'
   import ScenarioConnectDialog from '@/editor/assets/scenarios/ScenarioConnectDialog.vue'
   import ItemSwitcher from './ItemSwitcher.vue'
   import LinkGroup from './LinkGroup.vue'
@@ -36,7 +37,8 @@
 
   const { t } = useI18n()
   const { selectedItemKey } = storeToRefs(useNavigationStore())
-  const { scenarioSources, scenarioPlaceholders } = useOmikujiConnections()
+  const { scenarioSources } = useOmikujiConnections()
+  const { placeholdersOfScenario } = useReferenceGraph()
 
   const connectOpen = ref(false)
 
@@ -51,7 +53,7 @@
 
   const placeholderItems = computed<LinkItem[]>(() =>
     selectedItemKey.value
-      ? scenarioPlaceholders(selectedItemKey.value).map((p) => ({ category: 'placeholders', ...p }))
+      ? placeholdersOfScenario(selectedItemKey.value).map((p) => ({ category: 'placeholders', ...p }))
       : []
   )
 </script>

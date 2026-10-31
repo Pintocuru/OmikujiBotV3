@@ -1,5 +1,5 @@
 // src/editor/content/composables/useOmikujiConnections.ts
-import { eventCategory, hasScenarioStepMessage, type EventCategoryType, type ScenarioType } from '@/types/OmikujiData/'
+import { eventCategory, type EventCategoryType } from '@/types/OmikujiData/'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
@@ -7,12 +7,8 @@ import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 export type EventRef = { category: EventCategoryType; id: string; name: string }
 export type AssetRef = { key: string; name: string }
 
-/** シナリオのステップ本文(message / variable)。プレースホルダー `<<キー>>` を埋め込める場所 */
-const scenarioTexts = (scenario: ScenarioType): string[] =>
-  scenario.steps.filter(hasScenarioStepMessage).map((step) => step.message)
-
 /**
- * イベント ↔ みくじ箱 ↔ シナリオ ↔ プレースホルダー の参照関係を計算する。
+ * イベント ↔ みくじ箱 ↔ シナリオ の参照関係を計算する。
  * すべて OmikujiStore から読むため、編集結果は即座に反映される。
  */
 export function useOmikujiConnections() {
@@ -62,27 +58,5 @@ export function useOmikujiConnections() {
     return { mikuji, scenarios }
   }
 
-  /**
-   * シナリオが使っているプレースホルダー一覧。
-   * ステップ本文に `<<キー>>` があり、かつ placeholders に存在するキーだけを返す
-   * (`<<userId>>` などの組み込みプレースホルダーは対象外)
-   */
-  const scenarioPlaceholders = (scenarioKey: string): AssetRef[] => {
-    const scenario = getAsset('scenarios', scenarioKey)
-    if (!scenario) return []
-    const texts = scenarioTexts(scenario)
-    return Object.values(getAssets('placeholders'))
-      .filter((placeholder) => texts.some((text) => text.includes(`<<${placeholder.key}>>`)))
-      .map((placeholder) => ({ key: placeholder.key, name: placeholder.name || placeholder.key }))
-  }
-
-  /** プレースホルダーを使っているシナリオ一覧(scenarioPlaceholders の逆引き) */
-  const placeholderUsers = (placeholderKey: string): AssetRef[] => {
-    const token = `<<${placeholderKey}>>`
-    return Object.values(getAssets('scenarios'))
-      .filter((scenario) => scenarioTexts(scenario).some((text) => text.includes(token)))
-      .map((scenario) => ({ key: scenario.key, name: scenario.name || scenario.key }))
-  }
-
-  return { connectedEvents, connectedScenarios, scenarioSources, scenarioPlaceholders, placeholderUsers }
+  return { connectedEvents, connectedScenarios, scenarioSources }
 }

@@ -20,6 +20,12 @@
       </div>
       {{ percentage }}%
 
+      <!-- 実行するシナリオ(未接続・参照切れは警告色) -->
+      <div v-if="item.kind === 'steps'" class="truncate text-[0.7rem]" :class="scenarioClass">
+        {{ scenarioLabel }}
+      </div>
+      <div v-else class="truncate text-[0.7rem] opacity-60">{{ t('omikujiItem.scenario.controlShort') }}</div>
+
       <div class="text-base">
         <span v-if="item.lottery.isPriority" class="badge badge-xs badge-primary"> 優先 </span>
         <span v-if="!item.lottery.isPriority && item.lottery.criteria" class="badge badge-xs badge-secondary ml-1">
@@ -50,16 +56,34 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { OmikujiItemType } from '@/types/OmikujiData/'
+  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
   import { GripVertical } from 'lucide-vue-next'
 
-  defineProps<{
+  const props = defineProps<{
     item: OmikujiItemType
     color: string
     percentage: string
     isSelected: boolean
   }>()
+
+  const { t } = useI18n()
+  const { getAsset } = useGetAssetData()
+
+  // 実行するシナリオの表示(未接続・参照切れは警告色)
+  const scenarioState = computed(() => {
+    if (props.item.kind !== 'steps') return { label: '', cls: '' }
+    const key = props.item.stepKey
+    if (!key) return { label: t('omikujiItem.scenario.noneShort'), cls: 'text-error font-bold' }
+    const scenario = getAsset('scenarios', key)
+    if (!scenario) return { label: t('omikujiItem.scenario.missingShort'), cls: 'text-error font-bold' }
+    return { label: scenario.name || key, cls: 'opacity-70' }
+  })
+  const scenarioLabel = computed(() => scenarioState.value.label)
+  const scenarioClass = computed(() => scenarioState.value.cls)
 
   const emit = defineEmits<{
     'update:weight': [weight: number]

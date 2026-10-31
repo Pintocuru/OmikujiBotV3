@@ -6,6 +6,7 @@
       <button tabindex="0" class="btn btn-sm btn-primary gap-1 max-w-64">
         <component :is="resolveLucideIcon(categoryMap[selectedCategory].icon)" class="w-4 h-4 shrink-0" />
         <span class="truncate">{{ currentName }}</span>
+        <TriangleAlert v-if="isCyclic(selectedItemKey)" class="w-4 h-4 shrink-0" />
         <span v-if="isDisabled" class="badge badge-sm">{{ t('connections.switcher.disabled') }}</span>
         <ChevronsUpDown class="w-3.5 h-3.5 shrink-0 opacity-70" />
       </button>
@@ -17,6 +18,11 @@
         <li v-for="item in items" :key="item.key">
           <button :class="{ 'menu-active': item.key === selectedItemKey }" @click="select(item.key)">
             <span class="truncate" :class="{ 'opacity-50': item.isEnabled === false }">{{ item.name || item.key }}</span>
+            <TriangleAlert
+              v-if="isCyclic(item.key)"
+              class="w-3.5 h-3.5 shrink-0 text-error"
+              :title="t('connections.switcher.cyclic')"
+            />
           </button>
         </li>
       </ul>
@@ -36,17 +42,28 @@
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { ChevronsUpDown, Pencil } from 'lucide-vue-next'
+  import { ChevronsUpDown, Pencil, TriangleAlert } from 'lucide-vue-next'
   import { categoryMap } from '@/maps/OmikujiData'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import ItemEditDialog from './ItemEditDialog.vue'
+  import { useReferenceGraph } from '../composables/useReferenceGraph'
 
   const { t } = useI18n()
   const navigationStore = useNavigationStore()
   const { selectedCategory, selectedItemKey, selectedItem, categoryArray } = storeToRefs(navigationStore)
 
+  const { cyclicScenarioKeys, cyclicPlaceholderKeys } = useReferenceGraph()
+
   const editOpen = ref(false)
+
+  /** 循環参照に含まれるアイテムか(シナリオ・プレースホルダーのみ) */
+  const isCyclic = (key: string | null) => {
+    if (!key) return false
+    if (selectedCategory.value === 'scenarios') return cyclicScenarioKeys.value.has(key)
+    if (selectedCategory.value === 'placeholders') return cyclicPlaceholderKeys.value.has(key)
+    return false
+  }
 
   const items = computed(() => categoryArray.value ?? [])
   const currentName = computed(() => selectedItem.value?.name || selectedItemKey.value || '')

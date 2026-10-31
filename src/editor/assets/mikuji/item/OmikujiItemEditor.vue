@@ -1,5 +1,8 @@
 <!-- src/editor/assets/mikuji/item/OmikujiItemEditor.vue -->
 <template>
+  <!-- 実行するシナリオ(1 対 1) -->
+  <OmikujiItemScenario :omikujiItem="omikujiItem" @update="updateItem" />
+
   <!-- ヘッダー -->
   <OmikujiItemHeader :omikujiItem="omikujiItem" @update="updateItem" />
 
@@ -55,6 +58,7 @@
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import OmikujiItemHeader from './OmikujiItemHeader.vue'
+  import OmikujiItemScenario from './OmikujiItemScenario.vue'
   import OmikujiItemControlSettings from './OmikujiItemControlSettings.vue'
 
   import { omikujiItemKindMap, omikujiControlCommandMap } from '@/maps/OmikujiData'
