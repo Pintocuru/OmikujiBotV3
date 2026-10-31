@@ -11,7 +11,13 @@
     >
       <Menu class="w-5 h-5" />
     </button>
-    <h1 class="font-bold text-lg whitespace-nowrap">{{ t('appHeader.title') }}</h1>
+    <button
+      type="button"
+      class="font-bold text-lg whitespace-nowrap hover:opacity-80"
+      @click="navigationStore.showTopPage()"
+    >
+      {{ t('appHeader.title') }}
+    </button>
 
     <!-- データソース・ファイル名・バージョン -->
     <div class="flex items-center gap-2 min-w-0 flex-1">
@@ -66,6 +72,7 @@
   import { useI18n } from 'vue-i18n'
   import { Cpu, FolderOpen, Menu, Moon, Settings, Sun } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import ManagerView from '@/manager/ManagerView.vue'
   import { useOpenLocal } from '@/manager/composables/useOpenLocal'
@@ -81,6 +88,7 @@
   const { t } = useI18n()
 
   const omikujiStore = useOmikujiStore()
+  const navigationStore = useNavigationStore()
   const { data, dataSource } = storeToRefs(omikujiStore)
   const { toggleDaisyUiTheme } = omikujiStore
   const { isServerConnected, saveFileName } = storeToRefs(useManagerStore())
@@ -104,12 +112,13 @@
   // ファイルを開く: サーバーに接続していれば選択ダイアログ、していなければローカルの omikujiData.js を直接読む
   const isFileDialogOpen = ref(false)
   const { openLocal } = useOpenLocal()
-  const onOpen = () => {
+  const onOpen = async () => {
     if (isServerConnected.value) {
       isFileDialogOpen.value = true
       return
     }
-    void openLocal()
+    // 読み込み成功後、useOpenLocal 側で TopPage に戻る
+    await openLocal()
   }
 
   // ジェネレーターを開けるのは、わんコメに接続できているとき(エディターに戻るのは常に可能)

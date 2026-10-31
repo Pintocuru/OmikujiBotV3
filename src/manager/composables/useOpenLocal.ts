@@ -36,7 +36,7 @@ export const useOpenLocal = () => {
     // 読み込み元がファイルではなくなったので、上書き保存の対象を外す
     devStore.setSaveFileName('')
     omikujiStore.resetChangeState()
-    navigationStore.selectCategory(omikujiStore.data.settings.editor.initialCategory)
+    navigationStore.showTopPage()
     swalToast.success({ title: '読み込み完了', text: 'omikujiData.js を読み込みました。' })
     return true
   }
