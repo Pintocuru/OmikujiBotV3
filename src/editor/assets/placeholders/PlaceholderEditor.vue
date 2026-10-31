@@ -1,19 +1,8 @@
 <!-- src/editor/assets/placeholders/PlaceholderEditor.vue -->
 <template>
   <template v-if="selectedItem">
-    <!-- 基本設定 -->
-    <SectionCard
-      sectionKey="baseSettings"
-      icon="SlidersHorizontal"
-      label-key="categorySections.baseSettings.label"
-      description-key="categorySections.baseSettings.description"
-    >
-      <BaseSettingsEditor v-model="selectedItem" category="placeholders" :isIsEnabled="false" />
-    </SectionCard>
-
     <!-- プレースホルダー設定 -->
     <SectionCard
-      sectionKey="placeholder"
       icon="Brackets"
       label-key="categorySections.placeholder.label"
       description-key="categorySections.placeholder.description"
@@ -33,7 +22,6 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
-  import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'
 
   const navigationStore = useNavigationStore()

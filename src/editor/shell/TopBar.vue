@@ -15,20 +15,20 @@
 
     <!-- データソース・ファイル名・バージョン -->
     <div class="flex items-center gap-2 min-w-0 flex-1">
-      <span class="badge badge-sm shrink-0" :class="dataSourceClass">{{ dataSourceLabel }}</span>
-      <span class="font-mono text-sm truncate" :title="fileLabel">{{ fileLabel }}</span>
-      <IssuesBadge />
-
-      <span class="text-xs opacity-80 shrink-0">{{ versionInfo.current }}</span>
-      <span v-if="versionInfo.error" class="text-error shrink-0" :title="versionInfo.error">!</span>
+      <!-- バージョン -->
       <button
-        v-else-if="versionInfo.hasNewVersion"
-        class="text-xs text-warning shrink-0 cursor-pointer"
-        :title="`新版 ${versionInfo.latest}`"
+        class="text-xs shrink-0 cursor-pointer"
+        :class="versionInfo.hasNewVersion ? 'text-warning' : 'opacity-80'"
+        :title="versionInfo.hasNewVersion ? '新しいバージョンがあります' : 'バージョン情報'"
         @click="showUpdateDialog"
       >
-        → {{ versionInfo.latest }}
+        {{ versionInfo.current }}
       </button>
+      <span v-if="versionInfo.error" class="text-error shrink-0" :title="versionInfo.error"> ! </span>
+
+      <!-- ファイル名 -->
+      <span v-if="fileLabel" class="badge badge-sm truncate" :title="fileLabel">{{ fileLabel }}</span>
+      <IssuesBadge />
     </div>
 
     <!-- 右: 開く・保存・切り替え -->
@@ -69,7 +69,6 @@
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import ManagerView from '@/manager/ManagerView.vue'
   import { useOpenLocal } from '@/manager/composables/useOpenLocal'
-  import { DATA_SOURCE_MAP } from '@/editor/maps/DataSourceMap'
   import { useSidebarDrawer } from '@/editor/sidebar/composables/useSidebarDrawer'
   import IssuesBadge from './IssuesBadge.vue'
   import SaveMenu from './SaveMenu.vue'
@@ -88,8 +87,6 @@
   const { toggle: toggleSidebar } = useSidebarDrawer()
 
   // データソース・ファイル名
-  const dataSourceLabel = computed(() => DATA_SOURCE_MAP[dataSource.value].label)
-  const dataSourceClass = computed(() => DATA_SOURCE_MAP[dataSource.value].class)
   const fileLabel = computed(() => {
     if (dataSource.value === 'unknown') return ''
     return saveFileName.value ? saveFileName.value.replace('.json', '') : data.value.meta.name

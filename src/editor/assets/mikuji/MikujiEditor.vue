@@ -1,23 +1,14 @@
 <!-- src/editor/assets/mikuji/MikujiEditor.vue -->
 <template>
-  <div class="flex justify-end gap-2">
-    <CharacterChanger category="mikuji" />
-    <IconKeyChanger category="mikuji" />
-  </div>
-
   <template v-if="selectedItem">
-    <!-- 基本設定セクション -->
+    <!-- おみくじ設定 -->
     <SectionCard
-      sectionKey="baseSettings"
-      icon="SlidersHorizontal"
-      label-key="categorySections.baseSettings.label"
-      description-key="categorySections.baseSettings.description"
+      icon="ListChecks"
+      label-key="categorySections.omikujiSet.label"
+      description-key="categorySections.omikujiSet.description"
     >
-      <BaseSettingsEditor v-model="selectedItem" category="mikuji" :isIsEnabled="false" />
+      <MikujiSettings :omikujiKey="selectedItem.key" />
     </SectionCard>
-
-    <!-- おみくじ設定 / シナリオ設定セット -->
-    <OmikujiSections :omikujiKey="selectedItem.key" category="mikuji" />
   </template>
 </template>
 
@@ -26,11 +17,8 @@
   import { storeToRefs } from 'pinia'
   import { MikujiBoxType } from '@/types/OmikujiData'
 
-  import OmikujiSections from '@/editor/events/core/OmikujiSections.vue'
+  import MikujiSettings from './MikujiSettings.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
-  import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
 
   import SectionCard from '@/editor/parts/SectionCard.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'

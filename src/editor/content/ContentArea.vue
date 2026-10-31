@@ -23,14 +23,9 @@
   />
 
   <template v-else>
-    <!-- タブ（サブ項目） -->
-    <!-- タブ(サブ項目): 接続カテゴリは接続パネル付きヘッダーに置き換え -->
-    <ConnectionHeader
-      v-if="isConnectionCategory && tabs.length > 0"
-      v-model:activeSection="activeSection"
-      :tabs="tabs"
-    />
-    <!-- TODO: カテゴリが events と mikuji scenarios であるなら、もうこれは使わない -->
+    <!-- Events / Assets: 現在のアイテムと接続を表示するヘッダー -->
+    <ContentHeader v-if="isCurrentDataCategory" />
+    <!-- ui / appInfo: セクションのタブ -->
     <ContentTabs v-else-if="tabs.length > 0" v-model:activeSection="activeSection" :tabs="tabs" />
 
     <component :is="currentEditor" />
@@ -38,33 +33,17 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, type Component } from 'vue'
+  import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { CategoryType, eventCategory } from '@/types/OmikujiData'
   import { categoryMap } from '@/maps/OmikujiData'
+  import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
+  import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
+  import ContentHeader from './ContentHeader.vue'
   import ContentTabs from './ContentTabs.vue'
   import { useContentTabs } from './composables/useContentTabs'
-
-  import CommentEventEditor from '@/editor/events/comment/CommentEditor.vue'
-  import TimerEventEditor from '@/editor/events/timer/TimerEditor.vue'
-  import ServiceEventEditor from '@/editor/events/service/ServiceEditor.vue'
-  import ReactionEventEditor from '@/editor/events/reaction/ReactionEditor.vue'
-  import PadEventEditor from '@/editor/events/pad/PadEditor.vue'
-
-  import MikujiEditor from '@/editor/assets/mikuji/MikujiEditor.vue'
-  import ScenariosEditor from '@/editor/assets/scenarios/ScenariosEditor.vue'
-  import PlaceholderEditor from '@/editor/assets/placeholders/PlaceholderEditor.vue'
-  import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
-
-  import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
-  import UiEditor from '@/editor/ui/UiEditor.vue'
-  import AppInfoEditor from '@/editor/apps/appInfo/AppInfoEditor.vue'
-  import JsonMergeEditor from '@/editor/apps/JsonMerge/JsonMergeEditor.vue'
-  import DataPacks from '@/editor/apps/dataPacks/DataPacks.vue'
-  import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
-  import ConnectionHeader from './ConnectionHeader.vue'
 
   const { t } = useI18n()
   const navigationStore = useNavigationStore()
@@ -76,34 +55,5 @@
 
   const currentCategory = computed(() => categoryMap[selectedCategory.value])
   const currentIcon = computed(() => resolveLucideIcon(currentCategory.value?.icon))
-
-  // エディターマップ
-  const editorMap: Record<CategoryType, Component> = {
-    jsonMerge: JsonMergeEditor,
-
-    // events
-    comments: CommentEventEditor,
-    timers: TimerEventEditor,
-    services: ServiceEventEditor,
-    reactions: ReactionEventEditor,
-    pads: PadEventEditor,
-
-    // assets
-    mikuji: MikujiEditor,
-    scenarios: ScenariosEditor,
-    placeholders: PlaceholderEditor,
-    characters: CharacterEditor,
-
-    //
-    ui: UiEditor,
-    dataPacks: DataPacks,
-    appInfo: AppInfoEditor,
-  } as const
-  const currentEditor = computed(() => editorMap[selectedCategory.value])
-
-  // events + mikuji + scenarios は接続表示付きヘッダーを使う
-  const connectionCategories = [...eventCategory, 'mikuji', 'scenarios'] as const
-  const isConnectionCategory = computed(() =>
-    (connectionCategories as readonly string[]).includes(selectedCategory.value)
-  )
+  const currentEditor = computed(() => categoryContentMap[selectedCategory.value].editor)
 </script>

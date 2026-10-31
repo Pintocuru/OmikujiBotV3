@@ -6,7 +6,7 @@ import { useGetEventData } from './useGetEventData'
 import { useGetAssetData } from './useGetAssetData'
 
 // 選択用に正規化した最低限の形
-type NavigableItem = { key: string; order?: number }
+type NavigableItem = { key: string; name?: string; isEnabled?: boolean; order?: number }
 
 export const useNavigationStore = defineStore('navigation', () => {
   const { getEvents, isEventCategory } = useGetEventData()

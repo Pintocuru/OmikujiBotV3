@@ -9,5 +9,5 @@ export type ContentTab = {
   labelKey: string
 }
 
-/** CategorySectionMap の1行(label は section から決まるので持たない) */
+/** CategoryContentMap の sections の1行(label は section から決まるので持たない) */
 export type ContentTabDef = Pick<ContentTab, 'section' | 'icon'>

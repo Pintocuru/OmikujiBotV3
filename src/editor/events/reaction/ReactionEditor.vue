@@ -5,34 +5,15 @@
     <!-- プラットフォームに関する注意 -->
     <InformationCard variant="info" class="mt-4 p-4"> {{ t('reactionEditor.platformNotice') }}<br /> </InformationCard>
 
-    <!-- 基本設定セクション -->
-    <SectionCard
-      sectionKey="baseSettings"
-      icon="SlidersHorizontal"
-      :variant="selectedItem.isEnabled ? 'secondary' : 'neutral'"
-      label-key="categorySections.baseSettings.label"
-      description-key="categorySections.baseSettings.description"
-    >
-      <BaseSettingsEditor v-model="selectedItem" category="reactions" />
-    </SectionCard>
-
     <template v-if="selectedItem.isEnabled !== false">
       <!-- 条件設定セクション -->
       <SectionCard
-        sectionKey="trigger"
         icon="Filter"
         label-key="categorySections.trigger.label"
         description-key="categorySections.trigger.description"
       >
         <ReactionTriggerEditor v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
       </SectionCard>
-
-      <!-- おみくじ設定 / シナリオ設定セット -->
-      <OmikujiSections :omikujiKey="selectedItem.omikujiKey" category="reactions">
-        <template #choice>
-          <BoxChoiceEditor v-model="selectedItem" />
-        </template>
-      </OmikujiSections>
     </template>
 
     <!-- 無効のときのメッセージ -->
@@ -47,9 +28,6 @@
   import { ReactionEventType } from '@/types/OmikujiData/'
 
   import ReactionTriggerEditor from './ReactionTriggerEditor.vue'
-  import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
-  import OmikujiSections from '@/editor/events/core/OmikujiSections.vue'
-  import BoxChoiceEditor from '@/editor/events/core/BoxChoiceEditor.vue'
   import DisabledEventNotice from '@/editor/events/core/DisabledEventNotice.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'

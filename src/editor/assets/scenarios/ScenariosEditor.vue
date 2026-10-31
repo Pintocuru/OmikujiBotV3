@@ -1,24 +1,8 @@
 <!-- src/editor/assets/scenarios/ScenariosEditor.vue -->
 <template>
-  <div class="flex justify-end gap-2">
-    <CharacterChanger category="scenarios" />
-    <IconKeyChanger category="scenarios" />
-  </div>
-
   <template v-if="selectedItem">
-    <!-- 基本設定セクション -->
-    <SectionCard
-      sectionKey="baseSettings"
-      icon="SlidersHorizontal"
-      label-key="categorySections.baseSettings.label"
-      description-key="categorySections.baseSettings.description"
-    >
-      <BaseSettingsEditor v-model="selectedItem" category="scenarios" :isIsEnabled="false" />
-    </SectionCard>
-
     <!-- おみくじ設定セクション -->
     <SectionCard
-      sectionKey="scenario"
       icon="ListChecks"
       label-key="categorySections.omikujiSet.label"
       description-key="categorySections.omikujiSet.description"
@@ -33,10 +17,7 @@
   import { storeToRefs } from 'pinia'
 
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import BaseSettingsEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import ScenarioStepsEditor from '@/editor/assets/ScenarioStep/ScenarioStepsEditor.vue'
-  import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
 
   import SectionCard from '@/editor/parts/SectionCard.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'

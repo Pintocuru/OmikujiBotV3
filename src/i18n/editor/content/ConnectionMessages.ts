@@ -4,6 +4,15 @@ export const connectionMessages = {
     connections: {
       noBox: '接続がありません…',
       boxMissing: '「{key}」は存在しません',
+      changeBox: 'みくじ箱を変更',
+      usedPlaceholders: '使用しているプレースホルダー',
+      noPlaceholders: '使用しているプレースホルダーはありません…',
+      placeholderUsers: '使用しているシナリオ',
+      noPlaceholderUsers: 'どのシナリオからも使われていません…',
+      switcher: {
+        edit: '基本設定を編集',
+        disabled: '無効',
+      },
       noBoxHint: 'みくじ箱を選択するか、新しく作成してください。',
       chooseBox: 'みくじ箱を選ぶ',
       createBox: '新しいみくじ箱を作成する',
@@ -39,6 +48,15 @@ export const connectionMessages = {
     connections: {
       noBox: 'No connection…',
       boxMissing: '"{key}" does not exist',
+      changeBox: 'Change box',
+      usedPlaceholders: 'Placeholders in use',
+      noPlaceholders: 'No placeholders in use…',
+      placeholderUsers: 'Used by scenarios',
+      noPlaceholderUsers: 'Not used by any scenario…',
+      switcher: {
+        edit: 'Edit basic settings',
+        disabled: 'Disabled',
+      },
       noBoxHint: 'Pick an omikuji box or create a new one.',
       chooseBox: 'Choose a box',
       createBox: 'Create a new omikuji box',

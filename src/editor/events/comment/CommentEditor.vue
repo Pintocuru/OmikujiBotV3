@@ -1,33 +1,15 @@
 <!-- src/editor/events/comment/CommentEditor.vue -->
 <template>
   <template v-if="selectedItem">
-    <!-- 基本設定セクション -->
-    <SectionCard
-      sectionKey="baseSettings"
-      icon="SlidersHorizontal"
-      label-key="categorySections.baseSettings.label"
-      description-key="categorySections.baseSettings.description"
-    >
-      <BaseEditor v-model="selectedItem" category="comments" />
-    </SectionCard>
-
     <template v-if="selectedItem.isEnabled !== false">
       <!-- 条件設定セクション -->
       <SectionCard
-        sectionKey="threshold"
         icon="Filter"
         label-key="categorySections.threshold.label"
         description-key="categorySections.threshold.description"
       >
         <CommentTriggerEditor v-model="selectedItem.trigger" :selectedItemKey="selectedItemKey" />
       </SectionCard>
-
-      <!-- おみくじ設定 / シナリオ設定セット -->
-      <OmikujiSections :omikujiKey="selectedItem.omikujiKey" category="comments">
-        <template #choice>
-          <BoxChoiceEditor v-model="selectedItem" />
-        </template>
-      </OmikujiSections>
     </template>
 
     <!-- 無効のときのメッセージ -->
@@ -45,10 +27,7 @@
   import { CommentEventType } from '@/types/OmikujiData/'
 
   import CommentTriggerEditor from './CommentTriggerEditor.vue'
-  import OmikujiSections from '@/editor/events/core/OmikujiSections.vue'
-  import BoxChoiceEditor from '@/editor/events/core/BoxChoiceEditor.vue'
 
-  import BaseEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import InformationCard from '@/editor/parts/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'
