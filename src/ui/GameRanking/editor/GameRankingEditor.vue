@@ -13,13 +13,13 @@
   />
 
   <!-- カラー設定 -->
-  <SettingItem label="カラー設定" description="表示するカラーを設定します" layout="vertical">
+  <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description" layout="vertical">
     <ColorPicker :modelValue="ranking.color" @update:modelValue="(val) => update('color', val)" />
   </SettingItem>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- 順位のソート -->
-    <SettingItem label="順位のソート" description="得点の高い順・低い順・新しい順から選べます" layout="vertical">
+    <SettingItem labelKey="uiSettings.gameRanking.sortOrder.label" descriptionKey="uiSettings.gameRanking.sortOrder.description" layout="vertical">
       <div class="flex flex-wrap gap-2">
         <div
           v-for="(order, key) in rankingSortOrderMap"
@@ -35,8 +35,8 @@
 
     <!-- 表示するランキング数 -->
     <SettingItem
-      label="表示件数"
-      description="ランキングに表示する件数を設定します(最大20)"
+      labelKey="uiSettings.gameRanking.limit.label"
+      descriptionKey="uiSettings.gameRanking.limit.description"
       layout="vertical"
       :showReset="true"
       @reset="resetField('limit')"
@@ -53,7 +53,7 @@
   </div>
 
   <!-- ユーザーごとの重複 -->
-  <SettingItem label="ユーザーごとに1件だけ表示" description="同じユーザーの記録は、最新の1件だけを表示します" layout="vertical">
+  <SettingItem labelKey="uiSettings.gameRanking.uniqueUser.label" descriptionKey="uiSettings.gameRanking.uniqueUser.description" layout="vertical">
     <input
       type="checkbox"
       class="toggle toggle-primary"

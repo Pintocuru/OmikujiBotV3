@@ -10,7 +10,11 @@
   </p>
 
   <!-- 表示するコンポーネント -->
-  <SettingItem label="表示のしかた" description="個人の得点リスト・チームの得点(2種類)から選べます" layout="vertical">
+  <SettingItem
+    labelKey="uiSettings.userBoard.component.label"
+    descriptionKey="uiSettings.userBoard.component.description"
+    layout="vertical"
+  >
     <div class="flex flex-wrap gap-2">
       <div
         v-for="(info, key) in userBoardComponentMap"
@@ -27,8 +31,8 @@
 
   <!-- カラー設定 -->
   <SettingItem
-    label="カラー設定"
-    description="表示するカラーを設定します(チームの色は、LiveConsole で割り当てた色になります)"
+    labelKey="uiSettings.userBoard.color.label"
+    descriptionKey="uiSettings.userBoard.color.description"
     layout="vertical"
   >
     <ColorPicker :modelValue="board.color" @update:modelValue="(val) => update('color', val)" />
@@ -37,8 +41,8 @@
   <!-- 表示件数 (個人の得点リストだけで使う) -->
   <SettingItem
     v-if="board.component === 'ranking'"
-    label="表示件数"
-    description="得点リストに表示する人数を設定します(最大30)"
+    labelKey="uiSettings.userBoard.limit.label"
+    descriptionKey="uiSettings.userBoard.limit.description"
     layout="vertical"
     :showReset="true"
     @reset="resetField('limit')"

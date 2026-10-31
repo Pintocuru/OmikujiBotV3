@@ -2,8 +2,8 @@
 <template>
   <!-- 標準カウンター -->
   <SettingItem
-    label="標準カウンター"
-    description="表示したい項目を選択してください"
+    labelKey="uiSettings.counterSelector.default.label"
+    descriptionKey="uiSettings.counterSelector.default.description"
     :showReset="true"
     @reset="emit('reset', 'default')"
   >

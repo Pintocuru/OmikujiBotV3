@@ -8,6 +8,8 @@ import * as m_OmikujiDataMaps from './OmikujiDataMaps'
 import * as m_apps_AppInfoEditor from './apps/AppInfoEditor'
 import * as m_apps_AppItemsCharacters from './apps/AppItemsCharacters'
 import * as m_apps_BaseSettingsEditor from './apps/BaseSettingsEditor'
+import * as m_apps_PackageMetaMessages from './apps/PackageMetaMessages'
+import * as m_assets_OmikujiItemMessages from './assets/OmikujiItemMessages'
 import * as m_assets_PlaceholderMessages from './assets/PlaceholderMessages'
 import * as m_assets_ScenarioStep from './assets/ScenarioStep'
 import * as m_category_CategorySectionMessagesMap from './category/CategorySectionMessagesMap'
@@ -25,12 +27,15 @@ import * as m_events_TriggerGift from './events/TriggerGift'
 import * as m_events_TriggerUsername from './events/TriggerUsername'
 import * as m_helpers_keyEditorMessages from './helpers/keyEditorMessages'
 import * as m_shell_ShellMessages from './shell/ShellMessages'
+import * as m_ui_UiSettingsMessages from './ui/UiSettingsMessages'
 
 export const messageModules: Record<string, Record<string, unknown>> = {
   'OmikujiDataMaps': m_OmikujiDataMaps,
   'apps/AppInfoEditor': m_apps_AppInfoEditor,
   'apps/AppItemsCharacters': m_apps_AppItemsCharacters,
   'apps/BaseSettingsEditor': m_apps_BaseSettingsEditor,
+  'apps/PackageMetaMessages': m_apps_PackageMetaMessages,
+  'assets/OmikujiItemMessages': m_assets_OmikujiItemMessages,
   'assets/PlaceholderMessages': m_assets_PlaceholderMessages,
   'assets/ScenarioStep': m_assets_ScenarioStep,
   'category/CategorySectionMessagesMap': m_category_CategorySectionMessagesMap,
@@ -48,4 +53,5 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'events/TriggerUsername': m_events_TriggerUsername,
   'helpers/keyEditorMessages': m_helpers_keyEditorMessages,
   'shell/ShellMessages': m_shell_ShellMessages,
+  'ui/UiSettingsMessages': m_ui_UiSettingsMessages,
 }

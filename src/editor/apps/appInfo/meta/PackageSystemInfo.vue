@@ -1,14 +1,22 @@
 <!-- src/editor/apps/appInfo/meta/PackageSystemInfo.vue -->
 <template>
   <!-- ジェネレータ名 (読み取り専用) -->
-  <SettingItem icon="Settings" label="アプリ名" description="このパッケージを生成したアプリ名">
+  <SettingItem
+    icon="Settings"
+    labelKey="packageMeta.system.appName.label"
+    descriptionKey="packageMeta.system.appName.description"
+  >
     <div class="flex items-center gap-3">
       <span class="text-sm text-base-content/60">{{ meta.generatorName }}</span>
     </div>
   </SettingItem>
 
   <!-- ジェネレータバージョン (読み取り専用) -->
-  <SettingItem icon="Tag" label="アプリバージョン" description="このアプリのバージョン">
+  <SettingItem
+    icon="Tag"
+    labelKey="packageMeta.system.appVersion.label"
+    descriptionKey="packageMeta.system.appVersion.description"
+  >
     <div class="flex items-center gap-3">
       <span class="text-sm text-base-content/60">{{ meta.generatorVersion }}</span>
 
@@ -17,7 +25,11 @@
   </SettingItem>
 
   <!-- ID (読み取り専用) -->
-  <SettingItem icon="Code2" label="データバージョン" description="このデータのスキーマバージョン">
+  <SettingItem
+    icon="Code2"
+    labelKey="packageMeta.system.dataVersion.label"
+    descriptionKey="packageMeta.system.dataVersion.description"
+  >
     <div class="flex items-center gap-3">
       <span class="font-mono text-sm text-base-content/60 select-all">{{ meta.dataVersion }}</span>
     </div>

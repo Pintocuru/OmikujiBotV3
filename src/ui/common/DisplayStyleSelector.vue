@@ -1,6 +1,10 @@
 <!-- src/ui/common/DisplayStyleSelector.vue -->
 <template>
-  <SettingItem v-if="Object.keys(options).length > 1" label="表示スタイル" description="表示形式を選択">
+  <SettingItem
+    v-if="Object.keys(options).length > 1"
+    labelKey="uiSettings.common.displayStyle.label"
+    descriptionKey="uiSettings.common.displayStyle.description"
+  >
     <div class="flex flex-wrap gap-2">
       <div
         v-for="(config, key) in options"

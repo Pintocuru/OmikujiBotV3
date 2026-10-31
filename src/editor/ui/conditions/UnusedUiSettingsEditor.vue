@@ -1,7 +1,7 @@
 <!-- src/editor/ui/conditions/UnusedUiSettingsEditor.vue -->
 <template>
   <div class="flex flex-col gap-3">
-    <SettingItem icon="Trash2" label="未使用UIの設定" description="現在の設定で使わないUI設定を削除">
+    <SettingItem icon="Trash2" labelKey="uiSettings.unused.label" descriptionKey="uiSettings.unused.description">
       <p v-if="unusedKinds.length === 0" class="text-xs opacity-70 p-2">削除できる設定はありません</p>
 
       <div v-else class="flex flex-col gap-2">

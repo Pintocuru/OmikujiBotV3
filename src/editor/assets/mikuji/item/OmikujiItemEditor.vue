@@ -7,8 +7,8 @@
   <SettingItem
     icon="Zap"
     v-if="shouldShowKindSelector"
-    label="実行内容"
-    description="このおみくじの処理内容を選択します"
+    labelKey="omikujiItem.editor.kind.label"
+    descriptionKey="omikujiItem.editor.kind.description"
   >
     <div class="flex flex-wrap gap-2">
       <span
@@ -27,8 +27,8 @@
   <SettingItem
     icon="SlidersHorizontal"
     v-if="isControlItem(omikujiItem)"
-    label="制御の種類"
-    description="処理の流れをどう制御するかを選択します"
+    labelKey="omikujiItem.editor.command.label"
+    descriptionKey="omikujiItem.editor.command.description"
   >
     <div class="flex flex-wrap gap-2">
       <span

@@ -27,8 +27,8 @@
   <!-- キャラクター -->
   <SettingItem
     v-if="bubble.component === 'standard'"
-    label="常時表示キャラクター"
-    description="未設定の場合、コメントが来たときのみ表示されます"
+    labelKey="uiSettings.commentBubble.persistentCharacter.label"
+    descriptionKey="uiSettings.commentBubble.persistentCharacter.description"
   >
     <button
       type="button"
@@ -48,8 +48,8 @@
   <!-- キャラクターの大きさ -->
   <SettingItem
     v-if="bubble.component === 'standard'"
-    label="キャラクターの大きさ"
-    description="キャラクター画像の横幅を調整します"
+    labelKey="uiSettings.commentBubble.characterSize.label"
+    descriptionKey="uiSettings.commentBubble.characterSize.description"
     :showReset="true"
     @reset="resetField('characterSize')"
   >
@@ -67,8 +67,8 @@
 
   <!-- フキダシアニメーション -->
   <SettingItem
-    label="フキダシアニメーション"
-    description="フキダシの表示アニメーションを設定します"
+    labelKey="uiSettings.common.bubbleMotion.label"
+    descriptionKey="uiSettings.common.bubbleMotion.description"
     :showReset="true"
     @reset="resetField('bubbleMotion')"
   >

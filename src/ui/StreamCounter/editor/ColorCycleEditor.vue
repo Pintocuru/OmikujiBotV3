@@ -1,7 +1,7 @@
 <!-- src/ui/StreamCounter/editor/ColorCycleEditor.vue -->
 <template>
   <!-- 単色・奇数カラー -->
-  <SettingItem label="単色・奇数カラー" description="基本となるカラーを選択します">
+  <SettingItem labelKey="uiSettings.colorCycle.odd.label" descriptionKey="uiSettings.colorCycle.odd.description">
     <div class="flex flex-wrap gap-2">
       <div
         v-for="variant in daisyUIColor"
@@ -16,7 +16,7 @@
   </SettingItem>
 
   <!-- 偶数カラー（ツートン2色目） -->
-  <SettingItem label="偶数カラー" description="ツートンにする場合の2色目">
+  <SettingItem labelKey="uiSettings.colorCycle.even.label" descriptionKey="uiSettings.colorCycle.even.description">
     <div class="flex flex-wrap gap-2">
       <!-- 設定しない -->
       <div
@@ -39,7 +39,12 @@
   </SettingItem>
 
   <!-- 手動入力 -->
-  <SettingItem label="カスタム入力" description="カンマ区切りで直接入力" :showReset="true" @reset="onReset">
+  <SettingItem
+    labelKey="uiSettings.colorCycle.custom.label"
+    descriptionKey="uiSettings.colorCycle.custom.description"
+    :showReset="true"
+    @reset="onReset"
+  >
     <!-- プリセット -->
     <div class="flex flex-wrap gap-1">
       <button

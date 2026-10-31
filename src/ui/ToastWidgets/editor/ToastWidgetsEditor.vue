@@ -40,8 +40,8 @@
 
   <!-- 設定項目 -->
   <SettingItem
-    label="トースト位置"
-    description="通知メッセージを右側に表示するかどうか"
+    labelKey="uiSettings.toastWidgets.position.label"
+    descriptionKey="uiSettings.toastWidgets.position.description"
     :showReset="true"
     @reset="resetMap.showToastsOnRight"
   >
@@ -57,8 +57,8 @@
   </SettingItem>
 
   <SettingItem
-    label="キャラクター表示"
-    description="トーストにキャラクターアイコンを表示するか"
+    labelKey="uiSettings.toastWidgets.showCharacter.label"
+    descriptionKey="uiSettings.toastWidgets.showCharacter.description"
     :showReset="true"
     @reset="resetMap.showToastsCharacter"
   >
@@ -74,8 +74,8 @@
   </SettingItem>
 
   <SettingItem
-    label="サムネイル表示キャラクター"
-    description="右下にサムネイルとして表示するキャラクターを選択します"
+    labelKey="uiSettings.toastWidgets.thumbnail.label"
+    descriptionKey="uiSettings.toastWidgets.thumbnail.description"
     :showReset="true"
     @reset="resetMap.showThumbnail"
   >

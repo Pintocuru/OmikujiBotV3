@@ -2,8 +2,8 @@
 <template>
   <!-- キャラクターの大きさ(標準値。投稿側は倍率だけ渡す) -->
   <SettingItem
-    label="キャラクターの大きさ"
-    description="標準の横幅です。投稿ごとの「サイズ倍率」がこの値にかかります"
+    labelKey="uiSettings.characterStage.characterSize.label"
+    descriptionKey="uiSettings.characterStage.characterSize.description"
     :showReset="true"
     @reset="resetField('characterSize')"
   >
@@ -21,8 +21,8 @@
 
   <!-- 表示秒数 -->
   <SettingItem
-    label="既定の表示秒数"
-    description="投稿で秒数を指定しなかったときの秒数です(0 は無期限)"
+    labelKey="uiSettings.characterStage.seconds.label"
+    descriptionKey="uiSettings.characterStage.seconds.description"
     :showReset="true"
     @reset="resetField('seconds')"
   >
@@ -39,9 +39,9 @@
   <!-- 既定の位置レンジ -->
   <SettingItem
     v-for="axis in axes"
-    :key="axis.label"
-    :label="axis.label"
-    :description="axis.description"
+    :key="axis.min"
+    :labelKey="axis.labelKey"
+    :descriptionKey="axis.descriptionKey"
     :showReset="true"
     @reset="resetRange(axis.min, axis.max)"
   >
@@ -69,8 +69,8 @@
 
   <!-- 既定のモーション -->
   <SettingItem
-    label="既定の登場・退場アニメーション"
-    description="登場と退場で同じモーションを使います"
+    labelKey="uiSettings.characterStage.motion.label"
+    descriptionKey="uiSettings.characterStage.motion.description"
     :showReset="true"
     @reset="resetField('motion')"
   >
@@ -105,12 +105,17 @@
 
   const axes = [
     {
-      label: '既定の位置X',
-      description: '0〜100(%)。キャラの中心が基準。最小と最大が違えば範囲内でランダム',
+      labelKey: 'uiSettings.characterStage.x.label',
+      descriptionKey: 'uiSettings.characterStage.x.description',
       min: 'xMin',
       max: 'xMax',
     },
-    { label: '既定の位置Y', description: '0〜100(%)。画面上端が 0、キャラの下辺が基準', min: 'yMin', max: 'yMax' },
+    {
+      labelKey: 'uiSettings.characterStage.y.label',
+      descriptionKey: 'uiSettings.characterStage.y.description',
+      min: 'yMin',
+      max: 'yMax',
+    },
   ] as const
 
   const update = <K extends keyof CharacterStageType>(field: K, value: CharacterStageType[K]) => {

@@ -1,7 +1,7 @@
 <!-- src/editor/ui/conditions/LayoutEditor.vue -->
 <template>
   <div class="flex flex-col gap-3">
-    <SettingItem icon="LayoutGrid" label="レイアウト" description="ジェネレーターで使用するレイアウト">
+    <SettingItem icon="LayoutGrid" labelKey="uiSettings.layout.label" descriptionKey="uiSettings.layout.description">
       <div class="flex flex-wrap gap-2">
         <!-- main.ts / registerAll で登録済みのレイアウトのみ -->
         <span

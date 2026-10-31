@@ -1,11 +1,7 @@
 <!-- src/editor/events/timer/TimerIntervalEditor.vue -->
 <template>
   <!-- 動作モード（起動時のみ / 一定間隔 / ランダム間隔） -->
-  <SettingItem
-    icon="ToggleRight"
-    labelKey="timerInterval.modeLabel"
-    descriptionKey="timerInterval.modeDescription"
-  >
+  <SettingItem icon="ToggleRight" labelKey="timerInterval.modeLabel" descriptionKey="timerInterval.modeDescription">
     <div class="flex gap-2">
       <!-- 起動時のみ実行 -->
       <div
@@ -38,11 +34,7 @@
 
   <template v-if="mode === 'interval'">
     <!-- プリセット選択 -->
-    <SettingItem
-      icon="Timer"
-      labelKey="timerInterval.intervalLabel"
-      descriptionKey="timerInterval.intervalDescription"
-    >
+    <SettingItem icon="Timer" labelKey="timerInterval.intervalLabel" descriptionKey="timerInterval.intervalDescription">
       <select v-model="intervalSeconds" class="select select-bordered w-full">
         <option v-for="preset in intervalPresets" :key="preset.value" :value="preset.value">
           {{ preset.label }}
@@ -51,11 +43,7 @@
     </SettingItem>
 
     <!-- isBaseZero トグル -->
-    <SettingItem
-      icon="Clock"
-      labelKey="timerInterval.baseZeroLabel"
-      descriptionKey="timerInterval.baseZeroDescription"
-    >
+    <SettingItem icon="Clock" labelKey="timerInterval.baseZeroLabel" descriptionKey="timerInterval.baseZeroDescription">
       <label class="label cursor-pointer justify-start gap-4">
         <input type="checkbox" class="toggle toggle-primary" v-model="isBaseZero" />
         <span class="label-text">{{

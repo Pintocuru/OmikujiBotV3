@@ -10,8 +10,8 @@
   <SettingItem
     icon="Type"
     layout="vertical"
-    label="フォントファミリー"
-    description="表示に使用するフォント"
+    labelKey="uiSettings.fontFamily.label"
+    descriptionKey="uiSettings.fontFamily.description"
     forceMode="pro"
   >
     <div class="w-full space-y-3">

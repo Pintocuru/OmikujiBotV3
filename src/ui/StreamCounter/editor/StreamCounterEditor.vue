@@ -11,7 +11,10 @@
   />
 
   <!-- テーマ -->
-  <SettingItem label="テーマ" description="カラーテーマを選択します">
+  <SettingItem
+    labelKey="uiSettings.streamCounter.theme.label"
+    descriptionKey="uiSettings.streamCounter.theme.description"
+  >
     <select
       class="select select-bordered"
       :value="streamCounter.color"
@@ -24,7 +27,10 @@
   </SettingItem>
 
   <!-- ラベルスタイル -->
-  <SettingItem label="ラベルスタイル" description="カウンターのラベル表示方法を選択">
+  <SettingItem
+    labelKey="uiSettings.streamCounter.labelStyle.label"
+    descriptionKey="uiSettings.streamCounter.labelStyle.description"
+  >
     <div class="flex flex-wrap gap-2">
       <div
         v-for="(label, key) in labelStyleMap"

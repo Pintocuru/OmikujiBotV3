@@ -12,7 +12,10 @@
   />
 
   <!-- フキダシアニメーション -->
-  <SettingItem label="フキダシアニメーション" description="フキダシの表示アニメーションを設定します">
+  <SettingItem
+    labelKey="uiSettings.common.bubbleMotion.label"
+    descriptionKey="uiSettings.common.bubbleMotion.description"
+  >
     <select
       v-model="kujibikiPanel.animation"
       @change="updateField('animation', ($event.target as HTMLSelectElement).value)"
@@ -25,7 +28,10 @@
   </SettingItem>
 
   <!-- タイトル -->
-  <SettingItem label="タイトル" description="タイトルを設定します">
+  <SettingItem
+    labelKey="uiSettings.kujibikiPanel.title.label"
+    descriptionKey="uiSettings.kujibikiPanel.title.description"
+  >
     <input
       type="text"
       class="input input-bordered w-full"
@@ -35,7 +41,10 @@
   </SettingItem>
 
   <!-- 表示時間 -->
-  <SettingItem label="表示時間（秒）" description="0なら常時表示します">
+  <SettingItem
+    labelKey="uiSettings.kujibikiPanel.displaySeconds.label"
+    descriptionKey="uiSettings.kujibikiPanel.displaySeconds.description"
+  >
     <input
       type="number"
       class="input input-bordered w-24"
@@ -48,7 +57,10 @@
 
   <!-- 画像系コンポーネント専用設定 -->
   <template v-if="isVisual">
-    <SettingItem label="画像パス" description="顔ハメ看板のフレーム画像を指定します">
+    <SettingItem
+      labelKey="uiSettings.kujibikiPanel.imagePath.label"
+      descriptionKey="uiSettings.kujibikiPanel.imagePath.description"
+    >
       <input
         type="text"
         class="input input-bordered w-full"
@@ -57,7 +69,10 @@
       />
     </SettingItem>
 
-    <SettingItem label="アイコンサイズ" description="中央に配置するアイコンの大きさを設定します">
+    <SettingItem
+      labelKey="uiSettings.kujibikiPanel.iconSize.label"
+      descriptionKey="uiSettings.kujibikiPanel.iconSize.description"
+    >
       <div class="flex flex-col gap-2 w-full">
         <!-- スライダー -->
         <input

@@ -1,7 +1,7 @@
 <!-- src/editor/apps/appInfo/meta/PackageBasicInfo.vue -->
 <template>
   <!-- このデータのid -->
-  <SettingItem icon="Hash" label="id" description="プラグインでは、この名称で保存されます">
+  <SettingItem icon="Hash" label="id" descriptionKey="packageMeta.basic.id.description">
     <div class="flex items-center gap-3">
       <span class="font-mono text-sm text-base-content/60">{{ meta.id }}</span>
       <button class="btn btn-xs btn-ghost gap-1" @click="handleRegenerateId">
@@ -18,8 +18,8 @@
       v-if="field.key === 'tags'"
       layout="vertical"
       :icon="field.icon"
-      :label="field.label"
-      :description="field.description"
+      :labelKey="field.labelKey"
+      :descriptionKey="field.descriptionKey"
     >
       <div class="flex items-center gap-2 flex-wrap">
         <span v-for="(tag, index) in meta.tags" :key="index" class="badge badge-outline text-xs">
@@ -29,7 +29,7 @@
     </SettingItem>
 
     <!-- 通常フィールド -->
-    <SettingItem v-else :icon="field.icon" :label="field.label" :description="field.description">
+    <SettingItem v-else :icon="field.icon" :labelKey="field.labelKey" :descriptionKey="field.descriptionKey">
       <div class="flex items-center gap-3">
         <span :class="['text-sm text-base-content/60', field.mono && 'font-mono']">
           {{ meta[field.key] }}
@@ -57,17 +57,41 @@
 
   // id 以外のフィールド定義
   const metaFields = [
-    { key: 'name', icon: 'Package', label: 'パッケージ名', description: 'パッケージ(データ)の名称', mono: false },
+    {
+      key: 'name',
+      icon: 'Package',
+      labelKey: 'packageMeta.basic.name.label',
+      descriptionKey: 'packageMeta.basic.name.description',
+      mono: false,
+    },
     {
       key: 'description',
       icon: 'FileText',
-      label: 'パッケージ説明',
-      description: 'どんな内容を表示できるかを端的に説明',
+      labelKey: 'packageMeta.basic.description.label',
+      descriptionKey: 'packageMeta.basic.description.description',
       mono: false,
     },
-    { key: 'version', icon: 'Tag', label: 'バージョン', description: 'パッケージのバージョン情報', mono: true },
-    { key: 'author', icon: 'User', label: '作者', description: 'パッケージの作成者名', mono: false },
-    { key: 'tags', icon: 'Tags', label: 'タグ', description: 'パッケージの分類に使用されるタグ', mono: false },
+    {
+      key: 'version',
+      icon: 'Tag',
+      labelKey: 'packageMeta.basic.version.label',
+      descriptionKey: 'packageMeta.basic.version.description',
+      mono: true,
+    },
+    {
+      key: 'author',
+      icon: 'User',
+      labelKey: 'packageMeta.basic.author.label',
+      descriptionKey: 'packageMeta.basic.author.description',
+      mono: false,
+    },
+    {
+      key: 'tags',
+      icon: 'Tags',
+      labelKey: 'packageMeta.basic.tags.label',
+      descriptionKey: 'packageMeta.basic.tags.description',
+      mono: false,
+    },
   ] as const
 
   // id 再生成ハンドラ

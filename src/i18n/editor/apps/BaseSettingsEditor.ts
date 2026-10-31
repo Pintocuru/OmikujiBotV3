@@ -22,6 +22,10 @@ export const baseSettingsMessages = {
         label: '説明',
         description: 'このデータの紹介文',
       },
+      tags: {
+        label: 'タグ',
+        description: 'このデータに関連するタグを追加できます',
+      },
     },
   },
   en: {
@@ -41,6 +45,10 @@ export const baseSettingsMessages = {
       description: {
         label: 'Description',
         description: 'A short introduction for this data',
+      },
+      tags: {
+        label: 'Tags',
+        description: 'Add tags related to this data',
       },
     },
   },

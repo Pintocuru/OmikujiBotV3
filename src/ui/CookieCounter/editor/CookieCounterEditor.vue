@@ -11,13 +11,20 @@
   />
 
   <!-- カラー設定 -->
-  <SettingItem label="カラー設定" description="表示するカラーを設定します" layout="vertical">
+  <SettingItem
+    labelKey="uiSettings.common.color.label"
+    descriptionKey="uiSettings.common.color.description"
+    layout="vertical"
+  >
     <ColorPicker :modelValue="cookieCounter.color" @update:modelValue="(val) => updateField('color', val)" />
   </SettingItem>
 
   <!-- 画像パス指定（hasImage コンポーネントのみ） -->
   <template v-if="currentComponentDef.hasImage">
-    <SettingItem label="メイン画像" description="1つ目に使う画像ファイルのパス">
+    <SettingItem
+      labelKey="uiSettings.cookieCounter.mainImage.label"
+      descriptionKey="uiSettings.cookieCounter.mainImage.description"
+    >
       <input
         type="text"
         class="input input-bordered input-sm w-full"
@@ -26,7 +33,10 @@
         @change="updateImage('main', ($event.target as HTMLInputElement).value)"
       />
     </SettingItem>
-    <SettingItem label="サブ画像" description="2つ目の画像パス。空欄ならメイン画像を使用">
+    <SettingItem
+      labelKey="uiSettings.cookieCounter.subImage.label"
+      descriptionKey="uiSettings.cookieCounter.subImage.description"
+    >
       <input
         type="text"
         class="input input-bordered input-sm w-full"

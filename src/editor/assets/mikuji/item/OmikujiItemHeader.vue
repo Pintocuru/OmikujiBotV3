@@ -2,7 +2,12 @@
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
     <!-- 運勢の種類 -->
-    <SettingItem icon="Clover" layout="vertical" label="運勢の種類" description="識別しやすい名前を入力">
+    <SettingItem
+      icon="Clover"
+      layout="vertical"
+      labelKey="omikujiItem.header.name.label"
+      descriptionKey="omikujiItem.header.name.description"
+    >
       <input
         type="text"
         :value="omikujiItem.name"
@@ -17,8 +22,8 @@
       icon="Timer"
       v-if="omikujiItem.kind === 'steps'"
       layout="vertical"
-      label="クールダウン"
-      description="これ以降の実行を一定時間ブロックします（秒）"
+      labelKey="omikujiItem.header.cooldown.label"
+      descriptionKey="omikujiItem.header.cooldown.description"
     >
       <input
         type="number"

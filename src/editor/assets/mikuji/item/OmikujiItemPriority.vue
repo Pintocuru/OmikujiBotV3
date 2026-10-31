@@ -3,8 +3,8 @@
   <!-- 追加発動条件の有効化 -->
   <SettingItem
     icon="Filter"
-    label="追加発動条件"
-    description="条件を満たした場合の優先度を設定できます"
+    labelKey="omikujiItem.priority.criteria.label"
+    descriptionKey="omikujiItem.priority.criteria.description"
     :variant="hasCriteria ? 'secondary' : undefined"
   >
     <label class="label cursor-pointer gap-2">
@@ -20,9 +20,17 @@
 
   <!-- 優先度 -->
   <template v-if="hasCriteria">
-    <SubSectionHeader icon="Filter" title="追加条件" description="このおみくじが適用される追加の条件を設定します" />
+    <SubSectionHeader
+      icon="Filter"
+      titleKey="omikujiItem.priority.sectionTitle"
+      descriptionKey="omikujiItem.priority.sectionDescription"
+    />
 
-    <SettingItem icon="Crown" label="優先度" description="追加条件達成時、優先で選ばれます">
+    <SettingItem
+      icon="Crown"
+      labelKey="omikujiItem.priority.priority.label"
+      descriptionKey="omikujiItem.priority.priority.description"
+    >
       <label class="label cursor-pointer gap-2">
         <input
           type="checkbox"

@@ -11,14 +11,18 @@
   />
 
   <!-- カラー設定 -->
-  <SettingItem label="カラー設定" description="表示するカラーを設定します" layout="vertical">
+  <SettingItem
+    labelKey="uiSettings.common.color.label"
+    descriptionKey="uiSettings.common.color.description"
+    layout="vertical"
+  >
     <ColorPicker :modelValue="liveClock.color" @update:modelValue="(val) => update('color', val)" />
   </SettingItem>
 
   <!-- デフォルトで表示させるメッセージ -->
   <SettingItem
-    label="デフォルトメッセージ"
-    description="プレースホルダーが使えます"
+    labelKey="uiSettings.liveClock.defaultMessage.label"
+    descriptionKey="uiSettings.liveClock.defaultMessage.description"
     :showReset="true"
     @reset="resetMap.defaultMessage"
   >
@@ -26,7 +30,7 @@
   </SettingItem>
 
   <!-- 日付を表示するか -->
-  <SettingItem label="日付表示" description="時計に日付を表示するか">
+  <SettingItem labelKey="uiSettings.liveClock.isDate.label" descriptionKey="uiSettings.liveClock.isDate.description">
     <label class="flex items-center cursor-pointer">
       <input
         type="checkbox"
@@ -39,7 +43,10 @@
   </SettingItem>
 
   <!-- 秒数を表示するか -->
-  <SettingItem label="秒数表示" description="時計に秒数を表示するか">
+  <SettingItem
+    labelKey="uiSettings.liveClock.isSecond.label"
+    descriptionKey="uiSettings.liveClock.isSecond.description"
+  >
     <label class="flex items-center cursor-pointer">
       <input
         type="checkbox"
