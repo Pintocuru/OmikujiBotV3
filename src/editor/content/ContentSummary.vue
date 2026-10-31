@@ -1,8 +1,8 @@
 <!-- src/editor/content/ContentSummary.vue -->
 <template>
-  <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
+  <div class="flex w-full flex-col gap-3">
     <!-- 基本設定の概要 -->
-    <section class="rounded-box border border-base-300 bg-base-200/40 p-4 min-w-0">
+    <section class="w-full rounded-box border border-base-300 bg-base-200/40 p-4 min-w-0">
       <div class="flex items-center justify-between gap-2 mb-3">
         <h3 class="font-semibold">{{ t('categorySections.baseSettings.label') }}</h3>
         <button class="btn btn-xs btn-ghost" @click="editOpen = true">
@@ -75,11 +75,9 @@
       </div>
       <p v-else class="text-sm opacity-60">使用されているキャラクターはありません。</p>
 
-      <div v-if="changerTargets.length" class="flex flex-wrap gap-2 mt-4 pt-3 border-t border-base-300">
-        <template v-for="target in changerTargets" :key="`${target.category}:${target.selectedId ?? 'all'}`">
-          <CharacterChanger :category="target.category" :selectedId="target.selectedId" />
-          <IconKeyChanger :category="target.category" :selectedId="target.selectedId" />
-        </template>
+      <div v-if="allTargets.length" class="flex flex-wrap gap-2 mt-4 pt-3 border-t border-base-300">
+        <CharacterChanger category="scenarios" :targets="allTargets" />
+        <IconKeyChanger category="scenarios" :targets="allTargets" />
       </div>
     </section>
   </div>
@@ -92,7 +90,7 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { CircleHelp, ImageOff, Pencil } from 'lucide-vue-next'
-  import type { FlowTarget, TargetCategoryType } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
+  import type { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
   import { useCharacterStats } from '@/editor/helpers/CharacterChanger/composables/useCharacterStats'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
   import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
@@ -189,10 +187,5 @@
     })
   )
 
-  // 実際に参照されるシナリオごとに変更対象を分ける
-  const changerTargets = computed<{ category: TargetCategoryType; selectedId?: string }[]>(() =>
-    allTargets.value
-      .filter((target): target is Extract<FlowTarget, { category: 'scenarios' }> => target.category === 'scenarios')
-      .map(({ item }) => ({ category: 'scenarios', selectedId: item.key }))
-  )
+
 </script>
