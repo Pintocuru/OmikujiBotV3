@@ -11,7 +11,7 @@
     >
       <Menu class="w-5 h-5" />
     </button>
-    <h1 class="font-bold text-lg whitespace-nowrap">{{ t('appHeader.title') }}</h1>
+    <button type="button" class="font-bold text-lg whitespace-nowrap hover:opacity-80" @click="useNavigationStore().showTopPage()">{{ t('appHeader.title') }}</button>
 
     <!-- データソース・ファイル名・バージョン -->
     <div class="flex items-center gap-2 min-w-0 flex-1">
@@ -66,6 +66,7 @@
   import { useI18n } from 'vue-i18n'
   import { Cpu, FolderOpen, Menu, Moon, Settings, Sun } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import ManagerView from '@/manager/ManagerView.vue'
   import { useOpenLocal } from '@/manager/composables/useOpenLocal'
