@@ -19,13 +19,21 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
   const props = defineProps<{
     icon: LucideIconName
-    title: string
+    titleKey?: string
+    descriptionKey?: string
+    title?: string
     description?: string
   }>()
+
+  const { t } = useI18n()
+
+  const title = computed(() => (props.titleKey ? t(props.titleKey) : (props.title ?? '')))
+  const description = computed(() => (props.descriptionKey ? t(props.descriptionKey) : (props.description ?? '')))
 
   const IconComponent = computed(() => resolveLucideIcon(props.icon))
 </script>

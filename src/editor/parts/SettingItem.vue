@@ -1,3 +1,4 @@
+<!-- src/editor/parts/SettingItem.vue -->
 <template>
   <div
     class="p-2 rounded-md shadow-lg bg-base-300 text-base-content"

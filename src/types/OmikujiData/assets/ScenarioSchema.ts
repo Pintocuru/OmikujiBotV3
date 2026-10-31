@@ -1,4 +1,4 @@
-// src/types/OmikujiData/assets/ActionSetSchema.ts
+// src/types/OmikujiData/assets/ScenarioSchema.ts
 import { z } from 'zod'
 import { BaseRecordSchema } from '@/types/core'
 import { ScenarioStepArraySchema } from './ScenarioStepSchema'

@@ -1,4 +1,4 @@
-<!-- src/editor/assets/ScenarioStep/Message/edit/CharacterStageSlotsEditor.vue -->
+<!-- src/ui/CharacterStage/editor/CharacterStageSlotsEditor.vue -->
 <template>
   <SettingItem layout="vertical" icon="MessageSquare" :label="t('scenarioStep.messageSettings.slots')">
     <p class="mb-2 text-xs opacity-60">空欄の項目は UI 設定の既定値が使われます</p>

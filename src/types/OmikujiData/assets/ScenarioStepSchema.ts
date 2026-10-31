@@ -1,4 +1,4 @@
-// src/types/OmikujiData/assets/PostFlowSchema.ts
+// src/types/OmikujiData/assets/ScenarioStepSchema.ts
 import { z } from 'zod'
 import { normalizedArray } from '../../core/ParsedDefault'
 import { WeightValuesArraySchema } from './PlaceholderSchema'

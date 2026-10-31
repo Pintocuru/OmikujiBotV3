@@ -3,8 +3,8 @@
   <!-- エディター設定 -->
   <SubSectionHeader
     icon="Settings"
-    :title="t('appInfoEditor.settings.editor.title')"
-    :description="t('appInfoEditor.settings.editor.description')"
+    titleKey="appInfoEditor.settings.editor.title"
+    descriptionKey="appInfoEditor.settings.editor.description"
   />
 
   <!-- DaisyUIテーマ -->
@@ -12,8 +12,8 @@
     icon="Palette"
     v-if="isDev"
     variant="warning"
-    :label="t('appInfoEditor.settings.editor.theme.label')"
-    :description="t('appInfoEditor.settings.editor.theme.description')"
+    label="appInfoEditor.settings.editor.theme.label"
+    description="appInfoEditor.settings.editor.theme.description"
     :showReset="true"
     @reset="reset('developer', 'daisyUiTheme')"
   >
@@ -36,8 +36,8 @@
   <!-- 言語設定 -->
   <SettingItem
     icon="Languages"
-    :label="t('appInfoEditor.settings.editor.locale.label')"
-    :description="t('appInfoEditor.settings.editor.locale.description')"
+    label="appInfoEditor.settings.editor.locale.label"
+    description="appInfoEditor.settings.editor.locale.description"
     :showReset="true"
     @reset="reset('editor', 'locale')"
   >
@@ -55,8 +55,8 @@
   <!-- 起動時に開くカテゴリ -->
   <SettingItem
     icon="LayoutGrid"
-    :label="t('appInfoEditor.settings.editor.initialCategory.label')"
-    :description="t('appInfoEditor.settings.editor.initialCategory.description')"
+    label="appInfoEditor.settings.editor.initialCategory.label"
+    description="appInfoEditor.settings.editor.initialCategory.description"
     :showReset="true"
     @reset="reset('editor', 'initialCategory')"
   >

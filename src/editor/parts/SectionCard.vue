@@ -7,10 +7,11 @@
         <component :is="IconComponent" v-if="IconComponent" class="w-6 h-6" />
 
         <!-- タイトル -->
-        <span>{{ t(props.labelKey) }}</span>
+        <span>{{ label }}</span>
       </div>
-      <div v-if="props.descriptionKey" class="text-sm pr-2">{{ t(props.descriptionKey) }}</div>
+      <div v-if="description" class="text-sm pr-2">{{ description }}</div>
     </div>
+
     <!-- カード本体 -->
     <div class="space-y-2 p-4">
       <slot />
@@ -26,8 +27,10 @@
 
   const props = withDefaults(
     defineProps<{
-      labelKey: string
-      descriptionKey: string
+      label?: string
+      labelKey?: string
+      description?: string
+      descriptionKey?: string
       icon: LucideIconName
       variant?: DaisyUIColorType
     }>(),
@@ -37,6 +40,9 @@
   )
 
   const { t } = useI18n()
+
+  const label = computed(() => (props.labelKey ? t(props.labelKey) : (props.label ?? '')))
+  const description = computed(() => (props.descriptionKey ? t(props.descriptionKey) : (props.description ?? '')))
 
   const headerClass = computed(() => `bg-${props.variant} text-${props.variant}-content`)
   const IconComponent = computed(() => resolveLucideIcon(props.icon))

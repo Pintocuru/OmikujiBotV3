@@ -4,8 +4,8 @@
   <SettingItem
     v-if="isAssetCategory(category)"
     icon="Pencil"
-    :label="t('baseSettings.key.label')"
-    :description="t('baseSettings.key.description')"
+    labelKey="baseSettings.key.label"
+    descriptionKey="baseSettings.key.description"
   >
     <div class="flex gap-2 items-center">
       <div class="w-full px-4 py-2 rounded bg-base-200 text-gray-600 overflow-x-auto whitespace-nowrap">
@@ -20,18 +20,14 @@
   <SettingItem
     icon="ToggleRight"
     v-if="isIsEnabled"
-    :label="t('baseSettings.isEnabled.label')"
-    :description="t('baseSettings.isEnabled.description')"
+    labelKey="baseSettings.isEnabled.label"
+    descriptionKey="baseSettings.isEnabled.description"
   >
     <input type="checkbox" v-model="isEnabled" class="toggle toggle-primary" />
   </SettingItem>
 
   <!-- イベント名 -->
-  <SettingItem
-    icon="Zap"
-    :label="t('baseSettings.eventName.label')"
-    :description="t('baseSettings.eventName.description')"
-  >
+  <SettingItem icon="Zap" labelKey="baseSettings.eventName.label" descriptionKey="baseSettings.eventName.description">
     <input type="text" v-model="name" class="input w-full" />
   </SettingItem>
 
@@ -39,8 +35,8 @@
   <SettingItem
     v-if="isDescription"
     icon="Info"
-    :label="t('baseSettings.description.label')"
-    :description="t('baseSettings.description.description')"
+    labelKey="baseSettings.description.label"
+    descriptionKey="baseSettings.description.description"
   >
     <input type="text" v-model="description" class="input w-full" />
   </SettingItem>
@@ -51,16 +47,12 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useI18n } from 'vue-i18n'
   import { BaseRecordType } from '@/types/core'
   import { DataCategoryType } from '@/types/OmikujiData'
   import BaseTagEditor from './BaseTagEditor.vue'
   import KeyEditor from '@/editor/helpers/KeyEditor/KeyEditor.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
-
-  // vue-i18n の初期化
-  const { t } = useI18n()
 
   const props = withDefaults(
     defineProps<{

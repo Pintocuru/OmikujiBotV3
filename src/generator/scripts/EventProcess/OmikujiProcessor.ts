@@ -26,8 +26,8 @@ export class OmikujiProcessor {
    * @param omikujiKey data.assets.mikuji のキー (event.omikujiKey)
    */
   async executeOmikuji(omikujiKey: string, omiken?: OmikenCommentType): Promise<BotMessageType[]> {
-    const omikujiSet = this.store.data.assets.mikuji[omikujiKey]?.omikuji ?? []
-    const item = this.lotteryOmikujiItem(omikujiSet)
+    const mikujiBox = this.store.data.assets.mikuji[omikujiKey]?.omikuji ?? []
+    const item = this.lotteryOmikujiItem(mikujiBox)
 
     // return / continue / reset / log は何もしない
     if (!item || item.kind !== 'steps') return []
@@ -39,10 +39,10 @@ export class OmikujiProcessor {
    * おみくじ抽選
    * isPriority が true のアイテムが複数ある場合は、配列の先頭側が必ず選ばれる
    */
-  private lotteryOmikujiItem(omikujiSet: MikujiItemsType): OmikujiItemType | null {
+  private lotteryOmikujiItem(mikujiBox: MikujiItemsType): OmikujiItemType | null {
     try {
       // weight / isPriority は item.lottery の中にあるため、drawOmikuji 用にフラット化する
-      const candidates = omikujiSet.map((item) => {
+      const candidates = mikujiBox.map((item) => {
         const lottery = 'lottery' in item ? item.lottery : undefined
         return { item, isPriority: lottery?.isPriority ?? false, weight: lottery?.weight ?? 1 }
       })

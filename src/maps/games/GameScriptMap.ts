@@ -1,4 +1,4 @@
-// src/maps/OmikujiData/assets/GameScriptMap.ts
+// src/maps/games/GameScriptMap.ts
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import { GameScriptKey } from '@/types/OmikujiData'
 

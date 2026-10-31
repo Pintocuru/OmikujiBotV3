@@ -65,7 +65,7 @@ export function useTestPost() {
     executeTestPostDelays(botMessages)
   }
 
-  const postTestOmikuji = (omikujiSet: OmikujiItemType[]) => {
+  const postTestOmikuji = (mikujiBox: OmikujiItemType[]) => {
     if (!selectedRule.value) {
       swalToast.error({
         title: 'イベントが選択されていません',
@@ -74,8 +74,8 @@ export function useTestPost() {
       return
     }
 
-    const priorityItems = omikujiSet.filter((item) => 'lottery' in item && item.lottery.isPriority)
-    const targetSet = priorityItems.length > 0 ? priorityItems : omikujiSet
+    const priorityItems = mikujiBox.filter((item) => 'lottery' in item && item.lottery.isPriority)
+    const targetSet = priorityItems.length > 0 ? priorityItems : mikujiBox
     const omikujiItem = drawOmikuji(addWeightPercentages(targetSet))
 
     if (!omikujiItem) {

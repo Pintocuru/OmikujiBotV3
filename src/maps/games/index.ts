@@ -1,3 +1,3 @@
-// src/maps/OmikujiData/assets/index.ts
+// src/maps/games/index.ts
 
 export * from './GameScriptMap'

@@ -1,4 +1,4 @@
-// sss
+// src/maps/engine/trigger/TriggerConditionIcons.ts
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 import { TriggerConditionType } from '@/types/engine'
 

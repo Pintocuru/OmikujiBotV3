@@ -1,4 +1,4 @@
-// src/i18n/editor/assets/PostFlow.ts
+// src/i18n/editor/assets/ScenarioStep.ts
 export const scenarioStepMessages = {
   ja: {
     scenarioStep: {

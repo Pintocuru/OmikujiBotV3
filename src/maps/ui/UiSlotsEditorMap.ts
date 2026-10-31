@@ -1,4 +1,4 @@
-// dddd
+// src/maps/ui/UiSlotsEditorMap.ts
 import { defineAsyncComponent, type Component } from 'vue'
 import { UiKind } from '@/types/OmikujiData'
 
