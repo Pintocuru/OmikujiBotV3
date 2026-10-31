@@ -1,6 +1,8 @@
 // src/manager/services/generatorApi.ts
 import { API_ACTION } from '@server/api/actions'
+import { FileItem } from '@/manager/types'
 import { BaseApiClient, ConnectionError } from './baseApiClient'
+import { toFileItem } from './apiServiceUtils'
 
 /**
  * Generator関連のAPI
@@ -23,6 +25,16 @@ class GeneratorApiService extends BaseApiClient {
       if (err instanceof ConnectionError) return null
       throw err
     }
+  }
+
+  /**
+   * packages に保存されている設定の一覧を取得 (name は "<id>.json")
+   */
+  async listPackages(): Promise<FileItem[]> {
+    const response = await this.get<{ name: string; modified: string }[]>(API_ACTION.listPackages.action)
+    this.validateResponse(response, 'パッケージ一覧の取得に失敗しました')
+
+    return response.data.map(toFileItem)
   }
 
   /**

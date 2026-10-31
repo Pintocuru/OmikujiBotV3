@@ -34,6 +34,16 @@ export async function loadGeneratorConfig(fileName: string | null): Promise<ApiR
 }
 
 /**
+ * packages に保存されている Generator 設定の一覧を取得
+ */
+export async function listPackages(): Promise<ApiResult> {
+  return guard('List packages', 'Failed to list packages', async () => {
+    const files = await fileSystem.getFileList(DIR_NAME.packages)
+    return ok(files)
+  })
+}
+
+/**
  * Generator設定を保存
  */
 export async function saveGeneratorConfig(data: string, fileName?: string | null): Promise<ApiResult> {

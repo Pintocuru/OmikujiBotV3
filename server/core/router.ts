@@ -52,6 +52,9 @@ async function handleGetRequest(action: string, params: Record<string, string>):
     case API_ACTION.loadGenerator.action:
       return generatorHandler.loadGeneratorConfig(params.fileName ?? null)
 
+    case API_ACTION.listPackages.action:
+      return generatorHandler.listPackages()
+
     case API_ACTION.listGameStates.action:
       return gameStateHandler.listGameStates()
 

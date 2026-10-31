@@ -9,6 +9,10 @@ export const shellMessages = {
         openTip: '保存済みのファイルを選んで開きます',
         openLocal: 'omikujiData.js を開く',
         openLocalTip: 'ブラウザが読み込んでいる omikujiData.js を編集します',
+        openGenerator: 'ジェネレーター用を読み込み',
+        openGeneratorTip: '「ジェネレーター用に保存」した、現在の ID のデータを開きます',
+        tabPresets: 'プリセット',
+        tabPackages: 'パッケージ(ジェネレーター用)',
       },
       save: {
         more: '保存先を選ぶ',
@@ -34,6 +38,10 @@ export const shellMessages = {
         openTip: 'Choose a saved file to open',
         openLocal: 'Open omikujiData.js',
         openLocalTip: 'Edit the omikujiData.js currently loaded in the browser',
+        openGenerator: 'Load generator data',
+        openGeneratorTip: 'Open the data saved with "Save for generator" under the current ID',
+        tabPresets: 'Presets',
+        tabPackages: 'Packages (for generator)',
       },
       save: {
         more: 'Choose where to save',

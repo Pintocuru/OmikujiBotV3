@@ -9,6 +9,7 @@ export const API_ACTION = {
   list: { method: 'GET', action: 'list' },
   load: { method: 'GET', action: 'load' },
   loadGenerator: { method: 'GET', action: 'load-generator' },
+  listPackages: { method: 'GET', action: 'list-packages' },
   listGameStates: { method: 'GET', action: 'list-game-states' },
   loadGameState: { method: 'GET', action: 'load-game-state' },
   loadUserStats: { method: 'GET', action: 'load-user-stats' },
