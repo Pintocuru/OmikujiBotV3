@@ -14,9 +14,10 @@
       </div>
 
       <div v-if="selectedItem" class="space-y-2">
+        <!-- 基本設定の編集 -->
         <BaseEditor v-model="selectedItem" :category="dataCategory" :isIsEnabled="isEnabledEditable" />
 
-        <!-- キャラクターだけは、色・コメント表現もここで編集する -->
+        <!-- TODO:キャラクターは、色・コメント表現も編集が必要だが、別途ボタンを設けたい。 -->
         <template v-if="character && selectedItemKey">
           <SubSectionHeader
             class="mt-6"

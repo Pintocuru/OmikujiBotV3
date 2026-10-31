@@ -23,6 +23,11 @@
   />
 
   <template v-else>
+    <!-- TODO:新コンポーネント。
+         左側：現在のアイテムの「基本設定」を表示する
+         右側：シナリオで使われているキャラクター。イベント・みくじ箱・プレースホルダーの場合、シナリオまで辿ること。
+         -->
+
     <!-- Events / Assets: 現在のアイテムと接続を表示するヘッダー -->
     <ContentHeader v-if="isCurrentDataCategory" />
     <!-- ui / appInfo: セクションのタブ -->
