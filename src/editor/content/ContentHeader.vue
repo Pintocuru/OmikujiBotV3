@@ -10,12 +10,6 @@
         <TriangleAlert class="w-4 h-4 shrink-0" />
         <span>{{ t('connections.cycle', { path: cyclePath.join(' → ') }) }}</span>
       </div>
-
-      <!-- カテゴリ全体を対象にした便利ボタン -->
-      <div v-if="changerCategory" class="flex gap-2">
-        <CharacterChanger :category="changerCategory" />
-        <IconKeyChanger :category="changerCategory" />
-      </div>
     </div>
   </div>
 </template>
@@ -25,11 +19,8 @@
   import { useI18n } from 'vue-i18n'
   import { TriangleAlert } from 'lucide-vue-next'
   import { storeToRefs } from 'pinia'
-  import type { EventCategoryType } from '@/types/OmikujiData'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-import { useGetEventData } from '@/editor/stores/useGetEventData'
-  import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'
-  import IconKeyChanger from '@/editor/helpers/IconKeyChanger/IconKeyChanger.vue'
+  import { useGetEventData } from '@/editor/stores/useGetEventData'
   import EventLane from './header/EventLane.vue'
   import MikujiLane from './header/MikujiLane.vue'
   import ScenarioLane from './header/ScenarioLane.vue'
@@ -61,14 +52,5 @@ import { useGetEventData } from '@/editor/stores/useGetEventData'
     if (selectedCategory.value === 'scenarios') return scenarioCyclePath(key)
     if (selectedCategory.value === 'placeholders') return placeholderCyclePath(key)
     return null
-  })
-
-  // 使用キャラ・アイコンの一括確認ボタンを出すカテゴリ
-  const changerCategories = ['timers', 'services', 'mikuji', 'scenarios'] as const
-  const changerCategory = computed(() => {
-    const category = selectedCategory.value
-    return (changerCategories as readonly string[]).includes(category)
-      ? (category as EventCategoryType | 'mikuji' | 'scenarios')
-      : null
   })
 </script>
