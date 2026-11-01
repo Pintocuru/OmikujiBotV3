@@ -17,7 +17,7 @@
 - [x] Batch 05
 - [x] Batch 06
 - [x] Batch 07
-- [ ] Batch 08
+- [x] Batch 08
 - [ ] Batch 09
 - [ ] Batch 10
 - [ ] Batch 11
@@ -261,12 +261,39 @@ Findings:
 
 Static analysis: not run; GitHub API inspection does not provide repository command execution.
 
+## Batch 08
+
+Status: completed
+
+Files processed (8 / 8; 578 lines):
+- src/editor/assets/scenarios/ScenarioStepsEditor.vue
+- src/editor/assets/scenarios/Sounds/SoundSettings.vue
+- src/editor/assets/scenarios/WordParty/WordPartySettings.vue
+- src/editor/assets/scenarios/composables/useScenarioStepTabs.ts
+- src/editor/assets/scenarios/gameScript/GameScriptSettings.vue
+- src/editor/assets/scenarios/items/ScenarioStepItem.vue
+- src/editor/assets/scenarios/items/ScenarioStepKindMap.ts
+- src/editor/assets/scenarios/items/createDefaultStep.ts
+
+Report: reports/batch-08.md
+
+Findings:
+- Missing key (confirmed): 0
+- Missing key (needs confirmation): 0
+- Hardcoded UI strings: 0
+- Empty / untranslated values: 0
+- Dynamic key candidates: 0
+- Locale formatting / pluralization: 0
+- Needs confirmation: 0
+
+Static analysis: not run; GitHub API inspection does not provide repository command execution.
+
 ## Remaining work
 
-- Completed files: 56 / 262
-- Remaining files: 206
-- Completed batches: 7 / 34
-- Remaining batches: 27
-- Next batch: 08
+- Completed files: 64 / 262
+- Remaining files: 198
+- Completed batches: 8 / 34
+- Remaining batches: 26
+- Next batch: 09
 
 The initial batch sizing is provisional. Before each batch, verify the current branch tree and record the exact file list. The coordinator updates this file; delegated agents update only their own batch report.
