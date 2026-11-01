@@ -60,7 +60,7 @@
   import type { ScenarioStepType } from '@/types/OmikujiData'
   import SoundTestButton from './SoundTestButton.vue'
   import WordPartyTestButton from './WordPartyTestButton.vue'
-  import { processTestPlaceholder } from './TestPlaceholderProcessor'
+  import { processTestPlaceholder } from '@/editor/helpers/shared/processTestPlaceholder'
   import CommentBubblePreview from './CommentBubblePreview.vue'
   import { getUiPreview } from '@/editor/ui/uiEditorRegistry'
   import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'

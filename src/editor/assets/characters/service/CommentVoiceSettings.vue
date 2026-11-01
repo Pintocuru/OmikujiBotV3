@@ -8,7 +8,7 @@
       class="select select-bordered w-full max-w-xs"
     >
       <option v-for="key in displayModes" :key="key" :value="key">
-        {{ t(`mapText..${key}.label`) }}
+        {{ t(`mapText.${key}.label`) }}
       </option>
     </select>
     {{ t(`mapText.${currentDisplayOption.mode}.desc`) }}

@@ -50,7 +50,7 @@
   import { computed, ref } from 'vue'
   import { ChevronDown, ChevronUp } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { processTestPlaceholder } from '../preview/TestPlaceholderProcessor'
+  import { processTestPlaceholder } from '@/editor/helpers/shared/processTestPlaceholder'
 
   const { t } = useI18n()
 

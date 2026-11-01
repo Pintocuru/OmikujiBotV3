@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import type { ScenarioStepKind, ScenarioStepType } from '@/types/OmikujiData'
 import { createDefaultStep } from './createDefaultStep'
-import { stepSchemaMap, settingsComponentMap } from './scenarioStepKinds'
+import { stepSchemaMap, settingsComponentMap } from './ScenarioStepKindMap'
 
 type Props = { step: ScenarioStepType; currentKey?: string }
 type Emit = (event: 'update:step', value: ScenarioStepType) => void

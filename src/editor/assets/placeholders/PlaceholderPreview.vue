@@ -13,7 +13,7 @@
   import { useI18n } from 'vue-i18n'
 
   import { handelNormalizedValues, WeightValuesArrayType } from '@/types/OmikujiData'
-  import { processTestPlaceholder } from '@/editor/assets/scenarios/preview/TestPlaceholderProcessor'
+  import { processTestPlaceholder } from '@/editor/helpers/shared/processTestPlaceholder'
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { Dices } from 'lucide-vue-next'

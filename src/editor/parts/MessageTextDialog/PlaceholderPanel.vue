@@ -138,7 +138,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { Plus, ChevronRight, CornerDownLeft, Trash2, Braces } from 'lucide-vue-next'
-  import { usePlaceholderEditor } from './usePlaceholderEditor'
+  import { usePlaceholderEditor } from './composables/usePlaceholderEditor'
   import { toRef } from 'vue'
   import { handelNormalizedValues } from '@/types/OmikujiData'
 

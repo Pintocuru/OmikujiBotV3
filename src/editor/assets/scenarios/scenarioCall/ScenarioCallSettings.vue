@@ -69,7 +69,7 @@
   import { useI18n } from 'vue-i18n'
   import { WeightValuesArrayType } from '@/types/OmikujiData'
   import { ScenarioStepCallType } from '@/types/OmikujiData'
-  import { useWeightValueManagement } from './useWeightValueManagement'
+  import { useWeightValueManagement } from '@/editor/helpers/shared/useWeightValueManagement'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
 

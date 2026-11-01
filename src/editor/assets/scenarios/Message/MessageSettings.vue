@@ -73,7 +73,7 @@
   import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
   import { ScenarioStepMessageType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import MessageTextDialog from './MessageTextDialog.vue'
+  import MessageTextDialog from '@/editor/parts/MessageTextDialog/MessageTextDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SoundSettings from '../Sounds/SoundSettings.vue'
   import { uiKindIcons } from '@/maps/OmikujiData/ui'

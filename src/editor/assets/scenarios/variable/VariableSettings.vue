@@ -9,7 +9,7 @@
   import { computed } from 'vue'
   import { ScenarioStepVariableType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import MessageTextDialog from '../Message/MessageTextDialog.vue'
+  import MessageTextDialog from '@/editor/parts/MessageTextDialog/MessageTextDialog.vue'
 
   const props = defineProps<{
     step: ScenarioStepVariableType
