@@ -5,11 +5,8 @@
     <div class="space-y-4">
       <!-- 1. ui で使われるもの -->
       <section v-if="uiItems.length > 0" class="space-y-1.5">
-        <!-- カテゴリ見出し(クリックでカテゴリへ移動) -->
-        <div
-          class="cursor-pointer rounded-lg -mx-1 px-1 transition-colors hover:bg-base-200/60"
-          @click="goToCategory('ui')"
-        >
+        <!-- カテゴリ見出し -->
+        <div class="rounded-lg -mx-1 px-1">
           <SubSectionHeader :icon="categoryMap.ui.icon" :title="t('categories.ui.label')">
             <span class="text-sm font-normal text-base-content/60">
               {{ t('topPage.count', { count: uiItems.length }) }}
@@ -18,11 +15,12 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1.5">
+          <!-- UI アイテム -->
           <button
             v-for="item in uiItems"
             :key="item.kind"
             type="button"
-            class="flex items-center gap-2 rounded-lg bg-base-200 px-3 py-2 text-left hover:bg-primary hover:text-primary-content transition-colors min-w-0"
+            class="flex items-center gap-2 rounded-lg bg-base-200 px-3 py-2 text-left hover:bg-primary hover:text-primary-content transition-colors min-w-0 cursor-pointer"
             @click="goToUiSection(item.kind)"
           >
             <component :is="item.icon" class="w-5 h-5 shrink-0" />
@@ -38,10 +36,7 @@
 
       <!-- 2. assets: characters(画像つき) -->
       <section v-if="characterCards.length > 0" class="space-y-1.5">
-        <div
-          class="cursor-pointer rounded-lg -mx-1 px-1 transition-colors hover:bg-base-200/60"
-          @click="goToCategory('characters')"
-        >
+        <div class="rounded-lg -mx-1 px-1">
           <SubSectionHeader :icon="categoryMap.characters.icon" :title="t('categories.characters.label')">
             <span class="text-sm font-normal text-base-content/60">
               {{ t('topPage.count', { count: characterCards.length }) }}
@@ -49,6 +44,7 @@
           </SubSectionHeader>
         </div>
 
+        <!-- キャラクター アイテム -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1.5">
           <div
             v-for="{ character, layers } in characterCards"
@@ -77,10 +73,7 @@
 
       <!-- 3. events: 全データ(0件のカテゴリは非表示)。ドラッグで並び替え可能 -->
       <section v-for="section in eventSections" :key="section.category" class="space-y-1.5">
-        <div
-          class="cursor-pointer rounded-lg -mx-1 px-1 transition-colors hover:bg-base-200/60"
-          @click="goToCategory(section.category)"
-        >
+        <div class="rounded-lg -mx-1 px-1">
           <SubSectionHeader
             :icon="categoryMap[section.category].icon"
             :title="t(`categories.${section.category}.label`)"
@@ -186,10 +179,6 @@
       .map((category) => ({ category, items: sortByOrder(getEvents(category)) }))
       .filter((section) => section.items.length > 0)
   )
-
-  const goToCategory = (category: CategoryType) => {
-    navigationStore.selectCategory(category)
-  }
 
   const goToItem = (category: CategoryType, key: string) => {
     navigationStore.selectCategory(category)

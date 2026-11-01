@@ -159,3 +159,4 @@
 - `tools/JsonMerge/KeySuffix.ts` は events と mikuji のキーにだけ接尾辞を付ける。assets.actions(→scenarios)と `callKeys` は対象外のため、マージ時にキーが衝突し得る(コード上の確認のみ・実行は未確認)。
 - システムメッセージ(例: 「アクションセットの展開が最大階層に達しました」)がエンジン内に日本語で直書きされている。用語変更時に取りこぼしやすい。
 - 現在の移行は dataVersion 3 未満だけが対象。v3 の旧名称データ(`assets.actions` / `postFlows`)を読み込むと、警告なく空として扱われる。
+- ディレクトリ名のケースに規定がない。`editor/assets` 配下は camelCase(ステップ種別フォルダは `kind` の値と同じ)に揃えたが、`editor/parts/` と `editor/helpers/` には `KeyEditor/` のようにコンポーネント名と同じ PascalCase のフォルダが残っている。
