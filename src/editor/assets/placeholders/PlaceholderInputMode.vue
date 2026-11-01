@@ -64,7 +64,7 @@
 
   const getValues = () => props.values
 
-  const { displayValues, getWeightPercentage, addValue, removeValue, duplicateValue, updateWeight, updateContent } =
+  const { displayValues, getWeightPercentage, addValue, removeValue, duplicateValue, updateWeight } =
     useWeightValueManagement(getValues)
 
   // ストアには触れず、親（PlaceholderValuesEditor）に emit するだけ

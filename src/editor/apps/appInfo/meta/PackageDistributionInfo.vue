@@ -18,7 +18,9 @@
     descriptionKey="packageMeta.distribution.url.description"
   >
     <div class="flex items-center gap-3">
-      <span class="text-sm text-base-content/60 break-all">{{ meta.url || '未設定' }}</span>
+      <span class="text-sm text-base-content/60 break-all">
+        {{ meta.url || t('packageMeta.distribution.url.unset') }}
+      </span>
       <ExternalLinkButton v-if="meta.url" :url="meta.url" />
     </div>
   </SettingItem>
@@ -26,10 +28,13 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ExternalLinkButton from '@/editor/parts/ExternalLinkButton.vue'
   import { storeToRefs } from 'pinia'
+
+  const { t } = useI18n()
 
   // Store
   const omikujiStore = useOmikujiStore()

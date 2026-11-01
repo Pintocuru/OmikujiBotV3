@@ -16,7 +16,9 @@
 
       <div v-for="box in boxList" :key="box.key" class="rounded-lg border border-base-300 p-3">
         <div class="font-bold truncate">{{ box.name || box.key }}</div>
-        <div class="text-xs opacity-60 mt-1 break-all">key: {{ box.key }}</div>
+        <div class="text-xs opacity-60 mt-1 break-all">
+          {{ t('connections.connectDialog.keyLabel') }}: {{ box.key }}
+        </div>
         <button class="btn btn-xs btn-primary mt-2" @click="connect(box)">
           {{ t('connections.connectDialog.connect') }}
         </button>

@@ -1,0 +1,1590 @@
+diff --git a/src/editor/apps/BaseSettings/BaseTagEditor.vue b/src/editor/apps/BaseSettings/BaseTagEditor.vue
+index 5b19b1b..dccb832 100644
+--- a/src/editor/apps/BaseSettings/BaseTagEditor.vue
++++ b/src/editor/apps/BaseSettings/BaseTagEditor.vue
+@@ -13,15 +13,15 @@
+         v-model="newTag"
+         type="text"
+         class="input input-bordered input-sm flex-1"
+-        placeholder="タグを追加"
++        :placeholder="t('baseSettings.tags.placeholder')"
+         @keydown.enter="onEnter"
+       />
+-      <button class="btn btn-sm btn-primary" @click="addTag(newTag)">追加</button>
++      <button class="btn btn-sm btn-primary" @click="addTag(newTag)">{{ t('baseSettings.tags.add') }}</button>
+     </div>
+ 
+     <!-- 既存タグの候補(クリックで追加) -->
+     <div v-if="suggestions.length" class="mt-2">
+-      <div class="text-xs text-base-content/60 mb-1">候補(クリックで追加)</div>
++      <div class="text-xs text-base-content/60 mb-1">{{ t('baseSettings.tags.suggestions') }}</div>
+       <div class="flex flex-wrap gap-1 max-h-20 overflow-y-auto">
+         <button
+           v-for="tag in suggestions"
+@@ -39,12 +39,14 @@
+ 
+ <script setup lang="ts">
+   import { computed, ref, watch } from 'vue'
++  import { useI18n } from 'vue-i18n'
+   import { VueDraggable } from 'vue-draggable-plus'
+   import SettingItem from '@/editor/parts/SettingItem.vue'
+   import { useTagSuggestions } from '@/editor/stores/useTagSuggestions'
+ 
+   const props = defineProps<{ modelValue?: string[] }>()
+   const emit = defineEmits<{ 'update:modelValue': [value: string[]] }>()
++  const { t } = useI18n()
+ 
+   const newTag = ref('')
+   const localTags = ref<string[]>([...(props.modelValue ?? [])])
+diff --git a/src/editor/apps/JsonMerge/JsonMergeEditor.vue b/src/editor/apps/JsonMerge/JsonMergeEditor.vue
+index 7529a34..d710234 100644
+--- a/src/editor/apps/JsonMerge/JsonMergeEditor.vue
++++ b/src/editor/apps/JsonMerge/JsonMergeEditor.vue
+@@ -4,13 +4,17 @@
+   <div class="flex justify-end gap-2">
+     <button @click="addMerge" class="btn btn-primary">
+       <Plus class="w-4 h-4" />
+-      マージ設定を追加
++      {{ t('jsonMerge.add') }}
+     </button>
+   </div>
+ 
+   <div class="space-y-4">
+     <!-- アイテムが空の場合 -->
+-    <NoParamsCard v-if="merge.length === 0" message="マージ設定がありません。" sub="下のボタンから追加してください。" />
++    <NoParamsCard
++      v-if="merge.length === 0"
++      :message="t('jsonMerge.empty.title')"
++      :sub="t('jsonMerge.empty.description')"
++    />
+ 
+     <!-- ドラッグ可能なアイテムリスト -->
+     <VueDraggable
+@@ -38,8 +42,8 @@
+ 
+         <!-- 名前 -->
+         <div class="flex-1 min-w-0">
+-          <div class="truncate font-medium">{{ item.name || 'マージ設定' }}</div>
+-          <div class="text-base-content/60 truncate">{{ item.sourceFile || '(ファイル未設定)' }}</div>
++          <div class="truncate font-medium">{{ item.name || t('jsonMerge.settings.unnamed') }}</div>
++          <div class="text-base-content/60 truncate">{{ item.sourceFile || t('jsonMerge.settings.unsetSource') }}</div>
+         </div>
+ 
+         <!-- メニュー -->
+@@ -57,7 +61,13 @@
+         :style="{ backgroundColor: getColorForIndex(selectedIndex) }"
+       >
+         <h3 class="text-sm md:text-base">
+-          マージ設定編集: {{ merge[selectedIndex]?.name || `設定${selectedIndex + 1}` }}
++          {{
++            t('jsonMerge.settings.editTitle', {
++              name:
++                merge[selectedIndex]?.name ||
++                t('jsonMerge.settings.fallbackName', { index: selectedIndex + 1 }),
++            })
++          }}
+         </h3>
+       </div>
+ 
+@@ -65,7 +75,11 @@
+ 
+       <div class="space-y-4">
+         <!-- イベント名 -->
+-        <SettingItem icon="Pencil" label="マージ名" description="識別しやすい名前">
++        <SettingItem
++          icon="Pencil"
++          :label="t('jsonMerge.name.label')"
++          :description="t('jsonMerge.name.description')"
++        >
+           <input type="text" v-model="merge[selectedIndex].name" @input="update" class="input w-full" />
+         </SettingItem>
+ 
+@@ -75,12 +89,14 @@
+         <!-- リマップ設定 -->
+         <div class="mt-4">
+           <div class="flex justify-between items-center mb-2">
+-            <span class="font-medium">キーリマップ設定</span>
+-            <button @click="addRemap(selectedIndex)" class="btn btn-sm btn-primary">+ リマップ追加</button>
++            <span class="font-medium">{{ t('jsonMerge.remap.sectionTitle') }}</span>
++            <button @click="addRemap(selectedIndex)" class="btn btn-sm btn-primary">
++              + {{ t('jsonMerge.remap.add') }}
++            </button>
+           </div>
+ 
+           <div v-if="merge[selectedIndex].remaps.length === 0" class="text-gray-500 text-sm py-2">
+-            リマップ設定がありません
++            {{ t('jsonMerge.remap.empty') }}
+           </div>
+ 
+           <JsonMergeRemapEditor
+@@ -96,13 +112,14 @@
+ 
+     <!-- 未選択時のメッセージ -->
+     <div v-else-if="merge.length > 0" class="card bg-base-200 shadow p-6 text-center">
+-      <p class="text-base-content/60">上のリストからマージ設定をクリックして編集してください</p>
++      <p class="text-base-content/60">{{ t('jsonMerge.unselected') }}</p>
+     </div>
+   </div>
+ </template>
+ 
+ <script setup lang="ts">
+   import { ref, computed } from 'vue'
++  import { useI18n } from 'vue-i18n'
+   import { storeToRefs } from 'pinia'
+   import { VueDraggable } from 'vue-draggable-plus'
+   import { GripVertical, Plus } from 'lucide-vue-next'
+@@ -118,6 +135,7 @@
+ 
+   const store = useOmikujiStore()
+   const { data } = storeToRefs(store)
++  const { t } = useI18n()
+ 
+   const merge = ref<JsonMergeItemType[]>(data.value.jsonMerge ?? [])
+ 
+diff --git a/src/editor/apps/JsonMerge/JsonMergeRemapEditor.vue b/src/editor/apps/JsonMerge/JsonMergeRemapEditor.vue
+index 4fdb5f3..314da2e 100644
+--- a/src/editor/apps/JsonMerge/JsonMergeRemapEditor.vue
++++ b/src/editor/apps/JsonMerge/JsonMergeRemapEditor.vue
+@@ -2,43 +2,41 @@
+ <template>
+   <div class="border-l-4 border-primary pl-4 py-2 mb-3 bg-base-200 rounded">
+     <div class="flex justify-between items-center mb-2">
+-      <span class="text-sm font-medium">リマップ {{ remapIndex + 1 }}</span>
+-      <button @click="removeRemap" class="btn btn-xs btn-ghost" title="このリマップを削除">✕</button>
++      <span class="text-sm font-medium">{{ t('jsonMerge.remap.title', { index: remapIndex + 1 }) }}</span>
++      <button @click="removeRemap" class="btn btn-xs btn-ghost" :title="t('jsonMerge.remap.remove')">✕</button>
+     </div>
+ 
+     <div class="grid grid-cols-2 gap-3">
+-      <!-- 元キャラキー -->
+-      <SettingItem icon="User" label="元キャラキー">
++      <SettingItem icon="User" :label="t('jsonMerge.remap.fromCharacter')">
+         <select v-model="localRemap.fromCharacterKey" class="select select-sm select-bordered w-full">
+           <option v-for="key in jsonMergeSourceCharacterKeys" :key="key" :value="key">{{ key }}</option>
+         </select>
+       </SettingItem>
+ 
+-      <!-- 新キャラキー -->
+-      <SettingItem icon="UserPlus" label="新キャラキー">
++      <SettingItem icon="UserPlus" :label="t('jsonMerge.remap.toCharacter')">
+         <select v-model="localRemap.toCharacterKey" class="select select-sm select-bordered w-full">
+-          <option value="">キャラクターを選択してください</option>
++          <option value="">{{ t('jsonMerge.remap.chooseCharacter') }}</option>
+           <option v-for="(char, key) in characters" :key="key" :value="key">
+             {{ char.displayName || key }}
+           </option>
+         </select>
+-        <p v-if="!localRemap.toCharacterKey" class="text-red-500 mt-2">入力されてません</p>
++        <p v-if="!localRemap.toCharacterKey" class="text-red-500 mt-2">
++          {{ t('jsonMerge.remap.missingCharacter') }}
++        </p>
+       </SettingItem>
+ 
+-      <!-- 元アイコンキー -->
+-      <SettingItem icon="Image" label="元アイコンキー">
++      <SettingItem icon="Image" :label="t('jsonMerge.remap.fromIcon')">
+         <select v-model="localRemap.fromIconKey" class="select select-sm select-bordered w-full">
+-          <option value="">アイコンキーを選択…</option>
++          <option value="">{{ t('jsonMerge.remap.chooseIcon') }}</option>
+           <option v-for="(value, key) in characterEmotionMap" :key="key" :value="key">
+             {{ value.label }}
+           </option>
+         </select>
+       </SettingItem>
+ 
+-      <!-- 新アイコンキー -->
+-      <SettingItem icon="Image" label="新アイコンキー">
++      <SettingItem icon="Image" :label="t('jsonMerge.remap.toIcon')">
+         <select v-model="localRemap.toIconKey" class="select select-sm select-bordered w-full">
+-          <option value="">アイコンキーを選択…</option>
++          <option value="">{{ t('jsonMerge.remap.chooseIcon') }}</option>
+           <option v-for="(value, key) in characterEmotionMap" :key="key" :value="key">
+             {{ value.label }}
+           </option>
+@@ -50,6 +48,7 @@
+ 
+ <script setup lang="ts">
+   import { computed } from 'vue'
++  import { useI18n } from 'vue-i18n'
+   import { storeToRefs } from 'pinia'
+   import SettingItem from '@/editor/parts/SettingItem.vue'
+   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+@@ -64,6 +63,7 @@
+ 
+   const store = useOmikujiStore()
+   const { data } = storeToRefs(store)
++  const { t } = useI18n()
+ 
+   // 現在のリマップデータ
+   const currentRemap = computed(
+diff --git a/src/editor/apps/JsonMerge/JsonMergeSourceFileSelector.vue b/src/editor/apps/JsonMerge/JsonMergeSourceFileSelector.vue
+index bd8662a..413c3a1 100644
+--- a/src/editor/apps/JsonMerge/JsonMergeSourceFileSelector.vue
++++ b/src/editor/apps/JsonMerge/JsonMergeSourceFileSelector.vue
+@@ -2,30 +2,36 @@
+ <template>
+   <div class="space-y-3">
+     <!-- マージ元ファイル -->
+-    <SettingItem icon="FileText" label="マージ元ファイル">
++    <SettingItem icon="FileText" :label="t('jsonMerge.source.label')">
+       <select
+         :value="currentMergeItem.sourceFile"
+         @change="handleSourceFileChange"
+         class="select select-bordered w-full"
+       >
+-        <option disabled value="">ファイルを選択してください</option>
++        <option disabled value="">{{ t('jsonMerge.source.chooseFile') }}</option>
+         <option v-for="file in jsonFiles" :key="file" :value="file">
+           {{ file }}
+         </option>
+       </select>
+ 
+       <!-- エラーメッセージ -->
+-      <p v-if="!currentMergeItem.sourceFile" class="text-red-500 mt-2">入力されてません</p>
++      <p v-if="!currentMergeItem.sourceFile" class="text-red-500 mt-2">
++        {{ t('jsonMerge.source.missingFile') }}
++      </p>
+     </SettingItem>
+ 
+     <!-- キーサフィックス -->
+-    <SettingItem icon="Tag" label="複数用のキーサフィックス" description="マージ時に元のキーに付加する接尾辞">
++    <SettingItem
++      icon="Tag"
++      :label="t('jsonMerge.source.suffixLabel')"
++      :description="t('jsonMerge.source.suffixDescription')"
++    >
+       <input
+         type="text"
+         :value="currentMergeItem.keySuffix"
+         @input="handleKeySuffixChange"
+         class="input input-bordered w-full"
+-        placeholder="キャラクターキーを入力(1文字目は自動で大文字になります)"
++        :placeholder="t('jsonMerge.source.suffixPlaceholder')"
+       />
+     </SettingItem>
+   </div>
+@@ -33,6 +39,7 @@
+ 
+ <script setup lang="ts">
+   import { ref, onMounted, computed } from 'vue'
++  import { useI18n } from 'vue-i18n'
+   import { storeToRefs } from 'pinia'
+   import SettingItem from '@/editor/parts/SettingItem.vue'
+   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+@@ -44,6 +51,7 @@
+ 
+   const store = useOmikujiStore()
+   const { data } = storeToRefs(store)
++  const { t } = useI18n()
+ 
+   const jsonFiles = ref<string[]>([])
+ 
+diff --git a/src/editor/apps/appInfo/meta/PackageBasicInfo.vue b/src/editor/apps/appInfo/meta/PackageBasicInfo.vue
+index 0944d23..487849a 100644
+--- a/src/editor/apps/appInfo/meta/PackageBasicInfo.vue
++++ b/src/editor/apps/appInfo/meta/PackageBasicInfo.vue
+@@ -6,7 +6,7 @@
+       <span class="font-mono text-sm text-base-content/60">{{ meta.id }}</span>
+       <button class="btn btn-xs btn-ghost gap-1" @click="handleRegenerateId">
+         <RefreshCw :size="12" />
+-        再生成
++        {{ t('packageMeta.basic.id.regenerate') }}
+       </button>
+     </div>
+   </SettingItem>
+@@ -41,6 +41,7 @@
+ 
+ <script setup lang="ts">
+   import { computed } from 'vue'
++  import { useI18n } from 'vue-i18n'
+   import { RefreshCw } from 'lucide-vue-next'
+   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+   import SettingItem from '@/editor/parts/SettingItem.vue'
+@@ -48,6 +49,8 @@
+   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+   import { generateId } from '@/types/core'
+ 
++  const { t } = useI18n()
++
+   // Store
+   const omikujiStore = useOmikujiStore()
+   const { data } = storeToRefs(omikujiStore)
+@@ -97,11 +100,11 @@
+   // id 再生成ハンドラ
+   const handleRegenerateId = async () => {
+     const result = await swalModal.warning({
+-      title: 'IDを変更しますか？',
+-      text: '変更すると、このパッケージのIDが新しく生成されます。',
++      title: t('packageMeta.basic.id.confirmTitle'),
++      text: t('packageMeta.basic.id.confirmText'),
+       showCancelButton: true,
+-      confirmButtonText: '変更する',
+-      cancelButtonText: 'キャンセル',
++      confirmButtonText: t('packageMeta.basic.id.confirm'),
++      cancelButtonText: t('packageMeta.basic.id.cancel'),
+     })
+ 
+     if (!result.isConfirmed) return
+diff --git a/src/editor/apps/appInfo/meta/PackageDistributionInfo.vue b/src/editor/apps/appInfo/meta/PackageDistributionInfo.vue
+index 7b76330..b3e06ef 100644
+--- a/src/editor/apps/appInfo/meta/PackageDistributionInfo.vue
++++ b/src/editor/apps/appInfo/meta/PackageDistributionInfo.vue
+@@ -18,7 +18,9 @@
+     descriptionKey="packageMeta.distribution.url.description"
+   >
+     <div class="flex items-center gap-3">
+-      <span class="text-sm text-base-content/60 break-all">{{ meta.url || '未設定' }}</span>
++      <span class="text-sm text-base-content/60 break-all">
++        {{ meta.url || t('packageMeta.distribution.url.unset') }}
++      </span>
+       <ExternalLinkButton v-if="meta.url" :url="meta.url" />
+     </div>
+   </SettingItem>
+@@ -26,11 +28,14 @@
+ 
+ <script setup lang="ts">
+   import { computed } from 'vue'
++  import { useI18n } from 'vue-i18n'
+   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+   import SettingItem from '@/editor/parts/SettingItem.vue'
+   import ExternalLinkButton from '@/editor/parts/ExternalLinkButton.vue'
+   import { storeToRefs } from 'pinia'
+ 
++  const { t } = useI18n()
++
+   // Store
+   const omikujiStore = useOmikujiStore()
+   const { data } = storeToRefs(omikujiStore)
+diff --git a/src/editor/apps/appInfo/meta/PackageSystemInfo.vue b/src/editor/apps/appInfo/meta/PackageSystemInfo.vue
+index 4eee8f0..75d97d5 100644
+--- a/src/editor/apps/appInfo/meta/PackageSystemInfo.vue
++++ b/src/editor/apps/appInfo/meta/PackageSystemInfo.vue
+@@ -20,7 +20,7 @@
+     <div class="flex items-center gap-3">
+       <span class="text-sm text-base-content/60">{{ meta.generatorVersion }}</span>
+ 
+-      <ExternalLinkButton :url="LATEST_RELEASE_PAGE_URL" title="最新バージョンを入手する" />
++      <ExternalLinkButton :url="LATEST_RELEASE_PAGE_URL" :title="t('packageMeta.system.latestVersionTitle')" />
+     </div>
+   </SettingItem>
+ 
+@@ -38,12 +38,15 @@
+ 
+ <script setup lang="ts">
+   import { computed } from 'vue'
++  import { useI18n } from 'vue-i18n'
+   import { storeToRefs } from 'pinia'
+   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+   import SettingItem from '@/editor/parts/SettingItem.vue'
+   import ExternalLinkButton from '@/editor/parts/ExternalLinkButton.vue'
+   import { LATEST_RELEASE_PAGE_URL } from '@/editor/constants/versionCheck'
+ 
++  const { t } = useI18n()
++
+   // Store
+   const omikujiStore = useOmikujiStore()
+   const { data } = storeToRefs(omikujiStore)
+diff --git a/src/editor/apps/dataPacks/DataPackCard.vue b/src/editor/apps/dataPacks/DataPackCard.vue
+index 2d823da..b252b2e 100644
+--- a/src/editor/apps/dataPacks/DataPackCard.vue
++++ b/src/editor/apps/dataPacks/DataPackCard.vue
+@@ -44,21 +44,21 @@
+       <div class="card-actions justify-end mt-2 gap-1">
+         <button
+           class="btn btn-xs btn-secondary tooltip tooltip-bottom"
+-          data-tip="この設定を部分的に読み込み/マージ"
++          :data-tip="t('dataPacks.card.partialTooltip')"
+           :disabled="disabled"
+           @click.stop="emit('partial-load')"
+         >
+           <FileText class="w-3 h-3" />
+-          マージ
++          {{ t('dataPacks.card.partial') }}
+         </button>
+         <button
+           class="btn btn-xs btn-primary tooltip tooltip-bottom"
+-          data-tip="現在のデータをこの設定で置き換える"
++          :data-tip="t('dataPacks.card.replaceTooltip')"
+           :disabled="disabled"
+           @click.stop="emit('replace')"
+         >
+           <Download class="w-3 h-3" />
+-          置き換え
++          {{ t('dataPacks.card.replace') }}
+         </button>
+       </div>
+     </div>
+@@ -67,6 +67,7 @@
+ 
+ <script setup lang="ts">
+   import { ref } from 'vue'
++  import { useI18n } from 'vue-i18n'
+   import { DataPackEntry } from '@/editor/types'
+   import { Download, FileText, Image } from 'lucide-vue-next'
+ 
+@@ -75,6 +76,7 @@
+     disabled?: boolean
+     selectedTags: string[]
+   }>()
++  const { t } = useI18n()
+ 
+   const emit = defineEmits<{
+     replace: []
+diff --git a/src/editor/apps/dataPacks/DataPacks.vue b/src/editor/apps/dataPacks/DataPacks.vue
+index d9e6ae5..0a02385 100644
+--- a/src/editor/apps/dataPacks/DataPacks.vue
++++ b/src/editor/apps/dataPacks/DataPacks.vue
+@@ -3,7 +3,7 @@
+   <!-- ローディング -->
+   <div v-if="loading" class="flex items-center gap-2 py-6 justify-center text-base-content/60">
+     <span class="loading loading-spinner loading-sm" />
+-    <span class="text-sm">データパックを読み込み中...</span>
++    <span class="text-sm">{{ t('dataPacks.loading') }}</span>
+   </div>
+ 
+   <!-- エラー -->
+@@ -15,14 +15,14 @@
+     <!-- タグフィルター -->
+     <InformationCard variant="warning" icon="primary">
+       <p>
+-        Githubからダウンロードしてくれてありがとう！<br />
+-        お礼に全機能が使えるデータパックを公開しています。無料だよ！<br />
+-        ただ、サポートはしていません。気軽にカスタムしてみてね。
++        {{ t('dataPacks.intro.thanks') }}<br />
++        {{ t('dataPacks.intro.free') }}<br />
++        {{ t('dataPacks.intro.support') }}
+       </p>
+     </InformationCard>
+ 
+     <div v-if="allTags.length > 0" class="flex flex-wrap items-center gap-2 mb-4">
+-      <span class="text-xs text-base-content/50">タグ絞り込み:</span>
++      <span class="text-xs text-base-content/50">{{ t('dataPacks.filter.label') }}</span>
+       <button
+         v-for="tag in allTags"
+         :key="tag"
+@@ -33,12 +33,12 @@
+         {{ tag }}
+       </button>
+       <button v-if="selectedTags.length > 0" class="badge badge-sm badge-ghost cursor-pointer" @click="clearTags">
+-        ✕ クリア
++        ✕ {{ t('dataPacks.filter.clear') }}
+       </button>
+     </div>
+ 
+     <!-- 空 -->
+-    <NoParamsCard v-if="isEmpty" message="該当するデータパックが見つかりませんでした" />
++    <NoParamsCard v-if="isEmpty" :message="t('dataPacks.filter.empty')" />
+ 
+     <!-- 一覧グリッド -->
+     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+@@ -59,7 +59,7 @@
+   <div class="mt-4 flex justify-end">
+     <button class="btn btn-sm btn-outline" :disabled="loading" @click="fetchAll">
+       <span v-if="loading" class="loading loading-spinner loading-xs" />
+-      <span v-else>更新</span>
++      <span v-else>{{ t('dataPacks.refresh') }}</span>
+     </button>
+   </div>
+ 
+@@ -69,6 +69,7 @@
+ 
+ <script setup lang="ts">
+   import { onMounted } from 'vue'
++  import { useI18n } from 'vue-i18n'
+   import { OmikujiDataType } from '@/types/OmikujiData'
+   import { DataPackEntry } from '@/editor/types'
+   import { useDataPacks } from './useDataPacks'
+@@ -80,6 +81,8 @@
+   import InformationCard from '@/editor/parts/InformationCard.vue'
+   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+ 
++  const { t } = useI18n()
++
+   const { packs, loading, error, isEmpty, fetchAll, allTags, selectedTags, toggleTag, clearTags } = useDataPacks()
+   const importManager = useImportManager()
+   const omikujiStore = useOmikujiStore()
+@@ -88,9 +91,9 @@
+ 
+   async function onReplace(pack: DataPackEntry) {
+     const result = await swalModal.confirmDelete({
+-      title: '現在のデータを置き換えますか？',
+-      text: `「${pack.meta.name}」で上書きします。現在の設定はすべて失われます。この操作は取り消せません。`,
+-      confirmButtonText: '置き換える',
++      title: t('dataPacks.replaceConfirm.title'),
++      text: t('dataPacks.replaceConfirm.text', { name: pack.meta.name }),
++      confirmButtonText: t('dataPacks.replaceConfirm.confirm'),
+     })
+     if (!result.isConfirmed) return
+ 
+@@ -98,11 +101,11 @@
+       const res = await importManager.loadFromJsonData(pack.json)
+       if (!res.success) {
+         await swalModal.error({
+-          title: '読み込みエラー',
++          title: t('dataPacks.loadError.title'),
+           text:
+             res.error === 'invalid-metadata'
+-              ? 'このデータはおみくじBOTのデータではありません。'
+-              : res.error || '不明なエラーが発生しました',
++              ? t('dataPacks.loadError.invalidMetadata')
++              : res.error || t('dataPacks.loadError.unknown'),
+         })
+         return
+       }
+@@ -127,14 +130,14 @@
+       omikujiStore.resetChangeState()
+ 
+       await swalModal.success({
+-        title: '読み込みました',
+-        text: `「${pack.meta.name}」を読み込みました。`,
++        title: t('dataPacks.loaded.title'),
++        text: t('dataPacks.loaded.text', { name: pack.meta.name }),
+       })
+     } catch (err) {
+       console.error('[DataPacks] replace error:', err)
+       await swalModal.error({
+-        title: '置き換えに失敗しました',
+-        text: 'コンソールログをご確認ください',
++        title: t('dataPacks.replaceFailed.title'),
++        text: t('dataPacks.replaceFailed.console'),
+       })
+     }
+   }
+@@ -144,11 +147,11 @@
+       const res = await importManager.loadFromJsonData(pack.json)
+       if (!res.success) {
+         await swalModal.error({
+-          title: '読み込みエラー',
++          title: t('dataPacks.loadError.title'),
+           text:
+             res.error === 'invalid-metadata'
+-              ? 'このデータはおみくじBOTのデータではありません。'
+-              : res.error || '不明なエラーが発生しました',
++              ? t('dataPacks.loadError.invalidMetadata')
++              : res.error || t('dataPacks.loadError.unknown'),
+         })
+         return
+       }
+@@ -156,7 +159,10 @@
+       importManager.openPreviewModal()
+     } catch (err) {
+       console.error('[DataPacks] partial-load error:', err)
+-      await swalModal.error({ title: '読み込みに失敗しました', text: 'コンソールログをご確認ください' })
++      await swalModal.error({
++        title: t('dataPacks.partialLoadFailed.title'),
++        text: t('dataPacks.partialLoadFailed.console'),
++      })
+     }
+   }
+ </script>
+diff --git a/src/editor/assets/characters/CharacterImage/EmotionImageItem.vue b/src/editor/assets/characters/CharacterImage/EmotionImageItem.vue
+index 0ccaba2..5aaae89 100644
+--- a/src/editor/assets/characters/CharacterImage/EmotionImageItem.vue
++++ b/src/editor/assets/characters/CharacterImage/EmotionImageItem.vue
+@@ -12,7 +12,7 @@
+           @blur="emit('update:label', localName)"
+         />
+       </div>
+-      <div class="text-sm text-base-content/40">key: {{ emotionKey }}</div>
++      <div class="text-sm text-base-content/40">{{ t('characterImage.item.keyLabel') }}: {{ emotionKey }}</div>
+     </div>
+ 
+     <div v-if="isDefaultWarning" class="badge badge-warning badge-sm">{{ t('characterImage.item.unset') }}</div>
+diff --git a/src/editor/assets/characters/service/CommentVoiceSettings.vue b/src/editor/assets/characters/service/CommentVoiceSettings.vue
+index c327d46..438fa33 100644
+--- a/src/editor/assets/characters/service/CommentVoiceSettings.vue
++++ b/src/editor/assets/characters/service/CommentVoiceSettings.vue
+@@ -8,10 +8,10 @@
+       class="select select-bordered w-full max-w-xs"
+     >
+       <option v-for="key in displayModes" :key="key" :value="key">
+-        {{ t(`mapText.${key}.label`) }}
++        {{ t(`mapText.displayMode.${key}.label`) }}
+       </option>
+     </select>
+-    {{ t(`mapText.${currentDisplayOption.mode}.desc`) }}
++    {{ t(`mapText.displayMode.${currentDisplayOption.mode}.description`) }}
+   </SettingItem>
+ 
+   <template v-if="currentDisplayOption.mode === 'comment'">
+@@ -27,8 +27,7 @@
+         rel="noopener"
+         class="inline-block px-2 py-1 rounded bg-secondary text-secondary-content hover:bg-secondary/70 transition"
+       >
+-        <!-- TODO:hoge の文章を入れたい -->
+-        hoge
++        {{ t('characterService.voice.link') }}
+       </a>
+       {{ t('characterService.voice.readIt') }}
+     </InformationCard>
+@@ -86,9 +85,4 @@
+     props.onUpdate({ ...currentDisplayOption.value, [key]: value })
+   }
+ 
+-  const hoge = {
+-    hoge1: 'わんコメのコメント欄への投稿と音声読み上げの両方を行います',
+-    hoge2: 'コメント投稿は行わず、音声読み上げのみを行います',
+-    hoge3: 'コメント投稿も音声読み上げも行いません',
+-  }
+ </script>
+diff --git a/src/editor/assets/mikuji/MikujiSettings.vue b/src/editor/assets/mikuji/MikujiSettings.vue
+index f9aa0de..f1868e2 100644
+--- a/src/editor/assets/mikuji/MikujiSettings.vue
++++ b/src/editor/assets/mikuji/MikujiSettings.vue
+@@ -3,21 +3,21 @@
+   <!-- ツールバー -->
+   <div class="flex justify-end gap-2">
+     <!-- おみくじテストボタン -->
+-    <div class="tooltip tooltip-bottom" data-tip="わんコメを起動すると、投稿の確認ができます">
++    <div class="tooltip tooltip-bottom" :data-tip="t('omikujiItem.list.testTooltip')">
+       <button class="btn btn-info" @click="postTestOmikuji(omikujiList)" :disabled="omikujiList.length === 0">
+         <Dices class="w-4 h-4" />
+-        抽選テスト
++        {{ t('omikujiItem.list.test') }}
+       </button>
+     </div>
+ 
+     <button @click="add" class="btn btn-primary">
+       <Plus class="w-4 h-4" />
+-      おみくじを追加
++      {{ t('omikujiItem.list.add') }}
+     </button>
+   </div>
+ 
+   <!-- おみくじリスト一覧（クリックで選択） -->
+-  <div class="text-sm">おみくじ / シナリオ / クールダウン</div>
++  <div class="text-sm">{{ t('omikujiItem.list.columns') }}</div>
+   <WeightBar
+     :omikujiItems="omikujiList"
+     :selectedOmikujiId="selectedId"
+@@ -29,11 +29,14 @@
+ 
+ <script setup lang="ts">
+   import { toRef } from 'vue'
++  import { useI18n } from 'vue-i18n'
+   import WeightBar from './weight/WeightBar.vue'
+   import { useTestPost } from '@/editor/helpers/useTestPost'
+   import { Dices, Plus } from 'lucide-vue-next'
+   import { useBoxOmikujiList } from '@/editor/assets/mikuji/composables/useBoxOmikujiList'
+ 
++  const { t } = useI18n()
++
+   const props = defineProps<{
+     omikujiKey: string
+   }>()
+diff --git a/src/editor/assets/mikuji/item/OmikujiItemCriteria.vue b/src/editor/assets/mikuji/item/OmikujiItemCriteria.vue
+index 5cc92ae..e5317de 100644
+--- a/src/editor/assets/mikuji/item/OmikujiItemCriteria.vue
++++ b/src/editor/assets/mikuji/item/OmikujiItemCriteria.vue
+@@ -3,11 +3,10 @@
+   <!-- 条件設定の説明 -->
+   <InformationCard>
+     <p>
+-      <code class="label bg-accent text-accent-content">追加発動条件</code>は、
+-      コメント内容やチャット数などを基にイベント発動を制御します。
++      <code class="label bg-accent text-accent-content">{{ t('omikujiItem.criteria.help.conditionName') }}</code>{{ t('omikujiItem.criteria.help.conditionDescription') }}
+     </p>
+-    <p>条件が複数ある場合は、すべて満たしたときのみ発動します。</p>
+-    <p>管理者限定コマンドなどの応用も可能です。</p>
++    <p>{{ t('omikujiItem.criteria.help.allRequired') }}</p>
++    <p>{{ t('omikujiItem.criteria.help.adminCommands') }}</p>
+   </InformationCard>
+ 
+   <!-- 条件タイプ選択 -->
+@@ -74,7 +73,7 @@
+     @update:modelValue="updateCriteriaKey('expression', $event)"
+   />
+ 
+-  <NoParamsCard v-if="activeConditions.size === 0" message="発動条件が指定されていません" />
++  <NoParamsCard v-if="activeConditions.size === 0" :message="t('omikujiItem.criteria.help.empty')" />
+ </template>
+ 
+ <script setup lang="ts">
+diff --git a/src/editor/assets/mikuji/item/OmikujiItemHeader.vue b/src/editor/assets/mikuji/item/OmikujiItemHeader.vue
+index e6859b6..87ff689 100644
+--- a/src/editor/assets/mikuji/item/OmikujiItemHeader.vue
++++ b/src/editor/assets/mikuji/item/OmikujiItemHeader.vue
+@@ -12,7 +12,7 @@
+         type="text"
+         :value="omikujiItem.name"
+         @input="updateName(($event.target as HTMLInputElement).value)"
+-        placeholder="運勢の種類"
++        :placeholder="t('omikujiItem.header.name.label')"
+         class="input input-bordered input-sm w-full"
+       />
+     </SettingItem>
+@@ -41,10 +41,13 @@
+ </template>
+ 
+ <script setup lang="ts">
++  import { useI18n } from 'vue-i18n'
+   import { OmikujiItemType } from '@/types/OmikujiData/'
+   import OmikujiItemPriority from './OmikujiItemPriority.vue'
+   import SettingItem from '@/editor/parts/SettingItem.vue'
+ 
++  const { t } = useI18n()
++
+   const props = defineProps<{
+     omikujiItem: OmikujiItemType
+   }>()
+diff --git a/src/editor/assets/mikuji/item/OmikujiItemPriority.vue b/src/editor/assets/mikuji/item/OmikujiItemPriority.vue
+index 760f5dd..4b4ffe1 100644
+--- a/src/editor/assets/mikuji/item/OmikujiItemPriority.vue
++++ b/src/editor/assets/mikuji/item/OmikujiItemPriority.vue
+@@ -14,7 +14,7 @@
+         :checked="hasCriteria"
+         @change="setCriteriaEnabled(($event.target as HTMLInputElement).checked)"
+       />
+-      <span class="label-text">設定する</span>
++      <span class="label-text">{{ t('omikujiItem.priority.enable') }}</span>
+     </label>
+   </SettingItem>
+ 
+@@ -39,7 +39,11 @@
+           @change="setPriority(($event.target as HTMLInputElement).checked)"
+         />
+         <span class="label-text">
+-          {{ isPriority ? '適用時、このおみくじが必ず適用されます' : '他のおみくじと同じ抽選を行います' }}
++          {{
++            isPriority
++              ? t('omikujiItem.priority.priorityEnabledMessage')
++              : t('omikujiItem.priority.priorityDisabledMessage')
++          }}
+         </span>
+       </label>
+     </SettingItem>
+@@ -50,6 +54,7 @@
+ </template>
+ 
+ <script setup lang="ts">
++  import { useI18n } from 'vue-i18n'
+   import type { OmikujiItemType } from '@/types/OmikujiData/'
+   import OmikujiItemCriteria from './OmikujiItemCriteria.vue'
+   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
+@@ -58,6 +63,7 @@
+ 
+   const props = defineProps<{ omikujiItem: OmikujiItemType }>()
+   const emit = defineEmits<{ update: [item: OmikujiItemType] }>()
++  const { t } = useI18n()
+ 
+   const { hasCriteria, isPriority, setCriteriaEnabled, setPriority } = useOmikujiLottery(
+     () => props.omikujiItem,
+diff --git a/src/editor/assets/mikuji/item/ScenarioPickerDialog.vue b/src/editor/assets/mikuji/item/ScenarioPickerDialog.vue
+index fadd9da..8ddd820 100644
+--- a/src/editor/assets/mikuji/item/ScenarioPickerDialog.vue
++++ b/src/editor/assets/mikuji/item/ScenarioPickerDialog.vue
+@@ -39,7 +39,9 @@
+               {{ t('omikujiItem.scenario.dialog.steps', { count: scenario.steps.length }) }}
+             </span>
+           </div>
+-          <div class="text-xs opacity-60 mt-1 break-all">key: {{ scenario.key }}</div>
++          <div class="text-xs opacity-60 mt-1 break-all">
++            {{ t('omikujiItem.scenario.dialog.keyLabel') }}: {{ scenario.key }}
++          </div>
+           <div class="text-sm mt-1">{{ scenario.description || t('omikujiItem.scenario.dialog.noDescription') }}</div>
+           <div class="flex gap-2 mt-2">
+             <button class="btn btn-xs btn-primary" @click="handleSelect(scenario.key)">
+@@ -59,7 +61,9 @@
+       </div>
+     </div>
+ 
+-    <form method="dialog" class="modal-backdrop"><button @click="close">close</button></form>
++    <form method="dialog" class="modal-backdrop">
++      <button @click="close">{{ t('omikujiItem.scenario.dialog.close') }}</button>
++    </form>
+   </dialog>
+ </template>
+ 
+diff --git a/src/editor/assets/mikuji/weight/WeightItemCooldown.vue b/src/editor/assets/mikuji/weight/WeightItemCooldown.vue
+index 15c034c..1682855 100644
+--- a/src/editor/assets/mikuji/weight/WeightItemCooldown.vue
++++ b/src/editor/assets/mikuji/weight/WeightItemCooldown.vue
+@@ -4,7 +4,7 @@
+   <label
+     v-if="item.kind === 'steps'"
+     class="input input-sm input-bordered flex w-28 shrink-0 items-center gap-1"
+-    title="クールダウン(秒)"
++    :title="t('omikujiItem.header.cooldown.inputTitle')"
+   >
+     <Timer class="w-3.5 h-3.5 shrink-0 opacity-60" />
+     <input
+@@ -15,15 +15,18 @@
+       step="0.1"
+       @change="updateCooldown"
+     />
+-    <span class="text-xs opacity-60">秒</span>
++    <span class="text-xs opacity-60">{{ t('omikujiItem.header.cooldown.unit') }}</span>
+   </label>
+   <div v-else class="w-28 shrink-0 text-center opacity-40">-</div>
+ </template>
+ 
+ <script setup lang="ts">
++  import { useI18n } from 'vue-i18n'
+   import { Timer } from 'lucide-vue-next'
+   import type { OmikujiItemType } from '@/types/OmikujiData/'
+ 
++  const { t } = useI18n()
++
+   const props = defineProps<{
+     item: OmikujiItemType
+   }>()
+diff --git a/src/editor/assets/mikuji/weight/WeightItemDialogs.vue b/src/editor/assets/mikuji/weight/WeightItemDialogs.vue
+index 39173b9..a6973cb 100644
+--- a/src/editor/assets/mikuji/weight/WeightItemDialogs.vue
++++ b/src/editor/assets/mikuji/weight/WeightItemDialogs.vue
+@@ -5,7 +5,7 @@
+     v-if="opened === 'base'"
+     :open="true"
+     icon="Pencil"
+-    title="名前・説明"
++    :title="t('omikujiItem.dialogs.baseTitle')"
+     size="xl"
+     @update:open="emit('close')"
+   >
+@@ -24,7 +24,7 @@
+     v-if="opened === 'condition'"
+     :open="true"
+     icon="Filter"
+-    title="追加条件"
++    :title="t('omikujiItem.priority.sectionTitle')"
+     size="3xl"
+     @update:open="emit('close')"
+   >
+@@ -33,7 +33,14 @@
+     </div>
+   </BaseDialog>
+ 
+-  <BaseDialog v-if="opened === 'run'" :open="true" icon="Zap" title="実行内容" size="3xl" @update:open="emit('close')">
++  <BaseDialog
++    v-if="opened === 'run'"
++    :open="true"
++    icon="Zap"
++    :title="t('omikujiItem.editor.kind.label')"
++    size="3xl"
++    @update:open="emit('close')"
++  >
+     <div class="space-y-2">
+       <OmikujiItemEditor :omikujiItem="item" @update="emit('update:item', $event)" />
+     </div>
+@@ -42,6 +49,7 @@
+ 
+ <script setup lang="ts">
+   import { computed } from 'vue'
++  import { useI18n } from 'vue-i18n'
+   import { BaseRecordSchema, type BaseRecordType } from '@/types/core'
+   import type { OmikujiItemType } from '@/types/OmikujiData/'
+   import type { WeightDialogName } from '../composables/useWeightItemDialog'
+@@ -50,6 +58,8 @@
+   import OmikujiItemEditor from '../item/OmikujiItemEditor.vue'
+   import OmikujiItemPriority from '../item/OmikujiItemPriority.vue'
+ 
++  const { t } = useI18n()
++
+   const props = defineProps<{
+     item: OmikujiItemType
+     opened: WeightDialogName | null
+diff --git a/src/editor/assets/mikuji/weight/WeightItemSummary.vue b/src/editor/assets/mikuji/weight/WeightItemSummary.vue
+index 9271de1..5b72812 100644
+--- a/src/editor/assets/mikuji/weight/WeightItemSummary.vue
++++ b/src/editor/assets/mikuji/weight/WeightItemSummary.vue
+@@ -14,11 +14,11 @@
+     <!-- 情報 -->
+     <div class="flex-1 min-w-0">
+       <div class="flex items-center gap-1">
+-        <span class="truncate">{{ item.name || 'アイテム' }}</span>
++        <span class="truncate">{{ item.name || t('omikujiItem.summary.unnamed') }}</span>
+         <!-- 名前・説明の編集 -->
+         <button
+           class="btn btn-ghost btn-xs btn-square shrink-0"
+-          title="名前・説明を編集"
++          :title="t('omikujiItem.summary.editNameDescription')"
+           @click.stop="emit('open', 'base')"
+         >
+           <Pencil class="w-3.5 h-3.5" />
+@@ -32,10 +32,14 @@
+         <!-- 追加条件 -->
+         <button class="btn btn-ghost btn-xs gap-1" @click.stop="emit('open', 'condition')">
+           <Filter class="w-3 h-3" />
+-          追加条件
++          {{ t('omikujiItem.priority.sectionTitle') }}
+         </button>
+-        <span v-if="item.lottery.isPriority" class="badge badge-sm badge-primary">優先</span>
+-        <span v-else-if="item.lottery.criteria" class="badge badge-xs badge-secondary">条件</span>
++        <span v-if="item.lottery.isPriority" class="badge badge-sm badge-primary">
++          {{ t('omikujiItem.priority.priority.label') }}
++        </span>
++        <span v-else-if="item.lottery.criteria" class="badge badge-xs badge-secondary">
++          {{ t('omikujiItem.summary.criteriaBadge') }}
++        </span>
+       </div>
+     </div>
+ 
+@@ -61,11 +65,14 @@
+ </template>
+ 
+ <script setup lang="ts">
++  import { useI18n } from 'vue-i18n'
+   import { Filter, GripVertical, Pencil } from 'lucide-vue-next'
+   import type { OmikujiItemType } from '@/types/OmikujiData/'
+   import type { WeightDialogName } from '../composables/useWeightItemDialog'
+   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
+ 
++  const { t } = useI18n()
++
+   defineProps<{
+     item: OmikujiItemType
+     percentage: string
+diff --git a/src/editor/assets/placeholders/PlaceholderTextMode.vue b/src/editor/assets/placeholders/PlaceholderTextMode.vue
+index e05d8c2..eedd414 100644
+--- a/src/editor/assets/placeholders/PlaceholderTextMode.vue
++++ b/src/editor/assets/placeholders/PlaceholderTextMode.vue
+@@ -31,7 +31,9 @@
+       <div class="form-control flex-1 flex flex-col min-h-0">
+         <label class="label shrink-0">
+           <span class="label-text font-medium">{{ t('placeholder.textInputLabel') }}</span>
+-          <span class="label-text-alt">{{ t('placeholder.lineCount', { count: lineCount }) }}</span>
++          <span class="label-text-alt">
++            {{ t(lineCount === 1 ? 'placeholder.lineCountSingular' : 'placeholder.lineCount', { count: lineCount }) }}
++          </span>
+         </label>
+         <textarea
+           ref="textareaRef"
+diff --git a/src/editor/assets/scenarios/ScenarioConnectDialog.vue b/src/editor/assets/scenarios/ScenarioConnectDialog.vue
+index 256e3fa..fdd31f2 100644
+--- a/src/editor/assets/scenarios/ScenarioConnectDialog.vue
++++ b/src/editor/assets/scenarios/ScenarioConnectDialog.vue
+@@ -16,7 +16,9 @@
+ 
+       <div v-for="box in boxList" :key="box.key" class="rounded-lg border border-base-300 p-3">
+         <div class="font-bold truncate">{{ box.name || box.key }}</div>
+-        <div class="text-xs opacity-60 mt-1 break-all">key: {{ box.key }}</div>
++        <div class="text-xs opacity-60 mt-1 break-all">
++          {{ t('connections.connectDialog.keyLabel') }}: {{ box.key }}
++        </div>
+         <button class="btn btn-xs btn-primary mt-2" @click="connect(box)">
+           {{ t('connections.connectDialog.connect') }}
+         </button>
+diff --git a/src/i18n/editor/apps/AppItemsCharacters.ts b/src/i18n/editor/apps/AppItemsCharacters.ts
+index 833d442..740974a 100644
+--- a/src/i18n/editor/apps/AppItemsCharacters.ts
++++ b/src/i18n/editor/apps/AppItemsCharacters.ts
+@@ -106,6 +106,7 @@ export const appItemsCharactersMessages = {
+       },
+       item: {
+         name: 'エモーション名',
++        keyLabel: 'キー',
+         unset: '未設定',
+         deleteTip: 'この感情を削除',
+       },
+@@ -271,6 +272,7 @@ export const appItemsCharactersMessages = {
+       },
+       item: {
+         name: 'Emotion name',
++        keyLabel: 'Key',
+         unset: 'Not set',
+         deleteTip: 'Delete this emotion',
+       },
+diff --git a/src/i18n/editor/apps/BaseSettingsEditor.ts b/src/i18n/editor/apps/BaseSettingsEditor.ts
+index e93409f..c4e9b1b 100644
+--- a/src/i18n/editor/apps/BaseSettingsEditor.ts
++++ b/src/i18n/editor/apps/BaseSettingsEditor.ts
+@@ -25,6 +25,9 @@ export const baseSettingsMessages = {
+       tags: {
+         label: 'タグ',
+         description: 'このデータに関連するタグを追加できます',
++        placeholder: 'タグを追加',
++        add: '追加',
++        suggestions: '候補(クリックで追加)',
+       },
+     },
+   },
+@@ -49,6 +52,9 @@ export const baseSettingsMessages = {
+       tags: {
+         label: 'Tags',
+         description: 'Add tags related to this data',
++        placeholder: 'Add a tag',
++        add: 'Add',
++        suggestions: 'Suggestions (click to add)',
+       },
+     },
+   },
+diff --git a/src/i18n/editor/apps/PackageMetaMessages.ts b/src/i18n/editor/apps/PackageMetaMessages.ts
+index c86db7a..8df972d 100644
+--- a/src/i18n/editor/apps/PackageMetaMessages.ts
++++ b/src/i18n/editor/apps/PackageMetaMessages.ts
+@@ -5,6 +5,7 @@ export const packageMetaMessages = {
+   ja: {
+     packageMeta: {
+       system: {
++        latestVersionTitle: '最新バージョンを入手する',
+         appName: {
+           label: 'アプリ名',
+           description: 'このパッケージを生成したアプリ名',
+@@ -26,11 +27,17 @@ export const packageMetaMessages = {
+         url: {
+           label: '配布サイトURL',
+           description: 'パッケージの配布サイトやプロジェクトページのURL',
++          unset: '未設定',
+         },
+       },
+       basic: {
+         id: {
+           description: 'プラグインでは、この名称で保存されます',
++          regenerate: '再生成',
++          confirmTitle: 'IDを変更しますか？',
++          confirmText: '変更すると、このパッケージのIDが新しく生成されます。',
++          confirm: '変更する',
++          cancel: 'キャンセル',
+         },
+         name: {
+           label: 'パッケージ名',
+@@ -58,6 +65,7 @@ export const packageMetaMessages = {
+   en: {
+     packageMeta: {
+       system: {
++        latestVersionTitle: 'Get the latest version',
+         appName: {
+           label: 'App name',
+           description: 'The app that generated this package',
+@@ -79,11 +87,17 @@ export const packageMetaMessages = {
+         url: {
+           label: 'Distribution URL',
+           description: "URL of the package's distribution site or project page",
++          unset: 'Not set',
+         },
+       },
+       basic: {
+         id: {
+           description: 'Saved under this name in the plugin',
++          regenerate: 'Regenerate',
++          confirmTitle: 'Change the ID?',
++          confirmText: 'Changing it will generate a new ID for this package.',
++          confirm: 'Change',
++          cancel: 'Cancel',
+         },
+         name: {
+           label: 'Package name',
+diff --git a/src/i18n/editor/assets/OmikujiItemMessages.ts b/src/i18n/editor/assets/OmikujiItemMessages.ts
+index 032ad30..992493b 100644
+--- a/src/i18n/editor/assets/OmikujiItemMessages.ts
++++ b/src/i18n/editor/assets/OmikujiItemMessages.ts
+@@ -4,6 +4,17 @@
+ export const omikujiItemMessages = {
+   ja: {
+     omikujiItem: {
++      list: {
++        testTooltip: 'わんコメを起動すると、投稿の確認ができます',
++        test: '抽選テスト',
++        add: 'おみくじを追加',
++        columns: 'おみくじ / シナリオ / クールダウン',
++      },
++      summary: {
++        unnamed: 'アイテム',
++        editNameDescription: '名前・説明を編集',
++        criteriaBadge: '条件',
++      },
+       priority: {
+         criteria: {
+           label: '追加発動条件',
+@@ -15,6 +26,9 @@ export const omikujiItemMessages = {
+         },
+         sectionTitle: '追加条件',
+         sectionDescription: 'このおみくじが適用される追加の条件を設定します',
++        enable: '設定する',
++        priorityEnabledMessage: '適用時、このおみくじが必ず適用されます',
++        priorityDisabledMessage: '他のおみくじと同じ抽選を行います',
+       },
+       scenario: {
+         label: '実行するシナリオ',
+@@ -34,10 +48,12 @@ export const omikujiItemMessages = {
+         dialog: {
+           title: 'シナリオを選択',
+           search: '名前・説明・Key で絞り込み',
++          keyLabel: 'キー',
+           empty: '該当するシナリオがありません…',
+           noDescription: '説明はありません',
+           steps: 'ステップ {count}件',
+           select: '選択',
++          close: '閉じる',
+         },
+       },
+       header: {
+@@ -48,8 +64,13 @@ export const omikujiItemMessages = {
+         cooldown: {
+           label: 'クールダウン',
+           description: 'これ以降の実行を一定時間ブロックします（秒）',
++          inputTitle: 'クールダウン(秒)',
++          unit: '秒',
+         },
+       },
++      dialogs: {
++        baseTitle: '名前・説明',
++      },
+       editor: {
+         kind: {
+           label: '実行内容',
+@@ -67,11 +88,29 @@ export const omikujiItemMessages = {
+       criteria: {
+         label: '適用する発動条件',
+         description: 'トリガーの種類を選択',
++        help: {
++          conditionName: '追加発動条件',
++          conditionDescription: 'は、コメント内容やチャット数などを基にイベント発動を制御します。',
++          allRequired: '条件が複数ある場合は、すべて満たしたときのみ発動します。',
++          adminCommands: '管理者限定コマンドなどの応用も可能です。',
++          empty: '発動条件が指定されていません',
++        },
+       },
+     },
+   },
+   en: {
+     omikujiItem: {
++      list: {
++        testTooltip: 'Start OneComme to preview the post',
++        test: 'Test draw',
++        add: 'Add omikuji',
++        columns: 'Omikuji / Scenario / Cooldown',
++      },
++      summary: {
++        unnamed: 'Item',
++        editNameDescription: 'Edit name and description',
++        criteriaBadge: 'Condition',
++      },
+       priority: {
+         criteria: {
+           label: 'Additional conditions',
+@@ -83,6 +122,9 @@ export const omikujiItemMessages = {
+         },
+         sectionTitle: 'Additional conditions',
+         sectionDescription: 'Set additional conditions under which this omikuji applies',
++        enable: 'Enable',
++        priorityEnabledMessage: 'This omikuji is guaranteed to be selected when its conditions are met',
++        priorityDisabledMessage: 'Draw this omikuji like any other',
+       },
+       scenario: {
+         label: 'Scenario to run',
+@@ -102,10 +144,12 @@ export const omikujiItemMessages = {
+         dialog: {
+           title: 'Select a scenario',
+           search: 'Filter by name, description or key',
++          keyLabel: 'Key',
+           empty: 'No matching scenarios…',
+           noDescription: 'No description',
+           steps: '{count} step(s)',
+           select: 'Select',
++          close: 'Close',
+         },
+       },
+       header: {
+@@ -116,8 +160,13 @@ export const omikujiItemMessages = {
+         cooldown: {
+           label: 'Cooldown',
+           description: 'Blocks further execution for a set time (seconds)',
++          inputTitle: 'Cooldown (seconds)',
++          unit: 's',
+         },
+       },
++      dialogs: {
++        baseTitle: 'Name and description',
++      },
+       editor: {
+         kind: {
+           label: 'Action',
+@@ -135,6 +184,13 @@ export const omikujiItemMessages = {
+       criteria: {
+         label: 'Conditions to apply',
+         description: 'Choose the trigger types',
++        help: {
++          conditionName: 'Additional trigger conditions',
++          conditionDescription: ' let you control event triggers based on comment content, chat count, and similar criteria.',
++          allRequired: 'If multiple conditions are set, all of them must be met for the event to trigger.',
++          adminCommands: 'You can also configure advanced options, such as commands limited to administrators.',
++          empty: 'No trigger conditions have been specified',
++        },
+       },
+     },
+   },
+diff --git a/src/i18n/editor/assets/PlaceholderMessages.ts b/src/i18n/editor/assets/PlaceholderMessages.ts
+index 6a5a3c1..6ab5614 100644
+--- a/src/i18n/editor/assets/PlaceholderMessages.ts
++++ b/src/i18n/editor/assets/PlaceholderMessages.ts
+@@ -8,6 +8,7 @@ export const placeholderMessages = {
+       weightNote: '※ 重みは1以上の整数で指定してください',
+       textInputLabel: '📝 テキスト入力',
+       lineCount: '{count}行',
++      lineCountSingular: '{count}行',
+       hasErrorTitle: '入力エラーがあります',
+       hasErrorBody: '{count}行にエラーがあります。修正してから保存してください。',
+       textMode: '📝 テキストモード',
+@@ -37,6 +38,7 @@ export const placeholderMessages = {
+       weightNote: '※ Weight must be an integer of 1 or greater',
+       textInputLabel: '📝 Text input',
+       lineCount: '{count} lines',
++      lineCountSingular: '{count} line',
+       hasErrorTitle: 'Input errors',
+       hasErrorBody: '{count} line(s) have errors. Please fix them before saving.',
+       textMode: '📝 Text mode',
+diff --git a/src/i18n/editor/content/ConnectionMessages.ts b/src/i18n/editor/content/ConnectionMessages.ts
+index 5855f96..2fcced2 100644
+--- a/src/i18n/editor/content/ConnectionMessages.ts
++++ b/src/i18n/editor/content/ConnectionMessages.ts
+@@ -51,6 +51,7 @@ export const connectionMessages = {
+       connectDialog: {
+         title: 'おみくじ箱に追加',
+         hint: '選択した箱に、このシナリオがおみくじアイテムとして追加されます。',
++        keyLabel: 'キー',
+         connect: '追加する',
+         empty: '追加できるみくじ箱がありません…',
+         cancel: '閉じる',
+@@ -108,6 +109,7 @@ export const connectionMessages = {
+       connectDialog: {
+         title: 'Add to an omikuji box',
+         hint: 'This scenario will be appended as an omikuji item of the selected box.',
++        keyLabel: 'Key',
+         connect: 'Add',
+         empty: 'No omikuji boxes to add…',
+         cancel: 'Close',
+diff --git a/src/i18n/editor/maps/UiMapMessages.ts b/src/i18n/editor/maps/UiMapMessages.ts
+index 9947ac2..a5ee8b3 100644
+--- a/src/i18n/editor/maps/UiMapMessages.ts
++++ b/src/i18n/editor/maps/UiMapMessages.ts
+@@ -7,12 +7,52 @@ export const uiMapMessages = {
+           label: 'フキダシ',
+           description: 'シンプルなフキダシでおみくじ結果を表示します。',
+         },
++        gameRanking: {
++          label: 'ゲームランキング',
++          description: 'スイカゲーム等の結果をランキングボード形式で表示します。',
++        },
++        sesupinTest: {
++          label: 'テストレイアウト(管理者用)',
++          description: 'すべて表示するレイアウト',
++        },
+       },
+       uiKind: {
++        characterStage: {
++          label: 'キャラクターステージ',
++          description: 'キャラクター画像だけを、指定した位置・秒数で表示します(演出用)。',
++        },
+         commentBubble: {
+           label: 'フキダシ',
+           description: 'BOTの発言内容を吹き出し形式で表示します。',
+         },
++        gameRanking: {
++          label: 'ゲームランキング',
++          description: 'スイカゲーム等の結果をランキングボード形式で表示します。',
++        },
++        cookieCounter: {
++          label: 'クッキーカウンター',
++          description: '配信のカウントをクッキー風のカウンターで表示します。',
++        },
++        kujibikiPanel: {
++          label: 'くじ引きパネル',
++          description: 'おみくじ・占いの結果をパネル形式で表示します。',
++        },
++        liveClock: {
++          label: 'ライブクロック',
++          description: '時計とメッセージを表示します。',
++        },
++        streamCounter: {
++          label: '配信カウンター',
++          description: '同時接続数や高評価数などを表示します。',
++        },
++        toastWidgets: {
++          label: 'トースト',
++          description: '通知メッセージをトースト形式で表示します。',
++        },
++        userBoard: {
++          label: 'ユーザーボード',
++          description: 'ユーザーの得点・チームを、得点リストやチームのバー・スコアボードで表示します。',
++        },
+       },
+     },
+   },
+@@ -23,14 +63,53 @@ export const uiMapMessages = {
+           label: 'Speech bubble',
+           description: 'Displays omikuji results in a simple speech bubble.',
+         },
++        gameRanking: {
++          label: 'Game rankings',
++          description: 'Displays results from games such as Suika Game in a ranking board.',
++        },
++        sesupinTest: {
++          label: 'Test layout (admin only)',
++          description: 'A layout that displays all UI items.',
++        },
+       },
+       uiKind: {
++        characterStage: {
++          label: 'Character stage',
++          description: 'Displays only character images at a specified position and for a specified duration (for effects).',
++        },
+         commentBubble: {
+           label: 'Speech bubble',
+           description: 'Displays BOT comments as speech bubbles.',
+         },
++        gameRanking: {
++          label: 'Game rankings',
++          description: 'Displays results from games such as Suika Game in a ranking board.',
++        },
++        cookieCounter: {
++          label: 'Cookie counter',
++          description: 'Displays stream counts in a cookie-themed counter.',
++        },
++        kujibikiPanel: {
++          label: 'Lottery panel',
++          description: 'Displays omikuji and fortune-telling results in a panel.',
++        },
++        liveClock: {
++          label: 'Live clock',
++          description: 'Displays a clock and messages.',
++        },
++        streamCounter: {
++          label: 'Stream counter',
++          description: 'Displays metrics such as concurrent viewers and likes.',
++        },
++        toastWidgets: {
++          label: 'Toast notifications',
++          description: 'Displays notification messages as toast notifications.',
++        },
++        userBoard: {
++          label: 'User board',
++          description: 'Displays user scores and teams in score lists, team bars, and leaderboards.',
++        },
+       },
+     },
+   },
+ } as const
+-
+diff --git a/src/i18n/editor/messageModules.ts b/src/i18n/editor/messageModules.ts
+index 6971b2a..5b462b6 100644
+--- a/src/i18n/editor/messageModules.ts
++++ b/src/i18n/editor/messageModules.ts
+@@ -8,6 +8,8 @@ import * as m_OmikujiDataMaps from './OmikujiDataMaps'
+ import * as m_apps_AppInfoEditor from './apps/AppInfoEditor'
+ import * as m_apps_AppItemsCharacters from './apps/AppItemsCharacters'
+ import * as m_apps_BaseSettingsEditor from './apps/BaseSettingsEditor'
++import * as m_apps_DataPacksMessages from './apps/DataPacksMessages'
++import * as m_apps_JsonMergeMessages from './apps/JsonMergeMessages'
+ import * as m_apps_PackageMetaMessages from './apps/PackageMetaMessages'
+ import * as m_assets_OmikujiItemMessages from './assets/OmikujiItemMessages'
+ import * as m_assets_PlaceholderMessages from './assets/PlaceholderMessages'
+@@ -37,6 +39,8 @@ export const messageModules: Record<string, Record<string, unknown>> = {
+   'apps/AppInfoEditor': m_apps_AppInfoEditor,
+   'apps/AppItemsCharacters': m_apps_AppItemsCharacters,
+   'apps/BaseSettingsEditor': m_apps_BaseSettingsEditor,
++  'apps/DataPacksMessages': m_apps_DataPacksMessages,
++  'apps/JsonMergeMessages': m_apps_JsonMergeMessages,
+   'apps/PackageMetaMessages': m_apps_PackageMetaMessages,
+   'assets/OmikujiItemMessages': m_assets_OmikujiItemMessages,
+   'assets/PlaceholderMessages': m_assets_PlaceholderMessages,
+diff --git a/docs/i18n-fix-handoff.md b/docs/i18n-fix-handoff.md
+new file mode 100644
+index 0000000..78f52e5
+--- /dev/null
++++ b/docs/i18n-fix-handoff.md
+@@ -0,0 +1,16 @@
++# i18n fix handoff
++
++## 未着手・未完了
++- Batch 01–07: 翻訳修正済み。`npm run build` は Vite 成功後、HondaJanken の後処理で `undefined.map` により失敗。
++- Batch 08–09: 確定した翻訳修正なし。
++
++## 保留・要確認
++- Batch 01 / 05: 複製名の「(コピー)」は保存データ仕様のため変更しない。
++- Batch 07: MessageSettings の動的 slot metadata は翻訳元が対象範囲で特定できず要確認。
++
++## 注意事項
++- `src/types/`、監査レポート、進捗表、作業ログは変更しない。
++- 保存データや操作仕様を変えない。
++
++## 次回にやること
++- Batch 01–07 の lint・型チェック結果と ja/en キー構造は確認済み。保留項目は判断が必要な場合のみ扱う。
+diff --git a/src/i18n/editor/apps/DataPacksMessages.ts b/src/i18n/editor/apps/DataPacksMessages.ts
+new file mode 100644
+index 0000000..db713a6
+--- /dev/null
++++ b/src/i18n/editor/apps/DataPacksMessages.ts
+@@ -0,0 +1,90 @@
++export const dataPacksMessages = {
++  ja: {
++    dataPacks: {
++      loading: 'データパックを読み込み中...',
++      intro: {
++        thanks: 'GitHubからダウンロードしてくれてありがとう！',
++        free: 'お礼に全機能が使えるデータパックを公開しています。無料だよ！',
++        support: 'ただ、サポートはしていません。気軽にカスタムしてみてね。',
++      },
++      filter: {
++        label: 'タグ絞り込み:',
++        clear: 'クリア',
++        empty: '該当するデータパックが見つかりませんでした',
++      },
++      refresh: '更新',
++      card: {
++        partialTooltip: 'この設定を部分的に読み込み/マージ',
++        partial: 'マージ',
++        replaceTooltip: '現在のデータをこの設定で置き換える',
++        replace: '置き換え',
++      },
++      replaceConfirm: {
++        title: '現在のデータを置き換えますか？',
++        text: '「{name}」で上書きします。現在の設定はすべて失われます。この操作は取り消せません。',
++        confirm: '置き換える',
++      },
++      loadError: {
++        title: '読み込みエラー',
++        invalidMetadata: 'このデータはおみくじBOTのデータではありません。',
++        unknown: '不明なエラーが発生しました',
++      },
++      loaded: {
++        title: '読み込みました',
++        text: '「{name}」を読み込みました。',
++      },
++      replaceFailed: {
++        title: '置き換えに失敗しました',
++        console: 'コンソールログをご確認ください',
++      },
++      partialLoadFailed: {
++        title: '読み込みに失敗しました',
++        console: 'コンソールログをご確認ください',
++      },
++    },
++  },
++  en: {
++    dataPacks: {
++      loading: 'Loading data packs...',
++      intro: {
++        thanks: 'Thanks for downloading from GitHub!',
++        free: 'As a thank-you, we publish data packs with all features available. They are free!',
++        support: 'Please note that these packs are not supported. Feel free to customize them.',
++      },
++      filter: {
++        label: 'Filter by tag:',
++        clear: 'Clear',
++        empty: 'No matching data packs were found',
++      },
++      refresh: 'Refresh',
++      card: {
++        partialTooltip: 'Partially load or merge these settings',
++        partial: 'Merge',
++        replaceTooltip: 'Replace the current data with these settings',
++        replace: 'Replace',
++      },
++      replaceConfirm: {
++        title: 'Replace the current data?',
++        text: 'This will overwrite the current settings with "{name}". All current settings will be lost. This cannot be undone.',
++        confirm: 'Replace',
++      },
++      loadError: {
++        title: 'Loading error',
++        invalidMetadata: 'This data is not an Omikuji Bot data package.',
++        unknown: 'An unknown error occurred',
++      },
++      loaded: {
++        title: 'Loaded',
++        text: '"{name}" was loaded.',
++      },
++      replaceFailed: {
++        title: 'Failed to replace data',
++        console: 'Check the console log for details',
++      },
++      partialLoadFailed: {
++        title: 'Failed to load data',
++        console: 'Check the console log for details',
++      },
++    },
++  },
++} as const
+diff --git a/src/i18n/editor/apps/JsonMergeMessages.ts b/src/i18n/editor/apps/JsonMergeMessages.ts
+new file mode 100644
+index 0000000..21be7d8
+--- /dev/null
++++ b/src/i18n/editor/apps/JsonMergeMessages.ts
+@@ -0,0 +1,86 @@
++export const jsonMergeMessages = {
++  ja: {
++    jsonMerge: {
++      add: 'マージ設定を追加',
++      empty: {
++        title: 'マージ設定がありません。',
++        description: '下のボタンから追加してください。',
++      },
++      settings: {
++        unnamed: 'マージ設定',
++        unsetSource: '(ファイル未設定)',
++        editTitle: 'マージ設定編集: {name}',
++        fallbackName: '設定{index}',
++      },
++      name: {
++        label: 'マージ名',
++        description: '識別しやすい名前',
++      },
++      remap: {
++        title: 'リマップ {index}',
++        remove: 'このリマップを削除',
++        sectionTitle: 'キーリマップ設定',
++        add: 'リマップ追加',
++        empty: 'リマップ設定がありません',
++        fromCharacter: '元キャラキー',
++        toCharacter: '新キャラキー',
++        chooseCharacter: 'キャラクターを選択してください',
++        missingCharacter: '入力されてません',
++        fromIcon: '元アイコンキー',
++        toIcon: '新アイコンキー',
++        chooseIcon: 'アイコンキーを選択…',
++      },
++      source: {
++        label: 'マージ元ファイル',
++        chooseFile: 'ファイルを選択してください',
++        missingFile: '入力されてません',
++        suffixLabel: '複数用のキーサフィックス',
++        suffixDescription: 'マージ時に元のキーに付加する接尾辞',
++        suffixPlaceholder: 'キャラクターキーを入力(1文字目は自動で大文字になります)',
++      },
++      unselected: '上のリストからマージ設定をクリックして編集してください',
++    },
++  },
++  en: {
++    jsonMerge: {
++      add: 'Add merge settings',
++      empty: {
++        title: 'No merge settings.',
++        description: 'Add one using the button below.',
++      },
++      settings: {
++        unnamed: 'Merge settings',
++        unsetSource: '(No file selected)',
++        editTitle: 'Edit merge settings: {name}',
++        fallbackName: 'Setting {index}',
++      },
++      name: {
++        label: 'Merge name',
++        description: 'A name that is easy to identify',
++      },
++      remap: {
++        title: 'Remap {index}',
++        remove: 'Remove this remap',
++        sectionTitle: 'Key remapping',
++        add: 'Add remap',
++        empty: 'No remap settings',
++        fromCharacter: 'Source character key',
++        toCharacter: 'Target character key',
++        chooseCharacter: 'Select a character',
++        missingCharacter: 'No character entered',
++        fromIcon: 'Source icon key',
++        toIcon: 'Target icon key',
++        chooseIcon: 'Select an icon key…',
++      },
++      source: {
++        label: 'Source file',
++        chooseFile: 'Select a file',
++        missingFile: 'No file selected',
++        suffixLabel: 'Key suffix for multiple files',
++        suffixDescription: 'Suffix to append to the original key when merging',
++        suffixPlaceholder: 'Enter a character key (the first letter is automatically capitalized)',
++      },
++      unselected: 'Select a merge setting from the list above to edit it',
++    },
++  },
++} as const

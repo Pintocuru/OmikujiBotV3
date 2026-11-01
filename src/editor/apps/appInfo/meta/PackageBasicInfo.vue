@@ -6,7 +6,7 @@
       <span class="font-mono text-sm text-base-content/60">{{ meta.id }}</span>
       <button class="btn btn-xs btn-ghost gap-1" @click="handleRegenerateId">
         <RefreshCw :size="12" />
-        再生成
+        {{ t('packageMeta.basic.id.regenerate') }}
       </button>
     </div>
   </SettingItem>
@@ -41,12 +41,15 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { RefreshCw } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { storeToRefs } from 'pinia'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { generateId } from '@/types/core'
+
+  const { t } = useI18n()
 
   // Store
   const omikujiStore = useOmikujiStore()
@@ -97,11 +100,11 @@
   // id 再生成ハンドラ
   const handleRegenerateId = async () => {
     const result = await swalModal.warning({
-      title: 'IDを変更しますか？',
-      text: '変更すると、このパッケージのIDが新しく生成されます。',
+      title: t('packageMeta.basic.id.confirmTitle'),
+      text: t('packageMeta.basic.id.confirmText'),
       showCancelButton: true,
-      confirmButtonText: '変更する',
-      cancelButtonText: 'キャンセル',
+      confirmButtonText: t('packageMeta.basic.id.confirm'),
+      cancelButtonText: t('packageMeta.basic.id.cancel'),
     })
 
     if (!result.isConfirmed) return

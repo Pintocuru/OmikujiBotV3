@@ -3,7 +3,7 @@
   <!-- ローディング -->
   <div v-if="loading" class="flex items-center gap-2 py-6 justify-center text-base-content/60">
     <span class="loading loading-spinner loading-sm" />
-    <span class="text-sm">データパックを読み込み中...</span>
+    <span class="text-sm">{{ t('dataPacks.loading') }}</span>
   </div>
 
   <!-- エラー -->
@@ -15,14 +15,14 @@
     <!-- タグフィルター -->
     <InformationCard variant="warning" icon="primary">
       <p>
-        Githubからダウンロードしてくれてありがとう！<br />
-        お礼に全機能が使えるデータパックを公開しています。無料だよ！<br />
-        ただ、サポートはしていません。気軽にカスタムしてみてね。
+        {{ t('dataPacks.intro.thanks') }}<br />
+        {{ t('dataPacks.intro.free') }}<br />
+        {{ t('dataPacks.intro.support') }}
       </p>
     </InformationCard>
 
     <div v-if="allTags.length > 0" class="flex flex-wrap items-center gap-2 mb-4">
-      <span class="text-xs text-base-content/50">タグ絞り込み:</span>
+      <span class="text-xs text-base-content/50">{{ t('dataPacks.filter.label') }}</span>
       <button
         v-for="tag in allTags"
         :key="tag"
@@ -33,12 +33,12 @@
         {{ tag }}
       </button>
       <button v-if="selectedTags.length > 0" class="badge badge-sm badge-ghost cursor-pointer" @click="clearTags">
-        ✕ クリア
+        ✕ {{ t('dataPacks.filter.clear') }}
       </button>
     </div>
 
     <!-- 空 -->
-    <NoParamsCard v-if="isEmpty" message="該当するデータパックが見つかりませんでした" />
+    <NoParamsCard v-if="isEmpty" :message="t('dataPacks.filter.empty')" />
 
     <!-- 一覧グリッド -->
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -59,7 +59,7 @@
   <div class="mt-4 flex justify-end">
     <button class="btn btn-sm btn-outline" :disabled="loading" @click="fetchAll">
       <span v-if="loading" class="loading loading-spinner loading-xs" />
-      <span v-else>更新</span>
+      <span v-else>{{ t('dataPacks.refresh') }}</span>
     </button>
   </div>
 
@@ -69,6 +69,7 @@
 
 <script setup lang="ts">
   import { onMounted } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { OmikujiDataType } from '@/types/OmikujiData'
   import { DataPackEntry } from '@/editor/types'
   import { useDataPacks } from './useDataPacks'
@@ -80,6 +81,8 @@
   import InformationCard from '@/editor/parts/InformationCard.vue'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 
+  const { t } = useI18n()
+
   const { packs, loading, error, isEmpty, fetchAll, allTags, selectedTags, toggleTag, clearTags } = useDataPacks()
   const importManager = useImportManager()
   const omikujiStore = useOmikujiStore()
@@ -88,9 +91,9 @@
 
   async function onReplace(pack: DataPackEntry) {
     const result = await swalModal.confirmDelete({
-      title: '現在のデータを置き換えますか？',
-      text: `「${pack.meta.name}」で上書きします。現在の設定はすべて失われます。この操作は取り消せません。`,
-      confirmButtonText: '置き換える',
+      title: t('dataPacks.replaceConfirm.title'),
+      text: t('dataPacks.replaceConfirm.text', { name: pack.meta.name }),
+      confirmButtonText: t('dataPacks.replaceConfirm.confirm'),
     })
     if (!result.isConfirmed) return
 
@@ -98,11 +101,11 @@
       const res = await importManager.loadFromJsonData(pack.json)
       if (!res.success) {
         await swalModal.error({
-          title: '読み込みエラー',
+          title: t('dataPacks.loadError.title'),
           text:
             res.error === 'invalid-metadata'
-              ? 'このデータはおみくじBOTのデータではありません。'
-              : res.error || '不明なエラーが発生しました',
+              ? t('dataPacks.loadError.invalidMetadata')
+              : res.error || t('dataPacks.loadError.unknown'),
         })
         return
       }
@@ -127,14 +130,14 @@
       omikujiStore.resetChangeState()
 
       await swalModal.success({
-        title: '読み込みました',
-        text: `「${pack.meta.name}」を読み込みました。`,
+        title: t('dataPacks.loaded.title'),
+        text: t('dataPacks.loaded.text', { name: pack.meta.name }),
       })
     } catch (err) {
       console.error('[DataPacks] replace error:', err)
       await swalModal.error({
-        title: '置き換えに失敗しました',
-        text: 'コンソールログをご確認ください',
+        title: t('dataPacks.replaceFailed.title'),
+        text: t('dataPacks.replaceFailed.console'),
       })
     }
   }
@@ -144,11 +147,11 @@
       const res = await importManager.loadFromJsonData(pack.json)
       if (!res.success) {
         await swalModal.error({
-          title: '読み込みエラー',
+          title: t('dataPacks.loadError.title'),
           text:
             res.error === 'invalid-metadata'
-              ? 'このデータはおみくじBOTのデータではありません。'
-              : res.error || '不明なエラーが発生しました',
+              ? t('dataPacks.loadError.invalidMetadata')
+              : res.error || t('dataPacks.loadError.unknown'),
         })
         return
       }
@@ -156,7 +159,10 @@
       importManager.openPreviewModal()
     } catch (err) {
       console.error('[DataPacks] partial-load error:', err)
-      await swalModal.error({ title: '読み込みに失敗しました', text: 'コンソールログをご確認ください' })
+      await swalModal.error({
+        title: t('dataPacks.partialLoadFailed.title'),
+        text: t('dataPacks.partialLoadFailed.console'),
+      })
     }
   }
 </script>

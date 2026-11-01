@@ -44,21 +44,21 @@
       <div class="card-actions justify-end mt-2 gap-1">
         <button
           class="btn btn-xs btn-secondary tooltip tooltip-bottom"
-          data-tip="この設定を部分的に読み込み/マージ"
+          :data-tip="t('dataPacks.card.partialTooltip')"
           :disabled="disabled"
           @click.stop="emit('partial-load')"
         >
           <FileText class="w-3 h-3" />
-          マージ
+          {{ t('dataPacks.card.partial') }}
         </button>
         <button
           class="btn btn-xs btn-primary tooltip tooltip-bottom"
-          data-tip="現在のデータをこの設定で置き換える"
+          :data-tip="t('dataPacks.card.replaceTooltip')"
           :disabled="disabled"
           @click.stop="emit('replace')"
         >
           <Download class="w-3 h-3" />
-          置き換え
+          {{ t('dataPacks.card.replace') }}
         </button>
       </div>
     </div>
@@ -67,6 +67,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { DataPackEntry } from '@/editor/types'
   import { Download, FileText, Image } from 'lucide-vue-next'
 
@@ -75,6 +76,7 @@
     disabled?: boolean
     selectedTags: string[]
   }>()
+  const { t } = useI18n()
 
   const emit = defineEmits<{
     replace: []

@@ -12,7 +12,7 @@
         type="text"
         :value="omikujiItem.name"
         @input="updateName(($event.target as HTMLInputElement).value)"
-        placeholder="運勢の種類"
+        :placeholder="t('omikujiItem.header.name.label')"
         class="input input-bordered input-sm w-full"
       />
     </SettingItem>
@@ -41,9 +41,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { OmikujiItemType } from '@/types/OmikujiData/'
   import OmikujiItemPriority from './OmikujiItemPriority.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     omikujiItem: OmikujiItemType

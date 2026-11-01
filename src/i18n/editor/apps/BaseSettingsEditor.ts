@@ -25,6 +25,9 @@ export const baseSettingsMessages = {
       tags: {
         label: 'タグ',
         description: 'このデータに関連するタグを追加できます',
+        placeholder: 'タグを追加',
+        add: '追加',
+        suggestions: '候補(クリックで追加)',
       },
     },
   },
@@ -49,6 +52,9 @@ export const baseSettingsMessages = {
       tags: {
         label: 'Tags',
         description: 'Add tags related to this data',
+        placeholder: 'Add a tag',
+        add: 'Add',
+        suggestions: 'Suggestions (click to add)',
       },
     },
   },

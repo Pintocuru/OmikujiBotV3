@@ -14,7 +14,7 @@
         :checked="hasCriteria"
         @change="setCriteriaEnabled(($event.target as HTMLInputElement).checked)"
       />
-      <span class="label-text">設定する</span>
+      <span class="label-text">{{ t('omikujiItem.priority.enable') }}</span>
     </label>
   </SettingItem>
 
@@ -39,7 +39,11 @@
           @change="setPriority(($event.target as HTMLInputElement).checked)"
         />
         <span class="label-text">
-          {{ isPriority ? '適用時、このおみくじが必ず適用されます' : '他のおみくじと同じ抽選を行います' }}
+          {{
+            isPriority
+              ? t('omikujiItem.priority.priorityEnabledMessage')
+              : t('omikujiItem.priority.priorityDisabledMessage')
+          }}
         </span>
       </label>
     </SettingItem>
@@ -50,6 +54,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import type { OmikujiItemType } from '@/types/OmikujiData/'
   import OmikujiItemCriteria from './OmikujiItemCriteria.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
@@ -58,6 +63,7 @@
 
   const props = defineProps<{ omikujiItem: OmikujiItemType }>()
   const emit = defineEmits<{ update: [item: OmikujiItemType] }>()
+  const { t } = useI18n()
 
   const { hasCriteria, isPriority, setCriteriaEnabled, setPriority } = useOmikujiLottery(
     () => props.omikujiItem,

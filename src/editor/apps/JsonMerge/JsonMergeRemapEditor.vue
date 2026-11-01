@@ -2,43 +2,42 @@
 <template>
   <div class="border-l-4 border-primary pl-4 py-2 mb-3 bg-base-200 rounded">
     <div class="flex justify-between items-center mb-2">
-      <span class="text-sm font-medium">リマップ {{ remapIndex + 1 }}</span>
-      <button @click="removeRemap" class="btn btn-xs btn-ghost" title="このリマップを削除">✕</button>
+      <span class="text-sm font-medium">{{ t('jsonMerge.remap.title', { index: remapIndex + 1 }) }}</span>
+      <button @click="removeRemap" class="btn btn-xs btn-ghost" :title="t('jsonMerge.remap.remove')">✕</button>
     </div>
 
     <div class="grid grid-cols-2 gap-3">
-      <!-- 元キャラキー -->
-      <SettingItem icon="User" label="元キャラキー">
+      <!-- 元キャラキー TODO:間違えた -->
+      <SettingItem icon="User" :label="t('jsonMerge.remap.toCharacter')">
         <select v-model="localRemap.fromCharacterKey" class="select select-sm select-bordered w-full">
           <option v-for="key in jsonMergeSourceCharacterKeys" :key="key" :value="key">{{ key }}</option>
         </select>
       </SettingItem>
 
-      <!-- 新キャラキー -->
-      <SettingItem icon="UserPlus" label="新キャラキー">
+      <SettingItem icon="UserPlus" :label="t('jsonMerge.remap.toCharacter')">
         <select v-model="localRemap.toCharacterKey" class="select select-sm select-bordered w-full">
-          <option value="">キャラクターを選択してください</option>
+          <option value="">{{ t('jsonMerge.remap.chooseCharacter') }}</option>
           <option v-for="(char, key) in characters" :key="key" :value="key">
             {{ char.displayName || key }}
           </option>
         </select>
-        <p v-if="!localRemap.toCharacterKey" class="text-red-500 mt-2">入力されてません</p>
+        <p v-if="!localRemap.toCharacterKey" class="text-red-500 mt-2">
+          {{ t('jsonMerge.remap.missingCharacter') }}
+        </p>
       </SettingItem>
 
-      <!-- 元アイコンキー -->
-      <SettingItem icon="Image" label="元アイコンキー">
+      <SettingItem icon="Image" :label="t('jsonMerge.remap.fromIcon')">
         <select v-model="localRemap.fromIconKey" class="select select-sm select-bordered w-full">
-          <option value="">アイコンキーを選択…</option>
+          <option value="">{{ t('jsonMerge.remap.chooseIcon') }}</option>
           <option v-for="(value, key) in characterEmotionMap" :key="key" :value="key">
             {{ value.label }}
           </option>
         </select>
       </SettingItem>
 
-      <!-- 新アイコンキー -->
-      <SettingItem icon="Image" label="新アイコンキー">
+      <SettingItem icon="Image" :label="t('jsonMerge.remap.toIcon')">
         <select v-model="localRemap.toIconKey" class="select select-sm select-bordered w-full">
-          <option value="">アイコンキーを選択…</option>
+          <option value="">{{ t('jsonMerge.remap.chooseIcon') }}</option>
           <option v-for="(value, key) in characterEmotionMap" :key="key" :value="key">
             {{ value.label }}
           </option>
@@ -50,6 +49,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -64,6 +64,7 @@
 
   const store = useOmikujiStore()
   const { data } = storeToRefs(store)
+  const { t } = useI18n()
 
   // 現在のリマップデータ
   const currentRemap = computed(

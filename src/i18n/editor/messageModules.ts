@@ -8,6 +8,8 @@ import * as m_OmikujiDataMaps from './OmikujiDataMaps'
 import * as m_apps_AppInfoEditor from './apps/AppInfoEditor'
 import * as m_apps_AppItemsCharacters from './apps/AppItemsCharacters'
 import * as m_apps_BaseSettingsEditor from './apps/BaseSettingsEditor'
+import * as m_apps_DataPacksMessages from './apps/DataPacksMessages'
+import * as m_apps_JsonMergeMessages from './apps/JsonMergeMessages'
 import * as m_apps_PackageMetaMessages from './apps/PackageMetaMessages'
 import * as m_assets_OmikujiItemMessages from './assets/OmikujiItemMessages'
 import * as m_assets_PlaceholderMessages from './assets/PlaceholderMessages'
@@ -37,6 +39,8 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'apps/AppInfoEditor': m_apps_AppInfoEditor,
   'apps/AppItemsCharacters': m_apps_AppItemsCharacters,
   'apps/BaseSettingsEditor': m_apps_BaseSettingsEditor,
+  'apps/DataPacksMessages': m_apps_DataPacksMessages,
+  'apps/JsonMergeMessages': m_apps_JsonMergeMessages,
   'apps/PackageMetaMessages': m_apps_PackageMetaMessages,
   'assets/OmikujiItemMessages': m_assets_OmikujiItemMessages,
   'assets/PlaceholderMessages': m_assets_PlaceholderMessages,

@@ -14,11 +14,11 @@
     <!-- 情報 -->
     <div class="flex-1 min-w-0">
       <div class="flex items-center gap-1">
-        <span class="truncate">{{ item.name || 'アイテム' }}</span>
+        <span class="truncate">{{ item.name || t('omikujiItem.summary.unnamed') }}</span>
         <!-- 名前・説明の編集 -->
         <button
           class="btn btn-ghost btn-xs btn-square shrink-0"
-          title="名前・説明を編集"
+          :title="t('omikujiItem.summary.editNameDescription')"
           @click.stop="emit('open', 'base')"
         >
           <Pencil class="w-3.5 h-3.5" />
@@ -32,10 +32,14 @@
         <!-- 追加条件 -->
         <button class="btn btn-ghost btn-xs gap-1" @click.stop="emit('open', 'condition')">
           <Filter class="w-3 h-3" />
-          追加条件
+          {{ t('omikujiItem.priority.sectionTitle') }}
         </button>
-        <span v-if="item.lottery.isPriority" class="badge badge-sm badge-primary">優先</span>
-        <span v-else-if="item.lottery.criteria" class="badge badge-xs badge-secondary">条件</span>
+        <span v-if="item.lottery.isPriority" class="badge badge-sm badge-primary">
+          {{ t('omikujiItem.priority.priority.label') }}
+        </span>
+        <span v-else-if="item.lottery.criteria" class="badge badge-xs badge-secondary">
+          {{ t('omikujiItem.summary.criteriaBadge') }}
+        </span>
       </div>
     </div>
 
@@ -61,10 +65,13 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { Filter, GripVertical, Pencil } from 'lucide-vue-next'
   import type { OmikujiItemType } from '@/types/OmikujiData/'
   import type { WeightDialogName } from '../composables/useWeightItemDialog'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
+
+  const { t } = useI18n()
 
   defineProps<{
     item: OmikujiItemType

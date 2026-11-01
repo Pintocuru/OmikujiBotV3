@@ -51,6 +51,7 @@ export const connectionMessages = {
       connectDialog: {
         title: 'おみくじ箱に追加',
         hint: '選択した箱に、このシナリオがおみくじアイテムとして追加されます。',
+        keyLabel: 'キー',
         connect: '追加する',
         empty: '追加できるみくじ箱がありません…',
         cancel: '閉じる',
@@ -108,6 +109,7 @@ export const connectionMessages = {
       connectDialog: {
         title: 'Add to an omikuji box',
         hint: 'This scenario will be appended as an omikuji item of the selected box.',
+        keyLabel: 'Key',
         connect: 'Add',
         empty: 'No omikuji boxes to add…',
         cancel: 'Close',

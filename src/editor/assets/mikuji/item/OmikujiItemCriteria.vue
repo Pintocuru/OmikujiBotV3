@@ -3,11 +3,10 @@
   <!-- 条件設定の説明 -->
   <InformationCard>
     <p>
-      <code class="label bg-accent text-accent-content">追加発動条件</code>は、
-      コメント内容やチャット数などを基にイベント発動を制御します。
+      <code class="label bg-accent text-accent-content">{{ t('omikujiItem.criteria.help.conditionName') }}</code>{{ t('omikujiItem.criteria.help.conditionDescription') }}
     </p>
-    <p>条件が複数ある場合は、すべて満たしたときのみ発動します。</p>
-    <p>管理者限定コマンドなどの応用も可能です。</p>
+    <p>{{ t('omikujiItem.criteria.help.allRequired') }}</p>
+    <p>{{ t('omikujiItem.criteria.help.adminCommands') }}</p>
   </InformationCard>
 
   <!-- 条件タイプ選択 -->
@@ -74,7 +73,7 @@
     @update:modelValue="updateCriteriaKey('expression', $event)"
   />
 
-  <NoParamsCard v-if="activeConditions.size === 0" message="発動条件が指定されていません" />
+  <NoParamsCard v-if="activeConditions.size === 0" :message="t('omikujiItem.criteria.help.empty')" />
 </template>
 
 <script setup lang="ts">
