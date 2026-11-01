@@ -11,7 +11,7 @@
         {{ t(`mapText..${key}.label`) }}
       </option>
     </select>
-    {{ t(`mapText..${currentDisplayOption.mode}.desc`) }}
+    {{ t(`mapText.${currentDisplayOption.mode}.desc`) }}
   </SettingItem>
 
   <template v-if="currentDisplayOption.mode === 'comment'">
