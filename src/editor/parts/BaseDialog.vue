@@ -34,7 +34,7 @@
       open: boolean
       title: string
       icon?: LucideIconName
-      size?: 'xl' | '2xl' | '3xl'
+      size?: 'xl' | '2xl' | '3xl' | '4xl' | '5xl'
     }>(),
     { icon: undefined, size: '2xl' }
   )
@@ -42,7 +42,13 @@
   const emit = defineEmits<{ 'update:open': [open: boolean] }>()
 
   // Tailwind が拾えるよう、クラス名は完全な文字列で書く
-  const sizeClass = { xl: 'max-w-xl', '2xl': 'max-w-2xl', '3xl': 'max-w-3xl' } as const
+  const sizeClass = {
+    xl: 'max-w-xl',
+    '2xl': 'max-w-2xl',
+    '3xl': 'max-w-3xl',
+    '4xl': 'max-w-4xl',
+    '5xl': 'max-w-5xl',
+  } as const
 
   const dialogRef = ref<HTMLDialogElement | null>(null)
   const IconComponent = computed(() => (props.icon ? resolveLucideIcon(props.icon) : null))

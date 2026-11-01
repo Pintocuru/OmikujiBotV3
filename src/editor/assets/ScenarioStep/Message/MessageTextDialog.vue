@@ -27,6 +27,7 @@
   <!-- メインダイアログ -->
   <BaseEditDialog
     ref="baseDialog"
+    size="5xl"
     :title="t('scenarioStep.messageDialog.dialogTitle')"
     icon="MessageSquare"
     @save="handleSave"

@@ -3,7 +3,7 @@
 <template>
   <BaseDialog :open="open" :title="title" :icon="icon" size="3xl" @update:open="onUpdateOpen">
     <!-- 本体: 左サイドバー・メイン・右サイドバー -->
-    <div class="flex min-h-0 divide-x divide-base-300">
+    <div class="flex min-h-0 divide-x h-[70vh] divide-base-300">
       <div v-if="$slots['sidebar-left']" class="hidden md:flex w-60 shrink-0 flex-col bg-base-100">
         <slot name="sidebar-left" />
       </div>
