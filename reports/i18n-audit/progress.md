@@ -11,7 +11,7 @@
 ## Overall status
 
 - [x] Batch 01
-- [ ] Batch 02
+- [x] Batch 02
 - [ ] Batch 03
 - [ ] Batch 04
 - [ ] Batch 05
@@ -73,7 +73,7 @@ Static analysis:
 - vue-i18n-specific ESLint plugin / vue-i18n-extract are not dependencies and no vue-i18n-specific ESLint rules are configured.
 - Commands not executed: GitHub API inspection environment does not provide repository command execution.
 
-## Batch 02 (next)
+## Batch 02
 
 Planned files:
 - `src/editor/apps/appInfo/meta/PackageBasicInfo.vue`
@@ -85,12 +85,37 @@ Planned files:
 - `src/editor/apps/dataPacks/DataPacks.vue`
 - `src/editor/apps/dataPacks/useDataPacks.ts`
 
+## Batch 02
+
+Status: completed
+
+Files processed (8 / 8):
+- src/editor/apps/appInfo/meta/PackageBasicInfo.vue
+- src/editor/apps/appInfo/meta/PackageDistributionInfo.vue
+- src/editor/apps/appInfo/meta/PackageSystemInfo.vue
+- src/editor/apps/appInfo/settings/EditorSettingsEditor.vue
+- src/editor/apps/appInfo/settings/GeneratorSettingsEditor.vue
+- src/editor/apps/dataPacks/DataPackCard.vue
+- src/editor/apps/dataPacks/DataPacks.vue
+- src/editor/apps/dataPacks/useDataPacks.ts
+
+Report: reports/batch-02.md
+
+Findings:
+- Missing key (confirmed): 0
+- Missing key (needs confirmation): 1 dynamic-key candidate set
+- Hardcoded UI strings: 33
+- Empty / untranslated values: 0
+- Locale formatting / pluralization: 0
+
+Static analysis: not run; GitHub API inspection does not provide repository command execution.
+
 ## Remaining work
 
-- Completed files: 8 / 262
-- Remaining files: 254
-- Completed batches: 1 / 34
-- Remaining batches: 33
-- Next batch: 02
+- Completed files: 16 / 262
+- Remaining files: 246
+- Completed batches: 2 / 34
+- Remaining batches: 32
+- Next batch: 03
 
 The initial batch sizing is provisional. Before each batch, verify the current branch tree and record the exact file list. The coordinator updates this file; delegated agents update only their own batch report.
