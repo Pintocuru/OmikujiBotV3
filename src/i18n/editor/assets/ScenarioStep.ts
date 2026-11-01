@@ -72,7 +72,7 @@ export const scenarioStepMessages = {
         label: 'サウンド',
         desc: 'フキダシ表示時に鳴らす音',
         customLabel: 'カスタムサウンド',
-        customDesc: 'assets/sounds/ からの相対パス',
+        customDesc: 'sounds/ からの相対パス',
         customPlaceholder: '例: MySounds/custom.mp3',
       },
       wordParty: {
@@ -217,7 +217,7 @@ export const scenarioStepMessages = {
         label: 'Sound',
         desc: 'Sound played when the speech bubble appears',
         customLabel: 'Custom sound',
-        customDesc: 'Path relative to assets/sounds/',
+        customDesc: 'Path relative to sounds/',
         customPlaceholder: 'e.g. MySounds/custom.mp3',
       },
       wordParty: {

@@ -120,8 +120,8 @@ export const appItemsCharactersMessages = {
       },
       info: {
         line1Pre: '画像ファイルは事前に',
-        code1: ' Characters/[キャラクターID] ',
-        line1Post: 'フォルダ内に配置してください。(例:Characters/reimu/default.webp)',
+        code1: ' images/[キャラクターID] ',
+        line1Post: 'フォルダ内に配置してください。(例:images/reimu/default.webp)',
         line2Pre: '各項目の',
         setPathTip: 'クリックでデフォルトパスを設定',
         line2Mid: 'ボタンをクリックすると、',
@@ -275,8 +275,8 @@ export const appItemsCharactersMessages = {
       },
       info: {
         line1Pre: 'Place image files in the ',
-        code1: ' Characters/[characterID] ',
-        line1Post: ' folder beforehand. (e.g. Characters/reimu/default.webp)',
+        code1: ' images/[characterID] ',
+        line1Post: ' folder beforehand. (e.g. images/reimu/default.webp)',
         line2Pre: 'Clicking the ',
         setPathTip: 'Click to set the default path',
         line2Mid: ' button on each item cycles the image extension through ',

@@ -4,8 +4,8 @@ import path from 'path'
 import type { Plugin } from 'vite'
 
 /**
- * /assets/Characters/{name} へのリクエストを
- * common/ または YYYY-QN/ フォルダから探して返すプラグイン
+ * /images/{name} へのリクエストを (ビルド後の images/ と同じ URL)
+ * assets/Characters/ 下の common/ または YYYY-QN/ フォルダから探して返すプラグイン
  */
 export function characterAssetsPlugin(projectRoot: string): Plugin {
   const charsDir = path.resolve(projectRoot, 'assets/Characters')
@@ -15,13 +15,15 @@ export function characterAssetsPlugin(projectRoot: string): Plugin {
     apply: 'serve', // 開発サーバのみ
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        const PREFIX = '/assets/Characters/'
+        const PREFIX = '/images/' // 公開 URL (ビルド後の root/images と同じ)
+        const SRC_PREFIX = '/assets/Characters/' // 実ファイルの置き場所
         if (!req.url?.startsWith(PREFIX)) return next()
 
         const relativePath = req.url.slice(PREFIX.length).split('?')[0]
 
-        // すでに中間フォルダ付きのパスなら素通し
+        // すでに中間フォルダ付きのパスならそのまま実ファイルへ
         if (relativePath.includes('/') && isIntermediateFolder(relativePath.split('/')[0])) {
+          req.url = `${SRC_PREFIX}${relativePath}`
           return next()
         }
 
@@ -30,7 +32,7 @@ export function characterAssetsPlugin(projectRoot: string): Plugin {
         for (const folder of candidates) {
           const fullPath = path.resolve(charsDir, folder, relativePath)
           if (fs.existsSync(fullPath)) {
-            req.url = `${PREFIX}${folder}/${relativePath}`
+            req.url = `${SRC_PREFIX}${folder}/${relativePath}`
             return next()
           }
         }

@@ -1,11 +1,25 @@
 // src/types/env.ts
 
 /**
+ * アセットのフォルダ名 (ビルド後の root 直下: images/ と sounds/)
+ * 開発時もビルド後も同じ名前で配信される (開発時は tools/viteConfig/*AssetsPlugin.ts が対応)
+ */
+export const IMAGE_DIR = 'images' as const
+export const SOUND_DIR = 'sounds' as const
+
+/**
  * image パスディレクトリ
  */
-const imageBaseUrl = import.meta.env?.VITE_IMAGE_BASE_URL || './Characters/'
+const imageBaseUrl = import.meta.env?.VITE_IMAGE_BASE_URL || `./${IMAGE_DIR}/`
 export const getImagePath = (profileImage?: string) => {
   return profileImage ? `${imageBaseUrl}${profileImage}` : ''
+}
+
+/**
+ * sound パス (ベースからの相対。実際の URL は playSound が assetBase を前置して作る)
+ */
+export const getSoundPath = (relativePath?: string) => {
+  return relativePath ? `${SOUND_DIR}/${relativePath}` : ''
 }
 
 /**

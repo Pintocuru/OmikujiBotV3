@@ -43,7 +43,7 @@ export function createViteBuildConfig(
     root: config.packageRoot,
     mode: 'production',
     // .env / .env.development を読まない (開発用の VITE_IMAGE_BASE_URL や VITE_IS_DEV=true を製品に混ぜない)
-    // → import.meta.env.VITE_* は undefined になり、コード側の既定値 './Characters/' と isDev=false が使われる
+    // → import.meta.env.VITE_* は undefined になり、コード側の既定値 './images/' と isDev=false が使われる
     envDir: false,
     // packages/build.ts が dotenv で process.env に読み込んだ VITE_* も import.meta.env に入ってしまうため、公開プレフィックスを無効化
     envPrefix: '__NO_PUBLIC_ENV__',
