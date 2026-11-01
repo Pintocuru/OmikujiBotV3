@@ -14,7 +14,7 @@
 - [x] Batch 02
 - [x] Batch 03
 - [x] Batch 04
-- [ ] Batch 05
+- [x] Batch 05
 - [ ] Batch 06
 - [ ] Batch 07
 - [ ] Batch 08
@@ -164,12 +164,39 @@ Findings:
 
 Static analysis: not run; GitHub API inspection does not provide repository command execution.
 
+## Batch 05
+
+Status: completed
+
+Files processed (8 / 8; 533 lines):
+- src/editor/assets/mikuji/MikujiSettings.vue
+- src/editor/assets/mikuji/composables/useBoxOmikujiList.ts
+- src/editor/assets/mikuji/composables/useOmikujiLottery.ts
+- src/editor/assets/mikuji/composables/useOmikujiWeight.ts
+- src/editor/assets/mikuji/composables/useWeightItemDialog.ts
+- src/editor/assets/mikuji/item/OmikujiItemControlSettings.vue
+- src/editor/assets/mikuji/item/OmikujiItemCriteria.vue
+- src/editor/assets/mikuji/item/OmikujiItemEditor.vue
+
+Report: reports/batch-05.md
+
+Findings:
+- Missing key (confirmed): 0
+- Missing key (needs confirmation): 0
+- Hardcoded UI strings: 10
+- Empty / untranslated values: 0
+- Dynamic key groups: 2; all item-kind and control-command values resolve in ja/en
+- Locale formatting / pluralization: 0
+- Needs confirmation: 1 (localized suffix in duplicated item name)
+
+Static analysis: not run; GitHub API inspection does not provide repository command execution.
+
 ## Remaining work
 
-- Completed files: 32 / 262
-- Remaining files: 230
-- Completed batches: 4 / 34
-- Remaining batches: 30
-- Next batch: 05
+- Completed files: 40 / 262
+- Remaining files: 222
+- Completed batches: 5 / 34
+- Remaining batches: 29
+- Next batch: 06
 
 The initial batch sizing is provisional. Before each batch, verify the current branch tree and record the exact file list. The coordinator updates this file; delegated agents update only their own batch report.
