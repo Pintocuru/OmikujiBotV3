@@ -31,8 +31,8 @@
 - [x] Batch 19
 - [x] Batch 20
 - [x] Batch 21
-- [ ] Batch 22
-- [ ] Batch 23
+- [x] Batch 22
+- [x] Batch 23
 - [ ] Batch 24
 - [ ] Batch 25
 - [ ] Batch 26
@@ -268,6 +268,7 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 Status: completed
 
 Files processed (8 / 8; 578 lines):
+
 - src/editor/assets/scenarios/ScenarioStepsEditor.vue
 - src/editor/assets/scenarios/Sounds/SoundSettings.vue
 - src/editor/assets/scenarios/WordParty/WordPartySettings.vue
@@ -280,6 +281,7 @@ Files processed (8 / 8; 578 lines):
 Report: reports/batch-08.md
 
 Findings:
+
 - Missing key (confirmed): 0
 - Missing key (needs confirmation): 0
 - Hardcoded UI strings: 0
@@ -295,6 +297,7 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 Status: completed
 
 Files processed (9 / 9; 603 lines):
+
 - src/editor/content/AppDevWorld.vue
 - src/editor/content/ContentArea.vue
 - src/editor/content/ContentConnections.vue
@@ -308,6 +311,7 @@ Files processed (9 / 9; 603 lines):
 Report: reports/batch-10.md
 
 Findings:
+
 - Missing key (confirmed): 0 new keys (1 dynamic reference to the same 8 missing uiKind entries already recorded in Batch 01)
 - Hardcoded UI strings: 2
 - Empty / untranslated values: 0
