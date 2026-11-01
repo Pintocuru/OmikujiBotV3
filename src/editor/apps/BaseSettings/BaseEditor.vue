@@ -42,7 +42,7 @@
   </SettingItem>
 
   <!-- タグ編集 -->
-  <BaseTagEditor v-model="tags" />
+  <BaseTagEditor v-if="showTags" v-model="tags" />
 </template>
 
 <script setup lang="ts">
@@ -60,10 +60,12 @@
       category: DataCategoryType | null
       showEnabledToggle?: boolean
       isDescription?: boolean
+      showTags?: boolean
     }>(),
     {
       showEnabledToggle: true,
       isDescription: true,
+      showTags: true,
     }
   )
 
