@@ -12,7 +12,7 @@
 
 - [x] Batch 01
 - [x] Batch 02
-- [ ] Batch 03
+- [x] Batch 03
 - [ ] Batch 04
 - [ ] Batch 05
 - [ ] Batch 06
@@ -110,12 +110,39 @@ Findings:
 
 Static analysis: not run; GitHub API inspection does not provide repository command execution.
 
+## Batch 03
+
+Status: completed
+
+Files processed (8 / 8; 664 lines):
+- src/editor/assets/characters/CharacterEditor.vue
+- src/editor/assets/characters/CharacterImage/CharacterImageSettings.vue
+- src/editor/assets/characters/CharacterImage/EmotionAnimationEditor.vue
+- src/editor/assets/characters/CharacterImage/EmotionCard.vue
+- src/editor/assets/characters/CharacterImage/EmotionEditModal.vue
+- src/editor/assets/characters/CharacterImage/EmotionGrid.vue
+- src/editor/assets/characters/CharacterImage/EmotionImageItem.vue
+- src/editor/assets/characters/CharacterImage/EmotionLayerEditor.vue
+
+Report: reports/batch-03.md
+
+Findings:
+- Missing key (confirmed): 0
+- Missing key (needs confirmation): 0
+- Hardcoded UI strings: 1
+- Empty / untranslated values: 0
+- Dynamic key: 1 candidate; all 17 loopMotion keys resolve in ja/en
+- Locale formatting / pluralization: 0
+- Needs confirmation: 0
+
+Static analysis: not run; GitHub API inspection does not provide repository command execution.
+
 ## Remaining work
 
-- Completed files: 16 / 262
-- Remaining files: 246
-- Completed batches: 2 / 34
-- Remaining batches: 32
-- Next batch: 03
+- Completed files: 24 / 262
+- Remaining files: 238
+- Completed batches: 3 / 34
+- Remaining batches: 31
+- Next batch: 04
 
 The initial batch sizing is provisional. Before each batch, verify the current branch tree and record the exact file list. The coordinator updates this file; delegated agents update only their own batch report.
