@@ -17,7 +17,7 @@ import ReactionTriggerEditor from '@/editor/events/reaction/ReactionTriggerEdito
 import PadTriggerEditor from '@/editor/events/pad/PadTriggerEditor.vue'
 
 import MikujiSettings from '@/editor/assets/mikuji/MikujiSettings.vue'
-import ScenarioStepsEditor from '@/editor/assets/ScenarioStep/ScenarioStepsEditor.vue'
+import ScenarioStepsEditor from '@/editor/assets/scenarios/ScenarioStepsEditor.vue'
 import PlaceholderValuesEditor from '@/editor/assets/placeholders/PlaceholderValuesEditor.vue'
 import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
 
@@ -58,7 +58,12 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
   // events
   comments: {
     editor: ItemEditor,
-    item: { component: CommentTriggerEditor, section: triggerSection, modelField: 'trigger', keyProp: 'selectedItemKey' },
+    item: {
+      component: CommentTriggerEditor,
+      section: triggerSection,
+      modelField: 'trigger',
+      keyProp: 'selectedItemKey',
+    },
   },
   timers: {
     editor: ItemEditor,

@@ -1,4 +1,4 @@
-<!-- src/editor/content/header/EventLane.vue -->
+<!-- src/editor/content/connections/EventLane.vue -->
 <!-- イベント: 現在のイベント(自分) → みくじ箱(子)。親はなし。孫にあたるシナリオは出さない(親・自分・子の3点で見る) -->
 <template>
   <LaneLayout :downstreamLabel="t('categories.mikuji.label')">

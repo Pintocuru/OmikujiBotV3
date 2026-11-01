@@ -1,0 +1,165 @@
+<!-- src/editor/assets/scenarios/Message/MessageTextDialog.vue -->
+<template>
+  <!-- 1行インライン表示 -->
+  <div class="flex gap-2 items-center w-full">
+    <!-- singleLine モード:input(高さ 1 行固定) -->
+    <input
+      v-if="singleLine"
+      type="text"
+      v-model="displayValue"
+      class="input input-bordered input-sm w-full"
+      :placeholder="t('scenarioStep.messageDialog.inlinePlaceholder', { ph: '<<userName>>' })"
+    />
+    <!-- デフォルト:textarea(従来どおり) -->
+    <textarea
+      v-else
+      v-model="displayValue"
+      rows="3"
+      class="textarea textarea-bordered textarea-sm w-full"
+      :placeholder="t('scenarioStep.messageDialog.inlinePlaceholder', { ph: '<<userName>>' })"
+    ></textarea>
+    <button class="btn btn-sm btn-primary gap-1" @click="openDialog">
+      <PencilLine :size="14" />
+      <span class="hidden sm:inline">{{ t('scenarioStep.messageDialog.detailEdit') }}</span>
+    </button>
+  </div>
+
+  <!-- メインダイアログ(高さはこのダイアログ専用に指定。モーダルの max-h-[90vh] に収まるよう calc) -->
+  <BaseEditDialog
+    ref="baseDialog"
+    size="6xl"
+    body-class="h-[calc(90vh-12rem)] min-h-80"
+    always-show-right-sidebar
+    :title="t('scenarioStep.messageDialog.dialogTitle')"
+    icon="MessageSquare"
+    @save="handleSave"
+  >
+    <!-- 中央: エディター + プレビュー(+ lg 未満では PlaceholderPanel) -->
+    <div class="flex flex-col h-full min-h-0">
+      <div class="px-3 py-2 bg-base-200 border-b border-base-300 shrink-0 flex items-center justify-between gap-2">
+        <span class="text-xs font-semibold text-base-content">{{ t('scenarioStep.messageDialog.editTitle') }}</span>
+        <div class="flex items-center gap-2">
+          <div class="hidden sm:flex gap-1 items-center">
+            <kbd class="kbd kbd-xs">Ctrl</kbd>
+            <kbd class="kbd kbd-xs">Enter</kbd>
+            <span class="text-xs text-base-content/50 ml-1">{{ t('scenarioStep.messageDialog.saveWith') }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- エディター: 最低 2 行ぶんは確保し、残りの高さを使う -->
+      <div class="flex-1 min-h-0 p-3 flex flex-col gap-2">
+        <textarea
+          ref="textareaRef"
+          v-model="draftText"
+          class="textarea textarea-bordered flex-1 min-h-16 font-mono text-sm resize-none leading-relaxed w-full"
+          :placeholder="t('scenarioStep.messageDialog.textareaPlaceholder', { userName: '<<userName>>', r: '<<r>>' })"
+          @keydown.ctrl.enter="handleSave"
+        />
+        <div class="text-right text-xs text-base-content/40">
+          {{ t('scenarioStep.messageDialog.charCount', { n: draftText.length }) }}
+          <span v-if="lineCount > 1">{{ t('scenarioStep.messageDialog.lineCount', { n: lineCount }) }}</span>
+        </div>
+      </div>
+
+      <!-- プレビュー(エラー時の長文は MessagePreviewPanel 側で折りたたむ) -->
+      <div class="shrink-0 max-h-[35%] overflow-y-auto border-t border-base-300 px-3 bg-base-100">
+        <MessagePreviewPanel :draft-text="draftText" />
+      </div>
+    </div>
+
+    <!-- 右: PlaceholderPanel(lg 以上) -->
+    <template #sidebar-right>
+      <PlaceholderPanel
+        :draft-text="draftText"
+        :isCommentMode="isCommentMode"
+        @insert="insertPlaceholder"
+        @open-inline-ph="inlinePhDialog?.open()"
+      />
+    </template>
+
+    <!-- フッター補足リンク -->
+    <template #footer-info>
+      <a
+        class="link no-underline hover:underline"
+        href="https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/sub/VariablePlaceholderCheatSheet.md"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {{ t('scenarioStep.messageDialog.cheatSheet') }}
+      </a>
+    </template>
+  </BaseEditDialog>
+
+  <InlinePlaceholderDialog ref="inlinePhDialog" @insert="insertInlinePlaceholder" />
+</template>
+
+<script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
+  import { computed, ref, nextTick, onMounted, onBeforeUnmount } from 'vue'
+  import BaseEditDialog from '@/editor/parts/BaseEditDialog.vue'
+  import PlaceholderPanel from './PlaceholderPanel.vue'
+  import MessagePreviewPanel from './MessagePreviewPanel.vue'
+  import InlinePlaceholderDialog from './InlinePlaceholderDialog.vue'
+  import { PencilLine } from 'lucide-vue-next'
+
+  const { t } = useI18n()
+
+  const props = defineProps<{
+    modelValue: string
+    isCommentMode?: boolean
+    singleLine?: boolean
+  }>()
+
+  const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
+
+  const baseDialog = ref<InstanceType<typeof BaseEditDialog> | null>(null)
+  const textareaRef = ref<HTMLTextAreaElement | null>(null)
+  const inlinePhDialog = ref<InstanceType<typeof InlinePlaceholderDialog> | null>(null)
+  const draftText = ref('')
+
+  // BaseEditDialog の右サイドバー(lg:flex)と同じ 1024px を境に、PlaceholderPanel の置き場所を切り替える
+  const lgQuery = typeof window !== 'undefined' ? window.matchMedia('(min-width: 1024px)') : null
+  const isLg = ref(lgQuery?.matches ?? true)
+  const onLgChange = (e: MediaQueryListEvent) => {
+    isLg.value = e.matches
+  }
+  onMounted(() => lgQuery?.addEventListener('change', onLgChange))
+  onBeforeUnmount(() => lgQuery?.removeEventListener('change', onLgChange))
+
+  const displayValue = computed({
+    get: () => props.modelValue ?? '',
+    set: (value: string) => emit('update:modelValue', value),
+  })
+
+  const openDialog = () => {
+    draftText.value = props.modelValue
+    baseDialog.value?.showModal()
+    nextTick(() => textareaRef.value?.focus())
+  }
+
+  const handleSave = () => {
+    emit('update:modelValue', draftText.value)
+    baseDialog.value?.close()
+  }
+
+  const lineCount = computed(() => draftText.value.split('\n').length)
+
+  const insertAtCursor = (insertion: string) => {
+    const ta = textareaRef.value
+    if (!ta) {
+      draftText.value += insertion
+      return
+    }
+    const start = ta.selectionStart ?? draftText.value.length
+    const end = ta.selectionEnd ?? draftText.value.length
+    draftText.value = draftText.value.slice(0, start) + insertion + draftText.value.slice(end)
+    nextTick(() => {
+      ta.focus()
+      ta.setSelectionRange(start + insertion.length, start + insertion.length)
+    })
+  }
+
+  const insertPlaceholder = (key: string) => insertAtCursor(`<<${key}>>`)
+  const insertInlinePlaceholder = (text: string) => insertAtCursor(text)
+</script>

@@ -47,10 +47,10 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { WeightValuesArrayType } from '@/types/OmikujiData'
-  import { useWeightValueManagement } from '@/editor/assets/ScenarioStep/scenarioCall/useWeightValueManagement'
+  import { useWeightValueManagement } from '@/editor/assets/scenarios/scenarioCall/useWeightValueManagement'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
-  import MessageTextDialog from '@/editor/assets/ScenarioStep/Message/MessageTextDialog.vue'
+  import MessageTextDialog from '@/editor/assets/scenarios/Message/MessageTextDialog.vue'
 
   const { t } = useI18n()
 

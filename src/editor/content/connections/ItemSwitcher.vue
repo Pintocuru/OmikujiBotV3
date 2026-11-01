@@ -1,4 +1,4 @@
-<!-- src/editor/content/header/ItemSwitcher.vue -->
+<!-- src/editor/content/connections/ItemSwitcher.vue -->
 <!-- 現在のアイテム名。プルダウンで同じカテゴリの別アイテムへ移動できる(基本設定の編集は ContentSummary 側) -->
 <template>
   <div class="flex items-center gap-1">

@@ -11,7 +11,7 @@ import * as m_apps_BaseSettingsEditor from './apps/BaseSettingsEditor'
 import * as m_apps_PackageMetaMessages from './apps/PackageMetaMessages'
 import * as m_assets_OmikujiItemMessages from './assets/OmikujiItemMessages'
 import * as m_assets_PlaceholderMessages from './assets/PlaceholderMessages'
-import * as m_assets_ScenarioStep from './assets/ScenarioStep'
+import * as m_assets_ScenarioStep from './assets/scenarios'
 import * as m_category_CategorySectionMessagesMap from './category/CategorySectionMessagesMap'
 import * as m_category_NavigationSidebarMessagesMap from './category/NavigationSidebarMessagesMap'
 import * as m_events_CommentEditor from './events/CommentEditor'
@@ -39,7 +39,7 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'apps/PackageMetaMessages': m_apps_PackageMetaMessages,
   'assets/OmikujiItemMessages': m_assets_OmikujiItemMessages,
   'assets/PlaceholderMessages': m_assets_PlaceholderMessages,
-  'assets/ScenarioStep': m_assets_ScenarioStep,
+  'assets/scenarios': m_assets_ScenarioStep,
   'category/CategorySectionMessagesMap': m_category_CategorySectionMessagesMap,
   'category/NavigationSidebarMessagesMap': m_category_NavigationSidebarMessagesMap,
   'content/ConnectionMessages': m_content_ConnectionMessages,
