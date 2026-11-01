@@ -31,7 +31,7 @@
     <!-- ui / appInfo: セクションのタブ -->
     <ContentTabs v-else-if="tabs.length > 0" v-model:activeSection="activeSection" :tabs="tabs" />
 
-    <component :is="currentEditor" />
+    <component :is="currentContent.editor" :key="selectedCategory" v-bind="editorProps" />
   </template>
 </template>
 
@@ -59,5 +59,7 @@
 
   const currentCategory = computed(() => categoryMap[selectedCategory.value])
   const currentIcon = computed(() => resolveLucideIcon(currentCategory.value.icon))
-  const currentEditor = computed(() => categoryContentMap[selectedCategory.value].editor)
+  const currentContent = computed(() => categoryContentMap[selectedCategory.value])
+  // Events / Assets の ItemEditor には、セクションの内容を渡す
+  const editorProps = computed(() => (currentContent.value.item ? { content: currentContent.value.item } : {}))
 </script>

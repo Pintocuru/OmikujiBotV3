@@ -2,33 +2,39 @@
 <template>
   <!-- 選択されたキャラクターの編集フォーム -->
   <template v-if="selectedItemKey && selectedItem">
-    <div class="flex items-start gap-2">
-      <!-- フキダシの色（メイン） -->
-      <div class="flex-1 space-y-2">
-        <CharacterColorCard
-          :botName="selectedItem.displayName"
-          :modelValue="selectedItem.color"
-          @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'color', value)"
-        />
-      </div>
+    <!-- 表示設定: フキダシの色(メイン)と、BOTコメント表現(サブ) -->
+    <SectionCard
+      icon="Palette"
+      label-key="categorySections.characterStyle.label"
+      description-key="categorySections.characterStyle.description"
+    >
+      <div class="flex items-start gap-2">
+        <div class="flex-1 space-y-2">
+          <CharacterColorCard
+            :botName="selectedItem.displayName"
+            :modelValue="selectedItem.color"
+            @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'color', value)"
+          />
+        </div>
 
-      <!-- BOTコメント表現（サブ） -->
-      <div class="shrink-0 space-y-2">
-        <CommentVoiceCard
-          :modelValue="selectedItem.displayOption"
-          :backgroundColor="selectedItem.color.background"
-          @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'displayOption', value)"
-        />
+        <div class="shrink-0 space-y-2">
+          <CommentVoiceCard
+            :modelValue="selectedItem.displayOption"
+            :backgroundColor="selectedItem.color.background"
+            @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'displayOption', value)"
+          />
+        </div>
       </div>
-    </div>
+    </SectionCard>
 
     <!-- ジェネレーター用画像設定 -->
-    <SubSectionHeader
+    <SectionCard
       icon="Image"
-      titleKey="categorySections.imageSettings.label"
-      descriptionKey="categorySections.imageSettings.description"
-    />
-    <CharacterImageSettings :modelValue="selectedItem.image" :selectedItemKey="selectedItemKey" />
+      label-key="categorySections.imageSettings.label"
+      description-key="categorySections.imageSettings.description"
+    >
+      <CharacterImageSettings :modelValue="selectedItem.image" :selectedItemKey="selectedItemKey" />
+    </SectionCard>
   </template>
 </template>
 
@@ -41,7 +47,7 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
+  import SectionCard from '@/editor/parts/SectionCard.vue'
 
   const navigationStore = useNavigationStore()
   const { selectedItemKey } = storeToRefs(navigationStore)

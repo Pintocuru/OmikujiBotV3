@@ -4,3 +4,4 @@
 export * from './SidebarType'
 export * from './ContentTab'
 export * from './dataPacks'
+export * from './ItemContentDef'
