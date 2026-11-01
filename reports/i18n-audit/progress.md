@@ -27,10 +27,10 @@
 - [x] Batch 15
 - [x] Batch 16
 - [x] Batch 17
-- [ ] Batch 18
-- [ ] Batch 19
-- [ ] Batch 20
-- [ ] Batch 21
+- [x] Batch 18
+- [x] Batch 19
+- [x] Batch 20
+- [x] Batch 21
 - [ ] Batch 22
 - [ ] Batch 23
 - [ ] Batch 24
@@ -239,6 +239,7 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 Status: completed
 
 Files processed (8 / 8; 720 lines):
+
 - src/editor/assets/mikuji/weight/WeightItemRun.vue
 - src/editor/assets/mikuji/weight/WeightItemSummary.vue
 - src/editor/assets/placeholders/PlaceholderInputMode.vue
@@ -251,6 +252,7 @@ Files processed (8 / 8; 720 lines):
 Report: reports/batch-07.md
 
 Findings:
+
 - Missing key (confirmed): 0
 - Missing key (needs confirmation): 0
 - Hardcoded UI strings: 6
