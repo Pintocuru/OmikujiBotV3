@@ -33,7 +33,7 @@
   import { computed } from 'vue'
   import { ScenarioStepType } from '@/types/OmikujiData/'
   import ScenarioStepTabs from './tooltab/ScenarioStepTabs.vue'
-  import ScenarioStepToolbar from '@/editor/assets/scenarios/tooltab/ScenarioStepToolbar.vue'
+  import ScenarioStepToolbar from './tooltab/ScenarioStepToolbar.vue'
   import ScenarioStepItem from './items/ScenarioStepItem.vue'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import { useScenarioStepTabs } from './composables/useScenarioStepTabs'

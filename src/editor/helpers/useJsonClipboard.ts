@@ -1,22 +1,31 @@
 // src/editor/helpers/useJsonClipboard.ts
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 
+// 通知文言。省略したものは i18n の clipboard.* を使う(用途に合わせて上書きしたいものだけ渡す)
 type NotifyMessages = {
   copySuccess?: string
   copyError?: string
-  pasteError?: string
+  pasteReadError?: string
+  pasteInvalidJson?: string
+  /** parse が null を返したとき(JSON ではあるが、期待する形ではない) */
+  pasteInvalidFormat?: string
 }
 
 type UseJsonClipboardOptions<T> = {
   parse: (raw: unknown) => T | null
   serialize?: (value: T) => unknown
-  messages?: NotifyMessages
+  // 関数で渡すと、通知のたびに評価する(言語を切り替えても追従する)
+  messages?: NotifyMessages | (() => NotifyMessages)
 }
 
+// setup 内で呼ぶこと(useI18n を使うため)
 export function useJsonClipboard<T>(options: UseJsonClipboardOptions<T>) {
   const { serialize = (v: T) => v, parse } = options
-  const msg = options.messages
+  const messages = (): NotifyMessages | undefined =>
+    typeof options.messages === 'function' ? options.messages() : options.messages
+  const { t } = useI18n()
 
   const isCopying = ref(false)
   const isPasting = ref(false)
@@ -28,41 +37,46 @@ export function useJsonClipboard<T>(options: UseJsonClipboardOptions<T>) {
     try {
       const json = JSON.stringify(serialize(value), null, 2)
       await navigator.clipboard.writeText(json)
-      swalToast.success({ title: msg?.copySuccess ?? 'クリップボードにコピーしました' })
+      swalToast.success({ title: messages()?.copySuccess ?? t('clipboard.copySuccess') })
       return true
     } catch (e) {
-      lastError.value = e instanceof Error ? e.message : 'コピーに失敗しました'
-      swalToast.error({ title: msg?.copyError ?? `コピーに失敗しました: ${lastError.value}` })
+      const reason = e instanceof Error ? e.message : String(e)
+      lastError.value = reason
+      swalToast.error({ title: messages()?.copyError ?? t('clipboard.copyError', { error: reason }) })
       return false
     } finally {
       isCopying.value = false
     }
   }
 
+  // 失敗したときは、通知を出して null を返す(理由は lastError にも入る)
+  const fail = (message: string): null => {
+    lastError.value = message
+    swalToast.error({ title: message })
+    return null
+  }
+
   const pasteJson = async (): Promise<T | null> => {
     lastError.value = null
     isPasting.value = true
     try {
-      const text = await navigator.clipboard.readText()
+      let text: string
+      try {
+        text = await navigator.clipboard.readText()
+      } catch {
+        return fail(messages()?.pasteReadError ?? t('clipboard.pasteReadError'))
+      }
+
       let raw: unknown
       try {
         raw = JSON.parse(text)
       } catch {
-        lastError.value = 'クリップボードの内容が JSON として読み取れませんでした'
-        swalToast.error({ title: msg?.pasteError ?? lastError.value })
-        return null
+        return fail(messages()?.pasteInvalidJson ?? t('clipboard.pasteInvalidJson'))
       }
 
       const result = parse(raw)
-      if (result === null) {
-        lastError.value = 'JSON の形式が一致しませんでした'
-        swalToast.error({ title: msg?.pasteError ?? lastError.value })
-      }
+      if (result === null) return fail(messages()?.pasteInvalidFormat ?? t('clipboard.pasteInvalidFormat'))
       return result
-    } catch (e) {
-      lastError.value = e instanceof Error ? e.message : 'ペーストに失敗しました'
-      swalToast.error({ title: msg?.pasteError ?? lastError.value })
-      return null
     } finally {
       isPasting.value = false
     }

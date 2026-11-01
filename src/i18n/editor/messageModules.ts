@@ -25,6 +25,7 @@ import * as m_events_TriggerComment from './events/TriggerComment'
 import * as m_events_TriggerExpression from './events/TriggerExpression'
 import * as m_events_TriggerGift from './events/TriggerGift'
 import * as m_events_TriggerUsername from './events/TriggerUsername'
+import * as m_helpers_clipboardMessages from './helpers/clipboardMessages'
 import * as m_helpers_keyEditorMessages from './helpers/keyEditorMessages'
 import * as m_shell_ShellMessages from './shell/ShellMessages'
 import * as m_ui_UiSettingsMessages from './ui/UiSettingsMessages'
@@ -55,6 +56,7 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'events/TriggerExpression': m_events_TriggerExpression,
   'events/TriggerGift': m_events_TriggerGift,
   'events/TriggerUsername': m_events_TriggerUsername,
+  'helpers/clipboardMessages': m_helpers_clipboardMessages,
   'helpers/keyEditorMessages': m_helpers_keyEditorMessages,
   'shell/ShellMessages': m_shell_ShellMessages,
   'ui/UiSettingsMessages': m_ui_UiSettingsMessages,

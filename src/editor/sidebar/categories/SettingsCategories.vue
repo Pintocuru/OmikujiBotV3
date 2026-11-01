@@ -11,7 +11,7 @@
       <template v-for="key in group.keys" :key="key">
         <CategoryButton
           :category="key"
-          :icon="filteredCategoryLabels[key].icon"
+          :icon="visibleCategories[key].icon"
           :count="getCategoryItemCount(key)"
           :isSelected="selectedCategory === key"
           @click="navigateCategory(key)"
@@ -49,7 +49,7 @@
   const { t } = useI18n()
 
   const { data } = storeToRefs(useOmikujiStore())
-  const { getCategoryItemCount, filteredCategoryLabels, settingsCategoryGroups } = useCategoryUtils()
+  const { getCategoryItemCount, visibleCategories, settingsCategoryGroups } = useCategoryUtils()
   const { selectedCategory, isOpenCategory, navigateCategory } = useCategoryOpen()
 
   // jsonMerge の一覧(JsonMergeEditor の選択キー(id)と揃える)

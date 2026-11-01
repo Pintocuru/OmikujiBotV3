@@ -1,4 +1,4 @@
-// src/editor/sidebar/composables/useNavigationSidebarDrag.ts
+// src/editor/sidebar/composables/useSidebarDrag.ts
 import { ref, watch, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 import { DataCategoryType } from '@/types/OmikujiData/'
@@ -10,7 +10,7 @@ import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import i18n from '@/editor/i18n'
 import { BaseRecordType } from '@/types/core'
 
-export const useNavigationSidebarDrag = () => {
+export const useSidebarDrag = () => {
   const navigationStore = useNavigationStore()
   const { selectedCategory } = storeToRefs(navigationStore)
   const { getEvents, isEventCategory } = useGetEventData()

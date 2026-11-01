@@ -34,16 +34,14 @@
     icon="MessageSquare"
     @save="handleSave"
   >
-    <!-- 中央: エディター + プレビュー(+ lg 未満では PlaceholderPanel) -->
+    <!-- 中央: エディター + プレビュー -->
     <div class="flex flex-col h-full min-h-0">
       <div class="px-3 py-2 bg-base-200 border-b border-base-300 shrink-0 flex items-center justify-between gap-2">
         <span class="text-xs font-semibold text-base-content">{{ t('scenarioStep.messageDialog.editTitle') }}</span>
-        <div class="flex items-center gap-2">
-          <div class="hidden sm:flex gap-1 items-center">
-            <kbd class="kbd kbd-xs">Ctrl</kbd>
-            <kbd class="kbd kbd-xs">Enter</kbd>
-            <span class="text-xs text-base-content/50 ml-1">{{ t('scenarioStep.messageDialog.saveWith') }}</span>
-          </div>
+        <div class="hidden sm:flex gap-1 items-center">
+          <kbd class="kbd kbd-xs">Ctrl</kbd>
+          <kbd class="kbd kbd-xs">Enter</kbd>
+          <span class="text-xs text-base-content/50 ml-1">{{ t('scenarioStep.messageDialog.saveWith') }}</span>
         </div>
       </div>
 
@@ -68,7 +66,7 @@
       </div>
     </div>
 
-    <!-- 右: PlaceholderPanel(lg 以上) -->
+    <!-- 右: PlaceholderPanel -->
     <template #sidebar-right>
       <PlaceholderPanel
         :draft-text="draftText"
@@ -96,7 +94,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { computed, ref, nextTick, onMounted, onBeforeUnmount } from 'vue'
+  import { computed, ref, nextTick } from 'vue'
   import BaseEditDialog from '@/editor/parts/BaseEditDialog.vue'
   import PlaceholderPanel from './PlaceholderPanel.vue'
   import MessagePreviewPanel from './MessagePreviewPanel.vue'
@@ -117,15 +115,6 @@
   const textareaRef = ref<HTMLTextAreaElement | null>(null)
   const inlinePhDialog = ref<InstanceType<typeof InlinePlaceholderDialog> | null>(null)
   const draftText = ref('')
-
-  // BaseEditDialog の右サイドバー(lg:flex)と同じ 1024px を境に、PlaceholderPanel の置き場所を切り替える
-  const lgQuery = typeof window !== 'undefined' ? window.matchMedia('(min-width: 1024px)') : null
-  const isLg = ref(lgQuery?.matches ?? true)
-  const onLgChange = (e: MediaQueryListEvent) => {
-    isLg.value = e.matches
-  }
-  onMounted(() => lgQuery?.addEventListener('change', onLgChange))
-  onBeforeUnmount(() => lgQuery?.removeEventListener('change', onLgChange))
 
   const displayValue = computed({
     get: () => props.modelValue ?? '',

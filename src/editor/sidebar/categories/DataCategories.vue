@@ -14,7 +14,7 @@
       <template v-for="key in group.keys" :key="key">
         <CategoryButton
           :category="key"
-          :icon="filteredCategoryLabels[key].icon"
+          :icon="visibleCategories[key].icon"
           :count="getCategoryItemCount(key)"
           :isSelected="selectedCategory === key"
           @click="navigateCategory(key)"
@@ -31,7 +31,12 @@
         >
           <div v-if="selectedCategory === key && isOpenCategory[key]">
             <!-- 新規作成ボタン + ドラッグ可能なレコードリスト（データが0件でも表示する） -->
-            <RecordList :category="key" v-model="getDraggableModel(key).value" @dragEnd="onDragEnd" />
+            <RecordList
+              :category="key"
+              :modelValue="draggableItems[key] ?? noItems"
+              @update:modelValue="setItems(key, $event)"
+              @dragEnd="onDragEnd"
+            />
           </div>
         </transition>
       </template>
@@ -40,28 +45,26 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { DataCategoryType } from '@/types/OmikujiData/'
+  import { DraggableSubItem } from '@/editor/types/apps'
   import { useCategoryUtils } from '../composables/useCategoryUtils'
   import { useCategoryOpen } from '../composables/useCategoryOpen'
-  import { useNavigationSidebarDrag } from '../composables/useNavigationSidebarDrag'
+  import { useSidebarDrag } from '../composables/useSidebarDrag'
   import CategoryButton from './CategoryButton.vue'
   import RecordList from '../records/RecordList.vue'
 
   const { t } = useI18n()
 
-  const { getCategoryItemCount, filteredCategoryLabels, dataCategoryGroups } = useCategoryUtils()
+  const { getCategoryItemCount, visibleCategories, dataCategoryGroups } = useCategoryUtils()
   const { selectedCategory, isOpenCategory, navigateCategory } = useCategoryOpen()
 
   // ドラッグ(常時有効)
-  const { draggableItems, onDragEnd } = useNavigationSidebarDrag()
+  const { draggableItems, onDragEnd } = useSidebarDrag()
 
-  const getDraggableModel = (key: DataCategoryType) =>
-    computed({
-      get: () => draggableItems.value[key] ?? [],
-      set: (val) => {
-        draggableItems.value[key] = val
-      },
-    })
+  // 一覧の v-model。テンプレート内で computed を毎回作らないよう、props と emit で受け渡す
+  const noItems: DraggableSubItem[] = []
+  const setItems = (key: DataCategoryType, items: DraggableSubItem[]) => {
+    draggableItems.value[key] = items
+  }
 </script>

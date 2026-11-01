@@ -11,7 +11,6 @@ import {
   assetCategory,
 } from '@/types/OmikujiData'
 import { isDev } from '@/types/env'
-import { DisplayMetaLucide } from '@/common/LucideIcon/DisplayMetaLucide'
 import { CategoryGroup } from '@/editor/types/apps'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { categoryMap } from '@/maps/OmikujiData'
@@ -40,7 +39,7 @@ export const useCategoryUtils = () => {
   /**
    * ナビゲーションの表示・非表示設定
    */
-  const filteredCategoryLabels = computed<Record<CategoryType, DisplayMetaLucide>>(() => {
+  const visibleCategories = computed<Record<CategoryType, (typeof categoryMap)[CategoryType]>>(() => {
     const excludeKeys: CategoryType[] = []
 
     // 開発者のみの機能
@@ -56,7 +55,7 @@ export const useCategoryUtils = () => {
 
   /** 表示対象のキーから、指定リストに含まれるものだけを取り出す */
   const pick = (list: readonly string[]) =>
-    (Object.keys(filteredCategoryLabels.value) as CategoryType[]).filter((key) => list.includes(key))
+    (Object.keys(visibleCategories.value) as CategoryType[]).filter((key) => list.includes(key))
 
   /**
    * データ系（DataCategoryType）のグループ分け。空のグループは返さない
@@ -82,7 +81,7 @@ export const useCategoryUtils = () => {
 
   return {
     getCategoryItemCount,
-    filteredCategoryLabels,
+    visibleCategories,
     dataCategoryGroups,
     settingsCategoryGroups,
   }

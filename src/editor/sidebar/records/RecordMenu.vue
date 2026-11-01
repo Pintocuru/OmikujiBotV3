@@ -73,6 +73,7 @@
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { Eye, EyeOff, Copy, Trash2, MoreHorizontal, ClipboardCopy, ClipboardPaste } from 'lucide-vue-next'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
+  import { useJsonClipboard } from '@/editor/helpers/useJsonClipboard'
 
   const { t } = useI18n()
 
@@ -119,13 +120,15 @@
     close()
   }
 
+  // 項目1件(オブジェクト)用のクリップボード。通知文言は共通(clipboard.*)で、形式エラーだけ項目向けにする
+  const clipboard = useJsonClipboard<Record<string, unknown>>({
+    parse: (raw) =>
+      typeof raw === 'object' && raw !== null && !Array.isArray(raw) ? (raw as Record<string, unknown>) : null,
+    messages: () => ({ pasteInvalidFormat: t('navigation.menu.pasteNotObject') }),
+  })
+
   const handleCopyJson = async () => {
-    try {
-      await navigator.clipboard.writeText(JSON.stringify(props.item, null, 2))
-      swalToast.success({ title: t('navigation.menu.copySuccess') })
-    } catch {
-      swalToast.error({ title: t('navigation.menu.copyError') })
-    }
+    await clipboard.copyJson(props.item)
     close()
   }
 
@@ -138,32 +141,14 @@
   const handlePasteJson = async () => {
     close()
 
-    // 1. クリップボード読み取り
-    let text: string
-    try {
-      text = await navigator.clipboard.readText()
-    } catch {
-      swalToast.error({ title: t('navigation.menu.pasteReadError') })
-      return
-    }
-
-    // 2. JSONパース（オブジェクト以外は弾く）
-    let parsed: unknown
-    try {
-      parsed = JSON.parse(text)
-    } catch {
-      swalToast.error({ title: t('navigation.menu.pasteInvalidJson') })
-      return
-    }
-    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
-      swalToast.error({ title: t('navigation.menu.pasteNotObject') })
-      return
-    }
+    // 1. クリップボード読み取り・JSONパース(オブジェクト以外は弾く。失敗の通知は clipboard 側で出る)
+    const parsed = await clipboard.pasteJson()
+    if (!parsed) return
 
     // id / key / ruleType は貼り付け時に再生成・再決定するため除外
-    const { id: _id, key: _key, ruleType, ...rest } = parsed as Record<string, unknown>
+    const { id: _id, key: _key, ruleType, ...rest } = parsed
 
-    // 3. カテゴリ互換性チェック
+    // 2. カテゴリ互換性チェック
     const target = props.category
     const source = toCategory(ruleType) ?? target
     const isSame = source === target
@@ -187,7 +172,7 @@
       if (!result.isConfirmed) return
     }
 
-    // 4. スキーマ検証 → 追加
+    // 3. スキーマ検証 → 追加
     if (isEventCategory(target)) {
       const result = EventCategorySchemaMap[target].safeParse(rest)
       if (!result.success) {
