@@ -20,7 +20,7 @@
 - [x] Batch 08
 - [x] Batch 09
 - [x] Batch 10
-- [ ] Batch 11
+- [x] Batch 11
 - [ ] Batch 12
 - [ ] Batch 13
 - [ ] Batch 14
@@ -320,12 +320,38 @@ Findings:
 
 Static analysis: not run; GitHub API inspection does not provide repository command execution.
 
+## Batch 11
+
+Status: completed
+
+Files processed (8 / 8; 574 lines):
+- src/editor/content/composables/useCharacterTargets.ts
+- src/editor/content/composables/useContentTabs.ts
+- src/editor/content/composables/useLaneItems.ts
+- src/editor/content/composables/useReferenceGraph.ts
+- src/editor/content/composables/useSelectedRecord.ts
+- src/editor/content/connections/CharacterLane.vue
+- src/editor/content/connections/EventLane.vue
+- src/editor/content/connections/ItemSwitcher.vue
+
+Report: reports/batch-11.md
+
+Findings:
+- Missing key (confirmed): 0
+- Hardcoded UI strings: 0
+- Empty / untranslated values: 0
+- Dynamic key candidates: 0
+- Locale formatting / pluralization: 0
+- Needs confirmation: 0
+
+Static analysis: not run; GitHub API inspection does not provide repository command execution.
+
 ## Remaining work
 
-- Completed files: 135 / 262
-- Remaining files: 127
-- Completed batches: 17 / 34 (includes previously completed batches 15–21)
-- Remaining batches: 17
-- Next batch: 11
+- Completed files: 143 / 262
+- Remaining files: 119
+- Completed batches: 18 / 34 (includes previously completed batches 15–21)
+- Remaining batches: 16
+- Next batch: 12
 
 The initial batch sizing is provisional. Before each batch, verify the current branch tree and record the exact file list. The coordinator updates this file; delegated agents update only their own batch report.
