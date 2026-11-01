@@ -18,7 +18,7 @@
 - [x] Batch 06
 - [x] Batch 07
 - [x] Batch 08
-- [ ] Batch 09
+- [x] Batch 09
 - [ ] Batch 10
 - [ ] Batch 11
 - [ ] Batch 12
@@ -292,10 +292,10 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 
 ## Remaining work
 
-- Completed files: 64 / 262
-- Remaining files: 198
-- Completed batches: 8 / 34
-- Remaining batches: 26
-- Next batch: 09
+- Completed files: 75 / 262
+- Remaining files: 187
+- Completed batches: 9 / 34
+- Remaining batches: 25
+- Next batch: 10
 
 The initial batch sizing is provisional. Before each batch, verify the current branch tree and record the exact file list. The coordinator updates this file; delegated agents update only their own batch report.
