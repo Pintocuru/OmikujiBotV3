@@ -1,16 +1,14 @@
 <!-- src/editor/assets/ScenarioStep/Message/MessageSettings.vue -->
 <template>
   <!-- 表示先のUI UIごとに下のフォームが変わる -->
-  <SettingItem layout="vertical" :icon="uiKindMap[step.uiKey].icon" labelKey="scenarioStep.messageSettings.uiKey">
-    <SettingItem layout="vertical" :icon="uiKindIcons[step.uiKey]" labelKey="scenarioStep.messageSettings.uiKey">
-      <IconRadioGroup
-        v-model="uiKey"
-        i18n-prefix="mapText.uiKind"
-        :icons="uiKindIcons"
-        :keys="selectableKinds"
-        :aria-label="t('scenarioStep.messageSettings.uiKey')"
-      />
-    </SettingItem>
+  <SettingItem layout="vertical" :icon="uiKindIcons[step.uiKey]" labelKey="scenarioStep.messageSettings.uiKey">
+    <IconRadioGroup
+      v-model="uiKey"
+      i18n-prefix="mapText.uiKind"
+      :icons="uiKindIcons"
+      :keys="selectableKinds"
+      :aria-label="t('scenarioStep.messageSettings.uiKey')"
+    />
   </SettingItem>
 
   <!-- bubble を使う UI: キャラ・アイコン・本文 -->

@@ -1,0 +1,216 @@
+// src/i18n/editor/maps/ScenarioMapMessages.ts
+export const scenarioMapMessages = {
+  ja: {
+    mapText: {
+      gameMeta: {
+        GouseiSuika: {
+          name: 'スイカジェネレーター',
+          description: '米兜科技 - 合成大西瓜風のおみくじ',
+        },
+        BomberSpin: {
+          name: 'ボンバースロット',
+          description: 'APPLI - BOMBERSPIN2風のおみくじ',
+        },
+        DwarfBomb: {
+          name: 'うさぎスロット',
+          description: 'Nolimit City - Fire in the Hole風のおみくじ',
+        },
+        MultiplyBonanza: {
+          name: '桜吹雪スロット',
+          description: 'Wing - FURAIJIN風のおみくじ',
+        },
+        GoogolClover: {
+          name: 'グーゴルクローバー',
+          description: 'Future Friends Games - CloverPit風のおみくじ',
+        },
+        HugEmAll: {
+          name: 'ダンジョンスロット',
+          description: 'Nolimit City - Kill Em All風のおみくじ',
+        },
+        FortuneRanking: {
+          name: '占いランキング',
+          description: '果物などの順位を作成する拡張スクリプト',
+        },
+        CommentBot: {
+          name: 'コメントBOT',
+          description: 'BOTとしてわんコメにコメントを自動投稿する拡張スクリプト',
+        },
+      },
+      scenarioStepKind: {
+        message: {
+          label: 'メッセージ',
+          description: 'わんコメやジェネレーターに送信・表示するテキストを設定します',
+        },
+        sound: {
+          label: 'サウンド',
+          description: 'シナリオ実行時に再生する効果音やBGMを設定します',
+        },
+        wordParty: {
+          label: 'WordParty',
+          description: 'わんコメの WordParty 演出を呼び出します',
+        },
+        variable: {
+          label: '評価ブロック',
+          description: '変数の代入や計算・スクリプト評価処理を実行します',
+        },
+        gameScript: {
+          label: 'ゲームスクリプト',
+          description: '予め作成されたゲームを呼び出します',
+        },
+        scenarioCall: {
+          label: 'シナリオ',
+          description: '登録済みのシナリオ（名前を付けたステップの並び）を呼び出します',
+        },
+      },
+      omikujiItemKind: {
+        steps: {
+          label: 'ステップ実行',
+          description: '下記の内容をわんコメやジェネレーターで表示します',
+        },
+        control: {
+          label: '処理を制御する',
+          description: 'シナリオを行わず、処理の流れを制御します。',
+        },
+      },
+      omikujiControlCommand: {
+        return: {
+          label: '処理を終了する(return)',
+          description: 'シナリオを行わず、このイベントで処理を終了します。',
+        },
+        continue: {
+          label: '次のイベントへ進む(continue)',
+          description: 'シナリオを行わず、次のイベントへ処理を進めます。',
+        },
+      },
+      sound: {
+        cute: 'ぽよん',
+        bubble: 'ポコン',
+        twinkle: 'キラキラ',
+        bounce: 'ボヨン',
+        jingle: 'ジングル',
+        collect: '取得音',
+        cash: 'お金チャリン',
+        notification: '通知音',
+        news: 'ニュース風',
+        decision: '決定音',
+        transition: 'トランジション',
+        congrats: 'お祝い',
+        fanfare: 'ファンファーレ',
+        carnival: 'カーニバル',
+        baseball: 'レベルアップ',
+        warn: 'ブレーキ',
+        cancel: 'キャンセル',
+        negative: 'ざんねん',
+        fail: '失敗',
+        explosion: '爆発',
+      },
+    },
+  },
+  en: {
+    mapText: {
+      gameMeta: {
+        GouseiSuika: {
+          name: 'Watermelon Suika Generator',
+          description: 'Mi Dou Technology - Omikuji inspired by Watermelon Suika Game',
+        },
+        BomberSpin: {
+          name: 'Bomber Slot',
+          description: 'APPLI - Omikuji inspired by BOMBERSPIN2',
+        },
+        DwarfBomb: {
+          name: 'Rabbit Slot',
+          description: 'Nolimit City - Omikuji inspired by Fire in the Hole',
+        },
+        MultiplyBonanza: {
+          name: 'Cherry Blossom Slot',
+          description: 'Wing - Omikuji inspired by FURAIJIN',
+        },
+        GoogolClover: {
+          name: 'Googol Clover',
+          description: 'Future Friends Games - Omikuji inspired by CloverPit',
+        },
+        HugEmAll: {
+          name: 'Dungeon Slot',
+          description: 'Nolimit City - Omikuji inspired by Kill Em All',
+        },
+        FortuneRanking: {
+          name: 'Fortune Ranking',
+          description: 'Extension script that creates rankings (e.g. fruits)',
+        },
+        CommentBot: {
+          name: 'Comment Bot',
+          description: 'Extension script that automatically posts comments to OneComme as the BOT',
+        },
+      },
+      scenarioStepKind: {
+        message: {
+          label: 'Message',
+          description: 'Sets the text sent to or displayed in OneComme and the generator',
+        },
+        sound: {
+          label: 'Sound',
+          description: 'Sets the sound effect or BGM played when the step runs',
+        },
+        wordParty: {
+          label: 'WordParty',
+          description: 'Calls the WordParty effect of OneComme',
+        },
+        variable: {
+          label: 'Evaluation block',
+          description: 'Runs variable assignment, calculation, and script evaluation',
+        },
+        gameScript: {
+          label: 'Game script',
+          description: 'Calls a prebuilt game',
+        },
+        scenarioCall: {
+          label: 'Scenario',
+          description: 'Calls a registered scenario (a named sequence of steps)',
+        },
+      },
+      omikujiItemKind: {
+        steps: {
+          label: 'Run steps',
+          description: 'Displays the content below in OneComme and the generator',
+        },
+        control: {
+          label: 'Control flow',
+          description: 'Controls the flow of processing without running any steps.',
+        },
+      },
+      omikujiControlCommand: {
+        return: {
+          label: 'End processing (return)',
+          description: 'Does nothing and ends processing for this event.',
+        },
+        continue: {
+          label: 'Go to next event (continue)',
+          description: 'Does nothing and moves on to the next event.',
+        },
+      },
+      sound: {
+        cute: 'Poyon',
+        bubble: 'Pokon',
+        twinkle: 'Sparkle',
+        bounce: 'Boyon',
+        jingle: 'Jingle',
+        collect: 'Pickup',
+        cash: 'Coin clink',
+        notification: 'Notification',
+        news: 'News-style',
+        decision: 'Confirm',
+        transition: 'Transition',
+        congrats: 'Celebration',
+        fanfare: 'Fanfare',
+        carnival: 'Carnival',
+        baseball: 'Level up',
+        warn: 'Brake',
+        cancel: 'Cancel',
+        negative: 'Too bad',
+        fail: 'Fail',
+        explosion: 'Explosion',
+      },
+    },
+  },
+} as const
+
