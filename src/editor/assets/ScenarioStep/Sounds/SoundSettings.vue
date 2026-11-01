@@ -13,7 +13,7 @@
     </select>
   </SettingItem>
 
-  <!-- カスタムパス -->
+  <!-- カスタムサウンド -->
   <SettingItem
     icon="Volume2"
     layout="vertical"
