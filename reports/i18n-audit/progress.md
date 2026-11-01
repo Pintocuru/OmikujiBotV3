@@ -23,7 +23,7 @@
 - [x] Batch 11
 - [x] Batch 12
 - [x] Batch 13
-- [ ] Batch 14
+- [x] Batch 14
 - [x] Batch 15
 - [x] Batch 16
 - [x] Batch 17
@@ -260,6 +260,34 @@ Findings:
 
 Static analysis: not run; GitHub API inspection does not provide repository command execution.
 
+
+## Batch 14
+
+Status: completed
+
+Files processed (8 / 8; 589 lines):
+- src/editor/events/service/ServiceTriggerCondition.vue
+- src/editor/events/timer/TimerIntervalEditor.vue
+- src/editor/events/trigger/TriggerAccess.vue
+- src/editor/events/trigger/TriggerComment.vue
+- src/editor/events/trigger/TriggerCount.vue
+- src/editor/events/trigger/TriggerExpression.vue
+- src/editor/events/trigger/TriggerGift.vue
+- src/editor/events/trigger/TriggerSyoken.vue
+
+Report: reports/batch-14.md
+
+Findings:
+- Missing key (confirmed): 0
+- Missing key (needs confirmation): 0
+- Hardcoded UI strings: 2 groups (CountConditionMap labels; SyokenConditionMap labels)
+- Empty / untranslated values: 0
+- Dynamic key candidates unresolved: 0
+- Locale formatting / pluralization: 0
+- Needs confirmation: 0
+
+Static analysis: not run; GitHub API inspection does not provide repository command execution.
+
 ## Remaining work
 
 ## Batch 07
@@ -402,10 +430,10 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 
 ## Remaining work
 
-- Completed files: 151 / 262
-- Remaining files: 111
-- Completed batches: 19 / 34 (includes previously completed batches 15–23)
-- Remaining batches: 15
-- Next batch: 14
+- Completed files: 159 / 262
+- Remaining files: 103
+- Completed batches: 20 / 34 (includes previously completed batches 15–23)
+- Remaining batches: 14
+- Next batch: 24
 
 The initial batch sizing is provisional. Before each batch, verify the current branch tree and record the exact file list. The coordinator updates this file; delegated agents update only their own batch report.
