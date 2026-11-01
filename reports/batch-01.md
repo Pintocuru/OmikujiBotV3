@@ -104,7 +104,7 @@
 |---|---:|
 | missing key（動的キーの不足エントリー） | 10 |
 | missing leaf translation values | 20 |
-| hardcoded UI strings | 32 |
+| hardcoded UI strings | 33 |
 | locale formatting / pluralization | 0 |
 | 要確認 | 0 |
 
