@@ -33,9 +33,9 @@
 - [x] Batch 21
 - [x] Batch 22
 - [x] Batch 23
-- [ ] Batch 24
-- [ ] Batch 25
-- [ ] Batch 26
+- [x] Batch 24
+- [x] Batch 25
+- [x] Batch 26
 - [ ] Batch 27
 - [ ] Batch 28
 - [ ] Batch 29
@@ -232,12 +232,12 @@ Findings:
 
 Static analysis: not run; GitHub API inspection does not provide repository command execution.
 
-
 ## Batch 13
 
 Status: completed
 
 Files processed (8 / 8; 641 lines):
+
 - src/editor/content/summary/CharacterSummary.vue
 - src/editor/content/summary/ItemEditDialog.vue
 - src/editor/events/comment/CommentTriggerEditor.vue
@@ -250,6 +250,7 @@ Files processed (8 / 8; 641 lines):
 Report: reports/batch-13.md
 
 Findings:
+
 - Missing key (confirmed): 0
 - Missing key (needs confirmation): 0
 - Hardcoded UI strings: 1 (technical label `key:`, medium confidence)
@@ -260,12 +261,12 @@ Findings:
 
 Static analysis: not run; GitHub API inspection does not provide repository command execution.
 
-
 ## Batch 14
 
 Status: completed
 
 Files processed (8 / 8; 589 lines):
+
 - src/editor/events/service/ServiceTriggerCondition.vue
 - src/editor/events/timer/TimerIntervalEditor.vue
 - src/editor/events/trigger/TriggerAccess.vue
@@ -278,6 +279,7 @@ Files processed (8 / 8; 589 lines):
 Report: reports/batch-14.md
 
 Findings:
+
 - Missing key (confirmed): 0
 - Missing key (needs confirmation): 0
 - Hardcoded UI strings: 2 groups (CountConditionMap labels; SyokenConditionMap labels)
@@ -381,6 +383,7 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 Status: completed
 
 Files processed (8 / 8; 574 lines):
+
 - src/editor/content/composables/useCharacterTargets.ts
 - src/editor/content/composables/useContentTabs.ts
 - src/editor/content/composables/useLaneItems.ts
@@ -393,6 +396,7 @@ Files processed (8 / 8; 574 lines):
 Report: reports/batch-11.md
 
 Findings:
+
 - Missing key (confirmed): 0
 - Hardcoded UI strings: 0
 - Empty / untranslated values: 0
@@ -407,6 +411,7 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 Status: completed
 
 Files processed (8 / 8; 354 lines):
+
 - src/editor/content/connections/LaneLayout.vue
 - src/editor/content/connections/LinkGroup.vue
 - src/editor/content/connections/MikujiLane.vue
@@ -419,6 +424,7 @@ Files processed (8 / 8; 354 lines):
 Report: reports/batch-12.md
 
 Findings:
+
 - Missing key (confirmed): 0
 - Hardcoded UI strings: 0
 - Empty / untranslated values: 0
