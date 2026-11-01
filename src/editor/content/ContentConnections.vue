@@ -1,7 +1,8 @@
-<!-- src/editor/content/ContentHeader.vue -->
-<!-- Events / Assets 用のヘッダー。現在のアイテムと、その前後の接続(参照元 → 現在 → 参照先)を表示する -->
+<!-- src/editor/content/ContentConnections.vue -->
+<!-- Events / Assets 用の接続表示。現在のアイテムと、その前後の接続(親 → 自分 → 子)を表示する -->
 <template>
-  <div class="sticky top-0 z-10 bg-base-100 px-1 py-2">
+  <!-- 左右は、スクロール領域の p-4 の分だけ広げる(スクロール中の内容が両脇に透けないように) -->
+  <div class="sticky top-0 z-10 -mx-4 bg-base-100 px-5 py-2">
     <div class="rounded-box border border-base-300 bg-base-200/60 p-3 space-y-3">
       <component :is="lane" v-if="lane" />
 
@@ -21,11 +22,11 @@
   import { storeToRefs } from 'pinia'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
-  import EventLane from './header/EventLane.vue'
-  import MikujiLane from './header/MikujiLane.vue'
-  import ScenarioLane from './header/ScenarioLane.vue'
-  import PlaceholderLane from './header/PlaceholderLane.vue'
-  import CharacterLane from './header/CharacterLane.vue'
+  import EventLane from './connections/EventLane.vue'
+  import MikujiLane from './connections/MikujiLane.vue'
+  import ScenarioLane from './connections/ScenarioLane.vue'
+  import PlaceholderLane from './connections/PlaceholderLane.vue'
+  import CharacterLane from './connections/CharacterLane.vue'
   import { useReferenceGraph } from './composables/useReferenceGraph'
 
   const { t } = useI18n()

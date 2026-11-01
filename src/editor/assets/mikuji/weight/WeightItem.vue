@@ -126,7 +126,7 @@ BaseEditor.vue(59, 7): 予期された型は、型 '{ readonly modelValue: { id:
     }>;
     tags: string[];
 } -->
-        <BaseEditor :modelValue="item" :category="null" :isIsEnabled="false" @update:modelValue="updateBase" />
+        <BaseEditor :modelValue="item" :category="null" :showEnabledToggle="false" @update:modelValue="updateBase" />
       </div>
     </BaseDialog>
 

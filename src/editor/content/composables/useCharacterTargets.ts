@@ -15,7 +15,7 @@ export const useCharacterTargets = () => {
   const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())
   const { getAsset } = useGetAssetData()
   const { getEvent, isEventCategory } = useGetEventData()
-  const { scenariosOfPlaceholder, parentPlaceholders, calledScenarios } = useReferenceGraph()
+  const { scenariosOfBox, scenariosOfPlaceholder, ancestorPlaceholderKeys, calledScenarios } = useReferenceGraph()
 
   /** シナリオの key 群を FlowTarget に変換する(重複と、存在しない key は除く) */
   const toScenarioTargets = (keys: Iterable<string>): FlowTarget[] =>
@@ -24,30 +24,18 @@ export const useCharacterTargets = () => {
       return scenario ? [{ category: 'scenarios' as const, item: scenario }] : []
     })
 
+  /** シナリオと、その呼び出し先のシナリオの key */
+  const withCalledKeys = (scenarioKey: string): string[] => calledScenarios(scenarioKey).map((called) => called.key)
+
   /** みくじ箱の steps アイテムが呼ぶシナリオ(呼び出し先も含む) */
-  const scenarioKeysFromBox = (boxKey: string): string[] => {
-    const box = getAsset('mikuji', boxKey)
-    return (box?.omikuji ?? []).flatMap((item) =>
-      item.kind === 'steps' && item.stepKey ? calledScenarios(item.stepKey).map((scenario) => scenario.key) : []
-    )
-  }
+  const scenarioKeysFromBox = (boxKey: string): string[] =>
+    scenariosOfBox(boxKey).flatMap((scenario) => withCalledKeys(scenario.key))
 
   /** プレースホルダーを(入れ子の上位も含めて)使っているシナリオと、その呼び出し先 */
-  const scenarioKeysFromPlaceholder = (placeholderKey: string): string[] => {
-    const placeholderKeys = new Set<string>([placeholderKey])
-    const queue = [placeholderKey]
-    while (queue.length) {
-      const current = queue.pop()!
-      for (const parent of parentPlaceholders(current)) {
-        if (placeholderKeys.has(parent.key)) continue
-        placeholderKeys.add(parent.key)
-        queue.push(parent.key)
-      }
-    }
-    return [...placeholderKeys].flatMap((key) =>
-      scenariosOfPlaceholder(key).flatMap((scenario) => calledScenarios(scenario.key).map((called) => called.key))
+  const scenarioKeysFromPlaceholder = (placeholderKey: string): string[] =>
+    ancestorPlaceholderKeys(placeholderKey).flatMap((key) =>
+      scenariosOfPlaceholder(key).flatMap((scenario) => withCalledKeys(scenario.key))
     )
-  }
 
   const allTargets = computed<FlowTarget[]>(() => {
     const category = selectedCategory.value
@@ -59,7 +47,7 @@ export const useCharacterTargets = () => {
       return omikujiKey ? toScenarioTargets(scenarioKeysFromBox(omikujiKey)) : []
     }
     if (category === 'mikuji') return toScenarioTargets(scenarioKeysFromBox(key))
-    if (category === 'scenarios') return toScenarioTargets(calledScenarios(key).map((scenario) => scenario.key))
+    if (category === 'scenarios') return toScenarioTargets(withCalledKeys(key))
     if (category === 'placeholders') return toScenarioTargets(scenarioKeysFromPlaceholder(key))
     return []
   })

@@ -19,15 +19,15 @@
   <!-- 有効・無効の切り替えボタン -->
   <SettingItem
     icon="ToggleRight"
-    v-if="isIsEnabled"
+    v-if="showEnabledToggle"
     labelKey="baseSettings.isEnabled.label"
     descriptionKey="baseSettings.isEnabled.description"
   >
     <input type="checkbox" v-model="isEnabled" class="toggle toggle-primary" />
   </SettingItem>
 
-  <!-- イベント名 -->
-  <SettingItem icon="Zap" labelKey="baseSettings.eventName.label" descriptionKey="baseSettings.eventName.description">
+  <!-- 名前 -->
+  <SettingItem icon="Zap" labelKey="baseSettings.name.label" descriptionKey="baseSettings.name.description">
     <input type="text" v-model="name" class="input w-full" />
   </SettingItem>
 
@@ -58,11 +58,11 @@
     defineProps<{
       modelValue: BaseRecordType
       category: DataCategoryType | null
-      isIsEnabled?: boolean
+      showEnabledToggle?: boolean
       isDescription?: boolean
     }>(),
     {
-      isIsEnabled: true,
+      showEnabledToggle: true,
       isDescription: true,
     }
   )

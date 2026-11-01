@@ -1,7 +1,7 @@
 <!-- src/editor/content/ContentTabs.vue -->
-<!-- ContentArea の上部に出すタブ。スクロールしても隠れないよう上に貼り付ける -->
+<!-- ContentArea の上部に出すタブ。スクロールしても隠れないよう上に貼り付ける(左右はスクロール領域の p-4 の分だけ広げる) -->
 <template>
-  <div role="tablist" class="tabs tabs-border tabs-lg flex-wrap sticky top-0 z-10 bg-base-100">
+  <div role="tablist" class="tabs tabs-border tabs-lg flex-wrap sticky top-0 z-10 -mx-4 bg-base-100 px-4">
     <button
       v-for="tab in tabs"
       :key="tab.section"
@@ -19,7 +19,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
-  import { ContentTab } from '@/editor/types/apps'
+  import type { ContentTab } from '@/editor/types/apps'
 
   defineProps<{ tabs: ContentTab[] }>()
 

@@ -2,6 +2,7 @@
 import { ref, watch, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { CategoryType, AssetCategoryType } from '@/types/OmikujiData/'
+import { sortByOrder } from '@/editor/helpers/sortByOrder'
 import { useGetEventData } from './useGetEventData'
 import { useGetAssetData } from './useGetAssetData'
 
@@ -34,13 +35,11 @@ export const useNavigationStore = defineStore('navigation', () => {
     const category = selectedCategory.value
 
     if (isEventCategory(category)) {
-      return [...getEvents(category)]
-        .map((item) => ({ ...item, key: item.id }))
-        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      return sortByOrder([...getEvents(category)].map((item) => ({ ...item, key: item.id })))
     }
 
     if (isAssetCategory(category)) {
-      return Object.values(getAssets(category)).sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      return sortByOrder(Object.values(getAssets(category)))
     }
 
     return undefined
@@ -77,7 +76,7 @@ export const useNavigationStore = defineStore('navigation', () => {
       ? [...getEvents(safeCategory)].map((item) => ({ key: item.id, order: item.order }))
       : Object.values(getAssets(safeCategory as AssetCategoryType))
 
-    const firstItem = [...list].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))[0]
+    const firstItem = sortByOrder(list)[0]
     selectedItemKey.value = firstItem?.key ?? null
   }
 

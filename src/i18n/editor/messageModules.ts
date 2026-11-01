@@ -29,6 +29,7 @@ import * as m_helpers_keyEditorMessages from './helpers/keyEditorMessages'
 import * as m_shell_ShellMessages from './shell/ShellMessages'
 import * as m_ui_UiSettingsMessages from './ui/UiSettingsMessages'
 import * as m_content_ConnectionMessages from './content/ConnectionMessages'
+import * as m_content_TopPageMessages from './content/TopPageMessages'
 
 export const messageModules: Record<string, Record<string, unknown>> = {
   OmikujiDataMaps: m_OmikujiDataMaps,
@@ -42,6 +43,7 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'category/CategorySectionMessagesMap': m_category_CategorySectionMessagesMap,
   'category/NavigationSidebarMessagesMap': m_category_NavigationSidebarMessagesMap,
   'content/ConnectionMessages': m_content_ConnectionMessages,
+  'content/TopPageMessages': m_content_TopPageMessages,
   'events/CommentEditor': m_events_CommentEditor,
   'events/CommentTriggerEditor': m_events_CommentTriggerEditor,
   'events/EventCore': m_events_EventCore,

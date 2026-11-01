@@ -13,9 +13,9 @@ export const baseSettingsMessages = {
         label: 'イベントを有効にする',
         description: '有効にすると、おみくじができます',
       },
-      // BaseEditor.vue は t('baseSettings.eventName.*') を参照している
-      eventName: {
-        label: 'イベント名',
+      // イベントにもアセット(みくじ箱・シナリオなど)にも使われるので、「イベント名」とは書かない
+      name: {
+        label: '名前',
         description: '識別しやすい名前',
       },
       description: {
@@ -38,8 +38,8 @@ export const baseSettingsMessages = {
         label: 'Enable this event',
         description: 'When enabled, omikuji can be drawn',
       },
-      eventName: {
-        label: 'Event name',
+      name: {
+        label: 'Name',
         description: 'A name that is easy to identify',
       },
       description: {

@@ -1,9 +1,7 @@
-<!-- src/editor/content/header/LinkGroup.vue -->
-<!-- 接続先のチップ一覧(ラベル付き)。クリックでそのアイテムへ移動する -->
+<!-- src/editor/content/connections/LinkGroup.vue -->
+<!-- 接続先のチップ一覧。クリックでそのアイテムへ移動する(親・子のラベルは LaneLayout が出す) -->
 <template>
   <div v-if="items.length > 0 || emptyText" class="min-w-0">
-    <div class="text-xs font-bold opacity-70 mb-1">{{ label }}</div>
-
     <div v-if="items.length === 0" class="rounded-lg bg-neutral text-neutral-content px-2 py-1 text-xs">
       {{ emptyText }}
     </div>
@@ -50,7 +48,6 @@
 
   const props = withDefaults(
     defineProps<{
-      label: string
       items: LinkItem[]
       /** 0件のとき暗い背景で出す文言。省略すると 0件のときグループごと隠す */
       emptyText?: string

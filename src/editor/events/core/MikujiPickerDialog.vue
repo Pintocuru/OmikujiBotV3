@@ -20,8 +20,8 @@
         <div class="text-xs opacity-60 mt-1 break-all">key: {{ box.key }}</div>
         <div class="text-sm mt-1">{{ box.description || t('connections.picker.noDescription') }}</div>
         <div class="text-xs opacity-60 mt-1">
-          {{ t('connections.picker.eventsCount', { count: connectedEvents(box.key).length }) }} /
-          {{ t('connections.picker.scenariosCount', { count: connectedScenarios(box.key).length }) }}
+          {{ t('connections.picker.eventsCount', { count: eventsOfBox(box.key).length }) }} /
+          {{ t('connections.picker.scenariosCount', { count: scenariosOfBox(box.key).length }) }}
         </div>
         <div class="flex gap-2 mt-2">
           <button class="btn btn-xs btn-primary" @click="handleSelect(box.key)">
@@ -53,7 +53,8 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useOmikujiConnections } from '@/editor/content/composables/useOmikujiConnections'
+  import { sortByOrder } from '@/editor/helpers/sortByOrder'
+  import { useReferenceGraph } from '@/editor/content/composables/useReferenceGraph'
 
   const { t } = useI18n()
 
@@ -70,9 +71,9 @@
   const { addAsset } = useOmikujiStore()
   const { getAssets } = useGetAssetData()
   const navigationStore = useNavigationStore()
-  const { connectedEvents, connectedScenarios } = useOmikujiConnections()
+  const { eventsOfBox, scenariosOfBox } = useReferenceGraph()
 
-  const boxList = computed(() => Object.values(getAssets('mikuji')).sort((a, b) => (a.order ?? 0) - (b.order ?? 0)))
+  const boxList = computed(() => sortByOrder(Object.values(getAssets('mikuji'))))
 
   const close = () => emit('update:open', false)
 

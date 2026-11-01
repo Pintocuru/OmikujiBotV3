@@ -1,7 +1,7 @@
 <!-- src/editor/content/header/EventLane.vue -->
-<!-- イベント: 現在のイベント → みくじ箱 → シナリオ -->
+<!-- イベント: 現在のイベント(自分) → みくじ箱(子)。親はなし。孫にあたるシナリオは出さない(親・自分・子の3点で見る) -->
 <template>
-  <LaneLayout>
+  <LaneLayout :downstreamLabel="t('categories.mikuji.label')">
     <template #downstream>
       <!-- みくじ箱の変更ボタン -->
       <div class="tooltip tooltip-bottom" :data-tip="t('connections.changeBox')">
@@ -14,13 +14,7 @@
         </button>
       </div>
 
-      <template v-if="box">
-        <LinkGroup
-          :label="t('categories.mikuji.label')"
-          :items="[{ category: 'mikuji', key: box.key, name: box.name || box.key }]"
-        >
-        </LinkGroup>
-      </template>
+      <LinkGroup v-if="box" :items="boxItems" />
 
       <!-- 未接続 / 参照切れ -->
       <div v-else class="flex flex-wrap items-center gap-2 rounded-lg bg-neutral text-neutral-content px-3 py-2">
@@ -52,6 +46,7 @@
   import MikujiPickerDialog from '@/editor/events/core/MikujiPickerDialog.vue'
   import LaneLayout from './LaneLayout.vue'
   import LinkGroup from './LinkGroup.vue'
+  import type { LinkItem } from './types'
 
   const { t } = useI18n()
   const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())
@@ -68,6 +63,9 @@
   )
   const omikujiKey = computed(() => event.value?.omikujiKey ?? '')
   const box = computed(() => (omikujiKey.value ? (getAsset('mikuji', omikujiKey.value) ?? null) : null))
+  const boxItems = computed<LinkItem[]>(() =>
+    box.value ? [{ category: 'mikuji', key: box.value.key, name: box.value.name || box.value.key }] : []
+  )
 
   /** イベントのみくじ箱を切り替える('' で接続解除) */
   const onSelectBox = (key: string) => {

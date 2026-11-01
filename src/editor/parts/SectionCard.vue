@@ -51,6 +51,17 @@
   const label = computed(() => (props.labelKey ? t(props.labelKey) : (props.label ?? '')))
   const description = computed(() => (props.descriptionKey ? t(props.descriptionKey) : (props.description ?? '')))
 
-  const headerClass = computed(() => `bg-${props.variant} text-${props.variant}-content`)
+  // Tailwind は文字列を組み立てたクラス名を拾えないので、完全なクラス名で持つ
+  const headerClassMap: Record<DaisyUIColorType, string> = {
+    primary: 'bg-primary text-primary-content',
+    secondary: 'bg-secondary text-secondary-content',
+    accent: 'bg-accent text-accent-content',
+    neutral: 'bg-neutral text-neutral-content',
+    info: 'bg-info text-info-content',
+    success: 'bg-success text-success-content',
+    warning: 'bg-warning text-warning-content',
+    error: 'bg-error text-error-content',
+  }
+  const headerClass = computed(() => headerClassMap[props.variant])
   const IconComponent = computed(() => resolveLucideIcon(props.icon))
 </script>

@@ -1,14 +1,11 @@
 // src/editor/content/composables/useContentTabs.ts
 import { computed, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { UiKind } from '@/types/OmikujiData/'
 import { isDev } from '@/types/env'
-import { uiLayoutMap } from '@/maps/OmikujiData'
-import { ContentTab } from '@/editor/types/apps'
+import type { ContentTab } from '@/editor/types/apps'
 import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'
-import { getUiEditorEntries } from '@/editor/ui/uiEditorRegistry'
+import { useVisibleUiKinds } from '@/editor/ui/useVisibleUiKinds'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
 /**
  * 選択中カテゴリの、ContentArea に出すタブを返す。
@@ -18,19 +15,17 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 export const useContentTabs = () => {
   const navigationStore = useNavigationStore()
   const { selectedCategory, selectedItemKey, activeSection } = storeToRefs(navigationStore)
-  const { data } = storeToRefs(useOmikujiStore())
+  const visibleUiKinds = useVisibleUiKinds()
 
-  // appInfo は静的な対応表から、ui は登録済みの UI から作る
+  // ui のタブは登録済みの UI から作る(appInfo など他のカテゴリは、下の静的な対応表から作る)
   const uiTabs = computed<ContentTab[]>(() => {
-    // 選択中レイアウトが使う UI のうち、main.ts で登録済みのものだけ
-    const kinds = uiLayoutMap[data.value.ui.layout].kinds
-    const kindTabs = Object.entries(getUiEditorEntries())
-      .filter(([kind]) => kinds.includes(kind as UiKind))
-      .map(([kind, entry]): ContentTab => ({
+    const kindTabs = visibleUiKinds.value.map(
+      ({ kind, entry }): ContentTab => ({
         section: kind,
         icon: entry.icon,
         labelKey: `mapText.uiKind.${kind}.label`,
-      }))
+      })
+    )
 
     const devTab: ContentTab[] = isDev
       ? [{ section: 'dev', icon: 'LayoutGrid', labelKey: 'shell.contentTabs.dev' }]

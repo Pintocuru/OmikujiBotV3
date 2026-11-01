@@ -25,14 +25,14 @@
   </template>
 
   <!-- 各 UI の設定（選択中レイアウトが使う UI のうち、main.ts で登録されたもの） -->
-  <template v-for="[kind, item] in visibleItems" :key="kind">
+  <template v-for="{ kind, entry } in visibleUiKinds" :key="kind">
     <SectionCard
       :sectionKey="kind"
-      :icon="item.icon"
+      :icon="entry.icon"
       :label="t(`mapText.uiKind.${kind}.label`)"
       :description="t(`mapText.uiKind.${kind}.description`)"
     >
-      <component :is="item.component" />
+      <component :is="entry.component" />
     </SectionCard>
   </template>
 
@@ -49,25 +49,15 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { computed } from 'vue'
-  import { storeToRefs } from 'pinia'
   import { isDev } from '@/types/env'
-  import { uiLayoutMap } from '@/maps/OmikujiData'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SectionCard from '@/editor/parts/SectionCard.vue'
-  import { getUiEditorEntries } from './uiEditorRegistry'
+  import { useVisibleUiKinds } from './useVisibleUiKinds'
   import LayoutEditor from './conditions/LayoutEditor.vue'
   import FontFamilyEditor from './common/FontFamilyEditor.vue'
   import UnusedUiSettingsEditor from './conditions/UnusedUiSettingsEditor.vue'
-  import { UiKind } from '@/types/OmikujiData'
 
   const { t } = useI18n()
 
-  const { data } = storeToRefs(useOmikujiStore())
-
   // 選択中レイアウトが使う UI のうち、main.ts で登録済みのものだけ表示
-  const visibleItems = computed(() => {
-    const kinds = uiLayoutMap[data.value.ui.layout].kinds
-    return Object.entries(getUiEditorEntries()).filter(([kind]) => kinds.includes(kind as UiKind))
-  })
+  const visibleUiKinds = useVisibleUiKinds()
 </script>

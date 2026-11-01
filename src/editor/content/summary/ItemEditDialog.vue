@@ -1,4 +1,4 @@
-<!-- src/editor/content/header/ItemEditDialog.vue -->
+<!-- src/editor/content/summary/ItemEditDialog.vue -->
 <!-- 選択中アイテムの基本設定(名前・説明・タグ・有効/無効・Key)を編集するダイアログ。入力は即時に反映される -->
 <template>
   <BaseDialog
@@ -8,9 +8,9 @@
     size="3xl"
     @update:open="emit('update:open', $event)"
   >
-    <div v-if="selectedItem" class="space-y-2">
+    <div v-if="selectedRecord" class="space-y-2">
       <!-- 基本設定の編集 -->
-      <BaseEditor v-model="selectedItem" :category="dataCategory" :isIsEnabled="isEnabledEditable" />
+      <BaseEditor v-model="selectedRecord" :category="dataCategory" :showEnabledToggle="isEnabledEditable" />
 
       <!-- TODO:キャラクターは、色・コメント表現も編集が必要だが、別途ボタンを設けたい。 -->
       <template v-if="character && selectedItemKey">
@@ -55,7 +55,7 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useSelectedItem } from '../composables/useSelectedItem'
+  import { useSelectedRecord } from '../composables/useSelectedRecord'
 
   defineProps<{ open: boolean }>()
   const emit = defineEmits<{ 'update:open': [open: boolean] }>()
@@ -64,7 +64,7 @@
   const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())
   const { getAsset, isAssetCategory } = useGetAssetData()
   const { updateAssetProperty } = useOmikujiStore()
-  const { selectedItem } = useSelectedItem()
+  const { selectedRecord } = useSelectedRecord()
 
   // このダイアログはデータカテゴリ(Events / Assets)でだけ開く
   const dataCategory = computed(() => selectedCategory.value as DataCategoryType)

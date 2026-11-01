@@ -27,7 +27,7 @@ import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
  *   ui のタブは登録済みの UI から動的に作るので、ここには持たない。
  *
  * Events / Assets は 1 画面 1 セクションなのでタブを持たない
- * (基本設定は ContentHeader のダイアログ、接続は ContentHeader の接続表示で扱う)
+ * (基本設定は ContentSummary のダイアログ、接続は ContentConnections の接続表示で扱う)
  */
 export type CategoryContentDef = {
   editor: Component

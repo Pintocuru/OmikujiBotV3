@@ -1,8 +1,8 @@
 <!-- src/editor/content/ContentArea.vue -->
 <template>
   <!-- カテゴリ帯 -->
-  <div class="flex items-center justify-between px-4 py-2 rounded-t-xl bg-primary text-primary-content">
-    <div class="flex items-center gap-2 text-lg font-bold">
+  <div class="flex items-center justify-between px-4 py-2 rounded-xl bg-primary text-primary-content">
+    <div class="flex items-center gap-2 text-xl font-bold">
       <component :is="currentIcon" class="w-6 h-6" />
       {{ t(`categories.${selectedCategory}.label`) }}
     </div>
@@ -23,11 +23,11 @@
   />
 
   <template v-else>
-    <!-- Events / Assets: 基本設定の概要と使用キャラクター -->
-    <ContentSummary v-if="isCurrentDataCategory" :key="selectedCategory" />
-
-    <!-- Events / Assets: 現在のアイテムと接続を表示するヘッダー -->
-    <ContentHeader v-if="isCurrentDataCategory" />
+    <!-- Events / Assets: 基本設定の概要と使用キャラクター、現在のアイテムと接続(親 → 自分 → 子) -->
+    <template v-if="isCurrentDataCategory">
+      <ContentSummary :key="selectedCategory" />
+      <ContentConnections />
+    </template>
     <!-- ui / appInfo: セクションのタブ -->
     <ContentTabs v-else-if="tabs.length > 0" v-model:activeSection="activeSection" :tabs="tabs" />
 
@@ -44,7 +44,7 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
-  import ContentHeader from './ContentHeader.vue'
+  import ContentConnections from './ContentConnections.vue'
   import ContentSummary from './ContentSummary.vue'
   import ContentTabs from './ContentTabs.vue'
   import { useContentTabs } from './composables/useContentTabs'
@@ -58,6 +58,6 @@
   const isEmpty = computed(() => isCurrentDataCategory.value && (categoryArray.value?.length ?? 0) === 0)
 
   const currentCategory = computed(() => categoryMap[selectedCategory.value])
-  const currentIcon = computed(() => resolveLucideIcon(currentCategory.value?.icon))
+  const currentIcon = computed(() => resolveLucideIcon(currentCategory.value.icon))
   const currentEditor = computed(() => categoryContentMap[selectedCategory.value].editor)
 </script>

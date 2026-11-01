@@ -1,4 +1,4 @@
-// src/editor/content/composables/useSelectedItem.ts
+// src/editor/content/composables/useSelectedRecord.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { type BaseRecordType } from '@/types/core'
@@ -9,16 +9,17 @@ import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
 /**
- * 選択中のアイテム(Events / Assets)を、BaseEditor に渡せる形で読み書きする。
+ * 選択中のアイテム(Events / Assets)を、BaseEditor に渡せる BaseRecordType として読み書きする。
  * イベントは id、アセットは key で識別する(navigationStore の selectedItemKey がどちらも指す)。
+ * 一覧用に正規化した navigationStore.selectedItem とは別物(こちらは書き込める)。
  */
-export const useSelectedItem = () => {
+export const useSelectedRecord = () => {
   const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())
   const { getEvent, isEventCategory } = useGetEventData()
   const { getAsset, isAssetCategory } = useGetAssetData()
   const { updateEvent, updateAsset } = useOmikujiStore()
 
-  const selectedItem = computed<BaseRecordType | null>({
+  const selectedRecord = computed<BaseRecordType | null>({
     get: () => {
       const category = selectedCategory.value
       const key = selectedItemKey.value
@@ -39,5 +40,5 @@ export const useSelectedItem = () => {
     },
   })
 
-  return { selectedItem }
+  return { selectedRecord }
 }
