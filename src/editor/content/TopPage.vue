@@ -12,7 +12,7 @@
         >
           <SubSectionHeader :icon="categoryMap.ui.icon" :title="t('categories.ui.label')">
             <span class="text-sm font-normal text-base-content/60">
-              {{ t('topPage.count', { count: uiItems.length }) }}
+              {{ t(uiItems.length === 1 ? 'topPage.countOne' : 'topPage.count', { count: uiItems.length }) }}
             </span>
           </SubSectionHeader>
         </div>
@@ -44,7 +44,11 @@
         >
           <SubSectionHeader :icon="categoryMap.characters.icon" :title="t('categories.characters.label')">
             <span class="text-sm font-normal text-base-content/60">
-              {{ t('topPage.count', { count: characterCards.length }) }}
+              {{
+                t(characterCards.length === 1 ? 'topPage.countOne' : 'topPage.count', {
+                  count: characterCards.length,
+                })
+              }}
             </span>
           </SubSectionHeader>
         </div>
@@ -86,7 +90,7 @@
             :title="t(`categories.${section.category}.label`)"
           >
             <span class="text-sm font-normal text-base-content/60">
-              {{ t('topPage.count', { count: section.items.length }) }}
+              {{ t(section.items.length === 1 ? 'topPage.countOne' : 'topPage.count', { count: section.items.length }) }}
             </span>
           </SubSectionHeader>
         </div>

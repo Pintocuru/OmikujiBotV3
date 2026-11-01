@@ -2,6 +2,10 @@
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { summarizeParseIssues } from '@/types/core/ParseIssues'
+import i18n from '@/editor/i18n'
+
+const t = (key: string, named?: Record<string, unknown>) =>
+  named ? i18n.global.t(key, named) : i18n.global.t(key)
 
 /**
  * 保存・出力の前に確認する。
@@ -14,17 +18,20 @@ export async function confirmSaveWithIssues(): Promise<boolean> {
 
   const { total, byCategory } = summarizeParseIssues(loadIssues)
   const rows = Object.entries(byCategory)
-    .map(([category, count]) => `<li>${category}: ${count}件</li>`)
+    .map(([category, count]) => {
+      const countText = t(`saveIssues.count.${count === 1 ? 'one' : 'other'}`, { count })
+      return `<li>${category}: ${countText}</li>`
+    })
     .join('')
   const result = await swalModal.confirm({
     icon: 'warning',
-    title: `読み込み時に ${total}件 除外しています`,
+    title: t(`saveIssues.title.${total === 1 ? 'one' : 'other'}`, { count: total }),
     html: `
-      <p>このまま保存すると、除外した要素は保存先から消えます。</p>
+      <p>${t('saveIssues.description')}</p>
       <ul style="text-align:left; margin:8px auto; display:table;">${rows}</ul>
-      <p style="font-size:0.85em; color:#666;">元のファイルは、保存せずに残しておくことをおすすめします。</p>
+      <p style="font-size:0.85em; color:#666;">${t('saveIssues.recommendation')}</p>
     `,
-    confirmButtonText: '除外したまま保存する',
+    confirmButtonText: t('saveIssues.confirm'),
   })
   return result.isConfirmed
 }

@@ -2,8 +2,10 @@
 <template>
   <div class="space-y-3">
     <div class="flex items-center justify-between">
-      <h4 class="font-semibold text-md">アイコンの変更設定</h4>
-      <button class="btn btn-sm btn-ghost" @click="$emit('clearAll')" :disabled="!hasChanges">すべてクリア</button>
+      <h4 class="font-semibold text-md">{{ t('iconKeyChanger.mappingTitle') }}</h4>
+      <button class="btn btn-sm btn-ghost" @click="$emit('clearAll')" :disabled="!hasChanges">
+        {{ t('mapping.clearAll') }}
+      </button>
     </div>
 
     <div
@@ -13,11 +15,13 @@
     >
       <!-- 変更前 -->
       <div class="flex-1 min-w-0">
-        <p class="text-xs text-gray-500 mb-1">変更前</p>
-        <div class="badge badge-lg badge-error w-full justify-start truncate">⚠️ {{ pair.iconKey || '空欄' }}</div>
+        <p class="text-xs text-gray-500 mb-1">{{ t('mapping.before') }}</p>
+        <div class="badge badge-lg badge-error w-full justify-start truncate">
+          ⚠️ {{ pair.iconKey || t('mapping.emptyKey') }}
+        </div>
         <p class="text-xs text-gray-400 mt-1">
           {{ getCharacterName(pair.characterKey) || pair.characterKey }} /
-          {{ usageCount[`${pair.characterKey}:${pair.iconKey}`] ?? 0 }}箇所
+          {{ usageCountLabel(usageCount[`${pair.characterKey}:${pair.iconKey}`] ?? 0) }}
         </p>
       </div>
 
@@ -26,7 +30,7 @@
 
       <!-- 変更後 -->
       <div class="flex-1 min-w-0">
-        <p class="text-xs text-gray-500 mb-1">変更後</p>
+        <p class="text-xs text-gray-500 mb-1">{{ t('mapping.after') }}</p>
         <select
           :value="getMappingValue(`${pair.characterKey}:${pair.iconKey}`)"
           @input="
@@ -35,7 +39,7 @@
           class="select select-bordered w-full"
           :class="getMappingValue(`${pair.characterKey}:${pair.iconKey}`) ? 'select-primary' : ''"
         >
-          <option value="">変更しない</option>
+          <option value="">{{ t('mapping.noChange') }}</option>
           <option v-for="iconKey in getValidIconKeys(pair.characterKey)" :key="iconKey" :value="iconKey">
             {{ iconKey }}
           </option>
@@ -46,7 +50,10 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { useCharacterLookup } from '../CharacterChanger/composables/useCharacterLookup'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     invalidPairs: { characterKey: string; iconKey: string }[]
@@ -61,6 +68,8 @@
   }>()
 
   const { characterMap, getCharacterName } = useCharacterLookup()
+
+  const usageCountLabel = (count: number) => t(`mapping.usageCount.${count === 1 ? 'one' : 'other'}`, { count })
 
   const getMappingValue = (compositeKey: string) => props.iconKeyMappings[compositeKey] || ''
 

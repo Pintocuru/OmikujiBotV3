@@ -5,13 +5,19 @@
       <SectionCard
         icon="Merge"
         variant="success"
-        label="設定読み込みプレビュー"
-        :description="`総項目数: ${importManager.previewData.value ? importManager.previewData.value.totalItems : ''}`"
+        :label="t('presetImport.previewTitle')"
+        :description="
+          importManager.previewData.value
+            ? t(`presetImport.totalItems.${importManager.previewData.value.totalItems === 1 ? 'one' : 'other'}`, {
+                count: importManager.previewData.value.totalItems,
+              })
+            : ''
+        "
       >
         <div v-if="importManager.previewData.value" class="space-y-4">
           <!-- Record型カテゴリ別設定 -->
           <div class="space-y-2">
-            <h3 class="font-semibold text-lg">データカテゴリ</h3>
+            <h3 class="font-semibold text-lg">{{ t('presetImport.dataCategories') }}</h3>
             <template v-for="(config, category) in importManager.previewData.value.recordCategories" :key="category">
               <CategoryConfigSection
                 v-if="config.count > 0"
@@ -24,7 +30,7 @@
 
           <!-- アイテム設定 -->
           <div v-if="Object.keys(mergedComponentConfigs).length > 0" class="space-y-2">
-            <h3 class="font-semibold text-lg">アイテム設定</h3>
+            <h3 class="font-semibold text-lg">{{ t('presetImport.itemSettings') }}</h3>
             <ComponentConfigSection
               v-for="(entry, component) in mergedComponentConfigs"
               :key="component"
@@ -39,13 +45,13 @@
             class="pt-4"
             :on-cancel="importManager.closePreviewModal"
             :on-save="handleImportConfirm"
-            saveName="読み込む"
+            :save-name="t('presetImport.import')"
             :disabled="!importManager.enabledCategories.value.length || !importManager.previewData.value"
           />
         </div>
 
         <div v-else class="text-center py-8">
-          <div class="text-gray-500">プレビューデータを読み込み中...</div>
+          <div class="text-gray-500">{{ t('presetImport.loadingPreview') }}</div>
         </div>
       </SectionCard>
     </div>
@@ -54,6 +60,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { useImportManager } from './composables/useImportManager'
   import CategoryConfigSection from './CategoryConfigSection.vue'
   import ComponentConfigSection from './ComponentConfigSection.vue'
@@ -61,6 +68,8 @@
   import SectionCard from '@/editor/parts/SectionCard.vue'
   import { ComponentImportConfig } from '@/editor/types'
   import { UiKind } from '@/types/OmikujiData'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     importManager: ReturnType<typeof useImportManager>

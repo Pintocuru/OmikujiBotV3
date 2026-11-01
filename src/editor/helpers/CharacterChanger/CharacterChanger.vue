@@ -3,12 +3,14 @@
   <!-- トリガーボタン -->
   <div
     class="tooltip tooltip-bottom"
-    :data-tip="hasInvalidCharacters ? '存在しないキャラクターが使用されています！' : '使用中のキャラクターを確認する'"
+    :data-tip="t(hasInvalidCharacters ? 'characterChanger.tooltip.invalid' : 'characterChanger.tooltip.normal')"
   >
     <button :class="['btn', hasInvalidCharacters ? 'btn-error animate-pulse' : 'btn-ghost']" @click="openModal">
       <Users class="w-4 h-4" />
-      使用キャラ
-      <span v-if="hasInvalidCharacters" class="badge badge-sm">⚠️ 未定義 {{ invalidCharacterCount }}</span>
+      {{ t('characterChanger.buttonLabel') }}
+      <span v-if="hasInvalidCharacters" class="badge badge-sm">
+        ⚠️ {{ t('characterChanger.invalidCount', { count: invalidCharacterCount }) }}
+      </span>
       <span v-else class="badge badge-sm badge-outline">{{ uniqueCharacterKeys.length }}</span>
     </button>
   </div>
@@ -16,7 +18,7 @@
   <!-- モーダル -->
   <div v-if="isModalOpen" class="modal modal-open">
     <div class="modal-box max-w-3xl max-h-[90vh] overflow-y-auto">
-      <h3 class="font-bold text-lg mb-4">{{ scopeLabel }}の使用キャラクター</h3>
+      <h3 class="font-bold text-lg mb-4">{{ t('characterChanger.title', { scope: scopeLabel }) }}</h3>
 
       <div class="space-y-4">
         <!-- 統計情報（カテゴリ全体の場合のみ表示） -->
@@ -47,7 +49,7 @@
 
         <div v-if="!isEditing && uniqueCharacterKeys.length > visibleMappingKeys.length" class="text-center">
           <button class="btn btn-sm btn-ghost" @click="isEditing = true">
-            {{ visibleMappingKeys.length > 0 ? 'すべてのキャラクターを変更する' : 'キャラクターを変更する' }}
+            {{ t(visibleMappingKeys.length > 0 ? 'characterChanger.changeAll' : 'characterChanger.change') }}
           </button>
         </div>
 
@@ -65,7 +67,7 @@
         class="mt-6"
         :on-cancel="closeModal"
         :on-save="executeCharacterChange"
-        saveName="変更を実行"
+        :save-name="t('characterChanger.execute')"
         :disabled="!hasChanges"
       />
     </div>
@@ -74,6 +76,7 @@
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import CharacterStatistics from './CharacterStatistics.vue'
   import CurrentCharacterList from './CurrentCharacterList.vue'
   import InvalidCharacterAlert from './InvalidCharacterAlert.vue'
@@ -87,6 +90,8 @@
   import { useCharacterLookup } from './composables/useCharacterLookup'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
   import { Users } from 'lucide-vue-next'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     category: TargetCategoryType

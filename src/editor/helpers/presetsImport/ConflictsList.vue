@@ -1,7 +1,9 @@
 <!-- src/editor/helpers/presetsImport/ConflictsList.vue -->
 <template>
   <div class="text-sm">
-    <div class="text-warning pb-1">競合項目 ({{ conflicts.length }}件):</div>
+    <div class="text-warning pb-1">
+      {{ t(`presetImport.conflicts.${conflicts.length === 1 ? 'one' : 'other'}`, { count: conflicts.length }) }}
+    </div>
     <div class="max-h-25 overflow-y-auto">
       <span
         v-for="conflictKey in conflicts"
@@ -16,7 +18,10 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { ConflictInfo } from '@/editor/types'
+
+  const { t } = useI18n()
 
   defineProps<{
     conflicts: ConflictInfo[]

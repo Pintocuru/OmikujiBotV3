@@ -28,7 +28,9 @@ import * as m_events_TriggerExpression from './events/TriggerExpression'
 import * as m_events_TriggerGift from './events/TriggerGift'
 import * as m_events_TriggerUsername from './events/TriggerUsername'
 import * as m_helpers_clipboardMessages from './helpers/clipboardMessages'
+import * as m_helpers_CharacterChangerMessages from './helpers/CharacterChangerMessages'
 import * as m_helpers_keyEditorMessages from './helpers/keyEditorMessages'
+import * as m_helpers_PresetMessages from './helpers/PresetMessages'
 import * as m_shell_ShellMessages from './shell/ShellMessages'
 import * as m_ui_UiSettingsMessages from './ui/UiSettingsMessages'
 import * as m_content_ConnectionMessages from './content/ConnectionMessages'
@@ -61,7 +63,9 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'events/TriggerGift': m_events_TriggerGift,
   'events/TriggerUsername': m_events_TriggerUsername,
   'helpers/clipboardMessages': m_helpers_clipboardMessages,
+  'helpers/CharacterChangerMessages': m_helpers_CharacterChangerMessages,
   'helpers/keyEditorMessages': m_helpers_keyEditorMessages,
+  'helpers/PresetMessages': m_helpers_PresetMessages,
   'shell/ShellMessages': m_shell_ShellMessages,
   'ui/UiSettingsMessages': m_ui_UiSettingsMessages,
 }

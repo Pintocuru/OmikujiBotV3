@@ -9,7 +9,9 @@
     >
       <component :is="icon" class="w-4 h-4" />
       {{ label }}
-      <span class="font-normal text-base-content/50">({{ t('topPage.count', { count }) }})</span>
+      <span class="font-normal text-base-content/50">
+        ({{ t(count === 1 ? 'topPage.countOne' : 'topPage.count', { count }) }})
+      </span>
     </button>
 
     <slot />

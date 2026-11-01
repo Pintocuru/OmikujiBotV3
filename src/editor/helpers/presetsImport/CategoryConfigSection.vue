@@ -10,7 +10,9 @@
       <div class="flex items-center gap-2">
         <input type="checkbox" :checked="config.enabled" @change="handleEnabledChange" class="checkbox checkbox-sm" />
         <span class="font-medium">{{ getCategoryDisplayName(category) }}</span>
-        <span class="badge badge-sm badge-secondary">{{ config.count }}項目</span>
+        <span class="badge badge-sm badge-secondary">
+          {{ t(`presetImport.itemCount.${config.count === 1 ? 'one' : 'other'}`, { count: config.count }) }}
+        </span>
       </div>
     </div>
 
