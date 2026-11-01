@@ -64,7 +64,7 @@ Report: `reports/batch-01.md`
 Findings:
 - Missing dynamic-key entries: 10
 - Missing leaf translation values: 20
-- Hardcoded UI strings: 32
+- Hardcoded UI strings: 33
 - Locale formatting / pluralization: 0
 - Needs confirmation: 0
 
