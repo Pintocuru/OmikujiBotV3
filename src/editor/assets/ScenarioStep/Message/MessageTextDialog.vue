@@ -2,7 +2,17 @@
 <template>
   <!-- 1行インライン表示 -->
   <div class="flex gap-2 items-center w-full">
+    <!-- singleLine モード:input(高さ 1 行固定) -->
+    <input
+      v-if="singleLine"
+      type="text"
+      v-model="displayValue"
+      class="input input-bordered input-sm w-full"
+      :placeholder="t('scenarioStep.messageDialog.inlinePlaceholder', { ph: '<<userName>>' })"
+    />
+    <!-- デフォルト:textarea(従来どおり) -->
     <textarea
+      v-else
       v-model="displayValue"
       rows="3"
       class="textarea textarea-bordered textarea-sm w-full"
@@ -15,7 +25,12 @@
   </div>
 
   <!-- メインダイアログ -->
-  <BaseEditDialog ref="baseDialog" :title="t('scenarioStep.messageDialog.dialogTitle')" icon="MessageSquare" @save="handleSave">
+  <BaseEditDialog
+    ref="baseDialog"
+    :title="t('scenarioStep.messageDialog.dialogTitle')"
+    icon="MessageSquare"
+    @save="handleSave"
+  >
     <!-- 左: プレビュー -->
     <template #sidebar-left>
       <MessagePreviewPanel :draft-text="draftText" />
@@ -101,6 +116,7 @@
   const props = defineProps<{
     modelValue: string
     isCommentMode?: boolean
+    singleLine?: boolean
   }>()
 
   const emit = defineEmits<{ 'update:modelValue': [value: string] }>()

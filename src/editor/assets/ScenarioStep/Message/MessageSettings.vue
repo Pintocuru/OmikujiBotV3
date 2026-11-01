@@ -76,7 +76,7 @@
   import MessageTextDialog from './MessageTextDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SoundSettings from '../Sounds/SoundSettings.vue'
-  import { uiKindIcons, uiKindMap } from '@/maps/OmikujiData/ui'
+  import { uiKindIcons } from '@/maps/OmikujiData/ui'
   import { getUiMessageSpec, postUiKinds } from '@/types/generator'
   import type { UiKind } from '@/types/OmikujiData'
   import { getUiSlotsEditor } from '@/editor/ui/uiEditorRegistry'

@@ -21,12 +21,10 @@
         <!-- 内容 -->
         <div class="flex-1">
           <label class="text-xs text-gray-500 mb-1 block">{{ t('placeholder.contentLabel') }}</label>
-          <input
-            type="text"
-            :value="value.content"
-            @input="updateContent(index, $event, handleUpdate)"
-            :placeholder="t('placeholder.contentPlaceholder')"
-            class="input input-bordered input-sm w-full"
+          <MessageTextDialog
+            :model-value="value.content"
+            single-line
+            @update:model-value="updateContentText(index, $event, handleUpdate)"
           />
         </div>
 
@@ -52,6 +50,7 @@
   import { useWeightValueManagement } from '@/editor/assets/ScenarioStep/scenarioCall/useWeightValueManagement'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
+  import MessageTextDialog from '@/editor/assets/ScenarioStep/Message/MessageTextDialog.vue'
 
   const { t } = useI18n()
 
@@ -71,5 +70,13 @@
   // ストアには触れず、親（PlaceholderValuesEditor）に emit するだけ
   const handleUpdate = (newValues: WeightValuesArrayType) => {
     emit('update', newValues)
+  }
+
+  // MessageTextDialog は文字列を emit するので、Event 経由の updateContent は使えない
+  const updateContentText = (index: number, content: string, emitUpdate: (values: WeightValuesArrayType) => void) => {
+    const updated = [...props.values]
+    const current = updated[index]
+    updated[index] = typeof current === 'string' ? { content, weight: 1 } : { ...current, content }
+    emitUpdate(updated)
   }
 </script>
