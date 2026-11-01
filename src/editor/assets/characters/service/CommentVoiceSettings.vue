@@ -1,6 +1,6 @@
 <!-- src/editor/assets/characters/service/CommentVoiceSettings.vue -->
 <template>
-  <!-- mode  -->
+  <!-- BOTコメント表現方法  -->
   <SettingItem icon="Megaphone" labelKey="characterService.voice.label" descriptionKey="characterService.voice.desc">
     <select
       :value="currentDisplayOption.mode"
@@ -8,9 +8,10 @@
       class="select select-bordered w-full max-w-xs"
     >
       <option v-for="key in displayModes" :key="key" :value="key">
-        {{ t(`mapText.displayMode.${key}.label`) }}
+        {{ t(`mapText..${key}.label`) }}
       </option>
     </select>
+    {{ t(`mapText..${currentDisplayOption.mode}.desc`) }}
   </SettingItem>
 
   <template v-if="currentDisplayOption.mode === 'comment'">
@@ -26,12 +27,13 @@
         rel="noopener"
         class="inline-block px-2 py-1 rounded bg-secondary text-secondary-content hover:bg-secondary/70 transition"
       >
-        {{ t('characterService.voice.link') }}
+        <!-- TODO:hoge の文章を入れたい -->
+        hoge
       </a>
       {{ t('characterService.voice.readIt') }}
     </InformationCard>
 
-    <!-- わんコメの枠を指定 -->
+    <!-- 枠のID名 -->
     <SettingItem
       icon="Hash"
       labelKey="characterService.voice.frameLabel"
@@ -45,7 +47,7 @@
       />
     </SettingItem>
 
-    <!-- imageBase64 -->
+    <!-- わんコメ表示用画像 -->
     <CharacterBase64Settings
       :modelValue="currentDisplayOption"
       :backgroundColor="backgroundColor"
@@ -82,5 +84,11 @@
 
   const updateDisplayField = (key: keyof DisplayOptionType, value: any) => {
     props.onUpdate({ ...currentDisplayOption.value, [key]: value })
+  }
+
+  const hoge = {
+    hoge1: 'わんコメのコメント欄への投稿と音声読み上げの両方を行います',
+    hoge2: 'コメント投稿は行わず、音声読み上げのみを行います',
+    hoge3: 'コメント投稿も音声読み上げも行いません',
   }
 </script>
