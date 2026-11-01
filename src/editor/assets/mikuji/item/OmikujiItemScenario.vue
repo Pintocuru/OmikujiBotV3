@@ -11,37 +11,46 @@
   </div>
 
   <!-- steps: 実行するシナリオ -->
-  <div v-else class="rounded-box border border-primary/40 bg-primary/5 p-3 space-y-2">
-    <div class="flex items-center gap-2 text-sm font-bold">
-      <Zap class="w-4 h-4" />
-      {{ t('omikujiItem.scenario.label') }}
-      <span class="font-normal text-xs opacity-70">{{ t('omikujiItem.scenario.description') }}</span>
-    </div>
+  <div v-else class="space-y-4">
+    <SettingItem
+      icon="Zap"
+      labelKey="omikujiItem.scenario.label"
+      descriptionKey="omikujiItem.scenario.description"
+      :showWarning="!scenario"
+    >
+      <div class="flex flex-wrap items-center gap-2">
+        <!-- 接続済み -->
+        <template v-if="scenario">
+          <!-- 編集ダイアログを開くボタン -->
+          <button class="btn btn-sm btn-primary gap-1 max-w-80" @click="pickerOpen = true">
+            <Zap class="w-4 h-4 shrink-0" />
+            <span class="truncate">{{ scenario.name || stepKey }}</span>
+          </button>
 
-    <div class="flex flex-wrap items-center gap-2">
-      <!-- 接続済み -->
-      <template v-if="scenario">
-        <button class="btn btn-sm btn-primary gap-1 max-w-80" @click="pickerOpen = true">
-          <Zap class="w-4 h-4 shrink-0" />
-          <span class="truncate">{{ scenario.name || stepKey }}</span>
-        </button>
-        <button class="btn btn-xs btn-ghost" @click="pickerOpen = true">{{ t('omikujiItem.scenario.change') }}</button>
-        <button class="btn btn-xs btn-ghost gap-1" @click="goToScenario">
-          <ExternalLink class="w-3.5 h-3.5" />
-          {{ t('omikujiItem.scenario.edit') }}
-        </button>
-        <span v-if="sharedCount > 0" class="badge badge-sm badge-outline">
-          {{ t('omikujiItem.scenario.shared', { count: sharedCount }) }}
-        </span>
-      </template>
+          <!-- シナリオ編集画面へ飛ぶボタン -->
+          <button class="btn btn-xs btn-ghost gap-1" @click="goToScenario">
+            <ExternalLink class="w-3.5 h-3.5" />
+            {{ t('omikujiItem.scenario.edit') }}
+          </button>
 
-      <!-- 未接続 / 参照切れ -->
-      <div v-else class="flex flex-wrap items-center gap-2 rounded-lg bg-neutral text-neutral-content px-3 py-2">
-        <span v-if="stepKey" class="badge badge-warning">{{ t('omikujiItem.scenario.missing', { key: stepKey }) }}</span>
-        <span v-else class="text-sm">{{ t('omikujiItem.scenario.none') }}</span>
-        <button class="btn btn-xs btn-primary" @click="pickerOpen = true">{{ t('omikujiItem.scenario.pick') }}</button>
+          <!-- 同じシナリオを実行する、ほかのおみくじの数 -->
+          <span v-if="sharedCount > 0" class="badge badge-sm badge-outline">
+            {{ t('omikujiItem.scenario.shared', { count: sharedCount }) }}
+          </span>
+        </template>
+
+        <!-- 未接続 / 参照切れ -->
+        <div v-else class="flex flex-wrap items-center gap-2 rounded-lg bg-neutral text-neutral-content px-3 py-2">
+          <span v-if="stepKey" class="badge badge-warning">{{
+            t('omikujiItem.scenario.missing', { key: stepKey })
+          }}</span>
+          <span v-else class="text-sm">{{ t('omikujiItem.scenario.none') }}</span>
+          <button class="btn btn-xs btn-primary" @click="pickerOpen = true">
+            {{ t('omikujiItem.scenario.pick') }}
+          </button>
+        </div>
       </div>
-    </div>
+    </SettingItem>
 
     <ScenarioPickerDialog v-model:open="pickerOpen" :selectedKey="stepKey || undefined" @select="onSelect" />
   </div>
@@ -56,6 +65,7 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useReferenceGraph } from '@/editor/content/composables/useReferenceGraph'
   import ScenarioPickerDialog from './ScenarioPickerDialog.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const props = defineProps<{ omikujiItem: OmikujiItemType }>()
   const emit = defineEmits<{ update: [item: OmikujiItemType] }>()

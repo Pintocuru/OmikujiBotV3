@@ -14,6 +14,7 @@
         @select="$emit('select', item.id)"
         @duplicate="duplicateItem(index)"
         @delete="removeItem(index)"
+        @update:item="updateItem(index, $event)"
       />
     </VueDraggable>
   </div>
@@ -47,4 +48,10 @@
 
   const duplicateItem = (index: number) => emit('update:items', duplicateItemAt(props.omikujiItems, index))
   const removeItem = (index: number) => emit('update:items', removeItemAt(props.omikujiItems, index))
+  // 1 件分の更新を、一覧全体の更新として返す
+  const updateItem = (index: number, item: OmikujiItemType) =>
+    emit(
+      'update:items',
+      props.omikujiItems.map((v, i) => (i === index ? item : v))
+    )
 </script>

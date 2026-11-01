@@ -34,46 +34,46 @@
     </section>
 
     <!-- 使用キャラクター -->
+    <!-- TODO:「キャラクター」では、必ず見つからないので、表示しない -->
     <section class="w-full rounded-box border border-base-300 bg-base-200/40 p-4 min-w-0">
       <div class="flex items-center justify-between gap-2 mb-3">
         <h3 class="font-semibold">{{ t('connections.summary.characters') }}</h3>
         <span class="badge badge-sm badge-outline">{{ characters.length }}</span>
       </div>
 
-      <div v-if="characters.length" class="flex flex-wrap gap-3">
-        <div v-for="character in characters" :key="character.key" class="flex items-center gap-2 min-w-0">
-          <div class="avatar">
-            <div class="relative w-12 h-12 rounded-lg bg-base-300 overflow-hidden">
-              <!-- TODO: クリックでキャラクター管理を開くようにする -->
-              <template v-if="character.images.length">
-                <img
-                  v-for="(src, index) in character.images"
-                  :key="`${character.key}:${index}`"
-                  :src="src"
-                  class="absolute inset-0 w-full h-full object-contain"
-                />
-              </template>
-              <!-- キーが見つからない場合はハテナアイコン -->
-              <div v-else class="w-full h-full flex items-center justify-center text-base-content/50">
-                <ImageOff v-if="character.exists" class="w-6 h-6" />
-                <CircleHelp v-else class="w-7 h-7 text-warning" />
-              </div>
+      <div v-if="characters.length" class="flex gap-3 overflow-x-auto pb-2">
+        <button
+          v-for="character in characters"
+          :key="character.key"
+          type="button"
+          class="flex w-20 shrink-0 flex-col items-center gap-1 rounded-lg p-1"
+          :class="character.exists ? 'cursor-pointer hover:bg-base-300' : 'cursor-default'"
+          :title="
+            character.exists ? character.name : t('connections.summary.undefinedCharacter', { key: character.key })
+          "
+          @click="goToCharacter(character)"
+        >
+          <div class="relative h-12 w-12 overflow-hidden rounded-lg bg-base-300">
+            <LayerImage v-if="character.images.length" :layers="character.images" />
+            <!-- キーが見つからない場合はハテナアイコン -->
+            <div v-else class="flex h-full w-full items-center justify-center text-base-content/50">
+              <ImageOff v-if="character.exists" class="h-6 w-6" />
+              <CircleHelp v-else class="h-7 w-7 text-warning" />
             </div>
           </div>
-          <div class="min-w-0">
-            <p class="text-sm font-medium truncate">{{ character.name }}</p>
-            <p v-if="!character.exists" class="text-xs text-warning">
-              {{ t('connections.summary.undefinedCharacter', { key: character.key }) }}
-            </p>
-            <p v-else-if="!character.images.length" class="text-xs opacity-60">
-              {{ t('connections.summary.noImage') }}
-            </p>
-          </div>
-        </div>
+
+          <span class="w-full truncate text-center text-xs font-medium">{{ character.name }}</span>
+          <span v-if="!character.exists" class="w-full truncate text-center text-[0.65rem] text-warning">
+            {{ t('connections.summary.undefinedCharacter', { key: character.key }) }}
+          </span>
+          <span v-else-if="!character.images.length" class="w-full truncate text-center text-[0.65rem] opacity-60">
+            {{ t('connections.summary.noImage') }}
+          </span>
+        </button>
       </div>
       <p v-else class="text-sm opacity-60">{{ t('connections.summary.noCharacters') }}</p>
 
-      <div v-if="allTargets.length" class="flex flex-wrap gap-2 mt-4 pt-3 border-t border-base-300">
+      <div v-if="allTargets.length" class="flex flex-wrap gap-2">
         <CharacterChanger category="scenarios" :targets="allTargets" />
         <IconKeyChanger category="scenarios" :targets="allTargets" />
       </div>
@@ -96,9 +96,11 @@
   import { useCharacterTargets } from './composables/useCharacterTargets'
   import { useSelectedItem } from './composables/useSelectedItem'
   import ItemEditDialog from './header/ItemEditDialog.vue'
+  import LayerImage from '@/common/LayerImage/LayerImage.vue'
 
   const { t } = useI18n()
-  const { selectedItemKey } = storeToRefs(useNavigationStore())
+  const navigationStore = useNavigationStore()
+  const { selectedItemKey } = storeToRefs(navigationStore)
   const { selectedItem } = useSelectedItem()
   const { getCharacter, getCharacterName, iconSrc } = useCharacterLookup()
   const { allTargets } = useCharacterTargets()
@@ -123,4 +125,11 @@
       }
     })
   )
+
+  // キャラクター管理(characters)の該当キャラクターへ移動する
+  const goToCharacter = (character: { key: string; exists: boolean }) => {
+    if (!character.exists) return
+    navigationStore.selectCategory('characters')
+    navigationStore.selectItem(character.key)
+  }
 </script>

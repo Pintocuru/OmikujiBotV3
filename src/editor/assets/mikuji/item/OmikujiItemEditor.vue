@@ -1,11 +1,7 @@
 <!-- src/editor/assets/mikuji/item/OmikujiItemEditor.vue -->
 <template>
   <!-- 実行するシナリオ(1 対 1) -->
-  <!-- TODO:WeightItem.vue に移動 -->
   <OmikujiItemScenario :omikujiItem="omikujiItem" @update="updateItem" />
-
-  <!-- ヘッダー -->
-  <OmikujiItemHeader :omikujiItem="omikujiItem" @update="updateItem" />
 
   <!-- 実行内容 -->
   <SettingItem
@@ -58,7 +54,6 @@
   import { OmikujiControlCommand, OmikujiItemKind, OmikujiItemSchema, OmikujiItemType } from '@/types/OmikujiData/'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import OmikujiItemHeader from './OmikujiItemHeader.vue'
   import OmikujiItemScenario from './OmikujiItemScenario.vue'
   import OmikujiItemControlSettings from './OmikujiItemControlSettings.vue'
 

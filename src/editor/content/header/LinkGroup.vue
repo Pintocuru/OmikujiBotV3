@@ -4,7 +4,7 @@
   <div v-if="items.length > 0 || emptyText" class="min-w-0">
     <div class="text-xs font-bold opacity-70 mb-1">{{ label }}</div>
 
-    <div v-if="items.length === 0" class="rounded-lg bg-neutral text-neutral-content px-2 py-1 text-sm">
+    <div v-if="items.length === 0" class="rounded-lg bg-neutral text-neutral-content px-2 py-1 text-xs">
       {{ emptyText }}
     </div>
     <div v-else class="flex flex-wrap items-center gap-1">
