@@ -171,14 +171,49 @@ export const uiSettingsMessages = {
       fontFamily: {
         label: 'フォントファミリー',
         description: '表示に使用するフォント',
+        previewTitle: 'プレビュータイトル',
+        previewText: 'これはフォント確認用のサンプルです。',
+        default: 'デフォルト',
+        categories: {
+          all: 'すべて',
+          gothic: 'ゴシック',
+          mincho: '明朝',
+          rounded: '丸ゴシック',
+          handwriting: '手書き',
+          display: '装飾',
+        },
       },
       layout: {
         label: 'レイアウト',
         description: 'ジェネレーターで使用するレイアウト',
+        mismatch: 'データが不一致です: {details}',
       },
       unused: {
         label: '未使用UIの設定',
         description: '現在の設定で使わないUI設定を削除',
+        empty: '削除できる設定はありません',
+        delete: '削除',
+        deleteAll: '未使用をすべて削除',
+        deleteOneConfirm: '「{label}」の設定を削除しますか？',
+        deleteAllConfirm: {
+          one: '未使用の {count} 件の設定を削除しますか？',
+          other: '未使用の {count} 件の設定を削除しますか？',
+        },
+        deleteSuccess: '削除しました',
+      },
+      editorSections: {
+        layout: {
+          label: 'レイアウト',
+          description: 'ジェネレーターで使用するレイアウトの切り替え',
+        },
+        unused: {
+          label: '未使用UIの整理',
+          description: 'リリース前に不要な UI 設定を削除',
+        },
+        common: {
+          label: '共通設定',
+          description: 'フォントなど、すべての表示に共通する設定',
+        },
       },
     },
   },
@@ -352,14 +387,49 @@ export const uiSettingsMessages = {
       fontFamily: {
         label: 'Font family',
         description: 'The font used for display',
+        previewTitle: 'Preview title',
+        previewText: 'This is sample text for previewing the font.',
+        default: 'Default',
+        categories: {
+          all: 'All',
+          gothic: 'Gothic',
+          mincho: 'Mincho',
+          rounded: 'Rounded Gothic',
+          handwriting: 'Handwriting',
+          display: 'Display',
+        },
       },
       layout: {
         label: 'Layout',
         description: 'The layout used by the generator',
+        mismatch: 'Data mismatch: {details}',
       },
       unused: {
         label: 'Unused UI settings',
         description: 'Delete UI settings that are not used with the current layout',
+        empty: 'There are no settings to remove',
+        delete: 'Delete',
+        deleteAll: 'Delete all unused settings',
+        deleteOneConfirm: 'Delete the settings for "{label}"?',
+        deleteAllConfirm: {
+          one: 'Delete {count} unused setting?',
+          other: 'Delete {count} unused settings?',
+        },
+        deleteSuccess: 'Deleted',
+      },
+      editorSections: {
+        layout: {
+          label: 'Layout',
+          description: 'Switch the layout used by the generator',
+        },
+        unused: {
+          label: 'Clean up unused UI',
+          description: 'Remove unnecessary UI settings before release',
+        },
+        common: {
+          label: 'Common settings',
+          description: 'Settings shared by all displays, such as fonts',
+        },
       },
     },
   },

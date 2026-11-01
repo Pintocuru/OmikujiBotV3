@@ -11,6 +11,9 @@ import { useDataMergeHelpers } from './useDataMergeHelpers'
 import { ImportPreview } from '@/editor/types'
 import { normalizeData } from '@/common/migrations/index'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import i18n from '@/editor/i18n'
+
+const t = (key: string) => i18n.global.t(key)
 
 /**
  * データマージ機能
@@ -27,14 +30,14 @@ export function useDataMerge(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
 
       const result = processPartialMerge(importedData, preview)
 
-      swalToast.success({ title: 'データの部分更新が完了しました。' })
+      swalToast.success({ title: t('dataOperation.mergeSuccess') })
 
       data.value = result
       hasChanged.value = true
       return true
     } catch (error) {
       swalModal.error({
-        title: 'データの更新中にエラーが発生しました',
+        title: t('dataOperation.mergeError'),
         text: String(error),
       })
       console.error('Merge error:', error)

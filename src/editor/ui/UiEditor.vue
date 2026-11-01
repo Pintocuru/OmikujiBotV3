@@ -6,8 +6,8 @@
       sectionKey="dev"
       variant="warning"
       icon="LayoutGrid"
-      label="レイアウト"
-      description="ジェネレーターで使用するレイアウトの切り替え"
+      :label="t('uiSettings.editorSections.layout.label')"
+      :description="t('uiSettings.editorSections.layout.description')"
     >
       <!-- レイアウト -->
       <LayoutEditor />
@@ -17,8 +17,8 @@
       sectionKey="dev"
       variant="warning"
       icon="Trash2"
-      label="未使用UIの整理"
-      description="リリース前に不要な UI 設定を削除"
+      :label="t('uiSettings.editorSections.unused.label')"
+      :description="t('uiSettings.editorSections.unused.description')"
     >
       <UnusedUiSettingsEditor />
     </SectionCard>
@@ -40,8 +40,8 @@
   <SectionCard
     sectionKey="commonStyle"
     icon="Palette"
-    label="共通設定"
-    description="フォントなど、すべての表示に共通する設定"
+    :label="t('uiSettings.editorSections.common.label')"
+    :description="t('uiSettings.editorSections.common.description')"
   >
     <FontFamilyEditor />
   </SectionCard>

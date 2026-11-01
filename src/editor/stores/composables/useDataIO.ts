@@ -7,6 +7,9 @@ import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 import type { ParseIssue } from '@/types/core/ParseIssues'
 import { logParseIssues } from '@/common/ParseIssues/logParseIssues'
 import { reportDataMismatch, validateAgainstBuild } from '@/common/buildValidation/validateAgainstBuild'
+import i18n from '@/editor/i18n'
+
+const t = (key: string) => i18n.global.t(key)
 
 /**
  * データの入出力（読み込み・保存・エクスポート）を提供
@@ -30,7 +33,7 @@ export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource
       dataSource.value = 'api'
       return true
     } catch (error) {
-      swalModal.error({ title: 'データの読み込み中にエラーが発生しました', text: error })
+      swalModal.error({ title: t('dataOperation.loadError'), text: error })
       console.error('Load data error:', error)
       return false
     }
@@ -58,8 +61,8 @@ export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource
     }
 
     swalModal.error({
-      title: 'データの検証に失敗しました',
-      text: '内容に不備があるため、エクスポートできません。',
+      title: t('dataOperation.exportValidationError.title'),
+      text: t('dataOperation.exportValidationError.description'),
     })
   }
 
