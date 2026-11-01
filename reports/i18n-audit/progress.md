@@ -13,9 +13,9 @@
 - [x] Batch 01
 - [x] Batch 02
 - [x] Batch 03
-- [ ] Batch 04
-- [ ] Batch 05
-- [ ] Batch 06
+- [x] Batch 04
+- [x] Batch 05
+- [x] Batch 06
 - [ ] Batch 07
 - [ ] Batch 08
 - [ ] Batch 09
@@ -137,12 +137,93 @@ Findings:
 
 Static analysis: not run; GitHub API inspection does not provide repository command execution.
 
+## Batch 04
+
+Status: completed
+
+Files processed (8 / 8; 464 lines):
+- src/editor/assets/characters/CharacterImage/EmotionPresetButtons.vue
+- src/editor/assets/characters/CharacterImage/ImageSettingsInfo.vue
+- src/editor/assets/characters/CharacterImage/composables/useEmotionDraft.ts
+- src/editor/assets/characters/color/CharacterColorCard.vue
+- src/editor/assets/characters/color/CharacterColorSettings.vue
+- src/editor/assets/characters/service/CharacterBase64Settings.vue
+- src/editor/assets/characters/service/CommentVoiceCard.vue
+- src/editor/assets/characters/service/CommentVoiceSettings.vue
+
+Report: reports/batch-04.md
+
+Findings:
+- Missing key (confirmed): 6 dynamic references (2 expressions × 3 display modes)
+- Missing key (needs confirmation): 0
+- Hardcoded UI strings: 1
+- Empty / untranslated values: 0
+- Dynamic key candidates: 2; both candidate sets were checked and missing paths confirmed
+- Locale formatting / pluralization: 0
+- Needs confirmation: 0
+
+Static analysis: not run; GitHub API inspection does not provide repository command execution.
+
+## Batch 05
+
+Status: completed
+
+Files processed (8 / 8; 533 lines):
+- src/editor/assets/mikuji/MikujiSettings.vue
+- src/editor/assets/mikuji/composables/useBoxOmikujiList.ts
+- src/editor/assets/mikuji/composables/useOmikujiLottery.ts
+- src/editor/assets/mikuji/composables/useOmikujiWeight.ts
+- src/editor/assets/mikuji/composables/useWeightItemDialog.ts
+- src/editor/assets/mikuji/item/OmikujiItemControlSettings.vue
+- src/editor/assets/mikuji/item/OmikujiItemCriteria.vue
+- src/editor/assets/mikuji/item/OmikujiItemEditor.vue
+
+Report: reports/batch-05.md
+
+Findings:
+- Missing key (confirmed): 0
+- Missing key (needs confirmation): 0
+- Hardcoded UI strings: 10
+- Empty / untranslated values: 0
+- Dynamic key groups: 2; all item-kind and control-command values resolve in ja/en
+- Locale formatting / pluralization: 0
+- Needs confirmation: 1 (localized suffix in duplicated item name)
+
+Static analysis: not run; GitHub API inspection does not provide repository command execution.
+
+## Batch 06
+
+Status: completed
+
+Files processed (8 / 8; 591 lines):
+- src/editor/assets/mikuji/item/OmikujiItemHeader.vue
+- src/editor/assets/mikuji/item/OmikujiItemPriority.vue
+- src/editor/assets/mikuji/item/OmikujiItemScenario.vue
+- src/editor/assets/mikuji/item/ScenarioPickerDialog.vue
+- src/editor/assets/mikuji/weight/WeightBar.vue
+- src/editor/assets/mikuji/weight/WeightItem.vue
+- src/editor/assets/mikuji/weight/WeightItemCooldown.vue
+- src/editor/assets/mikuji/weight/WeightItemDialogs.vue
+
+Report: reports/batch-06.md
+
+Findings:
+- Missing key (confirmed): 0
+- Missing key (needs confirmation): 0
+- Hardcoded UI strings: 10
+- Empty / untranslated values: 0
+- Dynamic key candidates: 0
+- Locale formatting / pluralization: 1 (fixed Japanese seconds unit)
+- Needs confirmation: 1 (whether `key:` is intentionally English-only)
+
+Static analysis: not run; GitHub API inspection does not provide repository command execution.
+
 ## Remaining work
 
-- Completed files: 24 / 262
-- Remaining files: 238
-- Completed batches: 3 / 34
-- Remaining batches: 31
-- Next batch: 04
+- Completed files: 48 / 262
+- Remaining files: 214
+- Completed batches: 6 / 34
+- Remaining batches: 28
+- Next batch: 07
 
 The initial batch sizing is provisional. Before each batch, verify the current branch tree and record the exact file list. The coordinator updates this file; delegated agents update only their own batch report.
