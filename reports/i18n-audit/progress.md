@@ -24,9 +24,9 @@
 - [ ] Batch 12
 - [ ] Batch 13
 - [ ] Batch 14
-- [ ] Batch 15
-- [ ] Batch 16
-- [ ] Batch 17
+- [x] Batch 15
+- [x] Batch 16
+- [x] Batch 17
 - [ ] Batch 18
 - [ ] Batch 19
 - [ ] Batch 20
@@ -50,6 +50,7 @@
 Status: completed
 
 Files processed (8 / 8):
+
 - `src/editor/apps/BaseSettings/BaseEditor.vue`
 - `src/editor/apps/BaseSettings/BaseTagEditor.vue`
 - `src/editor/apps/JsonMerge/JsonMergeEditor.vue`
@@ -62,6 +63,7 @@ Files processed (8 / 8):
 Report: `reports/batch-01.md`
 
 Findings:
+
 - Missing dynamic-key entries: 10
 - Missing leaf translation values: 20
 - Hardcoded UI strings: 33
@@ -69,6 +71,7 @@ Findings:
 - Needs confirmation: 0
 
 Static analysis:
+
 - ESLint and eslint-plugin-vue are dependencies.
 - vue-i18n-specific ESLint plugin / vue-i18n-extract are not dependencies and no vue-i18n-specific ESLint rules are configured.
 - Commands not executed: GitHub API inspection environment does not provide repository command execution.
@@ -76,6 +79,7 @@ Static analysis:
 ## Batch 02
 
 Planned files:
+
 - `src/editor/apps/appInfo/meta/PackageBasicInfo.vue`
 - `src/editor/apps/appInfo/meta/PackageDistributionInfo.vue`
 - `src/editor/apps/appInfo/meta/PackageSystemInfo.vue`
@@ -90,6 +94,7 @@ Planned files:
 Status: completed
 
 Files processed (8 / 8):
+
 - src/editor/apps/appInfo/meta/PackageBasicInfo.vue
 - src/editor/apps/appInfo/meta/PackageDistributionInfo.vue
 - src/editor/apps/appInfo/meta/PackageSystemInfo.vue
@@ -102,6 +107,7 @@ Files processed (8 / 8):
 Report: reports/batch-02.md
 
 Findings:
+
 - Missing key (confirmed): 0
 - Missing key (needs confirmation): 1 dynamic-key candidate set
 - Hardcoded UI strings: 33
@@ -115,6 +121,7 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 Status: completed
 
 Files processed (8 / 8; 664 lines):
+
 - src/editor/assets/characters/CharacterEditor.vue
 - src/editor/assets/characters/CharacterImage/CharacterImageSettings.vue
 - src/editor/assets/characters/CharacterImage/EmotionAnimationEditor.vue
@@ -127,6 +134,7 @@ Files processed (8 / 8; 664 lines):
 Report: reports/batch-03.md
 
 Findings:
+
 - Missing key (confirmed): 0
 - Missing key (needs confirmation): 0
 - Hardcoded UI strings: 1
@@ -142,6 +150,7 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 Status: completed
 
 Files processed (8 / 8; 464 lines):
+
 - src/editor/assets/characters/CharacterImage/EmotionPresetButtons.vue
 - src/editor/assets/characters/CharacterImage/ImageSettingsInfo.vue
 - src/editor/assets/characters/CharacterImage/composables/useEmotionDraft.ts
@@ -154,6 +163,7 @@ Files processed (8 / 8; 464 lines):
 Report: reports/batch-04.md
 
 Findings:
+
 - Missing key (confirmed): 6 dynamic references (2 expressions × 3 display modes)
 - Missing key (needs confirmation): 0
 - Hardcoded UI strings: 1
@@ -169,6 +179,7 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 Status: completed
 
 Files processed (8 / 8; 533 lines):
+
 - src/editor/assets/mikuji/MikujiSettings.vue
 - src/editor/assets/mikuji/composables/useBoxOmikujiList.ts
 - src/editor/assets/mikuji/composables/useOmikujiLottery.ts
@@ -181,6 +192,7 @@ Files processed (8 / 8; 533 lines):
 Report: reports/batch-05.md
 
 Findings:
+
 - Missing key (confirmed): 0
 - Missing key (needs confirmation): 0
 - Hardcoded UI strings: 10
@@ -196,6 +208,7 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 Status: completed
 
 Files processed (8 / 8; 591 lines):
+
 - src/editor/assets/mikuji/item/OmikujiItemHeader.vue
 - src/editor/assets/mikuji/item/OmikujiItemPriority.vue
 - src/editor/assets/mikuji/item/OmikujiItemScenario.vue
@@ -208,6 +221,7 @@ Files processed (8 / 8; 591 lines):
 Report: reports/batch-06.md
 
 Findings:
+
 - Missing key (confirmed): 0
 - Missing key (needs confirmation): 0
 - Hardcoded UI strings: 10
