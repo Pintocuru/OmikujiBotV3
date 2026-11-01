@@ -41,9 +41,9 @@
 - [ ] Batch 29
 - [ ] Batch 30
 - [ ] Batch 31
-- [ ] Batch 32
-- [ ] Batch 33
-- [ ] Batch 34
+- [x] Batch 32
+- [x] Batch 33
+- [x] Batch 34
 
 ## Batch 01
 
@@ -443,3 +443,39 @@ Static analysis: not run; GitHub API inspection does not provide repository comm
 - Next batch: 24
 
 The initial batch sizing is provisional. Before each batch, verify the current branch tree and record the exact file list. The coordinator updates this file; delegated agents update only their own batch report.
+
+
+## Batch 32
+
+Status: completed
+
+- Scope: `src/editor/types/`
+- Files processed: 9 / 9
+- Findings: 0
+- Report: `reports/batch-32.md`
+- Code changes: none
+
+## Batch 33
+
+Status: completed
+
+- Scope: `src/editor/ui/`
+- Files processed: 7 / 7
+- Confirmed hardcoded UI findings: 6
+- Needs confirmation: 1 (FontFamilyEditor preview sample text)
+- Report: `reports/batch-33.md`
+- Code changes: none
+
+## Batch 34
+
+Status: completed
+
+- Scope: `src/editor/sidebar/`
+- Files processed: 15 / 15
+- Findings: 0
+- Report: `reports/batch-34.md`
+- Code changes: none
+
+## Coordinator note
+
+Batches 32–34 were audited independently on `docs/i18n-audit-preparation` and their reports were added. The pre-existing aggregate counters above were not recalculated because the historical progress entries and batch reports do not provide a consistent, fully reconciled file count. Static analysis was not run; GitHub API source inspection only.
