@@ -19,7 +19,7 @@
 - [x] Batch 07
 - [x] Batch 08
 - [x] Batch 09
-- [ ] Batch 10
+- [x] Batch 10
 - [ ] Batch 11
 - [ ] Batch 12
 - [ ] Batch 13
@@ -290,12 +290,38 @@ Findings:
 
 Static analysis: not run; GitHub API inspection does not provide repository command execution.
 
+## Batch 10
+
+Status: completed
+
+Files processed (9 / 9; 603 lines):
+- src/editor/content/AppDevWorld.vue
+- src/editor/content/ContentArea.vue
+- src/editor/content/ContentConnections.vue
+- src/editor/content/ContentSummary.vue
+- src/editor/content/ContentTabs.vue
+- src/editor/content/ItemEditor.vue
+- src/editor/content/ItemMenu.vue
+- src/editor/content/TopPage.vue
+- src/editor/content/TopSection.vue
+
+Report: reports/batch-10.md
+
+Findings:
+- Missing key (confirmed): 0 new keys (1 dynamic reference to the same 8 missing uiKind entries already recorded in Batch 01)
+- Hardcoded UI strings: 2
+- Empty / untranslated values: 0
+- Locale formatting / pluralization: 1
+- Needs confirmation: 1 (whether AppDevWorld English banner is intentionally fixed)
+
+Static analysis: not run; GitHub API inspection does not provide repository command execution.
+
 ## Remaining work
 
-- Completed files: 75 / 262
-- Remaining files: 187
-- Completed batches: 9 / 34
-- Remaining batches: 25
-- Next batch: 10
+- Completed files: 135 / 262
+- Remaining files: 127
+- Completed batches: 17 / 34 (includes previously completed batches 15–21)
+- Remaining batches: 17
+- Next batch: 11
 
 The initial batch sizing is provisional. Before each batch, verify the current branch tree and record the exact file list. The coordinator updates this file; delegated agents update only their own batch report.
