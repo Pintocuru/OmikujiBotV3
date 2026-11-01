@@ -153,6 +153,16 @@ export const appItemsCharactersMessages = {
         voiceNote1: 'わんコメの「規定読み上げエンジン」のボイスで読み上げるようになります。',
         voiceNote2: 'ジェネレーターには、コメントが表示されません。',
       },
+      // CharacterEditor 上部のカード(色・コメント表現)
+      cards: {
+        edit: '編集',
+        colorSample: 'こんにちは！色の見え方はこんな感じです',
+        colorNames: { name: '名前', text: '本文', background: '背景', accent: 'アクセント' },
+        voiceFrame: '枠: {id}',
+        voiceFrameDefault: '枠: 一番上',
+        voiceImage: '表示用画像あり',
+        voiceNoImage: '表示用画像なし',
+      },
     },
   },
   en: {
@@ -307,6 +317,15 @@ export const appItemsCharactersMessages = {
         frameDesc: 'If blank, the top frame in OneComme is used',
         voiceNote1: 'Messages will be read aloud with the voice of OneComme\'s "default speech engine".',
         voiceNote2: 'Comments will not be displayed in the generator.',
+      },
+      cards: {
+        edit: 'Edit',
+        colorSample: 'Hello! This is how the colors look',
+        colorNames: { name: 'Name', text: 'Text', background: 'Background', accent: 'Accent' },
+        voiceFrame: 'Frame: {id}',
+        voiceFrameDefault: 'Frame: top one',
+        voiceImage: 'Has display image',
+        voiceNoImage: 'No display image',
       },
     },
   },
