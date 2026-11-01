@@ -54,6 +54,8 @@
     <div class="flex justify-center item-center">→</div>
     <!-- TODO:ここに接続するシナリオを置く(あるいは、処理を制御する内容) -->
     <div class="flex justify-center item-center">{{ scenarioLabel }}</div>
+    <!-- TODO:ここにクールダウンのinputを置く -->
+    <div class="flex justify-center item-center">0</div>
   </div>
 </template>
 

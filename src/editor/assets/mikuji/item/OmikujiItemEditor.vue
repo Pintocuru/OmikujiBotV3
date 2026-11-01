@@ -1,6 +1,7 @@
 <!-- src/editor/assets/mikuji/item/OmikujiItemEditor.vue -->
 <template>
   <!-- 実行するシナリオ(1 対 1) -->
+  <!-- TODO:WeightItem.vue に移動 -->
   <OmikujiItemScenario :omikujiItem="omikujiItem" @update="updateItem" />
 
   <!-- ヘッダー -->
