@@ -8,7 +8,7 @@
           <component :is="IconComponent" v-if="IconComponent" class="w-5 h-5" />
           {{ title }}
         </h3>
-        <button class="btn btn-sm btn-circle btn-ghost" @click="close">
+        <button class="btn btn-sm btn-circle btn-ghost" :aria-label="t('editorUi.dialog.close')" @click="close">
           <X :size="16" />
         </button>
       </div>
@@ -20,14 +20,19 @@
       </div>
     </div>
 
-    <form method="dialog" class="modal-backdrop"><button @click="close">close</button></form>
+    <form method="dialog" class="modal-backdrop">
+      <button :aria-label="t('editorUi.dialog.close')" @click="close">{{ t('editorUi.dialog.close') }}</button>
+    </form>
   </dialog>
 </template>
 
 <script setup lang="ts">
   import { computed, onMounted, ref, watch } from 'vue'
   import { X } from 'lucide-vue-next'
+  import { useI18n } from 'vue-i18n'
   import { type LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
+
+  const { t } = useI18n()
 
   const props = withDefaults(
     defineProps<{

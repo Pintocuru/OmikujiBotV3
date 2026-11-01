@@ -13,16 +13,18 @@
       <TestComment />
       <VirtualStreamPanel />
       <EvaluationBlock />
-      <button class="btn btn-sm btn-warning w-full" @click="resetAll">セッションリセット</button>
+      <button class="btn btn-sm btn-warning w-full" @click="resetAll">
+        {{ t('shell.generatorView.resetSession') }}
+      </button>
     </aside>
 
     <!-- ツールの表示切り替え -->
     <button
       class="btn btn-xs btn-outline fixed bottom-2 right-2 z-9999 bg-base-100"
-      :title="showTools ? 'ツールを隠す' : 'ツールを表示'"
+      :title="showTools ? t('shell.generatorView.hideTools') : t('shell.generatorView.showTools')"
       @click="showTools = !showTools"
     >
-      ツール {{ showTools ? '▶' : '◀' }}
+      {{ t('shell.generatorView.tools') }} {{ showTools ? '▶' : '◀' }}
     </button>
   </div>
 </template>
@@ -30,6 +32,7 @@
 <script setup lang="ts">
   // ! ジェネレーターに依存する部分(OneSDK を含む)はこのファイルに集約し、editor/App.vue から遅延読み込みする
   import { ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import GeneratorApp from '@/generator/App.vue'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import GeneratorStage from './GeneratorStage.vue'
@@ -37,6 +40,7 @@
   import VirtualStreamPanel from '@/editor/preview/VirtualStreamPanel/VirtualStreamPanel.vue'
   import EvaluationBlock from '@/editor/preview/EvaluationBlock/EvaluationBlock.vue'
 
+  const { t } = useI18n()
   const appStore = useAppStore()
   const showTools = ref(true)
 

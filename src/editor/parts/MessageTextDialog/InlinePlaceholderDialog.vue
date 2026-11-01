@@ -12,7 +12,11 @@
           <Braces :size="18" class="text-accent" />
           <h3 class="font-bold text-base">{{ t('scenarioStep.inlinePh.title') }}</h3>
         </div>
-        <button class="btn btn-sm btn-ghost btn-circle" @click="close">
+        <button
+          class="btn btn-sm btn-ghost btn-circle"
+          :aria-label="t('scenarioStep.common.cancel')"
+          @click="close"
+        >
           <X :size="16" />
         </button>
       </div>
@@ -69,7 +73,7 @@
     </div>
 
     <form method="dialog" class="modal-backdrop">
-      <button @click="close">close</button>
+      <button :aria-label="t('scenarioStep.common.cancel')" @click="close">{{ t('scenarioStep.common.cancel') }}</button>
     </form>
   </dialog>
 </template>

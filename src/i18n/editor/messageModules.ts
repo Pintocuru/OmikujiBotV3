@@ -32,6 +32,8 @@ import * as m_helpers_CharacterChangerMessages from './helpers/CharacterChangerM
 import * as m_helpers_keyEditorMessages from './helpers/keyEditorMessages'
 import * as m_helpers_PresetMessages from './helpers/PresetMessages'
 import * as m_shell_ShellMessages from './shell/ShellMessages'
+import * as m_ui_EditorUiMessages from './ui/EditorUiMessages'
+import * as m_preview_EditorPreviewMessages from './preview/EditorPreviewMessages'
 import * as m_ui_UiSettingsMessages from './ui/UiSettingsMessages'
 import * as m_content_ConnectionMessages from './content/ConnectionMessages'
 import * as m_content_TopPageMessages from './content/TopPageMessages'
@@ -66,6 +68,8 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'helpers/CharacterChangerMessages': m_helpers_CharacterChangerMessages,
   'helpers/keyEditorMessages': m_helpers_keyEditorMessages,
   'helpers/PresetMessages': m_helpers_PresetMessages,
+  'preview/EditorPreviewMessages': m_preview_EditorPreviewMessages,
   'shell/ShellMessages': m_shell_ShellMessages,
+  'ui/EditorUiMessages': m_ui_EditorUiMessages,
   'ui/UiSettingsMessages': m_ui_UiSettingsMessages,
 }

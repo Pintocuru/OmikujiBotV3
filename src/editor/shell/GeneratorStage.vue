@@ -9,7 +9,7 @@
           min="100"
           :value="logicalWidth"
           class="input input-bordered input-xs join-item w-20 text-center"
-          title="横幅(px)"
+          :title="t('shell.generator.width')"
           @change="onSizeInput('w', $event)"
         />
         <span class="join-item bg-base-200 px-1 flex items-center">×</span>
@@ -18,14 +18,14 @@
           min="100"
           :value="logicalHeight"
           class="input input-bordered input-xs join-item w-20 text-center"
-          title="縦幅(px)"
+          :title="t('shell.generator.height')"
           @change="onSizeInput('h', $event)"
         />
       </div>
 
       <div class="join">
         <button class="btn btn-xs join-item" :class="fit ? 'btn-accent' : 'btn-outline'" @click="fit = true">
-          全体に合わせる
+          {{ t('shell.generator.fit') }}
         </button>
         <button
           v-for="preset in SIZE_PRESETS"
@@ -37,7 +37,7 @@
         </button>
       </div>
 
-      <div class="flex items-center gap-1" title="表示倍率">
+      <div class="flex items-center gap-1" :title="t('shell.generator.scale')">
         <span class="opacity-60">{{ Math.round(scale * 100) }}%</span>
         <input type="range" min="0.2" max="2" step="0.1" v-model.number="scale" class="range range-xs w-30" />
       </div>
@@ -50,7 +50,7 @@
           :class="background === bg.key ? 'btn-accent' : 'btn-outline'"
           @click="background = bg.key"
         >
-          {{ bg.label }}
+          {{ t(`shell.generator.background.${bg.key}`) }}
         </button>
       </div>
     </div>
@@ -74,7 +74,9 @@
 
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted, ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
 
+  const { t } = useI18n()
   type BackgroundKey = 'checker' | 'green' | 'dark' | 'light'
 
   const SIZE_PRESETS = [
@@ -82,10 +84,10 @@
     { label: '600×900', w: 600, h: 900 },
   ] as const
 
-  const BG_OPTIONS: { key: BackgroundKey; label: string }[] = [
-    { key: 'checker', label: '透過' },
-    { key: 'dark', label: '黒' },
-    { key: 'light', label: '白' },
+  const BG_OPTIONS: { key: BackgroundKey }[] = [
+    { key: 'checker' },
+    { key: 'dark' },
+    { key: 'light' },
   ]
 
   const BG_STYLES: Record<BackgroundKey, Record<string, string>> = {

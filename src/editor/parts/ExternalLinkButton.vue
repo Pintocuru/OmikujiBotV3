@@ -1,23 +1,26 @@
 <!-- src/editor/parts/ExternalLinkButton.vue -->
 <template>
-  <button v-if="isValidUrl(url)" @click="openUrl" class="btn btn-primary btn-outline" :title="title">
+  <button
+    v-if="isValidUrl(url)"
+    @click="openUrl"
+    class="btn btn-primary btn-outline"
+    :title="title ?? t('editorUi.externalLink.open')"
+  >
     <ExternalLink class="w-4 h-4" />
   </button>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { ExternalLink } from 'lucide-vue-next'
 
+  const { t } = useI18n()
+
   // Props
-  const props = withDefaults(
-    defineProps<{
-      url: string
-      title?: string
-    }>(),
-    {
-      title: 'サイトを開く',
-    }
-  )
+  const props = defineProps<{
+    url: string
+    title?: string
+  }>()
 
   // URL検証
   const isValidUrl = (urlValue: string): boolean => {

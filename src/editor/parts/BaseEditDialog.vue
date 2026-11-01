@@ -30,10 +30,10 @@
         </div>
 
         <div class="flex gap-2">
-          <button class="btn btn-sm btn-ghost" @click="handleCancel">キャンセル</button>
+          <button class="btn btn-sm btn-ghost" @click="handleCancel">{{ t('editorUi.editDialog.cancel') }}</button>
           <button class="btn btn-sm btn-primary gap-1" :disabled="saveDisabled" @click="handleSave">
             <Check :size="14" />
-            保存して閉じる
+            {{ t('editorUi.editDialog.saveClose') }}
           </button>
         </div>
       </div>
@@ -43,9 +43,12 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { Check } from 'lucide-vue-next'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
+
+  const { t } = useI18n()
 
   withDefaults(
     defineProps<{

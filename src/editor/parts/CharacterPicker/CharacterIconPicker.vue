@@ -25,7 +25,7 @@
         class="flex items-center justify-center rounded bg-base-200 text-xs opacity-60"
         :style="{ width: `${size}px`, height: `${size}px` }"
       >
-        画像なし
+        {{ t('editorUi.characterPicker.noImage') }}
       </div>
       <span class="w-full truncate text-center text-xs">{{ item.name }}</span>
       <!-- 選択中のキャラだけ、現在の表情名を出す -->
@@ -51,11 +51,14 @@
 
 <script setup lang="ts">
   import { computed, toRef } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import IconPopup from './IconPopup.vue'
   import { useCharacterItems } from './useCharacterItems'
   import { useIconPopup } from './useIconPopup'
   import type { CharacterItem, SelectPayload } from './types'
+
+  const { t } = useI18n()
 
   const props = withDefaults(
     defineProps<{

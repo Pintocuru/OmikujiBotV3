@@ -8,7 +8,7 @@
         :key="i"
         class="w-8 h-8 rounded-full border border-base-content/20 hover:scale-110 transition"
         :style="{ background: theme.background }"
-        :title="`プリセット ${i + 1}`"
+        :title="t('editorUi.colorPicker.preset', { number: i + 1 })"
         @click="selectPreset(theme)"
       />
     </div>
@@ -17,7 +17,7 @@
     <div class="flex flex-wrap gap-2">
       <div v-for="{ label, key } in colorFields" :key="key" class="form-control flex-1 min-w-16">
         <label class="label">
-          <span class="label-text text-sm">{{ label }}</span>
+          <span class="label-text text-sm">{{ t(`editorUi.colorPicker.fields.${label}`) }}</span>
         </label>
 
         <input
@@ -32,9 +32,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { CharacterColorType } from '@/types/OmikujiData/'
   import { DEFAULT_COLOR_THEMES } from './ColorPreset'
   import { colorFields } from '@/editor/maps/parts/ColorPicker'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     modelValue: CharacterColorType
