@@ -7,7 +7,7 @@
       @change="updateDisplayField('mode', ($event.target as HTMLSelectElement).value)"
       class="select select-bordered w-full max-w-xs"
     >
-      <option v-for="(_, key) in displayModeMap" :key="key" :value="key">
+      <option v-for="key in displayModes" :key="key" :value="key">
         {{ t(`mapText.displayMode.${key}.label`) }}
       </option>
     </select>
@@ -65,11 +65,10 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { DisplayOptionType } from '@/types/OmikujiData'
+  import { DisplayOptionType, displayModes } from '@/types/OmikujiData'
   import CharacterBase64Settings from './CharacterBase64Settings.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
-  import { displayModeMap } from '@/maps/OmikujiData'
 
   const { t } = useI18n()
 

@@ -100,7 +100,7 @@ export const characterMapMessages = {
       },
       displayMode: {
         comment: {
-          label: 'わんコメでの表示+読み上げ',
+          label: 'わんコメ投稿',
           description: 'わんコメのコメント欄への投稿と音声読み上げの両方を行います',
         },
         voice: {
@@ -229,4 +229,3 @@ export const characterMapMessages = {
     },
   },
 } as const
-

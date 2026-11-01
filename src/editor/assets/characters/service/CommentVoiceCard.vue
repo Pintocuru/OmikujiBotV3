@@ -1,30 +1,25 @@
 <!-- src/editor/assets/characters/service/CommentVoiceCard.vue -->
 <!-- BOTコメント表現の要約(表示方法・枠・表示用画像)。色ほど重要ではないので 1 行の小さなカード。編集はダイアログで行い、入力は即時に反映される -->
 <template>
-  <div class="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-box border border-base-300 bg-base-100 px-4 py-2">
-    <span class="badge badge-primary">{{ t(`mapText.displayMode.${currentOption.mode}.label`) }}</span>
+  <div class="font-semibold">
+    {{ t('categorySections.commentVoice.label') }}
+  </div>
+  <div class="flex items-center p-4">
+    <div class="flex gap-2">
+      <span class="badge badge-primary">{{ t(`mapText.displayMode.${currentOption.mode}.label`) }}</span>
 
-    <!-- 枠と画像は、わんコメへ投稿するときだけ意味がある -->
-    <template v-if="currentOption.mode === 'comment'">
-      <span class="text-sm">
-        {{
-          currentOption.frameId
-            ? t('characterService.cards.voiceFrame', { id: currentOption.frameId })
-            : t('characterService.cards.voiceFrameDefault')
-        }}
-      </span>
-      <span class="flex items-center gap-2 text-sm">
-        <img
-          v-if="currentOption.imageBase64"
-          :src="currentOption.imageBase64"
-          alt=""
-          class="h-6 w-6 rounded object-cover"
-        />
-        {{
-          currentOption.imageBase64 ? t('characterService.cards.voiceImage') : t('characterService.cards.voiceNoImage')
-        }}
-      </span>
-    </template>
+      <!-- 枠と画像は、わんコメへ投稿するときだけ意味がある -->
+      <template v-if="currentOption.mode === 'comment'">
+        <span class="flex items-center gap-2 text-sm">
+          <img
+            v-if="currentOption.imageBase64"
+            :src="currentOption.imageBase64"
+            alt=""
+            class="h-6 w-6 rounded object-cover"
+          />
+        </span>
+      </template>
+    </div>
 
     <button class="btn btn-ghost btn-sm ml-auto" @click="editOpen = true">
       <Pencil class="h-4 w-4" />
@@ -32,12 +27,7 @@
     </button>
   </div>
 
-  <BaseDialog
-    v-model:open="editOpen"
-    icon="MessageSquare"
-    :title="t('categorySections.commentVoice.label')"
-    size="3xl"
-  >
+  <BaseDialog v-model:open="editOpen" icon="MessageSquare" :title="t('categorySections.commentVoice.label')" size="3xl">
     <CommentVoiceSettings
       :modelValue="currentOption"
       :backgroundColor="backgroundColor"
