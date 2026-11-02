@@ -1,6 +1,6 @@
 <!-- src/editor/parts/SectionCard.vue -->
 <template>
-  <!-- sectionKey があるときは、ContentArea のタブで選択中のものだけ表示する -->
+  <!-- sectionKey があるときは、SectionTabs で選択中のものだけ表示する -->
   <div v-show="isActive" :id="sectionKey ? `section-${sectionKey}` : undefined" class="transition-all bg-base-200">
     <div class="flex justify-between items-center p-2 rounded-t-xl" :class="headerClass">
       <div class="flex items-center gap-2 font-bold text-xl">
@@ -35,7 +35,7 @@
       description?: string
       descriptionKey?: string
       icon: LucideIconName
-      // ContentArea のタブのキー。省略すると常に表示する
+      // SectionTabs のタブのキー。省略すると常に表示する
       sectionKey?: string
       variant?: DaisyUIColorType
     }>(),

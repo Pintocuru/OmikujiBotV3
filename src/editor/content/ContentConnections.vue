@@ -1,7 +1,7 @@
 <!-- src/editor/content/ContentConnections.vue -->
 <!-- Events / Assets 用の接続表示。現在のアイテムと、その前後の接続(親 → 自分 → 子)を表示する -->
 <template>
-  <!-- 左右は、スクロール領域の p-4 の分だけ広げる(スクロール中の内容が両脇に透けないように) -->
+  <!-- 現在のアイテムと関係 -->
   <div class="sticky top-0 z-10 -mx-4 bg-base-100 px-5 py-2">
     <div class="rounded-box border border-base-300 bg-base-200/60 p-3 space-y-3">
       <component :is="lane" v-if="lane" />

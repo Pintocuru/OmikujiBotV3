@@ -1,7 +1,7 @@
 // src/editor/maps/category/CategoryContentMap.ts
 import type { Component } from 'vue'
 import type { CategoryType } from '@/types/OmikujiData'
-import type { ContentTabDef, ItemContentDef } from '@/editor/types/apps'
+import type { ItemContentDef } from '@/editor/types/apps'
 
 import JsonMergeEditor from '@/editor/apps/JsonMerge/JsonMergeEditor.vue'
 import DataPacks from '@/editor/apps/dataPacks/DataPacks.vue'
@@ -25,17 +25,14 @@ import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
  * カテゴリごとの、ContentArea に出す内容の定義
  * - editor: 本体のエディター
  * - item: Events / Assets の 1 セクションの内容。あるカテゴリは editor が ItemEditor で、これを props(content)として受け取る
- * - sections: 複数セクションを持つカテゴリだけ、タブにするセクション(左から順)。
- *   section は各エディターの SectionCard の sectionKey と一致させる。
- *   ui のタブは登録済みの UI から動的に作るので、ここには持たない。
  *
  * Events / Assets は 1 画面 1 セクションなのでタブを持たない
- * (基本設定は ContentSummary のダイアログ、接続は ContentConnections の接続表示で扱う)
+ * (基本設定は ContentSummary のダイアログ、接続は ContentConnections の接続表示で扱う)。
+ * 複数セクションの ui / appInfo は、タブ(SectionTabs)を各エディターが自分で持つ
  */
 export type CategoryContentDef = {
   editor: Component
   item?: ItemContentDef
-  sections?: ContentTabDef[]
 }
 
 // 「発動条件」のセクション(timers 以外のイベントで共通)
@@ -126,14 +123,5 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
   // settings
   ui: { editor: UiEditor },
   dataPacks: { editor: DataPacks },
-  appInfo: {
-    editor: AppInfoEditor,
-    sections: [
-      { section: 'appSettings', icon: 'Settings' },
-      { section: 'appFeatures', icon: 'Sparkles' },
-      { section: 'packageBasic', icon: 'Info' },
-      { section: 'packageDistribution', icon: 'Package' },
-      { section: 'packageSystem', icon: 'Cpu' },
-    ],
-  },
+  appInfo: { editor: AppInfoEditor },
 }

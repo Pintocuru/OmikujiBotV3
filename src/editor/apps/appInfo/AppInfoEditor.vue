@@ -1,5 +1,8 @@
 <!-- src/editor/apps/appInfo/AppInfoEditor.vue -->
 <template>
+  <!-- セクションのタブ -->
+  <SectionTabs :tabs="tabs" />
+
   <div class="space-y-4">
     <!-- アプリ設定 -->
     <SectionCard
@@ -58,6 +61,7 @@
 </template>
 
 <script setup lang="ts">
+  import type { ContentTab } from '@/editor/types/apps'
   import GeneratorSettingsEditor from './settings/GeneratorSettingsEditor.vue'
   import EditorSettingsEditor from './settings/EditorSettingsEditor.vue'
   import AvailableFeaturesInfo from './AvailableFeatures/AvailableFeaturesInfo.vue'
@@ -65,4 +69,14 @@
   import PackageDistributionInfo from './meta/PackageDistributionInfo.vue'
   import PackageSystemInfo from './meta/PackageSystemInfo.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'
+  import SectionTabs from '@/editor/parts/SectionTabs.vue'
+
+  // タブ(左から)。section は上の SectionCard の sectionKey と一致させる
+  const tabs: ContentTab[] = [
+    { section: 'appSettings', icon: 'Settings', labelKey: 'categorySections.appSettings.label' },
+    { section: 'appFeatures', icon: 'Sparkles', labelKey: 'categorySections.appFeatures.label' },
+    { section: 'packageBasic', icon: 'Info', labelKey: 'categorySections.packageBasic.label' },
+    { section: 'packageDistribution', icon: 'Package', labelKey: 'categorySections.packageDistribution.label' },
+    { section: 'packageSystem', icon: 'Cpu', labelKey: 'categorySections.packageSystem.label' },
+  ]
 </script>

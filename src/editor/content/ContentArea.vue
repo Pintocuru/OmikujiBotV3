@@ -28,8 +28,6 @@
       <ContentSummary :key="selectedCategory" />
       <ContentConnections />
     </template>
-    <!-- ui / appInfo: セクションのタブ -->
-    <ContentTabs v-else-if="tabs.length > 0" v-model:activeSection="activeSection" :tabs="tabs" />
 
     <component :is="currentContent.editor" :key="selectedCategory" v-bind="editorProps" />
   </template>
@@ -46,13 +44,10 @@
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import ContentConnections from './ContentConnections.vue'
   import ContentSummary from './ContentSummary.vue'
-  import ContentTabs from './ContentTabs.vue'
-  import { useContentTabs } from './composables/useContentTabs'
 
   const { t } = useI18n()
   const navigationStore = useNavigationStore()
   const { selectedCategory, isCurrentDataCategory, categoryArray } = storeToRefs(navigationStore)
-  const { tabs, activeSection } = useContentTabs()
 
   // Events / Assets のカテゴリでデータが1件もない
   const isEmpty = computed(() => isCurrentDataCategory.value && (categoryArray.value?.length ?? 0) === 0)
