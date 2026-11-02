@@ -23,7 +23,10 @@
       <span>おみくじ</span>
       <span />
       <span>実行内容</span>
-      <span>クールダウン</span>
+      <span class="inline-flex items-center">
+        クールダウン
+        <CooldownHelpButton />
+      </span>
     </div>
 
     <VueDraggable v-model="draggableItems" handle=".legend-drag-handle" :animation="200" class="w-full space-y-2">
@@ -51,6 +54,7 @@
   import { useTestPost } from '@/editor/helpers/useTestPost'
   import { useBoxOmikujiList } from './composables/useBoxOmikujiList'
   import OmikujiRow from './row/OmikujiRow.vue'
+  import CooldownHelpButton from './cooldown/CooldownHelpButton.vue'
 
   const { t } = useI18n()
 

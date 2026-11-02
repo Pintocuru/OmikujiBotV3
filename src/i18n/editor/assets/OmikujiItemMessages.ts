@@ -4,6 +4,29 @@
 export const omikujiItemMessages = {
   ja: {
     omikujiItem: {
+      cooldownHelp: {
+        title: 'クールダウン(秒)について',
+        summary:
+          'このおみくじが実行されると、その秒数の間、値がこれより小さいおみくじの実行を止めます。同じ値や大きい値のおみくじは止まりません。',
+        basis: '止める基準になるのは、直前に実行された 1 件だけです。',
+        zero: '0 や未設定のおみくじは、他のおみくじを止めませんが、止められる側にはなります。',
+        negative: 'マイナスの値も使えます。-3 なら 3 秒間、-3 より小さい値(-4 以下)のおみくじを止めます。',
+        blocked:
+          '止められた回は何も投稿されず、後から再実行もされません。コメントの場合は、以降のイベントの判定も行いません。',
+        examplesTitle: '使い方の例',
+        example1: '初見さんの挨拶を 5 にする → 5 秒間は、0 の定期案内に上書きされません。',
+        example2: 'レアなおみくじを 10 にする → 10 秒間は、通常のおみくじが割り込めません(演出の時間を確保できます)。',
+      },
+      cooldownOverview: {
+        open: '全おみくじのクールダウン一覧',
+        title: 'クールダウン一覧',
+        description: '使われているすべてのおみくじのクールダウンです。名前を押すと、そのおみくじへ移動します。',
+        empty: 'クールダウンを設定したおみくじはありません。',
+        columns: { item: 'おみくじ', box: 'おみくじ箱', cooldown: 'クールダウン', blockedBy: '止められる件数' },
+        blockedByTooltip: 'このおみくじを止めうる、他のおみくじの数',
+        zeroNote:
+          '値が 0 / 未設定のおみくじ {count} 件は、他を止めないため一覧に出していません(止められる側にはなります)。',
+      },
       list: {
         testTooltip: 'わんコメを起動すると、投稿の確認ができます',
         test: '抽選テスト',
@@ -64,7 +87,7 @@ export const omikujiItemMessages = {
         },
         cooldown: {
           label: 'クールダウン',
-          description: 'これ以降の実行を一定時間ブロックします（秒）',
+          description: '実行後、この秒数の間、これより小さい値のおみくじをブロックします（秒）',
           inputTitle: 'クールダウン(秒)',
           unit: '秒',
         },
@@ -101,6 +124,30 @@ export const omikujiItemMessages = {
   },
   en: {
     omikujiItem: {
+      cooldownHelp: {
+        title: 'About cooldown (seconds)',
+        summary:
+          'After this item runs, items with a smaller value are blocked for that many seconds. Items with the same or a larger value are not blocked.',
+        basis: 'Only the most recently run item is used as the reference.',
+        zero: 'Items with 0 or no value never block others, but they can be blocked.',
+        negative: 'Negative values work too. -3 blocks items with a value below -3 (-4 or less) for 3 seconds.',
+        blocked:
+          'A blocked run posts nothing and is not retried later. For comments, the remaining events are not checked either.',
+        examplesTitle: 'Examples',
+        example1: 'Set the first-time greeting to 5 → for 5 seconds it cannot be overwritten by a 0 scheduled notice.',
+        example2:
+          'Set a rare fortune to 10 → for 10 seconds, normal fortunes cannot cut in (keeps time for the effect).',
+      },
+      cooldownOverview: {
+        open: 'Cooldown overview of all fortunes',
+        title: 'Cooldown overview',
+        description: 'Cooldowns of every fortune in use. Press a name to jump to it.',
+        empty: 'No fortune has a cooldown.',
+        columns: { item: 'Fortune', box: 'Fortune box', cooldown: 'Cooldown', blockedBy: 'Blockable by' },
+        blockedByTooltip: 'Number of other fortunes that can block this one',
+        zeroNote:
+          '{count} fortune(s) with 0 / no value are not listed because they never block others (they can still be blocked).',
+      },
       list: {
         testTooltip: 'Start OneComme to preview the post',
         test: 'Test draw',
@@ -160,7 +207,7 @@ export const omikujiItemMessages = {
         },
         cooldown: {
           label: 'Cooldown',
-          description: 'Blocks further execution for a set time (seconds)',
+          description: 'After this runs, blocks items with a smaller value for this many seconds',
           inputTitle: 'Cooldown (seconds)',
           unit: 's',
         },

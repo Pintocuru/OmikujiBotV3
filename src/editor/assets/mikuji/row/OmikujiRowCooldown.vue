@@ -7,14 +7,7 @@
     :title="t('omikujiItem.header.cooldown.inputTitle')"
   >
     <Timer class="w-3.5 h-3.5 shrink-0 opacity-60" />
-    <input
-      type="number"
-      class="min-w-0 grow"
-      :value="item.cooldownSeconds ?? 0"
-      min="0"
-      step="0.1"
-      @change="updateCooldown"
-    />
+    <input type="number" class="min-w-0 grow" :value="item.cooldownSeconds ?? 0" step="0.1" @change="updateCooldown" />
     <span class="text-xs opacity-60">{{ t('omikujiItem.header.cooldown.unit') }}</span>
   </label>
   <div v-else class="text-center opacity-40">-</div>
@@ -38,6 +31,6 @@
   const updateCooldown = (event: Event) => {
     if (props.item.kind !== 'steps') return
     const num = parseFloat((event.target as HTMLInputElement).value)
-    emit('update:item', { ...props.item, cooldownSeconds: isNaN(num) || num < 0 ? 0 : num })
+    emit('update:item', { ...props.item, cooldownSeconds: isNaN(num) ? 0 : num })
   }
 </script>

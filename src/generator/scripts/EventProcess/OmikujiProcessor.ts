@@ -14,6 +14,7 @@ import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
 import { buildDefaultPlaceholders } from '@/generator/scripts/EventProcess/DefaultPlaceholderBuilder'
+import { tryAcquireCooldown } from '@/generator/scripts/EventProcess/CooldownGate'
 
 export class OmikujiProcessor {
   private readonly store = useAppStore()
@@ -38,7 +39,18 @@ export class OmikujiProcessor {
     // return / continue / reset / log は何もしない
     if (!item || item.kind !== 'steps') return []
 
+    // クールダウン中は何も実行しない
+    if (!this.tryAcquireCooldown(item)) return []
+
     return this.runSteps(item, omiken)
+  }
+
+  /**
+   * cooldownSeconds による実行可否の判定。通過した場合は記録を更新する。
+   * runSteps の直前に呼ぶこと (並列処理でも判定と記録が同期的に完結する)。
+   */
+  tryAcquireCooldown(item: OmikujiItemStepsType): boolean {
+    return tryAcquireCooldown(item.cooldownSeconds)
   }
 
   /**

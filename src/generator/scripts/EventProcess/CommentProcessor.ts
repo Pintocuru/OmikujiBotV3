@@ -70,6 +70,11 @@ export class EventCommentProcessor {
     // 通常ステップ (kind が 'steps' のみ到達)
     if (selectedItem.kind !== 'steps') return []
     const omikujiProcessor = new OmikujiProcessor()
+
+    // クールダウン中: control の return と同様に、空メッセージで以降のイベントを止める
+    if (!omikujiProcessor.tryAcquireCooldown(selectedItem)) {
+      return [BotMessageSchema.parse({ uiKey: 'commentBubble' })]
+    }
     return omikujiProcessor.runSteps(selectedItem, omiken)
   }
 

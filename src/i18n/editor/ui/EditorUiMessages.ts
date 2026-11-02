@@ -3,6 +3,7 @@ export const editorUiMessages = {
     common: { none: '（なし）' },
     editorUi: {
       dialog: { close: '閉じる' },
+      help: { open: 'ヘルプを表示' },
       editDialog: { cancel: 'キャンセル', saveClose: '保存して閉じる' },
       menu: { duplicate: '複製', delete: '削除' },
       characterPicker: { noImage: '画像なし' },
@@ -22,6 +23,7 @@ export const editorUiMessages = {
     common: { none: '(None)' },
     editorUi: {
       dialog: { close: 'Close' },
+      help: { open: 'Show help' },
       editDialog: { cancel: 'Cancel', saveClose: 'Save and close' },
       menu: { duplicate: 'Duplicate', delete: 'Delete' },
       characterPicker: { noImage: 'No image' },

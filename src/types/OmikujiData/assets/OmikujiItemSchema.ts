@@ -46,7 +46,7 @@ const OmikujiItemBase = BaseSchema.extend({
 export const OmikujiItemStepsSchema = OmikujiItemBase.extend({
   kind: z.literal('steps').default('steps'), // kind 省略時は steps
   stepKey: z.string().default('').catch(''),
-  cooldownSeconds: z.number().min(0).optional(), // 設定した秒数の間、重複実行をブロックする
+  cooldownSeconds: z.number().optional(), // 直前に実行されたシナリオの値を基準に、一定時間の後続実行を制限する (負数可。詳細は CooldownGate.ts)
 })
 export type OmikujiItemStepsType = z.infer<typeof OmikujiItemStepsSchema>
 
