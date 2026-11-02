@@ -14,7 +14,7 @@
         </button>
       </div>
 
-      <LinkGroup v-if="box" :items="boxItems" />
+      <LinkGroup v-if="box" :items="boxItems" :loading="false" />
 
       <!-- 未接続 / 参照切れ -->
       <div v-else class="flex flex-wrap items-center gap-2 rounded-lg bg-neutral text-neutral-content px-3 py-2">

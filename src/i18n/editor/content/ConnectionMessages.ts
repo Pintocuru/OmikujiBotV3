@@ -3,6 +3,7 @@ export const connectionMessages = {
   ja: {
     connections: {
       noBox: '接続がありません…',
+      searching: '検索中…',
       boxMissing: '「{key}」は存在しません',
       childPlaceholders: '入れ子のプレースホルダー',
       noChildPlaceholders: 'なし',
@@ -61,6 +62,7 @@ export const connectionMessages = {
   en: {
     connections: {
       noBox: 'No connection…',
+      searching: 'Searching…',
       boxMissing: '"{key}" does not exist',
       childPlaceholders: 'Placeholders used inside',
       noChildPlaceholders: 'No nested placeholders…',

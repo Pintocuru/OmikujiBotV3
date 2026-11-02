@@ -1,8 +1,16 @@
 <!-- src/editor/content/connections/LinkGroup.vue -->
 <!-- 接続先のチップ一覧。クリックでそのアイテムへ移動する(親・子のラベルは LaneLayout が出す) -->
 <template>
-  <div v-if="items.length > 0 || emptyText" class="min-w-0">
-    <div v-if="items.length === 0" class="rounded-lg bg-neutral text-neutral-content px-2 py-1 text-xs">
+  <div v-if="items.length > 0 || emptyText || isLoading" class="min-w-0">
+    <!-- 検索中で、まだ出せるものがないとき(「なし」とは言わない) -->
+    <div
+      v-if="items.length === 0 && isLoading"
+      class="flex items-center gap-2 rounded-lg bg-neutral text-neutral-content px-2 py-1 text-xs"
+    >
+      <span class="loading loading-spinner loading-xs" />
+      {{ t('connections.searching') }}
+    </div>
+    <div v-else-if="items.length === 0" class="rounded-lg bg-neutral text-neutral-content px-2 py-1 text-xs">
       {{ emptyText }}
     </div>
     <div v-else class="flex flex-wrap items-center gap-1">
@@ -32,6 +40,9 @@
           </li>
         </ul>
       </div>
+
+      <!-- 更新中は前の結果を出したまま、小さく表示する -->
+      <span v-if="isLoading" class="loading loading-spinner loading-xs opacity-60" :title="t('connections.searching')" />
     </div>
 
     <slot />
@@ -44,6 +55,7 @@
   import { categoryMap } from '@/maps/OmikujiData'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import { useReferenceGraph } from '../composables/useReferenceGraph'
   import type { LinkItem } from './types'
 
   const props = withDefaults(
@@ -53,9 +65,14 @@
       emptyText?: string
       /** チップで並べる最大数。超えた分は「+n」のパネルに入る */
       limit?: number
+      /** 検索中の表示を強制する(true/false)。省略すると参照グラフの構築状況に従う */
+      loading?: boolean
     }>(),
-    { emptyText: undefined, limit: 5 }
+    { emptyText: undefined, limit: 5, loading: undefined }
   )
+
+  const { isSearching } = useReferenceGraph()
+  const isLoading = computed(() => props.loading ?? isSearching.value)
 
   const visibleItems = computed(() => props.items.slice(0, props.limit))
   const hiddenItems = computed(() => props.items.slice(props.limit))

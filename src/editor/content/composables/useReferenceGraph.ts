@@ -1,5 +1,5 @@
 // src/editor/content/composables/useReferenceGraph.ts
-import { computed, effectScope } from 'vue'
+import { effectScope, ref, shallowRef, watch } from 'vue'
 import { getActivePinia, storeToRefs, type Pinia } from 'pinia'
 import { eventCategory, hasScenarioStepMessage, type OmikujiDataType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -104,13 +104,58 @@ const buildReferenceGraph = (data: OmikujiDataType) => {
   }
 }
 
-/** グラフと循環の集合。どれも全体を走査するので、呼び出し元ごとに作らず 1 つを共有する */
+type ReferenceGraph = ReturnType<typeof buildReferenceGraph>
+
+/** 最初の構築が終わるまで使う空のグラフ(全部「つながりなし」) */
+const createEmptyGraph = (): ReferenceGraph => {
+  const identity = (key: string) => key
+  return {
+    scenarioCalls: new Map(),
+    scenarioCallers: new Map(),
+    characterScenarios: new Map(),
+    scenarioPlaceholders: new Map(),
+    placeholderScenarios: new Map(),
+    placeholderChildren: new Map(),
+    placeholderParents: new Map(),
+    boxScenarios: new Map(),
+    scenarioBoxes: new Map(),
+    scenarioItemCounts: new Map(),
+    boxEvents: new Map(),
+    names: { scenarios: identity, placeholders: identity, mikuji: identity, characters: identity },
+  }
+}
+
+/** データ変更から再構築までの待ち時間(ms)。連続した編集はまとめ、先に「検索中」を描画させる */
+const REBUILD_DELAY_MS = 150
+
+/**
+ * グラフと循環の集合。どれも全体を走査するので、呼び出し元ごとに作らず 1 つを共有する。
+ * 描画側が読むのは「できあがったスナップショット」だけ。データが変わっても同期では再計算せず、
+ * isSearching を立てたうえで少し待ってから作り直す(その間は前のスナップショットを出し続ける)。
+ */
 const createSharedGraph = () => {
   const { data } = storeToRefs(useOmikujiStore())
-  const graph = computed(() => buildReferenceGraph(data.value))
-  const cyclicScenarioKeys = computed(() => cyclicNodes(graph.value.scenarioCalls))
-  const cyclicPlaceholderKeys = computed(() => cyclicNodes(graph.value.placeholderChildren))
-  return { graph, cyclicScenarioKeys, cyclicPlaceholderKeys }
+  const graph = shallowRef<ReferenceGraph>(createEmptyGraph())
+  const cyclicScenarioKeys = shallowRef<Set<string>>(new Set())
+  const cyclicPlaceholderKeys = shallowRef<Set<string>>(new Set())
+  const isSearching = ref(true)
+
+  let timer: ReturnType<typeof setTimeout> | undefined
+  const rebuild = () => {
+    const built = buildReferenceGraph(data.value)
+    graph.value = built
+    cyclicScenarioKeys.value = cyclicNodes(built.scenarioCalls)
+    cyclicPlaceholderKeys.value = cyclicNodes(built.placeholderChildren)
+    isSearching.value = false
+  }
+  const schedule = () => {
+    isSearching.value = true
+    clearTimeout(timer)
+    timer = setTimeout(rebuild, REBUILD_DELAY_MS)
+  }
+
+  watch(data, schedule, { deep: true, immediate: true })
+  return { graph, cyclicScenarioKeys, cyclicPlaceholderKeys, isSearching }
 }
 
 // Pinia(= データの持ち主)ごとに 1 つ。コンポーネントの破棄に巻き込まれないよう、独立した effectScope で作る
@@ -133,7 +178,7 @@ const getSharedGraph = () => {
  * 返す LinkItem はそのまま接続表示のチップになる。
  */
 export function useReferenceGraph() {
-  const { graph, cyclicScenarioKeys, cyclicPlaceholderKeys } = getSharedGraph()
+  const { graph, cyclicScenarioKeys, cyclicPlaceholderKeys, isSearching } = getSharedGraph()
 
   const toLinkItems = (keys: Iterable<string> | undefined, category: 'scenarios' | 'placeholders' | 'mikuji'): LinkItem[] =>
     Array.from(keys ?? [], (key) => ({ category, key, name: graph.value.names[category](key) }))
@@ -214,6 +259,8 @@ export function useReferenceGraph() {
     parentPlaceholders,
     ancestorPlaceholderKeys,
     scenarioItemCount,
+    /** グラフを作り直している最中か(この間の結果は前回のスナップショット。空でも「なし」とは言えない) */
+    isSearching,
     // 循環参照(エディターで見つけて直せるように、接続表示と切替プルダウンに出す)
     cyclicScenarioKeys,
     cyclicPlaceholderKeys,
