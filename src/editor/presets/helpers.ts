@@ -16,46 +16,61 @@ export const stepsRecord = (steps: StepsInput) =>
     )
   )
 
-/** ステップを1件実行するだけのみくじ箱を作る(events の omikujiKey 用に key を返す) */
+/** シナリオ(assets.scenarios)を作る。key は都度発行する */
+export const buildScenario = (name: string, steps: StepsInput) => ({
+  key: generateId(),
+  name,
+  steps: stepsRecord(steps),
+})
+
+/** シナリオを実行するみくじアイテム(kind: 'steps')。weight 省略時は通常アイテムの既定値 */
+const stepsItem = (name: string, stepKey: string, weight?: number) =>
+  OmikujiItemSchema.parse({
+    name,
+    kind: 'steps',
+    stepKey,
+    ...(weight === undefined ? {} : { lottery: { isPriority: false, weight } }),
+  })
+
+/**
+ * ステップを1件実行するだけのみくじ箱を作る(events の omikujiKey 用に key を返す)
+ * - シナリオも作るので、assets に mikuji と scenarios の両方を渡すこと(mikuji を先頭にすると作成後に選択される)
+ */
 export const buildSimpleMikuji = (name: string, steps: StepsInput) => {
   const key = generateId()
+  const scenario = buildScenario(name, steps)
   const mikuji = {
     key,
     name,
-    omikuji: [OmikujiItemSchema.parse({ name, kind: 'steps', steps })],
+    omikuji: [stepsItem(name, scenario.key)],
   } satisfies Partial<z.infer<typeof MikujiBoxSchema>>
-  return { key, mikuji }
+  return { key, mikuji, scenarios: [scenario] }
 }
 
 /** 通常のメッセージ投稿 */
 export const message = (text: string) => ({ kind: 'message' as const, message: text })
 
-/** 重み付きの結果一覧から、みくじ箱を作る */
+/** 重み付きの結果一覧から、みくじ箱を作る(結果ごとに1つのシナリオを作る) */
 export const buildWeightedMikuji = (
   name: string,
   items: readonly (readonly [string, number])[],
   toMessage: (item: string) => string
 ) => {
   const key = generateId()
+  const scenarios = items.map(([item]) => buildScenario(`${name}: ${item}`, [message(toMessage(item))]))
   const mikuji = {
     key,
     name,
-    omikuji: items.map(([item, weight]) =>
-      OmikujiItemSchema.parse({
-        name: item,
-        lottery: { isPriority: false, weight },
-        steps: [message(toMessage(item))],
-      })
-    ),
+    omikuji: items.map(([item, weight], index) => stepsItem(item, scenarios[index].key, weight)),
   } satisfies Partial<z.infer<typeof MikujiBoxSchema>>
-  return { key, mikuji }
+  return { key, mikuji, scenarios }
 }
 
-/** 占い一式(みくじ箱 + ラッキーカラー/アイテムのプレースホルダー)。key は都度発行するので何度追加しても衝突しない */
+/** 占い一式(みくじ箱 + シナリオ + ラッキーカラー/アイテムのプレースホルダー)。key は都度発行するので何度追加しても衝突しない */
 export const buildFortune = () => {
   const colorKey = generateId()
   const itemKey = generateId()
-  const { key, mikuji } = buildWeightedMikuji(
+  const { key, mikuji, scenarios } = buildWeightedMikuji(
     '今日の運勢',
     [
       ['大吉', 1],
@@ -74,5 +89,5 @@ export const buildFortune = () => {
       values: ['ハンカチ', '観葉植物', 'コーヒー', '傘', 'イヤホン', 'メガネ', '手帳'],
     },
   ]
-  return { key, mikuji, placeholders }
+  return { key, mikuji, scenarios, placeholders }
 }

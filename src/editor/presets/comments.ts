@@ -9,29 +9,18 @@ const omikuji: PresetDefinition<'comments'> = {
   id: 'omikuji',
   category: 'comments',
   build: () => {
-    const key = generateId()
-    const items = [
-      ['大吉', 1],
-      ['中吉', 3],
-      ['小吉', 4],
-      ['凶', 1],
-    ] as const
+    const { key, mikuji, scenarios } = buildWeightedMikuji(
+      'おみくじ',
+      [
+        ['大吉', 1],
+        ['中吉', 3],
+        ['小吉', 4],
+        ['凶', 1],
+      ],
+      (name) => `<<user>> さんの運勢は【${name}】です！`
+    )
     return {
-      assets: {
-        mikuji: [
-          {
-            key,
-            name: 'おみくじ',
-            omikuji: items.map(([name, weight]) =>
-              OmikujiItemSchema.parse({
-                name,
-                lottery: { isPriority: false, weight },
-                steps: [message(`<<user>> さんの運勢は【${name}】です！`)],
-              })
-            ),
-          },
-        ],
-      },
+      assets: { mikuji: [mikuji], scenarios },
       events: [
         {
           name: 'おみくじ',
@@ -82,9 +71,9 @@ const fortune: PresetDefinition<'comments'> = {
   id: 'fortune',
   category: 'comments',
   build: () => {
-    const { key, mikuji, placeholders } = buildFortune()
+    const { key, mikuji, scenarios, placeholders } = buildFortune()
     return {
-      assets: { mikuji: [mikuji], placeholders },
+      assets: { mikuji: [mikuji], scenarios, placeholders },
       events: [
         {
           name: '占い',
@@ -101,7 +90,7 @@ const greeting: PresetDefinition<'comments'> = {
   id: 'greeting',
   category: 'comments',
   build: () => {
-    const { key, mikuji } = buildWeightedMikuji(
+    const { key, mikuji, scenarios } = buildWeightedMikuji(
       '挨拶返し',
       [
         ['こんにちは', 3],
@@ -111,7 +100,7 @@ const greeting: PresetDefinition<'comments'> = {
       (text) => `<<user>> さん、${text}！`
     )
     return {
-      assets: { mikuji: [mikuji] },
+      assets: { mikuji: [mikuji], scenarios },
       events: [
         {
           name: '挨拶',
@@ -131,11 +120,11 @@ const dice: PresetDefinition<'comments'> = {
   id: 'dice',
   category: 'comments',
   build: () => {
-    const { key, mikuji } = buildSimpleMikuji('ダイス', [
+    const { key, mikuji, scenarios } = buildSimpleMikuji('ダイス', [
       message("<<user>> さんの出目は <<'1','2','3','4','5','6'>> です"),
     ])
     return {
-      assets: { mikuji: [mikuji] },
+      assets: { mikuji: [mikuji], scenarios },
       events: [
         {
           name: 'ダイス',

@@ -7,7 +7,7 @@ const omikuji5: PresetDefinition<'mikuji'> = {
   id: 'omikuji5',
   category: 'mikuji',
   build: () => {
-    const { mikuji } = buildWeightedMikuji(
+    const { mikuji, scenarios } = buildWeightedMikuji(
       'おみくじ(5段階)',
       [
         ['大吉', 1],
@@ -18,7 +18,7 @@ const omikuji5: PresetDefinition<'mikuji'> = {
       ],
       (r) => `<<user>> さんの運勢は【${r}】です！`
     )
-    return { assets: { mikuji: [mikuji] } }
+    return { assets: { mikuji: [mikuji], scenarios } }
   },
 }
 
@@ -26,8 +26,8 @@ const fortune: PresetDefinition<'mikuji'> = {
   id: 'fortune',
   category: 'mikuji',
   build: () => {
-    const { mikuji, placeholders } = buildFortune()
-    return { assets: { mikuji: [mikuji], placeholders } } // mikuji を先頭にして作成後に選択させる
+    const { mikuji, scenarios, placeholders } = buildFortune()
+    return { assets: { mikuji: [mikuji], scenarios, placeholders } } // mikuji を先頭にして作成後に選択させる
   },
 }
 
@@ -35,7 +35,7 @@ const coinToss: PresetDefinition<'mikuji'> = {
   id: 'coinToss',
   category: 'mikuji',
   build: () => {
-    const { mikuji } = buildWeightedMikuji(
+    const { mikuji, scenarios } = buildWeightedMikuji(
       'コイントス',
       [
         ['表', 1],
@@ -43,7 +43,7 @@ const coinToss: PresetDefinition<'mikuji'> = {
       ],
       (r) => `<<user>> さんのコイントスは【${r}】！`
     )
-    return { assets: { mikuji: [mikuji] } }
+    return { assets: { mikuji: [mikuji], scenarios } }
   },
 }
 

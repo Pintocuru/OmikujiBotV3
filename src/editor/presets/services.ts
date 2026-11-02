@@ -8,11 +8,11 @@ const upVotePeak: PresetDefinition<'services'> = {
   id: 'upVotePeak',
   category: 'services',
   build: () => {
-    const { key, mikuji } = buildSimpleMikuji('高評価 過去最大', [
+    const { key, mikuji, scenarios } = buildSimpleMikuji('高評価 過去最大', [
       message('高評価が過去最大になりました！(<<upVote>>)'),
     ])
     return {
-      assets: { mikuji: [mikuji] },
+      assets: { mikuji: [mikuji], scenarios },
       events: [
         {
           name: '高評価 過去最大',
@@ -29,11 +29,11 @@ const viewerEvery10: PresetDefinition<'services'> = {
   id: 'viewerEvery10',
   category: 'services',
   build: () => {
-    const { key, mikuji } = buildSimpleMikuji('同時接続 10ごと', [
+    const { key, mikuji, scenarios } = buildSimpleMikuji('同時接続 10ごと', [
       message('同時接続数が <<viewer>> 人に！ありがとうございます！'),
     ])
     return {
-      assets: { mikuji: [mikuji] },
+      assets: { mikuji: [mikuji], scenarios },
       events: [
         {
           name: '同時接続 10ごと',
@@ -50,11 +50,11 @@ const followerUp: PresetDefinition<'services'> = {
   id: 'followerUp',
   category: 'services',
   build: () => {
-    const { key, mikuji } = buildSimpleMikuji('フォロー感謝', [
+    const { key, mikuji, scenarios } = buildSimpleMikuji('フォロー感謝', [
       message('フォローありがとうございます！(<<follower>>人)'),
     ])
     return {
-      assets: { mikuji: [mikuji] },
+      assets: { mikuji: [mikuji], scenarios },
       events: [
         {
           name: 'フォロー感謝',
@@ -71,11 +71,11 @@ const elapsed60: PresetDefinition<'services'> = {
   id: 'elapsed60',
   category: 'services',
   build: () => {
-    const { key, mikuji } = buildSimpleMikuji('配信1時間', [
+    const { key, mikuji, scenarios } = buildSimpleMikuji('配信1時間', [
       message('配信開始から1時間が経ちました。ここまでありがとうございます！'),
     ])
     return {
-      assets: { mikuji: [mikuji] },
+      assets: { mikuji: [mikuji], scenarios },
       events: [
         {
           name: '配信1時間',

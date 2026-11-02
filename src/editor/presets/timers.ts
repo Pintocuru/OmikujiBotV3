@@ -7,9 +7,9 @@ const hourlyChime: PresetDefinition<'timers'> = {
   id: 'hourlyChime',
   category: 'timers',
   build: () => {
-    const { key, mikuji } = buildSimpleMikuji('時報', [message('時報です。')])
+    const { key, mikuji, scenarios } = buildSimpleMikuji('時報', [message('時報です。')])
     return {
-      assets: { mikuji: [mikuji] },
+      assets: { mikuji: [mikuji], scenarios },
       events: [{ name: '時報', omikujiKey: key, mode: 'interval', intervalSeconds: 60 * 60, isBaseZero: true }],
     }
   },
@@ -20,11 +20,11 @@ const viewerWordParty: PresetDefinition<'timers'> = {
   id: 'viewerWordParty',
   category: 'timers',
   build: () => {
-    const { key, mikuji } = buildSimpleMikuji('同時接続数WordParty', [
+    const { key, mikuji, scenarios } = buildSimpleMikuji('同時接続数WordParty', [
       { kind: 'wordParty', wordPartyId: '', repeat: 'viewer' }, // wordPartyId は作成後に設定
     ])
     return {
-      assets: { mikuji: [mikuji] },
+      assets: { mikuji: [mikuji], scenarios },
       events: [{ name: '同時接続数WordParty', omikujiKey: key, mode: 'interval', intervalSeconds: 30 }],
     }
   },
@@ -35,11 +35,11 @@ const reminder: PresetDefinition<'timers'> = {
   id: 'reminder',
   category: 'timers',
   build: () => {
-    const { key, mikuji } = buildSimpleMikuji('定期告知', [
+    const { key, mikuji, scenarios } = buildSimpleMikuji('定期告知', [
       message('コメントはお気軽にどうぞ！「おみくじ」でおみくじも引けます'),
     ])
     return {
-      assets: { mikuji: [mikuji] },
+      assets: { mikuji: [mikuji], scenarios },
       events: [{ name: '定期告知', omikujiKey: key, mode: 'interval', intervalSeconds: 60 * 10 }],
     }
   },

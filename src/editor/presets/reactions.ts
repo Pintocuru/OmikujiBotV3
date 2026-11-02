@@ -8,9 +8,9 @@ const maxLevel: PresetDefinition<'reactions'> = {
   id: 'maxLevel',
   category: 'reactions',
   build: () => {
-    const { key, mikuji } = buildSimpleMikuji('盛り上がってる', [message('盛り上がってる～')])
+    const { key, mikuji, scenarios } = buildSimpleMikuji('盛り上がってる', [message('盛り上がってる～')])
     return {
-      assets: { mikuji: [mikuji] },
+      assets: { mikuji: [mikuji], scenarios },
       events: [
         {
           name: '最大レベル達成',
@@ -27,9 +27,9 @@ const heartBurst: PresetDefinition<'reactions'> = {
   id: 'heartBurst',
   category: 'reactions',
   build: () => {
-    const { key, mikuji } = buildSimpleMikuji('ハートありがとう', [message('ハートありがとう！')])
+    const { key, mikuji, scenarios } = buildSimpleMikuji('ハートありがとう', [message('ハートありがとう！')])
     return {
-      assets: { mikuji: [mikuji] },
+      assets: { mikuji: [mikuji], scenarios },
       events: [
         {
           name: 'ハート盛り上がり',
