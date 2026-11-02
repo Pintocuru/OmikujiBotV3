@@ -1,12 +1,12 @@
 <!-- src/editor/assets/scenarios/scenarioCall/ScenarioCallSettings.vue -->
 <template>
-  <div>
+  <SettingItem layout="vertical" icon="ListChecks" label="シナリオ選択">
     <!-- 重み付きリスト表示 -->
-    <div v-if="displayValues.length > 0" class="space-y-1 max-h-128 overflow-y-auto">
-      <div v-for="(value, index) in displayValues" :key="index" class="card bg-base-100 p-2 border border-base-300">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+    <div v-if="displayValues.length > 0" class="space-y-1">
+      <div v-for="(value, index) in displayValues" :key="index">
+        <div class="flex flex-col sm:flex-row items-center sm:gap-2">
           <!-- 重み -->
-          <div class="w-full sm:w-32">
+          <div class="w-full sm:w-24">
             <label class="text-xs text-gray-500 mb-1 block">
               {{ t('scenarioStep.scenarioCall.weight', { percent: percentages[index] }) }}
             </label>
@@ -22,23 +22,37 @@
           <!-- シナリオ選択 -->
           <div class="flex-1">
             <label class="text-xs text-gray-500 mb-1 block">{{ t('scenarioStep.scenarioCall.label') }}</label>
-            <select
-              :value="value.content"
-              @change="updateContent(index, $event, handleUpdate)"
-              class="select select-bordered select-sm w-full"
-              :class="{ 'select-error': isCircular(value.content) }"
-            >
-              <option value="">{{ t('scenarioStep.scenarioCall.choose') }}</option>
+            <div class="">
+              <div class="flex items-center gap-2">
+                <select
+                  :value="value.content"
+                  @change="updateContent(index, $event, handleUpdate)"
+                  class="select select-bordered select-sm w-full"
+                  :class="{ 'select-error': isCircular(value.content) }"
+                >
+                  <option value="">{{ t('scenarioStep.scenarioCall.choose') }}</option>
 
-              <option
-                v-for="option in availableScenarios"
-                :key="option.key"
-                :value="option.key"
-                :disabled="option.disabled"
-              >
-                {{ option.name }} {{ option.disabled ? t('scenarioStep.scenarioCall.circularShort') : '' }}
-              </option>
-            </select>
+                  <option
+                    v-for="option in availableScenarios"
+                    :key="option.key"
+                    :value="option.key"
+                    :disabled="option.disabled"
+                  >
+                    {{ option.name }} {{ option.disabled ? t('scenarioStep.scenarioCall.circularShort') : '' }}
+                  </option>
+                </select>
+
+                <!-- 該当シナリオへ移動 -->
+                <button
+                  v-if="value.content && !isCircular(value.content)"
+                  class="btn btn-xs btn-ghost gap-1"
+                  @click="goToItem('scenarios', value.content)"
+                >
+                  <ExternalLink class="w-3.5 h-3.5" />
+                  {{ t('omikujiItem.scenario.edit') }}
+                </button>
+              </div>
+            </div>
 
             <!-- 循環参照警告 -->
             <div v-if="isCircular(value.content)" class="alert alert-error py-1 mt-1 text-xs">
@@ -55,14 +69,12 @@
     </div>
 
     <!-- 空の場合 -->
-    <div v-else>
-      <NoParamsCard :message="t('scenarioStep.scenarioCall.empty')" />
-    </div>
+    <NoParamsCard v-else :message="t('scenarioStep.scenarioCall.empty')" />
 
     <button @click="addValue(handleUpdate)" class="btn btn-primary w-full mt-4">
       {{ t('scenarioStep.scenarioCall.addValue') }}
     </button>
-  </div>
+  </SettingItem>
 </template>
 
 <script setup lang="ts">
@@ -72,6 +84,10 @@
   import { useWeightValueManagement } from '@/editor/helpers/shared/useWeightValueManagement'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
+  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import type { CategoryType } from '@/types/OmikujiData'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
+  import { ExternalLink } from 'lucide-vue-next'
 
   const { t } = useI18n()
 
@@ -83,6 +99,13 @@
   const emit = defineEmits<{
     'update:step': [step: ScenarioStepCallType]
   }>()
+
+  const navigationStore = useNavigationStore()
+
+  const goToItem = (category: CategoryType, key: string) => {
+    navigationStore.selectCategory(category)
+    navigationStore.selectItem(key)
+  }
 
   // callKeys を取得
   const getValues = () => props.step.callKeys

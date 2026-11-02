@@ -29,7 +29,7 @@ export const connectionMessages = {
       linkedScenarios: 'シナリオ',
       noEvents: '接続されたイベントはありません…',
       noScenarios: '接続されたシナリオはありません…',
-      sources: '参照元',
+      sources: 'みくじ箱',
       noSources: 'どこからも参照されてないようです…',
       connectOmikuji: 'おみくじと接続する',
       picker: {
