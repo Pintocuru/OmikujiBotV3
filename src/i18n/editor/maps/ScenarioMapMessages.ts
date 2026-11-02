@@ -64,7 +64,7 @@ export const scenarioMapMessages = {
       },
       omikujiItemKind: {
         steps: {
-          label: 'ステップ実行',
+          label: 'シナリオ実行',
           description: '下記の内容をわんコメやジェネレーターで表示します',
         },
         control: {
@@ -213,4 +213,3 @@ export const scenarioMapMessages = {
     },
   },
 } as const
-

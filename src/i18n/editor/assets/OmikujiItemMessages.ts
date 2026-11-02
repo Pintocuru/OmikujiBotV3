@@ -22,6 +22,7 @@ export const omikujiItemMessages = {
         },
         priority: {
           label: '優先度',
+          badge: '優先',
           description: '追加条件達成時、優先で選ばれます',
         },
         sectionTitle: '追加条件',
@@ -31,8 +32,8 @@ export const omikujiItemMessages = {
         priorityDisabledMessage: '他のおみくじと同じ抽選を行います',
       },
       scenario: {
-        label: '実行するシナリオ',
-        description: 'このおみくじが当たったとき、実行されます(1つのおみくじに1つ)',
+        label: 'シナリオ',
+        description: 'このおみくじを引いたとき、実行されます',
         none: 'シナリオが選ばれていません…',
         noneShort: 'シナリオ未選択',
         missing: '「{key}」は存在しません',
@@ -186,7 +187,8 @@ export const omikujiItemMessages = {
         description: 'Choose the trigger types',
         help: {
           conditionName: 'Additional trigger conditions',
-          conditionDescription: ' let you control event triggers based on comment content, chat count, and similar criteria.',
+          conditionDescription:
+            ' let you control event triggers based on comment content, chat count, and similar criteria.',
           allRequired: 'If multiple conditions are set, all of them must be met for the event to trigger.',
           adminCommands: 'You can also configure advanced options, such as commands limited to administrators.',
           empty: 'No trigger conditions have been specified',

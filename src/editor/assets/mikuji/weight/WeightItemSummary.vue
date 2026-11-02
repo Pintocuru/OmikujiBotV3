@@ -2,8 +2,7 @@
 <!-- 行の左側: ドラッグハンドル・名前・確率・追加条件・weight 入力・メニュー -->
 <template>
   <div
-    class="flex flex-1 min-w-72 items-center gap-2 text-sm p-2 rounded shadow-sm hover:shadow-md transition-all cursor-pointer"
-    :class="isSelected ? 'bg-primary text-primary-content' : 'bg-base-100'"
+    class="flex flex-1 min-w-72 items-center gap-2 text-sm p-2 bg-base-100 rounded shadow-sm hover:shadow-md transition-all"
     @click="emit('select')"
   >
     <!-- ドラッグハンドル -->
@@ -14,6 +13,7 @@
     <!-- 情報 -->
     <div class="flex-1 min-w-0">
       <div class="flex items-center gap-1">
+        <!-- おみくじ名前 -->
         <span class="truncate">{{ item.name || t('omikujiItem.summary.unnamed') }}</span>
         <!-- 名前・説明の編集 -->
         <button
@@ -24,10 +24,15 @@
           <Pencil class="w-3.5 h-3.5" />
         </button>
       </div>
+      <!-- 説明 -->
       <div v-if="item.description" class="text-xs opacity-70 truncate">{{ item.description }}</div>
 
       <div class="mt-1 flex flex-wrap items-center gap-1">
-        <span class="text-xs">{{ percentage }}%</span>
+        <!-- 出現確率 -->
+        <span class="badge badge-secondary text-secondary-content badge-sm shrink-0 gap-1 font-mono">
+          <Sparkles class="h-3 w-3" />
+          {{ percentage }}%
+        </span>
 
         <!-- 追加条件 -->
         <button class="btn btn-ghost btn-xs gap-1" @click.stop="emit('open', 'condition')">
@@ -35,7 +40,7 @@
           {{ t('omikujiItem.priority.sectionTitle') }}
         </button>
         <span v-if="item.lottery.isPriority" class="badge badge-sm badge-primary">
-          {{ t('omikujiItem.priority.priority.label') }}
+          {{ t('omikujiItem.priority.priority.badge') }}
         </span>
         <span v-else-if="item.lottery.criteria" class="badge badge-xs badge-secondary">
           {{ t('omikujiItem.summary.criteriaBadge') }}
@@ -44,7 +49,7 @@
     </div>
 
     <!-- Weight編集 -->
-    <div class="text-base shrink-0" :class="{ 'text-base-content': isSelected }">
+    <div class="text-base shrink-0">
       <input
         v-if="!item.lottery.isPriority"
         type="number"
@@ -70,13 +75,13 @@
   import type { OmikujiItemType } from '@/types/OmikujiData/'
   import type { WeightDialogName } from '../composables/useWeightItemDialog'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
+  import { Sparkles } from 'lucide-vue-next'
 
   const { t } = useI18n()
 
   defineProps<{
     item: OmikujiItemType
     percentage: string
-    isSelected: boolean
   }>()
 
   const emit = defineEmits<{

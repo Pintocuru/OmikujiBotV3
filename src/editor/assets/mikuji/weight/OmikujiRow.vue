@@ -2,11 +2,10 @@
 <!-- おみくじ 1 行分(抽選設定 → 実行内容 → クールダウン)。各部分とダイアログは子コンポーネントに分けてある -->
 <template>
   <div class="flex flex-wrap items-center gap-2">
-    <!-- おみくじ本体(クリックで選択) -->
+    <!-- おみくじ本体 -->
     <WeightItemSummary
       :item="item"
       :percentage="percentage"
-      :isSelected="isSelected"
       @select="emit('select')"
       @open="openDialog"
       @update:weight="emit('update:weight', $event)"
@@ -19,10 +18,10 @@
     <!-- 実行内容(シナリオ / 制御) -->
     <WeightItemRun :item="item" @open="openDialog('run')" />
 
-    <!-- クールダウン(steps のみ) -->
+    <!-- クールダウン -->
     <WeightItemCooldown :item="item" @update:item="emit('update:item', $event)" />
 
-    <!-- ダイアログ(開いたときだけ作る) -->
+    <!-- ダイアログセット -->
     <WeightItemDialogs
       :item="item"
       :opened="openedDialog"
@@ -44,7 +43,6 @@
     item: OmikujiItemType
     color: string
     percentage: string
-    isSelected: boolean
   }>()
 
   const emit = defineEmits<{
@@ -56,5 +54,5 @@
   }>()
 
   // ダイアログを開くときは、編集中の行を選択状態にする
-  const { opened: openedDialog, open: openDialog, close: closeDialog } = useWeightItemDialog(() => emit('select'))
+  const { opened: openedDialog, open: openDialog, close: closeDialog } = useWeightItemDialog()
 </script>
