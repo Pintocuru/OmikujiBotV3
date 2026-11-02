@@ -1,11 +1,11 @@
 // src/editor/helpers/KeyEditor/keyUpdateReferences.ts
-import type { ScenarioStepType, WeightValuesArrayType } from '@/types/OmikujiData/'
+import type { ScenarioStepRecordType, ScenarioStepWithIdType, WeightValuesArrayType } from '@/types/OmikujiData/'
 import { eventCategory, hasScenarioStepMessage } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
-type StepUpdater = (step: ScenarioStepType) => ScenarioStepType
+type StepUpdater = (step: ScenarioStepWithIdType) => ScenarioStepWithIdType
 type WeightValueItem = WeightValuesArrayType[number] // string | { weight, content }
 
 const contentOf = (item: WeightValueItem): string => (typeof item === 'string' ? item : item.content)
@@ -20,6 +20,18 @@ const mapIfChanged = <T>(items: readonly T[], fn: (item: T) => T): T[] | null =>
   return mapped.some((item, i) => item !== items[i]) ? mapped : null
 }
 
+// steps(Record)を map して、1つでも参照が変わっていれば新しい Record、変化なしなら null を返す(キーの順序は保つ)
+const mapStepRecordIfChanged = (record: ScenarioStepRecordType, fn: StepUpdater): ScenarioStepRecordType | null => {
+  let changed = false
+  const next: ScenarioStepRecordType = {}
+  for (const [id, step] of Object.entries(record)) {
+    const mapped = fn(step)
+    if (mapped !== step) changed = true
+    next[id] = mapped
+  }
+  return changed ? next : null
+}
+
 const replaceAll = (text: string, from: string, to: string): string => text.split(from).join(to)
 
 /**
@@ -30,7 +42,7 @@ function updateScenarioAssetSteps(updateFn: StepUpdater): void {
   const { getAssets } = useGetAssetData()
 
   Object.values(getAssets('scenarios')).forEach((scenario) => {
-    const steps = mapIfChanged(scenario.steps, updateFn)
+    const steps = mapStepRecordIfChanged(scenario.steps, updateFn)
     if (steps) updateAsset('scenarios', scenario.key, { steps: steps })
   })
 }

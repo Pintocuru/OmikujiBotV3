@@ -90,6 +90,7 @@ const ERROR_MESSAGES: Record<ApiActionName, string> = {
   'seed-mock-users': 'テスト用ユーザーの追加に失敗しました',
   'load-pad-status': 'ポン出しの状態の取得に失敗しました',
   'trigger-pad': 'ポン出しの発火に失敗しました',
+  'list-sounds': 'サウンド一覧の取得に失敗しました',
 }
 
 /**

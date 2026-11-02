@@ -8,18 +8,14 @@
 
       <div class="flex gap-2">
         <!-- delaySeconds調整コンポーネント -->
-        <DelaySecondsAdjuster
-          :model-value="modelValue"
-          @update:model-value="emit('update:modelValue', $event)"
-          @reorder="emit('reorder', $event)"
-        />
+        <DelaySecondsAdjuster :model-value="modelValue" @update:model-value="emit('update:modelValue', $event)" />
 
         <!-- テスト投稿ボタン -->
         <button
-          @click="() => postTestOmikujiItem(modelValue)"
+          @click="() => postTestOmikujiItem(sortedStepsFromRecord(modelValue))"
           class="btn btn-sm btn-info tooltip tooltip-top"
           :data-tip="t('scenarioStep.toolbar.testTip')"
-          :disabled="modelValue.length === 0"
+          :disabled="isEmpty"
         >
           <Send :size="16" />
           {{ t('scenarioStep.toolbar.test') }}
@@ -54,8 +50,10 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { ScenarioStepType, ScenarioStepArraySchema } from '@/types/OmikujiData'
+  import { ScenarioStepRecordType, ScenarioStepRecordSchema, sortedStepsFromRecord } from '@/types/OmikujiData'
+  import { generateId } from '@/types/core'
   import DelaySecondsAdjuster from './DelaySecondsAdjuster.vue'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { useTestPost } from '@/editor/helpers/useTestPost'
@@ -66,21 +64,40 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    modelValue: ScenarioStepType[]
+    modelValue: ScenarioStepRecordType
   }>()
 
   // Emits
   const emit = defineEmits<{
-    'update:modelValue': [value: ScenarioStepType[]]
-    reorder: [order: number[]]
+    'update:modelValue': [value: ScenarioStepRecordType]
   }>()
 
   const { postTestOmikujiItem } = useTestPost()
 
-  // ScenarioStepType[] 用クリップボード
-  const clipboard = useJsonClipboard<ScenarioStepType[]>({
+  const isEmpty = computed(() => Object.keys(props.modelValue).length === 0)
+
+  // 貼り付けるデータに新しい id を振り直す(重複する id で既存ステップを上書きしないため)
+  const withFreshIds = (steps: ScenarioStepRecordType): ScenarioStepRecordType =>
+    Object.fromEntries(
+      Object.values(steps).map((step) => {
+        const id = generateId()
+        return [id, { ...step, id }]
+      })
+    )
+
+  // ScenarioStepRecordType 用クリップボード
+  const clipboard = useJsonClipboard<ScenarioStepRecordType>({
     parse: (raw) => {
-      const result = ScenarioStepArraySchema.safeParse(raw)
+      // 旧形式(ステップの配列)のコピーも貼り付けられるようにする
+      const normalized = Array.isArray(raw)
+        ? Object.fromEntries(
+            raw.map((step) => {
+              const id = generateId()
+              return [id, { ...step, id }]
+            })
+          )
+        : raw
+      const result = ScenarioStepRecordSchema.safeParse(normalized)
       return result.success ? result.data : null
     },
   })
@@ -105,10 +122,10 @@
     })
 
     if (result.isConfirmed) {
-      emit('update:modelValue', parsed)
+      emit('update:modelValue', withFreshIds(parsed))
       swalToast.success({ title: t('scenarioStep.toolbar.pasteOverwrite') })
     } else if (result.isDenied) {
-      emit('update:modelValue', [...props.modelValue, ...parsed])
+      emit('update:modelValue', { ...props.modelValue, ...withFreshIds(parsed) })
       swalToast.success({ title: t('scenarioStep.toolbar.pasteMerge') })
     }
   }

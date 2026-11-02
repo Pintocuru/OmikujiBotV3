@@ -8,7 +8,6 @@
 //   assets.scenarios[*].steps : ScenarioStepType[]  ->  Record<stepId, ScenarioStepType & { id: stepId }>
 //   各ステップに id（UUID）を付与し、配列のインデックスではなく id をキーにする。
 //   表示順は従来通り delaySeconds 昇順（読み込み側で Object.values を sort する）。
-import { ScenarioStepType } from '@/types/OmikujiData'
 
 /** 変換後の dataVersion */
 export const DATA_VERSION_3_0000001005 = 3.0000001005
@@ -35,6 +34,9 @@ function withStepId(step: unknown, index: number): Obj {
  * id が重複する場合は再採番する。
  */
 export function stepsArrayToRecord(steps: unknown): Record<string, Obj> {
+  // 変換済み(Record)はそのまま返す(誤って空にしない)
+  if (steps && typeof steps === 'object' && !Array.isArray(steps)) return steps as Record<string, Obj>
+
   const record: Record<string, Obj> = {}
   arr(steps).forEach((step, index) => {
     const withId = withStepId(step, index)
@@ -78,11 +80,4 @@ export function migrateStepsArrayToRecord(data: unknown): Obj {
       dataVersion: DATA_VERSION_3_0000001005,
     },
   }
-}
-
-/** 参考: 変換後の Record から delaySeconds 昇順の配列を取り出す（現行コード改修時に使用） */
-export function sortedStepsFromRecord(record: unknown): ScenarioStepType[] {
-  return Object.values(obj(record)).sort(
-    (a, b) => (Number(obj(a).delaySeconds) || 0) - (Number(obj(b).delaySeconds) || 0)
-  ) as ScenarioStepType[]
 }

@@ -28,9 +28,15 @@ export function useMappingUpdater(allTargets: ComputedRef<FlowTarget[]>, applyMa
     })
 
     scenarios.forEach((scenario) => {
-      omikujiStore.updateAsset('scenarios', scenario.key, {
-        steps: applyMappings(scenario.steps, mappings),
+      // applyMappings は配列の順序を保つので、位置で元の id に対応させて Record に戻す
+      const original = Object.values(scenario.steps)
+      const mapped = applyMappings(original, mappings)
+      const steps: ScenarioType['steps'] = {}
+      mapped.forEach((step, index) => {
+        const id = original[index].id
+        steps[id] = { ...step, id }
       })
+      omikujiStore.updateAsset('scenarios', scenario.key, { steps })
     })
   }
 

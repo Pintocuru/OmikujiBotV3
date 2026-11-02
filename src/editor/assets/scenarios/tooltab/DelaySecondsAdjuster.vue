@@ -5,7 +5,7 @@
       @click="adjustAllDelaySeconds(-0.1)"
       class="btn btn-sm btn-ghost tooltip tooltip-top"
       :data-tip="t('scenarioStep.delay.decreaseTip')"
-      :disabled="modelValue.length === 0 || !canDecreaseDelay"
+      :disabled="steps.length === 0 || !canDecreaseDelay"
       type="button"
     >
       <Minus :size="16" />
@@ -15,7 +15,7 @@
       @click="adjustAllDelaySeconds(0.1)"
       class="btn btn-sm btn-ghost tooltip tooltip-top"
       :data-tip="t('scenarioStep.delay.increaseTip')"
-      :disabled="modelValue.length === 0"
+      :disabled="steps.length === 0"
       type="button"
     >
       <Plus :size="16" />
@@ -26,7 +26,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { ScenarioStepType } from '@/types/OmikujiData/'
+  import { ScenarioStepRecordType } from '@/types/OmikujiData/'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { Minus, Plus } from 'lucide-vue-next'
 
@@ -34,15 +34,15 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    modelValue: ScenarioStepType[]
+    modelValue: ScenarioStepRecordType
   }>()
 
   // Emits
   const emit = defineEmits<{
-    'update:modelValue': [value: ScenarioStepType[]]
-    /** ソート後の並び。order[新index] = 元のindex(選択中タブの追従用) */
-    reorder: [order: number[]]
+    'update:modelValue': [value: ScenarioStepRecordType]
   }>()
+
+  const steps = computed(() => Object.values(props.modelValue))
 
   // 下限値
   const omikujiStore = useOmikujiStore()
@@ -50,36 +50,19 @@
 
   // 減らすボタンが有効かどうかをチェック
   const canDecreaseDelay = computed(() => {
-    if (props.modelValue.length === 0) return false
+    if (steps.value.length === 0) return false
     // 全てのdelaySecondsが下限より大きいかチェック
-    return props.modelValue.some((step) => step.delaySeconds > minDelaySeconds.value)
+    return steps.value.some((step) => step.delaySeconds > minDelaySeconds.value)
   })
 
-  // 全てのdelaySecondsを調整する関数
+  // 全てのdelaySecondsを調整する関数(id は変えない。並びは表示時に sort されるので、ここでは並べ替えない)
   const adjustAllDelaySeconds = (adjustment: number) => {
-    const adjusted = props.modelValue.map((step, originalIndex) => {
+    const adjusted: ScenarioStepRecordType = {}
+    for (const [id, step] of Object.entries(props.modelValue)) {
       const newDelay = Math.round((step.delaySeconds + adjustment) * 10) / 10
       // 下限チェック
-      const clampedDelay = Math.max(newDelay, minDelaySeconds.value)
-      return {
-        originalIndex,
-        step: {
-          ...step,
-          delaySeconds: clampedDelay,
-        },
-      }
-    })
-
-    // delaySecondsでソート（小さい順。同値は元の順序を保つ）
-    adjusted.sort((a, b) => a.step.delaySeconds - b.step.delaySeconds)
-
-    emit(
-      'update:modelValue',
-      adjusted.map((e) => e.step)
-    )
-    emit(
-      'reorder',
-      adjusted.map((e) => e.originalIndex)
-    )
+      adjusted[id] = { ...step, delaySeconds: Math.max(newDelay, minDelaySeconds.value) }
+    }
+    emit('update:modelValue', adjusted)
   }
 </script>

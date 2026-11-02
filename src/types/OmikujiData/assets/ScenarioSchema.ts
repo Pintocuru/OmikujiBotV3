@@ -1,12 +1,12 @@
 // src/types/OmikujiData/assets/ScenarioSchema.ts
 import { z } from 'zod'
 import { BaseRecordSchema } from '@/types/core'
-import { ScenarioStepArraySchema } from './ScenarioStepSchema'
+import { ScenarioStepRecordSchema } from './ScenarioStepSchema'
 
 /**
  * Scenario
  */
 export const ScenarioSchema = BaseRecordSchema.extend({
-  steps: ScenarioStepArraySchema,
+  steps: ScenarioStepRecordSchema,
 })
 export type ScenarioType = z.infer<typeof ScenarioSchema>

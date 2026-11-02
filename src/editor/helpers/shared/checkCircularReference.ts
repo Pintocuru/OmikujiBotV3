@@ -1,12 +1,12 @@
 // src/editor/assets/scenarios/scenarioCall/ScenarioValidator.ts
-import { ScenarioStepType } from '@/types/OmikujiData'
+import { ScenarioStepRecordType } from '@/types/OmikujiData'
 
 /**
  * シナリオの循環参照をチェックする
  */
 export function checkCircularReference(
   targetKey: string,
-  scenarios: Record<string, { steps: ScenarioStepType[] }>,
+  scenarios: Record<string, { steps: ScenarioStepRecordType }>,
   currentKey?: string,
   visited: Set<string> = new Set()
 ): string[] | null {
@@ -25,7 +25,7 @@ export function checkCircularReference(
 
   visited.add(targetKey)
 
-  for (const step of scenario.steps) {
+  for (const step of Object.values(scenario.steps)) {
     if (step.kind !== 'scenarioCall') continue
 
     const keys = step.callKeys ?? []

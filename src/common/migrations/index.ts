@@ -5,6 +5,7 @@ import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { APP_VERSION, DATA_VERSION } from '@/version'
 import { ensureSampleCharacters } from './v3/sampleCharacter'
 import { migrateV2ToV3 } from './v2/v2ToV3'
+import { DATA_VERSION_3_0000001005, migrateStepsArrayToRecord } from './v3/stepsArrayToRecord'
 
 /** これ未満の dataVersion は旧形式（v2 以前）。v3 の形式へ変換が必要 */
 const LEGACY_DATA_VERSION_LIMIT = 3
@@ -73,6 +74,14 @@ export function normalizeData(data: unknown): NormalizeResult {
       title: '古いバージョンのデータを変換しました',
       text: `v${incomingVersion} → v${LEGACY_DATA_VERSION_LIMIT} 形式に変換し、廃止された項目は破棄しました。`,
     })
+  }
+
+  /**
+   * v3.0000001004 以前(v2 変換後を含む) -> 3.0000001005 : scenarios の steps を 配列 -> Record(id キー) へ
+   * 変換しないと、配列の steps は検証で全て除外される
+   */
+  if (incomingVersion < DATA_VERSION_3_0000001005) {
+    updatedData = migrateStepsArrayToRecord(updatedData)
   }
 
   // スキーマで保証

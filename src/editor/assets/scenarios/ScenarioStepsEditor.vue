@@ -2,7 +2,7 @@
 <template>
   <div class="space-y-2">
     <!-- ツールバー -->
-    <ScenarioStepToolbar :modelValue="modelValue" @update:modelValue="updateSteps" @reorder="followReorder" />
+    <ScenarioStepToolbar :modelValue="modelValue" @update:modelValue="updateSteps" />
 
     <!-- ステップタブエディター -->
     <ScenarioStepTabs
@@ -17,7 +17,12 @@
     <!-- タブコンテンツ -->
     <!-- ステップタブの内容 -->
     <template v-if="currentStep">
-      <ScenarioStepItem :step="currentStep" :current-key="currentKey" @update:step="updateCurrentStep" />
+      <ScenarioStepItem
+        :key="currentStep.id"
+        :step="currentStep"
+        :current-key="currentKey"
+        @update:step="updateCurrentStep"
+      />
     </template>
 
     <!-- ステップが空の場合 -->
@@ -31,7 +36,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { ScenarioStepType } from '@/types/OmikujiData/'
+  import { ScenarioStepRecordType } from '@/types/OmikujiData/'
   import ScenarioStepTabs from './tooltab/ScenarioStepTabs.vue'
   import ScenarioStepToolbar from './tooltab/ScenarioStepToolbar.vue'
   import ScenarioStepItem from './items/ScenarioStepItem.vue'
@@ -41,30 +46,22 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    modelValue: ScenarioStepType[]
+    modelValue: ScenarioStepRecordType
     currentKey?: string // 編集中のシナリオのキー(scenarioCall の循環参照チェック用)
   }>()
 
   const emit = defineEmits<{
-    'update:modelValue': [value: ScenarioStepType[]]
+    'update:modelValue': [value: ScenarioStepRecordType]
   }>()
 
   // タブロジックをコンポーザブルから取得
-  const {
-    activeTab,
-    currentStep,
-    setActiveTab,
-    updateCurrentStep,
-    addNewStep,
-    duplicateStep,
-    removeStep,
-    followReorder,
-  } = useScenarioStepTabs(
-    computed(() => props?.modelValue),
-    (_event, steps) => emit('update:modelValue', steps)
-  )
+  const { activeTab, currentStep, setActiveTab, updateCurrentStep, addNewStep, duplicateStep, removeStep } =
+    useScenarioStepTabs(
+      computed(() => props?.modelValue),
+      (_event, steps) => emit('update:modelValue', steps)
+    )
 
-  const updateSteps = (newSteps: ScenarioStepType[]) => {
+  const updateSteps = (newSteps: ScenarioStepRecordType) => {
     emit('update:modelValue', newSteps)
   }
 </script>

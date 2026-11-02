@@ -1,6 +1,6 @@
 // src/types/OmikujiData/assets/ScenarioStepSchema.ts
 import { z } from 'zod'
-import { normalizedArray } from '../../core/ParsedDefault'
+import { normalizedRecord } from '../../core/ParsedDefault'
 import { WeightValuesArraySchema } from './PlaceholderSchema'
 import { soundKeys } from './SoundKey'
 import { UiKindSchema } from '../ui/UiSettingsSchema'
@@ -106,9 +106,33 @@ export const ScenarioStepSchema = z.discriminatedUnion('kind', [
 export type ScenarioStepType = z.infer<typeof ScenarioStepSchema>
 
 /**
- * ScenarioStepArray わんコメ・BOTちゃんに投稿する型定義
+ * 保存データ(assets.scenarios[*].steps)用のステップ: 実行時の ScenarioStepType に id を足したもの
+ * - id は保存・編集の識別専用。実行時の steps(配列)や games が組み立てる ScenarioStepType には持たせない
  */
-export const ScenarioStepArraySchema = normalizedArray(ScenarioStepSchema, 'assets.scenarios.steps').transform((steps) => {
-  // delaySecondsが小さい順に並べ替え
-  return steps.sort((a, b) => a.delaySeconds - b.delaySeconds)
-})
+export const ScenarioStepWithIdSchema = ScenarioStepSchema.and(z.object({ id: z.string().min(1) }))
+export type ScenarioStepWithIdType = z.infer<typeof ScenarioStepWithIdSchema>
+
+/**
+ * ScenarioStepRecord: Record<stepId, ScenarioStepType & { id }>
+ * - 不正な要素だけ除外する(issues に記録)
+ * - key と id が食い違う場合は key を正とする
+ * - 表示・実行の順序は保存順に依存しない(sortedStepsFromRecord で delaySeconds 昇順にする)
+ */
+export const ScenarioStepRecordSchema = normalizedRecord(ScenarioStepWithIdSchema, 'assets.scenarios.steps').transform(
+  (record): Record<string, ScenarioStepWithIdType> =>
+    Object.fromEntries(Object.entries(record).map(([key, step]) => [key, step.id === key ? step : { ...step, id: key }]))
+)
+export type ScenarioStepRecordType = Record<string, ScenarioStepWithIdType>
+
+/**
+ * Record から delaySeconds 昇順の配列を取り出す
+ * 同値の順序は Array.sort の安定性により、Record の挿入順を保つ
+ */
+export const sortedStepsFromRecord = (record: ScenarioStepRecordType): ScenarioStepWithIdType[] =>
+  Object.values(record).sort((a, b) => a.delaySeconds - b.delaySeconds)
+
+/**
+ * id 付きステップの配列から Record を作る
+ */
+export const stepsToRecord = (steps: readonly ScenarioStepWithIdType[]): ScenarioStepRecordType =>
+  Object.fromEntries(steps.map((step) => [step.id, step]))

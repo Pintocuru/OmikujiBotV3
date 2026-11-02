@@ -36,7 +36,7 @@
             <Zap class="w-4 h-4 shrink-0" />
             <span class="font-bold truncate">{{ scenario.name || scenario.key }}</span>
             <span class="badge badge-sm badge-ghost ml-auto shrink-0">
-              {{ t('omikujiItem.scenario.dialog.steps', { count: scenario.steps.length }) }}
+              {{ t('omikujiItem.scenario.dialog.steps', { count: Object.keys(scenario.steps).length }) }}
             </span>
           </div>
           <div class="text-xs opacity-60 mt-1 break-all">

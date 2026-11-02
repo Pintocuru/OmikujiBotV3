@@ -1,5 +1,11 @@
 // src/generator/scripts/EventProcess/OmikujiProcessor.ts
-import { MikujiItemsType, OmikujiItemStepsType, OmikujiItemType, ScenarioStepType } from '@/types/OmikujiData'
+import {
+  MikujiItemsType,
+  OmikujiItemStepsType,
+  OmikujiItemType,
+  ScenarioStepType,
+  sortedStepsFromRecord,
+} from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { useAppStore } from '@/generator/stores/useAppStore'
@@ -88,7 +94,7 @@ export class OmikujiProcessor {
       this.reportError(`シナリオ "${key}" が見つかりません`)
       return []
     }
-    return scenario.steps
+    return sortedStepsFromRecord(scenario.steps)
   }
 
   /**

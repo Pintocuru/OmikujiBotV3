@@ -36,7 +36,7 @@ export function useScenarioStepCharacters() {
    * アセットが持つ steps 配列を取得（みくじ箱は steps 種別のアイテムごとに1配列）
    */
   const getStepGroups = (target: FlowTarget): ScenarioStepType[][] =>
-    getTargetScenarios(target).map((scenario) => scenario.steps)
+    getTargetScenarios(target).map((scenario) => Object.values(scenario.steps))
 
   /**
    * ステップが参照しているキャラクターキー（message / gameScript）

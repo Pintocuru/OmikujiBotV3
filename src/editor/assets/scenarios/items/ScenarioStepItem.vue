@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { scenarioStepKinds, type ScenarioStepType } from '@/types/OmikujiData'
+  import { scenarioStepKinds, type ScenarioStepWithIdType } from '@/types/OmikujiData'
   import { scenarioStepKindIcons } from '@/maps/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
@@ -59,12 +59,12 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    step: ScenarioStepType
+    step: ScenarioStepWithIdType
     currentKey?: string // 編集中のシナリオのキー(scenarioCall の循環参照チェック用)
   }>()
 
   const emit = defineEmits<{
-    'update:step': [value: ScenarioStepType]
+    'update:step': [value: ScenarioStepWithIdType]
   }>()
 
   const { basicDelaySeconds, currentComponent, componentProps, delaySeconds, kind, handleStepUpdate } =

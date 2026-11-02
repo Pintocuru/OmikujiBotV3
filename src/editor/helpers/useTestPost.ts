@@ -6,7 +6,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
-import { EventType, OmikujiItemType, ScenarioStepType } from '@/types/OmikujiData'
+import { EventType, OmikujiItemType, ScenarioStepType, sortedStepsFromRecord } from '@/types/OmikujiData'
 import { defaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
@@ -108,7 +108,7 @@ export function useTestPost() {
       return
     }
 
-    postTestOmikujiItem(scenario.steps, omikujiItem)
+    postTestOmikujiItem(sortedStepsFromRecord(scenario.steps), omikujiItem)
   }
 
   return {

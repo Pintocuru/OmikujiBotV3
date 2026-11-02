@@ -1,7 +1,13 @@
 // src/engine/OmikujiResult/ScenarioCallExpander.ts
 import { drawByWeight } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
-import { ScenarioType, handelNormalizedValues, ScenarioStepCallType, ScenarioStepType } from '@/types/OmikujiData/'
+import {
+  ScenarioType,
+  handelNormalizedValues,
+  ScenarioStepCallType,
+  ScenarioStepType,
+  sortedStepsFromRecord,
+} from '@/types/OmikujiData/'
 
 export class ScenarioCallExpander {
   private static readonly MAX_DEPTH = 10
@@ -69,7 +75,7 @@ export class ScenarioCallExpander {
     const newVisited = new Set(visited)
     newVisited.add(targetKey)
 
-    const adjustedSteps = this.adjustDelays(targetScenario.steps, callStep.delaySeconds)
+    const adjustedSteps = this.adjustDelays(sortedStepsFromRecord(targetScenario.steps), callStep.delaySeconds)
 
     return this.expand(adjustedSteps, scenarios, depth + 1, newVisited)
   }

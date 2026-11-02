@@ -2,7 +2,7 @@
 import type {
   OmikujiDataType,
   JsonMergeRemapType,
-  ScenarioStepType,
+  ScenarioStepRecordType,
   ScenarioStepMessageType,
   ScenarioStepGameScriptType,
 } from '@/types/OmikujiData/'
@@ -46,14 +46,16 @@ function remapGameScript(step: ScenarioStepGameScriptType, remaps: JsonMergeRema
 }
 
 /**
- * ステップの配列に対してリマップルールを適用
+ * ステップ(Record)に対してリマップルールを適用
  */
-function remapSteps(steps: ScenarioStepType[], remaps: JsonMergeRemapType[]): ScenarioStepType[] {
-  return steps.map((step) => {
-    if (step.kind === 'message') return remapMessage(step, remaps)
-    if (step.kind === 'gameScript') return remapGameScript(step, remaps)
-    return step
-  })
+function remapSteps(steps: ScenarioStepRecordType, remaps: JsonMergeRemapType[]): ScenarioStepRecordType {
+  return Object.fromEntries(
+    Object.entries(steps).map(([id, step]) => {
+      if (step.kind === 'message') return [id, { ...remapMessage(step, remaps), id }]
+      if (step.kind === 'gameScript') return [id, { ...remapGameScript(step, remaps), id }]
+      return [id, step]
+    })
+  )
 }
 
 /**

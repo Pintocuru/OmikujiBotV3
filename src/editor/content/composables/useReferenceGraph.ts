@@ -31,7 +31,7 @@ const buildReferenceGraph = (data: OmikujiDataType) => {
   const placeholderKeys = new Set(Object.keys(placeholders))
 
   for (const [scenarioKey, scenario] of Object.entries(scenarios)) {
-    for (const step of scenario.steps) {
+    for (const step of Object.values(scenario.steps)) {
       if (step.kind === 'scenarioCall') {
         for (const call of step.callKeys) {
           const calledKey = contentOf(call)

@@ -1,9 +1,20 @@
 // src/editor/presets/helpers.ts
 import { generateId } from '@/types/core'
-import { MikujiBoxSchema, OmikujiItemSchema, ScenarioStepArraySchema } from '@/types/OmikujiData/'
+import { MikujiBoxSchema, OmikujiItemSchema, ScenarioStepRecordSchema, ScenarioStepSchema } from '@/types/OmikujiData/'
 import type { z } from 'zod'
 
-type StepsInput = z.input<typeof ScenarioStepArraySchema>
+type StepsInput = z.input<typeof ScenarioStepSchema>[]
+
+/** ステップの配列から、シナリオ保存用の steps(Record)を作る。id は都度発行する */
+export const stepsRecord = (steps: StepsInput) =>
+  ScenarioStepRecordSchema.parse(
+    Object.fromEntries(
+      steps.map((step) => {
+        const id = generateId()
+        return [id, { ...step, id }]
+      })
+    )
+  )
 
 /** ステップを1件実行するだけのみくじ箱を作る(events の omikujiKey 用に key を返す) */
 export const buildSimpleMikuji = (name: string, steps: StepsInput) => {

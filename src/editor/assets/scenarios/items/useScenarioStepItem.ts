@@ -1,12 +1,12 @@
 // src/editor/assets/scenarios/items/useScenarioStepItem.ts
 import { computed, ref } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import type { ScenarioStepKind, ScenarioStepType } from '@/types/OmikujiData'
+import type { ScenarioStepKind, ScenarioStepType, ScenarioStepWithIdType } from '@/types/OmikujiData'
 import { createDefaultStep } from './createDefaultStep'
 import { stepSchemaMap, settingsComponentMap } from './ScenarioStepKindMap'
 
-type Props = { step: ScenarioStepType; currentKey?: string }
-type Emit = (event: 'update:step', value: ScenarioStepType) => void
+type Props = { step: ScenarioStepWithIdType; currentKey?: string }
+type Emit = (event: 'update:step', value: ScenarioStepWithIdType) => void
 
 export const useScenarioStepItem = (props: Props, emit: Emit) => {
   const omikujiStore = useOmikujiStore()
@@ -38,10 +38,11 @@ export const useScenarioStepItem = (props: Props, emit: Emit) => {
 
     const restored = rawStepCache.value[newKind] ?? createDefaultStep(newKind, current.delaySeconds)
 
-    emit(
-      'update:step',
-      stepSchemaMap[newKind].parse({ ...restored, kind: newKind, delaySeconds: current.delaySeconds })
-    )
+    // schema は id を落とすので、id は現在のステップのものを引き継ぐ(別ステップになってしまわないように)
+    emit('update:step', {
+      ...stepSchemaMap[newKind].parse({ ...restored, kind: newKind, delaySeconds: current.delaySeconds }),
+      id: current.id,
+    })
   }
 
   // IconRadioGroup の v-model 用
@@ -50,7 +51,8 @@ export const useScenarioStepItem = (props: Props, emit: Emit) => {
     set: updateStepType,
   })
 
-  const handleStepUpdate = (updated: ScenarioStepType) => emit('update:step', updated)
+  // 子の設定コンポーネントが id を落としても、現在のステップの id を保つ
+  const handleStepUpdate = (updated: ScenarioStepType) => emit('update:step', { ...updated, id: props.step.id })
 
   return { basicDelaySeconds, currentComponent, componentProps, delaySeconds, kind, handleStepUpdate }
 }

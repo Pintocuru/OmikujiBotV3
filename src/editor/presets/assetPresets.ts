@@ -1,6 +1,5 @@
 // src/editor/presets/assetPresets.ts
-import { ScenarioStepArraySchema } from '@/types/OmikujiData/'
-import { buildFortune, buildWeightedMikuji, message } from './helpers'
+import { buildFortune, buildWeightedMikuji, message, stepsRecord } from './helpers'
 import type { PresetDefinition } from './types'
 
 /** mikuji */
@@ -59,7 +58,7 @@ const thanks: PresetDefinition<'scenarios'> = {
       scenarios: [
         {
           name: 'お礼',
-          steps: ScenarioStepArraySchema.parse([
+          steps: stepsRecord([
             message('<<user>> さん、ありがとうございます！'),
             { ...message('また来てくださいね'), delaySeconds: 2 },
           ]),
@@ -75,7 +74,7 @@ const cheer: PresetDefinition<'scenarios'> = {
   build: () => ({
     assets: {
       scenarios: [
-        { name: '応援', steps: ScenarioStepArraySchema.parse([message('みんなで盛り上がっていきましょう！')]) },
+        { name: '応援', steps: stepsRecord([message('みんなで盛り上がっていきましょう！')]) },
       ],
     },
   }),
