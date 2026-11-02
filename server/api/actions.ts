@@ -15,6 +15,7 @@ export const API_ACTION = {
   loadUserStats: { method: 'GET', action: 'load-user-stats' },
   loadUsers: { method: 'GET', action: 'load-users' },
   loadPadStatus: { method: 'GET', action: 'load-pad-status' },
+  listSounds: { method: 'GET', action: 'list-sounds' },
 
   // POST
   move: { method: 'POST', action: 'move' },

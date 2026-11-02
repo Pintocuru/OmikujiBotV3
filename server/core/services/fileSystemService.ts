@@ -1,11 +1,12 @@
 // server/core/services/fileSystemService.ts
 import fs from 'fs/promises'
+import type { Dirent } from 'fs'
 import path from 'path'
 import { FileItem } from '@server/types'
 import { ensureDirectory } from './directoryService'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { SERVER_ROOT } from '@server/constants'
-import { FILE_NAME, INVALID_PATH_CODE } from '@server/core/constants'
+import { FILE_NAME, INVALID_PATH_CODE, SOUND_EXTENSIONS } from '@server/core/constants'
 
 /**
  * rootName から基準ディレクトリを解決（null なら server 直下）
@@ -75,6 +76,36 @@ async function collectJsonFiles(currentDir: string, baseDir: string): Promise<Fi
   }
 
   return results
+}
+
+/**
+ * sounds 配下の音声ファイルを再帰的に列挙する (sounds からの相対パス、昇順)
+ * フォルダがなければ空配列を返す (作成はしない)
+ */
+export async function getSoundFileList(soundsDir: string): Promise<string[]> {
+  const results: string[] = []
+  const extensions: readonly string[] = SOUND_EXTENSIONS
+
+  const walk = async (dir: string): Promise<void> => {
+    let entries: Dirent[]
+    try {
+      entries = await fs.readdir(dir, { withFileTypes: true })
+    } catch {
+      return
+    }
+
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name)
+      if (entry.isDirectory()) {
+        await walk(fullPath)
+      } else if (entry.isFile() && extensions.includes(path.extname(entry.name).toLowerCase())) {
+        results.push(path.relative(soundsDir, fullPath).replace(/\\/g, '/'))
+      }
+    }
+  }
+
+  await walk(soundsDir)
+  return results.sort()
 }
 
 /**

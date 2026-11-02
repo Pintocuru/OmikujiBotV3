@@ -25,6 +25,9 @@ export const DEV_API = {
   dummyUserCount: 30, // 開発サーバーに入れるダミーユーザーの人数
 } as const
 
+// sounds フォルダ配下で一覧に出す音声ファイルの拡張子
+export const SOUND_EXTENSIONS = ['.mp3', '.wav', '.ogg', '.m4a'] as const
+
 // HTTP ステータスコード
 export const HTTP = {
   OK: 200,

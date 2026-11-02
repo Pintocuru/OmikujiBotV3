@@ -22,7 +22,6 @@
 
       <!-- 遅延秒数（全タイプ共通） -->
       <SettingItem
-        layout="vertical"
         icon="Clock"
         labelKey="scenarioStep.stepItem.delayLabel"
         descriptionKey="scenarioStep.stepItem.delayDesc"

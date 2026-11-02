@@ -29,6 +29,8 @@ export interface UnifiedRequest {
 export interface RequestContext {
   /** omikujiData.js の出力先ディレクトリ */
   omikujiOutputDir: string
+  /** sounds フォルダ (音声ファイル一覧の取得元) */
+  soundsDir: string
   /** 開発用のアクション (ダミーデータの追加など) を許可するか。Express の開発サーバーだけ true */
   allowMock?: boolean
 }

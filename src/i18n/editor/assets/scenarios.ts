@@ -79,7 +79,7 @@ export const scenarioStepMessages = {
         customPlaceholder: '例: MySounds/custom.mp3',
       },
       wordParty: {
-        idDesc: 'WordPartyのID',
+        idDesc: 'WordPartyのIDを入力します',
         repeatLabel: '繰り返し回数',
         repeatDesc: 'WordPartyを実行する回数（最大20回）',
         none: 'なし（1回）',

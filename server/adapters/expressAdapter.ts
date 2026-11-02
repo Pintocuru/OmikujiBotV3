@@ -1,4 +1,5 @@
 // server/adapters/expressAdapter.ts
+import path from 'path'
 import { Request, Response, Application } from 'express'
 import { RequestContext, UnifiedRequest, ApiResult } from '@server/types'
 import { routeRequest } from '@server/core/router'
@@ -10,6 +11,7 @@ import { HTTP } from '@server/core/constants'
  */
 const EXPRESS_CONTEXT: RequestContext = {
   omikujiOutputDir: SERVER_ROOT,
+  soundsDir: path.join(path.dirname(SERVER_ROOT), 'assets', 'sounds'), // 開発: リポジトリ直下の assets/sounds
   allowMock: true, // 開発サーバーにはわんコメがないため、ダミーデータを追加するアクションを許可する
 }
 

@@ -1,4 +1,5 @@
 // server/adapters/pluginAdapter.ts
+import path from 'path'
 import { PluginRequest, PluginResponse } from '@onecomme.com/onesdk/types/Plugin'
 import { RequestContext, UnifiedRequest } from '@server/types'
 import { routeRequest } from '@server/core/router'
@@ -10,6 +11,7 @@ import { HTTP } from '@server/core/constants'
  */
 const PLUGIN_CONTEXT: RequestContext = {
   omikujiOutputDir: SERVER_ROOT,
+  soundsDir: path.join(path.dirname(SERVER_ROOT), 'sounds'), // 配布: sounds/ はビルド直下にコピーされる
 }
 
 /**

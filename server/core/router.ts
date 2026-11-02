@@ -6,6 +6,7 @@ import * as omikujiHandler from './handlers/omikujiHandler'
 import * as gameStateHandler from './handlers/gameStateHandler'
 import * as userStatsHandler from './handlers/userStatsHandler'
 import * as padHandler from './handlers/padHandler'
+import * as soundHandler from './handlers/soundHandler'
 import { API_ACTION } from '@server/api/actions'
 import { HTTP } from './constants'
 import { ok, fail, badRequest } from './utils/result'
@@ -25,7 +26,7 @@ export async function routeRequest(req: UnifiedRequest, ctx: RequestContext): Pr
 
   // メソッド別にルーティング
   if (method === 'GET') {
-    return handleGetRequest(action, params)
+    return handleGetRequest(action, params, ctx)
   }
 
   if (method === 'POST') {
@@ -38,7 +39,11 @@ export async function routeRequest(req: UnifiedRequest, ctx: RequestContext): Pr
 /**
  * GETリクエストのルーティング
  */
-async function handleGetRequest(action: string, params: Record<string, string>): Promise<ApiResult> {
+async function handleGetRequest(
+  action: string,
+  params: Record<string, string>,
+  ctx: RequestContext
+): Promise<ApiResult> {
   switch (action) {
     case API_ACTION.health.action:
       return ok({ status: 'OK', message: 'API is running' })
@@ -69,6 +74,9 @@ async function handleGetRequest(action: string, params: Record<string, string>):
 
     case API_ACTION.loadPadStatus.action:
       return padHandler.loadPadStatus(params.since)
+
+    case API_ACTION.listSounds.action:
+      return soundHandler.listSounds(ctx)
 
     default:
       return fail(HTTP.NOT_FOUND, `Unknown GET action: ${action}`)
