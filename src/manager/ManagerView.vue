@@ -8,8 +8,10 @@
   <div class="modal" :class="{ 'modal-open': open }" role="dialog" aria-modal="true" @click.self="open = false">
     <div class="modal-box max-w-5xl w-11/12 p-0 overflow-hidden text-base-content">
       <div class="card bg-linear-to-r from-primary to-secondary rounded-none">
-        <!-- ヘッダー -->
-        <ManagerHeader :showFileTools="tab === 'presets'" />
+        <div class="card-body px-4 py-2">
+          <!-- ヘッダー -->
+          <ManagerHeader :showFileTools="tab === 'presets'" />
+        </div>
       </div>
 
       <!-- 開く手段: どちらも同じ高さ・同じ見た目で並べる -->
