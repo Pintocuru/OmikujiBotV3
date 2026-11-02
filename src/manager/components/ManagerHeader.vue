@@ -12,9 +12,7 @@
       >
         {{ devStore.isExpressMode ? 'DEV' : 'Plugin' }}
       </button>
-      <h2 class="text-lg font-bold text-primary-content">
-        {{ devStore.isExpressMode ? 'データ管理' : 'プリセット管理' }}
-      </h2>
+      <h2 class="text-lg font-bold text-primary-content">パッケージ管理</h2>
     </div>
 
     <div v-if="devStore.isServerConnected && showFileTools" class="flex items-center gap-2">
