@@ -6,7 +6,7 @@
         <!-- 重み (パーセンテージ表示) -->
         <div class="w-full sm:w-32">
           <label class="text-xs text-gray-500 mb-1 block">
-            {{ t('placeholder.weightLabel') }} ({{ getWeightPercentage(value.weight) }}%)
+            {{ t('placeholder.weightLabel') }} ({{ percentages[index] }}%)
           </label>
           <input
             type="number"
@@ -64,7 +64,7 @@
 
   const getValues = () => props.values
 
-  const { displayValues, getWeightPercentage, addValue, removeValue, duplicateValue, updateWeight } =
+  const { displayValues, percentages, addValue, removeValue, duplicateValue, updateWeight } =
     useWeightValueManagement(getValues)
 
   // ストアには触れず、親（PlaceholderValuesEditor）に emit するだけ

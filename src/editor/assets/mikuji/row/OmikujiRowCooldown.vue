@@ -1,9 +1,9 @@
-<!-- src/editor/assets/mikuji/weight/WeightItemCooldown.vue -->
+<!-- src/editor/assets/mikuji/row/OmikujiRowCooldown.vue -->
 <!-- クールダウン(秒)の入力。steps のみ編集でき、control は「-」を表示する -->
 <template>
   <label
     v-if="item.kind === 'steps'"
-    class="input input-sm input-bordered flex w-28 shrink-0 items-center gap-1"
+    class="input input-sm input-bordered flex w-full items-center gap-1"
     :title="t('omikujiItem.header.cooldown.inputTitle')"
   >
     <Timer class="w-3.5 h-3.5 shrink-0 opacity-60" />
@@ -17,7 +17,7 @@
     />
     <span class="text-xs opacity-60">{{ t('omikujiItem.header.cooldown.unit') }}</span>
   </label>
-  <div v-else class="w-28 shrink-0 text-center opacity-40">-</div>
+  <div v-else class="text-center opacity-40">-</div>
 </template>
 
 <script setup lang="ts">

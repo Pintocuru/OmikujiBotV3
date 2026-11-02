@@ -1,10 +1,11 @@
 // src/editor/assets/mikuji/composables/useBoxOmikujiList.ts
 import { computed, watch, type Ref } from 'vue'
 import { OmikujiItemSchema, type MikujiBoxType, type OmikujiItemType } from '@/types/OmikujiData/'
+import { generateId } from '@/types/core'
+import { calcOmikujiPercentages } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useMikujiSelectionStore } from '@/editor/stores/useMikujiSelectionStore'
-import { updateItemWeight } from './useOmikujiWeight'
 
 export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
   const { updateAsset } = useOmikujiStore()
@@ -14,6 +15,11 @@ export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
     omikujiKey.value ? (getAsset('mikuji', omikujiKey.value) ?? null) : null
   )
   const omikujiList = computed<OmikujiItemType[]>(() => box.value?.omikuji ?? [])
+
+  // 各行の出現確率(表示用)。優先アイテムは抽選外なので null
+  const percentages = computed<(string | null)[]>(() =>
+    calcOmikujiPercentages(omikujiList.value).map((p) => (p === null ? null : String(p)))
+  )
 
   const commit = (omikuji: OmikujiItemType[]) => {
     if (!box.value || !omikujiKey.value) return
@@ -57,14 +63,16 @@ export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
 
   const replaceAll = (omikuji: OmikujiItemType[]) => commit(omikuji)
 
-  const setWeight = ({ index, weight }: { index: number; weight: number }) =>
-    commit(updateItemWeight(omikujiList.value, index, weight))
+  const updateItem = (index: number, item: OmikujiItemType) =>
+    commit(omikujiList.value.map((v, i) => (i === index ? item : v)))
+
+  const setWeight = (index: number, weight: number) => {
+    const item = omikujiList.value[index]
+    if (item) updateItem(index, { ...item, lottery: { ...item.lottery, weight } })
+  }
 
   const updateSelected = (updated: OmikujiItemType) => {
-    if (selectedIndex.value === null) return
-    const next = [...omikujiList.value]
-    next[selectedIndex.value] = updated
-    commit(next)
+    if (selectedIndex.value !== null) updateItem(selectedIndex.value, updated)
   }
 
   const add = () => {
@@ -74,5 +82,31 @@ export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
     selectedId.value = created.id
   }
 
-  return { omikujiList, selectedId, selectedIndex, selectedItem, replaceAll, setWeight, updateSelected, add }
+  const duplicate = (index: number) => {
+    const src = omikujiList.value[index]
+    if (!src) return
+    const id = generateId()
+    // JSON.parse(JSON.stringify(src)) で Proxy やリアクティブ参照を完全に除去してディープコピー
+    const copy: OmikujiItemType = { ...JSON.parse(JSON.stringify(src)), id, key: id, name: `${src.name}(コピー)` }
+    const next = [...omikujiList.value]
+    next.splice(index + 1, 0, copy)
+    commit(next)
+  }
+
+  const remove = (index: number) => commit(omikujiList.value.filter((_, i) => i !== index))
+
+  return {
+    omikujiList,
+    percentages,
+    selectedId,
+    selectedIndex,
+    selectedItem,
+    replaceAll,
+    updateItem,
+    setWeight,
+    updateSelected,
+    add,
+    duplicate,
+    remove,
+  }
 }

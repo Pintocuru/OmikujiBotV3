@@ -1,8 +1,8 @@
-<!-- src/editor/assets/mikuji/weight/WeightItemSummary.vue -->
-<!-- 行の左側: ドラッグハンドル・名前・確率・追加条件・weight 入力・メニュー -->
+<!-- src/editor/assets/mikuji/row/OmikujiRowSummary.vue -->
+<!-- 行の左側: ドラッグハンドル・名前・確率・追加条件・重み入力・メニュー -->
 <template>
   <div
-    class="flex flex-1 min-w-72 items-center gap-2 text-sm p-2 bg-base-100 rounded shadow-sm hover:shadow-md transition-all"
+    class="flex min-w-0 items-center gap-2 text-sm p-2 bg-base-100 rounded shadow-sm hover:shadow-md transition-all"
     @click="emit('select')"
   >
     <!-- ドラッグハンドル -->
@@ -28,8 +28,11 @@
       <div v-if="item.description" class="text-xs opacity-70 truncate">{{ item.description }}</div>
 
       <div class="mt-1 flex flex-wrap items-center gap-1">
-        <!-- 出現確率 -->
-        <span class="badge badge-secondary text-secondary-content badge-sm shrink-0 gap-1 font-mono">
+        <!-- 出現確率(優先アイテムは抽選外) -->
+        <span
+          v-if="percentage !== null"
+          class="badge badge-secondary text-secondary-content badge-sm shrink-0 gap-1 font-mono"
+        >
           <Sparkles class="h-3 w-3" />
           {{ percentage }}%
         </span>
@@ -48,19 +51,20 @@
       </div>
     </div>
 
-    <!-- Weight編集 -->
-    <div class="text-base shrink-0">
+    <!-- 重み編集(優先アイテムは抽選外なので「-」) -->
+    <label v-if="!item.lottery.isPriority" class="input input-xs input-bordered flex w-20 shrink-0 items-center gap-1">
+      <Scale class="w-3.5 h-3.5 shrink-0 opacity-60" />
       <input
-        v-if="!item.lottery.isPriority"
         type="number"
+        class="min-w-0 grow"
         :value="item.lottery.weight"
-        @input="handleWeightUpdate"
-        @click.stop
         min="0"
         step="1"
-        class="input input-xs input-bordered w-16"
+        @input="handleWeightUpdate"
+        @click.stop
       />
-    </div>
+    </label>
+    <div v-else class="w-20 shrink-0 text-center opacity-40">-</div>
 
     <!-- メニュー -->
     <div class="shrink-0" @click.stop>
@@ -71,22 +75,21 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { Filter, GripVertical, Pencil } from 'lucide-vue-next'
+  import { Filter, GripVertical, Pencil, Scale, Sparkles } from 'lucide-vue-next'
   import type { OmikujiItemType } from '@/types/OmikujiData/'
-  import type { WeightDialogName } from '../composables/useWeightItemDialog'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
-  import { Sparkles } from 'lucide-vue-next'
 
   const { t } = useI18n()
 
   defineProps<{
     item: OmikujiItemType
-    percentage: string
+    /** 出現確率(%)。優先アイテムなど抽選外のときは null */
+    percentage: string | null
   }>()
 
   const emit = defineEmits<{
     'update:weight': [weight: number]
-    open: [name: WeightDialogName]
+    open: [name: 'base' | 'condition']
     select: []
     duplicate: []
     delete: []

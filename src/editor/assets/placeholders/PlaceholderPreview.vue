@@ -12,12 +12,12 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
 
-  import { handelNormalizedValues, WeightValuesArrayType } from '@/types/OmikujiData'
+  import { handelNormalizedValues, WeightValueType, WeightValuesArrayType } from '@/types/OmikujiData'
   import { processTestPlaceholder } from '@/editor/helpers/shared/processTestPlaceholder'
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { Dices } from 'lucide-vue-next'
-  import { addWeightPercentages, drawOmikuji, OmikujiWeightItem } from '@/engine/DrawOmikuji/DrawOmikuji'
+  import { calcWeightPercentages, drawByWeight } from '@/engine/DrawOmikuji/DrawOmikuji'
   import { postSpeech } from '@/sdk/post/PostOneComme'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
@@ -32,18 +32,17 @@
 
   // 抽選実行
   const draw = () => {
-    const normalized = handelNormalizedValues(props.values)
-    const no2 = addWeightPercentages(normalized)
-    return drawOmikuji(no2)
+    const items = handelNormalizedValues(props.values)
+    const drawn = drawByWeight(items)
+    if (!drawn) return null
+    return { drawn, percent: calcWeightPercentages(items)[items.indexOf(drawn)] }
   }
 
   // 結果表示
-  const showResult = (drawn: OmikujiWeightItem, message: string) => {
-    const { weight = 1, weightPercent = 0 } = drawn
-
+  const showResult = (drawn: WeightValueType, percent: number, message: string) => {
     swalToast.success({
       title: t('placeholder.drawResultTitle'),
-      html: t('placeholder.drawResultHtml', { content: message, weight, percent: weightPercent }),
+      html: t('placeholder.drawResultHtml', { content: message, weight: drawn.weight, percent }),
       timer: 15000,
     })
   }
@@ -58,10 +57,10 @@
   // メイン処理
   const handleDraw = () => {
     const result = draw()
-    if (!result?.content) return showError()
+    if (!result?.drawn.content) return showError()
 
-    const message = processTestPlaceholder(result.content, placeholdersMap.value)
-    showResult(result, message.text)
+    const message = processTestPlaceholder(result.drawn.content, placeholdersMap.value)
+    showResult(result.drawn, result.percent, message.text)
     postSpeech(message.text)
   }
 </script>

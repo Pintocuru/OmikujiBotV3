@@ -8,7 +8,7 @@
           <!-- 重み -->
           <div class="w-full sm:w-32">
             <label class="text-xs text-gray-500 mb-1 block">
-              {{ t('scenarioStep.scenarioCall.weight', { percent: getWeightPercentage(value.weight) }) }}
+              {{ t('scenarioStep.scenarioCall.weight', { percent: percentages[index] }) }}
             </label>
             <input
               type="number"
@@ -93,7 +93,7 @@
   // コンポーザブルを使用
   const {
     displayValues,
-    getWeightPercentage,
+    percentages,
     availableScenarios,
     addValue,
     removeValue,

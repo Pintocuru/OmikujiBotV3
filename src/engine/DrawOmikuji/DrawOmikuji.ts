@@ -1,89 +1,76 @@
 // src/engine/DrawOmikuji/DrawOmikuji.ts
+// 重み付き抽選。対象は次の 2 種類だけで、どちらも型で縛っている(汎用の any 的な入力は受け付けない)
+// - おみくじアイテム: item.lottery に weight / isPriority を持つ  → drawOmikuji
+// - 重み付きの値(プレースホルダー・シナリオ呼び出し): item.weight を持つ → drawByWeight
+import type { LotteryType } from '@/types/OmikujiData/'
 import { HighQualityRandom } from './HighQualityRandom'
 
-export interface OmikujiWeightItem {
-  isPriority?: boolean
-  weight?: number
-  weightPercent?: number | '---'
-  [key: string]: unknown
-}
-type WithWeightPercent<T> = T & {
-  weightPercent: number | '---'
-}
+/** 重み付きの値(WeightValueType など) */
+export type WeightedItem = { weight: number }
 
-/**
- * 配列の有効性チェック
- */
-function isValidItems(items: any[]): boolean {
-  return Array.isArray(items) && items.length > 0
-}
+/** おみくじアイテム(OmikujiItemType など)。重みと優先は lottery の中にある */
+export type LotteryItem = { lottery: Pick<LotteryType, 'isPriority' | 'weight'> }
+
+// weight が 0 でも抽選対象から外れないようにする下限
+const MIN_WEIGHT = 0.001
+const clampWeight = (weight: number): number => Math.max(weight, MIN_WEIGHT)
 
 // グローバルな高品質乱数生成器インスタンス
 const globalRandom = new HighQualityRandom()
 
-/**
- * おみくじ抽選
- */
-export function drawOmikuji<T extends OmikujiWeightItem | string>(items: T[]): T | null {
-  if (!isValidItems(items)) return null
+/** 重みの配列から当選したインデックスを返す(空配列は -1) */
+function pickIndex(weights: number[]): number {
+  if (weights.length === 0) return -1
+  const total = weights.reduce((sum, w) => sum + w, 0)
+  const randomValue = globalRandom.nextFloat(0, total)
 
-  // 文字列配列を正規化
-  const normalizedItems: OmikujiWeightItem[] =
-    typeof items[0] === 'string'
-      ? (items as string[]).map((comment) => ({
-          comment,
-          weight: 1,
-          isPriority: false,
-        }))
-      : (items as OmikujiWeightItem[])
-
-  // priority があれば抽選せず先頭を返す
-  const priorityIndex = normalizedItems.findIndex((item) => item.isPriority === true)
-  if (priorityIndex !== -1) return items[priorityIndex]
-
-  // 重みを取得し、総重量を計算
-  const weights = normalizedItems.map((item) => Math.max(item.weight ?? 1, 0.001))
-  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0)
-  if (totalWeight <= 0) return null
-
-  // 高品質乱数で抽選
-  const randomValue = globalRandom.nextFloat(0, totalWeight)
-  let currentWeight = 0
-
-  for (let i = 0; i < normalizedItems.length; i++) {
-    currentWeight += weights[i]
-    if (randomValue < currentWeight) {
-      return items[i]
-    }
+  let current = 0
+  for (let i = 0; i < weights.length; i++) {
+    current += weights[i]
+    if (randomValue < current) return i
   }
+  return weights.length - 1
+}
 
-  return items[globalRandom.nextInt(items.length)]
+/** 重みから出現確率(%, 小数 2 桁)を求める。null の要素は抽選外 */
+function toPercentages(weights: (number | null)[]): (number | null)[] {
+  const total = weights.reduce<number>((sum, w) => sum + (w ?? 0), 0)
+  return weights.map((w) => (w === null || total <= 0 ? null : parseFloat(((w / total) * 100).toFixed(2))))
 }
 
 /**
- * おみくじアイテムに weightPercent を付与
- * （既存の機能を保持）
+ * 重み付きの値を抽選する(プレースホルダー・シナリオ呼び出し用)
  */
-export function addWeightPercentages<T extends OmikujiWeightItem>(items: T[]): WithWeightPercent<T>[] {
-  if (!Array.isArray(items) || items.length === 0) return []
+export function drawByWeight<T extends WeightedItem>(items: T[]): T | null {
+  const index = pickIndex(items.map((item) => clampWeight(item.weight)))
+  return index === -1 ? null : items[index]
+}
 
-  // priority でないアイテムのみを対象にする
-  const normalItems = items.filter((item) => item.isPriority !== true)
+/**
+ * おみくじアイテムを抽選する
+ * - isPriority のアイテムがあれば、抽選せず配列の先頭側の 1 件を返す
+ * - なければ lottery.weight による重み付き抽選
+ * criteria による絞り込みは呼び出し側で済ませてから渡すこと
+ */
+export function drawOmikuji<T extends LotteryItem>(items: T[]): T | null {
+  const priority = items.find((item) => item.lottery.isPriority)
+  if (priority) return priority
 
-  const totalWeight = normalItems.reduce((sum, item) => sum + Math.max(item.weight ?? 1, 0.001), 0)
+  const index = pickIndex(items.map((item) => clampWeight(item.lottery.weight)))
+  return index === -1 ? null : items[index]
+}
 
-  return items.map((item) => {
-    // priority は抽選外
-    if (item.isPriority === true) {
-      return { ...item, weightPercent: '---' }
-    }
+/**
+ * 重み付きの値の出現確率(%)。items と同じ順
+ */
+export function calcWeightPercentages(items: WeightedItem[]): number[] {
+  return toPercentages(items.map((item) => clampWeight(item.weight))).map((p) => p ?? 0)
+}
 
-    const weight = Math.max(item.weight ?? 1, 0.001)
-    const percent = totalWeight > 0 ? (weight / totalWeight) * 100 : 0
-
-    return {
-      ...item,
-      weightPercent: parseFloat(percent.toFixed(2)),
-    }
-  })
+/**
+ * おみくじアイテムの出現確率(%)。items と同じ順
+ * 優先アイテムは抽選外なので null
+ */
+export function calcOmikujiPercentages(items: LotteryItem[]): (number | null)[] {
+  return toPercentages(items.map((item) => (item.lottery.isPriority ? null : clampWeight(item.lottery.weight))))
 }

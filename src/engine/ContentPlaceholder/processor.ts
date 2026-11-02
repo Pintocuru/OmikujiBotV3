@@ -2,13 +2,12 @@
 import {
   PlaceholderType,
   ScenarioStepType,
-  WeightValueType,
   WeightValuesArrayType,
   handelNormalizedValues,
   hasScenarioStepMessage,
 } from '@/types/OmikujiData'
 import { findMatchingClosingBracket, isInlineRandomSyntax, parseInlineValues, selectRandomValue } from './parser'
-import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
+import { drawByWeight } from '@/engine/DrawOmikuji/DrawOmikuji'
 
 /**
  * プレースホルダー処理のメインクラス
@@ -185,6 +184,6 @@ function selectValue(values: WeightValuesArrayType): string {
   const normalizedValues = handelNormalizedValues(values)
   if (normalizedValues.length === 0) return ''
 
-  const drawnValue = drawOmikuji(normalizedValues) as WeightValueType
-  return drawnValue.content || normalizedValues[0].content || ''
+  const drawnValue = drawByWeight(normalizedValues)
+  return drawnValue?.content || normalizedValues[0].content || ''
 }

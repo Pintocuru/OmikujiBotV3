@@ -9,7 +9,7 @@ import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
 import { EventType, OmikujiItemType, ScenarioStepType } from '@/types/OmikujiData'
 import { defaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-import { addWeightPercentages, drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
+import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { BotMessageType } from '@/types/generator'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
@@ -81,9 +81,7 @@ export function useTestPost() {
       return
     }
 
-    const priorityItems = mikujiBox.filter((item) => 'lottery' in item && item.lottery.isPriority)
-    const targetSet = priorityItems.length > 0 ? priorityItems : mikujiBox
-    const omikujiItem = drawOmikuji(addWeightPercentages(targetSet))
+    const omikujiItem = drawOmikuji(mikujiBox)
 
     if (!omikujiItem) {
       swalToast.info({

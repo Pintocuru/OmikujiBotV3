@@ -41,12 +41,7 @@ export class OmikujiProcessor {
    */
   private lotteryOmikujiItem(mikujiBox: MikujiItemsType): OmikujiItemType | null {
     try {
-      // weight / isPriority は item.lottery の中にあるため、drawOmikuji 用にフラット化する
-      const candidates = mikujiBox.map((item) => {
-        const lottery = 'lottery' in item ? item.lottery : undefined
-        return { item, isPriority: lottery?.isPriority ?? false, weight: lottery?.weight ?? 1 }
-      })
-      return drawOmikuji(candidates)?.item ?? null
+      return drawOmikuji(mikujiBox)
     } catch (error) {
       this.reportError(`おみくじ実行エラー ${error}`)
       return null

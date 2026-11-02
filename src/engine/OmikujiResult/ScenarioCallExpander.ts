@@ -1,5 +1,5 @@
 // src/engine/OmikujiResult/ScenarioCallExpander.ts
-import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
+import { drawByWeight } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { ScenarioType, handelNormalizedValues, ScenarioStepCallType, ScenarioStepType } from '@/types/OmikujiData/'
 
@@ -45,7 +45,7 @@ export class ScenarioCallExpander {
   ): ScenarioStepType[] {
     // 抽選を行う
     const normalized = handelNormalizedValues(callStep.callKeys)
-    const targetKeyObject = drawOmikuji(normalized)
+    const targetKeyObject = drawByWeight(normalized)
     if (!targetKeyObject) return []
     const targetKey = targetKeyObject.content
 

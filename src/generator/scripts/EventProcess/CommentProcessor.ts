@@ -77,17 +77,10 @@ export class EventCommentProcessor {
    * criteria フィルタを適用してからおみくじ抽選する
    */
   private lotteryWithCriteria(mikujiItems: MikujiItemsType, omiken: OmikenCommentType): MikujiItemsType[number] | null {
-    const filtered = mikujiItems
-      .filter((item) => {
-        const criteria = item.lottery.criteria
-
-        if (!criteria) return true
-        return checkAllTriggers(omiken, criteria)
-      })
-      .map((item) => ({
-        ...item,
-        rank: item.lottery.isPriority ? 1 : 0,
-      }))
+    const filtered = mikujiItems.filter((item) => {
+      const criteria = item.lottery.criteria
+      return !criteria || checkAllTriggers(omiken, criteria)
+    })
     if (!filtered.length) return null
     return drawOmikuji(filtered)
   }

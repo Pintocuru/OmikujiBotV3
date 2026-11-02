@@ -1,8 +1,8 @@
-<!-- src/editor/assets/mikuji/weight/WeightItemRun.vue -->
+<!-- src/editor/assets/mikuji/row/OmikujiRowRun.vue -->
 <!-- 行の実行内容(steps: シナリオ名 / control: command)と、シナリオ編集画面への移動ボタン -->
 <template>
-  <div class="flex flex-col items-start gap-1">
-    <button class="btn btn-sm btn-outline w-64 shrink-0 justify-start gap-1" @click="emit('open')">
+  <div class="flex min-w-0 flex-col items-start gap-1">
+    <button class="btn btn-sm btn-outline w-full justify-start gap-1" @click="emit('open')">
       <Ban v-if="item.kind === 'control'" class="w-4 h-4 shrink-0" />
       <Zap v-else class="w-4 h-4 shrink-0" />
       <span class="truncate" :class="runState.cls">{{ runState.label }}</span>
