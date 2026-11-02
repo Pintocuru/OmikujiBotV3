@@ -2,16 +2,22 @@
 <template>
   <div class="flex items-center justify-between bg-base-300 rounded p-2 text-sm">
     <div class="flex-1 min-w-0">
-      <div class="flex items-center gap-1">
-        <span class="font-medium truncate">{{ file.displayName }}</span>
-        <span v-if="file.meta" class="text-xs opacity-60 shrink-0">v{{ file.meta.version }}</span>
+      <div class="flex items-center tooltip tooltip-top" :data-tip="`${file.meta?.name} ${file.meta?.version}`">
+        <!-- ファイル名 -->
+        <span class="font-medium">{{ file.displayName }}</span>
+        <span v-if="file.meta" class="ml-2 text-xs opacity-60 truncate">{{ file.meta.version }}</span>
       </div>
-      <div v-if="file.meta?.description" class="text-xs opacity-70 line-clamp-2">{{ file.meta.description }}</div>
-      <div class="flex flex-wrap items-center gap-1 text-xs">
+      <!-- 説明 -->
+      <div v-if="file.meta?.description" class="text-[10px] opacity-70 line-clamp-1">{{ file.meta.description }}</div>
+      <!-- 更新日時 -->
+      <div class="flex flex-wrap items-center pt-1 gap-1 text-xs">
         <span>{{ formatFileDate(file.modified) }}</span>
-        <span v-if="status === 'current'" class="badge badge-success badge-xs">対応</span>
-        <span v-else-if="status === 'legacy'" class="badge badge-warning badge-xs">旧バージョン</span>
-        <span v-else-if="status === 'unsupported'" class="badge badge-error badge-xs">未対応の新バージョン</span>
+        <span v-if="status === 'legacy' && (file.meta?.dataVersion ?? 0) < 3" class="badge badge-warning badge-xs"
+          >Ver2</span
+        >
+        <!-- TODO:製品版の際には名称を修正すること -->
+        <span v-else-if="status === 'legacy'" class="badge badge-error text-error-content badge-xs">未更新</span>
+        <span v-else-if="status === 'unsupported'" class="badge badge-error badge-xs">未対応の新Ver</span>
       </div>
     </div>
 

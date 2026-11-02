@@ -14,7 +14,7 @@ import MessageSettings from '../Message/MessageSettings.vue'
 import SoundSettings from '../Sounds/SoundSettings.vue'
 import WordPartySettings from '../WordParty/WordPartySettings.vue'
 import VariableSettings from '../variable/VariableSettings.vue'
-import ScenarioCallSettings from '../scenarioCall/ScenarioCallSettings.vue'
+import ScenarioCallSettings from '../Call/ScenarioCallSettings.vue'
 import GameScriptSettings from '../gameScript/GameScriptSettings.vue'
 
 // kind → 設定コンポーネント
