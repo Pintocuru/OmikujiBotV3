@@ -39,7 +39,9 @@
               {{ t('omikujiItem.scenario.dialog.steps', { count: scenario.steps.length }) }}
             </span>
           </div>
-          <div class="text-xs opacity-60 mt-1 break-all">key: {{ scenario.key }}</div>
+          <div class="text-xs opacity-60 mt-1 break-all">
+            {{ t('omikujiItem.scenario.dialog.keyLabel') }}: {{ scenario.key }}
+          </div>
           <div class="text-sm mt-1">{{ scenario.description || t('omikujiItem.scenario.dialog.noDescription') }}</div>
           <div class="flex gap-2 mt-2">
             <button class="btn btn-xs btn-primary" @click="handleSelect(scenario.key)">
@@ -59,7 +61,9 @@
       </div>
     </div>
 
-    <form method="dialog" class="modal-backdrop"><button @click="close">close</button></form>
+    <form method="dialog" class="modal-backdrop">
+      <button @click="close">{{ t('omikujiItem.scenario.dialog.close') }}</button>
+    </form>
   </dialog>
 </template>
 

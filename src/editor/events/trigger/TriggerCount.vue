@@ -4,13 +4,13 @@
     <!-- 対象の値 -->
     <div class="flex flex-wrap gap-2 pb-2">
       <span
-        v-for="(meta, value) in countUnitConditionMap"
+        v-for="value in Object.keys(countUnitConditionMap)"
         :key="value"
         class="badge badge-sm cursor-pointer select-none"
         :class="modelValue?.unit === value ? 'badge-secondary' : 'badge-ghost'"
         @click="updateField('unit', value)"
       >
-        {{ meta.label }}
+        {{ t(`mapText.countUnit.${value}.label`) }}
       </span>
     </div>
 
@@ -21,8 +21,8 @@
         @change="updateField('comparison', ($event.target as HTMLSelectElement).value)"
         class="select select-bordered select-sm flex-1"
       >
-        <option v-for="(meta, value) in countComparisonConditionMap" :key="value" :value="value">
-          {{ meta.label }}
+        <option v-for="value in Object.keys(countComparisonConditionMap)" :key="value" :value="value">
+          {{ t(`mapText.countComparison.${value}.label`) }}
         </option>
       </select>
 

@@ -58,6 +58,21 @@ export const eventMapMessages = {
           description: '指定値の倍数の時に条件を満たします（例：10増えるごと）',
         },
       },
+      countComparison: {
+        lowerBound: { label: '指定値以上' },
+        upperBound: { label: '指定値以下' },
+        equal: { label: '等しい' },
+        loop: { label: 'ループ' },
+      },
+      countUnit: {
+        lc: { label: '配信枠のコメント数' },
+        tc: { label: '個人コメント数（総数）' },
+      },
+      syokenCondition: {
+        syoken: { label: '初見' },
+        again: { label: '7日以上経過' },
+        firstVisit: { label: '配信枠での初回' },
+      },
     },
   },
   en: {
@@ -118,7 +133,21 @@ export const eventMapMessages = {
           description: 'Satisfied at multiples of the specified value (e.g. every 10 increase)',
         },
       },
+      countComparison: {
+        lowerBound: { label: 'At or above value' },
+        upperBound: { label: 'At or below value' },
+        equal: { label: 'Equals value' },
+        loop: { label: 'Loop' },
+      },
+      countUnit: {
+        lc: { label: 'Comments in this stream' },
+        tc: { label: 'Total comments by this user' },
+      },
+      syokenCondition: {
+        syoken: { label: 'First-time visitor' },
+        again: { label: 'No visit in the past 7 days' },
+        firstVisit: { label: 'First comment in this stream' },
+      },
     },
   },
 } as const
-

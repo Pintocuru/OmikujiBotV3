@@ -5,6 +5,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { normalizeData } from '@/common/migrations/index'
 import { generateCategoryPreview, generateComponentPreview } from './importHelpers'
 import { CategoryImportConfig, ComponentImportConfig, ImportPreview } from '@/editor/types'
+import i18n from '@/editor/i18n'
 
 type LoadResult =
   | { success: true; data: OmikujiDataType }
@@ -50,7 +51,7 @@ export const useImportManager = () => {
 
       return { success: true, data: validatedData }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'データ読み込みエラー'
+      const message = error instanceof Error ? error.message : i18n.global.t('dataPacks.loadError.unknown')
       return { success: false, error: message }
     } finally {
       isLoading.value = false

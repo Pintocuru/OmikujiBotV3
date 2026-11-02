@@ -8,9 +8,9 @@
         @click="collapsed = !collapsed"
       >
         <h1 class="text-sm flex items-center gap-2">
-          評価ブロック
+          {{ t('editorPreview.evaluationBlock.title') }}
           <span class="badge badge-xs badge-neutral">{{ entries.length }}</span>
-          <span v-if="paused" class="badge badge-xs badge-warning">一時停止中</span>
+          <span v-if="paused" class="badge badge-xs badge-warning">{{ t('editorPreview.evaluationBlock.paused') }}</span>
         </h1>
         <span class="text-xs opacity-60">{{ collapsed ? '▶' : '▼' }}</span>
       </div>
@@ -21,29 +21,47 @@
           <input
             v-model="query"
             type="search"
-            placeholder="検索 (anygame_* で集計)"
+            :placeholder="t('editorPreview.evaluationBlock.search')"
             class="input input-bordered input-xs join-item flex-1"
           />
           <button
             class="btn btn-xs join-item"
             :class="paused ? 'btn-warning' : 'btn-outline'"
-            title="表示の更新を止めて、値をじっくり確認する"
+            :title="t('editorPreview.evaluationBlock.pauseTip')"
             @click="paused = !paused"
           >
-            {{ paused ? '再開' : '停止' }}
+            {{ paused ? t('editorPreview.evaluationBlock.resume') : t('editorPreview.evaluationBlock.stop') }}
           </button>
         </div>
 
         <!-- ワイルドカード検索の集計 -->
         <div v-if="summary" class="rounded border border-base-300 p-2 space-y-1 text-xs">
-          <div class="font-semibold">{{ query.trim() }} : {{ summary.matched }}件</div>
+          <div class="font-semibold">
+            {{ query.trim() }} :
+            {{
+              t(
+                summary.matched === 1
+                  ? 'editorPreview.evaluationBlock.matchedCountOne'
+                  : 'editorPreview.evaluationBlock.matchedCountOther',
+                { count: summary.matched }
+              )
+            }}
+          </div>
 
           <template v-if="summary.numbers">
             <div class="flex flex-wrap gap-1">
-              <span class="badge badge-sm badge-primary">平均 {{ summary.numbers.avg }}</span>
-              <span class="badge badge-sm badge-ghost">合計 {{ summary.numbers.sum }}</span>
-              <span class="badge badge-sm badge-ghost">最大 {{ summary.numbers.max }}</span>
-              <span class="badge badge-sm badge-ghost">最小 {{ summary.numbers.min }}</span>
+              <span class="badge badge-sm badge-primary">
+                {{ t('editorPreview.evaluationBlock.average', { value: summary.numbers.avg }) }}
+              </span>
+              <span class="badge badge-sm badge-ghost">
+                {{ t('editorPreview.evaluationBlock.sum', { value: summary.numbers.sum }) }}
+              </span>
+              <span class="badge badge-sm badge-ghost">
+                {{ t('editorPreview.evaluationBlock.max', { value: summary.numbers.max }) }}
+              </span>
+              <span class="badge badge-sm badge-ghost">
+                {{ t('editorPreview.evaluationBlock.min', { value: summary.numbers.min }) }}
+              </span>
             </div>
             <ol class="max-h-28 overflow-y-auto space-y-0.5">
               <li v-for="(row, i) in summary.numbers.ranking" :key="row.key" class="flex gap-2">
@@ -55,7 +73,7 @@
           </template>
 
           <template v-if="summary.strings">
-            <div class="opacity-60">文字列の出現数</div>
+            <div class="opacity-60">{{ t('editorPreview.evaluationBlock.stringOccurrences') }}</div>
             <ol class="max-h-28 overflow-y-auto space-y-0.5">
               <li v-for="(row, i) in summary.strings.ranking" :key="row.value" class="flex gap-2">
                 <span class="w-5 text-right opacity-60">{{ i + 1 }}</span>
@@ -71,8 +89,8 @@
           <table class="table table-xs table-zebra table-pin-rows">
             <thead>
               <tr>
-                <th>変数</th>
-                <th class="text-right">値</th>
+                <th>{{ t('editorPreview.evaluationBlock.variables') }}</th>
+                <th class="text-right">{{ t('editorPreview.evaluationBlock.value') }}</th>
                 <th class="w-12"></th>
               </tr>
             </thead>
@@ -86,24 +104,34 @@
                 <td class="font-mono text-primary break-all">{{ key }}</td>
                 <td class="text-right">
                   <span class="font-mono tabular-nums break-all">{{ value }}</span>
-                  <span class="badge badge-xs badge-ghost ml-1">{{ typeof value === 'number' ? '数値' : '文字' }}</span>
+                  <span class="badge badge-xs badge-ghost ml-1">
+                    {{ typeof value === 'number' ? t('editorPreview.evaluationBlock.numberType') : t('editorPreview.evaluationBlock.stringType') }}
+                  </span>
                 </td>
                 <td class="whitespace-nowrap">
                   <button
                     class="btn btn-ghost btn-xs px-1 opacity-60"
-                    title="下の入力欄に読み込んで編集"
+                    :title="t('editorPreview.evaluationBlock.edit')"
                     @click="edit(key, value)"
                   >
                     ✎
                   </button>
-                  <button class="btn btn-ghost btn-xs px-1 opacity-60" title="この変数を削除" @click="removeKey(key)">
+                  <button
+                    class="btn btn-ghost btn-xs px-1 opacity-60"
+                    :title="t('editorPreview.evaluationBlock.delete')"
+                    @click="removeKey(key)"
+                  >
                     ×
                   </button>
                 </td>
               </tr>
               <tr v-if="filteredEntries.length === 0">
                 <td colspan="3" class="text-center opacity-60 py-3">
-                  {{ entries.length === 0 ? '変数はまだありません' : '一致する変数がありません' }}
+                  {{
+                    entries.length === 0
+                      ? t('editorPreview.evaluationBlock.noVariables')
+                      : t('editorPreview.evaluationBlock.noMatches')
+                  }}
                 </td>
               </tr>
             </tbody>
@@ -116,18 +144,20 @@
             <input
               v-model="formKey"
               type="text"
-              placeholder="変数名 例: anygame_user1"
+              :placeholder="t('editorPreview.evaluationBlock.keyPlaceholder')"
               class="input input-bordered input-xs join-item flex-1 font-mono"
               @keydown.enter="submitForm"
             />
             <input
               v-model="formValue"
               type="text"
-              placeholder="値 例: 1000 / 'すいか'"
+              :placeholder="t('editorPreview.evaluationBlock.valuePlaceholder')"
               class="input input-bordered input-xs join-item w-28"
               @keydown.enter="submitForm"
             />
-            <button class="btn btn-xs btn-primary join-item" @click="submitForm">設定</button>
+            <button class="btn btn-xs btn-primary join-item" @click="submitForm">
+              {{ t('editorPreview.evaluationBlock.set') }}
+            </button>
           </div>
           <p v-if="formError" class="text-xs text-error">{{ formError }}</p>
         </div>
@@ -138,6 +168,7 @@
 
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted, ref, shallowRef } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import {
     hasWildcard,
@@ -153,6 +184,7 @@
   const POLL_MS = 500
   const FLASH_MS = 1200
 
+  const { t } = useI18n()
   const appStore = useAppStore()
 
   const collapsed = ref(false)
@@ -229,11 +261,11 @@
   function submitForm() {
     const key = formKey.value.trim()
     if (!VARIABLE_NAME_PATTERN.test(key)) {
-      formError.value = '変数名は英数字と _ だけで、数字から始めることはできません'
+      formError.value = t('editorPreview.evaluationBlock.errors.invalidKey')
       return
     }
     if (formValue.value.trim() === '') {
-      formError.value = '値を入力してください'
+      formError.value = t('editorPreview.evaluationBlock.errors.missingValue')
       return
     }
     // 引用符つきは常に文字列、それ以外は数値として読めれば数値

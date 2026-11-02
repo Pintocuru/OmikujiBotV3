@@ -13,15 +13,15 @@
         v-model="newTag"
         type="text"
         class="input input-bordered input-sm flex-1"
-        placeholder="タグを追加"
+        :placeholder="t('baseSettings.tags.placeholder')"
         @keydown.enter="onEnter"
       />
-      <button class="btn btn-sm btn-primary" @click="addTag(newTag)">追加</button>
+      <button class="btn btn-sm btn-primary" @click="addTag(newTag)">{{ t('baseSettings.tags.add') }}</button>
     </div>
 
     <!-- 既存タグの候補(クリックで追加) -->
     <div v-if="suggestions.length" class="mt-2">
-      <div class="text-xs text-base-content/60 mb-1">候補(クリックで追加)</div>
+      <div class="text-xs text-base-content/60 mb-1">{{ t('baseSettings.tags.suggestions') }}</div>
       <div class="flex flex-wrap gap-1 max-h-20 overflow-y-auto">
         <button
           v-for="tag in suggestions"
@@ -39,12 +39,14 @@
 
 <script setup lang="ts">
   import { computed, ref, watch } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { VueDraggable } from 'vue-draggable-plus'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useTagSuggestions } from '@/editor/stores/useTagSuggestions'
 
   const props = defineProps<{ modelValue?: string[] }>()
   const emit = defineEmits<{ 'update:modelValue': [value: string[]] }>()
+  const { t } = useI18n()
 
   const newTag = ref('')
   const localTags = ref<string[]>([...(props.modelValue ?? [])])

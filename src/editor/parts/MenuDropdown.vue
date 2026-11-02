@@ -8,13 +8,13 @@
       <li>
         <button @click="$emit('duplicate')" class="text-sm">
           <Copy class="w-4 h-4" />
-          複製
+          {{ t('editorUi.menu.duplicate') }}
         </button>
       </li>
       <li>
         <button @click="$emit('delete')" class="text-sm text-error" :disabled="disableDelete">
           <Trash2 class="w-4 h-4" />
-          削除
+          {{ t('editorUi.menu.delete') }}
         </button>
       </li>
     </ul>
@@ -22,7 +22,10 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { Menu, Copy, Trash2 } from 'lucide-vue-next'
+
+  const { t } = useI18n()
 
   defineProps<{
     disableDelete?: boolean

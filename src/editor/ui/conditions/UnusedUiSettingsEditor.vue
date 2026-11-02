@@ -2,14 +2,18 @@
 <template>
   <div class="flex flex-col gap-3">
     <SettingItem icon="Trash2" labelKey="uiSettings.unused.label" descriptionKey="uiSettings.unused.description">
-      <p v-if="unusedKinds.length === 0" class="text-xs opacity-70 p-2">削除できる設定はありません</p>
+      <p v-if="unusedKinds.length === 0" class="text-xs opacity-70 p-2">{{ t('uiSettings.unused.empty') }}</p>
 
       <div v-else class="flex flex-col gap-2">
         <div v-for="kind in unusedKinds" :key="kind" class="flex items-center justify-between gap-2">
           <span class="badge badge-outline">{{ kindLabel(kind) }}</span>
-          <button class="btn btn-xs btn-error btn-outline" @click="removeOne(kind)">削除</button>
+          <button class="btn btn-xs btn-error btn-outline" @click="removeOne(kind)">
+            {{ t('uiSettings.unused.delete') }}
+          </button>
         </div>
-        <button class="btn btn-sm btn-error self-start" @click="removeAll">未使用をすべて削除</button>
+        <button class="btn btn-sm btn-error self-start" @click="removeAll">
+          {{ t('uiSettings.unused.deleteAll') }}
+        </button>
       </div>
     </SettingItem>
   </div>
@@ -40,18 +44,25 @@
   })
 
   const removeOne = async (kind: UiKind) => {
-    const { isConfirmed } = await swalModal.confirmDelete({ title: `「${kindLabel(kind)}」の設定を削除しますか？` })
+    const { isConfirmed } = await swalModal.confirmDelete({
+      title: t('uiSettings.unused.deleteOneConfirm', { label: kindLabel(kind) }),
+    })
     if (!isConfirmed) return
     omikujiStore.removeItemSetting(kind)
   }
 
   const removeAll = async () => {
     const { isConfirmed } = await swalModal.confirmDelete({
-      title: `未使用の ${unusedKinds.value.length} 件の設定を削除しますか？`,
+      title: t(
+        unusedKinds.value.length === 1
+          ? 'uiSettings.unused.deleteAllConfirm.one'
+          : 'uiSettings.unused.deleteAllConfirm.other',
+        { count: unusedKinds.value.length }
+      ),
     })
     if (!isConfirmed) return
     // 削除中に computed が変わるためコピーして回す
     for (const kind of [...unusedKinds.value]) omikujiStore.removeItemSetting(kind)
-    swalToast.success({ title: '削除しました' })
+    swalToast.success({ title: t('uiSettings.unused.deleteSuccess') })
   }
 </script>

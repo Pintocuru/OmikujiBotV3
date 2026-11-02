@@ -4,7 +4,7 @@
     <div class="card-body gap-2 p-2">
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-base-300 cursor-pointer" @click="collapsed = !collapsed">
-        <h1 class="text-sm flex items-center gap-2">仮想配信パネル</h1>
+        <h1 class="text-sm flex items-center gap-2">{{ t('editorPreview.virtualStream.title') }}</h1>
 
         <div class="flex items-center gap-1">
           <span class="text-xs opacity-60">
@@ -16,7 +16,7 @@
       <!-- Number fields -->
       <template v-if="!collapsed">
         <!-- 製品版の配信メタはわんコメの実データなので、ここからは操作できない -->
-        <p v-if="isLive" class="text-xs text-warning">配信中のため、仮想配信パネルは使用できません</p>
+        <p v-if="isLive" class="text-xs text-warning">{{ t('editorPreview.virtualStream.unavailableLive') }}</p>
         <fieldset :disabled="isLive" class="flex flex-col gap-2 min-w-0" :class="{ 'opacity-50': isLive }">
           <template v-for="key in numberKeys" :key="key">
             <div class="join">
@@ -44,10 +44,14 @@
               :class="isRunning ? 'btn-error' : 'btn-primary'"
               @click="toggleAuto"
             >
-              {{ isRunning ? 'STOP' : 'AUTO' }}
+              {{ isRunning ? t('editorPreview.virtualStream.stop') : t('editorPreview.virtualStream.auto') }}
             </button>
-            <button class="btn btn-xs btn-outline join-item" title="次回の取得から実データに戻す" @click="release">
-              実データに戻す
+            <button
+              class="btn btn-xs btn-outline join-item"
+              :title="t('editorPreview.virtualStream.releaseTitle')"
+              @click="release"
+            >
+              {{ t('editorPreview.virtualStream.release') }}
             </button>
           </div>
         </fieldset>
@@ -58,9 +62,11 @@
 
 <script setup lang="ts">
   import { reactive, ref, onUnmounted } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { ServiceMetaStore } from '@/generator/stores/MetaState/MetaStateService'
   import { NormalizedMeta } from '@/types/generator'
 
+  const { t } = useI18n()
   const store = ServiceMetaStore.getInstance()
 
   // 配信中(isLive=true)は実データを優先するため、このパネルは使えない

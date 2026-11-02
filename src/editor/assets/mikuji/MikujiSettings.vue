@@ -3,21 +3,21 @@
   <!-- ツールバー -->
   <div class="flex justify-end gap-2">
     <!-- おみくじテストボタン -->
-    <div class="tooltip tooltip-bottom" data-tip="わんコメを起動すると、投稿の確認ができます">
+    <div class="tooltip tooltip-bottom" :data-tip="t('omikujiItem.list.testTooltip')">
       <button class="btn btn-info" @click="postTestOmikuji(omikujiList)" :disabled="omikujiList.length === 0">
         <Dices class="w-4 h-4" />
-        抽選テスト
+        {{ t('omikujiItem.list.test') }}
       </button>
     </div>
 
     <button @click="add" class="btn btn-primary">
       <Plus class="w-4 h-4" />
-      おみくじを追加
+      {{ t('omikujiItem.list.add') }}
     </button>
   </div>
 
   <!-- おみくじリスト一覧（クリックで選択） -->
-  <div class="text-sm">おみくじ / シナリオ / クールダウン</div>
+  <div class="text-sm">{{ t('omikujiItem.list.columns') }}</div>
   <WeightBar
     :omikujiItems="omikujiList"
     :selectedOmikujiId="selectedId"
@@ -29,10 +29,13 @@
 
 <script setup lang="ts">
   import { toRef } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import WeightBar from './weight/WeightBar.vue'
   import { useTestPost } from '@/editor/helpers/useTestPost'
   import { Dices, Plus } from 'lucide-vue-next'
   import { useBoxOmikujiList } from '@/editor/assets/mikuji/composables/useBoxOmikujiList'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     omikujiKey: string

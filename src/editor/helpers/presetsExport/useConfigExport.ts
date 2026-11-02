@@ -4,6 +4,9 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { confirmSaveWithIssues } from '@/editor/helpers/confirmSaveWithIssues'
+import i18n from '@/editor/i18n'
+
+const t = (key: string) => i18n.global.t(key)
 
 type ExportType = 'config'
 
@@ -12,8 +15,8 @@ interface ExportConfig {
   contentType: string
   generateContent: (data: string) => string
   successMessage: {
-    title: string
-    description: string
+    titleKey: string
+    descriptionKey: string
   }
 }
 
@@ -28,8 +31,8 @@ export const useConfigExport = () => {
       contentType: 'application/javascript',
       generateContent: generateJsContent,
       successMessage: {
-        title: '設定ファイルのダウンロード完了',
-        description: 'omikujiData.js を同じフォルダに保存し、OBSを再起動してください。',
+        titleKey: 'presetExport.success.title',
+        descriptionKey: 'presetExport.success.description',
       },
     },
   }
@@ -68,8 +71,8 @@ export const useConfigExport = () => {
       const configData = omikujiStore.exportData()
       if (!configData) {
         await swalModal.error({
-          title: '設定データに問題があります',
-          text: 'エラーを修正してから再度お試しください。',
+          title: t('presetExport.invalidData.title'),
+          text: t('presetExport.invalidData.description'),
         })
         return false
       }
@@ -79,13 +82,13 @@ export const useConfigExport = () => {
 
       if (success) {
         swalModal.success({
-          title: config.successMessage.title,
-          text: config.successMessage.description,
+          title: t(config.successMessage.titleKey),
+          text: t(config.successMessage.descriptionKey),
         })
       } else {
         await swalModal.error({
-          title: '設定ファイルのダウンロードに失敗しました',
-          text: 'もう一度お試しください。',
+          title: t('presetExport.downloadFailed.title'),
+          text: t('presetExport.downloadFailed.description'),
         })
       }
 
@@ -93,8 +96,8 @@ export const useConfigExport = () => {
     } catch (error) {
       console.error(`${type} export error:`, error)
       await swalModal.error({
-        title: '設定ファイルの出力中にエラーが発生しました',
-        text: '詳細はコンソールをご確認ください。',
+        title: t('presetExport.exportFailed.title'),
+        text: t('presetExport.exportFailed.description'),
       })
       return false
     } finally {

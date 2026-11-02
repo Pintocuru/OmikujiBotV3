@@ -7,7 +7,7 @@
         class="flex items-center justify-between border-b border-base-300 cursor-pointer"
         @click="collapsed = !collapsed"
       >
-        <h1 class="text-sm flex items-center gap-2">テストコメント</h1>
+        <h1 class="text-sm flex items-center gap-2">{{ t('editorPreview.testComment.title') }}</h1>
 
         <div class="flex items-center gap-1">
           <span class="text-xs opacity-60">
@@ -20,7 +20,9 @@
       <template v-if="!collapsed">
         <!-- 想定ユーザー数 -->
         <div class="flex flex-col gap-1">
-          <span class="text-xs opacity-60">想定ユーザー数 (1〜{{ MOCK_USER_POOL_MAX }}人)</span>
+          <span class="text-xs opacity-60">
+            {{ t('editorPreview.testComment.expectedUsers', { max: MOCK_USER_POOL_MAX }) }}
+          </span>
           <div class="join w-full">
             <button
               v-for="n in MOCK_USER_POOL_PRESETS"
@@ -29,7 +31,7 @@
               :class="userCount === n ? 'btn-accent' : 'btn-outline'"
               @click="userCount = n"
             >
-              {{ n }}人
+              {{ t('editorPreview.testComment.people', { count: n }) }}
             </button>
             <input
               type="number"
@@ -38,8 +40,12 @@
               v-model.number="userCount"
               class="input input-bordered input-xs join-item w-16 text-center"
             />
-            <button class="btn btn-xs btn-outline join-item" title="名前とIDを作り直す" @click="rebuildPool">
-              再生成
+            <button
+              class="btn btn-xs btn-outline join-item"
+              :title="t('editorPreview.testComment.rebuildPool')"
+              @click="rebuildPool"
+            >
+              {{ t('editorPreview.testComment.rebuild') }}
             </button>
           </div>
           <div class="join w-full">
@@ -50,33 +56,33 @@
               :class="pickMode === mode ? 'btn-accent' : 'btn-outline'"
               @click="pickMode = mode"
             >
-              {{ MOCK_USER_PICK_MODE_LABELS[mode] }}
+              {{ t(`editorPreview.testComment.pickMode.${mode}`) }}
             </button>
           </div>
         </div>
 
         <!-- 配信テーマ -->
         <div class="flex flex-col gap-1">
-          <span class="text-xs opacity-60">配信テーマ</span>
+          <span class="text-xs opacity-60">{{ t('editorPreview.testComment.theme') }}</span>
           <select v-model="selectedTheme" class="select select-bordered select-xs w-full">
             <option v-for="key in COMMENT_THEME_KEYS" :key="key" :value="key">
-              {{ COMMENT_THEMES[key].label }}
+              {{ t(`editorPreview.testComment.themes.${key}`) }}
             </option>
-            <option value="custom">カスタム(自由入力)</option>
+            <option value="custom">{{ t('editorPreview.testComment.customTheme') }}</option>
           </select>
           <textarea
             v-if="selectedTheme === 'custom'"
             v-model="customText"
             rows="4"
             class="textarea textarea-bordered textarea-xs w-full"
-            placeholder="1行に1コメント(空のときは雑談になります)"
+            :placeholder="t('editorPreview.testComment.customPlaceholder')"
           />
         </div>
 
         <!-- Interval -->
         <div class="join">
           <label class="label pr-2">
-            <span class="label-text text-xs opacity-60"> INTERVAL (SEC) </span>
+            <span class="label-text text-xs opacity-60">{{ t('editorPreview.testComment.interval') }}</span>
           </label>
 
           <input
@@ -90,21 +96,33 @@
 
         <!-- Buttons -->
         <div class="join w-full">
-          <button @click="sendComment" class="btn btn-xs btn-outline join-item flex-1">送信</button>
+          <button @click="sendComment" class="btn btn-xs btn-outline join-item flex-1">
+            {{ t('editorPreview.testComment.send') }}
+          </button>
 
           <button
             @click="toggleRunning"
             class="btn btn-xs join-item flex-1"
             :class="isRunning ? 'btn-error' : 'btn-primary'"
           >
-            {{ isRunning ? 'STOP' : 'AUTO' }}
+            {{ isRunning ? t('editorPreview.testComment.stop') : t('editorPreview.testComment.auto') }}
           </button>
 
           <button @click="burstSend" class="btn btn-xs btn-warning join-item flex-1">×100</button>
         </div>
 
         <!-- 直近の送信 -->
-        <p class="text-xs opacity-60 truncate" :title="lastComment">{{ count }}件 / {{ lastComment }}</p>
+        <p class="text-xs opacity-60 truncate" :title="lastCommentDisplay">
+          {{
+            t(
+              count === 1
+                ? 'editorPreview.testComment.sentCountOne'
+                : 'editorPreview.testComment.sentCountOther',
+              { count }
+            )
+          }}
+          / {{ lastCommentDisplay }}
+        </p>
       </template>
     </div>
   </div>
@@ -113,7 +131,6 @@
 <script setup lang="ts">
   import { ref, shallowRef, computed, watch, onUnmounted } from 'vue'
   import {
-    COMMENT_THEMES,
     COMMENT_THEME_KEYS,
     CommentThemeKey,
     createMockUserPool,
@@ -127,11 +144,16 @@
   import { getPostServiceId, resetPostServiceId } from '@/sdk/service/getPostServiceId'
   import { CommentPickSchema } from '@/types/subscribe'
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
+  import { useI18n } from 'vue-i18n'
 
+  const { t } = useI18n()
   const isRunning = ref(false)
   const intervalSec = ref(2)
   const count = ref(0)
-  const lastComment = ref('(テストコメントが入ります)')
+  const lastComment = ref('')
+  const lastCommentDisplay = computed(
+    () => lastComment.value || t('editorPreview.testComment.initialComment')
+  )
   const collapsed = ref(false)
 
   // 想定ユーザー数: 変更するとユーザープールを作り直す
@@ -190,7 +212,7 @@
     const serviceId = await getPostServiceId()
     if (!serviceId) {
       resetPostServiceId() // 次回また取得し直す
-      lastComment.value = '投稿先のサービスが取得できません(わんコメを確認してください)'
+      lastComment.value = t('editorPreview.testComment.unavailableService')
       if (isRunning.value) toggleRunning()
       return
     }

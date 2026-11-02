@@ -2,12 +2,14 @@
 <template>
   <div
     class="tooltip tooltip-bottom"
-    :data-tip="hasInvalidIconKeys ? '不正なアイコンキーが使用されています！' : '使用中のアイコンを確認する'"
+    :data-tip="t(hasInvalidIconKeys ? 'iconKeyChanger.tooltip.invalid' : 'iconKeyChanger.tooltip.normal')"
   >
     <button :class="['btn', hasInvalidIconKeys ? 'btn-error animate-pulse' : 'btn-ghost']" @click="openModal">
       <ImageIcon class="w-4 h-4" />
-      使用アイコン
-      <span v-if="hasInvalidIconKeys" class="badge badge-sm">⚠️ 不正 {{ invalidIconKeyCount }}</span>
+      {{ t('iconKeyChanger.buttonLabel') }}
+      <span v-if="hasInvalidIconKeys" class="badge badge-sm">
+        ⚠️ {{ t('iconKeyChanger.invalidCount', { count: invalidIconKeyCount }) }}
+      </span>
       <span v-else class="badge badge-sm badge-outline">{{
         usedIconGroups.reduce((n, g) => n + g.icons.length, 0)
       }}</span>
@@ -17,16 +19,18 @@
   <!-- モーダル -->
   <div v-if="isModalOpen" class="modal modal-open">
     <div class="modal-box max-w-3xl max-h-[90vh] overflow-y-auto">
-      <h3 class="font-bold text-lg mb-4">{{ scopeLabel }}の使用アイコン</h3>
+      <h3 class="font-bold text-lg mb-4">{{ t('iconKeyChanger.title', { scope: scopeLabel }) }}</h3>
 
       <div class="space-y-4">
         <!-- 使用中のアイコン（キャラクターごと） -->
         <div class="bg-base-200 p-4 rounded-lg space-y-3">
-          <p class="text-sm font-semibold text-gray-600">現在使用されているアイコン:</p>
-          <p v-if="usedIconGroups.length === 0" class="text-sm text-gray-500">使用されているアイコンはありません。</p>
+          <p class="text-sm font-semibold text-gray-600">{{ t('iconKeyChanger.currentListTitle') }}</p>
+          <p v-if="usedIconGroups.length === 0" class="text-sm text-gray-500">
+            {{ t('iconKeyChanger.emptyList') }}
+          </p>
           <div v-for="group in usedIconGroups" :key="group.characterKey">
             <p class="text-xs text-gray-500 mb-1">
-              {{ getCharacterName(group.characterKey) || group.characterKey || '空欄' }}
+              {{ getCharacterName(group.characterKey) || group.characterKey || t('mapping.emptyKey') }}
             </p>
             <div class="flex flex-wrap gap-2">
               <span
@@ -34,8 +38,8 @@
                 :key="icon.iconKey"
                 :class="['badge badge-lg', icon.invalid ? 'badge-error animate-pulse' : 'badge-outline']"
               >
-                {{ icon.invalid ? '⚠️ ' : '' }}{{ icon.iconKey || '空欄' }}
-                <span class="ml-1 text-xs opacity-70">({{ icon.count }}箇所)</span>
+                {{ icon.invalid ? '⚠️ ' : '' }}{{ icon.iconKey || t('mapping.emptyKey') }}
+                <span class="ml-1 text-xs opacity-70">({{ usageCountLabel(icon.count) }})</span>
               </span>
             </div>
           </div>
@@ -44,7 +48,7 @@
         <!-- エラー統計 -->
         <div v-if="hasInvalidIconKeys" class="stats shadow w-full">
           <div class="stat bg-error/10">
-            <div class="stat-title">不正アイコンキー</div>
+            <div class="stat-title">{{ t('iconKeyChanger.invalidStatistics') }}</div>
             <div class="stat-value text-error">{{ invalidIconKeyCount }}</div>
           </div>
         </div>
@@ -53,14 +57,14 @@
         <div v-if="hasInvalidIconKeys" class="alert alert-error">
           <AlertTriangle class="w-4 h-4" />
           <div class="flex-1">
-            <span class="font-semibold">存在しないアイコンキーが使用されています。</span>
-            <p class="text-sm mt-1">画像が表示されません。有効なキーへ変更してください。</p>
+            <span class="font-semibold">{{ t('iconKeyChanger.invalidAlert.title') }}</span>
+            <p class="text-sm mt-1">{{ t('iconKeyChanger.invalidAlert.description') }}</p>
           </div>
         </div>
 
         <!-- 不正キーがない場合 -->
         <div v-else class="alert alert-success">
-          <span>すべてのアイコンキーは有効です。</span>
+          <span>{{ t('iconKeyChanger.validAlert') }}</span>
         </div>
 
         <!-- 変更エディター（不正キーがある場合のみ表示） -->
@@ -78,18 +82,22 @@
         <div v-if="hasChanges" class="alert alert-warning">
           <AlertTriangle class="w-4 h-4" />
           <div class="flex-1">
-            <span class="font-semibold">変更内容の確認</span>
+            <span class="font-semibold">{{ t('mapping.review') }}</span>
             <ul class="text-sm mt-2 space-y-1">
               <li v-for="(newKey, compositeKey) in iconKeyMappings" :key="compositeKey">
                 <span v-if="newKey">
-                  {{ formatPreviewLabel(compositeKey) }} → 「{{ newKey }}」 ({{
-                    iconKeyUsageCount[compositeKey] ?? 0
-                  }}箇所)
+                  {{
+                    t('mapping.itemChange', {
+                      before: formatPreviewLabel(compositeKey),
+                      after: newKey,
+                      usageCount: usageCountLabel(iconKeyUsageCount[compositeKey] ?? 0),
+                    })
+                  }}
                 </span>
               </li>
             </ul>
             <p class="text-sm mt-3 font-semibold text-warning-content">
-              ⚠️ この操作は{{ scopeLabel }}に影響します。元に戻すことはできません。
+              {{ t('mapping.caution', { scope: scopeLabel }) }}
             </p>
           </div>
         </div>
@@ -99,7 +107,7 @@
         class="mt-6"
         :on-cancel="closeModal"
         :on-save="executeIconKeyChange"
-        saveName="変更を実行"
+        :save-name="t('iconKeyChanger.execute')"
         :disabled="!hasChanges"
       />
     </div>
@@ -108,6 +116,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { ImageIcon, AlertTriangle } from 'lucide-vue-next'
   import IconKeyMappingEditor from './IconKeyMappingEditor.vue'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
@@ -117,6 +126,8 @@
   import { useMappingUpdater } from '@/editor/helpers/shared/useMappingUpdater'
   import { useScenarioStepCharacters } from '@/editor/helpers/CharacterChanger/composables/useScenarioStepCharacters'
   import { useCharacterLookup } from '../CharacterChanger/composables/useCharacterLookup'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     category: TargetCategoryType
@@ -137,6 +148,8 @@
 
   const { invalidIconKeyPairs, iconKeyUsageCount, hasInvalidIconKeys, invalidIconKeyCount } =
     useIconKeyStats(allTargets)
+
+  const usageCountLabel = (count: number) => t(`mapping.usageCount.${count === 1 ? 'one' : 'other'}`, { count })
 
   // 使用中のアイコンをキャラクターごとにまとめる（不正なものを先頭に）
   const usedIconGroups = computed(() => {
@@ -185,8 +198,8 @@
    */
   const formatPreviewLabel = (compositeKey: string): string => {
     const [characterKey, iconKey] = compositeKey.split(':')
-    const charName = getCharacterName(characterKey) || characterKey
-    return `「${charName} / ${iconKey}」`
+    const character = getCharacterName(characterKey) || characterKey || t('mapping.emptyKey')
+    return t('iconKeyChanger.mappingBeforeValue', { character, iconKey: iconKey || t('mapping.emptyKey') })
   }
 
   /**

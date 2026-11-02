@@ -20,7 +20,7 @@
     <div class="flex items-center gap-3">
       <span class="text-sm text-base-content/60">{{ meta.generatorVersion }}</span>
 
-      <ExternalLinkButton :url="LATEST_RELEASE_PAGE_URL" title="最新バージョンを入手する" />
+      <ExternalLinkButton :url="LATEST_RELEASE_PAGE_URL" :title="t('packageMeta.system.latestVersionTitle')" />
     </div>
   </SettingItem>
 
@@ -38,11 +38,14 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ExternalLinkButton from '@/editor/parts/ExternalLinkButton.vue'
   import { LATEST_RELEASE_PAGE_URL } from '@/editor/constants/versionCheck'
+
+  const { t } = useI18n()
 
   // Store
   const omikujiStore = useOmikujiStore()

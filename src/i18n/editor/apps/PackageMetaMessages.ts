@@ -5,6 +5,7 @@ export const packageMetaMessages = {
   ja: {
     packageMeta: {
       system: {
+        latestVersionTitle: '最新バージョンを入手する',
         appName: {
           label: 'アプリ名',
           description: 'このパッケージを生成したアプリ名',
@@ -26,11 +27,17 @@ export const packageMetaMessages = {
         url: {
           label: '配布サイトURL',
           description: 'パッケージの配布サイトやプロジェクトページのURL',
+          unset: '未設定',
         },
       },
       basic: {
         id: {
           description: 'プラグインでは、この名称で保存されます',
+          regenerate: '再生成',
+          confirmTitle: 'IDを変更しますか？',
+          confirmText: '変更すると、このパッケージのIDが新しく生成されます。',
+          confirm: '変更する',
+          cancel: 'キャンセル',
         },
         name: {
           label: 'パッケージ名',
@@ -58,6 +65,7 @@ export const packageMetaMessages = {
   en: {
     packageMeta: {
       system: {
+        latestVersionTitle: 'Get the latest version',
         appName: {
           label: 'App name',
           description: 'The app that generated this package',
@@ -79,11 +87,17 @@ export const packageMetaMessages = {
         url: {
           label: 'Distribution URL',
           description: "URL of the package's distribution site or project page",
+          unset: 'Not set',
         },
       },
       basic: {
         id: {
           description: 'Saved under this name in the plugin',
+          regenerate: 'Regenerate',
+          confirmTitle: 'Change the ID?',
+          confirmText: 'Changing it will generate a new ID for this package.',
+          confirm: 'Change',
+          cancel: 'Cancel',
         },
         name: {
           label: 'Package name',

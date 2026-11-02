@@ -2,8 +2,10 @@
 <template>
   <!-- プレビュー -->
   <div class="mb-4 p-4 rounded-box border bg-base-200" :class="[fontFamilyClass]">
-    <div class="text-3xl font-bold mb-1">プレビュータイトル</div>
-    <div class="text-lg leading-relaxed">これはフォント確認用のサンプルです。ABC abc 123 あいうえお アイウエオ</div>
+    <div class="text-3xl font-bold mb-1">{{ t('uiSettings.fontFamily.previewTitle') }}</div>
+    <div class="text-lg leading-relaxed">
+      {{ t('uiSettings.fontFamily.previewText') }} ABC abc 123 あいうえお アイウエオ
+    </div>
   </div>
 
   <!-- フォントファミリー -->
@@ -25,7 +27,7 @@
           :class="{ 'tab-active': activeCategory === tab.key }"
           @click="activeCategory = tab.key"
         >
-          {{ tab.label }}
+          {{ t(`uiSettings.fontFamily.categories.${tab.key}`) }}
         </button>
       </div>
 
@@ -42,7 +44,7 @@
           "
           @click="selectFont('default')"
         >
-          <span class="text-xs text-base-content/60 leading-none">デフォルト</span>
+          <span class="text-xs text-base-content/60 leading-none">{{ t('uiSettings.fontFamily.default') }}</span>
           <span class="text-2xl leading-none text-base-content">あAa漢</span>
         </button>
 
@@ -73,6 +75,7 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
+  import { useI18n } from 'vue-i18n'
 
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
@@ -81,6 +84,7 @@
   import { FontFamilyType } from '@/types/OmikujiData'
   import { useFontFamily } from '@/common/FontFamily/fontFamily'
 
+  const { t } = useI18n()
   type FontCategory = 'gothic' | 'mincho' | 'rounded' | 'handwriting' | 'display'
 
   const omikujiStore = useOmikujiStore()
@@ -92,13 +96,13 @@
 
   const activeCategory = ref<'all' | FontCategory>('all')
 
-  const TABS: { key: 'all' | FontCategory; label: string }[] = [
-    { key: 'all', label: 'すべて' },
-    { key: 'gothic', label: 'ゴシック' },
-    { key: 'mincho', label: '明朝' },
-    { key: 'rounded', label: '丸ゴシック' },
-    { key: 'handwriting', label: '手書き' },
-    { key: 'display', label: '装飾' },
+  const TABS: { key: 'all' | FontCategory }[] = [
+    { key: 'all' },
+    { key: 'gothic' },
+    { key: 'mincho' },
+    { key: 'rounded' },
+    { key: 'handwriting' },
+    { key: 'display' },
   ]
 
   const filteredFonts = computed(() => {

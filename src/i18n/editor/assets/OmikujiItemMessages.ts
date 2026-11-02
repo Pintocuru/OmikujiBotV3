@@ -4,6 +4,17 @@
 export const omikujiItemMessages = {
   ja: {
     omikujiItem: {
+      list: {
+        testTooltip: 'わんコメを起動すると、投稿の確認ができます',
+        test: '抽選テスト',
+        add: 'おみくじを追加',
+        columns: 'おみくじ / シナリオ / クールダウン',
+      },
+      summary: {
+        unnamed: 'アイテム',
+        editNameDescription: '名前・説明を編集',
+        criteriaBadge: '条件',
+      },
       priority: {
         criteria: {
           label: '追加発動条件',
@@ -15,6 +26,9 @@ export const omikujiItemMessages = {
         },
         sectionTitle: '追加条件',
         sectionDescription: 'このおみくじが適用される追加の条件を設定します',
+        enable: '設定する',
+        priorityEnabledMessage: '適用時、このおみくじが必ず適用されます',
+        priorityDisabledMessage: '他のおみくじと同じ抽選を行います',
       },
       scenario: {
         label: '実行するシナリオ',
@@ -34,10 +48,12 @@ export const omikujiItemMessages = {
         dialog: {
           title: 'シナリオを選択',
           search: '名前・説明・Key で絞り込み',
+          keyLabel: 'キー',
           empty: '該当するシナリオがありません…',
           noDescription: '説明はありません',
           steps: 'ステップ {count}件',
           select: '選択',
+          close: '閉じる',
         },
       },
       header: {
@@ -48,7 +64,12 @@ export const omikujiItemMessages = {
         cooldown: {
           label: 'クールダウン',
           description: 'これ以降の実行を一定時間ブロックします（秒）',
+          inputTitle: 'クールダウン(秒)',
+          unit: '秒',
         },
+      },
+      dialogs: {
+        baseTitle: '名前・説明',
       },
       editor: {
         kind: {
@@ -67,11 +88,29 @@ export const omikujiItemMessages = {
       criteria: {
         label: '適用する発動条件',
         description: 'トリガーの種類を選択',
+        help: {
+          conditionName: '追加発動条件',
+          conditionDescription: 'は、コメント内容やチャット数などを基にイベント発動を制御します。',
+          allRequired: '条件が複数ある場合は、すべて満たしたときのみ発動します。',
+          adminCommands: '管理者限定コマンドなどの応用も可能です。',
+          empty: '発動条件が指定されていません',
+        },
       },
     },
   },
   en: {
     omikujiItem: {
+      list: {
+        testTooltip: 'Start OneComme to preview the post',
+        test: 'Test draw',
+        add: 'Add omikuji',
+        columns: 'Omikuji / Scenario / Cooldown',
+      },
+      summary: {
+        unnamed: 'Item',
+        editNameDescription: 'Edit name and description',
+        criteriaBadge: 'Condition',
+      },
       priority: {
         criteria: {
           label: 'Additional conditions',
@@ -83,6 +122,9 @@ export const omikujiItemMessages = {
         },
         sectionTitle: 'Additional conditions',
         sectionDescription: 'Set additional conditions under which this omikuji applies',
+        enable: 'Enable',
+        priorityEnabledMessage: 'This omikuji is guaranteed to be selected when its conditions are met',
+        priorityDisabledMessage: 'Draw this omikuji like any other',
       },
       scenario: {
         label: 'Scenario to run',
@@ -102,10 +144,12 @@ export const omikujiItemMessages = {
         dialog: {
           title: 'Select a scenario',
           search: 'Filter by name, description or key',
+          keyLabel: 'Key',
           empty: 'No matching scenarios…',
           noDescription: 'No description',
           steps: '{count} step(s)',
           select: 'Select',
+          close: 'Close',
         },
       },
       header: {
@@ -116,7 +160,12 @@ export const omikujiItemMessages = {
         cooldown: {
           label: 'Cooldown',
           description: 'Blocks further execution for a set time (seconds)',
+          inputTitle: 'Cooldown (seconds)',
+          unit: 's',
         },
+      },
+      dialogs: {
+        baseTitle: 'Name and description',
       },
       editor: {
         kind: {
@@ -135,6 +184,13 @@ export const omikujiItemMessages = {
       criteria: {
         label: 'Conditions to apply',
         description: 'Choose the trigger types',
+        help: {
+          conditionName: 'Additional trigger conditions',
+          conditionDescription: ' let you control event triggers based on comment content, chat count, and similar criteria.',
+          allRequired: 'If multiple conditions are set, all of them must be met for the event to trigger.',
+          adminCommands: 'You can also configure advanced options, such as commands limited to administrators.',
+          empty: 'No trigger conditions have been specified',
+        },
       },
     },
   },

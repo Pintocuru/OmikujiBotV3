@@ -106,6 +106,7 @@ export const appItemsCharactersMessages = {
       },
       item: {
         name: 'エモーション名',
+        keyLabel: 'キー',
         unset: '未設定',
         deleteTip: 'この感情を削除',
       },
@@ -271,6 +272,7 @@ export const appItemsCharactersMessages = {
       },
       item: {
         name: 'Emotion name',
+        keyLabel: 'Key',
         unset: 'Not set',
         deleteTip: 'Delete this emotion',
       },

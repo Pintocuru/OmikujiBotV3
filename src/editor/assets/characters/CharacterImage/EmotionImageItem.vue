@@ -12,7 +12,7 @@
           @blur="emit('update:label', localName)"
         />
       </div>
-      <div class="text-sm text-base-content/40">key: {{ emotionKey }}</div>
+      <div class="text-sm text-base-content/40">{{ t('characterImage.item.keyLabel') }}: {{ emotionKey }}</div>
     </div>
 
     <div v-if="isDefaultWarning" class="badge badge-warning badge-sm">{{ t('characterImage.item.unset') }}</div>

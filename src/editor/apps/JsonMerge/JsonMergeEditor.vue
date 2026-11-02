@@ -4,13 +4,17 @@
   <div class="flex justify-end gap-2">
     <button @click="addMerge" class="btn btn-primary">
       <Plus class="w-4 h-4" />
-      マージ設定を追加
+      {{ t('jsonMerge.add') }}
     </button>
   </div>
 
   <div class="space-y-4">
     <!-- アイテムが空の場合 -->
-    <NoParamsCard v-if="merge.length === 0" message="マージ設定がありません。" sub="下のボタンから追加してください。" />
+    <NoParamsCard
+      v-if="merge.length === 0"
+      :message="t('jsonMerge.empty.title')"
+      :sub="t('jsonMerge.empty.description')"
+    />
 
     <!-- ドラッグ可能なアイテムリスト -->
     <VueDraggable
@@ -38,8 +42,8 @@
 
         <!-- 名前 -->
         <div class="flex-1 min-w-0">
-          <div class="truncate font-medium">{{ item.name || 'マージ設定' }}</div>
-          <div class="text-base-content/60 truncate">{{ item.sourceFile || '(ファイル未設定)' }}</div>
+          <div class="truncate font-medium">{{ item.name || t('jsonMerge.settings.unnamed') }}</div>
+          <div class="text-base-content/60 truncate">{{ item.sourceFile || t('jsonMerge.settings.unsetSource') }}</div>
         </div>
 
         <!-- メニュー -->
@@ -57,7 +61,13 @@
         :style="{ backgroundColor: getColorForIndex(selectedIndex) }"
       >
         <h3 class="text-sm md:text-base">
-          マージ設定編集: {{ merge[selectedIndex]?.name || `設定${selectedIndex + 1}` }}
+          {{
+            t('jsonMerge.settings.editTitle', {
+              name:
+                merge[selectedIndex]?.name ||
+                t('jsonMerge.settings.fallbackName', { index: selectedIndex + 1 }),
+            })
+          }}
         </h3>
       </div>
 
@@ -65,7 +75,11 @@
 
       <div class="space-y-4">
         <!-- イベント名 -->
-        <SettingItem icon="Pencil" label="マージ名" description="識別しやすい名前">
+        <SettingItem
+          icon="Pencil"
+          :label="t('jsonMerge.name.label')"
+          :description="t('jsonMerge.name.description')"
+        >
           <input type="text" v-model="merge[selectedIndex].name" @input="update" class="input w-full" />
         </SettingItem>
 
@@ -75,12 +89,14 @@
         <!-- リマップ設定 -->
         <div class="mt-4">
           <div class="flex justify-between items-center mb-2">
-            <span class="font-medium">キーリマップ設定</span>
-            <button @click="addRemap(selectedIndex)" class="btn btn-sm btn-primary">+ リマップ追加</button>
+            <span class="font-medium">{{ t('jsonMerge.remap.sectionTitle') }}</span>
+            <button @click="addRemap(selectedIndex)" class="btn btn-sm btn-primary">
+              + {{ t('jsonMerge.remap.add') }}
+            </button>
           </div>
 
           <div v-if="merge[selectedIndex].remaps.length === 0" class="text-gray-500 text-sm py-2">
-            リマップ設定がありません
+            {{ t('jsonMerge.remap.empty') }}
           </div>
 
           <JsonMergeRemapEditor
@@ -96,13 +112,14 @@
 
     <!-- 未選択時のメッセージ -->
     <div v-else-if="merge.length > 0" class="card bg-base-200 shadow p-6 text-center">
-      <p class="text-base-content/60">上のリストからマージ設定をクリックして編集してください</p>
+      <p class="text-base-content/60">{{ t('jsonMerge.unselected') }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
   import { VueDraggable } from 'vue-draggable-plus'
   import { GripVertical, Plus } from 'lucide-vue-next'
@@ -118,6 +135,7 @@
 
   const store = useOmikujiStore()
   const { data } = storeToRefs(store)
+  const { t } = useI18n()
 
   const merge = ref<JsonMergeItemType[]>(data.value.jsonMerge ?? [])
 

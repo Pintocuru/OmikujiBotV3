@@ -5,7 +5,7 @@
     v-if="opened === 'base'"
     :open="true"
     icon="Pencil"
-    title="名前・説明"
+    :title="t('omikujiItem.dialogs.baseTitle')"
     size="xl"
     @update:open="emit('close')"
   >
@@ -24,7 +24,7 @@
     v-if="opened === 'condition'"
     :open="true"
     icon="Filter"
-    title="追加条件"
+    :title="t('omikujiItem.priority.sectionTitle')"
     size="3xl"
     @update:open="emit('close')"
   >
@@ -33,7 +33,14 @@
     </div>
   </BaseDialog>
 
-  <BaseDialog v-if="opened === 'run'" :open="true" icon="Zap" title="実行内容" size="3xl" @update:open="emit('close')">
+  <BaseDialog
+    v-if="opened === 'run'"
+    :open="true"
+    icon="Zap"
+    :title="t('omikujiItem.editor.kind.label')"
+    size="3xl"
+    @update:open="emit('close')"
+  >
     <div class="space-y-2">
       <OmikujiItemEditor :omikujiItem="item" @update="emit('update:item', $event)" />
     </div>
@@ -42,6 +49,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { BaseRecordSchema, type BaseRecordType } from '@/types/core'
   import type { OmikujiItemType } from '@/types/OmikujiData/'
   import type { WeightDialogName } from '../composables/useWeightItemDialog'
@@ -49,6 +57,8 @@
   import BaseEditor from '@/editor/apps/BaseSettings/BaseEditor.vue'
   import OmikujiItemEditor from '../item/OmikujiItemEditor.vue'
   import OmikujiItemPriority from '../item/OmikujiItemPriority.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     item: OmikujiItemType

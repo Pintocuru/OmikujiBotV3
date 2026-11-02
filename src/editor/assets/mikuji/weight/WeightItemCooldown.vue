@@ -4,7 +4,7 @@
   <label
     v-if="item.kind === 'steps'"
     class="input input-sm input-bordered flex w-28 shrink-0 items-center gap-1"
-    title="クールダウン(秒)"
+    :title="t('omikujiItem.header.cooldown.inputTitle')"
   >
     <Timer class="w-3.5 h-3.5 shrink-0 opacity-60" />
     <input
@@ -15,14 +15,17 @@
       step="0.1"
       @change="updateCooldown"
     />
-    <span class="text-xs opacity-60">秒</span>
+    <span class="text-xs opacity-60">{{ t('omikujiItem.header.cooldown.unit') }}</span>
   </label>
   <div v-else class="w-28 shrink-0 text-center opacity-40">-</div>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { Timer } from 'lucide-vue-next'
   import type { OmikujiItemType } from '@/types/OmikujiData/'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     item: OmikujiItemType

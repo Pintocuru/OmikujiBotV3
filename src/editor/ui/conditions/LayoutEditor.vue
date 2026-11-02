@@ -17,7 +17,9 @@
       </div>
       <!-- 未登録のレイアウトは翻訳キーを出さず、データ不一致を表示 -->
       <p v-if="isLayoutAvailable" class="text-xs opacity-70 p-2">{{ t(`mapText.uiLayout.${layout}.description`) }}</p>
-      <p v-else class="text-xs text-error p-2">データが不一致です: {{ mismatchMessage }}</p>
+      <p v-else class="text-xs text-error p-2">
+        {{ t('uiSettings.layout.mismatch', { details: mismatchMessage }) }}
+      </p>
     </SettingItem>
   </div>
 </template>

@@ -77,6 +77,7 @@ export const appInfoEditorMessages = {
           },
         },
         common: {
+          help: 'ヘルプを開く',
           reset: 'デフォルト値に戻す',
           warning: '注意が必要な設定です',
         },
@@ -160,6 +161,7 @@ export const appInfoEditorMessages = {
           },
         },
         common: {
+          help: 'Open help',
           reset: 'Reset to default',
           warning: 'This setting requires caution',
         },

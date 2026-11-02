@@ -13,6 +13,10 @@ import { addWeightPercentages, drawOmikuji } from '@/engine/DrawOmikuji/DrawOmik
 import { BotMessageType } from '@/types/generator'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
+import i18n from '@/editor/i18n'
+
+const t = (key: string, named?: Record<string, unknown>) =>
+  named ? i18n.global.t(key, named) : i18n.global.t(key)
 
 const MOCK_COMMENT = OmikenCommentSchema.parse({
   userId: 'testUserId',
@@ -47,8 +51,11 @@ export function useTestPost() {
   // 抽選結果の詳細トーストを表示
   const showOmikujiResultToast = (omikujiItem: OmikujiItemType) => {
     swalToast.success({
-      title: 'おみくじ抽選結果',
-      html: `おみくじ: ${omikujiItem.name || '無名のアイテム'}<br>重み: ${getWeight(omikujiItem) || 1}`,
+      title: t('editorPreview.testPost.resultTitle'),
+      html: t('editorPreview.testPost.resultDetails', {
+        name: omikujiItem.name || t('editorPreview.testPost.unnamedItem'),
+        weight: getWeight(omikujiItem) || 1,
+      }),
       timer: 15000,
     })
   }
@@ -68,8 +75,8 @@ export function useTestPost() {
   const postTestOmikuji = (mikujiBox: OmikujiItemType[]) => {
     if (!selectedRule.value) {
       swalToast.error({
-        title: 'イベントが選択されていません',
-        text: 'テスト投稿の対象となるイベントを選択してください。',
+        title: t('editorPreview.testPost.noSelectedEventTitle'),
+        text: t('editorPreview.testPost.noSelectedEvent'),
       })
       return
     }
@@ -80,8 +87,8 @@ export function useTestPost() {
 
     if (!omikujiItem) {
       swalToast.info({
-        title: 'おみくじ抽選結果',
-        text: '該当するおみくじがありませんでした。',
+        title: t('editorPreview.testPost.resultTitle'),
+        text: t('editorPreview.testPost.noMatchingItem'),
       })
       return
     }
@@ -95,10 +102,10 @@ export function useTestPost() {
     const scenario = data.value.assets.scenarios[omikujiItem.stepKey]
     if (!scenario) {
       swalToast.error({
-        title: 'シナリオが見つかりません',
+        title: t('editorPreview.testPost.missingScenarioTitle'),
         text: omikujiItem.stepKey
-          ? `シナリオ "${omikujiItem.stepKey}" が存在しません。`
-          : 'シナリオ(stepKey)が設定されていません。',
+          ? t('editorPreview.testPost.missingScenario', { key: omikujiItem.stepKey })
+          : t('editorPreview.testPost.missingScenarioKey'),
       })
       return
     }
@@ -119,9 +126,9 @@ const executeTestPostDelays = async (posts: BotMessageType[]): Promise<void> => 
       posts.map((post) => new Promise<void>((resolve) => setTimeout(resolve, post.delaySeconds * 1000)))
     )
   } catch (error) {
-    console.error('メッセージ投稿処理中にエラーが発生しました:', error)
+    console.error(t('editorPreview.testPost.postError'), error)
     swalModal.error({
-      title: 'テスト投稿の表示中にエラーが発生しました',
+      title: t('editorPreview.testPost.postErrorTitle'),
       text: String(error),
     })
   }

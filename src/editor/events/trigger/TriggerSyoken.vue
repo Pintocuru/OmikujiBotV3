@@ -4,18 +4,19 @@
     <div class="flex flex-wrap gap-2">
       <span
         v-for="option in syokenOptions"
-        :key="option.value"
+        :key="option"
         class="badge badge-sm cursor-pointer select-none"
-        :class="modelValue.includes(option.value) ? 'badge-secondary' : 'badge-ghost'"
-        @click="toggleOption(option.value)"
+        :class="modelValue.includes(option) ? 'badge-secondary' : 'badge-ghost'"
+        @click="toggleOption(option)"
       >
-        {{ option.label }}
+        {{ t(`mapText.syokenCondition.${option}.label`) }}
       </span>
     </div>
   </SettingItem>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { syokenConditionMap } from '@/maps/engine/trigger/SyokenConditionMap'
   import { SyokenConditionType } from '@/types/engine/trigger'
@@ -24,13 +25,11 @@
     modelValue: SyokenConditionType[]
   }>()
 
+  const { t } = useI18n()
   const emit = defineEmits(['update:modelValue'])
 
   // 選択肢の生成
-  const syokenOptions = Object.entries(syokenConditionMap).map(([value, { label }]) => ({
-    value: value as SyokenConditionType,
-    label,
-  }))
+  const syokenOptions = Object.keys(syokenConditionMap) as SyokenConditionType[]
 
   // オプションの切り替え
   const toggleOption = (value: SyokenConditionType) => {

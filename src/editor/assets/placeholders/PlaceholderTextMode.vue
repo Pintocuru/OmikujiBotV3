@@ -31,7 +31,9 @@
       <div class="form-control flex-1 flex flex-col min-h-0">
         <label class="label shrink-0">
           <span class="label-text font-medium">{{ t('placeholder.textInputLabel') }}</span>
-          <span class="label-text-alt">{{ t('placeholder.lineCount', { count: lineCount }) }}</span>
+          <span class="label-text-alt">
+            {{ t(lineCount === 1 ? 'placeholder.lineCountSingular' : 'placeholder.lineCount', { count: lineCount }) }}
+          </span>
         </label>
         <textarea
           ref="textareaRef"

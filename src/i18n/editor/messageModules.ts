@@ -8,6 +8,8 @@ import * as m_OmikujiDataMaps from './OmikujiDataMaps'
 import * as m_apps_AppInfoEditor from './apps/AppInfoEditor'
 import * as m_apps_AppItemsCharacters from './apps/AppItemsCharacters'
 import * as m_apps_BaseSettingsEditor from './apps/BaseSettingsEditor'
+import * as m_apps_DataPacksMessages from './apps/DataPacksMessages'
+import * as m_apps_JsonMergeMessages from './apps/JsonMergeMessages'
 import * as m_apps_PackageMetaMessages from './apps/PackageMetaMessages'
 import * as m_assets_OmikujiItemMessages from './assets/OmikujiItemMessages'
 import * as m_assets_PlaceholderMessages from './assets/PlaceholderMessages'
@@ -26,8 +28,13 @@ import * as m_events_TriggerExpression from './events/TriggerExpression'
 import * as m_events_TriggerGift from './events/TriggerGift'
 import * as m_events_TriggerUsername from './events/TriggerUsername'
 import * as m_helpers_clipboardMessages from './helpers/clipboardMessages'
+import * as m_helpers_CharacterChangerMessages from './helpers/CharacterChangerMessages'
+import * as m_helpers_DataOperationMessages from './helpers/DataOperationMessages'
 import * as m_helpers_keyEditorMessages from './helpers/keyEditorMessages'
+import * as m_helpers_PresetMessages from './helpers/PresetMessages'
 import * as m_shell_ShellMessages from './shell/ShellMessages'
+import * as m_ui_EditorUiMessages from './ui/EditorUiMessages'
+import * as m_preview_EditorPreviewMessages from './preview/EditorPreviewMessages'
 import * as m_ui_UiSettingsMessages from './ui/UiSettingsMessages'
 import * as m_content_ConnectionMessages from './content/ConnectionMessages'
 import * as m_content_TopPageMessages from './content/TopPageMessages'
@@ -37,6 +44,8 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'apps/AppInfoEditor': m_apps_AppInfoEditor,
   'apps/AppItemsCharacters': m_apps_AppItemsCharacters,
   'apps/BaseSettingsEditor': m_apps_BaseSettingsEditor,
+  'apps/DataPacksMessages': m_apps_DataPacksMessages,
+  'apps/JsonMergeMessages': m_apps_JsonMergeMessages,
   'apps/PackageMetaMessages': m_apps_PackageMetaMessages,
   'assets/OmikujiItemMessages': m_assets_OmikujiItemMessages,
   'assets/PlaceholderMessages': m_assets_PlaceholderMessages,
@@ -57,7 +66,12 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'events/TriggerGift': m_events_TriggerGift,
   'events/TriggerUsername': m_events_TriggerUsername,
   'helpers/clipboardMessages': m_helpers_clipboardMessages,
+  'helpers/CharacterChangerMessages': m_helpers_CharacterChangerMessages,
+  'helpers/DataOperationMessages': m_helpers_DataOperationMessages,
   'helpers/keyEditorMessages': m_helpers_keyEditorMessages,
+  'helpers/PresetMessages': m_helpers_PresetMessages,
+  'preview/EditorPreviewMessages': m_preview_EditorPreviewMessages,
   'shell/ShellMessages': m_shell_ShellMessages,
+  'ui/EditorUiMessages': m_ui_EditorUiMessages,
   'ui/UiSettingsMessages': m_ui_UiSettingsMessages,
 }

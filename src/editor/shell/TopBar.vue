@@ -25,7 +25,7 @@
       <button
         class="text-xs shrink-0 cursor-pointer"
         :class="versionInfo.hasNewVersion ? 'text-warning' : 'opacity-80'"
-        :title="versionInfo.hasNewVersion ? '新しいバージョンがあります' : 'バージョン情報'"
+        :title="versionInfo.hasNewVersion ? t('shell.topBar.versionNew') : t('shell.topBar.versionInfo')"
         @click="showUpdateDialog"
       >
         {{ versionInfo.current }}
@@ -107,7 +107,7 @@
 
   // テーマ
   const isDark = computed(() => data.value.settings.developer.daisyUiTheme === 'dark')
-  const themeTitle = computed(() => (isDark.value ? 'ライトモードに切り替え' : 'ダークモードに切り替え'))
+  const themeTitle = computed(() => (isDark.value ? t('shell.topBar.themeLight') : t('shell.topBar.themeDark')))
 
   // ファイルを開く: サーバーに接続していれば選択ダイアログ、していなければローカルの omikujiData.js を直接読む
   const isFileDialogOpen = ref(false)
@@ -125,17 +125,17 @@
   const canUseGenerator = computed(() => props.showGenerator || props.generatorState === 'ready')
 
   const generatorLabel = computed(() => {
-    if (props.showGenerator) return 'エディター'
-    if (props.generatorState === 'checking') return 'わんコメ確認中...'
-    if (props.generatorState === 'unavailable') return 'ジェネレーター使用不可'
-    return 'ジェネレーター'
+    if (props.showGenerator) return t('shell.topBar.generator.editor')
+    if (props.generatorState === 'checking') return t('shell.topBar.generator.checking')
+    if (props.generatorState === 'unavailable') return t('shell.topBar.generator.unavailable')
+    return t('shell.topBar.generator.label')
   })
 
   const generatorTitle = computed(() => {
-    if (props.showGenerator) return 'エディターに戻る'
+    if (props.showGenerator) return t('shell.topBar.generator.return')
     if (props.generatorState === 'unavailable')
-      return 'わんコメに接続できません。わんコメを起動してから、クリックで再確認してください'
-    return 'ジェネレーターを表示して動作を確認する'
+      return t('shell.topBar.generator.unavailableTip')
+    return t('shell.topBar.generator.showTip')
   })
 
   function onSwitch() {
