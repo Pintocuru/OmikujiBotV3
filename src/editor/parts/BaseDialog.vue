@@ -2,27 +2,31 @@
 <!-- タイトル + ×ボタン + 本文 + (任意の)アクションだけを持つ薄いダイアログ。保存/キャンセルが要るときは BaseEditDialog を使う -->
 <template>
   <dialog ref="dialogRef" class="modal modal-bottom sm:modal-middle" @close="close">
-    <div class="modal-box max-h-[90vh] overflow-y-auto" :class="sizeClass[size]">
-      <div class="flex items-center justify-between pb-2">
-        <h3 class="text-lg font-bold flex items-center gap-2">
-          <component :is="IconComponent" v-if="IconComponent" class="w-5 h-5" />
-          {{ title }}
-        </h3>
-        <button class="btn btn-sm btn-circle btn-ghost" :aria-label="t('editorUi.dialog.close')" @click="close">
-          <X :size="16" />
-        </button>
+    <!-- 開いている間だけ中身を描画する。閉じたままの MessageTextDialog 等の中身まで全件マウントされ、
+         一覧(44 行程度)でクリックから数秒固まる原因になっていたため -->
+    <template v-if="open">
+      <div class="modal-box max-h-[90vh] overflow-y-auto" :class="sizeClass[size]">
+        <div class="flex items-center justify-between pb-2">
+          <h3 class="text-lg font-bold flex items-center gap-2">
+            <component :is="IconComponent" v-if="IconComponent" class="w-5 h-5" />
+            {{ title }}
+          </h3>
+          <button class="btn btn-sm btn-circle btn-ghost" :aria-label="t('editorUi.dialog.close')" @click="close">
+            <X :size="16" />
+          </button>
+        </div>
+
+        <slot />
+
+        <div v-if="$slots.actions" class="modal-action">
+          <slot name="actions" />
+        </div>
       </div>
 
-      <slot />
-
-      <div v-if="$slots.actions" class="modal-action">
-        <slot name="actions" />
-      </div>
-    </div>
-
-    <form method="dialog" class="modal-backdrop">
-      <button :aria-label="t('editorUi.dialog.close')" @click="close">{{ t('editorUi.dialog.close') }}</button>
-    </form>
+      <form method="dialog" class="modal-backdrop">
+        <button :aria-label="t('editorUi.dialog.close')" @click="close">{{ t('editorUi.dialog.close') }}</button>
+      </form>
+    </template>
   </dialog>
 </template>
 
