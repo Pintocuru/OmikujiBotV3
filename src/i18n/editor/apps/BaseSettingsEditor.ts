@@ -6,7 +6,8 @@ export const baseSettingsMessages = {
   ja: {
     baseSettings: {
       key: {
-        label: 'キーの名前を変更する',
+        label: 'キー名',
+        edit: 'キーの名前を変更する',
         description: '他のデータと区別できるよう名前を付けます',
       },
       isEnabled: {

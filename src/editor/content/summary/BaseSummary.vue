@@ -11,6 +11,12 @@
     </div>
 
     <dl v-if="selectedRecord" class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-2 text-sm">
+      <!-- キー名 (placeholders のみ) -->
+      <template v-if="selectedCategory === 'placeholders'">
+        <dt class="opacity-60">{{ t('baseSettings.key.label') }}</dt>
+        <dd class="wrap-break-word">{{ selectedRecord.key }}</dd>
+      </template>
+
       <!-- 名前 -->
       <dt class="opacity-60">{{ t('baseSettings.name.label') }}</dt>
       <dd class="wrap-break-word">{{ selectedRecord.name || '—' }}</dd>
@@ -29,9 +35,11 @@
         </dd>
       </template>
     </dl>
-
-    <ItemEditDialog v-model:open="editOpen" />
   </section>
+
+  <!-- 編集ダイアログ -->
+  <!-- TODO:ItemEditDialog.vueとマージさせたい -->
+  <ItemEditDialog v-model:open="editOpen" />
 </template>
 
 <script setup lang="ts">
@@ -44,7 +52,8 @@
   import ItemEditDialog from './ItemEditDialog.vue'
 
   const { t } = useI18n()
-  const { selectedItemKey } = storeToRefs(useNavigationStore())
+
+  const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())
   const { selectedRecord } = useSelectedRecord()
 
   const editOpen = ref(false)

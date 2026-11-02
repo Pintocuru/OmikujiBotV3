@@ -4,7 +4,7 @@
   <SettingItem
     v-if="isAssetCategory(category)"
     icon="Pencil"
-    labelKey="baseSettings.key.label"
+    labelKey="baseSettings.key.edit"
     descriptionKey="baseSettings.key.description"
   >
     <div class="flex gap-2 items-center">
