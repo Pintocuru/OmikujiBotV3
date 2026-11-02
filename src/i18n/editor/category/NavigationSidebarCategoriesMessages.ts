@@ -51,7 +51,7 @@ export const navigationSidebarCategoriesMessages = {
         description: '配布されているデータパックを読み込みます',
       },
       appInfo: {
-        label: 'アプリ情報',
+        label: '設定 / アプリ情報',
         description: 'ライセンスや使用できる機能を確認できます',
       },
     },
