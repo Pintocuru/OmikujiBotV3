@@ -4,7 +4,7 @@ export const categorySectionMessages = {
     categorySections: {
       baseSettings: { label: '基本設定', description: '基本設定' },
       trigger: { label: '発動条件', description: '「おみくじを引く」発動条件の設定' },
-      omikujiSet: { label: 'ステップ設定', description: 'おみくじの抽選設定や、おみくじの内容です' },
+      omikujiSet: { label: 'みくじ箱設定', description: 'おみくじの抽選方法や確率を編集します' },
       timerInterval: { label: 'タイマー設定', description: '発動する間隔やタイミングの設定' },
       placeholder: { label: 'プレースホルダー設定', description: '抽選するプレースホルダーを編集します' },
       characterStyle: { label: '表示設定', description: 'フキダシの色と、BOTコメントの表現を設定します' },
@@ -27,7 +27,10 @@ export const categorySectionMessages = {
       omikujiSet: { label: 'Action Settings', description: 'Omikuji lottery settings and contents' },
       timerInterval: { label: 'Timer Settings', description: 'Set interval and timing for triggering' },
       placeholder: { label: 'Placeholder Settings', description: 'Edit placeholders to draw from' },
-      characterStyle: { label: 'Display Settings', description: 'Set speech bubble colors and how BOT comments are expressed' },
+      characterStyle: {
+        label: 'Display Settings',
+        description: 'Set speech bubble colors and how BOT comments are expressed',
+      },
       colorSettings: { label: 'Character Color Settings', description: 'Edit speech bubble colors' },
       commentVoice: { label: 'BOT Comment Voice Settings', description: 'Specify how BOT comments are read aloud' },
       imageSettings: { label: 'Generator Image Settings', description: 'Set images displayed in the generator' },
