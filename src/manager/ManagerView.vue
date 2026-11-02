@@ -8,13 +8,12 @@
   <div class="modal" :class="{ 'modal-open': open }" role="dialog" aria-modal="true" @click.self="open = false">
     <div class="modal-box max-w-5xl w-11/12 p-0 overflow-hidden text-base-content">
       <div class="card bg-linear-to-r from-primary to-secondary rounded-none">
-        <div class="card-body px-4 py-2">
-          <!-- ヘッダー -->
-          <ManagerHeader :showFileTools="tab === 'presets'" />
-        </div>
+        <!-- ヘッダー -->
+        <ManagerHeader :showFileTools="tab === 'presets'" />
       </div>
 
       <!-- 開く手段: どちらも同じ高さ・同じ見た目で並べる -->
+      <!-- TODO:下記は新しいコンポーネントに切り分ける -->
       <div class="flex flex-wrap items-center gap-2 px-3 pt-3">
         <button class="btn btn-sm btn-outline" :disabled="devStore.isLoading" @click="onOpenLocal">
           <FileCode class="w-4 h-4" />
