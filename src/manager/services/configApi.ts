@@ -1,5 +1,6 @@
 // src/manager/services/configApi.ts
 import { FileItem } from '@/manager/types'
+import type { MetaDataType } from '@/types/core/MetaDataSchema'
 import { API_ACTION } from '@server/api/actions'
 import { BaseApiClient } from './baseApiClient'
 import { ensureJsonExtension, toFileItem } from './apiServiceUtils'
@@ -12,7 +13,7 @@ class ConfigApiService extends BaseApiClient {
    * ファイル一覧を取得
    */
   async getFileList(): Promise<FileItem[]> {
-    const response = await this.get<{ name: string; modified: string }[]>(API_ACTION.list.action)
+    const response = await this.get<{ name: string; modified: string; meta?: MetaDataType }[]>(API_ACTION.list.action)
     this.validateResponse(response, 'ファイル一覧の取得に失敗しました')
 
     return response.data.map(toFileItem)

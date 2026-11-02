@@ -16,6 +16,8 @@
     </div>
 
     <div v-if="devStore.isServerConnected && showFileTools" class="flex items-center gap-2">
+      <!-- 検索(全フォルダ対象) -->
+      <input v-model="devStore.searchQuery" type="search" class="input input-xs w-48" placeholder="名前・説明で検索" />
       <!-- 一覧の並び替え -->
       <select v-model="devStore.sortMode" class="select select-xs w-52" title="並び順">
         <option value="name">名前（A→Z）</option>

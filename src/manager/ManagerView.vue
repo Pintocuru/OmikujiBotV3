@@ -14,24 +14,8 @@
         </div>
       </div>
 
-      <!-- 開く手段: どちらも同じ高さ・同じ見た目で並べる -->
-      <!-- TODO:下記は新しいコンポーネントに切り分ける -->
-      <div class="flex flex-wrap items-center gap-2 px-3 pt-3">
-        <button class="btn btn-sm btn-outline" :disabled="devStore.isLoading" @click="onOpenLocal">
-          <FileCode class="w-4 h-4" />
-          {{ t('shell.topBar.openLocal') }}
-        </button>
-        <button
-          v-if="!isExpressMode"
-          class="btn btn-sm btn-outline"
-          :disabled="devStore.isLoading"
-          :title="t('shell.topBar.openGeneratorTip')"
-          @click="onOpenPackage()"
-        >
-          <Download class="w-4 h-4" />
-          {{ t('shell.topBar.openGenerator') }}
-        </button>
-      </div>
+      <!-- 開く手段 -->
+      <OpenSourceBar @open-local="onOpenLocal" @open-package="onOpenPackage()" />
 
       <!-- 保存先の切り替え -->
       <div role="tablist" class="tabs tabs-border px-3 pt-2">
@@ -61,10 +45,10 @@
   import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { Download, FileCode } from 'lucide-vue-next'
   import { useOpenLocal } from './composables/useOpenLocal'
   import { useOpenPackage } from './composables/useOpenPackage'
   import ManagerHeader from './components/ManagerHeader.vue'
+  import OpenSourceBar from './components/OpenSourceBar.vue'
   import ManagerFileList from './components/ManagerFileList.vue'
   import ManagerPackageList from './components/ManagerPackageList.vue'
   import { useManagerStore } from './stores/useManagerStore'
@@ -75,7 +59,7 @@
   const devStore = useManagerStore()
   const { openLocal } = useOpenLocal()
   const { openPackage } = useOpenPackage()
-  const { isExpressMode, saveFileName } = storeToRefs(devStore)
+  const { saveFileName } = storeToRefs(devStore)
   const tab = ref<'presets' | 'packages'>('presets')
   // 開くたびにパッケージ一覧を取り直すためのキー
   const packageListKey = ref(0)
@@ -84,6 +68,7 @@
   watch(open, (isOpen) => {
     if (!isOpen) return
     tab.value = 'presets'
+    devStore.searchQuery = ''
     packageListKey.value++
     void devStore.fetchFileList()
   })

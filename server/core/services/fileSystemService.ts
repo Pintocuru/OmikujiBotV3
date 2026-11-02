@@ -3,6 +3,7 @@ import fs from 'fs/promises'
 import type { Dirent } from 'fs'
 import path from 'path'
 import { FileItem } from '@server/types'
+import { MetaDataSchema, type MetaDataType } from '@/types/core/MetaDataSchema'
 import { ensureDirectory } from './directoryService'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { SERVER_ROOT } from '@server/constants'
@@ -71,11 +72,25 @@ async function collectJsonFiles(currentDir: string, baseDir: string): Promise<Fi
       results.push({
         name: relativePath,
         modified: stats.mtime.toISOString(),
+        meta: await readMeta(fullPath),
       })
     }
   }
 
   return results
+}
+
+/**
+ * meta だけを取り出す。壊れた JSON・meta なしでも一覧全体は失敗させない
+ */
+async function readMeta(fullPath: string): Promise<MetaDataType | undefined> {
+  try {
+    const parsed = JSON.parse(await fs.readFile(fullPath, 'utf8'))
+    const result = MetaDataSchema.safeParse(parsed?.meta)
+    return result.success ? result.data : undefined
+  } catch {
+    return undefined
+  }
 }
 
 /**

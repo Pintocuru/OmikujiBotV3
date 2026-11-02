@@ -1,5 +1,6 @@
 // src/manager/types/index.ts
 import { Ref } from 'vue'
+import type { MetaDataType } from '@/types/core/MetaDataSchema'
 
 /**
  * DevConfigsState ステータス
@@ -12,6 +13,7 @@ export interface DataManagerType {
   // 一覧の並び替え・フォルダ開閉
   sortMode: Ref<FileSortMode>
   openFolders: Ref<Set<string>>
+  searchQuery: Ref<string>
 
   // ローディング状態
   isExpressMode: Ref<boolean>
@@ -36,6 +38,7 @@ export interface FileItem {
   displayName: string // "file.json" （表示用）
   folder: string | null // "category" or null
   modified: string
+  meta?: MetaDataType // description / version / dataVersion の表示用
 }
 
 /**
@@ -50,3 +53,8 @@ export type FileSortMode = 'name' | 'modified' | 'history'
 export type FileBlock =
   | { type: 'files'; key: string; files: FileItem[] }
   | { type: 'folder'; key: string; folder: string; files: FileItem[] }
+
+/**
+ * dataVersion の状態: current=対応 / legacy=旧(マイグレーション対象) / unsupported=未対応の新形式
+ */
+export type DataVersionStatus = 'current' | 'legacy' | 'unsupported'

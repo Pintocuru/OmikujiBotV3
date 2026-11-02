@@ -10,6 +10,15 @@ export function useManagerGetters(state: DataManagerType) {
     )
   })
 
+  // 検索で絞り込んだファイル(全フォルダ対象。ファイル名 / meta.name / meta.description、大小無視の部分一致)
+  const filteredFiles = computed(() => {
+    const q = state.searchQuery.value.trim().toLowerCase()
+    if (!q) return state.availableFiles.value
+    return state.availableFiles.value.filter((f) =>
+      [f.displayName, f.meta?.name, f.meta?.description].some((text) => text?.toLowerCase().includes(q))
+    )
+  })
+
   // フォルダ名一覧（全展開ボタン用）
   const folderNames = computed(() => {
     const names = new Set<string>()
@@ -31,14 +40,14 @@ export function useManagerGetters(state: DataManagerType) {
 
     // 履歴: フォルダ区分なしで更新日時の新しい順
     if (mode === 'history') {
-      const files = [...state.availableFiles.value].sort(byModifiedDesc)
+      const files = [...filteredFiles.value].sort(byModifiedDesc)
       return files.length > 0 ? [{ type: 'files', key: 'history', files }] : []
     }
 
     // ルート直下 / フォルダごとに分ける
     const rootFiles: FileItem[] = []
     const groups = new Map<string, FileItem[]>()
-    for (const file of state.availableFiles.value) {
+    for (const file of filteredFiles.value) {
       if (file.folder === null) {
         rootFiles.push(file)
       } else {
@@ -98,6 +107,7 @@ export function useManagerGetters(state: DataManagerType) {
 
   return {
     sortedFiles,
+    filteredFiles,
     folderNames,
     fileBlocks,
     isDeletingFile,

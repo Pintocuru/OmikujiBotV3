@@ -1,5 +1,7 @@
 // src/manager/services/apiServiceUtils.ts
-import { FileItem } from '@/manager/types'
+import { DataVersionStatus, FileItem } from '@/manager/types'
+import type { MetaDataType } from '@/types/core/MetaDataSchema'
+import { DATA_VERSION } from '@/version'
 import type { ApiActionName } from '@server/api/actions'
 
 /**
@@ -104,7 +106,7 @@ export function getErrorMessage(action: string | undefined, status: number): str
 /**
  * APIのレスポンスをファイルアイテムに変換
  */
-export function toFileItem(raw: { name: string; modified: string }): FileItem {
+export function toFileItem(raw: { name: string; modified: string; meta?: MetaDataType }): FileItem {
   const parts = raw.name.split('/')
   const displayName = parts[parts.length - 1].replace(/\.json$/, '')
   const folder = parts.length > 1 ? parts.slice(0, -1).join('/') : null
@@ -113,5 +115,14 @@ export function toFileItem(raw: { name: string; modified: string }): FileItem {
     displayName,
     folder,
     modified: raw.modified,
+    meta: raw.meta,
   }
+}
+
+/**
+ * dataVersion をアプリの対応バージョン(DATA_VERSION)と比較する
+ */
+export function getDataVersionStatus(dataVersion: number): DataVersionStatus {
+  if (dataVersion > DATA_VERSION) return 'unsupported'
+  return dataVersion < DATA_VERSION ? 'legacy' : 'current'
 }

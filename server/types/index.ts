@@ -1,7 +1,10 @@
 // server/types/index.ts
+import type { MetaDataType } from '@/types/core/MetaDataSchema'
+
 export interface FileItem {
   name: string
   modified: string
+  meta?: MetaDataType // 読めない・無いファイルは undefined
 }
 
 /**

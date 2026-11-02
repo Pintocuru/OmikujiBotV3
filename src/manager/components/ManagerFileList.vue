@@ -2,6 +2,9 @@
 <template>
   <div class="card bg-base-200 p-2 space-y-2">
     <template v-if="devStore.availableFiles.length > 0">
+      <div v-if="devStore.fileBlocks.length === 0" class="text-xs opacity-70 text-center py-4">
+        該当するファイルがありません
+      </div>
       <template v-for="block in devStore.fileBlocks" :key="block.key">
         <!-- ルート直下 -->
         <div v-if="block.type === 'files'" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
@@ -20,13 +23,13 @@
             class="flex items-center gap-1 text-xs font-bold opacity-70 hover:opacity-100 w-full text-left mb-1"
             @click="toggleFolder(block.folder)"
           >
-            <component :is="devStore.openFolders.has(block.folder) ? ChevronDown : ChevronRight" class="w-3 h-3" />
+            <component :is="isOpen(block.folder) ? ChevronDown : ChevronRight" class="w-3 h-3" />
             <Folder class="w-3 h-3" />
             {{ block.folder }}
             <span class="opacity-50">（{{ block.files.length }}）</span>
           </button>
 
-          <div v-if="devStore.openFolders.has(block.folder)" class="grid grid-cols-2 md:grid-cols-3 gap-1 pl-2">
+          <div v-if="isOpen(block.folder)" class="grid grid-cols-2 md:grid-cols-3 gap-1 pl-2">
             <ManagerFileItem
               v-for="file in block.files"
               :key="file.name"
@@ -57,6 +60,9 @@
   import { Folder, ChevronDown, ChevronRight } from 'lucide-vue-next'
 
   const devStore = useManagerStore()
+
+  // 検索中は該当ファイルを見逃さないよう、全フォルダを開いて表示する
+  const isOpen = (folder: string) => devStore.searchQuery.trim() !== '' || devStore.openFolders.has(folder)
 
   const toggleFolder = (folder: string) => {
     if (devStore.openFolders.has(folder)) {

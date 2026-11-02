@@ -4,7 +4,9 @@ import { AsyncActionHandler } from './useApiCore'
 import { configApi } from '@/manager/services/configApi'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { getDataVersionStatus } from '@/manager/services/apiServiceUtils'
+import { DATA_VERSION } from '@/version'
 
 export function useLoadActions(state: DataManagerType, handleAsyncAction: AsyncActionHandler) {
   // 設定読み込み
@@ -12,6 +14,16 @@ export function useLoadActions(state: DataManagerType, handleAsyncAction: AsyncA
     const omikujiStore = useOmikujiStore()
     const navigationStore = useNavigationStore()
     const hasChanged = omikujiStore.hasChanged
+
+    // アプリ未対応の新しい dataVersion は読み込まない(一覧の無効化に頼らない)
+    const file = state.availableFiles.value.find((f) => f.name === fileName)
+    if (file?.meta && getDataVersionStatus(file.meta.dataVersion) === 'unsupported') {
+      swalToast.error({
+        title: '読み込めません',
+        text: `このデータは v${file.meta.dataVersion} 形式です。このアプリ（v${DATA_VERSION}）では読み込めません。`,
+      })
+      return null
+    }
 
     // 変更があるなら確認ダイアログ
     if (hasChanged) {

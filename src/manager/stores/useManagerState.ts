@@ -12,6 +12,8 @@ export function useManagerState() {
   const sortMode = ref<FileSortMode>('name')
   // 開いているフォルダ（デフォルト閉じ）
   const openFolders = ref<Set<string>>(new Set())
+  // 検索文字列(ファイル名 / meta.name / meta.description に部分一致)
+  const searchQuery = ref('')
 
   // APIモード（開発環境ではExpressモードがデフォルト、本番環境ではわんコメPluginのみ）
   const isExpressMode = ref(isDev)
@@ -36,6 +38,7 @@ export function useManagerState() {
     availableFiles,
     sortMode,
     openFolders,
+    searchQuery,
     isExpressMode,
     isSaving,
     isLoading,
