@@ -2,7 +2,12 @@
 <!-- TOPページ: 選択中レイアウトで使われる UI の一覧(並び替え不可) -->
 <template>
   <section v-if="uiItems.length > 0" class="space-y-1.5">
-    <TopCategoryHeader :icon="categoryMap.ui.icon" :title="t('categories.ui.label')" :count="uiItems.length" />
+    <TopCategoryHeader
+      :icon="categoryMap.ui.icon"
+      :title="t('categories.ui.label')"
+      :description="t('categories.ui.description')"
+      :count="uiItems.length"
+    />
 
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1.5">
       <button

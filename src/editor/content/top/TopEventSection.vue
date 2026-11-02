@@ -1,12 +1,17 @@
 <!-- src/editor/content/top/TopEventSection.vue -->
-<!-- TOPページ: events の1カテゴリ分。ドラッグハンドルで並び替え可能 -->
+<!-- TOPページ: events の1カテゴリ分。番号=判定の順番。ドラッグハンドルで並び替え可能 -->
 <template>
   <section class="space-y-1.5">
     <TopCategoryHeader
       :icon="categoryMap[category].icon"
       :title="t(`categories.${category}.label`)"
+      :description="t(`categories.${category}.description`)"
       :count="items.length"
-    />
+    >
+      <template #help>
+        <TopEventOrderHelp :category="category" />
+      </template>
+    </TopCategoryHeader>
 
     <!-- ドロップ後、並び順を reorderEvents で配列に反映(サイドバーのドラッグと同じ) -->
     <VueDraggable
@@ -18,16 +23,20 @@
       @update:model-value="onDrag"
     >
       <div
-        v-for="event in items"
+        v-for="(event, index) in items"
         :key="event.id"
-        class="group flex items-center gap-1 rounded-lg bg-base-200 px-3 py-2 text-left hover:bg-primary hover:text-primary-content transition-colors min-w-0 cursor-pointer"
+        class="group flex items-center gap-1 rounded-lg bg-base-200 p-2 text-left hover:bg-primary hover:text-primary-content transition-colors min-w-0 cursor-pointer"
         :class="{ 'opacity-50': event.isEnabled === false }"
         @click="goToItem(category, event.id)"
       >
-        <!-- ドラッグハンドル(OmikujiRowSummary と同じ見た目) -->
+        <!-- ドラッグハンドル -->
         <div class="top-drag-handle cursor-move shrink-0" @click.stop>
           <GripVertical class="w-4 h-4 text-base-content/40 hover:text-base-content/80" />
         </div>
+        <!-- 判定の順番(配列の先頭から順に判定する) -->
+        <span class="badge badge-xs badge-neutral">{{ index + 1 }}</span>
+
+        <!-- イベント名と説明 -->
         <div class="min-w-0 flex-1">
           <div class="text-lg font-bold truncate">{{ event.name || event.id }}</div>
           <div class="text-xs text-base-content/60 truncate">{{ event.description }}</div>
@@ -55,6 +64,7 @@
   import { useTopItemActions } from '../composables/useTopItemActions'
   import ItemMenu from '../ItemMenu.vue'
   import TopCategoryHeader from './TopCategoryHeader.vue'
+  import TopEventOrderHelp from './TopEventOrderHelp.vue'
 
   const props = defineProps<{
     category: EventCategoryType

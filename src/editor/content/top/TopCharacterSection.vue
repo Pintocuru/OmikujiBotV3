@@ -5,6 +5,7 @@
     <TopCategoryHeader
       :icon="categoryMap.characters.icon"
       :title="t('categories.characters.label')"
+      :description="t('categories.characters.description')"
       :count="characterCards.length"
     />
 

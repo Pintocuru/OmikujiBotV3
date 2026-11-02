@@ -5,7 +5,9 @@
     <h3 class="card-title text-xl flex items-center gap-2">
       <component :is="IconComponent" v-if="IconComponent" class="w-6 h-6" />
       <span>{{ title }}</span>
-      <span v-if="description" class="text-base font-normal">
+      <!-- タイトルの隣(はてなボタンなど) -->
+      <slot name="title-extra" />
+      <span v-if="description" class="text-sm font-normal text-base-content/60">
         {{ description }}
       </span>
     </h3>

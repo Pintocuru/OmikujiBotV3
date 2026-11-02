@@ -1,8 +1,11 @@
 <!-- src/editor/content/top/TopCategoryHeader.vue -->
-<!-- TOPページ各セクションの見出し(アイコン + タイトル + 件数) -->
+<!-- TOPページ各セクションの見出し(アイコン + タイトル + [はてな] + 説明 + 件数) -->
 <template>
   <div class="rounded-lg -mx-1 px-1">
-    <SubSectionHeader :icon="icon" :title="title">
+    <SubSectionHeader :icon="icon" :title="title" :description="description">
+      <template v-if="$slots.help" #title-extra>
+        <slot name="help" />
+      </template>
       <span class="text-sm font-normal text-base-content/60">
         {{ t(count === 1 ? 'topPage.countOne' : 'topPage.count', { count }) }}
       </span>
@@ -18,6 +21,8 @@
   defineProps<{
     icon: LucideIconName
     title: string
+    /** カテゴリの説明(categories.<key>.description) */
+    description?: string
     count: number
   }>()
 
