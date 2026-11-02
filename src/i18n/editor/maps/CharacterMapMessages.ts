@@ -108,7 +108,7 @@ export const characterMapMessages = {
           description: 'コメント投稿は行わず、音声読み上げのみを行います',
         },
         none: {
-          label: 'なし',
+          label: '読み上げしない',
           description: 'コメント投稿も音声読み上げも行いません',
         },
       },

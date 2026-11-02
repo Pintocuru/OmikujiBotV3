@@ -11,7 +11,9 @@
         {{ t(`mapText.displayMode.${key}.label`) }}
       </option>
     </select>
-    {{ t(`mapText.displayMode.${currentDisplayOption.mode}.description`) }}
+    <div class="text-sm">
+      {{ t(`mapText.displayMode.${currentDisplayOption.mode}.description`) }}
+    </div>
   </SettingItem>
 
   <template v-if="currentDisplayOption.mode === 'comment'">
@@ -84,5 +86,4 @@
   const updateDisplayField = (key: keyof DisplayOptionType, value: any) => {
     props.onUpdate({ ...currentDisplayOption.value, [key]: value })
   }
-
 </script>
