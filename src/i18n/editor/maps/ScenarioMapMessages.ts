@@ -4,35 +4,35 @@ export const scenarioMapMessages = {
     mapText: {
       gameMeta: {
         GouseiSuika: {
-          name: 'スイカジェネレーター',
+          label: 'スイカジェネレーター',
           description: '米兜科技 - 合成大西瓜風のおみくじ',
         },
         BomberSpin: {
-          name: 'ボンバースロット',
+          label: 'ボンバースロット',
           description: 'APPLI - BOMBERSPIN2風のおみくじ',
         },
         DwarfBomb: {
-          name: 'うさぎスロット',
+          label: 'うさぎスロット',
           description: 'Nolimit City - Fire in the Hole風のおみくじ',
         },
         MultiplyBonanza: {
-          name: '桜吹雪スロット',
+          label: '桜吹雪スロット',
           description: 'Wing - FURAIJIN風のおみくじ',
         },
         GoogolClover: {
-          name: 'グーゴルクローバー',
+          label: 'グーゴルクローバー',
           description: 'Future Friends Games - CloverPit風のおみくじ',
         },
         HugEmAll: {
-          name: 'ダンジョンスロット',
+          label: 'ダンジョンスロット',
           description: 'Nolimit City - Kill Em All風のおみくじ',
         },
         FortuneRanking: {
-          name: '占いランキング',
+          label: '占いランキング',
           description: '果物などの順位を作成する拡張スクリプト',
         },
         CommentBot: {
-          name: 'コメントBOT',
+          label: 'コメントBOT',
           description: 'BOTとしてわんコメにコメントを自動投稿する拡張スクリプト',
         },
       },
@@ -110,35 +110,35 @@ export const scenarioMapMessages = {
     mapText: {
       gameMeta: {
         GouseiSuika: {
-          name: 'Watermelon Suika Generator',
+          label: 'Watermelon Suika Generator',
           description: 'Mi Dou Technology - Omikuji inspired by Watermelon Suika Game',
         },
         BomberSpin: {
-          name: 'Bomber Slot',
+          label: 'Bomber Slot',
           description: 'APPLI - Omikuji inspired by BOMBERSPIN2',
         },
         DwarfBomb: {
-          name: 'Rabbit Slot',
+          label: 'Rabbit Slot',
           description: 'Nolimit City - Omikuji inspired by Fire in the Hole',
         },
         MultiplyBonanza: {
-          name: 'Cherry Blossom Slot',
+          label: 'Cherry Blossom Slot',
           description: 'Wing - Omikuji inspired by FURAIJIN',
         },
         GoogolClover: {
-          name: 'Googol Clover',
+          label: 'Googol Clover',
           description: 'Future Friends Games - Omikuji inspired by CloverPit',
         },
         HugEmAll: {
-          name: 'Dungeon Slot',
+          label: 'Dungeon Slot',
           description: 'Nolimit City - Omikuji inspired by Kill Em All',
         },
         FortuneRanking: {
-          name: 'Fortune Ranking',
+          label: 'Fortune Ranking',
           description: 'Extension script that creates rankings (e.g. fruits)',
         },
         CommentBot: {
-          name: 'Comment Bot',
+          label: 'Comment Bot',
           description: 'Extension script that automatically posts comments to OneComme as the BOT',
         },
       },

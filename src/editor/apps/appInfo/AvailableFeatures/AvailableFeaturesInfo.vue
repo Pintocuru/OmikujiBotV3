@@ -71,7 +71,7 @@
       .filter((key) => getGameScriptLoader(key))
       .map((key) => ({
         key,
-        title: t(`mapText.gameMeta.${key}.name`),
+        title: t(`mapText.gameMeta.${key}.label`),
         icon: gameMetaMap[key].icon as LucideIconName,
         description: t(`mapText.gameMeta.${key}.description`),
       }))
