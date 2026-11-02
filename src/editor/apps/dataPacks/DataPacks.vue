@@ -12,7 +12,7 @@
   </div>
 
   <template v-else>
-    <!-- タグフィルター -->
+    <!-- Githubからダウンロードしてくれてありがとう！ -->
     <InformationCard variant="warning" icon="primary">
       <p>
         {{ t('dataPacks.intro.thanks') }}<br />

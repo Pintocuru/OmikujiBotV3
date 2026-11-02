@@ -17,7 +17,8 @@
   </div>
 
   <!-- おみくじリスト一覧（クリックで選択） -->
-  <div class="text-sm">{{ t('omikujiItem.list.columns') }}</div>
+  <!-- TODO: -->
+  <div class="text-sm">おみくじ / シナリオ / クールダウン</div>
   <WeightBar
     :omikujiItems="omikujiList"
     :selectedOmikujiId="selectedId"

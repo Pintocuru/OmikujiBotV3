@@ -9,6 +9,7 @@
     </VueDraggable>
 
     <div class="flex gap-2">
+      <!-- タグを追加 -->
       <input
         v-model="newTag"
         type="text"

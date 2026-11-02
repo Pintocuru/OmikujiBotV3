@@ -1,9 +1,10 @@
 <!-- src/editor/assets/mikuji/item/OmikujiItemCriteria.vue -->
 <template>
-  <!-- 条件設定の説明 -->
+  <!-- 追加発動条件の説明 -->
   <InformationCard>
     <p>
-      <code class="label bg-accent text-accent-content">{{ t('omikujiItem.criteria.help.conditionName') }}</code>{{ t('omikujiItem.criteria.help.conditionDescription') }}
+      <code class="label bg-accent text-accent-content">{{ t('omikujiItem.criteria.help.conditionName') }}</code
+      >{{ t('omikujiItem.criteria.help.conditionDescription') }}
     </p>
     <p>{{ t('omikujiItem.criteria.help.allRequired') }}</p>
     <p>{{ t('omikujiItem.criteria.help.adminCommands') }}</p>

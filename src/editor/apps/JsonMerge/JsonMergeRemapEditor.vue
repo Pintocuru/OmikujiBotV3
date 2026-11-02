@@ -7,13 +7,14 @@
     </div>
 
     <div class="grid grid-cols-2 gap-3">
-      <!-- 元キャラキー TODO:間違えた -->
-      <SettingItem icon="User" :label="t('jsonMerge.remap.toCharacter')">
+      <!-- 元キャラキー -->
+      <SettingItem icon="User" :label="t('jsonMerge.remap.fromCharacter')">
         <select v-model="localRemap.fromCharacterKey" class="select select-sm select-bordered w-full">
           <option v-for="key in jsonMergeSourceCharacterKeys" :key="key" :value="key">{{ key }}</option>
         </select>
       </SettingItem>
 
+      <!-- 新キャラキー -->
       <SettingItem icon="UserPlus" :label="t('jsonMerge.remap.toCharacter')">
         <select v-model="localRemap.toCharacterKey" class="select select-sm select-bordered w-full">
           <option value="">{{ t('jsonMerge.remap.chooseCharacter') }}</option>
@@ -26,6 +27,7 @@
         </p>
       </SettingItem>
 
+      <!-- 元アイコンキー -->
       <SettingItem icon="Image" :label="t('jsonMerge.remap.fromIcon')">
         <select v-model="localRemap.fromIconKey" class="select select-sm select-bordered w-full">
           <option value="">{{ t('jsonMerge.remap.chooseIcon') }}</option>
@@ -35,6 +37,7 @@
         </select>
       </SettingItem>
 
+      <!-- 新アイコンキー -->
       <SettingItem icon="Image" :label="t('jsonMerge.remap.toIcon')">
         <select v-model="localRemap.toIconKey" class="select select-sm select-bordered w-full">
           <option value="">{{ t('jsonMerge.remap.chooseIcon') }}</option>
