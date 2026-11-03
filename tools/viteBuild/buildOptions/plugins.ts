@@ -43,14 +43,14 @@ export function validateKujibikiPanelRegistration(): Plugin {
     name: 'validate-kujibiki-panel-registration',
     apply: 'build',
     generateBundle() {
-      const moduleIds = [...this.getModuleIds()].map((id) => id.replace(/\\\\/g, '/'))
+      const moduleIds = [...this.getModuleIds()].map((id) => id.replaceAll('\\\\', '/'))
       const includesKujibikiPanel = moduleIds.some((id) =>
-        /\\/ui\\/KujibikiPanel\\/KujibikiPanel\\.vue(?:\\?|$)/.test(id)
+        id.includes('/ui/KujibikiPanel/KujibikiPanel.vue')
       )
       if (!includesKujibikiPanel) return
 
       const includesDefaultSet = moduleIds.some((id) =>
-        /\\/ui\\/KujibikiPanel\\/components\\/standard\\/register\\.ts(?:\\?|$)/.test(id)
+        id.includes('/ui/KujibikiPanel/components/standard/register.ts')
       )
       if (!includesDefaultSet) {
         this.error(
