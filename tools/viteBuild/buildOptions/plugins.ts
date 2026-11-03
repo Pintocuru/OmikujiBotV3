@@ -43,7 +43,7 @@ export function validateKujibikiPanelRegistration(): Plugin {
     name: 'validate-kujibiki-panel-registration',
     apply: 'build',
     generateBundle() {
-      const moduleIds = [...this.getModuleIds()].map((id) => id.replaceAll('\\\\', '/'))
+      const moduleIds = [...this.getModuleIds()].map((id) => id.replaceAll(String.fromCharCode(92), '/'))
       const includesKujibikiPanel = moduleIds.some((id) =>
         id.includes('/ui/KujibikiPanel/KujibikiPanel.vue')
       )
