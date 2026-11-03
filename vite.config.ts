@@ -8,7 +8,6 @@ import checker from 'vite-plugin-checker'
 import { createViteAliases } from './tools/viteConfig/CreateViteAliases.ts'
 import { characterAssetsPlugin } from './tools/viteConfig/characterAssetsPlugin.ts'
 import { soundAssetsPlugin } from './tools/viteConfig/soundAssetsPlugin.ts'
-import { validateKujibikiPanelRegistration } from './tools/viteBuild/buildOptions/plugins.ts'
 
 // projectRoot の設定
 const __filename = fileURLToPath(import.meta.url)
@@ -42,7 +41,6 @@ export default defineConfig(() => {
 
 export function baseViteConfig(childDir: string) {
   const plugins = [
-    validateKujibikiPanelRegistration(),
     vue(),
     tailwindcss(),
     checker({
