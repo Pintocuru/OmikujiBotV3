@@ -1,8 +1,8 @@
 <!-- src/editor/assets/characters/service/CommentVoiceCard.vue -->
-<!-- BOTコメント表現の要約(表示方法・枠・表示用画像)。色ほど重要ではないので 1 行の小さなカード。編集はダイアログで行い、入力は即時に反映される -->
+<!-- BOTコメント表現の要約(表示方法・枠・表示用画像)。編集はダイアログで行い、入力は即時に反映される -->
 <template>
   <div class="font-semibold">
-    {{ t('categorySections.commentVoice.label') }}
+    {{ t('characterService.voice.label') }}
   </div>
   <div class="flex items-center p-4">
     <div class="flex gap-2">
@@ -27,7 +27,7 @@
     </button>
   </div>
 
-  <BaseDialog v-model:open="editOpen" icon="MessageSquare" :title="t('categorySections.commentVoice.label')" size="3xl">
+  <BaseDialog v-model:open="editOpen" icon="MessageSquare" :title="t('characterService.voice.label')" size="3xl">
     <CommentVoiceSettings
       :modelValue="currentOption"
       :backgroundColor="backgroundColor"

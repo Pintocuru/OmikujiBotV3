@@ -1,7 +1,7 @@
 <!-- src/editor/assets/characters/service/CommentVoiceSettings.vue -->
 <template>
   <!-- BOTコメント表現方法  -->
-  <SettingItem icon="Megaphone" labelKey="characterService.voice.label" descriptionKey="characterService.voice.desc">
+  <SettingItem icon="Megaphone" labelKey="characterService.voice.come" descriptionKey="characterService.voice.desc">
     <select
       :value="currentDisplayOption.mode"
       @change="updateDisplayField('mode', ($event.target as HTMLSelectElement).value)"
@@ -11,7 +11,7 @@
         {{ t(`mapText.displayMode.${key}.label`) }}
       </option>
     </select>
-    <div class="text-sm">
+    <div class="text-xs mt-1 text-base-content/60">
       {{ t(`mapText.displayMode.${currentDisplayOption.mode}.description`) }}
     </div>
   </SettingItem>

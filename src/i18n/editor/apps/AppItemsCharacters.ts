@@ -141,8 +141,9 @@ export const appItemsCharactersMessages = {
         reset: 'Base64画像をリセット',
       },
       voice: {
-        label: 'BOTコメント表現方法',
-        desc: 'BOTの文章を表現する方法を指定します',
+        label: 'わんコメPost',
+        come: 'わんコメへのPost',
+        desc: 'Post(投稿)の種類を選択',
         note1: 'キャラクター専用の枠を作成すると、各キャラクターごとに',
         noteCode: '「読み上げ」設定',
         note2: 'を個別に行うことができます。',
@@ -156,7 +157,7 @@ export const appItemsCharactersMessages = {
       },
       // CharacterEditor 上部のカード(色・コメント表現)
       cards: {
-        edit: '編集',
+        edit: 'カラー編集',
         colorSample: 'こんにちは！色の見え方はこんな感じです',
         colorNames: { name: '名前', text: '本文', background: '背景', accent: 'アクセント' },
         voiceFrame: '枠: {id}',

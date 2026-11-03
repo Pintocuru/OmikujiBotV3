@@ -2,7 +2,7 @@
 <!-- キャラクターの色の要約カード(フキダシのサンプルと、4色の色見本)。編集はダイアログで行い、入力は即時に反映される -->
 <template>
   <div class="font-semibold">
-    {{ t('categorySections.colorSettings.label') }}
+    {{ t('characterService.cards.edit') }}
     <button class="btn btn-primary btn-sm self-end md:self-center" @click="editOpen = true">
       <Pencil class="h-4 w-4" />
       {{ t('characterService.cards.edit') }}
@@ -24,7 +24,7 @@
     </ul>
   </div>
 
-  <BaseDialog v-model:open="editOpen" icon="Palette" :title="t('categorySections.colorSettings.label')" size="3xl">
+  <BaseDialog v-model:open="editOpen" icon="Palette" :title="t('characterService.cards.edit')" size="3xl">
     <CharacterColorSettings
       :botName="botName"
       :modelValue="currentColor"
