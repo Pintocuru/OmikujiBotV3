@@ -2,10 +2,21 @@
 import { z } from 'zod'
 import { enterMotions } from '../OmikujiData/assets/EnterMotionSchema'
 
-/** KujibikiPanel の既知コンポーネント ID。追加時はセット登録と合わせて更新する。 */
-export const kujibikiComponentIds = ['omikuji', 'flower', 'tarot', 'faceCutout'] as const
+// KujibikiPanel のコンポーネントセット
+export const kujibikiComponentSets = {
+  standard: ['omikuji', 'flower'],
+  fortune: ['tarot'],
+  special: ['faceCutout'],
+} as const
+
+// 全コンポーネント ID
+export type KujibikiComponent = (typeof kujibikiComponentSets)[keyof typeof kujibikiComponentSets][number]
+
+// コンポーネントセット名
+export type KujibikiComponentSet = keyof typeof kujibikiComponentSets
+
+// デフォルトコンポーネント
 export const KUJIBIKI_PANEL_DEFAULT_COMPONENT = 'omikuji' as const
-export type KujibikiComponent = (typeof kujibikiComponentIds)[number]
 
 /**
  * くじ引き KujibikiPanel
