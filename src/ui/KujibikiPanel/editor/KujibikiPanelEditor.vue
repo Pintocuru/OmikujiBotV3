@@ -5,11 +5,23 @@
 
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
-    :key="kujibikiPanel.animation"
+    v-if="Object.keys(componentOptions).length > 1"
     :modelValue="kujibikiPanel.component"
-    :options="kujibikiComponentMap"
+    :options="componentOptions"
     @update:modelValue="(val) => updateField('component', val)"
   />
+  <SettingItem v-else labelKey="uiSettings.common.displayStyle.label">
+    <button
+      v-for="(option, id) in componentOptions"
+      :key="id"
+      type="button"
+      class="badge cursor-pointer"
+      :class="kujibikiPanel.component === id ? 'badge-primary' : 'badge-outline'"
+      @click="updateField('component', id)"
+    >
+      {{ option.label }}
+    </button>
+  </SettingItem>
 
   <!-- フキダシアニメーション -->
   <SettingItem
@@ -96,7 +108,7 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { KujibikiPanelType, KujibikiPanelSchema } from '@/types/ui'
-  import { kujibikiComponentMap } from '@/maps/ui'
+  import { getKujibikiPanelComponent, getKujibikiPanelComponentSets } from '../KujibikiPanelRegistry'
   import KujibikiPanelPreview from './KujibikiPanelPreview.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -110,10 +122,21 @@
     () => data.value.ui.settings.kujibikiPanel ?? KujibikiPanelSchema.parse({})
   )
 
-  const isVisual = computed(() => {
-    const comp = kujibikiPanel.value.component
-    return kujibikiComponentMap[comp]?.isVisual === true
+  const componentOptions = computed(() => {
+    const options: Record<string, { label: string }> = {}
+    const currentId = kujibikiPanel.value.component
+    if (!getKujibikiPanelComponent(currentId)) {
+      options[currentId] = { label: `未登録: ${currentId}` }
+    }
+    for (const set of Object.values(getKujibikiPanelComponentSets())) {
+      for (const [id, definition] of Object.entries(set)) {
+        options[id] = { label: definition.label }
+      }
+    }
+    return options
   })
+
+  const isVisual = computed(() => getKujibikiPanelComponent(kujibikiPanel.value.component)?.isVisual === true)
 
   // Field update
   const updateField = (field: keyof KujibikiPanelType, value: unknown) => {
