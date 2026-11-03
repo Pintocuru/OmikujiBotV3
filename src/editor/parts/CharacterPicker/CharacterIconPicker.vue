@@ -9,8 +9,10 @@
       :aria-checked="characterKey === item.key"
       :aria-haspopup="isIconKey && item.icons.length > 1 ? 'listbox' : undefined"
       :title="item.name"
-      class="flex flex-col items-center gap-1 rounded-lg border-2 p-1 transition cursor-pointer"
-      :class="characterKey === item.key ? 'border-primary bg-primary/10' : 'border-base-300 hover:border-primary/50'"
+      class="flex flex-col items-center gap-1 rounded-lg p-1 transition cursor-pointer"
+      :class="
+        characterKey === item.key ? 'bg-primary text-primary-content' : 'border-2 border-base-300 hover:border-primary'
+      "
       :style="{ width: `${size + 16}px` }"
       @mouseenter="scheduleOpen(item, $event)"
       @mouseleave="scheduleClose"
@@ -29,7 +31,11 @@
       </div>
       <span class="w-full truncate text-center text-xs">{{ item.name }}</span>
       <!-- 選択中のキャラだけ、現在の表情名を出す -->
-      <span v-if="isIconKey && characterKey === item.key" class="w-full truncate text-center text-[10px] text-primary">
+      <span
+        v-if="isIconKey && characterKey === item.key"
+        class="w-full truncate text-center text-[10px]"
+        :class="characterKey === item.key ? 'text-primary-content' : 'text-base-content'"
+      >
         {{ currentIconLabel(item) }}
       </span>
     </button>

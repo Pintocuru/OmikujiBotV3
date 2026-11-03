@@ -18,13 +18,20 @@
           type="button"
           role="option"
           :aria-selected="isSelected(icon.key)"
-          class="flex flex-col items-center gap-1 rounded-lg border-2 p-1 transition cursor-pointer"
-          :class="isSelected(icon.key) ? 'border-primary bg-primary/10' : 'border-base-300 hover:border-primary/50'"
+          class="flex flex-col items-center gap-1 rounded-lg p-1 transition cursor-pointer"
+          :class="
+            isSelected(icon.key) ? 'bg-primary text-primary-content' : 'border-2 border-base-300 hover:border-primary'
+          "
           :style="{ width: `${iconSize + 16}px` }"
           @click="emit('select', icon.key)"
         >
           <LayerImage :layers="icon.layers" :size="iconSize" />
-          <span class="w-full truncate text-center text-xs" :title="icon.label">{{ icon.label }}</span>
+          <span
+            class="w-full truncate text-center text-xs"
+            :class="isSelected(icon.key) ? 'text-primary-content' : 'text-base-content'"
+            :title="icon.label"
+            >{{ icon.label }}</span
+          >
         </button>
       </div>
     </div>
