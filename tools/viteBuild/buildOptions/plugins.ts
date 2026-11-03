@@ -1,5 +1,6 @@
 // tools/viteBuild/buildOptions/plugins.ts
 import type { BuildEnvironmentOptions, Plugin } from 'vite'
+import { KUJIBIKI_PANEL_DEFAULT_COMPONENT } from '../../../src/types/ui/KujibikiPanelSchema'
 
 type OnLog = NonNullable<NonNullable<BuildEnvironmentOptions['rolldownOptions']>['onLog']>
 
@@ -32,4 +33,40 @@ export const failOnCircularDependency: OnLog = (level, log, defaultHandler) => {
   if (log.code !== 'CIRCULAR_DEPENDENCY') return defaultHandler(level, log)
   if (log.ids?.some((id) => id.includes('node_modules'))) return
   throw new Error(`[Build] 循環依存を検出しました: ${log.message}`)
+}
+
+/**
+ * KujibikiPanel を含む entry には、既定 ID を持つ standard セットを必須にする。
+ * 静的 import のモジュールグラフを検査するため、loader の遅延 import は実行しない。
+ */
+export function validateKujibikiPanelRegistration(): Plugin {
+  return {
+    name: 'validate-kujibiki-panel-registration',
+    apply: 'build',
+    transform(code, id) {
+      const normalizedId = id.replaceAll(String.fromCharCode(92), '/')
+      if (normalizedId.endsWith('/ui/KujibikiPanel/components/standard/register.ts')) {
+        if (!code.includes(`${KUJIBIKI_PANEL_DEFAULT_COMPONENT}:`)) {
+          this.error(`[Build] standard セットに既定コンポーネント ${KUJIBIKI_PANEL_DEFAULT_COMPONENT} が登録されていません`)
+        }
+      }
+      return null
+    },
+    generateBundle() {
+      const moduleIds = [...this.getModuleIds()].map((id) => id.replaceAll(String.fromCharCode(92), '/'))
+      const includesKujibikiPanel = moduleIds.some((id) =>
+        id.includes('/ui/KujibikiPanel/KujibikiPanel.vue')
+      )
+      if (!includesKujibikiPanel) return
+
+      const includesDefaultSet = moduleIds.some((id) =>
+        id.includes('/ui/KujibikiPanel/components/standard/register.ts')
+      )
+      if (!includesDefaultSet) {
+        this.error(
+          '[Build] KujibikiPanel を含む entry には、既定コンポーネントを登録する standard セットが必要です'
+        )
+      }
+    },
+  }
 }

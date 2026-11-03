@@ -60,6 +60,7 @@
 | ディレクトリ   | 役割                          | 中のファイル                           |
 | -------------- | ----------------------------- | -------------------------------------- |
 | `components/`  | 再利用可能なコンポーネント    | PascalCase `.vue`                      |
+| `components/<セット名>/` | UI 内の表示コンポーネントセット | `register.ts` / PascalCase `.vue` |
 | `composables/` | `use*` 関数のみ               | `useXxx.ts` のみ(`.vue` 禁止)          |
 | `layouts/`     | 見た目のバリエーション        | PascalCase `.vue`                      |
 | `stores/`      | Pinia Store(`useXxxStore.ts`) | `useXxxStore.ts`                       |

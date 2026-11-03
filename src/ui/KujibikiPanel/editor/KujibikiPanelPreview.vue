@@ -1,7 +1,7 @@
 <!-- src/ui/KujibikiPanel/editor/KujibikiPanelPreview.vue -->
 <template>
   <HudPreview maxHeightClass="h-[440px]">
-    <KujibikiPanelSelector :settings="settings" :messages="activeMessages" />
+    <KujibikiPanelSelector :settings="settings" :messages="activeMessages" editorPreview />
 
     <template #hud>
       <button class="btn btn-xs btn-ghost" @click="fortune">🎲</button>
