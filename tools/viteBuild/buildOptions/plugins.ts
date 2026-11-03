@@ -46,8 +46,7 @@ export function validateKujibikiPanelRegistration(): Plugin {
     transform(code, id) {
       const normalizedId = id.replaceAll(String.fromCharCode(92), '/')
       if (normalizedId.endsWith('/ui/KujibikiPanel/components/standard/register.ts')) {
-        const defaultIdPattern = new RegExp(`\\\\b${KUJIBIKI_PANEL_DEFAULT_COMPONENT}\\\\s*:`)
-        if (!defaultIdPattern.test(code)) {
+        if (!code.includes(`${KUJIBIKI_PANEL_DEFAULT_COMPONENT}:`)) {
           this.error(`[Build] standard セットに既定コンポーネント ${KUJIBIKI_PANEL_DEFAULT_COMPONENT} が登録されていません`)
         }
       }
