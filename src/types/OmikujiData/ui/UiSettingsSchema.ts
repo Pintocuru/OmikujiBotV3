@@ -1,48 +1,28 @@
 // src/types/OmikujiData/ui/UiSettingsSchema.ts
 import { z } from 'zod'
-import {
-  CharacterStageSchema,
-  CommentBubbleSchema,
-  CookieCounterSchema,
-  KujibikiPanelSchema,
-  LiveClockSchema,
-  StreamCounterSchema,
-  ToastWidgetsSchema,
-  GameRankingSchema,
-  UserBoardSchema,
-} from '@/types/ui'
+import { stableUiSchemas } from './uiSchemas.stable'
+import { experimentalUiSchemas } from './uiSchemas.experimental.ts'
+
+const uiSchemas = {
+  ...stableUiSchemas, // 安定版UI
+  ...experimentalUiSchemas, // 未実装/実験用UI
+} as const
 
 /**
- * uiKinds UI種別の定義マップ
+ * UI 種別(uiSchemas のキーから導出)
  */
-export const uiKinds = [
-  'characterStage',
-  'commentBubble',
-  'cookieCounter',
-  'gameRanking',
-  'kujibikiPanel',
-  'liveClock',
-  'streamCounter',
-  'toastWidgets',
-  'userBoard',
-] as const
-
-// 型の導出
+export type UiKind = keyof typeof uiSchemas
+export const uiKinds = Object.keys(uiSchemas) as [UiKind, ...UiKind[]]
 export const UiKindSchema = z.enum(uiKinds)
-export type UiKind = z.infer<typeof UiKindSchema>
+
+export type StableUiKind = keyof typeof stableUiSchemas
+export type ExperimentalUiKind = keyof typeof experimentalUiSchemas
+export const isExperimentalUiKind = (kind: UiKind): kind is ExperimentalUiKind =>
+  Object.hasOwn(experimentalUiSchemas, kind)
 
 /**
  * UI設定
  */
-export const UiSettingsSchema = z.object({
-  characterStage: CharacterStageSchema.optional(),
-  commentBubble: CommentBubbleSchema.optional(),
-  cookieCounter: CookieCounterSchema.optional(),
-  gameRanking: GameRankingSchema.optional(),
-  kujibikiPanel: KujibikiPanelSchema.optional(),
-  liveClock: LiveClockSchema.optional(),
-  streamCounter: StreamCounterSchema.optional(),
-  toastWidgets: ToastWidgetsSchema.optional(),
-  userBoard: UserBoardSchema.optional(),
-})
-export type UiSettingsType = z.infer<typeof UiSettingsSchema>
+const UiSettingsShapeSchema = z.object(uiSchemas).partial()
+export type UiSettingsType = z.infer<typeof UiSettingsShapeSchema>
+export const UiSettingsSchema = UiSettingsShapeSchema.loose()
