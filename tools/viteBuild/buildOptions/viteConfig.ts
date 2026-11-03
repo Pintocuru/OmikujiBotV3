@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import type { InlineConfig } from 'vite'
 import { ViteBuildInput } from '@tools/types'
-import { externalDynamicImportPlugin, failOnCircularDependency } from './plugins'
+import { externalDynamicImportPlugin, failOnCircularDependency, validateKujibikiPanelRegistration } from './plugins'
 
 /**
  * 外部依存関係 (HTML 側で Vue / OneSDK をグローバル読み込みする)
@@ -48,7 +48,7 @@ export function createViteBuildConfig(
     // packages/build.ts が dotenv で process.env に読み込んだ VITE_* も import.meta.env に入ってしまうため、公開プレフィックスを無効化
     envPrefix: '__NO_PUBLIC_ENV__',
     logLevel: 'warn',
-    plugins: [externalDynamicImportPlugin(), vue(), tailwindcss()],
+    plugins: [externalDynamicImportPlugin(), validateKujibikiPanelRegistration(), vue(), tailwindcss()],
     resolve: { alias: config.system.alias },
     define: DEFINE,
     build: {
