@@ -1,5 +1,6 @@
 // tools/viteBuild/buildOptions/plugins.ts
 import type { BuildEnvironmentOptions, Plugin } from 'vite'
+import { KUJIBIKI_PANEL_DEFAULT_COMPONENT } from '../../../src/types/ui/KujibikiPanelSchema'
 
 type OnLog = NonNullable<NonNullable<BuildEnvironmentOptions['rolldownOptions']>['onLog']>
 
@@ -42,6 +43,16 @@ export function validateKujibikiPanelRegistration(): Plugin {
   return {
     name: 'validate-kujibiki-panel-registration',
     apply: 'build',
+    transform(code, id) {
+      const normalizedId = id.replaceAll(String.fromCharCode(92), '/')
+      if (normalizedId.endsWith('/ui/KujibikiPanel/components/standard/register.ts')) {
+        const defaultIdPattern = new RegExp(`\\\\b${KUJIBIKI_PANEL_DEFAULT_COMPONENT}\\\\s*:`)
+        if (!defaultIdPattern.test(code)) {
+          this.error(`[Build] standard セットに既定コンポーネント ${KUJIBIKI_PANEL_DEFAULT_COMPONENT} が登録されていません`)
+        }
+      }
+      return null
+    },
     generateBundle() {
       const moduleIds = [...this.getModuleIds()].map((id) => id.replaceAll(String.fromCharCode(92), '/'))
       const includesKujibikiPanel = moduleIds.some((id) =>
