@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/layouts/Standard.vue -->
+<!-- src/ui/GameRanking/components/standard/Standard.vue -->
 <template>
   <GameRankingList :listMessages="listMessages" :settings="settings" />
 </template>
@@ -7,8 +7,8 @@
   import { computed } from 'vue'
   import { BotMessageRankingType } from '@/types/generator'
   import { GameRankingType } from '@/types/ui'
-  import { uniqueByLatestUser } from '../scripts/uniqueByLatestUser'
-  import GameRankingList from './RankStandard/GameRankingList.vue'
+  import { uniqueByLatestUser } from '../../scripts/uniqueByLatestUser'
+  import GameRankingList from '../../parts/GameRankingList.vue'
 
   const props = defineProps<{
     rankingMessages: BotMessageRankingType[]

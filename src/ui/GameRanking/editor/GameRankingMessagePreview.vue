@@ -1,7 +1,7 @@
 <!-- src/ui/GameRanking/editor/GameRankingMessagePreview.vue -->
 <template>
   <HudPreview :isAdminOnly="true">
-    <GameRankingSelector :rankingMessages="rankingMessages" :settings="ranking" :fontFamily="fontFamily" />
+    <GameRankingSelector :rankingMessages="rankingMessages" :settings="ranking" :fontFamily="fontFamily" editorPreview />
   </HudPreview>
 </template>
 

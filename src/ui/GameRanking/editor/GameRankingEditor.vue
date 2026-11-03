@@ -2,14 +2,14 @@
 <template>
   <!-- ランキングプレビュー -->
   <HudPreview :isAdminOnly="true">
-    <GameRankingSelector :rankingMessages="[]" :settings="ranking" :fontFamily="fontFamily" />
+    <GameRankingSelector :rankingMessages="[]" :settings="ranking" :fontFamily="fontFamily" editorPreview />
   </HudPreview>
 
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
     :modelValue="ranking.component"
-    :options="rankingComponentMap"
-    @update:modelValue="(val) => update('component', val as RankingComponent)"
+    :options="componentOptions"
+    @update:modelValue="(val) => update('component', val)"
   />
 
   <!-- カラー設定 -->
@@ -67,8 +67,9 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { GameRankingType, RankingComponent } from '@/types/ui/GameRankingSchema'
-  import { rankingComponentMap, rankingSortOrderMap } from '@/maps/ui'
+  import { GameRankingType } from '@/types/ui/GameRankingSchema'
+  import { rankingSortOrderMap } from '@/maps/ui'
+  import { getGameRankingComponent, getGameRankingComponentSets } from '../GameRankingRegistry'
   import { GameRankingSchema } from '@/types/ui/GameRankingSchema'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
@@ -82,6 +83,17 @@
   const fontFamily = computed(() => data.value.ui.fontFamily)
 
   const ranking = computed(() => GameRankingSchema.parse(data.value.ui.settings.gameRanking ?? {}))
+
+  // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
+  const componentOptions = computed(() => {
+    const options: Record<string, { label: string }> = {}
+    const currentId = ranking.value.component
+    if (!getGameRankingComponent(currentId)) options[currentId] = { label: `未登録: ${currentId}` }
+    for (const set of Object.values(getGameRankingComponentSets())) {
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+    }
+    return options
+  })
 
   // 更新関数
   const update = <K extends keyof GameRankingType>(field: K, value: GameRankingType[K]) => {

@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/layouts/SuikaGame.vue -->
+<!-- src/ui/GameRanking/components/standard/SuikaGame.vue -->
 <template>
   <!-- スコア表示（バブル） -->
   <div class="flex justify-center">
@@ -19,9 +19,9 @@
   import { computed } from 'vue'
   import { BotMessageRankingType } from '@/types/generator'
   import { GameRankingType } from '@/types/ui'
-  import { uniqueByLatestUser } from '../scripts/uniqueByLatestUser'
-  import GameRankingScore from './RankStandard/GameRankingScore.vue'
-  import GameRankingList from './RankStandard/GameRankingList.vue'
+  import { uniqueByLatestUser } from '../../scripts/uniqueByLatestUser'
+  import GameRankingScore from '../../parts/GameRankingScore.vue'
+  import GameRankingList from '../../parts/GameRankingList.vue'
 
   const props = defineProps<{
     rankingMessages: BotMessageRankingType[]
