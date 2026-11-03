@@ -136,7 +136,9 @@
     return options
   })
 
-  const isVisual = computed(() => getKujibikiPanelComponent(kujibikiPanel.value.component)?.isVisual === true)
+  const isVisual = computed(
+    () => getKujibikiPanelComponent(kujibikiPanel.value.component)?.isVisual === true
+  )
 
   // Field update
   const updateField = (field: keyof KujibikiPanelType, value: unknown) => {
