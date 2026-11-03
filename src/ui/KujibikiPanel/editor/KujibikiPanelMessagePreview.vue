@@ -1,7 +1,7 @@
 <!-- src/ui/KujibikiPanel/editor/KujibikiPanelMessagePreview.vue -->
 <template>
   <HudPreview maxHeightClass="h-[440px]">
-    <KujibikiPanelSelector :settings="settings" :messages="messages" />
+    <KujibikiPanelSelector :settings="settings" :messages="messages" editorPreview />
   </HudPreview>
 </template>
 
