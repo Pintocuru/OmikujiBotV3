@@ -1,7 +1,7 @@
 // packages/common/OmikujiBot/main.ts
 import App from '@/generator/App.vue'
 import { createAppOneSDK } from '@/common/EntryCore/core'
-import { registerAll } from '@/registerAll'
+import { registerAll } from '@/register/registerAll'
 import '@assets/styles/DaisyUiAll.css'
 
 registerAll()

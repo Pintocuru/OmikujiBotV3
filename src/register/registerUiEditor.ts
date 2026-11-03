@@ -1,23 +1,12 @@
-// src/registerAll.ts
-import { registerUiEditor, type UiEditorDef } from '@/editor/ui/uiEditorRegistry'
-import type { Component } from 'vue'
+// eeeee
+import { type Component } from 'vue'
+import { UiEditorDef, registerUiEditor } from '@/editor/ui/uiEditorRegistry'
 import type { UiKind } from '@/types/OmikujiData'
-import { registerRuntime } from '@/registerRuntime'
-import { registerStandardKujibikiComponents } from '@/ui/KujibikiPanel/components/standard/register'
-import { registerFortuneKujibikiComponents } from '@/ui/KujibikiPanel/components/fortune/register'
-import { registerSpecialKujibikiComponents } from '@/ui/KujibikiPanel/components/special/register'
-import { isFullRegistered } from '@/editor/registrationState'
 
 type EditorLoader = () => Promise<{ default: Component }>
 type EditorDef = EditorLoader | UiEditorDef
 
-export const registerAll = () => {
-  // UI・レイアウト・gameScript の登録(ジェネレーターと共通)
-  registerRuntime()
-  registerStandardKujibikiComponents()
-  registerFortuneKujibikiComponents()
-  registerSpecialKujibikiComponents()
-
+export const registerAllUiEditor = () => {
   // エディターの登録
   registerUiEditor({
     characterStage: {
@@ -46,7 +35,4 @@ export const registerAll = () => {
     },
     userBoard: () => import('@/ui/UserBoard/editor/UserBoardEditor.vue'),
   } satisfies Record<UiKind, EditorDef>)
-
-  // 全部入りの印(DataPacks など、全 UI 前提の機能の表示に使う)
-  isFullRegistered.value = true
 }
