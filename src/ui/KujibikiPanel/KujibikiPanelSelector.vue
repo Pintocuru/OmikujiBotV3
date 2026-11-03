@@ -29,6 +29,8 @@
   import { getKujibikiPanelComponent } from './KujibikiPanelRegistry'
   import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
+  const notifiedIds = new Set<string>()
+
   const props = withDefaults(
     defineProps<{
       settings: KujibikiPanelType
@@ -38,7 +40,6 @@
     { editorPreview: false }
   )
 
-  const notifiedIds = new Set<string>()
   const currentComponent = shallowRef<Component | null>(null)
   const loadError = shallowRef('')
 
@@ -63,6 +64,7 @@
         const module = await definition.loader()
         if (props.settings.component === id) currentComponent.value = module.default
       } catch (error) {
+        if (props.settings.component !== id) return
         console.error(`[KujibikiPanel] Component load failed: ${id}`, error)
         loadError.value = `表示タイプ「${id}」の読み込みに失敗しました`
         if (!props.editorPreview && !notifiedIds.has(id)) {
