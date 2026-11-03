@@ -7,6 +7,7 @@ import JsonMergeEditor from '@/editor/apps/JsonMerge/JsonMergeEditor.vue'
 import DataPacks from '@/editor/apps/dataPacks/DataPacks.vue'
 import AppInfoEditor from '@/editor/apps/appInfo/AppInfoEditor.vue'
 import OrphanItemsEditor from '@/editor/apps/orphans/OrphanItemsEditor.vue'
+import CooldownOverviewEditor from '@/editor/apps/cooldown/CooldownOverviewEditor.vue'
 import UiEditor from '@/editor/ui/UiEditor.vue'
 
 import ItemEditor from '@/editor/content/ItemEditor.vue'
@@ -132,5 +133,6 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
   ui: { editor: UiEditor },
   dataPacks: { editor: DataPacks },
   orphans: { editor: OrphanItemsEditor },
+  cooldown: { editor: CooldownOverviewEditor },
   appInfo: { editor: AppInfoEditor },
 }

@@ -13,6 +13,7 @@ export const navigationSidebarNavigationMessages = {
         events: 'イベント',
         assets: 'アセット',
         ui: 'UI',
+        check: 'チェック',
         other: 'その他',
       },
       create: {
@@ -65,6 +66,7 @@ export const navigationSidebarNavigationMessages = {
         events: 'Events',
         assets: 'Assets',
         ui: 'UI',
+        check: 'Check',
         other: 'Other',
       },
       create: {

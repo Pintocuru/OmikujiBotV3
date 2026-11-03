@@ -54,6 +54,10 @@ export const navigationSidebarCategoriesMessages = {
         label: '使われていないアイテム',
         description: 'イベントから辿れないアイテムを探して、削除できます',
       },
+      cooldown: {
+        label: 'クールダウン一覧',
+        description: 'すべてのおみくじのクールダウンを見渡して、まとめて調整できます',
+      },
       appInfo: {
         label: '設定 / アプリ情報',
         description: 'ライセンスや使用できる機能を確認できます',
@@ -113,6 +117,10 @@ export const navigationSidebarCategoriesMessages = {
       orphans: {
         label: 'Unused Items',
         description: 'Finds items that no event leads to, and lets you delete them',
+      },
+      cooldown: {
+        label: 'Cooldown Overview',
+        description: 'See the cooldown of every omikuji at once and adjust them in one place',
       },
       appInfo: {
         label: 'App Info',

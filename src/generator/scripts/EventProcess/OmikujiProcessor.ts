@@ -122,13 +122,13 @@ export class OmikujiProcessor {
   private resolveScenarioSteps(item: OmikujiItemStepsType): ScenarioStepType[] {
     const key = item.stepKey
     if (!key) {
-      this.reportError('おみくじアイテムにシナリオ(stepKey)が設定されていません')
+      this.reportError(`おみくじ「${item.name}」にシナリオが設定されていません`)
       return []
     }
 
     const scenario = this.store.data.assets.scenarios[key]
     if (!scenario) {
-      this.reportError(`シナリオ "${key}" が見つかりません`)
+      this.reportError(`おみくじ「${item.name}」のシナリオ "${key}" が見つかりません`)
       return []
     }
     return sortedStepsFromRecord(scenario.steps)

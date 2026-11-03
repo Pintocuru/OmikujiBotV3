@@ -23,5 +23,5 @@ export type DraggableSubItem = {
 }
 
 /** ナビゲーションのグループ（サブラベル） */
-type CategoryGroupId = 'events' | 'assets' | 'ui' | 'other'
+type CategoryGroupId = 'events' | 'assets' | 'ui' | 'check' | 'other'
 export type CategoryGroup<K extends CategoryType = CategoryType> = { id: CategoryGroupId; keys: K[] }

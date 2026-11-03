@@ -17,16 +17,6 @@ export const omikujiItemMessages = {
         example1: '初見さんの挨拶を 5 にする → 5 秒間は、0 の定期案内に上書きされません。',
         example2: 'レアなおみくじを 10 にする → 10 秒間は、通常のおみくじが割り込めません(演出の時間を確保できます)。',
       },
-      cooldownOverview: {
-        open: '全おみくじのクールダウン一覧',
-        title: 'クールダウン一覧',
-        description: '使われているすべてのおみくじのクールダウンです。名前を押すと、そのおみくじへ移動します。',
-        empty: 'クールダウンを設定したおみくじはありません。',
-        columns: { item: 'おみくじ', box: 'おみくじ箱', cooldown: 'クールダウン', blockedBy: '止められる件数' },
-        blockedByTooltip: 'このおみくじを止めうる、他のおみくじの数',
-        zeroNote:
-          '値が 0 / 未設定のおみくじ {count} 件は、他を止めないため一覧に出していません(止められる側にはなります)。',
-      },
       list: {
         testTooltip: 'わんコメを起動すると、投稿の確認ができます',
         test: '抽選テスト',
@@ -137,16 +127,6 @@ export const omikujiItemMessages = {
         example1: 'Set the first-time greeting to 5 → for 5 seconds it cannot be overwritten by a 0 scheduled notice.',
         example2:
           'Set a rare fortune to 10 → for 10 seconds, normal fortunes cannot cut in (keeps time for the effect).',
-      },
-      cooldownOverview: {
-        open: 'Cooldown overview of all fortunes',
-        title: 'Cooldown overview',
-        description: 'Cooldowns of every fortune in use. Press a name to jump to it.',
-        empty: 'No fortune has a cooldown.',
-        columns: { item: 'Fortune', box: 'Fortune box', cooldown: 'Cooldown', blockedBy: 'Blockable by' },
-        blockedByTooltip: 'Number of other fortunes that can block this one',
-        zeroNote:
-          '{count} fortune(s) with 0 / no value are not listed because they never block others (they can still be blocked).',
       },
       list: {
         testTooltip: 'Start OneComme to preview the post',

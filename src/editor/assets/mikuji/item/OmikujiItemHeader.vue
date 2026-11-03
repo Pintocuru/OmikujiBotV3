@@ -36,39 +36,22 @@
           step="0.1"
           class="input input-bordered input-sm w-full"
         />
-        <button
-          type="button"
-          class="btn btn-ghost btn-sm btn-square"
-          :title="t('omikujiItem.cooldownOverview.open')"
-          :aria-label="t('omikujiItem.cooldownOverview.open')"
-          @click="showCooldownOverview = true"
-        >
-          <ListChecks class="w-4 h-4" />
-        </button>
       </div>
     </SettingItem>
   </div>
 
   <!-- 優先設定 -->
   <OmikujiItemPriority :omikujiItem="omikujiItem" @update="emit('update', $event)" />
-
-  <!-- 全おみくじのクールダウン一覧 -->
-  <CooldownOverviewDialog v-model:open="showCooldownOverview" />
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { ListChecks } from 'lucide-vue-next'
   import { OmikujiItemType } from '@/types/OmikujiData/'
   import OmikujiItemPriority from './OmikujiItemPriority.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import CooldownHelpButton from '../cooldown/CooldownHelpButton.vue'
-  import CooldownOverviewDialog from '../cooldown/CooldownOverviewDialog.vue'
 
   const { t } = useI18n()
-
-  const showCooldownOverview = ref(false)
 
   const props = defineProps<{
     omikujiItem: OmikujiItemType
