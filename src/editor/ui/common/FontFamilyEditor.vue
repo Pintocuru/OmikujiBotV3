@@ -14,7 +14,6 @@
     layout="vertical"
     labelKey="uiSettings.fontFamily.label"
     descriptionKey="uiSettings.fontFamily.description"
-    forceMode="pro"
   >
     <div class="w-full space-y-3">
       <!-- カテゴリタブ -->
