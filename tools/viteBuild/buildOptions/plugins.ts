@@ -54,7 +54,7 @@ export function validateKujibikiPanelRegistration(): Plugin {
       )
       if (!includesDefaultSet) {
         this.error(
-          '[Build] KujibikiPanel を含む entry には、既定コンポーネント omikuji を登録する standard セットが必要です'
+          '[Build] KujibikiPanel を含む entry には、既定コンポーネントを登録する standard セットが必要です'
         )
       }
     },
