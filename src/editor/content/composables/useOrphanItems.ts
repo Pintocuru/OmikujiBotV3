@@ -18,13 +18,27 @@ export function useOrphanItems() {
     const { events, assets } = data.value
     const used = usedKeysFromEvents()
     const mikujiKeys = new Set(Object.keys(assets.mikuji))
+    const scenarioKeys = new Set(Object.keys(assets.scenarios))
+
+    // 実行できるシナリオ(存在する stepKey を持つ steps アイテム)が 1 つもないみくじ箱
+    const boxesWithoutScenario = new Set(
+      Object.entries(assets.mikuji)
+        .filter(
+          ([, box]) =>
+            !box.omikuji.some((item) => item.kind === 'steps' && item.stepKey && scenarioKeys.has(item.stepKey))
+        )
+        .map(([key]) => key)
+    )
 
     const groups: OrphanGroup[] = []
 
-    // events: omikujiKey が空、または存在しないみくじ箱を指している
+    // events: みくじ箱が未設定・存在しない・実行できるシナリオがない
     for (const category of eventCategory) {
       const items = events[category]
-        .filter((event) => !event.omikujiKey || !mikujiKeys.has(event.omikujiKey))
+        .filter(
+          (event) =>
+            !event.omikujiKey || !mikujiKeys.has(event.omikujiKey) || boxesWithoutScenario.has(event.omikujiKey)
+        )
         .map((event) => ({ category, key: event.id, name: event.name || event.id }))
       groups.push({ category, items })
     }
