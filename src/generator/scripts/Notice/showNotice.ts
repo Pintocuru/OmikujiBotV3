@@ -1,7 +1,5 @@
 // src/generator/scripts/Notice/showNotice.ts
-// 配信画面の右下の通知(NoticeWidget)を出す関数。
-// 表示するかどうかは settings.generator の設定に従う。コンソール出力・わんコメへの投稿(postSystemMessage)とは別物で、
-// 必要なら呼び出し側がそれぞれ別に行う。
+// 配信画面の右下の通知(NoticeWidget)を出す関数
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { useNoticeStore } from '@/generator/stores/useNoticeStore'
 

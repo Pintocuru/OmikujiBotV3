@@ -8,6 +8,7 @@ import { GetOmikenComments } from '@/sdk/subscribe/OmikenComment/GetOmikenCommen
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { startUserStatsPolling } from '@/generator/stores/UserStats/startUserStatsPolling'
 import { formatParseIssuesSummary } from '@/types/core/ParseIssues'
+import { showErrorNotice } from '../scripts/Notice/showNotice'
 
 const TIME_THRESHOLD = 10000
 
@@ -45,10 +46,7 @@ export function useAppInitializer() {
           commentProcessor.respondToComments(recentOmikens)
         } catch (error) {
           console.error('[useAppInitializer] コメント処理エラー:', error)
-          postSystemMessage(`コメント処理エラー: ${error}`, {
-            speech: false,
-            throttle: true,
-          })
+          showErrorNotice(`コメント処理エラー: ${error}`)
         }
       })
 
@@ -68,7 +66,7 @@ export function useAppInitializer() {
         // 不正な要素を除外して読み込んだ場合: 動作は続け、わんコメに1回だけ知らせる (詳細はコンソール)
         if (appStore.dataIssues.length > 0) {
           postSystemMessage(
-            `おみくじデータの不正な要素を除外して読み込みました: ${formatParseIssuesSummary(appStore.dataIssues)} (詳細はコンソール)`,
+            `おみくじデータの不正な要素を除外して読み込みました: ${formatParseIssuesSummary(appStore.dataIssues)}`,
             { speech: false, throttle: true }
           )
         }
@@ -129,10 +127,7 @@ async function syncWithServer() {
     if (!serverData) return // プラグインなし = null → ここで静かに終了
 
     appStore.loadData(serverData)
-    postSystemMessage(`エディタープラグイン から ${appStore.data.meta.name} のデータを読み込みました`, {
-      username: '__INFO__',
-      speech: false,
-    })
+    showErrorNotice(`エディタープラグイン から ${appStore.data.meta.name} のデータを読み込みました`)
   } catch (err) {
     // ここに来る時点で「本当に予期せぬエラー」のみ
     const msg = `エディタープラグインからデータ読み込みに失敗しました: ${err}`

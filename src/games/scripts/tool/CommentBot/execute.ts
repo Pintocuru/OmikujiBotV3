@@ -5,10 +5,11 @@ import { ScriptClass, ScriptResult } from '@/games/types'
 import { parseQueryString } from '@/games/shared/parseQueryString'
 import { createMockUserPool, MockUserPool, pickTestComment } from '@/common/MockUser'
 import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
-import { postComment, postSystemMessage } from '@/sdk/post/PostOneComme'
+import { postComment } from '@/sdk/post/PostOneComme'
 import { POST_SETTINGS } from '@/sdk/PostSettings'
 import { getPostServiceId, resetPostServiceId } from '@/sdk/service/getPostServiceId'
 import { clampUserCount, DEFAULT_THEME, isCommentThemeKey } from './params'
+import { showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 // BOT 機能: 返り値は常に空
 const EMPTY_RESULT: ScriptResult = { steps: [], rankingMessages: [] }
@@ -76,7 +77,8 @@ export class ExecuteScript implements ScriptClass {
   // 画面ではなくわんコメに伝える(頻繁に呼ばれるため throttle)
   private reportError(message: string): void {
     console.error(`[CommentBot] ${message}`)
-    postSystemMessage(`CommentBot: ${message}`, { speech: false, throttle: true })
+    showErrorNotice(`CommentBot: ${message}`)
+    // postSystemMessage(`CommentBot: ${message}`, { speech: false, throttle: true })
   }
 }
 

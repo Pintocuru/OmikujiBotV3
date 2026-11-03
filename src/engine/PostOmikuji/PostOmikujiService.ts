@@ -6,9 +6,10 @@ import { Service } from '@onecomme.com/onesdk/types/Service'
 import { ServiceAPI } from '@/sdk/service/ServiceAPI'
 import { CharacterType, OmikujiDataType, ScenarioStepMessageType, ScenarioStepType } from '@/types/OmikujiData'
 import { executeWordParty } from '@/sdk/post/PostWordParty'
-import { postComment, postSpeech, postSystemMessage } from '@/sdk/post/PostOneComme'
+import { postComment, postSpeech } from '@/sdk/post/PostOneComme'
 import { SendCommentSchema, SendCommentType } from '@/types/subscribe'
 import { POST_SETTINGS } from '@/sdk/PostSettings'
+import { showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 const MAX_REPEAT_COUNT = 30
 
@@ -91,7 +92,7 @@ export class PostOmikujiService {
     } catch (error) {
       const msg = `キャラクターコメント投稿エラー: ${error}`
       console.error(msg)
-      postSystemMessage(msg)
+      showErrorNotice(msg)
     }
   }
 

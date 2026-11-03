@@ -10,12 +10,11 @@ import { OmikenCommentType } from '@/types/OmikenComment'
 
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { BotMessageType } from '@/types/generator'
-import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
 import { buildDefaultPlaceholders } from '@/generator/scripts/EventProcess/DefaultPlaceholderBuilder'
 import { acquireCooldown, type CooldownBlock } from '@/generator/scripts/EventProcess/CooldownGate'
-import { showCooldownBlockNotice } from '@/generator/scripts/Notice/showNotice'
+import { showCooldownBlockNotice, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 export class OmikujiProcessor {
   private readonly store = useAppStore()
@@ -151,6 +150,6 @@ export class OmikujiProcessor {
    */
   private reportError(msg: string): void {
     console.error(msg)
-    postSystemMessage(msg)
+    showErrorNotice(msg)
   }
 }

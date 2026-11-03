@@ -1,11 +1,11 @@
 // src/engine/GameScriptPlay/GameScriptManager.ts
 import { ScriptClass, ScriptResult } from '@/games/types'
 import { ScenarioStepGameScriptType, GameScriptKey, isGameScriptKey } from '@/types/OmikujiData'
-import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { getGameScriptLoader, getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
 import { GameStateType } from '@/types/api'
 import { BuildMismatchError, reportDataMismatch } from '@/common/buildValidation/validateAgainstBuild'
+import { showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 export class GameScriptManager {
   private scriptInstances: Record<string, ScriptClass> = {}
@@ -51,7 +51,7 @@ export class GameScriptManager {
         return null
       }
       console.error(`スクリプトエラー (${scriptId}):`, error)
-      postSystemMessage(`❌ スクリプトエラー: ${error}`)
+      showErrorNotice(`❌ スクリプトエラー: ${error}`)
       return null
     }
   }

@@ -8,7 +8,7 @@ import { GameScriptsHandler } from '@/engine/GameScriptPlay/GameScriptsHandler'
 import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 import { BotMessageType } from '@/types/generator'
-import { postSystemMessage } from '@/sdk/post/PostOneComme'
+import { showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 /**
  * おみくじ結果の処理とBotMessage生成を担当
@@ -58,7 +58,7 @@ export class OmikujiResultProcessor {
       this.scenarioStepHandler.evaluateVariable(variable, defaultPlaceholders)
     } catch (error) {
       console.error('variable 評価エラー', error)
-      postSystemMessage(`variable 評価エラー ${error}`)
+      showErrorNotice(`variable 評価エラー ${error}`)
     }
   }
 
@@ -94,7 +94,7 @@ export class OmikujiResultProcessor {
       return messages
     } catch (error) {
       console.error('おみくじ実行エラー', error)
-      postSystemMessage(`おみくじ実行エラー ${error}`)
+      showErrorNotice(`おみくじ実行エラー ${error}`)
       return []
     }
   }

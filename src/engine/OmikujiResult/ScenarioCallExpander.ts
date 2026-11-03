@@ -1,6 +1,6 @@
 // src/engine/OmikujiResult/ScenarioCallExpander.ts
 import { drawByWeight } from '@/engine/DrawOmikuji/DrawOmikuji'
-import { postSystemMessage } from '@/sdk/post/PostOneComme'
+import { showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 import {
   ScenarioType,
   handelNormalizedValues,
@@ -21,7 +21,7 @@ export class ScenarioCallExpander {
     if (depth >= this.MAX_DEPTH) {
       const msg = `シナリオの展開が最大階層(${this.MAX_DEPTH})に達しました`
       console.warn(msg)
-      postSystemMessage(msg, { username: 'warn' })
+      showErrorNotice(msg)
       return steps
     }
 
@@ -59,7 +59,7 @@ export class ScenarioCallExpander {
     if (visited.has(targetKey)) {
       const msg = `循環参照が検出されました: ${targetKey}`
       console.error(msg)
-      postSystemMessage(msg)
+      showErrorNotice(msg)
       return []
     }
 
@@ -68,7 +68,7 @@ export class ScenarioCallExpander {
     if (!targetScenario) {
       const msg = `シナリオ "${targetKey}" が見つかりません`
       console.error(msg)
-      postSystemMessage(msg)
+      showErrorNotice(msg)
       return []
     }
 
