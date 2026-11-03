@@ -15,7 +15,7 @@ import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
 import { buildDefaultPlaceholders } from '@/generator/scripts/EventProcess/DefaultPlaceholderBuilder'
 import { acquireCooldown, type CooldownBlock } from '@/generator/scripts/EventProcess/CooldownGate'
-import { useCooldownNoticeStore } from '@/generator/stores/useCooldownNoticeStore'
+import { showCooldownBlockNotice } from '@/generator/scripts/Notice/showNotice'
 
 export class OmikujiProcessor {
   private readonly store = useAppStore()
@@ -61,16 +61,14 @@ export class OmikujiProcessor {
   /**
    * ブロックを通知する。
    * - コンソール: 常に出す(設定時に原因を調べるため)
-   * - 画面: 設定がオンで、コメントがきっかけのとき(ユーザー名があるとき)だけ。タイマーなどは知らせても意味がない
+   * - 画面: コメントがきっかけのとき(ユーザー名があるとき)だけ。表示するかは設定(showCooldownNotice)に従う。タイマーなどは知らせても意味がない
    */
   private reportCooldownBlock(item: OmikujiItemStepsType, block: CooldownBlock, omiken?: OmikenCommentType): void {
     const { blockedBy, remainingSeconds } = block
     console.info(
       `[cooldown] "${this.cooldownLabel(item)}" をブロック: "${blockedBy.label}"(${blockedBy.seconds}秒)により、あと ${remainingSeconds.toFixed(1)} 秒`
     )
-    if (omiken && this.store.data.settings.generator.showCooldownNotice) {
-      useCooldownNoticeStore().push(omiken.userName, remainingSeconds)
-    }
+    if (omiken) showCooldownBlockNotice(omiken.userName, remainingSeconds)
   }
 
   /** ログ用の名前: アイテム名 → シナリオ名 → key の順 */

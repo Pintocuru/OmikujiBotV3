@@ -1,58 +1,23 @@
-<!-- src/editor/ui/UiEditor.vue -->
 <template>
-  <!-- セクションのタブ(登録済みの UI から作る) -->
+  <!-- セクションのタブ -->
   <SectionTabs :tabs="tabs" />
 
-  <!-- 開発時のみ: UI の有効/無効・レイアウト切り替え -->
-  <template v-if="isDev">
-    <SectionCard
-      sectionKey="dev"
-      variant="warning"
-      icon="LayoutGrid"
-      :label="t('uiSettings.editorSections.layout.label')"
-      :description="t('uiSettings.editorSections.layout.description')"
-    >
-      <!-- レイアウト -->
-      <LayoutEditor />
-    </SectionCard>
-
-    <SectionCard
-      sectionKey="dev"
-      variant="warning"
-      icon="Trash2"
-      :label="t('uiSettings.editorSections.unused.label')"
-      :description="t('uiSettings.editorSections.unused.description')"
-    >
-      <UnusedUiSettingsEditor />
-    </SectionCard>
-  </template>
-
-  <!-- 各 UI の設定（選択中レイアウトが使う UI のうち、main.ts で登録されたもの） -->
-  <template v-for="{ kind, entry } in visibleUiKinds" :key="kind">
-    <SectionCard
-      :sectionKey="kind"
-      :icon="entry.icon"
-      :label="t(`mapText.uiKind.${kind}.label`)"
-      :description="t(`mapText.uiKind.${kind}.description`)"
-    >
-      <component :is="entry.component" />
-    </SectionCard>
-  </template>
-
-  <!-- 共通設定（レイアウトの有無に関わらず常に表示） -->
+  <!-- 各セクションのカード -->
   <SectionCard
-    sectionKey="commonStyle"
-    icon="Palette"
-    :label="t('uiSettings.editorSections.common.label')"
-    :description="t('uiSettings.editorSections.common.description')"
+    v-for="sec in sections"
+    :key="sec.section"
+    :section-key="sec.section"
+    :icon="sec.icon"
+    :variant="sec.variant"
+    :label-key="sec.labelKey"
+    :description-key="sec.descriptionKey"
   >
-    <FontFamilyEditor />
+    <component :is="sec.component" />
   </SectionCard>
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
-  import { useI18n } from 'vue-i18n'
+  import { computed, markRaw, type Component } from 'vue'
   import { isDev } from '@/types/env'
   import type { ContentTab } from '@/editor/types/apps'
   import SectionCard from '@/editor/parts/SectionCard.vue'
@@ -61,27 +26,64 @@
   import LayoutEditor from './conditions/LayoutEditor.vue'
   import FontFamilyEditor from './common/FontFamilyEditor.vue'
   import UnusedUiSettingsEditor from './conditions/UnusedUiSettingsEditor.vue'
+  import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
+  import { DaisyUIColorType } from '@/types/core'
 
-  const { t } = useI18n()
+  type UiEditorSection = {
+    section: string
+    icon: LucideIconName
+    labelKey: string
+    descriptionKey?: string
+    variant?: DaisyUIColorType
+    component: Component
+  }
 
   // 選択中レイアウトが使う UI のうち、main.ts で登録済みのものだけ表示
   const visibleUiKinds = useVisibleUiKinds()
 
-  // タブ(左から 開発時のみ dev → 各 UI → 共通設定)。section は上の SectionCard の sectionKey と一致させる
-  const tabs = computed<ContentTab[]>(() => {
-    const devTab: ContentTab[] = isDev
-      ? [{ section: 'dev', icon: 'LayoutGrid', labelKey: 'shell.contentTabs.dev' }]
-      : []
-    const kindTabs = visibleUiKinds.value.map(({ kind, entry }): ContentTab => ({
+  // セクション定義(表示順)。タブはここから生成する
+  const sections = computed<UiEditorSection[]>(() => [
+    ...visibleUiKinds.value.map(({ kind, entry }) => ({
       section: kind,
       icon: entry.icon,
       labelKey: `mapText.uiKind.${kind}.label`,
-    }))
-    const commonTab: ContentTab = {
+      descriptionKey: `mapText.uiKind.${kind}.description`,
+      component: entry.component,
+    })),
+    {
       section: 'commonStyle',
-      icon: 'Palette',
+      icon: 'Palette' as const,
       labelKey: 'uiSettings.editorSections.common.label',
-    }
-    return [...devTab, ...kindTabs, commonTab]
+      descriptionKey: 'uiSettings.editorSections.common.description',
+      component: markRaw(FontFamilyEditor),
+    },
+    // 開発時のみ: レイアウト / 未使用UIの整理(タブはまとめて 1 つ)
+    ...(isDev
+      ? [
+          {
+            section: 'dev',
+            icon: 'LayoutGrid' as const,
+            labelKey: 'uiSettings.editorSections.layout.label',
+            descriptionKey: 'uiSettings.editorSections.layout.description',
+            variant: 'warning' as const,
+            component: markRaw(LayoutEditor),
+          },
+          {
+            section: 'dev',
+            icon: 'LayoutGrid' as const,
+            labelKey: 'shell.contentTabs.dev',
+            variant: 'warning' as const,
+            component: markRaw(UnusedUiSettingsEditor),
+          },
+        ]
+      : []),
+  ])
+
+  // タブ。dev が 2 カードなので section が重複した分は重複排除する
+  const tabs = computed<ContentTab[]>(() => {
+    const seen = new Set<string>()
+    return sections.value
+      .filter((sec) => (seen.has(sec.section) ? false : seen.add(sec.section)))
+      .map(({ section, icon, labelKey }): ContentTab => ({ section, icon, labelKey }))
   })
 </script>

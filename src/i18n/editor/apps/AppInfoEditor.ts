@@ -60,8 +60,13 @@ export const appInfoEditorMessages = {
           },
           showCooldownNotice: {
             label: 'クールダウンのブロック通知',
-            description:
-              'クールダウンでコメントのおみくじがブロックされたとき、「◯◯がブロックされました」を配信画面の右下に表示します(視聴者にも見えます)',
+            description: 'クールダウンでブロックされたとき、配信画面の右下にトースト表示',
+            on: '表示する',
+            off: '表示しない',
+          },
+          showErrorNotice: {
+            label: 'エラーの画面表示',
+            description: '実行時のエラーを配信画面の右下にトースト表示',
             on: '表示する',
             off: '表示しない',
           },
@@ -153,6 +158,13 @@ export const appInfoEditorMessages = {
             label: 'Cooldown Block Notice',
             description:
               'When a comment\'s omikuji is blocked by a cooldown, shows "<name> was blocked" at the bottom right of the stream screen (viewers can see it)',
+            on: 'Show',
+            off: 'Hide',
+          },
+          showErrorNotice: {
+            label: 'Show Errors on Screen',
+            description:
+              'Shows runtime errors at the bottom right of the stream screen (viewers can see them). Nothing is read aloud or posted to OneComme',
             on: 'Show',
             off: 'Hide',
           },

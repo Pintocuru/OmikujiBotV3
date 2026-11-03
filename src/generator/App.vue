@@ -4,8 +4,8 @@
     <!-- 接続状態インジケーター（全状態で常時マウント） -->
     <ConnectionStatusIndicator :status="appStore.status" />
 
-    <!-- クールダウンでブロックされたことの通知(右下。設定がオンのときだけ中身が出る。UI・layout の設定に関係なく表示) -->
-    <CooldownNoticeWidget :class="fontFamily" />
+    <!-- クールダウンのブロックやエラーの通知(右下。設定がオンのときだけ中身が出る。UI・layout の設定に関係なく表示) -->
+    <NoticeWidget :class="fontFamily" />
 
     <!-- 初期化完了後のメイン表示 -->
     <div
@@ -43,7 +43,7 @@
   import ErrorInfo from '@/common/ErrorInfo/ErrorInfo.vue'
   import NoDataInfo from '@/common/ErrorInfo/NoDataInfo.vue'
   import ConnectionStatusIndicator from '@/common/ErrorInfo/ConnectionStatusIndicator.vue'
-  import CooldownNoticeWidget from '@/generator/CooldownNoticeWidget.vue'
+  import NoticeWidget from '@/generator/NoticeWidget.vue'
   import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
   import DataMismatchNotice from '@/common/buildValidation/DataMismatchNotice.vue'
   import { defineGuardedAsyncComponent } from '@/common/buildValidation/guardedAsyncComponent'

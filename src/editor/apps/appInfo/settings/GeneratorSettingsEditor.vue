@@ -81,8 +81,6 @@
     icon="Timer"
     labelKey="appInfoEditor.settings.generator.showCooldownNotice.label"
     descriptionKey="appInfoEditor.settings.generator.showCooldownNotice.description"
-    :showReset="true"
-    @reset="reset('generator', 'showCooldownNotice')"
   >
     <label class="flex items-center gap-2 cursor-pointer">
       <input
@@ -96,6 +94,29 @@
           settings.generator.showCooldownNotice
             ? 'appInfoEditor.settings.generator.showCooldownNotice.on'
             : 'appInfoEditor.settings.generator.showCooldownNotice.off'
+        )
+      }}</span>
+    </label>
+  </SettingItem>
+
+  <!-- エラーの画面表示 -->
+  <SettingItem
+    icon="ShieldAlert"
+    labelKey="appInfoEditor.settings.generator.showErrorNotice.label"
+    descriptionKey="appInfoEditor.settings.generator.showErrorNotice.description"
+  >
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        class="toggle toggle-primary"
+        :checked="settings.generator.showErrorNotice"
+        @change="(e) => update('generator', { showErrorNotice: (e.target as HTMLInputElement).checked })"
+      />
+      <span>{{
+        t(
+          settings.generator.showErrorNotice
+            ? 'appInfoEditor.settings.generator.showErrorNotice.on'
+            : 'appInfoEditor.settings.generator.showErrorNotice.off'
         )
       }}</span>
     </label>

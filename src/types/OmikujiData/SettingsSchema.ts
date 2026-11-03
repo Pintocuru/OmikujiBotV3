@@ -19,6 +19,7 @@ const GeneratorSettingsSchema = z.object({
   soundEnabled: z.boolean().default(true).catch(true), // サウンドを有効にするか
   basicDelaySeconds: z.number().min(0).max(5).default(1).catch(1), // 投稿の基本的な遅延時間（秒）
   showCooldownNotice: z.boolean().default(false).catch(false), // クールダウンでおみくじがブロックされたとき、画面の右下に知らせるか
+  showErrorNotice: z.boolean().default(false).catch(false), // 実行時のエラーを、画面の右下に知らせるか(showErrorNotice 関数を呼んだ箇所だけ)
 })
 
 const EditorSettingsSchema = z.object({

@@ -1,13 +1,13 @@
 <!-- src/editor/apps/appInfo/settings/EditorSettingsEditor.vue -->
 <template>
-  <!-- エディター設定 -->
+  <!-- エディター設定ヘッダー -->
   <SubSectionHeader
     icon="Settings"
     titleKey="appInfoEditor.settings.editor.title"
     descriptionKey="appInfoEditor.settings.editor.description"
   />
 
-  <!-- DaisyUIテーマ -->
+  <!-- DaisyUIテーマ(Dev) -->
   <SettingItem
     icon="Palette"
     v-if="isDev"

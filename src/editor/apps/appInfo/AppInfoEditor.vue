@@ -1,66 +1,26 @@
-<!-- src/editor/apps/appInfo/AppInfoEditor.vue -->
 <template>
-  <!-- セクションのタブ -->
   <SectionTabs :tabs="tabs" />
 
   <div class="space-y-4">
-    <!-- アプリ設定 -->
     <SectionCard
-      sectionKey="appSettings"
-      icon="Settings"
-      label-key="appInfoEditor.appSettings.label"
-      description-key="appInfoEditor.appSettings.description"
+      v-for="sec in sections"
+      :key="sec.section"
+      :section-key="sec.section"
+      :icon="sec.icon"
+      :label-key="sec.labelKey"
+      :description-key="sec.descriptionKey"
+      :variant="sec.variant"
     >
-      <GeneratorSettingsEditor />
-      <EditorSettingsEditor />
-    </SectionCard>
-
-    <!-- 利用可能な機能(登録済みのUI・レイアウト・ゲームスクリプト) -->
-    <SectionCard
-      sectionKey="appFeatures"
-      icon="Sparkles"
-      label-key="appInfoEditor.appFeatures.label"
-      description-key="appInfoEditor.appFeatures.description"
-    >
-      <AvailableFeaturesInfo />
-    </SectionCard>
-
-    <!-- meta:基本情報 -->
-    <SectionCard
-      sectionKey="packageBasic"
-      icon="Info"
-      variant="neutral"
-      label-key="appInfoEditor.packageBasic.label"
-      description-key="appInfoEditor.packageBasic.description"
-    >
-      <PackageBasicInfo />
-    </SectionCard>
-
-    <!-- meta:配布情報 -->
-    <SectionCard
-      sectionKey="packageDistribution"
-      icon="Package"
-      variant="neutral"
-      label-key="appInfoEditor.packageDistribution.label"
-      description-key="appInfoEditor.packageDistribution.description"
-    >
-      <PackageDistributionInfo />
-    </SectionCard>
-
-    <!-- meta:システム情報 -->
-    <SectionCard
-      sectionKey="packageSystem"
-      icon="Cpu"
-      variant="neutral"
-      label-key="appInfoEditor.packageSystem.label"
-      description-key="appInfoEditor.packageSystem.description"
-    >
-      <PackageSystemInfo />
+      <template v-for="(child, i) in sec.components" :key="i">
+        <component :is="child" />
+      </template>
     </SectionCard>
   </div>
 </template>
 
 <script setup lang="ts">
+  import type { Component } from 'vue'
+  import { markRaw } from 'vue'
   import type { ContentTab } from '@/editor/types/apps'
   import GeneratorSettingsEditor from './settings/GeneratorSettingsEditor.vue'
   import EditorSettingsEditor from './settings/EditorSettingsEditor.vue'
@@ -70,13 +30,58 @@
   import PackageSystemInfo from './meta/PackageSystemInfo.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'
   import SectionTabs from '@/editor/parts/SectionTabs.vue'
+  import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
-  // タブ(左から)。section は上の SectionCard の sectionKey と一致させる
-  const tabs: ContentTab[] = [
-    { section: 'appSettings', icon: 'Settings', labelKey: 'appInfoEditor.appSettings.label' },
-    { section: 'appFeatures', icon: 'Sparkles', labelKey: 'appInfoEditor.appFeatures.label' },
-    { section: 'packageBasic', icon: 'Info', labelKey: 'appInfoEditor.packageBasic.label' },
-    { section: 'packageDistribution', icon: 'Package', labelKey: 'appInfoEditor.packageDistribution.label' },
-    { section: 'packageSystem', icon: 'Cpu', labelKey: 'appInfoEditor.packageSystem.label' },
+  type AppInfoSection = {
+    section: string
+    icon: LucideIconName
+    labelKey: string
+    descriptionKey: string
+    variant?: 'neutral'
+    components: Component[]
+  }
+
+  // カードの表示順
+  const sections: AppInfoSection[] = [
+    {
+      section: 'appSettings',
+      icon: 'Settings',
+      labelKey: 'appInfoEditor.appSettings.label',
+      descriptionKey: 'appInfoEditor.appSettings.description',
+      components: [markRaw(EditorSettingsEditor), markRaw(GeneratorSettingsEditor)],
+    },
+    {
+      section: 'appFeatures',
+      icon: 'Sparkles',
+      labelKey: 'appInfoEditor.appFeatures.label',
+      descriptionKey: 'appInfoEditor.appFeatures.description',
+      components: [markRaw(AvailableFeaturesInfo)],
+    },
+    {
+      section: 'packageBasic',
+      icon: 'Info',
+      labelKey: 'appInfoEditor.packageBasic.label',
+      descriptionKey: 'appInfoEditor.packageBasic.description',
+      variant: 'neutral',
+      components: [markRaw(PackageBasicInfo)],
+    },
+    {
+      section: 'packageDistribution',
+      icon: 'Package',
+      labelKey: 'appInfoEditor.packageDistribution.label',
+      descriptionKey: 'appInfoEditor.packageDistribution.description',
+      variant: 'neutral',
+      components: [markRaw(PackageDistributionInfo)],
+    },
+    {
+      section: 'packageSystem',
+      icon: 'Cpu',
+      labelKey: 'appInfoEditor.packageSystem.label',
+      descriptionKey: 'appInfoEditor.packageSystem.description',
+      variant: 'neutral',
+      components: [markRaw(PackageSystemInfo)],
+    },
   ]
+
+  const tabs: ContentTab[] = sections.map(({ section, icon, labelKey }) => ({ section, icon, labelKey }))
 </script>
