@@ -6,7 +6,10 @@ export type UiComponentDefinition<TMeta extends object = Record<string, never>> 
   label: string
   loader: UiComponentLoader
 } & TMeta
-export type UiComponentSet<TMeta extends object = Record<string, never>> = Record<string, UiComponentDefinition<TMeta>>
+export type UiComponentSet<TMeta extends object = Record<string, never>> = Record<
+  string,
+  UiComponentDefinition<TMeta>
+>
 export type UiComponentSets<TMeta extends object = Record<string, never>> = Record<string, UiComponentSet<TMeta>>
 
 type StoredDefinition = UiComponentDefinition<object>
@@ -25,7 +28,9 @@ export function registerUiComponents<TMeta extends object>(
     const next: Record<string, StoredDefinition> = {}
     for (const [id, definition] of Object.entries(definitions)) {
       if (!ID_PATTERN.test(id)) {
-        throw new Error(`[UI Component Registry] Invalid component ID "${id}" in ${uiName}/${setName}`)
+        throw new Error(
+          `[UI Component Registry] Invalid component ID "${id}" in ${uiName}/${setName}`
+        )
       }
       next[id] = definition as StoredDefinition
     }
@@ -41,7 +46,9 @@ export function registerUiComponents<TMeta extends object>(
     for (const id of Object.keys(definitions)) {
       const existingSet = ids.get(id)
       if (ids.has(id)) {
-        throw new Error(`[UI Component Registry] Duplicate component ID "${id}" in ${uiName}: ${existingSet} and ${setName}`)
+        throw new Error(
+          `[UI Component Registry] Duplicate component ID "${id}" in ${uiName}: ${existingSet} and ${setName}`
+        )
       }
       ids.set(id, setName)
     }
@@ -54,7 +61,10 @@ export function registerUiComponents<TMeta extends object>(
 export function getUiComponentSets<TMeta extends object = Record<string, never>>(
   uiName: string
 ): Record<string, Record<string, UiComponentDefinition<TMeta>>> {
-  return Object.fromEntries(registries.get(uiName) ?? []) as Record<string, Record<string, UiComponentDefinition<TMeta>>>
+  return Object.fromEntries(registries.get(uiName) ?? []) as Record<
+    string,
+    Record<string, UiComponentDefinition<TMeta>>
+  >
 }
 
 export function getUiComponent<TMeta extends object = Record<string, never>>(
