@@ -4,6 +4,7 @@ import { registerUi, type UiLoader } from '@/ui/uiRegistry'
 import type { UiKind } from '@/types/OmikujiData'
 import { registerStandardBubbleComponents } from '@/ui/CommentBubble/components/standard/register'
 import { registerStandardRankingComponents } from '@/ui/GameRanking/components/standard/register'
+import { registerStandardClockComponents } from '@/ui/LiveClock/components/standard/register'
 import { registerStandardKujibikiComponents } from '@/ui/KujibikiPanel/components/standard/register'
 import { registerFortuneKujibikiComponents } from '@/ui/KujibikiPanel/components/fortune/register'
 import { registerSpecialKujibikiComponents } from '@/ui/KujibikiPanel/components/special/register'
@@ -32,6 +33,11 @@ const registerRankingComponents = () => {
   registerStandardRankingComponents()
 }
 
+// LiveClock
+const registerClockComponents = () => {
+  registerStandardClockComponents()
+}
+
 // KujibikiPanel
 const registerKujibikiComponents = () => {
   registerStandardKujibikiComponents()
@@ -44,5 +50,6 @@ export const registerAllUi = () => {
   registerUiKinds()
   registerBubbleComponents()
   registerRankingComponents()
+  registerClockComponents()
   registerKujibikiComponents()
 }

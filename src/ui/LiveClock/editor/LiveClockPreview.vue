@@ -3,6 +3,7 @@
   <HudPreview maxHeightClass="">
     <div class="flex justify-center" :class="[fontFamily]">
       <LiveClockSelector
+        editorPreview
         :settings="settings"
         :default-message="defaultMessage"
         :is-mounted="isMounted"

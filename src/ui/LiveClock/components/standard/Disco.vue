@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/layouts/Disco.vue -->
+<!-- src/ui/LiveClock/components/standard/Disco.vue -->
 <template>
   <div
     class="w-85 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
@@ -69,8 +69,8 @@
 
 <script setup lang="ts">
   import { LiveClockType } from '@/types/ui'
-  import { useLiveClockTime } from '../composables/useLiveClockTime'
-  import RotatingMessage from './RotatingMessage.vue'
+  import { useLiveClockTime } from '../../composables/useLiveClockTime'
+  import RotatingMessage from '../../parts/RotatingMessage.vue'
 
   defineProps<{
     settings: LiveClockType

@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/layouts/SoundPlayer.vue -->
+<!-- src/ui/LiveClock/components/standard/SoundPlayer.vue -->
 <template>
   <div class="w-md transition-all duration-500 ease-out" :style="rootStyle">
     <div
@@ -93,8 +93,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { LiveClockType } from '@/types/ui'
-  import { useLiveClockTime } from '../composables/useLiveClockTime'
-  import RotatingMessage from './RotatingMessage.vue'
+  import { useLiveClockTime } from '../../composables/useLiveClockTime'
+  import RotatingMessage from '../../parts/RotatingMessage.vue'
 
   const props = defineProps<{
     settings: LiveClockType

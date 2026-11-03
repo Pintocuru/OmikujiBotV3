@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/layouts/Steampunk.vue -->
+<!-- src/ui/LiveClock/components/standard/Steampunk.vue -->
 <template>
   <div
     class="w-xs transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
@@ -213,8 +213,8 @@
   import { ref, watch, computed } from 'vue'
   import { Cog } from 'lucide-vue-next'
   import { LiveClockType } from '@/types/ui'
-  import { useLiveClockTime } from '../composables/useLiveClockTime'
-  import RotatingMessage from './RotatingMessage.vue'
+  import { useLiveClockTime } from '../../composables/useLiveClockTime'
+  import RotatingMessage from '../../parts/RotatingMessage.vue'
 
   const props = defineProps<{
     settings: LiveClockType

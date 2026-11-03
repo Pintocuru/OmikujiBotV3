@@ -6,7 +6,7 @@
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
     :modelValue="liveClock.component"
-    :options="clockComponentMap"
+    :options="componentOptions"
     @update:modelValue="(val) => update('component', val)"
   />
 
@@ -63,7 +63,7 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { LiveClockSchema } from '@/types/ui'
-  import { clockComponentMap } from '@/maps/ui'
+  import { getLiveClockComponent, getLiveClockComponentSets } from '../LiveClockRegistry'
   import LiveClockPreview from './LiveClockPreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
@@ -75,6 +75,17 @@
   const { data } = storeToRefs(omikujiStore)
 
   const liveClock = computed(() => data.value.ui.settings.liveClock ?? LiveClockSchema.parse({}))
+
+  // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
+  const componentOptions = computed(() => {
+    const options: Record<string, { label: string }> = {}
+    const currentId = liveClock.value.component
+    if (!getLiveClockComponent(currentId)) options[currentId] = { label: `未登録: ${currentId}` }
+    for (const set of Object.values(getLiveClockComponentSets())) {
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+    }
+    return options
+  })
 
   // Field Updates
   const update = (field: keyof typeof liveClock.value, value: any) => {

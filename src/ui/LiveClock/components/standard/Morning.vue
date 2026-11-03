@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/layouts/Morning.vue -->
+<!-- src/ui/LiveClock/components/standard/Morning.vue -->
 <template>
   <div
     class="w-80 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
@@ -114,9 +114,9 @@
 
 <script setup lang="ts">
   import { LiveClockType } from '@/types/ui'
-  import { useLiveClockTime } from '../composables/useLiveClockTime'
+  import { useLiveClockTime } from '../../composables/useLiveClockTime'
   import { computed } from 'vue'
-  import RotatingMessage from './RotatingMessage.vue'
+  import RotatingMessage from '../../parts/RotatingMessage.vue'
 
   const props = defineProps<{
     settings: LiveClockType

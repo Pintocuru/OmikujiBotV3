@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/layouts/ClearGlass.vue -->
+<!-- src/ui/LiveClock/components/standard/ClearGlass.vue -->
 <template>
   <div class="flipper-wrap w-full max-w-md" :class="{ 'is-mounted': isMounted }" :style="rootStyle">
     <div class="flipper-inner" :class="{ 'is-flipped': isFlipped }">
@@ -88,8 +88,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { LiveClockType } from '@/types/ui'
-  import { useLiveClockTime } from '../composables/useLiveClockTime'
-  import RotatingMessage from './RotatingMessage.vue'
+  import { useLiveClockTime } from '../../composables/useLiveClockTime'
+  import RotatingMessage from '../../parts/RotatingMessage.vue'
 
   const props = defineProps<{
     settings: LiveClockType
