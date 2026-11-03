@@ -1,78 +1,75 @@
-// src/ui/common/uiComponentRegistry.ts
+// ssss
 import type { Component } from 'vue'
 
 export type UiComponentLoader = () => Promise<{ default: Component }>
-export type UiComponentDefinition<TMeta extends object = Record<string, never>> = {
+
+/** 共通項目(label / loader)+ UI 固有メタ。メタは共通側では解釈しない。 */
+export type UiComponentDefinition<TMeta extends object = object> = {
   label: string
   loader: UiComponentLoader
 } & TMeta
-export type UiComponentSet<TMeta extends object = Record<string, never>> = Record<
-  string,
-  UiComponentDefinition<TMeta>
->
-export type UiComponentSets<TMeta extends object = Record<string, never>> = Record<string, UiComponentSet<TMeta>>
 
-type StoredDefinition = UiComponentDefinition<object>
-const registries = new Map<string, Map<string, Record<string, StoredDefinition>>>()
+export type UiComponentSet<TMeta extends object = object> = Record<string, UiComponentDefinition<TMeta>>
+export type UiComponentSets<TMeta extends object = object> = Record<string, UiComponentSet<TMeta>>
+
+type Stored = UiComponentDefinition<object>
+
+// uiName → setName → id → 定義
+const registries = new Map<string, Map<string, Map<string, Stored>>>()
+
 const ID_PATTERN = /^[a-z][A-Za-z0-9]*$/
+const ERR = '[UI Component Registry]'
 
 /** UI 内部の表示コンポーネントをセット単位で登録する。 */
-export function registerUiComponents<TMeta extends object>(
-  uiName: string,
-  sets: Record<string, Record<string, UiComponentDefinition<TMeta>>>
-): void {
-  const current = registries.get(uiName) ?? new Map<string, Record<string, StoredDefinition>>()
-  const replacements = new Map<string, Record<string, StoredDefinition>>()
+export function registerUiComponents<TMeta extends object>(uiName: string, sets: UiComponentSets<TMeta>): void {
+  const current = registries.get(uiName) ?? new Map<string, Map<string, Stored>>()
 
-  for (const [setName, definitions] of Object.entries(sets)) {
-    const next: Record<string, StoredDefinition> = {}
-    for (const [id, definition] of Object.entries(definitions)) {
+  // 置き換え対象外のセットが持つ ID(重複検査用): id → セット名
+  const owner = new Map<string, string>()
+  for (const [setName, defs] of current) {
+    if (Object.hasOwn(sets, setName)) continue
+    for (const id of defs.keys()) owner.set(id, setName)
+  }
+
+  // 検証しながら次の状態を組み立てる(途中で throw しても current は無傷)
+  const next = new Map<string, Map<string, Stored>>()
+  for (const [setName, defs] of Object.entries(sets)) {
+    const entries = new Map<string, Stored>()
+    for (const [id, def] of Object.entries(defs)) {
       if (!ID_PATTERN.test(id)) {
-        throw new Error(
-          `[UI Component Registry] Invalid component ID "${id}" in ${uiName}/${setName}`
-        )
+        throw new Error(`${ERR} Invalid component ID "${id}" in ${uiName}/${setName}`)
       }
-      next[id] = definition as StoredDefinition
+      const other = owner.get(id)
+      if (other !== undefined) {
+        throw new Error(`${ERR} Duplicate component ID "${id}" in ${uiName}: ${other} and ${setName}`)
+      }
+      owner.set(id, setName)
+      entries.set(id, def)
     }
-    replacements.set(setName, next)
+    next.set(setName, entries)
   }
 
-  const ids = new Map<string, string>()
-  for (const [setName, definitions] of current) {
-    if (replacements.has(setName)) continue
-    for (const id of Object.keys(definitions)) ids.set(id, setName)
-  }
-  for (const [setName, definitions] of replacements) {
-    for (const id of Object.keys(definitions)) {
-      const existingSet = ids.get(id)
-      if (ids.has(id)) {
-        throw new Error(
-          `[UI Component Registry] Duplicate component ID "${id}" in ${uiName}: ${existingSet} and ${setName}`
-        )
-      }
-      ids.set(id, setName)
-    }
-  }
-
-  for (const [setName, definitions] of replacements) current.set(setName, definitions)
+  for (const [setName, defs] of next) current.set(setName, defs)
   registries.set(uiName, current)
 }
 
-export function getUiComponentSets<TMeta extends object = Record<string, never>>(
-  uiName: string
-): Record<string, Record<string, UiComponentDefinition<TMeta>>> {
-  return Object.fromEntries(registries.get(uiName) ?? []) as Record<
-    string,
-    Record<string, UiComponentDefinition<TMeta>>
-  >
+export function getUiComponentSets<TMeta extends object = object>(uiName: string): UiComponentSets<TMeta> {
+  const sets = registries.get(uiName)
+  if (!sets) return {}
+  return Object.fromEntries(
+    [...sets].map(([setName, defs]) => [setName, Object.fromEntries(defs)])
+  ) as UiComponentSets<TMeta>
 }
 
-export function getUiComponent<TMeta extends object = Record<string, never>>(
+export function getUiComponent<TMeta extends object = object>(
   uiName: string,
   id: string
 ): UiComponentDefinition<TMeta> | undefined {
-  for (const definitions of registries.get(uiName)?.values() ?? []) {
-    if (definitions[id]) return definitions[id] as UiComponentDefinition<TMeta>
+  for (const defs of registries.get(uiName)?.values() ?? []) {
+    const def = defs.get(id)
+    if (def) return def as UiComponentDefinition<TMeta>
   }
   return undefined
 }
+
+export const hasUiComponent = (uiName: string, id: string): boolean => getUiComponent(uiName, id) !== undefined

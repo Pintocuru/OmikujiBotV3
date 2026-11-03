@@ -9,24 +9,20 @@ export const kujibikiComponentSets = {
   special: ['faceCutout'],
 } as const
 
-// 全コンポーネント ID
-export type KujibikiComponent = (typeof kujibikiComponentSets)[keyof typeof kujibikiComponentSets][number]
+export type KujibikiComponentSets = typeof kujibikiComponentSets
+export type KujibikiComponentSet = keyof KujibikiComponentSets
 
-// コンポーネントセット名
-export type KujibikiComponentSet = keyof typeof kujibikiComponentSets
+// セット別の ID 型
+export type KujibikiComponentOf<S extends KujibikiComponentSet> = KujibikiComponentSets[S][number]
 
-// デフォルトコンポーネント
-export const KUJIBIKI_PANEL_DEFAULT_COMPONENT = 'omikuji' as const
+// 全 ID
+export type KujibikiComponent = KujibikiComponentOf<KujibikiComponentSet>
 
 /**
  * くじ引き KujibikiPanel
  */
 export const KujibikiPanelSchema = z.object({
-  component: z
-    .string()
-    .default(KUJIBIKI_PANEL_DEFAULT_COMPONENT)
-    .catch(KUJIBIKI_PANEL_DEFAULT_COMPONENT)
-    .transform((value) => (value === '' ? KUJIBIKI_PANEL_DEFAULT_COMPONENT : value)),
+  component: z.string().default('omikuji'),
   label: z.string().default('くじ引き').catch('くじ引き'),
   animation: z.enum(enterMotions).default('slideUp').catch('slideUp'),
   displaySeconds: z.number().min(0).max(60).default(10).catch(10),

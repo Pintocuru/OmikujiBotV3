@@ -2,24 +2,26 @@
 import {
   getUiComponent,
   getUiComponentSets,
+  hasUiComponent,
   registerUiComponents,
   type UiComponentDefinition,
   type UiComponentSets,
 } from '@/ui/common/uiComponentRegistry'
 import type { KujibikiComponent } from '@/types/ui'
 
-export type KujibikiPanelComponentMeta = { isVisual: boolean }
-export type KujibikiPanelComponent = UiComponentDefinition<KujibikiPanelComponentMeta>
-export type KujibikiPanelComponentSets = UiComponentSets<KujibikiPanelComponentMeta>
+const UI_NAME = 'kujibikiPanel'
 
-export const registerKujibikiPanelComponents = (sets: KujibikiPanelComponentSets) =>
-  registerUiComponents('kujibikiPanel', sets)
+/** この UI 固有のメタ。 */
+type Meta = { isVisual: boolean }
 
-export const getKujibikiPanelComponentSets = () =>
-  getUiComponentSets<KujibikiPanelComponentMeta>('kujibikiPanel')
+// 登録に必要な共通型
+export type KujibikiPanelComponent = UiComponentDefinition<Meta>
+export type KujibikiPanelComponentSets = UiComponentSets<Meta>
 
-export const getKujibikiPanelComponent = (id: string) =>
-  getUiComponent<KujibikiPanelComponentMeta>('kujibikiPanel', id)
+// 共通 UI コンポーネント登録
+export const registerKujibikiPanelComponents = (sets: KujibikiPanelComponentSets) => registerUiComponents(UI_NAME, sets)
+export const getKujibikiPanelComponentSets = () => getUiComponentSets<Meta>(UI_NAME)
+export const getKujibikiPanelComponent = (id: string) => getUiComponent<Meta>(UI_NAME, id)
 
-export const isKnownKujibikiComponent = (id: string): id is KujibikiComponent =>
-  Object.values(getKujibikiPanelComponentSets()).some((set) => id in set)
+/** 登録済みの ID かどうか */
+export const isKnownKujibikiComponent = (id: string): id is KujibikiComponent => hasUiComponent(UI_NAME, id)
