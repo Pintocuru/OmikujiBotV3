@@ -27,9 +27,7 @@
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
   import { getKujibikiPanelComponent } from './KujibikiPanelRegistry'
-  import { postSystemMessage } from '@/sdk/post/PostOneComme'
-
-  const notifiedIds = new Set<string>()
+  import { notifyKujibikiComponentIssue } from './notifyKujibikiComponentIssue'
 
   const props = withDefaults(
     defineProps<{
@@ -53,10 +51,7 @@
       if (!definition) {
         const message = `くじ引きの表示タイプ「${id}」は、このバージョンには含まれていません`
         loadError.value = `未登録の表示タイプ: ${id}`
-        if (!props.editorPreview && !notifiedIds.has(id)) {
-          notifiedIds.add(id)
-          void postSystemMessage(message, { username: 'warn', speech: false }).catch(() => {})
-        }
+        if (!props.editorPreview) notifyKujibikiComponentIssue(id, message)
         return
       }
 
@@ -67,12 +62,8 @@
         if (props.settings.component !== id) return
         console.error(`[KujibikiPanel] Component load failed: ${id}`, error)
         loadError.value = `表示タイプ「${id}」の読み込みに失敗しました`
-        if (!props.editorPreview && !notifiedIds.has(id)) {
-          notifiedIds.add(id)
-          void postSystemMessage(`くじ引きの表示タイプ「${id}」の読み込みに失敗しました`, {
-            username: 'warn',
-            speech: false,
-          }).catch(() => {})
+        if (!props.editorPreview) {
+          notifyKujibikiComponentIssue(id, `くじ引きの表示タイプ「${id}」の読み込みに失敗しました`)
         }
       }
     },
