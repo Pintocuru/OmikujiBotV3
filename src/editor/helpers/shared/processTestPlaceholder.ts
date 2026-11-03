@@ -1,4 +1,4 @@
-// src/editor/assets/scenarios/preview/TestPlaceholderProcessor.ts
+// src/editor/helpers/shared/processTestPlaceholder.ts
 import { PlaceholderType } from '@/types/OmikujiData'
 import { DisplayVariableResolver } from '@/engine/DisplayVariable/DisplayVariableResolver'
 import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'

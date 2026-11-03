@@ -1,3 +1,4 @@
+// src/i18n/editor/helpers/PresetMessages.ts
 export const presetMessages = {
   ja: {
     modalFooter: {

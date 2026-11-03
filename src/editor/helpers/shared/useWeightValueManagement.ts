@@ -1,4 +1,4 @@
-// src/editor/assets/scenarios/scenarioCall/useWeightValueManagement.ts
+// src/editor/helpers/shared/useWeightValueManagement.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { WeightValueType, WeightValueSchema, handelNormalizedValues, WeightValuesArrayType } from '@/types/OmikujiData'

@@ -6,8 +6,8 @@
       type="button"
       role="radio"
       :aria-checked="modelValue === ''"
-      class="flex flex-col items-center gap-1 rounded-lg border-2 p-2 transition cursor-pointer"
-      :class="modelValue === '' ? 'border-primary bg-primary/10' : 'border-base-300 hover:border-primary/50'"
+      class="flex flex-col items-center gap-1 rounded-lg p-2 transition cursor-pointer"
+      :class="modelValue === '' ? 'bg-primary text-primary-content' : 'border-2 border-base-300 hover:border-primary'"
       @click="modelValue = ''"
     >
       <div class="flex items-center justify-center w-8 h-8">
@@ -21,8 +21,10 @@
         type="button"
         role="radio"
         :aria-checked="modelValue === key"
-        class="flex flex-col items-center gap-1 rounded-lg border-2 p-2 transition cursor-pointer"
-        :class="modelValue === key ? 'border-primary bg-primary/10' : 'border-base-300 hover:border-primary/50'"
+        class="flex flex-col items-center gap-1 rounded-lg p-2 transition cursor-pointer"
+        :class="
+          modelValue === key ? 'bg-primary text-primary-content' : 'border-2 border-base-300 hover:border-primary'
+        "
         @click="modelValue = key"
       >
         <div class="flex items-center justify-center w-8 h-8">

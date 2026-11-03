@@ -1,3 +1,4 @@
+// src/i18n/editor/apps/JsonMergeMessages.ts
 export const jsonMergeMessages = {
   ja: {
     jsonMerge: {

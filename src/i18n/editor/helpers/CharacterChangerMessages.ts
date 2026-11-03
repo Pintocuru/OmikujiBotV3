@@ -1,3 +1,4 @@
+// src/i18n/editor/helpers/CharacterChangerMessages.ts
 export const characterChangerMessages = {
   ja: {
     mapping: {

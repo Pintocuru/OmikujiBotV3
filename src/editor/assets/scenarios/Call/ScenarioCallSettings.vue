@@ -1,4 +1,4 @@
-<!-- src/editor/assets/scenarios/scenarioCall/ScenarioCallSettings.vue -->
+<!-- src/editor/assets/scenarios/Call/ScenarioCallSettings.vue -->
 <template>
   <SettingItem layout="vertical" icon="ListChecks" label="シナリオ選択">
     <!-- 重み付きリスト表示 -->

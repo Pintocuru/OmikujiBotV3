@@ -1,4 +1,4 @@
-<!-- src/editor/assets/scenarios/Message/MessageTextDialog.vue -->
+<!-- src/editor/parts/MessageTextDialog/MessageTextDialog.vue -->
 <template>
   <!-- 1行インライン表示 -->
   <div class="flex gap-2 items-center w-full">

@@ -1,4 +1,4 @@
-// src/editor/assets/scenarios/items/scenarioStepKinds.ts
+// src/editor/assets/scenarios/items/ScenarioStepKindMap.ts
 import type { Component } from 'vue'
 import {
   ScenarioStepCallSchema,

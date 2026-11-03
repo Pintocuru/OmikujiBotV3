@@ -211,8 +211,8 @@ export const uiSettingsMessages = {
           description: 'リリース前に不要な UI 設定を削除',
         },
         common: {
-          label: '共通設定',
-          description: 'フォントなど、すべての表示に共通する設定',
+          label: 'フォント設定',
+          description: '表示に使用するフォントを設定します',
         },
       },
     },

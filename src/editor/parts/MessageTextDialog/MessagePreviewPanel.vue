@@ -1,4 +1,4 @@
-<!-- src/editor/assets/scenarios/Message/MessagePreviewPanel.vue -->
+<!-- src/editor/parts/MessageTextDialog/MessagePreviewPanel.vue -->
 <template>
   <div class="flex flex-col gap-2 p-1">
     <div class="w-full">

@@ -1,3 +1,4 @@
+// src/i18n/editor/apps/DataPacksMessages.ts
 export const dataPacksMessages = {
   ja: {
     dataPacks: {

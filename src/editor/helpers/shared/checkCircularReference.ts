@@ -1,4 +1,4 @@
-// src/editor/assets/scenarios/scenarioCall/ScenarioValidator.ts
+// src/editor/helpers/shared/checkCircularReference.ts
 import { ScenarioStepRecordType } from '@/types/OmikujiData'
 
 /**

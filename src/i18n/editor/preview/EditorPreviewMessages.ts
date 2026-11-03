@@ -1,3 +1,4 @@
+// src/i18n/editor/preview/EditorPreviewMessages.ts
 export const editorPreviewMessages = {
   ja: {
     editorPreview: {

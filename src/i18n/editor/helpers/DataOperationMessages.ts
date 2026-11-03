@@ -1,3 +1,4 @@
+// src/i18n/editor/helpers/DataOperationMessages.ts
 export const dataOperationMessages = {
   ja: {
     dataOperation: {
