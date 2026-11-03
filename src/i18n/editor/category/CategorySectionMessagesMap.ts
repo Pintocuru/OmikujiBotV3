@@ -2,29 +2,24 @@
 export const categorySectionMessages = {
   ja: {
     categorySections: {
-      baseSettings: { label: '基本設定', description: '基本設定' },
-      trigger: { label: '発動条件', description: '「おみくじを引く」発動条件の設定' },
-      omikujiSet: { label: 'みくじ箱設定', description: 'おみくじの抽選方法や確率を編集します' },
+      baseSettings: { label: '基本設定', description: '基本設定' }, // TODO 説明文をどうするか
+      trigger: { label: 'トリガー設定', description: 'おみくじを引く、トリガー(きっかけ)の設定' },
+      mikuji: { label: 'みくじ箱設定', description: 'おみくじの抽選方法や確率を編集します' },
+      scenarios: {
+        label: 'シナリオ編集',
+        description: 'シナリオ(演出セット)の発動順や、ステップ(演出内容)を編集します',
+      },
       timerInterval: { label: 'タイマー設定', description: '発動する間隔やタイミングの設定' },
       placeholder: { label: 'プレースホルダー設定', description: '抽選するプレースホルダーを編集します' },
-      characterStyle: { label: '表示設定', description: 'フキダシの色と、BOTコメントの表現を設定します' },
-      colorSettings: { label: 'カラー設定', description: 'フキダシのカラー編集を行います' },
-      commentVoice: { label: 'BOTコメント表現設定', description: 'BOTコメントを読み上げる方法を指定します' },
-      imageSettings: { label: 'ジェネレーター用画像設定', description: 'ジェネレーターで表示する画像の設定' },
-      commonStyle: { label: '共通設定', description: 'フォントなど、すべての表示に共通する設定' },
-      commentBubble: { label: 'フキダシ', description: 'BOTの発言内容を吹き出し形式で表示します。' },
-      appSettings: { label: 'アプリ設定', description: '' },
-      appFeatures: { label: '利用可能な機能', description: '' },
-      packageBasic: { label: '基本情報', description: '' },
-      packageDistribution: { label: '配布情報', description: '' },
-      packageSystem: { label: 'システム情報', description: '' },
+      characterStyle: { label: 'カラー・投稿設定', description: 'フキダシの色と、BOTコメントの表現を設定します' },
+      imageSettings: { label: 'キャラクター画像設定', description: 'ジェネレーターで表示する画像の設定' },
     },
   },
   en: {
     categorySections: {
       baseSettings: { label: 'Basic Settings', description: 'Basic settings' },
       trigger: { label: 'Trigger Conditions', description: 'Set trigger conditions for drawing omikuji' },
-      omikujiSet: { label: 'Action Settings', description: 'Omikuji lottery settings and contents' },
+      mikuji: { label: 'Action Settings', description: 'Omikuji lottery settings and contents' },
       timerInterval: { label: 'Timer Settings', description: 'Set interval and timing for triggering' },
       placeholder: { label: 'Placeholder Settings', description: 'Edit placeholders to draw from' },
       characterStyle: {

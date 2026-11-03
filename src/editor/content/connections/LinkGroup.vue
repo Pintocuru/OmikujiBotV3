@@ -14,16 +14,22 @@
       {{ emptyText }}
     </div>
     <div v-else class="flex flex-wrap items-center gap-1">
-      <button
-        v-for="item in visibleItems"
-        :key="item.category + item.key"
-        class="btn btn-xs btn-outline gap-1"
-        :title="t(`categories.${item.category}.label`)"
-        @click="goTo(item)"
-      >
-        <component :is="resolveLucideIcon(categoryMap[item.category].icon)" class="w-3.5 h-3.5 shrink-0" />
-        <span class="max-w-48 truncate">{{ item.name }}</span>
-      </button>
+      <template v-for="item in visibleItems" :key="item.category + item.key">
+        <!-- 存在しない(削除済み)参照は、移動できるように見せない -->
+        <span v-if="item.missing" class="badge badge-warning h-6 max-w-64 gap-1" :title="missingText(item)">
+          <TriangleAlert class="w-3.5 h-3.5 shrink-0" />
+          <span class="truncate">{{ missingText(item) }}</span>
+        </span>
+        <button
+          v-else
+          class="btn btn-xs btn-outline gap-1"
+          :title="t(`categories.${item.category}.label`)"
+          @click="goTo(item)"
+        >
+          <component :is="resolveLucideIcon(categoryMap[item.category].icon)" class="w-3.5 h-3.5 shrink-0" />
+          <span class="max-w-48 truncate">{{ item.name }}</span>
+        </button>
+      </template>
 
       <!-- 多いときは残りをパネルにまとめる -->
       <div v-if="hiddenItems.length > 0" class="dropdown">
@@ -33,7 +39,11 @@
           class="dropdown-content menu menu-sm bg-base-100 rounded-box z-20 mt-1 w-64 max-h-72 flex-nowrap overflow-y-auto p-2 shadow"
         >
           <li v-for="item in hiddenItems" :key="item.category + item.key">
-            <button @click="goTo(item)">
+            <span v-if="item.missing" class="pointer-events-none text-warning">
+              <TriangleAlert class="w-4 h-4 shrink-0" />
+              <span class="truncate">{{ missingText(item) }}</span>
+            </span>
+            <button v-else @click="goTo(item)">
               <component :is="resolveLucideIcon(categoryMap[item.category].icon)" class="w-4 h-4 shrink-0" />
               <span class="truncate">{{ item.name }}</span>
             </button>
@@ -52,9 +62,11 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { TriangleAlert } from 'lucide-vue-next'
   import { categoryMap } from '@/maps/OmikujiData'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import { useCategoryOpen } from '@/editor/sidebar/composables/useCategoryOpen'
   import { useReferenceGraph } from '../composables/useReferenceGraph'
   import type { LinkItem } from './types'
 
@@ -80,9 +92,17 @@
   const { t } = useI18n()
   const navigationStore = useNavigationStore()
 
+  const { revealCategory } = useCategoryOpen()
+
+  const missingText = (item: LinkItem) => t('connections.scenarioMissing', { key: item.key })
+
   const goTo = (item: LinkItem) => {
+    if (item.missing) return
     navigationStore.selectCategory(item.category)
     navigationStore.selectItem(item.key)
+    // 移動先のページでは複製・削除ができない(サイドバーから行う)ので、サイドバーを開いたときに該当アイテムが見えるよう、親カテゴリの一覧を開いておく
+    // (サイドバー自体の開閉はユーザー操作に任せる)
+    revealCategory(item.category)
     // パネルのチップから選んだとき、開いたままにならないようフォーカスを外す
     if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
   }

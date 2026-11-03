@@ -8,7 +8,7 @@
     <SectionCard
       sectionKey="appSettings"
       icon="Settings"
-      label-key="appInfoEditor.appSettings.title"
+      label-key="appInfoEditor.appSettings.label"
       description-key="appInfoEditor.appSettings.description"
     >
       <GeneratorSettingsEditor />
@@ -19,7 +19,7 @@
     <SectionCard
       sectionKey="appFeatures"
       icon="Sparkles"
-      label-key="appInfoEditor.appFeatures.title"
+      label-key="appInfoEditor.appFeatures.label"
       description-key="appInfoEditor.appFeatures.description"
     >
       <AvailableFeaturesInfo />
@@ -30,7 +30,7 @@
       sectionKey="packageBasic"
       icon="Info"
       variant="neutral"
-      label-key="appInfoEditor.packageBasic.title"
+      label-key="appInfoEditor.packageBasic.label"
       description-key="appInfoEditor.packageBasic.description"
     >
       <PackageBasicInfo />
@@ -41,7 +41,7 @@
       sectionKey="packageDistribution"
       icon="Package"
       variant="neutral"
-      label-key="appInfoEditor.packageDistribution.title"
+      label-key="appInfoEditor.packageDistribution.label"
       description-key="appInfoEditor.packageDistribution.description"
     >
       <PackageDistributionInfo />
@@ -52,7 +52,7 @@
       sectionKey="packageSystem"
       icon="Cpu"
       variant="neutral"
-      label-key="appInfoEditor.packageSystem.title"
+      label-key="appInfoEditor.packageSystem.label"
       description-key="appInfoEditor.packageSystem.description"
     >
       <PackageSystemInfo />
@@ -73,10 +73,10 @@
 
   // タブ(左から)。section は上の SectionCard の sectionKey と一致させる
   const tabs: ContentTab[] = [
-    { section: 'appSettings', icon: 'Settings', labelKey: 'categorySections.appSettings.label' },
-    { section: 'appFeatures', icon: 'Sparkles', labelKey: 'categorySections.appFeatures.label' },
-    { section: 'packageBasic', icon: 'Info', labelKey: 'categorySections.packageBasic.label' },
-    { section: 'packageDistribution', icon: 'Package', labelKey: 'categorySections.packageDistribution.label' },
-    { section: 'packageSystem', icon: 'Cpu', labelKey: 'categorySections.packageSystem.label' },
+    { section: 'appSettings', icon: 'Settings', labelKey: 'appInfoEditor.appSettings.label' },
+    { section: 'appFeatures', icon: 'Sparkles', labelKey: 'appInfoEditor.appFeatures.label' },
+    { section: 'packageBasic', icon: 'Info', labelKey: 'appInfoEditor.packageBasic.label' },
+    { section: 'packageDistribution', icon: 'Package', labelKey: 'appInfoEditor.packageDistribution.label' },
+    { section: 'packageSystem', icon: 'Cpu', labelKey: 'appInfoEditor.packageSystem.label' },
   ]
 </script>

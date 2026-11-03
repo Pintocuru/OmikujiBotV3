@@ -72,17 +72,15 @@
     const devTab: ContentTab[] = isDev
       ? [{ section: 'dev', icon: 'LayoutGrid', labelKey: 'shell.contentTabs.dev' }]
       : []
-    const kindTabs = visibleUiKinds.value.map(
-      ({ kind, entry }): ContentTab => ({
-        section: kind,
-        icon: entry.icon,
-        labelKey: `mapText.uiKind.${kind}.label`,
-      })
-    )
+    const kindTabs = visibleUiKinds.value.map(({ kind, entry }): ContentTab => ({
+      section: kind,
+      icon: entry.icon,
+      labelKey: `mapText.uiKind.${kind}.label`,
+    }))
     const commonTab: ContentTab = {
       section: 'commonStyle',
       icon: 'Palette',
-      labelKey: 'categorySections.commonStyle.label',
+      labelKey: 'uiSettings.editorSections.common.label',
     }
     return [...devTab, ...kindTabs, commonTab]
   })

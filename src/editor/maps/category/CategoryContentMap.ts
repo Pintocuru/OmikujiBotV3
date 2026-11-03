@@ -42,11 +42,18 @@ const triggerSection: ItemContentDef['section'] = {
   descriptionKey: 'categorySections.trigger.description',
 }
 
-// 「ステップ設定」のセクション(mikuji / scenarios で共通)
+// ???
 const stepsSection: ItemContentDef['section'] = {
-  icon: 'ListChecks',
-  labelKey: 'categorySections.omikujiSet.label',
-  descriptionKey: 'categorySections.omikujiSet.description',
+  icon: 'Box',
+  labelKey: 'categorySections.mikuji.label',
+  descriptionKey: 'categorySections.mikuji.description',
+}
+
+// ???
+const scenariosSection: ItemContentDef['section'] = {
+  icon: 'ListChecks', // TODO:「シナリオ編集」はこのアイコンではないと思う…
+  labelKey: 'categorySections.scenarios.label',
+  descriptionKey: 'categorySections.scenarios.description',
 }
 
 export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
@@ -105,7 +112,7 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
   },
   scenarios: {
     editor: ItemEditor,
-    item: { component: ScenarioStepsEditor, section: stepsSection, modelField: 'steps', keyProp: 'currentKey' },
+    item: { component: ScenarioStepsEditor, section: scenariosSection, modelField: 'steps', keyProp: 'currentKey' },
   },
   placeholders: {
     editor: ItemEditor,

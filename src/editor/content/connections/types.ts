@@ -6,4 +6,6 @@ export type LinkItem = {
   category: CategoryType
   key: string
   name: string
+  /** 参照先が存在しない(削除済み)。移動できず、警告表示になる */
+  missing?: boolean
 }

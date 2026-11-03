@@ -20,5 +20,10 @@ export const useCategoryOpen = () => {
     navigationStore.selectCategory(key)
   }
 
-  return { selectedCategory, isOpenCategory, navigateCategory }
+  /** 指定カテゴリのサブ項目を開く(他カテゴリは閉じる)。navigateCategory と違い、トグルしない */
+  const revealCategory = (key: CategoryType) => {
+    isOpenCategory.value = { [key]: true }
+  }
+
+  return { selectedCategory, isOpenCategory, navigateCategory, revealCategory }
 }

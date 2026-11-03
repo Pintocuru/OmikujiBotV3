@@ -95,6 +95,8 @@ const buildReferenceGraph = (data: OmikujiDataType) => {
     scenarioBoxes,
     scenarioItemCounts,
     boxEvents,
+    // 存在するシナリオのキー。みくじ箱の stepKey / scenarioCall の callKeys はシナリオ削除後も残るため、存在確認に使う
+    scenarioKeys: new Set(Object.keys(scenarios)),
     names: {
       scenarios: (key: string) => scenarios[key]?.name || key,
       placeholders: (key: string) => placeholders[key]?.name || key,
@@ -121,6 +123,7 @@ const createEmptyGraph = (): ReferenceGraph => {
     scenarioBoxes: new Map(),
     scenarioItemCounts: new Map(),
     boxEvents: new Map(),
+    scenarioKeys: new Set(),
     names: { scenarios: identity, placeholders: identity, mikuji: identity, characters: identity },
   }
 }
@@ -181,7 +184,13 @@ export function useReferenceGraph() {
   const { graph, cyclicScenarioKeys, cyclicPlaceholderKeys, isSearching } = getSharedGraph()
 
   const toLinkItems = (keys: Iterable<string> | undefined, category: 'scenarios' | 'placeholders' | 'mikuji'): LinkItem[] =>
-    Array.from(keys ?? [], (key) => ({ category, key, name: graph.value.names[category](key) }))
+    Array.from(keys ?? [], (key) => ({
+      category,
+      key,
+      name: graph.value.names[category](key),
+      // 削除済みのシナリオが「ある」ように見えないよう、存在しないものに印を付ける(参照データ自体は変更しない)
+      ...(category === 'scenarios' && !graph.value.scenarioKeys.has(key) ? { missing: true } : {}),
+    }))
 
   /** キャラクターを使うイベント。scenarioCall の呼び出し元も辿る(循環があっても 1 度ずつ) */
   const eventsUsingCharacter = (characterKey: string): LinkItem[] => {

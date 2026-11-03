@@ -65,7 +65,7 @@ export const eventTriggersMessages = {
     },
     timerInterval: {
       modeLabel: 'モード',
-      modeDescription: 'タイマーを「起動時のみ」「一定間隔で継続実行」「ランダム間隔で継続実行」から選びます',
+      modeDescription: '実行するタイプを選択',
       onStart: '起動時のみ',
       interval: '継続実行',
       range: 'ランダム間隔',
@@ -76,7 +76,7 @@ export const eventTriggersMessages = {
       baseZeroOn: '有効（基準時刻を固定）',
       baseZeroOff: '無効（起動時からカウント）',
       rangeLabel: 'ランダム間隔(1～60秒)',
-      rangeDescription: '最短〜最長の間で、実行のたびに待ち時間をランダムに決めます（0.5秒刻み）。花火などの演出に',
+      rangeDescription: '最短〜最長の間で、実行のたびに待ち時間をランダムに決めます',
       rangeMin: '最短',
       rangeMax: '最長',
       rangeUnit: '秒',

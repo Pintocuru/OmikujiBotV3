@@ -3,23 +3,23 @@ export const appInfoEditorMessages = {
   ja: {
     appInfoEditor: {
       appSettings: {
-        title: 'アプリ設定',
+        label: 'アプリ設定',
         description: 'このおみくじBOT editorに関する設定です',
       },
       appFeatures: {
-        title: '利用可能な機能',
+        label: '利用可能な機能',
         description: 'このバージョンで使えるUI・レイアウト・ゲームスクリプトです',
       },
       packageBasic: {
-        title: '基本情報',
+        label: '基本情報',
         description: 'このおみくじパッケージに関する情報です',
       },
       packageDistribution: {
-        title: '配布情報',
+        label: '配布情報',
         description: 'おみくじパッケージのライセンスや配布先の表示です',
       },
       packageSystem: {
-        title: 'システム情報',
+        label: 'システム情報',
         description: 'このアプリ「おみくじBOT」の情報です',
       },
       features: {
@@ -87,23 +87,23 @@ export const appInfoEditorMessages = {
   en: {
     appInfoEditor: {
       appSettings: {
-        title: 'App Settings',
+        label: 'App Settings',
         description: 'Settings related to this configuration editor',
       },
       appFeatures: {
-        title: 'Available Features',
+        label: 'Available Features',
         description: 'UI items, layouts, and game scripts available in this version',
       },
       packageBasic: {
-        title: 'Basic Information',
+        label: 'Basic Information',
         description: 'Information regarding this omikuji package',
       },
       packageDistribution: {
-        title: 'Distribution Information',
+        label: 'Distribution Information',
         description: 'Displays the license and distribution details for the omikuji package',
       },
       packageSystem: {
-        title: 'System Information',
+        label: 'System Information',
         description: 'Information about the "Omikuji Bot" application',
       },
       features: {
