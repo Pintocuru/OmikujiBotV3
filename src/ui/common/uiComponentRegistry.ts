@@ -54,7 +54,7 @@ export function registerUiComponents<TMeta extends object>(
 export function getUiComponentSets<TMeta extends object = Record<string, never>>(
   uiName: string
 ): Record<string, Record<string, UiComponentDefinition<TMeta>>> {
-  return (registries.get(uiName) ?? {}) as Record<string, Record<string, UiComponentDefinition<TMeta>>>
+  return Object.fromEntries(registries.get(uiName) ?? []) as Record<string, Record<string, UiComponentDefinition<TMeta>>>
 }
 
 export function getUiComponent<TMeta extends object = Record<string, never>>(
