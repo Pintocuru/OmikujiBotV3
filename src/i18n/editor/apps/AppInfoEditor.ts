@@ -58,6 +58,13 @@ export const appInfoEditorMessages = {
             on: '音を鳴らす',
             off: 'ミュートする',
           },
+          showCooldownNotice: {
+            label: 'クールダウンのブロック通知',
+            description:
+              'クールダウンでコメントのおみくじがブロックされたとき、「◯◯がブロックされました」を配信画面の右下に表示します(視聴者にも見えます)',
+            on: '表示する',
+            off: '表示しない',
+          },
         },
         editor: {
           title: 'エディター設定',
@@ -141,6 +148,13 @@ export const appInfoEditorMessages = {
             description: 'Whether to play BOT sound effects',
             on: 'Sound on',
             off: 'Muted',
+          },
+          showCooldownNotice: {
+            label: 'Cooldown Block Notice',
+            description:
+              'When a comment\'s omikuji is blocked by a cooldown, shows "<name> was blocked" at the bottom right of the stream screen (viewers can see it)',
+            on: 'Show',
+            off: 'Hide',
           },
         },
         editor: {

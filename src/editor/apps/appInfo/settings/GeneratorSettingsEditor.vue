@@ -75,6 +75,31 @@
       }}</span>
     </label>
   </SettingItem>
+
+  <!-- クールダウンのブロック通知 -->
+  <SettingItem
+    icon="Timer"
+    labelKey="appInfoEditor.settings.generator.showCooldownNotice.label"
+    descriptionKey="appInfoEditor.settings.generator.showCooldownNotice.description"
+    :showReset="true"
+    @reset="reset('generator', 'showCooldownNotice')"
+  >
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        class="toggle toggle-primary"
+        :checked="settings.generator.showCooldownNotice"
+        @change="(e) => update('generator', { showCooldownNotice: (e.target as HTMLInputElement).checked })"
+      />
+      <span>{{
+        t(
+          settings.generator.showCooldownNotice
+            ? 'appInfoEditor.settings.generator.showCooldownNotice.on'
+            : 'appInfoEditor.settings.generator.showCooldownNotice.off'
+        )
+      }}</span>
+    </label>
+  </SettingItem>
 </template>
 
 <script setup lang="ts">

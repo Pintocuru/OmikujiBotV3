@@ -14,7 +14,8 @@ import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
 import { buildDefaultPlaceholders } from '@/generator/scripts/EventProcess/DefaultPlaceholderBuilder'
-import { tryAcquireCooldown } from '@/generator/scripts/EventProcess/CooldownGate'
+import { acquireCooldown, type CooldownBlock } from '@/generator/scripts/EventProcess/CooldownGate'
+import { useCooldownNoticeStore } from '@/generator/stores/useCooldownNoticeStore'
 
 export class OmikujiProcessor {
   private readonly store = useAppStore()
@@ -40,7 +41,7 @@ export class OmikujiProcessor {
     if (!item || item.kind !== 'steps') return []
 
     // クールダウン中は何も実行しない
-    if (!this.tryAcquireCooldown(item)) return []
+    if (!this.tryAcquireCooldown(item, omiken)) return []
 
     return this.runSteps(item, omiken)
   }
@@ -48,9 +49,33 @@ export class OmikujiProcessor {
   /**
    * cooldownSeconds による実行可否の判定。通過した場合は記録を更新する。
    * runSteps の直前に呼ぶこと (並列処理でも判定と記録が同期的に完結する)。
+   * ブロックされたときは、コンソールに理由を出し、設定がオンならコメントしたユーザーを画面に通知する。
    */
-  tryAcquireCooldown(item: OmikujiItemStepsType): boolean {
-    return tryAcquireCooldown(item.cooldownSeconds)
+  tryAcquireCooldown(item: OmikujiItemStepsType, omiken?: OmikenCommentType): boolean {
+    const result = acquireCooldown(item.cooldownSeconds, this.cooldownLabel(item))
+    if (result.allowed) return true
+    this.reportCooldownBlock(item, result, omiken)
+    return false
+  }
+
+  /**
+   * ブロックを通知する。
+   * - コンソール: 常に出す(設定時に原因を調べるため)
+   * - 画面: 設定がオンで、コメントがきっかけのとき(ユーザー名があるとき)だけ。タイマーなどは知らせても意味がない
+   */
+  private reportCooldownBlock(item: OmikujiItemStepsType, block: CooldownBlock, omiken?: OmikenCommentType): void {
+    const { blockedBy, remainingSeconds } = block
+    console.info(
+      `[cooldown] "${this.cooldownLabel(item)}" をブロック: "${blockedBy.label}"(${blockedBy.seconds}秒)により、あと ${remainingSeconds.toFixed(1)} 秒`
+    )
+    if (omiken && this.store.data.settings.generator.showCooldownNotice) {
+      useCooldownNoticeStore().push(omiken.userName, remainingSeconds)
+    }
+  }
+
+  /** ログ用の名前: アイテム名 → シナリオ名 → key の順 */
+  private cooldownLabel(item: OmikujiItemStepsType): string {
+    return item.name || this.store.data.assets.scenarios[item.stepKey]?.name || item.key
   }
 
   /**

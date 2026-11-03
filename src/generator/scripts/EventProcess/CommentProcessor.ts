@@ -72,7 +72,7 @@ export class EventCommentProcessor {
     const omikujiProcessor = new OmikujiProcessor()
 
     // クールダウン中: control の return と同様に、空メッセージで以降のイベントを止める
-    if (!omikujiProcessor.tryAcquireCooldown(selectedItem)) {
+    if (!omikujiProcessor.tryAcquireCooldown(selectedItem, omiken)) {
       return [BotMessageSchema.parse({ uiKey: 'commentBubble' })]
     }
     return omikujiProcessor.runSteps(selectedItem, omiken)

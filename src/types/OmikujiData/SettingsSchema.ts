@@ -18,6 +18,7 @@ const GeneratorSettingsSchema = z.object({
   commentType: z.enum(commentModeTypes).default('OneComme').catch('OneComme'), // コメント購読タイプ
   soundEnabled: z.boolean().default(true).catch(true), // サウンドを有効にするか
   basicDelaySeconds: z.number().min(0).max(5).default(1).catch(1), // 投稿の基本的な遅延時間（秒）
+  showCooldownNotice: z.boolean().default(false).catch(false), // クールダウンでおみくじがブロックされたとき、画面の右下に知らせるか
 })
 
 const EditorSettingsSchema = z.object({
