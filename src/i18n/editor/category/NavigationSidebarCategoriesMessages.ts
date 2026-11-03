@@ -50,6 +50,10 @@ export const navigationSidebarCategoriesMessages = {
         label: 'データパック',
         description: '配布されているデータパックを読み込みます',
       },
+      orphans: {
+        label: '使われていないアイテム',
+        description: 'イベントから辿れないアイテムを探して、削除できます',
+      },
       appInfo: {
         label: '設定 / アプリ情報',
         description: 'ライセンスや使用できる機能を確認できます',
@@ -105,6 +109,10 @@ export const navigationSidebarCategoriesMessages = {
       dataPacks: {
         label: 'Data Packs',
         description: 'Load distributed data packs',
+      },
+      orphans: {
+        label: 'Unused Items',
+        description: 'Finds items that no event leads to, and lets you delete them',
       },
       appInfo: {
         label: 'App Info',

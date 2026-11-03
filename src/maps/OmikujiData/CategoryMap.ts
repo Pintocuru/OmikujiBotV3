@@ -18,5 +18,6 @@ export const categoryMap: Record<CategoryType, { icon: LucideIconName }> = {
   characters: { icon: 'Users' },
   ui: { icon: 'LayoutGrid' },
   dataPacks: { icon: 'Download' },
-  appInfo: { icon: 'Info' },
+  orphans: { icon: 'Search' },
+  appInfo: { icon: 'Settings' },
 }

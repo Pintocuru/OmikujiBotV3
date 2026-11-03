@@ -2,7 +2,7 @@
 // TOPページのアイテム操作(移動・複製・削除)。characters / events の重複処理をここにまとめる
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
-import type { CategoryType, EventCategoryType } from '@/types/OmikujiData'
+import type { AssetCategoryType, CategoryType, EventCategoryType } from '@/types/OmikujiData'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
@@ -45,11 +45,15 @@ export function useTopItemActions() {
   const removeCharacter = (key: string, name?: string) =>
     removeWith(key, name, () => omikujiStore.removeAsset('characters', key))
 
+  // assets(characters 以外も対象)
+  const removeAssetItem = (category: AssetCategoryType, key: string, name?: string) =>
+    removeWith(key, name, () => omikujiStore.removeAsset(category, key))
+
   // events
   const duplicateEventItem = (category: EventCategoryType, id: string) =>
     duplicateWith(() => omikujiStore.duplicateEvent(category, id))
   const removeEventItem = (category: EventCategoryType, id: string, name?: string) =>
     removeWith(id, name, () => omikujiStore.removeEvent(category, id))
 
-  return { goToItem, duplicateCharacter, removeCharacter, duplicateEventItem, removeEventItem }
+  return { goToItem, duplicateCharacter, removeCharacter, removeAssetItem, duplicateEventItem, removeEventItem }
 }

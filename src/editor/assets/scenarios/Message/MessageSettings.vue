@@ -1,7 +1,12 @@
 <!-- src/editor/assets/scenarios/Message/MessageSettings.vue -->
 <template>
-  <!-- 表示先のUI UIごとに下のフォームが変わる -->
-  <SettingItem layout="vertical" :icon="uiKindIcons[step.uiKey]" labelKey="scenarioStep.messageSettings.uiKey">
+  <!-- 表示先のUI UIごとに下のフォームが変わる(1つなら表示しない) -->
+  <SettingItem
+    v-if="selectableKinds.length > 1"
+    layout="vertical"
+    :icon="uiKindIcons[step.uiKey]"
+    labelKey="scenarioStep.messageSettings.uiKey"
+  >
     <IconRadioGroup
       v-model="uiKey"
       i18n-prefix="mapText.uiKind"
@@ -76,7 +81,7 @@
   import MessageTextDialog from '@/editor/parts/MessageTextDialog/MessageTextDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SoundSettings from '../Sounds/SoundSettings.vue'
-  import { uiKindIcons } from '@/maps/OmikujiData/ui'
+  import { uiKindIcons, uiLayoutMap } from '@/maps/OmikujiData/ui'
   import { getUiMessageSpec, postUiKinds } from '@/types/generator'
   import type { UiKind } from '@/types/OmikujiData'
   import { getUiSlotsEditor } from '@/editor/ui/uiEditorRegistry'
@@ -93,11 +98,16 @@
   }>()
 
   const { data } = storeToRefs(useOmikujiStore())
-
   const soundEnabled = computed(() => data.value.settings.generator.soundEnabled)
-
   const slotsEditor = computed(() => getUiSlotsEditor(props.step.uiKey))
+  // 表示先の UI
+  const spec = computed(() => getUiMessageSpec(props.step.uiKey))
+  const slotMetas = computed(() => Object.values(spec.value.slots))
 
+  // 投稿を受け取れる UI だけ選べる
+  const selectableKinds = computed<UiKind[]>(() =>
+    uiLayoutMap[data.value.ui.layout].kinds.filter((kind) => postUiKinds.includes(kind))
+  )
   const updateStep = (updates: Partial<ScenarioStepMessageType>) => {
     emit('update:step', { ...props.step, ...updates })
   }
@@ -107,13 +117,6 @@
     set: (value) => updateStep({ message: value }),
   })
 
-  // 表示先の UI
-  const spec = computed(() => getUiMessageSpec(props.step.uiKey))
-  const slotMetas = computed(() => Object.values(spec.value.slots))
-  // 投稿を受け取れる UI だけ選べる。現在値が受け取れない UI (データ不整合) の場合は、それも並べる
-  const selectableKinds = computed<UiKind[]>(() =>
-    postUiKinds.includes(props.step.uiKey) ? postUiKinds : [props.step.uiKey, ...postUiKinds]
-  )
   const uiKey = computed<UiKind>({
     get: () => props.step.uiKey,
     set: (value) => updateStep({ uiKey: value }),

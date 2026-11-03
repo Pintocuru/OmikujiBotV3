@@ -11,7 +11,7 @@ const PLACEHOLDER_TOKEN = /<<([a-zA-Z0-9_]+)>>/g
 
 const contentOf = (value: string | { content: string }): string => (typeof value === 'string' ? value : value.content)
 
-const tokensOf = (text: string): string[] => Array.from(text.matchAll(PLACEHOLDER_TOKEN), (m) => m[1])
+export const tokensOf = (text: string): string[] => Array.from(text.matchAll(PLACEHOLDER_TOKEN), (m) => m[1])
 
 /** イベント / みくじ箱 / シナリオ / プレースホルダー / キャラクターの参照関係を、データ全体から 1 回で作る */
 const buildReferenceGraph = (data: OmikujiDataType) => {
@@ -97,6 +97,7 @@ const buildReferenceGraph = (data: OmikujiDataType) => {
     boxEvents,
     // 存在するシナリオのキー。みくじ箱の stepKey / scenarioCall の callKeys はシナリオ削除後も残るため、存在確認に使う
     scenarioKeys: new Set(Object.keys(scenarios)),
+    mikujiKeys: new Set(Object.keys(mikuji)), // イベントの omikujiKey の存在確認に使う
     names: {
       scenarios: (key: string) => scenarios[key]?.name || key,
       placeholders: (key: string) => placeholders[key]?.name || key,
@@ -124,6 +125,7 @@ const createEmptyGraph = (): ReferenceGraph => {
     scenarioItemCounts: new Map(),
     boxEvents: new Map(),
     scenarioKeys: new Set(),
+    mikujiKeys: new Set(),
     names: { scenarios: identity, placeholders: identity, mikuji: identity, characters: identity },
   }
 }
@@ -182,6 +184,7 @@ const getSharedGraph = () => {
  */
 export function useReferenceGraph() {
   const { graph, cyclicScenarioKeys, cyclicPlaceholderKeys, isSearching } = getSharedGraph()
+  const { data } = storeToRefs(useOmikujiStore())
 
   const toLinkItems = (keys: Iterable<string> | undefined, category: 'scenarios' | 'placeholders' | 'mikuji'): LinkItem[] =>
     Array.from(keys ?? [], (key) => ({
@@ -246,6 +249,49 @@ export function useReferenceGraph() {
   /** そのシナリオを実行するおみくじの数(同じシナリオを複数のおみくじが共有できる) */
   const scenarioItemCount = (scenarioKey: string) => graph.value.scenarioItemCounts.get(scenarioKey) ?? 0
 
+  /**
+   * イベントから辿れる(= 使用中の)みくじ箱・シナリオ・プレースホルダー・キャラクターのキー(存在するものだけ)。
+   * 起点はイベントの omikujiKey。辿った先(みくじ箱 → シナリオ → シナリオ / キャラクター / プレースホルダー)も使用中とする。
+   * プレースホルダーは、グラフにない参照(おみくじの制御 variable、gameScript の queryString、イベントの条件式など)を
+   * 取りこぼさないよう、使用中の項目の JSON 全体から `<<キー>>` を探す(削除の判断に使うので、使用中の側に倒す)。
+   */
+  const usedKeysFromEvents = () => {
+    const {
+      boxEvents,
+      boxScenarios,
+      scenarioCalls,
+      placeholderChildren,
+      characterScenarios,
+      scenarioKeys,
+      mikujiKeys,
+    } = graph.value
+    const { events, assets } = data.value
+
+    const mikuji = new Set([...boxEvents.keys()].filter((key) => mikujiKeys.has(key)))
+    const entryScenarios = [...mikuji].flatMap((boxKey) => [...(boxScenarios.get(boxKey) ?? [])])
+    const scenarios = new Set([...reachable(scenarioCalls, entryScenarios)].filter((key) => scenarioKeys.has(key)))
+
+    const characters = new Set<string>()
+    for (const [characterKey, scenarioKeysOfCharacter] of characterScenarios) {
+      if ([...scenarioKeysOfCharacter].some((scenarioKey) => scenarios.has(scenarioKey))) characters.add(characterKey)
+    }
+
+    const placeholderKeys = new Set(Object.keys(assets.placeholders))
+    const sources = [
+      events,
+      ...[...mikuji].map((key) => assets.mikuji[key]),
+      ...[...scenarios].map((key) => assets.scenarios[key]),
+    ]
+    const entryPlaceholders = sources
+      .flatMap((source) => tokensOf(JSON.stringify(source)))
+      .filter((key) => placeholderKeys.has(key))
+    const placeholders = new Set(
+      [...reachable(placeholderChildren, entryPlaceholders)].filter((key) => placeholderKeys.has(key))
+    )
+
+    return { mikuji, scenarios, placeholders, characters }
+  }
+
   /** 循環の経路(例: A → B → A)を名前で返す。循環していなければ null */
   const scenarioCyclePath = (scenarioKey: string): string[] | null => {
     const path = findCycle(graph.value.scenarioCalls, scenarioKey)
@@ -268,6 +314,7 @@ export function useReferenceGraph() {
     parentPlaceholders,
     ancestorPlaceholderKeys,
     scenarioItemCount,
+    usedKeysFromEvents,
     /** グラフを作り直している最中か(この間の結果は前回のスナップショット。空でも「なし」とは言えない) */
     isSearching,
     // 循環参照(エディターで見つけて直せるように、接続表示と切替プルダウンに出す)

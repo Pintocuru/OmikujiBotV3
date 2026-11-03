@@ -6,6 +6,7 @@ import type { ItemContentDef } from '@/editor/types/apps'
 import JsonMergeEditor from '@/editor/apps/JsonMerge/JsonMergeEditor.vue'
 import DataPacks from '@/editor/apps/dataPacks/DataPacks.vue'
 import AppInfoEditor from '@/editor/apps/appInfo/AppInfoEditor.vue'
+import OrphanItemsEditor from '@/editor/apps/orphans/OrphanItemsEditor.vue'
 import UiEditor from '@/editor/ui/UiEditor.vue'
 
 import ItemEditor from '@/editor/content/ItemEditor.vue'
@@ -130,5 +131,6 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
   // settings
   ui: { editor: UiEditor },
   dataPacks: { editor: DataPacks },
+  orphans: { editor: OrphanItemsEditor },
   appInfo: { editor: AppInfoEditor },
 }

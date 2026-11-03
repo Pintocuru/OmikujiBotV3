@@ -30,7 +30,7 @@ export const useCategoryUtils = () => {
    */
   const getCategoryItemCount = (category: CategoryType): number => {
     if (category === 'dataPacks') return templateList.length
-    if (category === 'appInfo' || category === 'ui') return 0
+    if (category === 'appInfo' || category === 'ui' || category === 'orphans') return 0
     if (category === 'jsonMerge') return data.value.jsonMerge.length
     // 残りは Event か Asset のどちらか
     return isEventCategory(category) ? getEventCount(category) : getAssetCount(category)
@@ -74,7 +74,7 @@ export const useCategoryUtils = () => {
   const settingsCategoryGroups = computed<CategoryGroup<SettingsCategoryType>[]>(() => {
     const groups: CategoryGroup<SettingsCategoryType>[] = [
       { id: 'ui', keys: pick(['ui']) as SettingsCategoryType[] },
-      { id: 'other', keys: pick(['jsonMerge', 'dataPacks', 'appInfo']) as SettingsCategoryType[] }, // 表示順は categoryMap に従う
+      { id: 'other', keys: pick(['jsonMerge', 'dataPacks', 'orphans', 'appInfo']) as SettingsCategoryType[] }, // 表示順は categoryMap に従う
     ]
     return groups.filter((group) => group.keys.length > 0)
   })

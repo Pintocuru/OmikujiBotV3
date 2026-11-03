@@ -38,6 +38,7 @@ import * as m_preview_EditorPreviewMessages from './preview/EditorPreviewMessage
 import * as m_ui_UiSettingsMessages from './ui/UiSettingsMessages'
 import * as m_content_ConnectionMessages from './content/ConnectionMessages'
 import * as m_content_TopPageMessages from './content/TopPageMessages'
+import * as m_apps_OrphanItemsMessages from './apps/OrphanItemsMessages'
 
 export const messageModules: Record<string, Record<string, unknown>> = {
   OmikujiDataMaps: m_OmikujiDataMaps,
@@ -46,6 +47,7 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'apps/BaseSettingsEditor': m_apps_BaseSettingsEditor,
   'apps/DataPacksMessages': m_apps_DataPacksMessages,
   'apps/JsonMergeMessages': m_apps_JsonMergeMessages,
+  'apps/OrphanItemsMessages': m_apps_OrphanItemsMessages,
   'apps/PackageMetaMessages': m_apps_PackageMetaMessages,
   'assets/OmikujiItemMessages': m_assets_OmikujiItemMessages,
   'assets/PlaceholderMessages': m_assets_PlaceholderMessages,
