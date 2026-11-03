@@ -33,3 +33,30 @@ export const failOnCircularDependency: OnLog = (level, log, defaultHandler) => {
   if (log.ids?.some((id) => id.includes('node_modules'))) return
   throw new Error(`[Build] 循環依存を検出しました: ${log.message}`)
 }
+
+/**
+ * KujibikiPanel を含む entry には、既定 ID を持つ standard セットを必須にする。
+ * 静的 import のモジュールグラフを検査するため、loader の遅延 import は実行しない。
+ */
+export function validateKujibikiPanelRegistration(): Plugin {
+  return {
+    name: 'validate-kujibiki-panel-registration',
+    apply: 'build',
+    generateBundle() {
+      const moduleIds = [...this.getModuleIds()].map((id) => id.replace(/\\\\/g, '/'))
+      const includesKujibikiPanel = moduleIds.some((id) =>
+        /\\/ui\\/KujibikiPanel\\/KujibikiPanel\\.vue(?:\\?|$)/.test(id)
+      )
+      if (!includesKujibikiPanel) return
+
+      const includesDefaultSet = moduleIds.some((id) =>
+        /\\/ui\\/KujibikiPanel\\/components\\/standard\\/register\\.ts(?:\\?|$)/.test(id)
+      )
+      if (!includesDefaultSet) {
+        this.error(
+          '[Build] KujibikiPanel を含む entry には、既定コンポーネント omikuji を登録する standard セットが必要です'
+        )
+      }
+    },
+  }
+}
