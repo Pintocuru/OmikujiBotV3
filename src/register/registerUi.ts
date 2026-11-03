@@ -2,6 +2,7 @@
 // UI 関係の登録をすべてこのファイルに集約する窓口
 import { registerUi, type UiLoader } from '@/ui/uiRegistry'
 import type { UiKind } from '@/types/OmikujiData'
+import { registerStandardBubbleComponents } from '@/ui/CommentBubble/components/standard/register'
 import { registerStandardKujibikiComponents } from '@/ui/KujibikiPanel/components/standard/register'
 import { registerFortuneKujibikiComponents } from '@/ui/KujibikiPanel/components/fortune/register'
 import { registerSpecialKujibikiComponents } from '@/ui/KujibikiPanel/components/special/register'
@@ -20,6 +21,11 @@ const registerUiKinds = () =>
     userBoard: () => import('@/ui/UserBoard/UserBoard.vue'),
   } satisfies Record<UiKind, UiLoader>)
 
+// CommentBubble
+const registerBubbleComponents = () => {
+  registerStandardBubbleComponents()
+}
+
 // KujibikiPanel
 const registerKujibikiComponents = () => {
   registerStandardKujibikiComponents()
@@ -30,5 +36,6 @@ const registerKujibikiComponents = () => {
 /** UI 関係を全部登録 */
 export const registerAllUi = () => {
   registerUiKinds()
+  registerBubbleComponents()
   registerKujibikiComponents()
 }

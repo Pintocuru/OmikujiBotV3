@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/layouts/Smart.vue -->
+<!-- src/ui/CommentBubble/components/standard/Smart.vue -->
 <!-- スマート(シンプル): キャラクター画像なし。吹き出しだけを下部中央に表示する -->
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex justify-center items-end pb-12">
@@ -17,7 +17,7 @@
   import { computed } from 'vue'
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import { CommentBubbleType, ShownCharacter } from '@/types/ui'
-  import CommentDisplay from './parts/CommentDisplay.vue'
+  import CommentDisplay from '../../parts/CommentDisplay.vue'
 
   const props = defineProps<{
     displayedComments: DisplayedBotMessage[]

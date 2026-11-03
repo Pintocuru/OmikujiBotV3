@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/layouts/Standard.vue -->
+<!-- src/ui/CommentBubble/components/standard/Standard.vue -->
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex justify-center items-end">
     <div class="relative flex flex-col items-center">
@@ -28,7 +28,7 @@
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import { CommentBubbleType, ShownCharacter } from '@/types/ui'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import CommentDisplay from './parts/CommentDisplay.vue'
+  import CommentDisplay from '../../parts/CommentDisplay.vue'
 
   defineProps<{
     displayedComments: DisplayedBotMessage[]

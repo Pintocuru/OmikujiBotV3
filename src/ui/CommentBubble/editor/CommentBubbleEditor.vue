@@ -11,22 +11,27 @@
     />
 
     <!-- キャラクター画像(大きさの確認用) -->
-    <div v-if="bubble.component === 'standard'" class="flex justify-center py-2">
+    <div v-if="hasCharacter" class="flex justify-center py-2">
       <LayerImage v-if="previewLayers.length" :layers="previewLayers" :size="bubble.characterSize" />
       <span v-else class="text-sm opacity-60 italic">キャラクター画像が設定されていません</span>
     </div>
   </HudPreview>
 
+  <!-- 未登録のコンポーネントが選ばれている場合 -->
+  <div v-if="!currentDefinition" class="alert alert-error" role="alert">
+    未登録の表示タイプ: {{ bubble.component }}(このバージョンには含まれていません)
+  </div>
+
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
     :modelValue="bubble.component"
-    :options="bubbleComponentMap"
-    @update:modelValue="(val) => update('component', val as BubbleComponent)"
+    :options="componentOptions"
+    @update:modelValue="(val) => update('component', val)"
   />
 
   <!-- キャラクター -->
   <SettingItem
-    v-if="bubble.component === 'standard'"
+    v-if="hasCharacter"
     labelKey="uiSettings.commentBubble.persistentCharacter.label"
     descriptionKey="uiSettings.commentBubble.persistentCharacter.description"
   >
@@ -47,7 +52,7 @@
 
   <!-- キャラクターの大きさ -->
   <SettingItem
-    v-if="bubble.component === 'standard'"
+    v-if="hasCharacter"
     labelKey="uiSettings.commentBubble.characterSize.label"
     descriptionKey="uiSettings.commentBubble.characterSize.description"
     :showReset="true"
@@ -88,8 +93,8 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { CharacterColorScheme, EnterMotionType } from '@/types/OmikujiData'
-  import { BubbleComponent, CommentBubbleSchema, CommentBubbleType } from '@/types/ui'
-  import { bubbleComponentMap } from '@/maps/ui'
+  import { CommentBubbleSchema, CommentBubbleType } from '@/types/ui'
+  import { getCommentBubbleComponent, getCommentBubbleComponentSets } from '../CommentBubbleRegistry'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import { enterMotionMap } from '@/maps/OmikujiData'
 
@@ -122,6 +127,18 @@
     const entry = hasSrc(images['default']?.src) ? images['default'] : Object.values(images).find((i) => hasSrc(i.src))
     return entry?.src ?? []
   })
+
+  // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
+  const currentDefinition = computed(() => getCommentBubbleComponent(bubble.value.component))
+  const componentOptions = computed(() => {
+    const options: Record<string, { label: string }> = {}
+    if (!currentDefinition.value) options[bubble.value.component] = { label: `未登録: ${bubble.value.component}` }
+    for (const set of Object.values(getCommentBubbleComponentSets())) {
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+    }
+    return options
+  })
+  const hasCharacter = computed(() => currentDefinition.value?.hasCharacter === true)
 
   // 更新関数
   const update = <K extends keyof CommentBubbleType>(field: K, value: CommentBubbleType[K]) => {

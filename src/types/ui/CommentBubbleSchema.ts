@@ -13,12 +13,22 @@ export type ShownCharacter = {
 /**
  * フキダシ・キャラクター
  */
-// コンポーネントの選択肢(表示名は src/maps/ui/CommentBubbleMap.ts)
-export const bubbleComponents = ['standard', 'smart'] as const
-export type BubbleComponent = (typeof bubbleComponents)[number]
+// CommentBubble のコンポーネントセット
+export const bubbleComponentSets = {
+  standard: ['standard', 'smart'],
+} as const
+
+export type BubbleComponentSets = typeof bubbleComponentSets
+export type BubbleComponentSet = keyof BubbleComponentSets
+
+// セット別の ID 型
+export type BubbleComponentOf<S extends BubbleComponentSet> = BubbleComponentSets[S][number]
+
+// 全 ID
+export type BubbleComponent = BubbleComponentOf<BubbleComponentSet>
 
 export const CommentBubbleSchema = z.object({
-  component: z.enum(bubbleComponents).default('standard').catch('standard'),
+  component: z.string().default('standard').catch('standard'), // 保存データは文字列(未同梱の ID も保持する)
   persistentCharacter: z.string().catch(''), // 常時表示キャラ(空ならコメントが来るまで非表示)
   characterSize: z.number().default(128).catch(128), // キャラクターの横幅
   bubbleMotion: z.enum(enterMotions).default('slideUp').catch('slideUp'), // フキダシのアニメーション

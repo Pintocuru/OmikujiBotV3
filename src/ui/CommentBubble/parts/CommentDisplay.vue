@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/layouts/parts/CommentDisplay.vue -->
+<!-- src/ui/CommentBubble/parts/CommentDisplay.vue -->
 <template>
   <div
     v-for="(item, index) in displayedComments"
