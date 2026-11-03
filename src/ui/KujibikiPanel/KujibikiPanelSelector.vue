@@ -1,7 +1,7 @@
 <!-- src/ui/KujibikiPanel/KujibikiPanelSelector.vue -->
 <template>
   <MotionWrapper
-    v-if="hasMessage"
+    v-if="hasMessage && currentComponent"
     :key="currentKey"
     :visible="isVisible"
     :motion="settings.animation"
@@ -16,38 +16,68 @@
       :iconSize="settings.iconSize"
     />
   </MotionWrapper>
+  <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
+    {{ loadError }}
+  </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, type Component } from 'vue'
-  import { KujibikiComponent, KujibikiPanelType } from '@/types/ui'
+  import { computed, shallowRef, watch, type Component } from 'vue'
+  import type { KujibikiPanelType } from '@/types/ui'
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
-  import omikuji from './layouts/Omikuji.vue'
-  import flower from './layouts/Flower.vue'
-  import tarot from './layouts/Tarot.vue'
-  import faceCutout from './layouts/FaceCutout.vue'
+  import { getKujibikiPanelComponent } from './KujibikiPanelRegistry'
+  import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
-  const props = defineProps<{
-    settings: KujibikiPanelType
-    messages: DisplayedBotMessage[]
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      settings: KujibikiPanelType
+      messages: DisplayedBotMessage[]
+      editorPreview?: boolean
+    }>(),
+    { editorPreview: false }
+  )
 
-  const componentMap: Record<KujibikiComponent, Component> = {
-    omikuji,
-    flower,
-    tarot,
-    faceCutout,
-  }
+  const notifiedIds = new Set<string>()
+  const currentComponent = shallowRef<Component | null>(null)
+  const loadError = shallowRef('')
 
-  const currentComponent = computed(() => componentMap[props.settings.component] ?? omikuji)
+  watch(
+    () => props.settings.component,
+    async (id) => {
+      currentComponent.value = null
+      loadError.value = ''
 
-  const hasMessage = computed(() => props.messages.some((m) => !!m.bubble?.message))
+      const definition = getKujibikiPanelComponent(id)
+      if (!definition) {
+        const message = `くじ引きの表示タイプ「${id}」は、このバージョンには含まれていません`
+        loadError.value = `未登録の表示タイプ: ${id}`
+        if (!props.editorPreview && !notifiedIds.has(id)) {
+          notifiedIds.add(id)
+          void postSystemMessage(message, { username: 'warn', speech: false }).catch(() => {})
+        }
+        return
+      }
 
-  // 表示状態(false で Leave アニメーション。useBotDisplay が表示秒数に応じて切り替える)
+      try {
+        const module = await definition.loader()
+        if (props.settings.component === id) currentComponent.value = module.default
+      } catch (error) {
+        console.error(`[KujibikiPanel] Component load failed: ${id}`, error)
+        loadError.value = `表示タイプ「${id}」の読み込みに失敗しました`
+        if (!props.editorPreview && !notifiedIds.has(id)) {
+          notifiedIds.add(id)
+          void postSystemMessage(`くじ引きの表示タイプ「${id}」の読み込みに失敗しました`, {
+            username: 'warn',
+            speech: false,
+          }).catch(() => {})
+        }
+      }
+    },
+    { immediate: true }
+  )
+
+  const hasMessage = computed(() => props.messages.some((message) => !!message.bubble?.message))
   const isVisible = computed(() => props.messages[0]?.display.visible ?? true)
-
-  const currentKey = computed(() => {
-    return `${props.messages[0]?.id ?? ''}-${props.settings.animation}`
-  })
+  const currentKey = computed(() => `${props.messages[0]?.id ?? ''}-${props.settings.animation}`)
 </script>
