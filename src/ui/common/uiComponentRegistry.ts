@@ -9,7 +9,7 @@ export type UiComponentDefinition<TMeta extends object = Record<string, never>> 
 export type UiComponentSet<TMeta extends object = Record<string, never>> = Record<string, UiComponentDefinition<TMeta>>
 export type UiComponentSets<TMeta extends object = Record<string, never>> = Record<string, UiComponentSet<TMeta>>
 
-type StoredDefinition = UiComponentDefinition<Record<string, unknown>>
+type StoredDefinition = UiComponentDefinition<object>
 const registries = new Map<string, Map<string, Record<string, StoredDefinition>>>()
 const ID_PATTERN = /^[a-z][A-Za-z0-9]*$/
 
@@ -40,7 +40,7 @@ export function registerUiComponents<TMeta extends object>(
   for (const [setName, definitions] of replacements) {
     for (const id of Object.keys(definitions)) {
       const existingSet = ids.get(id)
-      if (existingSet) {
+      if (ids.has(id)) {
         throw new Error(`[UI Component Registry] Duplicate component ID "${id}" in ${uiName}: ${existingSet} and ${setName}`)
       }
       ids.set(id, setName)
