@@ -24,7 +24,6 @@ export default defineConfig(() => {
     plugins: [
       characterAssetsPlugin(projectRoot),
       soundAssetsPlugin(projectRoot),
-      validateKujibikiPanelRegistration(),
     ],
     resolve: { alias },
     server: {
@@ -43,6 +42,7 @@ export default defineConfig(() => {
 
 export function baseViteConfig(childDir: string) {
   const plugins = [
+    validateKujibikiPanelRegistration(),
     vue(),
     tailwindcss(),
     checker({
