@@ -28,7 +28,7 @@ export type BubbleComponentOf<S extends BubbleComponentSet> = BubbleComponentSet
 export type BubbleComponent = BubbleComponentOf<BubbleComponentSet>
 
 export const CommentBubbleSchema = z.object({
-  component: z.string().default('standard').catch('standard'), // 保存データは文字列(未同梱の ID も保持する)
+  component: z.string().min(1).default('standard').catch('standard'), // 保存データは文字列(未同梱の ID も保持する。空文字は standard に戻す)
   persistentCharacter: z.string().catch(''), // 常時表示キャラ(空ならコメントが来るまで非表示)
   characterSize: z.number().default(128).catch(128), // キャラクターの横幅
   bubbleMotion: z.enum(enterMotions).default('slideUp').catch('slideUp'), // フキダシのアニメーション
