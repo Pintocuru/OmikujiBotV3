@@ -6,6 +6,7 @@ import { CharacterUsage, UpdateResult } from '../types'
 import { eventCategory, AssetCategoryType } from '@/types/OmikujiData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import i18n from '@/editor/i18n'
 
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
@@ -13,6 +14,7 @@ const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global
 export function useKeyEditor() {
   const { getEvents } = useGetEventData()
   const { getAsset, getAssets } = useGetAssetData()
+  const navigationStore = useNavigationStore()
 
   // ダイアログの状態
   const isDialogOpen = ref(false)
@@ -100,6 +102,13 @@ export function useKeyEditor() {
     const result = executeKeyUpdate(currentKey.value, newKey.value, currentCategory.value)
 
     if (result.success) {
+      // 現在表示中のアセット自身をリネームした場合は、新しいキーへ選択を移す
+      if (
+        navigationStore.selectedCategory === currentCategory.value &&
+        navigationStore.selectedItemKey === currentKey.value
+      ) {
+        navigationStore.selectItem(newKey.value.trim())
+      }
       closeDialog()
       return true
     }
