@@ -32,6 +32,14 @@ export const commonMapMessages = {
         stick: 'Stick',
         delaGothicOne: 'Dela Gothic One',
       },
+      scope: {
+        single: 'このイベント',
+        category: '{category}全体',
+      },
+    },
+  },
+  en: {
+    mapText: {
       fontFamily: {
         notoSansJp: 'Noto Sans JP',
         mplus1p: 'M PLUS 1p',
@@ -63,18 +71,9 @@ export const commonMapMessages = {
         delaGothicOne: 'Dela Gothic One',
       },
       scope: {
-        single: 'このイベント',
-        category: '{category}全体',
-      },
-    },
-  },
-  en: {
-    mapText: {
-      scope: {
         single: 'This event',
         category: 'All {category}',
       },
     },
   },
 } as const
-
