@@ -33,8 +33,8 @@
       @change="updateField('animation', ($event.target as HTMLSelectElement).value)"
       class="select select-bordered w-full max-w-xs"
     >
-      <option v-for="(value, key) in enterMotionMap" :key="key" :value="key">
-        {{ value.label }}
+      <option v-for="key in enterMotions" :key="key" :value="key">
+        {{ t(`mapText.enterMotion.${key}.label`) }}
       </option>
     </select>
   </SettingItem>
@@ -106,6 +106,8 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
   import { storeToRefs } from 'pinia'
   import { KujibikiPanelType, KujibikiPanelSchema } from '@/types/ui'
   import { getKujibikiPanelComponent, getKujibikiPanelComponentSets } from '../KujibikiPanelRegistry'
@@ -114,6 +116,7 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import { enterMotionMap } from '@/maps/OmikujiData'
+  import { enterMotions } from '@/types/OmikujiData'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
