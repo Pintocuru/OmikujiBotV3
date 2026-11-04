@@ -11,7 +11,7 @@ const PROJECT = {
   boothId: '7733810',
   category: '2026-Q4',
   licenseLabel: 'CC-BY 4.0',
-  extraFiles: [{ from: 'assets/Characters/common/chocolate/', to: 'images/chocolate/' }],
+  extraFiles: [],
 } satisfies ProjectParams
 
 // バリエーション定義
