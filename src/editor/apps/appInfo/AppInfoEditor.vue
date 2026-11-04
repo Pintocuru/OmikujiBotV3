@@ -1,3 +1,4 @@
+<!-- src/editor/apps/appInfo/AppInfoEditor.vue -->
 <template>
   <SectionTabs :tabs="tabs" />
 

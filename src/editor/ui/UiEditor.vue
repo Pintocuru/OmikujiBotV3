@@ -1,3 +1,4 @@
+<!-- src/editor/ui/UiEditor.vue -->
 <template>
   <!-- セクションのタブ -->
   <SectionTabs :tabs="tabs" />

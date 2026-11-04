@@ -1,3 +1,4 @@
+// src/i18n/editor/apps/OrphanItemsMessages.ts
 export const orphanItemsMessages = {
   ja: {
     orphans: {

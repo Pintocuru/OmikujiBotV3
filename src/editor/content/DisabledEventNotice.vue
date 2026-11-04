@@ -1,4 +1,4 @@
-<!-- src/editor/events/core/DisabledEventNotice.vue -->
+<!-- src/editor/content/DisabledEventNotice.vue -->
 <template>
   <InformationCard variant="error" class="mt-4 p-4">
     {{ t('itemEditor.disabledNotice.title') }}<br />

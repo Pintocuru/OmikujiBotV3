@@ -1,4 +1,4 @@
-<!-- src/editor/events/core/MikujiPickerDialog.vue -->
+<!-- src/editor/content/connections/MikujiPickerDialog.vue -->
 <!-- 誤操作防止のため、プルダウンではなくダイアログでみくじ箱を切り替える -->
 <template>
   <BaseDialog :open="open" :title="t('connections.picker.title')" size="2xl" @update:open="emit('update:open', $event)">

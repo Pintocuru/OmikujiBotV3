@@ -1,4 +1,4 @@
-<!-- src/editor/content/connections/LinkGroup.vue -->
+<!-- src/editor/helpers/referenceGraph/LinkGroup.vue -->
 <!-- 接続先のチップ一覧。クリックでそのアイテムへ移動する(親・子のラベルは LaneLayout が出す) -->
 <template>
   <div v-if="items.length > 0 || emptyText || isLoading" class="min-w-0">

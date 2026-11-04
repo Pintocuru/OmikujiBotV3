@@ -1,4 +1,4 @@
-<!-- src/ui/common/CommentBubbleItem.vue -->
+<!-- src/ui/CommentBubble/parts/CommentBubbleItem.vue -->
 <template>
   <div
     class="relative transparent-bg inline-block max-w-3xl min-w-40"

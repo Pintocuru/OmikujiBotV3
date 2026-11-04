@@ -1,4 +1,4 @@
-// src/registerRuntime.ts
+// src/register/registerGameScripts.ts
 import { registerGameScript, type GameScriptLoader } from '@/games/gameScriptRegistry'
 import type { GameScriptKey } from '@/types/OmikujiData'
 

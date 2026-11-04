@@ -1,4 +1,4 @@
-<!-- src/editor/content/AppDevWorld.vue -->
+<!-- src/editor/shell/AppDevWorld.vue -->
 <!-- ようこそ、デブワールドへ… って、デブちゃうで！ -->
 <template>
   <div class="space-y-4 text-center">

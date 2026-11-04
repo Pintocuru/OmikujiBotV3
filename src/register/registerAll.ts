@@ -1,4 +1,4 @@
-// src/registerAll.ts
+// src/register/registerAll.ts
 import { registerAllGameScripts } from '@/register/registerGameScripts'
 import { isFullRegistered } from '@/editor/registrationState'
 import { registerAllLayouts } from './registerLayouts'

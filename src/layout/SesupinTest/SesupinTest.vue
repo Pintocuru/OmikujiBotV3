@@ -1,6 +1,6 @@
 <!-- src/layout/SesupinTest/SesupinTest.vue -->
 <template>
-  <!-- フキダシ・トーストは専用uiとしてこのままにする -->
+  <!-- 自由に差し替えて良い -->
   <KujibikiPanel />
 </template>
 

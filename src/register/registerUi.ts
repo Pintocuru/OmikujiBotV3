@@ -1,4 +1,4 @@
-// src/registerAllUi.ts
+// src/register/registerUi.ts
 // UI 関係の登録をすべてこのファイルに集約する窓口
 import { registerUi, type UiLoader } from '@/ui/uiRegistry'
 import type { UiKind } from '@/types/OmikujiData'

@@ -1,4 +1,4 @@
-// ssss
+// src/ui/common/uiComponentRegistry.ts
 import type { Component } from 'vue'
 
 export type UiComponentLoader = () => Promise<{ default: Component }>

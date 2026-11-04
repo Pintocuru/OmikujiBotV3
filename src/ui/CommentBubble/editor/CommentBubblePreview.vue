@@ -88,10 +88,12 @@
   // --- サンプルコメント(displayedComments は新しい順) ---
   const SAMPLE_MESSAGES = ['これはプレビュー表示です。', '実際の表示タイプと同じ配置で確認できます。']
 
-  const buildSamples = (): DisplayedBotMessage[] =>
-    SAMPLE_MESSAGES.map((message, i) =>
+  const buildSamples = (): DisplayedBotMessage[] => {
+    const message = SAMPLE_MESSAGES[Math.floor(Math.random() * SAMPLE_MESSAGES.length)]
+
+    return [
       withDisplay({
-        id: `preview-${i}`,
+        id: 'preview-0',
         timestamp: new Date().toISOString(),
         delaySeconds: 0,
         uiKey: 'commentBubble',
@@ -101,8 +103,9 @@
           characterKey: props.characterKey ?? null,
           iconKey: 'default',
         },
-      })
-    ).reverse()
+      }),
+    ]
+  }
 
   const displayedComments = ref<DisplayedBotMessage[]>([])
   const removeComment = (id: string) => {

@@ -1,3 +1,4 @@
+// src/i18n/editor/apps/CooldownOverviewMessages.ts
 export const cooldownOverviewMessages = {
   ja: {
     cooldownOverview: {

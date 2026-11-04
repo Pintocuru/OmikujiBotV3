@@ -1,3 +1,4 @@
+<!-- src/ui/LifeHourglass/editor/LifeHourglassPreviewControls.vue -->
 ```vue
 <!-- src/ui/LifeHourglass/editor/LifeHourglassPreviewControls.vue -->
 <template>

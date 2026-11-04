@@ -1,4 +1,4 @@
-<!-- src/editor/assets/scenarios/ScenarioConnectDialog.vue -->
+<!-- src/editor/content/connections/ScenarioConnectDialog.vue -->
 <!-- 参照元のないシナリオを、みくじ箱に追加して接続を作るダイアログ -->
 <template>
   <BaseDialog

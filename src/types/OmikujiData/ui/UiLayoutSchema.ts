@@ -8,6 +8,8 @@ export const uiLayouts = [
   'commentBubble',
   'gameRanking',
 
+  'lifeHourglass',
+
   'sesupinTest', // 管理者用Dev
 ] as const
 

@@ -1,6 +1,6 @@
 <!-- src/layout/CommentBubble/CommentBubble.vue -->
 <template>
-  <!-- フキダシ・トーストは専用uiとしてこのままにする -->
+  <!-- フキダシのレイアウトは、該当に任せる -->
   <CommentBubble />
 </template>
 

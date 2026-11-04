@@ -1,4 +1,4 @@
-// eeeee
+// src/register/registerUiEditor.ts
 import { type Component } from 'vue'
 import { UiEditorDef, registerUiEditor } from '@/editor/ui/uiEditorRegistry'
 import type { UiKind } from '@/types/OmikujiData'

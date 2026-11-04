@@ -1,4 +1,4 @@
-<!-- src/editor/content/ItemMenu.vue -->
+<!-- src/editor/content/top/ItemMenu.vue -->
 <!-- TOPページのアイテム右端のハンバーガーメニュー。編集・複製・削除を emit する(実処理は親側) -->
 <template>
   <div class="dropdown dropdown-end shrink-0" @click.stop>

@@ -1,4 +1,4 @@
-// src/editor/content/composables/useReferenceGraph.ts
+// src/editor/helpers/referenceGraph/useReferenceGraph.ts
 import { effectScope, ref, shallowRef, watch } from 'vue'
 import { getActivePinia, storeToRefs, type Pinia } from 'pinia'
 import { eventCategory, hasScenarioStepMessage, type OmikujiDataType } from '@/types/OmikujiData/'

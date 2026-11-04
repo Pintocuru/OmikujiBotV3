@@ -1,4 +1,4 @@
-// src/editor/content/helpers/graphUtils.ts
+// src/editor/helpers/referenceGraph/graphUtils.ts
 // 参照グラフ(キー → キーの集合)を扱う汎用関数。ドメインの知識は持たない。
 
 /** from → to の隣接表 */

@@ -1,4 +1,4 @@
-// src/editor/content/composables/useOrphanItems.ts
+// src/editor/apps/orphans/useOrphanItems.ts
 // 孤立アイテム(イベントから辿れないもの)の検出。events を起点に、みくじ箱 → シナリオ → キャラクター / プレースホルダーと辿る
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
