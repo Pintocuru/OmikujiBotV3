@@ -5,7 +5,7 @@ import { ProjectPackageConfig, ProjectParams } from '@tools/types'
 import { processMerge } from '@tools/JsonMerge/JsonMergeProcessor'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { APP_VERSION, BUILD_DATE } from '@/version'
-import { CONSOLE_FILES_TO_COPY, DEFAULT_FILES_TO_COPY } from './defaults'
+import { CONSOLE_FILES_TO_COPY, DEFAULT_FILES_TO_COPY, EDITOR_FILES_TO_COPY } from './defaults'
 import { findJsonPath } from './findJsonPath'
 import { DOCS_RAW_BASE } from '../constants/repositoryUrls'
 
@@ -55,10 +55,11 @@ export function createPackageProject(
     filesToCopy: [
       ...(params.extraFiles ?? []),
       ...DEFAULT_FILES_TO_COPY,
+      // editor.html は、withEditor のパッケージだけに入れる
+      ...(options.withEditor ? EDITOR_FILES_TO_COPY : []),
       // console.html は、withConsole のパッケージだけに入れる
       ...(options.withConsole ? CONSOLE_FILES_TO_COPY : []),
-      // UPDATE は既存環境へ上書きするので thumb.gif は同梱しない
-      ...(options.update ? [] : [{ from: `packages/${params.category}/${series}/thumb/${id}.gif`, to: 'thumb.gif' }]),
+      // ...
     ],
   }
 }
