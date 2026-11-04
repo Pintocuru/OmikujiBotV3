@@ -34,5 +34,6 @@ export const registerAllUiEditor = () => {
       preview: () => import('@/ui/ToastWidgets/editor/ToastWidgetsMessagePreview.vue'),
     },
     userBoard: () => import('@/ui/UserBoard/editor/UserBoardEditor.vue'),
+    lifeHourglass: () => import('@/ui/LifeHourglass/editor/LifeHourglassEditor.vue'),
   } satisfies Record<UiKind, EditorDef>)
 }

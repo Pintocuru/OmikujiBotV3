@@ -80,6 +80,7 @@ import {
   IdCard,
   ListOrdered,
   Home,
+  Hourglass,
 } from 'lucide-vue-next'
 
 // map（as const で literal 型を保持）
@@ -161,6 +162,7 @@ export const lucideIconMap = {
   IdCard,
   ListOrdered,
   Home,
+  Hourglass,
 } as const
 
 // map から union 型を生成
