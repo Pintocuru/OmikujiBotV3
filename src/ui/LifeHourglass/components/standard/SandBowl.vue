@@ -136,7 +136,7 @@
   const grainsText = computed(() => formatGrains(animatedGrains.value))
 
   // 桁が増えても円からはみ出さないよう、文字数に応じて縮める(上限は 4.5rem)
-  const grainsFontSize = computed(() => `min(4.5rem, ${(240 / Math.max(grainsText.value.length, 1)).toFixed(1)}cqw)`)
+  const grainsFontSize = computed(() => `min(4.5rem, ${(200 / Math.max(grainsText.value.length, 1)).toFixed(1)}cqw)`)
 
   // --- 器のアイコン: 大きい器から並べ、上限を超えた分(小さい器)は省略する ---
   type BowlEntry = { key: string; bowlId: LifeHourglassBowlId; icon: string; label?: string }
