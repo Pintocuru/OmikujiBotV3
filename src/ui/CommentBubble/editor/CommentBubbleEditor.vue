@@ -73,8 +73,8 @@
       @change="(e) => update('bubbleMotion', (e.target as HTMLSelectElement).value as EnterMotionType)"
       class="select select-bordered w-full max-w-xs"
     >
-      <option v-for="(value, key) in enterMotionMap" :key="key" :value="key">
-        {{ value.label }}
+      <option v-for="key in enterMotions" :key="key" :value="key">
+        {{ t(`mapText.enterMotion.${key}.label`) }}
       </option>
     </select>
   </SettingItem>
@@ -88,6 +88,7 @@
   import { getCommentBubbleComponent, getCommentBubbleComponentSets } from '../CommentBubbleRegistry'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import { enterMotionMap } from '@/maps/OmikujiData'
+  import { enterMotions } from '@/types/OmikujiData'
 
   import CommentBubblePreview from './CommentBubblePreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -98,6 +99,7 @@
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
   const { updateItemSettings } = omikujiStore
+  const { t } = useI18n()
 
   const bubble = computed(() => data.value.ui.settings.commentBubble ?? CommentBubbleSchema.parse({}))
   const fontFamily = computed(() => data.value.ui.fontFamily)
