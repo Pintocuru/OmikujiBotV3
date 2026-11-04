@@ -22,10 +22,8 @@
 
   const props = withDefaults(
     defineProps<{
-      settings: LifeHourglassType
-      /** 表示する砂粒 */
-      grains: number
-      /** ギフトで砂粒が増えた回数(落ちる演出用) */
+      settings: LifeHourglassType // 表示する砂粒
+      grains: number // ギフトで砂粒が増えた回数(落ちる演出用)
       giftPulse?: number
       editorPreview?: boolean
     }>(),
@@ -46,10 +44,7 @@
       if (!definition) {
         loadError.value = `未登録の表示タイプ: ${id}`
         if (!props.editorPreview) {
-          notifyLifeHourglassComponentIssue(
-            id,
-            `命の砂時計の表示タイプ「${id}」は、このバージョンには含まれていません`
-          )
+          notifyLifeHourglassComponentIssue(id, `命の砂時計の表示タイプ「${id}」は、このバージョンには含まれていません`)
         }
         return
       }

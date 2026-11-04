@@ -17,8 +17,6 @@ export const UiKindSchema = z.enum(uiKinds)
 
 export type StableUiKind = keyof typeof stableUiSchemas
 export type ExperimentalUiKind = keyof typeof experimentalUiSchemas
-export const isExperimentalUiKind = (kind: UiKind): kind is ExperimentalUiKind =>
-  Object.hasOwn(experimentalUiSchemas, kind)
 
 /**
  * UI設定

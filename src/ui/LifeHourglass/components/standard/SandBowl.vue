@@ -26,13 +26,6 @@
 
     <!-- 累計の砂粒(端数が見えなくなるため、隅に小さく表示) -->
     <div class="text-xs opacity-80 whitespace-nowrap">{{ formatGrains(grains) }} 粒</div>
-
-    <!-- 世界観のメッセージ(showMessage が true のときだけ) -->
-    <div v-if="showMessage" class="text-xs opacity-70 text-right leading-tight whitespace-nowrap">
-      本日集めた人生 {{ formatGrains(grains) }}粒<br />
-      視聴者があなたへ託した時間 {{ formatTrustedTime(grains) }}<br />
-      今日も誰かの命の砂時計が ここへ注がれています
-    </div>
   </div>
 </template>
 
