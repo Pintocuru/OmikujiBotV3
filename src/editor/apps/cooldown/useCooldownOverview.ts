@@ -5,7 +5,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { canCooldownBlock } from '@/generator/scripts/EventProcess/CooldownGate'
-import type { LinkItem } from '@/editor/content/connections/types'
+import type { LinkItem } from '@/editor/helpers/referenceGraph/types'
 
 /** このおみくじを使うイベント1件(無効かどうかも持つ) */
 export type CooldownEvent = { link: LinkItem; isEnabled: boolean }

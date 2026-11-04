@@ -63,7 +63,7 @@
   import type { OmikujiItemType } from '@/types/OmikujiData/'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useReferenceGraph } from '@/editor/content/composables/useReferenceGraph'
+  import { useReferenceGraph } from '@/editor/helpers/referenceGraph/useReferenceGraph'
   import ScenarioPickerDialog from './ScenarioPickerDialog.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
 

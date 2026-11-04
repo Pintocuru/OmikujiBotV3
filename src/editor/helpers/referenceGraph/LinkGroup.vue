@@ -67,7 +67,7 @@
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useCategoryOpen } from '@/editor/sidebar/composables/useCategoryOpen'
-  import { useReferenceGraph } from '../composables/useReferenceGraph'
+  import { useReferenceGraph } from './useReferenceGraph'
   import type { LinkItem } from './types'
 
   const props = withDefaults(

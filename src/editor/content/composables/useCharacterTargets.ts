@@ -5,7 +5,7 @@ import type { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/u
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
-import { useReferenceGraph } from './useReferenceGraph'
+import { useReferenceGraph } from '@/editor/helpers/referenceGraph/useReferenceGraph'
 
 /**
  * 選択中のアイテム(Events / Assets)から、使用キャラクターの抽出対象となるシナリオを解決する。

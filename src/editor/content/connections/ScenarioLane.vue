@@ -25,11 +25,11 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useReferenceGraph } from '../composables/useReferenceGraph'
+  import { useReferenceGraph } from '@/editor/helpers/referenceGraph/useReferenceGraph'
   import { useLaneItems } from '../composables/useLaneItems'
-  import ScenarioConnectDialog from '@/editor/assets/scenarios/ScenarioConnectDialog.vue'
+  import ScenarioConnectDialog from './ScenarioConnectDialog.vue'
   import LaneLayout from './LaneLayout.vue'
-  import LinkGroup from './LinkGroup.vue'
+  import LinkGroup from '@/editor/helpers/referenceGraph/LinkGroup.vue'
 
   const { t } = useI18n()
   const { selectedItemKey } = storeToRefs(useNavigationStore())

@@ -4,7 +4,7 @@ import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { assetCategory, eventCategory, type DataCategoryType } from '@/types/OmikujiData'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { useReferenceGraph } from './useReferenceGraph'
+import { useReferenceGraph } from '@/editor/helpers/referenceGraph/useReferenceGraph'
 
 export type OrphanItem = { category: DataCategoryType; key: string; name: string }
 export type OrphanGroup = { category: DataCategoryType; items: OrphanItem[] }

@@ -70,8 +70,8 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
-  import LinkGroup from '@/editor/content/connections/LinkGroup.vue'
-  import type { LinkItem } from '@/editor/content/connections/types'
+  import LinkGroup from '@/editor/helpers/referenceGraph/LinkGroup.vue'
+  import type { LinkItem } from '@/editor/helpers/referenceGraph/types'
   import CooldownHelpButton from '@/editor/assets/mikuji/cooldown/CooldownHelpButton.vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useMikujiSelectionStore } from '@/editor/stores/useMikujiSelectionStore'

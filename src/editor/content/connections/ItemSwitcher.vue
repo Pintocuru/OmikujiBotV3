@@ -40,7 +40,7 @@
   import { categoryMap } from '@/maps/OmikujiData'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { useReferenceGraph } from '../composables/useReferenceGraph'
+  import { useReferenceGraph } from '@/editor/helpers/referenceGraph/useReferenceGraph'
 
   const { t } = useI18n()
   const navigationStore = useNavigationStore()

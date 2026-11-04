@@ -62,7 +62,7 @@
   import { useGetEventData } from '@/editor/stores/useGetEventData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useTopItemActions } from '../composables/useTopItemActions'
-  import ItemMenu from '../ItemMenu.vue'
+  import ItemMenu from './ItemMenu.vue'
   import TopCategoryHeader from './TopCategoryHeader.vue'
   import TopEventOrderHelp from './TopEventOrderHelp.vue'
 

@@ -45,7 +45,7 @@
   import { sortByOrder } from '@/editor/helpers/sortByOrder'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useTopItemActions } from '../composables/useTopItemActions'
-  import ItemMenu from '../ItemMenu.vue'
+  import ItemMenu from './ItemMenu.vue'
   import TopCategoryHeader from './TopCategoryHeader.vue'
 
   const emit = defineEmits<{

@@ -54,7 +54,7 @@
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { sortByOrder } from '@/editor/helpers/sortByOrder'
-  import { useReferenceGraph } from '@/editor/content/composables/useReferenceGraph'
+  import { useReferenceGraph } from '@/editor/helpers/referenceGraph/useReferenceGraph'
 
   const { t } = useI18n()
 

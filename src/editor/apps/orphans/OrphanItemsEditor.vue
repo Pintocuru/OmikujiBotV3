@@ -50,7 +50,7 @@
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
   import TopCategoryHeader from '@/editor/content/top/TopCategoryHeader.vue'
-  import { useOrphanItems, type OrphanItem } from '@/editor/content/composables/useOrphanItems'
+  import { useOrphanItems, type OrphanItem } from './useOrphanItems'
   import { useTopItemActions } from '@/editor/content/composables/useTopItemActions'
 
   const { t } = useI18n()

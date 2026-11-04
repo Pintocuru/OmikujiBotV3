@@ -29,7 +29,7 @@
   import type { ItemContentDef } from '@/editor/types/apps'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useSelectedRecord } from '@/editor/content/composables/useSelectedRecord'
-  import DisabledEventNotice from '@/editor/events/core/DisabledEventNotice.vue'
+  import DisabledEventNotice from './DisabledEventNotice.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
   import SectionCard from '@/editor/parts/SectionCard.vue'
 

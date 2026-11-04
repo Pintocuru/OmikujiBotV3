@@ -43,10 +43,10 @@
   import { useGetEventData } from '@/editor/stores/useGetEventData'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import MikujiPickerDialog from '@/editor/events/core/MikujiPickerDialog.vue'
+  import MikujiPickerDialog from './MikujiPickerDialog.vue'
   import LaneLayout from './LaneLayout.vue'
-  import LinkGroup from './LinkGroup.vue'
-  import type { LinkItem } from './types'
+  import LinkGroup from '@/editor/helpers/referenceGraph/LinkGroup.vue'
+  import type { LinkItem } from '@/editor/helpers/referenceGraph/types'
 
   const { t } = useI18n()
   const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())

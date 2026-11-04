@@ -13,10 +13,10 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { useReferenceGraph } from '../composables/useReferenceGraph'
+  import { useReferenceGraph } from '@/editor/helpers/referenceGraph/useReferenceGraph'
   import { useLaneItems } from '../composables/useLaneItems'
   import LaneLayout from './LaneLayout.vue'
-  import LinkGroup from './LinkGroup.vue'
+  import LinkGroup from '@/editor/helpers/referenceGraph/LinkGroup.vue'
 
   const { t } = useI18n()
   const { eventsOfBox, scenariosOfBox } = useReferenceGraph()

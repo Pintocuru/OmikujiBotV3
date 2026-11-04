@@ -27,7 +27,7 @@
   import ScenarioLane from './connections/ScenarioLane.vue'
   import PlaceholderLane from './connections/PlaceholderLane.vue'
   import CharacterLane from './connections/CharacterLane.vue'
-  import { useReferenceGraph } from './composables/useReferenceGraph'
+  import { useReferenceGraph } from '@/editor/helpers/referenceGraph/useReferenceGraph'
 
   const { t } = useI18n()
   const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())

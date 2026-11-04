@@ -3,8 +3,8 @@ import { effectScope, ref, shallowRef, watch } from 'vue'
 import { getActivePinia, storeToRefs, type Pinia } from 'pinia'
 import { eventCategory, hasScenarioStepMessage, type OmikujiDataType } from '@/types/OmikujiData/'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import type { LinkItem } from '../connections/types'
-import { addEdge, cyclicNodes, findCycle, reachable, type Edges } from '../helpers/graphUtils'
+import type { LinkItem } from './types'
+import { addEdge, cyclicNodes, findCycle, reachable, type Edges } from './graphUtils'
 
 /** プレースホルダーの埋め込み `<<キー>>`(キーは英数字と _ のみ。`<<userId>>` などの組み込みは後で除外される) */
 const PLACEHOLDER_TOKEN = /<<([a-zA-Z0-9_]+)>>/g
