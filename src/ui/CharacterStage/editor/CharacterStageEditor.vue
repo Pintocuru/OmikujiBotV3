@@ -88,11 +88,11 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
   import type { EnterMotionType } from '@/types/OmikujiData'
   import { CharacterStageSchema, type CharacterStageType } from '@/types/ui'
-  import { enterMotionMap } from '@/maps/OmikujiData'
-  import { enterMotions } from '@/types/OmikujiData'
+    import { enterMotions } from '@/types/OmikujiData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
 
