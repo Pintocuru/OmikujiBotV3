@@ -67,7 +67,7 @@
   }
 
   // 以下は既存ロジック
-  const comparisonMap = computed<Record<string, true>>(() =>
+  const comparisonMap = computed(() =>
     props.hasPeak ? serviceConditionMap : serviceSimpleComparisonConditionMap
   )
 
