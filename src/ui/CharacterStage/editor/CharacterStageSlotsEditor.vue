@@ -137,8 +137,9 @@
   import { CharacterStageSchema } from '@/types/ui'
   import { enterMotions } from '@/types/OmikujiData'
   import { useI18n } from 'vue-i18n'
-  const { t } = useI18n()
   import { CharacterStageSlotMap, type CharacterStageSlotKey } from '@/types/generator'
+
+  const { t } = useI18n()
 
   const props = defineProps<{ slots: Record<string, string> }>()
   const emit = defineEmits<{ 'update:slots': [slots: Record<string, string>] }>()
