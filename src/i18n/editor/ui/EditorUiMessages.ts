@@ -11,6 +11,25 @@ export const editorUiMessages = {
       externalLink: { open: 'サイトを開く' },
       colorPicker: {
         preset: 'プリセット {number}',
+        tabs: {
+          my: 'マイカラー',
+          cute: 'キュート',
+          cool: 'クール',
+          cyber: 'サイバー',
+          retro: 'レトロ',
+          dark: 'ダーク',
+          cozy: 'ほのぼの',
+        },
+        my: {
+          favorites: 'お気に入り',
+          recent: '最近使った色',
+          addCurrent: '今の色を登録',
+          removeCurrent: '今の色を解除',
+          addFavorite: 'お気に入りに追加',
+          removeFavorite: 'お気に入りから外す',
+          emptyFavorites: '☆ を押すと、ここに登録されます。',
+          emptyRecent: '色を選ぶと、ここに履歴が残ります。',
+        },
         fields: {
           name: '名前の色',
           text: 'テキストの色',
@@ -31,6 +50,25 @@ export const editorUiMessages = {
       externalLink: { open: 'Open website' },
       colorPicker: {
         preset: 'Preset {number}',
+        tabs: {
+          my: 'My Colors',
+          cute: 'Cute',
+          cool: 'Cool',
+          cyber: 'Cyber',
+          retro: 'Retro',
+          dark: 'Dark',
+          cozy: 'Cozy',
+        },
+        my: {
+          favorites: 'Favorites',
+          recent: 'Recent',
+          addCurrent: 'Save current colors',
+          removeCurrent: 'Remove current colors',
+          addFavorite: 'Add to favorites',
+          removeFavorite: 'Remove from favorites',
+          emptyFavorites: 'Press the star to save colors here.',
+          emptyRecent: 'Colors you pick will appear here.',
+        },
         fields: {
           name: 'Name color',
           text: 'Text color',

@@ -10,11 +10,11 @@ export const LIFE_HOURGLASS_GRAINS_PER_YEN = 6
 
 /** 器のランク。大きい器から順に並べる。東京ドームだけ上限なし(増え続ける) */
 export const LIFE_HOURGLASS_BOWLS = [
-  { id: 'tokyoDome', label: '東京ドーム', icon: '🏟️', grains: 180_000, max: Infinity },
-  { id: 'gym', label: '体育館', icon: '🏀', grains: 60_000, max: 2 },
-  { id: 'classroom', label: '教室', icon: '🪑', grains: 20_000, max: 2 },
-  { id: 'bucket', label: 'バケツ', icon: '🪣', grains: 2_000, max: 9 },
-  { id: 'riceBowl', label: '茶碗', icon: '🍚', grains: 200, max: 9 },
+  { id: 'tokyoDome', label: '東京ドーム', icon: '☄️', grains: 180_000, max: Infinity },
+  { id: 'gym', label: '体育館', icon: '👑', grains: 60_000, max: 2 },
+  { id: 'classroom', label: '教室', icon: '💎', grains: 20_000, max: 2 },
+  { id: 'bucket', label: 'バケツ', icon: '💰', grains: 2_000, max: 9 },
+  { id: 'riceBowl', label: '茶碗', icon: '🪙', grains: 200, max: 9 },
 ] as const
 
 export type LifeHourglassBowl = (typeof LIFE_HOURGLASS_BOWLS)[number]

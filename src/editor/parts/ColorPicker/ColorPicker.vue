@@ -1,15 +1,75 @@
 <!-- src/editor/parts/ColorPicker/ColorPicker.vue -->
 <template>
   <div class="bg-base-300 p-4 flex flex-col space-y-4">
-    <!-- プリセットカラー -->
-    <div class="flex gap-2 flex-wrap">
+    <!-- タブ -->
+    <div role="tablist" class="tabs tabs-box tabs-sm flex-wrap">
+      <button type="button" role="tab" class="tab" :class="{ 'tab-active': activeTab === 'my' }" @click="activeTab = 'my'">
+        {{ t('editorUi.colorPicker.tabs.my') }}
+      </button>
       <button
-        v-for="(theme, i) in DEFAULT_COLOR_THEMES"
-        :key="i"
-        class="w-8 h-8 rounded-full border border-base-content/20 hover:scale-110 transition"
-        :style="{ background: theme.background }"
-        :title="t('editorUi.colorPicker.preset', { number: i + 1 })"
-        @click="selectPreset(theme)"
+        v-for="tab in COLOR_PRESET_TABS"
+        :key="tab.key"
+        type="button"
+        role="tab"
+        class="tab"
+        :class="{ 'tab-active': activeTab === tab.key }"
+        @click="activeTab = tab.key"
+      >
+        {{ t(`editorUi.colorPicker.tabs.${tab.key}`) }}
+      </button>
+    </div>
+
+    <!-- マイカラー(お気に入り + 最近使った色) -->
+    <div v-if="activeTab === 'my'" class="flex flex-col gap-3">
+      <section class="flex flex-col gap-2">
+        <div class="flex items-center justify-between">
+          <h4 class="text-sm font-bold">{{ t('editorUi.colorPicker.my.favorites') }}</h4>
+          <button type="button" class="btn btn-xs" @click="toggleFavorite(currentSet)">
+            {{ isFavorite(currentSet) ? t('editorUi.colorPicker.my.removeCurrent') : t('editorUi.colorPicker.my.addCurrent') }}
+          </button>
+        </div>
+        <div v-if="favorites.length" class="grid grid-cols-4 sm:grid-cols-6 gap-2">
+          <ColorThemeChip
+            v-for="(set, i) in favorites"
+            :key="`fav-${i}`"
+            :theme="set"
+            :favorite="true"
+            :favorite-title="t('editorUi.colorPicker.my.removeFavorite')"
+            @select="applySet(set)"
+            @toggle-favorite="toggleFavorite(set)"
+          />
+        </div>
+        <p v-else class="text-xs text-base-content/60">{{ t('editorUi.colorPicker.my.emptyFavorites') }}</p>
+      </section>
+
+      <section class="flex flex-col gap-2">
+        <h4 class="text-sm font-bold">{{ t('editorUi.colorPicker.my.recent') }}</h4>
+        <div v-if="recent.length" class="grid grid-cols-4 sm:grid-cols-6 gap-2">
+          <ColorThemeChip
+            v-for="(set, i) in recent"
+            :key="`recent-${i}`"
+            :theme="set"
+            :favorite="isFavorite(set)"
+            :favorite-title="isFavorite(set) ? t('editorUi.colorPicker.my.removeFavorite') : t('editorUi.colorPicker.my.addFavorite')"
+            @select="applySet(set)"
+            @toggle-favorite="toggleFavorite(set)"
+          />
+        </div>
+        <p v-else class="text-xs text-base-content/60">{{ t('editorUi.colorPicker.my.emptyRecent') }}</p>
+      </section>
+    </div>
+
+    <!-- プリセット -->
+    <div v-else class="grid grid-cols-4 sm:grid-cols-6 gap-2">
+      <ColorThemeChip
+        v-for="theme in activeThemes"
+        :key="theme.label"
+        :theme="theme"
+        :title="theme.label"
+        :favorite="isFavorite(theme)"
+        :favorite-title="isFavorite(theme) ? t('editorUi.colorPicker.my.removeFavorite') : t('editorUi.colorPicker.my.addFavorite')"
+        @select="applySet(theme)"
+        @toggle-favorite="toggleFavorite(theme)"
       />
     </div>
 
@@ -32,10 +92,13 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, onBeforeUnmount, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { CharacterColorType } from '@/types/OmikujiData/'
-  import { DEFAULT_COLOR_THEMES } from './ColorPreset'
+  import type { CharacterColorType } from '@/types/OmikujiData'
+  import { COLOR_PRESET_TABS, type ColorSet, type PresetTabKey } from './presets'
   import { colorFields } from '@/editor/maps/parts/ColorPicker'
+  import ColorThemeChip from './ColorThemeChip.vue'
+  import { useColorHistory } from './useColorHistory'
 
   const { t } = useI18n()
 
@@ -47,22 +110,44 @@
     'update:modelValue': [value: CharacterColorType]
   }>()
 
+  const { recent, favorites, pushRecent, isFavorite, toggleFavorite } = useColorHistory()
+
+  // 現在の4色(お気に入り登録・履歴保存に使う)
+  const toSet = (v: CharacterColorType): ColorSet => ({
+    name: v.name,
+    text: v.text,
+    background: v.background,
+    accent: v.accent,
+  })
+  const currentSet = computed(() => toSet(props.modelValue))
+
+  // 保存があれば「マイカラー」、なければ最初のプリセットタブから開く
+  const activeTab = ref<'my' | PresetTabKey>(recent.value.length || favorites.value.length ? 'my' : COLOR_PRESET_TABS[0].key)
+  const activeThemes = computed(() => COLOR_PRESET_TABS.find((tab) => tab.key === activeTab.value)?.themes ?? [])
+
+  // 色入力は連続して発火するので、操作が止まってから履歴に追加する
+  const RECENT_DEBOUNCE_MS = 800
+  let recentTimer: ReturnType<typeof setTimeout> | undefined
+
   const onUpdate = (key: keyof CharacterColorType, value: string) => {
-    emit('update:modelValue', {
-      ...props.modelValue,
-      [key]: value,
-    })
+    const next = { ...props.modelValue, [key]: value }
+    emit('update:modelValue', next)
+
+    clearTimeout(recentTimer)
+    recentTimer = setTimeout(() => pushRecent(toSet(next)), RECENT_DEBOUNCE_MS)
   }
 
-  const selectPreset = (theme: Partial<CharacterColorType>) => {
-    if (!theme.name || !theme.text || !theme.background || !theme.accent) return
-
-    emit('update:modelValue', {
-      ...props.modelValue,
-      name: theme.name,
-      text: theme.text,
-      background: theme.background,
-      accent: theme.accent,
-    })
+  const applySet = (set: ColorSet) => {
+    clearTimeout(recentTimer)
+    emit('update:modelValue', { ...props.modelValue, ...toSet(set) })
+    pushRecent(toSet(set))
   }
+
+  onBeforeUnmount(() => {
+    // 閉じる直前の操作も取りこぼさない
+    if (recentTimer !== undefined) {
+      clearTimeout(recentTimer)
+      pushRecent(currentSet.value)
+    }
+  })
 </script>
