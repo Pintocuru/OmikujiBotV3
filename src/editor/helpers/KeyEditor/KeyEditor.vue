@@ -11,39 +11,41 @@
   </button>
 
   <!-- ダイアログ -->
-  <Teleport to="body">
-    <div v-if="isDialogOpen" class="modal modal-open">
-      <div class="modal-box bg-base-300">
-        <h3 class="font-bold text-lg text-primary">{{ dialogTitle }}</h3>
-
-        <div class="py-4 space-y-4">
-          <SettingItem icon="Key" labelKey="keyEditor.currentKey">
-            <div class="input input-bordered bg-neutral text-neutral-content select-all">
-              {{ dialogKey }}
-            </div>
-          </SettingItem>
-
-          <SettingItem icon="Key" labelKey="keyEditor.newKey" class="form-control">
-            <input
-              v-model="newKey"
-              type="text"
-              :placeholder="$t('keyEditor.newKeyPlaceholder')"
-              class="input input-bordered focus:input-primary"
-              :class="{ 'input-error': hasError }"
-            />
-            <label v-if="hasError" class="label">
-              <span class="label-text-alt text-error font-bold">{{ errorMessage }}</span>
-            </label>
-          </SettingItem>
-
-          <KeyEditorUsage v-if="characterUsage" :usage="characterUsage" />
-          <KeyEditorWarning :category="dialogCategory" />
+  <BaseDialog
+    :open="isDialogOpen"
+    :title="dialogTitle"
+    icon="Key"
+    size="2xl"
+    @update:open="handleDialogOpenChange"
+  >
+    <div class="py-4 space-y-4">
+      <SettingItem icon="Key" labelKey="keyEditor.currentKey">
+        <div class="input input-bordered bg-neutral text-neutral-content select-all">
+          {{ dialogKey }}
         </div>
+      </SettingItem>
 
-        <ModalFooterActions :on-cancel="closeDialog" :on-save="saveKey" :disabled="!canSave" />
-      </div>
+      <SettingItem icon="Key" labelKey="keyEditor.newKey" class="form-control">
+        <input
+          v-model="newKey"
+          type="text"
+          :placeholder="$t('keyEditor.newKeyPlaceholder')"
+          class="input input-bordered focus:input-primary"
+          :class="{ 'input-error': hasError }"
+        />
+        <label v-if="hasError" class="label">
+          <span class="label-text-alt text-error font-bold">{{ errorMessage }}</span>
+        </label>
+      </SettingItem>
+
+      <KeyEditorUsage v-if="characterUsage" :usage="characterUsage" />
+      <KeyEditorWarning :category="dialogCategory" />
     </div>
-  </Teleport>
+
+    <template #actions>
+      <ModalFooterActions :on-cancel="closeDialog" :on-save="saveKey" :disabled="!canSave" />
+    </template>
+  </BaseDialog>
 </template>
 
 <script setup lang="ts">
@@ -51,6 +53,7 @@
   import { useKeyEditor } from './composables/useKeyEditor'
   import KeyEditorUsage from './KeyEditorUsage.vue'
   import KeyEditorWarning from './KeyEditorWarning.vue'
+  import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
 
@@ -74,4 +77,9 @@
     closeDialog,
     saveKey,
   } = useKeyEditor()
+
+  // BaseDialog から閉じる通知を受けたとき、Composable の状態も同期する
+  function handleDialogOpenChange(open: boolean): void {
+    if (!open) closeDialog()
+  }
 </script>
