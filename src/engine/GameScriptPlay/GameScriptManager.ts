@@ -5,7 +5,7 @@ import { OmikenCommentType } from '@/types/OmikenComment'
 import { getGameScriptLoader, getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
 import { GameStateType } from '@/types/api'
 import { BuildMismatchError, reportDataMismatch } from '@/common/buildValidation/validateAgainstBuild'
-import { showErrorNotice } from '@/generator/scripts/Notice/showNotice'
+import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 export class GameScriptManager {
   private scriptInstances: Record<string, ScriptClass> = {}
@@ -51,7 +51,7 @@ export class GameScriptManager {
         return null
       }
       console.error(`スクリプトエラー (${scriptId}):`, error)
-      showErrorNotice(`❌ スクリプトエラー: ${error}`)
+      postSystemMessage(`❌ スクリプトエラー: ${error}`)
       return null
     }
   }

@@ -21,10 +21,7 @@ const PROJECT = {
 const VARIANTS = [{ color: '', withEditor: false, withConsole: false }] as const
 
 // ビルドターゲット
-const buildTargets: PackageBuildTarget[] = [
-  { project: 'LifeHourglass', type: 'FULL' },
-  // { project: 'StrawberryChocolate', type: 'JSON' },
-]
+const buildTargets: PackageBuildTarget[] = [{ project: 'LifeHourglass', type: 'FULL' }]
 
 // プロジェクト一覧
 function getProjects(packageRoot: string): ProjectPackageConfig[] {
