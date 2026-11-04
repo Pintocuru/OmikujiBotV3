@@ -7,7 +7,6 @@ import { FontFamilyType } from '@/types/OmikujiData/fontFamily'
 export const fontFamilyMap: Record<
   FontFamilyType,
   {
-    label: string
     className: string
     googleFontsUrl: string | null
     category: 'gothic' | 'rounded' | 'mincho' | 'handwriting' | 'display' | null
