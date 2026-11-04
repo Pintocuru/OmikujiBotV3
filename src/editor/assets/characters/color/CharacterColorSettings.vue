@@ -1,9 +1,8 @@
 <!-- src/editor/assets/characters/color/CharacterColorSettings.vue -->
 <template>
   <!-- プレビュー -->
-  <!-- (pb-6 は吹き出しの矢印の分) -->
-  <div class="relative flex justify-center pb-6">
-    <CommentBubbleItem :botName="botName" :message="PREVIEW_MESSAGE" :color="currentColor" />
+  <div class="relative flex justify-center pb-2">
+    <BubbleItem :botName="botName" :message="PREVIEW_MESSAGE" :color="currentColor" />
   </div>
 
   <ColorPicker :model-value="currentColor" @update:model-value="handleColorUpdate" />
@@ -12,7 +11,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { CharacterColorScheme, CharacterColorType } from '@/types/OmikujiData/'
-  import CommentBubbleItem from './BubbleItem.vue'
+  import BubbleItem from './BubbleItem.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
 
   const PREVIEW_MESSAGE = 'これはプレビュー表示です。文字の見やすさを確認してください。'

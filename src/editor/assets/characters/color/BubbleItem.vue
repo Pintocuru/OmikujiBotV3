@@ -17,9 +17,6 @@
       :style="uiMap.text.style"
       v-html="displayedHtml"
     />
-
-    <!-- 吹き出しの矢印 -->
-    <div v-if="arrowDirection !== 'none'" :class="uiMap.arrow.class" :style="uiMap.arrow.style" />
   </div>
 </template>
 
