@@ -107,7 +107,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  const { t } = useI18n()
   import { storeToRefs } from 'pinia'
   import { KujibikiPanelType, KujibikiPanelSchema } from '@/types/ui'
   import { getKujibikiPanelComponent, getKujibikiPanelComponentSets } from '../KujibikiPanelRegistry'
@@ -115,8 +114,9 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
-  import { enterMotionMap } from '@/maps/OmikujiData'
   import { enterMotions } from '@/types/OmikujiData'
+
+  const { t } = useI18n()
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
