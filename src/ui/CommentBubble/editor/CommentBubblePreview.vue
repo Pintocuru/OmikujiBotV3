@@ -1,23 +1,27 @@
 <!-- src/ui/CommentBubble/editor/CommentBubblePreview.vue -->
 <template>
-  <div :class="useFontFamily(fontFamily)">
-    <!-- 表示タイプ(layout)は absolute bottom-0 で配置されるため、高さ固定の舞台に載せる -->
-    <div class="relative h-90 overflow-hidden">
-      <component
-        :is="currentComponent"
-        v-if="currentComponent"
-        :displayedComments="displayedComments"
-        :removeComment="removeComment"
-        :shown="shown"
-        :settings="settings"
-      />
-      <div v-else-if="loadError" class="alert alert-error m-2 text-sm" role="alert">{{ loadError }}</div>
+  <HudPreview :isHeight="false">
+    <div :class="useFontFamily(fontFamily)">
+      <!-- 表示タイプ(layout)は absolute bottom-0 で配置されるため、高さ固定の舞台に載せる -->
+      <div class="relative h-90 overflow-hidden">
+        <component
+          :is="currentComponent"
+          v-if="currentComponent"
+          :displayedComments="displayedComments"
+          :removeComment="removeComment"
+          :shown="shown"
+          :settings="settings"
+        />
+        <div v-else-if="loadError" class="alert alert-error m-2 text-sm" role="alert">{{ loadError }}</div>
+      </div>
     </div>
 
-    <div class="flex justify-center mt-2">
-      <button type="button" class="btn btn-ghost btn-sm" @click="replay">再表示</button>
-    </div>
-  </div>
+    <template #hud>
+      <div class="flex justify-center mt-2">
+        <button type="button" class="btn btn-ghost btn-sm" @click="replay">再表示</button>
+      </div>
+    </template>
+  </HudPreview>
 </template>
 
 <script setup lang="ts">
@@ -28,6 +32,7 @@
   import { withDisplay, type DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import { getCommentBubbleComponent } from '../CommentBubbleRegistry'
   import { previewColorKey } from '../parts/previewColor'
+  import HudPreview from '@/editor/parts/HudPreview.vue'
 
   const props = defineProps<{
     settings: CommentBubbleType

@@ -12,7 +12,7 @@
         />
       </div>
 
-      <div class="relative z-10 w-[420px]" :style="{ height: `${listHeight}px` }">
+      <div class="relative z-10 w-105" :style="{ height: `${listHeight}px` }">
         <CommentDisplay
           :displayed-comments="displayedComments"
           :remove-comment="removeComment"

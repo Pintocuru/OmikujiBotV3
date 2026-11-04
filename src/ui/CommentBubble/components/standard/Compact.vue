@@ -3,7 +3,7 @@
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex justify-center items-end">
     <div class="relative flex flex-col items-center">
-      <div class="absolute bottom-full -translate-y-24 left-1/2 -translate-x-1/2 min-w-[240px]">
+      <div class="absolute bottom-full -translate-y-24 left-1/2 -translate-x-1/2 min-w-60">
         <CommentDisplay
           :displayed-comments="displayedComments"
           :remove-comment="removeComment"

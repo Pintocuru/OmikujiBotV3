@@ -11,7 +11,12 @@
     </div>
 
     <!-- コメント内容（HTML を描画） -->
-    <div class="wrap-break-word" :class="[textSize, uiMap.text.class]" :style="uiMap.text.style" v-html="displayedHtml" />
+    <div
+      class="wrap-break-word"
+      :class="[textSize, uiMap.text.class]"
+      :style="uiMap.text.style"
+      v-html="displayedHtml"
+    />
 
     <!-- 吹き出しの矢印 -->
     <div v-if="arrowDirection !== 'none'" :class="uiMap.arrow.class" :style="uiMap.arrow.style" />

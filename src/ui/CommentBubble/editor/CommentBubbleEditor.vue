@@ -1,14 +1,12 @@
 <!-- src/ui/CommentBubble/editor/CommentBubbleEditor.vue -->
 <template>
   <!-- プレビュー表示 -->
-  <HudPreview :isHeight="false">
-    <CommentBubblePreview
-      :settings="bubble"
-      :fontFamily="fontFamily"
-      :characterKey="previewCharacterKey"
-      :character="persistentCharacter"
-    />
-  </HudPreview>
+  <CommentBubblePreview
+    :settings="bubble"
+    :fontFamily="fontFamily"
+    :characterKey="previewCharacterKey"
+    :character="persistentCharacter"
+  />
 
   <!-- 未登録のコンポーネントが選ばれている場合 -->
   <div v-if="!currentDefinition" class="alert alert-error" role="alert">
@@ -94,7 +92,6 @@
   import CommentBubblePreview from './CommentBubblePreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import HudPreview from '@/editor/parts/HudPreview.vue'
   import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
 

@@ -11,7 +11,7 @@
     />
 
     <!-- CommentDisplay は absolute 配置のため、件数分の高さを確保する -->
-    <div class="relative w-[420px] mb-4" :style="{ height: `${listHeight}px` }">
+    <div class="relative w-105 mb-4" :style="{ height: `${listHeight}px` }">
       <CommentDisplay
         :displayed-comments="displayedComments"
         :remove-comment="removeComment"

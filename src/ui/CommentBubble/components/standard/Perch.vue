@@ -2,15 +2,10 @@
 <!-- パーチ: 吹き出しの枠の左上に、小さなキャラが腰かける -->
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex justify-center items-end pb-8">
-    <div class="relative w-[420px]" :style="{ height: `${listHeight}px` }">
+    <div class="relative w-105" :style="{ height: `${listHeight}px` }">
       <!-- 枠の上辺に乗るキャラ(下端を少し枠に重ねる) -->
       <div v-if="shown && shown.layers.length > 0" class="absolute left-2 bottom-full z-0 translate-y-6">
-        <LayerImage
-          :key="shown.key"
-          :layers="shown.layers"
-          :size="size"
-          :animation="shown.animation"
-        />
+        <LayerImage :key="shown.key" :layers="shown.layers" :size="size" :animation="shown.animation" />
       </div>
 
       <div class="relative z-10">

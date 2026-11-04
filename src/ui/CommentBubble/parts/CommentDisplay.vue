@@ -17,7 +17,7 @@
         <CommentBubbleItem
           :botName="item.bubble.name ?? ''"
           :message="item.bubble.message"
-          :color="previewColor?.value ?? getCharacterColor(item.bubble.characterKey) ?? undefined"
+          :color="previewColor ?? getCharacterColor(item.bubble.characterKey) ?? undefined"
           :animated-text="animatedText"
           :compact="compact"
           :arrow-direction="arrow"
@@ -34,7 +34,7 @@
   import { EnterMotionType } from '@/types/OmikujiData'
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import { useCharacters } from '@/generator/composables/useCharacters'
-  import CommentBubbleItem from '@/ui/common/CommentBubbleItem.vue'
+  import CommentBubbleItem from './CommentBubbleItem.vue'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
   import { previewColorKey } from './previewColor'
 

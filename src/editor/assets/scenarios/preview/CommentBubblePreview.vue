@@ -24,7 +24,7 @@
   import { CharacterColorScheme } from '@/types/OmikujiData'
   import { CommentBubbleSchema } from '@/types/ui/CommentBubbleSchema'
   import type { BotMessageSlotsType } from '@/types/generator'
-  import CommentBubbleItem from '@/ui/common/CommentBubbleItem.vue'
+  import CommentBubbleItem from '@/ui/CommentBubble/parts/CommentBubbleItem.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
 
   // UI プレビュー共通の props(uiEditorRegistry の preview はすべてこれを受ける)
