@@ -26,6 +26,9 @@ export type BowlCounts = Record<LifeHourglassBowlId, number>
 /** 東京ドームが「🏟 × N」の数字表記に切り替わる個数 */
 export const LIFE_HOURGLASS_DOME_COUNT_THRESHOLD = 4
 
+/** 器のアイコンを並べる最大数。超えた分は小さい器から省略する */
+export const LIFE_HOURGLASS_MAX_BOWL_ICONS = 12
+
 /**
  * 砂粒の累計から、器ごとの個数を導出する(器の名前は保存しない)。
  * 大きい器から順に取り、端数(最小の器に満たない分)はアイコン化しない。

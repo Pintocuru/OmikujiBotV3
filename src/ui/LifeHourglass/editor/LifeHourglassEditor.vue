@@ -23,14 +23,9 @@
     @update:modelValue="(val) => update('component', val)"
   />
 
-  <!-- 隅のメッセージ -->
-  <SettingItem label="隅のメッセージ" description="画面の隅に、世界観の小さなメッセージを表示します" layout="vertical">
-    <input
-      type="checkbox"
-      class="toggle toggle-primary"
-      :checked="lifeHourglass.showMessage"
-      @change="(e) => update('showMessage', (e.target as HTMLInputElement).checked)"
-    />
+  <!-- カラー設定 -->
+  <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description" layout="vertical">
+    <ColorPicker :modelValue="lifeHourglass.color" @update:modelValue="(val) => update('color', val)" />
   </SettingItem>
 
   <!-- 前回までの砂粒の引き継ぎ -->
@@ -58,6 +53,7 @@
   import { LifeHourglassSchema, type LifeHourglassType } from '@/types/ui'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
+  import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import LifeHourglassSelector from '@/ui/LifeHourglass/LifeHourglassSelector.vue'
   import LifeHourglassPreviewControls from './LifeHourglassPreviewControls.vue'

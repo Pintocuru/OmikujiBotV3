@@ -1,4 +1,6 @@
 // src/types/ui/LifeHourglassSchema.ts
+import { normalizedObject } from '../core'
+import { CharacterColorScheme } from '../OmikujiData/assets/CharacterSchema'
 import { z } from 'zod'
 
 // LifeHourglass のコンポーネントセット
@@ -21,12 +23,12 @@ export const LIFE_HOURGLASS_DEFAULT_COMPONENT = 'sandBowl'
 /**
  * 命の砂時計 LifeHourglass(実験枠)
  * - component: 表示コンポーネント ID(保存データは文字列。未同梱の ID も保持する)
- * - showMessage: 画面の隅の小さなメッセージ(世界観)を出すか
+ * - color: 配色(name: 同接などの文字 / text: 数値 / background: 円の地 / accent: 輪・砂・光)
  * - carryOver: 前回までの砂粒(通算)を引き継いで表示するか
  */
 export const LifeHourglassSchema = z.object({
   component: z.string().min(1).default(LIFE_HOURGLASS_DEFAULT_COMPONENT).catch(LIFE_HOURGLASS_DEFAULT_COMPONENT),
-  showMessage: z.boolean().default(true).catch(true),
+  color: normalizedObject(CharacterColorScheme, 'ui.LifeHourglass.color'),
   carryOver: z.boolean().default(false).catch(false),
 })
 export type LifeHourglassType = z.infer<typeof LifeHourglassSchema>

@@ -1,50 +1,94 @@
 <!-- src/ui/LifeHourglass/components/standard/SandBowl.vue -->
 <template>
-  <div class="flex flex-col items-center gap-1 select-none">
-    <!-- メイン: 累計の砂粒(カウントアップ演出) -->
-    <div class="flex items-baseline gap-1 whitespace-nowrap">
-      <span class="lh-grains text-7xl font-extrabold leading-none" :class="{ 'lh-grains-pop': grainsPop }">
-        {{ formatGrains(animatedGrains) }}
-      </span>
-    </div>
+  <!-- OBS に載せるため、円の背景を持つ。グローがはみ出す分の余白を p-6 で確保 -->
+  <div class="flex pt-10 justify-center" :style="cssVars">
+    <div class="lh-disc">
+      <!-- 装飾: 輪(ゆっくり回る目盛り)・砂時計の透かし・落ちる砂 -->
+      <svg class="lh-deco" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="96" class="lh-ring lh-ring-outer" />
+        <circle cx="100" cy="100" r="91" class="lh-ring lh-ring-inner" />
+        <g class="lh-spin">
+          <circle cx="100" cy="100" r="85" class="lh-ring lh-ring-ticks" />
+        </g>
+        <g class="lh-hourglass">
+          <path
+            class="lh-glass"
+            d="M66 40 L134 40 C134 78 112 92 104 100 C112 108 134 122 134 160 L66 160 C66 122 88 108 96 100 C88 92 66 78 66 40 Z"
+          />
+          <path class="lh-sand" d="M74 46 L126 46 C123 66 110 80 100 90 C90 80 77 66 74 46 Z" />
+          <path class="lh-sand" d="M71 158 C84 144 95 136 100 136 C105 136 116 144 129 158 Z" />
+          <line class="lh-stream" x1="100" y1="92" x2="100" y2="140" />
+          <rect class="lh-cap" x="58" y="33" width="84" height="6" rx="3" />
+          <rect class="lh-cap" x="58" y="161" width="84" height="6" rx="3" />
+        </g>
+      </svg>
 
-    <!-- 同接・ギフト合計・配信時間(配信時間は小さく) -->
-    <div class="flex items-baseline gap-3 whitespace-nowrap tabular-nums">
-      <span class="text-sm font-bold">👥 {{ formatGrains(safe(viewer)) }}</span>
-      <span class="text-sm font-bold">🎁 ¥{{ formatGrains(safe(giftTotal)) }}</span>
-      <span class="text-xs opacity-70">⏱ {{ formatStreamTime(streamSeconds) }}</span>
-    </div>
+      <!-- 舞う砂粒 -->
+      <span
+        v-for="(s, i) in SPARKLES"
+        :key="i"
+        class="lh-sparkle"
+        :style="{
+          left: `${s.left}%`,
+          width: `${s.size}px`,
+          height: `${s.size}px`,
+          animationDelay: `${s.delay}s`,
+          animationDuration: `${s.duration}s`,
+        }"
+      />
 
-    <!-- サブ: 器のアイコン(大きい器から順に取る) -->
-    <div class="flex flex-wrap items-center justify-end gap-1 text-xl leading-none">
-      <template v-for="bowl in LIFE_HOURGLASS_BOWLS" :key="bowl.id">
-        <!-- 東京ドームが多いときは数字表記に切り替える(増え続けるのは東京ドームだけ) -->
-        <span
-          v-if="bowl.id === 'tokyoDome' && counts.tokyoDome >= LIFE_HOURGLASS_DOME_COUNT_THRESHOLD"
-          class="font-bold whitespace-nowrap"
-        >
-          🏟️ × {{ counts.tokyoDome }}
-        </span>
-        <template v-else>
+      <div class="lh-content">
+        <!-- メイン: 累計の砂粒(カウントアップ演出) -->
+        <div class="flex items-baseline whitespace-nowrap">
           <span
-            v-for="n in counts[bowl.id]"
-            :key="`${bowl.id}-${n}`"
-            class="lh-bowl"
-            :class="{ 'lh-bowl-merged': mergedBowlId === bowl.id, 'lh-bowl-dropped': droppedBowlId === bowl.id }"
+            class="lh-grains font-extrabold leading-none"
+            :class="{ 'lh-grains-pop': grainsPop }"
+            :style="{ fontSize: grainsFontSize }"
           >
-            {{ bowl.icon }}
+            {{ grainsText }}
           </span>
-        </template>
-      </template>
+        </div>
+
+        <!-- 同接・ギフト合計・配信時間(配信時間は小さく) -->
+        <div class="lh-stats flex items-baseline gap-3 whitespace-nowrap tabular-nums">
+          <span class="text-sm font-bold">👥 {{ formatGrains(safe(viewer)) }}</span>
+          <span class="text-sm font-bold">🎁 ¥{{ formatGrains(safe(giftTotal)) }}</span>
+          <span class="text-xs opacity-70">⏱ {{ formatStreamTime(streamSeconds) }}</span>
+        </div>
+
+        <!-- サブ: 器のアイコン(大きい器から順に、最大 LIFE_HOURGLASS_MAX_BOWL_ICONS 個。超えた分は小さい器から省略) -->
+        <div class="mt-1 flex flex-wrap items-center justify-center gap-1 text-base leading-none">
+          <span
+            v-for="entry in visibleBowls"
+            :key="entry.key"
+            :class="
+              entry.label
+                ? 'font-bold whitespace-nowrap'
+                : [
+                    'lh-bowl',
+                    {
+                      'lh-bowl-merged': mergedBowlId === entry.bowlId,
+                      'lh-bowl-dropped': droppedBowlId === entry.bowlId,
+                    },
+                  ]
+            "
+          >
+            {{ entry.icon }}<template v-if="entry.label"> {{ entry.label }}</template>
+          </span>
+          <span v-if="hasHiddenBowls" class="text-sm opacity-60">…</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { computed, ref, toRef, watch } from 'vue'
+  import { CharacterColorScheme, type CharacterColorType } from '@/types/OmikujiData'
   import {
     LIFE_HOURGLASS_BOWLS,
     LIFE_HOURGLASS_DOME_COUNT_THRESHOLD,
+    LIFE_HOURGLASS_MAX_BOWL_ICONS,
     computeBowls,
     formatGrains,
     formatStreamTime,
@@ -56,8 +100,8 @@
     defineProps<{
       /** 表示する砂粒(通算 or 今回の配信ぶんは、呼び出し側で選ぶ) */
       grains: number
-      /** 画面の隅の小さなメッセージを出すか */
-      showMessage?: boolean
+      /** 配色(name: 同接などの文字 / text: 数値 / background: 円の地 / accent: 輪・砂・光) */
+      color?: CharacterColorType
       /** ギフトで砂粒が増えた回数(まとめて落ちる演出用) */
       giftPulse?: number
       /** 現在の同時接続数 */
@@ -67,15 +111,57 @@
       /** 配信時間(秒) */
       streamSeconds?: number
     }>(),
-    { showMessage: true, giftPulse: 0, viewer: 0, giftTotal: 0, streamSeconds: 0 }
+    { color: () => CharacterColorScheme.parse({}), giftPulse: 0, viewer: 0, giftTotal: 0, streamSeconds: 0 }
   )
 
   const safe = (n: number) => (Number.isFinite(n) ? n : 0)
+
+  // --- 配色: CSS 変数に流して、スタイル側で使う ---
+  const cssVars = computed(() => ({
+    '--lh-bg': props.color.background,
+    '--lh-text': props.color.text,
+    '--lh-name': props.color.name,
+    '--lh-accent': props.color.accent,
+  }))
+
+  // --- 舞う砂粒(位置・速さは固定。毎回同じ見た目にする) ---
+  const SPARKLES = [
+    { left: 18, delay: 0, duration: 7, size: 3 },
+    { left: 30, delay: 2.5, duration: 9, size: 2 },
+    { left: 44, delay: 4.5, duration: 8, size: 3 },
+    { left: 50, delay: 6.5, duration: 8.5, size: 2 },
+    { left: 56, delay: 1.2, duration: 10, size: 2 },
+    { left: 68, delay: 5.5, duration: 7.5, size: 3 },
+    { left: 80, delay: 3, duration: 9.5, size: 2 },
+  ] as const
 
   const counts = computed(() => computeBowls(props.grains))
 
   // --- メインの数値: 増加分を滑らかにカウントアップ ---
   const animatedGrains = useAnimatedNumber(toRef(props, 'grains'), 1000)
+  const grainsText = computed(() => formatGrains(animatedGrains.value))
+
+  // 桁が増えても円からはみ出さないよう、文字数に応じて縮める(上限は 4.5rem)
+  const grainsFontSize = computed(() => `min(4.5rem, ${(240 / Math.max(grainsText.value.length, 1)).toFixed(1)}cqw)`)
+
+  // --- 器のアイコン: 大きい器から並べ、上限を超えた分(小さい器)は省略する ---
+  type BowlEntry = { key: string; bowlId: LifeHourglassBowlId; icon: string; label?: string }
+
+  const bowlEntries = computed<BowlEntry[]>(() => {
+    const entries: BowlEntry[] = []
+    for (const bowl of LIFE_HOURGLASS_BOWLS) {
+      const count = counts.value[bowl.id]
+      // 東京ドームが多いときは数字表記に切り替える(増え続けるのは東京ドームだけ)
+      if (bowl.id === 'tokyoDome' && count >= LIFE_HOURGLASS_DOME_COUNT_THRESHOLD) {
+        entries.push({ key: `${bowl.id}-summary`, bowlId: bowl.id, icon: bowl.icon, label: `× ${count}` })
+        continue
+      }
+      for (let n = 1; n <= count; n++) entries.push({ key: `${bowl.id}-${n}`, bowlId: bowl.id, icon: bowl.icon })
+    }
+    return entries
+  })
+  const visibleBowls = computed(() => bowlEntries.value.slice(0, LIFE_HOURGLASS_MAX_BOWL_ICONS))
+  const hasHiddenBowls = computed(() => bowlEntries.value.length > LIFE_HOURGLASS_MAX_BOWL_ICONS)
 
   // --- ギフトのとき、数値をぽんと弾ませる ---
   const grainsPop = ref(false)
@@ -149,10 +235,122 @@
 </script>
 
 <style scoped>
+  /* ---- 円の背景 ---- */
+  .lh-disc {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16rem;
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    overflow: hidden;
+    color: var(--lh-text);
+    background: radial-gradient(
+      circle at 50% 38%,
+      var(--lh-bg) 0%,
+      var(--lh-bg) 45%,
+      color-mix(in srgb, var(--lh-bg) 70%, var(--lh-accent)) 100%
+    );
+    box-shadow:
+      0 0 24px color-mix(in srgb, var(--lh-accent) 55%, transparent),
+      inset 0 0 36px color-mix(in srgb, var(--lh-accent) 28%, transparent);
+  }
+
+  .lh-deco {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .lh-ring {
+    fill: none;
+    stroke: var(--lh-accent);
+  }
+
+  .lh-ring-outer {
+    stroke-width: 1.6;
+  }
+
+  .lh-ring-inner {
+    stroke-width: 0.5;
+    opacity: 0.7;
+  }
+
+  .lh-ring-ticks {
+    stroke-width: 3;
+    stroke-dasharray: 1 6.1;
+    opacity: 0.55;
+  }
+
+  .lh-spin {
+    transform-box: view-box;
+    transform-origin: center;
+    animation: lh-spin 90s linear infinite;
+  }
+
+  /* 砂時計の透かし(文字の邪魔にならない濃さ) */
+  .lh-hourglass {
+    opacity: 0.3;
+  }
+
+  .lh-glass {
+    fill: none;
+    stroke: var(--lh-accent);
+    stroke-width: 1.4;
+  }
+
+  .lh-sand {
+    fill: var(--lh-accent);
+    opacity: 0.55;
+  }
+
+  .lh-cap {
+    fill: var(--lh-accent);
+  }
+
+  .lh-stream {
+    stroke: var(--lh-accent);
+    stroke-width: 1.2;
+    stroke-dasharray: 2 5;
+    animation: lh-stream 1.2s linear infinite;
+  }
+
+  /* 舞う砂粒: 上から下へ、ゆっくり落ちて消える */
+  .lh-sparkle {
+    position: absolute;
+    top: 10%;
+    border-radius: 9999px;
+    background: var(--lh-accent);
+    box-shadow: 0 0 6px var(--lh-accent);
+    opacity: 0;
+    pointer-events: none;
+    animation: lh-fall linear infinite;
+  }
+
+  /* ---- 中身 ---- */
+  .lh-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    width: 72%;
+    container-type: inline-size; /* 数値の文字サイズを cqw で円に合わせる */
+  }
+
+  .lh-stats {
+    color: var(--lh-name);
+  }
+
   .lh-grains {
     display: inline-block;
     font-variant-numeric: tabular-nums;
-    transform-origin: right bottom;
+    transform-origin: center bottom;
+    text-shadow: 0 0 10px color-mix(in srgb, var(--lh-accent) 45%, transparent);
   }
 
   .lh-grains-pop {
@@ -171,13 +369,42 @@
     animation: lh-drop 0.7s ease;
   }
 
+  @keyframes lh-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes lh-stream {
+    to {
+      stroke-dashoffset: -7;
+    }
+  }
+
+  @keyframes lh-fall {
+    0% {
+      top: 10%;
+      opacity: 0;
+    }
+    15% {
+      opacity: 0.9;
+    }
+    85% {
+      opacity: 0.7;
+    }
+    100% {
+      top: 90%;
+      opacity: 0;
+    }
+  }
+
   @keyframes lh-grains-pop {
     0% {
       transform: scale(1);
     }
     30% {
       transform: scale(1.18);
-      text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+      text-shadow: 0 0 14px var(--lh-accent);
     }
     100% {
       transform: scale(1);

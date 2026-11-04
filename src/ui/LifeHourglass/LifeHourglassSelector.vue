@@ -5,7 +5,7 @@
       :is="currentComponent"
       v-if="currentComponent"
       :grains="grains"
-      :showMessage="settings.showMessage"
+      :color="settings.color"
       :giftPulse="giftPulse"
       :viewer="viewer"
       :giftTotal="giftTotal"
