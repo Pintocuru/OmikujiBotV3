@@ -3,18 +3,11 @@
   <!-- プレビュー表示 -->
   <HudPreview :isHeight="false">
     <CommentBubblePreview
-      :key="bubble.bubbleMotion"
-      :botName="persistentCharacter?.displayName"
-      :color="previewColor"
+      :settings="bubble"
       :fontFamily="fontFamily"
-      :bubbleMotion="bubble.bubbleMotion"
+      :characterKey="previewCharacterKey"
+      :character="persistentCharacter"
     />
-
-    <!-- キャラクター画像(大きさの確認用) -->
-    <div v-if="hasCharacter" class="flex justify-center py-2">
-      <LayerImage v-if="previewLayers.length" :layers="previewLayers" :size="bubble.characterSize" />
-      <span v-else class="text-sm opacity-60 italic">キャラクター画像が設定されていません</span>
-    </div>
   </HudPreview>
 
   <!-- 未登録のコンポーネントが選ばれている場合 -->
@@ -92,19 +85,18 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { CharacterColorScheme, EnterMotionType } from '@/types/OmikujiData'
+  import { EnterMotionType } from '@/types/OmikujiData'
   import { CommentBubbleSchema, CommentBubbleType } from '@/types/ui'
   import { getCommentBubbleComponent, getCommentBubbleComponentSets } from '../CommentBubbleRegistry'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import { enterMotionMap } from '@/maps/OmikujiData'
 
-  import CommentBubblePreview from '@/ui/common/CommentBubblePreview.vue'
+  import CommentBubblePreview from './CommentBubblePreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
-  import LayerImage from '@/common/LayerImage/LayerImage.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
@@ -115,18 +107,13 @@
   const { characterMap } = useCharacterLookup()
 
   // プレビュー用: 選択中のキャラクター。未選択・不明なら先頭
-  const persistentCharacter = computed(
-    () => characterMap.value[bubble.value.persistentCharacter] ?? Object.values(characterMap.value)[0] ?? null
-  )
-  const previewColor = computed(() => persistentCharacter.value?.color ?? CharacterColorScheme.parse({}))
-
-  // プレビュー用の画像: default があればそれ、なければ最初に画像のある表情
-  const previewLayers = computed(() => {
-    const images = persistentCharacter.value?.image ?? {}
-    const hasSrc = (src?: string[]) => (src ?? []).some((p) => p && p.trim() !== '')
-    const entry = hasSrc(images['default']?.src) ? images['default'] : Object.values(images).find((i) => hasSrc(i.src))
-    return entry?.src ?? []
+  const previewCharacterKey = computed(() => {
+    const keys = Object.keys(characterMap.value)
+    return characterMap.value[bubble.value.persistentCharacter] ? bubble.value.persistentCharacter : (keys[0] ?? null)
   })
+  const persistentCharacter = computed(() =>
+    previewCharacterKey.value ? (characterMap.value[previewCharacterKey.value] ?? null) : null
+  )
 
   // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
   const currentDefinition = computed(() => getCommentBubbleComponent(bubble.value.component))

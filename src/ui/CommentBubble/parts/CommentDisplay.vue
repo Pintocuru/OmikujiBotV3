@@ -17,7 +17,7 @@
         <CommentBubbleItem
           :botName="item.bubble.name ?? ''"
           :message="item.bubble.message"
-          :color="getCharacterColor(item.bubble.characterKey) ?? undefined"
+          :color="previewColor?.value ?? getCharacterColor(item.bubble.characterKey) ?? undefined"
           :animated-text="animatedText"
           :compact="compact"
           :arrow-direction="arrow"
@@ -30,11 +30,13 @@
 </template>
 
 <script setup lang="ts">
+  import { inject } from 'vue'
   import { EnterMotionType } from '@/types/OmikujiData'
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import { useCharacters } from '@/generator/composables/useCharacters'
   import CommentBubbleItem from '@/ui/common/CommentBubbleItem.vue'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
+  import { previewColorKey } from './previewColor'
 
   withDefaults(
     defineProps<{
@@ -63,4 +65,5 @@
   const ALIGN_CLASS = { start: 'justify-start', center: 'justify-center', end: 'justify-end' } as const
 
   const { getCharacterColor } = useCharacters()
+  const previewColor = inject(previewColorKey, null)
 </script>
