@@ -1,8 +1,9 @@
 // src/editor/ui/uiEditorRegistry.ts
 import { defineAsyncComponent, type Component } from 'vue'
 import { UiKind } from '@/types/OmikujiData'
-import { uiKindMap } from '@/maps/OmikujiData'
+import { uiKindIcons } from '@/maps/OmikujiData'
 import { defineGuardedAsyncComponent } from '@/common/buildValidation/guardedAsyncComponent'
+import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
 type Loader = () => Promise<{ default: Component }>
 
@@ -18,7 +19,7 @@ export type UiEditorDef = {
   preview?: Loader
 }
 
-type Entry = (typeof uiKindMap)[UiKind] & { component: Component; slotsEditor?: Component; preview?: Component }
+type Entry = { icon: LucideIconName; component: Component; slotsEditor?: Component; preview?: Component }
 
 const entries: Partial<Record<UiKind, Entry>> = {}
 
@@ -26,7 +27,7 @@ export const registerUiEditor = (defs: Partial<Record<UiKind, Loader | UiEditorD
   for (const [kind, def] of Object.entries(defs) as [UiKind, Loader | UiEditorDef][]) {
     const { editor, slotsEditor, preview }: UiEditorDef = typeof def === 'function' ? { editor: def } : def
     entries[kind] = {
-      ...uiKindMap[kind],
+      icon: uiKindIcons[kind],
       component: defineGuardedAsyncComponent(editor, { type: 'ui', key: kind }),
       slotsEditor: slotsEditor && defineAsyncComponent(slotsEditor),
       preview: preview && defineAsyncComponent(preview),

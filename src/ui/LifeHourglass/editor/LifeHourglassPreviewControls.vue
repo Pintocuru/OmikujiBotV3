@@ -1,12 +1,11 @@
 <!-- src/ui/LifeHourglass/editor/LifeHourglassPreviewControls.vue -->
 <template>
-  <div class="flex flex-col gap-3 p-3 rounded-box bg-base-200">
-    <div class="text-sm font-bold">プレビュー操作(この画面だけの仮の数値です)</div>
+  <div class="flex flex-col gap-3 p-2 rounded-box bg-base-200">
+    <div class="text-sm font-bold">プレビュー操作</div>
 
     <label class="flex items-center gap-2 text-sm">
-      仮の同接
+      同時接続数
       <input v-model.number="state.viewer" type="number" min="0" class="input input-bordered input-sm w-24" />
-      人
     </label>
 
     <div class="flex flex-wrap items-center gap-2">
@@ -19,27 +18,11 @@
     <div class="flex flex-wrap items-center gap-2">
       <span class="text-xs opacity-70 w-full">ギフト</span>
       <button v-for="yen in GIFTS" :key="yen" class="btn btn-sm btn-warning" @click="addGift(yen)">
-        🎁 ¥{{ yen.toLocaleString('ja-JP') }}
+        ¥{{ yen.toLocaleString('ja-JP') }}
       </button>
     </div>
 
-    <div class="flex flex-wrap items-center gap-2">
-      <span class="text-xs opacity-70 w-full">自動で進める(東京ドームができたら止まります)</span>
-      <div class="join">
-        <button
-          v-for="s in SPEEDS"
-          :key="s.speed"
-          class="btn btn-sm join-item"
-          :class="{ 'btn-primary': state.autoSpeed === s.speed }"
-          @click="state.autoSpeed = s.speed"
-        >
-          {{ s.label }}
-        </button>
-      </div>
-    </div>
-
     <div class="flex flex-wrap gap-2">
-      <button class="btn btn-sm btn-accent" @click="skipToBeforeDome">🏟️ ドーム直前まで進める</button>
       <button class="btn btn-sm btn-ghost" @click="reset">リセット</button>
     </div>
   </div>

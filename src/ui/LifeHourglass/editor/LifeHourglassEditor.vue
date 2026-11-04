@@ -11,10 +11,11 @@
       :streamSeconds="preview.streamSeconds"
       editorPreview
     />
+    <template #hud>
+      <!-- プレビューの操作(数値を増やして演出を確認する) -->
+      <LifeHourglassPreviewControls @update="(value) => (preview = value)" />
+    </template>
   </HudPreview>
-
-  <!-- プレビューの操作(数値を増やして演出を確認する) -->
-  <LifeHourglassPreviewControls @update="(value) => (preview = value)" />
 
   <!-- 表示コンポーネントの選択 -->
   <DisplayStyleSelector
@@ -24,15 +25,15 @@
   />
 
   <!-- カラー設定 -->
-  <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description" layout="vertical">
+  <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description">
     <ColorPicker :modelValue="lifeHourglass.color" @update:modelValue="(val) => update('color', val)" />
   </SettingItem>
 
   <!-- 前回までの砂粒の引き継ぎ -->
   <SettingItem
+    v-if="isPersistent"
     label="前回までの砂粒を引き継ぐ"
     :description="carryOverDescription"
-    layout="vertical"
     :showWarning="!isPersistent"
   >
     <input

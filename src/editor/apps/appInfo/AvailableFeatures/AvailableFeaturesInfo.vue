@@ -33,7 +33,7 @@
   import FeatureCard from './FeatureCard.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { getGameScriptLoader } from '@/games/gameScriptRegistry'
-  import { uiKindMap } from '@/maps/OmikujiData'
+  import { uiKindIcons } from '@/maps/OmikujiData'
   import { gameMetaMap } from '@/maps/games'
   import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
   import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
@@ -43,14 +43,14 @@
 
   const { t } = useI18n()
 
-  // main.ts(registerAll)で登録済みのも�Eだけを表示する
+  // main.ts(registerAll)で登録済みのものだけを表示する
   const uiItems = computed<FeatureItem[]>(() =>
-    (Object.keys(uiKindMap) as UiKind[])
+    (Object.keys(uiKindIcons) as UiKind[])
       .filter((kind) => getUiLoader(kind))
       .map((kind) => ({
         key: kind,
         title: t(`mapText.uiKind.${kind}.label`),
-        icon: uiKindMap[kind].icon,
+        icon: uiKindIcons[kind],
         description: t(`mapText.uiKind.${kind}.description`),
       }))
   )
@@ -73,7 +73,7 @@
         key,
         title: t(`mapText.gameMeta.${key}.label`),
         icon: gameMetaMap[key].icon as LucideIconName,
-        description: t(`mapText.gameMeta.${key}.description`),
+        description: t(`mapTest.gameMeta.${key}.description`),
       }))
   )
 
