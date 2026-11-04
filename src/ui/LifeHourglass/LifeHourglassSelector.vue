@@ -1,6 +1,6 @@
 <!-- src/ui/LifeHourglass/LifeHourglassSelector.vue -->
 <template>
-  <div class="relative">
+  <div class="relative" :class="useFontFamily(props.fontFamily)">
     <component
       :is="currentComponent"
       v-if="currentComponent"
@@ -10,6 +10,7 @@
       :viewer="viewer"
       :giftTotal="giftTotal"
       :streamSeconds="streamSeconds"
+      :fontFamily="fontFamily"
     />
     <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
       {{ loadError }}
@@ -22,6 +23,8 @@
   import type { LifeHourglassType } from '@/types/ui'
   import { getLifeHourglassComponent } from './LifeHourglassRegistry'
   import { notifyLifeHourglassComponentIssue } from './notifyLifeHourglassComponentIssue'
+  import { useFontFamily } from '@/common/FontFamily/fontFamily'
+  import { FontFamilyType } from '@/types/OmikujiData'
 
   const props = withDefaults(
     defineProps<{
@@ -32,6 +35,7 @@
       giftTotal?: number // ギフト合計(円)
       streamSeconds?: number // 配信時間(秒)
       editorPreview?: boolean
+      fontFamily?: FontFamilyType
     }>(),
     { giftPulse: 0, viewer: 0, giftTotal: 0, streamSeconds: 0, editorPreview: false }
   )

@@ -9,6 +9,7 @@
       :viewer="preview.viewer"
       :giftTotal="preview.giftTotal"
       :streamSeconds="preview.streamSeconds"
+      :fontFamily="fontFamily"
       editorPreview
     />
     <template #hud>
@@ -64,6 +65,7 @@
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
   const { updateItemSettings } = omikujiStore
+  const fontFamily = computed(() => data.value.ui.fontFamily)
 
   const lifeHourglass = computed(() => LifeHourglassSchema.parse(data.value.ui.settings.lifeHourglass ?? {}))
 

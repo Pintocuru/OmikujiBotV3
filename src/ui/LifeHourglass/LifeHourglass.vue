@@ -7,6 +7,7 @@
     :viewer="viewer"
     :giftTotal="giftTotal"
     :streamSeconds="streamSeconds"
+    :fontFamily="appStore.data.ui.fontFamily"
   />
 </template>
 
@@ -29,7 +30,5 @@
   const { totalGrains } = storeToRefs(lifeHourglassStore)
 
   // carryOver=true: 通算をそのまま表示 / false: 起動時(読み込み時)の通算を基準にした、今回の配信ぶん
-  const grains = computed(() =>
-    settings.value.carryOver ? totalGrains.value : lifeHourglassStore.displayedGrains
-  )
+  const grains = computed(() => (settings.value.carryOver ? totalGrains.value : lifeHourglassStore.displayedGrains))
 </script>
