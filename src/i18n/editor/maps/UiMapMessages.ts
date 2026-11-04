@@ -39,7 +39,7 @@ export const uiMapMessages = {
         },
         lifeHourglass: {
           label: '命の砂時計',
-          description: '視聴時間とギフトを「砂粒」にして器に貯めます(実験中)。',
+          description: '時間経過に応じて数字が増加するカウントアップカウンター',
         },
         liveClock: {
           label: 'ライブクロック',
@@ -79,7 +79,8 @@ export const uiMapMessages = {
       uiKind: {
         characterStage: {
           label: 'Character stage',
-          description: 'Displays only character images at a specified position and for a specified duration (for effects).',
+          description:
+            'Displays only character images at a specified position and for a specified duration (for effects).',
         },
         commentBubble: {
           label: 'Speech bubble',

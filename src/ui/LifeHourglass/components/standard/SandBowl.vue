@@ -98,18 +98,12 @@
 
   const props = withDefaults(
     defineProps<{
-      /** 表示する砂粒(通算 or 今回の配信ぶんは、呼び出し側で選ぶ) */
-      grains: number
-      /** 配色(name: 同接などの文字 / text: 数値 / background: 円の地 / accent: 輪・砂・光) */
-      color?: CharacterColorType
-      /** ギフトで砂粒が増えた回数(まとめて落ちる演出用) */
-      giftPulse?: number
-      /** 現在の同時接続数 */
-      viewer?: number
-      /** ギフト合計(円) */
-      giftTotal?: number
-      /** 配信時間(秒) */
-      streamSeconds?: number
+      grains: number /** 表示する砂粒(通算 or 今回の配信ぶんは、呼び出し側で選ぶ) */
+      color?: CharacterColorType /** 配色(name: 同接などの文字 / text: 数値 / background: 円の地 / accent: 輪・砂・光) */
+      giftPulse?: number /** ギフトで砂粒が増えた回数(まとめて落ちる演出用) */
+      viewer?: number /** 現在の同時接続数 */
+      giftTotal?: number /** ギフト合計(円) */
+      streamSeconds?: number /** 配信時間(秒) */
     }>(),
     { color: () => CharacterColorScheme.parse({}), giftPulse: 0, viewer: 0, giftTotal: 0, streamSeconds: 0 }
   )
