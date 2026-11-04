@@ -1,35 +1,47 @@
 <!-- src/editor/assets/characters/color/CharacterColorSettings.vue -->
 <template>
   <!-- プレビュー -->
-  <div class="relative flex justify-center pb-2">
-    <BubbleItem :botName="botName" :message="PREVIEW_MESSAGE" :color="currentColor" />
+  <div class="flex justify-center pb-4">
+    <div
+      class="w-full max-w-md rounded-lg border-l-4 px-4 py-3 shadow-sm"
+      :style="{
+        backgroundColor: currentColor.background,
+        borderLeftColor: currentColor.accent,
+      }"
+    >
+      <!-- キャラクター名 -->
+      <div
+        class="mb-2 w-fit border-b-2 pb-1 text-sm font-bold"
+        :style="{
+          color: currentColor.name,
+          borderColor: currentColor.accent,
+        }"
+      >
+        {{ botName ?? 'サンプルキャラクター' }}
+      </div>
+
+      <!-- メッセージ -->
+      <p class="text-sm" :style="{ color: currentColor.text }">こんにちは！色の見え方はこんな感じです。</p>
+    </div>
   </div>
 
-  <ColorPicker :model-value="currentColor" @update:model-value="handleColorUpdate" />
+  <!-- 色設定 -->
+  <ColorPicker :model-value="currentColor" @update:model-value="emit('update:modelValue', $event)" />
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { CharacterColorScheme, CharacterColorType } from '@/types/OmikujiData/'
-  import BubbleItem from './BubbleItem.vue'
+  import { CharacterColorScheme, type CharacterColorType } from '@/types/OmikujiData'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
-
-  const PREVIEW_MESSAGE = 'これはプレビュー表示です。文字の見やすさを確認してください。'
 
   const props = defineProps<{
     modelValue?: CharacterColorType
-    botName: string
+    botName?: string
   }>()
 
   const emit = defineEmits<{
     'update:modelValue': [value: CharacterColorType]
   }>()
 
-  // 現在の色設定を取得
   const currentColor = computed(() => props.modelValue ?? CharacterColorScheme.parse({}))
-
-  // ColorModeSelectorからの更新をemitで親へ通知
-  const handleColorUpdate = (newColor: CharacterColorType) => {
-    emit('update:modelValue', newColor)
-  }
 </script>

@@ -1,30 +1,30 @@
 <!-- src/editor/assets/characters/service/CommentVoiceCard.vue -->
 <!-- BOTコメント表現の要約(表示方法・枠・表示用画像)。編集はダイアログで行い、入力は即時に反映される -->
 <template>
-  <div class="font-semibold">
-    {{ t('characterService.voice.label') }}
-  </div>
-  <div class="flex items-center p-4">
-    <div class="flex gap-2">
-      <span class="badge badge-primary">{{ t(`mapText.displayMode.${currentOption.mode}.label`) }}</span>
-
-      <!-- 枠と画像は、わんコメへ投稿するときだけ意味がある -->
-      <template v-if="currentOption.mode === 'comment'">
-        <span class="flex items-center gap-2 text-sm">
-          <img
-            v-if="currentOption.imageBase64"
-            :src="currentOption.imageBase64"
-            alt=""
-            class="h-6 w-6 rounded object-cover"
-          />
-        </span>
-      </template>
+  <div class="p-2">
+    <div class="flex items-center gap-2 font-semibold">
+      {{ t('characterService.voice.label') }}
+      <button class="btn btn-primary btn-xs" @click="editOpen = true">
+        <Pencil class="h-4 w-4" />
+      </button>
     </div>
+    <div class="flex flex-col gap-4 p-2">
+      <div class="flex gap-2">
+        <span class="badge badge-primary">{{ t(`mapText.displayMode.${currentOption.mode}.label`) }}</span>
 
-    <button class="btn btn-ghost btn-sm ml-auto" @click="editOpen = true">
-      <Pencil class="h-4 w-4" />
-      {{ t('characterService.cards.edit') }}
-    </button>
+        <!-- 枠と画像は、わんコメへ投稿するときだけ意味がある -->
+        <template v-if="currentOption.mode === 'comment'">
+          <span class="flex items-center gap-2 text-sm">
+            <img
+              v-if="currentOption.imageBase64"
+              :src="currentOption.imageBase64"
+              alt=""
+              class="h-6 w-6 rounded object-cover"
+            />
+          </span>
+        </template>
+      </div>
+    </div>
   </div>
 
   <BaseDialog v-model:open="editOpen" icon="MessageSquare" :title="t('characterService.voice.label')" size="3xl">

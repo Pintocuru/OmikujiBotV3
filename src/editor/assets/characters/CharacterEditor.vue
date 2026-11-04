@@ -8,22 +8,19 @@
       label-key="categorySections.characterStyle.label"
       description-key="categorySections.characterStyle.description"
     >
-      <div class="flex items-start gap-2">
-        <div class="flex-1 space-y-2">
-          <CharacterColorCard
-            :botName="selectedItem.displayName"
-            :modelValue="selectedItem.color"
-            @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'color', value)"
-          />
-        </div>
-
-        <div class="shrink-0 space-y-2">
-          <CommentVoiceCard
-            :modelValue="selectedItem.displayOption"
-            :backgroundColor="selectedItem.color.background"
-            @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'displayOption', value)"
-          />
-        </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 items-start gap-2">
+        <!-- キャラクターカラー -->
+        <CharacterColorCard
+          :botName="selectedItem.displayName"
+          :modelValue="selectedItem.color"
+          @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'color', value)"
+        />
+        <!-- わんコメへの投稿方法 -->
+        <CommentVoiceCard
+          :modelValue="selectedItem.displayOption"
+          :backgroundColor="selectedItem.color.background"
+          @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'displayOption', value)"
+        />
       </div>
     </SectionCard>
 

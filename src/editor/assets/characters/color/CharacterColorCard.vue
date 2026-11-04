@@ -1,27 +1,28 @@
 <!-- src/editor/assets/characters/color/CharacterColorCard.vue -->
 <!-- キャラクターの色の要約カード(フキダシのサンプルと、4色の色見本)。編集はダイアログで行い、入力は即時に反映される -->
 <template>
-  <div class="font-semibold">
-    {{ t('characterService.cards.edit') }}
-    <button class="btn btn-primary btn-sm self-end md:self-center" @click="editOpen = true">
-      <Pencil class="h-4 w-4" />
+  <div class="p-2">
+    <div class="flex items-center gap-2 font-semibold">
       {{ t('characterService.cards.edit') }}
-    </button>
-  </div>
-  <div class="flex flex-col gap-4">
-    <!-- 色見本 -->
-    <ul class="flex gap-x-4 gap-y-2 text-sm">
-      <li v-for="field in colorFields" :key="field" class="flex items-center gap-2">
-        <span
-          class="h-5 w-5 shrink-0 rounded border border-base-content/20"
-          :style="{ backgroundColor: currentColor[field] }"
-        />
-        <span class="min-w-0">
-          <span class="block text-xs opacity-60">{{ t(`characterService.cards.colorNames.${field}`) }}</span>
-          <span class="block truncate font-mono text-xs">{{ currentColor[field] }}</span>
-        </span>
-      </li>
-    </ul>
+      <button class="btn btn-primary btn-xs" @click="editOpen = true">
+        <Pencil class="h-4 w-4" />
+      </button>
+    </div>
+    <div class="flex flex-col gap-4 p-2">
+      <!-- 色見本 -->
+      <ul class="flex gap-x-4 gap-y-2 text-sm">
+        <li v-for="field in colorFields" :key="field" class="flex items-center gap-2">
+          <span
+            class="h-5 w-5 shrink-0 rounded border border-base-content/20"
+            :style="{ backgroundColor: currentColor[field] }"
+          />
+          <span class="min-w-0">
+            <span class="block text-xs opacity-60">{{ t(`characterService.cards.colorNames.${field}`) }}</span>
+            <span class="block truncate font-mono text-xs">{{ currentColor[field] }}</span>
+          </span>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <BaseDialog v-model:open="editOpen" icon="Palette" :title="t('characterService.cards.edit')" size="3xl">
