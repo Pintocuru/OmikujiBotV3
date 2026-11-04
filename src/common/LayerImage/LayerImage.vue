@@ -50,7 +50,7 @@
     const anim = props.animation
     if (!anim || anim.type === 'none') return ''
     const entry = loopMotionMap[anim.type]
-    return [entry.variant, anim.loop ? 'animate__infinite' : ''].filter(Boolean).join(' ')
+    return [entry, anim.loop ? 'animate__infinite' : ''].filter(Boolean).join(' ')
   })
 
   const animationStyle = computed(() => {
