@@ -1,8 +1,22 @@
 <!-- src/ui/LifeHourglass/components/standard/SandBowl.vue -->
 <template>
-  <div class="flex flex-col items-end gap-1 select-none">
-    <!-- 器のアイコン(大きい器から順に取る) -->
-    <div class="flex flex-wrap items-center justify-end gap-1 text-2xl leading-none">
+  <div class="flex flex-col items-center gap-1 select-none">
+    <!-- メイン: 累計の砂粒(カウントアップ演出) -->
+    <div class="flex items-baseline gap-1 whitespace-nowrap">
+      <span class="lh-grains text-7xl font-extrabold leading-none" :class="{ 'lh-grains-pop': grainsPop }">
+        {{ formatGrains(animatedGrains) }}
+      </span>
+    </div>
+
+    <!-- 同接・ギフト合計・配信時間(配信時間は小さく) -->
+    <div class="flex items-baseline gap-3 whitespace-nowrap tabular-nums">
+      <span class="text-sm font-bold">👥 {{ formatGrains(safe(viewer)) }}</span>
+      <span class="text-sm font-bold">🎁 ¥{{ formatGrains(safe(giftTotal)) }}</span>
+      <span class="text-xs opacity-70">⏱ {{ formatStreamTime(streamSeconds) }}</span>
+    </div>
+
+    <!-- サブ: 器のアイコン(大きい器から順に取る) -->
+    <div class="flex flex-wrap items-center justify-end gap-1 text-xl leading-none">
       <template v-for="bowl in LIFE_HOURGLASS_BOWLS" :key="bowl.id">
         <!-- 東京ドームが多いときは数字表記に切り替える(増え続けるのは東京ドームだけ) -->
         <span
@@ -23,22 +37,20 @@
         </template>
       </template>
     </div>
-
-    <!-- 累計の砂粒(端数が見えなくなるため、隅に小さく表示) -->
-    <div class="text-xs opacity-80 whitespace-nowrap">{{ formatGrains(grains) }} 粒</div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watch } from 'vue'
+  import { computed, ref, toRef, watch } from 'vue'
   import {
     LIFE_HOURGLASS_BOWLS,
     LIFE_HOURGLASS_DOME_COUNT_THRESHOLD,
     computeBowls,
     formatGrains,
-    formatTrustedTime,
+    formatStreamTime,
     type LifeHourglassBowlId,
   } from '../../composables/bowls'
+  import { useAnimatedNumber } from '../../composables/useAnimatedNumber'
 
   const props = withDefaults(
     defineProps<{
@@ -48,11 +60,37 @@
       showMessage?: boolean
       /** ギフトで砂粒が増えた回数(まとめて落ちる演出用) */
       giftPulse?: number
+      /** 現在の同時接続数 */
+      viewer?: number
+      /** ギフト合計(円) */
+      giftTotal?: number
+      /** 配信時間(秒) */
+      streamSeconds?: number
     }>(),
-    { showMessage: true, giftPulse: 0 }
+    { showMessage: true, giftPulse: 0, viewer: 0, giftTotal: 0, streamSeconds: 0 }
   )
 
+  const safe = (n: number) => (Number.isFinite(n) ? n : 0)
+
   const counts = computed(() => computeBowls(props.grains))
+
+  // --- メインの数値: 増加分を滑らかにカウントアップ ---
+  const animatedGrains = useAnimatedNumber(toRef(props, 'grains'), 1000)
+
+  // --- ギフトのとき、数値をぽんと弾ませる ---
+  const grainsPop = ref(false)
+  let popTimer: ReturnType<typeof setTimeout> | null = null
+  const popGrains = () => {
+    grainsPop.value = false
+    // クラスを付け直してアニメーションを再生し直す
+    requestAnimationFrame(() => {
+      grainsPop.value = true
+      if (popTimer) clearTimeout(popTimer)
+      popTimer = setTimeout(() => {
+        grainsPop.value = false
+      }, 600)
+    })
+  }
 
   // --- 合体演出: 下の器の個数が減って上の器の個数が増えたら、増えた器を少し膨らませる ---
   const mergedBowlId = ref<LifeHourglassBowlId | null>(null)
@@ -93,10 +131,11 @@
     }
   })
 
-  // ギフトの加算タイミングで、増えた器へ落ちる演出を出す
+  // ギフトの加算タイミングで、増えた器へ落ちる演出と、数値のポップを出す
   watch(
     () => props.giftPulse,
     () => {
+      popGrains()
       const list = LIFE_HOURGLASS_BOWLS
       const now = counts.value
       for (let i = list.length - 1; i >= 0; i--) {
@@ -110,6 +149,16 @@
 </script>
 
 <style scoped>
+  .lh-grains {
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+    transform-origin: right bottom;
+  }
+
+  .lh-grains-pop {
+    animation: lh-grains-pop 0.6s ease;
+  }
+
   .lh-bowl {
     display: inline-block;
   }
@@ -120,6 +169,19 @@
 
   .lh-bowl-dropped {
     animation: lh-drop 0.7s ease;
+  }
+
+  @keyframes lh-grains-pop {
+    0% {
+      transform: scale(1);
+    }
+    30% {
+      transform: scale(1.18);
+      text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 
   @keyframes lh-merge {

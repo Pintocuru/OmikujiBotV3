@@ -7,6 +7,9 @@
       :grains="grains"
       :showMessage="settings.showMessage"
       :giftPulse="giftPulse"
+      :viewer="viewer"
+      :giftTotal="giftTotal"
+      :streamSeconds="streamSeconds"
     />
     <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
       {{ loadError }}
@@ -22,12 +25,15 @@
 
   const props = withDefaults(
     defineProps<{
-      settings: LifeHourglassType // 表示する砂粒
-      grains: number // ギフトで砂粒が増えた回数(落ちる演出用)
-      giftPulse?: number
+      settings: LifeHourglassType
+      grains: number // 表示する砂粒
+      giftPulse?: number // ギフトで砂粒が増えた回数(落ちる演出用)
+      viewer?: number // 現在の同時接続数
+      giftTotal?: number // ギフト合計(円)
+      streamSeconds?: number // 配信時間(秒)
       editorPreview?: boolean
     }>(),
-    { giftPulse: 0, editorPreview: false }
+    { giftPulse: 0, viewer: 0, giftTotal: 0, streamSeconds: 0, editorPreview: false }
   )
 
   // 未登録・読み込み失敗のときは null のまま(配信画面は無表示。わんコメへ一度だけ通知する)

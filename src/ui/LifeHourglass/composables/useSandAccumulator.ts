@@ -1,11 +1,13 @@
 // src/ui/LifeHourglass/composables/useSandAccumulator.ts
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useStreamCounters } from '@/ui/common/useStreamCounters'
+import { useAppStore } from '@/generator/stores/useAppStore'
+import type { NormalizedMeta } from '@/types/generator'
 import { useLifeHourglassStore } from './useLifeHourglassStore'
 import { LIFE_HOURGLASS_GRAINS_PER_YEN } from './bowls'
 
-/** 同接ぶんの加算間隔(秒)。経過秒数は実時間から計算する(タイマーの回数に頼らない) */
-const VIEWER_INTERVAL_SECONDS = 15
+/** 同接ぶんの加算間隔(秒)。数値が滑らかに増えるよう 1 秒。経過秒数は実時間から計算する(タイマーの回数に頼らない) */
+const VIEWER_INTERVAL_SECONDS = 1
 
 /**
  * 砂粒の加算(同接・ギフト)と保存。
@@ -22,12 +24,31 @@ export const useSandAccumulator = () => {
   /** ギフトで砂粒が増えた回数(落ちる演出のトリガー) */
   const giftPulse = ref(0)
 
+  /** 配信時間(秒)。配信開始時刻(ServiceMeta.startTime)からの経過時間。取れないときは、この UI を開いてからの経過時間 */
+  const streamSeconds = ref(0)
+  const openedAt = Date.now()
+
+  // 配信開始時刻は、ServiceMetaStore が既に持っている startTime を購読して使う(新しい取得処理は作らない)
+  const appStore = useAppStore()
+  let metaStartTime: number | null = null
+  let unsubscribeMeta: (() => void) | null = null
+  const applyMeta = (meta: NormalizedMeta | null) => {
+    const t = meta?.startTime
+    if (typeof t !== 'number' || !Number.isFinite(t) || t <= 0) {
+      metaStartTime = null
+      return
+    }
+    // 秒で来た場合に備える(ミリ秒なら 1e12 以上)
+    metaStartTime = t < 1e12 ? t * 1000 : t
+  }
+
   // --- 同接ぶん ---
   let lastTickAt = Date.now()
   let timer: ReturnType<typeof setInterval> | null = null
 
   const tick = () => {
     const now = Date.now()
+    streamSeconds.value = Math.max(0, Math.floor((now - (metaStartTime ?? openedAt)) / 1000))
     const elapsedSeconds = (now - lastTickAt) / 1000
     lastTickAt = now
     const viewer = counters.viewer
@@ -60,15 +81,25 @@ export const useSandAccumulator = () => {
   onMounted(() => {
     // 起動時に通算を読み込む(1回)。読み込み後の基準が carryOver=false の表示になる
     void store.load()
+    applyMeta(appStore.serviceMetaStore.getCurrent())
+    unsubscribeMeta = appStore.serviceMetaStore.subscribe((event) => applyMeta(event.current))
     lastTickAt = Date.now()
     timer = setInterval(tick, VIEWER_INTERVAL_SECONDS * 1000)
   })
 
   onUnmounted(() => {
     if (timer) clearInterval(timer)
+    unsubscribeMeta?.()
     stopGiftWatch()
     // 仮実装では送信する先がないため、未送信分のフラッシュはしない
   })
 
-  return { giftPulse }
+  return {
+    giftPulse,
+    streamSeconds,
+    /** 現在の同時接続数 */
+    viewer: computed(() => counters.viewer),
+    /** ギフト合計(円) */
+    giftTotal: computed(() => counters.totalPrice),
+  }
 }

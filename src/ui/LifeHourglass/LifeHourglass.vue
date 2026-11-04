@@ -1,6 +1,13 @@
 <!-- src/ui/LifeHourglass/LifeHourglass.vue -->
 <template>
-  <LifeHourglassSelector :settings="settings" :grains="grains" :giftPulse="giftPulse" />
+  <LifeHourglassSelector
+    :settings="settings"
+    :grains="grains"
+    :giftPulse="giftPulse"
+    :viewer="viewer"
+    :giftTotal="giftTotal"
+    :streamSeconds="streamSeconds"
+  />
 </template>
 
 <script setup lang="ts">
@@ -16,7 +23,7 @@
   const settings = computed(() => LifeHourglassSchema.parse(appStore.data.ui?.settings?.lifeHourglass ?? {}))
 
   // 砂粒の加算(同接・ギフト)と保存は composable 側で行う。UI は表示だけを持つ
-  const { giftPulse } = useSandAccumulator()
+  const { giftPulse, viewer, giftTotal, streamSeconds } = useSandAccumulator()
 
   const lifeHourglassStore = useLifeHourglassStore()
   const { totalGrains } = storeToRefs(lifeHourglassStore)

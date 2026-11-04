@@ -2,8 +2,19 @@
 <template>
   <!-- プレビュー -->
   <HudPreview :isAdminOnly="true">
-    <LifeHourglassSelector :settings="lifeHourglass" :grains="0" editorPreview />
+    <LifeHourglassSelector
+      :settings="lifeHourglass"
+      :grains="preview.grains"
+      :giftPulse="preview.giftPulse"
+      :viewer="preview.viewer"
+      :giftTotal="preview.giftTotal"
+      :streamSeconds="preview.streamSeconds"
+      editorPreview
+    />
   </HudPreview>
+
+  <!-- プレビューの操作(数値を増やして演出を確認する) -->
+  <LifeHourglassPreviewControls @update="(value) => (preview = value)" />
 
   <!-- 表示コンポーネントの選択 -->
   <DisplayStyleSelector
@@ -40,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useLifeHourglassStore } from '@/ui/LifeHourglass/composables/useLifeHourglassStore'
@@ -49,6 +60,8 @@
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import LifeHourglassSelector from '@/ui/LifeHourglass/LifeHourglassSelector.vue'
+  import LifeHourglassPreviewControls from './LifeHourglassPreviewControls.vue'
+  import { createLifeHourglassPreviewState, type LifeHourglassPreviewState } from './useLifeHourglassPreview'
   import { getLifeHourglassComponent, getLifeHourglassComponentSets } from '../LifeHourglassRegistry'
 
   const omikujiStore = useOmikujiStore()
@@ -57,10 +70,13 @@
 
   const lifeHourglass = computed(() => LifeHourglassSchema.parse(data.value.ui.settings.lifeHourglass ?? {}))
 
+  // プレビュー用の仮の数値(PreviewControls が更新する)
+  const preview = ref<LifeHourglassPreviewState>(createLifeHourglassPreviewState())
+
   // 保存先が仮実装(メモリのみ)の間は、引き継ぎのトグルを無効にする
   const { isPersistent } = storeToRefs(useLifeHourglassStore())
   const carryOverDescription = computed(() =>
-    isPersistent
+    isPersistent.value
       ? 'ON: 前回までの通算を表示します / OFF: 今回の配信ぶんだけを表示します'
       : 'サーバーがないため、現在は使用できません(起動しごとに 0 に戻ります)'
   )
