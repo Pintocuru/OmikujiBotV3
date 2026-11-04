@@ -1,33 +1,14 @@
 // src/maps/OmikujiData/assets/CharacterEmotionMap.ts
-import { DisplayMeta } from '@/types/core'
-import { CharacterEmotionType } from '@/types/OmikujiData'
+import type { CharacterEmotionType } from '@/types/OmikujiData'
 
 /**
- * CharacterEmotion ジェネレーター用画像設定
+ * CharacterEmotion の感情キー一覧
  */
-export const characterEmotionMap: Record<CharacterEmotionType, DisplayMeta> = {
-  default: {
-    label: 'デフォルト',
-    description: '標準の表情',
-  },
-  happy: {
-    label: '嬉しい',
-    description: '喜んでいる表情',
-  },
-  surprised: {
-    label: '驚き',
-    description: '驚いている表情',
-  },
-  sad: {
-    label: '悲しみ',
-    description: '悲しんでいる表情',
-  },
-  angry: {
-    label: '怒り',
-    description: '怒っている表情',
-  },
-  thinking: {
-    label: '考え中',
-    description: '思案している表情',
-  },
+export const characterEmotionMap: Record<CharacterEmotionType, true> = {
+  default: true,
+  happy: true,
+  surprised: true,
+  sad: true,
+  angry: true,
+  thinking: true,
 }
