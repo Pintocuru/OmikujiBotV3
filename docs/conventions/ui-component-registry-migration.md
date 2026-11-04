@@ -19,9 +19,9 @@
 ## 1. 対象(上から順に、1 UI = 1 patch)
 
 1. CommentBubble(完了)
-2. GameRanking
-3. LiveClock
-4. StreamCounter
+2. GameRanking(完了)
+3. LiveClock(完了)
+4. StreamCounter(完了。スキーマも新方式に変更)
 5. ToastWidgets
 6. UserBoard
 
@@ -82,7 +82,7 @@ export type XxxComponent = XxxComponentOf<XxxComponentSet>
 `KujibikiPanelRegistry.ts` をコピーし、次の 3 点だけを変える。
 
 1. `UI_NAME`(camelCase)
-2. `Meta`(非 export。その UI 固有のメタ。今ある設定・表示条件の分岐から決める。ID の分岐がなければ `object` でよい)
+2. `Meta`(非 export。その UI 固有のメタ。今ある設定・表示条件の分岐から決める。ID の分岐がなければ `object` でよい。並べ方・ラベルの見せ方など、見た目に関わるものは Meta にせず、コンポーネント側で決める)
 3. 名前の `KujibikiPanel` を UI 名に置き換える
 
 ### 3.3 セットの登録(`src/ui/<UI名>/components/<セット名>/register.ts`)

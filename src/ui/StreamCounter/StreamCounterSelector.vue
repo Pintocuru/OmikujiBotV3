@@ -1,79 +1,76 @@
 <!-- src/ui/StreamCounter/StreamCounterSelector.vue -->
 <template>
-  <div class="w-full bg-base-100 transparent-bg" :data-theme="settings.color">
+  <div class="w-full transparent-bg">
     <div v-if="allKeys.length === 0" class="flex flex-col items-center">
       <div class="badge badge-error font-bold">表示するカウンターはありません</div>
     </div>
 
-    <!-- layoutに応じて動的にクラスを変更 -->
-    <div v-else :class="layoutClass">
-      <div v-for="(key, index) in allKeys" :key="key">
-        <component
-          :is="currentItem"
-          :index="index"
-          :label="getLabel(key)"
-          :value="formatValue(counters[key] ?? 0)"
-          :color-pattern="getPattern(key)"
-        />
-      </div>
+    <!-- 並べ方はコンポーネント側で決める -->
+    <component
+      :is="currentComponent"
+      v-else-if="currentComponent"
+      :keys="allKeys"
+      :counters="counters"
+      :variable-labels="variableLabels"
+      :colors="settings.color"
+    />
+
+    <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
+      {{ loadError }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, toRef, type Component } from 'vue'
-  import { StreamCounterType, LiverComponent } from '@/types/ui'
-  import { streamComponentMap } from '@/maps/ui'
-
-  import BasicCirclePlain from './layouts/BasicCirclePlain.vue'
-  import BasicCircle from './layouts/BasicCircle.vue'
-  import PixelBadgePlain from './layouts/PixelBadgePlain.vue'
-  import PixelBadge from './layouts/PixelBadge.vue'
-  import MagicalStone from './layouts/MagicalStone.vue'
-  import StarBurst from './layouts/StarBurst.vue'
-  import HexGrid from './layouts/HexGrid.vue'
-  import Badge from './layouts/Badge.vue'
-
+  import { shallowRef, toRef, watch, type Component } from 'vue'
+  import type { StreamCounterType } from '@/types/ui'
+  import { getStreamCounterComponent } from './StreamCounterRegistry'
+  import { notifyStreamCounterComponentIssue } from './notifyStreamCounterComponentIssue'
   import { useStreamCounterDisplay } from './composables/useStreamCounterDisplay'
-  import { useLabelResolver } from './composables/useLiverLabelResolver'
 
-  const props = defineProps<{
-    settings: StreamCounterType
-    counters: Record<string, number>
-    variableLabels: Record<string, string>
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      settings: StreamCounterType
+      counters: Record<string, number>
+      variableLabels: Record<string, string>
+      editorPreview?: boolean
+    }>(),
+    { editorPreview: false }
+  )
 
-  const { getLabel } = useLabelResolver(toRef(props, 'variableLabels'), toRef(props.settings, 'labelStyle'))
+  const { allKeys } = useStreamCounterDisplay(toRef(props, 'settings'))
 
-  const { allKeys, getPattern, formatValue } = useStreamCounterDisplay(toRef(props, 'settings'))
+  // 未登録・読み込み失敗のときは null のまま(配信画面は無表示。わんコメへ一度だけ通知する)
+  const currentComponent = shallowRef<Component | null>(null)
+  const loadError = shallowRef('')
 
-  const itemMap: Record<LiverComponent, Component> = {
-    basicCirclePlain: BasicCirclePlain,
-    basicCircle: BasicCircle,
-    pixelBadge: PixelBadge,
-    pixelBadgePlain: PixelBadgePlain,
-    magicalStone: MagicalStone,
-    starBurst: StarBurst,
-    hexGrid: HexGrid,
-    badge: Badge,
-  }
+  watch(
+    () => props.settings.component,
+    async (id) => {
+      currentComponent.value = null
+      loadError.value = ''
 
-  const currentItem = computed(() => itemMap[props.settings.component] ?? BasicCircle)
+      const definition = getStreamCounterComponent(id)
+      if (!definition) {
+        loadError.value = `未登録の表示タイプ: ${id}`
+        if (!props.editorPreview) {
+          notifyStreamCounterComponentIssue(id, `ライバーカウンターの表示タイプ「${id}」は、このバージョンには含まれていません`)
+        }
+        return
+      }
 
-  // 現在のコンポーネントのレイアウト設定を取得
-  const currentLayout = computed(() => {
-    const component = streamComponentMap[props.settings.component]
-    return component?.layout ?? 'horizontal' // デフォルトは横並び
-  })
-
-  // layoutに応じて動的にクラスを変更
-  const layoutClass = computed(() => {
-    switch (currentLayout.value) {
-      case 'vertical':
-        return 'flex flex-col items-center gap-2'
-      case 'horizontal':
-      default:
-        return 'flex flex-wrap justify-center gap-4 py-2'
-    }
-  })
+      try {
+        const module = await definition.loader()
+        if (props.settings.component === id) currentComponent.value = module.default
+      } catch (error) {
+        if (props.settings.component !== id) return
+        console.error(`[StreamCounter] Component load failed: ${id}`, error)
+        loadError.value = `表示タイプ「${id}」の読み込みに失敗しました`
+        if (!props.editorPreview) {
+          notifyStreamCounterComponentIssue(id, `ライバーカウンターの表示タイプ「${id}」の読み込みに失敗しました`)
+        }
+      }
+    },
+    { immediate: true }
+  )
 </script>

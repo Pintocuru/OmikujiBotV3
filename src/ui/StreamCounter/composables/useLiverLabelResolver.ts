@@ -1,9 +1,12 @@
 // src/ui/StreamCounter/composables/useLiverLabelResolver.ts
 import type { Component, Ref } from 'vue'
-import { StreamDefaultKey, LiverLabelStyle } from '@/types/ui'
+import { StreamDefaultKey } from '@/types/ui'
 import { LIVER_EMOJI_LABELS, LIVER_LUCIDE_LABELS, LIVER_TEXT_LABELS } from './DefaultLabels'
 
-export function useLabelResolver(values: Ref<Record<string, string>>, labelStyle: Ref<LiverLabelStyle>) {
+/** ラベルの表示スタイル(コンポーネントごとに決める) */
+export type LabelStyle = 'lucide' | 'emoji' | 'text'
+
+export function useLabelResolver(values: Ref<Record<string, string>>, labelStyle: Ref<LabelStyle>) {
   const getLabel = (key: string): string | Component => {
     // デフォルトキーかどうか
     const isDefault = key in LIVER_LUCIDE_LABELS

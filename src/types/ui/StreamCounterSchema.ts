@@ -1,28 +1,23 @@
 // src/types/ui/StreamCounterSchema.ts
 import { z } from 'zod'
-import { daisyUIColor, themes, idSchema } from '../core'
+import { idSchema } from '../core'
+import { CharacterColorScheme } from '../OmikujiData/assets/CharacterSchema'
 
 /**
- * ライバーカウンターの選択肢(表示名は src/maps/ui/StreamCounterMap.ts)
+ * StreamCounter のコンポーネントセット
  */
-export interface StreamComponentConfig {
-  label: string
-  layout: 'horizontal' | 'vertical'
-}
-export const streamComponents = [
-  'basicCirclePlain',
-  'basicCircle',
-  'pixelBadgePlain',
-  'pixelBadge',
-  'magicalStone',
-  'starBurst',
-  'hexGrid',
-  'badge',
-] as const
-export type LiverComponent = (typeof streamComponents)[number]
+export const streamComponentSets = {
+  standard: ['pixelBadge'],
+} as const
 
-export const labelStyles = ['lucide', 'emoji', 'text'] as const
-export type LiverLabelStyle = (typeof labelStyles)[number]
+export type StreamComponentSets = typeof streamComponentSets
+export type StreamComponentSet = keyof StreamComponentSets
+
+// セット別の ID 型
+export type StreamComponentOf<S extends StreamComponentSet> = StreamComponentSets[S][number]
+
+// 全 ID
+export type StreamComponent = StreamComponentOf<StreamComponentSet>
 
 export const streamDefaultKeyLabels = [
   'syoken',
@@ -49,19 +44,15 @@ export type StreamCounterVariable = z.infer<typeof StreamCounterVariablesSchema>
  * ライバーカウンターv2 StreamCounter
  */
 
+const defaultColors = () => [CharacterColorScheme.parse({})]
+
 export const StreamCounterSchema = z.object({
-  component: z.enum(streamComponents).default('basicCircle').catch('basicCircle'), // カウンタースタイル
-  color: z.enum(themes).default('lofi').catch('lofi'), // DaisyUiテーマ
-  colorCycle: z
-    .array(z.enum(daisyUIColor))
-    .default(['primary', 'secondary', 'accent', 'neutral', 'info', 'success', 'warning', 'error'])
-    .catch([]), // 任意color
-  labelStyle: z.enum(labelStyles).default('lucide').catch('lucide'), // ラベルスタイル
+  component: z.string().min(1).default('pixelBadge').catch('pixelBadge'), // 保存データは文字列(未同梱の ID も保持する。空文字は pixelBadge に戻す)
+  color: z.array(CharacterColorScheme).min(1).max(8).default(defaultColors).catch(defaultColors), // カウンターの順に割り当てる配色(name / text / background / accent)。足りない分は先頭から繰り返す
   defaultCounters: z
     .array(z.enum(streamDefaultKeyLabels))
     .default(['syoken', 'commenter', 'upVote', 'viewer'])
     .catch(['upVote']), // デフォルトカウンター（6種から選ぶ、順序なし）
-  eventCounters: z.array(z.string()).max(16).default([]).catch([]), // event カウンター CommentRuleSchema.key
   variableCounters: z.array(StreamCounterVariablesSchema).default([]),
 })
 export type StreamCounterType = z.infer<typeof StreamCounterSchema>

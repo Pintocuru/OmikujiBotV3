@@ -6,46 +6,12 @@
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
     :modelValue="streamCounter.component"
-    :options="streamComponentMap"
+    :options="componentOptions"
     @update:modelValue="(val) => updateField('component', val)"
   />
 
-  <!-- テーマ -->
-  <SettingItem
-    labelKey="uiSettings.streamCounter.theme.label"
-    descriptionKey="uiSettings.streamCounter.theme.description"
-  >
-    <select
-      class="select select-bordered"
-      :value="streamCounter.color"
-      @change="(e) => updateField('color', (e.target as HTMLSelectElement).value)"
-    >
-      <option v-for="theme in themes" :key="theme" :value="theme">
-        {{ theme }}
-      </option>
-    </select>
-  </SettingItem>
-
-  <!-- ラベルスタイル -->
-  <SettingItem
-    labelKey="uiSettings.streamCounter.labelStyle.label"
-    descriptionKey="uiSettings.streamCounter.labelStyle.description"
-  >
-    <div class="flex flex-wrap gap-2">
-      <div
-        v-for="(label, key) in labelStyleMap"
-        :key="key"
-        class="badge cursor-pointer"
-        :class="streamCounter.labelStyle === key ? 'badge-primary' : 'badge-outline'"
-        @click="updateField('labelStyle', key)"
-      >
-        {{ label }}
-      </div>
-    </div>
-  </SettingItem>
-
-  <!-- カラーサイクル設定（分離コンポーネント） -->
-  <ColorCycleEditor :colorCycle="streamCounter.colorCycle" @update:colorCycle="(v) => updateField('colorCycle', v)" />
+  <!-- 配色 -->
+  <CounterColorEditor :colors="streamCounter.color" @update:colors="(v) => updateField('color', v)" />
 
   <CounterSelectorPanel
     :counters="counters"
@@ -62,13 +28,11 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { StreamCounterSchema, StreamCounterVariablesSchema } from '@/types/ui'
-  import { labelStyleMap, streamComponentMap } from '@/maps/ui'
   import type { StreamDefaultKey, StreamCounterType } from '@/types/ui'
   import StreamCounterPreview from './StreamCounterPreview.vue'
-  import ColorCycleEditor from './ColorCycleEditor.vue'
+  import CounterColorEditor from './CounterColorEditor.vue'
+  import { getStreamCounterComponent, getStreamCounterComponentSets } from '../StreamCounterRegistry'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { themes } from '@/types/core/DaisyUiTheme'
   import CounterSelectorPanel from './CounterSelector/CounterSelectorPanel.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import { CounterItem } from './CounterSelector/counterTypes'
@@ -84,6 +48,17 @@
       [field]: value,
     })
   }
+
+  // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
+  const componentOptions = computed(() => {
+    const options: Record<string, { label: string }> = {}
+    const currentId = streamCounter.value.component
+    if (!getStreamCounterComponent(currentId)) options[currentId] = { label: `未登録: ${currentId}` }
+    for (const set of Object.values(getStreamCounterComponentSets())) {
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+    }
+    return options
+  })
 
   const resetField = (field: keyof StreamCounterType) => {
     updateField(field, StreamCounterSchema.parse({})[field])
@@ -105,14 +80,11 @@
 
   const handleReorder = (list: CounterItem[]) => {
     const defaultCounters: StreamDefaultKey[] = []
-    const eventCounters: string[] = []
     const variableCounters: typeof streamCounter.value.variableCounters = []
 
     for (const item of list) {
       if (item.type === 'default') {
         defaultCounters.push(item.target as StreamDefaultKey)
-      } else if (item.type === 'event') {
-        eventCounters.push(item.target)
       } else {
         // id一致で元データ拾う
         const found = streamCounter.value.variableCounters.find((v) => v.id === item.id)
@@ -121,7 +93,6 @@
     }
 
     updateField('defaultCounters', defaultCounters)
-    updateField('eventCounters', eventCounters)
     updateField('variableCounters', variableCounters)
   }
 
@@ -133,8 +104,6 @@
   const handleAdd = (item: Omit<CounterItem, 'id'>) => {
     if (item.type === 'default') {
       updateField('defaultCounters', [...streamCounter.value.defaultCounters, item.target as StreamDefaultKey])
-    } else if (item.type === 'event') {
-      updateField('eventCounters', [...streamCounter.value.eventCounters, item.target])
     } else {
       // variable: スキーマの parse で id を生成
       const newItem = StreamCounterVariablesSchema.parse({
@@ -154,24 +123,19 @@
       )
       return
     }
-    // default / event は `type:target` の固定ID から復元
+    // default は `type:target` の固定ID から復元
     const [type, target] = id.split(':')
     if (type === 'default') {
       updateField(
         'defaultCounters',
         streamCounter.value.defaultCounters.filter((k) => k !== target)
       )
-    } else if (type === 'event') {
-      updateField(
-        'eventCounters',
-        streamCounter.value.eventCounters.filter((k) => k !== target)
-      )
     }
   }
 
+  // CounterSelectorPanel は CookieCounter と共用のため、type を受け取る(StreamCounter は default のみ)
   const handleReset = (type: 'default' | 'event') => {
     if (type === 'default') resetField('defaultCounters')
-    else resetField('eventCounters')
   }
 
   const handleUpdate = (payload: { id: string; patch: { target: string; label: string } }) => {

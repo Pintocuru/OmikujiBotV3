@@ -3,10 +3,10 @@
   <HudPreview maxHeightClass="h-42">
     <div :class="[fontFamily]">
       <StreamCounterSelector
-        :key="streamCounter.labelStyle"
         :settings="streamCounter"
         :counters="previewCounters"
         :variable-labels="variableLabels"
+        editorPreview
       />
     </div>
 
@@ -31,7 +31,7 @@
   }>()
 
   const { previewCounters, incrementAll } = usePreviewCounters({
-    getExtraKeys: () => props.streamCounter.eventCounters,
+    getExtraKeys: () => [],
   })
 
   const omikujiStore = useOmikujiStore()

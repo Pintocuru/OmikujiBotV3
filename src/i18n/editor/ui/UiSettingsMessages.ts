@@ -79,27 +79,9 @@ export const uiSettingsMessages = {
         },
       },
       streamCounter: {
-        theme: {
-          label: 'テーマ',
-          description: 'カラーテーマを選択します',
-        },
-        labelStyle: {
-          label: 'ラベルスタイル',
-          description: 'カウンターのラベル表示方法を選択',
-        },
-      },
-      colorCycle: {
-        odd: {
-          label: '単色・奇数カラー',
-          description: '基本となるカラーを選択します',
-        },
-        even: {
-          label: '偶数カラー',
-          description: 'ツートンにする場合の2色目',
-        },
-        custom: {
-          label: 'カスタム入力',
-          description: 'カンマ区切りで直接入力',
+        color: {
+          add: '色を追加',
+          remove: 'この色を削除',
         },
       },
       counterSelector: {
@@ -295,27 +277,9 @@ export const uiSettingsMessages = {
         },
       },
       streamCounter: {
-        theme: {
-          label: 'Theme',
-          description: 'Choose a color theme',
-        },
-        labelStyle: {
-          label: 'Label style',
-          description: 'Choose how counter labels are displayed',
-        },
-      },
-      colorCycle: {
-        odd: {
-          label: 'Single / odd color',
-          description: 'Choose the base color',
-        },
-        even: {
-          label: 'Even color',
-          description: 'The second color for a two-tone look',
-        },
-        custom: {
-          label: 'Custom input',
-          description: 'Enter directly, separated by commas',
+        color: {
+          add: 'Add color',
+          remove: 'Remove this color',
         },
       },
       counterSelector: {

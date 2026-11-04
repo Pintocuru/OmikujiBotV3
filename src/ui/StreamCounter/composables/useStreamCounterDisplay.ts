@@ -1,35 +1,23 @@
 // src/ui/StreamCounter/composables/useStreamCounterDisplay.ts
 import { computed, type Ref } from 'vue'
 import type { StreamCounterType } from '@/types/ui'
-import { DaisyUIColorType } from '@/types/core/DaisyUiTheme'
+import type { CharacterColorType } from '@/types/OmikujiData/'
 
 /**
- * StreamCounter 系コンポーネント共通のキー列挙・カラーパターン取得ロジック
- * BasicCircle など複数のスタイルコンポーネントで再利用できるよう切り出し
+ * 表示するカウンターのキー(標準 → 評価ブロックの順)
  */
 export function useStreamCounterDisplay(settings: Ref<StreamCounterType>) {
-  const allKeys = computed(() => {
-    const defaults = settings.value.defaultCounters as string[]
-    const events = settings.value.eventCounters ?? []
-    const variables = (settings.value.variableCounters ?? []).map((c) => c.target)
-    const maxEvents = Math.max(0, 8 - defaults.length - variables.length)
-    return [...defaults, ...events.slice(0, maxEvents), ...variables]
-  })
+  const allKeys = computed(() => [
+    ...(settings.value.defaultCounters as string[]),
+    ...settings.value.variableCounters.map((c) => c.target),
+  ])
 
-  /**
-   * キーのインデックスに応じたカラーパターン文字列を返す
-   */
-  const variableLabels = computed<Record<string, string>>(() =>
-    Object.fromEntries((settings.value.variableCounters ?? []).map((c) => [c.target, c.label]))
-  )
-
-  const getPattern = (key: string): DaisyUIColorType => {
-    const index = allKeys.value.indexOf(key)
-    if (index === -1) return 'neutral'
-    return settings.value.colorCycle[index % settings.value.colorCycle.length]
-  }
-
-  const formatValue = (v: number) => new Intl.NumberFormat().format(v)
-
-  return { allKeys, getPattern, formatValue, variableLabels }
+  return { allKeys }
 }
+
+/** 数値の桁区切り */
+export const formatCounterValue = (v: number) => new Intl.NumberFormat().format(v)
+
+/** index 番目のカウンターに割り当てる配色(足りない分は先頭から繰り返す) */
+export const pickCounterColor = (colors: CharacterColorType[], index: number): CharacterColorType =>
+  colors[index % colors.length]
