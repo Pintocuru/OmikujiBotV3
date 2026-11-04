@@ -38,14 +38,14 @@ const triggerSection: ItemContentDef['section'] = {
   descriptionKey: 'categorySections.trigger.description',
 }
 
-// ???
+// おみくじのセクション
 const stepsSection: ItemContentDef['section'] = {
   icon: 'Box',
   labelKey: 'categorySections.mikuji.label',
   descriptionKey: 'categorySections.mikuji.description',
 }
 
-// ???
+// シナリオのセクション
 const scenariosSection: ItemContentDef['section'] = {
   icon: 'FilePen',
   labelKey: 'categorySections.scenarios.label',
