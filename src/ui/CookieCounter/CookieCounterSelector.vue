@@ -2,32 +2,67 @@
 <template>
   <div class="w-full bg-base-100 transparent-bg">
     <component
-      :is="currentItem"
+      :is="currentComponent"
+      v-if="currentComponent"
       :counters="counters"
       :counter-defs="settings.counters"
       :variable-labels="variableLabels"
       :color="settings.color"
       :images="settings.images"
     />
+    <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
+      {{ loadError }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, type Component } from 'vue'
-  import { CookieComponent, CookieCounterType } from '@/types/ui'
-  import Sakura from './layouts/Sakura.vue'
-  import Block3d from './layouts/Block3d.vue'
+  import { shallowRef, watch, type Component } from 'vue'
+  import type { CookieCounterType } from '@/types/ui'
+  import { getCookieCounterComponent } from './CookieCounterRegistry'
+  import { notifyCookieCounterComponentIssue } from './notifyCookieCounterComponentIssue'
 
-  const props = defineProps<{
-    settings: CookieCounterType
-    counters: Record<string, number>
-    variableLabels: Record<string, string>
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      settings: CookieCounterType
+      counters: Record<string, number>
+      variableLabels: Record<string, string>
+      editorPreview?: boolean
+    }>(),
+    { editorPreview: false }
+  )
 
-  const itemMap: Record<CookieComponent, Component> = {
-    sakura: Sakura,
-    block3d: Block3d,
-  }
+  // 未登録・読み込み失敗のときは null のまま(配信画面は無表示。わんコメへ一度だけ通知する)
+  const currentComponent = shallowRef<Component | null>(null)
+  const loadError = shallowRef('')
 
-  const currentItem = computed(() => itemMap[props.settings.component] ?? Sakura)
+  watch(
+    () => props.settings.component,
+    async (id) => {
+      currentComponent.value = null
+      loadError.value = ''
+
+      const definition = getCookieCounterComponent(id)
+      if (!definition) {
+        loadError.value = `未登録の表示タイプ: ${id}`
+        if (!props.editorPreview) {
+          notifyCookieCounterComponentIssue(id, `クッキーカウンターの表示タイプ「${id}」は、このバージョンには含まれていません`)
+        }
+        return
+      }
+
+      try {
+        const module = await definition.loader()
+        if (props.settings.component === id) currentComponent.value = module.default
+      } catch (error) {
+        if (props.settings.component !== id) return
+        console.error(`[CookieCounter] Component load failed: ${id}`, error)
+        loadError.value = `表示タイプ「${id}」の読み込みに失敗しました`
+        if (!props.editorPreview) {
+          notifyCookieCounterComponentIssue(id, `クッキーカウンターの表示タイプ「${id}」の読み込みに失敗しました`)
+        }
+      }
+    },
+    { immediate: true }
+  )
 </script>

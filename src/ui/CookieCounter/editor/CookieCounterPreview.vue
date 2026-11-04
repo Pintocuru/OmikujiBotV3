@@ -3,6 +3,7 @@
   <HudPreview :defaultScale="0.8">
     <div :class="[fontFamily]">
       <CookieCounterSelector
+        editorPreview
         :key="cookieCounter.component"
         :settings="cookieCounter"
         :counters="previewCounters"

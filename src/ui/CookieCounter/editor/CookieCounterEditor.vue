@@ -6,7 +6,7 @@
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
     :modelValue="cookieCounter.component"
-    :options="cookieComponentMap"
+    :options="componentOptions"
     @update:modelValue="(val) => updateField('component', val)"
   />
 
@@ -20,7 +20,7 @@
   </SettingItem>
 
   <!-- 画像パス指定（hasImage コンポーネントのみ） -->
-  <template v-if="currentComponentDef.hasImage">
+  <template v-if="currentDefinition?.hasImage">
     <SettingItem
       labelKey="uiSettings.cookieCounter.mainImage.label"
       descriptionKey="uiSettings.cookieCounter.mainImage.description"
@@ -63,7 +63,7 @@
   import { computed, reactive } from 'vue'
   import { storeToRefs } from 'pinia'
   import { CookieCounterSchema, CookieCounterCountersSchema, CookieCounterType } from '@/types/ui'
-  import { cookieComponentMap } from '@/maps/ui'
+  import { getCookieCounterComponent, getCookieCounterComponentSets } from '../CookieCounterRegistry'
   import CookieCounterPreview from './CookieCounterPreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
@@ -80,8 +80,20 @@
 
   const cookieCounter = computed(() => data.value.ui.settings.cookieCounter ?? CookieCounterSchema.parse({}))
   const counters = computed(() => cookieCounter.value.counters)
-  const maxCounters = computed(() => cookieComponentMap[cookieCounter.value.component].maxCounters)
-  const currentComponentDef = computed(() => cookieComponentMap[cookieCounter.value.component])
+  const currentDefinition = computed(() => getCookieCounterComponent(cookieCounter.value.component))
+  // 未登録のコンポーネントのときは、スキーマの上限(8)にする
+  const maxCounters = computed(() => currentDefinition.value?.maxCounters ?? 8)
+
+  // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
+  const componentOptions = computed(() => {
+    const options: Record<string, { label: string }> = {}
+    const currentId = cookieCounter.value.component
+    if (!currentDefinition.value) options[currentId] = { label: `未登録: ${currentId}` }
+    for (const set of Object.values(getCookieCounterComponentSets())) {
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+    }
+    return options
+  })
 
   // ---- ストア更新 ----
   const updateField = (field: keyof CookieCounterType, value: unknown) => {

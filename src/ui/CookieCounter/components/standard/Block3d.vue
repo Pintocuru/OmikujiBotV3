@@ -1,4 +1,4 @@
-<!-- src/ui/CookieCounter/layouts/Block3d.vue -->
+<!-- src/ui/CookieCounter/components/standard/Block3d.vue -->
 <template>
   <div class="flex justify-center items-center" :style="rootStyle">
     <div v-if="slots.length === 0" class="text-base-content/40 text-2xl">まだ何も表示されません…</div>
@@ -120,7 +120,7 @@
 <script setup lang="ts">
   import { computed, reactive, watch } from 'vue'
   import { CookieCounterType } from '@/types/ui'
-  import { useCookieLabelResolver } from '../composables/useCookieLabelResolver'
+  import { useCookieLabelResolver } from '../../composables/useCookieLabelResolver'
   import { useTransition, TransitionPresets } from '@vueuse/core'
 
   const props = defineProps<{

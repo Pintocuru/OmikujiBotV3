@@ -6,18 +6,22 @@ import { streamDefaultKeyLabels } from './StreamCounterSchema'
 import { CharacterColorScheme } from '../OmikujiData/assets/CharacterSchema'
 
 /**
- * ライブクロック LiveClock
+ * クッキーカウンター CookieCounter
  */
 
-// カウンターの種類(表示名・設定は src/maps/ui/CookieCounterMap.ts)
-export interface CookieComponentConfig {
-  label: string
-  maxCounters: number
-  isColor: boolean
-  hasImage: boolean
-}
-export const cookieComponents = ['sakura', 'block3d'] as const
-export type CookieComponent = (typeof cookieComponents)[number]
+// CookieCounter のコンポーネントセット
+export const cookieComponentSets = {
+  standard: ['sakura', 'block3d'],
+} as const
+
+export type CookieComponentSets = typeof cookieComponentSets
+export type CookieComponentSet = keyof CookieComponentSets
+
+// セット別の ID 型
+export type CookieComponentOf<S extends CookieComponentSet> = CookieComponentSets[S][number]
+
+// 全 ID
+export type CookieComponent = CookieComponentOf<CookieComponentSet>
 
 // カウントする対象
 export const CookieCounterCountersSchema = z.discriminatedUnion('type', [
@@ -41,7 +45,7 @@ export const CookieCounterImagesSchema = z.object({
 })
 
 export const CookieCounterSchema = z.object({
-  component: z.enum(cookieComponents).default('sakura').catch('sakura'), // カウンタースタイル
+  component: z.string().min(1).default('sakura').catch('sakura'), // カウンタースタイル(保存データは文字列。未同梱の ID も保持する。空文字は sakura に戻す)
   color: normalizedObject(CharacterColorScheme, 'ui.CookieCounter.color'),
   counters: z.array(CookieCounterCountersSchema).max(8).default([]), // 任意のカウンター
   images: normalizedObject(CookieCounterImagesSchema, 'ui.CookieCounter.images'),

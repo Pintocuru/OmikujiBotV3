@@ -1,4 +1,4 @@
-<!-- src/ui/CookieCounter/layouts/Sakura.vue -->
+<!-- src/ui/CookieCounter/components/standard/Sakura.vue -->
 <template>
   <div class="flex justify-center items-center pt-30">
     <!-- メイン花びら（サブの absolute 基準） -->
@@ -38,7 +38,7 @@
   import { computed, ref, watch } from 'vue'
   import { CookieCounterType } from '@/types/ui'
   import SakuraPetal from './SakuraPetal.vue'
-  import { useCookieLabelResolver } from '../composables/useCookieLabelResolver'
+  import { useCookieLabelResolver } from '../../composables/useCookieLabelResolver'
   import { useTransition, TransitionPresets } from '@vueuse/core'
 
   const props = defineProps<{

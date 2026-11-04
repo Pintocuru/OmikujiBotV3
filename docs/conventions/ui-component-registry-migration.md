@@ -24,8 +24,7 @@
 4. StreamCounter(完了。スキーマも新方式に変更)
 5. ToastWidgets(完了)
 6. UserBoard(完了)
-
-- CookieCounter は保留(スキーマの見直しを検討中)。
+7. CookieCounter(完了。スキーマは `component` のみ変更。他の見直しは未着手)
 
 - 対象外: KujibikiPanel(完成済み)、CharacterStage(複数の種類を持たない)。
 - 次に当てはまる UI は、変更せずに報告する(§7)。
@@ -49,7 +48,7 @@ UI 名を `Xxx`、略称を `xxx` と表記する。
 | UI | 略称 |
 | --- | --- |
 | CommentBubble | bubble |
-| CookieCounter(保留) | cookie |
+| CookieCounter | cookie |
 | GameRanking | ranking |
 | LiveClock | clock |
 | StreamCounter | counter |

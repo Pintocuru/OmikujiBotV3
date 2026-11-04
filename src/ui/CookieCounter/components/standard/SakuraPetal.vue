@@ -1,4 +1,4 @@
-<!-- src/ui/CookieCounter/layouts/SakuraPetal.vue -->
+<!-- src/ui/CookieCounter/components/standard/SakuraPetal.vue -->
 <template>
   <img
     v-if="resolvedSrc"
