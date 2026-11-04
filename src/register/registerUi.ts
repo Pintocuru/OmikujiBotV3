@@ -11,6 +11,7 @@ import { registerStandardBoardComponents } from '@/ui/UserBoard/components/stand
 import { registerStandardKujibikiComponents } from '@/ui/KujibikiPanel/components/standard/register'
 import { registerFortuneKujibikiComponents } from '@/ui/KujibikiPanel/components/fortune/register'
 import { registerSpecialKujibikiComponents } from '@/ui/KujibikiPanel/components/special/register'
+import { registerStandardLifeHourglassComponents } from '@/ui/LifeHourglass/components/standard/register'
 
 /** UI 種別本体の登録 */
 const registerUiKinds = () =>
@@ -20,6 +21,7 @@ const registerUiKinds = () =>
     cookieCounter: () => import('@/ui/CookieCounter/CookieCounter.vue'),
     gameRanking: () => import('@/ui/GameRanking/GameRanking.vue'),
     kujibikiPanel: () => import('@/ui/KujibikiPanel/KujibikiPanel.vue'),
+    lifeHourglass: () => import('@/ui/LifeHourglass/LifeHourglass.vue'),
     liveClock: () => import('@/ui/LiveClock/LiveClock.vue'),
     streamCounter: () => import('@/ui/StreamCounter/StreamCounter.vue'),
     toastWidgets: () => import('@/ui/ToastWidgets/ToastWidgets.vue'),
@@ -63,6 +65,11 @@ const registerKujibikiComponents = () => {
   registerSpecialKujibikiComponents()
 }
 
+// LifeHourglass
+const registerLifeHourglassComponents = () => {
+  registerStandardLifeHourglassComponents()
+}
+
 /** UI 関係を全部登録 */
 export const registerAllUi = () => {
   registerUiKinds()
@@ -73,4 +80,5 @@ export const registerAllUi = () => {
   registerToastComponents()
   registerBoardComponents()
   registerKujibikiComponents()
+  registerLifeHourglassComponents()
 }
