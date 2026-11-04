@@ -6,9 +6,10 @@ type UiMapOptions = {
   brightness?: string
   customClasses?: string
   customArrowClasses?: string
+  arrowSide?: 'top' | 'left' | 'right' // 色を付ける border の辺(矢印の向きと逆側)
 }
 
-export function createUiMap({ color, brightness, customClasses, customArrowClasses }: UiMapOptions) {
+export function createUiMap({ color, brightness, customClasses, customArrowClasses, arrowSide = 'top' }: UiMapOptions) {
   return {
     bubble: {
       class: [customClasses, brightness],
@@ -18,7 +19,11 @@ export function createUiMap({ color, brightness, customClasses, customArrowClass
     text: { class: brightness, style: { color: color.text } },
     arrow: {
       class: [customArrowClasses, brightness],
-      style: { borderTopColor: 'var(--bubble-bg)' },
+      style: {
+        borderTopColor: arrowSide === 'top' ? 'var(--bubble-bg)' : undefined,
+        borderLeftColor: arrowSide === 'left' ? 'var(--bubble-bg)' : undefined,
+        borderRightColor: arrowSide === 'right' ? 'var(--bubble-bg)' : undefined,
+      },
     },
   }
 }

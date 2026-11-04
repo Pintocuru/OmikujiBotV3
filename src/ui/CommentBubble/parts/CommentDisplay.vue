@@ -4,7 +4,7 @@
     v-for="(item, index) in displayedComments"
     :key="item.id"
     class="absolute left-0 right-0"
-    :style="{ top: `${index * 40}px`, zIndex: 20 - index }"
+    :style="{ top: `${index * rowHeight}px`, zIndex: 20 - index }"
   >
     <MotionWrapper
       v-model:visible="item.display.visible"
@@ -13,12 +13,14 @@
       :auto-hide="false"
       @after-leave="() => removeComment(item.id)"
     >
-      <div class="flex justify-center">
+      <div class="flex" :class="ALIGN_CLASS[align]">
         <CommentBubbleItem
           :botName="item.bubble.name ?? ''"
           :message="item.bubble.message"
           :color="getCharacterColor(item.bubble.characterKey) ?? undefined"
           :animated-text="animatedText"
+          :compact="compact"
+          :arrow-direction="arrow"
           :brightnessLevel="index"
           :style="{ zIndex: index }"
         />
@@ -41,14 +43,24 @@
       enterMotion?: EnterMotionType
       leaveMotion?: EnterMotionType
       animatedText?: boolean
+      compact?: boolean // 小さめ表示
+      rowHeight?: number // 1件ごとの縦ずらし量(px)
+      align?: 'start' | 'center' | 'end' // 吹き出しの横位置
+      arrow?: 'down' | 'left' | 'right' | 'none' // 矢印の向き
     }>(),
     {
       removeComment: () => undefined,
       enterMotion: 'slideUp',
       leaveMotion: 'slideUp',
       animatedText: false,
+      compact: false,
+      rowHeight: 40,
+      align: 'center',
+      arrow: 'down',
     }
   )
+
+  const ALIGN_CLASS = { start: 'justify-start', center: 'justify-center', end: 'justify-end' } as const
 
   const { getCharacterColor } = useCharacters()
 </script>
