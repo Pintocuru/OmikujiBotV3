@@ -18,7 +18,6 @@ import * as m_category_CategorySectionMessagesMap from './category/CategorySecti
 import * as m_category_NavigationSidebarMessagesMap from './category/NavigationSidebarMessagesMap'
 import * as m_events_CommentEditor from './events/CommentEditor'
 import * as m_events_CommentTriggerEditor from './events/CommentTriggerEditor'
-import * as m_events_EventCore from './events/EventCore'
 import * as m_events_EventTriggers from './events/EventTriggers'
 import * as m_events_PadEditor from './events/PadEditor'
 import * as m_events_ReactionEditor from './events/ReactionEditor'
@@ -32,6 +31,8 @@ import * as m_helpers_CharacterChangerMessages from './helpers/CharacterChangerM
 import * as m_helpers_DataOperationMessages from './helpers/DataOperationMessages'
 import * as m_helpers_keyEditorMessages from './helpers/keyEditorMessages'
 import * as m_helpers_PresetMessages from './helpers/PresetMessages'
+import * as m_helpers_ReferenceGraphMessages from './helpers/ReferenceGraphMessages'
+import * as m_content_ItemEditorMessages from './content/ItemEditorMessages'
 import * as m_shell_ShellMessages from './shell/ShellMessages'
 import * as m_ui_EditorUiMessages from './ui/EditorUiMessages'
 import * as m_preview_EditorPreviewMessages from './preview/EditorPreviewMessages'
@@ -60,7 +61,6 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'content/TopPageMessages': m_content_TopPageMessages,
   'events/CommentEditor': m_events_CommentEditor,
   'events/CommentTriggerEditor': m_events_CommentTriggerEditor,
-  'events/EventCore': m_events_EventCore,
   'events/EventTriggers': m_events_EventTriggers,
   'events/PadEditor': m_events_PadEditor,
   'events/ReactionEditor': m_events_ReactionEditor,
@@ -74,6 +74,8 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'helpers/DataOperationMessages': m_helpers_DataOperationMessages,
   'helpers/keyEditorMessages': m_helpers_keyEditorMessages,
   'helpers/PresetMessages': m_helpers_PresetMessages,
+  'helpers/ReferenceGraphMessages': m_helpers_ReferenceGraphMessages,
+  'content/ItemEditorMessages': m_content_ItemEditorMessages,
   'preview/EditorPreviewMessages': m_preview_EditorPreviewMessages,
   'shell/ShellMessages': m_shell_ShellMessages,
   'ui/EditorUiMessages': m_ui_EditorUiMessages,

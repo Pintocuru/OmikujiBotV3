@@ -21,7 +21,7 @@
   import { isDev } from '@/types/env'
   import { OmikujiDataType } from '@/types/OmikujiData'
 
-  import AppDevWorld from './content/AppDevWorld.vue'
+  import AppDevWorld from './shell/AppDevWorld.vue'
   import TopPage from './content/TopPage.vue'
   import ContentArea from './content/ContentArea.vue'
   import SidebarDrawer from './sidebar/SidebarDrawer.vue'

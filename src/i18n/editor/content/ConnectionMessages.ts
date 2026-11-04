@@ -3,9 +3,7 @@ export const connectionMessages = {
   ja: {
     connections: {
       noBox: '接続がありません…',
-      searching: '検索中…',
       boxMissing: '「{key}」は存在しません',
-      scenarioMissing: 'シナリオが見つかりません({key})',
       childPlaceholders: '入れ子のプレースホルダー',
       noChildPlaceholders: 'なし',
       characterEvents: '使用されるイベント',
@@ -63,9 +61,7 @@ export const connectionMessages = {
   en: {
     connections: {
       noBox: 'No connection…',
-      searching: 'Searching…',
       boxMissing: '"{key}" does not exist',
-      scenarioMissing: 'Scenario not found ({key})',
       childPlaceholders: 'Placeholders used inside',
       noChildPlaceholders: 'No nested placeholders…',
       characterEvents: 'Events using this character',
