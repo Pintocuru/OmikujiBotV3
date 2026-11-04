@@ -1,4 +1,4 @@
-<!-- src/ui/ToastWidgets/layouts/Card.vue -->
+<!-- src/ui/ToastWidgets/components/standard/Card.vue -->
 <template>
   <div class="flex items-center gap-3 my-1">
     <div

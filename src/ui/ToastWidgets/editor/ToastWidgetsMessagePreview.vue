@@ -5,6 +5,7 @@
       <div :class="!settings.showToastsOnRight ? 'self-start' : 'self-end'">
         <ToastBubbleSelector
           :settings="settings"
+          editorPreview
           :message="message || '(未記入)'"
           :color="getCharacterColor(characterKey || null)"
           :iconLayers="settings.showToastsCharacter ? iconSrc(characterKey || null, iconKey || 'default') : []"

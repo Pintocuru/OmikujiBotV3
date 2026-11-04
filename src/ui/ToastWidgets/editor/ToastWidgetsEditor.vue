@@ -9,6 +9,7 @@
           v-for="(message, i) in previewMessages"
           :key="i"
           :settings="toastSettings"
+          editorPreview
           :message="message.bubble?.message ?? '(未記入)'"
           :color="getCharacterColor(message.bubble.characterKey)"
           :iconLayers="
@@ -34,8 +35,8 @@
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
     :modelValue="toastSettings.component"
-    :options="toastComponentMap"
-    @update:modelValue="(val) => updateField('component', val as ToastComponent)"
+    :options="componentOptions"
+    @update:modelValue="(val) => updateField('component', val)"
   />
 
   <!-- 設定項目 -->
@@ -90,8 +91,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { ToastWidgetsSchema, type ToastComponent } from '@/types/ui'
-  import { toastComponentMap } from '@/maps/ui'
+  import { ToastWidgetsSchema } from '@/types/ui'
+  import { getToastWidgetsComponent, getToastWidgetsComponentSets } from '../ToastWidgetsRegistry'
   import { BotMessageBubbleSchema } from '@/types/generator'
   import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import CharacterSelectorMulti from './CharacterSelectorMulti.vue'
@@ -115,6 +116,17 @@
   const thumbnailCharacters = computed(() => {
     const selectedKeys = new Set(toastSettings.value.showThumbnail)
     return characterArray.value.filter((character) => selectedKeys.has(character.key))
+  })
+
+  // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
+  const componentOptions = computed(() => {
+    const options: Record<string, { label: string }> = {}
+    const currentId = toastSettings.value.component
+    if (!getToastWidgetsComponent(currentId)) options[currentId] = { label: `未登録: ${currentId}` }
+    for (const set of Object.values(getToastWidgetsComponentSets())) {
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+    }
+    return options
   })
 
   // toast設定の更新関数（v2.1）

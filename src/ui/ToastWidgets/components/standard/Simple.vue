@@ -1,13 +1,13 @@
-<!-- src/ui/ToastWidgets/layouts/Standard.vue -->
+<!-- src/ui/ToastWidgets/components/standard/Simple.vue -->
 <template>
-  <div :class="showToastsOnRight ? 'chat chat-end' : 'chat chat-start'">
+  <div class="flex items-end gap-2 my-1" :class="showToastsOnRight ? 'flex-row-reverse' : 'flex-row'">
     <!-- アイコン -->
-    <div v-if="iconLayers?.length" class="chat-image avatar relative w-10 h-10">
+    <div v-if="iconLayers?.length" class="shrink-0 w-10 h-10">
       <CharacterLayerImage :layers="iconLayers" :size="10" :color="color" />
     </div>
 
     <!-- メッセージ -->
-    <div class="chat-bubble max-w-xs" :class="`text-${color.text}-content `">
+    <div class="max-w-xs rounded-full px-4 py-1.5 shadow-md" :style="{ backgroundColor: color.background, color: color.text }">
       <div class="leading-tight text-base" v-html="displayedHtml" />
     </div>
   </div>
