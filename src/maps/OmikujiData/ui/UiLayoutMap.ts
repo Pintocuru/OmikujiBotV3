@@ -15,6 +15,11 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, { label: string; des
     description: 'スイカゲーム等の結果をランキングボード形式で表示します。',
     kinds: ['gameRanking'],
   },
+  lifeHourglass: {
+    label: '命の砂時計',
+    description: 'リスナーが配信を閲覧した時間を「砂粒」として表示する、砂時計ジェネレーター',
+    kinds: ['lifeHourglass'],
+  },
   sesupinTest: {
     label: 'テストレイアウト(管理者用)',
     description: 'すべて表示するレイアウト',
