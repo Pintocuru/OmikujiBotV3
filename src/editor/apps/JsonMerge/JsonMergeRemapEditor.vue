@@ -31,8 +31,8 @@
       <SettingItem icon="Image" :label="t('jsonMerge.remap.fromIcon')">
         <select v-model="localRemap.fromIconKey" class="select select-sm select-bordered w-full">
           <option value="">{{ t('jsonMerge.remap.chooseIcon') }}</option>
-          <option v-for="(value, key) in characterEmotionMap" :key="key" :value="key">
-            {{ value.label }}
+          <option v-for="(_, key) in characterEmotionMap" :key="key" :value="key">
+            {{ t(`mapText.characterEmotion.${key}.label`) }}
           </option>
         </select>
       </SettingItem>
@@ -41,8 +41,8 @@
       <SettingItem icon="Image" :label="t('jsonMerge.remap.toIcon')">
         <select v-model="localRemap.toIconKey" class="select select-sm select-bordered w-full">
           <option value="">{{ t('jsonMerge.remap.chooseIcon') }}</option>
-          <option v-for="(value, key) in characterEmotionMap" :key="key" :value="key">
-            {{ value.label }}
+          <option v-for="(_, key) in characterEmotionMap" :key="key" :value="key">
+            {{ t(`mapText.characterEmotion.${key}.label`) }}
           </option>
         </select>
       </SettingItem>

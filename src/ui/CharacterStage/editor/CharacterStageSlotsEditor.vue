@@ -87,8 +87,8 @@
         :value="getRaw('motion')"
         @change="setRaw('motion', ($event.target as HTMLSelectElement).value)"
       >
-        <option value="">(既定: {{ enterMotionMap[defaults.motion]?.label }})</option>
-        <option v-for="(v, k) in enterMotionMap" :key="k" :value="k">{{ v.label }}</option>
+        <option value="">(既定: {{ t(`mapText.enterMotion.${defaults.motion}.label`) }})</option>
+        <option v-for="k in enterMotions" :key="k" :value="k">{{ t(`mapText.enterMotion.${k}.label`) }}</option>
       </select>
     </div>
 
@@ -135,8 +135,11 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { CharacterStageSchema } from '@/types/ui'
-  import { enterMotionMap } from '@/maps/OmikujiData'
+  import { enterMotions } from '@/types/OmikujiData'
+  import { useI18n } from 'vue-i18n'
   import { CharacterStageSlotMap, type CharacterStageSlotKey } from '@/types/generator'
+
+  const { t } = useI18n()
 
   const props = defineProps<{ slots: Record<string, string> }>()
   const emit = defineEmits<{ 'update:slots': [slots: Record<string, string>] }>()

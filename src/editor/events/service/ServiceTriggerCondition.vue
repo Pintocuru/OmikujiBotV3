@@ -40,8 +40,7 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { ServiceConditionType } from '@/types/OmikujiData'
   import { serviceConditionMap, serviceSimpleComparisonConditionMap } from '@/maps/OmikujiData'
-  import type { DisplayMeta } from '@/types/core'
-  import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
+    import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
   const { t, te } = useI18n()
   const props = defineProps<{
@@ -68,7 +67,7 @@
   }
 
   // 以下は既存ロジック
-  const comparisonMap = computed<Record<string, DisplayMeta>>(() =>
+  const comparisonMap = computed(() =>
     props.hasPeak ? serviceConditionMap : serviceSimpleComparisonConditionMap
   )
 

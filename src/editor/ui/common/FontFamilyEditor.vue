@@ -62,7 +62,7 @@
             class="text-xs text-base-content/60 leading-none"
             style="font-family: ui-sans-serif, system-ui, sans-serif"
           >
-            {{ font.label }}
+            {{ t(`mapText.fontFamily.${key}`) }}
           </span>
           <span class="text-2xl leading-none text-base-content">あAa漢</span>
         </button>

@@ -79,8 +79,8 @@
       @change="(e) => update('motion', (e.target as HTMLSelectElement).value as EnterMotionType)"
       class="select select-bordered w-full max-w-xs"
     >
-      <option v-for="(value, key) in enterMotionMap" :key="key" :value="key">
-        {{ value.label }}
+      <option v-for="key in enterMotions" :key="key" :value="key">
+        {{ t(`mapText.enterMotion.${key}.label`) }}
       </option>
     </select>
   </SettingItem>
@@ -88,16 +88,18 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
   import type { EnterMotionType } from '@/types/OmikujiData'
   import { CharacterStageSchema, type CharacterStageType } from '@/types/ui'
-  import { enterMotionMap } from '@/maps/OmikujiData'
+    import { enterMotions } from '@/types/OmikujiData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
   const { updateItemSettings } = omikujiStore
+  const { t } = useI18n()
 
   // 保存データは変更した項目だけの部分オブジェクトになりうる(updateItemSettings がマージするだけ)ため、
   // 本番(CharacterStage.vue)と同じく parse して、未設定の項目をスキーマの既定値で埋める

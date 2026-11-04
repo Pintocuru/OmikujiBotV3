@@ -8,7 +8,7 @@ import { getSoundPath as toSoundPath } from '@/types/env'
  * 例: 'cute' → 'sounds/FreeSound/cute.mp3'
  */
 function getSoundPath(key: SoundKeyType): string | undefined {
-  const relativePath = soundMap[key]?.path
+  const relativePath = soundMap[key]
   return relativePath ? toSoundPath(relativePath) : undefined
 }
 

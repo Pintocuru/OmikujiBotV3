@@ -34,7 +34,7 @@
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { getGameScriptLoader } from '@/games/gameScriptRegistry'
   import { uiKindIcons } from '@/maps/OmikujiData'
-  import { gameMetaMap } from '@/maps/games'
+  import { gameIcons } from '@/maps/games'
   import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
   import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
@@ -67,13 +67,13 @@
   )
 
   const gameScriptItems = computed<FeatureItem[]>(() =>
-    (Object.keys(gameMetaMap) as GameScriptKey[])
+    (Object.keys(gameIcons) as GameScriptKey[])
       .filter((key) => getGameScriptLoader(key))
       .map((key) => ({
         key,
         title: t(`mapText.gameMeta.${key}.label`),
-        icon: gameMetaMap[key].icon as LucideIconName,
-        description: t(`mapTest.gameMeta.${key}.description`),
+        icon: gameIcons[key],
+        description: t(`mapText.gameMeta.${key}.description`),
       }))
   )
 
