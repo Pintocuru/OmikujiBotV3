@@ -1,4 +1,4 @@
-<!-- src/layout/2026-Q4/LifeHourglass/CommentBubble.vue -->
+<!-- src/layout/2026-Q4/LifeHourglass/LifeHourglass.vue -->
 <template>
   <LifeHourglass />
 </template>

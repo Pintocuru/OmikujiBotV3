@@ -10,7 +10,7 @@ export const registerAllLayouts = () =>
     gameRanking: () => import('@/layout/GameRanking/GameRanking.vue'),
 
     // 2026-Q4
-    lifeHourglass: () => import('@/layout/2026-Q4/LifeHourglass/CommentBubble.vue'),
+    lifeHourglass: () => import('@/layout/2026-Q4/LifeHourglass/LifeHourglass.vue'),
 
     // 管理者用
     sesupinTest: () => import('@/layout/SesupinTest/SesupinTest.vue'),
