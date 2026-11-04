@@ -1,31 +1,63 @@
 <!-- src/ui/UserBoard/UserBoardSelector.vue -->
 <template>
   <div class="relative" :class="useFontFamily(fontFamily)">
-    <component :is="currentComponent" :users="users" :settings="settings" />
+    <component :is="currentComponent" v-if="currentComponent" :users="users" :settings="settings" />
+    <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
+      {{ loadError }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { shallowRef, watch, type Component } from 'vue'
   import type { UserStatsRecord } from '@/types/api'
   import { FontFamilyType } from '@/types/OmikujiData'
   import { useFontFamily } from '@/common/FontFamily/fontFamily'
-  import type { UserBoardComponent, UserBoardType } from '@/types/ui'
-  import ranking from './layouts/Ranking.vue'
-  import teamBar from './layouts/TeamBar.vue'
-  import teamScore from './layouts/TeamScore.vue'
+  import type { UserBoardType } from '@/types/ui'
+  import { getUserBoardComponent } from './UserBoardRegistry'
+  import { notifyUserBoardComponentIssue } from './notifyUserBoardComponentIssue'
 
-  const props = defineProps<{
-    users: UserStatsRecord[]
-    settings: UserBoardType
-    fontFamily?: FontFamilyType
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      users: UserStatsRecord[]
+      settings: UserBoardType
+      fontFamily?: FontFamilyType
+      editorPreview?: boolean
+    }>(),
+    { editorPreview: false }
+  )
 
-  const componentMap: Record<UserBoardComponent, any> = {
-    ranking,
-    teamBar,
-    teamScore,
-  }
+  // 未登録・読み込み失敗のときは null のまま(配信画面は無表示。わんコメへ一度だけ通知する)
+  const currentComponent = shallowRef<Component | null>(null)
+  const loadError = shallowRef('')
 
-  const currentComponent = computed(() => componentMap[props.settings.component] ?? ranking)
+  watch(
+    () => props.settings.component,
+    async (id) => {
+      currentComponent.value = null
+      loadError.value = ''
+
+      const definition = getUserBoardComponent(id)
+      if (!definition) {
+        loadError.value = `未登録の表示タイプ: ${id}`
+        if (!props.editorPreview) {
+          notifyUserBoardComponentIssue(id, `ユーザーボードの表示タイプ「${id}」は、このバージョンには含まれていません`)
+        }
+        return
+      }
+
+      try {
+        const module = await definition.loader()
+        if (props.settings.component === id) currentComponent.value = module.default
+      } catch (error) {
+        if (props.settings.component !== id) return
+        console.error(`[UserBoard] Component load failed: ${id}`, error)
+        loadError.value = `表示タイプ「${id}」の読み込みに失敗しました`
+        if (!props.editorPreview) {
+          notifyUserBoardComponentIssue(id, `ユーザーボードの表示タイプ「${id}」の読み込みに失敗しました`)
+        }
+      }
+    },
+    { immediate: true }
+  )
 </script>

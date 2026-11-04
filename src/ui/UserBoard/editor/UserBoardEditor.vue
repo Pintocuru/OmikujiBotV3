@@ -2,7 +2,7 @@
 <template>
   <!-- プレビュー (ダミーのユーザーで表示) -->
   <HudPreview :isAdminOnly="true">
-    <UserBoardSelector :users="previewUsers" :settings="board" :fontFamily="fontFamily" />
+    <UserBoardSelector :users="previewUsers" :settings="board" :fontFamily="fontFamily" editorPreview />
   </HudPreview>
 
   <p class="text-sm opacity-70">
@@ -17,14 +17,14 @@
   >
     <div class="flex flex-wrap gap-2">
       <div
-        v-for="(info, key) in userBoardComponentMap"
-        :key="key"
+        v-for="option in componentOptions"
+        :key="option.id"
         class="badge badge-lg cursor-pointer whitespace-nowrap"
-        :class="board.component === key ? 'badge-primary' : 'badge-outline'"
-        :title="info.description"
-        @click="update('component', key)"
+        :class="board.component === option.id ? (option.known ? 'badge-primary' : 'badge-error') : 'badge-outline'"
+        :title="option.description"
+        @click="update('component', option.id)"
       >
-        {{ info.label }}
+        {{ option.label }}
       </div>
     </div>
   </SettingItem>
@@ -40,7 +40,7 @@
 
   <!-- 表示件数 (個人の得点リストだけで使う) -->
   <SettingItem
-    v-if="board.component === 'ranking'"
+    v-if="currentDefinition?.hasLimit"
     labelKey="uiSettings.userBoard.limit.label"
     descriptionKey="uiSettings.userBoard.limit.description"
     layout="vertical"
@@ -63,7 +63,7 @@
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { UserBoardSchema, type UserBoardType } from '@/types/ui'
-  import { userBoardComponentMap } from '@/maps/ui'
+  import { getUserBoardComponent, getUserBoardComponentSets } from '../UserBoardRegistry'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
@@ -77,6 +77,21 @@
 
   const board = computed(() => UserBoardSchema.parse(data.value.ui.settings.userBoard ?? {}))
   const previewUsers = buildPreviewUsers()
+
+  // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
+  const currentDefinition = computed(() => getUserBoardComponent(board.value.component))
+  const componentOptions = computed(() => {
+    const options: { id: string; label: string; description: string; known: boolean }[] = []
+    if (!currentDefinition.value) {
+      options.push({ id: board.value.component, label: `未登録: ${board.value.component}`, description: 'このバージョンには含まれていません', known: false })
+    }
+    for (const set of Object.values(getUserBoardComponentSets())) {
+      for (const [id, definition] of Object.entries(set)) {
+        options.push({ id, label: definition.label, description: definition.description, known: true })
+      }
+    }
+    return options
+  })
 
   // 更新関数
   const update = <K extends keyof UserBoardType>(field: K, value: UserBoardType[K]) => {

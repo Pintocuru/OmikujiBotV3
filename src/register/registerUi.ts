@@ -7,6 +7,7 @@ import { registerStandardRankingComponents } from '@/ui/GameRanking/components/s
 import { registerStandardClockComponents } from '@/ui/LiveClock/components/standard/register'
 import { registerStandardStreamComponents } from '@/ui/StreamCounter/components/standard/register'
 import { registerStandardToastComponents } from '@/ui/ToastWidgets/components/standard/register'
+import { registerStandardBoardComponents } from '@/ui/UserBoard/components/standard/register'
 import { registerStandardKujibikiComponents } from '@/ui/KujibikiPanel/components/standard/register'
 import { registerFortuneKujibikiComponents } from '@/ui/KujibikiPanel/components/fortune/register'
 import { registerSpecialKujibikiComponents } from '@/ui/KujibikiPanel/components/special/register'
@@ -50,6 +51,11 @@ const registerToastComponents = () => {
   registerStandardToastComponents()
 }
 
+// UserBoard
+const registerBoardComponents = () => {
+  registerStandardBoardComponents()
+}
+
 // KujibikiPanel
 const registerKujibikiComponents = () => {
   registerStandardKujibikiComponents()
@@ -65,5 +71,6 @@ export const registerAllUi = () => {
   registerClockComponents()
   registerStreamComponents()
   registerToastComponents()
+  registerBoardComponents()
   registerKujibikiComponents()
 }

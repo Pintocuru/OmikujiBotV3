@@ -1,4 +1,4 @@
-<!-- src/ui/UserBoard/layouts/TeamBar.vue -->
+<!-- src/ui/UserBoard/components/standard/TeamBar.vue -->
 <!-- チームの得点 (チーム色ごとのバー) -->
 <template>
   <div v-if="bars.length > 0" class="flex flex-col gap-2 rounded-2xl p-3 shadow-xl" :style="boardRootStyle(settings)">
@@ -25,8 +25,8 @@
   import { computed } from 'vue'
   import type { UserStatsRecord } from '@/types/api'
   import type { UserBoardType } from '@/types/ui'
-  import { buildTeamBars } from '../scripts/boardData'
-  import { boardRootStyle, mix, teamColor, teamContentColor } from './boardStyle'
+  import { buildTeamBars } from '../../scripts/boardData'
+  import { boardRootStyle, mix, teamColor, teamContentColor } from '../../parts/boardStyle'
 
   const props = defineProps<{ users: UserStatsRecord[]; settings: UserBoardType }>()
 

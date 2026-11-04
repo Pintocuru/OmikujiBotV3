@@ -1,4 +1,4 @@
-<!-- src/ui/UserBoard/layouts/UserAvatar.vue -->
+<!-- src/ui/UserBoard/parts/UserAvatar.vue -->
 <template>
   <img
     :src="src"

@@ -1,4 +1,4 @@
-<!-- src/ui/UserBoard/layouts/Ranking.vue -->
+<!-- src/ui/UserBoard/components/standard/Ranking.vue -->
 <!-- 個人の得点リスト (得点の高い順) -->
 <template>
   <div v-if="rows.length > 0" class="flex flex-col gap-1 rounded-2xl p-2 shadow-xl" :style="boardRootStyle(settings)">
@@ -40,9 +40,9 @@
   import { computed } from 'vue'
   import type { UserStatsRecord } from '@/types/api'
   import type { UserBoardType } from '@/types/ui'
-  import { buildRanking } from '../scripts/boardData'
-  import { boardRootStyle, mix, teamColor } from './boardStyle'
-  import UserAvatar from './UserAvatar.vue'
+  import { buildRanking } from '../../scripts/boardData'
+  import { boardRootStyle, mix, teamColor } from '../../parts/boardStyle'
+  import UserAvatar from '../../parts/UserAvatar.vue'
 
   const props = defineProps<{ users: UserStatsRecord[]; settings: UserBoardType }>()
 

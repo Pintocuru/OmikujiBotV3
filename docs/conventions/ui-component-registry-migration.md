@@ -23,7 +23,7 @@
 3. LiveClock(完了)
 4. StreamCounter(完了。スキーマも新方式に変更)
 5. ToastWidgets(完了)
-6. UserBoard
+6. UserBoard(完了)
 
 - CookieCounter は保留(スキーマの見直しを検討中)。
 
