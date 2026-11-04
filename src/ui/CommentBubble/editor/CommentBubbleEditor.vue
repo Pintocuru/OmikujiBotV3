@@ -82,13 +82,13 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
   import { EnterMotionType } from '@/types/OmikujiData'
   import { CommentBubbleSchema, CommentBubbleType } from '@/types/ui'
   import { getCommentBubbleComponent, getCommentBubbleComponentSets } from '../CommentBubbleRegistry'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
-  import { enterMotionMap } from '@/maps/OmikujiData'
-  import { enterMotions } from '@/types/OmikujiData'
+    import { enterMotions } from '@/types/OmikujiData'
 
   import CommentBubblePreview from './CommentBubblePreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
