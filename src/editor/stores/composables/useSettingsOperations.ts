@@ -22,9 +22,15 @@ export function useSettingsOperations(data: Ref<OmikujiDataType>, hasChanged: Re
   }
 
   // アイテム設定を更新
+  // settings は loose スキーマ(index signature: [x: string]: unknown)のため、
+  // settings[key] の型はオブジェクトとは限らない。spread 前にオブジェクトへ絞り込む
+  // (undefined の spread は {} になるため、実行時の挙動は従来と同じ)
   const updateItemSettings = <T extends keyof UiType['settings']>(key: T, updates: Partial<UiType['settings'][T]>) => {
+    const current = data.value.ui.settings[key]
+    const base: Partial<UiType['settings'][T]> =
+      typeof current === 'object' && current !== null ? (current as Partial<UiType['settings'][T]>) : {}
     data.value.ui.settings[key] = {
-      ...data.value.ui.settings[key],
+      ...base,
       ...updates,
     } as UiType['settings'][T]
     hasChanged.value = true

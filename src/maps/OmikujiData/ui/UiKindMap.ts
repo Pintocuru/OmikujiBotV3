@@ -51,9 +51,9 @@ export const uiKindMap: Record<UiKind, DisplayMetaLucide> = {
     description: 'ユーザーの得点・チームを、得点リストやチームのバー・スコアボードで表示します。',
   },
   lifeHourglass: {
-    label: '命の砂時計'
-    icon: 'Hourglass'
-    description: '視聴時間とギフトを「砂粒」にして器に貯めます(実験中)。'
+    label: '命の砂時計',
+    icon: 'Hourglass',
+    description: '視聴時間とギフトを「砂粒」にして器に貯めます(実験中)。',
   },
 }
 
@@ -95,8 +95,8 @@ export const uiKindMetaMap: Record<UiKind, DisplayMeta> = {
     description: 'ユーザーの得点・チームを、得点リストやチームのバー・スコアボードで表示します。',
   },
   lifeHourglass: {
-    label: '命の砂時計'
-    description: '視聴時間とギフトを「砂粒」にして器に貯めます(実験中)。'
+    label: '命の砂時計',
+    description: '視聴時間とギフトを「砂粒」にして器に貯めます(実験中)。',
   },
 }
 

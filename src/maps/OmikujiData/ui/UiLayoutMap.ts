@@ -24,6 +24,7 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, { label: string; des
       'cookieCounter',
       'gameRanking',
       'kujibikiPanel',
+      'lifeHourglass',
       'liveClock',
       'streamCounter',
       'toastWidgets',

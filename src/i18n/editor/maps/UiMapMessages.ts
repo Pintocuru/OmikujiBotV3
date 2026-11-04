@@ -37,6 +37,10 @@ export const uiMapMessages = {
           label: 'くじ引きパネル',
           description: 'おみくじ・占いの結果をパネル形式で表示します。',
         },
+        lifeHourglass: {
+          label: '命の砂時計',
+          description: '視聴時間とギフトを「砂粒」にして器に貯めます(実験中)。',
+        },
         liveClock: {
           label: 'ライブクロック',
           description: '時計とメッセージを表示します。',
@@ -92,6 +96,10 @@ export const uiMapMessages = {
         kujibikiPanel: {
           label: 'Lottery panel',
           description: 'Displays omikuji and fortune-telling results in a panel.',
+        },
+        lifeHourglass: {
+          label: 'Life hourglass',
+          description: 'Stores watch time and gifts as grains of sand in bowls (experimental).',
         },
         liveClock: {
           label: 'Live clock',
