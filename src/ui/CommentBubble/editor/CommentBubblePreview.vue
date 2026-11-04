@@ -2,7 +2,6 @@
 <template>
   <HudPreview :isHeight="false">
     <div :class="useFontFamily(fontFamily)">
-      <!-- 表示タイプ(layout)は absolute bottom-0 で配置されるため、高さ固定の舞台に載せる -->
       <div class="relative h-90 overflow-hidden">
         <component
           :is="currentComponent"
