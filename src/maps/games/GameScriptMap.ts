@@ -8,6 +8,7 @@ const RAW = `${DOCS}/raw/main`
 
 /**
  * ゲームスクリプトのアイコン
+ * label は src/i18n/editor/maps/ScenarioMapMessages.ts にあります
  */
 export const gameIcons: Record<GameScriptKey, LucideIconName> = {
   GouseiSuika: 'Apple',
