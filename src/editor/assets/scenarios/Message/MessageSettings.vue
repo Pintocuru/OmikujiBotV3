@@ -106,7 +106,7 @@
 
   // 投稿を受け取れる UI だけ選べる
   const selectableKinds = computed<UiKind[]>(() =>
-    uiLayoutMap[data.value.ui.layout].kinds.filter((kind) => postUiKinds.includes(kind))
+    uiLayoutMap[data.value.ui.layout].filter((kind) => postUiKinds.includes(kind))
   )
   const updateStep = (updates: Partial<ScenarioStepMessageType>) => {
     emit('update:step', { ...props.step, ...updates })

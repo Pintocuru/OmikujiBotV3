@@ -25,12 +25,6 @@ import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
 
 /**
  * カテゴリごとの、ContentArea に出す内容の定義
- * - editor: 本体のエディター
- * - item: Events / Assets の 1 セクションの内容。あるカテゴリは editor が ItemEditor で、これを props(content)として受け取る
- *
- * Events / Assets は 1 画面 1 セクションなのでタブを持たない
- * (基本設定は ContentSummary のダイアログ、接続は ContentConnections の接続表示で扱う)。
- * 複数セクションの ui / appInfo は、タブ(SectionTabs)を各エディターが自分で持つ
  */
 export type CategoryContentDef = {
   editor: Component
@@ -53,7 +47,7 @@ const stepsSection: ItemContentDef['section'] = {
 
 // ???
 const scenariosSection: ItemContentDef['section'] = {
-  icon: 'ListChecks', // TODO:「シナリオ編集」はこのアイコンではないと思う…
+  icon: 'FilePen',
   labelKey: 'categorySections.scenarios.label',
   descriptionKey: 'categorySections.scenarios.description',
 }

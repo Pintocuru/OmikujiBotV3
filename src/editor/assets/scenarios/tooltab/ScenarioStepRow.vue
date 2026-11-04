@@ -19,14 +19,14 @@
   import { computed } from 'vue'
   import { ScenarioStepType } from '@/types/OmikujiData'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
-  import { scenarioStepKindMap } from '@/maps/OmikujiData'
+  import { scenarioStepKindIcons } from '@/maps/OmikujiData'
 
   const props = defineProps<{
     step: ScenarioStepType
   }>()
 
   const resolvedIcon = computed(() => {
-    const iconName = scenarioStepKindMap[props.step.kind]?.icon
+    const iconName = scenarioStepKindIcons[props.step.kind]
     return resolveLucideIcon(iconName)
   })
 </script>

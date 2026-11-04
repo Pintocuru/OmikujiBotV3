@@ -9,11 +9,15 @@ export const uiMapMessages = {
         },
         gameRanking: {
           label: 'ゲームランキング',
-          description: 'スイカゲーム等の結果をランキングボード形式で表示します。',
+          description: 'ゲームの結果をランキング形式で表示します。',
         },
         sesupinTest: {
-          label: 'テストレイアウト(管理者用)',
+          label: 'せすぴん(管理者)用',
           description: 'すべて表示するレイアウト',
+        },
+        lifeHourglass: {
+          label: '命の砂時計',
+          description: 'リスナーが配信を閲覧した時間を「砂粒」として表示する、砂時計ジェネレーター',
         },
       },
       uiKind: {

@@ -2,8 +2,12 @@
 <template>
   <div class="flex flex-col gap-3">
     <SettingItem icon="Trash2" labelKey="uiSettings.unused.label" descriptionKey="uiSettings.unused.description">
+      <!-- 削除データがない場合 -->
       <p v-if="unusedKinds.length === 0" class="text-xs opacity-70 p-2">{{ t('uiSettings.unused.empty') }}</p>
 
+      <!-- 余計なデータがある場合 -->
+      <!-- TODO:ビルド時に、自動的にこの機能を発動させたい -->
+      <!-- (エディターでは任意に消したいが、ビルド時は自動で消しても問題がない) -->
       <div v-else class="flex flex-col gap-2">
         <div v-for="kind in unusedKinds" :key="kind" class="flex items-center justify-between gap-2">
           <span class="badge badge-outline">{{ kindLabel(kind) }}</span>
@@ -38,7 +42,7 @@
 
   // 設定が入っていて、現在のレイアウトが使わない UI
   const unusedKinds = computed(() => {
-    const used = uiLayoutMap[data.value.ui.layout].kinds
+    const used = uiLayoutMap[data.value.ui.layout]
     const settings = data.value.ui.settings
     return (Object.keys(settings) as UiKind[]).filter((kind) => settings[kind] !== undefined && !used.includes(kind))
   })

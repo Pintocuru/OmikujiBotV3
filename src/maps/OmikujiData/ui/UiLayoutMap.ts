@@ -3,37 +3,29 @@ import { UiKind, UiLayoutType } from '@/types/OmikujiData'
 
 /**
  * レイアウトプリセットのUI表示マップ
+ * label は editor/i18n/maps/UiMapMessages.ts にあります
  */
-export const uiLayoutMap: Record<NonNullable<UiLayoutType>, { label: string; description: string; kinds: UiKind[] }> = {
-  commentBubble: {
-    label: 'フキダシ',
-    description: 'シンプルなフキダシでおみくじ結果を表示します。',
-    kinds: ['commentBubble'],
-  },
-  gameRanking: {
-    label: 'ゲームランキング',
-    description: 'スイカゲーム等の結果をランキングボード形式で表示します。',
-    kinds: ['gameRanking'],
-  },
-  lifeHourglass: {
-    label: '命の砂時計',
-    description: 'リスナーが配信を閲覧した時間を「砂粒」として表示する、砂時計ジェネレーター',
-    kinds: ['lifeHourglass'],
-  },
-  sesupinTest: {
-    label: 'テストレイアウト(管理者用)',
-    description: 'すべて表示するレイアウト',
-    kinds: [
-      'characterStage',
-      'commentBubble',
-      'cookieCounter',
-      'gameRanking',
-      'kujibikiPanel',
-      'lifeHourglass',
-      'liveClock',
-      'streamCounter',
-      'toastWidgets',
-      'userBoard',
-    ],
-  },
+export const uiLayoutMap: Record<NonNullable<UiLayoutType>, UiKind[]> = {
+  // フキダシ
+  commentBubble: ['commentBubble'],
+
+  // ゲームランキング
+  gameRanking: ['gameRanking'],
+
+  // 命の砂時計
+  lifeHourglass: ['lifeHourglass'],
+
+  // せすぴん(管理者)用
+  sesupinTest: [
+    'characterStage',
+    'commentBubble',
+    'cookieCounter',
+    'gameRanking',
+    'kujibikiPanel',
+    'lifeHourglass',
+    'liveClock',
+    'streamCounter',
+    'toastWidgets',
+    'userBoard',
+  ],
 }
