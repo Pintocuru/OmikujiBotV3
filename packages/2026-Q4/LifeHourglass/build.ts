@@ -18,10 +18,16 @@ const PROJECT = {
 // - color: パッケージ名に付く色違いの名前 ('' = 色なし)
 // - withEditor: editor.ts (エディター) を同梱する
 // - withConsole: console.ts (LiveConsole。ポン出し・ユーザー操作・ゲームの記録) を同梱する
-const VARIANTS = [{ color: '', withEditor: false, withConsole: false }] as const
+const VARIANTS = [
+  { color: '', withEditor: false, withConsole: false },
+  { color: 'Adv', withEditor: true, withConsole: false },
+] as const
 
 // ビルドターゲット
-const buildTargets: PackageBuildTarget[] = [{ project: 'LifeHourglass', type: 'FULL' }]
+const buildTargets: PackageBuildTarget[] = [
+  { project: 'LifeHourglass', type: 'FULL' },
+  { project: 'LifeHourglassAdv', type: 'FULL' },
+]
 
 // プロジェクト一覧
 function getProjects(packageRoot: string): ProjectPackageConfig[] {

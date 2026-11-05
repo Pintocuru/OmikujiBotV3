@@ -4,6 +4,6 @@ import OmikujiBot from './OmikujiBot/build'
 import StrawberryChocolate from './StrawberryChocolate/build'
 
 export default [
-  OmikujiBot, // コアプロジェクト
-  StrawberryChocolate, // ショコラ
+  // OmikujiBot, // コアプロジェクト
+  // StrawberryChocolate, // ショコラ
 ]
