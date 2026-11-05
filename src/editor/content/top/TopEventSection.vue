@@ -1,7 +1,7 @@
 <!-- src/editor/content/top/TopEventSection.vue -->
 <!-- TOPページ: events の1カテゴリ分。番号=判定の順番。ドラッグハンドルで並び替え可能 -->
 <template>
-  <section class="space-y-1.5">
+  <section class="space-y-2">
     <TopCategoryHeader
       :icon="categoryMap[category].icon"
       :title="t(`categories.${category}.label`)"
@@ -39,7 +39,9 @@
         <!-- イベント名と説明 -->
         <div class="min-w-0 flex-1">
           <div class="text-lg font-bold truncate">{{ event.name || event.id }}</div>
-          <div class="text-xs text-base-content/60 truncate">{{ event.description }}</div>
+          <div class="text-xs text-base-content/60 group-hover:text-primary-content truncate">
+            {{ event.description }}
+          </div>
         </div>
         <ItemMenu
           @edit="emit('edit', category, event.id)"

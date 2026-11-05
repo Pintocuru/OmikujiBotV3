@@ -24,7 +24,9 @@
           <div class="text-lg font-bold truncate">
             {{ character.displayName || character.name || character.key }}
           </div>
-          <div class="text-xs text-base-content/60 truncate">{{ character.description }}</div>
+          <div class="text-xs text-base-content/60 group-hover:text-primary-content truncate">
+            {{ character.description }}
+          </div>
         </div>
         <ItemMenu
           @edit="emit('edit', 'characters', character.key)"

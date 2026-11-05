@@ -14,13 +14,13 @@
         v-for="item in uiItems"
         :key="item.kind"
         type="button"
-        class="flex items-center gap-2 rounded-lg bg-base-200 px-3 py-2 text-left hover:bg-primary hover:text-primary-content transition-colors min-w-0 cursor-pointer"
+        class="group flex items-center gap-2 rounded-lg bg-base-200 px-3 py-2 text-left hover:bg-primary hover:text-primary-content transition-colors min-w-0 cursor-pointer"
         @click="goToUiSection(item.kind)"
       >
         <component :is="item.icon" class="w-5 h-5 shrink-0" />
         <div class="min-w-0">
           <div class="text-lg font-bold truncate">{{ t(`mapText.uiKind.${item.kind}.label`) }}</div>
-          <div class="text-xs text-base-content/60 truncate">
+          <div class="text-xs text-base-content/60 group-hover:text-primary-content truncate">
             {{ t(`mapText.uiKind.${item.kind}.description`) }}
           </div>
         </div>
