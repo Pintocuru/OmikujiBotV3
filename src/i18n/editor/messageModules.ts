@@ -1,6 +1,6 @@
 // src/i18n/editor/messageModules.ts
 // i18n に取り込む翻訳ファイルの一覧。
-// import.meta.glob (Vite 専用) の代わりに明示的に import している (Vite / webpack の両方で動かすため)。
+// import.meta.glob (Vite 専用) の代わりに明示的に import している
 // src/i18n/editor 配下に翻訳ファイルを追加したら、ここにも1行追加すること。
 // (ナビゲーション用の Map など、翻訳ではないファイルは src/editor/maps に置き、ここには載せない)
 

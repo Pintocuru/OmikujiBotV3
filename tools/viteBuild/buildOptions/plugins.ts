@@ -23,10 +23,7 @@ export function externalDynamicImportPlugin(): Plugin {
 }
 
 /**
- * 循環依存の検出 (webpack 版 CircularDependencyPlugin の failOnError 相当)
- * - 自前のコードで循環依存があればビルドを止める
- * - node_modules 内の循環 (zod など) は無視する
- * rolldownOptions.checks.circularDependency を true にした上で、onLog に渡して使う
+ * 循環依存の検出
  */
 export const failOnCircularDependency: OnLog = (level, log, defaultHandler) => {
   if (log.code !== 'CIRCULAR_DEPENDENCY') return defaultHandler(level, log)

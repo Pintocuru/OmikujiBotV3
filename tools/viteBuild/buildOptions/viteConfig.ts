@@ -68,9 +68,8 @@ export function createViteBuildConfig(
         onLog: failOnCircularDependency,
         output: {
           globals: GLOBALS,
-          // webpack 版 TerserPlugin と同じ: console / debugger を消して mangle する
           minify: { compress: { dropConsole: true, dropDebugger: true }, mangle: true },
-          codeSplitting: false, // ローダー (script.js) が entry ごとに 1 js + 1 css を読むため分割しない
+          codeSplitting: false,
         },
       },
     },

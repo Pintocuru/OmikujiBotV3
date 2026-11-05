@@ -1,5 +1,4 @@
 // src/common/EntryCore/editorCore.ts
-// エディター用：OneSDKへの依存ゼロ。i18n を含む (Vite / webpack の両方で動く)
 import i18n from '@/editor/i18n'
 import { createBaseApp } from './core'
 
