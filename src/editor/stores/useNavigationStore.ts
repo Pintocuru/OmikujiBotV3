@@ -111,7 +111,7 @@ export const useNavigationStore = defineStore('navigation', () => {
   watch(
     () => getEvents('comments'),
     (arr) => {
-      if (arr.length > 0 && selectedItemKey.value === null) {
+      if (arr.length > 0 && selectedItemKey.value === null && selectedCategory.value === 'comments') {
         selectedItemKey.value = arr[0].id
       }
     },

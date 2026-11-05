@@ -17,9 +17,9 @@ const t = (key: string) => i18n.global.t(key)
 export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource>, loadIssues: Ref<ParseIssue[]>) {
   // データを読み込み、マイグレーションとバリデーションを行う
   // このビルドで未対応のキーを含むデータは、ストアに入れず拒否する(読み込みはここ1か所)
-  const loadData = (loadData: unknown): boolean => {
+  const loadData = (rawData: unknown): boolean => {
     try {
-      const { data: normalized, issues } = normalizeData(loadData)
+      const { data: normalized, issues } = normalizeData(rawData)
 
       const unsupported = validateAgainstBuild(normalized)
       if (unsupported.length > 0) {

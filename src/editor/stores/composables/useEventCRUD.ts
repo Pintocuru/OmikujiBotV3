@@ -29,6 +29,7 @@ export function useEventCRUD(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
       ...events[index],
       ...updates,
       id,
+      updatedAt: new Date().toISOString(),
     }
     const updatedEvents = [...events]
     updatedEvents[index] = updatedItem
@@ -49,7 +50,8 @@ export function useEventCRUD(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
   const duplicateEvent = <C extends EventCategoryType>(category: C, id: string): string | null => {
     const event = data.value.events[category].find((item) => item.id === id) as EventCategoryDataMap[C] | undefined
     if (!event) return null
-    const duplicatedEvent = { ...event, id: undefined }
+    // id / key / 日時は parse の既定値で新しく振り直す
+    const duplicatedEvent = { ...event, id: undefined, key: undefined, createdAt: undefined, updatedAt: undefined }
     return addEvent(category, duplicatedEvent)
   }
 

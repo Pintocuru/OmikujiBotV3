@@ -11,6 +11,7 @@ import { useDataMergeHelpers } from './useDataMergeHelpers'
 import { ImportPreview } from '@/editor/types'
 import { normalizeData } from '@/common/migrations/index'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { reportDataMismatch, validateAgainstBuild } from '@/common/buildValidation/validateAgainstBuild'
 import i18n from '@/editor/i18n'
 
 const t = (key: string) => i18n.global.t(key)
@@ -29,6 +30,13 @@ export function useDataMerge(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
       if (issues.length > 0) console.warn(`[merge] ${issues.length}件の不正な要素を除外しました`, issues)
 
       const result = processPartialMerge(importedData, preview)
+
+      // loadData と同様、このビルドで未対応のキー(gameScript など)を含むデータは取り込まない
+      const unsupported = validateAgainstBuild(result)
+      if (unsupported.length > 0) {
+        reportDataMismatch(unsupported)
+        return false
+      }
 
       swalToast.success({ title: t('dataOperation.mergeSuccess') })
 
