@@ -6,7 +6,7 @@
 // - 手動で追加したユーザー (isManual) は、コメントしなくても、操作結果から記録を作る。
 import { UserStatsRecordSchema } from '@/types/api'
 import type { UserStatsControlType, UserStatsLoadResponseType, UserStatsRecord } from '@/types/api'
-import type { UserStatsManager } from './UserStatsManager'
+import type { UserStatsManager } from '@/common/UserStats/UserStatsManager'
 
 type ControlFields = Pick<UserStatsRecord, 'score' | 'team' | 'order' | 'pinned' | 'tags' | 'badges'>
 

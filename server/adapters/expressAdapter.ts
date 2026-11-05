@@ -7,7 +7,7 @@ import { SERVER_ROOT } from '@server/constants'
 import { HTTP } from '@server/core/constants'
 
 /**
- * Express(開発用)の実行環境: omikujiData.js は assets に出力する
+ * Express(開発用)の実行環境
  */
 const EXPRESS_CONTEXT: RequestContext = {
   omikujiOutputDir: SERVER_ROOT,

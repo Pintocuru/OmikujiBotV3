@@ -2,6 +2,7 @@
 import fs from 'fs/promises'
 import type { Dirent } from 'fs'
 import path from 'path'
+import { randomUUID } from 'node:crypto'
 import { FileItem } from '@server/types'
 import { MetaDataSchema, type MetaDataType } from '@/types/core/MetaDataSchema'
 import { ensureDirectory } from './directoryService'
@@ -34,14 +35,61 @@ function resolveSafePath(baseDir: string, fileName: string): string {
 }
 
 /**
+ * ファイルを「全部書けたときだけ」置き換える (途中で落ちても、元のファイルは壊れない)
+ * 同じ場所の一時ファイルに書き切ってから rename する。一時ファイルは .json で終わらないので、一覧には出ない
+ */
+async function writeFileAtomic(filePath: string, data: string): Promise<void> {
+  // TODO:nanoId つかったほうがいいかもしれない(cryptoはいい思い出がない)
+  const tmpPath = `${filePath}.${randomUUID()}.tmp`
+  try {
+    const handle = await fs.open(tmpPath, 'w')
+    try {
+      await handle.writeFile(data, 'utf8')
+      await handle.sync() // OS のキャッシュに残ったまま電源が落ちても、空のファイルにならないようにする
+    } finally {
+      await handle.close()
+    }
+    await renameWithRetry(tmpPath, filePath)
+  } catch (error) {
+    await fs.rm(tmpPath, { force: true }).catch(() => undefined)
+    throw error
+  }
+}
+
+const RENAME_RETRY_CODES = new Set(['EPERM', 'EBUSY', 'EACCES'])
+const RENAME_MAX_RETRIES = 3
+
+/**
+ * rename を、失敗したら数回やり直す
+ * Windows では、ウイルス対策ソフトなどが対象のファイルを一瞬つかむと、rename が失敗することがある
+ */
+async function renameWithRetry(from: string, to: string): Promise<void> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      await fs.rename(from, to)
+      return
+    } catch (error: any) {
+      if (attempt >= RENAME_MAX_RETRIES || !RENAME_RETRY_CODES.has(error?.code)) throw error
+      await new Promise((resolve) => setTimeout(resolve, 50 * (attempt + 1)))
+    }
+  }
+}
+
+interface FileListOptions {
+  /** 各ファイルの meta を読むか (既定: true)。読むには JSON 全体を解析するため、meta を使わない一覧では false にする */
+  withMeta?: boolean
+}
+
+/**
  * ファイル一覧を再帰的に取得（フォルダネスト対応）
  */
-export async function getFileList(rootName: string | null): Promise<FileItem[]> {
+export async function getFileList(rootName: string | null, options: FileListOptions = {}): Promise<FileItem[]> {
+  const { withMeta = true } = options
   try {
     const baseDir = resolveBaseDir(rootName)
     await ensureDirectory(baseDir)
 
-    const results = await collectJsonFiles(baseDir, baseDir)
+    const results = await collectJsonFiles(baseDir, baseDir, withMeta)
     return results.sort((a, b) => new Date(b.modified).getTime() - new Date(a.modified).getTime())
   } catch (error) {
     console.error('Error getting file list:', error)
@@ -53,8 +101,9 @@ export async function getFileList(rootName: string | null): Promise<FileItem[]> 
  * 再帰的にJSONファイルを収集
  * @param currentDir 現在探索中のディレクトリ
  * @param baseDir ルートディレクトリ（相対パス計算用）
+ * @param withMeta meta も読むか
  */
-async function collectJsonFiles(currentDir: string, baseDir: string): Promise<FileItem[]> {
+async function collectJsonFiles(currentDir: string, baseDir: string, withMeta: boolean): Promise<FileItem[]> {
   const entries = await fs.readdir(currentDir, { withFileTypes: true })
   const results: FileItem[] = []
 
@@ -63,7 +112,7 @@ async function collectJsonFiles(currentDir: string, baseDir: string): Promise<Fi
 
     if (entry.isDirectory()) {
       // サブフォルダを再帰探索
-      const nested = await collectJsonFiles(fullPath, baseDir)
+      const nested = await collectJsonFiles(fullPath, baseDir, withMeta)
       results.push(...nested)
     } else if (entry.isFile() && entry.name.endsWith('.json')) {
       const stats = await fs.stat(fullPath)
@@ -72,7 +121,7 @@ async function collectJsonFiles(currentDir: string, baseDir: string): Promise<Fi
       results.push({
         name: relativePath,
         modified: stats.mtime.toISOString(),
-        meta: await readMeta(fullPath),
+        meta: withMeta ? await readMeta(fullPath) : undefined,
       })
     }
   }
@@ -154,7 +203,7 @@ export async function saveFile(rootName: string | null, fileName: string, data: 
   const filePath = resolveSafePath(dir, fileName)
 
   await ensureDirectory(path.dirname(filePath))
-  await fs.writeFile(filePath, data, 'utf8')
+  await writeFileAtomic(filePath, data)
 }
 
 /**
@@ -175,7 +224,7 @@ export async function saveOmikujiData(configData: string, outputDir: string): Pr
 
   await ensureDirectory(outputDir)
   const filePath = path.join(outputDir, FILE_NAME.omikujiData)
-  await fs.writeFile(filePath, jsContent, 'utf8')
+  await writeFileAtomic(filePath, jsContent)
 
   return path.relative(path.dirname(SERVER_ROOT), filePath).replace(/\\/g, '/')
 }

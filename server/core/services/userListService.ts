@@ -1,7 +1,7 @@
 // server/core/services/userListService.ts
 // コメント由来のユーザーリスト。プラグイン (わんコメ) が受け取ったコメントから作る。
 // generator と同じ UserStatsManager を、サーバー側にも1つ持つ (generator がなくても LiveConsole が使えるようにするため)。
-import { UserStatsManager } from '@/generator/stores/UserStats/UserStatsManager'
+import { UserStatsManager } from '@/common/UserStats/UserStatsManager'
 import type { OmikenCommentType } from '@/types/OmikenComment'
 import { POST_SETTINGS } from '@/sdk/PostSettings'
 import type { UserStatsRecord } from '@/types/api'

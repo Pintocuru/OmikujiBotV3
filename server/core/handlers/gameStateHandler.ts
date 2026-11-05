@@ -5,6 +5,7 @@ import { ok, badRequest, fail, guard } from '@server/core/utils/result'
 import { parseWith } from '@server/core/utils/schema'
 import { withLock } from '@server/core/utils/mutex'
 import { DIR_NAME, HTTP } from '@server/core/constants'
+import { isSafeRecordKey } from '@server/core/utils/validation'
 import {
   GameLogAppendRequestSchema,
   GameStateSchema,
@@ -23,7 +24,7 @@ const toFileName = (streamId: string) => `${streamId}.json`
  */
 export async function listGameStates(): Promise<ApiResult> {
   return guard('List game states', 'Failed to list game states', async () => {
-    const files = await fileSystem.getFileList(DIR_NAME.streams)
+    const files = await fileSystem.getFileList(DIR_NAME.streams, { withMeta: false }) // meta は使わないので、各ファイルを解析しない
 
     const items: GameStateListItemType[] = files
       .filter((f) => !f.name.includes('/') && f.name.endsWith('.json'))
@@ -50,7 +51,8 @@ export async function loadGameState(streamId: string | undefined, eventKey?: str
 
       if (eventKey === undefined) return ok(file)
 
-      const state = file.states[eventKey]
+      // eventKey が 'constructor' などでも、プロトタイプの値を拾わないよう hasOwn で確認する
+      const state = Object.hasOwn(file.states, eventKey) ? file.states[eventKey] : undefined
       if (!state) return fail(HTTP.NOT_FOUND, 'Game state not found')
       return ok({ ...file, states: { [eventKey]: state } })
     },
@@ -69,6 +71,8 @@ export async function appendGameLog(body: unknown): Promise<ApiResult> {
   if (!parsed.ok) return badRequest(parsed.error)
 
   const { streamId, eventKey, log } = parsed.data
+  if (!isSafeRecordKey(eventKey)) return badRequest('Invalid eventKey')
+  if (!isSafeRecordKey(log.userId)) return badRequest('Invalid userId')
 
   return withLock(`game-state:${streamId}`, () =>
     guard('Append game log', 'Failed to append game log', async () => {
@@ -83,7 +87,10 @@ export async function appendGameLog(body: unknown): Promise<ApiResult> {
         if (error?.code !== 'ENOENT') throw error
       }
 
-      const state = current?.states[eventKey] ?? GameStateSchema.parse({ eventKey })
+      const state =
+        current && Object.hasOwn(current.states, eventKey)
+          ? current.states[eventKey]
+          : GameStateSchema.parse({ eventKey })
 
       // 重複 (同じ log.id) は保存しない
       if (state.logs.some((saved) => saved.id === log.id)) {
@@ -91,7 +98,9 @@ export async function appendGameLog(body: unknown): Promise<ApiResult> {
       }
 
       // userId をキーに使うので、代入ではなく computed key のスプレッドで更新する
-      const previous = state.userMap[log.userId] ?? UserStatsSchema.parse({ userId: log.userId })
+      const previous = Object.hasOwn(state.userMap, log.userId)
+        ? state.userMap[log.userId]
+        : UserStatsSchema.parse({ userId: log.userId })
       const nextState: GameStateType = {
         ...state,
         logs: [...state.logs, log],

@@ -11,6 +11,7 @@ import { FILE_NAME } from '@server/core/constants'
 import { randomUUID } from 'node:crypto'
 import { getCommentUsers, resetCommentUsers, seedCommentUsers } from '@server/core/services/userListService'
 import { buildUserList } from '@server/core/utils/userList'
+import { isSafeRecordKey } from '@server/core/utils/validation'
 import {
   AddManualUserRequestSchema,
   RemoveManualUserRequestSchema,
@@ -93,6 +94,7 @@ export async function loadUserStats(since?: string): Promise<ApiResult> {
 export async function updateUserStats(body: unknown): Promise<ApiResult> {
   const parsed = parseWith(UserStatsUpdateRequestSchema, body)
   if (!parsed.ok) return badRequest(parsed.error)
+  if (parsed.data.updates.some(({ userId }) => !isSafeRecordKey(userId))) return badRequest('Invalid userId')
 
   return withLock(LOCK_KEY, () =>
     guard('Update user stats', 'Failed to update user stats', async () => {

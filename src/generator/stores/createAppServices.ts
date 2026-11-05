@@ -1,5 +1,5 @@
 // src/generator/stores/createAppServices.ts
-import { UserStatsManager } from './UserStats/UserStatsManager'
+import { UserStatsManager } from '@/common/UserStats/UserStatsManager'
 import { UserStatsControlSync } from './UserStats/UserStatsControlSync'
 import { ServiceMetaStore } from './MetaState/MetaStateService'
 import { StreamStatsManager } from './StreamStats/StreamStatsManager'

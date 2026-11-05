@@ -1,6 +1,7 @@
 // server/core/handlers/padHandler.ts
 // ポン出し: LiveConsole (Chrome) でボタンが押されたことを覚え、Generator (OBS) からのポーリングに答える。
 // 保持するのは「最後の発火」だけ。保存はしない (サーバーを再起動したら空に戻る)。
+// 仕様: Generator のポーリング間隔より短い間に別のパッドが押されると、先の発火は取りこぼされる (同時押しは想定しない)。
 import { ApiResult } from '@server/types'
 import { ok, badRequest } from '@server/core/utils/result'
 import { parseWith } from '@server/core/utils/schema'

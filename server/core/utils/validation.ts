@@ -49,3 +49,11 @@ export function validatePackageFileName(fileName: string): boolean {
   }
   return fileName.length > '.json'.length && fileName.endsWith('.json')
 }
+
+/**
+ * オブジェクトのキー (eventKey・userId など) に使える文字列か
+ * '__proto__' は、zod の record が読み込み時に黙って捨てるため、保存しても消えてしまう。受け付けない
+ */
+export function isSafeRecordKey(key: string): boolean {
+  return key !== '__proto__'
+}
