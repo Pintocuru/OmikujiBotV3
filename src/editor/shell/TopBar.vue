@@ -46,6 +46,7 @@
       <SaveMenu />
     </div>
 
+    <!-- ジェネレーターサンプル -->
     <button
       class="btn btn-sm shadow"
       :class="canUseGenerator ? 'btn-neutral' : 'btn-outline btn-warning bg-base-100'"
@@ -57,6 +58,7 @@
       {{ generatorLabel }}
     </button>
 
+    <!-- DaisyUi テーマ変更ボタン -->
     <button class="btn btn-sm btn-square btn-neutral shadow" :title="themeTitle" @click="toggleDaisyUiTheme">
       <component :is="isDark ? Sun : Moon" class="w-4 h-4" />
     </button>
@@ -133,8 +135,7 @@
 
   const generatorTitle = computed(() => {
     if (props.showGenerator) return t('shell.topBar.generator.return')
-    if (props.generatorState === 'unavailable')
-      return t('shell.topBar.generator.unavailableTip')
+    if (props.generatorState === 'unavailable') return t('shell.topBar.generator.unavailableTip')
     return t('shell.topBar.generator.showTip')
   })
 

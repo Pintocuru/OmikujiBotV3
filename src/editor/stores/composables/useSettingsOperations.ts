@@ -22,9 +22,6 @@ export function useSettingsOperations(data: Ref<OmikujiDataType>, hasChanged: Re
   }
 
   // アイテム設定を更新
-  // settings は loose スキーマ(index signature: [x: string]: unknown)のため、
-  // settings[key] の型はオブジェクトとは限らない。spread 前にオブジェクトへ絞り込む
-  // (undefined の spread は {} になるため、実行時の挙動は従来と同じ)
   const updateItemSettings = <T extends keyof UiType['settings']>(key: T, updates: Partial<UiType['settings'][T]>) => {
     const current = data.value.ui.settings[key]
     const base: Partial<UiType['settings'][T]> =
@@ -54,8 +51,7 @@ export function useSettingsOperations(data: Ref<OmikujiDataType>, hasChanged: Re
     updateSettingsSection(section, { [field]: defaults[section][field] } as unknown as Partial<SettingsType[S]>)
   }
 
-  // エディターのテーマを light / dark で切り替える(dark → light、それ以外 → dark)
-  // resetSettingsField はデフォルト値(dark)に戻す専用なので、light への切り替えには使えない
+  // エディターのテーマを light / dark で切り替える
   const toggleDaisyUiTheme = () => {
     const next = data.value.settings.developer.daisyUiTheme === 'dark' ? 'light' : 'dark'
     updateSettingsSection('developer', { daisyUiTheme: next })
