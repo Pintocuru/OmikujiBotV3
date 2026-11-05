@@ -2,7 +2,8 @@
 // UI 関係の登録をすべてこのファイルに集約する窓口
 import { registerUi, type UiLoader } from '@/ui/uiRegistry'
 import type { UiKind } from '@/types/OmikujiData'
-import { registerStandardBubbleComponents } from '@/ui/CommentBubble/components/standard/register'
+import { registerBubbleBubbleComponents } from '@/ui/CommentBubble/components/bubble/register'
+import { registerMessageBoardBubbleComponents } from '@/ui/CommentBubble/components/messageBoard/register'
 import { registerStandardRankingComponents } from '@/ui/GameRanking/components/standard/register'
 import { registerStandardClockComponents } from '@/ui/LiveClock/components/standard/register'
 import { registerStandardStreamComponents } from '@/ui/StreamCounter/components/standard/register'
@@ -31,7 +32,8 @@ const registerUiKinds = () =>
 
 // CommentBubble
 const registerBubbleComponents = () => {
-  registerStandardBubbleComponents()
+  registerBubbleBubbleComponents()
+  registerMessageBoardBubbleComponents()
 }
 
 // GameRanking

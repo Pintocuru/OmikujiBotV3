@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/components/standard/CommentDisplay.vue -->
+<!-- src/ui/CommentBubble/components/bubble/CommentDisplay.vue -->
 <template>
   <div class="relative" :style="autoHeight ? { height: `${listHeight}px` } : undefined">
     <div

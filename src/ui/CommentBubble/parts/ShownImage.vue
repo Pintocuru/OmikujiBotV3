@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/components/standard/ShownImage.vue -->
+<!-- src/ui/CommentBubble/parts/ShownImage.vue -->
 <!-- 表示中のキャラクター画像。画像がなければ何も描画しない(class は外側の div に渡る) -->
 <template>
   <!-- キーが変わったら再マウントしてアニメを頭出し -->

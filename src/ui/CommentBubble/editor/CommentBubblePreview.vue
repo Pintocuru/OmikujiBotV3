@@ -1,7 +1,7 @@
 <!-- src/ui/CommentBubble/editor/CommentBubblePreview.vue -->
 <template>
   <HudPreview :isHeight="false">
-    <div class="relative h-90 overflow-hidden">
+    <div class="relative h-100 overflow-hidden">
       <CommentBubbleSelector
         :displayedComments="displayedComments"
         :removeComment="removeComment"

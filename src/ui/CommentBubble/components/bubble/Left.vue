@@ -1,7 +1,7 @@
-<!-- src/ui/CommentBubble/components/standard/Right.vue -->
-<!-- ライト: キャラを右、吹き出しを左に並べる(画面右下) -->
+<!-- src/ui/CommentBubble/components/bubble/Left.vue -->
+<!-- レフト: キャラを左、吹き出しを右に並べる(画面左下) -->
 <template>
-  <div class="absolute bottom-0 right-0 flex flex-row-reverse items-end gap-6 p-8">
+  <div class="absolute bottom-0 left-0 flex items-end gap-6 p-8">
     <ShownImage :shown="shown" :size="settings.characterSize" />
 
     <div class="w-105 mb-4">
@@ -10,8 +10,8 @@
         :remove-comment="removeComment"
         :motion="settings.bubbleMotion"
         auto-height
-        align="end"
-        arrow="right"
+        align="start"
+        arrow="left"
       />
     </div>
   </div>
@@ -20,7 +20,7 @@
 <script setup lang="ts">
   import type { CommentBubbleComponentProps } from '../../CommentBubbleRegistry'
   import CommentDisplay from './CommentDisplay.vue'
-  import ShownImage from './ShownImage.vue'
+  import ShownImage from '../../parts/ShownImage.vue'
 
   defineProps<CommentBubbleComponentProps>()
 </script>

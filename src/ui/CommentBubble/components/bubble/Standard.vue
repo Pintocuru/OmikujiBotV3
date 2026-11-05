@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/components/standard/Standard.vue -->
+<!-- src/ui/CommentBubble/components/bubble/Standard.vue -->
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex justify-center items-end">
     <div class="relative flex flex-col items-center">
@@ -19,7 +19,7 @@
 <script setup lang="ts">
   import type { CommentBubbleComponentProps } from '../../CommentBubbleRegistry'
   import CommentDisplay from './CommentDisplay.vue'
-  import ShownImage from './ShownImage.vue'
+  import ShownImage from '../../parts/ShownImage.vue'
 
   defineProps<CommentBubbleComponentProps>()
 </script>
