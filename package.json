@@ -24,7 +24,6 @@
     "@vueuse/motion": "^3.0.3",
     "animate.css": "^4.1.1",
     "daisyui": "^5.7.28",
-    "dotenv": "^18.0.9",
     "expr-eval-fork": "^3.0.3",
     "lucide-vue-next": "^1.0.0",
     "nanoid": "^5.1.16",

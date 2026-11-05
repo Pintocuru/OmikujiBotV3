@@ -1,6 +1,7 @@
 // tools/viteBuild/processors/json/GenerateOutputFiles.ts
 import { PackageJsonType } from '@/types/core'
 import { ResolvedPackageBuildConfig } from '@tools/types'
+import { generateJsContent } from '@/common/presetsExport/generateContent'
 import fs from 'fs'
 import path from 'path'
 
@@ -12,14 +13,10 @@ export async function generateOutputFiles(
   jsonData: PackageJsonType,
   config: ResolvedPackageBuildConfig
 ): Promise<void> {
-  const { json, key: name } = config
-  if (!json) throw new Error('json config is missing')
-  const { generateJsContent } = json
-
   if (config.packageType === 'JSON') {
-    await generateJsonOnlyFile(distDir, jsonData, name)
+    await generateJsonOnlyFile(distDir, jsonData, config.key)
   } else {
-    await generateJsFile(distDir, jsonData, generateJsContent)
+    await generateJsFile(distDir, jsonData)
   }
 }
 
@@ -40,11 +37,7 @@ async function generateJsonOnlyFile(distDir: string, jsonData: PackageJsonType, 
 /**
  * JSファイル生成
  */
-async function generateJsFile(
-  distDir: string,
-  jsonData: PackageJsonType,
-  generateJsContent: (configData: string) => string
-): Promise<void> {
+async function generateJsFile(distDir: string, jsonData: PackageJsonType): Promise<void> {
   try {
     const jsonString = JSON.stringify(jsonData, null, 2)
     const jsContent = generateJsContent(jsonString)

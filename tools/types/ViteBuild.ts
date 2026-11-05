@@ -1,22 +1,19 @@
 // tools/types/ViteBuild.ts
-// Vite 版ビルダーの型定義 (tools/types/WebpackBuilder.ts の Vite 専用版)
-// ※ 構造は webpack 版と同じ。packages/ 側は import 元を差し替えるだけで使える
+// Vite 版ビルダーの型定義
 
-import { PackageJsonType } from '@/types/core'
 
 /**
- * プロジェクト固有パラメータ (packages/ 配下の各パッケージ定義が渡す値)
+ * パッケージ(製品)の共通情報
+ * key と category は build.ts のあるフォルダ名から決まる (packages/<category>/<key>/build.ts)
  */
-export type ProjectParams = {
-  key: string
+export type PackageProject = {
   title: string
   description: string
-  banner: string
   tags: string[]
   boothId: string
-  category: string
-  series?: string
   licenseLabel: string
+  /** README・バナーの置き場所のシリーズ名 (既定: key) */
+  series?: string
   extraFiles?: CopyFileItem[]
 }
 
@@ -24,35 +21,28 @@ export type ProjectParams = {
  * パッケージのバリエーション定義
  */
 export interface PackageVariant {
-  /** パッケージ名に付ける識別子 */
+  /** パッケージ名に付ける識別子 ('' = なし) */
   variant: string
-  withEditor: boolean
-  withConsole: boolean
-  type: PackageType
-  /** 読み込むプリセットJSONのファイル名 */
-  jsonFileName: string
-  /** UPDATE ビルド用 */
-  update?: boolean
+  /** editor.ts (エディター) を同梱する (既定: false) */
+  withEditor?: boolean
+  /** console.ts (LiveConsole) を同梱する (既定: false) */
+  withConsole?: boolean
+  /** パッケージタイプ (既定: 'FULL') */
+  type?: PackageType
+  /** 読み込むプリセットJSONのファイル名 (既定: `${key}.json`。UPDATE は読み込まない) */
+  jsonFileName?: string
 }
 
 /**
- * パッケージプロジェクト設定
- * - FULL / UPDATE: entryPoints (packages/<category>/<key>/main.ts など) を Vite でビルドして梱包する
- * - JSON: Vite は通さない
+ * definePackage が返すパッケージ定義
  */
-export interface ProjectPackageConfig {
+export interface PackageDefinition {
   key: string
-  version: string
-  packageRoot: string
-  filesToCopy: CopyFileItem[]
-  /** entry 名 → entry ファイルの絶対パス (先頭が main。dist/scripts/<名前>.js になる) */
-  entryPoints: Record<string, string>
-  name: string
-  tags: string[]
-  banner?: string
-  licenseLabel: string
-  template: TemplateConfig
-  json: JsonConfig
+  category: string
+  /** build.ts のあるフォルダ (main.ts / editor.ts / console.ts の場所) */
+  dir: string
+  project: PackageProject
+  variants: PackageVariant[]
 }
 
 /**
@@ -67,27 +57,17 @@ export interface TemplateConfig {
 }
 
 /**
- * JSON設定関連
+ * JSON設定関連 (UPDATE は JSON を読み込まないので持たない)
  */
 export interface JsonConfig {
   jsonPath: string
   jsonPathRoot: string
-  assembleJsonData?: (data: any, jsonPathRoot: string) => Promise<PackageJsonType>
-  generateJsContent: (configData: string) => string
 }
 
 /**
  * コピーするファイル/フォルダの設定
  */
 export type CopyFileItem = string | { from: string; to: string }
-
-/**
- * パッケージビルドターゲット指定
- */
-export interface PackageBuildTarget {
-  project: string // プロジェクト名
-  type: PackageType // パッケージタイプ
-}
 
 /**
  * パッケージタイプの定義
@@ -121,10 +101,21 @@ export interface ViteBuildInput {
 }
 
 /**
- * 内部処理用の解決済みパッケージビルド設定
+ * 1 バリエーションぶんの解決済みビルド設定
+ * - FULL / UPDATE: entryPoints (main.ts / editor.ts / console.ts) を Vite でビルドして梱包する
+ * - JSON: Vite は通さない
  */
-export interface ResolvedPackageBuildConfig extends ProjectPackageConfig {
-  system: SystemCommonData
+export interface ResolvedPackageBuildConfig extends ViteBuildInput {
+  key: string
+  version: string
   packageType: PackageType
   outputFolderName: string
+  filesToCopy: CopyFileItem[]
+  name: string
+  tags: string[]
+  banner: string
+  licenseLabel: string
+  template: TemplateConfig
+  json?: JsonConfig
 }
+

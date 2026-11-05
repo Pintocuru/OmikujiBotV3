@@ -48,7 +48,6 @@ export default defineConfigWithVueTs(
       '**/node_modules/**',
       '**/dist/**',
       '**/*.test.ts',
-      '**/shims-vue.d.ts',
     ],
   },
 

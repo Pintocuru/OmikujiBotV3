@@ -1,50 +1,35 @@
 // tools/viteBuild/processors/json/UpdateJsonMetadata.ts
-import { PackageJsonType } from '@/types/core'
-import { ResolvedPackageBuildConfig } from '@tools/types'
 import fs from 'fs'
 import path from 'path'
+import { PackageJsonType } from '@/types/core'
+import { JsonConfig, ResolvedPackageBuildConfig } from '@tools/types'
+import { OmikujiDataType } from '@/types/OmikujiData'
+import { assembleBuildJson } from '@tools/JsonMerge/JsonMergeProcessor'
 
 /**
- * JSONメタデータの更新と書き込み
+ * JSON を読み込み、メタデータを更新してアセンブルする
+ * (ソースの JSON は書き換えない。メタデータは出力物にだけ反映される)
  */
-export async function updateJsonMetadata(config: ResolvedPackageBuildConfig): Promise<PackageJsonType> {
-  if (!config.json || !config.template) {
-    throw new Error('json or template config is missing')
-  }
-  // JSONファイルパス
-  const { jsonPath, jsonPathRoot, assembleJsonData } = config.json
+export async function updateJsonMetadata(
+  { jsonPath, jsonPathRoot }: JsonConfig,
+  config: ResolvedPackageBuildConfig
+): Promise<PackageJsonType> {
   const jsonSourcePath = path.resolve(jsonPathRoot, jsonPath)
-
-  // JSONファイル読み込み
   const originalJsonData = readJsonFile(jsonSourcePath)
-
-  // メタデータ更新
-  const updatedMetadataJson = updateMetadata(originalJsonData, config)
-
-  // 元ファイルに書き戻し（assemble前のもの）
-  await writeJsonFile(jsonSourcePath, updatedMetadataJson)
-
-  // アセンブル処理（optional・保存しない）
-  return assembleJsonData ? await assembleJsonData(updatedMetadataJson, jsonPathRoot) : updatedMetadataJson
+  // 以前は any 経由で渡していた (PackageJsonType は meta だけ必須の緩い型)
+  return assembleBuildJson(updateMetadata(originalJsonData, config) as OmikujiDataType, jsonPathRoot) as Promise<PackageJsonType>
 }
 
-/**
- * JSONファイル読み込み
- */
-function readJsonFile(filePath: string): any {
+function readJsonFile(filePath: string): PackageJsonType {
   try {
-    const content = fs.readFileSync(filePath, 'utf-8')
-    return JSON.parse(content)
+    return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
   } catch (error) {
     throw new Error(`Failed to read JSON file: ${filePath}. Error: ${error}`)
   }
 }
 
-/**
- * メタデータ更新
- */
 function updateMetadata(jsonData: PackageJsonType, config: ResolvedPackageBuildConfig): PackageJsonType {
-  if (!jsonData.meta || !config.template) return jsonData
+  if (!jsonData.meta) return jsonData
 
   return {
     ...jsonData,
@@ -56,25 +41,12 @@ function updateMetadata(jsonData: PackageJsonType, config: ResolvedPackageBuildC
       version: config.version,
       author: config.system.author,
       tags: config.tags,
-      license: config.licenseLabel ?? '個人利用のみ',
+      license: config.licenseLabel,
       url: config.template.boothURL,
-      banner: config?.banner,
+      banner: config.banner,
       generatorName: config.system.generatorName,
       generatorVersion: config.system.generatorVersion,
       dataVersion: config.system.dataVersion,
     },
-  }
-}
-
-/**
- * JSONファイル書き込み
- */
-async function writeJsonFile(filePath: string, data: any): Promise<void> {
-  try {
-    const content = JSON.stringify(data)
-    fs.writeFileSync(filePath, content, 'utf-8')
-    console.log(`[Post-Build] Updated source JSON file: ${filePath}`)
-  } catch (error) {
-    throw new Error(`Failed to write JSON file: ${filePath}. Error: ${error}`)
   }
 }

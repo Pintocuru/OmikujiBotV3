@@ -1,12 +1,10 @@
 // packages/common/StrawberryChocolate/build.ts
-import { createPackageProject } from '@tools/viteBuild/projectFactory'
-import { PackageBuildTarget, PackageVariant, ProjectPackageConfig, ProjectParams } from '@tools/types'
+import { definePackage } from '@tools/viteBuild'
+import { PackageProject, PackageVariant } from '@tools/types'
 
-const PROJECT = {
-  key: 'StrawberryChocolate',
+const PROJECT: PackageProject = {
   title: 'ストロベリーショコラ',
   description: '世話好きでお姉さんらしいオリキャラ「ストロベリーショコラ」が挨拶してくれるジェネレーター',
-  banner: '',
   tags: [
     'ショコラ',
     '初見判定',
@@ -19,43 +17,14 @@ const PROJECT = {
     '告知',
   ],
   boothId: '7733810',
-  category: 'common',
   licenseLabel: 'CC-BY 4.0',
   extraFiles: [{ from: 'assets/Characters/common/chocolate/', to: 'images/chocolate/' }],
-} satisfies ProjectParams
-
-// バリエーション定義
-// - variant: パッケージ名に付ける識別子
-// - withEditor: editor.ts (エディター) を同梱する
-// - withConsole: console.ts (LiveConsole。ポン出し・ユーザー操作・ゲームの記録) を同梱する
-const VARIANTS: PackageVariant[] = [
-  {
-    variant: '',
-    withEditor: true,
-    withConsole: true,
-    type: 'FULL',
-    jsonFileName: 'StrawberryChocolate.json',
-  },
-  // {
-  //   variant: 'Pro',
-  //   withEditor: true,
-  //   withConsole: true,
-  //   type: 'JSON',
-  //   jsonFileName: 'StrawberryChocolate.json',
-  // },
-]
-
-// プロジェクト一覧
-function getProjects(packageRoot: string): ProjectPackageConfig[] {
-  return VARIANTS.map(({ variant, withEditor, withConsole, jsonFileName, update }) =>
-    createPackageProject(packageRoot, variant, PROJECT, { withEditor, withConsole, jsonFileName, update })
-  )
 }
 
-// ビルドターゲット
-const buildTargets: PackageBuildTarget[] = VARIANTS.map(({ variant, type }) => ({
-  project: `${PROJECT.key}${variant}`,
-  type,
-}))
+// バリエーション定義 (項目の意味は 2026-Q4/LifeHourglass/build.ts を参照)
+const VARIANTS: PackageVariant[] = [
+  { variant: '', withEditor: true, withConsole: true },
+  // { variant: 'Pro', withEditor: true, withConsole: true, type: 'JSON' },
+]
 
-export default { getProjects, buildTargets }
+export default definePackage(import.meta.url, PROJECT, VARIANTS)

@@ -8,10 +8,8 @@ import { ResolvedPackageBuildConfig } from '@tools/types'
  */
 export class TemplateJsonProcessor {
   static async generate(distDir: string, config: ResolvedPackageBuildConfig): Promise<void> {
-    const { json, template } = config
+    const { template } = config
 
-    // jsonまたはわんコメのテンプレート情報が入らないなら処理しない
-    if (!json || !template) return
     // JSON パッケージでは わんコメのテンプレートは不要
     if (config.packageType === 'JSON') return
 

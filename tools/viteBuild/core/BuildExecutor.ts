@@ -1,7 +1,9 @@
 // tools/viteBuild/core/BuildExecutor.ts
 import { ResolvedPackageBuildConfig } from '@tools/types'
 import { processPostBuild } from '../processors/PostBuildProcessor'
-import { cleanOutputDir, copyFiles } from '../processors/file/FileCopier'
+import fs from 'fs'
+import path from 'path'
+import { copyFiles } from '../processors/file/FileCopier'
 import { runVite } from './ViteRunner'
 
 /**
@@ -12,9 +14,8 @@ export async function executePackageBuild(config: ResolvedPackageBuildConfig): P
   console.log(`\n[Package Build] Building: ${outputSubDir} (Type: ${config.packageType})`)
 
   try {
-    // 出力ディレクトリをクリーン
-    const distPath = await cleanOutputDir(config.packageRoot, outputSubDir)
-    console.log(`  [Clean] Output directory: ${distPath}`)
+    // 出力ディレクトリを作成 (dist は buildPackages が先に空にしている)
+    fs.mkdirSync(path.join(config.packageRoot, 'dist', outputSubDir), { recursive: true })
 
     if (config.packageType === 'FULL' || config.packageType === 'UPDATE') {
       // FULL / UPDATE: パッケージの entryPoints (main.ts / editor.ts / console.ts) を Vite でビルド

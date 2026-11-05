@@ -14,9 +14,7 @@ interface TemplateTxtOutput {
  * readme.txt の生成エントリポイント
  */
 export async function generateReadmeTxt(distDir: string, config: ResolvedPackageBuildConfig): Promise<void> {
-  const { json, template } = config
-
-  if (!json || !template) return
+  const { template } = config
 
   const templateTxt: TemplateTxtOutput = {
     packageName: `${template.name} ${config.version}`,

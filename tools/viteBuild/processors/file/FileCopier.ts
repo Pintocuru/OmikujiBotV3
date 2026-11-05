@@ -21,25 +21,3 @@ export const copyFiles = async (files: CopyFileItem[], packageRoot: string, outp
     console.log(`[Copy] ${src} -> ${dest}`)
   }
 }
-
-/**
- * Distのファイルを削除
- */
-export const cleanOutputDir = async (packageRoot: string, outputSubDir: string): Promise<string> => {
-  const distPath = path.join(packageRoot, 'dist', outputSubDir)
-
-  // フォルダごと削除
-  try {
-    await promises.rm(distPath, { recursive: true, force: true })
-    console.log(`[Clean] Removed existing folder: ${distPath}`)
-  } catch (e) {
-    // force:true なのでエラーにはなりにくいが念のため
-    console.warn(`[Clean] Failed to remove folder (ignored): ${distPath}`, e)
-  }
-
-  // 再作成
-  await promises.mkdir(distPath, { recursive: true })
-  console.log(`[Clean] Created fresh folder: ${distPath}`)
-
-  return distPath
-}
