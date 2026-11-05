@@ -2,7 +2,11 @@
 <!-- 読み込み時に除外・既定値に戻した要素があるときのバッジ。クリックで内容を表示する -->
 <template>
   <template v-if="loadIssues.length > 0">
-    <button class="badge badge-warning gap-1 cursor-pointer" :title="summary" @click="dialogRef?.showModal()">
+    <button
+      class="badge badge-warning text-warning-content gap-1 cursor-pointer"
+      :title="summary"
+      @click="dialogRef?.showModal()"
+    >
       <TriangleAlert class="w-3 h-3" />
       {{ loadIssues.length }}
     </button>
@@ -10,9 +14,7 @@
     <dialog ref="dialogRef" class="modal">
       <div class="modal-box max-w-3xl text-base-content">
         <h3 class="font-bold text-lg flex items-center gap-2">
-          <span class="badge badge-warning badge-sm border-0 p-1">
-            <TriangleAlert class="w-5 h-5" />
-          </span>
+          <TriangleAlert class="w-5 h-5 text-warning" />
           {{ summary }}
         </h3>
         <p class="text-sm py-2">{{ t('shell.issues.explanation') }}</p>

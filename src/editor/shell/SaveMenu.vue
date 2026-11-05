@@ -3,9 +3,9 @@
 <template>
   <div class="join">
     <div class="indicator join-item">
-      <span v-if="hasChanged" class="indicator-item badge badge-secondary badge-sm">{{
-        t('navigation.hasChanged')
-      }}</span>
+      <span v-if="hasChanged" class="indicator-item badge badge-secondary badge-xs">
+        {{ t('navigation.hasChanged') }}
+      </span>
       <button
         class="btn join-item"
         :class="[primary.class, !hasChanged ? 'btn-soft' : '', primary.large ? 'btn-lg' : 'btn-sm']"
