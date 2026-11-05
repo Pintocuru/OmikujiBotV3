@@ -3,7 +3,6 @@ import { SystemCommonData } from '@tools/types'
 import { CreateShimsVue, RemoveShimsVue } from '@tools/viteBuild/utils/CreateShimsVue'
 import { ViteBuilder } from '@tools/viteBuild/ViteBuilder'
 import { APP_VERSION, DATA_VERSION } from '@/version'
-// import { alias } from '../vite.config'
 import dotenv from 'dotenv'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -37,7 +36,7 @@ async function runPreBuildChecks() {
   await CreateShimsVue(packageRoot)
 }
 
-const projectRoot = path.resolve(__dirname, '..') // packages/ の一つ上 = リポジトリ直下
+const projectRoot = path.resolve(__dirname, '..')
 const alias = { ...createViteAliases(projectRoot) }
 
 ;(async () => {
