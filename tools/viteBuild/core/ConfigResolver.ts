@@ -1,7 +1,7 @@
 // tools/viteBuild/core/ConfigResolver.ts
 import fs from 'fs'
 import path from 'path'
-import { PackageDefinition, PackageType, PackageVariant, ResolvedPackageBuildConfig } from '@tools/types'
+import { PackageDefinition, PackageVariant, ResolvedPackageBuildConfig } from '@tools/types'
 import { APP_VERSION, BUILD_DATE } from '@/version'
 import { DOCS_RAW_BASE } from '../constants/repositoryUrls'
 import { PROJECT_ROOT, SYSTEM_COMMON_DATA } from '../constants/system'
@@ -27,7 +27,7 @@ export function resolvePackageBuildConfigs(definitions: PackageDefinition[]): Re
 
 function resolveVariant(def: PackageDefinition, v: PackageVariant): ResolvedPackageBuildConfig {
   const { key, category, dir, project } = def
-  const { variant, withEditor = false, withConsole = false, type = 'FULL' } = v
+  const { variant, withEditor = false, withConsole = false } = v
 
   const id = `${key}${variant}`
   const variantLabel = variant ? `${variant} ` : ''
@@ -38,8 +38,7 @@ function resolveVariant(def: PackageDefinition, v: PackageVariant): ResolvedPack
   return {
     packageRoot: PROJECT_ROOT,
     system: SYSTEM_COMMON_DATA,
-    packageType: type,
-    outputFolderName: outputFolderName(id, version, type),
+    outputFolderName: `${sanitizeName(id)}_${sanitizeName(version)}`,
 
     key: id,
     version,
@@ -63,8 +62,8 @@ function resolveVariant(def: PackageDefinition, v: PackageVariant): ResolvedPack
       description: project.description,
     },
 
-    // UPDATE は omikujiData.js を出さないので JSON を読まない
-    json: type === 'UPDATE' ? undefined : resolveJson(v.jsonFileName ?? `${key}.json`),
+    // jsonFileName: null (アップデート用) は omikujiData.js を出さないので JSON を読まない
+    json: v.jsonFileName === null ? undefined : resolveJson(v.jsonFileName ?? `${key}.json`),
 
     filesToCopy: [
       ...(project.extraFiles ?? []),
@@ -85,12 +84,4 @@ function resolveEntry(dir: string, fileName: string): string {
 function resolveJson(jsonFileName: string) {
   const jsonPathRoot = path.resolve(PROJECT_ROOT, 'server/presets/')
   return { jsonPathRoot, jsonPath: findJsonPath(jsonPathRoot, jsonFileName) }
-}
-
-/** 出力フォルダ名 (dist 直下) */
-function outputFolderName(id: string, version: string, type: PackageType): string {
-  const base = sanitizeName(id)
-  const ver = sanitizeName(version)
-  if (type === 'JSON') return `${base}_json_${ver}`
-  return `${base}_${ver}${type === 'UPDATE' ? '_update' : ''}`
 }

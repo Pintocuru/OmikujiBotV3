@@ -8,6 +8,7 @@ Generator、Editor、LiveConsoleなどを配布用の製品として組み立て
 
 - `packages/build.ts`: ビルド全体の起点 (`buildPackages` を呼ぶだけ)
 - `packages/index.ts`: ビルドするパッケージの一覧 (コメントアウトで絞る)
+- `packages/syncMeta.ts`: プリセットJSONの meta 更新 (`npm run sync:meta`。ビルドとは独立)
 - `packages/common/`: 共通カテゴリの製品定義とエントリーポイント
 - `packages/_shared/`: 複数パッケージで共有する登録処理
 - `tools/viteBuild/`: Viteを使ったパッケージビルド処理

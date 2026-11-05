@@ -27,10 +27,8 @@ export interface PackageVariant {
   withEditor?: boolean
   /** console.ts (LiveConsole) を同梱する (既定: false) */
   withConsole?: boolean
-  /** パッケージタイプ (既定: 'FULL') */
-  type?: PackageType
-  /** 読み込むプリセットJSONのファイル名 (既定: `${key}.json`。UPDATE は読み込まない) */
-  jsonFileName?: string
+  /** 読み込むプリセットJSONのファイル名 (既定: `${key}.json`。null なら JSON を使わない = アップデート用) */
+  jsonFileName?: string | null
 }
 
 /**
@@ -57,7 +55,7 @@ export interface TemplateConfig {
 }
 
 /**
- * JSON設定関連 (UPDATE は JSON を読み込まないので持たない)
+ * JSON設定関連 (jsonFileName: null のパッケージは持たない)
  */
 export interface JsonConfig {
   jsonPath: string
@@ -68,14 +66,6 @@ export interface JsonConfig {
  * コピーするファイル/フォルダの設定
  */
 export type CopyFileItem = string | { from: string; to: string }
-
-/**
- * パッケージタイプの定義
- * - FULL: entryPoints を Vite でビルドし、拡張ファイルをすべて含んだ完全なパッケージ
- * - UPDATE: FULL と同じビルドだが、既存環境へ上書きする用 (omikujiData.js と thumb.gif を含まない)
- * - JSON: JSONファイルとREADMEファイルのみを含んだデータのみのパッケージ
- */
-export type PackageType = 'FULL' | 'JSON' | 'UPDATE'
 
 /**
  * システム共通データ
@@ -102,13 +92,11 @@ export interface ViteBuildInput {
 
 /**
  * 1 バリエーションぶんの解決済みビルド設定
- * - FULL / UPDATE: entryPoints (main.ts / editor.ts / console.ts) を Vite でビルドして梱包する
- * - JSON: Vite は通さない
+ * entryPoints (main.ts / editor.ts / console.ts) を Vite でビルドして梱包する
  */
 export interface ResolvedPackageBuildConfig extends ViteBuildInput {
   key: string
   version: string
-  packageType: PackageType
   outputFolderName: string
   filesToCopy: CopyFileItem[]
   name: string

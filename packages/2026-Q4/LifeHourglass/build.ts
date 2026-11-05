@@ -14,8 +14,7 @@ const PROJECT: PackageProject = {
 // - variant: パッケージ名に付ける識別子
 // - withEditor: editor.ts (エディター) を同梱する
 // - withConsole: console.ts (LiveConsole。ポン出し・ユーザー操作・ゲームの記録) を同梱する
-// - type: 'FULL' (既定) | 'JSON' | 'UPDATE'
-// - jsonFileName: 読み込むプリセットJSON (既定: `${key}.json`)
+// - jsonFileName: 読み込むプリセットJSON (既定: `${key}.json`。null ならJSONなし = アップデート用)
 const VARIANTS: PackageVariant[] = [
   { variant: '', withEditor: false, jsonFileName: 'LifeHourglass.json' },
   { variant: 'Adv', withEditor: true, jsonFileName: 'LifeHourglass.json' },

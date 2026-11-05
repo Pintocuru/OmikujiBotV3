@@ -1,7 +1,7 @@
 // tools/viteBuild/processors/template/ReadmeTxtProcessor.ts
 import fs from 'fs'
 import path from 'path'
-import { PackageType, ResolvedPackageBuildConfig } from '@tools/types'
+import { ResolvedPackageBuildConfig } from '@tools/types'
 
 interface TemplateTxtOutput {
   packageName: string
@@ -24,7 +24,7 @@ export async function generateReadmeTxt(distDir: string, config: ResolvedPackage
   }
 
   const txtPath = path.join(distDir, 'readme.txt')
-  const content = generateReadmeContent(templateTxt, config.packageType)
+  const content = generateReadmeContent(templateTxt)
 
   fs.writeFileSync(txtPath, content, 'utf-8')
   console.log(`[Post-Build] Generated readme.txt: ${txtPath}`)
@@ -39,31 +39,11 @@ function formatToday(): string {
 }
 
 /**
- * JSON-only セクションを生成
- * TODO:JSON は「dataPacks」用に出力するため、readme自体が不要
- */
-function buildJsonOnlySection(packageType: PackageType | undefined, boothURL: string): string {
-  if (packageType !== 'JSON') return ''
-
-  return `---
-
-このファイルには「おみくじテンプレートデータ」が含まれています。
-これはジェネレーター本体の「テンプレート読み込み機能」で利用するデータです。
-
-このファイル単体ではジェネレーターとして動作しません。
-ジェネレーター本体をお持ちでない場合は、別途【通常版】をダウンロードしてください。
-${boothURL}
-`
-}
-
-/**
  * readme.txt の内容を生成する純粋関数
  */
-export function generateReadmeContent(templateTxt: TemplateTxtOutput, packageType: PackageType | undefined): string {
+export function generateReadmeContent(templateTxt: TemplateTxtOutput): string {
   const today = formatToday()
   const { packageName, boothURL, description, readmeURL } = templateTxt
-
-  const jsonOnlySection = buildJsonOnlySection(packageType, boothURL)
 
   return `# ${packageName}
 
@@ -73,8 +53,6 @@ export function generateReadmeContent(templateTxt: TemplateTxtOutput, packageTyp
 ダウンロードして頂きありがとうございます。
 
 導入方法・使用方法については[こちら](${readmeURL})をご覧ください
-
-${jsonOnlySection}
 
 ---
 

@@ -24,7 +24,6 @@ const PROJECT: PackageProject = {
 // バリエーション定義 (項目の意味は 2026-Q4/LifeHourglass/build.ts を参照)
 const VARIANTS: PackageVariant[] = [
   { variant: '', withEditor: true, withConsole: true },
-  // { variant: 'Pro', withEditor: true, withConsole: true, type: 'JSON' },
 ]
 
 export default definePackage(import.meta.url, PROJECT, VARIANTS)

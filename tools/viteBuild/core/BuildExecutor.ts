@@ -11,19 +11,15 @@ import { runVite } from './ViteRunner'
  */
 export async function executePackageBuild(config: ResolvedPackageBuildConfig): Promise<void> {
   const outputSubDir = config.outputFolderName
-  console.log(`\n[Package Build] Building: ${outputSubDir} (Type: ${config.packageType})`)
+  console.log(`\n[Package Build] Building: ${outputSubDir}`)
 
   try {
     // 出力ディレクトリを作成 (dist は buildPackages が先に空にしている)
     fs.mkdirSync(path.join(config.packageRoot, 'dist', outputSubDir), { recursive: true })
 
-    if (config.packageType === 'FULL' || config.packageType === 'UPDATE') {
-      // FULL / UPDATE: パッケージの entryPoints (main.ts / editor.ts / console.ts) を Vite でビルド
-      await runVite(config, outputSubDir)
-      console.log(`  [vite] Entry: ${JSON.stringify(config.entryPoints)}`)
-    } else {
-      console.log(`  [JSON Mode] Skipping Vite build`)
-    }
+    // パッケージの entryPoints (main.ts / editor.ts / console.ts) を Vite でビルド
+    await runVite(config, outputSubDir)
+    console.log(`  [vite] Entry: ${JSON.stringify(config.entryPoints)}`)
 
     // 拡張ファイルをコピー
     if (config.filesToCopy.length > 0) {

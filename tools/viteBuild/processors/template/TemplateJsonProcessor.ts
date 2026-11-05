@@ -10,9 +10,6 @@ export class TemplateJsonProcessor {
   static async generate(distDir: string, config: ResolvedPackageBuildConfig): Promise<void> {
     const { template } = config
 
-    // JSON パッケージでは わんコメのテンプレートは不要
-    if (config.packageType === 'JSON') return
-
     const templateJson = {
       name: `${template.name} ${config.version}`,
       author: config.system.author,

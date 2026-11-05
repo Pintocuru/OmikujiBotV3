@@ -32,11 +32,9 @@ export async function buildPackages(definitions: PackageDefinition[], options: B
   const distPath = path.join(PROJECT_ROOT, 'dist')
   fs.rmSync(distPath, { recursive: true, force: true })
 
-  // Vite を通すものがある場合のみ、型チェックを1回だけ実行 (JSON だけのビルドでは実行しない)
-  if (configs.some((c) => c.packageType !== 'JSON')) {
-    console.log('🔍 vue-tsc を実行中...')
-    execSync('npx vue-tsc --noEmit', { stdio: 'inherit', cwd: PROJECT_ROOT })
-  }
+  // 型チェックは全体で1回だけ
+  console.log('🔍 vue-tsc を実行中...')
+  execSync('npx vue-tsc --noEmit', { stdio: 'inherit', cwd: PROJECT_ROOT })
 
   for (const config of configs) {
     await executePackageBuild(config)

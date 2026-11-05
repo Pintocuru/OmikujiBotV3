@@ -10,6 +10,7 @@ const PROJECT: PackageProject = {
   licenseLabel: 'Apache-2.0',
 }
 
-const VARIANTS: PackageVariant[] = [{ variant: '', withEditor: true, type: 'UPDATE' }]
+// アップデート用: プリセットJSONを持たない (jsonFileName: null)
+const VARIANTS: PackageVariant[] = [{ variant: '', withEditor: true, jsonFileName: null }]
 
 export default definePackage(import.meta.url, PROJECT, VARIANTS)

@@ -1,46 +1,15 @@
 // tools/viteBuild/processors/json/GenerateOutputFiles.ts
-import { PackageJsonType } from '@/types/core'
-import { ResolvedPackageBuildConfig } from '@tools/types'
-import { generateJsContent } from '@/common/presetsExport/generateContent'
 import fs from 'fs'
 import path from 'path'
+import { PackageJsonType } from '@/types/core'
+import { generateJsContent } from '@/common/presetsExport/generateContent'
 
 /**
- * JSON/JSファイルを出力
+ * omikujiData.js を出力
  */
-export async function generateOutputFiles(
-  distDir: string,
-  jsonData: PackageJsonType,
-  config: ResolvedPackageBuildConfig
-): Promise<void> {
-  if (config.packageType === 'JSON') {
-    await generateJsonOnlyFile(distDir, jsonData, config.key)
-  } else {
-    await generateJsFile(distDir, jsonData)
-  }
-}
-
-/**
- * JSONオンリーファイル生成
- */
-async function generateJsonOnlyFile(distDir: string, jsonData: PackageJsonType, name: string): Promise<void> {
+export function generateOutputFiles(distDir: string, jsonData: PackageJsonType): void {
   try {
-    const jsonString = JSON.stringify(jsonData, null, 2)
-    const outputJsonPath = path.join(distDir, `${name}.json`)
-    fs.writeFileSync(outputJsonPath, jsonString, 'utf-8')
-    console.log(`[Post-Build] Generated JSON-only file: ${outputJsonPath}`)
-  } catch (error) {
-    throw new Error(`Failed to generate JSON-only file. Error: ${error}`)
-  }
-}
-
-/**
- * JSファイル生成
- */
-async function generateJsFile(distDir: string, jsonData: PackageJsonType): Promise<void> {
-  try {
-    const jsonString = JSON.stringify(jsonData, null, 2)
-    const jsContent = generateJsContent(jsonString)
+    const jsContent = generateJsContent(JSON.stringify(jsonData, null, 2))
     const outputJsPath = path.join(distDir, 'omikujiData.js')
     fs.writeFileSync(outputJsPath, jsContent, 'utf-8')
     console.log(`[Post-Build] Generated JS file: ${outputJsPath}`)
