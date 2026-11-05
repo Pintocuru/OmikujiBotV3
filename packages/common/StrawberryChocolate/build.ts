@@ -1,6 +1,6 @@
 // packages/common/StrawberryChocolate/build.ts
 import { createPackageProject } from '@tools/viteBuild/projectFactory'
-import { PackageBuildTarget, ProjectPackageConfig, ProjectParams } from '@tools/types'
+import { PackageBuildTarget, PackageVariant, ProjectPackageConfig, ProjectParams } from '@tools/types'
 
 const PROJECT = {
   key: 'StrawberryChocolate',
@@ -25,23 +25,37 @@ const PROJECT = {
 } satisfies ProjectParams
 
 // バリエーション定義
-// - color: パッケージ名に付く色違いの名前 ('' = 色なし)
+// - variant: パッケージ名に付ける識別子
 // - withEditor: editor.ts (エディター) を同梱する
 // - withConsole: console.ts (LiveConsole。ポン出し・ユーザー操作・ゲームの記録) を同梱する
-const VARIANTS = [
-  { color: '', withEditor: true, withConsole: true },
-  // { color: 'Pro', withEditor: true, withConsole: true },
-] as const
-
-// ビルドターゲット
-const buildTargets: PackageBuildTarget[] = [
-  { project: 'StrawberryChocolate', type: 'FULL' },
-  // { project: 'StrawberryChocolate', type: 'JSON' },
+const VARIANTS: PackageVariant[] = [
+  {
+    variant: '',
+    withEditor: true,
+    withConsole: true,
+    type: 'FULL',
+    jsonFileName: 'StrawberryChocolate.json',
+  },
+  // {
+  //   variant: 'Pro',
+  //   withEditor: true,
+  //   withConsole: true,
+  //   type: 'JSON',
+  //   jsonFileName: 'StrawberryChocolate.json',
+  // },
 ]
 
 // プロジェクト一覧
 function getProjects(packageRoot: string): ProjectPackageConfig[] {
-  return VARIANTS.map(({ color, ...options }) => createPackageProject(packageRoot, color, PROJECT, options))
+  return VARIANTS.map(({ variant, withEditor, withConsole, jsonFileName, update }) =>
+    createPackageProject(packageRoot, variant, PROJECT, { withEditor, withConsole, jsonFileName, update })
+  )
 }
+
+// ビルドターゲット
+const buildTargets: PackageBuildTarget[] = VARIANTS.map(({ variant, type }) => ({
+  project: `${PROJECT.key}${variant}`,
+  type,
+}))
 
 export default { getProjects, buildTargets }
