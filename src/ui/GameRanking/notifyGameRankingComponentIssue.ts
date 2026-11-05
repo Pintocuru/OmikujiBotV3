@@ -7,5 +7,7 @@ const notifiedIds = new Set<string>()
 export function notifyGameRankingComponentIssue(id: string, message: string): void {
   if (notifiedIds.has(id)) return
   notifiedIds.add(id)
-  void postSystemMessage(message, { username: 'warn', speech: false }).catch(() => {})
+  void postSystemMessage(message, { username: 'warn', speech: false }).catch(() => {
+    // ignore
+  })
 }

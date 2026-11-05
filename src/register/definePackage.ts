@@ -1,4 +1,4 @@
-// src/register/definePackage.ts(例)
+// src/register/definePackage.ts
 import { type Component } from 'vue'
 import type { UiKind, UiLayoutType } from '@/types/OmikujiData'
 import { registerUi, registerLayout, type UiLoader } from '@/ui/uiRegistry'
