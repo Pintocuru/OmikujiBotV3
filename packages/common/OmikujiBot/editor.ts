@@ -2,7 +2,7 @@
 import EditorApp from '@/editor/App.vue'
 import { createAppNotOneSDK } from '@/common/EntryCore/editorCore'
 import { registerAll } from '@/register/registerAll'
-import '@assets/styles/DaisyUiAll.css'
+import '@assets/styles/DaisyUi.css'
 
 registerAll()
 

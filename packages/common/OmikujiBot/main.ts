@@ -2,7 +2,7 @@
 import App from '@/generator/App.vue'
 import { createAppOneSDK } from '@/common/EntryCore/core'
 import { registerAll } from '@/register/registerAll'
-import '@assets/styles/DaisyUiAll.css'
+import '@assets/styles/DaisyUiObs.css'
 
 registerAll()
 
