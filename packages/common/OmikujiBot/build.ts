@@ -1,6 +1,6 @@
 // packages/common/OmikujiBot/build.ts
 import { createPackageProject } from '@tools/viteBuild/projectFactory'
-import { PackageBuildTarget, ProjectPackageConfig, ProjectParams } from '@tools/types'
+import { PackageBuildTarget, PackageVariant, ProjectPackageConfig, ProjectParams } from '@tools/types'
 
 const PROJECT = {
   key: 'OmikujiBot',
@@ -13,10 +13,26 @@ const PROJECT = {
   licenseLabel: 'Apache-2.0',
 } satisfies ProjectParams
 
-const buildTargets: PackageBuildTarget[] = [{ project: 'OmikujiBot', type: 'UPDATE' }]
+const VARIANTS: PackageVariant[] = [
+  {
+    variant: '',
+    withEditor: true,
+    withConsole: false,
+    type: 'UPDATE',
+    jsonFileName: 'OmikujiBot.json',
+    update: true,
+  },
+]
 
 function getProjects(packageRoot: string): ProjectPackageConfig[] {
-  return [createPackageProject(packageRoot, '', PROJECT, { withEditor: true, update: true })]
+  return VARIANTS.map(({ variant, withEditor, withConsole, jsonFileName, update }) =>
+    createPackageProject(packageRoot, variant, PROJECT, { withEditor, withConsole, jsonFileName, update })
+  )
 }
+
+const buildTargets: PackageBuildTarget[] = VARIANTS.map(({ variant, type }) => ({
+  project: `${PROJECT.key}${variant}`,
+  type,
+}))
 
 export default { getProjects, buildTargets }
