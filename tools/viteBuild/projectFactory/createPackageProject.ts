@@ -14,12 +14,12 @@ import { DOCS_RAW_BASE } from '../constants/repositoryUrls'
  */
 export function createPackageProject(
   packageRoot: string,
-  color: string,
+  variant: string,
   params: ProjectParams,
-  options: { withEditor?: boolean; withConsole?: boolean; update?: boolean } = {}
+  options: { withEditor: boolean; withConsole: boolean; jsonFileName: string; update?: boolean }
 ): ProjectPackageConfig {
-  const id = `${params.key}${color}`
-  const colorLabel = color ? `${color} ` : ''
+  const id = `${params.key}${variant}`
+  const variantLabel = variant ? `${variant} ` : ''
   const series = params.series ? params.series : params.key
 
   return {
@@ -32,7 +32,7 @@ export function createPackageProject(
     banner: `${DOCS_RAW_BASE}${params.category}/${series}/${id}.webp`,
     licenseLabel: params.licenseLabel,
 
-    // Vite のアクセスポイント: packages/<category>/<key>/main.ts (色違いは同じ main.ts を使う)
+    // Vite のアクセスポイント: packages/<category>/<key>/main.ts (バリエーションは同じ main.ts を使う)
     // withEditor: true なら editor.ts、withConsole: true なら console.ts も追加する
     // (ジェネレーター・エディター・コンソールは別の entry = 別ページで読み込む)
     entryPoints: {
@@ -42,15 +42,17 @@ export function createPackageProject(
     },
 
     template: {
-      name: `おみくじBOT ${params.title} ${colorLabel}OmikujiBot ${id}`,
-      label: `${params.title} ${colorLabel} ${id}`,
+      name: `おみくじBOT ${params.title} ${variantLabel}OmikujiBot ${id}`,
+      label: `${params.title} ${variantLabel} ${id}`,
       boothURL: `https://pintocuru.booth.pm/items/${params.boothId}`,
       readmeURL: `${DOCS_RAW_BASE}${params.category}/${series}/README.ja.md`,
       description: params.description,
     },
 
-    // json: の行を置き換え
-    json: options.update ? buildEmptyJsonConfig(packageRoot) : buildJsonConfig(packageRoot, `${id}.json`),
+    // UPDATE は JSON を読み込まない
+    json: options.update
+      ? buildEmptyJsonConfig(packageRoot)
+      : buildJsonConfig(packageRoot, options.jsonFileName),
 
     filesToCopy: [
       ...(params.extraFiles ?? []),
