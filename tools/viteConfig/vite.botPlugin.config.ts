@@ -16,15 +16,12 @@ const projectRoot = path.resolve(__dirname, '../../')
 // tsconfig.json からエイリアスを生成
 export const alias = { ...createViteAliases(projectRoot) }
 
-// プラグインは Vue / Tailwind を使わないため、vite.config.ts の baseViteConfig (vue・tailwind・型チェック) は使わない
+
 export default defineConfig({
   root: projectRoot,
   resolve: { alias },
-  // CommonJS では import.meta.url が使えない (server/constants.ts の SERVER_ROOT が決まらず、読み込み時に落ちる)
-  // → plugin.js 自身の位置から作った値に置き換える (下の banner で定義)
   define: { 'import.meta.url': '__importMetaUrl' },
   build: {
-    // ライブラリモードでコンパイル
     lib: {
       entry: path.resolve(projectRoot, 'src/plugin/plugin.ts'),
       name: 'Plugin',
