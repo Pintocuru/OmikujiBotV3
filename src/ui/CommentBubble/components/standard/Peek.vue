@@ -3,21 +3,14 @@
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex justify-center items-end pb-8">
     <div class="relative flex flex-col items-center">
-      <div v-if="shown && shown.layers.length > 0" class="relative z-0 -mb-12">
-        <LayerImage
-          :key="shown.key"
-          :layers="shown.layers"
-          :size="settings.characterSize"
-          :animation="shown.animation"
-        />
-      </div>
+      <ShownImage :shown="shown" :size="settings.characterSize" class="relative z-0 -mb-12" />
 
-      <div class="relative z-10 w-105" :style="{ height: `${listHeight}px` }">
+      <div class="relative z-10 w-105">
         <CommentDisplay
           :displayed-comments="displayedComments"
           :remove-comment="removeComment"
-          :enter-motion="settings.bubbleMotion"
-          :leave-motion="settings.bubbleMotion"
+          :motion="settings.bubbleMotion"
+          auto-height
           arrow="none"
         />
       </div>
@@ -26,18 +19,9 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
-  import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
-  import { CommentBubbleType, ShownCharacter } from '@/types/ui'
-  import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import CommentDisplay from '../../parts/CommentDisplay.vue'
+  import type { CommentBubbleComponentProps } from '../../CommentBubbleRegistry'
+  import CommentDisplay from './CommentDisplay.vue'
+  import ShownImage from './ShownImage.vue'
 
-  const props = defineProps<{
-    displayedComments: DisplayedBotMessage[]
-    removeComment: (id: string) => void
-    shown: ShownCharacter | null
-    settings: CommentBubbleType
-  }>()
-
-  const listHeight = computed(() => Math.max(props.displayedComments.length, 1) * 40 + 60)
+  defineProps<CommentBubbleComponentProps>()
 </script>

@@ -1,32 +1,26 @@
-<!-- src/ui/CommentBubble/parts/CommentBubbleItem.vue -->
+<!-- src/ui/CommentBubble/components/standard/CommentBubbleItem.vue -->
 <template>
   <div
     class="relative transparent-bg inline-block max-w-3xl min-w-40"
-    :class="uiMap.bubble.class"
-    :style="uiMap.bubble.style"
+    :class="[bubbleClasses, brightness]"
+    :style="{ backgroundColor: color.background, '--bubble-bg': color.background }"
   >
     <!-- 名前表示 -->
-    <div v-if="botName" class="font-bold" :class="[nameSize, uiMap.name.class]" :style="uiMap.name.style">
+    <div v-if="botName" class="font-bold" :class="nameSize" :style="{ color: color.name }">
       {{ botName }}
     </div>
 
     <!-- コメント内容（HTML を描画） -->
-    <div
-      class="wrap-break-word"
-      :class="[textSize, uiMap.text.class]"
-      :style="uiMap.text.style"
-      v-html="displayedHtml"
-    />
+    <div class="wrap-break-word" :class="textSize" :style="{ color: color.text }" v-html="displayedHtml" />
 
     <!-- 吹き出しの矢印 -->
-    <div v-if="arrowDirection !== 'none'" :class="uiMap.arrow.class" :style="uiMap.arrow.style" />
+    <div v-if="arrowDirection !== 'none'" :class="arrowClasses" :style="arrowStyle" />
   </div>
 </template>
 
 <script setup lang="ts">
   import { computed, ref, watchEffect } from 'vue'
   import { CharacterColorScheme, CharacterColorType } from '@/types/OmikujiData/'
-  import { createUiMap } from './UiBubbleMap'
 
   const props = withDefaults(
     defineProps<{
@@ -53,7 +47,7 @@
     }
   )
 
-  // Brightness
+  // Brightness(吹き出し全体に 1 回だけ掛ける。子要素の文字・矢印にも効くので、子には付けない)
   const BRIGHTNESS_CLASSES = ['', 'brightness-90', 'brightness-75', 'brightness-50', 'brightness-[30%]'] as const
 
   const brightness = computed(() => {
@@ -62,6 +56,9 @@
   })
 
   // サイズ
+  const bubbleClasses = computed(
+    () => props.customClasses ?? (props.compact ? 'px-3 py-2 rounded-lg' : 'p-4 rounded-xl')
+  )
   const textSize = computed(() => (props.compact ? 'text-base' : 'text-xl'))
   const nameSize = computed(() => (props.compact ? 'text-sm' : 'text-xl'))
 
@@ -81,7 +78,8 @@
     },
   } as const
 
-  const ARROW_SIDE = { down: 'top', left: 'right', right: 'left', none: 'top' } as const
+  // 吹き出しの色を付ける border の辺(矢印の向きと逆側)
+  const ARROW_COLOR_PROP = { down: 'borderTopColor', left: 'borderRightColor', right: 'borderLeftColor' } as const
 
   const arrowClasses = computed(() => {
     if (props.customArrowClasses) return props.customArrowClasses
@@ -89,21 +87,15 @@
     return `absolute w-0 h-0 ${ARROW_CLASSES[props.arrowDirection][props.compact ? 'compact' : 'normal']}`
   })
 
-  const uiMap = computed(() =>
-    createUiMap({
-      color: props.color,
-      brightness: brightness.value,
-      customClasses: props.customClasses ?? (props.compact ? 'px-3 py-2 rounded-lg' : 'p-4 rounded-xl'),
-      customArrowClasses: arrowClasses.value,
-      arrowSide: ARROW_SIDE[props.arrowDirection],
-    })
+  const arrowStyle = computed(() =>
+    props.arrowDirection === 'none' ? undefined : { [ARROW_COLOR_PROP[props.arrowDirection]]: 'var(--bubble-bg)' }
   )
 
   // アニメーション
   const displayedHtml = ref(props.animatedText ? '' : props.message)
   const isHtml = computed(() => props.message.includes('<'))
 
-  watchEffect(() => {
+  watchEffect((onCleanup) => {
     // HTML を含む場合はアニメーション禁止（そのまま表示）
     if (!props.animatedText || isHtml.value) {
       displayedHtml.value = props.message
@@ -112,10 +104,14 @@
 
     // ここから先は「プレーンテキストのみ」アニメーション
     displayedHtml.value = ''
-    let i = 0
+    let length = 0
     const timer = setInterval(() => {
-      displayedHtml.value = props.message.substring(0, i++)
-      if (i > props.message.length) clearInterval(timer)
+      length++
+      displayedHtml.value = props.message.substring(0, length)
+      if (length >= props.message.length) clearInterval(timer)
     }, props.animatedTextSpeed)
+
+    // message などが変わったとき・unmount 時に、前のタイマーを止める
+    onCleanup(() => clearInterval(timer))
   })
 </script>

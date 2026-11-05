@@ -1,7 +1,7 @@
 <!-- src/editor/assets/scenarios/preview/ScenarioStepPreview.vue -->
 <template>
   <div class="h-full flex flex-col items-center justify-center space-y-4">
-    <!-- message / gameScript: UI ごとのプレビュー(uiEditorRegistry に登録。無ければ CommentBubblePreview) -->
+    <!-- message / gameScript: UI ごとのプレビュー(uiEditorRegistry に登録。無ければ CommentBubbleMessagePreview) -->
     <div v-if="previewProps" class="w-full">
       <component :is="previewComponent" v-bind="previewProps" @refresh="refreshMessage" />
     </div>
@@ -61,7 +61,7 @@
   import SoundTestButton from './SoundTestButton.vue'
   import WordPartyTestButton from './WordPartyTestButton.vue'
   import { processTestPlaceholder } from '@/editor/helpers/shared/processTestPlaceholder'
-  import CommentBubblePreview from './CommentBubblePreview.vue'
+  import CommentBubbleMessagePreview from './CommentBubbleMessagePreview.vue'
   import { getUiPreview } from '@/editor/ui/uiEditorRegistry'
   import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 
@@ -111,9 +111,11 @@
     { immediate: true }
   )
 
-  // message / gameScript を UI のプレビューに渡す。gameScript は CommentBubblePreview 固定
+  // message / gameScript を UI のプレビューに渡す。gameScript は CommentBubbleMessagePreview 固定
   const previewComponent = computed<Component>(() =>
-    props.step.kind === 'message' ? (getUiPreview(props.step.uiKey) ?? CommentBubblePreview) : CommentBubblePreview
+    props.step.kind === 'message'
+      ? (getUiPreview(props.step.uiKey) ?? CommentBubbleMessagePreview)
+      : CommentBubbleMessagePreview
   )
   const previewProps = computed(() => {
     const a = props.step

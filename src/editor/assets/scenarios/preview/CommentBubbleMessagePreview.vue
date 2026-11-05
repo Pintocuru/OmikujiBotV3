@@ -1,4 +1,4 @@
-<!-- src/editor/assets/scenarios/preview/CommentBubblePreview.vue -->
+<!-- src/editor/assets/scenarios/preview/CommentBubbleMessagePreview.vue -->
 <template>
   <div class="w-full space-y-8 flex flex-col items-center">
     <CommentBubbleItem
@@ -24,7 +24,7 @@
   import { CharacterColorScheme } from '@/types/OmikujiData'
   import { CommentBubbleSchema } from '@/types/ui/CommentBubbleSchema'
   import type { BotMessageSlotsType } from '@/types/generator'
-  import CommentBubbleItem from '@/ui/CommentBubble/parts/CommentBubbleItem.vue'
+  import CommentBubbleItem from '@/ui/CommentBubble/components/standard/CommentBubbleItem.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
 
   // UI プレビュー共通の props(uiEditorRegistry の preview はすべてこれを受ける)

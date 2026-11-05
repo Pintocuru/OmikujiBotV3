@@ -7,33 +7,19 @@
         <CommentDisplay
           :displayed-comments="displayedComments"
           :remove-comment="removeComment"
-          :enter-motion="settings.bubbleMotion"
-          :leave-motion="settings.bubbleMotion"
+          :motion="settings.bubbleMotion"
         />
       </div>
 
-      <!-- キャラクター（キーが変わったら再マウントしてアニメを頭出し） -->
-      <LayerImage
-        v-if="shown && shown.layers.length > 0"
-        :key="shown.key"
-        :layers="shown.layers"
-        :size="settings.characterSize"
-        :animation="shown.animation"
-      />
+      <ShownImage :shown="shown" :size="settings.characterSize" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
-  import { CommentBubbleType, ShownCharacter } from '@/types/ui'
-  import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import CommentDisplay from '../../parts/CommentDisplay.vue'
+  import type { CommentBubbleComponentProps } from '../../CommentBubbleRegistry'
+  import CommentDisplay from './CommentDisplay.vue'
+  import ShownImage from './ShownImage.vue'
 
-  defineProps<{
-    displayedComments: DisplayedBotMessage[]
-    removeComment: (id: string) => void
-    shown: ShownCharacter | null
-    settings: CommentBubbleType
-  }>()
+  defineProps<CommentBubbleComponentProps>()
 </script>

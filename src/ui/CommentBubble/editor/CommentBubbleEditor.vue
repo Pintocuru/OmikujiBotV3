@@ -8,11 +8,6 @@
     :character="persistentCharacter"
   />
 
-  <!-- 未登録のコンポーネントが選ばれている場合 -->
-  <div v-if="!currentDefinition" class="alert alert-error" role="alert">
-    未登録の表示タイプ: {{ bubble.component }}(このバージョンには含まれていません)
-  </div>
-
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
     :modelValue="bubble.component"
@@ -84,12 +79,10 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
-  import { EnterMotionType } from '@/types/OmikujiData'
+  import { enterMotions, EnterMotionType } from '@/types/OmikujiData'
   import { CommentBubbleSchema, CommentBubbleType } from '@/types/ui'
   import { getCommentBubbleComponent, getCommentBubbleComponentSets } from '../CommentBubbleRegistry'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
-    import { enterMotions } from '@/types/OmikujiData'
-
   import CommentBubblePreview from './CommentBubblePreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'

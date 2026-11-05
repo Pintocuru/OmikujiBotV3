@@ -7,13 +7,22 @@ import {
   type UiComponentDefinition,
   type UiComponentSets,
 } from '@/ui/common/uiComponentRegistry'
-import type { BubbleComponent } from '@/types/ui'
+import type { BubbleComponent, CommentBubbleType, ShownCharacter } from '@/types/ui'
+import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
 
 const UI_NAME = 'commentBubble'
 
 /** この UI 固有のメタ。 */
 type Meta = {
   hasCharacter: boolean // キャラクター画像を表示するか(エディターのキャラクター設定の出し分けに使う)
+}
+
+/** 各コンポーネント(Standard.vue など)が Selector から受け取る props */
+export type CommentBubbleComponentProps = {
+  displayedComments: DisplayedBotMessage[]
+  removeComment: (id: string) => void
+  shown: ShownCharacter | null
+  settings: CommentBubbleType
 }
 
 // 登録に必要な共通型

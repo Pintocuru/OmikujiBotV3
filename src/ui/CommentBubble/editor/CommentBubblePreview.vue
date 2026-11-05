@@ -1,18 +1,15 @@
 <!-- src/ui/CommentBubble/editor/CommentBubblePreview.vue -->
 <template>
   <HudPreview :isHeight="false">
-    <div :class="useFontFamily(fontFamily)">
-      <div class="relative h-90 overflow-hidden">
-        <component
-          :is="currentComponent"
-          v-if="currentComponent"
-          :displayedComments="displayedComments"
-          :removeComment="removeComment"
-          :shown="shown"
-          :settings="settings"
-        />
-        <div v-else-if="loadError" class="alert alert-error m-2 text-sm" role="alert">{{ loadError }}</div>
-      </div>
+    <div class="relative h-90 overflow-hidden">
+      <CommentBubbleSelector
+        :displayedComments="displayedComments"
+        :removeComment="removeComment"
+        :shown="shown"
+        :settings="settings"
+        :fontFamily="fontFamily"
+        editorPreview
+      />
     </div>
 
     <template #hud>
@@ -24,12 +21,12 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, nextTick, onMounted, provide, ref, shallowRef, watch, type Component } from 'vue'
+  import { computed, nextTick, onMounted, provide, ref, watch } from 'vue'
   import { CharacterColorScheme, type CharacterType, type FontFamilyType } from '@/types/OmikujiData'
   import type { CommentBubbleType, ShownCharacter } from '@/types/ui'
-  import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import { withDisplay, type DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import { getCommentBubbleComponent } from '../CommentBubbleRegistry'
+  import CommentBubbleSelector from '../CommentBubbleSelector.vue'
   import { previewColorKey } from '../parts/previewColor'
   import HudPreview from '@/editor/parts/HudPreview.vue'
 
@@ -43,33 +40,6 @@
   // 色はキャラの色に固定(CommentDisplay 側の store 参照を上書き)
   const color = computed(() => props.character?.color ?? CharacterColorScheme.parse({}))
   provide(previewColorKey, color)
-
-  // --- 表示タイプの読み込み(CommentBubbleSelector と同じ仕組み。未登録の通知は出さない) ---
-  const currentComponent = shallowRef<Component | null>(null)
-  const loadError = ref('')
-
-  watch(
-    () => props.settings.component,
-    async (id) => {
-      currentComponent.value = null
-      loadError.value = ''
-
-      const definition = getCommentBubbleComponent(id)
-      if (!definition) {
-        loadError.value = `未登録の表示タイプ: ${id}`
-        return
-      }
-      try {
-        const module = await definition.loader()
-        if (props.settings.component === id) currentComponent.value = module.default
-      } catch (error) {
-        if (props.settings.component !== id) return
-        console.error(`[CommentBubblePreview] Component load failed: ${id}`, error)
-        loadError.value = `表示タイプ「${id}」の読み込みに失敗しました`
-      }
-    },
-    { immediate: true }
-  )
 
   // --- キャラクター(hasCharacter な表示タイプだけ。default 画像、なければ最初に画像のある表情) ---
   const layers = computed(() => {

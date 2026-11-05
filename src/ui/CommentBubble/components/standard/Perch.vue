@@ -1,19 +1,17 @@
 <!-- src/ui/CommentBubble/components/standard/Perch.vue -->
-<!-- パーチ: 吹き出しの枠の左上に、小さなキャラが腰かける -->
+<!-- パーチ: 吹き出しの枠の左上に、小さなキャラが腰かける(枠の幅が固定でないと「枠の上」にならないため、他と別構造) -->
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex justify-center items-end pb-8">
-    <div class="relative w-105" :style="{ height: `${listHeight}px` }">
+    <div class="relative w-105">
       <!-- 枠の上辺に乗るキャラ(下端を少し枠に重ねる) -->
-      <div v-if="shown && shown.layers.length > 0" class="absolute left-2 bottom-full z-0 translate-y-6">
-        <LayerImage :key="shown.key" :layers="shown.layers" :size="size" :animation="shown.animation" />
-      </div>
+      <ShownImage :shown="shown" :size="size" class="absolute left-2 bottom-full z-0 translate-y-6" />
 
       <div class="relative z-10">
         <CommentDisplay
           :displayed-comments="displayedComments"
           :remove-comment="removeComment"
-          :enter-motion="settings.bubbleMotion"
-          :leave-motion="settings.bubbleMotion"
+          :motion="settings.bubbleMotion"
+          auto-height
           arrow="none"
         />
       </div>
@@ -23,18 +21,12 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
-  import { CommentBubbleType, ShownCharacter } from '@/types/ui'
-  import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import CommentDisplay from '../../parts/CommentDisplay.vue'
+  import type { CommentBubbleComponentProps } from '../../CommentBubbleRegistry'
+  import CommentDisplay from './CommentDisplay.vue'
+  import ShownImage from './ShownImage.vue'
 
-  const props = defineProps<{
-    displayedComments: DisplayedBotMessage[]
-    removeComment: (id: string) => void
-    shown: ShownCharacter | null
-    settings: CommentBubbleType
-  }>()
+  const props = defineProps<CommentBubbleComponentProps>()
 
+  // 腰かけるので小さめにする
   const size = computed(() => Math.round(props.settings.characterSize * 0.6))
-  const listHeight = computed(() => Math.max(props.displayedComments.length, 1) * 40 + 60)
 </script>
