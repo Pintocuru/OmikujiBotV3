@@ -10,7 +10,7 @@ definePackage({
   layout: 'lifeHourglass',
   loader: () => import('@/layout/2026-Q4/LifeHourglass/LifeHourglass.vue'),
   registerComponents: registerStandardLifeHourglassComponents,
-  editor: () => import('@/ui/LifeHourglass/editor/LifeHourglassEditor.vue'),
+  // editor: () => import('@/ui/LifeHourglass/editor/LifeHourglassEditor.vue'),
 })
 
 window.OmikujiBot = window.OmikujiBot ?? {}
