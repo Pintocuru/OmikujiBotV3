@@ -15,7 +15,7 @@ export type ShownCharacter = {
  */
 // CommentBubble のコンポーネントセット
 export const bubbleComponentSets = {
-  standard: ['standard', 'compact', 'left', 'right', 'peek', 'perch'],
+  standard: ['standard', 'left', 'right', 'peek', 'perch'],
 } as const
 
 export type BubbleComponentSets = typeof bubbleComponentSets

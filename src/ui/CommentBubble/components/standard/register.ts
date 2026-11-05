@@ -8,7 +8,6 @@ import { registerCommentBubbleComponents, type CommentBubbleComponent } from '..
  */
 const standardComponents = {
   standard: { label: 'スタンダード', hasCharacter: true, loader: () => import('./Standard.vue') },
-  compact: { label: 'コンパクト(小さめ)', hasCharacter: true, loader: () => import('./Compact.vue') },
   left: { label: 'レフト(キャラ左・吹き出し右)', hasCharacter: true, loader: () => import('./Left.vue') },
   right: { label: 'ライト(キャラ右・吹き出し左)', hasCharacter: true, loader: () => import('./Right.vue') },
   peek: { label: 'ピーク(枠の後ろから顔を出す)', hasCharacter: true, loader: () => import('./Peek.vue') },
