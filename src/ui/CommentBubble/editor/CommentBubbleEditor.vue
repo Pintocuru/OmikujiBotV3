@@ -27,7 +27,7 @@
       :disabled="!bubble.persistentCharacter"
       @click="update('persistentCharacter', '')"
     >
-      なし
+      {{ t('uiSettings.commentBubble.persistentCharacter.none') }}
     </button>
     <CharacterIconPicker
       :character-key="bubble.persistentCharacter"
@@ -53,7 +53,9 @@
       :value="bubble.characterSize"
       @input="(e) => update('characterSize', Number((e.target as HTMLInputElement).value))"
     />
-    <div class="mt-2 text-sm">現在値: {{ bubble.characterSize }}px</div>
+    <div class="mt-2 text-sm">
+      {{ t('uiSettings.commentBubble.characterSize.current', { size: bubble.characterSize }) }}
+    </div>
   </SettingItem>
 
   <!-- フキダシアニメーション -->
@@ -111,7 +113,8 @@
   const currentDefinition = computed(() => getCommentBubbleComponent(bubble.value.component))
   const componentOptions = computed(() => {
     const options: Record<string, { label: string }> = {}
-    if (!currentDefinition.value) options[bubble.value.component] = { label: `未登録: ${bubble.value.component}` }
+    if (!currentDefinition.value)
+      options[bubble.value.component] = { label: t('uiSettings.common.unregistered', { id: bubble.value.component }) }
     for (const set of Object.values(getCommentBubbleComponentSets())) {
       for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
     }

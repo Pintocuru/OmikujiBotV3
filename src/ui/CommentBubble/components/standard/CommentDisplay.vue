@@ -5,7 +5,7 @@
       v-for="(item, index) in displayedComments"
       :key="item.id"
       class="absolute left-0 right-0"
-      :style="{ top: `${index * rowHeight}px`, zIndex: 20 - index }"
+      :style="{ top: `${index * ROW_HEIGHT}px`, zIndex: 20 - index }"
     >
       <MotionWrapper
         v-model:visible="item.display.visible"
@@ -19,8 +19,6 @@
             :botName="item.bubble.name ?? ''"
             :message="item.bubble.message"
             :color="previewColor ?? getCharacterColor(item.bubble.characterKey) ?? undefined"
-            :animated-text="animatedText"
-            :compact="compact"
             :arrow-direction="arrow"
             :brightnessLevel="index"
             :style="{ zIndex: index }"
@@ -40,17 +38,14 @@
   import { previewColorKey } from '../../parts/previewColor'
   import CommentBubbleItem from './CommentBubbleItem.vue'
 
-  // 最後の 1 件の吹き出し自体の高さ(autoHeight のとき、件数分の高さに足す)
-  const LAST_ITEM_HEIGHT = 60
+  const ROW_HEIGHT = 40 // 1件ごとの縦ずらし量(px)
+  const LAST_ITEM_HEIGHT = 60 // 最後の 1 件の吹き出し自体の高さ(autoHeight のとき、件数分の高さに足す)
 
   const props = withDefaults(
     defineProps<{
       displayedComments: DisplayedBotMessage[]
       removeComment: (id: string) => void
       motion?: EnterMotionType // 登場・退場のアニメーション
-      animatedText?: boolean
-      compact?: boolean // 小さめ表示
-      rowHeight?: number // 1件ごとの縦ずらし量(px)
       align?: 'start' | 'center' | 'end' // 吹き出しの横位置
       arrow?: 'down' | 'left' | 'right' | 'none' // 矢印の向き
       autoHeight?: boolean // 件数に合わせて高さを確保する(各行は absolute 配置のため、親に高さが必要なとき)
@@ -58,9 +53,6 @@
     {
       removeComment: () => undefined,
       motion: 'slideUp',
-      animatedText: false,
-      compact: false,
-      rowHeight: 40,
       align: 'center',
       arrow: 'down',
       autoHeight: false,
@@ -69,7 +61,7 @@
 
   const ALIGN_CLASS = { start: 'justify-start', center: 'justify-center', end: 'justify-end' } as const
 
-  const listHeight = computed(() => Math.max(props.displayedComments.length, 1) * props.rowHeight + LAST_ITEM_HEIGHT)
+  const listHeight = computed(() => Math.max(props.displayedComments.length, 1) * ROW_HEIGHT + LAST_ITEM_HEIGHT)
 
   const { getCharacterColor } = useCharacters()
   const previewColor = inject(previewColorKey, null)

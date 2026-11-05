@@ -14,7 +14,9 @@
 
     <template #hud>
       <div class="flex justify-center mt-2">
-        <button type="button" class="btn btn-ghost btn-sm" @click="replay">再表示</button>
+        <button type="button" class="btn btn-ghost btn-sm" @click="replay">
+          {{ t('uiSettings.commentBubble.preview.replay') }}
+        </button>
       </div>
     </template>
   </HudPreview>
@@ -22,6 +24,7 @@
 
 <script setup lang="ts">
   import { computed, nextTick, onMounted, provide, ref, watch } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { CharacterColorScheme, type CharacterType, type FontFamilyType } from '@/types/OmikujiData'
   import type { CommentBubbleType, ShownCharacter } from '@/types/ui'
   import { withDisplay, type DisplayedBotMessage } from '@/ui/common/useBotDisplay'
@@ -56,10 +59,11 @@
   })
 
   // --- サンプルコメント(displayedComments は新しい順) ---
-  const SAMPLE_MESSAGES = ['これはプレビュー表示です。', '実際の表示タイプと同じ配置で確認できます。']
+  const { t } = useI18n()
 
   const buildSamples = (): DisplayedBotMessage[] => {
-    const message = SAMPLE_MESSAGES[Math.floor(Math.random() * SAMPLE_MESSAGES.length)]
+    const sampleKeys = ['sample1', 'sample2'] as const
+    const message = t(`uiSettings.commentBubble.preview.${sampleKeys[Math.floor(Math.random() * sampleKeys.length)]}`)
 
     return [
       withDisplay({
@@ -68,7 +72,7 @@
         delaySeconds: 0,
         uiKey: 'commentBubble',
         bubble: {
-          name: props.character?.displayName ?? 'テストユーザー',
+          name: props.character?.displayName ?? t('uiSettings.commentBubble.preview.userName'),
           message,
           characterKey: props.characterKey ?? null,
           iconKey: 'default',

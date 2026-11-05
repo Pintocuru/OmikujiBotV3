@@ -17,6 +17,7 @@ export const uiSettingsMessages = {
           label: '表示スタイル',
           description: '表示形式を選択',
         },
+        unregistered: '未登録: {id}',
       },
       userBoard: {
         component: {
@@ -50,10 +51,18 @@ export const uiSettingsMessages = {
         persistentCharacter: {
           label: '常時表示キャラクター',
           description: '未設定の場合、コメントが来たときのみ表示されます',
+          none: 'なし',
         },
         characterSize: {
           label: 'キャラクターの大きさ',
           description: 'キャラクター画像の横幅を調整します',
+          current: '現在値: {size}px',
+        },
+        preview: {
+          replay: '再表示',
+          userName: 'テストユーザー',
+          sample1: 'これはプレビュー表示です。',
+          sample2: '実際の表示タイプと同じ配置で確認できます。',
         },
       },
       characterStage: {
@@ -214,6 +223,7 @@ export const uiSettingsMessages = {
           label: 'Display style',
           description: 'Choose the display format',
         },
+        unregistered: 'Unregistered: {id}',
       },
       userBoard: {
         component: {
@@ -247,10 +257,18 @@ export const uiSettingsMessages = {
         persistentCharacter: {
           label: 'Always-visible character',
           description: 'If not set, the character appears only when a comment arrives',
+          none: 'None',
         },
         characterSize: {
           label: 'Character size',
           description: 'Adjust the width of the character image',
+          current: 'Current: {size}px',
+        },
+        preview: {
+          replay: 'Replay',
+          userName: 'Test user',
+          sample1: 'This is a preview.',
+          sample2: 'You can check it with the same layout as the actual display type.',
         },
       },
       characterStage: {

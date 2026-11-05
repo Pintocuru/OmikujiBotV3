@@ -1,25 +1,26 @@
 <!-- src/ui/CommentBubble/components/standard/CommentBubbleItem.vue -->
 <template>
   <div
-    class="relative transparent-bg inline-block max-w-3xl min-w-40"
-    :class="[bubbleClasses, brightness]"
-    :style="{ backgroundColor: color.background, '--bubble-bg': color.background }"
+    class="relative transparent-bg inline-block max-w-3xl min-w-40 rounded-xl px-5 pt-6 pb-4"
+    :class="brightness"
+    :style="bubbleStyle"
   >
-    <!-- 名前表示 -->
-    <div v-if="botName" class="font-bold" :class="nameSize" :style="{ color: color.name }">
+    <!-- 名前表示(アクセント色のドットを添える) -->
+    <div v-if="botName" class="mb-1 flex items-center gap-2 text-base font-bold" :style="{ color: color.name }">
+      <span class="size-2.5 shrink-0 rounded-full" :style="{ backgroundColor: color.accent }" />
       {{ botName }}
     </div>
 
     <!-- コメント内容（HTML を描画） -->
-    <div class="wrap-break-word" :class="textSize" :style="{ color: color.text }" v-html="displayedHtml" />
+    <div class="wrap-break-word text-xl" :style="{ color: color.text }" v-html="message" />
 
     <!-- 吹き出しの矢印 -->
-    <div v-if="arrowDirection !== 'none'" :class="arrowClasses" :style="arrowStyle" />
+    <div v-if="arrow" :class="arrow.class" :style="arrow.style" />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watchEffect } from 'vue'
+  import { computed } from 'vue'
   import { CharacterColorScheme, CharacterColorType } from '@/types/OmikujiData/'
 
   const props = withDefaults(
@@ -28,22 +29,12 @@
       message: string
       color?: CharacterColorType
       brightnessLevel?: number
-      customClasses?: string
-      customArrowClasses?: string
-      compact?: boolean // 小さめ表示(文字・余白・矢印を縮める)
       arrowDirection?: 'down' | 'left' | 'right' | 'none' // 矢印の向き(left=吹き出しの左側に出て左を指す)
-      animatedText?: boolean
-      animatedTextSpeed?: number
     }>(),
     {
       color: () => CharacterColorScheme.parse({}),
       brightnessLevel: 0,
-      customClasses: undefined,
-      customArrowClasses: undefined,
-      compact: false,
       arrowDirection: 'down',
-      animatedText: false,
-      animatedTextSpeed: 50,
     }
   )
 
@@ -55,63 +46,32 @@
     return BRIGHTNESS_CLASSES[Math.min(props.brightnessLevel, BRIGHTNESS_CLASSES.length - 1)]
   })
 
-  // サイズ
-  const bubbleClasses = computed(
-    () => props.customClasses ?? (props.compact ? 'px-3 py-2 rounded-lg' : 'p-4 rounded-xl')
-  )
-  const textSize = computed(() => (props.compact ? 'text-base' : 'text-xl'))
-  const nameSize = computed(() => (props.compact ? 'text-sm' : 'text-xl'))
+  // 背景色と、上辺のアクセント帯(矢印は下・左・右にしか出ないので、上辺なら干渉しない)
+  const bubbleStyle = computed(() => ({
+    backgroundColor: props.color.background,
+    '--bubble-bg': props.color.background,
+    boxShadow: `inset 0 6px 0 0 ${props.color.accent}`,
+  }))
 
-  // 矢印(向きごとの既定クラス。customArrowClasses を渡した場合はそちらを優先)
-  const ARROW_CLASSES = {
+  // 矢印(向きごとのクラスと、吹き出しの色を付ける border の辺(矢印の向きと逆側))
+  const ARROWS = {
     down: {
-      normal: '-bottom-5 left-1/2 -translate-x-1/2 border-x-[20px] border-t-[20px] border-x-transparent',
-      compact: '-bottom-3 left-1/2 -translate-x-1/2 border-x-[12px] border-t-[12px] border-x-transparent',
+      class: '-bottom-5 left-1/2 -translate-x-1/2 border-x-[20px] border-t-[20px] border-x-transparent',
+      colorProp: 'borderTopColor',
     },
     left: {
-      normal: '-left-5 top-1/2 -translate-y-1/2 border-y-[16px] border-r-[20px] border-y-transparent',
-      compact: '-left-3 top-1/2 -translate-y-1/2 border-y-[10px] border-r-[12px] border-y-transparent',
+      class: '-left-5 top-1/2 -translate-y-1/2 border-y-[16px] border-r-[20px] border-y-transparent',
+      colorProp: 'borderRightColor',
     },
     right: {
-      normal: '-right-5 top-1/2 -translate-y-1/2 border-y-[16px] border-l-[20px] border-y-transparent',
-      compact: '-right-3 top-1/2 -translate-y-1/2 border-y-[10px] border-l-[12px] border-y-transparent',
+      class: '-right-5 top-1/2 -translate-y-1/2 border-y-[16px] border-l-[20px] border-y-transparent',
+      colorProp: 'borderLeftColor',
     },
   } as const
 
-  // 吹き出しの色を付ける border の辺(矢印の向きと逆側)
-  const ARROW_COLOR_PROP = { down: 'borderTopColor', left: 'borderRightColor', right: 'borderLeftColor' } as const
-
-  const arrowClasses = computed(() => {
-    if (props.customArrowClasses) return props.customArrowClasses
-    if (props.arrowDirection === 'none') return ''
-    return `absolute w-0 h-0 ${ARROW_CLASSES[props.arrowDirection][props.compact ? 'compact' : 'normal']}`
-  })
-
-  const arrowStyle = computed(() =>
-    props.arrowDirection === 'none' ? undefined : { [ARROW_COLOR_PROP[props.arrowDirection]]: 'var(--bubble-bg)' }
-  )
-
-  // アニメーション
-  const displayedHtml = ref(props.animatedText ? '' : props.message)
-  const isHtml = computed(() => props.message.includes('<'))
-
-  watchEffect((onCleanup) => {
-    // HTML を含む場合はアニメーション禁止（そのまま表示）
-    if (!props.animatedText || isHtml.value) {
-      displayedHtml.value = props.message
-      return
-    }
-
-    // ここから先は「プレーンテキストのみ」アニメーション
-    displayedHtml.value = ''
-    let length = 0
-    const timer = setInterval(() => {
-      length++
-      displayedHtml.value = props.message.substring(0, length)
-      if (length >= props.message.length) clearInterval(timer)
-    }, props.animatedTextSpeed)
-
-    // message などが変わったとき・unmount 時に、前のタイマーを止める
-    onCleanup(() => clearInterval(timer))
+  const arrow = computed(() => {
+    if (props.arrowDirection === 'none') return null
+    const { class: classes, colorProp } = ARROWS[props.arrowDirection]
+    return { class: `absolute w-0 h-0 ${classes}`, style: { [colorProp]: 'var(--bubble-bg)' } }
   })
 </script>
