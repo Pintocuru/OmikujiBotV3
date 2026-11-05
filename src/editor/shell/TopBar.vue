@@ -1,45 +1,52 @@
 <!-- src/editor/shell/TopBar.vue -->
 <!-- 常設の上部バー: タイトル・ファイル名・保存・切り替え類をまとめる。色は DaisyUI のテーマに従う(開発時のファイル区別用) -->
 <template>
-  <header class="shrink-0 flex items-center gap-3 px-3 py-2 bg-primary text-primary-content shadow-md z-40">
-    <!-- 左: サイドバー開閉 + タイトル -->
+  <header class="flex items-center gap-2 p-2 bg-primary text-primary-content shadow-md z-40">
+    <!-- サイドバー開閉 -->
     <button
       v-if="!showGenerator"
-      class="btn btn-sm btn-square btn-ghost"
+      class="btn btn-sm btn-square btn-ghost text-primary-content hover:bg-primary-content/15"
       :title="t('shell.topBar.sidebar')"
       @click="toggleSidebar"
     >
       <Menu class="w-5 h-5" />
     </button>
-    <button
-      type="button"
-      class="font-bold text-lg whitespace-nowrap hover:opacity-80"
-      @click="navigationStore.showTopPage()"
-    >
-      {{ t('appHeader.title') }}
-    </button>
+
+    <!-- タイトル -->
+    <div>
+      <button
+        type="button"
+        class="font-extrabold text-lg whitespace-nowrap hover:opacity-80 cursor-pointer"
+        @click="navigationStore.showTopPage()"
+      >
+        {{ t('appHeader.title') }}
+      </button>
+      <!-- バージョン -->
+      <div class="-mt-3 -mb-2 text-right">
+        <button
+          class="shrink-0 badge badge-xs border-0"
+          :class="versionInfo.hasNewVersion ? 'badge-warning' : ''"
+          :title="versionInfo.hasNewVersion ? t('shell.topBar.versionNew') : t('shell.topBar.versionInfo')"
+          @click="showUpdateDialog"
+        >
+          {{ versionInfo.current }}
+        </button>
+        <span v-if="versionInfo.error" class="badge badge-sm badge-error border-0 shrink-0" :title="versionInfo.error">
+          !
+        </span>
+      </div>
+    </div>
 
     <!-- データソース・ファイル名・バージョン -->
-    <div class="flex items-center gap-2 min-w-0 flex-1">
-      <!-- バージョン -->
-      <button
-        class="text-xs shrink-0 cursor-pointer"
-        :class="versionInfo.hasNewVersion ? 'text-warning' : 'opacity-80'"
-        :title="versionInfo.hasNewVersion ? t('shell.topBar.versionNew') : t('shell.topBar.versionInfo')"
-        @click="showUpdateDialog"
-      >
-        {{ versionInfo.current }}
-      </button>
-      <span v-if="versionInfo.error" class="text-error shrink-0" :title="versionInfo.error"> ! </span>
-
+    <div class="flex">
       <!-- ファイル名 -->
       <span v-if="fileLabel" class="badge badge-sm truncate" :title="fileLabel">{{ fileLabel }}</span>
       <IssuesBadge />
     </div>
 
     <!-- 右: 開く・保存・切り替え -->
-    <div v-show="!showGenerator" class="flex items-center gap-2 shrink-0">
-      <button class="btn btn-sm" :title="t('shell.topBar.openTip')" @click="onOpen">
+    <div v-show="!showGenerator" class="ml-auto flex items-center gap-2 shrink-0">
+      <button class="btn btn-sm btn-neutral" :title="t('shell.topBar.openTip')" @click="onOpen">
         <FolderOpen class="w-4 h-4" />
         {{ t('shell.topBar.open') }}
       </button>
@@ -49,7 +56,7 @@
     <!-- ジェネレーターサンプル -->
     <button
       class="btn btn-sm shadow"
-      :class="canUseGenerator ? 'btn-neutral' : 'btn-outline btn-warning bg-base-100'"
+      :class="canUseGenerator ? 'btn-neutral' : 'btn-warning'"
       :disabled="generatorState === 'checking' && !showGenerator"
       :title="generatorTitle"
       @click="onSwitch"

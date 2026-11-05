@@ -10,7 +10,9 @@
     <dialog ref="dialogRef" class="modal">
       <div class="modal-box max-w-3xl text-base-content">
         <h3 class="font-bold text-lg flex items-center gap-2">
-          <TriangleAlert class="w-5 h-5 text-warning" />
+          <span class="badge badge-warning badge-sm border-0 p-1">
+            <TriangleAlert class="w-5 h-5" />
+          </span>
           {{ summary }}
         </h3>
         <p class="text-sm py-2">{{ t('shell.issues.explanation') }}</p>
@@ -20,9 +22,7 @@
             <div class="font-mono text-xs break-all">
               {{ issue.category }} &gt; {{ locationOf(issue) }}
               <span class="badge badge-xs ml-1" :class="issue.action === 'dropped' ? 'badge-error' : 'badge-info'">
-                {{
-                  issue.action === 'dropped' ? t('shell.issues.dropAction') : t('shell.issues.defaultAction')
-                }}
+                {{ issue.action === 'dropped' ? t('shell.issues.dropAction') : t('shell.issues.defaultAction') }}
               </span>
             </div>
             <div class="text-xs mt-1">{{ issue.reason }}</div>
@@ -31,7 +31,9 @@
         </ul>
 
         <div class="modal-action">
-          <form method="dialog"><button class="btn">{{ t('shell.issues.close') }}</button></form>
+          <form method="dialog">
+            <button class="btn">{{ t('shell.issues.close') }}</button>
+          </form>
         </div>
       </div>
       <form method="dialog" class="modal-backdrop">
@@ -61,10 +63,7 @@
       return t(key, { count: total, breakdown })
     }
 
-    return [
-      formatAction('dropped', 'shell.issues.dropped'),
-      formatAction('defaulted', 'shell.issues.defaulted'),
-    ]
+    return [formatAction('dropped', 'shell.issues.dropped'), formatAction('defaulted', 'shell.issues.defaulted')]
       .filter(Boolean)
       .join(' / ')
   })
