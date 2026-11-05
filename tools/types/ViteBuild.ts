@@ -21,6 +21,21 @@ export type ProjectParams = {
 }
 
 /**
+ * パッケージのバリエーション定義
+ */
+export interface PackageVariant {
+  /** パッケージ名に付ける識別子 */
+  variant: string
+  withEditor: boolean
+  withConsole: boolean
+  type: PackageType
+  /** 読み込むプリセットJSONのファイル名 */
+  jsonFileName: string
+  /** UPDATE ビルド用 */
+  update?: boolean
+}
+
+/**
  * パッケージプロジェクト設定
  * - FULL / UPDATE: entryPoints (packages/<category>/<key>/main.ts など) を Vite でビルドして梱包する
  * - JSON: Vite は通さない
