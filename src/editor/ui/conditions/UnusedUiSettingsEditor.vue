@@ -6,8 +6,7 @@
       <p v-if="unusedKinds.length === 0" class="text-xs opacity-70 p-2">{{ t('uiSettings.unused.empty') }}</p>
 
       <!-- 余計なデータがある場合 -->
-      <!-- TODO:ビルド時に、自動的にこの機能を発動させたい -->
-      <!-- (エディターでは任意に消したいが、ビルド時は自動で消しても問題がない) -->
+      <!-- (ビルド時は assembleBuildJson が同じ判定で自動的に消す) -->
       <div v-else class="flex flex-col gap-2">
         <div v-for="kind in unusedKinds" :key="kind" class="flex items-center justify-between gap-2">
           <span class="badge badge-outline">{{ kindLabel(kind) }}</span>
@@ -28,7 +27,7 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import type { UiKind } from '@/types/OmikujiData'
-  import { uiLayoutMap } from '@/maps/OmikujiData'
+  import { findUnusedUiKinds } from '@/common/UnusedUiSettings'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -41,11 +40,7 @@
   const kindLabel = (kind: UiKind) => t(`mapText.uiKind.${kind}.label`)
 
   // 設定が入っていて、現在のレイアウトが使わない UI
-  const unusedKinds = computed(() => {
-    const used = uiLayoutMap[data.value.ui.layout]
-    const settings = data.value.ui.settings
-    return (Object.keys(settings) as UiKind[]).filter((kind) => settings[kind] !== undefined && !used.includes(kind))
-  })
+  const unusedKinds = computed(() => findUnusedUiKinds(data.value.ui))
 
   const removeOne = async (kind: UiKind) => {
     const { isConfirmed } = await swalModal.confirmDelete({

@@ -6,6 +6,7 @@ import { loadSourceFile } from './fileLoader'
 import { mergeOmikujiData } from './merger'
 import { applyKeySuffix } from './KeySuffix'
 import { findJsonPath } from '../viteBuild/projectFactory/findJsonPath'
+import { pruneUnusedUiSettings } from '@/common/UnusedUiSettings'
 
 /**
  * jsonMergeがある場合にマージ処理を実行
@@ -49,4 +50,13 @@ export async function processMerge(jsonData: OmikujiDataType, jsonPathRoot: stri
 
   // すべてをマージ
   return mergeOmikujiData(...dataToMerge)
+}
+
+/**
+ * ビルド用の最終組み立て: マージ → 余計な UI 設定の除去
+ * (processMerge は再帰するので、掃除はマージ完了後に1回だけ行う)
+ */
+export async function assembleBuildJson(jsonData: OmikujiDataType, jsonPathRoot: string): Promise<OmikujiDataType> {
+  const merged = await processMerge(jsonData, jsonPathRoot)
+  return pruneUnusedUiSettings(merged)
 }
