@@ -3,7 +3,6 @@
   <SettingItem icon="User" labelKey="triggerUsername.label" descriptionKey="triggerUsername.description">
     <textarea
       v-model="textValue"
-      @input="updateModelValue"
       :placeholder="t('triggerUsername.placeholder')"
       class="textarea textarea-bordered w-full min-h-30"
       rows="6"
@@ -17,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, watch } from 'vue'
+  import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import SettingItem from '@/editor/parts/SettingItem.vue'
 
@@ -27,27 +26,13 @@
     modelValue?: string[]
   }>()
 
-  const emit = defineEmits(['update:modelValue'])
+  const emit = defineEmits<{
+    'update:modelValue': [value: string[]]
+  }>()
 
-  // textarea用の文字列値
-  const textValue = ref('')
-
-  // 初期値設定
-  textValue.value = (props.modelValue ?? []).join('\n')
-
-  watch(
-    () => props.modelValue,
-    (newValue) => {
-      const newText = (newValue ?? []).join('\n')
-      if (textValue.value !== newText) {
-        textValue.value = newText
-      }
-    }
-  )
-
-  // textareaの値が変更された時にmodelValueを更新
-  const updateModelValue = () => {
-    const lines = textValue.value.split('\n')
-    emit('update:modelValue', lines)
-  }
+  // 配列とtextarea用文字列をcomputedで相互変換
+  const textValue = computed({
+    get: () => (props.modelValue ?? []).join('\n'),
+    set: (value: string) => emit('update:modelValue', value.split('\n')),
+  })
 </script>
