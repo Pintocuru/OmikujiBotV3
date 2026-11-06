@@ -8,7 +8,7 @@ export const editorPreviewMessages = {
         resultDetails: 'おみくじ: {name}<br>重み: {weight}',
         noSelectedEventTitle: 'イベントが選択されていません',
         noSelectedEvent: 'テスト投稿の対象となるイベントを選択してください。',
-        noMatchingItem: '該当するおみくじがありませんでした。',
+        noMatchingItem: '該当するおみくじがありませんでした。(すべて優先の場合は抽選されません)',
         missingScenarioTitle: 'シナリオが見つかりません',
         missingScenario: 'シナリオ "{key}" が存在しません。',
         missingScenarioKey: 'シナリオ(stepKey)が設定されていません。',

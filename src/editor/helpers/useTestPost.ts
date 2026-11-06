@@ -1,19 +1,17 @@
 // src/editor/helpers/useTestPost.ts
-import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { OmikenCommentSchema } from '@/types/OmikenComment'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
-import { EventType, OmikujiItemType, ScenarioStepType, sortedStepsFromRecord } from '@/types/OmikujiData'
+import { OmikujiItemType, ScenarioStepType, sortedStepsFromRecord } from '@/types/OmikujiData'
 import { defaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { BotMessageType } from '@/types/generator'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
-import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+import { checkAllTriggers } from '@/generator/scripts/trigger/TriggerChecker'
 import i18n from '@/editor/i18n'
 
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
@@ -27,24 +25,10 @@ const MOCK_COMMENT = OmikenCommentSchema.parse({
 export function useTestPost() {
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const { getEvent } = useGetEventData()
   const { getAsset } = useGetAssetData()
-  const navigationStore = useNavigationStore()
-  const { selectedCategory, selectedItemKey } = storeToRefs(navigationStore)
 
   const scriptManager = new GameScriptManager()
   const placeholderVariable = new PlaceholderVariable()
-
-  // 選択されているおみくじを取得
-  const selectedRule = computed((): EventType | null => {
-    const key = selectedItemKey.value
-    if (!key) return null
-
-    const category = selectedCategory.value
-    if (!navigationStore.isEventCategory(category)) return null
-
-    return getEvent(category, key) ?? null
-  })
 
   // 重みは lottery を持つ種別のみ。log は 1 扱い
   const getWeight = (item: OmikujiItemType) => ('lottery' in item ? item.lottery.weight : 1)
@@ -61,31 +45,32 @@ export function useTestPost() {
     })
   }
 
+  // 本番と同じく steps は順番に実行する(variable などの結果に後続の step が依存するため)
   const postTestOmikujiItem = async (steps: ScenarioStepType[], omikujiItem?: OmikujiItemType) => {
     const resultProcessor = new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable)
-    const botMessages = (
-      await Promise.all(
-        steps.map((step) => resultProcessor.process(step, defaultPlaceholdersShortLabels, MOCK_COMMENT))
-      )
-    ).flat()
+    const botMessages: BotMessageType[] = []
+    for (const step of steps) {
+      botMessages.push(...(await resultProcessor.process(step, defaultPlaceholdersShortLabels, MOCK_COMMENT)))
+    }
 
     if (omikujiItem) showOmikujiResultToast(omikujiItem)
     executeTestPostDelays(botMessages)
   }
 
-  const postTestOmikuji = (omikujiKey: string) => {
-    if (!selectedRule.value) {
-      swalToast.error({
-        title: t('editorPreview.testPost.noSelectedEventTitle'),
-        text: t('editorPreview.testPost.noSelectedEvent'),
-      })
-      return
-    }
-
+  /**
+   * おみくじ箱から抽選して実行する(本番の CommentProcessor と同じ流れ)
+   * criteria で絞り込み(テスト用コメントで判定) → 抽選 → control / steps
+   * クールダウンは適用しない(続けてテストできるように)
+   */
+  const postTestMikuji = async (omikujiKey: string) => {
     const mikujiBox = getAsset('mikuji', omikujiKey)
     if (!mikujiBox) return
 
-    const omikujiItem = drawOmikuji(mikujiBox.omikuji)
+    const candidates = mikujiBox.omikuji.filter((item) => {
+      const criteria = item.lottery.criteria
+      return !criteria || checkAllTriggers(MOCK_COMMENT, criteria)
+    })
+    const omikujiItem = drawOmikuji(candidates)
 
     if (!omikujiItem) {
       swalToast.info({
@@ -95,8 +80,14 @@ export function useTestPost() {
       return
     }
 
-    // steps以外なら、結果だけ通知する
-    if (omikujiItem.kind !== 'steps') {
+    // control: variable の評価だけ行い、投稿はしない(本番と同じ)
+    if (omikujiItem.kind === 'control') {
+      if (omikujiItem.variable.trim()) {
+        new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable).evaluateVariable(
+          omikujiItem.variable,
+          defaultPlaceholdersShortLabels
+        )
+      }
       showOmikujiResultToast(omikujiItem)
       return
     }
@@ -112,11 +103,11 @@ export function useTestPost() {
       return
     }
 
-    postTestOmikujiItem(sortedStepsFromRecord(scenario.steps), omikujiItem)
+    await postTestOmikujiItem(sortedStepsFromRecord(scenario.steps), omikujiItem)
   }
 
   return {
-    postTestOmikuji,
+    postTestMikuji,
     postTestOmikujiItem,
   }
 }
