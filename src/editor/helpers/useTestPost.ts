@@ -13,6 +13,7 @@ import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { BotMessageType } from '@/types/generator'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
+import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import i18n from '@/editor/i18n'
 
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
@@ -27,6 +28,7 @@ export function useTestPost() {
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
   const { getEvent } = useGetEventData()
+  const { getAsset } = useGetAssetData()
   const navigationStore = useNavigationStore()
   const { selectedCategory, selectedItemKey } = storeToRefs(navigationStore)
 
@@ -71,7 +73,7 @@ export function useTestPost() {
     executeTestPostDelays(botMessages)
   }
 
-  const postTestOmikuji = (mikuji: OmikujiItemType[]) => {
+  const postTestOmikuji = (omikujiKey: string) => {
     if (!selectedRule.value) {
       swalToast.error({
         title: t('editorPreview.testPost.noSelectedEventTitle'),
@@ -80,7 +82,10 @@ export function useTestPost() {
       return
     }
 
-    const omikujiItem = drawOmikuji(mikuji)
+    const mikujiBox = getAsset('mikuji', omikujiKey)
+    if (!mikujiBox) return
+
+    const omikujiItem = drawOmikuji(mikujiBox.omikuji)
 
     if (!omikujiItem) {
       swalToast.info({
