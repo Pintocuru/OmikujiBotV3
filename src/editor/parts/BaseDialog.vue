@@ -3,8 +3,10 @@
 <template>
   <dialog ref="dialogRef" class="modal modal-bottom sm:modal-middle" @close="close">
     <!-- 開いている間だけ中身を描画する。閉じたままの MessageTextDialog 等の中身まで全件マウントされ、
-         一覧(44 行程度)でクリックから数秒固まる原因になっていたため -->
-    <template v-if="open">
+         一覧(44 行程度)でクリックから数秒固まる原因になっていたため。
+         DaisyUI の modal-box は「閉じた状態 → [open]」の CSS transition でアニメーションするので、
+         開く前に描画しておき、閉じるアニメーションが終わってから外す(rendered) -->
+    <template v-if="rendered">
       <div class="modal-box max-h-[90vh] overflow-y-auto" :class="sizeClass[size]">
         <div class="flex items-center justify-between pb-2">
           <h3 class="text-lg font-bold flex items-center gap-2">
@@ -31,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted, ref, watch } from 'vue'
+  import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import { X } from 'lucide-vue-next'
   import { useI18n } from 'vue-i18n'
   import { type LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
@@ -63,15 +65,31 @@
   const dialogRef = ref<HTMLDialogElement | null>(null)
   const IconComponent = computed(() => (props.icon ? resolveLucideIcon(props.icon) : null))
 
+  // 中身(modal-box)を DOM に置いているか。open より少し長く true にして、閉じるアニメーションを見せる
+  const rendered = ref(props.open)
+  // DaisyUI の modal-box の transition(.3s)に合わせる
+  const CLOSE_ANIMATION_MS = 300
+  let unmountTimer: ReturnType<typeof setTimeout> | undefined
+
   onMounted(() => {
     if (props.open) dialogRef.value?.showModal()
   })
+  onBeforeUnmount(() => clearTimeout(unmountTimer))
 
   watch(
     () => props.open,
-    (open) => {
-      if (open) dialogRef.value?.showModal()
-      else dialogRef.value?.close()
+    async (open) => {
+      clearTimeout(unmountTimer)
+      if (open) {
+        // 閉じた状態の modal-box を先に描画・スタイル確定してから開く(でないと transition が走らない)
+        rendered.value = true
+        await nextTick()
+        void dialogRef.value?.offsetHeight
+        if (props.open) dialogRef.value?.showModal()
+      } else {
+        dialogRef.value?.close()
+        unmountTimer = setTimeout(() => (rendered.value = false), CLOSE_ANIMATION_MS)
+      }
     }
   )
 

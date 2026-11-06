@@ -7,13 +7,9 @@ import { omikujiApi } from '@/manager/services/omikujiApi'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { confirmSaveWithIssues } from '@/editor/helpers/confirmSaveWithIssues'
+import { escapeHtml } from '@/common/escapeHtml'
 
 export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncActionHandler) {
-  // サーバチェック
-  const checkServer = async (): Promise<boolean> => {
-    return await configApi.getHealth()
-  }
-
   // ファイル一覧取得
   const fetchFileList = async () => {
     const files = await configApi.getFileList()
@@ -49,16 +45,20 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
   const saveToGenerator = async () => {
     const generatorId = window.omikujiData?.meta.id
     if (!generatorId) {
-      throw new Error('generatorId が存在しないため、ジェネレーター用設定を保存できません')
+      swalToast.error({
+        title: '保存できません',
+        text: 'generatorId が存在しないため、ジェネレーター用設定を保存できません',
+      })
+      return null
     }
 
-    const result = await swalModal.confirmDelete({
+    const result = await swalModal.confirm({
       icon: 'info',
       title: 'ジェネレーター用に保存',
       html: `
     <p>現在の設定を、ジェネレーターが読み込むデータとして保存しますか？</p>
     <p style="font-size: 0.8em; color: #666; margin-top: 8px;">
-      ID「${generatorId}」の保存済みデータは上書きされます。
+      ID「${escapeHtml(generatorId)}」の保存済みデータは上書きされます。
     </p>
   `,
       confirmButtonText: '保存',
@@ -92,7 +92,8 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
   const overwriteConfig = async (fileName: string) => {
     const displayName = fileName.replace('.json', '')
 
-    const result = await swalModal.confirmDelete({
+    const result = await swalModal.confirm({
+      icon: 'warning',
       title: '上書き確認',
       text: `設定ファイル "${displayName}" を現在のデータで上書きしますか？`,
       confirmButtonText: '上書き',
@@ -119,7 +120,8 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
 
   // server/omikujiData.js に保存（確認ダイアログ）
   const overwriteOmikujiData = async () => {
-    const result = await swalModal.confirmDelete({
+    const result = await swalModal.confirm({
+      icon: 'warning',
       title: '上書き確認',
       text: `設定ファイル "omikujiData.js" を server に上書きしますか？`,
       confirmButtonText: '上書き',
@@ -143,7 +145,6 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
   }
 
   return {
-    checkServer,
     saveConfig,
     saveToGenerator,
     overwriteConfig,

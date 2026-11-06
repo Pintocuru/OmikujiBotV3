@@ -23,9 +23,7 @@ export function useManagerState() {
    */
   const isSaving = ref(false) // 保存中
   const isLoading = ref(false) // 読込中
-  const isDeleting = ref(false) // 削除中
   const isLoadingFileList = ref(false) // リスト読込中
-  const isExecutingConfirm = ref(false) // ??
 
   // サーバー接続状態
   const isServerConnected = ref(false)
@@ -42,9 +40,7 @@ export function useManagerState() {
     isExpressMode,
     isSaving,
     isLoading,
-    isDeleting,
     isLoadingFileList,
-    isExecutingConfirm,
     isServerConnected,
     isDeletingFileMap,
   }

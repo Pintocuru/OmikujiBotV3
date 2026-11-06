@@ -4,7 +4,8 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useManagerStore } from '@/manager/stores/useManagerStore'
 import { generatorApi } from '@/manager/services/generatorApi'
-import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { confirmDiscardChanges } from '@/editor/helpers/confirmDiscardChanges'
 import { FILE_NAME } from '@server/core/constants'
 
 /**
@@ -21,14 +22,7 @@ export const useOpenPackage = () => {
   const openPackage = async (id: string | undefined = window.omikujiData?.meta.id): Promise<boolean> => {
     try {
       // 変更があるなら確認ダイアログ
-      if (hasChanged.value) {
-        const result = await swalModal.confirmDelete({
-          title: '変更が保存されていません',
-          text: '読み込むと現在の編集内容は失われます。続行しますか？',
-          confirmButtonText: '読み込む',
-        })
-        if (!result.isConfirmed) return false
-      }
+      if (!(await confirmDiscardChanges(hasChanged.value))) return false
 
       const data = await generatorApi.loadGeneratorConfig(id)
       if (!data) {

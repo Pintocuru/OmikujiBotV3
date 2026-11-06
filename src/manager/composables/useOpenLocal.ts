@@ -2,8 +2,9 @@
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useManagerStore } from '@/manager/stores/useManagerStore'
+import { confirmDiscardChanges } from '@/editor/helpers/confirmDiscardChanges'
 import { isOmikujiDataLike } from '@/common/migrations/index'
-import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 
 /**
  * ブラウザが読み込んでいる omikujiData.js を、編集データとして開く。
@@ -22,19 +23,12 @@ export const useOpenLocal = () => {
       return false
     }
 
-    if (omikujiStore.hasChanged) {
-      const result = await swalModal.confirmDelete({
-        title: '変更が保存されていません',
-        text: '読み込むと現在の編集内容は失われます。続行しますか？',
-        confirmButtonText: '読み込む',
-      })
-      if (!result.isConfirmed) return false
-    }
+    if (!(await confirmDiscardChanges(omikujiStore.hasChanged))) return false
 
     if (omikujiStore.openLocalOmikujiData() !== 'loaded') return false // 読み込み拒否(エラー表示済み)
 
     // 読み込み元がファイルではなくなったので、上書き保存の対象を外す
-    devStore.setSaveFileName('')
+    devStore.setSaveFileName()
     omikujiStore.resetChangeState()
     navigationStore.showTopPage()
     swalToast.success({ title: '読み込み完了', text: 'omikujiData.js を読み込みました。' })

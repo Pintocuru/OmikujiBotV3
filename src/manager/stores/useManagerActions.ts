@@ -1,6 +1,5 @@
 // src/manager/stores/useManagerActions.ts
 import { DataManagerType } from '@/manager/types'
-import { useManagerStateActions } from './useManagerStateActions'
 import { useApiCore } from './useApiCore'
 import { useFileActions } from './useApiFileActions'
 import { useSaveActions } from './useApiSaveActions'
@@ -9,7 +8,6 @@ import { configApi } from '@/manager/services/configApi'
 import { isDev } from '@/types/env'
 
 export function useManagerActions(state: DataManagerType) {
-  const stateActions = useManagerStateActions(state) // ファイル管理
   const { handleAsyncAction } = useApiCore(state)
   const fileActions = useFileActions(state, handleAsyncAction)
   const saveActions = useSaveActions(state, handleAsyncAction)
@@ -23,34 +21,22 @@ export function useManagerActions(state: DataManagerType) {
   const toggleExpressMode = async (): Promise<boolean> => {
     if (!isDev) return false
 
-    const isServer = await configApi.getHealth()
-    if (!isServer) return false
-
+    // 切り替え先に繋がらなければ元に戻す (現在のサーバーではなく、切り替え先の health を見る)
     const mode = configApi.toggleApiMode()
+    if (!(await configApi.getHealth())) {
+      configApi.toggleApiMode()
+      return false
+    }
+
     state.isExpressMode.value = mode
     return true
   }
 
-  // 状態リセット
-  const resetState = () => {
-    state.saveFileName.value = ''
-    state.availableFiles.value = []
-    state.isSaving.value = false
-    state.isLoading.value = false
-    state.isDeleting.value = false
-    state.isLoadingFileList.value = false
-    state.isExecutingConfirm.value = false
-    state.isServerConnected.value = false
-    state.isDeletingFileMap.clear()
-  }
-
   return {
-    ...stateActions,
     ...fileActions,
     ...saveActions,
     ...loadActions,
     toggleExpressMode,
     setSaveFileName,
-    resetState,
   }
 }

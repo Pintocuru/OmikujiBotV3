@@ -1,6 +1,7 @@
 // src/manager/stores/useApiCore.ts
 import { DataManagerType } from '@/manager/types'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { ConnectionError } from '@/manager/services/baseApiClient'
 
 export type AsyncActionHandler = <T>(action: () => Promise<T>, loadingKey: keyof DataManagerType) => Promise<T | null>
 
@@ -20,8 +21,11 @@ export function useApiCore(state: DataManagerType) {
       return await action()
     } catch (error) {
       const err = error as Error
-      const message = `${err.message}\nサーバーが起動していることを確認してください。`
-      swalModal.error({ title: '接続エラー', text: message })
+      if (err instanceof ConnectionError) {
+        swalModal.error({ title: '接続エラー', text: `${err.message}\nサーバーが起動していることを確認してください。` })
+      } else {
+        swalModal.error({ title: 'エラー', text: err.message })
+      }
       return null
     } finally {
       target.value = false

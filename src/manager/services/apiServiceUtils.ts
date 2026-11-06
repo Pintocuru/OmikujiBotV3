@@ -126,3 +126,27 @@ export function getDataVersionStatus(dataVersion: number): DataVersionStatus {
   if (dataVersion > DATA_VERSION) return 'unsupported'
   return dataVersion < DATA_VERSION ? 'legacy' : 'current'
 }
+
+/**
+ * 複製用の名前を作る (既存の名前と重ならないよう _copy, _copy2, ... とする)
+ */
+export function generateCopyName(fileName: string, existingNames: string[]): string {
+  const strip = (name: string) => name.replace(/\.json$/, '').toLowerCase()
+  const taken = new Set(existingNames.map(strip))
+  const base = fileName.replace(/\.json$/, '')
+  let candidate = `${base}_copy`
+  for (let i = 2; taken.has(strip(candidate)); i++) candidate = `${base}_copy${i}`
+  return candidate
+}
+
+/**
+ * プリセットのファイル名・フォルダ名に使える文字か
+ * server/core/utils/validation.ts の validateFileName と同じ規則(半角英数・_・-・.・空白)。
+ * サーバーが 400 を返すと「接続できません」と表示されてしまうため、送る前にここで弾く
+ */
+export function isValidPresetName(name: string): boolean {
+  const trimmed = name.trim()
+  return /^[\w\-. ]+$/.test(trimmed) && !trimmed.includes('..')
+}
+
+export const PRESET_NAME_RULE = '半角英数字・「_」「-」「.」・空白だけが使えます'

@@ -3,13 +3,6 @@ import { computed } from 'vue'
 import { DataManagerType, FileBlock, FileItem } from '@/manager/types'
 
 export function useManagerGetters(state: DataManagerType) {
-  // ソート済みファイル一覧
-  const sortedFiles = computed(() => {
-    return [...state.availableFiles.value].sort(
-      (a, b) => new Date(b.modified).getTime() - new Date(a.modified).getTime()
-    )
-  })
-
   // 検索で絞り込んだファイル(全フォルダ対象。ファイル名 / meta.name / meta.description、大小無視の部分一致)
   const filteredFiles = computed(() => {
     const q = state.searchQuery.value.trim().toLowerCase()
@@ -77,43 +70,16 @@ export function useManagerGetters(state: DataManagerType) {
     return state.isDeletingFileMap.get(fileName) || false
   })
 
-  // 最新ファイル
-  const latestFile = computed(() => {
-    const files = state.availableFiles.value
-    if (files.length === 0) return null
-    return files.reduce((latest, current) =>
-      new Date(current.modified) > new Date(latest.modified) ? current : latest
-    )
-  })
-
   // 統合ローディング状態
   const isAnyLoading = computed(() => {
-    return (
-      state.isSaving.value ||
-      state.isLoading.value ||
-      state.isDeleting.value ||
-      state.isLoadingFileList.value ||
-      state.isExecutingConfirm.value
-    )
-  })
-
-  // ファイル数
-  const fileCount = computed(() => state.availableFiles.value.length)
-
-  // 名前でファイル検索
-  const findFileByName = computed(() => (fileName: string) => {
-    return state.availableFiles.value.find((file: { name: string }) => file.name === fileName)
+    return state.isSaving.value || state.isLoading.value || state.isLoadingFileList.value
   })
 
   return {
-    sortedFiles,
     filteredFiles,
     folderNames,
     fileBlocks,
     isDeletingFile,
-    latestFile,
     isAnyLoading,
-    fileCount,
-    findFileByName,
   }
 }

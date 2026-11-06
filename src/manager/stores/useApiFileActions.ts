@@ -2,7 +2,13 @@
 import { DataManagerType } from '@/manager/types'
 import { AsyncActionHandler } from './useApiCore'
 import { configApi } from '@/manager/services/configApi'
-import { ensureJsonExtension } from '@/manager/services/apiServiceUtils'
+import {
+  PRESET_NAME_RULE,
+  ensureJsonExtension,
+  generateCopyName,
+  isValidPresetName,
+} from '@/manager/services/apiServiceUtils'
+import { escapeHtml } from '@/common/escapeHtml'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 
 export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncActionHandler) {
@@ -16,21 +22,15 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
     }, 'isLoadingFileList')
   }
 
-  // ファイルデータ取得
-  const fetchFileData = async (fileName: string) => {
-    return await handleAsyncAction(async () => {
-      const configData = await configApi.loadConfig(fileName)
-      state.isServerConnected.value = true
-      return configData
-    }, 'isLoading')
-  }
-
   // ファイル複製
   const duplicateFile = async (fileName: string) => {
     return await handleAsyncAction(async () => {
       const configData = await configApi.loadConfig(fileName)
-      const originalName = fileName.replace('.json', '')
-      const duplicateName = `${originalName}_copy`
+      // 既存のファイルを上書きしないよう、重ならない名前にする
+      const duplicateName = generateCopyName(
+        fileName,
+        state.availableFiles.value.map((f) => f.name)
+      )
 
       await configApi.saveConfig(duplicateName, JSON.stringify(configData))
       await fetchFileList()
@@ -55,47 +55,43 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
       await fetchFileList()
 
       // 成功トースト
-      swalToast.success({
-        title: `設定ファイル名を "${fromName.replace('.json', '')}" から "${toFolder}" に変更しました`,
-      })
+      const destination = toFolder ? `"${toFolder}"` : 'ルート'
+      swalToast.success({ title: `設定ファイル "${fromName.replace('.json', '')}" を ${destination} に移動しました` })
     }, 'isLoading')
   }
 
   // ファイル名変更
   const renameFile = async (oldFileName: string, newFileName: string) => {
-    // moveが使えないので
-    const oldBase = oldFileName.toLowerCase()
-    const newBase = ensureJsonExtension(newFileName).toLowerCase()
-    if (oldBase === newBase) {
-      throw new Error('大文字小文字だけの変更はサポートされていません')
+    const newName = newFileName.trim().replace(/\.json$/, '')
+    if (!isValidPresetName(newName)) {
+      swalToast.error({ title: '使えない文字が含まれています', text: PRESET_NAME_RULE })
+      return null
+    }
+
+    // フォルダは全階層を保持する
+    const folder = oldFileName.includes('/') ? oldFileName.slice(0, oldFileName.lastIndexOf('/')) : null
+    const finalName = ensureJsonExtension(folder ? `${folder}/${newName}` : newName)
+    const finalKey = finalName.toLowerCase()
+
+    // 大文字小文字だけの違いは、Windows では同じファイルを指す。保存→旧名の削除で、ファイルごと消えてしまう
+    if (oldFileName.toLowerCase() === finalKey) {
+      swalToast.warning({ title: '大文字小文字だけの変更はできません' })
+      return null
+    }
+    if (state.availableFiles.value.some((f) => f.name.toLowerCase() === finalKey)) {
+      swalToast.error({ title: '同じ名前のファイルがあります', text: newName })
+      return null
     }
 
     return await handleAsyncAction(async () => {
-      // フォルダを保持
-      const folder = oldFileName.includes('/') ? oldFileName.split('/')[0] : null
-
-      const finalName = folder ? `${folder}/${newFileName}` : newFileName
-
-      // データ読み込み
+      // データ読み込み → 新しい名前で保存 → 古いファイルを削除
       const configData = await configApi.loadConfig(oldFileName)
-
-      // 新しい名前で保存
       await configApi.saveConfig(finalName, JSON.stringify(configData))
-
-      // 古いファイルを削除
       await configApi.deleteConfig(oldFileName)
-
-      // ローカル状態更新
-      const file = state.availableFiles.value.find((f) => f.name === oldFileName)
-      if (file) {
-        file.name = finalName
-        file.displayName = newFileName.replace('.json', '')
-      }
-
       await fetchFileList()
 
       swalToast.success({
-        title: `設定ファイル名を "${oldFileName.replace('.json', '')}" から "${newFileName}" に変更しました`,
+        title: `設定ファイル名を "${oldFileName.replace('.json', '')}" から "${newName}" に変更しました`,
       })
 
       state.isServerConnected.value = true
@@ -108,7 +104,7 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
     const displayName = fileName.replace('.json', '')
 
     const result = await swalModal.confirmDelete({
-      title: `設定ファイル "${displayName}" を削除しますか？`,
+      title: `設定ファイル "${escapeHtml(displayName)}" を削除しますか？`,
     })
 
     if (!result.isConfirmed) return
@@ -137,7 +133,6 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
 
   return {
     fetchFileList,
-    fetchFileData,
     duplicateFile,
     renameFile,
     moveFile,

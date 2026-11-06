@@ -1,89 +1,49 @@
 <!-- src/manager/ManagerView.vue -->
-<!-- 保存済みのデータを選んで開くダイアログ。上部バーの「開く」から表示する -->
+<!-- 上部バーの「開く」ボタン。サーバー接続時は保存済みデータの選択ダイアログ、未接続時は omikujiData.js を直接開く -->
 <template>
-  <div class="modal" :class="{ 'modal-open': open }" role="dialog" aria-modal="true" @click.self="open = false">
-    <div class="modal-box max-w-5xl w-11/12 p-0 overflow-hidden text-base-content">
-      <div class="card bg-linear-to-r from-primary to-secondary rounded-none">
-        <div class="card-body px-4 py-2">
-          <!-- ヘッダー -->
-          <ManagerHeader :showFileTools="tab === 'presets'" />
-        </div>
-      </div>
+  <button class="btn btn-sm btn-neutral" :title="t('shell.topBar.openTip')" @click="onOpen">
+    <FolderOpen class="w-4 h-4" />
+    {{ t('shell.topBar.open') }}
+  </button>
 
-      <!-- 開く手段 -->
-      <OpenSourceBar @open-local="onOpenLocal" @open-package="onOpenPackage()" />
-
-      <!-- 保存先の切り替え -->
-      <div role="tablist" class="tabs tabs-border px-3 pt-2">
-        <button role="tab" class="tab" :class="{ 'tab-active font-bold': tab === 'presets' }" @click="tab = 'presets'">
-          {{ t('shell.topBar.tabPresets') }}
-        </button>
-        <button
-          role="tab"
-          class="tab"
-          :class="{ 'tab-active font-bold': tab === 'packages' }"
-          @click="tab = 'packages'"
-        >
-          {{ t('shell.topBar.tabPackages') }}
-        </button>
-      </div>
-
-      <!-- 一覧 -->
-      <div class="p-2 max-h-[60vh] overflow-y-auto">
-        <ManagerFileList v-if="tab === 'presets' && devStore.isServerConnected" />
-        <ManagerPackageList v-else-if="tab === 'packages' && open" :key="packageListKey" @open="onOpenPackage" />
-      </div>
-    </div>
-  </div>
+  <!-- ダイアログは初めて開くときに読み込む(以降は開閉アニメーションを保つため常駐させる) -->
+  <ManagerDialog v-if="isDialogLoaded" v-model:open="isDialogOpen" />
 </template>
 
 <script setup lang="ts">
-  import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
-  import { storeToRefs } from 'pinia'
+  import { defineAsyncComponent, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { storeToRefs } from 'pinia'
+  import { FolderOpen } from 'lucide-vue-next'
+  import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { useOpenLocal } from './composables/useOpenLocal'
-  import { useOpenPackage } from './composables/useOpenPackage'
-  import ManagerHeader from './components/ManagerHeader.vue'
-  import OpenSourceBar from './components/OpenSourceBar.vue'
-  import ManagerFileList from './components/ManagerFileList.vue'
-  import ManagerPackageList from './components/ManagerPackageList.vue'
   import { useManagerStore } from './stores/useManagerStore'
 
-  const open = defineModel<boolean>('open', { default: false })
+  const loadDialog = () => import('./components/ManagerDialog.vue')
+  const ManagerDialog = defineAsyncComponent(loadDialog)
 
   const { t } = useI18n()
-  const devStore = useManagerStore()
+  const { isServerConnected } = storeToRefs(useManagerStore())
   const { openLocal } = useOpenLocal()
-  const { openPackage } = useOpenPackage()
-  const { saveFileName } = storeToRefs(devStore)
-  const tab = ref<'presets' | 'packages'>('presets')
-  // 開くたびにパッケージ一覧を取り直すためのキー
-  const packageListKey = ref(0)
 
-  // 開くたびに一覧を取り直す
-  watch(open, (isOpen) => {
-    if (!isOpen) return
-    tab.value = 'presets'
-    devStore.searchQuery = ''
-    packageListKey.value++
-    void devStore.fetchFileList()
-  })
+  const isDialogLoaded = ref(false)
+  const isDialogOpen = ref(false)
 
-  // Esc で閉じる(確認ダイアログ SweetAlert2 が出ている間は、そちらを優先する)
-  const onKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && open.value && !document.querySelector('.swal2-container')) open.value = false
+  const onOpen = async () => {
+    // サーバー未接続ならダイアログは使えないので、読み込まずに omikujiData.js を直接開く(成功後は useOpenLocal 側で TopPage に戻る)
+    if (!isServerConnected.value) {
+      await openLocal()
+      return
+    }
+
+    // 先に読み込んでおく(失敗したときに、何も起きないまま終わらないようにする)
+    try {
+      await loadDialog()
+    } catch (error) {
+      swalToast.error({ title: '画面の読み込みに失敗しました', text: String(error) })
+      return
+    }
+    isDialogLoaded.value = true
+    isDialogOpen.value = true
   }
-  onMounted(() => window.addEventListener('keydown', onKeydown))
-  onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
-
-  // 開けたら閉じる
-  const onOpenLocal = async () => {
-    if (await openLocal()) open.value = false
-  }
-  const onOpenPackage = async (id?: string) => {
-    if (await openPackage(id)) open.value = false
-  }
-
-  // プリセットを読み込んだら閉じる
-  watch(saveFileName, () => (open.value = false))
 </script>

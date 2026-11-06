@@ -14,6 +14,7 @@
             :file="file"
             :format-file-date="formatFileDate"
             :available-folders="devStore.folderNames"
+            @opened="emit('opened')"
           />
         </div>
 
@@ -36,6 +37,7 @@
               :file="file"
               :format-file-date="formatFileDate"
               :available-folders="devStore.folderNames"
+              @opened="emit('opened')"
             />
           </div>
         </div>
@@ -58,6 +60,8 @@
   import ManagerFileItem from './ManagerFileItem.vue'
   import { formatFileDate } from '@/manager/services/apiServiceUtils'
   import { Folder, ChevronDown, ChevronRight } from 'lucide-vue-next'
+
+  const emit = defineEmits<{ opened: [] }>()
 
   const devStore = useManagerStore()
 

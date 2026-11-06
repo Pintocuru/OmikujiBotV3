@@ -52,6 +52,7 @@
   import { formatFileDate } from '@/manager/services/apiServiceUtils'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { escapeHtml } from '@/common/escapeHtml'
 
   // displayName は拡張子を除いた名前 = meta.id
   const emit = defineEmits<{ open: [id: string] }>()
@@ -100,10 +101,6 @@
       deletingName.value = null
     }
   }
-
-  // meta.id は任意の文字列になり得るため、HTML に埋め込む前にエスケープする
-  const escapeHtml = (text: string) =>
-    text.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!)
 
   onMounted(fetchPackages)
 </script>

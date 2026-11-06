@@ -18,7 +18,8 @@ class GeneratorApiService extends BaseApiClient {
       const fileName = this.getGeneratorFileName(id)
       const response = await this.get(API_ACTION.loadGenerator.action, { fileName })
 
-      if (response.code !== 200) return null
+      if (response.code === 404) return null
+      this.validateResponse(response, 'ジェネレーター設定の読み込みに失敗しました')
 
       return response.data
     } catch (err) {

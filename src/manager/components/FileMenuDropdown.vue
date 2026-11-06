@@ -112,7 +112,8 @@
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'
   import ConfigImportModal from '@/editor/helpers/presetsImport/ConfigImportModal.vue'
-  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { PRESET_NAME_RULE, isValidPresetName } from '@/manager/services/apiServiceUtils'
   import { Menu, Copy, Trash2, Folder, FolderInput, FolderPlus, Check, FileText, Edit } from 'lucide-vue-next'
 
   const props = defineProps<{
@@ -146,7 +147,12 @@
   const confirmNewFolder = () => {
     const name = newFolderName.value.trim()
 
-    if (name && /^[\w\-]+$/.test(name) && name !== props.currentFolder) {
+    if (name && name !== props.currentFolder) {
+      // サーバーが半角英数字しか受け付けないため。黙って閉じず、理由を伝えて入力を残す
+      if (!isValidPresetName(name)) {
+        swalToast.warning({ title: 'フォルダ名に使えない文字があります', text: PRESET_NAME_RULE })
+        return
+      }
       emit('move', name)
     }
 

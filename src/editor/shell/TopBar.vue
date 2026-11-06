@@ -46,10 +46,7 @@
 
     <!-- 右: 開く・保存・切り替え -->
     <div v-show="!showGenerator" class="ml-auto flex items-center gap-2 shrink-0">
-      <button class="btn btn-sm btn-neutral" :title="t('shell.topBar.openTip')" @click="onOpen">
-        <FolderOpen class="w-4 h-4" />
-        {{ t('shell.topBar.open') }}
-      </button>
+      <ManagerView />
       <SaveMenu />
     </div>
 
@@ -69,22 +66,18 @@
     <button class="btn btn-sm btn-square btn-neutral shadow" :title="themeTitle" @click="toggleDaisyUiTheme">
       <component :is="isDark ? Sun : Moon" class="w-4 h-4" />
     </button>
-
-    <!-- ファイル選択ダイアログ(サーバー接続時) -->
-    <ManagerView v-model:open="isFileDialogOpen" />
   </header>
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+  import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { Cpu, FolderOpen, Menu, Moon, Settings, Sun } from 'lucide-vue-next'
+  import { Cpu, Menu, Moon, Settings, Sun } from 'lucide-vue-next'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import ManagerView from '@/manager/ManagerView.vue'
-  import { useOpenLocal } from '@/manager/composables/useOpenLocal'
   import { useSidebarDrawer } from '@/editor/sidebar/composables/useSidebarDrawer'
   import IssuesBadge from './IssuesBadge.vue'
   import SaveMenu from './SaveMenu.vue'
@@ -100,7 +93,7 @@
   const navigationStore = useNavigationStore()
   const { data, dataSource } = storeToRefs(omikujiStore)
   const { toggleDaisyUiTheme } = omikujiStore
-  const { isServerConnected, saveFileName } = storeToRefs(useManagerStore())
+  const { saveFileName } = storeToRefs(useManagerStore())
   const { toggle: toggleSidebar } = useSidebarDrawer()
 
   // データソース・ファイル名
@@ -117,18 +110,6 @@
   // テーマ
   const isDark = computed(() => data.value.settings.developer.daisyUiTheme === 'dark')
   const themeTitle = computed(() => (isDark.value ? t('shell.topBar.themeLight') : t('shell.topBar.themeDark')))
-
-  // ファイルを開く: サーバーに接続していれば選択ダイアログ、していなければローカルの omikujiData.js を直接読む
-  const isFileDialogOpen = ref(false)
-  const { openLocal } = useOpenLocal()
-  const onOpen = async () => {
-    if (isServerConnected.value) {
-      isFileDialogOpen.value = true
-      return
-    }
-    // 読み込み成功後、useOpenLocal 側で TopPage に戻る
-    await openLocal()
-  }
 
   // ジェネレーターを開けるのは、わんコメに接続できているとき(エディターに戻るのは常に可能)
   const canUseGenerator = computed(() => props.showGenerator || props.generatorState === 'ready')

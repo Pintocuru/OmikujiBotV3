@@ -19,9 +19,7 @@ export interface DataManagerType {
   isExpressMode: Ref<boolean>
   isSaving: Ref<boolean>
   isLoading: Ref<boolean>
-  isDeleting: Ref<boolean>
   isLoadingFileList: Ref<boolean>
-  isExecutingConfirm: Ref<boolean>
 
   // 接続状態
   isServerConnected: Ref<boolean>
@@ -35,7 +33,7 @@ export interface DataManagerType {
  */
 export interface FileItem {
   name: string // "category/file.json" （APIからの値）
-  displayName: string // "file.json" （表示用）
+  displayName: string // "file" （表示用。拡張子なし）
   folder: string | null // "category" or null
   modified: string
   meta?: MetaDataType // description / version / dataVersion の表示用

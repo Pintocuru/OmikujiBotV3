@@ -2,7 +2,7 @@
 <template>
   <div class="flex items-center justify-between bg-base-300 rounded p-2 text-sm">
     <div class="flex-1 min-w-0">
-      <div class="flex items-center tooltip tooltip-top" :data-tip="`${file.meta?.name} ${file.meta?.version}`">
+      <div class="flex items-center tooltip tooltip-top" :data-tip="file.meta ? `${file.meta.name} ${file.meta.version}` : undefined">
         <!-- ファイル名 -->
         <span class="font-medium">{{ file.displayName }}</span>
         <span v-if="file.meta" class="ml-2 text-xs opacity-60 truncate">{{ file.meta.version }}</span>
@@ -24,7 +24,7 @@
     <div class="flex gap-1 ml-2 shrink-0">
       <!-- 設定を読み込む -->
       <button
-        @click="devStore.applyConfigFile(file.name)"
+        @click="onApply"
         :disabled="devStore.isLoading || devStore.isAnyLoading || status === 'unsupported'"
         class="btn btn-xs btn-primary tooltip tooltip-top"
         :data-tip="status === 'unsupported' ? 'このアプリでは読み込めない新しい形式です' : 'この設定を読み込む'"
@@ -63,7 +63,14 @@
     availableFolders: string[]
   }>()
 
+  const emit = defineEmits<{ opened: [] }>()
+
   const devStore = useManagerStore()
+
+  // 読み込めたら親(ダイアログ)に知らせる。同じファイルを読み直しても閉じられるよう、戻り値で判定する
+  const onApply = async () => {
+    if (await devStore.applyConfigFile(props.file.name)) emit('opened')
+  }
   // meta が無いファイルは状態なし(従来どおり読み込める)
   const status = computed(() => (props.file.meta ? getDataVersionStatus(props.file.meta.dataVersion) : null))
 </script>

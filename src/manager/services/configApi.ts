@@ -62,7 +62,7 @@ class ConfigApiService extends BaseApiClient {
    * 設定ファイルを削除
    */
   async deleteConfig(fileName: string): Promise<void> {
-    const response = await this.post(API_ACTION.delete.action, { fileName })
+    const response = await this.post(API_ACTION.delete.action, { fileName: ensureJsonExtension(fileName) })
     this.validateResponse(response, '設定ファイルの削除に失敗しました')
   }
 }
