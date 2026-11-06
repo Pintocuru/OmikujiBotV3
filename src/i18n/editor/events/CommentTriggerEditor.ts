@@ -3,9 +3,8 @@ export const commentTriggerMessages = {
   ja: {
     commentTrigger: {
       information: {
-        badge: '発動条件設定',
-        descriptionBody: 'では、ユーザーのギフト有無やチャット数などを基にイベント発動を制御します。',
-        note: '条件が複数ある場合は、すべて満たしたときのみ発動します。(ANDのみ対応)',
+        descriptionBody: 'ユーザーのギフト、チャット数などを基に、イベント発動を制御します。',
+        note: '条件が複数ある場合、すべて満たしたときのみ発動します。(ANDのみ対応)',
       },
       setting: {
         label: '適用する発動条件',

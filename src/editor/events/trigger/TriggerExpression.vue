@@ -1,15 +1,9 @@
 <!-- src/editor/events/trigger/TriggerExpression.vue -->
 <template>
   <SettingItem icon="Brackets" labelKey="triggerExpression.label" descriptionKey="triggerExpression.description">
-    <textarea
-      v-model="text"
-      :placeholder="exampleLc"
-      class="textarea textarea-bordered w-full min-h-20 font-mono"
-      rows="3"
-    />
+    <input type="text" v-model="text" :placeholder="exampleLc" class="input input-bordered w-full font-mono" />
     <div class="text-sm text-gray-500 mt-2 space-y-1">
       <p>{{ t('triggerExpression.hints.variable') }}</p>
-      <p>{{ t('triggerExpression.hints.userVariable') }}</p>
       <p>{{ t('triggerExpression.hints.operator') }}</p>
       <p class="font-mono">
         {{ t('triggerExpression.hints.example') }}

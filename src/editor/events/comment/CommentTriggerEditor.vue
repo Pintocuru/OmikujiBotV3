@@ -3,9 +3,6 @@
   <!-- 条件設定の説明 -->
   <InformationCard>
     <p>
-      <code class="label bg-accent text-accent-content">
-        {{ t('commentTrigger.information.badge') }}
-      </code>
       {{ t('commentTrigger.information.descriptionBody') }}
     </p>
     <p>{{ t('commentTrigger.information.note') }}</p>
