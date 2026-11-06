@@ -29,6 +29,7 @@ const THROTTLE_MS = 3000
 
 /**
  * コメントテスター機能を使用してテストコメントを投稿
+ * 通知用なので、投稿に失敗しても reject しない(わんコメ停止中のエラー通知が、さらにエラーにならないように)
  */
 export async function postSystemMessage(
   comment: string,
@@ -47,19 +48,24 @@ export async function postSystemMessage(
     lastPostedAt = now
   }
 
-  const request: SendTestCommentType = SendTestCommentSchema.parse({
-    username,
-    comment,
-    speech,
-  })
+  try {
+    const request: SendTestCommentType = SendTestCommentSchema.parse({
+      username,
+      comment,
+      speech,
+    })
 
-  return delayPost('/comments/test', request, delaySeconds, 'テストコメントの投稿に失敗しました')
+    await delayPost('/comments/test', request, delaySeconds, 'テストコメントの投稿に失敗しました')
+  } catch (error) {
+    // 投稿の失敗は delayPost 側でログ済み。ここでは握りつぶす
+    console.warn('[postSystemMessage] 投稿できませんでした:', error)
+  }
 }
 
 /**
  * 遅延付き POST
  */
-function delayPost(endpoint: string, data: any, delaySeconds: number, errorMessage: string): Promise<void> {
+function delayPost(endpoint: string, data: unknown, delaySeconds: number, errorMessage: string): Promise<void> {
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
       try {

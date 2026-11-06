@@ -1,6 +1,10 @@
 // src/sdk/post/PostWordParty.ts
 import { postWordPartyId } from './PostOneComme'
 
+/**
+ * WordParty を実行する。
+ * delaySeconds はタイムライン上の発火時刻(repeat 回ぶんが同じ時刻に発火する)。完了は待たない。
+ */
 export async function executeWordParty({
   wordPartyId,
   repeat = 1,
@@ -10,11 +14,14 @@ export async function executeWordParty({
   repeat?: number
   delaySeconds?: number
 }): Promise<void> {
-  const count = Math.max(1, repeat)
+  if (!wordPartyId) return
+
+  const count = Number.isFinite(repeat) ? Math.max(1, Math.floor(repeat)) : 1
 
   for (let i = 0; i < count; i++) {
-    if (wordPartyId && wordPartyId !== '') postWordPartyId(wordPartyId, delaySeconds).catch(() => {
-        // 失敗の記録は delayPost 側で済んでいる。待たない設計のため未処理 reject だけ防ぐ
-      })
+    // 失敗の記録は delayPost 側で済んでいる。待たない設計のため、未処理 reject だけ防ぐ
+    postWordPartyId(wordPartyId, delaySeconds).catch(() => {
+      //
+    })
   }
 }

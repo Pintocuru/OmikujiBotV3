@@ -1,59 +1,48 @@
 // src/sdk/subscribe/GetComments.ts
-import { PingOneSDK } from '@/sdk/connection/PingOneSDK'
-import OneSDK from '@onecomme.com/onesdk'
-import { Comment } from '@onecomme.com/onesdk/types/Comment'
+import {
+  COMMENT_LIMIT_NORMAL,
+  addCommentListener,
+  isHistoryConsumed,
+  restartOneSDK,
+  startOneSDK,
+} from '@/sdk/connection/OneSDKHub'
+import type { Comment } from '@onecomme.com/onesdk/types/Comment'
 
-let currentSubscriberId: number | null = null
+let removeListener: (() => void) | null = null
 
+/**
+ * コメントを購読する。もう一度呼ぶと、前回の購読は解除される。
+ * - initialLoad: true なら、最初の受信で履歴をすべて受け取る(false なら直近 COMMENT_LIMIT_NORMAL 件まで)
+ */
 export async function GetComments(
   callback: (comments: Comment[]) => void,
   options: { initialLoad?: boolean } = {}
 ): Promise<boolean> {
-  let isFirstCallback = true
-  try {
-    if (currentSubscriberId !== null) {
-      OneSDK.unsubscribe(currentSubscriberId)
-      currentSubscriberId = null
-    }
+  removeListener?.()
+  removeListener = null
 
-    if (!(await PingOneSDK())) return false
+  // 履歴をすでに他のリスナーへ配り終えた接続に後から参加しても、履歴は届かない。その場合は接続を張り直す
+  const needsRestart = isHistoryConsumed()
 
-    await OneSDK.setup({
-      permissions: OneSDK.usePermission([OneSDK.PERM.COMMENT]),
-      mode: 'all',
-      commentLimit: options.initialLoad ? 99999 : 100,
-    })
+  let isFirstDelivery = true
+  const remove = addCommentListener((comments) => {
+    const list = isFirstDelivery && !options.initialLoad ? comments.slice(-COMMENT_LIMIT_NORMAL) : comments
+    isFirstDelivery = false
+    callback(list)
+  })
+  removeListener = remove
 
-    currentSubscriberId = OneSDK.subscribe({
-      action: 'comments',
-      callback: async (comments: Comment[]) => {
-        if (isFirstCallback && options.initialLoad) {
-          callback(comments)
-          isFirstCallback = false
-          // 初回データ受信後に commentLimit を通常サイズに戻す
-          await OneSDK.setup({
-            permissions: OneSDK.usePermission([OneSDK.PERM.COMMENT]),
-            mode: 'all',
-          })
-          return
-        }
-        callback(comments)
-      },
-    })
-
-    await OneSDK.connect()
-    return true
-  } catch (error) {
-    console.error('OneSDK 初期化エラー:', error)
-    return false
+  const ok = await (needsRestart ? restartOneSDK() : startOneSDK())
+  if (!ok) {
+    remove()
+    if (removeListener === remove) removeListener = null
   }
+  return ok
 }
 
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
-    if (currentSubscriberId !== null) {
-      OneSDK.unsubscribe(currentSubscriberId)
-      currentSubscriberId = null
-    }
+    removeListener?.()
+    removeListener = null
   })
 }
