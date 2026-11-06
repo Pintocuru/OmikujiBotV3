@@ -3,7 +3,7 @@ import { registerLayout, registerUi } from '@/ui/uiRegistry'
 import { registerBubbleBubbleComponents } from '@/ui/CommentBubble/components/bubble/register'
 import { registerMessageBoardBubbleComponents } from '@/ui/CommentBubble/components/messageBoard/register'
 
-const commentBubbleLayout = () => import('@/layout/CommentBubble/CommentBubble.vue')
+const commentBubbleLayout = () => import('@/layout/common/CommentBubble/CommentBubble.vue')
 
 /**
  * レイアウトの登録

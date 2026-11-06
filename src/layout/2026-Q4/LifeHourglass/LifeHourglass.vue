@@ -7,5 +7,5 @@
 
 <script setup lang="ts">
   import LifeHourglass from '@/ui/LifeHourglass/LifeHourglass.vue'
-  import LayoutPosition from '@/layout/common/LayoutPosition.vue'
+  import LayoutPosition from '@/layout/_shared/LayoutPosition.vue'
 </script>

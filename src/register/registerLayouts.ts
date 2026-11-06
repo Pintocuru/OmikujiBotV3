@@ -6,12 +6,12 @@ import type { UiLayoutType } from '@/types/OmikujiData'
 export const registerAllLayouts = () =>
   registerLayout({
     // common
-    commentBubble: () => import('@/layout/CommentBubble/CommentBubble.vue'),
-    gameRanking: () => import('@/layout/GameRanking/GameRanking.vue'),
+    commentBubble: () => import('@/layout/common/CommentBubble/CommentBubble.vue'),
+    gameRanking: () => import('@/layout/common/GameRanking/GameRanking.vue'),
 
     // 2026-Q4
     lifeHourglass: () => import('@/layout/2026-Q4/LifeHourglass/LifeHourglass.vue'),
 
     // 管理者用
-    sesupinTest: () => import('@/layout/SesupinTest/SesupinTest.vue'),
+    sesupinTest: () => import('@/layout/common/SesupinTest/SesupinTest.vue'),
   } satisfies Record<UiLayoutType, UiLoader>)
