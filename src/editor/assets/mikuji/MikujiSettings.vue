@@ -5,7 +5,7 @@
   <div class="flex justify-end gap-2">
     <div class="tooltip tooltip-bottom" :data-tip="t('omikujiItem.list.testTooltip')">
       <!-- 抽選テスト -->
-      <button class="btn btn-info" :disabled="omikujiList.length === 0" @click="postTestOmikuji(omikujiList)">
+      <button class="btn btn-info" :disabled="omikujiItem.length === 0" @click="postTestOmikuji(mikuji)">
         <Dices class="w-4 h-4" />
         {{ t('omikujiItem.list.test') }}
       </button>
@@ -18,7 +18,7 @@
   </div>
 
   <!-- おみくじ一覧 -->
-  <div v-if="omikujiList.length > 0" class="w-full overflow-x-auto">
+  <div v-if="omikujiItem.length > 0" class="w-full overflow-x-auto">
     <!-- ヘッダー: 列幅は OmikujiRow と同じ grid-cols にしてある(変更時は両方を揃えること) -->
     <div class="grid grid-cols-[minmax(18rem,1fr)_1rem_16rem_7rem] items-center gap-2 px-2 pb-1 text-sm opacity-60">
       <span>おみくじ</span>
@@ -65,12 +65,12 @@
 
   const { postTestOmikuji } = useTestPost()
 
-  const { omikujiList, percentages, selectedId, replaceAll, updateItem, setWeight, add, duplicate, remove } =
+  const { mikuji, omikujiItem, percentages, selectedId, replaceAll, updateItem, setWeight, add, duplicate, remove } =
     useBoxOmikujiList(toRef(props, 'omikujiKey'))
 
   // ドラッグによる並べ替え
   const draggableItems = computed({
-    get: () => omikujiList.value,
+    get: () => omikujiItem.value,
     set: (val: OmikujiItemType[]) => replaceAll(val),
   })
 </script>

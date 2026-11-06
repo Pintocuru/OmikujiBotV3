@@ -15,8 +15,7 @@ import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProc
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import i18n from '@/editor/i18n'
 
-const t = (key: string, named?: Record<string, unknown>) =>
-  named ? i18n.global.t(key, named) : i18n.global.t(key)
+const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 
 const MOCK_COMMENT = OmikenCommentSchema.parse({
   userId: 'testUserId',
@@ -72,7 +71,7 @@ export function useTestPost() {
     executeTestPostDelays(botMessages)
   }
 
-  const postTestOmikuji = (mikujiBox: OmikujiItemType[]) => {
+  const postTestOmikuji = (mikuji: OmikujiItemType[]) => {
     if (!selectedRule.value) {
       swalToast.error({
         title: t('editorPreview.testPost.noSelectedEventTitle'),
@@ -81,7 +80,7 @@ export function useTestPost() {
       return
     }
 
-    const omikujiItem = drawOmikuji(mikujiBox)
+    const omikujiItem = drawOmikuji(mikuji)
 
     if (!omikujiItem) {
       swalToast.info({
@@ -91,7 +90,7 @@ export function useTestPost() {
       return
     }
 
-    // return/continue/reset/log は投稿するステップ実行を持たないため、結果だけ通知する
+    // steps以外なら、結果だけ通知する
     if (omikujiItem.kind !== 'steps') {
       showOmikujiResultToast(omikujiItem)
       return
