@@ -3,7 +3,7 @@ import { Ref } from 'vue'
 import type { MetaDataType } from '@/types/core/MetaDataSchema'
 
 /**
- * DevConfigsState ステータス
+ * DataManagerType ステータス
  */
 export interface DataManagerType {
   // ファイル関連
@@ -51,8 +51,7 @@ export type FileSortMode = 'name' | 'modified' | 'history'
  * 一覧の表示ブロック（ルート直下ファイルの塊 or フォルダ）
  */
 export type FileBlock =
-  | { type: 'files'; key: string; files: FileItem[] }
-  | { type: 'folder'; key: string; folder: string; files: FileItem[] }
+  { type: 'files'; key: string; files: FileItem[] } | { type: 'folder'; key: string; folder: string; files: FileItem[] }
 
 /**
  * dataVersion の状態: current=対応 / legacy=旧(マイグレーション対象) / unsupported=未対応の新形式

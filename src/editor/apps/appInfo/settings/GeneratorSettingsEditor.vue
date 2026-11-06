@@ -98,29 +98,6 @@
       }}</span>
     </label>
   </SettingItem>
-
-  <!-- エラーの画面表示 -->
-  <SettingItem
-    icon="ShieldAlert"
-    labelKey="appInfoEditor.settings.generator.showErrorNotice.label"
-    descriptionKey="appInfoEditor.settings.generator.showErrorNotice.description"
-  >
-    <label class="flex items-center gap-2 cursor-pointer">
-      <input
-        type="checkbox"
-        class="toggle toggle-primary"
-        :checked="settings.generator.showErrorNotice"
-        @change="(e) => update('generator', { showErrorNotice: (e.target as HTMLInputElement).checked })"
-      />
-      <span>{{
-        t(
-          settings.generator.showErrorNotice
-            ? 'appInfoEditor.settings.generator.showErrorNotice.on'
-            : 'appInfoEditor.settings.generator.showErrorNotice.off'
-        )
-      }}</span>
-    </label>
-  </SettingItem>
 </template>
 
 <script setup lang="ts">

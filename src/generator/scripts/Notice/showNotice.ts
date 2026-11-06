@@ -15,9 +15,17 @@ export function showCooldownBlockNotice(userName: string, remainingSeconds: numb
 
 /**
  * 実行時のエラーを知らせる(読み上げもわんコメへの投稿もしない)。
+ * 設定で切り替えず、常に表示する(何も出ないまま止まるより、気づけるほうがよいため)。
  * 同じ文言が続いた場合は 1 件にまとめて表示する。
+ * 繰り返し起きうるエラーはこちらを使う。1 回しか起きないエラーは postSystemMessage で伝える。
  */
 export function showErrorNotice(message: string): void {
-  if (!useAppStore().data.settings.generator.showErrorNotice) return
   useNoticeStore().push(message, 'error')
+}
+
+/**
+ * 例外を、通知に出す短い文字列にする
+ */
+export function describeError(error: unknown): string {
+  return error instanceof Error ? error.message : String(error)
 }

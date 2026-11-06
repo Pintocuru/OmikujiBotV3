@@ -66,7 +66,7 @@ function usePlaceholderResolver() {
     const meta = appStore.serviceMetaStore.getCurrent()
     const uniqueCount = appStore.userStats.getUniqueCount()
     const { liveComments, syoken } = appStore.streamStats.getStats()
-    const draw = appStore.userStats.drawWinners()
+    const { winner } = appStore.userStats.drawWinner()
 
     const base = DefaultPlaceholdersMetaSchema.parse({
       viewer: meta?.viewer ?? 0,
@@ -75,7 +75,7 @@ function usePlaceholderResolver() {
       lc: liveComments,
       commenter: uniqueCount,
       syoken: syoken,
-      winner: draw.winners[0]?.userName ?? '名無し',
+      winner: winner?.userName ?? '名無し',
     })
 
     const cp = new ContentPlaceholder(appStore.data.assets.placeholders)

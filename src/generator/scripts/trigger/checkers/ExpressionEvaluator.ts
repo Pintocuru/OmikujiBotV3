@@ -1,5 +1,6 @@
 // src/generator/scripts/trigger/checkers/ExpressionEvaluator.ts
 import { Parser } from 'expr-eval-fork'
+import { showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 /**
  * 判定式に渡す変数 (値は式の文字列に埋め込まず、評価コンテキストとして渡す)
@@ -101,6 +102,7 @@ function warnOnce(expression: string, reason: unknown): void {
   if (warnedExpressions.has(expression)) return
   warnedExpressions.add(expression)
   console.warn(`判定式を評価できないため false として扱います: "${expression}"`, reason)
+  showErrorNotice(`判定式を評価できません: ${expression}`)
 }
 
 /**

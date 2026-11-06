@@ -1,8 +1,10 @@
 // src/generator/scripts/EventProcess/ServiceProcessor.ts
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
-import { evaluateServiceTrigger } from './ServiceTriggerEvaluator'
+import { evaluateServiceTrigger, isStateTrigger } from './ServiceTriggerEvaluator'
 import { MetaUpdateEvent } from '@/types/generator'
+import type { ServiceTriggerType } from '@/types/OmikujiData/'
 import { useAppStore } from '@/generator/stores/useAppStore'
+import { describeError, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 /**
  * 配信数値イベントの実行を管理
@@ -14,6 +16,9 @@ export class EventServiceProcessor {
   // 購読開始時点の値を記録（初回イベントのpreviousとして使用）
   private lastUpVote: number | null = null
   private lastViewer: number | null = null
+  // 「今その状態か」で判定するイベントの、前回の判定結果(イベントの key → 満たしていたか)
+  // 初回の判定は基準として記録するだけで発火しない(配信中にジェネレーターを開き直したとき、すぐ発火しないため)
+  private readonly lastMatched = new Map<string, boolean>()
 
   /**
    * イベント監視を開始
@@ -25,10 +30,14 @@ export class EventServiceProcessor {
     const snapshot = this.store.serviceMetaStore.getCurrent()
     this.lastUpVote = snapshot?.upVote ?? null
     this.lastViewer = snapshot?.viewer ?? null
+    this.lastMatched.clear()
 
     // 購読の開始
     this.unsubscribe = this.store.serviceMetaStore.subscribe((event) => {
-      this.processMetaRules(event)
+      this.processMetaRules(event).catch((error) => {
+        console.error('[EventServiceProcessor] 配信数値イベントの処理エラー:', error)
+        showErrorNotice(`配信数値イベントの処理エラー: ${describeError(error)}`)
+      })
     })
   }
 
@@ -42,6 +51,7 @@ export class EventServiceProcessor {
     }
     this.lastUpVote = null
     this.lastViewer = null
+    this.lastMatched.clear()
   }
 
   /**
@@ -66,11 +76,31 @@ export class EventServiceProcessor {
       .filter((rule) => rule.isEnabled)
       .sort((a, b) => a.order - b.order)
 
-    for (const event of enabledEvents) {
-      if (evaluateServiceTrigger(event.trigger, resolvedEvent)) {
-        const messages = await this.omikujiProcessor.executeOmikuji(event.omikujiKey)
+    // 先に全イベントを判定し(判定は同期)、そのあとで順に実行する
+    const firedEvents = enabledEvents.filter((rule) => this.shouldFire(rule.key, rule.trigger, resolvedEvent))
+
+    for (const rule of firedEvents) {
+      // 1 件の失敗で、残りのイベントを止めない
+      try {
+        const messages = await this.omikujiProcessor.executeOmikuji(rule.omikujiKey)
         this.store.scheduleBotMessages(messages)
+      } catch (error) {
+        console.error(`[EventServiceProcessor] "${rule.name}" の実行エラー:`, error)
+        showErrorNotice(`配信数値イベント「${rule.name}」の実行エラー: ${describeError(error)}`)
       }
     }
+  }
+
+  /**
+   * 発火するか
+   * 条件を満たしている間ずっと true になるトリガーは、満たした瞬間(false → true)だけ発火する
+   */
+  private shouldFire(key: string, trigger: ServiceTriggerType, event: MetaUpdateEvent): boolean {
+    const matched = evaluateServiceTrigger(trigger, event)
+    if (!isStateTrigger(trigger)) return matched
+
+    const wasMatched = this.lastMatched.get(key)
+    this.lastMatched.set(key, matched)
+    return matched && wasMatched === false
   }
 }

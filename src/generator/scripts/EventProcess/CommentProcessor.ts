@@ -8,6 +8,7 @@ import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { checkAllTriggers } from '@/generator/scripts/trigger/TriggerChecker'
 import { OmikujiControlProcessor } from '@/generator/scripts/EventProcess/OmikujiControlProcessor'
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
+import { describeError, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 export class EventCommentProcessor {
   private readonly store = useAppStore()
@@ -31,15 +32,22 @@ export class EventCommentProcessor {
       const sortedRules = this.getSortedEnabledRules()
 
       for (const rule of sortedRules) {
-        const botMessages = await this.processRule(omiken, rule)
+        // 1 件のイベントの失敗で、残りのイベントを止めない
+        try {
+          const botMessages = await this.processRule(omiken, rule)
 
-        // イベントが成功し、botメッセージが生成された場合はここで終了
-        if (botMessages.length > 0) return botMessages
+          // イベントが成功し、botメッセージが生成された場合はここで終了
+          if (botMessages.length > 0) return botMessages
+        } catch (error) {
+          console.error(`コメントイベント "${rule.name}" の処理エラー:`, error)
+          showErrorNotice(`コメントイベント「${rule.name}」の処理エラー: ${describeError(error)}`)
+        }
       }
 
       return []
     } catch (error) {
       console.error('ユーザーコメント処理エラー:', error)
+      showErrorNotice(`コメント処理エラー: ${describeError(error)}`)
       return []
     }
   }

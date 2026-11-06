@@ -146,7 +146,8 @@ export class OmikujiProcessor {
   }
 
   /**
-   * 実行時エラーをコンソールとわんコメの両方へ通知する
+   * 実行時エラーをコンソールと、配信画面の右下の通知へ知らせる
+   * (わんコメへの投稿はしない。読み上げに乗り、視聴者にも目立つため)
    */
   private reportError(msg: string): void {
     console.error(msg)

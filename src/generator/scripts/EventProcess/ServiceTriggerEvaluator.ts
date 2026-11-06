@@ -3,15 +3,33 @@ import { MetaUpdateEvent } from '@/types/generator'
 import { ServiceConditionType, ServiceTriggerType } from '@/types/OmikujiData/'
 
 /**
+ * 「今その状態か」で判定するトリガーか
+ * lowerBound / upperBound / equal / elapsedMinutes は、条件を満たしている間ずっと true になる。
+ * サービスメタは 0.5 秒ごとに届くため、そのまま発火すると 0.5 秒ごとに実行されてしまう。
+ * 呼び出し側で「条件を満たしていない → 満たした」の瞬間だけ発火させること。
+ */
+export function isStateTrigger(trigger: ServiceTriggerType): boolean {
+  switch (trigger.condition) {
+    case 'elapsedMinutes':
+      return true
+    case 'upVote':
+    case 'viewer': {
+      const comparison = trigger[trigger.condition]?.comparison
+      return comparison === 'lowerBound' || comparison === 'upperBound' || comparison === 'equal'
+    }
+    default:
+      return false
+  }
+}
+
+/**
  * 配信数値(サービスメタ)トリガー条件の評価
+ * 設定が足りないとき、未知の condition のときは、発火させない(false)
  */
 export function evaluateServiceTrigger(trigger: ServiceTriggerType, event: MetaUpdateEvent): boolean {
-  const { condition } = trigger
-  if (!condition) return true
-
-  switch (condition) {
+  switch (trigger.condition) {
     case 'upVote':
-      if (!trigger.upVote) return true
+      if (!trigger.upVote) return false
       return evaluateServiceCondition(
         trigger.upVote,
         event.current.upVote,
@@ -20,7 +38,7 @@ export function evaluateServiceTrigger(trigger: ServiceTriggerType, event: MetaU
       )
 
     case 'viewer':
-      if (!trigger.viewer) return true
+      if (!trigger.viewer) return false
       return evaluateServiceCondition(
         trigger.viewer,
         event.current.viewer,
@@ -31,10 +49,12 @@ export function evaluateServiceTrigger(trigger: ServiceTriggerType, event: MetaU
     case 'elapsedMinutes':
       return evaluateElapsedTime(trigger.elapsedMinutes ?? 0, event.current.startTime)
 
-    // follower は条件なし(常に true)。未知の condition も同様
+    // フォロワーは、増えたときに発火する
     case 'follower':
+      return event.previous !== null && event.current.follower > event.previous.follower
+
     default:
-      return true
+      return false
   }
 }
 
@@ -66,9 +86,9 @@ function evaluateServiceCondition(
     case 'equal':
       return value !== undefined && current === value
     case 'loop':
+      // 指定値の倍数を、増えながら超えた瞬間(例: 10 なら 9→10、19→21)
       if (!value) return false
-      const diff = current - previous
-      return diff > 0 && diff % value === 0
+      return current > previous && Math.floor(current / value) > Math.floor(previous / value)
     default:
       return false
   }

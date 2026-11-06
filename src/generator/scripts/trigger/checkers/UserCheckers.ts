@@ -1,4 +1,5 @@
 // src/generator/scripts/trigger/checkers/UserCheckers.ts
+import { compilePattern } from './compilePattern'
 
 /**
  * ユーザー名パターンチェック (正規表現・許可/禁止リスト対応)
@@ -11,21 +12,18 @@ export function checkUsername(name: string, patterns: string[] = []): boolean {
   if (!valid.length) return true
   if (!name) return false
 
-  const matches = (pattern: string): boolean => {
-    try {
-      return new RegExp(pattern).test(name)
-    } catch (e) {
-      console.warn(`Invalid username regex pattern: ${pattern}`, e)
-      return false
-    }
+  // 不正な正規表現のとき whenInvalid を返す
+  const matches = (pattern: string, whenInvalid: boolean): boolean => {
+    const regex = compilePattern(pattern)
+    return regex ? regex.test(name) : whenInvalid
   }
 
   const allowed = valid.filter((p) => !p.startsWith('!'))
   const disallowed = valid.filter((p) => p.startsWith('!')).map((p) => p.substring(1))
 
-  // 除外リストチェック
-  if (disallowed.some(matches)) return false
+  // 除外リストチェック(不正な除外パターンは、安全側に倒して「除外する」)
+  if (disallowed.some((p) => matches(p, true))) return false
 
   // 許可リストが空、またはいずれかにマッチ
-  return !allowed.length || allowed.some(matches)
+  return !allowed.length || allowed.some((p) => matches(p, false))
 }

@@ -4,21 +4,36 @@ import type { ReactionTriggerType } from '@/types/OmikujiData'
 import type { ReactionReaction } from '@/types/OmikujiData/events/ReactionTriggerSchema'
 
 /**
- * リアクションのトリガーを評価
+ * トリガーの対象になっているリアクションの累計
+ * milestone / equal の「前回の累計」を記録するために、呼び出し側が使う。
  */
-export function evaluateReactionTrigger(trigger: ReactionTriggerType, stats: ReactionStatsManagerType): boolean {
+export function getTargetTotal(trigger: ReactionTriggerType, stats: ReactionStatsManagerType): number {
+  if (!trigger.reactions || trigger.reactions.length === 0) return 0
+  return stats.getTotal(trigger.reactions as ReactionReaction[])
+}
+
+/**
+ * リアクションのトリガーを評価
+ * @param previousTotal 前回の評価時点での、対象リアクションの累計(milestone / equal で使用)
+ *   他の種類のリアクションだけが届いたときに、同じ累計で何度も発火しないために必要。
+ */
+export function evaluateReactionTrigger(
+  trigger: ReactionTriggerType,
+  stats: ReactionStatsManagerType,
+  previousTotal: number
+): boolean {
   const { reactions, comparison, value, triggerLevel } = trigger
 
   if (!reactions || reactions.length === 0) return false
 
-  const targetTypes = reactions as ReactionReaction[]
+  const total = getTargetTotal(trigger, stats)
 
   switch (comparison) {
     case 'milestone':
-      return evaluateMilestone(targetTypes, value, stats)
+      return evaluateMilestone(total, previousTotal, value)
 
     case 'equal':
-      return evaluateEqual(targetTypes, value, stats)
+      return evaluateEqual(total, previousTotal, value)
 
     case 'burstReach':
       return evaluateBurstReach(triggerLevel, stats)
@@ -35,20 +50,20 @@ export function evaluateReactionTrigger(trigger: ReactionTriggerType, stats: Rea
 }
 
 /**
- * milestone: 累計がvalueの倍数に達するたびに発火
- * value=0 は無効
+ * milestone: 累計がvalueの倍数を超えるたびに発火
+ * 一度に複数増えて倍数をまたいだ場合も、1回発火する。value=0 は無効
  */
-function evaluateMilestone(types: ReactionReaction[], value: number, stats: ReactionStatsManagerType): boolean {
+function evaluateMilestone(total: number, previousTotal: number, value: number): boolean {
   if (value <= 0) return false
-  const total = stats.getTotal(types)
-  return total > 0 && total % value === 0
+  return Math.floor(total / value) > Math.floor(previousTotal / value)
 }
 
 /**
- * equal: 累計がvalueにぴったり一致したとき発火
+ * equal: 累計がvalueに達した瞬間に1回だけ発火
+ * 一度に複数増えて value をまたいだ場合も、1回発火する
  */
-function evaluateEqual(types: ReactionReaction[], value: number, stats: ReactionStatsManagerType): boolean {
-  return stats.getTotal(types) === value
+function evaluateEqual(total: number, previousTotal: number, value: number): boolean {
+  return previousTotal < value && total >= value
 }
 
 /**

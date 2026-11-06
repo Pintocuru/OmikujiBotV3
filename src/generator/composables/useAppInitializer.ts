@@ -8,9 +8,8 @@ import { GetOmikenComments } from '@/sdk/subscribe/OmikenComment/GetOmikenCommen
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { startUserStatsPolling } from '@/generator/stores/UserStats/startUserStatsPolling'
 import { formatParseIssuesSummary } from '@/types/core/ParseIssues'
-import { showErrorNotice } from '../scripts/Notice/showNotice'
-
-const TIME_THRESHOLD = 10000
+import { describeError, showErrorNotice } from '../scripts/Notice/showNotice'
+import { COMMENT_RESPONSE_WINDOW_MS } from '@/generator/GeneratorConstants'
 
 export function useAppInitializer() {
   const appStore = useAppStore()
@@ -33,20 +32,19 @@ export function useAppInitializer() {
           const filterOmikens = filterNewOmikens(omikens)
           const newOmikens = appStore.addOmikens(filterOmikens)
 
-          // 投稿から10秒以内のものだけ、下記の処理を行う
-          const recentOmikens = isFirstLoad
-            ? newOmikens // 初回だけ recent フィルタを無視
-            : newOmikens.filter((o) => Date.now() - o.timestamp < TIME_THRESHOLD)
-
-          // 新規コメントからユーザーデータを記録
-          recordStats(recentOmikens)
+          // 新規コメントからユーザーデータを記録 (遅れて届いたコメントも、ギフトなどを取りこぼさないよう全件)
+          recordStats(newOmikens)
           if (isFirstLoad) return
 
-          // コメントイベント
-          commentProcessor.respondToComments(recentOmikens)
+          // コメントイベント: 投稿から一定時間以内のものだけに返信する
+          const recentOmikens = newOmikens.filter((o) => Date.now() - o.timestamp < COMMENT_RESPONSE_WINDOW_MS)
+          commentProcessor.respondToComments(recentOmikens).catch((error) => {
+            console.error('[useAppInitializer] コメントイベント処理エラー:', error)
+            showErrorNotice(`コメント処理エラー: ${describeError(error)}`)
+          })
         } catch (error) {
           console.error('[useAppInitializer] コメント処理エラー:', error)
-          showErrorNotice(`コメント処理エラー: ${error}`)
+          showErrorNotice(`コメント処理エラー: ${describeError(error)}`)
         }
       })
 
@@ -114,8 +112,13 @@ function filterNewOmikens(omikens: OmikenCommentType[]): OmikenCommentType[] {
 function recordStats(omikens: OmikenCommentType[]) {
   const appStore = useAppStore()
   for (const omiken of omikens) {
-    appStore.streamStats.record(omiken)
-    appStore.userStats.recordComment(omiken)
+    // 1 件の失敗で、残りのコメントの記録を止めない
+    try {
+      appStore.streamStats.record(omiken)
+      appStore.userStats.recordComment(omiken)
+    } catch (error) {
+      console.error('[useAppInitializer] 統計の記録エラー:', error)
+    }
   }
 }
 
@@ -127,12 +130,15 @@ async function syncWithServer() {
     if (!serverData) return // プラグインなし = null → ここで静かに終了
 
     appStore.loadData(serverData)
-    showErrorNotice(`エディタープラグイン から ${appStore.data.meta.name} のデータを読み込みました`)
+    // 配信画面には出さない(視聴者に見えるため)
+    console.info(`エディタープラグイン から ${appStore.data.meta.name} のデータを読み込みました`)
   } catch (err) {
     // ここに来る時点で「本当に予期せぬエラー」のみ
     const msg = `エディタープラグインからデータ読み込みに失敗しました: ${err}`
     console.error(msg)
     if (!appStore.hasData) appStore.dataErrorDetail = String(err)
+    // 起動時に1回だけ。omikujiData.js のデータで動き続けるときも、サーバーのデータを使えていないことを伝える
+    postSystemMessage(msg, { speech: false, throttle: true })
   }
 }
 

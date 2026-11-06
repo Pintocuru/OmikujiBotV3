@@ -1,4 +1,5 @@
 // src/generator/scripts/trigger/checkers/ContentCheckers.ts
+import { compilePattern } from './compilePattern'
 
 /**
  * コメント文字列パターンチェック
@@ -20,14 +21,8 @@ export function checkComment(comment: string, patterns: string[] = []): boolean 
   if (validPatterns.length === 0) return false
 
   for (const pattern of validPatterns) {
-    try {
-      const regex = new RegExp(pattern, 'i')
-      if (regex.test(normalizedComment)) {
-        return true
-      }
-    } catch (e) {
-      console.warn(`Invalid regex pattern: ${pattern}`, e)
-    }
+    const regex = compilePattern(pattern, 'i')
+    if (regex?.test(normalizedComment)) return true
   }
 
   return false

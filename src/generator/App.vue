@@ -53,13 +53,30 @@
   const fontFamily = computed(() => useFontFamily(appStore.data.ui.fontFamily))
 
   // settings に設定がある UI だけ表示
+  // defineGuardedAsyncComponent は呼ぶたびに新しいコンポーネント定義を作る。
+  // computed が再計算されるたびに UI が作り直されないよう、種類ごとに使い回す
+  const guardedCache = new Map<string, ReturnType<typeof defineGuardedAsyncComponent>>()
+  const getGuarded = (
+    type: 'ui' | 'layout',
+    key: string,
+    loader: Parameters<typeof defineGuardedAsyncComponent>[0]
+  ) => {
+    const cacheKey = `${type}:${key}`
+    let component = guardedCache.get(cacheKey)
+    if (!component) {
+      component = defineGuardedAsyncComponent(loader, { type, key })
+      guardedCache.set(cacheKey, component)
+    }
+    return component
+  }
+
   const activeComponents = computed(() => {
     const { settings } = appStore.data.ui
     return uiKinds
       .filter((kind) => settings[kind])
       .flatMap((kind) => {
         const loader = getUiLoader(kind)
-        return loader ? [{ kind, component: defineGuardedAsyncComponent(loader, { type: 'ui', key: kind }) }] : [] // 未登録の UI は mismatches で通知
+        return loader ? [{ kind, component: getGuarded('ui', kind, loader) }] : [] // 未登録の UI は mismatches で通知
       })
   })
 
@@ -67,7 +84,7 @@
   const layoutComponent = computed(() => {
     const { layout } = appStore.data.ui
     const loader = layout ? getLayoutLoader(layout) : undefined
-    return loader ? defineGuardedAsyncComponent(loader, { type: 'layout', key: layout }) : null
+    return loader && layout ? getGuarded('layout', layout, loader) : null
   })
 
   // データと登録内容(registry)から決まるため、store に持たず computed で求める(エディターの読み込み検証と同じ関数)

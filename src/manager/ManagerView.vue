@@ -1,10 +1,6 @@
 <!-- src/manager/ManagerView.vue -->
 <!-- 保存済みのデータを選んで開くダイアログ。上部バーの「開く」から表示する -->
 <template>
-  <!--
-    <dialog> + showModal() にすると、ブラウザの最前面レイヤーに入り、SweetAlert2 の確認ダイアログが後ろに回り込む。
-    そのため、DaisyUI の modal-open で開閉する(z-index が SweetAlert2 より低いので、確認ダイアログが手前に出る)
-  -->
   <div class="modal" :class="{ 'modal-open': open }" role="dialog" aria-modal="true" @click.self="open = false">
     <div class="modal-box max-w-5xl w-11/12 p-0 overflow-hidden text-base-content">
       <div class="card bg-linear-to-r from-primary to-secondary rounded-none">

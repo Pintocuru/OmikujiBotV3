@@ -25,8 +25,7 @@ function buildBasePlaceholders(store: AppStore): Record<ServiceMetaCondition, st
 
   const uniqueCount = userStats.getUniqueCount()
   const { liveComments, syoken } = streamStats.getStats()
-  const { winners } = userStats.drawWinners(1)
-  const firstWinner = winners[0]
+  const { winner } = userStats.drawWinner()
   const now = new Date()
   const h = String(now.getHours()).padStart(2, '0')
   const m = String(now.getMinutes()).padStart(2, '0')
@@ -38,8 +37,8 @@ function buildBasePlaceholders(store: AppStore): Record<ServiceMetaCondition, st
     lc: liveComments,
     commenter: uniqueCount,
     syoken,
-    winner: firstWinner ? `{{icon ${firstWinner.userId}}}${firstWinner.userName}` : 'Null',
-    winnerId: firstWinner ? sanitizeKey(firstWinner.userId) : 'Null',
+    winner: winner ? `{{icon ${winner.userId}}}${winner.userName}` : 'Null',
+    winnerId: winner ? sanitizeKey(winner.userId) : 'Null',
     clock: `${h}時${m}分`,
   })
 }

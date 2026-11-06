@@ -17,8 +17,10 @@ export function createAppServices() {
   const reactionStats = new ReactionStatsManager()
 
   // 配信開始時に各種データリセット
+  // previous が null の最初の通知は、遷移ではなく「最初の観測」。配信中にジェネレーターを開き直しても、統計を消さない
   serviceMetaStore.subscribe((event) => {
-    const prev = event.previous?.isLive ?? false
+    if (event.previous === null) return
+    const prev = event.previous.isLive
     const curr = event.current.isLive
     if (!prev && curr) {
       streamStats.reset()

@@ -3,13 +3,13 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { nanoid } from 'nanoid'
+import { NOTICE_DISPLAY_MS } from '@/generator/GeneratorConstants'
 
 /** 通知の種類(見た目と表示時間が変わる) */
 export type NoticeKind = 'cooldown' | 'error'
 export type Notice = { id: string; text: string; kind: NoticeKind }
 
 const MAX_NOTICES = 5 // 同時に表示する件数。超えたら古いものから消す
-const DISPLAY_MILLISECONDS: Record<NoticeKind, number> = { cooldown: 3000, error: 5000 }
 
 export const useNoticeStore = defineStore('notice', () => {
   const notices = ref<Notice[]>([])
@@ -28,7 +28,7 @@ export const useNoticeStore = defineStore('notice', () => {
     const rest =
       kind === 'error' ? notices.value.filter((n) => !(n.kind === 'error' && n.text === text)) : notices.value
     notices.value = [...rest, { id, text, kind }].slice(-MAX_NOTICES)
-    setTimeout(() => remove(id), DISPLAY_MILLISECONDS[kind])
+    setTimeout(() => remove(id), NOTICE_DISPLAY_MS[kind])
   }
 
   return { notices, push }

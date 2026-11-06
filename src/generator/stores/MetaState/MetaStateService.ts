@@ -3,6 +3,7 @@ import { MetaServiceStatus, MetaUpdateEvent, NormalizedMeta, ServiceMetaStoreTyp
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { ServiceMetaWatcher } from '@/sdk/subscribe/GetServiceMeta'
 import { isDev } from '@/types/env'
+import { META_OFFLINE_CONFIRM_COUNT } from '@/generator/GeneratorConstants'
 import { ServiceMeta } from '@onecomme.com/onesdk/types/Service'
 
 const DEV_DEFAULT_META: NormalizedMeta = {
@@ -23,6 +24,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
   private status: 'idle' | 'loading' | 'ready' | 'error' = 'idle'
   private errorSubscribers: Array<(error: unknown) => void> = []
   private isVirtual = false // 仮想配信パネルから値を上書き中(配信が始まるまで実データで上書きしない)
+  private offlineStreak = 0 // 配信中のあと、連続で「配信していない」と取得した回数
 
   /**
    * メタステートサービスのインスタンスを取得する
@@ -36,7 +38,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
    * メタステートサービスのコンストラクタ
    */
   private constructor() {
-    this.initialize()
+    this.initialize().catch((e) => this.notifyError(e))
   }
 
   /**
@@ -53,20 +55,25 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     }
 
     const service = ServiceMetaWatcher.getInstance()
-    const result = await service.fetchMeta((raw) => {
-      try {
-        // 配信中のサービスの先頭を使う(いなければ先頭)
-        const incoming = raw.find((meta) => meta.isLive) ?? raw[0] ?? null
-        if (this.isVirtual) {
-          if (!incoming?.isLive) return // 仮想中は、実際に配信が始まるまで値を保つ
-          this.isVirtual = false
+    const result = await service.fetchMeta(
+      (raw) => {
+        try {
+          // 配信中のサービスの先頭を使う(いなければ先頭)
+          const incoming = raw.find((meta) => meta.isLive) ?? raw[0] ?? null
+          if (this.isVirtual) {
+            if (!incoming?.isLive) return // 仮想中は、実際に配信が始まるまで値を保つ
+            this.isVirtual = false
+          }
+          if (this.shouldHoldLive(incoming)) return
+          this.handleMeta(this.normalize(incoming))
+          if (this.status === 'loading') this.setStatus('ready')
+        } catch (e) {
+          this.notifyError(e)
         }
-        this.handleMeta(incoming)
-        if (this.status === 'loading') this.setStatus('ready')
-      } catch (e) {
-        this.notifyError(e)
-      }
-    })
+      },
+      (e) =>
+        console.warn('[MetaStateService] サービスメタの取得に失敗し続けています(取得できるまで、前回の値を使います)', e)
+    )
 
     if (!result?.ok) {
       postSystemMessage(`❌ Meta取得失敗`, { speech: false, throttle: true })
@@ -82,11 +89,25 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
   }
 
   /**
+   * 配信中から非配信への切り替えを、すぐには反映しない
+   * 連続で META_OFFLINE_CONFIRM_COUNT 回確認できてから反映する。
+   * 一時的な取得の揺らぎで「配信終了→開始」と判断され、配信開始のリセットが走るのを防ぐ。
+   * @returns true のあいだは、取得した値を反映せず前回の値を保つ
+   */
+  private shouldHoldLive(incoming: ServiceMeta | null): boolean {
+    if (incoming?.isLive || !this.current?.isLive) {
+      this.offlineStreak = 0
+      return false
+    }
+    this.offlineStreak++
+    return this.offlineStreak < META_OFFLINE_CONFIRM_COUNT
+  }
+
+  /**
    * メタの更新
    */
-  private handleMeta(rawServiceMeta: ServiceMeta | NormalizedMeta | null) {
-    const normalized = this.normalize(rawServiceMeta)
-
+  private handleMeta(normalized: NormalizedMeta) {
+    this.offlineStreak = 0
     this.previous = this.current
     this.current = normalized
 
@@ -97,12 +118,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
   /**
    * サービスメタを正規化されたメタに変換する
    */
-  private normalize(meta: ServiceMeta | NormalizedMeta | null): NormalizedMeta {
-    if (meta && 'isLive' in meta && 'follower' in meta) {
-      // すでに NormalizedMeta の形の場合（開発時の直接セットなど）
-      return meta as NormalizedMeta
-    }
-    const raw = meta as ServiceMeta | null
+  private normalize(raw: ServiceMeta | null): NormalizedMeta {
     return {
       isLive: raw?.isLive ?? false,
       upVote: this.toNumber(raw?.upVote),

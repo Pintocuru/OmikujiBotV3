@@ -44,8 +44,9 @@ export function checkAllTriggers(
   }
 
   // conditions配列で指定された条件のみ実行
+  // 未知の条件(新しいデータを古い版で読んだときなど)は、満たさない扱いにする。発火しすぎるより、発火しないほうが安全
   return trigger.conditions.every((conditionType) => {
     const checker = checkMap[conditionType as keyof typeof checkMap]
-    return checker ? checker() : true
+    return checker ? checker() : false
   })
 }

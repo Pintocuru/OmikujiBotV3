@@ -3,6 +3,7 @@ import { TimerEventType } from '@/types/OmikujiData/'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
 import { checkTimerExpression } from '@/generator/scripts/trigger/checkers/ExpressionChecker'
+import { describeError, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 interface TimerState {
   timerId: number
@@ -128,6 +129,7 @@ export class EventTimerProcessor {
       appStore.scheduleBotMessages(messages)
     } catch (error) {
       console.error(`Timer ${event.key} execution error:`, error)
+      showErrorNotice(`タイマー「${event.name}」の実行エラー: ${describeError(error)}`)
     }
   }
 

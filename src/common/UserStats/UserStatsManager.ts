@@ -61,18 +61,16 @@ export class UserStatsManager {
     this.notifyChange()
   }
 
-  // stats からランダムに当選者を選出
-  drawWinners(count = 1): { commenter: number; winners: UserStatsRecord[] } {
+  // stats からランダムに 1 人を選出 (全員が同じ確率。全員をコピーして並べ替えることはしない)
+  drawWinner(): { commenter: number; winner: UserStatsRecord | null } {
     const commenter = this.stats.size
-    const userList = Array.from(this.stats.values())
-    if (userList.length === 0) return { commenter, winners: [] }
+    if (commenter === 0) return { commenter, winner: null }
 
-    const shuffled = [...userList]
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+    let index = Math.floor(Math.random() * commenter)
+    for (const record of this.stats.values()) {
+      if (index-- === 0) return { commenter, winner: record }
     }
-    return { commenter, winners: shuffled.slice(0, Math.min(count, 9)) }
+    return { commenter, winner: null }
   }
 
   // 指定ユーザーの統計を取得
@@ -92,7 +90,11 @@ export class UserStatsManager {
 
   // 最新コメントユーザーを取得
   getLatest(): UserStatsRecord | null {
-    return Array.from(this.stats.values()).sort((a, b) => b.lastVisit - a.lastVisit)[0] ?? null
+    let latest: UserStatsRecord | null = null
+    for (const record of this.stats.values()) {
+      if (!latest || record.lastVisit > latest.lastVisit) latest = record
+    }
+    return latest
   }
 
   // ユーザー統計を部分更新（score・team・tagsなど）
@@ -139,6 +141,13 @@ export class UserStatsManager {
   }
 
   private notifyListeners(record: UserStatsRecord): void {
-    this.listeners.forEach((l) => l(record))
+    // 1 つの購読者の失敗で、他の購読者への通知と、コメントの記録を止めない
+    this.listeners.forEach((l) => {
+      try {
+        l(record)
+      } catch (error) {
+        console.error('[UserStatsManager] 更新通知の購読者でエラー:', error)
+      }
+    })
   }
 }
