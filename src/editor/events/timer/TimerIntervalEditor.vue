@@ -122,18 +122,22 @@
   import { TimerEventType } from '@/types/OmikujiData'
 
   const { t } = useI18n()
+  type TimerIntervalModel = {
+    mode: TimerEventType['mode']
+    intervalSeconds: number
+    isBaseZero: boolean
+    rangeMinSeconds: number
+    rangeMaxSeconds: number
+    expression: string
+  }
+
   const props = defineProps<{
-    modelValue: {
-      mode: TimerEventType['mode']
-      intervalSeconds: number
-      isBaseZero: boolean
-      rangeMinSeconds: number
-      rangeMaxSeconds: number
-      expression: string
-    }
+    modelValue: TimerIntervalModel
   }>()
 
-  const emit = defineEmits(['update:modelValue'])
+  const emit = defineEmits<{
+    'update:modelValue': [value: TimerIntervalModel]
+  }>()
 
   // ランダム間隔の入力範囲 (TimerEventSchema の rangeMin/MaxSeconds と合わせる)
   const RANGE_MIN = 1
