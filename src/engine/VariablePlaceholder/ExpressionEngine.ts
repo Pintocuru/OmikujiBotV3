@@ -5,6 +5,10 @@ import { Parser } from 'expr-eval-fork'
 const MAX_VALUE = 999999999
 const MIN_VALUE = -999999999
 
+// 代入(=, +=, -=, *=, /=)の判定。比較演算子 == は代入として扱わない
+const ASSIGNMENT_PATTERN = /[a-zA-Z_][a-zA-Z0-9_]*\s*[\+\-\*\/]?=(?!=)/
+const ASSIGNMENT_HEAD_PATTERN = /^([a-zA-Z_][a-zA-Z0-9_]*)\s*[\+\-\*\/]?=(?!=)/
+
 /**
  * expr-eval-fork ベースの式評価エンジン
  */
@@ -61,7 +65,7 @@ export class ExpressionEngine extends KeyValueMap {
     let hasAssignment = false
 
     for (const statement of statements) {
-      const isAssignment = /[a-zA-Z_][a-zA-Z0-9_]*\s*[\+\-\*\/]?=/.test(statement)
+      const isAssignment = ASSIGNMENT_PATTERN.test(statement)
       if (isAssignment) hasAssignment = true
 
       const result = this.evaluateSingle(statement)
@@ -96,7 +100,7 @@ export class ExpressionEngine extends KeyValueMap {
       const result = expr.evaluate(context)
 
       // 代入式の場合、ステートを更新
-      const assignMatch = trimmed.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*[\+\-\*\/]?=/)
+      const assignMatch = trimmed.match(ASSIGNMENT_HEAD_PATTERN)
       if (assignMatch) {
         const varName = assignMatch[1]
         if (varName in context) {

@@ -13,7 +13,8 @@ export type LotteryItem = { lottery: Pick<LotteryType, 'isPriority' | 'weight'> 
 
 // weight が 0 でも抽選対象から外れないようにする下限
 const MIN_WEIGHT = 0.001
-const clampWeight = (weight: number): number => Math.max(weight, MIN_WEIGHT)
+// NaN / Infinity など不正な数値も下限に丸める(合計が NaN になって抽選が壊れるのを防ぐ)
+const clampWeight = (weight: number): number => (Number.isFinite(weight) ? Math.max(weight, MIN_WEIGHT) : MIN_WEIGHT)
 
 // グローバルな高品質乱数生成器インスタンス
 const globalRandom = new HighQualityRandom()

@@ -9,7 +9,9 @@ export class HighQualityRandom {
 
   constructor() {
     // 現在時刻とランダムな要素でシードを生成
-    this.seed = Date.now() ^ (Math.random() * 0x100000000)
+    this.seed = (Date.now() ^ (Math.random() * 0x100000000)) | 0
+    // XorShift は 0 だと 0 のままになるため、0 のときは固定値に置き換える
+    if (this.seed === 0) this.seed = 0x9e3779b9 | 0
   }
 
   /**

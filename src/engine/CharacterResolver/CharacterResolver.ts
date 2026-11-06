@@ -5,6 +5,8 @@ import { CharacterType, CharacterColorType, CharacterColorScheme } from '@/types
  * キャラクターの存在・画像・表情など、キャラクター固有の処理を担当
  */
 export class CharacterResolver {
+  // 引き当て用の Map と、order 順の配列(Map から派生。同じ元データから同時に作るのでずれない)。
+  // 外部(useCharacters など)が両方を参照しているため、両方を公開している
   readonly characterMap: Map<string, CharacterType>
   readonly characterArray: CharacterType[]
 

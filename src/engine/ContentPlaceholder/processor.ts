@@ -22,6 +22,7 @@ export class ContentPlaceholder {
   private contextValues: Map<string, string | number> = new Map()
   private static readonly PLACEHOLDER_PATTERN = /<<([\s\S]+?)>>/g
   private static readonly MAX_RECURSION_DEPTH = 10
+  private static readonly MAX_REPLACEMENTS = 20
 
   constructor(placeholderSources: Record<string, PlaceholderType>) {
     for (const placeholder of Object.values(placeholderSources)) {
@@ -86,10 +87,13 @@ export class ContentPlaceholder {
 
     // 無限ループ防止のため最大試行回数を設定
     let safetyCounter = 0
+    // 解決できなかった構文より後ろを探す位置(未解決の構文で後続の置換が止まらないようにする)
+    let searchFrom = 0
 
-    while (result.includes('<<') && safetyCounter < 100) {
-      // 1. 最初に出現する "<<" を探す
-      const startIndex = result.indexOf('<<')
+    while (safetyCounter < ContentPlaceholder.MAX_REPLACEMENTS) {
+      // 1. searchFrom 以降で最初に出現する "<<" を探す
+      const startIndex = result.indexOf('<<', searchFrom)
+      if (startIndex === -1) break
 
       // 2. それに対応する "一番外側の >>" を探す
       const endIndex = findMatchingClosingBracket(result, startIndex)
@@ -105,7 +109,14 @@ export class ContentPlaceholder {
       const resolved = this.resolvePlaceholder(fullMatch, content.trim())
       result = result.substring(0, startIndex) + resolved + result.substring(endIndex + 2)
 
+      // 未解決のまま残った構文は読み飛ばす
+      if (resolved === fullMatch) searchFrom = startIndex + fullMatch.length
+
       safetyCounter++
+    }
+
+    if (safetyCounter >= ContentPlaceholder.MAX_REPLACEMENTS && result.indexOf('<<', searchFrom) !== -1) {
+      console.warn(`プレースホルダーの置換が上限(${ContentPlaceholder.MAX_REPLACEMENTS}回)に達したため、未解決の構文が残っています`)
     }
 
     return result

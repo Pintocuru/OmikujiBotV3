@@ -9,7 +9,7 @@ import { executeWordParty } from '@/sdk/post/PostWordParty'
 import { postComment, postSpeech } from '@/sdk/post/PostOneComme'
 import { SendCommentSchema, SendCommentType } from '@/types/subscribe'
 import { POST_SETTINGS } from '@/sdk/PostSettings'
-import { showErrorNotice } from '@/generator/scripts/Notice/showNotice'
+import { describeError, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 const MAX_REPEAT_COUNT = 30
 
@@ -68,13 +68,13 @@ export class PostOmikujiService {
       if (frameId) {
         this.postAsComment(bubble, character?.displayName, delaySeconds, frameId, displayOption.imageBase64)
       } else {
-        postSpeech(bubble, this.withBasicDelay(delaySeconds))
+        postSpeech(bubble, this.withBasicDelay(delaySeconds)).catch(notifyPostError)
       }
       return
     }
 
     if (displayOption.mode === 'voice') {
-      postSpeech(bubble, this.withBasicDelay(delaySeconds))
+      postSpeech(bubble, this.withBasicDelay(delaySeconds)).catch(notifyPostError)
     }
     // none / rpgVoice はわんコメ側では何もしない
   }
@@ -88,7 +88,8 @@ export class PostOmikujiService {
   ): void {
     try {
       const sendComment = buildCommentRequest(frameId, bubble, displayName, imageBase64)
-      postComment(sendComment, this.withBasicDelay(delaySeconds))
+      // 呼び出し元は完了を待たない設計。失敗は catch で通知する(console への記録は delayPost 側)
+      postComment(sendComment, this.withBasicDelay(delaySeconds)).catch(notifyPostError)
     } catch (error) {
       const msg = `キャラクターコメント投稿エラー: ${error}`
       console.error(msg)
@@ -149,6 +150,11 @@ export class PostOmikujiService {
 }
 
 //  Module-level utilities
+
+/** 待たずに投げた投稿の失敗を通知する(同じ文言は通知側で 1 件にまとまる) */
+function notifyPostError(error: unknown): void {
+  showErrorNotice(`わんコメへの投稿に失敗しました: ${describeError(error)}`)
+}
 
 function cleanPostMessage(raw: string): string {
   return raw

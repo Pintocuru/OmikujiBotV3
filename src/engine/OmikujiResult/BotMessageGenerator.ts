@@ -8,6 +8,7 @@ import { CharacterResolver } from '../CharacterResolver/CharacterResolver'
 import { BotMessageType, ProcessedStep } from '@/types/generator'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { playSoundDelay } from '@/common/sounds'
+import { describeError, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 /** 評価ブロック {{ ... }} */
 const EVAL_PATTERN = /\{\{[\s\S]*?\}\}/g
@@ -65,7 +66,12 @@ export class BotMessageGenerator {
     if (isOnecommePost) {
       // variable は投稿対象から除外
       const postTargets = processedSteps.map((a) => a.step).filter((step) => step.kind !== 'variable')
-      this.postMessage.post(postTargets)
+      // 完了は待たない設計。post() が reject しても未処理にならないよう通知する
+      this.postMessage.post(postTargets).catch((error) => {
+        const msg = `投稿処理エラー: ${describeError(error)}`
+        console.error(msg, error)
+        showErrorNotice(msg)
+      })
     }
     return this.generate(processedSteps, omiken, isOnecommePost)
   }

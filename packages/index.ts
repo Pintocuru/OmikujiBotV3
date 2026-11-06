@@ -6,7 +6,14 @@ import StrawberryChocolate from './common/StrawberryChocolate/build'
 import LifeHourglass from './2026-Q4/LifeHourglass/build'
 
 export default [
+  /**
+   * common
+   */
   // OmikujiBot, // コアプロジェクト
   // StrawberryChocolate, // ショコラ
+
+  /**
+   * 2026-Q4
+   */
   LifeHourglass, // 命の砂時計
 ]
