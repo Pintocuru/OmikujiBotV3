@@ -27,7 +27,12 @@
   </SettingItem>
 
   <!-- 数値指定 -->
-  <SettingItem icon="Sliders" labelKey="reactionTrigger.thresholdLabel" descriptionKey="reactionTrigger.thresholdDescription">
+  <SettingItem
+    v-if="comparison === 'milestone' || comparison === 'equal' || comparison === 'burstSustain'"
+    icon="Sliders"
+    labelKey="reactionTrigger.thresholdLabel"
+    descriptionKey="reactionTrigger.thresholdDescription"
+  >
     <input
       type="number"
       min="0"
@@ -38,7 +43,12 @@
   </SettingItem>
 
   <!-- レベルでの発動 -->
-  <SettingItem icon="Zap" v-if="comparison !== 'milestone'" labelKey="reactionTrigger.levelLabel" descriptionKey="reactionTrigger.levelDescription">
+  <SettingItem
+    v-if="comparison === 'burstReach' || comparison === 'burstSustain' || comparison === 'burstDrop'"
+    icon="Zap"
+    labelKey="reactionTrigger.levelLabel"
+    descriptionKey="reactionTrigger.levelDescription"
+  >
     <div class="w-full space-y-2">
       <!-- スライダー -->
       <input
@@ -72,8 +82,7 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { VolumeX, Volume2, Dot } from 'lucide-vue-next'
   import { ReactionReaction, ReactionTriggerType } from '@/types/OmikujiData'
-  import { reactionConditionMap } from '@/maps/OmikujiData'
-  import { reactionMap } from '@/maps/OmikujiData'
+  import { reactionConditionMap, reactionMap } from '@/maps/OmikujiData'
 
   const { t } = useI18n()
   const props = defineProps<{

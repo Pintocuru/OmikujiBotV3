@@ -31,7 +31,9 @@
     modelValue?: AccessConditionType[]
   }>()
 
-  const emit = defineEmits(['update:modelValue'])
+  const emit = defineEmits<{
+    'update:modelValue': [value: AccessConditionType[]]
+  }>()
 
   // オプションの切り替え
   const toggleOption = (value: AccessConditionType) => {

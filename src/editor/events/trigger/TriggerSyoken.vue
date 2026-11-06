@@ -26,7 +26,9 @@
   }>()
 
   const { t } = useI18n()
-  const emit = defineEmits(['update:modelValue'])
+  const emit = defineEmits<{
+    'update:modelValue': [value: SyokenConditionType[]]
+  }>()
 
   // 選択肢の生成
   const syokenOptions = Object.keys(syokenConditionMap) as SyokenConditionType[]
