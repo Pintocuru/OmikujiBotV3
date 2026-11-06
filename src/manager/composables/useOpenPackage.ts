@@ -17,7 +17,7 @@ export const useOpenPackage = () => {
   const omikujiStore = useOmikujiStore()
   const { hasChanged } = storeToRefs(omikujiStore)
   const navigationStore = useNavigationStore()
-  const devStore = useManagerStore()
+  const managerStore = useManagerStore()
 
   const openPackage = async (id: string | undefined = window.omikujiData?.meta.id): Promise<boolean> => {
     try {
@@ -36,7 +36,7 @@ export const useOpenPackage = () => {
 
       if (!omikujiStore.loadData(data)) return false // 読み込み拒否(エラー表示済み)
       // パッケージはプリセットのファイルではないので、上書き保存の対象を外す
-      devStore.setSaveFileName()
+      managerStore.setSaveFileName()
       navigationStore.showTopPage()
       omikujiStore.resetChangeState()
 

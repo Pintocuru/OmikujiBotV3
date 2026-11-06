@@ -14,7 +14,7 @@ import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 export const useOpenLocal = () => {
   const omikujiStore = useOmikujiStore()
   const navigationStore = useNavigationStore()
-  const devStore = useManagerStore()
+  const managerStore = useManagerStore()
 
   const openLocal = async (): Promise<boolean> => {
     // 無いときに openLocalOmikujiData を呼ぶと、編集中のデータが初期データに置き換わるため、先に確かめる
@@ -28,7 +28,7 @@ export const useOpenLocal = () => {
     if (omikujiStore.openLocalOmikujiData() !== 'loaded') return false // 読み込み拒否(エラー表示済み)
 
     // 読み込み元がファイルではなくなったので、上書き保存の対象を外す
-    devStore.setSaveFileName()
+    managerStore.setSaveFileName()
     omikujiStore.resetChangeState()
     navigationStore.showTopPage()
     swalToast.success({ title: '読み込み完了', text: 'omikujiData.js を読み込みました。' })

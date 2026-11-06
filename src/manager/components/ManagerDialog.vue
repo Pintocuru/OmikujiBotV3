@@ -30,7 +30,7 @@
 
       <!-- 一覧 -->
       <div class="p-2 max-h-[60vh] overflow-y-auto">
-        <ManagerFileList v-if="tab === 'presets' && devStore.isServerConnected" @opened="open = false" />
+        <ManagerFileList v-if="tab === 'presets' && managerStore.isServerConnected" @opened="open = false" />
         <ManagerPackageList v-else-if="tab === 'packages' && open" :key="packageListKey" @open="onOpenPackage" />
       </div>
     </div>
@@ -51,7 +51,7 @@
   const open = defineModel<boolean>('open', { default: false })
 
   const { t } = useI18n()
-  const devStore = useManagerStore()
+  const managerStore = useManagerStore()
   const { openLocal } = useOpenLocal()
   const { openPackage } = useOpenPackage()
   const tab = ref<'presets' | 'packages'>('presets')
@@ -70,9 +70,9 @@
     (isOpen) => {
       if (!isOpen) return
       tab.value = 'presets'
-      devStore.searchQuery = ''
+      managerStore.searchQuery = ''
       packageListKey.value++
-      void devStore.fetchFileList()
+      void managerStore.fetchFileList()
     },
     { immediate: true }
   )

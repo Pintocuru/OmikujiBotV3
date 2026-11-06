@@ -20,7 +20,7 @@
       >
         <button
           class="btn btn-ghost h-auto min-h-0 flex-1 min-w-0 justify-start items-start flex-col gap-0.5 px-3 py-2 text-left font-normal"
-          :disabled="devStore.isLoading || deletingName !== null"
+          :disabled="managerStore.isLoading || deletingName !== null"
           @click="emit('open', pack.displayName)"
         >
           <span class="flex items-center gap-1 w-full">
@@ -33,7 +33,7 @@
         <button
           class="btn btn-ghost btn-square btn-sm self-center mr-1 text-error opacity-40 group-hover:opacity-100"
           title="このパッケージを削除"
-          :disabled="devStore.isLoading || deletingName !== null"
+          :disabled="managerStore.isLoading || deletingName !== null"
           @click="onDelete(pack)"
         >
           <span v-if="deletingName === pack.name" class="loading loading-spinner loading-xs"></span>
@@ -57,7 +57,7 @@ import { escapeHtml } from '@/common/escapeHtml'
   // displayName は拡張子を除いた名前 = meta.id
   const emit = defineEmits<{ open: [id: string] }>()
 
-  const devStore = useManagerStore()
+  const managerStore = useManagerStore()
   const packages = ref<FileItem[]>([])
   const isLoadingList = ref(true)
   const deletingName = ref<string | null>(null)

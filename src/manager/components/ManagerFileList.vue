@@ -1,11 +1,11 @@
 <!-- src/manager/components/ManagerFileList.vue -->
 <template>
   <div class="card bg-base-200 p-2 space-y-2">
-    <template v-if="devStore.availableFiles.length > 0">
-      <div v-if="devStore.fileBlocks.length === 0" class="text-xs opacity-70 text-center py-4">
+    <template v-if="managerStore.availableFiles.length > 0">
+      <div v-if="managerStore.fileBlocks.length === 0" class="text-xs opacity-70 text-center py-4">
         該当するファイルがありません
       </div>
-      <template v-for="block in devStore.fileBlocks" :key="block.key">
+      <template v-for="block in managerStore.fileBlocks" :key="block.key">
         <!-- ルート直下 -->
         <div v-if="block.type === 'files'" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
           <ManagerFileItem
@@ -13,7 +13,7 @@
             :key="file.name"
             :file="file"
             :format-file-date="formatFileDate"
-            :available-folders="devStore.folderNames"
+            :available-folders="managerStore.folderNames"
             @opened="emit('opened')"
           />
         </div>
@@ -36,7 +36,7 @@
               :key="file.name"
               :file="file"
               :format-file-date="formatFileDate"
-              :available-folders="devStore.folderNames"
+              :available-folders="managerStore.folderNames"
               @opened="emit('opened')"
             />
           </div>
@@ -44,7 +44,7 @@
       </template>
     </template>
 
-    <div v-else-if="!devStore.isLoadingFileList" class="text-xs opacity-70 text-center py-4">
+    <div v-else-if="!managerStore.isLoadingFileList" class="text-xs opacity-70 text-center py-4">
       保存済みファイルはありません
     </div>
 
@@ -63,16 +63,16 @@
 
   const emit = defineEmits<{ opened: [] }>()
 
-  const devStore = useManagerStore()
+  const managerStore = useManagerStore()
 
   // 検索中は該当ファイルを見逃さないよう、全フォルダを開いて表示する
-  const isOpen = (folder: string) => devStore.searchQuery.trim() !== '' || devStore.openFolders.has(folder)
+  const isOpen = (folder: string) => managerStore.searchQuery.trim() !== '' || managerStore.openFolders.has(folder)
 
   const toggleFolder = (folder: string) => {
-    if (devStore.openFolders.has(folder)) {
-      devStore.openFolders.delete(folder)
+    if (managerStore.openFolders.has(folder)) {
+      managerStore.openFolders.delete(folder)
     } else {
-      devStore.openFolders.add(folder)
+      managerStore.openFolders.add(folder)
     }
   }
 </script>

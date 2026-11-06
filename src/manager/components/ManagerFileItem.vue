@@ -25,7 +25,7 @@
       <!-- 設定を読み込む -->
       <button
         @click="onApply"
-        :disabled="devStore.isLoading || devStore.isAnyLoading || status === 'unsupported'"
+        :disabled="managerStore.isLoading || managerStore.isAnyLoading || status === 'unsupported'"
         class="btn btn-xs btn-primary tooltip tooltip-top"
         :data-tip="status === 'unsupported' ? 'このアプリでは読み込めない新しい形式です' : 'この設定を読み込む'"
       >
@@ -37,12 +37,12 @@
         :folders="availableFolders"
         :current-folder="file.folder"
         :show-move="isDev"
-        :disable-delete="devStore.isDeletingFile(file.name) || devStore.isAnyLoading"
-        :disabled="devStore.isAnyLoading"
-        @move="(folder) => devStore.moveFile(file.name, folder)"
-        @duplicate="devStore.duplicateFile(file.name)"
-        @delete="devStore.deleteFile(file.name)"
-        @rename="(name) => devStore.renameFile(file.name, name)"
+        :disable-delete="managerStore.isDeletingFile(file.name) || managerStore.isAnyLoading"
+        :disabled="managerStore.isAnyLoading"
+        @move="(folder) => managerStore.moveFile(file.name, folder)"
+        @duplicate="managerStore.duplicateFile(file.name)"
+        @delete="managerStore.deleteFile(file.name)"
+        @rename="(name) => managerStore.renameFile(file.name, name)"
       />
     </div>
   </div>
@@ -65,11 +65,11 @@
 
   const emit = defineEmits<{ opened: [] }>()
 
-  const devStore = useManagerStore()
+  const managerStore = useManagerStore()
 
   // 読み込めたら親(ダイアログ)に知らせる。同じファイルを読み直しても閉じられるよう、戻り値で判定する
   const onApply = async () => {
-    if (await devStore.applyConfigFile(props.file.name)) emit('opened')
+    if (await managerStore.applyConfigFile(props.file.name)) emit('opened')
   }
   // meta が無いファイルは状態なし(従来どおり読み込める)
   const status = computed(() => (props.file.meta ? getDataVersionStatus(props.file.meta.dataVersion) : null))

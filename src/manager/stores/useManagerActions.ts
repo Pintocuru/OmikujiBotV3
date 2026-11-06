@@ -22,13 +22,12 @@ export function useManagerActions(state: DataManagerType) {
     if (!isDev) return false
 
     // 切り替え先に繋がらなければ元に戻す (現在のサーバーではなく、切り替え先の health を見る)
-    const mode = configApi.toggleApiMode()
+    configApi.toggleApiMode()
     if (!(await configApi.getHealth())) {
       configApi.toggleApiMode()
       return false
     }
 
-    state.isExpressMode.value = mode
     return true
   }
 

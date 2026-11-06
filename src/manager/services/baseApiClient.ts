@@ -1,4 +1,5 @@
 // src/manager/services/baseApiClient.ts
+import { ref } from 'vue'
 import axios, { AxiosInstance, AxiosError } from 'axios'
 import { getErrorMessage, normalizeApiResponse, NormalizedResponse } from './apiServiceUtils'
 import { SERVER_EXPRESS_URL, SERVER_PLUGIN_URL, isDev } from '@/types/env'
@@ -70,11 +71,16 @@ function setupErrorInterceptor(client: AxiosInstance): void {
 }
 
 /**
+ * APIモード (true: Express / false: わんコメプラグイン)
+ * ストア(useManagerState)も同じ ref を使うので、切り替えが画面にそのまま反映される
+ */
+export const isExpressMode = ref(isDev)
+
+/**
  * 接続状態 (全サービスで共有)
  * サービスごとに持つと、モード切り替えが他のサービスに反映されないため
  */
 const connection = {
-  isExpressMode: isDev,
   client: createClient(isDev),
 }
 
@@ -120,13 +126,13 @@ export abstract class BaseApiClient {
    * APIモードを切り替え（Express ⇔ わんコメプラグイン）
    */
   toggleApiMode(): boolean {
-    if (!isDev) return connection.isExpressMode
+    if (!isDev) return isExpressMode.value
 
-    connection.isExpressMode = !connection.isExpressMode
-    connection.client = createClient(connection.isExpressMode)
+    isExpressMode.value = !isExpressMode.value
+    connection.client = createClient(isExpressMode.value)
 
-    console.log(`[API Mode] ${connection.isExpressMode ? 'Express' : 'わんコメプラグイン'}に切り替えました`)
-    return connection.isExpressMode
+    console.log(`[API Mode] ${isExpressMode.value ? 'Express' : 'わんコメプラグイン'}に切り替えました`)
+    return isExpressMode.value
   }
 
   /**

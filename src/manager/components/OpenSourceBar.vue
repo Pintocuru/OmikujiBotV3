@@ -2,14 +2,14 @@
 <!-- 開く手段: どちらも同じ高さ・同じ見た目で並べる -->
 <template>
   <div class="flex flex-wrap items-center gap-2 px-3 pt-3">
-    <button class="btn btn-sm btn-outline" :disabled="devStore.isLoading" @click="emit('openLocal')">
+    <button class="btn btn-sm btn-outline" :disabled="managerStore.isLoading" @click="emit('openLocal')">
       <FileCode class="w-4 h-4" />
       {{ t('shell.topBar.openLocal') }}
     </button>
     <button
-      v-if="!devStore.isExpressMode"
+      v-if="!managerStore.isExpressMode"
       class="btn btn-sm btn-outline"
-      :disabled="devStore.isLoading"
+      :disabled="managerStore.isLoading"
       :title="t('shell.topBar.openGeneratorTip')"
       @click="emit('openPackage')"
     >
@@ -26,5 +26,5 @@
 
   const emit = defineEmits<{ openLocal: []; openPackage: [] }>()
   const { t } = useI18n()
-  const devStore = useManagerStore()
+  const managerStore = useManagerStore()
 </script>

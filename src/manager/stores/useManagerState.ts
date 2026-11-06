@@ -1,7 +1,7 @@
 // src/manager/stores/useManagerState.ts
 import { ref, reactive } from 'vue'
 import { FileItem, FileSortMode } from '@/manager/types'
-import { isDev } from '@/types/env'
+import { isExpressMode } from '@/manager/services/baseApiClient'
 
 export function useManagerState() {
   // ファイル関連
@@ -16,7 +16,7 @@ export function useManagerState() {
   const searchQuery = ref('')
 
   // APIモード（開発環境ではExpressモードがデフォルト、本番環境ではわんコメPluginのみ）
-  const isExpressMode = ref(isDev)
+  // baseApiClient と同じ ref を共有する(二重管理にしない)
 
   /**
    * ローディング状態

@@ -132,7 +132,7 @@
     rename: [name: string]
   }>()
 
-  const devStore = useManagerStore()
+  const managerStore = useManagerStore()
   const importManager = useImportManager()
 
   // フォルダ作成
@@ -184,7 +184,7 @@
   // 部分読み込み
   const handlePartialLoad = async () => {
     try {
-      const fileData = await devStore.fetchFileData(props.file.name)
+      const fileData = await managerStore.fetchFileData(props.file.name)
       const result = await importManager.loadFromJsonData(fileData)
 
       if (!result.success) {

@@ -39,8 +39,8 @@ const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global
 export const useSaveActions = () => {
   const omikujiStore = useOmikujiStore()
   const { hasChanged } = storeToRefs(omikujiStore)
-  const devStore = useManagerStore()
-  const { isServerConnected, isExpressMode, saveFileName, isSaving } = storeToRefs(devStore)
+  const managerStore = useManagerStore()
+  const { isServerConnected, isExpressMode, saveFileName, isSaving } = storeToRefs(managerStore)
   const { isExporting, exportFile } = useConfigExport()
 
   const isBusy = computed(() => isSaving.value || isExporting.value)
@@ -53,7 +53,7 @@ export const useSaveActions = () => {
 
   // プリセット(presets 配下のファイル)として名前を付けて保存し、そのまま開く
   const saveAsPreset = async () => {
-    const taken = new Set(devStore.availableFiles.map((file) => file.name.toLowerCase()))
+    const taken = new Set(managerStore.availableFiles.map((file) => file.name.toLowerCase()))
     const result = await swalModal.prompt({
       icon: 'question',
       title: t('shell.save.preset'),
@@ -71,8 +71,8 @@ export const useSaveActions = () => {
     if (!result.isConfirmed) return
 
     const fileName = ensureJsonExtension(String(result.value).trim())
-    if (!(await devStore.saveConfig(fileName))) return
-    await devStore.applyConfigFile(fileName)
+    if (!(await managerStore.saveConfig(fileName))) return
+    await managerStore.applyConfigFile(fileName)
   }
 
   const primary = computed<PrimaryAction>(() => {
@@ -93,7 +93,7 @@ export const useSaveActions = () => {
         return {
           id: 'overwrite',
           label: t('navigation.saveFile', { name: saveFileName.value.replace('.json', '') }),
-          run: () => devStore.overwriteConfig(saveFileName.value),
+          run: () => managerStore.overwriteConfig(saveFileName.value),
           class: 'btn-warning text-warning-content',
           tip: t('navigation.saveFileTip'),
           disabled: !hasChanged.value || isBusy.value,
@@ -115,7 +115,7 @@ export const useSaveActions = () => {
     return {
       id: 'generator',
       label: t('shell.save.generator'),
-      run: () => devStore.saveToGenerator(),
+      run: () => managerStore.saveToGenerator(),
       class: 'btn-primary text-primary-content',
       tip: t('shell.save.generatorTip'),
       disabled: isBusy.value,
@@ -135,7 +135,7 @@ export const useSaveActions = () => {
       entries.push({
         id: 'omikujiData',
         label: t('shell.save.omikujiData'),
-        run: () => devStore.overwriteOmikujiData(),
+        run: () => managerStore.overwriteOmikujiData(),
         icon: HardDriveUpload,
       })
     }

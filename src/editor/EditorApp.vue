@@ -35,9 +35,9 @@
 
   // stores
   const omikujiStore = useOmikujiStore()
-  const devStore = useManagerStore()
+  const managerStore = useManagerStore()
   const { data, dataSource } = storeToRefs(omikujiStore)
-  const { isServerConnected } = storeToRefs(devStore)
+  const { isServerConnected } = storeToRefs(managerStore)
   const { isTopPage } = storeToRefs(useNavigationStore())
 
   // テーマと、データ未読込(開発版の起動直後)かどうかの判定

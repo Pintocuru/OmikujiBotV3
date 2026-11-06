@@ -4,7 +4,7 @@ import { useManagerState } from './useManagerState'
 import { useManagerActions } from './useManagerActions'
 import { useManagerGetters } from './useManagerGetters'
 
-export const useManagerStore = defineStore('devConfig', () => {
+export const useManagerStore = defineStore('manager', () => {
   // 状態管理
   const state = useManagerState()
 
