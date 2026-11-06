@@ -36,7 +36,7 @@ export const ReactionTriggerSchema = z.object({
   platform: z.enum(['youtube']).default('youtube'),
   reactions: z.array(z.enum(reactionKeys)).default([]), // 押された対象(配列、nullで対象なし)
   comparison: z.enum(reactionConditions).default('milestone').catch('milestone'), // 条件種別
-  value: z.number().min(1).default(1).catch(1), // 閾値（burstSustain: n回ごと、等）
+  value: z.number().min(0).default(1).catch(1), // 閾値（burstSustain: 0/1は毎回発火、等）
   triggerLevel: z.number().min(0).max(3).default(0).catch(0), // burstReach/burstSustain で使用: このレベル以上で有効
 })
 export type ReactionTriggerType = z.infer<typeof ReactionTriggerSchema>
