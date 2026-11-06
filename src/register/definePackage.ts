@@ -5,16 +5,11 @@ import { registerUi, registerLayout, type UiLoader } from '@/ui/uiRegistry'
 import { registerUiEditor } from '@/editor/ui/uiEditorRegistry'
 
 type PackageDef = {
-  /** UI 種別 */
-  kind: UiKind
-  /** UI 本体の loader */
-  loader: UiLoader
-  /** ui.layout に使うキー */
-  layout: NonNullable<UiLayoutType>
-  /** 表示コンポーネント(standard セットなど)の登録関数。必須 */
-  registerComponents: () => void
-  /** エディター */
-  editor?: () => Promise<{ default: Component }>
+  kind: UiKind // UI 種別
+  loader: UiLoader // UI 本体の loader
+  layout: NonNullable<UiLayoutType> // ui.layout に使うキー
+  registerComponents: () => void // 表示コンポーネント(standard セットなど)の登録関数
+  editor?: () => Promise<{ default: Component }> // エディター
 }
 
 export const definePackage = ({ kind, loader, layout, registerComponents, editor }: PackageDef) => {

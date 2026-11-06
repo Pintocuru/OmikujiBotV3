@@ -9,7 +9,7 @@ import {
 } from '@/types/engine/trigger'
 import { checkAccess, checkCount, checkGift, checkSyoken } from './checkers/UserCheckersTrigger'
 import { checkComment } from './checkers/ContentCheckers'
-import { checkUserIdCondition, checkUsername } from './checkers/UserCheckers'
+import { checkUsername } from './checkers/UserCheckers'
 import { checkTimeRange } from './checkers/CheckTimeRange'
 import { checkExpression } from './checkers/ExpressionChecker'
 
@@ -25,7 +25,6 @@ export function checkAllTriggers(
     gift?: GiftConditionType[]
     count?: CountConditionType
     comment?: string[]
-    userIds?: string[]
     usernames?: string[]
     timeRange?: { start: number; end: number }
     expression?: string
@@ -38,7 +37,6 @@ export function checkAllTriggers(
     count: () => checkCount(omiken, trigger.count),
     service: () => true,
     comment: () => checkComment(omiken.comment, trigger.comment),
-    userId: () => checkUserIdCondition(omiken.userId, trigger.userIds ?? []),
     username: () => checkUsername(omiken.userName, trigger.usernames),
     timeRange: () => (trigger.timeRange ? checkTimeRange(trigger.timeRange.start, trigger.timeRange.end) : true),
     // 判定式: 評価できない場合は false

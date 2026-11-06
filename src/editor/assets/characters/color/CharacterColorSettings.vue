@@ -17,10 +17,11 @@
           borderColor: currentColor.accent,
         }"
       >
-        {{ botName ?? 'サンプルキャラクター' }}
+        {{ botName ?? 'sample' }}
       </div>
 
       <!-- メッセージ -->
+      <!-- TODO:英訳 -->
       <p class="text-sm" :style="{ color: currentColor.text }">こんにちは！色の見え方はこんな感じです。</p>
     </div>
   </div>

@@ -169,7 +169,7 @@ export const appItemsCharactersMessages = {
   },
   en: {
     appHeader: {
-      title: 'Omikuji Bot Config Editor',
+      title: 'Omikuji Bot Editor',
       versionNotFound: 'Could not retrieve version information',
       versionFetchFailed: 'Failed to retrieve version information',
       updateAvailable: 'A new version is available!\nCurrent: {current}\nLatest: {latest}',

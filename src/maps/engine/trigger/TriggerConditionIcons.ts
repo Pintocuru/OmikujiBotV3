@@ -9,7 +9,6 @@ export const triggerConditionIcons: Record<TriggerConditionType, LucideIconName>
   gift: 'Gift',
   count: 'Hash',
   service: 'Tv',
-  userId: 'IdCard',
   username: 'User',
   timeRange: 'Clock',
   expression: 'Code2',

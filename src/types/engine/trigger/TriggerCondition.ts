@@ -11,7 +11,6 @@ export const triggerConditions = [
   'gift',
   'count',
   'service',
-  'userId',
   'username',
   'timeRange',
   'expression',
