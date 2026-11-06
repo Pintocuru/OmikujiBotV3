@@ -26,7 +26,7 @@
   import { computed, inject } from 'vue'
   import { CharacterColorScheme, CharacterColorType, EnterMotionType } from '@/types/OmikujiData'
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
-  import { useCharacters } from '@/generator/composables/useCharacters'
+  import { useAppCharacters } from '@/ui/common/useAppCharacters'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
   import { previewColorKey } from '../../parts/previewColor'
 
@@ -49,7 +49,7 @@
   const lines = computed(() => props.displayedComments.slice(0, props.maxLines).reverse())
   const indexOf = (item: DisplayedBotMessage) => props.displayedComments.indexOf(item)
 
-  const { getCharacterColor } = useCharacters()
+  const { getCharacterColor } = useAppCharacters()
   const previewColor = inject(previewColorKey, null)
   const colorOf = (item: DisplayedBotMessage): CharacterColorType =>
     previewColor?.value ?? getCharacterColor(item.bubble.characterKey) ?? DEFAULT_COLOR

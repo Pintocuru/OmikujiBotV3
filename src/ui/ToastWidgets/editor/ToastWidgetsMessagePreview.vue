@@ -22,7 +22,7 @@
   import type { BotMessageSlotsType } from '@/types/generator'
   import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useCharacters } from '@/generator/composables/useCharacters'
+  import { useAppCharacters } from '@/ui/common/useAppCharacters'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import ToastBubbleSelector from '@/ui/ToastWidgets/ToastBubbleSelector.vue'
 
@@ -35,7 +35,7 @@
   }>()
 
   const { data } = storeToRefs(useOmikujiStore())
-  const { iconSrc, getCharacterColor } = useCharacters()
+  const { iconSrc, getCharacterColor } = useAppCharacters()
   const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
   const settings = computed(() => ToastWidgetsSchema.parse(data.value.ui.settings.toastWidgets ?? {}))
 </script>

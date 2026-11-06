@@ -7,6 +7,7 @@ import {
   UserAccessLevelType,
 } from '@/types/OmikenComment'
 import { BaseCommentMeta, Comment } from '@onecomme.com/onesdk/types/Comment'
+import { normalizeUserId } from './normalizeUserId'
 
 // 定数
 const DAY_7_MS = 7 * 24 * 60 * 60 * 1000
@@ -82,7 +83,7 @@ function buildCommentPayload(comment: Comment): OmikenCommentType {
 
   return {
     id: data.id,
-    userId: data.userId,
+    userId: normalizeUserId(comment.service, data.userId),
     userName: data.displayName ?? data.nickname ?? data.name,
     timestamp: Date.parse(data.timestamp),
     profileImage: data.profileImage,

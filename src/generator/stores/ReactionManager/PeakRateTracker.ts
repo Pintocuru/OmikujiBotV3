@@ -1,5 +1,5 @@
 // src/generator/stores/ReactionManager/PeakRateTracker.ts
-const ELAPSED_CAP_SEC = 5
+import { PEAK_RATE_ELAPSED_CAP_SEC } from '@/generator/GeneratorConstants'
 
 export class PeakRateTracker {
   private peak = 0
@@ -14,7 +14,7 @@ export class PeakRateTracker {
 
   update(now: number, count: number): void {
     if (this.lastEventTime !== null) {
-      const elapsed = Math.min((now - this.lastEventTime) / 1000, ELAPSED_CAP_SEC)
+      const elapsed = Math.min((now - this.lastEventTime) / 1000, PEAK_RATE_ELAPSED_CAP_SEC)
       if (elapsed > 0) this.peak = Math.max(this.peak, count / elapsed)
     }
     this.lastEventTime = now

@@ -101,12 +101,12 @@
   import ToastBubbleSelector from '@/ui/ToastWidgets/ToastBubbleSelector.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import CharacterThumbnailsPreview from '@/ui/ToastWidgets/parts/CharacterThumbnailsPreview.vue'
-  import { useCharacters } from '@/generator/composables/useCharacters'
+  import { useAppCharacters } from '@/ui/common/useAppCharacters'
   import HudPreview from '@/editor/parts/HudPreview.vue'
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const { iconSrc, getCharacterColor } = useCharacters()
+  const { iconSrc, getCharacterColor } = useAppCharacters()
   const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
 
   const toastSettings = computed(() => ToastWidgetsSchema.parse(data.value.ui.settings.toastWidgets ?? {}))

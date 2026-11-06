@@ -16,16 +16,21 @@ export function createAppServices() {
   const placeholderVariable = new PlaceholderVariable()
   const reactionStats = new ReactionStatsManager()
 
+  // 配信単位のデータ(配信統計・ユーザー統計)をまとめてリセットする
+  // 配信開始時、わんコメ側のコメントがリセットされたとき、エディターのセッションリセットで使う。
+  // (リアクション統計はリアクション購読の開始・停止に合わせてリセットする。評価ブロックの変数は配信が変わっても残す)
+  const resetStreamData = () => {
+    streamStats.reset()
+    userStats.reset()
+  }
+
   // 配信開始時に各種データリセット
   // previous が null の最初の通知は、遷移ではなく「最初の観測」。配信中にジェネレーターを開き直しても、統計を消さない
   serviceMetaStore.subscribe((event) => {
     if (event.previous === null) return
     const prev = event.previous.isLive
     const curr = event.current.isLive
-    if (!prev && curr) {
-      streamStats.reset()
-      userStats.reset()
-    }
+    if (!prev && curr) resetStreamData()
   })
 
   return {
@@ -36,5 +41,6 @@ export function createAppServices() {
     streamStats,
     placeholderVariable,
     reactionStats,
+    resetStreamData,
   }
 }

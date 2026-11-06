@@ -58,3 +58,26 @@ export const META_OFFLINE_CONFIRM_COUNT = 10
  * 新しいコメントかどうかの判定に使う。超えたら古い id から忘れる。
  */
 export const OMIKEN_ID_HISTORY_MAX = 20_000
+
+/**
+ * バーストレベルが上がる条件 (レベル 0→1、1→2、2→3 の順)
+ * 「最大ピーク速度 × この割合」の数のリアクションが、次のレベルに上がるまでに必要。
+ */
+export const BURST_LEVEL_THRESHOLDS = [0.25, 0.5, 0.75] as const
+
+/**
+ * バーストレベルの判定に使うピーク速度の下限 (リアクション/秒)
+ * リアクションが少ない配信で、わずかな数でレベルが上がらないようにする。
+ */
+export const BURST_PEAK_RATE_FLOOR = 30
+
+/**
+ * バーストレベルの最大値
+ */
+export const BURST_MAX_LEVEL = 3
+
+/**
+ * ピーク速度を計算するときの、リアクション間隔の上限 (秒)
+ * 間隔が空いたあとの 1 件が、極端に大きな速度にならないようにする。
+ */
+export const PEAK_RATE_ELAPSED_CAP_SEC = 5

@@ -6,17 +6,6 @@ import type { useAppStore } from '@/generator/stores/useAppStore'
 type AppStore = ReturnType<typeof useAppStore>
 
 /**
- * 評価ブロック用の userId 変換
- */
-export function sanitizeKey(raw: string): string {
-  let h = 0
-  for (let i = 0; i < raw.length; i++) {
-    h = (h * 31 + raw.charCodeAt(i)) >>> 0
-  }
-  return `v${h.toString(36)}`
-}
-
-/**
  * デフォルトのプレースホルダー情報 (配信全体の値)
  */
 function buildBasePlaceholders(store: AppStore): Record<ServiceMetaCondition, string | number> {
@@ -38,7 +27,7 @@ function buildBasePlaceholders(store: AppStore): Record<ServiceMetaCondition, st
     commenter: uniqueCount,
     syoken,
     winner: winner ? `{{icon ${winner.userId}}}${winner.userName}` : 'Null',
-    winnerId: winner ? sanitizeKey(winner.userId) : 'Null',
+    winnerId: winner ? winner.userId : 'Null',
     clock: `${h}時${m}分`,
   })
 }
@@ -55,7 +44,7 @@ export function buildDefaultPlaceholders(store: AppStore, omiken?: OmikenComment
   return DefaultPlaceholdersCommentSchema.parse({
     ...basePlaceholders,
     user: `{{icon ${omiken.userId}}}${omiken.userName}`,
-    userId: sanitizeKey(omiken.userId),
+    userId: omiken.userId,
     price: omiken.giftPrice,
     lc: omiken.meta.lc,
     tc: omiken.meta.tc,

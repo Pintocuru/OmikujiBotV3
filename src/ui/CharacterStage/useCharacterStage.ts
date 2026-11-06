@@ -2,7 +2,7 @@
 import { ref, watch, onUnmounted, type Ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'
-import { useCharacters } from '@/generator/composables/useCharacters'
+import { useCharacters } from '@/common/Characters/useCharacters'
 import { isBubbleMessage } from '@/types/generator'
 import type { CharacterStageType } from '@/types/ui'
 import { resolveStageSlots } from './resolveStageSlots'

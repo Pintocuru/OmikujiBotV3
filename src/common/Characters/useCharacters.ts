@@ -1,17 +1,16 @@
-// src/generator/composables/useCharacters.ts
+// src/common/Characters/useCharacters.ts
 import { computed, MaybeRefOrGetter, toValue } from 'vue'
 import { CharacterAnimationType, CharacterType } from '@/types/OmikujiData'
-import { useAppStore } from '@/generator/stores/useAppStore'
 import { BotMessageBubbleType } from '@/types/generator'
 import { CharacterResolver } from '@/engine/CharacterResolver/CharacterResolver'
 
 /**
  * Vueコンポーネント用：CharacterResolver のリアクティブなラッパー
+ * source にキャラクターの一覧を渡す。
+ * (エディターは omikujiStore、ジェネレーターは appStore のデータを渡す。ジェネレーター側は useAppCharacters が渡す)
  */
-export const useCharacters = (source?: MaybeRefOrGetter<Record<string, CharacterType>>) => {
-  // source 未指定ならジェネレーターのstore、指定ならそのデータ（エディターは omikujiStore を渡す）
-  const appStore = source ? null : useAppStore()
-  const getCharacters = () => (source ? toValue(source) : appStore!.data.assets.characters)
+export const useCharacters = (source: MaybeRefOrGetter<Record<string, CharacterType>>) => {
+  const getCharacters = () => toValue(source)
 
   // CharacterResolverのインスタンス
   const manager = computed(() => new CharacterResolver(getCharacters()))

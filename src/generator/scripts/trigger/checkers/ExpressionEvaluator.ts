@@ -11,7 +11,7 @@ export type TriggerExpressionContext = Record<string, string | number>
 const PLACEHOLDER_PATTERN = /<<\s*([A-Za-z_][A-Za-z0-9_]*)\s*>>/g
 const STRING_LITERAL_PATTERN = /'[^']*'|"[^"]*"/g
 const IDENTIFIER_CHAR = /[A-Za-z0-9_]/
-// 変数名の一部に埋め込んでよい値 (式の構文を変えられない文字だけ。sanitizeKey の出力はこれに該当)
+// 変数名の一部に埋め込んでよい値 (式の構文を変えられない文字だけ。OmikenCommentProcessor が作る userId (u + 英数字) はこれに該当)
 const SAFE_NAME_FRAGMENT = /^[A-Za-z0-9_]+$/
 
 // 判定に使える関数 (rand / random など結果が変わるものは含めない)

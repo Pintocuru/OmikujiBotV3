@@ -3,10 +3,8 @@ import { useAppStore } from '@/generator/stores/useAppStore'
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
 import { padApi } from '@/manager/services/padApi'
 import type { PadIdType } from '@/types/OmikujiData'
+import { PAD_POLL_INTERVAL_MS } from '@/generator/GeneratorConstants'
 import { describeError, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
-
-/** ポーリング間隔 (固定。ローカルのみ・数クライアント前提のため、ジッターは付けない) */
-export const PAD_POLL_INTERVAL_MS = 500
 
 /**
  * ポン出しイベントの実行を管理

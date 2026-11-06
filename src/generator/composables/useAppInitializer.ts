@@ -93,8 +93,7 @@ export function useAppInitializer() {
 function resetAppState() {
   const appStore = useAppStore()
   appStore.clearOmikens()
-  appStore.streamStats.reset()
-  appStore.userStats.reset()
+  appStore.resetStreamData()
 }
 
 // コメントをフィルター

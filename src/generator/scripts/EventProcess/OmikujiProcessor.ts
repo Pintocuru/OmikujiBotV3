@@ -36,7 +36,7 @@ export class OmikujiProcessor {
     const mikujiBox = this.store.data.assets.mikuji[omikujiKey]?.omikuji ?? []
     const item = this.lotteryOmikujiItem(mikujiBox)
 
-    // return / continue / reset / log は何もしない
+    // control (return / continue) は何もしない
     if (!item || item.kind !== 'steps') return []
 
     // クールダウン中は何も実行しない

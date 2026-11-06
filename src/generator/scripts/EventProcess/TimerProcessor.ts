@@ -2,6 +2,7 @@
 import { TimerEventType } from '@/types/OmikujiData/'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
+import { TIMER_RANGE_STEP_MS } from '@/generator/GeneratorConstants'
 import { checkTimerExpression } from '@/generator/scripts/trigger/checkers/ExpressionChecker'
 import { describeError, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
@@ -9,9 +10,6 @@ interface TimerState {
   timerId: number
   initialTimerId?: number // interval: 初回実行用 / range: 現在予約中のタイマー
 }
-
-/** ランジの抽選単位 (ms) */
-const RANGE_STEP_MS = 500
 
 /**
  * タイマーイベントの実行を管理
@@ -112,8 +110,8 @@ export class EventTimerProcessor {
   private pickRangeDelayMs(rule: TimerEventType): number {
     const lo = Math.min(rule.rangeMinSeconds, rule.rangeMaxSeconds)
     const hi = Math.max(rule.rangeMinSeconds, rule.rangeMaxSeconds)
-    const steps = Math.round(((hi - lo) * 1000) / RANGE_STEP_MS)
-    return lo * 1000 + Math.floor(Math.random() * (steps + 1)) * RANGE_STEP_MS
+    const steps = Math.round(((hi - lo) * 1000) / TIMER_RANGE_STEP_MS)
+    return lo * 1000 + Math.floor(Math.random() * (steps + 1)) * TIMER_RANGE_STEP_MS
   }
 
   /**

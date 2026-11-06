@@ -33,7 +33,7 @@
   import { computed, inject } from 'vue'
   import { EnterMotionType } from '@/types/OmikujiData'
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
-  import { useCharacters } from '@/generator/composables/useCharacters'
+  import { useAppCharacters } from '@/ui/common/useAppCharacters'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
   import { previewColorKey } from '../../parts/previewColor'
   import CommentBubbleItem from './CommentBubbleItem.vue'
@@ -63,6 +63,6 @@
 
   const listHeight = computed(() => Math.max(props.displayedComments.length, 1) * ROW_HEIGHT + LAST_ITEM_HEIGHT)
 
-  const { getCharacterColor } = useCharacters()
+  const { getCharacterColor } = useAppCharacters()
   const previewColor = inject(previewColorKey, null)
 </script>

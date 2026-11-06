@@ -1,9 +1,6 @@
 // src/generator/stores/ReactionManager/BurstLevelMachine.ts
 import { BurstLevelChangeCallback } from '@/types/generator'
-
-const THRESHOLDS = [0.25, 0.5, 0.75] as const
-const PEAK_RATE_FLOOR = 30
-const MAX_LEVEL = 3
+import { BURST_LEVEL_THRESHOLDS, BURST_MAX_LEVEL, BURST_PEAK_RATE_FLOOR } from '@/generator/GeneratorConstants'
 
 export class BurstLevelMachine {
   level = 0
@@ -19,11 +16,11 @@ export class BurstLevelMachine {
   }
 
   add(count: number, peakRate: number): void {
-    const peak = Math.max(peakRate, PEAK_RATE_FLOOR)
-    const idx = Math.min(this.level, THRESHOLDS.length - 1)
+    const peak = Math.max(peakRate, BURST_PEAK_RATE_FLOOR)
+    const idx = Math.min(this.level, BURST_LEVEL_THRESHOLDS.length - 1)
     this.levelUpCount += count
 
-    if (this.level < MAX_LEVEL && this.levelUpCount >= peak * THRESHOLDS[idx]) {
+    if (this.level < BURST_MAX_LEVEL && this.levelUpCount >= peak * BURST_LEVEL_THRESHOLDS[idx]) {
       const prev = this.level
       this.level += 1
       this.reachedLevel = this.level

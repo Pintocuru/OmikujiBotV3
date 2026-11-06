@@ -46,7 +46,6 @@
 
   // セッションリセット
   function resetAll() {
-    appStore.userStats.reset()
-    appStore.streamStats.reset()
+    appStore.resetStreamData()
   }
 </script>
