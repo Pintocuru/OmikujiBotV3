@@ -15,10 +15,11 @@ export function useImageSources(layers: () => string[] | string) {
   )
 
   const onError = (index: number) => {
-    errorIndexes.value.add(index)
+    // Set を作り直して代入し、確実に再活性化させる
+    errorIndexes.value = new Set(errorIndexes.value).add(index)
   }
 
-  watch(rawLayers, () => errorIndexes.value.clear(), { deep: true })
+  watch(rawLayers, () => errorIndexes.value.clear())
 
   return { sources, onError }
 }

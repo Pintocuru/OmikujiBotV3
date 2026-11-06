@@ -4,6 +4,7 @@
     v-if="isVideo"
     :src="src"
     autoplay
+    muted
     loop
     playsinline
     class="object-contain w-full h-full"
@@ -22,5 +23,6 @@
     error: []
   }>()
 
-  const isVideo = computed(() => /\.(webm|mp4)$/i.test(props.src))
+  // クエリ文字列（?v= 等）付きでも動画と判定できるように末尾一致を緩める
+  const isVideo = computed(() => /\.(webm|mp4)(?:[?#].*)?$/i.test(props.src))
 </script>

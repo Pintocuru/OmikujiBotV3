@@ -1,6 +1,14 @@
 <!-- src/common/LayerImage/ImagePreview.vue -->
 <template>
-  <div @click="showPreview = true" class="cursor-pointer">
+  <div
+    role="button"
+    tabindex="0"
+    aria-label="画像を拡大表示"
+    class="cursor-pointer"
+    @click="showPreview = true"
+    @keydown.enter.prevent="showPreview = true"
+    @keydown.space.prevent="showPreview = true"
+  >
     <LayerImage :layers="layers" :width="width" :animation="animation" />
   </div>
 
@@ -11,14 +19,15 @@
       @click.self="showPreview = false"
     >
       <div class="relative bg-white rounded overflow-hidden">
-        <LayerImage :layers="layers" :width="256" />
+        <!-- 正方形コンテナに object-contain で収め、縦横比を維持したまま潰れないようにする -->
+        <LayerImage :layers="layers" :size="256" />
       </div>
     </div>
   </Transition>
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { onBeforeUnmount, ref, watch } from 'vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { CharacterAnimationType } from '@/types/OmikujiData'
 
@@ -29,6 +38,16 @@
   }>()
 
   const showPreview = ref(false)
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') showPreview.value = false
+  }
+
+  watch(showPreview, (v) => {
+    if (v) window.addEventListener('keydown', onKeyDown)
+    else window.removeEventListener('keydown', onKeyDown)
+  })
+  onBeforeUnmount(() => window.removeEventListener('keydown', onKeyDown))
 </script>
 
 <style scoped>
