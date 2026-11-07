@@ -5,8 +5,8 @@ describe('BurstLevelMachine', () => {
   it('starts with no pending level changes', () => {
     const machine = new BurstLevelMachine()
 
-    expect(machine.reachedLevel).toBe(-1)
-    expect(machine.droppedLevel).toBe(-1)
+    expect(machine.reachedLevel).toBeNull()
+    expect(machine.droppedLevel).toBeNull()
   })
 
   it('records and consumes a reached level', () => {
@@ -19,7 +19,7 @@ describe('BurstLevelMachine', () => {
 
     machine.consumeReached()
 
-    expect(machine.reachedLevel).toBe(-1)
+    expect(machine.reachedLevel).toBeNull()
   })
 
   it('records a dropped level and consumes it', () => {
@@ -28,11 +28,11 @@ describe('BurstLevelMachine', () => {
 
     expect(machine.decrement()).toBe(0)
     expect(machine.droppedLevel).toBe(0)
-    expect(machine.reachedLevel).toBe(-1)
+    expect(machine.reachedLevel).toBeNull()
 
     machine.consumeDropped()
 
-    expect(machine.droppedLevel).toBe(-1)
+    expect(machine.droppedLevel).toBeNull()
   })
 
   it('resets pending changes without removing callbacks', () => {
@@ -45,8 +45,8 @@ describe('BurstLevelMachine', () => {
     machine.reset()
 
     expect(machine.level).toBe(0)
-    expect(machine.reachedLevel).toBe(-1)
-    expect(machine.droppedLevel).toBe(-1)
+    expect(machine.reachedLevel).toBeNull()
+    expect(machine.droppedLevel).toBeNull()
 
     machine.add(8, 30)
     expect(callback).toHaveBeenCalledTimes(3)
