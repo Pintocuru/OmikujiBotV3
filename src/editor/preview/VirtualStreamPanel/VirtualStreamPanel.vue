@@ -33,7 +33,7 @@
                 class="input input-bordered input-xs join-item flex-1 text-center"
                 v-model.number="fields[key]"
               />
-              <button class="btn btn-xs btn-outline join-item" @click="increment(key, 1)">+1</button>
+              <button class="btn btn-xs btn-neutral btn-outline join-item" @click="increment(key, 1)">+1</button>
             </div>
           </template>
 

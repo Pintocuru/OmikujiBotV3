@@ -4,16 +4,18 @@
     <SettingItem icon="LayoutGrid" labelKey="uiSettings.layout.label" descriptionKey="uiSettings.layout.description">
       <div class="flex flex-wrap gap-2">
         <!-- main.ts / registerAll で登録済みのレイアウトのみ -->
-        <span
+        <button
           v-for="key in availableLayouts"
           :key="key"
-          class="badge cursor-pointer select-none"
+          type="button"
+          class="badge cursor-pointer select-none tooltip tooltip-top"
           :class="layout === key ? 'badge-accent text-accent-content' : 'badge-outline text-base-content'"
-          :title="t(`mapText.uiLayout.${key}.description`)"
+          :data-tip="t(`mapText.uiLayout.${key}.description`)"
+          :aria-pressed="layout === key"
           @click="updateLayout(key)"
         >
           {{ t(`mapText.uiLayout.${key}.label`) }}
-        </span>
+        </button>
       </div>
       <!-- 未登録のレイアウトは翻訳キーを出さず、データ不一致を表示 -->
       <p v-if="isLayoutAvailable" class="text-xs opacity-70 p-2">{{ t(`mapText.uiLayout.${layout}.description`) }}</p>

@@ -23,7 +23,7 @@
 | 3 | `src/console/` | 完了 |
 | 4 | `src/editor/apps/` | 完了 |
 | 5 | `src/editor/assets/` | 変更完了・検証待ち |
-| 6 | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | 進行中（preview） |
+| 6 | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | 変更完了・検証待ち |
 
 ---
 
@@ -162,6 +162,19 @@
 | `EvaluationBlock.vue` | 一時停止を tooltip に変更。変数編集・削除を Lucide アイコン + `btn-square` + tooltip + `aria-label` に変更 |
 | `VirtualStreamPanel.vue` | 数値調整・解放ボタンの役割色を整理。解放の `title` を tooltip に変更 |
 
+#### 作業単位6 — ui の進捗
+
+| ファイル | 変更内容 |
+| --- | --- |
+| `conditions/UnusedUiSettingsEditor.vue` | 個別削除ボタンを `btn-sm btn-error btn-outline` に統一 |
+| `conditions/LayoutEditor.vue` | レイアウト選択をキーボード操作可能な button に変更。説明を tooltip にし、選択状態を `aria-pressed` で公開 |
+
+#### 検証結果（単位6）
+
+- content / events / helpers / preview / ui の対象UIファイルを確認し、スタイル変更を反映。
+- GitHub 上の差分確認のみ。TypeScript / ESLint / ブラウザ表示検証は未実施。
+- tooltip の実表示・clipping は未確認。
+
 #### 次に着手する作業
 
-**作業単位6:** `src/editor/ui/` のボタン・title/tooltip 使用箇所を確認する。
+**作業単位6:** 差分の最終確認後、検証可能な環境で TypeScript / ESLint を実行する。

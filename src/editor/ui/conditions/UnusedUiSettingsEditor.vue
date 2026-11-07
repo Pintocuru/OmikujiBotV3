@@ -10,7 +10,7 @@
       <div v-else class="flex flex-col gap-2">
         <div v-for="kind in unusedKinds" :key="kind" class="flex items-center justify-between gap-2">
           <span class="badge badge-outline">{{ kindLabel(kind) }}</span>
-          <button class="btn btn-xs btn-error btn-outline" @click="removeOne(kind)">
+          <button class="btn btn-sm btn-error btn-outline" @click="removeOne(kind)">
             {{ t('uiSettings.unused.delete') }}
           </button>
         </div>
