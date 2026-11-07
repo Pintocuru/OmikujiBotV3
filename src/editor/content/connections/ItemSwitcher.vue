@@ -20,11 +20,7 @@
             <span class="truncate" :class="{ 'opacity-50': item.isEnabled === false }">{{
               item.name || item.key
             }}</span>
-            <span
-              v-if="isCyclic(item.key)"
-              class="tooltip tooltip-left"
-              :data-tip="t('connections.switcher.cyclic')"
-            >
+            <span v-if="isCyclic(item.key)" class="tooltip tooltip-left" :data-tip="t('connections.switcher.cyclic')">
               <TriangleAlert
                 class="w-4 h-4 shrink-0 text-error"
                 role="img"

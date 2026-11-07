@@ -18,9 +18,7 @@
 
       <!-- 未接続 / 参照切れ -->
       <div v-else class="flex flex-wrap items-center gap-2 rounded-lg bg-neutral text-neutral-content px-3 py-2">
-        <span v-if="mikujiKey" class="badge badge-warning">{{
-          t('connections.boxMissing', { key: mikujiKey })
-        }}</span>
+        <span v-if="mikujiKey" class="badge badge-warning">{{ t('connections.boxMissing', { key: mikujiKey }) }}</span>
         <span class="text-sm">{{ t('connections.noBoxHint') }}</span>
         <button class="btn btn-sm btn-neutral" @click="pickerOpen = true">{{ t('connections.chooseBox') }}</button>
         <button class="btn btn-sm btn-neutral btn-outline" @click="createAndConnect">

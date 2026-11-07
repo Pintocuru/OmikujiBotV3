@@ -33,14 +33,14 @@
         <!-- 出現確率(優先アイテムは抽選外) -->
         <span
           v-if="percentage !== null"
-          class="badge badge-secondary text-secondary-content badge-sm shrink-0 gap-1 font-mono"
+          class="badge badge-accent text-accent-content badge-sm shrink-0 gap-1 font-mono"
         >
           <Sparkles class="h-3 w-3" />
           {{ percentage }}%
         </span>
 
         <!-- 追加条件 -->
-        <button class="btn btn-sm btn-ghost gap-2" @click.stop="emit('open', 'condition')">
+        <button class="btn btn-xs btn-secondary gap-2" @click.stop="emit('open', 'condition')">
           <Filter class="w-4 h-4" />
           {{ t('omikujiItem.priority.sectionTitle') }}
         </button>

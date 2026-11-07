@@ -45,7 +45,7 @@
                 <!-- 該当シナリオへ移動 -->
                 <button
                   v-if="value.content && !isCircular(value.content)"
-                  class="btn btn-sm btn-ghost gap-2"
+                  class="btn btn-xs btn-secondary gap-2"
                   @click="goToItem('scenarios', value.content)"
                 >
                   <ExternalLink class="w-4 h-4" />

@@ -5,7 +5,7 @@
     <section class="w-full rounded-box border border-base-300 bg-base-200/40 p-4 min-w-0">
       <div class="flex items-center justify-between gap-2 mb-3">
         <h3 class="font-semibold">{{ t('categorySections.baseSettings.label') }}</h3>
-        <button class="btn btn-sm btn-ghost gap-2" @click="editOpen = true">
+        <button class="btn btn-sm btn-secondary gap-2" @click="editOpen = true">
           <Pencil class="w-4 h-4" />
           {{ t('connections.switcher.edit') }}
         </button>

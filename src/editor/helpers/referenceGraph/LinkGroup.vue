@@ -20,12 +20,7 @@
           <TriangleAlert class="w-4 h-4 shrink-0" />
           <span class="truncate">{{ missingText(item) }}</span>
         </span>
-        <button
-          v-else
-          class="btn btn-sm btn-neutral btn-outline gap-2 tooltip tooltip-top"
-          :data-tip="t(`categories.${item.category}.label`)"
-          @click="goTo(item)"
-        >
+        <button v-else class="btn btn-xs btn-outline gap-2" @click="goTo(item)">
           <component :is="resolveLucideIcon(categoryMap[item.category].icon)" class="w-4 h-4 shrink-0" />
           <span class="max-w-48 truncate">{{ item.name }}</span>
         </button>

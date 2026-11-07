@@ -24,7 +24,6 @@
 
   <!-- パラメータ -->
   <SettingItem
-    layout="vertical"
     icon="Code2"
     labelKey="scenarioStep.gameScript.paramLabel"
     descriptionKey="scenarioStep.gameScript.paramDesc"

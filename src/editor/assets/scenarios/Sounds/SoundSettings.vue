@@ -1,11 +1,6 @@
 <!-- src/editor/assets/scenarios/Sounds/SoundSettings.vue -->
 <template>
-  <SettingItem
-    icon="Volume2"
-    layout="vertical"
-    labelKey="scenarioStep.sound.label"
-    descriptionKey="scenarioStep.sound.desc"
-  >
+  <SettingItem icon="Volume2" labelKey="scenarioStep.sound.label" descriptionKey="scenarioStep.sound.desc">
     <!-- プリセット選択 -->
     <select v-model="sound" class="select select-bordered select-sm w-full">
       <option value="">{{ t('scenarioStep.common.none') }}</option>
@@ -14,12 +9,7 @@
   </SettingItem>
 
   <!-- カスタムサウンド -->
-  <SettingItem
-    icon="Volume2"
-    layout="vertical"
-    labelKey="scenarioStep.sound.customLabel"
-    descriptionKey="scenarioStep.sound.customDesc"
-  >
+  <SettingItem icon="Volume2" labelKey="scenarioStep.sound.customLabel" descriptionKey="scenarioStep.sound.customDesc">
     <select v-model="soundPath" class="select select-bordered select-sm w-full">
       <option value="">{{ t('scenarioStep.common.none') }}</option>
       <option v-for="file in soundFiles" :key="file" :value="file">{{ file }}</option>

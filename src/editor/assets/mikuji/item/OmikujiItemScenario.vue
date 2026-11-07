@@ -28,7 +28,7 @@
           </button>
 
           <!-- シナリオ編集画面へ飛ぶボタン -->
-          <button class="btn btn-sm btn-ghost gap-2" @click="goToScenario">
+          <button class="btn btn-xs btn-secondary gap-2" @click="goToScenario">
             <ExternalLink class="w-4 h-4" />
             {{ t('omikujiItem.scenario.edit') }}
           </button>

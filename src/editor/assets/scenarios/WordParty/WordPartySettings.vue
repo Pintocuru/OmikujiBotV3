@@ -2,7 +2,7 @@
 <template>
   <div class="space-y-2">
     <!-- WordParty ID -->
-    <SettingItem layout="vertical" icon="PartyPopper" label="WordParty" descriptionKey="scenarioStep.wordParty.idDesc">
+    <SettingItem icon="PartyPopper" label="WordParty" descriptionKey="scenarioStep.wordParty.idDesc">
       <input
         type="text"
         v-model="wordPartyIdValue"
@@ -13,7 +13,6 @@
 
     <!-- Repeat -->
     <SettingItem
-      layout="vertical"
       icon="Repeat"
       labelKey="scenarioStep.wordParty.repeatLabel"
       descriptionKey="scenarioStep.wordParty.repeatDesc"
