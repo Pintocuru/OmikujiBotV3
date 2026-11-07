@@ -5,7 +5,7 @@ import { REACTION_HISTORY_MAX } from '@/generator/GeneratorConstants'
 
 export class ReactionTotals {
   private history: { timestamp: number; type: YoutubeReactionType }[] = []
-  private total: Record<YoutubeReactionType, number> = Object.fromEntries(reactionKeys.map((k) => [k, 0]))
+  private total = Object.fromEntries(reactionKeys.map((k) => [k, 0])) as Record<YoutubeReactionType, number>
 
   add(reactions: Record<string, number>, now: number): number {
     let sum = 0
