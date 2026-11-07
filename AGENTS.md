@@ -98,6 +98,14 @@
 | `mikuji/item/OmikujiItemScenario.vue` | シナリオ選択・編集ボタンの役割色とサイズを統一 |
 | `mikuji/item/ScenarioPickerDialog.vue` | 閉じるボタンに tooltip + `aria-label` を追加。選択ボタンのサイズ・役割色を統一 |
 
+#### placeholders — 部分完了
+
+| ファイル | 変更内容 |
+| --- | --- |
+| `PlaceholderInputMode.vue` | 値追加を `btn-sm btn-neutral` に変更 |
+| `PlaceholderPreview.vue` | 抽選テストを `btn-neutral` に変更 |
+| `PlaceholderValuesEditor.vue` | テキストモード切替を補助操作の `btn-ghost` に変更 |
+
 #### 検証結果
 
 - 単位1〜3: `npx vue-tsc --noEmit` 済み（エラーなしと既存記録に記載）。

@@ -6,7 +6,7 @@
       <PlaceholderPreview v-if="modelValue.values.length > 0" :values="modelValue.values" />
 
       <!-- テキストモード(ダイアログ)を開くボタン -->
-      <button @click="textDialog?.open()" class="btn btn-sm bg-primary text-primary-content">
+      <button @click="textDialog?.open()" class="btn btn-sm btn-ghost">
         {{ t('placeholder.textMode') }}
       </button>
     </div>

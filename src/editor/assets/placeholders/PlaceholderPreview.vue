@@ -1,7 +1,7 @@
 <!-- src/editor/assets/placeholders/PlaceholderPreview.vue -->
 <template>
   <div class="tooltip tooltip-bottom" :data-tip="t('placeholder.previewTooltip')">
-    <button @click="handleDraw" class="btn btn-sm btn-info" :disabled="!values.length">
+    <button @click="handleDraw" class="btn btn-sm btn-neutral gap-2" :disabled="!values.length">
       <Dices class="w-4 h-4" />
       {{ t('placeholder.drawTest') }}
     </button>

@@ -41,7 +41,7 @@
     <NoParamsCard :message="t('placeholder.emptyValues')" />
   </div>
 
-  <button @click="addValue(handleUpdate)" class="btn btn-primary w-full mt-4">{{ t('placeholder.addValue') }}</button>
+  <button @click="addValue(handleUpdate)" class="btn btn-sm btn-neutral w-full mt-4">{{ t('placeholder.addValue') }}</button>
 </template>
 
 <script setup lang="ts">
