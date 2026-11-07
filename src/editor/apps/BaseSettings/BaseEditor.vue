@@ -52,7 +52,6 @@
   import BaseTagEditor from './BaseTagEditor.vue'
   import KeyEditor from '@/editor/helpers/KeyEditor/KeyEditor.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
   const props = withDefaults(
     defineProps<{
@@ -72,8 +71,6 @@
   const emit = defineEmits<{
     'update:modelValue': [value: BaseRecordType]
   }>()
-
-  const { isAssetCategory } = useGetAssetData()
 
   // 各プロパティのcomputed getter/setter
   const createComputed = <T extends keyof BaseRecordType>(key: T) =>

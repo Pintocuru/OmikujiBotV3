@@ -77,24 +77,12 @@ export class CharacterResolver {
    */
   resolveEmotion(characterKey: string, iconKey?: string): string {
     if (!characterKey || !iconKey) return 'default'
-
     const character = this.characterMap.get(characterKey)
     if (!character) return 'default'
-
     const hasTarget = character.image?.[iconKey]?.src.some((path) => path && path.trim()) ?? false
 
     if (hasTarget) return iconKey
-
-    const hasDefault = character.image?.default?.src.some((path) => path && path.trim()) ?? false
-
-    if (hasDefault) return 'default'
-
-    // defaultもない場合は最初の有効な感情キーにフォールバック
-    const fallbackKey = Object.entries(character.image).find(([, item]) =>
-      item?.src.some((path) => path && path.trim())
-    )?.[0]
-
-    return fallbackKey ?? 'default'
+    return 'default'
   }
 
   /**
@@ -113,13 +101,6 @@ export class CharacterResolver {
 
     const defaultSrc = getSrc('default')
     if (defaultSrc.length > 0) return defaultSrc
-
-    // defaultもなければ最初の有効なsrcを返す
-    for (const item of Object.values(character.image)) {
-      const src = item?.src.filter((path) => path && path.trim()) ?? []
-
-      if (src.length > 0) return src
-    }
 
     return []
   }

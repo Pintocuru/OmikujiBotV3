@@ -21,14 +21,6 @@
     labelKey="uiSettings.commentBubble.persistentCharacter.label"
     descriptionKey="uiSettings.commentBubble.persistentCharacter.description"
   >
-    <button
-      type="button"
-      class="btn btn-ghost btn-sm mt-2"
-      :disabled="!bubble.persistentCharacter"
-      @click="update('persistentCharacter', '')"
-    >
-      {{ t('uiSettings.commentBubble.persistentCharacter.none') }}
-    </button>
     <CharacterIconPicker
       :character-key="bubble.persistentCharacter"
       :is-icon-key="false"
