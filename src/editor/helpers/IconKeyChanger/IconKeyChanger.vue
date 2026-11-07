@@ -4,7 +4,7 @@
     class="tooltip tooltip-bottom"
     :data-tip="t(hasInvalidIconKeys ? 'iconKeyChanger.tooltip.invalid' : 'iconKeyChanger.tooltip.normal')"
   >
-    <button :class="['btn', hasInvalidIconKeys ? 'btn-error animate-pulse' : 'btn-ghost']" @click="openModal">
+    <button :class="['btn', 'btn-sm', 'gap-2', hasInvalidIconKeys ? 'btn-warning animate-pulse' : 'btn-ghost']" @click="openModal">
       <ImageIcon class="w-4 h-4" />
       {{ t('iconKeyChanger.buttonLabel') }}
       <span v-if="hasInvalidIconKeys" class="badge badge-sm">

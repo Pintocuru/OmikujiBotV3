@@ -17,13 +17,13 @@
       <template v-for="item in visibleItems" :key="item.category + item.key">
         <!-- 存在しない(削除済み)参照は、移動できるように見せない -->
         <span v-if="item.missing" class="badge badge-warning h-6 max-w-64 gap-1" :title="missingText(item)">
-          <TriangleAlert class="w-3.5 h-3.5 shrink-0" />
+          <TriangleAlert class="w-4 h-4 shrink-0" />
           <span class="truncate">{{ missingText(item) }}</span>
         </span>
         <button
           v-else
-          class="btn btn-xs btn-outline gap-1"
-          :title="t(`categories.${item.category}.label`)"
+          class="btn btn-sm btn-neutral btn-outline gap-2 tooltip tooltip-top"
+          :data-tip="t(`categories.${item.category}.label`)"
           @click="goTo(item)"
         >
           <component :is="resolveLucideIcon(categoryMap[item.category].icon)" class="w-3.5 h-3.5 shrink-0" />
@@ -33,7 +33,7 @@
 
       <!-- 多いときは残りをパネルにまとめる -->
       <div v-if="hiddenItems.length > 0" class="dropdown">
-        <button tabindex="0" class="btn btn-xs btn-ghost">+{{ hiddenItems.length }}</button>
+        <button tabindex="0" class="btn btn-sm btn-ghost">+{{ hiddenItems.length }}</button>
         <ul
           tabindex="0"
           class="dropdown-content menu menu-sm bg-base-100 rounded-box z-20 mt-1 w-64 max-h-72 flex-nowrap overflow-y-auto p-2 shadow"
@@ -52,7 +52,9 @@
       </div>
 
       <!-- 更新中は前の結果を出したまま、小さく表示する -->
-      <span v-if="isLoading" class="loading loading-spinner loading-xs opacity-60" :title="t('connections.searching')" />
+      <span v-if="isLoading" class="tooltip tooltip-top" :data-tip="t('connections.searching')">
+        <span class="loading loading-spinner loading-xs opacity-60" />
+      </span>
     </div>
 
     <slot />

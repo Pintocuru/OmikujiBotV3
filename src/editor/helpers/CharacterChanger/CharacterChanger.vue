@@ -5,7 +5,7 @@
     class="tooltip tooltip-bottom"
     :data-tip="t(hasInvalidCharacters ? 'characterChanger.tooltip.invalid' : 'characterChanger.tooltip.normal')"
   >
-    <button :class="['btn', hasInvalidCharacters ? 'btn-error animate-pulse' : 'btn-ghost']" @click="openModal">
+    <button :class="['btn', 'btn-sm', 'gap-2', hasInvalidCharacters ? 'btn-warning animate-pulse' : 'btn-ghost']" @click="openModal">
       <Users class="w-4 h-4" />
       {{ t('characterChanger.buttonLabel') }}
       <span v-if="hasInvalidCharacters" class="badge badge-sm">

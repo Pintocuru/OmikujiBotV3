@@ -1,8 +1,8 @@
 <!-- src/editor/helpers/KeyEditor/KeyEditor.vue -->
 <template>
   <!-- Keyエディタボタン -->
-  <button class="btn btn-sm btn-primary" @click="openDialog(currentKey, category)">
-    <span class="hidden sm:inline ml-1">{{ $t('keyEditor.buttonLabel') }}</span>
+  <button class="btn btn-sm btn-neutral" @click="openDialog(currentKey, category)">
+    <span class="ml-1">{{ $t('keyEditor.buttonLabel') }}</span>
   </button>
 
   <!-- ダイアログ -->
