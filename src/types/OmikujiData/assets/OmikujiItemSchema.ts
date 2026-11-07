@@ -1,6 +1,6 @@
 // src/types/OmikujiData/assets/OmikujiItemSchema.ts
 import { z } from 'zod'
-import { CriteriaThresholdSchema } from '../events/CommentCriteriaSchema'
+import { CriteriaThresholdSchema } from '@/types/OmikujiData/events/CommentCriteriaSchema'
 import { normalizedObject } from '@/types/core/ParsedDefault'
 import { BaseSchema } from '@/types/core'
 

@@ -20,7 +20,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { BotMessageBubbleType } from '@/types/generator'
-  import { getImagePath } from '@/types/env'
+  import { getImagePath } from '@/common/AppEnv'
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
 
   const props = defineProps<{

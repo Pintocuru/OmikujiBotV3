@@ -1,6 +1,6 @@
 // src/types/core/ParsedDefault.ts
 import { z } from 'zod'
-import { markParseIssues, recordParseIssue, rollbackParseIssues, withParsePath } from './ParseIssues'
+import { markParseIssues, recordParseIssue, rollbackParseIssues, withParsePath } from '@/types/core/ParseIssues'
 
 const reasonOf = (error: z.ZodError): string =>
   error.issues.map((i) => (i.path.length ? `${i.path.join('.')}: ` : '') + i.message).join(' / ')

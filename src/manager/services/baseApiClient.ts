@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import axios, { AxiosInstance, AxiosError } from 'axios'
 import { getErrorMessage, normalizeApiResponse, NormalizedResponse } from './apiServiceUtils'
-import { SERVER_EXPRESS_URL, SERVER_PLUGIN_URL, isDev } from '@/types/env'
+import { SERVER_EXPRESS_URL, SERVER_PLUGIN_URL, isDev } from '@/common/AppEnv'
 import { API_ACTION, GetActionName, PostActionName } from '@server/api/actions'
 
 export class ConnectionError extends Error {

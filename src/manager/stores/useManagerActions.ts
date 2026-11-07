@@ -5,7 +5,7 @@ import { useFileActions } from './useApiFileActions'
 import { useSaveActions } from './useApiSaveActions'
 import { useLoadActions } from './useApiLoadActions'
 import { configApi } from '@/manager/services/configApi'
-import { isDev } from '@/types/env'
+import { isDev } from '@/common/AppEnv'
 
 export function useManagerActions(state: DataManagerType) {
   const { handleAsyncAction } = useApiCore(state)

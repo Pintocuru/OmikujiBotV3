@@ -1,7 +1,7 @@
 // src/types/OmikujiData/assets/ScenarioSchema.ts
 import { z } from 'zod'
 import { BaseRecordSchema } from '@/types/core'
-import { ScenarioStepRecordSchema } from './ScenarioStepSchema'
+import { ScenarioStepRecordSchema } from '@/types/OmikujiData/assets/ScenarioStepSchema'
 
 /**
  * Scenario

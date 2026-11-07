@@ -1,6 +1,6 @@
 // src/types/generator/scripts/OmikujiResultTypes.ts
-import { ScenarioStepType } from '@/types/OmikujiData/'
-import { BotMessageSlotsType } from './BotMessageSchema'
+import type { ScenarioStepType } from '@/types/OmikujiData'
+import type { BotMessageSlotsType } from '@/types/generator/scripts/BotMessageSchema'
 
 /**
  * 評価ブロックの解析結果

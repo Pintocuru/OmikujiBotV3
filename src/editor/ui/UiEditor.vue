@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
   import { computed, markRaw, type Component } from 'vue'
-  import { isDev } from '@/types/env'
+  import { isDev } from '@/common/AppEnv'
   import type { ContentTab } from '@/editor/types/apps'
   import SectionCard from '@/editor/parts/SectionCard.vue'
   import SectionTabs from '@/editor/parts/SectionTabs.vue'

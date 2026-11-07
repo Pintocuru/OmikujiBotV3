@@ -2,7 +2,7 @@
 import { z } from 'zod'
 import { BaseRecordSchema } from '@/types/core'
 import { normalizedArray } from '@/types/core/ParsedDefault'
-import { OmikujiItemSchema } from './OmikujiItemSchema'
+import { OmikujiItemSchema } from '@/types/OmikujiData/assets/OmikujiItemSchema'
 
 /**
  * みくじ items

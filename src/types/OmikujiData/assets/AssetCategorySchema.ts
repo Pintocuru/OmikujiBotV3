@@ -1,10 +1,10 @@
 // src/types/OmikujiData/assets/AssetCategorySchema.ts
 import { z } from 'zod'
 import { normalizedRecord } from '@/types/core/ParsedDefault'
-import { ScenarioSchema } from './ScenarioSchema'
-import { CharacterSchema } from './CharacterSchema'
-import { MikujiBoxSchema } from './MikujiBoxSchema'
-import { PlaceholderSchema } from './PlaceholderSchema'
+import { ScenarioSchema } from '@/types/OmikujiData/assets/ScenarioSchema'
+import { CharacterSchema } from '@/types/OmikujiData/assets/CharacterSchema'
+import { MikujiBoxSchema } from '@/types/OmikujiData/assets/MikujiBoxSchema'
+import { PlaceholderSchema } from '@/types/OmikujiData/assets/PlaceholderSchema'
 
 /**
  * assetCategory

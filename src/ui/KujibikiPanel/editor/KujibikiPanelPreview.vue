@@ -57,7 +57,7 @@
       {
         id: `mock-${currentIndex.value}`,
         uiKey: 'kujibikiPanel',
-        timestamp: new Date().toISOString(),
+        timestamp: Date.now(),
         delaySeconds: 0,
         bubble: {
           name: entry.name,

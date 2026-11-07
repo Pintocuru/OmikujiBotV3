@@ -1,8 +1,10 @@
 // src/types/generator/scripts/BotMessageRankingSchema.ts
 import { UserNameSchema } from '@/types/OmikenComment'
 import { z } from 'zod'
-import { BotMessageSchema, BotMessageSlotsType, BotMessageType } from './BotMessageSchema'
-import { RankingSlotKey, RankingSlotMap } from './BotMessageSlotMap'
+import { BotMessageSchema } from '@/types/generator/scripts/BotMessageSchema'
+import type { BotMessageSlotsType, BotMessageType } from '@/types/generator/scripts/BotMessageSchema'
+import { RankingSlotMap } from '@/types/generator/scripts/BotMessageSlotMap'
+import type { RankingSlotKey } from '@/types/generator/scripts/BotMessageSlotMap'
 
 /**
  * ranking の値 (BotMessage.slots を RankingSlotMap でコンバートしたもの)
@@ -30,6 +32,19 @@ export type BotMessageRankingType = z.infer<typeof BotMessageRankingSchema>
 
 const pick = (s: BotMessageSlotsType, k: RankingSlotKey) => s[RankingSlotMap[k].slot]
 
+const parseScore = (value: unknown): number | null => {
+  if (typeof value === 'number') {
+    return Number.isNaN(value) ? null : value
+  }
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+    if (trimmed === '') return null
+    const num = Number(trimmed)
+    return Number.isNaN(num) ? null : num
+  }
+  return null
+}
+
 /**
  * BotMessage → ranking (UI が受け取る時のコンバート)
  * uiKey が違う / user・slots が無い / score が数値でないものは null
@@ -37,6 +52,8 @@ const pick = (s: BotMessageSlotsType, k: RankingSlotKey) => s[RankingSlotMap[k].
 export const toRankingEntry = (msg: BotMessageType): BotMessageRankingType | null => {
   if (msg.uiKey !== 'gameRanking' || !msg.slots || !msg.user) return null
   const s = msg.slots
+  const score = parseScore(pick(s, 'score'))
+  if (score == null) return null
   const gameKey = pick(s, 'gameKey')
   const result = BotMessageRankingSchema.safeParse({
     ...msg,
@@ -45,7 +62,7 @@ export const toRankingEntry = (msg: BotMessageType): BotMessageRankingType | nul
       listName: String(pick(s, 'listName') ?? ''),
       symbol: String(pick(s, 'symbol') ?? ''),
       scoreText: String(pick(s, 'scoreText') ?? ''),
-      score: Number(pick(s, 'score')),
+      score,
     },
   })
   return result.success ? result.data : null

@@ -62,7 +62,7 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import SubSectionHeader from '@/editor/parts/SubSectionHeader.vue'
   import { ThemeType, themes } from '@/types/core'
-  import { isDev } from '@/types/env'
+  import { isDev } from '@/common/AppEnv'
 
   const { t } = useI18n()
   const omikujiStore = useOmikujiStore()

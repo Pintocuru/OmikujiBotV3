@@ -3,7 +3,7 @@ import { OnePlugin, PluginRequest, PluginResponse } from '@onecomme.com/onesdk/t
 import { APP_VERSION } from '@/version'
 import { processOmikenComment } from '@/sdk/subscribe/OmikenComment/OmikenCommentProcessor'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
-import { PLUGIN_KEY, PLUGIN_NAME } from '@/types/env'
+import { PLUGIN_KEY, PLUGIN_NAME } from '@/common/AppEnv'
 import { pluginRequest } from '@server/adapters/pluginAdapter'
 import { recordUserComment, resetCommentUsers } from '@server/core/services/userListService'
 
@@ -21,7 +21,7 @@ const plugin: OnePlugin = {
       postSystemMessage(`【${PLUGIN_NAME}】を起動しました`, { username: '__INFO__' })
     } catch (error) {
       console.error('Plugin initialization failed:', error)
-      postSystemMessage(`プラグインの初期化に失敗しました: ${error}`)
+      postSystemMessage(`プラグインの初期化に失敗しました: ${error}`, { username: 'error' })
       throw error
     }
   },

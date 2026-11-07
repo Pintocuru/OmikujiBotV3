@@ -68,7 +68,7 @@
     return [
       withDisplay({
         id: 'preview-0',
-        timestamp: new Date().toISOString(),
+        timestamp: Date.now(),
         delaySeconds: 0,
         uiKey: 'commentBubble',
         bubble: {

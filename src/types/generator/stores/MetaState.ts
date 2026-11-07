@@ -3,7 +3,7 @@
 export interface ServiceMetaStoreType {
   subscribe(fn: (meta: MetaUpdateEvent) => void): () => void
   subscribeError(fn: (error: unknown) => void): () => void
-  getStatus(): MetaServiceStatus
+  getStatus(): MetaFetchStatus
   getLastError(): unknown
   getCurrent(): NormalizedMeta | null
   getPeak(): { upVote: number; viewer: number }
@@ -11,7 +11,7 @@ export interface ServiceMetaStoreType {
   _devSetMeta?(meta: Partial<NormalizedMeta>): void
 }
 
-export type MetaServiceStatus = 'idle' | 'loading' | 'ready' | 'error'
+export type MetaFetchStatus = 'idle' | 'loading' | 'ready' | 'error'
 
 export interface NormalizedMeta {
   isLive: boolean

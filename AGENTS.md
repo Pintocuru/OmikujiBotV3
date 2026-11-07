@@ -1,11 +1,35 @@
 # AGENTS.md
 
-## 命名
+## 作業計画と進捗
 
-- 命名は docs/conventions/naming.md に従うこと(必読)
-- ドキュメントの置き場所は docs/conventions/README.md に従うこと(恒久ルールは docs/conventions/、作業指示書は docs/work/)
-- 作業はエージェント単体で実施する。エージェントを切り替える場合は、`AGENTS.md` の進捗記録を引き継ぎ、未完了の作業から再開する。
+### 作業ルール
+- `docs/conventions/naming.md` に準拠
+- 各変更後に `npm run lint`, `npm run tsc`, `npx vitest run` を実行し確認
+- 1タスクずつ実施し、確認完了後に次へ
+- `src/types/ui` と `src/types/api` は変更禁止
+- `server/presets` の JSON は直接書き換えない
+- `dataVersion`: 作業完了前は変更せず、全作業完了後に `3.0000001008` に更新する
 
-## 作業ログ
+---
 
-- 2026-11-07: `docs/conventions/editor-ui-style.md` と `docs/work/editor-ui-style-work.md` のボタン色ルールを更新。通常操作の基本候補を `btn-secondary` とし、`btn-info` / `btn-accent` / 色クラスなしの `btn` を選択肢に追加。`btn-neutral` は dark 系テーマで背景に埋もれる可能性があるため使用を限定し、light / dark の通常時・ホバー時の視認性確認と、ホバー時に色・明度が変化する要件を明記。専用ブランチ `docs/editor-button-color-guidance` に反映。コード変更・検証は未実施。
+### タスク進捗
+
+- [x] 2. 小さい修正
+  - [x] 2-1. `BotMessageBase.delaySeconds` に min(0) を追加
+  - [x] 2-2. ランキング得点の `Number('')` 問題
+  - [x] 2-3. `postSystemMessage` の `'__ERROR__'` を廃止
+- [x] 3. 機械的な整理
+  - [x] 3-1. `src/types` の import 統一
+  - [x] 3-2. `src/types/env.ts` の移動・ポート定数の確認
+- [ ] 4. 決定済みの設計変更
+  - [x] 4-1. timestamp の型をミリ秒の number に統一
+  - [x] 4-3. `MetaServiceStatus` と `AppStatus` の区別 (`MetaFetchStatus` 改名)
+  - [ ] 4-4. `ReactionManager` の型変更
+  - [ ] 4-5. `naming.md` §7.1 の追加
+  - [ ] 4-2. `BotMessageSlotMap` の日本語を i18n に移動 (最後に実施)
+- [ ] 7. 最終確認と dataVersion (3.0000001008) の更新
+
+---
+
+### 作業ログ
+- 初期ベースライン確認完了: lint / tsc / vitest (2 passed) 正常終了。

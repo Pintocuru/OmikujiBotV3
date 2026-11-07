@@ -51,7 +51,7 @@ export class GameScriptManager {
         return null
       }
       console.error(`スクリプトエラー (${scriptKey}):`, error)
-      postSystemMessage(`❌ スクリプトエラー: ${error}`)
+      postSystemMessage(`❌ スクリプトエラー: ${error}`, { username: 'error' })
       return null
     }
   }

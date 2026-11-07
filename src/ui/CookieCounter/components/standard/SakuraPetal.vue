@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { getImagePath } from '@/types/env'
+  import { getImagePath } from '@/common/AppEnv'
 
   defineOptions({ inheritAttrs: false })
 

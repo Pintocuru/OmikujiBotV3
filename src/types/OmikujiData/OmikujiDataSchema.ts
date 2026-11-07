@@ -1,10 +1,10 @@
 // src/types/OmikujiData/OmikujiDataSchema.ts
 import { z } from 'zod'
-import { EventCategorySchema } from './events'
-import { AssetCategorySchema } from './assets'
-import { UiSchema } from './ui'
-import { JsonMergeSchema } from './JsonMergeType'
-import { SettingsSchema } from './SettingsSchema'
+import { EventCategorySchema } from '@/types/OmikujiData/events'
+import { AssetCategorySchema } from '@/types/OmikujiData/assets'
+import { UiSchema } from '@/types/OmikujiData/ui'
+import { JsonMergeSchema } from '@/types/OmikujiData/JsonMergeType'
+import { SettingsSchema } from '@/types/OmikujiData/SettingsSchema'
 import { normalizedObject } from '@/types/core/ParsedDefault'
 import { PackageJsonSchema } from '@/types/core'
 

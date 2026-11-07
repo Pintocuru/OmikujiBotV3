@@ -9,13 +9,12 @@ import { GameLogSchema, GameLogType } from '@/types/api'
  * - flag はランキングでは使わないため、入れない。
  */
 export const toGameLog = (message: BotMessageRankingType): GameLogType => {
-  const createdAt = Date.parse(message.timestamp)
   return GameLogSchema.parse({
     id: message.id,
     userId: message.user.userId,
     userName: message.slots.listName || message.user.userName,
     score: message.slots.score,
     ...(message.slots.scoreText ? { item: message.slots.scoreText } : {}),
-    ...(Number.isNaN(createdAt) ? {} : { createdAt }),
+    createdAt: message.timestamp,
   })
 }

@@ -1,7 +1,7 @@
 // src/common/sounds/soundUtils.ts
 import { soundMap } from '@/maps/OmikujiData'
 import { SoundKeyType } from '@/types/OmikujiData'
-import { getSoundPath as toSoundPath } from '@/types/env'
+import { getSoundPath as toSoundPath } from '@/common/AppEnv'
 
 /**
  * キーからパス（ベースパス付き）を返す

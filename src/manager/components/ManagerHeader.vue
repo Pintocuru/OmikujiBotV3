@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-  import { isDev } from '@/types/env'
+  import { isDev } from '@/common/AppEnv'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { ChevronsDown, ChevronsUp } from 'lucide-vue-next'

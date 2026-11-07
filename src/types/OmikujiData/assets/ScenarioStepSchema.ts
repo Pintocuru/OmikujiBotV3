@@ -1,9 +1,9 @@
 // src/types/OmikujiData/assets/ScenarioStepSchema.ts
 import { z } from 'zod'
 import { normalizedRecord } from '@/types/core/ParsedDefault'
-import { WeightValuesArraySchema } from './PlaceholderSchema'
-import { soundKeys } from './SoundKey'
-import { UiKindSchema } from '../ui/UiSettingsSchema'
+import { WeightValuesArraySchema } from '@/types/OmikujiData/assets/PlaceholderSchema'
+import { soundKeys } from '@/types/OmikujiData/assets/SoundKey'
+import { UiKindSchema } from '@/types/OmikujiData/ui/UiSettingsSchema'
 
 /**
  * シナリオステップの kind

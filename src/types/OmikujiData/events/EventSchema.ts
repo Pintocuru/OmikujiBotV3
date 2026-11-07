@@ -1,10 +1,10 @@
 // src/types/OmikujiData/events/EventSchema.ts
 import { z } from 'zod'
-import { CommentTriggerSchema } from './CommentTriggerSchema'
-import { ServiceTriggerSchema } from './ServiceTriggerSchema'
+import { CommentTriggerSchema } from '@/types/OmikujiData/events/CommentTriggerSchema'
+import { ServiceTriggerSchema } from '@/types/OmikujiData/events/ServiceTriggerSchema'
 import { normalizedObject } from '@/types/core/ParsedDefault'
-import { ReactionTriggerSchema } from './ReactionTriggerSchema'
-import { PadTriggerSchema } from './PadTriggerSchema'
+import { ReactionTriggerSchema } from '@/types/OmikujiData/events/ReactionTriggerSchema'
+import { PadTriggerSchema } from '@/types/OmikujiData/events/PadTriggerSchema'
 import { BaseRecordSchema } from '@/types/core'
 
 /**

@@ -34,13 +34,13 @@ const THROTTLE_MS = 3000
 export async function postSystemMessage(
   comment: string,
   options: {
-    username?: string
+    username: string
     delaySeconds?: number
     speech?: boolean
     throttle?: boolean // true の場合、3秒に1回だけ投稿
-  } = {}
+  }
 ): Promise<void> {
-  const { username = '__ERROR__', delaySeconds = 0, speech = true, throttle = false } = options
+  const { username, delaySeconds = 0, speech = true, throttle = false } = options
 
   if (throttle) {
     const now = Date.now()

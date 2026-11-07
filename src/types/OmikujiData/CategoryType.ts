@@ -1,7 +1,9 @@
 // src/types/OmikujiData/CategoryType.ts
 import { z } from 'zod'
-import { AssetCategoryType, assetCategory } from './assets'
-import { EventCategoryType, eventCategory } from './events'
+import { assetCategory } from '@/types/OmikujiData/assets'
+import type { AssetCategoryType } from '@/types/OmikujiData/assets'
+import { eventCategory } from '@/types/OmikujiData/events'
+import type { EventCategoryType } from '@/types/OmikujiData/events'
 
 /**
  * settingsCategory

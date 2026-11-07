@@ -7,7 +7,7 @@ import {
   ReactionEventSchema,
   ServiceEventSchema,
   TimerEventSchema,
-} from './EventSchema'
+} from '@/types/OmikujiData/events/EventSchema'
 
 /**
  * eventCategory

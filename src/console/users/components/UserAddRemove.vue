@@ -37,7 +37,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { isDev } from '@/types/env'
+  import { isDev } from '@/common/AppEnv'
   import { usersMessages } from '../maps/UsersMessageMap'
 
   defineProps<{ addingMock: boolean }>()

@@ -95,7 +95,7 @@
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
-  import { isDev } from '@/types/env'
+  import { isDev } from '@/common/AppEnv'
   import { useLiveConsole } from '../composables/useLiveConsole'
   import { useMockGameLogs } from '../composables/useMockGameLogs'
   import { formatTime } from '@/console/common/scripts/formatters'

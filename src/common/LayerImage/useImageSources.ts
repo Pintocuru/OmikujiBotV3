@@ -1,6 +1,6 @@
 // src/common/LayerImage/useImageSources.ts
 import { computed, ref, watch } from 'vue'
-import { getImagePath } from '@/types/env'
+import { getImagePath } from '@/common/AppEnv'
 
 export function useImageSources(layers: () => string[] | string) {
   const errorIndexes = ref(new Set<number>())

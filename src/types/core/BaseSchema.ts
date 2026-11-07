@@ -1,6 +1,6 @@
 // src/types/core/BaseSchema.ts
 import { z } from 'zod'
-import { DaisyUIColorSchema } from './DaisyUiTheme'
+import { DaisyUIColorSchema } from '@/types/core/DaisyUiTheme'
 import { nanoid } from 'nanoid'
 
 /**

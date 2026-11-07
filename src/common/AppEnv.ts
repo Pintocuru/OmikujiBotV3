@@ -1,4 +1,4 @@
-// src/types/env.ts
+// src/common/AppEnv.ts
 
 /**
  * アセットのフォルダ名 (ビルド後の root 直下: images/ と sounds/)
@@ -34,3 +34,4 @@ export const PLUGIN_KEY = 'OmikujiBotPluginPlus'
 export const PLUGIN_NAME = 'おみくじBOT エディタープラグイン'
 export const SERVER_PLUGIN_URL = `http://localhost:11180/api/plugins/${PLUGIN_KEY}`
 export const SERVER_EXPRESS_URL = 'http://localhost:3001/api'
+

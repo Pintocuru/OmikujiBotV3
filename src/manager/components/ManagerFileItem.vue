@@ -51,7 +51,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import type { FileItem } from '@/manager/types'
-  import { isDev } from '@/types/env'
+  import { isDev } from '@/common/AppEnv'
   import FileMenuDropdown from './FileMenuDropdown.vue'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { getDataVersionStatus } from '@/manager/services/apiServiceUtils'

@@ -18,7 +18,7 @@
   import { onMounted, computed, watch } from 'vue'
   import { storeToRefs } from 'pinia'
 
-  import { isDev } from '@/types/env'
+  import { isDev } from '@/common/AppEnv'
   import { OmikujiDataType } from '@/types/OmikujiData'
 
   import AppDevWorld from './shell/AppDevWorld.vue'

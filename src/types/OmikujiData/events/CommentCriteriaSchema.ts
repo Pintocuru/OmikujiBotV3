@@ -2,7 +2,7 @@
 import { z } from 'zod'
 import { normalizedArray } from '@/types/core/ParsedDefault'
 import { CountConditionSchema, SyokenConditionValueSchema, type TriggerConditionType } from '@/types/engine'
-import { commentConditionFields } from './CommentTriggerSchema'
+import { commentConditionFields } from '@/types/OmikujiData/events/CommentTriggerSchema'
 
 /**
  * criteria Threshold(みくじ箱のアイテムごとの条件)

@@ -2,7 +2,7 @@
 import { z } from 'zod'
 import { UserNameSchema } from '@/types/OmikenComment'
 import { UiKindSchema } from '@/types/OmikujiData'
-import { BotMessageBaseSchema } from './BotMessageBaseSchema'
+import { BotMessageBaseSchema } from '@/types/generator/scripts/BotMessageBaseSchema'
 
 /**
  * BotMessageSlotsSchema

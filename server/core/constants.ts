@@ -18,7 +18,7 @@ export const FILE_NAME = {
   userStats: 'userStats.json', // ブラウザから操作したユーザー統計 (server 直下)
 } as const
 
-// 開発用 API サーバー設定 (src/types/env.ts の SERVER_EXPRESS_URL とポートを揃えること)
+// 開発用 API サーバー設定 (src/common/AppEnv.ts の SERVER_EXPRESS_URL とポートを揃えること)
 export const DEV_API = {
   port: 3001,
   host: '127.0.0.1', // 開発 API は自分の PC からだけ受け付ける

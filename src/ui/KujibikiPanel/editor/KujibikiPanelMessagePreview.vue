@@ -31,7 +31,7 @@
     {
       id: 'preview-kujibiki',
       uiKey: 'kujibikiPanel',
-      timestamp: new Date().toISOString(),
+      timestamp: Date.now(),
       delaySeconds: 0,
       bubble: {
         name: 'テストユーザー',

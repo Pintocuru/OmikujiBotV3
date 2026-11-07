@@ -110,7 +110,7 @@
   import { playSoundResolved } from '@/common/sounds'
   import { soundMap } from '@/maps/OmikujiData'
   import { commentModeTypes, type CommentModeType, type SoundKeyType } from '@/types/OmikujiData'
-  import { isDev } from '@/types/env'
+  import { isDev } from '@/common/AppEnv'
 
   const { t } = useI18n()
   const omikujiStore = useOmikujiStore()

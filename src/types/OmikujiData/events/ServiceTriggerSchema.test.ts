@@ -1,6 +1,6 @@
 // src/types/OmikujiData/events/ServiceTriggerSchema.test.ts
 import { describe, expect, it } from 'vitest'
-import { ServiceConditionSchema, ServiceTriggerSchema } from './ServiceTriggerSchema'
+import { ServiceConditionSchema, ServiceTriggerSchema } from '@/types/OmikujiData/events/ServiceTriggerSchema'
 
 describe('ServiceTriggerSchema', () => {
   it('condition が無いときは、変化したら発火する upVote になる', () => {

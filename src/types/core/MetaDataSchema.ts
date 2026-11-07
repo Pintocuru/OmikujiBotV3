@@ -1,7 +1,7 @@
 // src/types/core/MetaDataSchema.ts
 // パッケージの配布用metaタグ
 import { z } from 'zod'
-import { idSchema } from './BaseSchema'
+import { idSchema } from '@/types/core/BaseSchema'
 
 /**
  * メタデータ

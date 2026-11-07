@@ -57,6 +57,7 @@ export function useAppInitializer() {
         // omikujiData.js もサーバーもデータなし: 画面(App.vue)に表示し、わんコメにも伝える
         if (!appStore.hasData) {
           postSystemMessage('おみくじデータを読み込めませんでした(omikujiData.js もサーバーのデータもありません)', {
+            username: 'error',
             speech: false,
             throttle: true,
           })
@@ -65,7 +66,7 @@ export function useAppInitializer() {
         if (appStore.dataIssues.length > 0) {
           postSystemMessage(
             `おみくじデータの不正な要素を除外して読み込みました: ${formatParseIssuesSummary(appStore.dataIssues)}`,
-            { speech: false, throttle: true }
+            { username: 'warn', speech: false, throttle: true }
           )
         }
         // LiveConsole で操作した score / team / order などを取り込む (サーバーがなければ何もしない)
@@ -76,7 +77,7 @@ export function useAppInitializer() {
     } catch (error) {
       console.error('❌ 初期化エラー:', error)
       setError(error instanceof Error ? error.message : String(error))
-      postSystemMessage(`❌ 初期化エラー: ${error}`)
+      postSystemMessage(`❌ 初期化エラー: ${error}`, { username: 'error' })
     }
   }
 
@@ -137,7 +138,7 @@ async function syncWithServer() {
     console.error(msg)
     if (!appStore.hasData) appStore.dataErrorDetail = String(err)
     // 起動時に1回だけ。omikujiData.js のデータで動き続けるときも、サーバーのデータを使えていないことを伝える
-    postSystemMessage(msg, { speech: false, throttle: true })
+    postSystemMessage(msg, { username: 'error', speech: false, throttle: true })
   }
 }
 

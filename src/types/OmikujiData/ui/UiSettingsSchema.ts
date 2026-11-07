@@ -1,7 +1,7 @@
 // src/types/OmikujiData/ui/UiSettingsSchema.ts
 import { z } from 'zod'
-import { stableUiSchemas } from './uiSchemas.stable'
-import { experimentalUiSchemas } from './uiSchemas.experimental.ts'
+import { stableUiSchemas } from '@/types/OmikujiData/ui/uiSchemas.stable'
+import { experimentalUiSchemas } from '@/types/OmikujiData/ui/uiSchemas.experimental'
 
 const uiSchemas = {
   ...stableUiSchemas, // 安定版UI

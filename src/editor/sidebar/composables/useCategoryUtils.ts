@@ -10,7 +10,7 @@ import {
   eventCategory,
   assetCategory,
 } from '@/types/OmikujiData'
-import { isDev } from '@/types/env'
+import { isDev } from '@/common/AppEnv'
 import { CategoryGroup } from '@/editor/types/apps'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { categoryMap } from '@/maps/OmikujiData'

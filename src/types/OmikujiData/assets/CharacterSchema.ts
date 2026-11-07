@@ -2,8 +2,8 @@
 import { z } from 'zod'
 import { BaseRecordSchema } from '@/types/core'
 import { normalizedObject, normalizedRecord } from '@/types/core/ParsedDefault'
-import { LoopMotionSchema } from './LoopMotionSchema'
-import { DisplayModeSchema } from './DisplayModeSchema'
+import { LoopMotionSchema } from '@/types/OmikujiData/assets/LoopMotionSchema'
+import { DisplayModeSchema } from '@/types/OmikujiData/assets/DisplayModeSchema'
 
 /**
  * CharacterColorSchema

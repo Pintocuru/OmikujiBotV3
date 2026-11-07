@@ -106,7 +106,7 @@ export const reportDataMismatch = (
   else swalModal.error({ title, text })
 
   // わんコメに接続できない環境では失敗するため、握りつぶす(画面表示は済んでいる)
-  postSystemMessage(`❌ ${title}: ${text}`, { throttle }).catch(() => {
+  postSystemMessage(`❌ ${title}: ${text}`, { username: 'error', throttle }).catch(() => {
     // 接続できない環境では通知に失敗しても無視する
   })
 }

@@ -1,8 +1,8 @@
 // src/generator/stores/MetaState/MetaStateService.ts
-import { MetaServiceStatus, MetaUpdateEvent, NormalizedMeta, ServiceMetaStoreType } from '@/types/generator'
+import { MetaFetchStatus, MetaUpdateEvent, NormalizedMeta, ServiceMetaStoreType } from '@/types/generator'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { ServiceMetaWatcher } from '@/sdk/subscribe/GetServiceMeta'
-import { isDev } from '@/types/env'
+import { isDev } from '@/common/AppEnv'
 import { META_OFFLINE_CONFIRM_COUNT } from '@/generator/GeneratorConstants'
 import { ServiceMeta } from '@onecomme.com/onesdk/types/Service'
 
@@ -21,7 +21,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
   private peak = { upVote: 0, viewer: 0 }
   private subscribers: Array<(meta: MetaUpdateEvent) => void> = []
   private lastError: unknown | null = null
-  private status: 'idle' | 'loading' | 'ready' | 'error' = 'idle'
+  private status: MetaFetchStatus = 'idle'
   private errorSubscribers: Array<(error: unknown) => void> = []
   private isVirtual = false // 仮想配信パネルから値を上書き中(配信が始まるまで実データで上書きしない)
   private offlineStreak = 0 // 配信中のあと、連続で「配信していない」と取得した回数
@@ -76,7 +76,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
     )
 
     if (!result?.ok) {
-      postSystemMessage(`❌ Meta取得失敗`, { speech: false, throttle: true })
+      postSystemMessage(`❌ Meta取得失敗`, { username: 'error', speech: false, throttle: true })
       this.notifyError(new Error('Meta initialization failed'))
     }
   }
@@ -84,7 +84,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
   /**
    * ステータスの更新
    */
-  private setStatus(next: MetaServiceStatus) {
+  private setStatus(next: MetaFetchStatus) {
     this.status = next
   }
 
@@ -211,7 +211,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
   /**
    * ステータスの取得
    */
-  getStatus(): MetaServiceStatus {
+  getStatus(): MetaFetchStatus {
     return this.status
   }
 

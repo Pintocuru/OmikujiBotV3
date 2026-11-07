@@ -9,8 +9,8 @@ import { z } from 'zod'
  */
 export const BotMessageBaseSchema = z.object({
   id: idSchema,
-  timestamp: z.string().default(() => new Date().toISOString()),
-  delaySeconds: z.number().default(0),
+  timestamp: z.number().default(() => Date.now()),
+  delaySeconds: z.number().min(0).default(0).catch(0),
   origin: OmikenCommentSchema.optional(),
 })
 export type BotMessageBaseType = z.infer<typeof BotMessageBaseSchema>
