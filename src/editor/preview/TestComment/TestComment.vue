@@ -27,8 +27,8 @@
             <button
               v-for="n in MOCK_USER_POOL_PRESETS"
               :key="n"
-              class="btn btn-xs join-item flex-1"
-              :class="userCount === n ? 'btn-accent' : 'btn-outline'"
+              class="btn btn-xs btn-neutral join-item flex-1"
+              :class="userCount === n ? 'btn-accent' : 'btn-neutral btn-outline'"
               @click="userCount = n"
             >
               {{ t('editorPreview.testComment.people', { count: n }) }}
@@ -41,8 +41,8 @@
               class="input input-bordered input-xs join-item w-16 text-center"
             />
             <button
-              class="btn btn-xs btn-outline join-item"
-              :title="t('editorPreview.testComment.rebuildPool')"
+              class="btn btn-xs btn-outline btn-neutral join-item tooltip tooltip-top"
+              :data-tip="t('editorPreview.testComment.rebuildPool')"
               @click="rebuildPool"
             >
               {{ t('editorPreview.testComment.rebuild') }}
@@ -53,7 +53,7 @@
               v-for="mode in pickModes"
               :key="mode"
               class="btn btn-xs join-item flex-1"
-              :class="pickMode === mode ? 'btn-accent' : 'btn-outline'"
+              :class="pickMode === mode ? 'btn-accent' : 'btn-neutral btn-outline'"
               @click="pickMode = mode"
             >
               {{ t(`editorPreview.testComment.pickMode.${mode}`) }}
@@ -96,14 +96,14 @@
 
         <!-- Buttons -->
         <div class="join w-full">
-          <button @click="sendComment" class="btn btn-xs btn-outline join-item flex-1">
+          <button @click="sendComment" class="btn btn-xs btn-outline btn-neutral join-item flex-1">
             {{ t('editorPreview.testComment.send') }}
           </button>
 
           <button
             @click="toggleRunning"
             class="btn btn-xs join-item flex-1"
-            :class="isRunning ? 'btn-error' : 'btn-primary'"
+            :class="isRunning ? 'btn-ghost' : 'btn-primary'"
           >
             {{ isRunning ? t('editorPreview.testComment.stop') : t('editorPreview.testComment.auto') }}
           </button>

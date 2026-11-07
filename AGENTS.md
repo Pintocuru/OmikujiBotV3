@@ -23,7 +23,7 @@
 | 3 | `src/console/` | 完了 |
 | 4 | `src/editor/apps/` | 完了 |
 | 5 | `src/editor/assets/` | 変更完了・検証待ち |
-| 6 | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | 進行中（helpers） |
+| 6 | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | 進行中（preview） |
 
 ---
 
@@ -154,6 +154,14 @@
 | `referenceGraph/LinkGroup.vue` | 参照先ボタンを `btn-sm btn-neutral btn-outline` + tooltip に変更。検索中表示も tooltip に変更 |
 | `CharacterChanger.vue` / `IconKeyChanger.vue` | ボタンサイズ・間隔を統一。無効キー警告時の色を危険操作の `btn-error` から注意喚起の `btn-warning` に変更 |
 
+#### 作業単位6 — preview の進捗
+
+| ファイル | 変更内容 |
+| --- | --- |
+| `TestComment.vue` | テスト操作の役割色を整理。再構築ボタンの `title` を tooltip に変更。コンパクトな join UI の `btn-xs` は維持 |
+| `EvaluationBlock.vue` | 一時停止を tooltip に変更。変数編集・削除を Lucide アイコン + `btn-square` + tooltip + `aria-label` に変更 |
+| `VirtualStreamPanel.vue` | 数値調整・解放ボタンの役割色を整理。解放の `title` を tooltip に変更 |
+
 #### 次に着手する作業
 
-**作業単位6:** `src/editor/preview/` のボタン・title/tooltip 使用箇所を確認する。
+**作業単位6:** `src/editor/ui/` のボタン・title/tooltip 使用箇所を確認する。

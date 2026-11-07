@@ -25,9 +25,9 @@
             class="input input-bordered input-xs join-item flex-1"
           />
           <button
-            class="btn btn-xs join-item"
-            :class="paused ? 'btn-warning' : 'btn-outline'"
-            :title="t('editorPreview.evaluationBlock.pauseTip')"
+            class="btn btn-xs join-item tooltip tooltip-top"
+            :class="paused ? 'btn-warning' : 'btn-neutral btn-outline'"
+            :data-tip="t('editorPreview.evaluationBlock.pauseTip')"
             @click="paused = !paused"
           >
             {{ paused ? t('editorPreview.evaluationBlock.resume') : t('editorPreview.evaluationBlock.stop') }}
@@ -109,20 +109,24 @@
                   </span>
                 </td>
                 <td class="whitespace-nowrap">
-                  <button
-                    class="btn btn-ghost btn-xs px-1 opacity-60"
-                    :title="t('editorPreview.evaluationBlock.edit')"
-                    @click="edit(key, value)"
-                  >
-                    ✎
-                  </button>
-                  <button
-                    class="btn btn-ghost btn-xs px-1 opacity-60"
-                    :title="t('editorPreview.evaluationBlock.delete')"
-                    @click="removeKey(key)"
-                  >
-                    ×
-                  </button>
+                  <div class="tooltip tooltip-left" :data-tip="t('editorPreview.evaluationBlock.edit')">
+                    <button
+                      class="btn btn-xs btn-ghost btn-square opacity-60"
+                      :aria-label="t('editorPreview.evaluationBlock.edit')"
+                      @click="edit(key, value)"
+                    >
+                      <Pencil class="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div class="tooltip tooltip-left" :data-tip="t('editorPreview.evaluationBlock.delete')">
+                    <button
+                      class="btn btn-xs btn-error btn-square opacity-60"
+                      :aria-label="t('editorPreview.evaluationBlock.delete')"
+                      @click="removeKey(key)"
+                    >
+                      <Trash2 class="w-4 h-4" />
+                    </button>
+                  </div>
                 </td>
               </tr>
               <tr v-if="filteredEntries.length === 0">
@@ -169,6 +173,7 @@
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted, ref, shallowRef } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { Pencil, Trash2 } from 'lucide-vue-next'
   import { useAppStore } from '@/generator/stores/useAppStore'
   import {
     hasWildcard,

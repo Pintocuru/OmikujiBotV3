@@ -26,7 +26,7 @@
                   <span v-if="isRunning" class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
                 </span>
               </label>
-              <button class="btn btn-xs btn-outline join-item" @click="increment(key, -1)">-1</button>
+              <button class="btn btn-xs btn-neutral btn-outline join-item" @click="increment(key, -1)">-1</button>
               <input
                 type="number"
                 min="0"
@@ -41,14 +41,14 @@
           <div class="join">
             <button
               class="btn btn-xs join-item flex-1"
-              :class="isRunning ? 'btn-error' : 'btn-primary'"
+              :class="isRunning ? 'btn-ghost' : 'btn-primary'"
               @click="toggleAuto"
             >
               {{ isRunning ? t('editorPreview.virtualStream.stop') : t('editorPreview.virtualStream.auto') }}
             </button>
             <button
-              class="btn btn-xs btn-outline join-item"
-              :title="t('editorPreview.virtualStream.releaseTitle')"
+              class="btn btn-xs btn-neutral btn-outline join-item tooltip tooltip-top"
+              :data-tip="t('editorPreview.virtualStream.releaseTitle')"
               @click="release"
             >
               {{ t('editorPreview.virtualStream.release') }}
