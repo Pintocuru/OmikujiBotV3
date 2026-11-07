@@ -22,7 +22,7 @@
 | 2 | `src/editor/shell/` + `src/editor/sidebar/records/` | 完了 |
 | 3 | `src/console/` | 完了 |
 | 4 | `src/editor/apps/` | 完了 |
-| 5 | `src/editor/assets/` | 進行中 |
+| 5 | `src/editor/assets/` | 変更完了・検証待ち |
 | 6 | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | 未着手 |
 
 ---
@@ -77,7 +77,7 @@
 | `JsonMerge/JsonMergeEditor.vue` | 追加ボタンのサイズ・役割色・アイコン間隔を統一 |
 | `JsonMerge/JsonMergeRemapEditor.vue` | 削除を `btn-error btn-square` にし、tooltip + `aria-label` を追加 |
 
-**src/editor/assets/characters/CharacterImage / color / service — 部分完了**
+**src/editor/assets/characters/ — スタイル変更完了**
 
 | ファイル | 変更内容 |
 | --- | --- |
@@ -89,7 +89,7 @@
 | `service/CharacterBase64Settings.vue` | Base64リセットを `btn-sm btn-circle btn-error` + tooltip + `aria-label` に変更 |
 | `src/i18n/editor/apps/AppItemsCharacters.ts` | レイヤー上下移動・削除の日本語/英語ラベルを追加 |
 
-#### mikuji — 部分完了
+#### mikuji — スタイル変更完了
 
 | ファイル | 変更内容 |
 | --- | --- |
@@ -100,7 +100,7 @@
 | `mikuji/item/OmikujiItemScenario.vue` | シナリオ選択・編集ボタンの役割色とサイズを統一 |
 | `mikuji/item/ScenarioPickerDialog.vue` | 閉じるボタンに tooltip + `aria-label` を追加。選択ボタンのサイズ・役割色を統一 |
 
-#### placeholders — 部分完了
+#### placeholders — スタイル変更完了
 
 | ファイル | 変更内容 |
 | --- | --- |
@@ -108,7 +108,7 @@
 | `PlaceholderPreview.vue` | 抽選テストを `btn-neutral` に変更 |
 | `PlaceholderValuesEditor.vue` | テキストモード切替を補助操作の `btn-ghost` に変更 |
 
-#### scenarios — 部分完了
+#### scenarios — スタイル変更完了
 
 | ファイル | 変更内容 |
 | --- | --- |
@@ -121,20 +121,15 @@
 
 - 単位1〜3: `npx vue-tsc --noEmit` 済み（エラーなしと既存記録に記載）。
 - 単位4: `npx vue-tsc --noEmit` と対象 ESLint 済み（成功と既存記録に記載）。
-- 今回の assets 部分変更: GitHub 上の差分確認のみ。TypeScript / ESLint / ブラウザ表示検証は未実施（この作業環境から実行できていない）。
+- 単位5 `src/editor/assets/`: ボタン・title/tooltip の対象候補を確認し、該当箇所を変更。GitHub 上の差分確認のみ。TypeScript / ESLint / ブラウザ表示検証は未実施。
 - tooltip の実表示・clipping は未確認。既存画面での実測が必要。
 
 #### 未解決事項・対象外確認
 
-1. `EmotionGrid.vue` のカード選択はクリック可能な `div` であり、ボタン統一の対象とは別だが、キーボード操作・アクセシビリティは別途確認が必要。
-2. `ImageSettingsInfo.vue` の「パスをセット」は説明用の表示例であるため、実ボタンではなく非操作の `span` に変更した。
-
-#### 未着手
-
-- `src/editor/assets/characters/` のボタン・title 検索対象ファイルは確認済み。残りの非ボタンUIは未確認
-- `src/editor/assets/mikuji/`・`placeholders/`・`scenarios/` のボタン検索対象ファイルは部分変更済み。残りのファイルは未確認
-- 作業単位6の各ディレクトリ
+1. `EmotionGrid.vue` のカード選択はクリック可能な `div` であり、ボタン統一の対象とは別。キーボード操作・アクセシビリティの改善は別作業として残す。
+2. tooltip の実表示・clipping・z-index はブラウザ上で未確認。
+3. `ImageSettingsInfo.vue` の「パスをセット」は説明用表示のため、操作要素ではない `span` に変更済み。
 
 #### 次に着手する作業
 
-**作業単位5:** `src/editor/assets/` の残りのボタン・title 使用箇所を再検索し、未確認ファイルを確認して完了判定する。
+**作業単位6:** `src/editor/content/` から順に、ディレクトリ/機能単位で調査・修正・検証を進める。
