@@ -18,11 +18,15 @@
 
 ### 進捗
 
-| 単位 | 範囲                             | 状態                                                       |
-| ---- | -------------------------------- | ---------------------------------------------------------- |
-| 1    | `src/editor/shell/`              | patch 提出済み(`ui-style-unit1-shell.patch`)。適用は依頼者 |
-| 2    | `src/editor/parts/`              | patch 提出済み(`ui-style-unit2-parts.patch`)。適用は依頼者 |
-| 3〜  | 下記チェックリスト(`apps/` から) | 未着手                                                     |
+| 単位 | 範囲                                                               | 状態                                                             |
+| ---- | ------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| 1    | `src/editor/shell/`                                                | patch 提出済み(`ui-style-unit1-shell.patch`)。適用は依頼者       |
+| 2    | `src/editor/parts/`                                                | patch 提出済み(`ui-style-unit2-parts.patch`)。適用は依頼者       |
+| 3    | `src/editor/apps/`                                                 | patch 提出済み(`ui-style-unit3-apps.patch`)。適用は依頼者        |
+| 4a   | `src/editor/assets/characters/`                                    | patch 提出済み(`ui-style-unit4a-characters.patch`)。適用は依頼者 |
+| 4b   | `src/editor/assets/mikuji/`(`MikujiSettings.vue`、`row/`、`item/`) | 未着手                                                           |
+| 4c   | `src/editor/assets/scenarios/` と `placeholders/`                  | 未着手                                                           |
+| 5〜  | 下記チェックリスト(`content/` から)                                | 未着手                                                           |
 
 ### 単位1の結果(`src/editor/shell/`)
 
@@ -41,20 +45,36 @@
 - 変更なし: `BaseDialog.vue` / `ModalFooterActions.vue` / `ExternalLinkButton.vue`(規約どおり)、`HelpButton.vue` / `SettingItem.vue` の `btn-xs`(インライン配置のため例外)、`MenuDropdown.vue`(dropdown 用 `label`)。
 - 検証: patch の `git apply --check` のみ。`vue-tsc` / ESLint / light・dark の通常時・hover / tooltip の表示・clipping は**未実施**。
 
+### 単位3の結果(`src/editor/apps/`)
+
+- `BaseTagEditor.vue` / `JsonMergeEditor.vue`(2か所)/ `DataPackCard.vue`(部分読み込み): `btn-neutral` → `btn-secondary`(追加・実行)。
+- 変更なし: `DataPacks.vue` / `EditorSettingsEditor.vue` の `btn-neutral btn-outline`(規約 §4 の通常操作の例)、`OrphanItemsEditor.vue` / `PackageBasicInfo.vue` / `JsonMergeRemapEditor.vue`(規約どおり)。
+- 検証: patch の `git apply --check` のみ。それ以外は**未実施**。
+
+### 単位4a の結果(`src/editor/assets/characters/`)
+
+- `EmotionLayerEditor.vue`(追加)/ `CharacterImageSettings.vue`(追加): `btn-neutral` → `btn-secondary`。`CommentVoiceCard.vue` / `CharacterColorCard.vue` の編集アイコン: `btn-neutral` を外し色なしの `btn-square`。
+- 変更なし: `btn-neutral btn-outline`(`EmotionLayerEditor` のパス設定、`EmotionPresetButtons`)、`ImageSettingsInfo.vue`(説明文中のボタン風 `span`、操作ではない)、他は規約どおり。
+- 検証: patch の `git apply --check` のみ。それ以外は**未実施**。
+
+### サイズの方針(依頼者から一任、2026-11-07)
+
+- 標準は `btn-sm`。`btn-xs` は、`input-xs` / `badge` / 行内ヘルパーなど、密な並びの中だけ例外として残す。単独のボタン・ダイアログのボタンは `btn-sm`。
+
 ### 未解決・要確認
 
 - [ ] `ColorThemeChip.vue`: `btn` ではない独自ボタン(お気に入り星の `title`)。tooltip 化するか
 - [ ] `PlaceholderPanel.vue`: 文字列ボタン(`badge` 形、`title` あり)は `btn` ではないので未変更
 - [ ] 単位2の tooltip は、ダイアログ内の `overflow` で切れないか未確認
 - [ ] `SaveMenu.vue`: 保存主ボタンの `title`、▾ボタンの tooltip 化(`join` / `indicator` / `dropdown` の入れ子で見た目が崩れないか未確認のため未変更)
-- [x] `GeneratorStage.vue` の `btn-xs`(`input-xs` / `range-xs` と並ぶ小型ツールバー)を `btn-sm` に揃えるか
+- [x] `GeneratorStage.vue` の `btn-xs` は上記方針により例外として残す
 - [ ] `src/games/` 内の独自ボタン(見つけたら報告のみ。単位ごとに記録)
 
 ### 次の単位チェックリスト
 
 - [x] `src/editor/parts/`(patch 提出済み)
-- [x] `src/editor/apps/`
-- [ ] `src/editor/assets/`
+- [x] `src/editor/apps/`(patch 提出済み)
+- [ ] `src/editor/assets/`(4a 完了、4b・4c 未着手)
 - [ ] `src/editor/content/`
 - [ ] `src/editor/events/`
 - [ ] `src/editor/helpers/`
