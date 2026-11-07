@@ -1,6 +1,7 @@
 // src/types/OmikenComment/index.ts
 import { z } from 'zod'
-import { idSchema } from '../core/BaseSchema'
+import { idSchema } from '@/types/core/BaseSchema'
+import { AccessConditionValueSchema, type AccessConditionType } from '@/types/engine'
 
 /**
  * UserName
@@ -15,30 +16,24 @@ export type UserNameType = z.infer<typeof UserNameSchema>
 
 /**
  * アクセスレベル(ユーザーの属性)
+ * - 値は、判定条件の access(engine/trigger の accessConditions)と同じ
  */
-export const userAccessLevelsMap = {
-  owner: '配信者',
-  moderator: 'モデレーター',
-  member: '有料メンバー',
-  basic: '一般ユーザー',
-  anonymous: '名無しさん',
-}
-export type UserAccessLevelType = keyof typeof userAccessLevelsMap
-export const UserAccessLevelSchema = z
-  .enum(Object.keys(userAccessLevelsMap) as [UserAccessLevelType, ...UserAccessLevelType[]])
-  .default('basic')
+export type UserAccessLevelType = AccessConditionType
+export const UserAccessLevelSchema = AccessConditionValueSchema.default('basic')
 
 /**
- * メタタグスキーマ
+ * メタタグスキーマ(わんコメのコメントの meta)
+ * - no / tc / lc は必ず指定する(欠けたコメントを 2 回目・10 件目として扱わないため、既定値は持たない)
+ *   わんコメが meta を付けないときは、OmikenCommentProcessor が 0(不明)として渡す
  */
 export const CommentMetaSchema = z.object({
-  no: z.number().default(2),
-  tc: z.number().default(10),
-  lc: z.number().default(2),
+  no: z.number(), // この枠での個人のコメント数(1 なら今回が初コメント)
+  tc: z.number(), // 個人コメント数(総数)
+  lc: z.number(), // 配信枠のコメント数
   isAgain: z.boolean().default(false), // 7日以降のコメントかどうか
   isExternal: z.boolean().default(false), // 外部コメントかどうか(プラットフォームでないコメント)
 })
-export type BaseCommentMetaType = z.infer<typeof CommentMetaSchema>
+export type CommentMetaType = z.infer<typeof CommentMetaSchema>
 
 /**
  * OmikenComment
@@ -48,6 +43,6 @@ export const OmikenCommentSchema = UserNameSchema.extend({
   accessLevel: UserAccessLevelSchema,
   giftPrice: z.number().nullable().default(null),
   comment: z.string(),
-  meta: CommentMetaSchema.default(CommentMetaSchema.parse({})),
+  meta: CommentMetaSchema,
 })
 export type OmikenCommentType = z.infer<typeof OmikenCommentSchema>

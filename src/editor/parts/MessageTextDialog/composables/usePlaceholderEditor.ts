@@ -1,6 +1,6 @@
 // src/editor/parts/MessageTextDialog/composables/usePlaceholderEditor.ts
 import { computed, Ref, ref } from 'vue'
-import { PlaceholderSchema, PlaceholderType, handelNormalizedValues } from '@/types/OmikujiData'
+import { PlaceholderSchema, PlaceholderType, handleNormalizedValues } from '@/types/OmikujiData'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { defaultPlaceholderMap } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
@@ -72,7 +72,7 @@ export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boo
   const updatePlaceholderValue = (phKey: string, idx: number, e: Event) => {
     const ph = placeholderMap.value[phKey]
     if (!ph) return
-    const vals = handelNormalizedValues(ph.values)
+    const vals = handleNormalizedValues(ph.values)
     vals[idx] = { ...vals[idx], content: (e.target as HTMLInputElement).value }
     omikujiStore.updateAsset('placeholders', phKey, { ...ph, values: vals })
   }
@@ -80,7 +80,7 @@ export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boo
   const removePlaceholderValue = (phKey: string, idx: number) => {
     const ph = placeholderMap.value[phKey]
     if (!ph) return
-    const vals = handelNormalizedValues(ph.values).filter((_, i) => i !== idx)
+    const vals = handleNormalizedValues(ph.values).filter((_, i) => i !== idx)
     omikujiStore.updateAsset('placeholders', phKey, {
       ...ph,
       values: vals.length ? vals : [{ weight: 1, content: '' }],
@@ -90,7 +90,7 @@ export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boo
   const addPlaceholderValue = (phKey: string) => {
     const ph = placeholderMap.value[phKey]
     if (!ph) return
-    const vals = handelNormalizedValues(ph.values)
+    const vals = handleNormalizedValues(ph.values)
     vals.push({ weight: 1, content: '' })
     omikujiStore.updateAsset('placeholders', phKey, { ...ph, values: vals })
   }

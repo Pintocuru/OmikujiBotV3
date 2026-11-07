@@ -105,7 +105,7 @@
 
           <div class="space-y-1">
             <div
-              v-for="(val, idx) in handelNormalizedValues(ph.values)"
+              v-for="(val, idx) in handleNormalizedValues(ph.values)"
               :key="idx"
               class="flex items-center gap-1 group"
             >
@@ -140,7 +140,7 @@
   import { Plus, ChevronRight, CornerDownLeft, Trash2, Braces } from 'lucide-vue-next'
   import { usePlaceholderEditor } from './composables/usePlaceholderEditor'
   import { toRef } from 'vue'
-  import { handelNormalizedValues } from '@/types/OmikujiData'
+  import { handleNormalizedValues } from '@/types/OmikujiData'
 
   const { t } = useI18n()
 

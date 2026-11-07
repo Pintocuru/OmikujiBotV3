@@ -212,10 +212,11 @@ function determineTestAccessLevel(fields: PlatformFields): UserAccessLevelType {
  * メタ情報を作成(検証は OmikenCommentSchema 側で行う)
  */
 function createMeta(isExternal: boolean, meta?: BaseCommentMeta): CommentMetaInput {
+  // わんコメが meta を付けないコメントは、回数が不明なので 0 として扱う
   return {
-    no: meta?.no,
-    tc: meta?.tc,
-    lc: meta?.lc,
+    no: meta?.no ?? 0,
+    tc: meta?.tc ?? 0,
+    lc: meta?.lc ?? 0,
     isAgain: (meta?.interval ?? 0) > DAY_7_MS,
     isExternal,
   }
@@ -228,7 +229,7 @@ function createTestMeta(isFirstTime?: boolean, meta?: BaseCommentMeta): CommentM
   return {
     no: !isFirstTime && meta?.tc === 2 ? 1 : randomInRange(3, 1000),
     tc: isFirstTime && meta?.tc === 1 ? 1 : randomInRange(6, 5000),
-    lc: meta?.lc,
+    lc: meta?.lc ?? 0,
     isAgain: Boolean(isFirstTime) && meta?.tc === 2,
     isExternal: true,
   }

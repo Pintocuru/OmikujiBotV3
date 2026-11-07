@@ -1,5 +1,5 @@
 // src/engine/CharacterResolver/CharacterResolver.ts
-import { CharacterType, CharacterColorType, CharacterColorScheme } from '@/types/OmikujiData'
+import { CharacterType, CharacterColorType, CharacterColorSchema } from '@/types/OmikujiData'
 
 /**
  * キャラクターの存在・画像・表情など、キャラクター固有の処理を担当
@@ -20,12 +20,12 @@ export class CharacterResolver {
   /**
    * キャラクターの妥当性を検証し、適切なキーと表情を返す
    */
-  resolveCharacter(data: { characterKey: string | null; iconKey: string }) {
+  resolveCharacter(data: { characterKey: string; iconKey: string }) {
     const { characterKey, iconKey } = data
 
     const exists = characterKey ? this.characterMap.has(characterKey) : false
 
-    const resolvedCharacterKey = exists ? characterKey : null
+    const resolvedCharacterKey = exists ? characterKey : ''
     const resolvedEmotion = this.resolveEmotion(resolvedCharacterKey, iconKey)
 
     return {
@@ -38,7 +38,7 @@ export class CharacterResolver {
   /**
    * キャラクター情報を取得
    */
-  getCharacter(characterKey: string | null): CharacterType | null {
+  getCharacter(characterKey: string): CharacterType | null {
     if (!characterKey) return null
     return this.characterMap.get(characterKey) ?? null
   }
@@ -46,15 +46,15 @@ export class CharacterResolver {
   /**
    * キャラクターキーから色を取得
    */
-  getCharacterColor(characterKey: string | null): CharacterColorType {
+  getCharacterColor(characterKey: string): CharacterColorType {
     const character = this.getCharacter(characterKey)
-    return character?.color ?? CharacterColorScheme.parse({})
+    return character?.color ?? CharacterColorSchema.parse({})
   }
 
   /**
    * 指定されたキャラクターが定義されているか確認
    */
-  isValidCharacter(characterKey: string | null): boolean {
+  isValidCharacter(characterKey: string): boolean {
     if (!characterKey) return false
     return this.characterMap.has(characterKey)
   }
@@ -62,7 +62,7 @@ export class CharacterResolver {
   /**
    * 指定されたキャラクターが画像アセットを持っているか確認
    */
-  hasImage(characterKey: string | null): boolean {
+  hasImage(characterKey: string): boolean {
     if (!characterKey) return false
 
     const character = this.characterMap.get(characterKey)
@@ -75,7 +75,7 @@ export class CharacterResolver {
    * 指定された表情の画像アセットが存在するか確認。
    * 存在しない場合はdefault表情へフォールバックする。
    */
-  resolveEmotion(characterKey: string | null, iconKey?: string): string {
+  resolveEmotion(characterKey: string, iconKey?: string): string {
     if (!characterKey || !iconKey) return 'default'
 
     const character = this.characterMap.get(characterKey)
@@ -100,7 +100,7 @@ export class CharacterResolver {
   /**
    * キャラクターとアイコンから画像URLを取得
    */
-  iconSrc(characterKey: string | null, iconKey = 'default'): string[] {
+  iconSrc(characterKey: string, iconKey = 'default'): string[] {
     if (!characterKey) return []
 
     const character = this.characterMap.get(characterKey)

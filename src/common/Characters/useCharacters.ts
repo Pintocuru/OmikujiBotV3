@@ -30,29 +30,29 @@ export const useCharacters = (source: MaybeRefOrGetter<Record<string, CharacterT
   }
 
   // キャラクターキーから色情報を取得
-  const getCharacterColor = (characterKey: string | null) => {
+  const getCharacterColor = (characterKey: string) => {
     return manager.value.getCharacterColor(characterKey)
   }
 
   // キャラクター情報を取得
-  const getCharacter = (characterKey: string | null): CharacterType | null => {
+  const getCharacter = (characterKey: string): CharacterType | null => {
     return manager.value.getCharacter(characterKey)
   }
 
   // 表示用のキャラクター名（未定義なら空文字）
-  const getCharacterName = (characterKey: string | null): string => {
+  const getCharacterName = (characterKey: string): string => {
     const character = manager.value.getCharacter(characterKey)
     if (!character) return ''
     return character.name || character.displayName || character.key
   }
 
   // キャラクターが定義されているか確認
-  const isValidCharacter = (characterKey: string | null): boolean => {
+  const isValidCharacter = (characterKey: string): boolean => {
     return manager.value.isValidCharacter(characterKey)
   }
 
   // キャラクターが画像を持っているか確認
-  const hasImage = (characterKey: string | null): boolean => {
+  const hasImage = (characterKey: string): boolean => {
     return manager.value.hasImage(characterKey)
   }
 
@@ -77,12 +77,12 @@ export const useCharacters = (source: MaybeRefOrGetter<Record<string, CharacterT
   }
 
   // アイコン画像のURLを取得
-  const iconSrc = (characterKey: string | null, iconKey?: string): string[] => {
+  const iconSrc = (characterKey: string, iconKey?: string): string[] => {
     return manager.value.iconSrc(characterKey, iconKey)
   }
 
   // キャラクターとアイコンを解決
-  const resolveCharacter = (data: { characterKey: string | null; iconKey: string }) => {
+  const resolveCharacter = (data: { characterKey: string; iconKey: string }) => {
     return manager.value.resolveCharacter(data)
   }
 

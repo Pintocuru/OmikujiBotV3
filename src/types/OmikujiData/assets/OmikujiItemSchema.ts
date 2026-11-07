@@ -1,39 +1,38 @@
 // src/types/OmikujiData/assets/OmikujiItemSchema.ts
 import { z } from 'zod'
 import { CriteriaThresholdSchema } from '../events/CommentCriteriaSchema'
-import { normalizedObject } from '../../core/ParsedDefault'
+import { normalizedObject } from '@/types/core/ParsedDefault'
 import { BaseSchema } from '@/types/core'
 
 /**
  * omikujiItemKinds: おみくじアイテムの種別
- * - steps: シナリオ(assets.scenarios)を stepKey で指定して実行する
+ * - steps: シナリオ(assets.scenarios)を scenarioKey で指定して実行する
  * - control : 処理の流れを制御する (command: return / continue)
  */
-const omikujiItemKinds = ['steps', 'control'] as const
-const _OmikujiItemKindSchema = z.enum(omikujiItemKinds)
-export type OmikujiItemKind = z.infer<typeof _OmikujiItemKindSchema>
+export const omikujiItemKinds = ['steps', 'control'] as const
+export type OmikujiItemKind = (typeof omikujiItemKinds)[number]
 
 /**
  * おみくじアイテム
  */
 
-// 優先アイテム（weight を使わない）
+// 優先アイテム（抽選では weight を使わない。通常アイテムに戻したときのため値は保持する）
 const OmikujiPrioritySchema = z.object({
   isPriority: z.literal(true),
-  weight: z.number().min(0).default(1),
+  weight: z.number().min(0).default(1).catch(1),
   criteria: normalizedObject(CriteriaThresholdSchema, 'assets.mikuji.items.criteria'),
 })
 
 // 通常アイテム（weight を使う）
 const OmikujiWeightedSchema = z.object({
   isPriority: z.literal(false).default(false),
-  weight: z.number().min(0).default(1),
+  weight: z.number().min(0).default(1).catch(1),
   criteria: CriteriaThresholdSchema.nullable().default(null),
 })
 
 // 統合
 export const OmikujiLotterySchema = z.discriminatedUnion('isPriority', [OmikujiPrioritySchema, OmikujiWeightedSchema])
-export type LotteryType = z.infer<typeof OmikujiLotterySchema>
+export type OmikujiLotteryType = z.infer<typeof OmikujiLotterySchema>
 
 /**
  * 全種別共通のベース
@@ -45,8 +44,8 @@ const OmikujiItemBase = BaseSchema.extend({
 // シナリオを実行する
 export const OmikujiItemStepsSchema = OmikujiItemBase.extend({
   kind: z.literal('steps').default('steps'), // kind 省略時は steps
-  stepKey: z.string().default('').catch(''),
-  cooldownSeconds: z.number().optional(), // 直前に実行されたシナリオの値を基準に、一定時間の後続実行を制限する (負数可。詳細は CooldownGate.ts)
+  scenarioKey: z.string().default('').catch(''), // 実行するシナリオ(assets.scenarios)のキー
+  cooldownSeconds: z.number().optional().catch(undefined), // 直前に実行されたシナリオの値を基準に、一定時間の後続実行を制限する (負数可。詳細は CooldownGate.ts)
 })
 export type OmikujiItemStepsType = z.infer<typeof OmikujiItemStepsSchema>
 
@@ -62,7 +61,7 @@ export type OmikujiControlCommand = z.infer<typeof OmikujiControlCommandSchema>
 export const OmikujiItemControlSchema = OmikujiItemBase.extend({
   kind: z.literal('control'),
   command: OmikujiControlCommandSchema.default('return').catch('return'),
-  variable: z.string().default('').catch(''),
+  variable: z.string().default('').catch(''), // 評価ブロック {{ }} を含む文字列(処理の前に評価する)
 })
 export type OmikujiItemControlType = z.infer<typeof OmikujiItemControlSchema>
 

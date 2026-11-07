@@ -3,7 +3,7 @@ import type { DaisyUIColorType } from '@/types/core'
 import type { UserBoardType } from '@/types/ui'
 
 /**
- * CharacterColorScheme の4色 (name / text / background / accent) を CSS 変数として流し込む (GameRanking と同じ)
+ * CharacterColorSchema の4色 (name / text / background / accent) を CSS 変数として流し込む (GameRanking と同じ)
  */
 export const boardRootStyle = (settings: UserBoardType) => ({
   '--rk-name': settings.color.name,

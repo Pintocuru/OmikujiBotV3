@@ -1,7 +1,7 @@
 // src/editor/helpers/shared/useWeightValueManagement.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { WeightValueType, WeightValueSchema, handelNormalizedValues, WeightValuesArrayType } from '@/types/OmikujiData'
+import { WeightValueType, WeightValueSchema, handleNormalizedValues, WeightValuesArrayType } from '@/types/OmikujiData'
 import { calcWeightPercentages } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { checkCircularReference } from './checkCircularReference'
@@ -15,7 +15,7 @@ export function useWeightValueManagement(values: () => WeightValuesArrayType, cu
   const { data } = storeToRefs(omikujiStore)
 
   // 正規化（string → WeightValueType）
-  const displayValues = computed(() => handelNormalizedValues(values()))
+  const displayValues = computed(() => handleNormalizedValues(values()))
 
   // 各値の出現確率(%)。displayValues と同じ順。抽選(drawByWeight)と同じ計算
   const percentages = computed(() => calcWeightPercentages(displayValues.value))

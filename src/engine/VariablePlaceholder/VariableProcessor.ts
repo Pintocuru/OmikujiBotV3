@@ -36,7 +36,7 @@ export class VariablePlaceholderProcessor {
 
     const hasUnresolved = /\{\{[\s\S]*?\}\}/.test(processed)
     return {
-      bubble: processed,
+      text: processed,
       extra: {
         slots: extra.slots,
       },

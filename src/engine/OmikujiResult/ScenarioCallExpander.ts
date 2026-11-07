@@ -3,7 +3,7 @@ import { drawByWeight } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 import {
   ScenarioType,
-  handelNormalizedValues,
+  handleNormalizedValues,
   ScenarioStepCallType,
   ScenarioStepType,
   sortedStepsFromRecord,
@@ -50,7 +50,7 @@ export class ScenarioCallExpander {
     visited: Set<string>
   ): ScenarioStepType[] {
     // 抽選を行う
-    const normalized = handelNormalizedValues(callStep.callKeys)
+    const normalized = handleNormalizedValues(callStep.callKeys)
     const targetKeyObject = drawByWeight(normalized)
     if (!targetKeyObject) return []
     const targetKey = targetKeyObject.content

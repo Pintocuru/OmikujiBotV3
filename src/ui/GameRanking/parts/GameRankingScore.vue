@@ -63,7 +63,7 @@
 
   const formatScore = (score: number) => score.toLocaleString()
 
-  /* color (CharacterColorScheme の4色) */
+  /* color (CharacterColorSchema の4色) */
   const colorVars = computed(() => ({
     '--rk-name': props.settings.color.name,
     '--rk-text': props.settings.color.text,

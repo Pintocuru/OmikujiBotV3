@@ -23,7 +23,7 @@
       <div class="space-y-1">
         <div class="flex justify-between">
           <label class="text-xs text-base-content/60">{{ t('characterImage.animation.speed') }}</label>
-          <span class="text-xs font-mono">{{ localAnimation.duration }}s</span>
+          <span class="text-xs font-mono">{{ localAnimation.durationSeconds }}s</span>
         </div>
         <input
           type="range"
@@ -31,7 +31,7 @@
           min="0.4"
           max="5"
           step="0.2"
-          v-model.number="localAnimation.duration"
+          v-model.number="localAnimation.durationSeconds"
           @change="applyAnimation"
         />
         <div class="flex justify-between text-xs text-base-content/40">
@@ -79,14 +79,14 @@
 
   const localAnimation = ref<CharacterAnimationType>({
     type: props.animation?.type ?? 'none',
-    duration: props.animation?.duration ?? 1.5,
+    durationSeconds: props.animation?.durationSeconds ?? 1.5,
     loop: props.animation?.loop ?? true,
   })
 
-  // プレビュー用の key: 感情・type・duration・loop が変わったら再マウント
+  // プレビュー用の key: 感情・type・durationSeconds・loop が変わったら再マウント
   const previewKey = computed(
     () =>
-      `${props.emotionKey}-${localAnimation.value.type}-${localAnimation.value.duration}-${localAnimation.value.loop}`
+      `${props.emotionKey}-${localAnimation.value.type}-${localAnimation.value.durationSeconds}-${localAnimation.value.loop}`
   )
 
   const applyAnimation = () => {
@@ -99,7 +99,7 @@
     () => {
       localAnimation.value = {
         type: props.animation?.type ?? 'none',
-        duration: props.animation?.duration ?? 1.5,
+        durationSeconds: props.animation?.durationSeconds ?? 1.5,
         loop: props.animation?.loop ?? true,
       }
     }

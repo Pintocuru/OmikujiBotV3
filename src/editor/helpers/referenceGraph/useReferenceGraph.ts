@@ -65,10 +65,10 @@ const buildReferenceGraph = (data: OmikujiDataType) => {
 
   for (const [boxKey, box] of Object.entries(mikuji)) {
     for (const omikujiItem of box.omikuji) {
-      if (omikujiItem.kind !== 'steps' || !omikujiItem.stepKey) continue
-      addEdge(boxScenarios, boxKey, omikujiItem.stepKey)
-      addEdge(scenarioBoxes, omikujiItem.stepKey, boxKey)
-      scenarioItemCounts.set(omikujiItem.stepKey, (scenarioItemCounts.get(omikujiItem.stepKey) ?? 0) + 1)
+      if (omikujiItem.kind !== 'steps' || !omikujiItem.scenarioKey) continue
+      addEdge(boxScenarios, boxKey, omikujiItem.scenarioKey)
+      addEdge(scenarioBoxes, omikujiItem.scenarioKey, boxKey)
+      scenarioItemCounts.set(omikujiItem.scenarioKey, (scenarioItemCounts.get(omikujiItem.scenarioKey) ?? 0) + 1)
     }
   }
 
@@ -95,7 +95,7 @@ const buildReferenceGraph = (data: OmikujiDataType) => {
     scenarioBoxes,
     scenarioItemCounts,
     boxEvents,
-    // 存在するシナリオのキー。みくじ箱の stepKey / scenarioCall の callKeys はシナリオ削除後も残るため、存在確認に使う
+    // 存在するシナリオのキー。みくじ箱の scenarioKey / scenarioCall の callKeys はシナリオ削除後も残るため、存在確認に使う
     scenarioKeys: new Set(Object.keys(scenarios)),
     mikujiKeys: new Set(Object.keys(mikuji)), // イベントの omikujiKey の存在確認に使う
     names: {
@@ -211,7 +211,7 @@ export function useReferenceGraph() {
   /** みくじ箱に接続されているイベント(全イベント種別から逆引き) */
   const eventsOfBox = (boxKey: string): LinkItem[] => [...(graph.value.boxEvents.get(boxKey) ?? [])]
 
-  /** みくじ箱が直接実行するシナリオ(kind === 'steps' の stepKey) */
+  /** みくじ箱が直接実行するシナリオ(kind === 'steps' の scenarioKey) */
   const scenariosOfBox = (boxKey: string): LinkItem[] => toLinkItems(graph.value.boxScenarios.get(boxKey), 'scenarios')
 
   /** シナリオの参照元(みくじ箱 → 他のシナリオの順。複数から参照される場合もあり、自己呼び出しは除く) */

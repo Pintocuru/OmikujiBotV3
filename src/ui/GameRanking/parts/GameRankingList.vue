@@ -52,7 +52,7 @@
               class="inline-flex h-8 items-center justify-center rounded-lg px-3 text-lg font-bold"
               :style="scoreBadgeStyle"
             >
-              {{ msg.slots.label || msg.slots.score }}
+              {{ msg.slots.scoreText || msg.slots.score }}
             </div>
           </div>
         </div>
@@ -106,7 +106,7 @@
     return generateDummyMessages(props.settings)
   })
 
-  // CharacterColorScheme の4色(name/text/background/accent)を CSS 変数として流し込む
+  // CharacterColorSchema の4色(name/text/background/accent)を CSS 変数として流し込む
   const rootStyle = computed(() => ({
     '--rk-name': props.settings.color.name,
     '--rk-text': props.settings.color.text,

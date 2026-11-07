@@ -2,7 +2,7 @@
 import { z } from 'zod'
 import { CommentTriggerSchema } from './CommentTriggerSchema'
 import { ServiceTriggerSchema } from './ServiceTriggerSchema'
-import { normalizedObject } from '../../core/ParsedDefault'
+import { normalizedObject } from '@/types/core/ParsedDefault'
 import { ReactionTriggerSchema } from './ReactionTriggerSchema'
 import { PadTriggerSchema } from './PadTriggerSchema'
 import { BaseRecordSchema } from '@/types/core'
@@ -25,12 +25,18 @@ export const CommentEventSchema = BaseEventSchema.extend({
 export type CommentEventType = z.infer<typeof CommentEventSchema>
 
 /**
+ * タイマーのモード
+ * - interval: 一定間隔 / onStart: 開始時に1回 / range: ランジ(最短〜最長のランダム間隔)
+ */
+export const timerModes = ['interval', 'onStart', 'range'] as const
+export type TimerModeType = (typeof timerModes)[number]
+
+/**
  * timers スキーマ
  */
 export const TimerEventSchema = BaseEventSchema.extend({
   kind: z.literal('timers').default('timers'), // イベントタイプ（タイマー）
-  // モード: interval=一定間隔 / onStart=開始時に1回 / range=ランジ(最短〜最長のランダム間隔)
-  mode: z.enum(['interval', 'onStart', 'range']).default('interval'),
+  mode: z.enum(timerModes).default('interval'),
 
   // 間隔時間（秒）
   intervalSeconds: z
@@ -64,7 +70,7 @@ export type ServiceEventType = z.infer<typeof ServiceEventSchema>
  * reaction スキーマ
  */
 export const ReactionEventSchema = BaseEventSchema.extend({
-  // 旧データは 'reaction' (単数) だった。item が1つ不正だと配列ごと空になるため、catch で 'reactions' に直して読む
+  // 旧データは 'reaction' (単数) だった。catch で 'reactions' に直して読む
   kind: z.literal('reactions').default('reactions').catch('reactions'),
   trigger: normalizedObject(ReactionTriggerSchema, 'events.reactions.trigger'),
 })

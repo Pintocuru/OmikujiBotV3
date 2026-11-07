@@ -9,7 +9,7 @@ import { parseQueryString } from '@/games/shared/parseQueryString'
 import { GachaGame } from './game'
 
 export class ExecuteScript implements ScriptClass {
-  run(queryString: string, characterKey: string | null, omiken?: OmikenCommentType): ScriptResult {
+  run(queryString: string, characterKey: string, omiken?: OmikenCommentType): ScriptResult {
     const params = this.parseParams(queryString)
     const gameResult = new GachaGame(params).play()
 
@@ -49,7 +49,7 @@ export class ExecuteScript implements ScriptClass {
    */
   private buildSteps(
     postArray: ScenarioStepType[],
-    characterKey: string | null,
+    characterKey: string,
     bubbleText: string
   ): ScenarioStepType[] {
     const messageAction = ScenarioStepMessageSchema.parse({

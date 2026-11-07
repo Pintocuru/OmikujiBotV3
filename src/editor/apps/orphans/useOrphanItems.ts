@@ -20,12 +20,12 @@ export function useOrphanItems() {
     const mikujiKeys = new Set(Object.keys(assets.mikuji))
     const scenarioKeys = new Set(Object.keys(assets.scenarios))
 
-    // 実行できるシナリオ(存在する stepKey を持つ steps アイテム)が 1 つもないみくじ箱
+    // 実行できるシナリオ(存在する scenarioKey を持つ steps アイテム)が 1 つもないみくじ箱
     const boxesWithoutScenario = new Set(
       Object.entries(assets.mikuji)
         .filter(
           ([, box]) =>
-            !box.omikuji.some((item) => item.kind === 'steps' && item.stepKey && scenarioKeys.has(item.stepKey))
+            !box.omikuji.some((item) => item.kind === 'steps' && item.scenarioKey && scenarioKeys.has(item.scenarioKey))
         )
         .map(([key]) => key)
     )

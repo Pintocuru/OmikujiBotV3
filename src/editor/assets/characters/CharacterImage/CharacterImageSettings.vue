@@ -32,7 +32,7 @@
   import { useI18n } from 'vue-i18n'
   import { computed, nextTick, ref } from 'vue'
   import { Plus } from 'lucide-vue-next'
-  import { CharacterImageSetSchema, CharacterImageType } from '@/types/OmikujiData'
+  import { CharacterImageSetSchema, CharacterImageSetType } from '@/types/OmikujiData'
   import EmotionPresetButtons from './EmotionPresetButtons.vue'
 
   import EmotionGrid from './EmotionGrid.vue'
@@ -42,7 +42,7 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    modelValue: CharacterImageType
+    modelValue: CharacterImageSetType
     selectedItemKey: string | null
   }>()
 
@@ -60,13 +60,13 @@
   const isDefaultFilled = computed(() => currentImages.value['default']?.src.some((v) => v.trim() !== '') ?? false)
 
   // Store への書き込み
-  const pushImages = (newImages: CharacterImageType) => {
+  const pushImages = (newImages: CharacterImageSetType) => {
     if (!props.selectedItemKey) return
     updateAssetProperty('characters', props.selectedItemKey, 'image', newImages)
   }
 
   // 感情の追加・選択
-  const handleUpdateImages = (newImages: CharacterImageType) => {
+  const handleUpdateImages = (newImages: CharacterImageSetType) => {
     pushImages(newImages)
   }
 
@@ -93,6 +93,6 @@
   // 感情の削除
   const handleRemoveEmotion = (key: string) => {
     const { [key]: _, ...rest } = currentImages.value
-    pushImages(rest as CharacterImageType)
+    pushImages(rest as CharacterImageSetType)
   }
 </script>

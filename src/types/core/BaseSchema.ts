@@ -8,7 +8,7 @@ import { nanoid } from 'nanoid'
  */
 export const generateId = () => nanoid()
 export const idSchema = z.string().default(generateId).catch(generateId)
-const dataSchema = z
+const dateSchema = z
   .string()
   .default(() => new Date().toISOString())
   .catch(() => new Date().toISOString())
@@ -21,8 +21,8 @@ export const BaseSchema = z.object({
   name: z.string().default('').catch(''), // 名前
   description: z.string().default('').catch(''), // 説明
   // UI制御
-  createdAt: dataSchema,
-  updatedAt: dataSchema,
+  createdAt: dateSchema,
+  updatedAt: dateSchema,
 })
 export type BaseTypes = z.infer<typeof BaseSchema>
 

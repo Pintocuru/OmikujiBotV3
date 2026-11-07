@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
   import { computed, inject } from 'vue'
-  import { CharacterColorScheme, CharacterColorType, EnterMotionType } from '@/types/OmikujiData'
+  import { CharacterColorSchema, CharacterColorType, EnterMotionType } from '@/types/OmikujiData'
   import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import { useAppCharacters } from '@/ui/common/useAppCharacters'
   import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
@@ -43,7 +43,7 @@
   // 古い行が上端で切れるとき、ぶつ切りに見えないよう上端をぼかす
   const FADE_MASK = 'linear-gradient(to bottom, transparent 0, #000 28px)'
   const FADE_TOP = { maskImage: FADE_MASK, WebkitMaskImage: FADE_MASK } // 古い CEF(OBS)向けに接頭辞付きも指定
-  const DEFAULT_COLOR = CharacterColorScheme.parse({})
+  const DEFAULT_COLOR = CharacterColorSchema.parse({})
 
   // displayedComments は新しい順。ボード面は新しいものが下
   const lines = computed(() => props.displayedComments.slice(0, props.maxLines).reverse())

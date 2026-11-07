@@ -3,6 +3,6 @@
 export * from './AccessCondition'
 export * from './CountCondition'
 export * from './GiftCondition'
-export * from './ServiceCondition'
+export * from './ServiceMetaCondition'
 export * from './SyokenCondition'
 export * from './TriggerCondition'

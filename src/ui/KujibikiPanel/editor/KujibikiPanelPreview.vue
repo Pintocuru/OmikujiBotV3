@@ -63,7 +63,7 @@
           name: entry.name,
           message: entry.message,
           isToast: false,
-          characterKey: null,
+          characterKey: '',
           iconKey: 'default',
           displaySeconds: props.settings.displaySeconds,
         },

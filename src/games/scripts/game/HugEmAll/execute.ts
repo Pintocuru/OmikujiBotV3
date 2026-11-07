@@ -9,7 +9,7 @@ import { buildBotMessageRanking, prepareUserInfo } from '@/games/shared/rankingM
 import { parseQueryString } from '@/games/shared/parseQueryString'
 
 export class ExecuteScript implements ScriptClass {
-  run(queryString: string, characterKey: string | null, omiken?: OmikenCommentType): ScriptResult {
+  run(queryString: string, characterKey: string, omiken?: OmikenCommentType): ScriptResult {
     const params = this.parseParams(queryString)
     const user = prepareUserInfo(omiken)
 
@@ -61,7 +61,7 @@ export class ExecuteScript implements ScriptClass {
   /**
    * ステップ の構築
    */
-  private buildSteps(characterKey: string | null, bubbleText: string): ScenarioStepType[] {
+  private buildSteps(characterKey: string, bubbleText: string): ScenarioStepType[] {
     const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,

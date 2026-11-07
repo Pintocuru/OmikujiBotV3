@@ -1,5 +1,5 @@
 // src/types/core/DaisyUiTheme.ts
-import z from 'zod'
+import { z } from 'zod'
 
 // テーマのリスト
 export const themes = [

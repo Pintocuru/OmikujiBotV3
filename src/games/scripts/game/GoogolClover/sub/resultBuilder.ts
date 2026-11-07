@@ -83,7 +83,7 @@ function createFailureRankingData(user: UserNameType, successCount: number): Bot
     user,
     score: 0,
     symbol: `${successCount}回目`,
-    label: '0',
+    scoreText: '0',
   })
 }
 
@@ -95,6 +95,6 @@ function createSuccessRankingData(state: UserState, user: UserNameType): BotMess
     user,
     score: calculateScoreValue(state.funds, state.exp) * 1000000,
     symbol: `${state.successCount}回目`,
-    label: formatScoreText(state.funds, state.exp),
+    scoreText: formatScoreText(state.funds, state.exp),
   })
 }

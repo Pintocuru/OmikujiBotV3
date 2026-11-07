@@ -1,6 +1,6 @@
 // src/types/OmikujiData/assets/ScenarioStepSchema.ts
 import { z } from 'zod'
-import { normalizedRecord } from '../../core/ParsedDefault'
+import { normalizedRecord } from '@/types/core/ParsedDefault'
 import { WeightValuesArraySchema } from './PlaceholderSchema'
 import { soundKeys } from './SoundKey'
 import { UiKindSchema } from '../ui/UiSettingsSchema'
@@ -17,7 +17,7 @@ export type ScenarioStepKind = z.infer<typeof ScenarioStepKindSchema>
  */
 // シナリオステップ delaySeconds
 const ScenarioStepBaseSchema = z.object({
-  delaySeconds: z.number().default(0).catch(0),
+  delaySeconds: z.number().min(0).default(0).catch(0),
 })
 
 // sound
@@ -34,7 +34,7 @@ export const ScenarioStepMessageSchema = ScenarioStepBaseSchema.extend({
   kind: z.literal('message').default('message'),
   uiKey: UiKindSchema.default('commentBubble').catch('commentBubble'), // 表示先の UI
   slots: z.record(z.string(), z.string()).default({}).catch({}), // slotN の値 (UiMessageSpecs の map で意味が決まる)
-  characterKey: z.string().nullable().default(null).catch(null),
+  characterKey: z.string().default('').catch(''), // 空文字はキャラなし
   iconKey: z.string().default('default').catch('default'),
   ...SoundMixin,
   message: z.string().catch(''),
@@ -76,8 +76,8 @@ export type ScenarioStepCallType = z.infer<typeof ScenarioStepCallSchema>
 // ScenarioStep gameScript
 export const ScenarioStepGameScriptSchema = ScenarioStepBaseSchema.extend({
   kind: z.literal('gameScript'),
-  scriptId: z.string().default('').catch(''),
-  characterKey: z.string().default('').catch(''),
+  scriptKey: z.string().default('').catch(''), // 実行するゲームスクリプトのキー(GameScriptKey)
+  characterKey: z.string().default('').catch(''), // 空文字はキャラなし
   queryString: z.string().default('').catch(''),
 })
 export type ScenarioStepGameScriptType = z.infer<typeof ScenarioStepGameScriptSchema>
@@ -108,8 +108,9 @@ export type ScenarioStepType = z.infer<typeof ScenarioStepSchema>
 /**
  * 保存データ(assets.scenarios[*].steps)用のステップ: 実行時の ScenarioStepType に id を足したもの
  * - id は保存・編集の識別専用。実行時の steps(配列)や games が組み立てる ScenarioStepType には持たせない
+ * - id が欠けていても除外しない(ScenarioStepRecordSchema が Record のキーで補う)
  */
-export const ScenarioStepWithIdSchema = ScenarioStepSchema.and(z.object({ id: z.string().min(1) }))
+export const ScenarioStepWithIdSchema = ScenarioStepSchema.and(z.object({ id: z.string().default('') }))
 export type ScenarioStepWithIdType = z.infer<typeof ScenarioStepWithIdSchema>
 
 /**

@@ -73,7 +73,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { ServiceTriggerCondition, ServiceTriggerType } from '@/types/OmikujiData'
+  import { ServiceTriggerConditionType, ServiceTriggerType } from '@/types/OmikujiData'
   import { serviceTriggerConditionMap } from '@/maps/OmikujiData'
   import TriggerMetaCondition from './ServiceTriggerCondition.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -109,7 +109,7 @@
   const elapsedMinutes = createComputed('elapsedMinutes')
 
   // 単一選択
-  const setCondition = (condition: ServiceTriggerCondition) => {
+  const setCondition = (condition: ServiceTriggerConditionType) => {
     selectedCondition.value = condition
   }
 </script>

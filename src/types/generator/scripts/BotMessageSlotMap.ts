@@ -22,7 +22,7 @@ export const RankingSlotMap = {
   gameKey: { slot: 'slot0', title: 'ゲームキー', description: 'ゲームの認識キー(任意)' },
   listName: { slot: 'slot1', title: 'ユーザー名', description: '表示名。空なら user.userName を使う' },
   symbol: { slot: 'slot2', title: 'シンボル', description: 'ユーザー名の右側につく記号' },
-  label: { slot: 'slot3', title: '得点(文字)', description: '表示用の得点' },
+  scoreText: { slot: 'slot3', title: '得点(文字)', description: '表示用の得点' },
   score: { slot: 'slot4', title: '得点(数値)', description: '並び順を決める(表示しない)' },
 } as const satisfies Record<string, SlotMeta>
 export type RankingSlotKey = keyof typeof RankingSlotMap

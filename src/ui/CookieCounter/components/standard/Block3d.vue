@@ -130,7 +130,7 @@
     color: CookieCounterType['color']
   }>()
 
-  // CharacterColorScheme の4色(name/text/background/accent)を CSS 変数として定義
+  // CharacterColorSchema の4色(name/text/background/accent)を CSS 変数として定義
   const rootStyle = computed(() => ({
     '--ck-name': props.color.name,
     '--ck-text': props.color.text,

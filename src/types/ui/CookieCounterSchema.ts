@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 import { idSchema, normalizedObject } from '../core'
 import { streamDefaultKeyLabels } from './StreamCounterSchema'
-import { CharacterColorScheme } from '../OmikujiData/assets/CharacterSchema'
+import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
 
 /**
  * クッキーカウンター CookieCounter
@@ -46,7 +46,7 @@ export const CookieCounterImagesSchema = z.object({
 
 export const CookieCounterSchema = z.object({
   component: z.string().min(1).default('sakura').catch('sakura'), // カウンタースタイル(保存データは文字列。未同梱の ID も保持する。空文字は sakura に戻す)
-  color: normalizedObject(CharacterColorScheme, 'ui.CookieCounter.color'),
+  color: normalizedObject(CharacterColorSchema, 'ui.CookieCounter.color'),
   counters: z.array(CookieCounterCountersSchema).max(8).default([]), // 任意のカウンター
   images: normalizedObject(CookieCounterImagesSchema, 'ui.CookieCounter.images'),
 })

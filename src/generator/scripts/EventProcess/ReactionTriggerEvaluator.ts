@@ -1,7 +1,7 @@
 // src/generator/scripts/EventProcess/ReactionTriggerEvaluator.ts
 import { ReactionStatsManagerType } from '@/types/generator'
 import type { ReactionTriggerType } from '@/types/OmikujiData'
-import type { ReactionReaction } from '@/types/OmikujiData/events/ReactionTriggerSchema'
+import type { ReactionKeyType } from '@/types/OmikujiData/events/ReactionTriggerSchema'
 
 /**
  * トリガーの対象になっているリアクションの累計
@@ -9,7 +9,7 @@ import type { ReactionReaction } from '@/types/OmikujiData/events/ReactionTrigge
  */
 export function getTargetTotal(trigger: ReactionTriggerType, stats: ReactionStatsManagerType): number {
   if (!trigger.reactions || trigger.reactions.length === 0) return 0
-  return stats.getTotal(trigger.reactions as ReactionReaction[])
+  return stats.getTotal(trigger.reactions as ReactionKeyType[])
 }
 
 /**

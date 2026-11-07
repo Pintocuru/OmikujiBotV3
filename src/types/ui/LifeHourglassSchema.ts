@@ -1,6 +1,6 @@
 // src/types/ui/LifeHourglassSchema.ts
 import { normalizedObject } from '../core'
-import { CharacterColorScheme } from '../OmikujiData/assets/CharacterSchema'
+import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
 import { z } from 'zod'
 
 // LifeHourglass のコンポーネントセット
@@ -28,7 +28,7 @@ export const LIFE_HOURGLASS_DEFAULT_COMPONENT = 'sandBowl'
  */
 export const LifeHourglassSchema = z.object({
   component: z.string().min(1).default(LIFE_HOURGLASS_DEFAULT_COMPONENT).catch(LIFE_HOURGLASS_DEFAULT_COMPONENT),
-  color: normalizedObject(CharacterColorScheme, 'ui.LifeHourglass.color'),
+  color: normalizedObject(CharacterColorSchema, 'ui.LifeHourglass.color'),
   carryOver: z.boolean().default(false).catch(false),
 })
 export type LifeHourglassType = z.infer<typeof LifeHourglassSchema>

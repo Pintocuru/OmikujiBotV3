@@ -11,14 +11,14 @@ export class GameScriptManager {
   private scriptInstances: Record<string, ScriptClass> = {}
 
   /** キャッシュ → なければ gameExecuteMap から動的 import で解決 */
-  private async loadScript(scriptId: string): Promise<ScriptClass> {
-    const cached = this.scriptInstances[scriptId]
+  private async loadScript(scriptKey: string): Promise<ScriptClass> {
+    const cached = this.scriptInstances[scriptKey]
     if (cached) return cached
 
     // 存在しない / このビルドに未登録 / 読み込み失敗は、すべて「データ不一致」として扱う
-    const mismatch = new BuildMismatchError([{ type: 'gameScript', key: scriptId }])
-    if (!isGameScriptKey(scriptId)) throw mismatch
-    const loader = getGameScriptLoader(scriptId)
+    const mismatch = new BuildMismatchError([{ type: 'gameScript', key: scriptKey }])
+    if (!isGameScriptKey(scriptKey)) throw mismatch
+    const loader = getGameScriptLoader(scriptKey)
     if (!loader) throw mismatch
     let module: Awaited<ReturnType<typeof loader>>
     try {
@@ -28,7 +28,7 @@ export class GameScriptManager {
     }
 
     const instance: ScriptClass = module.default
-    this.scriptInstances[scriptId] = instance
+    this.scriptInstances[scriptKey] = instance
     return instance
   }
 
@@ -37,11 +37,11 @@ export class GameScriptManager {
     omiken?: OmikenCommentType
   ): Promise<ScriptResult | null> => {
     if (!gameScripts) return null
-    const { scriptId, queryString, characterKey } = gameScripts
-    if (!scriptId) return null
+    const { scriptKey, queryString, characterKey } = gameScripts
+    if (!scriptKey) return null
 
     try {
-      const script = await this.loadScript(scriptId)
+      const script = await this.loadScript(scriptKey)
       // await しないと run が async の場合に例外を拾えない
       return await script.run(queryString, characterKey, omiken)
     } catch (error) {
@@ -50,21 +50,21 @@ export class GameScriptManager {
         reportDataMismatch(error.unsupported, { display: 'toast', throttle: true })
         return null
       }
-      console.error(`スクリプトエラー (${scriptId}):`, error)
+      console.error(`スクリプトエラー (${scriptKey}):`, error)
       postSystemMessage(`❌ スクリプトエラー: ${error}`)
       return null
     }
   }
 
-  async playSampleScript(scriptId: string, queryString: string): Promise<string> {
-    if (!scriptId) return '(スクリプトが指定されていません)'
+  async playSampleScript(scriptKey: string, queryString: string): Promise<string> {
+    if (!scriptKey) return '(スクリプトが指定されていません)'
 
     let script: ScriptClass
     try {
-      script = await this.loadScript(scriptId)
+      script = await this.loadScript(scriptKey)
     } catch (error) {
       if (error instanceof BuildMismatchError) return error.message
-      console.error(`スクリプトロードエラー (${scriptId}):`, error)
+      console.error(`スクリプトロードエラー (${scriptKey}):`, error)
       return 'スクリプトが正常に稼働できません'
     }
     if (!script.sampleRun) return 'テストに対応していないスクリプトです'
@@ -72,7 +72,7 @@ export class GameScriptManager {
     try {
       return await script.sampleRun(queryString)
     } catch (error) {
-      return `スクリプト実行エラー(${scriptId}): ${error}`
+      return `スクリプト実行エラー(${scriptKey}): ${error}`
     }
   }
 

@@ -72,7 +72,7 @@ export class OmikujiProcessor {
 
   /** ログ用の名前: アイテム名 → シナリオ名 → key の順 */
   private cooldownLabel(item: OmikujiItemStepsType): string {
-    return item.name || this.store.data.assets.scenarios[item.stepKey]?.name || item.key
+    return item.name || this.store.data.assets.scenarios[item.scenarioKey]?.name || item.key
   }
 
   /**
@@ -113,11 +113,11 @@ export class OmikujiProcessor {
   }
 
   /**
-   * stepKey から実行するシナリオの steps を取得する。
+   * scenarioKey から実行するシナリオの steps を取得する。
    * 空・存在しない key は実行時エラーとしてわんコメへ通知する(スキーマ側は '' を許容している)。
    */
   private resolveScenarioSteps(item: OmikujiItemStepsType): ScenarioStepType[] {
-    const key = item.stepKey
+    const key = item.scenarioKey
     if (!key) {
       this.reportError(`おみくじ「${item.name}」にシナリオが設定されていません`)
       return []

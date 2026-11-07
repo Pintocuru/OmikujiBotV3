@@ -28,7 +28,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { Plus, Trash2 } from 'lucide-vue-next'
-  import { CharacterColorScheme, type CharacterColorType } from '@/types/OmikujiData/'
+  import { CharacterColorSchema, type CharacterColorType } from '@/types/OmikujiData/'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
 
@@ -57,5 +57,5 @@
     )
 
   // 追加する色は、最後の色をコピーする
-  const add = () => emit('update:colors', [...props.colors, { ...(props.colors.at(-1) ?? CharacterColorScheme.parse({})) }])
+  const add = () => emit('update:colors', [...props.colors, { ...(props.colors.at(-1) ?? CharacterColorSchema.parse({})) }])
 </script>

@@ -98,13 +98,13 @@
   watch(
     () => {
       const a = props.step
-      return a.kind === 'gameScript' ? ([a.scriptId, a.queryString, messageKey.value] as const) : null
+      return a.kind === 'gameScript' ? ([a.scriptKey, a.queryString, messageKey.value] as const) : null
     },
     async (args) => {
       if (!args) return
-      const [scriptId, queryString] = args
+      const [scriptKey, queryString] = args
       const requestId = ++gameScriptRequestId
-      const result = await scriptManager.playSampleScript(scriptId, queryString)
+      const result = await scriptManager.playSampleScript(scriptKey, queryString)
       if (requestId !== gameScriptRequestId) return // 古い結果は破棄
       gameScriptMessage.value = transformIconPlaceholdersPreview(result)
     },

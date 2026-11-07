@@ -42,7 +42,7 @@ export function useScenarioStepTabs(
   const addNewStep = () => {
     const id = generateId()
     const newStep: ScenarioStepType = ScenarioStepMessageSchema.parse({
-      characterKey: characterArray.value[0]?.key ?? null,
+      characterKey: characterArray.value[0]?.key ?? '',
       delaySeconds: sortedSteps.value.length > 0 ? Math.max(...sortedSteps.value.map((a) => a.delaySeconds)) + 1 : 0,
     })
     emit('update:steps', { ...steps.value, [id]: { ...newStep, id } })

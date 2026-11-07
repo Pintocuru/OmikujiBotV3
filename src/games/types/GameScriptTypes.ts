@@ -20,7 +20,7 @@ export interface ScriptResult {
 export interface ScriptClass {
   run(
     queryString: string,
-    characterKey: string | null,
+    characterKey: string,
     omiken?: OmikenCommentType
   ): ScriptResult | Promise<ScriptResult> // メイン実行関数
   sampleRun?(queryString?: string): string // エディター用サンプルゲーム関数

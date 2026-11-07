@@ -14,7 +14,7 @@
           :color="getCharacterColor(message.bubble.characterKey)"
           :iconLayers="
             toastSettings.showToastsCharacter
-              ? iconSrc(message.bubble?.characterKey ?? null, message.bubble?.iconKey ?? 'default')
+              ? iconSrc(message.bubble?.characterKey ?? '', message.bubble?.iconKey ?? 'default')
               : []
           "
         />

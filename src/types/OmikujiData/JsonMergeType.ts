@@ -1,22 +1,23 @@
 // src/types/OmikujiData/JsonMergeType.ts
 import { z } from 'zod'
 import { BaseRecordSchema } from '@/types/core'
+import { normalizedArray } from '@/types/core/ParsedDefault'
 
 export const JsonMergeRemapSchema = z.object({
-  fromCharacterKey: z.string().default(''),
-  toCharacterKey: z.string().default(''),
-  fromIconKey: z.string().default(''),
-  toIconKey: z.string().default(''),
+  fromCharacterKey: z.string().default('').catch(''),
+  toCharacterKey: z.string().default('').catch(''),
+  fromIconKey: z.string().default('').catch(''),
+  toIconKey: z.string().default('').catch(''),
 })
 
-export const JsonMergeItemSchema = z.object({
-  ...BaseRecordSchema.shape,
-  sourceFile: z.string().default(''),
-  keySuffix: z.string().default(''),
-  remaps: z.array(JsonMergeRemapSchema).default([]),
+export const JsonMergeItemSchema = BaseRecordSchema.extend({
+  sourceFile: z.string().default('').catch(''),
+  keySuffix: z.string().default('').catch(''),
+  remaps: normalizedArray(JsonMergeRemapSchema, 'jsonMerge.remaps'),
 })
 
-export const JsonMergeSchema = z.array(JsonMergeItemSchema)
+// 不正な要素だけ除外して記録する(配列全体は消さない)
+export const JsonMergeSchema = normalizedArray(JsonMergeItemSchema, 'jsonMerge')
 
 export type JsonMergeType = z.infer<typeof JsonMergeSchema>
 export type JsonMergeItemType = z.infer<typeof JsonMergeItemSchema>

@@ -1,7 +1,7 @@
 // src/types/OmikujiData/SettingsSchema.ts
 import { z } from 'zod'
-import { themes } from '../core/DaisyUiTheme'
-import { normalizedObject } from '../core/ParsedDefault'
+import { ThemeSchema } from '@/types/core/DaisyUiTheme'
+import { normalizedObject } from '@/types/core/ParsedDefault'
 
 // コメント購読タイプ(現在はわんコメのみ)
 export const commentModeTypes = ['OneComme'] as const
@@ -26,11 +26,11 @@ const EditorSettingsSchema = z.object({
 })
 
 const DeveloperSettingsSchema = z.object({
-  daisyUiTheme: z.enum(themes).default('dark').catch('dark'), // エディターのテーマカラー(製品版は light / dark のみ。それ以外の値でも DaisyUI が dark にする)
+  daisyUiTheme: ThemeSchema, // エディターのテーマカラー(製品版は light / dark のみ。それ以外の値でも DaisyUI が dark にする)
 })
 
 /**
- * エディター設定
+ * 設定全体(generator / editor / developer)
  */
 export const SettingsSchema = z.object({
   generator: normalizedObject(GeneratorSettingsSchema, 'settings.generator'),

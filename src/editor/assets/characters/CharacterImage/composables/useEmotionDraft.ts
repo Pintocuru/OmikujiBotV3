@@ -1,9 +1,9 @@
 // src/editor/assets/characters/CharacterImage/composables/useEmotionDraft.ts
 import { ref } from 'vue'
-import type { CharacterImageType, CharacterAnimationType } from '@/types/OmikujiData'
+import type { CharacterImageSetType, CharacterAnimationType } from '@/types/OmikujiData'
 
-export function useEmotionDraft(getModelValue: () => CharacterImageType) {
-  const draftValue = ref<CharacterImageType>({})
+export function useEmotionDraft(getModelValue: () => CharacterImageSetType) {
+  const draftValue = ref<CharacterImageSetType>({})
 
   const initDraft = () => {
     draftValue.value = JSON.parse(JSON.stringify(getModelValue()))

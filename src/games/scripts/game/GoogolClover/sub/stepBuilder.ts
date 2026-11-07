@@ -8,7 +8,7 @@ import { ScenarioStepType, ScenarioStepMessageSchema } from '@/types/OmikujiData
 interface StepBuildParams {
   bubble: string
   score: number
-  characterKey: string | null
+  characterKey: string
 }
 
 /**

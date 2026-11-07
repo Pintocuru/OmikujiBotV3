@@ -24,11 +24,11 @@ export const buildScenario = (name: string, steps: StepsInput) => ({
 })
 
 /** シナリオを実行するみくじアイテム(kind: 'steps')。weight 省略時は通常アイテムの既定値 */
-const stepsItem = (name: string, stepKey: string, weight?: number) =>
+const stepsItem = (name: string, scenarioKey: string, weight?: number) =>
   OmikujiItemSchema.parse({
     name,
     kind: 'steps',
-    stepKey,
+    scenarioKey,
     ...(weight === undefined ? {} : { lottery: { isPriority: false, weight } }),
   })
 

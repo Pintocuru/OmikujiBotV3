@@ -25,7 +25,7 @@
 <script setup lang="ts">
   import { computed, nextTick, onMounted, provide, ref, watch } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { CharacterColorScheme, type CharacterType, type FontFamilyType } from '@/types/OmikujiData'
+  import { CharacterColorSchema, type CharacterType, type FontFamilyType } from '@/types/OmikujiData'
   import type { CommentBubbleType, ShownCharacter } from '@/types/ui'
   import { withDisplay, type DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import { getCommentBubbleComponent } from '../CommentBubbleRegistry'
@@ -36,12 +36,12 @@
   const props = defineProps<{
     settings: CommentBubbleType
     fontFamily?: FontFamilyType
-    characterKey?: string | null // プレビューに使うキャラ(未指定ならキャラなし)
+    characterKey?: string // プレビューに使うキャラ(未指定ならキャラなし)
     character?: CharacterType | null
   }>()
 
   // 色はキャラの色に固定(CommentDisplay 側の store 参照を上書き)
-  const color = computed(() => props.character?.color ?? CharacterColorScheme.parse({}))
+  const color = computed(() => props.character?.color ?? CharacterColorSchema.parse({}))
   provide(previewColorKey, color)
 
   // --- キャラクター(hasCharacter な表示タイプだけ。default 画像、なければ最初に画像のある表情) ---
@@ -74,7 +74,7 @@
         bubble: {
           name: props.character?.displayName ?? t('uiSettings.commentBubble.preview.userName'),
           message,
-          characterKey: props.characterKey ?? null,
+          characterKey: props.characterKey ?? '',
           iconKey: 'default',
         },
       }),

@@ -4,7 +4,7 @@ import {
   CriteriaThresholdSchema,
   CriteriaThresholdType,
   CriteriaThresholdCondition,
-  LotteryType,
+  OmikujiLotteryType,
   OmikujiItemType,
 } from '@/types/OmikujiData/'
 
@@ -16,7 +16,7 @@ export function useOmikujiLottery(getItem: () => OmikujiItemType, emitUpdate: (i
   const isPriority = computed(() => lottery.value.isPriority)
   const criteria = computed(() => lottery.value.criteria ?? defaultCriteria())
 
-  const emitLottery = (next: LotteryType) => {
+  const emitLottery = (next: OmikujiLotteryType) => {
     emitUpdate({ ...getItem(), lottery: next } as OmikujiItemType)
   }
 

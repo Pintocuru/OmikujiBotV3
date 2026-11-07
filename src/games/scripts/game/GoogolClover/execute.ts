@@ -15,7 +15,7 @@ export class ExecuteScript implements ScriptClass {
   /**
    * ゲームを実行する
    */
-  run(queryString: string, characterKey: string | null, omiken?: OmikenCommentType): ScriptResult {
+  run(queryString: string, characterKey: string, omiken?: OmikenCommentType): ScriptResult {
     const {} = this.parseParams(queryString)
     const user = prepareUserInfo(omiken)
 

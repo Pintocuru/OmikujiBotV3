@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { CharacterColorScheme, type CharacterColorType } from '@/types/OmikujiData'
+  import { CharacterColorSchema, type CharacterColorType } from '@/types/OmikujiData'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
 
   const props = defineProps<{
@@ -44,5 +44,5 @@
     'update:modelValue': [value: CharacterColorType]
   }>()
 
-  const currentColor = computed(() => props.modelValue ?? CharacterColorScheme.parse({}))
+  const currentColor = computed(() => props.modelValue ?? CharacterColorSchema.parse({}))
 </script>

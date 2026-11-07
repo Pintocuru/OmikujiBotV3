@@ -84,7 +84,7 @@
 
 <script setup lang="ts">
   import { computed, ref, toRef, watch } from 'vue'
-  import { CharacterColorScheme, type CharacterColorType } from '@/types/OmikujiData'
+  import { CharacterColorSchema, type CharacterColorType } from '@/types/OmikujiData'
   import {
     LIFE_HOURGLASS_BOWLS,
     LIFE_HOURGLASS_DOME_COUNT_THRESHOLD,
@@ -105,7 +105,7 @@
       giftTotal?: number /** ギフト合計(円) */
       streamSeconds?: number /** 配信時間(秒) */
     }>(),
-    { color: () => CharacterColorScheme.parse({}), giftPulse: 0, viewer: 0, giftTotal: 0, streamSeconds: 0 }
+    { color: () => CharacterColorSchema.parse({}), giftPulse: 0, viewer: 0, giftTotal: 0, streamSeconds: 0 }
   )
 
   const safe = (n: number) => (Number.isFinite(n) ? n : 0)

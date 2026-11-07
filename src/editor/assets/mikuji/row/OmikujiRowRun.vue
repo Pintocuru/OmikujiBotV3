@@ -41,14 +41,14 @@
     if (item.kind === 'control') {
       return { label: t(`mapText.omikujiControlCommand.${item.command}.label`), cls: '' }
     }
-    if (!item.stepKey) return { label: t('omikujiItem.scenario.noneShort'), cls: 'text-error font-bold' }
-    const scenario = getAsset('scenarios', item.stepKey)
+    if (!item.scenarioKey) return { label: t('omikujiItem.scenario.noneShort'), cls: 'text-error font-bold' }
+    const scenario = getAsset('scenarios', item.scenarioKey)
     if (!scenario) return { label: t('omikujiItem.scenario.missingShort'), cls: 'text-error font-bold' }
-    return { label: scenario.name || item.stepKey, cls: 'opacity-70' }
+    return { label: scenario.name || item.scenarioKey, cls: 'opacity-70' }
   })
 
   // 移動先のシナリオ key(control や未設定のときは空)
-  const scenarioKey = computed(() => (props.item.kind === 'steps' ? props.item.stepKey : ''))
+  const scenarioKey = computed(() => (props.item.kind === 'steps' ? props.item.scenarioKey : ''))
 
   /** シナリオの中身を編集しに行く */
   const goToScenario = () => {

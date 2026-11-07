@@ -128,7 +128,7 @@
 
   const { hours, minutes, seconds, colonVisible, year, month, date, day } = useLiveClockTime()
 
-  // CharacterColorScheme の4色(name/text/background/accent)を CSS 変数として定義
+  // CharacterColorSchema の4色(name/text/background/accent)を CSS 変数として定義
   const rootStyle = computed(() => ({
     '--lc-name': props.settings.color.name,
     '--lc-text': props.settings.color.text,

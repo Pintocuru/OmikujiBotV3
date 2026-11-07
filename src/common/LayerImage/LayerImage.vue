@@ -56,7 +56,7 @@
   const animationStyle = computed(() => {
     const anim = props.animation
     if (!anim || anim.type === 'none') return {}
-    const duration = `${anim.duration ?? 1.5}s`
+    const duration = `${anim.durationSeconds ?? 1.5}s`
     const iteration = anim.loop ? 'infinite' : '1'
     return {
       '--anim-duration': duration,

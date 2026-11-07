@@ -12,7 +12,7 @@ export class ExecuteScript implements ScriptClass {
   /**
    * ゲームを実行する
    */
-  run(queryString: string, characterKey: string | null, omiken?: OmikenCommentType): ScriptResult {
+  run(queryString: string, characterKey: string, omiken?: OmikenCommentType): ScriptResult {
     const { symbol, spin } = this.parseParams(queryString)
     const user = prepareUserInfo(omiken)
     const gameResult = playGame(user.userName, symbol, spin)
@@ -57,7 +57,7 @@ export class ExecuteScript implements ScriptClass {
   /**
    * ステップ の構築
    */
-  private buildSteps(gameResult: ReturnType<typeof playGame>, characterKey: string | null): ScenarioStepType[] {
+  private buildSteps(gameResult: ReturnType<typeof playGame>, characterKey: string): ScenarioStepType[] {
     const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,

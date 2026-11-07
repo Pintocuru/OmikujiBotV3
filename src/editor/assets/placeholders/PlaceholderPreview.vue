@@ -12,7 +12,7 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
 
-  import { handelNormalizedValues, WeightValueType, WeightValuesArrayType } from '@/types/OmikujiData'
+  import { handleNormalizedValues, WeightValueType, WeightValuesArrayType } from '@/types/OmikujiData'
   import { processTestPlaceholder } from '@/editor/helpers/shared/processTestPlaceholder'
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
@@ -32,7 +32,7 @@
 
   // 抽選実行
   const draw = () => {
-    const items = handelNormalizedValues(props.values)
+    const items = handleNormalizedValues(props.values)
     const drawn = drawByWeight(items)
     if (!drawn) return null
     return { drawn, percent: calcWeightPercentages(items)[items.indexOf(drawn)] }

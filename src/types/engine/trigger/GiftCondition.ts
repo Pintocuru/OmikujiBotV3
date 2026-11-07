@@ -18,5 +18,8 @@ export const giftConditions = [
 ] as const
 
 // スキーマと型の定義
-export const GiftConditionSchema = z.enum(giftConditions).default('all').catch('all')
+// 配列の要素用(不正な値を別の値に置き換えず、normalizedArray で除外して記録する)
+export const GiftConditionValueSchema = z.enum(giftConditions)
+// 単独の値用(不正な値は 'all' に戻す)
+export const GiftConditionSchema = GiftConditionValueSchema.default('all').catch('all')
 export type GiftConditionType = z.infer<typeof GiftConditionSchema>

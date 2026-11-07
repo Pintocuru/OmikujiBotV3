@@ -11,7 +11,7 @@ interface BuildRankingMessageParams {
   user: UserNameType
   score: number // 比較用の得点
   symbol: string // 名前の補助記号
-  label?: string // 表示用の得点 (省略時は score をそのまま文字にする)
+  scoreText?: string // 表示用の得点 (省略時は score をそのまま文字にする)
   gameKey?: string // ゲームの認識キー(任意)
   delaySeconds?: number
 }
@@ -31,11 +31,11 @@ export function prepareUserInfo(omiken?: OmikenCommentType): UserNameType {
  * 表示するかどうか(上限・ユーザーごとの重複など)は、ここでは決めず UI 側で決める。
  */
 export function buildBotMessageRanking(params: BuildRankingMessageParams): BotMessageRankingType {
-  const { user, score, symbol, label = String(score), gameKey, delaySeconds = 3.5 } = params
+  const { user, score, symbol, scoreText = String(score), gameKey, delaySeconds = 3.5 } = params
 
   return BotMessageRankingSchema.parse({
     delaySeconds,
     user,
-    slots: { gameKey, listName: user.userName, symbol, label, score },
+    slots: { gameKey, listName: user.userName, symbol, scoreText, score },
   })
 }

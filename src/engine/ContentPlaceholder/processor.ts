@@ -3,7 +3,7 @@ import {
   PlaceholderType,
   ScenarioStepType,
   WeightValuesArrayType,
-  handelNormalizedValues,
+  handleNormalizedValues,
   hasScenarioStepMessage,
 } from '@/types/OmikujiData'
 import { findMatchingClosingBracket, isInlineRandomSyntax, parseInlineValues, selectRandomValue } from './parser'
@@ -192,7 +192,7 @@ export class ContentPlaceholder {
 
 // PlaceholderValueType から ランダム抽選で値を選択
 function selectValue(values: WeightValuesArrayType): string {
-  const normalizedValues = handelNormalizedValues(values)
+  const normalizedValues = handleNormalizedValues(values)
   if (normalizedValues.length === 0) return ''
 
   const drawnValue = drawByWeight(normalizedValues)

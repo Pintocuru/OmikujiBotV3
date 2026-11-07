@@ -12,7 +12,7 @@ export interface VariablePlaceholderExtra {
 }
 
 export interface VariablePlaceholderResult {
-  bubble: string
+  text: string // 評価ブロックを処理したあとの文字列
   extra?: VariablePlaceholderExtra
   hasError?: boolean
 }

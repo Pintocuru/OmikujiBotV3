@@ -18,7 +18,7 @@
       v-model="conditions"
       i18n-prefix="commentTrigger.conditions"
       :icons="triggerConditionIcons"
-      :keys="commentTriggerCondition"
+      :keys="commentTriggerConditions"
     />
   </SettingItem>
 
@@ -33,7 +33,7 @@
   <TriggerGift v-if="conditions.includes('gift')" v-model="gift" />
 
   <!-- ユーザーネーム条件 -->
-  <TriggerUsername v-if="conditions.includes('username')" v-model="userName" />
+  <TriggerUsername v-if="conditions.includes('username')" v-model="usernames" />
 
   <!-- 判定式条件 -->
   <TriggerExpression v-if="conditions.includes('expression')" v-model="expression" />
@@ -46,7 +46,7 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
 
-  import { commentTriggerCondition, CommentTriggerType } from '@/types/OmikujiData'
+  import { commentTriggerConditions, CommentTriggerType } from '@/types/OmikujiData'
 
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import TriggerComment from '@/editor/events/trigger/TriggerComment.vue'
@@ -88,6 +88,6 @@
   const comment = createComputed('comment')
   const access = createComputed('access')
   const gift = createComputed('gift')
-  const userName = createComputed('userName')
+  const usernames = createComputed('usernames')
   const expression = createComputed('expression')
 </script>

@@ -1,7 +1,7 @@
 // src/types/ui/LiveClockSchema.ts
 import { z } from 'zod'
 import { normalizedObject } from '../core'
-import { CharacterColorScheme } from '../OmikujiData/assets/CharacterSchema'
+import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
 
 /**
  * ライブクロック LiveClock
@@ -34,7 +34,7 @@ const defaultMessage = `<<
 
 export const LiveClockSchema = z.object({
   component: z.string().min(1).default('morning').catch('morning'), // 保存データは文字列(未同梱の ID も保持する。空文字は morning に戻す)
-  color: normalizedObject(CharacterColorScheme, 'ui.LiveClock.color'), // キャラクター配色 (name / text / background / accent)
+  color: normalizedObject(CharacterColorSchema, 'ui.LiveClock.color'), // キャラクター配色 (name / text / background / accent)
   isSecond: z.boolean().default(false).catch(false), // 秒数を入れるか
   isDate: z.boolean().default(false).catch(false), // 日付をいれるか
   defaultMessage: z.string().default(defaultMessage).catch(defaultMessage),

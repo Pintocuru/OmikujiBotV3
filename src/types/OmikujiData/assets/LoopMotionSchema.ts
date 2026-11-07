@@ -1,4 +1,4 @@
-// src/types/OmikujiData/assets/LoopMotionsSchema.ts
+// src/types/OmikujiData/assets/LoopMotionSchema.ts
 import { z } from 'zod'
 
 /**

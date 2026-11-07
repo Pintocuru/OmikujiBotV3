@@ -37,7 +37,7 @@
         name: 'テストユーザー',
         message: props.message ?? '',
         isToast: false,
-        characterKey: props.characterKey || null,
+        characterKey: props.characterKey || '',
         iconKey: props.iconKey || 'default',
         displaySeconds: settings.value.displaySeconds,
       },

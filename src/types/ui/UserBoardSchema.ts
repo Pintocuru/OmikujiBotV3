@@ -1,6 +1,6 @@
 // src/types/ui/UserBoardSchema.ts
 import { normalizedObject } from '../core'
-import { CharacterColorScheme } from '../OmikujiData/assets/CharacterSchema'
+import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
 import { z } from 'zod'
 
 /**
@@ -26,7 +26,7 @@ export type BoardComponent = BoardComponentOf<BoardComponentSet>
 
 export const UserBoardSchema = z.object({
   component: z.string().min(1).default('ranking').catch('ranking'), // 表示するコンポーネント(保存データは文字列。未同梱の ID も保持する。空文字は ranking に戻す)
-  color: normalizedObject(CharacterColorScheme, 'ui.UserBoard.color'),
+  color: normalizedObject(CharacterColorSchema, 'ui.UserBoard.color'),
   limit: z.number().min(1).max(30).default(10).catch(10), // ranking の表示件数
 })
 export type UserBoardType = z.infer<typeof UserBoardSchema>

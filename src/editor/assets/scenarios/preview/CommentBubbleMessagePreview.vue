@@ -21,7 +21,7 @@
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { CharacterColorScheme } from '@/types/OmikujiData'
+  import { CharacterColorSchema } from '@/types/OmikujiData'
   import { CommentBubbleSchema } from '@/types/ui/CommentBubbleSchema'
   import type { BotMessageSlotsType } from '@/types/generator'
   import CommentBubbleItem from '@/ui/CommentBubble/components/bubble/CommentBubbleItem.vue'
@@ -41,7 +41,7 @@
 
   const { data } = storeToRefs(useOmikujiStore())
   const bubbleSettings = computed(() => CommentBubbleSchema.parse(data.value.ui.settings.commentBubble ?? {}))
-  const defaultColor = CharacterColorScheme.parse({})
+  const defaultColor = CharacterColorSchema.parse({})
 
   const character = computed(() => {
     if (!props.characterKey) return null

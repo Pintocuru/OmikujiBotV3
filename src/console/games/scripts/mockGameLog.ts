@@ -30,7 +30,7 @@ export function buildMockGameLogs(count = MOCK_GAME_LOG_COUNT): GameLogType[] {
       userId: user.userId,
       userName: user.userName,
       score: slots.score,
-      item: slots.label,
+      item: slots.scoreText,
       createdAt: now - (count - index) * 1000,
     })
   )

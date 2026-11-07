@@ -37,18 +37,18 @@
   import { ref, watch } from 'vue'
   import { VueDraggable } from 'vue-draggable-plus'
   import EmotionCard from './EmotionCard.vue'
-  import type { CharacterImageType } from '@/types/OmikujiData'
+  import type { CharacterImageSetType } from '@/types/OmikujiData'
 
   // ── 内部用型 ──────────────────────────────────────────────────────────────
   type EmotionEntry = {
     key: string
-    value: CharacterImageType[string]
+    value: CharacterImageSetType[string]
   }
 
   // ── Props / Emits ─────────────────────────────────────────────────────────
   const props = withDefaults(
     defineProps<{
-      images: CharacterImageType
+      images: CharacterImageSetType
       selectedKey?: string
       readonly?: boolean
     }>(),
@@ -57,14 +57,14 @@
 
   const emit = defineEmits<{
     select: [key: string]
-    reorder: [newImages: CharacterImageType]
+    reorder: [newImages: CharacterImageSetType]
   }>()
 
   // ── images オブジェクト → 配列へ変換
   // キーは加工せずそのまま使う(select / reorder の emit や selectedKey の比較が実キーと一致するため)。
   // 注意: JS のオブジェクトは「数字だけのキー」を常に昇順で先頭に並べるため、
   //       数字キーの感情は並び替えを保存できない(ドラッグしても元の位置に戻る)。
-  const toEntries = (images: CharacterImageType) => Object.entries(images).map(([key, value]) => ({ key, value }))
+  const toEntries = (images: CharacterImageSetType) => Object.entries(images).map(([key, value]) => ({ key, value }))
 
   const draggableItems = ref<EmotionEntry[]>(toEntries(props.images))
 
@@ -93,7 +93,7 @@
   const handleDragEnd = () => {
     const reordered = Object.fromEntries(
       draggableItems.value.map(({ key, value }) => [key, value])
-    ) as CharacterImageType
+    ) as CharacterImageSetType
     emit('reorder', reordered)
   }
 </script>

@@ -4,7 +4,7 @@
 // v2 のデータ構造を元にしているが、実行時には v2 のスキーマを使わない。
 // 「素のJSON」を読んで v3 の形に組み替えるだけにして、最終的な検証・補完は v3 の OmikujiDataSchema に任せる。
 // ※ zod の配列は要素が1つでも不正だと配列ごと catch されるため、v3 の enum に収まらない値はここで取り除く。
-import { commentTriggerCondition, criteriaThresholdCondition, reactionKeys } from '@/types/OmikujiData'
+import { commentTriggerConditions, criteriaThresholdConditions, reactionKeys } from '@/types/OmikujiData'
 
 type Obj = Record<string, any>
 
@@ -111,7 +111,7 @@ function migrateSteps(old: Obj): Obj[] {
 
 function migrateCriteria(c: unknown): Obj {
   const o = obj(c)
-  return { ...o, conditions: only(criteriaThresholdCondition, o.conditions) }
+  return { ...o, conditions: only(criteriaThresholdConditions, o.conditions) }
 }
 
 function migrateLottery(old: Obj): Obj {
@@ -204,7 +204,7 @@ function migrateTrigger(from: string, trigger: unknown): Obj | undefined {
   switch (from) {
     case 'comments':
       // v3 から syoken / count 条件は廃止
-      return { ...t, conditions: only(commentTriggerCondition, t.conditions) }
+      return { ...t, conditions: only(commentTriggerConditions, t.conditions) }
     case 'reactions':
       return { ...t, reactions: only(reactionKeys, t.reactions) }
     case 'metas':

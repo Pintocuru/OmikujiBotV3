@@ -6,6 +6,7 @@ import { APP_VERSION, DATA_VERSION } from '@/version'
 import { ensureSampleCharacters } from './v3/sampleCharacter'
 import { migrateV2ToV3 } from './v2/v2ToV3'
 import { DATA_VERSION_3_0000001005, migrateStepsArrayToRecord } from './v3/stepsArrayToRecord'
+import { DATA_VERSION_3_0000001007, migrateRenameProperties1007 } from './v3/renameProperties1007'
 
 /** これ未満の dataVersion は旧形式（v2 以前）。v3 の形式へ変換が必要 */
 const LEGACY_DATA_VERSION_LIMIT = 3
@@ -82,6 +83,14 @@ export function normalizeData(data: unknown): NormalizeResult {
    */
   if (incomingVersion < DATA_VERSION_3_0000001005) {
     updatedData = migrateStepsArrayToRecord(updatedData)
+  }
+
+  /**
+   * v3.0000001006 以前(v2 変換後を含む) -> 3.0000001007 : プロパティ名の変更
+   * stepKey -> scenarioKey / scriptId -> scriptKey / userName -> usernames / duration -> durationSeconds / characterKey の null -> ''
+   */
+  if (incomingVersion < DATA_VERSION_3_0000001007) {
+    updatedData = migrateRenameProperties1007(updatedData)
   }
 
   // スキーマで保証

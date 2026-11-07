@@ -1,7 +1,7 @@
 // src/types/ui/StreamCounterSchema.ts
 import { z } from 'zod'
 import { idSchema } from '../core'
-import { CharacterColorScheme } from '../OmikujiData/assets/CharacterSchema'
+import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
 
 /**
  * StreamCounter のコンポーネントセット
@@ -44,11 +44,11 @@ export type StreamCounterVariable = z.infer<typeof StreamCounterVariablesSchema>
  * ライバーカウンターv2 StreamCounter
  */
 
-const defaultColors = () => [CharacterColorScheme.parse({})]
+const defaultColors = () => [CharacterColorSchema.parse({})]
 
 export const StreamCounterSchema = z.object({
   component: z.string().min(1).default('pixelBadge').catch('pixelBadge'), // 保存データは文字列(未同梱の ID も保持する。空文字は pixelBadge に戻す)
-  color: z.array(CharacterColorScheme).min(1).max(8).default(defaultColors).catch(defaultColors), // カウンターの順に割り当てる配色(name / text / background / accent)。足りない分は先頭から繰り返す
+  color: z.array(CharacterColorSchema).min(1).max(8).default(defaultColors).catch(defaultColors), // カウンターの順に割り当てる配色(name / text / background / accent)。足りない分は先頭から繰り返す
   defaultCounters: z
     .array(z.enum(streamDefaultKeyLabels))
     .default(['syoken', 'commenter', 'upVote', 'viewer'])

@@ -50,7 +50,7 @@ export function useKeyEditor() {
 
         const hasUsage = mikuji.omikuji.some((item) => {
           if (item.kind !== 'steps') return false
-          const scenario = getAsset('scenarios', item.stepKey)
+          const scenario = getAsset('scenarios', item.scenarioKey)
           if (!scenario) return false
           return Object.values(scenario.steps).some(
             (step) => (step.kind === 'message' || step.kind === 'gameScript') && step.characterKey === characterKey

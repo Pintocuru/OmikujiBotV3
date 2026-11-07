@@ -21,15 +21,15 @@
       v-model="conditions"
       i18n-prefix="commentTrigger.conditions"
       :icons="triggerConditionIcons"
-      :keys="criteriaThresholdCondition"
+      :keys="criteriaThresholdConditions"
     />
   </SettingItem>
 
   <!-- ユーザーネーム条件 -->
   <TriggerUsername
     v-if="activeConditions.has('username')"
-    :modelValue="criteria.userName"
-    @update:modelValue="updateCriteriaKey('userName', $event)"
+    :modelValue="criteria.usernames"
+    @update:modelValue="updateCriteriaKey('usernames', $event)"
   />
 
   <!-- アクセスレベル条件 -->
@@ -81,7 +81,7 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
 
-  import { criteriaThresholdCondition, OmikujiItemType } from '@/types/OmikujiData'
+  import { criteriaThresholdConditions, OmikujiItemType } from '@/types/OmikujiData'
   import { useOmikujiLottery } from '../composables/useOmikujiLottery'
 
   import TriggerComment from '@/editor/events/trigger/TriggerComment.vue'

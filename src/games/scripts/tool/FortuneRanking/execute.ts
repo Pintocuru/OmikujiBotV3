@@ -10,7 +10,7 @@ export class ExecuteScript implements ScriptClass {
   /**
    * ゲームを実行する
    */
-  run(queryString: string, characterKey: string | null, _omiken?: OmikenCommentType): ScriptResult {
+  run(queryString: string, characterKey: string, _omiken?: OmikenCommentType): ScriptResult {
     const { projectName, fruitPairs } = this.parseParams(queryString)
 
     // シャッフルして順位決定

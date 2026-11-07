@@ -81,7 +81,7 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { VolumeX, Volume2, Dot } from 'lucide-vue-next'
-  import { ReactionReaction, ReactionTriggerType } from '@/types/OmikujiData'
+  import { ReactionKeyType, ReactionTriggerType } from '@/types/OmikujiData'
   import { reactionConditionMap, reactionMap } from '@/maps/OmikujiData'
 
   const { t } = useI18n()
@@ -108,7 +108,7 @@
   const triggerLevel = createComputed('triggerLevel')
 
   // toggle
-  const toggleReaction = (key: ReactionReaction) => {
+  const toggleReaction = (key: ReactionKeyType) => {
     const set = new Set(reactions.value)
     if (set.has(key)) set.delete(key)
     else set.add(key)

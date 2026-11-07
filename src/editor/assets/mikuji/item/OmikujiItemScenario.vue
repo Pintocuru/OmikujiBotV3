@@ -24,7 +24,7 @@
           <!-- 編集ダイアログを開くボタン -->
           <button class="btn btn-sm btn-primary gap-1 max-w-80" @click="pickerOpen = true">
             <Zap class="w-4 h-4 shrink-0" />
-            <span class="truncate">{{ scenario.name || stepKey }}</span>
+            <span class="truncate">{{ scenario.name || scenarioKey }}</span>
           </button>
 
           <!-- シナリオ編集画面へ飛ぶボタン -->
@@ -41,8 +41,8 @@
 
         <!-- 未接続 / 参照切れ -->
         <div v-else class="flex flex-wrap items-center gap-2 rounded-lg bg-neutral text-neutral-content px-3 py-2">
-          <span v-if="stepKey" class="badge badge-warning">{{
-            t('omikujiItem.scenario.missing', { key: stepKey })
+          <span v-if="scenarioKey" class="badge badge-warning">{{
+            t('omikujiItem.scenario.missing', { key: scenarioKey })
           }}</span>
           <span v-else class="text-sm">{{ t('omikujiItem.scenario.none') }}</span>
           <button class="btn btn-xs btn-primary" @click="pickerOpen = true">
@@ -52,7 +52,7 @@
       </div>
     </SettingItem>
 
-    <ScenarioPickerDialog v-model:open="pickerOpen" :selectedKey="stepKey || undefined" @select="onSelect" />
+    <ScenarioPickerDialog v-model:open="pickerOpen" :selectedKey="scenarioKey || undefined" @select="onSelect" />
   </div>
 </template>
 
@@ -77,19 +77,19 @@
 
   const pickerOpen = ref(false)
 
-  const stepKey = computed(() => (props.omikujiItem.kind === 'steps' ? props.omikujiItem.stepKey : ''))
-  const scenario = computed(() => (stepKey.value ? (getAsset('scenarios', stepKey.value) ?? null) : null))
+  const scenarioKey = computed(() => (props.omikujiItem.kind === 'steps' ? props.omikujiItem.scenarioKey : ''))
+  const scenario = computed(() => (scenarioKey.value ? (getAsset('scenarios', scenarioKey.value) ?? null) : null))
   /** 同じシナリオを実行する、ほかのおみくじの数(自分を除く) */
-  const sharedCount = computed(() => Math.max(0, scenarioItemCount(stepKey.value) - 1))
+  const sharedCount = computed(() => Math.max(0, scenarioItemCount(scenarioKey.value) - 1))
 
   const onSelect = (key: string) => {
     if (props.omikujiItem.kind !== 'steps') return
-    emit('update', { ...props.omikujiItem, stepKey: key })
+    emit('update', { ...props.omikujiItem, scenarioKey: key })
   }
 
   /** シナリオの中身を編集しに行く */
   const goToScenario = () => {
     navigationStore.selectCategory('scenarios')
-    navigationStore.selectItem(stepKey.value)
+    navigationStore.selectItem(scenarioKey.value)
   }
 </script>

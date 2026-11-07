@@ -10,7 +10,7 @@ import { parseQueryString } from '@/games/shared/parseQueryString'
 import { WordPartySelector } from './wordPartySelector'
 
 export class ExecuteScript implements ScriptClass {
-  run(queryString: string, characterKey: string | null, omiken?: OmikenCommentType): ScriptResult {
+  run(queryString: string, characterKey: string, omiken?: OmikenCommentType): ScriptResult {
     const params = this.parseParams(queryString)
     const user = prepareUserInfo(omiken)
 
@@ -79,7 +79,7 @@ export class ExecuteScript implements ScriptClass {
       message: string
     },
     wordPartySteps: ScenarioStepType[],
-    characterKey: string | null
+    characterKey: string
   ): ScenarioStepType[] {
     const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 3.5,

@@ -1,6 +1,6 @@
 // src/types/OmikujiData/events/EventCategorySchema.ts
 import { z } from 'zod'
-import { normalizedArray } from '../../core/ParsedDefault'
+import { normalizedArray } from '@/types/core/ParsedDefault'
 import {
   CommentEventSchema,
   PadEventSchema,
@@ -15,27 +15,28 @@ import {
 export const eventCategory = ['comments', 'timers', 'services', 'reactions', 'pads'] as const
 export type EventCategoryType = (typeof eventCategory)[number]
 
-export type EventCategoryDataMap = {
-  comments: z.infer<typeof CommentEventSchema>
-  timers: z.infer<typeof TimerEventSchema>
-  services: z.infer<typeof ServiceEventSchema>
-  reactions: z.infer<typeof ReactionEventSchema>
-  pads: z.infer<typeof PadEventSchema>
-}
-
+// カテゴリごとのスキーマ(eventCategory に足し忘れ・書き忘れがあると型エラーになる)
 export const EventCategorySchemaMap = {
   comments: CommentEventSchema,
   timers: TimerEventSchema,
   services: ServiceEventSchema,
   reactions: ReactionEventSchema,
   pads: PadEventSchema,
-} as const
+} as const satisfies Record<EventCategoryType, z.ZodType>
 
-export const EventCategorySchema = z.object({
+// カテゴリごとのイベント型(EventCategorySchemaMap から導出)
+export type EventCategoryDataMap = {
+  [K in EventCategoryType]: z.infer<(typeof EventCategorySchemaMap)[K]>
+}
+
+// イベントデータ全体(eventCategory と同じキーであることを型で保証する)
+const eventCategoryShape = {
   comments: normalizedArray(CommentEventSchema, 'events.comments'),
   timers: normalizedArray(TimerEventSchema, 'events.timers'),
   services: normalizedArray(ServiceEventSchema, 'events.services'),
   reactions: normalizedArray(ReactionEventSchema, 'events.reactions'),
   pads: normalizedArray(PadEventSchema, 'events.pads'),
-})
+} satisfies Record<EventCategoryType, z.ZodType>
+
+export const EventCategorySchema = z.object(eventCategoryShape)
 export type OmikujiDataEventType = z.infer<typeof EventCategorySchema>

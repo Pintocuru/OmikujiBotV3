@@ -3,7 +3,7 @@
   <!-- 実行するゲームスクリプト -->
   <SettingItem layout="vertical" icon="Gamepad2" labelKey="scenarioStep.gameScript.gameLabel">
     <IconRadioGroup
-      v-model="scriptId"
+      v-model="scriptKey"
       i18n-prefix="mapText.gameMeta"
       :icons="gameIcons"
       :keys="gameKeys"
@@ -64,9 +64,9 @@
 
   const gameKeys = getRegisteredGameScriptKeys()
 
-  const scriptId = computed<GameScriptKey | ''>({
-    get: () => (isGameScriptKey(props.step.scriptId) ? props.step.scriptId : ''),
-    set: (value) => updateStep({ scriptId: value }),
+  const scriptKey = computed<GameScriptKey | ''>({
+    get: () => (isGameScriptKey(props.step.scriptKey) ? props.step.scriptKey : ''),
+    set: (value) => updateStep({ scriptKey: value }),
   })
 
   function createStepComputed<K extends keyof ScenarioStepGameScriptType>(key: K) {

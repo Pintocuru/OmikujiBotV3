@@ -92,12 +92,12 @@ export function useTestPost() {
       return
     }
 
-    const scenario = data.value.assets.scenarios[omikujiItem.stepKey]
+    const scenario = data.value.assets.scenarios[omikujiItem.scenarioKey]
     if (!scenario) {
       swalToast.error({
         title: t('editorPreview.testPost.missingScenarioTitle'),
-        text: omikujiItem.stepKey
-          ? t('editorPreview.testPost.missingScenario', { key: omikujiItem.stepKey })
+        text: omikujiItem.scenarioKey
+          ? t('editorPreview.testPost.missingScenario', { key: omikujiItem.scenarioKey })
           : t('editorPreview.testPost.missingScenarioKey'),
       })
       return

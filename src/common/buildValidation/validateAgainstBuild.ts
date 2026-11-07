@@ -27,19 +27,19 @@ const formatUnsupportedKeys = (items: UnsupportedKey[]): string =>
 export const formatBuildMismatchMessage = (items: UnsupportedKey[]): string =>
   `このデータは、このビルドで未対応の機能(${formatUnsupportedKeys(items)})を含んでいます。対応するビルドで開いてください`
 
-/** データ内の step(kind: 'gameScript')から scriptId を集める。assets 配下のどこにあっても拾える */
-const collectGameScriptIds = (node: unknown, found: Set<string>): void => {
+/** データ内の step(kind: 'gameScript')から scriptKey を集める。assets 配下のどこにあっても拾える */
+const collectGameScriptKeys = (node: unknown, found: Set<string>): void => {
   if (Array.isArray(node)) {
-    node.forEach((child) => collectGameScriptIds(child, found))
+    node.forEach((child) => collectGameScriptKeys(child, found))
     return
   }
   if (node === null || typeof node !== 'object') return
 
   const record = node as Record<string, unknown>
-  if (record.kind === 'gameScript' && typeof record.scriptId === 'string' && record.scriptId) {
-    found.add(record.scriptId)
+  if (record.kind === 'gameScript' && typeof record.scriptKey === 'string' && record.scriptKey) {
+    found.add(record.scriptKey)
   }
-  Object.values(record).forEach((child) => collectGameScriptIds(child, found))
+  Object.values(record).forEach((child) => collectGameScriptKeys(child, found))
 }
 
 /**
@@ -58,12 +58,12 @@ export const validateAgainstBuild = (data: OmikujiDataType): UnsupportedKey[] =>
   const { layout } = data.ui
   if (layout && !getLayoutLoader(layout)) unsupported.push({ type: 'layout', key: layout })
 
-  // gameScript: scriptId は文字列なので、gameScriptKeys にない値も未対応として扱う
-  const scriptIds = new Set<string>()
-  collectGameScriptIds(data.assets, scriptIds)
-  for (const scriptId of scriptIds) {
-    if (!isGameScriptKey(scriptId) || !getGameScriptLoader(scriptId)) {
-      unsupported.push({ type: 'gameScript', key: scriptId })
+  // gameScript: scriptKey は文字列なので、gameScriptKeys にない値も未対応として扱う
+  const scriptKeys = new Set<string>()
+  collectGameScriptKeys(data.assets, scriptKeys)
+  for (const scriptKey of scriptKeys) {
+    if (!isGameScriptKey(scriptKey) || !getGameScriptLoader(scriptKey)) {
+      unsupported.push({ type: 'gameScript', key: scriptKey })
     }
   }
 

@@ -104,7 +104,7 @@ export function updatePlaceholderReferences(oldKey: string, newKey: string): voi
 }
 
 /**
- * みくじアイテム(kind: 'steps')の stepKey 更新
+ * みくじアイテム(kind: 'steps')の scenarioKey 更新
  */
 function updateMikujiStepKeys(oldKey: string, newKey: string): void {
   const { updateAsset } = useOmikujiStore()
@@ -112,7 +112,7 @@ function updateMikujiStepKeys(oldKey: string, newKey: string): void {
 
   Object.values(getAssets('mikuji')).forEach((box) => {
     const omikuji = mapIfChanged(box.omikuji, (item) =>
-      item.kind === 'steps' && item.stepKey === oldKey ? { ...item, stepKey: newKey } : item
+      item.kind === 'steps' && item.scenarioKey === oldKey ? { ...item, scenarioKey: newKey } : item
     )
     if (omikuji) updateAsset('mikuji', box.key, { omikuji })
   })

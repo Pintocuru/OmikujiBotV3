@@ -35,9 +35,9 @@ export const processTestPlaceholder = (
     const processed = dynamicProcessor.process(resolved2)
 
     // 未処理 {{ }} が残っていればエラー
-    const hasError = /\{\{[\s\S]*?\}\}/.test(processed.bubble)
+    const hasError = /\{\{[\s\S]*?\}\}/.test(processed.text)
 
-    return { text: processed.bubble, hasError }
+    return { text: processed.text, hasError }
   } catch {
     return {
       text: message,

@@ -9,7 +9,7 @@ export const createDefaultStep = (kind: ScenarioStepKind, delaySeconds: number):
         delaySeconds,
         uiKey: 'commentBubble',
         slots: {},
-        characterKey: null,
+        characterKey: '',
         iconKey: 'default',
         sound: '',
         soundPath: '',
@@ -28,7 +28,7 @@ export const createDefaultStep = (kind: ScenarioStepKind, delaySeconds: number):
       return {
         kind,
         delaySeconds,
-        scriptId: '',
+        scriptKey: '',
         characterKey: '',
         queryString: '',
       } satisfies Extract<ScenarioStepType, { kind: 'gameScript' }>

@@ -34,7 +34,7 @@ export type ServiceConditionType = z.infer<typeof ServiceConditionSchema>
 export const serviceTriggerConditions = ['upVote', 'viewer', 'follower', 'elapsedMinutes'] as const
 
 export const ServiceTriggerConditionSchema = z.enum(serviceTriggerConditions).default('upVote').catch('upVote')
-export type ServiceTriggerCondition = z.infer<typeof ServiceTriggerConditionSchema>
+export type ServiceTriggerConditionType = z.infer<typeof ServiceTriggerConditionSchema>
 
 /**
  * ServiceTriggerSchema

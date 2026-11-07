@@ -12,7 +12,7 @@ export const RankingSlotsSchema = z.object({
   gameKey: z.string().optional(), // ゲームの認識キー(任意)
   listName: z.string().default(''), // 表示名 (空なら user.userName を使う)
   symbol: z.string().default(''), // 名前の補助記号
-  label: z.string().default(''), // 表示用の得点 (例: '30点'、'大吉')
+  scoreText: z.string().default(''), // 表示用の得点 (例: '30点'、'大吉')
   score: z.number(), // 比較用の得点 (表示はしない)
 })
 export type RankingSlotsType = z.infer<typeof RankingSlotsSchema>
@@ -44,7 +44,7 @@ export const toRankingEntry = (msg: BotMessageType): BotMessageRankingType | nul
       gameKey: gameKey == null ? undefined : String(gameKey),
       listName: String(pick(s, 'listName') ?? ''),
       symbol: String(pick(s, 'symbol') ?? ''),
-      label: String(pick(s, 'label') ?? ''),
+      scoreText: String(pick(s, 'scoreText') ?? ''),
       score: Number(pick(s, 'score')),
     },
   })

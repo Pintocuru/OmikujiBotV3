@@ -58,7 +58,7 @@ const excludeUser: PresetDefinition<'comments'> = {
         {
           name: 'おみくじ除外(ユーザー名を設定してください)',
           omikujiKey: key,
-          trigger: CommentTriggerSchema.parse({ conditions: ['username'], userName: [] }),
+          trigger: CommentTriggerSchema.parse({ conditions: ['username'], usernames: [] }),
         },
       ],
       eventsToTop: true, // 通常のおみくじより先に判定させる

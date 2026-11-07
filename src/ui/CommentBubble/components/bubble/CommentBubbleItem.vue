@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { CharacterColorScheme, CharacterColorType } from '@/types/OmikujiData/'
+  import { CharacterColorSchema, CharacterColorType } from '@/types/OmikujiData/'
 
   const props = withDefaults(
     defineProps<{
@@ -32,7 +32,7 @@
       arrowDirection?: 'down' | 'left' | 'right' | 'none' // 矢印の向き(left=吹き出しの左側に出て左を指す)
     }>(),
     {
-      color: () => CharacterColorScheme.parse({}),
+      color: () => CharacterColorSchema.parse({}),
       brightnessLevel: 0,
       arrowDirection: 'down',
     }

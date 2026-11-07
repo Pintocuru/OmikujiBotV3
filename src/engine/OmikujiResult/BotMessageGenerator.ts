@@ -40,18 +40,18 @@ export class BotMessageGenerator {
         // 予約語は、message と slots の処理が終わるまで残す
         const processed = step.message ? this.variableProcessor.process(step.message) : undefined
         const slots = Object.fromEntries(
-          Object.entries(step.slots).map(([key, text]) => [key, this.variableProcessor.process(text).bubble])
+          Object.entries(step.slots).map(([key, text]) => [key, this.variableProcessor.process(text).text])
         )
         return {
-          step: { ...step, message: processed?.bubble ?? step.message, slots },
+          step: { ...step, message: processed?.text ?? step.message, slots },
           extra: processed?.extra,
         }
       }
       if (!hasScenarioStepMessage(step) || !step.message) return { step }
 
       // 変数処理の実行（ランキング抽出等）
-      const { bubble, extra } = this.variableProcessor.process(step.message)
-      return { step: { ...step, message: bubble }, extra }
+      const { text, extra } = this.variableProcessor.process(step.message)
+      return { step: { ...step, message: text }, extra }
     })
   }
 

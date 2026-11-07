@@ -7,8 +7,8 @@
           :settings="settings"
           editorPreview
           :message="message || '(未記入)'"
-          :color="getCharacterColor(characterKey || null)"
-          :iconLayers="settings.showToastsCharacter ? iconSrc(characterKey || null, iconKey || 'default') : []"
+          :color="getCharacterColor(characterKey || '')"
+          :iconLayers="settings.showToastsCharacter ? iconSrc(characterKey || '', iconKey || 'default') : []"
         />
       </div>
     </div>

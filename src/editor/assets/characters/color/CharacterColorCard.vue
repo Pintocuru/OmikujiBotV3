@@ -38,7 +38,7 @@
   import { computed, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { Pencil } from 'lucide-vue-next'
-  import { CharacterColorScheme, type CharacterColorType } from '@/types/OmikujiData/'
+  import { CharacterColorSchema, type CharacterColorType } from '@/types/OmikujiData/'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import CharacterColorSettings from './CharacterColorSettings.vue'
 
@@ -53,7 +53,7 @@
 
   const colorFields = ['name', 'text', 'background', 'accent'] as const
 
-  const currentColor = computed(() => props.modelValue ?? CharacterColorScheme.parse({}))
+  const currentColor = computed(() => props.modelValue ?? CharacterColorSchema.parse({}))
 
   const editOpen = ref(false)
 </script>

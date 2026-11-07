@@ -1,5 +1,5 @@
 // src/maps/OmikujiData/events/ServiceTriggerMap.ts
-import type { ServiceComparisonConditionType, ServiceTriggerCondition } from '@/types/OmikujiData'
+import type { ServiceComparisonConditionType, ServiceTriggerConditionType } from '@/types/OmikujiData'
 
 /**
  * サービス比較条件のキー一覧
@@ -34,7 +34,7 @@ export const serviceSimpleComparisonConditionMap: Record<
 /**
  * サービストリガー条件のキー一覧
  */
-export const serviceTriggerConditionMap: Record<ServiceTriggerCondition, true> = {
+export const serviceTriggerConditionMap: Record<ServiceTriggerConditionType, true> = {
   upVote: true,
   viewer: true,
   follower: true,

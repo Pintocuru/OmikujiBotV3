@@ -18,7 +18,7 @@ export function useScenarioStepCharacters() {
     target.category !== 'mikuji' || !target.itemId || target.itemId === omikujiId
 
   /**
-   * 対象が参照しているシナリオ(みくじ箱は steps 種別アイテムの stepKey から重複なしで解決)
+   * 対象が参照しているシナリオ(みくじ箱は steps 種別アイテムの scenarioKey から重複なしで解決)
    */
   const getTargetScenarios = (target: FlowTarget): ScenarioType[] => {
     if (target.category === 'scenarios') return [target.item]
@@ -26,7 +26,7 @@ export function useScenarioStepCharacters() {
     const scenarios = new Map<string, ScenarioType>()
     target.item.omikuji.forEach((omikuji) => {
       if (omikuji.kind !== 'steps' || !isTargetItem(target, omikuji.id)) return
-      const scenario = getAsset('scenarios', omikuji.stepKey)
+      const scenario = getAsset('scenarios', omikuji.scenarioKey)
       if (scenario) scenarios.set(scenario.key, scenario)
     })
     return [...scenarios.values()]
@@ -42,7 +42,7 @@ export function useScenarioStepCharacters() {
    * ステップが参照しているキャラクターキー（message / gameScript）
    */
   const getStepCharacterKey = (step: ScenarioStepType): string | null => {
-    if (step.kind === 'message' || step.kind === 'gameScript') return step.characterKey?.trim() || null
+    if (step.kind === 'message' || step.kind === 'gameScript') return step.characterKey.trim() || null
     return null
   }
 
@@ -85,7 +85,7 @@ export function useScenarioStepCharacters() {
    * iconKeyが不正かどうか（キャラに画像が存在しないiconKey）
    * resolveEmotionがフォールバックするということは不正
    */
-  const isInvalidIconKey = (characterKey: string | null, iconKey: string): boolean => {
+  const isInvalidIconKey = (characterKey: string, iconKey: string): boolean => {
     if (!characterKey) return false
 
     const character = getCharacter(characterKey)

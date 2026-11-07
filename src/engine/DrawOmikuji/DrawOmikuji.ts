@@ -2,14 +2,14 @@
 // 重み付き抽選。対象は次の 2 種類だけで、どちらも型で縛っている(汎用の any 的な入力は受け付けない)
 // - おみくじアイテム: item.lottery に weight / isPriority を持つ  → drawOmikuji
 // - 重み付きの値(プレースホルダー・シナリオ呼び出し): item.weight を持つ → drawByWeight
-import type { LotteryType } from '@/types/OmikujiData/'
+import type { OmikujiLotteryType } from '@/types/OmikujiData/'
 import { HighQualityRandom } from './HighQualityRandom'
 
 /** 重み付きの値(WeightValueType など) */
 export type WeightedItem = { weight: number }
 
 /** おみくじアイテム(OmikujiItemType など)。重みと優先は lottery の中にある */
-export type LotteryItem = { lottery: Pick<LotteryType, 'isPriority' | 'weight'> }
+export type LotteryItem = { lottery: Pick<OmikujiLotteryType, 'isPriority' | 'weight'> }
 
 // weight が 0 でも抽選対象から外れないようにする下限
 const MIN_WEIGHT = 0.001

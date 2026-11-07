@@ -8,7 +8,7 @@ import { ScenarioStepMessageSchema, ScenarioStepMessageType } from '@/types/Omik
  */
 export interface RankingMessageParams {
   user: { userName: string }
-  characterKey: string | null
+  characterKey: string
 }
 
 /**

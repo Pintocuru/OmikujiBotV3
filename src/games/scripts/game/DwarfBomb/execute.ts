@@ -9,7 +9,7 @@ import { parseQueryString } from '@/games/shared/parseQueryString'
 import { generatePartyEffects, playGame } from './game/game'
 
 export class ExecuteScript implements ScriptClass {
-  run(queryString: string, characterKey: string | null, omiken?: OmikenCommentType): ScriptResult {
+  run(queryString: string, characterKey: string, omiken?: OmikenCommentType): ScriptResult {
     const params = this.parseParams(queryString)
     const user = prepareUserInfo(omiken)
 
@@ -45,7 +45,7 @@ export class ExecuteScript implements ScriptClass {
 
   private buildSteps(
     partyEffects: ScenarioStepType[],
-    characterKey: string | null,
+    characterKey: string,
     bubbleText: string
   ): ScenarioStepType[] {
     const messageAction = ScenarioStepMessageSchema.parse({

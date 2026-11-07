@@ -30,7 +30,7 @@ export type BotMessageSlotsType = z.infer<typeof BotMessageSlotsSchema>
 const BotBubbleSchema = z.object({
   name: z.string().nullable().default(null),
   message: z.string(),
-  characterKey: z.string().nullable().default(null),
+  characterKey: z.string().default('').catch(''), // 空文字はキャラなし
   iconKey: z.string().default('default').catch('default'),
   displaySeconds: z.number().min(0).max(60).nullable().optional(),
 })

@@ -15,7 +15,7 @@ export const toGameLog = (message: BotMessageRankingType): GameLogType => {
     userId: message.user.userId,
     userName: message.slots.listName || message.user.userName,
     score: message.slots.score,
-    ...(message.slots.label ? { item: message.slots.label } : {}),
+    ...(message.slots.scoreText ? { item: message.slots.scoreText } : {}),
     ...(Number.isNaN(createdAt) ? {} : { createdAt }),
   })
 }

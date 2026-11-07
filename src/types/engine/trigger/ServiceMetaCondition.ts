@@ -1,5 +1,5 @@
-// src/types/engine/trigger/ServiceCondition.ts
-import z from 'zod'
+// src/types/engine/trigger/ServiceMetaCondition.ts
+import { z } from 'zod'
 
 /**
  * 配信メタ条件の種類

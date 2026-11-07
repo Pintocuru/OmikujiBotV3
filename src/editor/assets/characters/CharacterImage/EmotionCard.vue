@@ -12,7 +12,7 @@
 
       <!-- レイヤー画像 -->
       <LayerImage
-        :key="`${item.key}-${item.value.animation?.type ?? 'none'}-${item.value.animation?.duration ?? 0}-${item.value.animation?.loop ?? true}`"
+        :key="`${item.key}-${item.value.animation?.type ?? 'none'}-${item.value.animation?.durationSeconds ?? 0}-${item.value.animation?.loop ?? true}`"
         :layers="item.value.src"
         :animation="item.value.animation"
       />
@@ -22,12 +22,12 @@
 </template>
 
 <script setup lang="ts">
-  import { CharacterImageType } from '@/types/OmikujiData'
+  import { CharacterImageSetType } from '@/types/OmikujiData'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { GripVertical } from 'lucide-vue-next'
 
   defineProps<{
-    item: { key: string; value: CharacterImageType[string] }
+    item: { key: string; value: CharacterImageSetType[string] }
     showDragHandle?: boolean
   }>()
 </script>

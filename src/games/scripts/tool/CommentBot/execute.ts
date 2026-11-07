@@ -26,7 +26,7 @@ export class ExecuteScript implements ScriptClass {
    * BOT としてわんコメにコメントを投稿する(いつ呼ぶかは呼び出し側の責務)
    * userId は botUserId 固定: 投稿は BOT のコメントとして扱われ、エンジンの処理対象にならない
    */
-  async run(queryString: string, _characterKey: string | null, _omiken?: OmikenCommentType): Promise<ScriptResult> {
+  async run(queryString: string, _characterKey: string, _omiken?: OmikenCommentType): Promise<ScriptResult> {
     const serviceId = await getPostServiceId()
     if (!serviceId) {
       this.reportError('投稿先の枠を取得できません(わんコメを確認してください)')

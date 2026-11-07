@@ -1,7 +1,7 @@
 // src/types/subscribe/SendCommentSchema.ts
 // わんコメにpostする際の型定義
 import { z } from 'zod'
-import { idSchema } from '../core/BaseSchema'
+import { idSchema } from '@/types/core/BaseSchema'
 
 /**
  * Service スキーマ
@@ -27,8 +27,8 @@ export const CommentBadgeSchema = z.object({
 
 export const CommentPickSchema = z.object({
   id: idSchema,
-  userId: z.string().default('test'),
-  name: z.string().default('error'),
+  userId: z.string(), // 呼び出し側で必ず指定する(仮の既定値は持たない)
+  name: z.string(), // 呼び出し側で必ず指定する(仮の既定値は持たない)
   nickname: z.string().optional(),
   comment: z.string(),
   profileImage: z.string().optional(),
@@ -56,7 +56,7 @@ export const SendTestCommentSchema = z.object({
   repeater: z.boolean().default(false), // リピーターフラグ
   subscribe: z.boolean().default(false), // 購読者フラグ
   speech: z.boolean().default(true), // 音声読み上げ有効
-  username: z.string().default('error'), // 指定されたユーザー名
+  username: z.string(), // 指定されたユーザー名(呼び出し側で必ず指定する)
   comment: z.string(), // 投稿内容
 })
 export type SendTestCommentType = z.infer<typeof SendTestCommentSchema>
