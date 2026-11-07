@@ -3,7 +3,7 @@
   <div class="flex items-center gap-2 p-1">
     <!-- 遅延秒数 -->
     <div class="flex items-center gap-2 shrink-0">
-      <span class="badge badge-accent badge-sm rounded tooltip"> {{ step.delaySeconds }}s </span>
+      <span class="badge badge-accent badge-sm rounded"> {{ step.delaySeconds }}s </span>
     </div>
 
     <!-- 種別アイコン -->

@@ -115,6 +115,7 @@
 | `Call/ScenarioCallSettings.vue` | シナリオ移動・追加ボタンのサイズ、色、アイコン間隔を統一 |
 | `preview/SoundTestButton.vue` / `WordPartyTestButton.vue` | テスト操作を `btn-sm btn-neutral` に統一 |
 | `tooltab/ScenarioStepToolbar.vue` | テストを `btn-neutral`、コピー/ペーストを `btn-ghost` に変更。アイコンを統一 |
+| `tooltab/ScenarioStepRow.vue` | 説明属性のない不要な `tooltip` クラスを削除 |
 | `tooltab/DelaySecondsAdjuster.vue` | 増減ボタンに `btn-square` と `aria-label` を追加。アイコンサイズを統一 |
 
 #### 検証結果
