@@ -3,7 +3,7 @@
   <div class="space-y-2">
     <div class="text-xs font-medium text-base-content/70 mb-1">{{ t('characterImage.layer.title') }}</div>
 
-    <button type="button" class="btn btn-sm btn-neutral gap-2 w-full" @click="handleAddLayer">
+    <button type="button" class="btn btn-sm btn-secondary gap-2 w-full" @click="handleAddLayer">
       <Plus class="w-4 h-4" />
       {{ t('characterImage.layer.add') }}
     </button>

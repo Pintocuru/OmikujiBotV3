@@ -9,7 +9,7 @@
       v-model="newEmotionKey"
     />
     <button
-      class="btn btn-sm btn-neutral gap-2"
+      class="btn btn-sm btn-secondary gap-2"
       @click="handleAddEmotion"
       :disabled="!newEmotionKey.trim() || isNumericKey"
     >

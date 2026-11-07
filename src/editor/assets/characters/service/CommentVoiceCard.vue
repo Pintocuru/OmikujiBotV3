@@ -6,7 +6,7 @@
       {{ t('characterService.voice.label') }}
       <div class="tooltip tooltip-top" :data-tip="t('characterService.cards.editVoice')">
         <button
-          class="btn btn-sm btn-neutral btn-square"
+          class="btn btn-sm btn-square"
           :aria-label="t('characterService.cards.editVoice')"
           @click="editOpen = true"
         >
