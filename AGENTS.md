@@ -24,12 +24,15 @@
 - [ ] 4. 決定済みの設計変更
   - [x] 4-1. timestamp の型をミリ秒の number に統一
   - [x] 4-3. `MetaServiceStatus` と `AppStatus` の区別 (`MetaFetchStatus` 改名)
-  - [ ] 4-4. `ReactionManager` の型変更
-  - [ ] 4-5. `naming.md` §7.1 の追加
+  - [ ] 4-4. `ReactionManager` の型変更（実装・テスト追加済み。ローカル検証待ち）
+  - [x] 4-5. `naming.md` §7.1 の追加
   - [ ] 4-2. `BotMessageSlotMap` の日本語を i18n に移動 (最後に実施)
 - [ ] 7. 最終確認と dataVersion (3.0000001008) の更新
 
 ---
 
 ### 作業ログ
+- 2026-11-07: 4-4 の実装を `work/pre-i18n-cleanup-20261107` で実施。未消費状態を `-1` から `null` に統一し、ReactionTriggerEvaluator の判定も更新。履歴型・getTotal の引数を `YoutubeReactionType` に変更。ReactionTotals は SDK 由来の未知キーを履歴・個別集計から除外し、既知の YouTube リアクションだけを記録する。BurstLevelMachine の状態遷移テストを追加。ローカルの lint / tsc / vitest は未実行のため、4-4 は検証待ち。
+- 2026-11-07: 4-5 として `docs/conventions/naming.md` に §7.1（秒数・配列名・空文字・Key/Id・ダミー値・要素単位除外）を追加。
+
 - 初期ベースライン確認完了: lint / tsc / vitest (2 passed) 正常終了。
