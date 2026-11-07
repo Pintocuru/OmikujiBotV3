@@ -22,13 +22,15 @@
             :alt="t('characterService.base64.alt')"
             :class="`w-${Math.max(16, imageSize)} h-${Math.max(16, imageSize)} rounded border-2 border-primary bg-white object-cover`"
           />
-          <button
-            class="btn btn-xs btn-circle btn-error absolute -top-1 -right-1"
-            @click="resetBase64Image"
-            :title="t('characterService.base64.reset')"
-          >
-            <X class="w-3 h-3" />
-          </button>
+          <div class="tooltip tooltip-top absolute -top-1 -right-1" :data-tip="t('characterService.base64.reset')">
+            <button
+              class="btn btn-sm btn-circle btn-error"
+              @click="resetBase64Image"
+              :aria-label="t('characterService.base64.reset')"
+            >
+              <X class="w-4 h-4" />
+            </button>
+          </div>
         </div>
         <div
           v-else

@@ -77,7 +77,7 @@
 | `JsonMerge/JsonMergeEditor.vue` | 追加ボタンのサイズ・役割色・アイコン間隔を統一 |
 | `JsonMerge/JsonMergeRemapEditor.vue` | 削除を `btn-error btn-square` にし、tooltip + `aria-label` を追加 |
 
-**src/editor/assets/characters/CharacterImage — 部分完了**
+**src/editor/assets/characters/CharacterImage / color / service — 部分完了**
 
 | ファイル | 変更内容 |
 | --- | --- |
@@ -85,13 +85,15 @@
 | `EmotionImageItem.vue` | 削除ボタンを `btn-error btn-square` に変更。title を tooltip に置き換え、`aria-label` を追加 |
 | `EmotionPresetButtons.vue` | プリセットボタンを `btn-sm btn-neutral` に統一し、既存の outline 表現を維持 |
 | `EmotionLayerEditor.vue` | レイヤー追加・パス設定ボタンのサイズ・役割色・アイコン間隔を統一。上下移動・削除を `btn-square` + tooltip + `aria-label` に変更 |
+| `color/CharacterColorCard.vue` / `service/CommentVoiceCard.vue` | 編集ボタンを `btn-sm btn-neutral btn-square` + tooltip + `aria-label` に変更 |
+| `service/CharacterBase64Settings.vue` | Base64リセットを `btn-sm btn-circle btn-error` + tooltip + `aria-label` に変更 |
 | `src/i18n/editor/apps/AppItemsCharacters.ts` | レイヤー上下移動・削除の日本語/英語ラベルを追加 |
 
 #### 検証結果
 
 - 単位1〜3: `npx vue-tsc --noEmit` 済み（エラーなしと既存記録に記載）。
 - 単位4: `npx vue-tsc --noEmit` と対象 ESLint 済み（成功と既存記録に記載）。
-- 今回の CharacterImage 部分変更: GitHub 上の差分確認のみ。TypeScript / ESLint / ブラウザ表示検証は未実施（この作業環境から実行できていない）。
+- 今回の assets/characters 部分変更: GitHub 上の差分確認のみ。TypeScript / ESLint / ブラウザ表示検証は未実施（この作業環境から実行できていない）。
 - tooltip の実表示・clipping は未確認。既存画面での実測が必要。
 
 #### 未解決事項・対象外確認

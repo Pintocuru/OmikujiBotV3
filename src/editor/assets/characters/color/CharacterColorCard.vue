@@ -4,9 +4,15 @@
   <div class="p-2">
     <div class="flex items-center gap-2 font-semibold">
       {{ t('characterService.cards.edit') }}
-      <button class="btn btn-primary btn-xs" @click="editOpen = true">
-        <Pencil class="h-4 w-4" />
-      </button>
+      <div class="tooltip tooltip-top" :data-tip="t('characterService.cards.edit')">
+        <button
+          class="btn btn-sm btn-neutral btn-square"
+          :aria-label="t('characterService.cards.edit')"
+          @click="editOpen = true"
+        >
+          <Pencil class="w-4 h-4" />
+        </button>
+      </div>
     </div>
     <div class="flex flex-col gap-4 p-2">
       <!-- 色見本 -->
