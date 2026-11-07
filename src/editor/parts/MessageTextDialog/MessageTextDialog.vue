@@ -18,8 +18,8 @@
       class="textarea textarea-bordered textarea-sm w-full"
       :placeholder="t('scenarioStep.messageDialog.inlinePlaceholder', { ph: '<<userName>>' })"
     ></textarea>
-    <button class="btn btn-sm btn-primary gap-1" @click="openDialog">
-      <PencilLine :size="14" />
+    <button class="btn btn-sm btn-secondary gap-2" @click="openDialog">
+      <PencilLine class="w-4 h-4" />
       <span class="hidden sm:inline">{{ t('scenarioStep.messageDialog.detailEdit') }}</span>
     </button>
   </div>

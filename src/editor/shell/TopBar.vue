@@ -52,21 +52,22 @@
     </div>
 
     <!-- ジェネレーターサンプル -->
-    <button
-      class="btn btn-sm shadow"
-      :class="canUseGenerator ? 'btn-neutral' : 'btn-warning'"
-      :disabled="generatorState === 'checking' && !showGenerator"
-      :title="generatorTitle"
-      @click="onSwitch"
-    >
-      <component :is="showGenerator ? Settings : Cpu" class="w-4 h-4" />
-      {{ generatorLabel }}
-    </button>
+    <div class="tooltip tooltip-bottom" :data-tip="generatorTitle">
+      <button
+        class="btn btn-sm gap-2 shadow"
+        :class="{ 'btn-warning': !canUseGenerator }"
+        :disabled="generatorState === 'checking' && !showGenerator"
+        @click="onSwitch"
+      >
+        <component :is="showGenerator ? Settings : Cpu" class="w-4 h-4" />
+        {{ generatorLabel }}
+      </button>
+    </div>
 
     <!-- DaisyUi テーマ変更ボタン -->
     <div class="tooltip tooltip-bottom" :data-tip="themeTitle">
       <button
-        class="btn btn-sm btn-square btn-neutral shadow"
+        class="btn btn-sm btn-square shadow"
         :aria-label="themeTitle"
         @click="toggleDaisyUiTheme"
       >

@@ -31,8 +31,8 @@
 
         <div class="flex gap-2">
           <button class="btn btn-sm btn-ghost" @click="handleCancel">{{ t('editorUi.editDialog.cancel') }}</button>
-          <button class="btn btn-sm btn-primary gap-1" :disabled="saveDisabled" @click="handleSave">
-            <Check :size="14" />
+          <button class="btn btn-sm btn-primary gap-2" :disabled="saveDisabled" @click="handleSave">
+            <Check class="w-4 h-4" />
             {{ t('editorUi.editDialog.saveClose') }}
           </button>
         </div>

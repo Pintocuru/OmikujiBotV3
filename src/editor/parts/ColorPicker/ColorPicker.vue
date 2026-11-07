@@ -24,7 +24,7 @@
       <section class="flex flex-col gap-2">
         <div class="flex items-center justify-between">
           <h4 class="text-sm font-bold">{{ t('editorUi.colorPicker.my.favorites') }}</h4>
-          <button type="button" class="btn btn-xs btn-neutral" @click="toggleFavorite(currentSet)">
+          <button type="button" class="btn btn-sm" @click="toggleFavorite(currentSet)">
             {{ isFavorite(currentSet) ? t('editorUi.colorPicker.my.removeCurrent') : t('editorUi.colorPicker.my.addCurrent') }}
           </button>
         </div>

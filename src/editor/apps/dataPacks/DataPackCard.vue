@@ -43,7 +43,7 @@
       <!-- この設定を部分的に読み込み/マージ ・置き換え -->
       <div class="card-actions justify-end mt-2 gap-1">
         <button
-          class="btn btn-sm btn-neutral gap-2 tooltip tooltip-bottom"
+          class="btn btn-sm btn-secondary gap-2 tooltip tooltip-bottom"
           :data-tip="t('dataPacks.card.partialTooltip')"
           :disabled="disabled"
           @click.stop="emit('partial-load')"

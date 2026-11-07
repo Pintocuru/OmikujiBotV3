@@ -36,8 +36,8 @@
           v-html="expandedPreviewDisplay"
           @click="refresh"
         />
-        <button v-if="canToggle" class="btn btn-xs btn-ghost mt-1 gap-1" @click="expanded = !expanded">
-          <component :is="expanded ? ChevronUp : ChevronDown" :size="12" />
+        <button v-if="canToggle" class="btn btn-sm btn-ghost mt-1 gap-2" @click="expanded = !expanded">
+          <component :is="expanded ? ChevronUp : ChevronDown" class="w-4 h-4" />
           {{ expanded ? t('scenarioStep.preview.collapse') : t('scenarioStep.preview.showAll') }}
         </button>
       </div>

@@ -5,6 +5,7 @@ export const scenarioStepMessages = {
       common: {
         cancel: 'キャンセル',
         add: '追加',
+        remove: '削除',
         insert: '挿入',
         none: '（なし）',
         unselected: '未選択',
@@ -153,6 +154,7 @@ export const scenarioStepMessages = {
       common: {
         cancel: 'Cancel',
         add: 'Add',
+        remove: 'Delete',
         insert: 'Insert',
         none: '(None)',
         unselected: 'Not selected',

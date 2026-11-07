@@ -2,7 +2,7 @@
 <template>
   <!-- マージ設定を追加 -->
   <div class="flex justify-end gap-2">
-    <button @click="addMerge" class="btn btn-sm btn-neutral gap-2">
+    <button @click="addMerge" class="btn btn-sm btn-secondary gap-2">
       <Plus class="w-4 h-4" />
       {{ t('jsonMerge.add') }}
     </button>
@@ -90,7 +90,7 @@
         <div class="mt-4">
           <div class="flex justify-between items-center mb-2">
             <span class="font-medium">{{ t('jsonMerge.remap.sectionTitle') }}</span>
-            <button @click="addRemap(selectedIndex)" class="btn btn-sm btn-neutral">
+            <button @click="addRemap(selectedIndex)" class="btn btn-sm btn-secondary">
               + {{ t('jsonMerge.remap.add') }}
             </button>
           </div>

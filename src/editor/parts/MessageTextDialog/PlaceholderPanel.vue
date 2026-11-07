@@ -5,16 +5,14 @@
     <div class="px-3 py-2 bg-base-200 border-b border-base-300 shrink-0 flex items-center justify-between">
       <span class="text-xs font-semibold text-base-content">{{ t('scenarioStep.placeholderPanel.title') }}</span>
       <div class="flex gap-1">
-        <button
-          class="btn btn-xs btn-ghost gap-1"
-          :title="t('scenarioStep.placeholderPanel.inlineTip')"
-          @click="emit('openInlinePh')"
-        >
-          <Braces :size="12" />
-          {{ t('scenarioStep.placeholderPanel.inline') }}
-        </button>
-        <button class="btn btn-xs btn-ghost gap-1" @click="showAddPlaceholder = !showAddPlaceholder">
-          <Plus :size="12" />
+        <div class="tooltip tooltip-bottom" :data-tip="t('scenarioStep.placeholderPanel.inlineTip')">
+          <button class="btn btn-sm btn-ghost gap-2" @click="emit('openInlinePh')">
+            <Braces class="w-4 h-4" />
+            {{ t('scenarioStep.placeholderPanel.inline') }}
+          </button>
+        </div>
+        <button class="btn btn-sm btn-secondary gap-2" @click="showAddPlaceholder = !showAddPlaceholder">
+          <Plus class="w-4 h-4" />
           {{ t('scenarioStep.common.add') }}
         </button>
       </div>
@@ -31,7 +29,7 @@
           :placeholder="t('scenarioStep.placeholderPanel.keyPlaceholder')"
           @keydown.enter="createNewPlaceholder"
         />
-        <button class="btn btn-xs btn-warning" :disabled="!newPlaceholderKey.trim()" @click="createNewPlaceholder">
+        <button class="btn btn-sm btn-secondary" :disabled="!newPlaceholderKey.trim()" @click="createNewPlaceholder">
           {{ t('scenarioStep.placeholderPanel.create') }}
         </button>
       </div>
@@ -87,19 +85,24 @@
             </div>
             <p class="text-xs text-base-content/50 truncate">{{ ph.name }}</p>
           </div>
-          <button
-            class="btn btn-xs btn-ghost opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
-            :title="t('scenarioStep.placeholderPanel.insertTip')"
-            @click.stop="emit('insert', ph.key)"
+          <div
+            class="tooltip tooltip-left opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+            :data-tip="t('scenarioStep.placeholderPanel.insertTip')"
           >
-            <CornerDownLeft :size="12" />
-          </button>
+            <button
+              class="btn btn-sm btn-ghost btn-square"
+              :aria-label="t('scenarioStep.placeholderPanel.insertTip')"
+              @click.stop="emit('insert', ph.key)"
+            >
+              <CornerDownLeft class="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         <!-- 展開: 値一覧 -->
         <div v-if="expandedKeys.has(ph.key)" class="bg-base-200/60 px-2 pb-2">
-          <button class="btn btn-xs btn-primary w-full gap-1 mt-1 mb-2" @click="emit('insert', ph.key)">
-            <CornerDownLeft :size="11" />
+          <button class="btn btn-sm btn-secondary w-full gap-2 mt-1 mb-2" @click="emit('insert', ph.key)">
+            <CornerDownLeft class="w-4 h-4" />
             {{ t('scenarioStep.placeholderPanel.insertKey', { ph: `<<${ph.key}>>` }) }}
           </button>
 
@@ -117,16 +120,17 @@
                 @change="updatePlaceholderValue(ph.key, idx, $event)"
               />
               <button
-                class="btn btn-xs btn-ghost btn-circle opacity-0 group-hover:opacity-100 shrink-0"
+                class="btn btn-sm btn-ghost btn-circle opacity-0 group-hover:opacity-100 shrink-0"
+                :aria-label="t('scenarioStep.common.remove')"
                 @click="removePlaceholderValue(ph.key, idx)"
               >
-                <Trash2 :size="10" />
+                <Trash2 class="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          <button class="btn btn-xs btn-ghost gap-1 mt-1 w-full" @click="addPlaceholderValue(ph.key)">
-            <Plus :size="10" />
+          <button class="btn btn-sm btn-ghost gap-2 mt-1 w-full" @click="addPlaceholderValue(ph.key)">
+            <Plus class="w-4 h-4" />
             {{ t('scenarioStep.placeholderPanel.addValue') }}
           </button>
         </div>

@@ -19,7 +19,7 @@
           :placeholder="t('baseSettings.tags.placeholder')"
           @keydown.enter="onEnter"
         />
-        <button class="btn btn-sm btn-neutral" @click="addTag(newTag)">{{ t('baseSettings.tags.add') }}</button>
+        <button class="btn btn-sm btn-secondary" @click="addTag(newTag)">{{ t('baseSettings.tags.add') }}</button>
       </div>
 
       <!-- 既存タグの候補(クリックで追加) -->

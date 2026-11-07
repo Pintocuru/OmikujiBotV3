@@ -19,10 +19,7 @@
     </aside>
 
     <!-- ツールの表示切り替え -->
-    <button
-      class="btn btn-xs btn-outline fixed bottom-2 right-2 z-9999 bg-base-100"
-      @click="showTools = !showTools"
-    >
+    <button class="btn btn-sm btn-outline fixed bottom-2 right-2 z-9999 bg-base-100" @click="showTools = !showTools">
       {{ t('shell.generatorView.tools') }} {{ showTools ? '▶' : '◀' }}
     </button>
   </div>

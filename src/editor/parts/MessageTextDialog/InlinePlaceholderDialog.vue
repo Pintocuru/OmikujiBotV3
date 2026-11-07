@@ -35,8 +35,8 @@
       <div class="flex flex-col gap-2">
         <div class="flex items-center justify-between">
           <span class="text-sm font-semibold">{{ t('scenarioStep.inlinePh.candidates') }}</span>
-          <button class="btn btn-xs btn-ghost gap-1" @click="addItem">
-            <Plus :size="12" />
+          <button class="btn btn-sm btn-secondary gap-2" @click="addItem">
+            <Plus class="w-4 h-4" />
             {{ t('scenarioStep.common.add') }}
           </button>
         </div>
@@ -52,11 +52,12 @@
               @keydown.enter="idx === items.length - 1 ? addItem() : undefined"
             />
             <button
-              class="btn btn-xs btn-ghost btn-circle opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+              class="btn btn-sm btn-ghost btn-circle opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+              :aria-label="t('scenarioStep.common.remove')"
               :disabled="items.length <= 1"
               @click="removeItem(idx)"
             >
-              <Trash2 :size="12" />
+              <Trash2 class="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -65,8 +66,8 @@
       <!-- フッター -->
       <div class="flex justify-end gap-2">
         <button class="btn btn-sm btn-ghost" @click="close">{{ t('scenarioStep.common.cancel') }}</button>
-        <button class="btn btn-sm btn-accent gap-1" :disabled="!canInsert" @click="insert">
-          <CornerDownLeft :size="14" />
+        <button class="btn btn-sm btn-primary gap-2" :disabled="!canInsert" @click="insert">
+          <CornerDownLeft class="w-4 h-4" />
           {{ t('scenarioStep.common.insert') }}
         </button>
       </div>
