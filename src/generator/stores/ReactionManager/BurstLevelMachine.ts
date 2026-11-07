@@ -1,12 +1,12 @@
 // src/generator/stores/ReactionManager/BurstLevelMachine.ts
-import { BurstLevelChangeCallback } from '@/types/generator'
+import type { BurstLevelChangeCallback } from '@/types/generator'
 import { BURST_LEVEL_THRESHOLDS, BURST_MAX_LEVEL, BURST_PEAK_RATE_FLOOR } from '@/generator/GeneratorConstants'
 
 export class BurstLevelMachine {
   level = 0
   levelUpCount = 0
-  reachedLevel = -1
-  droppedLevel = -1
+  reachedLevel: number | null = null
+  droppedLevel: number | null = null
   sustainCount = 0
   private callbacks = new Set<BurstLevelChangeCallback>()
 
@@ -38,7 +38,7 @@ export class BurstLevelMachine {
       this.level -= 1
       this.levelUpCount = 0
       this.sustainCount = 0
-      this.reachedLevel = -1
+      this.reachedLevel = null
       this.droppedLevel = this.level
       this.fire(this.level, prev)
     }
@@ -46,10 +46,10 @@ export class BurstLevelMachine {
   }
 
   consumeReached() {
-    this.reachedLevel = -1
+    this.reachedLevel = null
   }
   consumeDropped() {
-    this.droppedLevel = -1
+    this.droppedLevel = null
   }
   resetSustain() {
     this.sustainCount = 0
@@ -59,8 +59,8 @@ export class BurstLevelMachine {
   reset(): void {
     this.level = 0
     this.levelUpCount = 0
-    this.reachedLevel = -1
-    this.droppedLevel = -1
+    this.reachedLevel = null
+    this.droppedLevel = null
     this.sustainCount = 0
   }
 
