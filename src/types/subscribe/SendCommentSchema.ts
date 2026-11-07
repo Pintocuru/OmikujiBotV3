@@ -27,8 +27,8 @@ export const CommentBadgeSchema = z.object({
 
 export const CommentPickSchema = z.object({
   id: idSchema,
-  userId: z.string(), // 呼び出し側で必ず指定する(仮の既定値は持たない)
-  name: z.string(), // 呼び出し側で必ず指定する(仮の既定値は持たない)
+  userId: z.string(),
+  name: z.string(),
   nickname: z.string().optional(),
   comment: z.string(),
   profileImage: z.string().optional(),

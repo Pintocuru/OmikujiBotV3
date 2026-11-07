@@ -8,7 +8,7 @@
           type="number"
           min="100"
           :value="logicalWidth"
-          class="input input-bordered input-xs join-item w-20 text-center"
+          class="input input-bordered input-xs join-item w-15 text-center"
           :title="t('shell.generator.width')"
           @change="onSizeInput('w', $event)"
         />
@@ -17,7 +17,7 @@
           type="number"
           min="100"
           :value="logicalHeight"
-          class="input input-bordered input-xs join-item w-20 text-center"
+          class="input input-bordered input-xs join-item w-15 text-center"
           :title="t('shell.generator.height')"
           @change="onSizeInput('h', $event)"
         />
@@ -56,7 +56,7 @@
     </div>
 
     <!-- ステージ: 余白をスクロールできる領域の中に、サイズ可変の枠を置く -->
-    <div class="flex-1 min-h-0 overflow-auto rounded bg-base-300 p-2">
+    <div class="flex-1 min-h-0 max-h-10/12 overflow-auto rounded bg-base-300">
       <div
         ref="outerRef"
         class="relative overflow-hidden outline outline-base-content/30"
@@ -84,11 +84,7 @@
     { label: '600×900', w: 600, h: 900 },
   ] as const
 
-  const BG_OPTIONS: { key: BackgroundKey }[] = [
-    { key: 'checker' },
-    { key: 'dark' },
-    { key: 'light' },
-  ]
+  const BG_OPTIONS: { key: BackgroundKey }[] = [{ key: 'checker' }, { key: 'dark' }, { key: 'light' }]
 
   const BG_STYLES: Record<BackgroundKey, Record<string, string>> = {
     checker: {

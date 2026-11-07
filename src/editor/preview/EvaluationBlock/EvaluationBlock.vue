@@ -1,6 +1,6 @@
 <!-- src/editor/preview/EvaluationBlock/EvaluationBlock.vue -->
 <template>
-  <div class="card bg-base-200/90 backdrop-blur border border-base-300 shadow-xl w-full">
+  <div class="card bg-base-200 border border-base-300 w-full">
     <div class="card-body gap-2 p-2">
       <!-- Header -->
       <div
@@ -10,7 +10,9 @@
         <h1 class="text-sm flex items-center gap-2">
           {{ t('editorPreview.evaluationBlock.title') }}
           <span class="badge badge-xs badge-neutral">{{ entries.length }}</span>
-          <span v-if="paused" class="badge badge-xs badge-warning">{{ t('editorPreview.evaluationBlock.paused') }}</span>
+          <span v-if="paused" class="badge badge-xs badge-warning">{{
+            t('editorPreview.evaluationBlock.paused')
+          }}</span>
         </h1>
         <span class="text-xs opacity-60">{{ collapsed ? '▶' : '▼' }}</span>
       </div>
@@ -105,7 +107,11 @@
                 <td class="text-right">
                   <span class="font-mono tabular-nums break-all">{{ value }}</span>
                   <span class="badge badge-xs badge-ghost ml-1">
-                    {{ typeof value === 'number' ? t('editorPreview.evaluationBlock.numberType') : t('editorPreview.evaluationBlock.stringType') }}
+                    {{
+                      typeof value === 'number'
+                        ? t('editorPreview.evaluationBlock.numberType')
+                        : t('editorPreview.evaluationBlock.stringType')
+                    }}
                   </span>
                 </td>
                 <td class="whitespace-nowrap">

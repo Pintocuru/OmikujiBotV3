@@ -52,27 +52,25 @@
     </div>
 
     <!-- ジェネレーターサンプル -->
-    <div class="tooltip tooltip-bottom" :data-tip="generatorTitle">
-      <button
-        class="btn btn-sm gap-2 shadow"
-        :class="{ 'btn-warning': !canUseGenerator }"
-        :disabled="generatorState === 'checking' && !showGenerator"
-        @click="onSwitch"
-      >
-        <component :is="showGenerator ? Settings : Cpu" class="w-4 h-4" />
-        {{ generatorLabel }}
-      </button>
-    </div>
+    <div class="ml-auto flex items-center gap-2 shrink-0">
+      <div class="tooltip tooltip-bottom" :data-tip="generatorTitle">
+        <button
+          class="btn btn-sm gap-2 shadow"
+          :class="{ 'btn-warning': !canUseGenerator }"
+          :disabled="generatorState === 'checking' && !showGenerator"
+          @click="onSwitch"
+        >
+          <component :is="showGenerator ? Settings : Cpu" class="w-4 h-4" />
+          {{ generatorLabel }}
+        </button>
+      </div>
 
-    <!-- DaisyUi テーマ変更ボタン -->
-    <div class="tooltip tooltip-bottom" :data-tip="themeTitle">
-      <button
-        class="btn btn-sm btn-square shadow"
-        :aria-label="themeTitle"
-        @click="toggleDaisyUiTheme"
-      >
-        <component :is="isDark ? Sun : Moon" class="w-4 h-4" />
-      </button>
+      <!-- DaisyUi テーマ変更ボタン -->
+      <div class="tooltip tooltip-bottom" :data-tip="themeTitle">
+        <button class="btn btn-sm btn-square shadow" :aria-label="themeTitle" @click="toggleDaisyUiTheme">
+          <component :is="isDark ? Sun : Moon" class="w-4 h-4" />
+        </button>
+      </div>
     </div>
   </header>
 </template>

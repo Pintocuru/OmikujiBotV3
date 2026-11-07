@@ -2,7 +2,7 @@
 <template>
   <!-- Key表示 -->
   <SettingItem
-    v-if="isAssetCategory(category)"
+    v-if="category === 'placeholders'"
     icon="Pencil"
     labelKey="baseSettings.key.edit"
     descriptionKey="baseSettings.key.description"
@@ -12,7 +12,7 @@
         {{ key }}
       </div>
       <!-- 編集ボタン -->
-      <KeyEditor v-if="category" :currentKey="key" :category="category" />
+      <KeyEditor :currentKey="key" :category="category" />
     </div>
   </SettingItem>
 

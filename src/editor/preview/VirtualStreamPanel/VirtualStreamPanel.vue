@@ -1,9 +1,12 @@
 <!-- src/editor/preview/VirtualStreamPanel/VirtualStreamPanel.vue -->
 <template>
-  <div class="card bg-base-200 border border-error/40 shadow-xl">
+  <div class="card bg-base-200 border border-base-300">
     <div class="card-body gap-2 p-2">
       <!-- Header -->
-      <div class="flex items-center justify-between border-b border-base-300 cursor-pointer" @click="collapsed = !collapsed">
+      <div
+        class="flex items-center justify-between border-b border-base-300 cursor-pointer"
+        @click="collapsed = !collapsed"
+      >
         <h1 class="text-sm flex items-center gap-2">{{ t('editorPreview.virtualStream.title') }}</h1>
 
         <div class="flex items-center gap-1">
@@ -26,14 +29,14 @@
                   <span v-if="isRunning" class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
                 </span>
               </label>
-              <button class="btn btn-xs btn-neutral btn-outline join-item" @click="increment(key, -1)">-1</button>
+              <button class="btn btn-xs join-item" @click="increment(key, -1)">-1</button>
               <input
                 type="number"
                 min="0"
                 class="input input-bordered input-xs join-item flex-1 text-center"
                 v-model.number="fields[key]"
               />
-              <button class="btn btn-xs btn-neutral btn-outline join-item" @click="increment(key, 1)">+1</button>
+              <button class="btn btn-xs join-item" @click="increment(key, 1)">+1</button>
             </div>
           </template>
 
@@ -47,7 +50,7 @@
               {{ isRunning ? t('editorPreview.virtualStream.stop') : t('editorPreview.virtualStream.auto') }}
             </button>
             <button
-              class="btn btn-xs btn-neutral btn-outline join-item tooltip tooltip-top"
+              class="btn btn-xs join-item tooltip tooltip-top"
               :data-tip="t('editorPreview.virtualStream.releaseTitle')"
               @click="release"
             >

@@ -1,6 +1,6 @@
 <!-- src/editor/preview/TestComment/TestComment.vue -->
 <template>
-  <div class="card bg-base-200 border border-base-300 shadow-2xl w-full">
+  <div class="card bg-base-200 border border-base-300 w-full">
     <div class="card-body gap-2 p-2">
       <!-- Header -->
       <div
@@ -27,8 +27,8 @@
             <button
               v-for="n in MOCK_USER_POOL_PRESETS"
               :key="n"
-              class="btn btn-xs btn-neutral join-item flex-1"
-              :class="userCount === n ? 'btn-accent' : 'btn-neutral btn-outline'"
+              class="btn btn-xs join-item flex-1"
+              :class="userCount === n ? 'btn-accent' : ''"
               @click="userCount = n"
             >
               {{ t('editorPreview.testComment.people', { count: n }) }}
@@ -41,7 +41,7 @@
               class="input input-bordered input-xs join-item w-16 text-center"
             />
             <button
-              class="btn btn-xs btn-outline btn-neutral join-item tooltip tooltip-top"
+              class="btn btn-xs btn-secondary join-item tooltip tooltip-top"
               :data-tip="t('editorPreview.testComment.rebuildPool')"
               @click="rebuildPool"
             >
@@ -53,7 +53,7 @@
               v-for="mode in pickModes"
               :key="mode"
               class="btn btn-xs join-item flex-1"
-              :class="pickMode === mode ? 'btn-accent' : 'btn-neutral btn-outline'"
+              :class="pickMode === mode ? 'btn-accent' : ''"
               @click="pickMode = mode"
             >
               {{ t(`editorPreview.testComment.pickMode.${mode}`) }}
@@ -96,7 +96,7 @@
 
         <!-- Buttons -->
         <div class="join w-full">
-          <button @click="sendComment" class="btn btn-xs btn-outline btn-neutral join-item flex-1">
+          <button @click="sendComment" class="btn btn-xs btn-neutral join-item flex-1">
             {{ t('editorPreview.testComment.send') }}
           </button>
 
@@ -114,12 +114,9 @@
         <!-- 直近の送信 -->
         <p class="text-xs opacity-60 truncate" :title="lastCommentDisplay">
           {{
-            t(
-              count === 1
-                ? 'editorPreview.testComment.sentCountOne'
-                : 'editorPreview.testComment.sentCountOther',
-              { count }
-            )
+            t(count === 1 ? 'editorPreview.testComment.sentCountOne' : 'editorPreview.testComment.sentCountOther', {
+              count,
+            })
           }}
           / {{ lastCommentDisplay }}
         </p>
@@ -151,9 +148,7 @@
   const intervalSec = ref(2)
   const count = ref(0)
   const lastComment = ref('')
-  const lastCommentDisplay = computed(
-    () => lastComment.value || t('editorPreview.testComment.initialComment')
-  )
+  const lastCommentDisplay = computed(() => lastComment.value || t('editorPreview.testComment.initialComment'))
   const collapsed = ref(false)
 
   // 想定ユーザー数: 変更するとユーザープールを作り直す
