@@ -43,21 +43,21 @@
       <!-- この設定を部分的に読み込み/マージ ・置き換え -->
       <div class="card-actions justify-end mt-2 gap-1">
         <button
-          class="btn btn-xs btn-secondary tooltip tooltip-bottom"
+          class="btn btn-sm btn-neutral gap-2 tooltip tooltip-bottom"
           :data-tip="t('dataPacks.card.partialTooltip')"
           :disabled="disabled"
           @click.stop="emit('partial-load')"
         >
-          <FileText class="w-3 h-3" />
+          <FileText class="w-4 h-4" />
           {{ t('dataPacks.card.partial') }}
         </button>
         <button
-          class="btn btn-xs btn-primary tooltip tooltip-bottom"
+          class="btn btn-sm btn-error gap-2 tooltip tooltip-bottom"
           :data-tip="t('dataPacks.card.replaceTooltip')"
           :disabled="disabled"
           @click.stop="emit('replace')"
         >
-          <Download class="w-3 h-3" />
+          <Download class="w-4 h-4" />
           {{ t('dataPacks.card.replace') }}
         </button>
       </div>

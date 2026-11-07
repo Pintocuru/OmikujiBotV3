@@ -27,7 +27,7 @@
       </option>
     </select>
     <span class="pl-2">
-      <button class="btn btn-sm btn-outline" @click="setRandomTheme">
+      <button class="btn btn-sm btn-neutral btn-outline" @click="setRandomTheme">
         {{ t('appInfoEditor.settings.editor.theme.random') }}
       </button>
     </span>

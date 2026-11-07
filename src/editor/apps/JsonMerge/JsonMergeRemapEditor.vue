@@ -3,7 +3,16 @@
   <div class="border-l-4 border-primary pl-4 py-2 mb-3 bg-base-200 rounded">
     <div class="flex justify-between items-center mb-2">
       <span class="text-sm font-medium">{{ t('jsonMerge.remap.title', { index: remapIndex + 1 }) }}</span>
-      <button @click="removeRemap" class="btn btn-xs btn-ghost" :title="t('jsonMerge.remap.remove')">✕</button>
+      <span class="tooltip tooltip-top" :data-tip="t('jsonMerge.remap.remove')">
+        <button
+          type="button"
+          class="btn btn-sm btn-error btn-square"
+          :aria-label="t('jsonMerge.remap.remove')"
+          @click="removeRemap"
+        >
+          <X class="w-4 h-4" />
+        </button>
+      </span>
     </div>
 
     <div class="grid grid-cols-2 gap-3">
@@ -53,6 +62,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { X } from 'lucide-vue-next'
   import { storeToRefs } from 'pinia'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

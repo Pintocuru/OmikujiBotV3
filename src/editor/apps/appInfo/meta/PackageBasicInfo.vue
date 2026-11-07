@@ -4,8 +4,8 @@
   <SettingItem icon="Hash" label="id" descriptionKey="packageMeta.basic.id.description">
     <div class="flex items-center gap-3">
       <span class="font-mono text-sm text-base-content/60">{{ meta.id }}</span>
-      <button class="btn btn-xs btn-ghost gap-1" @click="handleRegenerateId">
-        <RefreshCw :size="12" />
+      <button class="btn btn-sm btn-ghost gap-2" @click="handleRegenerateId">
+        <RefreshCw class="w-4 h-4" />
         {{ t('packageMeta.basic.id.regenerate') }}
       </button>
     </div>

@@ -12,10 +12,6 @@
 
 **目的:** `src/editor/` と `src/console/` のボタン、アイコン、`title`、DaisyUI tooltip の使い方を規約（`docs/conventions/editor-ui-style.md`）に統一する。
 
-**参照規約:** `docs/conventions/editor-ui-style.md`
-
-> 注意: `docs/work/editor-ui-style-work.md` は存在しなかった。規約ファイルのみを正として作業。
-
 ---
 
 #### 作業単位と進捗
@@ -25,7 +21,7 @@
 | 1    | `src/editor/parts/`                                                                                             | ✅ 完了   |
 | 2    | `src/editor/shell/` + `src/editor/sidebar/records/`                                                             | ✅ 完了   |
 | 3    | `src/console/`                                                                                                  | ✅ 完了   |
-| 4    | `src/editor/apps/`                                                                                              | ⬜ 未着手 |
+| 4    | `src/editor/apps/`                                                                                              | ✅ 完了   |
 | 5    | `src/editor/assets/`                                                                                            | ⬜ 未着手 |
 | 6    | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | ⬜ 未着手 |
 
@@ -71,6 +67,18 @@
 
 ---
 
+**src/editor/apps/**
+
+| ファイル | 変更内容 |
+| --- | --- |
+| `appInfo/meta/PackageBasicInfo.vue` | ID 再生成ボタンを `btn-sm` に統一し、アイコンと文字の間隔・サイズを規約に統一 |
+| `appInfo/settings/EditorSettingsEditor.vue` | 通常操作のテーマ変更ボタンに `btn-neutral` を追加 |
+| `BaseSettings/BaseTagEditor.vue` | タグ追加ボタンを通常操作の `btn-neutral` に変更 |
+| `dataPacks/DataPackCard.vue` | 部分読み込みを `btn-sm btn-neutral`、置き換えを危険操作の `btn-sm btn-error` にし、アイコンと間隔を規約に統一 |
+| `dataPacks/DataPacks.vue` | 更新ボタンに `btn-neutral` を追加 |
+| `JsonMerge/JsonMergeEditor.vue` | 追加ボタンのサイズ・役割色・アイコン間隔を統一 |
+| `JsonMerge/JsonMergeRemapEditor.vue` | 削除を `btn-sm btn-error btn-square` にし、Lucide X・tooltip・`aria-label` を追加 |
+
 #### 検証結果
 
 - **TypeScript / lint:** `npx vue-tsc --noEmit` を2回実施。両回ともエラー0（exit code 0, no output）
@@ -79,32 +87,23 @@
 - **アイコンのみのボタンの aria-label:** 修正ファイル全て追加済み
 - **tooltip の表示位置と clipping:** TopBar は header 内 → `tooltip-bottom` を選択。その他は `tooltip-top` を基本とした
 - **既存操作への影響:** ロジック・イベント・保存処理は変更なし
+- **単位4 `src/editor/apps/`:** `npx vue-tsc --noEmit` と対象7ファイルの ESLint は成功。操作ハンドラ・保存処理は変更なし。変更箇所のクラス・サイズ・アイコン・`aria-label` は確認済み
 
 #### 未確認・未実施の検証
 
-- 実際のブラウザでの tooltip 表示確認（環境起動が必要）
-- `src/editor/apps/`・`src/editor/assets/`・`src/editor/content/`・`src/editor/events/`・`src/editor/helpers/`・`src/editor/preview/`・`src/editor/ui/` は未着手
+- tooltip の実表示・clipping は未確認。開発サーバーは起動したが、アプリが「No data」状態で対象画面を描画できなかった
+- `src/editor/assets/`・`src/editor/content/`・`src/editor/events/`・`src/editor/helpers/`・`src/editor/preview/`・`src/editor/ui/` は未着手
 
 ---
 
 #### 未解決事項・確認事項
 
-1. `docs/conventions/editor-ui-style-work.md` が存在しなかった。規約ファイルのみで作業を進めた。
-2. `UsersToolbox.vue` のチーム名編集ボタンは、元々「✎ チーム名編集」というテキスト付きだったが、アイコンのみに変更した。操作仕様への影響はないが、表示が変わるため確認を推奨する。
-3. `UsersMessageMap.ts` の `teamNameEdit` フィールドは未使用になったが、削除はスコープ外のため手を付けていない。
-4. `SettingItem.vue` のリセットボタンは画面内で `btn-xs` を使っており、`btn-sm` との混在が起きる可能性がある。配置位置上の制約（ラベル行内の小さなコントロール）により `btn-xs` を維持した。
+1. `UsersToolbox.vue` のチーム名編集ボタンは、元々「✎ チーム名編集」というテキスト付きだったが、アイコンのみに変更した。操作仕様への影響はないが、表示が変わるため確認を推奨する。
+2. `UsersMessageMap.ts` の `teamNameEdit` フィールドは未使用になったが、削除はスコープ外のため手を付けていない。
+3. `SettingItem.vue` のリセットボタンは画面内で `btn-xs` を使っており、`btn-sm` との混在が起きる可能性がある。配置位置上の制約（ラベル行内の小さなコントロール）により `btn-xs` を維持した。
 
 ---
 
 #### 次に着手する作業
 
-**作業単位4: `src/editor/apps/`**（`btn` 使用ファイルは以下）
-
-- `apps/appInfo/meta/PackageBasicInfo.vue`
-- `apps/appInfo/settings/EditorSettingsEditor.vue`
-- `apps/BaseSettings/BaseTagEditor.vue`
-- `apps/dataPacks/DataPackCard.vue`
-- `apps/dataPacks/DataPacks.vue`
-- `apps/JsonMerge/JsonMergeEditor.vue`
-- `apps/JsonMerge/JsonMergeRemapEditor.vue`
-- `apps/orphans/OrphanItemsEditor.vue`
+**作業単位5: `src/editor/assets/`**

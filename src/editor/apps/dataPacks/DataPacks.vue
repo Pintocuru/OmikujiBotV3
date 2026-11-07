@@ -57,7 +57,7 @@
 
   <!-- 更新ボタン -->
   <div class="mt-4 flex justify-end">
-    <button class="btn btn-sm btn-outline" :disabled="loading" @click="fetchAll">
+    <button class="btn btn-sm btn-neutral btn-outline" :disabled="loading" @click="fetchAll">
       <span v-if="loading" class="loading loading-spinner loading-xs" />
       <span v-else>{{ t('dataPacks.refresh') }}</span>
     </button>
