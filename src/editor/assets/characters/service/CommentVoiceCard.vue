@@ -4,10 +4,10 @@
   <div class="p-2">
     <div class="flex items-center gap-2 font-semibold">
       {{ t('characterService.voice.label') }}
-      <div class="tooltip tooltip-top" :data-tip="t('characterService.cards.edit')">
+      <div class="tooltip tooltip-top" :data-tip="t('characterService.cards.editVoice')">
         <button
           class="btn btn-sm btn-neutral btn-square"
-          :aria-label="t('characterService.cards.edit')"
+          :aria-label="t('characterService.cards.editVoice')"
           @click="editOpen = true"
         >
           <Pencil class="w-4 h-4" />

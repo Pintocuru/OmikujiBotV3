@@ -114,8 +114,8 @@ export const appItemsCharactersMessages = {
         title: '画像レイヤー',
         add: 'レイヤーを追加',
         setPath: 'パスをセット',
-        moveUp: '上のレイヤーへ移動',
-        moveDown: '下のレイヤーへ移動',
+        moveUp: 'レイヤーを上へ移動',
+        moveDown: 'レイヤーを下へ移動',
         remove: 'レイヤーを削除',
         url: 'レイヤー{n}の画像URL',
       },
@@ -161,6 +161,7 @@ export const appItemsCharactersMessages = {
       // CharacterEditor 上部のカード(色・コメント表現)
       cards: {
         edit: 'カラー編集',
+        editVoice: 'コメント表現を編集',
         colorSample: 'こんにちは！色の見え方はこんな感じです',
         colorNames: { name: '名前', text: '本文', background: '背景', accent: 'アクセント' },
         voiceFrame: '枠: {id}',
@@ -329,6 +330,7 @@ export const appItemsCharactersMessages = {
       },
       cards: {
         edit: 'Edit',
+        editVoice: 'Edit comment display',
         colorSample: 'Hello! This is how the colors look',
         colorNames: { name: 'Name', text: 'Text', background: 'Background', accent: 'Accent' },
         voiceFrame: 'Frame: {id}',
