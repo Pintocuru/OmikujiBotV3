@@ -26,7 +26,7 @@
           :data-tip="t(`categories.${item.category}.label`)"
           @click="goTo(item)"
         >
-          <component :is="resolveLucideIcon(categoryMap[item.category].icon)" class="w-3.5 h-3.5 shrink-0" />
+          <component :is="resolveLucideIcon(categoryMap[item.category].icon)" class="w-4 h-4 shrink-0" />
           <span class="max-w-48 truncate">{{ item.name }}</span>
         </button>
       </template>

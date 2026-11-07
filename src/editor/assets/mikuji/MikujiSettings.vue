@@ -11,7 +11,7 @@
       </button>
     </div>
 
-    <button class="btn btn-sm btn-neutral" @click="add">
+    <button class="btn btn-sm btn-neutral gap-2" @click="add">
       <Plus class="w-4 h-4" />
       {{ t('omikujiItem.list.add') }}
     </button>
