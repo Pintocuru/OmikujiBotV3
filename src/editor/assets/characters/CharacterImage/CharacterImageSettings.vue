@@ -8,8 +8,13 @@
       :placeholder="t('characterImage.newEmotionPlaceholder')"
       v-model="newEmotionKey"
     />
-    <button class="btn btn-sm btn-primary" @click="handleAddEmotion" :disabled="!newEmotionKey.trim() || isNumericKey">
-      <Plus class="w-4 h-4" />{{ t('characterImage.add') }}
+    <button
+      class="btn btn-sm btn-neutral gap-2"
+      @click="handleAddEmotion"
+      :disabled="!newEmotionKey.trim() || isNumericKey"
+    >
+      <Plus class="w-4 h-4" />
+      {{ t('characterImage.add') }}
     </button>
   </div>
   <p v-if="isNumericKey" class="text-error text-xs mb-2">{{ t('characterImage.numericKeyError') }}</p>

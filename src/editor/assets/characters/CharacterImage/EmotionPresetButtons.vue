@@ -6,7 +6,7 @@
       v-for="(_, key) in characterEmotionMap"
       :key="key"
       type="button"
-      class="btn btn-xs"
+      class="btn btn-sm btn-neutral"
       :class="existingKeys.includes(key) ? 'btn-disabled opacity-40' : 'btn-outline'"
       :disabled="existingKeys.includes(key)"
       @click="emit('add', key, t(`mapText.characterEmotion.${key}.label`))"

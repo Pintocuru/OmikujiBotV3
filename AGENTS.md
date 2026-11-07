@@ -16,14 +16,14 @@
 
 #### 作業単位と進捗
 
-| 単位 | 範囲                                                                                                            | 状態      |
-| ---- | --------------------------------------------------------------------------------------------------------------- | --------- |
-| 1    | `src/editor/parts/`                                                                                             | ✅ 完了   |
-| 2    | `src/editor/shell/` + `src/editor/sidebar/records/`                                                             | ✅ 完了   |
-| 3    | `src/console/`                                                                                                  | ✅ 完了   |
-| 4    | `src/editor/apps/`                                                                                              | ✅ 完了   |
-| 5    | `src/editor/assets/`                                                                                            | ⬜ 未着手 |
-| 6    | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | ⬜ 未着手 |
+| 単位 | 範囲 | 状態 |
+| ---- | ---- | ---- |
+| 1 | `src/editor/parts/` | 完了 |
+| 2 | `src/editor/shell/` + `src/editor/sidebar/records/` | 完了 |
+| 3 | `src/console/` | 完了 |
+| 4 | `src/editor/apps/` | 完了 |
+| 5 | `src/editor/assets/` | 進行中 |
+| 6 | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | 未着手 |
 
 ---
 
@@ -31,79 +31,81 @@
 
 **src/editor/parts/**
 
-| ファイル                      | 変更内容                                                                                                 |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `ExternalLinkButton.vue`      | `btn-primary btn-outline` → `btn-sm btn-ghost btn-square`。`title` → DaisyUI tooltip + `aria-label` 追加 |
-| `HelpButton.vue`              | `title` + `aria-label` → tooltip wrapper + `aria-label`（`title` と `aria-label` の重複解消）            |
-| `ModalFooterActions.vue`      | `btn` → `btn btn-sm`。`flex items-center gap-1` → `gap-2`（規約の gap-2 に統一）                         |
-| `SettingItem.vue`             | リセットボタン: `title` → DaisyUI tooltip wrapper + `aria-label` + `btn-square`                          |
-| `ColorPicker/ColorPicker.vue` | お気に入りボタン: `btn-xs` → `btn-xs btn-neutral`                                                        |
+| ファイル | 変更内容 |
+| --- | --- |
+| `ExternalLinkButton.vue` | `btn-primary btn-outline` → `btn-sm btn-ghost btn-square`。`title` → DaisyUI tooltip + `aria-label` |
+| `HelpButton.vue` | `title` + `aria-label` → tooltip wrapper + `aria-label` |
+| `ModalFooterActions.vue` | `btn` → `btn btn-sm`。ボタン間隔を `gap-2` に統一 |
+| `SettingItem.vue` | リセットボタンを tooltip wrapper + `aria-label` + `btn-square` に変更 |
+| `ColorPicker/ColorPicker.vue` | お気に入りボタンに `btn-neutral` を追加 |
 
 **src/editor/shell/**
 
-| ファイル            | 変更内容                                                                                                                 |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `TopBar.vue`        | サイドバー開閉ボタン: `title` → tooltip-bottom + `aria-label`。テーマ切替ボタン: `title` → tooltip-bottom + `aria-label` |
-| `IssuesBadge.vue`   | 閉じるボタン: `btn` → `btn btn-sm btn-ghost`                                                                             |
-| `SaveMenu.vue`      | ドロップダウンボタン: `title` → `aria-label`（アイコンのみボタン）                                                       |
-| `GeneratorView.vue` | ツール表示切替ボタン: `title` を削除（テキスト付きボタンには原則付けない）                                               |
+| ファイル | 変更内容 |
+| --- | --- |
+| `TopBar.vue` | サイドバー開閉・テーマ切替を tooltip + `aria-label` に変更 |
+| `IssuesBadge.vue` | 閉じるボタンを `btn-sm btn-ghost` に変更 |
+| `SaveMenu.vue` | アイコンのみボタンの `title` を `aria-label` に変更 |
+| `GeneratorView.vue` | テキスト付きボタンの不要な `title` を削除 |
 
 **src/editor/sidebar/records/**
 
-| ファイル         | 変更内容                                                     |
-| ---------------- | ------------------------------------------------------------ |
-| `RecordList.vue` | プリセットボタン: tooltip wrapper に変更 + `aria-label` 追加 |
+| ファイル | 変更内容 |
+| --- | --- |
+| `RecordList.vue` | プリセットボタンを tooltip wrapper + `aria-label` に変更 |
 
 **src/console/**
 
-| ファイル                              | 変更内容                                                                                                                                                                                               |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `games/components/StreamList.vue`     | 削除ボタン: `✕` 文字 → `X` Lucide アイコン。`title` → tooltip + `aria-label`。`lucide-vue-next` import 追加                                                                                            |
-| `games/components/GameLogsView.vue`   | 更新ボタン: `btn-sm` → `btn-sm btn-neutral`                                                                                                                                                            |
-| `users/components/UsersToolbar.vue`   | 更新ボタン: `btn-sm` → `btn-sm btn-neutral`                                                                                                                                                            |
-| `users/components/UsersToolbox.vue`   | チーム名編集ボタン: テキスト+✎文字 → アイコンのみ(`Pencil`)。`title` → tooltip + `aria-label`。`lucide-vue-next` import 追加                                                                           |
-| `users/components/TeamNameDialog.vue` | キャンセルボタン: `btn-sm` → `btn-sm btn-ghost`                                                                                                                                                        |
-| `users/components/UserTable.vue`      | ピン留めボタン: `title` → tooltip + `aria-label`。削除ボタン: `✕` 文字 → `X` Lucide アイコン、`title` → tooltip + `aria-label`。`btn-xs`（-10, -1）: `btn-neutral` 追加。`lucide-vue-next` import 追加 |
-
----
+| ファイル | 変更内容 |
+| --- | --- |
+| `games/components/StreamList.vue` | 削除記号を Lucide X に変更し、tooltip + `aria-label` を追加 |
+| `games/components/GameLogsView.vue` | 更新ボタンに `btn-neutral` を追加 |
+| `users/components/UsersToolbar.vue` | 更新ボタンに `btn-neutral` を追加 |
+| `users/components/UsersToolbox.vue` | チーム名編集をアイコンボタン化し、tooltip + `aria-label` を追加 |
+| `users/components/TeamNameDialog.vue` | キャンセルボタンに `btn-ghost` を追加 |
+| `users/components/UserTable.vue` | ピン留め・削除に tooltip + `aria-label`、削除に Lucide X、数値操作に `btn-neutral` を追加 |
 
 **src/editor/apps/**
 
 | ファイル | 変更内容 |
 | --- | --- |
-| `appInfo/meta/PackageBasicInfo.vue` | ID 再生成ボタンを `btn-sm` に統一し、アイコンと文字の間隔・サイズを規約に統一 |
-| `appInfo/settings/EditorSettingsEditor.vue` | 通常操作のテーマ変更ボタンに `btn-neutral` を追加 |
-| `BaseSettings/BaseTagEditor.vue` | タグ追加ボタンを通常操作の `btn-neutral` に変更 |
-| `dataPacks/DataPackCard.vue` | 部分読み込みを `btn-sm btn-neutral`、置き換えを危険操作の `btn-sm btn-error` にし、アイコンと間隔を規約に統一 |
+| `appInfo/meta/PackageBasicInfo.vue` | ID 再生成ボタンのサイズ・アイコン間隔・サイズを統一 |
+| `appInfo/settings/EditorSettingsEditor.vue` | 通常操作のテーマ変更に `btn-neutral` を追加 |
+| `BaseSettings/BaseTagEditor.vue` | タグ追加を通常操作の `btn-neutral` に変更 |
+| `dataPacks/DataPackCard.vue` | 部分読み込みを `btn-neutral`、置き換えを `btn-error` に変更し、アイコンを統一 |
 | `dataPacks/DataPacks.vue` | 更新ボタンに `btn-neutral` を追加 |
 | `JsonMerge/JsonMergeEditor.vue` | 追加ボタンのサイズ・役割色・アイコン間隔を統一 |
-| `JsonMerge/JsonMergeRemapEditor.vue` | 削除を `btn-sm btn-error btn-square` にし、Lucide X・tooltip・`aria-label` を追加 |
+| `JsonMerge/JsonMergeRemapEditor.vue` | 削除を `btn-error btn-square` にし、tooltip + `aria-label` を追加 |
+
+**src/editor/assets/characters/CharacterImage — 部分完了**
+
+| ファイル | 変更内容 |
+| --- | --- |
+| `CharacterImageSettings.vue` | エモーション追加を通常操作の `btn-sm btn-neutral` に変更。アイコンと文字の間隔を `gap-2` に統一 |
+| `EmotionImageItem.vue` | 削除ボタンを `btn-error btn-square` に変更。title を tooltip に置き換え、`aria-label` を追加 |
+| `EmotionPresetButtons.vue` | プリセットボタンを `btn-sm btn-neutral` に統一し、既存の outline 表現を維持 |
 
 #### 検証結果
 
-- **TypeScript / lint:** `npx vue-tsc --noEmit` を2回実施。両回ともエラー0（exit code 0, no output）
-- **ボタンのサイズと色:** 修正ファイルを確認。規約外の役割クラスなし・サイズなしを修正済み
-- **アイコンのサイズと間隔:** 修正範囲内では `w-4 h-4` / `w-3 h-3`（btn-xs内）を確認
-- **アイコンのみのボタンの aria-label:** 修正ファイル全て追加済み
-- **tooltip の表示位置と clipping:** TopBar は header 内 → `tooltip-bottom` を選択。その他は `tooltip-top` を基本とした
-- **既存操作への影響:** ロジック・イベント・保存処理は変更なし
-- **単位4 `src/editor/apps/`:** `npx vue-tsc --noEmit` と対象7ファイルの ESLint は成功。操作ハンドラ・保存処理は変更なし。変更箇所のクラス・サイズ・アイコン・`aria-label` は確認済み
+- 単位1〜3: `npx vue-tsc --noEmit` 済み（エラーなしと既存記録に記載）。
+- 単位4: `npx vue-tsc --noEmit` と対象 ESLint 済み（成功と既存記録に記載）。
+- 今回の CharacterImage 部分変更: GitHub 上の差分確認のみ。TypeScript / ESLint / ブラウザ表示検証は未実施（この作業環境から実行できていない）。
+- tooltip の実表示・clipping は未確認。既存画面での実測が必要。
 
-#### 未確認・未実施の検証
+#### 未解決事項・対象外確認
 
-- tooltip の実表示・clipping は未確認。開発サーバーは起動したが、アプリが「No data」状態で対象画面を描画できなかった
-- `src/editor/assets/`・`src/editor/content/`・`src/editor/events/`・`src/editor/helpers/`・`src/editor/preview/`・`src/editor/ui/` は未着手
+1. `EmotionLayerEditor.vue` のレイヤー上下移動・削除などのアイコンのみボタンには `aria-label` がない。適切な日本語・英語ラベルを追加するには `src/i18n/editor/apps/AppItemsCharacters.ts` の変更が必要だが、今回の対象範囲外のため未変更。範囲拡張の確認が必要。
+2. `ImageSettingsInfo.vue` の「パスをセット」ボタンは説明文中の操作例として表示されており、実際の操作ボタンではない。誤解を避けるため現状維持。
+3. `EmotionGrid.vue` のカード選択はクリック可能なカード要素であり、ボタン統一の対象として扱うべきか未確認。操作仕様・アクセシビリティを別途確認する。
 
----
+#### 未着手
 
-#### 未解決事項・確認事項
-
-1. `UsersToolbox.vue` のチーム名編集ボタンは、元々「✎ チーム名編集」というテキスト付きだったが、アイコンのみに変更した。操作仕様への影響はないが、表示が変わるため確認を推奨する。
-2. `UsersMessageMap.ts` の `teamNameEdit` フィールドは未使用になったが、削除はスコープ外のため手を付けていない。
-3. `SettingItem.vue` のリセットボタンは画面内で `btn-xs` を使っており、`btn-sm` との混在が起きる可能性がある。配置位置上の制約（ラベル行内の小さなコントロール）により `btn-xs` を維持した。
-
----
+- `src/editor/assets/characters/` の CharacterImage 以外
+- `src/editor/assets/mikuji/`
+- `src/editor/assets/placeholders/`
+- `src/editor/assets/scenarios/`
+- 作業単位6の各ディレクトリ
 
 #### 次に着手する作業
 
-**作業単位5: `src/editor/assets/`**
+**作業単位5:** `src/editor/assets/characters/CharacterImage/` の残りを確認する。特に `EmotionLayerEditor.vue` の翻訳キー追加が対象範囲外になる点は、独断で `src/i18n/` に変更を加えず、先に範囲拡張の許可を得る。その後、characters の残りの機能へ進む。

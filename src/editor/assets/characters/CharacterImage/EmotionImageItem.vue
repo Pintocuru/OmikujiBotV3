@@ -18,9 +18,16 @@
     <div v-if="isDefaultWarning" class="badge badge-warning badge-sm">{{ t('characterImage.item.unset') }}</div>
 
     <!-- 削除ボタン -->
-    <button type="button" class="btn btn-error btn-sm" @click="emit('remove')" :title="t('characterImage.item.deleteTip')">
-      <Trash2 class="w-3 h-3" />
-    </button>
+    <div class="tooltip tooltip-top" :data-tip="t('characterImage.item.deleteTip')">
+      <button
+        type="button"
+        class="btn btn-error btn-sm btn-square"
+        :aria-label="t('characterImage.item.deleteTip')"
+        @click="emit('remove')"
+      >
+        <Trash2 class="w-4 h-4" />
+      </button>
+    </div>
   </div>
 </template>
 
