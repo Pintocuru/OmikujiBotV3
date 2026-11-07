@@ -106,6 +106,15 @@
 | `PlaceholderPreview.vue` | 抽選テストを `btn-neutral` に変更 |
 | `PlaceholderValuesEditor.vue` | テキストモード切替を補助操作の `btn-ghost` に変更 |
 
+#### scenarios — 部分完了
+
+| ファイル | 変更内容 |
+| --- | --- |
+| `Call/ScenarioCallSettings.vue` | シナリオ移動・追加ボタンのサイズ、色、アイコン間隔を統一 |
+| `preview/SoundTestButton.vue` / `WordPartyTestButton.vue` | テスト操作を `btn-sm btn-neutral` に統一 |
+| `tooltab/ScenarioStepToolbar.vue` | テストを `btn-neutral`、コピー/ペーストを `btn-ghost` に変更。アイコンを統一 |
+| `tooltab/DelaySecondsAdjuster.vue` | 増減ボタンに `btn-square` と `aria-label` を追加。アイコンサイズを統一 |
+
 #### 検証結果
 
 - 単位1〜3: `npx vue-tsc --noEmit` 済み（エラーなしと既存記録に記載）。

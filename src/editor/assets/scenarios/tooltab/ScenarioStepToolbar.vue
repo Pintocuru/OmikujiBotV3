@@ -13,23 +13,23 @@
         <!-- テスト投稿ボタン -->
         <button
           @click="() => postTestOmikujiItem(sortedStepsFromRecord(modelValue))"
-          class="btn btn-sm btn-info tooltip tooltip-top"
+          class="btn btn-sm btn-neutral tooltip tooltip-top gap-2"
           :data-tip="t('scenarioStep.toolbar.testTip')"
           :disabled="isEmpty"
         >
-          <Send :size="16" />
+          <Send class="w-4 h-4" />
           {{ t('scenarioStep.toolbar.test') }}
         </button>
 
         <!-- JSONコピー -->
         <button
           @click="handleCopy"
-          class="btn btn-sm btn-secondary tooltip tooltip-top"
+          class="btn btn-sm btn-ghost tooltip tooltip-top gap-2"
           :data-tip="t('scenarioStep.toolbar.copyTip')"
           type="button"
           :disabled="clipboard.isCopying.value"
         >
-          <ClipboardCopy :size="16" />
+          <ClipboardCopy class="w-4 h-4" />
           {{ t('scenarioStep.toolbar.copy') }}
         </button>
 
@@ -41,7 +41,7 @@
           type="button"
           :disabled="clipboard.isPasting.value"
         >
-          <ClipboardPaste :size="16" />
+          <ClipboardPaste class="w-4 h-4" />
           {{ t('scenarioStep.toolbar.paste') }}
         </button>
       </div>

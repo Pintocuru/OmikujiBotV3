@@ -1,7 +1,7 @@
 <!-- src/editor/assets/scenarios/preview/SoundTestButton.vue -->
 <template>
   <!-- サウンドのテスト実行 -->
-  <button @click="handleClick" :disabled="!sound && !soundPath" class="btn btn-xs btn-secondary">
+  <button @click="handleClick" :disabled="!sound && !soundPath" class="btn btn-sm btn-neutral">
     {{ t('scenarioStep.tests.sound') }}
   </button>
 </template>

@@ -45,10 +45,10 @@
                 <!-- 該当シナリオへ移動 -->
                 <button
                   v-if="value.content && !isCircular(value.content)"
-                  class="btn btn-xs btn-ghost gap-1"
+                  class="btn btn-sm btn-ghost gap-2"
                   @click="goToItem('scenarios', value.content)"
                 >
-                  <ExternalLink class="w-3.5 h-3.5" />
+                  <ExternalLink class="w-4 h-4" />
                   {{ t('omikujiItem.scenario.edit') }}
                 </button>
               </div>
@@ -71,7 +71,7 @@
     <!-- 空の場合 -->
     <NoParamsCard v-else :message="t('scenarioStep.scenarioCall.empty')" />
 
-    <button @click="addValue(handleUpdate)" class="btn btn-primary w-full mt-4">
+    <button @click="addValue(handleUpdate)" class="btn btn-sm btn-neutral w-full mt-4">
       {{ t('scenarioStep.scenarioCall.addValue') }}
     </button>
   </SettingItem>

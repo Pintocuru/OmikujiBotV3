@@ -3,22 +3,24 @@
   <div class="flex gap-1 items-center pr-2">
     <button
       @click="adjustAllDelaySeconds(-0.1)"
-      class="btn btn-sm btn-ghost tooltip tooltip-top"
+      class="btn btn-sm btn-ghost btn-square tooltip tooltip-top"
       :data-tip="t('scenarioStep.delay.decreaseTip')"
+      :aria-label="t('scenarioStep.delay.decreaseTip')"
       :disabled="steps.length === 0 || !canDecreaseDelay"
       type="button"
     >
-      <Minus :size="16" />
+      <Minus class="w-4 h-4" />
     </button>
     <span class="text-xs text-base-content/70">{{ t('scenarioStep.delay.label') }}</span>
     <button
       @click="adjustAllDelaySeconds(0.1)"
-      class="btn btn-sm btn-ghost tooltip tooltip-top"
+      class="btn btn-sm btn-ghost btn-square tooltip tooltip-top"
       :data-tip="t('scenarioStep.delay.increaseTip')"
+      :aria-label="t('scenarioStep.delay.increaseTip')"
       :disabled="steps.length === 0"
       type="button"
     >
-      <Plus :size="16" />
+      <Plus class="w-4 h-4" />
     </button>
   </div>
 </template>

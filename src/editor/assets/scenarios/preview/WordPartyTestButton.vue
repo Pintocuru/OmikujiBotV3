@@ -1,6 +1,6 @@
 <!-- src/editor/assets/scenarios/preview/WordPartyTestButton.vue -->
 <template>
-  <button @click="handleClick" :disabled="!id" class="btn btn-xs btn-secondary">
+  <button @click="handleClick" :disabled="!id" class="btn btn-sm btn-neutral">
     {{ t('scenarioStep.tests.wordParty') }}
   </button>
 </template>
