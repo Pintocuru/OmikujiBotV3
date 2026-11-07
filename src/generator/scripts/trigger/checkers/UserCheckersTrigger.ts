@@ -1,6 +1,12 @@
 // src/generator/scripts/trigger/checkers/UserCheckersTrigger.ts
 import { OmikenCommentType } from '@/types/OmikenComment'
-import { AccessConditionType, CountConditionType, GiftConditionType, SyokenConditionType } from '@/types/engine'
+import {
+  AccessConditionType,
+  CountConditionType,
+  GiftConditionType,
+  GiftKindType,
+  SyokenConditionType,
+} from '@/types/engine'
 import { compareValue, getGiftTier } from './TriggerHelpers'
 
 /**
@@ -38,18 +44,31 @@ export function checkCount(omiken: OmikenCommentType, count?: CountConditionType
 
 /**
  * ギフト条件チェック
+ * - gift: 金額の段階(有料ギフトにだけ効く) / kinds: ギフトの種類(空 = 種類を問わない)
  */
-export function checkGift(omiken: OmikenCommentType, gift: GiftConditionType[] = []): boolean {
+export function checkGift(
+  omiken: OmikenCommentType,
+  gift: GiftConditionType[] = [],
+  kinds: GiftKindType[] = []
+): boolean {
+  // どちらも空なら、ギフトでないコメントも通す
+  if (!gift.length && !kinds.length) return true
+
+  const { giftKind, giftPrice } = omiken
+
+  // ギフトでなければ通さない
+  if (giftKind === null) return false
+
+  // 種類の指定があれば、含まれている種類だけ通す
+  if (kinds.length && !kinds.includes(giftKind)) return false
+
+  // 種類だけの指定なら通す
   if (!gift.length) return true
 
-  const { giftPrice } = omiken
-
-  // ギフトなしの場合でも、ギフト条件が空配列なら通す
-  if (!giftPrice) return false
-
-  // all が含まれていれば、hasGift が true の時点で true
+  // all なら金額を問わず通す(無料・メンバー/サブスクも通る)
   if (gift.includes('all')) return true
 
-  const tier = getGiftTier(giftPrice)
-  return gift.includes(tier)
+  // 金額の段階は有料ギフトにだけ効く
+  if (giftKind !== 'paid') return false
+  return gift.includes(getGiftTier(giftPrice ?? 0))
 }

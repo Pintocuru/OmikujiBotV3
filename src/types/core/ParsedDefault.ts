@@ -10,8 +10,13 @@ const isPlainObject = (v: unknown): v is Record<string, unknown> => v !== null &
 /**
  * Array: 要素単位で検証し、不正な要素だけ除外する (除外は issues に記録)
  * category は issues の分類名 (例: 'events.comments')
+ * ignoredValues に含まれる値は、廃止した値として記録せずに取り除く
  */
-export function normalizedArray<T extends z.ZodType>(itemSchema: T, category = 'array') {
+export function normalizedArray<T extends z.ZodType>(
+  itemSchema: T,
+  category = 'array',
+  ignoredValues: readonly unknown[] = []
+) {
   return z
     .unknown()
     .transform((raw): z.output<T>[] => {
@@ -21,6 +26,7 @@ export function normalizedArray<T extends z.ZodType>(itemSchema: T, category = '
       }
       const out: z.output<T>[] = []
       raw.forEach((element, index) => {
+        if (ignoredValues.includes(element)) return
         const mark = markParseIssues()
         const result = withParsePath(index, () => itemSchema.safeParse(element))
         if (result.success) {

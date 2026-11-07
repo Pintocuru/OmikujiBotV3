@@ -1,7 +1,13 @@
 // src/types/OmikujiData/events/CommentTriggerSchema.ts
 import { z } from 'zod'
 import { normalizedArray } from '@/types/core/ParsedDefault'
-import { AccessConditionValueSchema, GiftConditionValueSchema, type TriggerConditionType } from '@/types/engine'
+import {
+  AccessConditionValueSchema,
+  GiftConditionValueSchema,
+  GiftKindValueSchema,
+  removedGiftConditions,
+  type TriggerConditionType,
+} from '@/types/engine'
 
 /**
  * Comment Trigger(コメントイベントの条件)
@@ -21,7 +27,8 @@ export const isCommentTriggerCondition = (value: string): value is CommentTrigge
 export const commentConditionFields = (category: string) => ({
   usernames: normalizedArray(z.string(), `${category}.usernames`),
   access: normalizedArray(AccessConditionValueSchema, `${category}.access`),
-  gift: normalizedArray(GiftConditionValueSchema, `${category}.gift`),
+  gift: normalizedArray(GiftConditionValueSchema, `${category}.gift`, removedGiftConditions), // 金額の段階(有料ギフトにだけ効く)
+  giftKinds: normalizedArray(GiftKindValueSchema, `${category}.giftKinds`), // ギフトの種類(空 = 種類を問わない)
   comment: normalizedArray(z.string(), `${category}.comment`), // コメント内容のパターン
   expression: z.string().catch(''),
 })

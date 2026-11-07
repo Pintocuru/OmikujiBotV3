@@ -1,7 +1,7 @@
 // src/types/OmikenComment/index.ts
 import { z } from 'zod'
 import { idSchema } from '@/types/core/BaseSchema'
-import { AccessConditionValueSchema, type AccessConditionType } from '@/types/engine'
+import { AccessConditionValueSchema, GiftKindValueSchema, type AccessConditionType } from '@/types/engine'
 
 /**
  * UserName
@@ -41,7 +41,9 @@ export type CommentMetaType = z.infer<typeof CommentMetaSchema>
 export const OmikenCommentSchema = UserNameSchema.extend({
   id: idSchema,
   accessLevel: UserAccessLevelSchema,
-  giftPrice: z.number().nullable().default(null),
+  giftPrice: z.number().nullable().default(null), // 金額(円に概算)。ギフトでなければ null、無料・メンバー/サブスクは 0
+  giftKind: GiftKindValueSchema.nullable().default(null), // ギフトの種類。ギフトでなければ null
+  giftCount: z.number().default(0), // ギフトの個数。ギフトでなければ 0
   comment: z.string(),
   meta: CommentMetaSchema,
 })

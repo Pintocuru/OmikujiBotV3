@@ -70,6 +70,11 @@ export const defaultPlaceholderMap: Record<DefaultPlaceholders, DefaultPlacehold
     label: 'ギフト金額',
     short: 'Gift_Price',
   },
+  giftCount: {
+    slot: 'comment',
+    label: 'ギフトの個数',
+    short: 'Gift_Count',
+  },
   tc: {
     slot: 'comment',
     label: countUnitConditionMap.tc.label,

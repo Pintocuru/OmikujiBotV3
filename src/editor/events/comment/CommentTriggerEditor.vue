@@ -30,7 +30,7 @@
   <TriggerAccess v-if="conditions.includes('access')" v-model="access" />
 
   <!-- ギフト条件 -->
-  <TriggerGift v-if="conditions.includes('gift')" v-model="gift" />
+  <TriggerGift v-if="conditions.includes('gift')" v-model="gift" v-model:kinds="giftKinds" />
 
   <!-- ユーザーネーム条件 -->
   <TriggerUsername v-if="conditions.includes('username')" v-model="usernames" />
@@ -100,6 +100,7 @@
   const comment = createComputed('comment')
   const access = createComputed('access')
   const gift = createComputed('gift')
+  const giftKinds = createComputed('giftKinds')
   const usernames = createComputed('usernames')
   const expression = createComputed('expression')
 </script>

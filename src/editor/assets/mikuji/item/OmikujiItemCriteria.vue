@@ -43,7 +43,9 @@
   <TriggerGift
     v-if="activeConditions.has('gift')"
     :modelValue="criteria.gift"
+    :kinds="criteria.giftKinds"
     @update:modelValue="updateCriteriaKey('gift', $event)"
+    @update:kinds="updateCriteriaKey('giftKinds', $event)"
   />
 
   <!-- 初見条件 -->

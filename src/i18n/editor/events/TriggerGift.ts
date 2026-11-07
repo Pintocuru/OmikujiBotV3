@@ -4,10 +4,17 @@ export const triggerGiftMessages = {
     triggerGift: {
       label: 'ギフト条件',
       description: '金額や種類で発動を変更できます',
+      kindsLabel: '種類(選ばなければ全ての種類)',
+      tiersLabel: '金額の段階(有料ギフトにだけ効きます)',
+      kinds: {
+        paid: { label: '有料', description: '実際にお金が入るギフト(スパチャ・ジュエル・ビッツなど)' },
+        free: { label: '無料', description: 'お茶などの無料ギフト' },
+        member: { label: 'メンバー/サブスク', description: 'メンバーシップ・サブスクの加入やギフト' },
+      },
       conditions: {
         all: {
           label: '全て',
-          description: 'メンバー加入を含む全てのギフト',
+          description: '金額を問わない全てのギフト(無料・メンバー/サブスクを含む)',
         },
         blue: {
           label: '200円未満',
@@ -41,10 +48,6 @@ export const triggerGiftMessages = {
           label: '20000円以上',
           description: '20000円以上の超高額ギフト',
         },
-        special: {
-          label: 'その他のギフト（メンバーシップ等）',
-          description: '金額区分ではない有料サービス（メンバーシップ・ステッカー・サブスクなど）',
-        },
       },
     },
   },
@@ -52,10 +55,17 @@ export const triggerGiftMessages = {
     triggerGift: {
       label: 'Gift Conditions',
       description: 'Change activation based on amount or type',
+      kindsLabel: 'Kind (all kinds if none selected)',
+      tiersLabel: 'Amount tier (applies to paid gifts only)',
+      kinds: {
+        paid: { label: 'Paid', description: 'Gifts that bring in real money (Super Chat, Jewels, Bits, etc.)' },
+        free: { label: 'Free', description: 'Free gifts such as tea' },
+        member: { label: 'Member/Sub', description: 'Membership / subscription joins and gifts' },
+      },
       conditions: {
         all: {
           label: 'All',
-          description: 'All gifts including memberships',
+          description: 'All gifts regardless of amount (including free and member/sub)',
         },
         blue: {
           label: 'Under ¥200',
@@ -88,10 +98,6 @@ export const triggerGiftMessages = {
         purple: {
           label: '¥20,000 and above',
           description: 'Ultra high-value gifts of ¥20,000 or more',
-        },
-        special: {
-          label: 'Other Gifts (Memberships, etc.)',
-          description: 'Paid services not based on amounts (memberships, stickers, subs, etc.)',
         },
       },
     },

@@ -2,12 +2,9 @@
 import { CountComparisonCondition, GiftConditionType } from '@/types/engine'
 
 /**
- * ギフトティア計算（YouTube基準）
+ * ギフトの金額の段階(YouTube基準)。有料ギフトの金額に対して使う
  */
-export const getGiftTier = (price?: number | null): GiftConditionType => {
-  // 金額のないギフト（メンバーシップ、ステッカー、サブスク等）
-  if (price === null || price === undefined || price <= 0) return 'special'
-
+export const getGiftTier = (price: number): GiftConditionType => {
   const ranges: [number, GiftConditionType][] = [
     [200, 'blue'],
     [500, 'lightBlue'],

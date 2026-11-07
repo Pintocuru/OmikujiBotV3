@@ -4,6 +4,7 @@ import {
   AccessConditionType,
   CountConditionType,
   GiftConditionType,
+  GiftKindType,
   SyokenConditionType,
   TriggerConditionType,
 } from '@/types/engine/trigger'
@@ -23,6 +24,7 @@ export function checkAllTriggers(
     syoken?: SyokenConditionType[]
     access?: AccessConditionType[]
     gift?: GiftConditionType[]
+    giftKinds?: GiftKindType[]
     count?: CountConditionType
     comment?: string[]
     usernames?: string[]
@@ -33,7 +35,7 @@ export function checkAllTriggers(
   const checkMap: Record<TriggerConditionType, () => boolean> = {
     syoken: () => checkSyoken(omiken, trigger.syoken),
     access: () => checkAccess(omiken, trigger.access),
-    gift: () => checkGift(omiken, trigger.gift),
+    gift: () => checkGift(omiken, trigger.gift, trigger.giftKinds),
     count: () => checkCount(omiken, trigger.count),
     service: () => true,
     comment: () => checkComment(omiken.comment, trigger.comment),

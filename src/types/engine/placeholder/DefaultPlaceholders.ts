@@ -17,7 +17,7 @@ export const defaultBasePlaceholderLabel = [
   'clock',
 ] as const
 
-export const defaultPlaceholderLabel = [...defaultBasePlaceholderLabel, 'user', 'userId', 'price', 'tc'] as const
+export const defaultPlaceholderLabel = [...defaultBasePlaceholderLabel, 'user', 'userId', 'price', 'giftCount', 'tc'] as const
 
 export type DefaultPlaceholders = (typeof defaultPlaceholderLabel)[number]
 
@@ -42,6 +42,7 @@ export const DefaultPlaceholdersCommentSchema = z.object({
   user: z.string().default('Test User').catch('Test User'),
   userId: z.string().default('test').catch('test'),
   price: z.coerce.number().default(0).catch(0),
+  giftCount: z.coerce.number().default(0).catch(0),
   tc: z.coerce.number().default(0).catch(0),
   ...DefaultPlaceholdersMetaSchema.shape,
 })

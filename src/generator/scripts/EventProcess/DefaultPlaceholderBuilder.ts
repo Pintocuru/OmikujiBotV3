@@ -46,6 +46,7 @@ export function buildDefaultPlaceholders(store: AppStore, omiken?: OmikenComment
     user: `{{icon ${omiken.userId}}}${omiken.userName}`,
     userId: omiken.userId,
     price: omiken.giftPrice,
+    giftCount: omiken.giftCount,
     lc: omiken.meta.lc,
     tc: omiken.meta.tc,
   })
