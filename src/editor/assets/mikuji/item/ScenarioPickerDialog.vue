@@ -46,7 +46,7 @@
           </div>
           <div class="text-sm mt-1">{{ scenario.description || t('omikujiItem.scenario.dialog.noDescription') }}</div>
           <div class="flex gap-2 mt-2">
-            <button class="btn btn-sm btn-neutral" @click="handleSelect(scenario.key)">
+            <button class="btn btn-sm btn-secondary" @click="handleSelect(scenario.key)">
               {{ t('omikujiItem.scenario.dialog.select') }}
             </button>
           </div>

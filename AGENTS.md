@@ -18,15 +18,15 @@
 
 ### 進捗
 
-| 単位 | 範囲                                                               | 状態                                                             |
-| ---- | ------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| 1    | `src/editor/shell/`                                                | patch 提出済み(`ui-style-unit1-shell.patch`)。適用は依頼者       |
-| 2    | `src/editor/parts/`                                                | patch 提出済み(`ui-style-unit2-parts.patch`)。適用は依頼者       |
-| 3    | `src/editor/apps/`                                                 | patch 提出済み(`ui-style-unit3-apps.patch`)。適用は依頼者        |
-| 4a   | `src/editor/assets/characters/`                                    | patch 提出済み(`ui-style-unit4a-characters.patch`)。適用は依頼者 |
-| 4b   | `src/editor/assets/mikuji/`(`MikujiSettings.vue`、`row/`、`item/`) | 未着手                                                           |
-| 4c   | `src/editor/assets/scenarios/` と `placeholders/`                  | 未着手                                                           |
-| 5〜  | 下記チェックリスト(`content/` から)                                | 未着手                                                           |
+| 単位 | 範囲                                              | 状態                                                             |
+| ---- | ------------------------------------------------- | ---------------------------------------------------------------- |
+| 1    | `src/editor/shell/`                               | patch 提出済み(`ui-style-unit1-shell.patch`)。適用は依頼者       |
+| 2    | `src/editor/parts/`                               | patch 提出済み(`ui-style-unit2-parts.patch`)。適用は依頼者       |
+| 3    | `src/editor/apps/`                                | patch 提出済み(`ui-style-unit3-apps.patch`)。適用は依頼者        |
+| 4a   | `src/editor/assets/characters/`                   | patch 提出済み(`ui-style-unit4a-characters.patch`)。適用は依頼者 |
+| 4b   | `src/editor/assets/mikuji/`                       | patch 提出済み(`ui-style-unit4b-mikuji.patch`)。適用は依頼者     |
+| 4c   | `src/editor/assets/scenarios/` と `placeholders/` | 未着手                                                           |
+| 5〜  | 下記チェックリスト(`content/` から)               | 未着手                                                           |
 
 ### 単位1の結果(`src/editor/shell/`)
 
@@ -57,6 +57,12 @@
 - 変更なし: `btn-neutral btn-outline`(`EmotionLayerEditor` のパス設定、`EmotionPresetButtons`)、`ImageSettingsInfo.vue`(説明文中のボタン風 `span`、操作ではない)、他は規約どおり。
 - 検証: patch の `git apply --check` のみ。それ以外は**未実施**。
 
+### 単位4b の結果(`src/editor/assets/mikuji/`)
+
+- `MikujiSettings.vue`: 抽選テストは `btn-neutral` を外して色なし、追加は `btn-secondary`。`OmikujiItemScenario.vue`: シナリオ名ボタンは色なし、選択は `btn-secondary`、`ExternalLink` を `w-4 h-4` に。`ScenarioPickerDialog.vue`: 選択を `btn-secondary`。
+- 変更なし: `row/OmikujiRowRun.vue` の `btn-neutral btn-outline`、`row/OmikujiRowSummary.vue`(規約どおり)。
+- 検証: patch の `git apply --check` のみ。それ以外は**未実施**。
+
 ### サイズの方針(依頼者から一任、2026-11-07)
 
 - 標準は `btn-sm`。`btn-xs` は、`input-xs` / `badge` / 行内ヘルパーなど、密な並びの中だけ例外として残す。単独のボタン・ダイアログのボタンは `btn-sm`。
@@ -74,7 +80,7 @@
 
 - [x] `src/editor/parts/`(patch 提出済み)
 - [x] `src/editor/apps/`(patch 提出済み)
-- [ ] `src/editor/assets/`(4a 完了、4b・4c 未着手)
+- [ ] `src/editor/assets/`(4a・4b 完了、4c 未着手)
 - [ ] `src/editor/content/`
 - [ ] `src/editor/events/`
 - [ ] `src/editor/helpers/`

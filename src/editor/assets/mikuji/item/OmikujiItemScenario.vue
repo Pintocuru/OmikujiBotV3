@@ -22,14 +22,14 @@
         <!-- 接続済み -->
         <template v-if="scenario">
           <!-- 編集ダイアログを開くボタン -->
-          <button class="btn btn-sm btn-neutral gap-2 max-w-80" @click="pickerOpen = true">
+          <button class="btn btn-sm gap-2 max-w-80" @click="pickerOpen = true">
             <Zap class="w-4 h-4 shrink-0" />
             <span class="truncate">{{ scenario.name || scenarioKey }}</span>
           </button>
 
           <!-- シナリオ編集画面へ飛ぶボタン -->
           <button class="btn btn-sm btn-ghost gap-2" @click="goToScenario">
-            <ExternalLink class="w-3.5 h-3.5" />
+            <ExternalLink class="w-4 h-4" />
             {{ t('omikujiItem.scenario.edit') }}
           </button>
 
@@ -45,7 +45,7 @@
             t('omikujiItem.scenario.missing', { key: scenarioKey })
           }}</span>
           <span v-else class="text-sm">{{ t('omikujiItem.scenario.none') }}</span>
-          <button class="btn btn-sm btn-neutral" @click="pickerOpen = true">
+          <button class="btn btn-sm btn-secondary" @click="pickerOpen = true">
             {{ t('omikujiItem.scenario.pick') }}
           </button>
         </div>
