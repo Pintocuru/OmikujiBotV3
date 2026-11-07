@@ -16,13 +16,15 @@
         <!-- おみくじ名前 -->
         <span class="truncate">{{ item.name || t('omikujiItem.summary.unnamed') }}</span>
         <!-- 名前・説明の編集 -->
-        <button
-          class="btn btn-ghost btn-xs btn-square shrink-0"
-          :title="t('omikujiItem.summary.editNameDescription')"
-          @click.stop="emit('open', 'base')"
-        >
-          <Pencil class="w-3.5 h-3.5" />
-        </button>
+        <div class="tooltip tooltip-top" :data-tip="t('omikujiItem.summary.editNameDescription')">
+          <button
+            class="btn btn-sm btn-ghost btn-square shrink-0"
+            :aria-label="t('omikujiItem.summary.editNameDescription')"
+            @click.stop="emit('open', 'base')"
+          >
+            <Pencil class="w-4 h-4" />
+          </button>
+        </div>
       </div>
       <!-- 説明 -->
       <div v-if="item.description" class="text-xs opacity-70 truncate">{{ item.description }}</div>
@@ -38,8 +40,8 @@
         </span>
 
         <!-- 追加条件 -->
-        <button class="btn btn-ghost btn-xs gap-1" @click.stop="emit('open', 'condition')">
-          <Filter class="w-3 h-3" />
+        <button class="btn btn-sm btn-ghost gap-2" @click.stop="emit('open', 'condition')">
+          <Filter class="w-4 h-4" />
           {{ t('omikujiItem.priority.sectionTitle') }}
         </button>
         <span v-if="item.lottery.isPriority" class="badge badge-sm badge-primary">

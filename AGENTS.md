@@ -89,6 +89,15 @@
 | `service/CharacterBase64Settings.vue` | Base64リセットを `btn-sm btn-circle btn-error` + tooltip + `aria-label` に変更 |
 | `src/i18n/editor/apps/AppItemsCharacters.ts` | レイヤー上下移動・削除の日本語/英語ラベルを追加 |
 
+#### MikujiSettings / mikuji — 部分完了
+
+| `mikuji/MikujiSettings.vue` | テスト・追加ボタンの役割色とアイコン間隔を統一 |
+| `mikuji/row/OmikujiRowCooldown.vue` | 入力説明の `title` を tooltip に変更 |
+| `mikuji/row/OmikujiRowRun.vue` | 実行内容・シナリオ移動ボタンの役割色・サイズ・間隔を統一 |
+| `mikuji/row/OmikujiRowSummary.vue` | 名前編集を tooltip + `aria-label` + `btn-square` に変更。条件編集ボタンを標準サイズに統一 |
+| `mikuji/item/OmikujiItemScenario.vue` | シナリオ選択・編集ボタンの役割色とサイズを統一 |
+| `mikuji/item/ScenarioPickerDialog.vue` | 閉じるボタンに tooltip + `aria-label` を追加。選択ボタンのサイズ・役割色を統一 |
+
 #### 検証結果
 
 - 単位1〜3: `npx vue-tsc --noEmit` 済み（エラーなしと既存記録に記載）。

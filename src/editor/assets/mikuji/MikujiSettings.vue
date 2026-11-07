@@ -5,13 +5,13 @@
   <div class="flex justify-end gap-2">
     <div class="tooltip tooltip-bottom" :data-tip="t('omikujiItem.list.testTooltip')">
       <!-- 抽選テスト -->
-      <button class="btn btn-sm btn-info" :disabled="omikujiItem.length === 0" @click="postTestMikuji(mikujiKey)">
+      <button class="btn btn-sm btn-neutral gap-2" :disabled="omikujiItem.length === 0" @click="postTestMikuji(mikujiKey)">
         <Dices class="w-4 h-4" />
         {{ t('omikujiItem.list.test') }}
       </button>
     </div>
 
-    <button class="btn btn-sm btn-primary" @click="add">
+    <button class="btn btn-sm btn-neutral" @click="add">
       <Plus class="w-4 h-4" />
       {{ t('omikujiItem.list.add') }}
     </button>

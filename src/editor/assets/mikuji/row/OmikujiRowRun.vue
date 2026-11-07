@@ -2,14 +2,14 @@
 <!-- 行の実行内容(steps: シナリオ名 / control: command)と、シナリオ編集画面への移動ボタン -->
 <template>
   <div class="flex min-w-0 flex-col items-start gap-1">
-    <button class="btn btn-sm btn-outline w-full justify-start gap-1" @click="emit('open')">
+    <button class="btn btn-sm btn-neutral btn-outline w-full justify-start gap-2" @click="emit('open')">
       <Ban v-if="item.kind === 'control'" class="w-4 h-4 shrink-0" />
       <Zap v-else class="w-4 h-4 shrink-0" />
       <span class="truncate" :class="runState.cls">{{ runState.label }}</span>
     </button>
     <!-- シナリオ編集画面へ飛ぶボタン(シナリオを指定している steps のみ) -->
-    <button v-if="scenarioKey" class="btn btn-xs btn-ghost gap-1" @click="goToScenario">
-      <ExternalLink class="w-3.5 h-3.5" />
+    <button v-if="scenarioKey" class="btn btn-sm btn-ghost gap-2" @click="goToScenario">
+      <ExternalLink class="w-4 h-4" />
       {{ t('omikujiItem.scenario.edit') }}
     </button>
   </div>

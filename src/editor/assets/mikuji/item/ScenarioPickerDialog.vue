@@ -5,9 +5,11 @@
     <div class="modal-box max-w-2xl">
       <div class="flex items-center justify-between pb-2">
         <h3 class="text-lg font-bold">{{ t('omikujiItem.scenario.dialog.title') }}</h3>
-        <button class="btn btn-sm btn-circle btn-ghost" @click="close">
-          <X :size="16" />
-        </button>
+        <div class="tooltip tooltip-top" :data-tip="t('omikujiItem.scenario.dialog.close')">
+          <button class="btn btn-sm btn-circle btn-ghost" :aria-label="t('omikujiItem.scenario.dialog.close')" @click="close">
+            <X class="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
       <input
@@ -44,7 +46,7 @@
           </div>
           <div class="text-sm mt-1">{{ scenario.description || t('omikujiItem.scenario.dialog.noDescription') }}</div>
           <div class="flex gap-2 mt-2">
-            <button class="btn btn-xs btn-primary" @click="handleSelect(scenario.key)">
+            <button class="btn btn-sm btn-neutral" @click="handleSelect(scenario.key)">
               {{ t('omikujiItem.scenario.dialog.select') }}
             </button>
           </div>

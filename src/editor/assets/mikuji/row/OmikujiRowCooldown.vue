@@ -3,8 +3,8 @@
 <template>
   <label
     v-if="item.kind === 'scenario'"
-    class="input input-sm input-bordered flex w-full items-center gap-1"
-    :title="t('omikujiItem.header.cooldown.inputTitle')"
+    class="tooltip tooltip-top input input-sm input-bordered flex w-full items-center gap-1"
+    :data-tip="t('omikujiItem.header.cooldown.inputTitle')"
   >
     <Timer class="w-3.5 h-3.5 shrink-0 opacity-60" />
     <input type="number" class="min-w-0 grow" :value="item.cooldownSeconds ?? 0" step="0.1" @change="updateCooldown" />
