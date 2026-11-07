@@ -84,6 +84,8 @@
 | `CharacterImageSettings.vue` | エモーション追加を通常操作の `btn-sm btn-neutral` に変更。アイコンと文字の間隔を `gap-2` に統一 |
 | `EmotionImageItem.vue` | 削除ボタンを `btn-error btn-square` に変更。title を tooltip に置き換え、`aria-label` を追加 |
 | `EmotionPresetButtons.vue` | プリセットボタンを `btn-sm btn-neutral` に統一し、既存の outline 表現を維持 |
+| `EmotionLayerEditor.vue` | レイヤー追加・パス設定ボタンのサイズ・役割色・アイコン間隔を統一。上下移動・削除を `btn-square` + tooltip + `aria-label` に変更 |
+| `src/i18n/editor/apps/AppItemsCharacters.ts` | レイヤー上下移動・削除の日本語/英語ラベルを追加 |
 
 #### 検証結果
 
@@ -94,7 +96,7 @@
 
 #### 未解決事項・対象外確認
 
-1. `EmotionLayerEditor.vue` のレイヤー上下移動・削除などのアイコンのみボタンには `aria-label` がない。適切な日本語・英語ラベルを追加するには `src/i18n/editor/apps/AppItemsCharacters.ts` の変更が必要だが、今回の対象範囲外のため未変更。範囲拡張の確認が必要。
+1. レイヤー上下移動・削除ボタンの翻訳キーを追加済み。
 2. `ImageSettingsInfo.vue` の「パスをセット」ボタンは説明文中の操作例として表示されており、実際の操作ボタンではない。誤解を避けるため現状維持。
 3. `EmotionGrid.vue` のカード選択はクリック可能なカード要素であり、ボタン統一の対象として扱うべきか未確認。操作仕様・アクセシビリティを別途確認する。
 
@@ -108,4 +110,4 @@
 
 #### 次に着手する作業
 
-**作業単位5:** `src/editor/assets/characters/CharacterImage/` の残りを確認する。特に `EmotionLayerEditor.vue` の翻訳キー追加が対象範囲外になる点は、独断で `src/i18n/` に変更を加えず、先に範囲拡張の許可を得る。その後、characters の残りの機能へ進む。
+**作業単位5:** `src/editor/assets/characters/CharacterImage/` の残りを確認し、完了後に characters の残りの機能へ進む。

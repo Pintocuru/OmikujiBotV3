@@ -114,6 +114,9 @@ export const appItemsCharactersMessages = {
         title: '画像レイヤー',
         add: 'レイヤーを追加',
         setPath: 'パスをセット',
+        moveUp: '上のレイヤーへ移動',
+        moveDown: '下のレイヤーへ移動',
+        remove: 'レイヤーを削除',
         url: 'レイヤー{n}の画像URL',
       },
       preset: {
@@ -281,6 +284,9 @@ export const appItemsCharactersMessages = {
         title: 'Image layers',
         add: 'Add layer',
         setPath: 'Set path',
+        moveUp: 'Move layer up',
+        moveDown: 'Move layer down',
+        remove: 'Remove layer',
         url: 'Image URL for layer {n}',
       },
       preset: {

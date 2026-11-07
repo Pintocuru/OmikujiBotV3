@@ -3,31 +3,34 @@
   <div class="space-y-2">
     <div class="text-xs font-medium text-base-content/70 mb-1">{{ t('characterImage.layer.title') }}</div>
 
-    <button type="button" class="btn btn-xs btn-primary w-full" @click="handleAddLayer">
-      <Plus class="w-3 h-3 mr-1" />{{ t('characterImage.layer.add') }}
+    <button type="button" class="btn btn-sm btn-neutral gap-2 w-full" @click="handleAddLayer">
+      <Plus class="w-4 h-4" />
+      {{ t('characterImage.layer.add') }}
     </button>
 
     <div v-for="(layer, index) in layers" :key="index" class="border rounded p-2 bg-base-200 space-y-1">
-      <div class="flex items-center gap-1">
+      <div class="flex items-center gap-2">
         <span class="badge badge-xs">{{ index + 1 }}</span>
         <div class="flex-1" />
-        <button type="button" class="btn btn-xs btn-outline" @click="handleSetDefaultPath(index)">
-          <RotateCcw class="w-3 h-3 mr-1" />{{ t('characterImage.layer.setPath') }}
+        <button type="button" class="btn btn-sm btn-neutral btn-outline gap-2" @click="handleSetDefaultPath(index)">
+          <RotateCcw class="w-4 h-4" />
+          {{ t('characterImage.layer.setPath') }}
         </button>
-        <button type="button" class="btn btn-ghost btn-xs" @click="handleMoveUp(index)" :disabled="index === 0">
-          <ChevronUp class="w-3 h-3" />
-        </button>
-        <button
-          type="button"
-          class="btn btn-ghost btn-xs"
-          @click="handleMoveDown(index)"
-          :disabled="index === layers.length - 1"
-        >
-          <ChevronDown class="w-3 h-3" />
-        </button>
-        <button type="button" class="btn btn-error btn-xs" @click="handleRemoveLayer(index)">
-          <X class="w-3 h-3" />
-        </button>
+        <div class="tooltip tooltip-top" :data-tip="t('characterImage.layer.moveUp')">
+          <button type="button" class="btn btn-sm btn-ghost btn-square" :aria-label="t('characterImage.layer.moveUp')" @click="handleMoveUp(index)" :disabled="index === 0">
+            <ChevronUp class="w-4 h-4" />
+          </button>
+        </div>
+        <div class="tooltip tooltip-top" :data-tip="t('characterImage.layer.moveDown')">
+          <button type="button" class="btn btn-sm btn-ghost btn-square" :aria-label="t('characterImage.layer.moveDown')" @click="handleMoveDown(index)" :disabled="index === layers.length - 1">
+            <ChevronDown class="w-4 h-4" />
+          </button>
+        </div>
+        <div class="tooltip tooltip-top" :data-tip="t('characterImage.layer.remove')">
+          <button type="button" class="btn btn-sm btn-error btn-square" :aria-label="t('characterImage.layer.remove')" @click="handleRemoveLayer(index)">
+            <X class="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
       <input
