@@ -1,23 +1,12 @@
 <!-- src/editor/helpers/KeyEditor/KeyEditor.vue -->
 <template>
   <!-- Keyエディタボタン -->
-  <button
-    class="btn btn-sm btn-outline btn-primary tooltip tooltip-bottom min-w-fit whitespace-nowrap"
-    :data-tip="$t('keyEditor.buttonTip')"
-    @click="openDialog(currentKey, category)"
-  >
-    <span>📝</span>
+  <button class="btn btn-sm btn-primary" @click="openDialog(currentKey, category)">
     <span class="hidden sm:inline ml-1">{{ $t('keyEditor.buttonLabel') }}</span>
   </button>
 
   <!-- ダイアログ -->
-  <BaseDialog
-    :open="isDialogOpen"
-    :title="dialogTitle"
-    icon="Key"
-    size="2xl"
-    @update:open="handleDialogOpenChange"
-  >
+  <BaseDialog :open="isDialogOpen" :title="dialogTitle" icon="Key" size="2xl" @update:open="handleDialogOpenChange">
     <div class="py-4 space-y-4">
       <SettingItem icon="Key" labelKey="keyEditor.currentKey">
         <div class="input input-bordered bg-neutral text-neutral-content select-all">

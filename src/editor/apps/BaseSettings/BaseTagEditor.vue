@@ -1,39 +1,41 @@
 <!-- src/editor/apps/BaseSettings/BaseTagEditor.vue -->
 <template>
   <SettingItem icon="Tags" labelKey="baseSettings.tags.label" descriptionKey="baseSettings.tags.description">
-    <VueDraggable v-model="localTags" class="flex flex-wrap gap-2 mb-2 min-h-8">
-      <span v-for="(tag, index) in localTags" :key="tag" class="badge badge-sm badge-primary cursor-grab">
-        {{ tag }}
-        <span class="cursor-pointer ml-1" @click="removeTag(index)">✕</span>
-      </span>
-    </VueDraggable>
+    <div class="space-y-2">
+      <!-- 設定済みのタグ -->
+      <VueDraggable v-model="localTags" class="flex flex-wrap gap-2">
+        <span v-for="(tag, index) in localTags" :key="tag" class="badge badge-sm badge-primary cursor-grab">
+          {{ tag }}
+          <span class="cursor-pointer ml-1" @click="removeTag(index)">✕</span>
+        </span>
+      </VueDraggable>
 
-    <div class="flex gap-2">
-      <!-- タグを追加 -->
-      <input
-        v-model="newTag"
-        type="text"
-        class="input input-bordered input-sm flex-1"
-        :placeholder="t('baseSettings.tags.placeholder')"
-        @keydown.enter="onEnter"
-      />
-      <button class="btn btn-sm btn-primary" @click="addTag(newTag)">{{ t('baseSettings.tags.add') }}</button>
-    </div>
-
-    <!-- 既存タグの候補(クリックで追加) -->
-    <div v-if="suggestions.length" class="mt-2">
-      <div class="text-xs text-base-content/60 mb-1">{{ t('baseSettings.tags.suggestions') }}</div>
-      <div class="flex flex-wrap gap-1 max-h-20 overflow-y-auto">
-        <button
-          v-for="tag in suggestions"
-          :key="tag"
-          type="button"
-          class="badge badge-sm badge-outline cursor-pointer hover:badge-primary"
-          @click="addTag(tag)"
-        >
-          + {{ tag }}
-        </button>
+      <!-- タグ入力欄 -->
+      <div class="flex gap-2">
+        <input
+          v-model="newTag"
+          type="text"
+          class="input input-bordered input-sm flex-1"
+          :placeholder="t('baseSettings.tags.placeholder')"
+          @keydown.enter="onEnter"
+        />
+        <button class="btn btn-sm btn-primary" @click="addTag(newTag)">{{ t('baseSettings.tags.add') }}</button>
       </div>
+
+      <!-- 既存タグの候補(クリックで追加) -->
+      <template v-if="suggestions.length">
+        <div class="flex flex-wrap gap-1 max-h-20 overflow-y-auto">
+          <button
+            v-for="tag in suggestions"
+            :key="tag"
+            type="button"
+            class="badge badge-sm badge-outline cursor-pointer hover:bg-accent hover:text-accent-content"
+            @click="addTag(tag)"
+          >
+            + {{ tag }}
+          </button>
+        </div>
+      </template>
     </div>
   </SettingItem>
 </template>
