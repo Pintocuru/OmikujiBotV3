@@ -5,7 +5,7 @@
     <button
       tabindex="0"
       type="button"
-      class="btn btn-sm btn-ghost btn-square tooltip tooltip-top opacity-0 group-hover:opacity-100 transition-opacity"
+      class="btn btn-sm btn-ghost btn-square tooltip tooltip-top opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity"
       :data-tip="t('connections.itemMenu.open')"
       :aria-label="t('connections.itemMenu.open')"
     >
