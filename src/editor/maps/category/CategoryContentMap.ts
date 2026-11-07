@@ -104,7 +104,7 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
   // assets
   mikuji: {
     editor: ItemEditor,
-    item: { component: MikujiSettings, section: stepsSection, modelField: null, keyProp: 'omikujiKey' },
+    item: { component: MikujiSettings, section: stepsSection, modelField: null, keyProp: 'mikujiKey' },
   },
   scenarios: {
     editor: ItemEditor,

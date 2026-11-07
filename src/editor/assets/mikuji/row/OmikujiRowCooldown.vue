@@ -2,7 +2,7 @@
 <!-- クールダウン(秒)の入力。steps のみ編集でき、control は「-」を表示する -->
 <template>
   <label
-    v-if="item.kind === 'steps'"
+    v-if="item.kind === 'scenario'"
     class="input input-sm input-bordered flex w-full items-center gap-1"
     :title="t('omikujiItem.header.cooldown.inputTitle')"
   >
@@ -29,7 +29,7 @@
   }>()
 
   const updateCooldown = (event: Event) => {
-    if (props.item.kind !== 'steps') return
+    if (props.item.kind !== 'scenario') return
     const num = parseFloat((event.target as HTMLInputElement).value)
     emit('update:item', { ...props.item, cooldownSeconds: isNaN(num) ? 0 : num })
   }

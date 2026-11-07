@@ -46,7 +46,12 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
 
-  import { commentTriggerConditions, CommentTriggerType } from '@/types/OmikujiData'
+  import {
+    commentTriggerConditions,
+    isCommentTriggerCondition,
+    CommentTriggerCondition,
+    CommentTriggerType,
+  } from '@/types/OmikujiData'
 
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import TriggerComment from '@/editor/events/trigger/TriggerComment.vue'
@@ -84,7 +89,14 @@
     })
 
   // 各プロパティのcomputed
-  const conditions = createComputed('conditions')
+  // この版で扱えない条件(新しい版のデータなど)は表示せず、保存時にそのまま残す
+  const rawConditions = createComputed('conditions')
+  const conditions = computed<CommentTriggerCondition[]>({
+    get: () => rawConditions.value.filter(isCommentTriggerCondition),
+    set: (next) => {
+      rawConditions.value = [...rawConditions.value.filter((c) => !isCommentTriggerCondition(c)), ...next]
+    },
+  })
   const comment = createComputed('comment')
   const access = createComputed('access')
   const gift = createComputed('gift')

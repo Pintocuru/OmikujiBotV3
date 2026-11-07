@@ -69,8 +69,8 @@ export function useTestPost() {
    * criteria で絞り込み(テスト用コメントで判定) → 抽選 → control / steps
    * クールダウンは適用しない(続けてテストできるように)
    */
-  const postTestMikuji = async (omikujiKey: string) => {
-    const mikujiBox = getAsset('mikuji', omikujiKey)
+  const postTestMikuji = async (mikujiKey: string) => {
+    const mikujiBox = getAsset('mikuji', mikujiKey)
     if (!mikujiBox) return
 
     const candidates = mikujiBox.omikuji.filter((item) => {

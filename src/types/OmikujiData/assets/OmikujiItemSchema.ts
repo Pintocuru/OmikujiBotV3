@@ -6,10 +6,10 @@ import { BaseSchema } from '@/types/core'
 
 /**
  * omikujiItemKinds: おみくじアイテムの種別
- * - steps: シナリオ(assets.scenarios)を scenarioKey で指定して実行する
+ * - scenario: シナリオ(assets.scenarios)を scenarioKey で指定して実行する
  * - control : 処理の流れを制御する (command: return / continue)
  */
-export const omikujiItemKinds = ['steps', 'control'] as const
+export const omikujiItemKinds = ['scenario', 'control'] as const
 export type OmikujiItemKind = (typeof omikujiItemKinds)[number]
 
 /**
@@ -43,7 +43,7 @@ const OmikujiItemBase = BaseSchema.extend({
 
 // シナリオを実行する
 export const OmikujiItemStepsSchema = OmikujiItemBase.extend({
-  kind: z.literal('steps').default('steps'), // kind 省略時は steps
+  kind: z.literal('scenario').default('scenario'), // kind 省略時は scenario
   scenarioKey: z.string().default('').catch(''), // 実行するシナリオ(assets.scenarios)のキー
   cooldownSeconds: z.number().optional().catch(undefined), // 直前に実行されたシナリオの値を基準に、一定時間の後続実行を制限する (負数可。詳細は CooldownGate.ts)
 })

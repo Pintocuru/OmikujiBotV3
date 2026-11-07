@@ -11,7 +11,7 @@ import { BaseRecordSchema } from '@/types/core'
  * Events 共通部分のスキーマ
  */
 export const BaseEventSchema = BaseRecordSchema.extend({
-  omikujiKey: z.string().default('').catch(''),
+  mikujiKey: z.string().default('').catch(''),
 })
 export type BaseEventType = z.infer<typeof BaseEventSchema>
 

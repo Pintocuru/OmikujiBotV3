@@ -9,7 +9,7 @@ import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 
 /**
  * サイドバーからのプリセット追加
- * assets(みくじ箱など) → events の順に追加し、events の omikujiKey 参照を成立させる
+ * assets(みくじ箱など) → events の順に追加し、events の mikujiKey 参照を成立させる
  */
 export const useSidebarPreset = () => {
   const { t } = useI18n()

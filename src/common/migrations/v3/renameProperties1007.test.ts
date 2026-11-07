@@ -5,8 +5,8 @@ import { DATA_VERSION_3_0000001007, migrateRenameProperties1007 } from './rename
 const legacy = () => ({
   meta: { dataVersion: 3.0000001006, name: 'x' },
   events: {
-    comments: [{ id: 'e1', trigger: { conditions: ['username'], userName: ['a', 'b'], access: [] } }],
-    timers: [],
+    comments: [{ id: 'e1', omikujiKey: 'box1', trigger: { conditions: ['username'], userName: ['a', 'b'], access: [] } }],
+    timers: [{ id: 't1', omikujiKey: 'box1', mode: 'interval' }],
   },
   assets: {
     mikuji: {
@@ -41,8 +41,12 @@ describe('migrateRenameProperties1007', () => {
     const trigger = out.events.comments[0].trigger
     expect(trigger.usernames).toEqual(['a', 'b'])
     expect('userName' in trigger).toBe(false)
+    expect(out.events.comments[0].mikujiKey).toBe('box1')
+    expect('omikujiKey' in out.events.comments[0]).toBe(false)
+    expect(out.events.timers[0].mikujiKey).toBe('box1')
 
     const [steps, control] = out.assets.mikuji.box1.omikuji
+    expect(steps.kind).toBe('scenario')
     expect(steps.scenarioKey).toBe('sc1')
     expect('stepKey' in steps).toBe(false)
     expect(steps.lottery.criteria.usernames).toEqual(['z'])
@@ -69,8 +73,10 @@ describe('migrateRenameProperties1007', () => {
   it('新しい名前が既にある場合はそちらを優先する', () => {
     const input: any = legacy()
     input.assets.mikuji.box1.omikuji[0].scenarioKey = 'new'
+    input.events.timers[0].mikujiKey = 'newBox'
     const out: any = migrateRenameProperties1007(input)
     expect(out.assets.mikuji.box1.omikuji[0].scenarioKey).toBe('new')
+    expect(out.events.timers[0].mikujiKey).toBe('newBox')
   })
 
   it('assets / events が無いデータでも落ちない', () => {

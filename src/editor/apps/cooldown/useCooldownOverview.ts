@@ -41,10 +41,10 @@ export function useCooldownOverview() {
     const eventsOfBox = new Map<string, CooldownEvent[]>()
     for (const category of eventCategory) {
       for (const event of getEvents(category)) {
-        if (!event.omikujiKey) continue
-        const list = eventsOfBox.get(event.omikujiKey) ?? []
+        if (!event.mikujiKey) continue
+        const list = eventsOfBox.get(event.mikujiKey) ?? []
         list.push({ link: { category, key: event.id, name: event.name }, isEnabled: event.isEnabled !== false })
-        eventsOfBox.set(event.omikujiKey, list)
+        eventsOfBox.set(event.mikujiKey, list)
       }
     }
 
@@ -53,7 +53,7 @@ export function useCooldownOverview() {
       const box = getAsset('mikuji', boxKey)
       if (!box) continue
       for (const item of box.omikuji) {
-        if (item.kind !== 'steps') continue
+        if (item.kind !== 'scenario') continue
         items.push({
           itemId: item.id,
           itemName: item.name,
@@ -100,7 +100,7 @@ export function useCooldownOverview() {
     updateAsset('mikuji', row.boxKey, {
       ...box,
       omikuji: box.omikuji.map((item) =>
-        item.id === row.itemId && item.kind === 'steps' ? { ...item, cooldownSeconds } : item
+        item.id === row.itemId && item.kind === 'scenario' ? { ...item, cooldownSeconds } : item
       ),
     })
   }

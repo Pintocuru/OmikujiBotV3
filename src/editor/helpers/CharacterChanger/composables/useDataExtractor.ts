@@ -59,10 +59,10 @@ export function useDataExtractor(
         .map((item): FlowTarget => ({ category: 'mikuji', item, itemId: itemId.value }))
     }
 
-    // イベント系：omikujiKey からみくじ箱を引く（重複は除く）
+    // イベント系：mikujiKey からみくじ箱を引く（重複は除く）
     const events = selectedId.value ? [getEvent(category, selectedId.value)] : getEvents(category)
-    const omikujiKeys = new Set(events.map((event) => event?.omikujiKey).filter((key): key is string => !!key))
-    return Array.from(omikujiKeys).flatMap((key): FlowTarget[] => {
+    const mikujiKeys = new Set(events.map((event) => event?.mikujiKey).filter((key): key is string => !!key))
+    return Array.from(mikujiKeys).flatMap((key): FlowTarget[] => {
       const box = getAsset('mikuji', key)
       return box ? [{ category: 'mikuji', item: box }] : []
     })

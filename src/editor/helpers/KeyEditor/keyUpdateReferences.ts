@@ -53,7 +53,7 @@ function updateAllSteps(updateFn: StepUpdater): void {
 }
 
 /**
- * mikuji 参照の更新（events の omikujiKey）
+ * mikuji 参照の更新（events の mikujiKey）
  */
 export function updateMikujiReferences(oldKey: string, newKey: string): void {
   const { updateEvent } = useOmikujiStore()
@@ -61,7 +61,7 @@ export function updateMikujiReferences(oldKey: string, newKey: string): void {
 
   eventCategory.forEach((category) => {
     getEvents(category).forEach((event) => {
-      if (event.omikujiKey === oldKey) updateEvent(category, event.id, { omikujiKey: newKey })
+      if (event.mikujiKey === oldKey) updateEvent(category, event.id, { mikujiKey: newKey })
     })
   })
 }
@@ -104,7 +104,7 @@ export function updatePlaceholderReferences(oldKey: string, newKey: string): voi
 }
 
 /**
- * みくじアイテム(kind: 'steps')の scenarioKey 更新
+ * みくじアイテム(kind: 'scenario')の scenarioKey 更新
  */
 function updateMikujiStepKeys(oldKey: string, newKey: string): void {
   const { updateAsset } = useOmikujiStore()
@@ -112,7 +112,7 @@ function updateMikujiStepKeys(oldKey: string, newKey: string): void {
 
   Object.values(getAssets('mikuji')).forEach((box) => {
     const omikuji = mapIfChanged(box.omikuji, (item) =>
-      item.kind === 'steps' && item.scenarioKey === oldKey ? { ...item, scenarioKey: newKey } : item
+      item.kind === 'scenario' && item.scenarioKey === oldKey ? { ...item, scenarioKey: newKey } : item
     )
     if (omikuji) updateAsset('mikuji', box.key, { omikuji })
   })

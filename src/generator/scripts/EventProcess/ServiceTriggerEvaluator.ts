@@ -2,6 +2,7 @@
 import { MetaUpdateEvent } from '@/types/generator'
 import { ServiceConditionType, ServiceTriggerType } from '@/types/OmikujiData/'
 
+
 /**
  * 「今その状態か」で判定するトリガーか
  * lowerBound / upperBound / equal / elapsedMinutes は、条件を満たしている間ずっと true になる。
@@ -13,13 +14,16 @@ export function isStateTrigger(trigger: ServiceTriggerType): boolean {
     case 'elapsedMinutes':
       return true
     case 'upVote':
-    case 'viewer': {
-      const comparison = trigger[trigger.condition]?.comparison
-      return comparison === 'lowerBound' || comparison === 'upperBound' || comparison === 'equal'
-    }
+      return isStateCondition(trigger.upVote)
+    case 'viewer':
+      return isStateCondition(trigger.viewer)
     default:
       return false
   }
+}
+
+function isStateCondition({ comparison }: ServiceConditionType): boolean {
+  return comparison === 'lowerBound' || comparison === 'upperBound' || comparison === 'equal'
 }
 
 /**
@@ -29,7 +33,6 @@ export function isStateTrigger(trigger: ServiceTriggerType): boolean {
 export function evaluateServiceTrigger(trigger: ServiceTriggerType, event: MetaUpdateEvent): boolean {
   switch (trigger.condition) {
     case 'upVote':
-      if (!trigger.upVote) return false
       return evaluateServiceCondition(
         trigger.upVote,
         event.current.upVote,
@@ -38,7 +41,6 @@ export function evaluateServiceTrigger(trigger: ServiceTriggerType, event: MetaU
       )
 
     case 'viewer':
-      if (!trigger.viewer) return false
       return evaluateServiceCondition(
         trigger.viewer,
         event.current.viewer,
@@ -47,7 +49,7 @@ export function evaluateServiceTrigger(trigger: ServiceTriggerType, event: MetaU
       )
 
     case 'elapsedMinutes':
-      return evaluateElapsedTime(trigger.elapsedMinutes ?? 0, event.current.startTime)
+      return evaluateElapsedTime(trigger.elapsedMinutes, event.current.startTime)
 
     // フォロワーは、増えたときに発火する
     case 'follower':
@@ -68,9 +70,7 @@ function evaluateServiceCondition(
   previous: number,
   isPeakChanged: boolean
 ): boolean {
-  const { comparison, value } = condition
-
-  switch (comparison) {
+  switch (condition.comparison) {
     case 'changed':
       return current !== previous
     case 'increased':
@@ -80,15 +80,15 @@ function evaluateServiceCondition(
     case 'greaterThanPeak':
       return isPeakChanged
     case 'lowerBound':
-      return value !== undefined && current >= value
+      return current >= condition.value
     case 'upperBound':
-      return value !== undefined && current <= value
+      return current <= condition.value
     case 'equal':
-      return value !== undefined && current === value
+      return current === condition.value
     case 'loop':
       // 指定値の倍数を、増えながら超えた瞬間(例: 10 なら 9→10、19→21)
-      if (!value) return false
-      return current > previous && Math.floor(current / value) > Math.floor(previous / value)
+      if (!condition.value) return false
+      return current > previous && Math.floor(current / condition.value) > Math.floor(previous / condition.value)
     default:
       return false
   }

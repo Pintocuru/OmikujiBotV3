@@ -18,8 +18,8 @@
 
       <!-- 未接続 / 参照切れ -->
       <div v-else class="flex flex-wrap items-center gap-2 rounded-lg bg-neutral text-neutral-content px-3 py-2">
-        <span v-if="omikujiKey" class="badge badge-warning">{{
-          t('connections.boxMissing', { key: omikujiKey })
+        <span v-if="mikujiKey" class="badge badge-warning">{{
+          t('connections.boxMissing', { key: mikujiKey })
         }}</span>
         <span class="text-sm">{{ t('connections.noBoxHint') }}</span>
         <button class="btn btn-xs btn-primary" @click="pickerOpen = true">{{ t('connections.chooseBox') }}</button>
@@ -29,7 +29,7 @@
       </div>
     </template>
 
-    <MikujiPickerDialog v-model:open="pickerOpen" :selectedKey="omikujiKey || undefined" @select="onSelectBox" />
+    <MikujiPickerDialog v-model:open="pickerOpen" :selectedKey="mikujiKey || undefined" @select="onSelectBox" />
   </LaneLayout>
 </template>
 
@@ -61,8 +61,8 @@
       ? (getEvent(selectedCategory.value as EventCategoryType, selectedItemKey.value) ?? null)
       : null
   )
-  const omikujiKey = computed(() => event.value?.omikujiKey ?? '')
-  const box = computed(() => (omikujiKey.value ? (getAsset('mikuji', omikujiKey.value) ?? null) : null))
+  const mikujiKey = computed(() => event.value?.mikujiKey ?? '')
+  const box = computed(() => (mikujiKey.value ? (getAsset('mikuji', mikujiKey.value) ?? null) : null))
   const boxItems = computed<LinkItem[]>(() =>
     box.value ? [{ category: 'mikuji', key: box.value.key, name: box.value.name || box.value.key }] : []
   )
@@ -70,7 +70,7 @@
   /** イベントのみくじ箱を切り替える('' で接続解除) */
   const onSelectBox = (key: string) => {
     if (!event.value) return
-    updateEvent(selectedCategory.value as EventCategoryType, event.value.id, { omikujiKey: key })
+    updateEvent(selectedCategory.value as EventCategoryType, event.value.id, { mikujiKey: key })
   }
 
   /** 新しいみくじ箱を作成して、すぐ接続する */

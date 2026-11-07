@@ -113,7 +113,7 @@
 | ScenarioStep         | ステップ         | シナリオを構成する処理 1 件                                                    | `ScenarioStepSchema.ts` / `ScenarioStepType` / プロパティ `steps`                  |
 | ScenarioStepKind     | ステップの種類   | `message` / `sound` / `wordParty` / `variable` / `gameScript` / `scenarioCall` | `ScenarioStepKind`                                                                 |
 | scenarioCall         | シナリオ呼び出し | 別のシナリオを `callKeys` の重み付き抽選で呼ぶステップ                         | kind `'scenarioCall'` / `callKeys`(名称維持)                                       |
-| OmikujiItem の steps | ステップ実行     | おみくじアイテムが直接持つ、名前のないステップの並び。Scenario とは呼ばない    | `OmikujiItem.kind: 'steps'` / `steps`                                              |
+| OmikujiItem の scenario | シナリオ実行  | おみくじアイテムが、シナリオ(`assets.scenarios`)を `scenarioKey` で指定して実行する | `OmikujiItem.kind: 'scenario'` / `scenarioKey`                                  |
 
 ### 6.2 変更しない用語
 
@@ -130,7 +130,7 @@
 
 | 用語                | 意味                                                                                     |
 | ------------------- | ---------------------------------------------------------------------------------------- |
-| Event               | トリガー(comments / timers / services / reactions / pads)。`omikujiKey` でみくじ箱を指す |
+| Event               | トリガー(comments / timers / services / reactions / pads)。`mikujiKey` でみくじ箱(`assets.mikuji`)を指す |
 | Post / 投稿         | わんコメへの送信だけを指す(`PostOmikujiService` / `PostOneComme`)                        |
 | Preset / プリセット | エディターの「新規作成テンプレート」(`src/editor/presets`)だけを指す                     |
 | Manager             | §4-1                                                                                     |
@@ -165,6 +165,14 @@
 | `ProcessedPostAction.action` / `ScriptResult.actions` / `actionItem` | `.step` / `steps` / `step`                            |
 | `OmikujiItem.kind: 'postFlow'` / BOTアクション                       | `'steps'` / ステップ実行                              |
 | v2 の `actionSets` / `postActions` / `actionSetKeys`                 | `v2ToV3.ts` の変換元としてのみ残す                    |
+| `OmikujiItem.stepKey`(dataVersion 3.0000001006 まで)               | `scenarioKey`(`renameProperties1007.ts` で変換)       |
+| `OmikujiItem.kind: 'steps'`(同上)                                  | `'scenario'`(同上)                                    |
+| `Event.omikujiKey`(同上)                                           | `mikujiKey`(同上。みくじ箱を指すため)                 |
+| `gameScript` ステップの `scriptId`                                   | `scriptKey`(同上)                                     |
+| 判定の `userName`(配列)                                             | `usernames`(同上)                                     |
+| キャラクターアニメーションの `duration`                              | `durationSeconds`(同上)                               |
+| `scenarioStep.characterKey` / `bubble.characterKey` の `null`        | 空文字 `''`(同上)                                     |
+| ランキングスロットの `label`                                         | `scoreText`(スロット名のみ。保存データには残らない)   |
 
 ### 8.2 既知の問題(未対応・未確認)
 

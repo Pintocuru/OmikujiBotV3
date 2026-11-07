@@ -43,8 +43,8 @@ export const useCharacterTargets = () => {
     if (!key) return []
 
     if (isEventCategory(category)) {
-      const omikujiKey = getEvent(category, key)?.omikujiKey
-      return omikujiKey ? toScenarioTargets(scenarioKeysFromBox(omikujiKey)) : []
+      const mikujiKey = getEvent(category, key)?.mikujiKey
+      return mikujiKey ? toScenarioTargets(scenarioKeysFromBox(mikujiKey)) : []
     }
     if (category === 'mikuji') return toScenarioTargets(scenarioKeysFromBox(key))
     if (category === 'scenarios') return toScenarioTargets(withCalledKeys(key))

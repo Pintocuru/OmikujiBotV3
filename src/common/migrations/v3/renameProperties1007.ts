@@ -3,12 +3,14 @@
 // dataVersion 3.0000001006 (3.0.0-alpha6) -> 3.0000001007 (3.0.0-alpha7) のデータ変換。
 //
 // 変換内容:
+//   assets.mikuji[*].omikuji[]                       kind: 'steps' -> 'scenario'
 //   assets.mikuji[*].omikuji[]  (kind: 'steps')      stepKey   -> scenarioKey
 //   assets.mikuji[*].omikuji[].lottery.criteria      userName  -> usernames
 //   assets.scenarios[*].steps (kind: 'gameScript')   scriptId  -> scriptKey
 //   assets.scenarios[*].steps (message / gameScript) characterKey: null -> ''
 //   assets.characters[*].image[*].animation          duration  -> durationSeconds
 //   events.comments[].trigger                        userName  -> usernames
+//   events.(comments / timers / services / reactions / pads)[]   omikujiKey -> mikujiKey
 
 /** 変換後の dataVersion */
 export const DATA_VERSION_3_0000001007 = 3.0000001007
@@ -30,10 +32,16 @@ function migrateUsernames(target: unknown): unknown {
   return isObj(target) ? renameKey(target, 'userName', 'usernames') : target
 }
 
+/** イベント1件の omikujiKey -> mikujiKey(みくじ箱のキーを指す) */
+function migrateEvent(event: unknown): unknown {
+  return isObj(event) ? renameKey(event, 'omikujiKey', 'mikujiKey') : event
+}
+
 /** みくじ箱のアイテム */
 function migrateOmikujiItem(item: unknown): unknown {
   if (!isObj(item)) return item
   let next: Obj = renameKey(item, 'stepKey', 'scenarioKey')
+  if (next.kind === 'steps') next = { ...next, kind: 'scenario' }
   if (isObj(next.lottery) && isObj(next.lottery.criteria)) {
     next = { ...next, lottery: { ...next.lottery, criteria: migrateUsernames(next.lottery.criteria) } }
   }
@@ -94,11 +102,20 @@ export function migrateRenameProperties1007(data: unknown): Obj {
   const characters = mapRecord(assets.characters, (character) =>
     isObj(character) ? { ...character, image: migrateImages(character.image) } : character
   )
-  const comments = Array.isArray(events.comments)
-    ? events.comments.map((event) =>
-        isObj(event) ? { ...event, trigger: migrateUsernames(event.trigger) } : event
-      )
-    : events.comments
+  // 全カテゴリのイベントで omikujiKey を直す。comments は trigger の userName も直す
+  const migratedEvents = Object.fromEntries(
+    Object.entries(events).map(([category, list]) => {
+      if (!Array.isArray(list)) return [category, list]
+      return [
+        category,
+        list.map((event) => {
+          const renamed = migrateEvent(event)
+          if (category !== 'comments' || !isObj(renamed)) return renamed
+          return { ...renamed, trigger: migrateUsernames(renamed.trigger) }
+        }),
+      ]
+    })
+  )
 
   return {
     ...root,
@@ -112,7 +129,7 @@ export function migrateRenameProperties1007(data: unknown): Obj {
           },
         }
       : {}),
-    ...('events' in root ? { events: { ...events, ...('comments' in events ? { comments } : {}) } } : {}),
+    ...('events' in root ? { events: migratedEvents } : {}),
     meta: {
       ...obj(root.meta),
       dataVersion: DATA_VERSION_3_0000001007,

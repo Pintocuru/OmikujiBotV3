@@ -20,7 +20,7 @@
     <!-- クールダウン -->
     <SettingItem
       icon="Timer"
-      v-if="omikujiItem.kind === 'steps'"
+      v-if="omikujiItem.kind === 'scenario'"
       layout="vertical"
       labelKey="omikujiItem.header.cooldown.label"
       descriptionKey="omikujiItem.header.cooldown.description"
@@ -71,7 +71,7 @@
 
   // クールダウン更新
   const updateCooldown = (value: string) => {
-    if (props.omikujiItem.kind !== 'steps') return
+    if (props.omikujiItem.kind !== 'scenario') return
 
     const num = parseFloat(value)
     const safe = isNaN(num) ? 0 : num

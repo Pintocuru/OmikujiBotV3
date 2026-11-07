@@ -63,7 +63,7 @@ export const scenarioMapMessages = {
         },
       },
       omikujiItemKind: {
-        steps: {
+        scenario: {
           label: 'シナリオ実行',
           description: '下記の内容をわんコメやジェネレーターで表示します',
         },
@@ -169,8 +169,8 @@ export const scenarioMapMessages = {
         },
       },
       omikujiItemKind: {
-        steps: {
-          label: 'Run steps',
+        scenario: {
+          label: 'Run scenario',
           description: 'Displays the content below in OneComme and the generator',
         },
         control: {

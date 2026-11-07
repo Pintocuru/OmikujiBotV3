@@ -14,7 +14,7 @@ const maxLevel: PresetDefinition<'reactions'> = {
       events: [
         {
           name: '最大レベル達成',
-          omikujiKey: key,
+          mikujiKey: key,
           trigger: ReactionTriggerSchema.parse({ comparison: 'burstReach', value: 1, triggerLevel: 3 }),
         },
       ],
@@ -33,7 +33,7 @@ const heartBurst: PresetDefinition<'reactions'> = {
       events: [
         {
           name: 'ハート盛り上がり',
-          omikujiKey: key,
+          mikujiKey: key,
           trigger: ReactionTriggerSchema.parse({
             reactions: ['heart'],
             comparison: 'burstReach',

@@ -10,7 +10,7 @@ const hourlyChime: PresetDefinition<'timers'> = {
     const { key, mikuji, scenarios } = buildSimpleMikuji('時報', [message('時報です。')])
     return {
       assets: { mikuji: [mikuji], scenarios },
-      events: [{ name: '時報', omikujiKey: key, mode: 'interval', intervalSeconds: 60 * 60, isBaseZero: true }],
+      events: [{ name: '時報', mikujiKey: key, mode: 'interval', intervalSeconds: 60 * 60, isBaseZero: true }],
     }
   },
 }
@@ -25,7 +25,7 @@ const viewerWordParty: PresetDefinition<'timers'> = {
     ])
     return {
       assets: { mikuji: [mikuji], scenarios },
-      events: [{ name: '同時接続数WordParty', omikujiKey: key, mode: 'interval', intervalSeconds: 30 }],
+      events: [{ name: '同時接続数WordParty', mikujiKey: key, mode: 'interval', intervalSeconds: 30 }],
     }
   },
 }
@@ -40,7 +40,7 @@ const reminder: PresetDefinition<'timers'> = {
     ])
     return {
       assets: { mikuji: [mikuji], scenarios },
-      events: [{ name: '定期告知', omikujiKey: key, mode: 'interval', intervalSeconds: 60 * 10 }],
+      events: [{ name: '定期告知', mikujiKey: key, mode: 'interval', intervalSeconds: 60 * 10 }],
     }
   },
 }

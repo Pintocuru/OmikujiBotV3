@@ -18,7 +18,7 @@
     <div v-if="needsValue" class="flex flex-wrap gap-2">
       <input
         type="number"
-        :value="modelValue?.value"
+        :value="modelValue && 'value' in modelValue ? modelValue.value : undefined"
         @input="updateField('value', Number(($event.target as HTMLInputElement).value))"
         min="0"
         class="input input-bordered input-sm flex-1"
@@ -38,7 +38,7 @@
   import { computed } from 'vue'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { ServiceConditionType } from '@/types/OmikujiData'
+  import { isServiceValueComparison, ServiceComparisonConditionType, ServiceConditionType } from '@/types/OmikujiData'
   import { serviceConditionMap, serviceSimpleComparisonConditionMap } from '@/maps/OmikujiData'
     import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
@@ -56,10 +56,7 @@
   }>()
 
   // 初期値生成
-  const defaultCondition = (): ServiceConditionType => ({
-    comparison: 'changed',
-    value: 0,
-  })
+  const defaultCondition = (): ServiceConditionType => ({ comparison: 'changed' })
 
   // 初回だけ初期値を emit
   if (!props.modelValue) {
@@ -71,10 +68,7 @@
     props.hasPeak ? serviceConditionMap : serviceSimpleComparisonConditionMap
   )
 
-  const needsValue = computed(() => {
-    const comparison = props.modelValue?.comparison
-    return ['lowerBound', 'upperBound', 'equal', 'loop'].includes(comparison || '')
-  })
+  const needsValue = computed(() => isServiceValueComparison(props.modelValue?.comparison ?? ''))
 
   const valuePlaceholder = computed(() => {
     const comparison = props.modelValue?.comparison
@@ -101,20 +95,22 @@
   })
 
   const updateField = (field: 'comparison' | 'value', value: string | number) => {
-    const updated = { ...(props.modelValue ?? defaultCondition()) }
+    const current = props.modelValue ?? defaultCondition()
+    const currentValue = 'value' in current ? current.value : 0
 
     if (field === 'comparison') {
-      updated.comparison = value as ServiceConditionType['comparison']
-
-      // comparison に応じて value を削除
-      if (!['lowerBound', 'upperBound', 'equal', 'loop'].includes(updated.comparison)) {
-        delete updated.value
-      }
-    } else {
-      // field === 'value'
-      updated.value = value as number
+      // value が必要な comparison だけ value を持つ(切り替え前の値は引き継ぐ)
+      const comparison = value as ServiceComparisonConditionType
+      emit(
+        'update:modelValue',
+        isServiceValueComparison(comparison) ? { comparison, value: currentValue } : { comparison }
+      )
+      return
     }
 
-    emit('update:modelValue', updated)
+    // field === 'value': value が必要な comparison のときだけ更新する
+    if (isServiceValueComparison(current.comparison)) {
+      emit('update:modelValue', { comparison: current.comparison, value: Number(value) })
+    }
   }
 </script>

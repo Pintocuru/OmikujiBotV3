@@ -30,14 +30,14 @@ export class OmikujiProcessor {
 
   /**
    * おみくじ抽選 & 実行
-   * @param omikujiKey data.assets.mikuji のキー (event.omikujiKey)
+   * @param mikujiKey data.assets.mikuji のキー (event.mikujiKey)
    */
-  async executeOmikuji(omikujiKey: string, omiken?: OmikenCommentType): Promise<BotMessageType[]> {
-    const mikujiBox = this.store.data.assets.mikuji[omikujiKey]?.omikuji ?? []
+  async executeOmikuji(mikujiKey: string, omiken?: OmikenCommentType): Promise<BotMessageType[]> {
+    const mikujiBox = this.store.data.assets.mikuji[mikujiKey]?.omikuji ?? []
     const item = this.lotteryOmikujiItem(mikujiBox)
 
     // control (return / continue) は何もしない
-    if (!item || item.kind !== 'steps') return []
+    if (!item || item.kind !== 'scenario') return []
 
     // クールダウン中は何も実行しない
     if (!this.tryAcquireCooldown(item, omiken)) return []

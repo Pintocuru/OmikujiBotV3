@@ -24,7 +24,7 @@ const omikuji: PresetDefinition<'comments'> = {
       events: [
         {
           name: 'おみくじ',
-          omikujiKey: key,
+          mikujiKey: key,
           trigger: CommentTriggerSchema.parse({ conditions: ['comment'], comment: ['おみくじ'] }),
         },
       ],
@@ -57,7 +57,7 @@ const excludeUser: PresetDefinition<'comments'> = {
       events: [
         {
           name: 'おみくじ除外(ユーザー名を設定してください)',
-          omikujiKey: key,
+          mikujiKey: key,
           trigger: CommentTriggerSchema.parse({ conditions: ['username'], usernames: [] }),
         },
       ],
@@ -77,7 +77,7 @@ const fortune: PresetDefinition<'comments'> = {
       events: [
         {
           name: '占い',
-          omikujiKey: key,
+          mikujiKey: key,
           trigger: CommentTriggerSchema.parse({ conditions: ['comment'], comment: ['占い'] }),
         },
       ],
@@ -104,7 +104,7 @@ const greeting: PresetDefinition<'comments'> = {
       events: [
         {
           name: '挨拶',
-          omikujiKey: key,
+          mikujiKey: key,
           trigger: CommentTriggerSchema.parse({
             conditions: ['comment'],
             comment: ['こんにちは', 'こんにちわ', 'こんばんは'],
@@ -128,7 +128,7 @@ const dice: PresetDefinition<'comments'> = {
       events: [
         {
           name: 'ダイス',
-          omikujiKey: key,
+          mikujiKey: key,
           trigger: CommentTriggerSchema.parse({ conditions: ['comment'], comment: ['ダイス'] }),
         },
       ],

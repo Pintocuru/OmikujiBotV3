@@ -81,7 +81,12 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
 
-  import { criteriaThresholdConditions, OmikujiItemType } from '@/types/OmikujiData'
+  import {
+    criteriaThresholdConditions,
+    isCriteriaThresholdCondition,
+    CriteriaThresholdCondition,
+    OmikujiItemType,
+  } from '@/types/OmikujiData'
   import { useOmikujiLottery } from '../composables/useOmikujiLottery'
 
   import TriggerComment from '@/editor/events/trigger/TriggerComment.vue'
@@ -119,10 +124,11 @@
   const activeConditions = computed(() => new Set(criteria.value.conditions))
 
   // IconCheckGroup 用の v-model(配列)
-  const conditions = computed({
-    get: () => criteria.value.conditions,
+  // この版で扱えない条件(新しい版のデータなど)は表示せず、そのまま残す
+  const conditions = computed<CriteriaThresholdCondition[]>({
+    get: () => criteria.value.conditions.filter(isCriteriaThresholdCondition),
     set: (next) => {
-      const prev = criteria.value.conditions
+      const prev = criteria.value.conditions.filter(isCriteriaThresholdCondition)
       // IconCheckGroup は1回の操作で1件だけ増減するので、差分は1件になる
       const changed = [...prev.filter((k) => !next.includes(k)), ...next.filter((k) => !prev.includes(k))]
       changed.forEach(toggleCondition)

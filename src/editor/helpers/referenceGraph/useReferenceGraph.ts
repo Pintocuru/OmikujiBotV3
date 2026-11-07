@@ -65,7 +65,7 @@ const buildReferenceGraph = (data: OmikujiDataType) => {
 
   for (const [boxKey, box] of Object.entries(mikuji)) {
     for (const omikujiItem of box.omikuji) {
-      if (omikujiItem.kind !== 'steps' || !omikujiItem.scenarioKey) continue
+      if (omikujiItem.kind !== 'scenario' || !omikujiItem.scenarioKey) continue
       addEdge(boxScenarios, boxKey, omikujiItem.scenarioKey)
       addEdge(scenarioBoxes, omikujiItem.scenarioKey, boxKey)
       scenarioItemCounts.set(omikujiItem.scenarioKey, (scenarioItemCounts.get(omikujiItem.scenarioKey) ?? 0) + 1)
@@ -76,10 +76,10 @@ const buildReferenceGraph = (data: OmikujiDataType) => {
   const boxEvents = new Map<string, LinkItem[]>()
   for (const category of eventCategory) {
     for (const event of data.events[category]) {
-      if (!event.omikujiKey) continue
-      const list = boxEvents.get(event.omikujiKey) ?? []
+      if (!event.mikujiKey) continue
+      const list = boxEvents.get(event.mikujiKey) ?? []
       list.push({ category, key: event.id, name: event.name || event.id })
-      boxEvents.set(event.omikujiKey, list)
+      boxEvents.set(event.mikujiKey, list)
     }
   }
 
@@ -97,7 +97,7 @@ const buildReferenceGraph = (data: OmikujiDataType) => {
     boxEvents,
     // 存在するシナリオのキー。みくじ箱の scenarioKey / scenarioCall の callKeys はシナリオ削除後も残るため、存在確認に使う
     scenarioKeys: new Set(Object.keys(scenarios)),
-    mikujiKeys: new Set(Object.keys(mikuji)), // イベントの omikujiKey の存在確認に使う
+    mikujiKeys: new Set(Object.keys(mikuji)), // イベントの mikujiKey の存在確認に使う
     names: {
       scenarios: (key: string) => scenarios[key]?.name || key,
       placeholders: (key: string) => placeholders[key]?.name || key,
@@ -211,7 +211,7 @@ export function useReferenceGraph() {
   /** みくじ箱に接続されているイベント(全イベント種別から逆引き) */
   const eventsOfBox = (boxKey: string): LinkItem[] => [...(graph.value.boxEvents.get(boxKey) ?? [])]
 
-  /** みくじ箱が直接実行するシナリオ(kind === 'steps' の scenarioKey) */
+  /** みくじ箱が直接実行するシナリオ(kind === 'scenario' の scenarioKey) */
   const scenariosOfBox = (boxKey: string): LinkItem[] => toLinkItems(graph.value.boxScenarios.get(boxKey), 'scenarios')
 
   /** シナリオの参照元(みくじ箱 → 他のシナリオの順。複数から参照される場合もあり、自己呼び出しは除く) */
@@ -251,7 +251,7 @@ export function useReferenceGraph() {
 
   /**
    * イベントから辿れる(= 使用中の)みくじ箱・シナリオ・プレースホルダー・キャラクターのキー(存在するものだけ)。
-   * 起点はイベントの omikujiKey。辿った先(みくじ箱 → シナリオ → シナリオ / キャラクター / プレースホルダー)も使用中とする。
+   * 起点はイベントの mikujiKey。辿った先(みくじ箱 → シナリオ → シナリオ / キャラクター / プレースホルダー)も使用中とする。
    * プレースホルダーは、グラフにない参照(おみくじの制御 variable、gameScript の queryString、イベントの条件式など)を
    * 取りこぼさないよう、使用中の項目の JSON 全体から `<<キー>>` を探す(削除の判断に使うので、使用中の側に倒す)。
    */

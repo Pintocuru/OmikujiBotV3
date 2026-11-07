@@ -16,7 +16,7 @@ const upVotePeak: PresetDefinition<'services'> = {
       events: [
         {
           name: '高評価 過去最大',
-          omikujiKey: key,
+          mikujiKey: key,
           trigger: ServiceTriggerSchema.parse({ condition: 'upVote', upVote: { comparison: 'greaterThanPeak' } }),
         },
       ],
@@ -37,7 +37,7 @@ const viewerEvery10: PresetDefinition<'services'> = {
       events: [
         {
           name: '同時接続 10ごと',
-          omikujiKey: key,
+          mikujiKey: key,
           trigger: ServiceTriggerSchema.parse({ condition: 'viewer', viewer: { comparison: 'loop', value: 10 } }),
         },
       ],
@@ -58,7 +58,7 @@ const followerUp: PresetDefinition<'services'> = {
       events: [
         {
           name: 'フォロー感謝',
-          omikujiKey: key,
+          mikujiKey: key,
           trigger: ServiceTriggerSchema.parse({ condition: 'follower', follower: true }),
         },
       ],
@@ -79,7 +79,7 @@ const elapsed60: PresetDefinition<'services'> = {
       events: [
         {
           name: '配信1時間',
-          omikujiKey: key,
+          mikujiKey: key,
           trigger: ServiceTriggerSchema.parse({ condition: 'elapsedMinutes', elapsedMinutes: 60 }),
         },
       ],

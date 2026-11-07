@@ -5,7 +5,7 @@
   <div class="flex justify-end gap-2">
     <div class="tooltip tooltip-bottom" :data-tip="t('omikujiItem.list.testTooltip')">
       <!-- 抽選テスト -->
-      <button class="btn btn-sm btn-info" :disabled="omikujiItem.length === 0" @click="postTestMikuji(omikujiKey)">
+      <button class="btn btn-sm btn-info" :disabled="omikujiItem.length === 0" @click="postTestMikuji(mikujiKey)">
         <Dices class="w-4 h-4" />
         {{ t('omikujiItem.list.test') }}
       </button>
@@ -60,13 +60,13 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    omikujiKey: string
+    mikujiKey: string
   }>()
 
   const { postTestMikuji } = useTestPost()
 
   const { omikujiItem, percentages, selectedId, replaceAll, updateItem, setWeight, add, duplicate, remove } =
-    useBoxOmikujiList(toRef(props, 'omikujiKey'))
+    useBoxOmikujiList(toRef(props, 'mikujiKey'))
 
   // ドラッグによる並べ替え
   const draggableItems = computed({

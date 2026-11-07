@@ -25,7 +25,7 @@ export function useScenarioStepCharacters() {
 
     const scenarios = new Map<string, ScenarioType>()
     target.item.omikuji.forEach((omikuji) => {
-      if (omikuji.kind !== 'steps' || !isTargetItem(target, omikuji.id)) return
+      if (omikuji.kind !== 'scenario' || !isTargetItem(target, omikuji.id)) return
       const scenario = getAsset('scenarios', omikuji.scenarioKey)
       if (scenario) scenarios.set(scenario.key, scenario)
     })

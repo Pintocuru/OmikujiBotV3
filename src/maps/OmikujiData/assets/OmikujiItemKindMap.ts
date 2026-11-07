@@ -5,7 +5,7 @@ import type { OmikujiControlCommand, OmikujiItemKind } from '@/types/OmikujiData
  * おみくじアイテム種別のキー一覧
  */
 export const omikujiItemKindMap: Record<OmikujiItemKind, true> = {
-  steps: true,
+  scenario: true,
   control: true,
 }
 

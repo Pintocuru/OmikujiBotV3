@@ -73,7 +73,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { ServiceTriggerConditionType, ServiceTriggerType } from '@/types/OmikujiData'
+  import { ServiceConditionType, ServiceTriggerConditionType, ServiceTriggerSchema, ServiceTriggerType } from '@/types/OmikujiData'
   import { serviceTriggerConditionMap } from '@/maps/OmikujiData'
   import TriggerMetaCondition from './ServiceTriggerCondition.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -89,27 +89,34 @@
   // Pinia store
   const { updateEventProperty } = useOmikujiStore()
 
-  // 共通 computed
-  const createComputed = <T extends keyof ServiceTriggerType>(key: T) =>
-    computed({
-      get: () => props.modelValue[key],
-      set: (value) => {
-        if (!props.selectedItemKey) return
-        const updated = { ...props.modelValue, [key]: value }
-        updateEventProperty('services', props.selectedItemKey, 'trigger', updated)
-      },
-    })
+  const updateTrigger = (next: ServiceTriggerType) => {
+    if (!props.selectedItemKey) return
+    updateEventProperty('services', props.selectedItemKey, 'trigger', next)
+  }
 
   // 単一 condition
-  const selectedCondition = createComputed('condition')
+  const selectedCondition = computed(() => props.modelValue.condition)
 
-  // 各条件の値
-  const upVote = createComputed('upVote')
-  const viewer = createComputed('viewer')
-  const elapsedMinutes = createComputed('elapsedMinutes')
+  // 各条件の値(選ばれている condition のときだけ値を持つ)
+  const upVote = computed({
+    get: () => (props.modelValue.condition === 'upVote' ? props.modelValue.upVote : undefined),
+    set: (value?: ServiceConditionType) => {
+      if (value) updateTrigger({ condition: 'upVote', upVote: value })
+    },
+  })
+  const viewer = computed({
+    get: () => (props.modelValue.condition === 'viewer' ? props.modelValue.viewer : undefined),
+    set: (value?: ServiceConditionType) => {
+      if (value) updateTrigger({ condition: 'viewer', viewer: value })
+    },
+  })
+  const elapsedMinutes = computed({
+    get: () => (props.modelValue.condition === 'elapsedMinutes' ? props.modelValue.elapsedMinutes : 0),
+    set: (value: number) => updateTrigger({ condition: 'elapsedMinutes', elapsedMinutes: value }),
+  })
 
-  // 単一選択
+  // 単一選択(選んだ condition の初期値で作り直す)
   const setCondition = (condition: ServiceTriggerConditionType) => {
-    selectedCondition.value = condition
+    updateTrigger(ServiceTriggerSchema.parse({ condition }))
   }
 </script>

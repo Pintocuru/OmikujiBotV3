@@ -48,7 +48,7 @@
   })
 
   // 移動先のシナリオ key(control や未設定のときは空)
-  const scenarioKey = computed(() => (props.item.kind === 'steps' ? props.item.scenarioKey : ''))
+  const scenarioKey = computed(() => (props.item.kind === 'scenario' ? props.item.scenarioKey : ''))
 
   /** シナリオの中身を編集しに行く */
   const goToScenario = () => {

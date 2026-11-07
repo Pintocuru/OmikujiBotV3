@@ -123,7 +123,7 @@ export class EventTimerProcessor {
       if (!checkTimerExpression(event.expression)) return
 
       const appStore = useAppStore()
-      const messages = await this.omikujiProcessor.executeOmikuji(event.omikujiKey)
+      const messages = await this.omikujiProcessor.executeOmikuji(event.mikujiKey)
       appStore.scheduleBotMessages(messages)
     } catch (error) {
       console.error(`Timer ${event.key} execution error:`, error)

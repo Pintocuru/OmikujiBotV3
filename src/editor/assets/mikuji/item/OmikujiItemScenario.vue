@@ -3,7 +3,7 @@
 <template>
   <!-- control: シナリオを実行しない -->
   <div
-    v-if="omikujiItem.kind !== 'steps'"
+    v-if="omikujiItem.kind !== 'scenario'"
     class="flex items-center gap-2 rounded-box border border-base-300 bg-base-200/60 px-3 py-2 text-sm"
   >
     <Ban class="w-4 h-4 shrink-0 opacity-60" />
@@ -77,13 +77,13 @@
 
   const pickerOpen = ref(false)
 
-  const scenarioKey = computed(() => (props.omikujiItem.kind === 'steps' ? props.omikujiItem.scenarioKey : ''))
+  const scenarioKey = computed(() => (props.omikujiItem.kind === 'scenario' ? props.omikujiItem.scenarioKey : ''))
   const scenario = computed(() => (scenarioKey.value ? (getAsset('scenarios', scenarioKey.value) ?? null) : null))
   /** 同じシナリオを実行する、ほかのおみくじの数(自分を除く) */
   const sharedCount = computed(() => Math.max(0, scenarioItemCount(scenarioKey.value) - 1))
 
   const onSelect = (key: string) => {
-    if (props.omikujiItem.kind !== 'steps') return
+    if (props.omikujiItem.kind !== 'scenario') return
     emit('update', { ...props.omikujiItem, scenarioKey: key })
   }
 

@@ -38,18 +38,18 @@ export function useKeyEditor() {
 
   /**
    * キャラクター使用箇所の取得
-   * event → omikujiKey → mikuji → steps の message を辿る
+   * event → mikujiKey → mikuji → steps の message を辿る
    */
   function getCharacterUsage(characterKey: string): CharacterUsage {
     const usage: CharacterUsage = { comments: [], timers: [], services: [], reactions: [], pads: [] }
 
     eventCategory.forEach((category) => {
       getEvents(category).forEach((event) => {
-        const mikuji = getAsset('mikuji', event.omikujiKey)
+        const mikuji = getAsset('mikuji', event.mikujiKey)
         if (!mikuji) return
 
         const hasUsage = mikuji.omikuji.some((item) => {
-          if (item.kind !== 'steps') return false
+          if (item.kind !== 'scenario') return false
           const scenario = getAsset('scenarios', item.scenarioKey)
           if (!scenario) return false
           return Object.values(scenario.steps).some(

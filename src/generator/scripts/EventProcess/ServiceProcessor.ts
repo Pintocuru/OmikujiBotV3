@@ -82,7 +82,7 @@ export class EventServiceProcessor {
     for (const rule of firedEvents) {
       // 1 件の失敗で、残りのイベントを止めない
       try {
-        const messages = await this.omikujiProcessor.executeOmikuji(rule.omikujiKey)
+        const messages = await this.omikujiProcessor.executeOmikuji(rule.mikujiKey)
         this.store.scheduleBotMessages(messages)
       } catch (error) {
         console.error(`[EventServiceProcessor] "${rule.name}" の実行エラー:`, error)

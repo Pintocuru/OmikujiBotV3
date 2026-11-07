@@ -10,6 +10,9 @@ import { AccessConditionValueSchema, GiftConditionValueSchema, type TriggerCondi
  */
 export const commentTriggerConditions = ['comment', 'access', 'gift', 'username', 'expression'] as const satisfies readonly TriggerConditionType[]
 export type CommentTriggerCondition = (typeof commentTriggerConditions)[number]
+/** 保存データの conditions(string[])から、この版で扱える条件かどうかを判定する */
+export const isCommentTriggerCondition = (value: string): value is CommentTriggerCondition =>
+  (commentTriggerConditions as readonly string[]).includes(value)
 
 /**
  * コメント条件の共通フィールド(コメントイベント / みくじ箱の criteria)
@@ -24,7 +27,9 @@ export const commentConditionFields = (category: string) => ({
 })
 
 export const CommentTriggerSchema = z.object({
-  conditions: z.array(z.enum(commentTriggerConditions)).catch([]),
+  // 未知の条件も文字列のまま残す(判定側 checkAllTriggers が「満たさない」扱いにする)。
+  // enum にすると、1つ未知の値があるだけで配列ごと [] になり、全員に発火してしまう
+  conditions: z.array(z.string()).catch([]),
   ...commentConditionFields('events.comments.trigger'),
 })
 export type CommentTriggerType = z.infer<typeof CommentTriggerSchema>

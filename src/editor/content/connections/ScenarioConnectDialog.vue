@@ -61,7 +61,7 @@
   /** 選択した箱の末尾に、このシナリオを実行するおみくじアイテムを追加する */
   const connect = (box: MikujiBoxType) => {
     if (!props.scenarioKey) return
-    const item = OmikujiItemSchema.parse({ kind: 'steps', scenarioKey: props.scenarioKey })
+    const item = OmikujiItemSchema.parse({ kind: 'scenario', scenarioKey: props.scenarioKey })
     updateAsset('mikuji', box.key, { ...box, omikuji: [...(box.omikuji ?? []), item] })
     emit('connected', box.key)
     close()

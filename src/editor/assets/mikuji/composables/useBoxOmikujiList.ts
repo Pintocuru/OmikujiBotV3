@@ -7,12 +7,12 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useMikujiSelectionStore } from '@/editor/stores/useMikujiSelectionStore'
 
-export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
+export function useBoxOmikujiList(mikujiKey: Ref<string | null>) {
   const { updateAsset } = useOmikujiStore()
   const { getAsset } = useGetAssetData()
 
   const mikuji = computed<MikujiBoxType | null>(() =>
-    omikujiKey.value ? (getAsset('mikuji', omikujiKey.value) ?? null) : null
+    mikujiKey.value ? (getAsset('mikuji', mikujiKey.value) ?? null) : null
   )
   const omikujiItem = computed<OmikujiItemType[]>(() => mikuji.value?.omikuji ?? [])
 
@@ -22,16 +22,16 @@ export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
   )
 
   const commit = (omikuji: OmikujiItemType[]) => {
-    if (!mikuji.value || !omikujiKey.value) return
-    updateAsset('mikuji', omikujiKey.value, { ...mikuji.value, omikuji })
+    if (!mikuji.value || !mikujiKey.value) return
+    updateAsset('mikuji', mikujiKey.value, { ...mikuji.value, omikuji })
   }
 
   // 選択状態はサイドバーと共有するため、BOXキーごとにストアへ置く
   const selection = useMikujiSelectionStore()
   const selectedId = computed<string | null>({
-    get: () => (omikujiKey.value ? (selection.selectedIdByBox[omikujiKey.value] ?? null) : null),
+    get: () => (mikujiKey.value ? (selection.selectedIdByBox[mikujiKey.value] ?? null) : null),
     set: (id) => {
-      if (omikujiKey.value) selection.selectedIdByBox[omikujiKey.value] = id
+      if (mikujiKey.value) selection.selectedIdByBox[mikujiKey.value] = id
     },
   })
 
@@ -45,7 +45,7 @@ export function useBoxOmikujiList(omikujiKey: Ref<string | null>) {
 
   // BOXが切り替わったとき、選択が無効(未選択・削除済み)なら先頭へ
   watch(
-    omikujiKey,
+    mikujiKey,
     () => {
       if (!omikujiItem.value.some((v) => v.id === selectedId.value)) {
         selectedId.value = omikujiItem.value[0]?.id ?? null

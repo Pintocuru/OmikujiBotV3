@@ -23,17 +23,17 @@ export const buildScenario = (name: string, steps: StepsInput) => ({
   steps: stepsRecord(steps),
 })
 
-/** シナリオを実行するみくじアイテム(kind: 'steps')。weight 省略時は通常アイテムの既定値 */
+/** シナリオを実行するみくじアイテム(kind: 'scenario')。weight 省略時は通常アイテムの既定値 */
 const stepsItem = (name: string, scenarioKey: string, weight?: number) =>
   OmikujiItemSchema.parse({
     name,
-    kind: 'steps',
+    kind: 'scenario',
     scenarioKey,
     ...(weight === undefined ? {} : { lottery: { isPriority: false, weight } }),
   })
 
 /**
- * ステップを1件実行するだけのみくじ箱を作る(events の omikujiKey 用に key を返す)
+ * ステップを1件実行するだけのみくじ箱を作る(events の mikujiKey 用に key を返す)
  * - シナリオも作るので、assets に mikuji と scenarios の両方を渡すこと(mikuji を先頭にすると作成後に選択される)
  */
 export const buildSimpleMikuji = (name: string, steps: StepsInput) => {

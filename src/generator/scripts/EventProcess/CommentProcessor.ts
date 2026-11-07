@@ -62,7 +62,7 @@ export class EventCommentProcessor {
     if (!checkAllTriggers(omiken, event.trigger)) return []
 
     // criteria フィルタ適用後に抽選
-    const mikujiBox = data.assets.mikuji[event.omikujiKey]
+    const mikujiBox = data.assets.mikuji[event.mikujiKey]
     if (!mikujiBox) return []
 
     const selectedItem = this.lotteryWithCriteria(mikujiBox.omikuji, omiken)
@@ -75,8 +75,8 @@ export class EventCommentProcessor {
       return handled ? [BotMessageSchema.parse({ uiKey: 'commentBubble' })] : []
     }
 
-    // 通常ステップ (kind が 'steps' のみ到達)
-    if (selectedItem.kind !== 'steps') return []
+    // 通常ステップ (kind が 'scenario' のみ到達)
+    if (selectedItem.kind !== 'scenario') return []
     const omikujiProcessor = new OmikujiProcessor()
 
     // クールダウン中: control の return と同様に、空メッセージで以降のイベントを止める
