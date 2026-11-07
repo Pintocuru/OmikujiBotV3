@@ -1,45 +1,47 @@
 <!-- src/editor/content/summary/BaseSummary.vue -->
 <!-- 選択中アイテムの基本設定(名前・説明・タグ)の概要。編集は「基本設定を編集」のダイアログで行う -->
 <template>
-  <section class="w-full rounded-box border border-base-300 bg-base-200/40 p-4 min-w-0">
-    <div class="flex items-center justify-between gap-2 mb-3">
-      <h3 class="font-semibold">{{ t('categorySections.baseSettings.label') }}</h3>
-      <button class="btn btn-sm btn-ghost gap-2" @click="editOpen = true">
-        <Pencil class="w-4 h-4" />
-        {{ t('connections.switcher.edit') }}
-      </button>
-    </div>
+  <div>
+    <section class="w-full rounded-box border border-base-300 bg-base-200/40 p-4 min-w-0">
+      <div class="flex items-center justify-between gap-2 mb-3">
+        <h3 class="font-semibold">{{ t('categorySections.baseSettings.label') }}</h3>
+        <button class="btn btn-sm btn-ghost gap-2" @click="editOpen = true">
+          <Pencil class="w-4 h-4" />
+          {{ t('connections.switcher.edit') }}
+        </button>
+      </div>
 
-    <dl v-if="selectedRecord" class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-2 text-sm">
-      <!-- キー名 (placeholders のみ) -->
-      <template v-if="selectedCategory === 'placeholders'">
-        <dt class="opacity-60">{{ t('baseSettings.key.label') }}</dt>
-        <dd class="wrap-break-word">{{ selectedRecord.key }}</dd>
-      </template>
+      <dl v-if="selectedRecord" class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-2 text-sm">
+        <!-- キー名 (placeholders のみ) -->
+        <template v-if="selectedCategory === 'placeholders'">
+          <dt class="opacity-60">{{ t('baseSettings.key.label') }}</dt>
+          <dd class="wrap-break-word">{{ selectedRecord.key }}</dd>
+        </template>
 
-      <!-- 名前 -->
-      <dt class="opacity-60">{{ t('baseSettings.name.label') }}</dt>
-      <dd class="wrap-break-word">{{ selectedRecord.name || '—' }}</dd>
+        <!-- 名前 -->
+        <dt class="opacity-60">{{ t('baseSettings.name.label') }}</dt>
+        <dd class="wrap-break-word">{{ selectedRecord.name || '—' }}</dd>
 
-      <!-- 説明 -->
-      <template v-if="selectedRecord.description">
-        <dt class="opacity-60">{{ t('baseSettings.description.label') }}</dt>
-        <dd class="wrap-break-word">{{ selectedRecord.description }}</dd>
-      </template>
+        <!-- 説明 -->
+        <template v-if="selectedRecord.description">
+          <dt class="opacity-60">{{ t('baseSettings.description.label') }}</dt>
+          <dd class="wrap-break-word">{{ selectedRecord.description }}</dd>
+        </template>
 
-      <!-- タグ -->
-      <template v-if="selectedRecord.tags?.length">
-        <dt class="opacity-60">{{ t('baseSettings.tags.label') }}</dt>
-        <dd class="flex flex-wrap gap-1">
-          <span v-for="tag in selectedRecord.tags" :key="tag" class="badge badge-sm badge-outline">{{ tag }}</span>
-        </dd>
-      </template>
-    </dl>
-  </section>
+        <!-- タグ -->
+        <template v-if="selectedRecord.tags?.length">
+          <dt class="opacity-60">{{ t('baseSettings.tags.label') }}</dt>
+          <dd class="flex flex-wrap gap-1">
+            <span v-for="tag in selectedRecord.tags" :key="tag" class="badge badge-sm badge-outline">{{ tag }}</span>
+          </dd>
+        </template>
+      </dl>
+    </section>
 
-  <!-- 編集ダイアログ -->
-  <!-- TODO:ItemEditDialog.vueとマージさせたい -->
-  <ItemEditDialog v-model:open="editOpen" />
+    <!-- 編集ダイアログ -->
+    <!-- TODO:ItemEditDialog.vueとマージさせたい -->
+    <ItemEditDialog v-model:open="editOpen" />
+  </div>
 </template>
 
 <script setup lang="ts">
