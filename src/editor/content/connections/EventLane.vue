@@ -6,11 +6,11 @@
       <!-- みくじ箱の変更ボタン -->
       <div class="tooltip tooltip-bottom" :data-tip="t('connections.changeBox')">
         <button
-          class="btn btn-xs btn-ghost btn-square"
+          class="btn btn-sm btn-ghost btn-square"
           :aria-label="t('connections.changeBox')"
           @click="pickerOpen = true"
         >
-          <ArrowLeftRight class="w-3.5 h-3.5" />
+          <ArrowLeftRight class="w-4 h-4" />
         </button>
       </div>
 
@@ -22,8 +22,8 @@
           t('connections.boxMissing', { key: mikujiKey })
         }}</span>
         <span class="text-sm">{{ t('connections.noBoxHint') }}</span>
-        <button class="btn btn-xs btn-primary" @click="pickerOpen = true">{{ t('connections.chooseBox') }}</button>
-        <button class="btn btn-xs btn-outline btn-primary" @click="createAndConnect">
+        <button class="btn btn-sm btn-neutral" @click="pickerOpen = true">{{ t('connections.chooseBox') }}</button>
+        <button class="btn btn-sm btn-neutral btn-outline" @click="createAndConnect">
           {{ t('connections.createBox') }}
         </button>
       </div>

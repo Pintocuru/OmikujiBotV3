@@ -138,6 +138,7 @@
 | `summary/BaseSummary.vue` | 基本設定編集ボタンのサイズ・アイコン間隔を統一 |
 | `connections/ItemSwitcher.vue` | アイテム切替を `btn-sm btn-neutral` に変更。循環参照アイコンを tooltip + accessible name に変更 |
 | `connections/ScenarioLane.vue` / `MikujiPickerDialog.vue` | 接続・選択ボタンのサイズと役割色を統一 |
+| `connections/EventLane.vue` / `ScenarioConnectDialog.vue` | 箱の切替・接続ボタンのサイズと役割色を統一 |
 | `src/i18n/editor/content/ConnectionMessages.ts` | アイテムメニュー開閉の日本語/英語ラベルを追加 |
 
 #### 次に着手する作業

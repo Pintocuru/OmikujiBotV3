@@ -19,7 +19,7 @@
         <div class="text-xs opacity-60 mt-1 break-all">
           {{ t('connections.connectDialog.keyLabel') }}: {{ box.key }}
         </div>
-        <button class="btn btn-xs btn-primary mt-2" @click="connect(box)">
+        <button class="btn btn-sm btn-neutral mt-2" @click="connect(box)">
           {{ t('connections.connectDialog.connect') }}
         </button>
       </div>
