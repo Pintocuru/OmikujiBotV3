@@ -2,7 +2,8 @@
 import { ReactionTotals } from './ReactionTotals'
 import { PeakRateTracker } from './PeakRateTracker'
 import { BurstLevelMachine } from './BurstLevelMachine'
-import { BurstLevelChangeCallback, BurstState, ReactionStatsManagerType } from '@/types/generator'
+import type { BurstLevelChangeCallback, BurstState, ReactionStatsManagerType } from '@/types/generator'
+import type { YoutubeReactionType } from '@/types/OmikujiData'
 
 export class ReactionStatsManager implements ReactionStatsManagerType {
   private totals = new ReactionTotals()
@@ -43,7 +44,7 @@ export class ReactionStatsManager implements ReactionStatsManagerType {
   resetSustainCount() {
     this.burst.resetSustain()
   }
-  getTotal(types: string[]) {
+  getTotal(types: YoutubeReactionType[]) {
     return this.totals.getTotal(types)
   }
   getGrandTotal() {
