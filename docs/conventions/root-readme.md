@@ -14,6 +14,11 @@
 | `docs/architecture/` | 各機能・システムの責務、構造、処理の流れなど | 開発者 |
 | `docs/core/` | 製品・機能の利用者向け説明書 | 利用者 |
 | `docs/conventions/` | 開発・ドキュメント作成時の恒久ルール | 開発者・AIエージェント |
+| `docs/work/` | 作業指示書・移行計画・引き継ぎ記録・AI への依頼文(恒久ルールではないもの) | 開発者・AIエージェント |
+| `docs/template/` | README の部品テンプレート(`jp/` `en/`)。`docs/src/expandEmbeds.js` で README に展開する | 開発者 |
+| `docs/common/` | 複数の README で共通して使う文書(現在は `StrawberryChocolate/` の README とそのテンプレート) | 開発者・利用者 |
+| `docs/src/` | ドキュメント生成用スクリプト(Obsidian Templater 用 `expandEmbeds.js`) | 開発者 |
+| `docs/images/` | README・ドキュメントで使う画像(`expandEmbeds.js` はここの画像だけを許可する) | 開発者・利用者 |
 
 README に詳細を詰め込まず、必要な項目から対応する architecture 文書へリンクする。
 

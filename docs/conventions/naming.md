@@ -57,12 +57,16 @@
 
 ## 3. ディレクトリ規則
 
+### 3.1 名前ごとの役割
+
+以下は `src/` 配下の各階層で使う名前の規則。存在する階層はディレクトリにより異なる(例: `stores/` は `editor/` `generator/` `manager/` にある)。
+
 | ディレクトリ   | 役割                          | 中のファイル                           |
 | -------------- | ----------------------------- | -------------------------------------- |
 | `components/`  | 再利用可能なコンポーネント    | PascalCase `.vue`                      |
 | `components/<セット名>/` | UI 内の表示コンポーネントセット | `register.ts` / PascalCase `.vue` |
 | `composables/` | `use*` 関数のみ               | `useXxx.ts` のみ(`.vue` 禁止)          |
-| `layouts/`     | 見た目のバリエーション        | PascalCase `.vue`                      |
+| `layout/`      | 見た目のバリエーション(`src/layout/`) | PascalCase `.vue`                |
 | `stores/`      | Pinia Store(`useXxxStore.ts`) | `useXxxStore.ts`                       |
 | `types/`       | 型定義                        | `*Schema.ts` / `types.ts` / `index.ts` |
 | `scripts/`     | スクリプト・関数群            | camelCase                              |
@@ -72,6 +76,14 @@
 
 - Store は **`use` + 名詞 + `Store`**: `useOmikujiStore.ts`。
 - `editor/preview/`(`旧 editor/dev/`)はプレビュー用コード置き場。
+
+### 3.2 ディレクトリ名のケース
+
+- 原則 **camelCase**(`composables/` / `scenarios/` / `gameScript/`)。
+- 例外として **PascalCase** にするもの:
+  1. 1 つのコンポーネント・機能に対応する部品フォルダ(`editor/helpers/KeyEditor/`、`editor/parts/MessageTextDialog/`)
+  2. UI・プラグイン・型のまとまり名(`src/ui/KujibikiPanel/`、`src/types/OmikujiData/`)
+- ステップの種類ごとのフォルダ(`editor/assets/scenarios/` 配下)は、`kind` の値と同じ camelCase にする(`sound` / `wordParty` / `scenarioCall` など)。
 
 ## 4. プロジェクト固有ルール
 
@@ -83,7 +95,13 @@
    - `Omikuji` / `OmikujiItem` = **おみくじ**(箱の中身)
    - `MikujiEditor.vue` / `MikujiSettings.vue` / `MikujiBoxSchema.ts` 等の `Mikuji` 名は**リネーム禁止**。新規ファイルもこの区別に従うこと。
 5. **`Syoken`** は歴史的経緯(OmikujiBotは初見を大事にしている)により維持。
-6. **ドキュメントを `src/` に置かない**。ルールに関する事は `docs/conventions/` へ移動。
+6. **ドキュメントを `src/` に置かない**。ルールに関する事は `docs/conventions/`、作業指示書・移行計画などは `docs/work/` へ置く(配置の基準は `docs/conventions/README.md`)。
+   - 例外: **`src/ui/` と `src/games/` はプラグインのため**、各プラグインのディレクトリ内にそのプラグイン自身の説明ドキュメント(例: `src/ui/LifeHourglass/LifeHourglass.md`)を置いてよい。ルール・作業指示書は例外に含めない。
+
+## 5. ドキュメントの配置
+
+- ルール(恒久) → `docs/conventions/`、作業指示書・移行計画・引き継ぎ記録 → `docs/work/`。詳細は `docs/conventions/README.md`。
+- `src/` には置かない(§4-6。`src/ui/` と `src/games/` のプラグイン自身の説明は例外)。
 
 ## 6. 用語表(ドメイン用語)
 
@@ -125,13 +143,13 @@
 1. **Scenario は assets のものだけ**。おみくじアイテム内の並びは `steps` と呼ぶ。
 2. **`action` / `Action` を単独の用語として使わない**(識別子・UI 文言・i18n キー・コメント)。ステップは `step`、その配列は `steps`。
 3. **`Post` は「わんコメへの投稿」に限る**。投稿しないステップ(sound / variable / scenarioCall / gameScript)に `Post` を付けない。
-4. **変数名**: ステップ 1 件は `step`、配列は `steps`。ステップの意味で `flow` / `action` / `item` を使わない(`item` は OmikujiItem やアセット 1 件の意味)。
+4. **変数名**: ステップ 1 件は `step`、複数は `steps`(保存データでは id をキーにした Record。配列だった旧形式は migration で変換済み)。ステップの意味で `flow` / `action` / `item` を使わない(`item` は OmikujiItem やアセット 1 件の意味)。
 5. **UI 文言**: 「シナリオ」「ステップ」を使う。「アクション」「アクションセット」「PostAction」「BOTアクション」は使わない。
 6. **「プリセット」は §6.3 の意味に限る**。シナリオの説明文に使わない。
 7. **i18n キー**: `scenario.*` / `scenarioStep.*`。フォルダ名・コンポーネント名も `Scenario*` / `ScenarioStep*` にする(`PostAction*` は作らない)。
-8. **保存データの値(キー名・`kind` の値)を変えるときは、必ず `migrations` に変換を書く**。zod の `.catch([])` により、1 件でも不正だとステップ配列ごと空になる。
+8. **保存データの値(キー名・`kind` の値・構造)を変えるときは、必ず `migrations` に変換を書く**。変換しないと、検証(zod)で不正な要素として除外される(除外内容は読み込み時の issues に出る)。
 9. **`omikujiSet` は「みくじ箱の中身(おみくじアイテムの配列)」に限る**。セクションキーとして他の意味で使わない(§8 参照)。
-10. ステップの種類ごとの型名は `ScenarioStep` + 種類名(例: `ScenarioStepMessageType` / `ScenarioStepGameScriptType`)にし、`kind` の値と型名を一致させる(現状 `PostFlowGameType` と `gameScript` が不一致)。
+10. ステップの種類ごとの型名は `ScenarioStep` + 種類名(例: `ScenarioStepMessageType` / `ScenarioStepGameScriptType`)にし、`kind` の値と型名を一致させる。
     - 例外: シナリオ呼び出し(`kind: 'scenarioCall'`)の型名は `ScenarioStepCallType` で止める(`ScenarioStepScenarioCallType` は冗長なため)。
 
 ## 8. 旧名称と既知の問題
@@ -150,14 +168,16 @@
 | `OmikujiItem.kind: 'postFlow'` / BOTアクション                       | `'steps'` / ステップ実行                              |
 | v2 の `actionSets` / `postActions` / `actionSetKeys`                 | `v2ToV3.ts` の変換元としてのみ残す                    |
 
-### 8.2 今回の改名とは別に見つかった問題(未対応)
+### 8.2 既知の問題(未対応・未確認)
 
-- セクションキー `omikujiSet` が複数の意味で使われている(events のおみくじ、mikuji / actions のステップ一覧)。`CategorySectionMap` では mikuji も `component: 'actionSet'` を使い、`ActionSetPreview` を共有している。`staticSectionPreviewMap` に TODO あり。
-- `ActionSetPreview` は `postFlows` を読むが、みくじ箱のデータは `omikuji` を持つ。mikuji でのプレビュー表示は**未確認**。
-- `OmikujiItemToolbar.vue`(`tooltab/`)は、ステップ列のツールバーなのに名前が OmikujiItem。
-- `editor/assets/PostFlow/actions/`(`ActionSetSettings.vue` ほか)は、実際は `scenarioCall` ステップの編集部品。フォルダ名と中身が合っていない。
+確認日: 2026-11-07(リポジトリの現行コードとの照合)。解消済みの項目(`omikujiSet` の多義、`ActionSetPreview`、`OmikujiItemToolbar`、`PostFlow/actions/`、エンジン内の「アクションセット」文言)は削除した。
+
 - `GameScriptsHandler`(複数形)は 1 件ずつ処理する。`GameScriptManager` との単複が不統一。
-- `tools/JsonMerge/KeySuffix.ts` は events と mikuji のキーにだけ接尾辞を付ける。assets.actions(→scenarios)と `callKeys` は対象外のため、マージ時にキーが衝突し得る(コード上の確認のみ・実行は未確認)。
-- システムメッセージ(例: 「アクションセットの展開が最大階層に達しました」)がエンジン内に日本語で直書きされている。用語変更時に取りこぼしやすい。
-- 現在の移行は dataVersion 3 未満だけが対象。v3 の旧名称データ(`assets.actions` / `postFlows`)を読み込むと、警告なく空として扱われる。
-- ディレクトリ名のケースに規定がない。`editor/assets` 配下は camelCase(ステップ種別フォルダは `kind` の値と同じ)に揃えたが、`editor/parts/` と `editor/helpers/` には `KeyEditor/` のようにコンポーネント名と同じ PascalCase のフォルダが残っている。
+- `tools/JsonMerge/KeySuffix.ts` は events と mikuji のキーにだけ接尾辞を付ける。`assets.scenarios` と `callKeys` は対象外のため、マージ時にキーが衝突し得る(コード上の確認のみ・実行は未確認)。
+- `server/presets/common/StrawberryChocolatePro.json` は dataVersion `3.0000001001` のまま。旧名称(`actionSet` / `postFlow` 系)が残っている可能性がある(未確認)。`migrations/index.ts` は v3 の旧名称を変換せず、旧形式の steps(配列)だけを変換する。検証で除外された内容は issues に出るが、旧名称データを読み込んだことを知らせる専用の検出は無い(移行計画 C4b は未実装)。
+- `editor/assets/scenarios/` 配下のステップ種別フォルダが §3.2 に合っていない(`Call` / `Message` / `Sounds` / `WordParty` が PascalCase、`gameScript` / `variable` は camelCase。`kind` の値は `scenarioCall` / `message` / `sound` / `wordParty`)。
+- `src/ui/GameRanking/scripts/services/` のように、`scripts/` の下に `services/` がある例がある。§3.1 の役割分担(`scripts/` と `services/`)と合っているか未確認。
+
+## TODO(α 版のため未対応)
+
+- データバージョン(`DATA_VERSION` の `3.0000001005` 形式、上げる条件、`migrations/v3/*.ts` の命名)の運用ルール。β 版以降に必要になった時点で定める。

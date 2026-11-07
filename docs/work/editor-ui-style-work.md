@@ -1,5 +1,7 @@
 # エディター UI スタイル統一作業 — OmikujiBotV3
 
+> 状態: **作業前**(規約は `docs/conventions/editor-ui-style.md` で確定済み)
+
 `src/` のボタン、アイコン、`title`、DaisyUI tooltip の使い方を段階的に統一するための作業指示書・引き継ぎ記録。
 
 ## 0. 作業開始時に読むもの

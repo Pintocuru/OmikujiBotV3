@@ -1,5 +1,7 @@
 # 命名体系の改名 作業指示書(Scenario / ScenarioStep)
 
+> 状態: **完了**(型・エディター・エンジンの改名は確認済み。C4b「旧名称データの検出」は未実装)
+
 ## 0. 前提
 
 - 基準は `docs/conventions/naming.md`(§6 用語表・§7 ルール・§8.1 旧名称表。`naming-glossary.patch` 適用後)。

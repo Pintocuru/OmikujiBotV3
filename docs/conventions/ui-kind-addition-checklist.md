@@ -18,7 +18,7 @@ UiKind を足すのは「保存データの形が増える」ときだけ、が�
 
 以下は `Record<UiKind, ...>` / `satisfies` で型に守られている。**エラーが出た場所を全部直せばよい。**
 
-| ファイル                                                                          | 追すもの                                                                       |
+| ファイル                                                                          | 追加するもの                                                                      |
 | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | `src/types/ui/XxxSchema.ts`                                                       | スキーマ本体(雛形: `GameRankingSchema.ts`。`component` は `z.string().min(1)`) |
 | `src/types/ui/index.ts`                                                           | export 行                                                                      |
@@ -36,7 +36,7 @@ UiKind を足すのは「保存データの形が増える」ときだけ、が�
 
 **入れ忘れても tsc は通るが、UI が単に表示されない / タブ名がキー文字列のままになる。**
 
-| ファイル                                 | 追すもの                                                                | 入れ忘れたときの症状                   |
+| ファイル                                 | 追加するもの                                                               | 入れ忘れたときの症状                   |
 | ---------------------------------------- | ----------------------------------------------------------------------- | -------------------------------------- |
 | `src/maps/OmikujiData/ui/UiLayoutMap.ts` | 表示させたいレイアウトの `kinds`(実験枠はまず `sesupinTest`)            | エディター・配信画面にその UI が出ない |
 | `src/i18n/editor/maps/UiMapMessages.ts`  | `mapText.uiKind.<kind>` の `label` / `description`(**ja と en の両方**) | 編集画面のタブ名がキー文字列のまま     |
@@ -44,7 +44,7 @@ UiKind を足すのは「保存データの形が増える」ときだけ、が�
 ## 3. 実装本体
 
 - ディレクトリ構成・レジストリは `docs/conventions/ui-component-registry.md` と
-  `docs/conventions/ui-component-registry-migration.md` に従う。
+  `docs/work/ui-component-registry-migration.md` に従う。
 - Registry の型名は ID 型と衝突させない(雛形では ID 型 = 略称 + `Component`、Registry 型 = UI名 + `Component`。
   UI 名と ID 型名が同名になる UI では、Registry 型に `Ui` を挟むなどして区別する)。
 - アイコン名(lucide)は `LucideIconName` 型に存在するものを使う(存在しないと tsc が拾うが、
