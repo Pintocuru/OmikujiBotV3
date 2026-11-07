@@ -37,6 +37,6 @@
 | 文書 | 状態 |
 | --- | --- |
 | [editor-ui-style-work.md](../work/editor-ui-style-work.md) | 作業前 |
-| [naming-migration-plan.md](../work/naming-migration-plan.md) | 完了(C4b のみ未実装) |
+| [naming-migration-plan.md](../work/naming-migration-plan.md) | 完了(C4b は実施しない) |
 | [ui-component-registry-migration.md](../work/ui-component-registry-migration.md) | 完了 |
 | [root-readme-prompt.md](../work/root-readme-prompt.md) | 依頼文(随時使用) |

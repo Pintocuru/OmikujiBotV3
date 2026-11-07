@@ -79,11 +79,9 @@
 
 ### 3.2 ディレクトリ名のケース
 
-- 原則 **camelCase**(`composables/` / `scenarios/` / `gameScript/`)。
-- 例外として **PascalCase** にするもの:
-  1. 1 つのコンポーネント・機能に対応する部品フォルダ(`editor/helpers/KeyEditor/`、`editor/parts/MessageTextDialog/`)
-  2. UI・プラグイン・型のまとまり名(`src/ui/KujibikiPanel/`、`src/types/OmikujiData/`)
+- **すべて camelCase**。例外は設けない(`composables/` / `scenarios/` / `gameScript/` / `keyEditor/` / `kujibikiPanel/`)。
 - ステップの種類ごとのフォルダ(`editor/assets/scenarios/` 配下)は、`kind` の値と同じ camelCase にする(`sound` / `wordParty` / `scenarioCall` など)。
+- 新規作成時は必ず従う。既存の PascalCase ディレクトリ(現状 75 件。`games/scripts/`、`editor/assets/`、`generator/stores/` ほか)は、リネームを別作業として行う(§8.2)。
 
 ## 4. プロジェクト固有ルール
 
@@ -174,9 +172,12 @@
 
 - `GameScriptsHandler`(複数形)は 1 件ずつ処理する。`GameScriptManager` との単複が不統一。
 - `tools/JsonMerge/KeySuffix.ts` は events と mikuji のキーにだけ接尾辞を付ける。`assets.scenarios` と `callKeys` は対象外のため、マージ時にキーが衝突し得る(コード上の確認のみ・実行は未確認)。
-- `server/presets/common/StrawberryChocolatePro.json` は dataVersion `3.0000001001` のまま。旧名称(`actionSet` / `postFlow` 系)が残っている可能性がある(未確認)。`migrations/index.ts` は v3 の旧名称を変換せず、旧形式の steps(配列)だけを変換する。検証で除外された内容は issues に出るが、旧名称データを読み込んだことを知らせる専用の検出は無い(移行計画 C4b は未実装)。
-- `editor/assets/scenarios/` 配下のステップ種別フォルダが §3.2 に合っていない(`Call` / `Message` / `Sounds` / `WordParty` が PascalCase、`gameScript` / `variable` は camelCase。`kind` の値は `scenarioCall` / `message` / `sound` / `wordParty`)。
+- ディレクトリ名が §3.2(すべて camelCase)に合っていない。PascalCase が 75 件ある。`editor/assets/scenarios/` 配下は `Call` / `Message` / `Sounds` / `WordParty` が PascalCase で、`kind` の値(`scenarioCall` / `message` / `sound` / `wordParty`)とも不一致。`src/ui/<UI名>/` を camelCase にする場合は、`ui-component-registry.md` と `ui-component-registry-migration.md` の `<UI名>` を使うパス表記も合わせて更新する。
 - `src/ui/GameRanking/scripts/services/` のように、`scripts/` の下に `services/` がある例がある。§3.1 の役割分担(`scripts/` と `services/`)と合っているか未確認。
+
+## α 版データの扱い
+
+- **dataVersion 3 の α 版データは、作者の自己責任とする**。旧名称・旧構造の v3 データ(例: `server/presets/common/StrawberryChocolatePro.json`)の変換・検出は、エージェントの作業対象外(移行計画 C4b は実施しない)。
 
 ## TODO(α 版のため未対応)
 
