@@ -22,9 +22,10 @@
         v-for="id in visiblePadIds"
         :key="id"
         type="button"
-        class="btn btn-sm"
+        class="btn btn-sm tooltip tooltip-top"
         :class="padId === id ? 'btn-primary' : 'btn-ghost border-base-300'"
-        :title="t('padTrigger.padName', { n: padNumber(id) })"
+        :data-tip="t('padTrigger.padName', { n: padNumber(id) })"
+        :aria-label="t('padTrigger.padName', { n: padNumber(id) })"
         @click="padId = id"
       >
         {{ padNumber(id) }}

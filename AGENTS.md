@@ -23,7 +23,7 @@
 | 3 | `src/console/` | 完了 |
 | 4 | `src/editor/apps/` | 完了 |
 | 5 | `src/editor/assets/` | 変更完了・検証待ち |
-| 6 | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | 進行中（content） |
+| 6 | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | 進行中（helpers以降） |
 
 ---
 
@@ -141,6 +141,11 @@
 | `connections/EventLane.vue` / `ScenarioConnectDialog.vue` | 箱の切替・接続ボタンのサイズと役割色を統一 |
 | `src/i18n/editor/content/ConnectionMessages.ts` | アイテムメニュー開閉の日本語/英語ラベルを追加 |
 
+#### 作業単位6 — content / events の進捗
+
+- `src/editor/content/`: 対象28ファイルを確認。ボタン・title/tooltip の該当箇所を変更済み。
+- `src/editor/events/`: 対象14ファイルを確認。Pad の選択ボタンを tooltip + `aria-label` に変更。tabs 専用UIは変更対象外。
+
 #### 次に着手する作業
 
-**作業単位6:** `src/editor/content/` の残りの対象ファイルを確認し、完了後に `src/editor/events/` へ進む。
+**作業単位6:** `src/editor/helpers/` のボタン・title/tooltip 使用箇所を確認する。
