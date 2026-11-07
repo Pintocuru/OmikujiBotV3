@@ -1,18 +1,22 @@
 // src/generator/stores/ReactionManager/ReactionTotals.ts
 import { reactionKeys } from '@/types/OmikujiData'
+import type { YoutubeReactionType } from '@/types/OmikujiData'
 import { REACTION_HISTORY_MAX } from '@/generator/GeneratorConstants'
 
 export class ReactionTotals {
-  private history: { timestamp: number; type: string }[] = []
-  private total: Record<string, number> = Object.fromEntries(reactionKeys.map((k) => [k, 0]))
+  private history: { timestamp: number; type: YoutubeReactionType }[] = []
+  private total: Record<YoutubeReactionType, number> = Object.fromEntries(reactionKeys.map((k) => [k, 0]))
 
   add(reactions: Record<string, number>, now: number): number {
     let sum = 0
     for (const type in reactions) {
       const count = reactions[type]
       sum += count
-      if (this.total[type] !== undefined) this.total[type] += count
-      for (let i = 0; i < count; i++) this.history.push({ timestamp: now, type })
+      if (this.total[type as YoutubeReactionType] !== undefined) {
+        const reactionType = type as YoutubeReactionType
+        this.total[reactionType] += count
+        for (let i = 0; i < count; i++) this.history.push({ timestamp: now, type: reactionType })
+      }
     }
     if (this.history.length > REACTION_HISTORY_MAX) {
       this.history.splice(0, this.history.length - REACTION_HISTORY_MAX)
@@ -20,8 +24,8 @@ export class ReactionTotals {
     return sum
   }
 
-  getTotal(types: string[]): number {
-    return types.reduce((acc, t) => acc + (this.total[t] ?? 0), 0)
+  getTotal(types: YoutubeReactionType[]): number {
+    return types.reduce((acc, t) => acc + this.total[t], 0)
   }
 
   getGrandTotal(): number {
@@ -34,6 +38,6 @@ export class ReactionTotals {
 
   reset(): void {
     this.history = []
-    for (const key in this.total) this.total[key] = 0
+    for (const key in this.total) this.total[key as YoutubeReactionType] = 0
   }
 }
