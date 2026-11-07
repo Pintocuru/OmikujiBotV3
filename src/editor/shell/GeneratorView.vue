@@ -21,7 +21,6 @@
     <!-- ツールの表示切り替え -->
     <button
       class="btn btn-xs btn-outline fixed bottom-2 right-2 z-9999 bg-base-100"
-      :title="showTools ? t('shell.generatorView.hideTools') : t('shell.generatorView.showTools')"
       @click="showTools = !showTools"
     >
       {{ t('shell.generatorView.tools') }} {{ showTools ? '▶' : '◀' }}

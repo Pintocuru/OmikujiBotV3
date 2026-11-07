@@ -20,6 +20,13 @@ const MOCK_COMMENT = OmikenCommentSchema.parse({
   userId: 'testUserId',
   userName: 'テストユーザー',
   comment: 'テストコメント',
+  meta: {
+    no: 2,
+    tc: 2,
+    lc: 2,
+    isAgain: false,
+    isExternal: true,
+  },
 })
 
 export function useTestPost() {

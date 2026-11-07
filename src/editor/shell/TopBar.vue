@@ -3,14 +3,15 @@
 <template>
   <header class="flex items-center gap-2 p-2 bg-primary text-primary-content shadow-md z-40">
     <!-- サイドバー開閉 -->
-    <button
-      v-if="!showGenerator"
-      class="btn btn-sm btn-square btn-ghost text-primary-content hover:bg-primary-content/15"
-      :title="t('shell.topBar.sidebar')"
-      @click="toggleSidebar"
-    >
-      <Menu class="w-5 h-5" />
-    </button>
+    <div v-if="!showGenerator" class="tooltip tooltip-bottom" :data-tip="t('shell.topBar.sidebar')">
+      <button
+        class="btn btn-sm btn-square btn-ghost text-primary-content hover:bg-primary-content/15"
+        :aria-label="t('shell.topBar.sidebar')"
+        @click="toggleSidebar"
+      >
+        <Menu class="w-5 h-5" />
+      </button>
+    </div>
 
     <!-- タイトル -->
     <div>
@@ -63,9 +64,15 @@
     </button>
 
     <!-- DaisyUi テーマ変更ボタン -->
-    <button class="btn btn-sm btn-square btn-neutral shadow" :title="themeTitle" @click="toggleDaisyUiTheme">
-      <component :is="isDark ? Sun : Moon" class="w-4 h-4" />
-    </button>
+    <div class="tooltip tooltip-bottom" :data-tip="themeTitle">
+      <button
+        class="btn btn-sm btn-square btn-neutral shadow"
+        :aria-label="themeTitle"
+        @click="toggleDaisyUiTheme"
+      >
+        <component :is="isDark ? Sun : Moon" class="w-4 h-4" />
+      </button>
+    </div>
   </header>
 </template>
 

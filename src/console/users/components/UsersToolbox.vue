@@ -34,13 +34,15 @@
 
       <template v-if="teams.length > 0">
         <!-- チーム名の編集 (ダイアログを開く) -->
-        <button
-          class="btn btn-ghost btn-xs"
-          :title="usersMessages.toolbox.teamNameEditTitle"
-          @click="emit('editTeamNames')"
-        >
-          ✎ {{ usersMessages.toolbox.teamNameEdit }}
-        </button>
+        <div class="tooltip tooltip-top" :data-tip="usersMessages.toolbox.teamNameEditTitle">
+          <button
+            class="btn btn-ghost btn-xs btn-square"
+            :aria-label="usersMessages.toolbox.teamNameEditTitle"
+            @click="emit('editTeamNames')"
+          >
+            <Pencil class="w-3 h-3" />
+          </button>
+        </div>
 
         <!-- チームごとの並び替え -->
         <select v-model="teamFilter" class="select select-sm">
@@ -59,6 +61,7 @@
   import type { DaisyUIColorType } from '@/types/core'
   import { userSortLabels } from '../maps/UserSortMap'
   import { usersMessages } from '../maps/UsersMessageMap'
+  import { Pencil } from 'lucide-vue-next'
 
   defineProps<{
     teams: readonly DaisyUIColorType[]

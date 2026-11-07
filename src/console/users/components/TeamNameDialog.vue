@@ -24,7 +24,7 @@
         <button class="btn btn-ghost btn-sm mr-auto" @click="resetDraft">
           {{ usersMessages.teamNameDialog.reset }}
         </button>
-        <button class="btn btn-sm" @click="close">{{ usersMessages.teamNameDialog.cancel }}</button>
+        <button class="btn btn-ghost btn-sm" @click="close">{{ usersMessages.teamNameDialog.cancel }}</button>
         <button class="btn btn-primary btn-sm" @click="save">{{ usersMessages.teamNameDialog.save }}</button>
       </div>
     </div>

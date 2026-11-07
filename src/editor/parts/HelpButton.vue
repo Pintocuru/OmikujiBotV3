@@ -1,16 +1,17 @@
 <!-- src/editor/parts/HelpButton.vue -->
 <!-- はてなボタン。押すと説明ダイアログを開く。説明の中身はデフォルトスロットに書く(どの画面でも使い回せる) -->
 <template>
-  <button
-    ref="buttonRef"
-    type="button"
-    class="btn btn-ghost btn-circle btn-xs text-info"
-    :title="t('editorUi.help.open')"
-    :aria-label="t('editorUi.help.open')"
-    @click="show"
-  >
-    <CircleHelp class="w-4 h-4" />
-  </button>
+  <div class="tooltip tooltip-top" :data-tip="t('editorUi.help.open')">
+    <button
+      ref="buttonRef"
+      type="button"
+      class="btn btn-ghost btn-circle btn-xs text-info"
+      :aria-label="t('editorUi.help.open')"
+      @click="show"
+    >
+      <CircleHelp class="w-4 h-4" />
+    </button>
+  </div>
 
   <!-- label の中に置かれても、ダイアログ内のクリックでボタンが再び押されないよう body へ移す。
        Teleport 先には data-theme が届かないので、ボタンの位置のテーマを引き継ぐ -->

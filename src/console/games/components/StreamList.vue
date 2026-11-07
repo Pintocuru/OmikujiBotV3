@@ -13,13 +13,15 @@
           <span class="font-medium">{{ formatStreamId(stream.streamId) }}</span>
           <span class="text-xs opacity-60">更新 {{ formatDateTime(stream.updatedAt) }}</span>
         </span>
-        <button
-          class="btn btn-ghost btn-xs btn-square"
-          title="この配信のログを削除"
-          @click.stop="confirmRemove(stream.streamId)"
-        >
-          ✕
-        </button>
+        <div class="tooltip tooltip-top" data-tip="この配信のログを削除">
+          <button
+            class="btn btn-ghost btn-xs btn-square"
+            aria-label="この配信のログを削除"
+            @click.stop="confirmRemove(stream.streamId)"
+          >
+            <X class="w-3 h-3" />
+          </button>
+        </div>
       </div>
     </li>
   </ul>
@@ -29,6 +31,7 @@
   import type { GameStateListItemType } from '@/types/api'
   import { formatDateTime } from '@/console/common/scripts/formatters'
   import { formatStreamId } from '../scripts/summarizeState'
+  import { X } from 'lucide-vue-next'
 
   defineProps<{
     streams: GameStateListItemType[]

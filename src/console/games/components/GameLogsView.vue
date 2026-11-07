@@ -10,7 +10,7 @@
         <input v-model="autoRefresh" type="checkbox" class="toggle toggle-sm toggle-primary" />
         自動更新
       </label>
-      <button class="btn btn-sm" @click="refresh">更新</button>
+      <button class="btn btn-sm btn-neutral" @click="refresh">更新</button>
       <!-- 開発サーバー専用: 本番では GameRanking が記録を追記するが、開発サーバーには追記する側がいない -->
       <button
         v-if="isDev"

@@ -16,14 +16,16 @@
         <tr v-for="user in users" :key="user.userId" class="hover:bg-base-200">
           <!-- ピン留め (ピン留めしたユーザーは、常に先頭) -->
           <td>
-            <button
-              class="btn btn-ghost btn-xs btn-square"
-              :class="user.pinned ? 'text-primary' : 'opacity-30'"
-              :title="user.pinned ? usersMessages.table.pinOff : usersMessages.table.pinOn"
-              @click="emit('setPinned', user.userId, !user.pinned)"
-            >
-              📌
-            </button>
+            <div class="tooltip tooltip-top" :data-tip="user.pinned ? usersMessages.table.pinOff : usersMessages.table.pinOn">
+              <button
+                class="btn btn-ghost btn-xs btn-square"
+                :class="user.pinned ? 'text-primary' : 'opacity-30'"
+                :aria-label="user.pinned ? usersMessages.table.pinOff : usersMessages.table.pinOn"
+                @click="emit('setPinned', user.userId, !user.pinned)"
+              >
+                📌
+              </button>
+            </div>
           </td>
 
           <!-- ユーザー -->
@@ -62,7 +64,7 @@
               <button
                 v-for="delta in [-10, -1]"
                 :key="delta"
-                class="btn btn-xs"
+                class="btn btn-xs btn-neutral"
                 @click="emit('addScore', user.userId, delta)"
               >
                 {{ delta }}
@@ -86,14 +88,19 @@
 
           <!-- 削除 (手動ユーザーのみ) -->
           <td>
-            <button
+            <div
               v-if="user.isManual"
-              class="btn btn-ghost btn-xs btn-square"
-              :title="usersMessages.table.remove"
-              @click="confirmRemove(user)"
+              class="tooltip tooltip-top"
+              :data-tip="usersMessages.table.remove"
             >
-              ✕
-            </button>
+              <button
+                class="btn btn-ghost btn-xs btn-square"
+                :aria-label="usersMessages.table.remove"
+                @click="confirmRemove(user)"
+              >
+                <X class="w-3 h-3" />
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -107,6 +114,7 @@
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { usersMessages } from '../maps/UsersMessageMap'
   import { TEAM_STYLE } from '../scripts/userConsole'
+  import { X } from 'lucide-vue-next'
 
   const props = defineProps<{
     users: UserListItemType[]

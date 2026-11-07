@@ -48,14 +48,19 @@
       <slot />
     </div>
 
-    <button
+    <div
       v-if="showReset"
-      class="btn btn-ghost btn-xs"
-      @click="$emit('reset')"
-      :title="t('appInfoEditor.settings.common.reset')"
+      class="tooltip tooltip-top"
+      :data-tip="t('appInfoEditor.settings.common.reset')"
     >
-      <RotateCcw class="w-3 h-3" />
-    </button>
+      <button
+        class="btn btn-ghost btn-xs btn-square"
+        :aria-label="t('appInfoEditor.settings.common.reset')"
+        @click="$emit('reset')"
+      >
+        <RotateCcw class="w-3 h-3" />
+      </button>
+    </div>
   </div>
 </template>
 

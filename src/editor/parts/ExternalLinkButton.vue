@@ -1,13 +1,18 @@
 <!-- src/editor/parts/ExternalLinkButton.vue -->
 <template>
-  <button
+  <div
     v-if="isValidUrl(url)"
-    @click="openUrl"
-    class="btn btn-primary btn-outline"
-    :title="title ?? t('editorUi.externalLink.open')"
+    class="tooltip tooltip-top"
+    :data-tip="title ?? t('editorUi.externalLink.open')"
   >
-    <ExternalLink class="w-4 h-4" />
-  </button>
+    <button
+      class="btn btn-sm btn-ghost btn-square"
+      :aria-label="title ?? t('editorUi.externalLink.open')"
+      @click="openUrl"
+    >
+      <ExternalLink class="w-4 h-4" />
+    </button>
+  </div>
 </template>
 
 <script setup lang="ts">

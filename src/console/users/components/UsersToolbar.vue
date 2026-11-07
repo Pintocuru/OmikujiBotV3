@@ -7,7 +7,7 @@
       <input v-model="autoRefresh" type="checkbox" class="toggle toggle-sm toggle-primary" />
       {{ usersMessages.toolbar.autoRefresh }}
     </label>
-    <button class="btn btn-sm" @click="emit('refresh')">{{ usersMessages.toolbar.refresh }}</button>
+    <button class="btn btn-sm btn-neutral" @click="emit('refresh')">{{ usersMessages.toolbar.refresh }}</button>
   </div>
 </template>
 

@@ -14,13 +14,15 @@
 
       <!-- プリセットを新規作成（プリセットがあるカテゴリのみ） -->
       <div v-if="presets.length" class="dropdown dropdown-end">
-        <button
-          tabindex="0"
-          class="btn btn-ghost btn-xs px-1 opacity-70 hover:opacity-100"
-          :title="t('navigation.preset.buttonTip', { category: categoryLabel(category) })"
-        >
-          <Menu class="w-3 h-3" />
-        </button>
+        <div class="tooltip tooltip-top" :data-tip="t('navigation.preset.buttonTip', { category: categoryLabel(category) })">
+          <button
+            tabindex="0"
+            class="btn btn-ghost btn-xs btn-square opacity-70 hover:opacity-100"
+            :aria-label="t('navigation.preset.buttonTip', { category: categoryLabel(category) })"
+          >
+            <Menu class="w-3 h-3" />
+          </button>
+        </div>
         <ul
           tabindex="0"
           class="dropdown-content menu z-50 w-64 rounded-md border border-base-300 bg-base-200 text-base-content shadow-lg p-1"

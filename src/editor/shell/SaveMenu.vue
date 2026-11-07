@@ -21,7 +21,7 @@
 
     <!-- 保存先の選択(メニューがあるときだけ) -->
     <div v-if="menu.length > 0" class="dropdown dropdown-end join-item">
-      <button tabindex="0" class="btn btn-sm btn-square" :class="primary.class" :title="t('shell.save.more')">
+      <button tabindex="0" class="btn btn-sm btn-square" :class="primary.class" :aria-label="t('shell.save.more')">
         <ChevronDown class="w-4 h-4" />
       </button>
       <ul

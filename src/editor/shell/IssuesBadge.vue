@@ -34,7 +34,7 @@
 
         <div class="modal-action">
           <form method="dialog">
-            <button class="btn">{{ t('shell.issues.close') }}</button>
+            <button class="btn btn-sm btn-ghost">{{ t('shell.issues.close') }}</button>
           </form>
         </div>
       </div>
