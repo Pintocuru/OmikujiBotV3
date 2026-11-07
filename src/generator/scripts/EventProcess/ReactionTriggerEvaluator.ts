@@ -1,7 +1,6 @@
 // src/generator/scripts/EventProcess/ReactionTriggerEvaluator.ts
-import { ReactionStatsManagerType } from '@/types/generator'
+import type { ReactionStatsManagerType } from '@/types/generator'
 import type { ReactionTriggerType } from '@/types/OmikujiData'
-import type { ReactionKeyType } from '@/types/OmikujiData/events/ReactionTriggerSchema'
 
 /**
  * トリガーの対象になっているリアクションの累計
@@ -9,7 +8,7 @@ import type { ReactionKeyType } from '@/types/OmikujiData/events/ReactionTrigger
  */
 export function getTargetTotal(trigger: ReactionTriggerType, stats: ReactionStatsManagerType): number {
   if (!trigger.reactions || trigger.reactions.length === 0) return 0
-  return stats.getTotal(trigger.reactions as ReactionKeyType[])
+  return stats.getTotal(trigger.reactions)
 }
 
 /**
@@ -71,7 +70,7 @@ function evaluateEqual(total: number, previousTotal: number, value: number): boo
  */
 function evaluateBurstReach(triggerLevel: number, stats: ReactionStatsManagerType): boolean {
   const burst = stats.getBurstState()
-  if (burst.level >= triggerLevel && burst.reachedLevel >= triggerLevel) {
+  if (burst.level >= triggerLevel && burst.reachedLevel !== null && burst.reachedLevel >= triggerLevel) {
     stats.consumeReachedLevel()
     return true
   }
@@ -98,7 +97,7 @@ function evaluateBurstSustain(triggerLevel: number, value: number, stats: Reacti
  */
 function evaluateBurstDrop(triggerLevel: number, stats: ReactionStatsManagerType): boolean {
   const burst = stats.getBurstState()
-  if (burst.droppedLevel !== -1 && burst.droppedLevel <= triggerLevel) {
+  if (burst.droppedLevel !== null && burst.droppedLevel <= triggerLevel) {
     stats.consumeDroppedLevel()
     return true
   }
