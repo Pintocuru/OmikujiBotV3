@@ -89,8 +89,10 @@
 | `service/CharacterBase64Settings.vue` | Base64リセットを `btn-sm btn-circle btn-error` + tooltip + `aria-label` に変更 |
 | `src/i18n/editor/apps/AppItemsCharacters.ts` | レイヤー上下移動・削除の日本語/英語ラベルを追加 |
 
-#### MikujiSettings / mikuji — 部分完了
+#### mikuji — 部分完了
 
+| ファイル | 変更内容 |
+| --- | --- |
 | `mikuji/MikujiSettings.vue` | テスト・追加ボタンの役割色とアイコン間隔を統一 |
 | `mikuji/row/OmikujiRowCooldown.vue` | 入力説明の `title` を tooltip に変更 |
 | `mikuji/row/OmikujiRowRun.vue` | 実行内容・シナリオ移動ボタンの役割色・サイズ・間隔を統一 |
@@ -119,23 +121,20 @@
 
 - 単位1〜3: `npx vue-tsc --noEmit` 済み（エラーなしと既存記録に記載）。
 - 単位4: `npx vue-tsc --noEmit` と対象 ESLint 済み（成功と既存記録に記載）。
-- 今回の assets/characters 部分変更: GitHub 上の差分確認のみ。TypeScript / ESLint / ブラウザ表示検証は未実施（この作業環境から実行できていない）。
+- 今回の assets 部分変更: GitHub 上の差分確認のみ。TypeScript / ESLint / ブラウザ表示検証は未実施（この作業環境から実行できていない）。
 - tooltip の実表示・clipping は未確認。既存画面での実測が必要。
 
 #### 未解決事項・対象外確認
 
-1. レイヤー上下移動・削除ボタンの翻訳キーを追加済み。
-2. `ImageSettingsInfo.vue` の「パスをセット」ボタンは説明文中の操作例として表示されており、実際の操作ボタンではない。誤解を避けるため現状維持。
-3. `EmotionGrid.vue` のカード選択はクリック可能なカード要素であり、ボタン統一の対象として扱うべきか未確認。操作仕様・アクセシビリティを別途確認する。
+1. `EmotionGrid.vue` のカード選択はクリック可能な `div` であり、ボタン統一の対象とは別だが、キーボード操作・アクセシビリティは別途確認が必要。
+2. `ImageSettingsInfo.vue` の「パスをセット」は説明用の表示例であるため、実ボタンではなく非操作の `span` に変更した。
 
 #### 未着手
 
-- `src/editor/assets/characters/` の CharacterImage 以外
-- `src/editor/assets/mikuji/`
-- `src/editor/assets/placeholders/`
-- `src/editor/assets/scenarios/`
+- `src/editor/assets/characters/` のボタン・title 検索対象ファイルは確認済み。残りの非ボタンUIは未確認
+- `src/editor/assets/mikuji/`・`placeholders/`・`scenarios/` のボタン検索対象ファイルは部分変更済み。残りのファイルは未確認
 - 作業単位6の各ディレクトリ
 
 #### 次に着手する作業
 
-**作業単位5:** `src/editor/assets/characters/CharacterImage/` の残りを確認し、完了後に characters の残りの機能へ進む。
+**作業単位5:** `src/editor/assets/` の残りのボタン・title 使用箇所を再検索し、未確認ファイルを確認して完了判定する。

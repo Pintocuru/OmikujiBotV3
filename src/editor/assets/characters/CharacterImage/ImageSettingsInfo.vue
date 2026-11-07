@@ -9,10 +9,10 @@
 
     <p>
       {{ t('characterImage.info.line2Pre') }}
-      <button class="btn btn-ghost btn-xs px-1 py-0 h-auto min-h-0 text-xs" :title="t('characterImage.info.setPathTip')">
+      <span class="btn btn-ghost btn-xs px-1 py-0 h-auto min-h-0 text-xs pointer-events-none">
         <RotateCcw class="w-3 h-3 mr-1" />
         {{ t('characterImage.layer.setPath') }}
-      </button>
+      </span>
       {{ t('characterImage.info.line2Mid') }}
       <code class="label bg-accent text-accent-content">{{ t('characterImage.info.code2') }}</code>
       {{ t('characterImage.info.line2Post') }}

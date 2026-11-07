@@ -5,7 +5,7 @@
     <div class="modal-box max-w-2xl">
       <div class="flex items-center justify-between pb-2">
         <h3 class="text-lg font-bold">{{ t('omikujiItem.scenario.dialog.title') }}</h3>
-        <div class="tooltip tooltip-top" :data-tip="t('omikujiItem.scenario.dialog.close')">
+        <div class="tooltip tooltip-bottom" :data-tip="t('omikujiItem.scenario.dialog.close')">
           <button class="btn btn-sm btn-circle btn-ghost" :aria-label="t('omikujiItem.scenario.dialog.close')" @click="close">
             <X class="w-4 h-4" />
           </button>
