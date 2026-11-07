@@ -24,10 +24,10 @@
           {{ t('connections.picker.scenariosCount', { count: scenariosOfBox(box.key).length }) }}
         </div>
         <div class="flex gap-2 mt-2">
-          <button class="btn btn-xs btn-primary" @click="handleSelect(box.key)">
+          <button class="btn btn-sm btn-neutral" @click="handleSelect(box.key)">
             {{ t('connections.picker.select') }}
           </button>
-          <button class="btn btn-xs btn-ghost" @click="goToBox(box.key)">
+          <button class="btn btn-sm btn-ghost" @click="goToBox(box.key)">
             {{ t('connections.picker.edit') }}
           </button>
         </div>

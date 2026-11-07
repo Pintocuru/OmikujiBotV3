@@ -15,6 +15,9 @@ export const connectionMessages = {
       noPlaceholders: 'なし',
       placeholderUsers: '使われている場所',
       noPlaceholderUsers: 'どこからも使われていません…',
+      itemMenu: {
+        open: 'アイテムメニューを開く',
+      },
       switcher: {
         edit: '基本設定を編集',
         disabled: '無効',
@@ -73,6 +76,9 @@ export const connectionMessages = {
       noPlaceholders: 'No placeholders in use…',
       placeholderUsers: 'Used by',
       noPlaceholderUsers: 'Not used anywhere…',
+      itemMenu: {
+        open: 'Open item menu',
+      },
       switcher: {
         edit: 'Edit basic settings',
         disabled: 'Disabled',

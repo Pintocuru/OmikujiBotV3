@@ -7,7 +7,7 @@
       <!-- どこからも参照されていないとき -->
       <div v-else class="flex flex-wrap items-center gap-2 rounded-lg bg-neutral text-neutral-content px-3 py-2">
         <span class="text-sm">{{ t('connections.noSources') }}</span>
-        <button class="btn btn-xs btn-primary" @click="connectOpen = true">
+        <button class="btn btn-sm btn-neutral" @click="connectOpen = true">
           {{ t('connections.connectOmikuji') }}
         </button>
       </div>

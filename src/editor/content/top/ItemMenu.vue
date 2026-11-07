@@ -2,7 +2,13 @@
 <!-- TOPページのアイテム右端のハンバーガーメニュー。編集・複製・削除を emit する(実処理は親側) -->
 <template>
   <div class="dropdown dropdown-end shrink-0" @click.stop>
-    <button tabindex="0" class="btn btn-ghost btn-xs opacity-0 group-hover:opacity-100 transition-opacity">
+    <button
+      tabindex="0"
+      type="button"
+      class="btn btn-sm btn-ghost btn-square tooltip tooltip-top opacity-0 group-hover:opacity-100 transition-opacity"
+      :data-tip="t('connections.itemMenu.open')"
+      :aria-label="t('connections.itemMenu.open')"
+    >
       <Menu class="w-4 h-4" />
     </button>
 
@@ -13,7 +19,7 @@
       <!-- 編集(ItemEditDialog を親で開く) -->
       <li>
         <button class="flex items-center gap-2 text-xs" @click="emit('edit')">
-          <Pencil class="w-3 h-3" />
+          <Pencil class="w-4 h-4" />
           {{ t('connections.switcher.edit') }}
         </button>
       </li>
@@ -21,7 +27,7 @@
       <!-- 複製 -->
       <li>
         <button class="flex items-center gap-2 text-xs" @click="emit('duplicate')">
-          <Copy class="w-3 h-3" />
+          <Copy class="w-4 h-4" />
           {{ t('navigation.menu.duplicate') }}
         </button>
       </li>
@@ -34,7 +40,7 @@
           class="flex items-center gap-2 text-xs text-error hover:bg-error hover:text-error-content"
           @click="emit('remove')"
         >
-          <Trash2 class="w-3 h-3" />
+          <Trash2 class="w-4 h-4" />
           {{ t('navigation.menu.delete') }}
         </button>
       </li>

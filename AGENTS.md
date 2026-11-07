@@ -23,7 +23,7 @@
 | 3 | `src/console/` | 完了 |
 | 4 | `src/editor/apps/` | 完了 |
 | 5 | `src/editor/assets/` | 変更完了・検証待ち |
-| 6 | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | 未着手 |
+| 6 | `src/editor/content/` + `src/editor/events/` + `src/editor/helpers/` + `src/editor/preview/` + `src/editor/ui/` | 進行中（content） |
 
 ---
 
@@ -130,6 +130,16 @@
 2. tooltip の実表示・clipping・z-index はブラウザ上で未確認。
 3. `ImageSettingsInfo.vue` の「パスをセット」は説明用表示のため、操作要素ではない `span` に変更済み。
 
+#### 作業単位6 — content の進捗
+
+| ファイル | 変更内容 |
+| --- | --- |
+| `top/ItemMenu.vue` | メニュー開閉を `btn-sm btn-square` + tooltip + `aria-label` に変更。メニュー項目アイコンを統一 |
+| `summary/BaseSummary.vue` | 基本設定編集ボタンのサイズ・アイコン間隔を統一 |
+| `connections/ItemSwitcher.vue` | アイテム切替を `btn-sm btn-neutral` に変更。循環参照アイコンを tooltip + accessible name に変更 |
+| `connections/ScenarioLane.vue` / `MikujiPickerDialog.vue` | 接続・選択ボタンのサイズと役割色を統一 |
+| `src/i18n/editor/content/ConnectionMessages.ts` | アイテムメニュー開閉の日本語/英語ラベルを追加 |
+
 #### 次に着手する作業
 
-**作業単位6:** `src/editor/content/` から順に、ディレクトリ/機能単位で調査・修正・検証を進める。
+**作業単位6:** `src/editor/content/` の残りの対象ファイルを確認し、完了後に `src/editor/events/` へ進む。
