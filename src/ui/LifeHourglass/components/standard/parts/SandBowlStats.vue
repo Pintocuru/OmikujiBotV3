@@ -8,8 +8,9 @@
     <span class="flex items-center gap-1 text-sm font-bold">
       <Gift :size="14" />¥{{ formatGrains(safe(giftTotal)) }}
     </span>
-    <span class="flex items-center gap-1 text-xs opacity-70">
-      <Clock :size="12" />{{ formatStreamTime(streamSeconds) }}
+    <span class="flex items-center gap-1 text-sm font-bold">
+      <Clock :size="12" />
+      {{ formatStreamTime(streamSeconds) }}
     </span>
   </div>
 </template>
