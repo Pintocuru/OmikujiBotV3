@@ -4,7 +4,6 @@
   <section class="w-full rounded-box border border-base-300 bg-base-200/40 p-4 min-w-0">
     <div class="flex items-center justify-between gap-2 mb-3">
       <h3 class="font-semibold">{{ t('connections.summary.characters') }}</h3>
-      <span class="badge badge-sm badge-outline">{{ characters.length }}</span>
     </div>
 
     <div v-if="characters.length" class="flex gap-3 overflow-x-auto pb-2">
