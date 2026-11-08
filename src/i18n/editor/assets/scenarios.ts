@@ -43,7 +43,7 @@ export const scenarioStepMessages = {
         textareaPlaceholder: 'メッセージを入力...\n\n例:\n{userName} さん、ようこそ！\n今日のおみくじは {r} です！',
         charCount: '{n} 文字',
         lineCount: ' / {n} 行',
-        cheatSheet: '評価ブロック(評価ブロック) チートリスト',
+        cheatSheet: '評価ブロック チートリスト',
       },
       placeholderPanel: {
         title: 'プレースホルダー',

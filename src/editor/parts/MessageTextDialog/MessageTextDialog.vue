@@ -76,7 +76,7 @@
       />
     </template>
 
-    <!-- フッター補足リンク -->
+    <!-- フッター補足リンク(評価ブロック チートリスト) -->
     <template #footer-info>
       <a
         class="link no-underline hover:underline"
