@@ -104,6 +104,8 @@
     icon="Brackets"
     labelKey="timerInterval.conditionLabel"
     descriptionKey="timerInterval.conditionDescription"
+    :helpUrl="TIMER_CONDITION_HELP_URL"
+    :helpLabel="t('timerInterval.conditionHelpLabel')"
   >
     <input
       type="text"
@@ -112,16 +114,6 @@
       :placeholder="exampleExpression"
       class="input input-bordered w-full font-mono"
     />
-    <div class="text-sm text-gray-500 mt-2 space-y-1">
-      <p>{{ t('timerInterval.conditionHints.variable') }}</p>
-      <p>{{ t('timerInterval.conditionHints.undefined') }}</p>
-      <p>{{ t('timerInterval.conditionHints.operator') }}</p>
-      <p>{{ t('timerInterval.conditionHints.skip') }}</p>
-      <p class="font-mono">
-        {{ t('timerInterval.conditionHints.example') }}
-        <code class="badge badge-ghost">{{ exampleExpression }}</code>
-      </p>
-    </div>
   </SettingItem>
 </template>
 
@@ -130,6 +122,7 @@
   import { computed } from 'vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { TimerEventType } from '@/types/OmikujiData'
+  import { TIMER_CONDITION_HELP_URL } from '@/editor/constants/docsUrl'
 
   const { t } = useI18n()
 

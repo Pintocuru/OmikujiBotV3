@@ -82,13 +82,7 @@ export const eventTriggersMessages = {
       rangeUnit: '秒',
       conditionLabel: '動作条件（判定式）',
       conditionDescription: '式が成立しているときだけ実行します。空欄なら常に実行します',
-      conditionHints: {
-        variable: '・使える変数は、おみくじの式で作った変数です（コメントの内容は使えません）',
-        undefined: '・未定義の変数は 0 として扱われます。変数名の打ち間違いにご注意ください',
-        operator: '・比較（== != < > <= >=）、論理（and / or / not）、四則演算が使えます',
-        skip: '・成立しない間は実行をスキップするだけで、タイマー自体は動き続けます',
-        example: '例:',
-      },
+      conditionHelpLabel: '書き方と例',
       presets: {
         s30: '30秒',
         s60: '1分',
@@ -185,13 +179,7 @@ export const eventTriggersMessages = {
       rangeUnit: 'sec',
       conditionLabel: 'Run condition (expression)',
       conditionDescription: 'Runs only while the expression holds. Leave empty to always run',
-      conditionHints: {
-        variable: '• You can use variables created by omikuji expressions (comment content is not available)',
-        undefined: '• Undefined variables are treated as 0, so watch out for typos in variable names',
-        operator: '• Comparison (== != < > <= >=), logic (and / or / not) and arithmetic are available',
-        skip: '• While it does not hold, runs are just skipped; the timer itself keeps going',
-        example: 'Example:',
-      },
+      conditionHelpLabel: 'Syntax and examples',
       presets: {
         s30: '30 seconds',
         s60: '1 minute',
