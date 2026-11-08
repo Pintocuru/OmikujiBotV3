@@ -123,6 +123,7 @@
   const generatorLabel = computed(() => {
     if (props.showGenerator) return t('shell.topBar.generator.editor')
     if (props.generatorState === 'checking') return t('shell.topBar.generator.checking')
+    // ジェネレーター使用不可
     if (props.generatorState === 'unavailable') return t('shell.topBar.generator.unavailable')
     return t('shell.topBar.generator.label')
   })
