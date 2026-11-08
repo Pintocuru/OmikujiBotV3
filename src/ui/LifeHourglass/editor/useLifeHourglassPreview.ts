@@ -15,7 +15,7 @@ export interface LifeHourglassPreviewState {
 
 export const createLifeHourglassPreviewState = (): LifeHourglassPreviewState => ({
   grains: 0,
-  viewer: 100,
+  viewer: 10,
   giftTotal: 0,
   streamSeconds: 0,
   giftPulse: 0,
