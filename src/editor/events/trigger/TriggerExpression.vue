@@ -7,7 +7,7 @@
     :helpUrl="TRIGGER_EXPRESSION_HELP_URL"
     :helpLabel="t('triggerExpression.helpLabel')"
   >
-    <input type="text" v-model="text" :placeholder="exampleLc" class="input input-bordered w-full font-mono" />
+    <input type="text" v-model="text" :placeholder="'<<lc>> > 20'" class="input input-bordered w-full font-mono" />
   </SettingItem>
 </template>
 
@@ -26,9 +26,6 @@
   const emit = defineEmits<{
     'update:modelValue': [value: string]
   }>()
-
-  // vue-i18n のメッセージに << を入れると警告が出るため、記法を含む例はここで持つ
-  const exampleLc = '<<lc>> > 20'
 
   const text = computed({
     get: () => props.modelValue ?? '',
