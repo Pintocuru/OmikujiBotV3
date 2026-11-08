@@ -105,12 +105,12 @@
     labelKey="timerInterval.conditionLabel"
     descriptionKey="timerInterval.conditionDescription"
   >
-    <textarea
+    <input
+      type="text"
       :value="modelValue.expression ?? ''"
-      @input="updateField('expression', ($event.target as HTMLTextAreaElement).value)"
+      @input="updateField('expression', ($event.target as HTMLInputElement).value)"
       :placeholder="exampleExpression"
-      class="textarea textarea-bordered w-full min-h-20 font-mono"
-      rows="3"
+      class="input input-bordered w-full font-mono"
     />
     <div class="text-sm text-gray-500 mt-2 space-y-1">
       <p>{{ t('timerInterval.conditionHints.variable') }}</p>
