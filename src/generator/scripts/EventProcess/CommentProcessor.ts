@@ -10,6 +10,14 @@ import { OmikujiControlProcessor } from '@/generator/scripts/EventProcess/Omikuj
 import { OmikujiProcessor } from '@/generator/scripts/EventProcess/OmikujiProcessor'
 import { describeError, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
+/** 1 ルールの処理結果。handled が true なら、以降のルールは評価しない */
+interface RuleResult {
+  messages: BotMessageType[]
+  handled: boolean
+}
+
+const NOT_HANDLED: RuleResult = { messages: [], handled: false }
+
 export class EventCommentProcessor {
   private readonly store = useAppStore()
   private readonly control = new OmikujiControlProcessor()
@@ -34,10 +42,10 @@ export class EventCommentProcessor {
       for (const rule of sortedRules) {
         // 1 件のイベントの失敗で、残りのイベントを止めない
         try {
-          const botMessages = await this.processRule(omiken, rule)
+          const { messages, handled } = await this.processRule(omiken, rule)
 
-          // イベントが成功し、botメッセージが生成された場合はここで終了
-          if (botMessages.length > 0) return botMessages
+          // イベントが成功し、botメッセージが生成された(遅延して生成されるものを含む)場合はここで終了
+          if (handled) return messages
         } catch (error) {
           console.error(`コメントイベント "${rule.name}" の処理エラー:`, error)
           showErrorNotice(`コメントイベント「${rule.name}」の処理エラー: ${describeError(error)}`)
@@ -55,33 +63,33 @@ export class EventCommentProcessor {
   /**
    * 単一イベントの処理
    */
-  private async processRule(omiken: OmikenCommentType, event: CommentEventType): Promise<BotMessageType[]> {
+  private async processRule(omiken: OmikenCommentType, event: CommentEventType): Promise<RuleResult> {
     const { data } = this.store
 
     // コメントイベントの条件チェック
-    if (!checkAllTriggers(omiken, event.trigger)) return []
+    if (!checkAllTriggers(omiken, event.trigger)) return NOT_HANDLED
 
     // criteria フィルタ適用後に抽選
     const mikujiBox = data.assets.mikuji[event.mikujiKey]
-    if (!mikujiBox) return []
+    if (!mikujiBox) return NOT_HANDLED
 
     const selectedItem = this.lotteryWithCriteria(mikujiBox.omikuji, omiken)
-    if (!selectedItem) return []
+    if (!selectedItem) return NOT_HANDLED
 
     // control 処理 (return / continue)
     const handled = this.control.process(selectedItem, omiken)
     if (handled !== null) {
       // return: 空メッセージで以降のイベントを止める / continue: 次のイベントへ
-      return handled ? [BotMessageSchema.parse({ uiKey: 'commentBubble' })] : []
+      return handled ? { messages: [BotMessageSchema.parse({ uiKey: 'commentBubble' })], handled: true } : NOT_HANDLED
     }
 
     // 通常ステップ (kind が 'scenario' のみ到達)
-    if (selectedItem.kind !== 'scenario') return []
+    if (selectedItem.kind !== 'scenario') return NOT_HANDLED
     const omikujiProcessor = new OmikujiProcessor()
 
     // クールダウン中: control の return と同様に、空メッセージで以降のイベントを止める
     if (!omikujiProcessor.tryAcquireCooldown(selectedItem, omiken)) {
-      return [BotMessageSchema.parse({ uiKey: 'commentBubble' })]
+      return { messages: [BotMessageSchema.parse({ uiKey: 'commentBubble' })], handled: true }
     }
     return omikujiProcessor.runSteps(selectedItem, omiken)
   }

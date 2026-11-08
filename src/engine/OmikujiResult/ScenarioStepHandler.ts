@@ -8,7 +8,7 @@ import { DisplayVariableResolver } from '@/engine/DisplayVariable/DisplayVariabl
 import { ContentPlaceholder } from '@/engine/ContentPlaceholder/processor'
 import { PlaceholderContext } from '@/engine/ContentPlaceholder/context'
 import { ScenarioCallExpander } from '@/engine/OmikujiResult/ScenarioCallExpander'
-import { BotMessageType, ProcessedStep } from '@/types/generator'
+import { BotMessageType } from '@/types/generator'
 
 export class ScenarioStepHandler {
   private readonly displayResolver: DisplayVariableResolver
@@ -27,25 +27,34 @@ export class ScenarioStepHandler {
   }
 
   /**
+   * シナリオ開始からの実行時刻(delaySeconds)順のタイムラインに展開する。
+   * - scenarioCall は抽選して展開し、子の delaySeconds には呼び出し側の delaySeconds が加算される
+   * - 同じ時刻は展開順を保つ (Array.sort は安定ソート)
+   * - 最大階層で展開しきれなかった scenarioCall は捨てる (遅延実行時に再展開されて、際限なく続くのを防ぐ)
+   */
+  buildTimeline(steps: ScenarioStepType[]): ScenarioStepType[] {
+    return ScenarioCallExpander.expand(steps, this.scenarios)
+      .filter((step) => step.kind !== 'scenarioCall')
+      .sort((a, b) => a.delaySeconds - b.delaySeconds)
+  }
+
+  /**
    * steps処理
    */
   process(
     steps: ScenarioStepType[],
     defaultPlaceholders: Record<string, string | number>,
-    omiken?: OmikenCommentType,
-    isOnecommePost?: boolean
+    omiken?: OmikenCommentType
   ): BotMessageType[] {
     // ステップ展開とプレースホルダー置換
     const expandedSteps = ScenarioCallExpander.expand(steps, this.scenarios)
     const resolvedSteps = this.resolvePlaceholders(expandedSteps, defaultPlaceholders)
 
     // 評価ブロック {{ }} の処理
-    const processedActions: ProcessedStep[] = isOnecommePost
-      ? this.generator.processVariables(resolvedSteps) // 本番：計算して置換
-      : this.generator.stripVariables(resolvedSteps) // ダミー：計算せず除去
+    const processedActions = this.generator.processVariables(resolvedSteps)
 
     // BotMessage 生成
-    return this.generator.postAndGenerate(processedActions, omiken, isOnecommePost)
+    return this.generator.postAndGenerate(processedActions, omiken)
   }
 
   /**

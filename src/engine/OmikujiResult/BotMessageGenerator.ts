@@ -10,9 +10,6 @@ import { OmikenCommentType } from '@/types/OmikenComment'
 import { playSoundDelay } from '@/common/sounds'
 import { describeError, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
-/** 評価ブロック {{ ... }} */
-const EVAL_PATTERN = /\{\{[\s\S]*?\}\}/g
-
 export class BotMessageGenerator {
   private readonly variableProcessor: VariablePlaceholderProcessor
   private readonly postMessage: PostOmikujiService
@@ -58,34 +55,24 @@ export class BotMessageGenerator {
   /**
    * わんコメへ投稿し、BotMessageを生成
    */
-  postAndGenerate(
-    processedSteps: ProcessedStep[],
-    omiken?: OmikenCommentType,
-    isOnecommePost?: boolean
-  ): BotMessageType[] {
-    if (isOnecommePost) {
-      // variable は投稿対象から除外
-      const postTargets = processedSteps.map((a) => a.step).filter((step) => step.kind !== 'variable')
-      // 完了は待たない設計。post() が reject しても未処理にならないよう通知する
-      this.postMessage.post(postTargets).catch((error) => {
-        const msg = `投稿処理エラー: ${describeError(error)}`
-        console.error(msg, error)
-        showErrorNotice(msg)
-      })
-    }
-    return this.generate(processedSteps, omiken, isOnecommePost)
+  postAndGenerate(processedSteps: ProcessedStep[], omiken?: OmikenCommentType): BotMessageType[] {
+    // variable は投稿対象から除外
+    const postTargets = processedSteps.map((a) => a.step).filter((step) => step.kind !== 'variable')
+    // 完了は待たない設計。post() が reject しても未処理にならないよう通知する
+    this.postMessage.post(postTargets).catch((error) => {
+      const msg = `投稿処理エラー: ${describeError(error)}`
+      console.error(msg, error)
+      showErrorNotice(msg)
+    })
+    return this.generate(processedSteps, omiken)
   }
 
   /**
    * 処理済みステップからBotMessageを生成
    */
-  private generate(
-    processedSteps: ProcessedStep[],
-    omiken?: OmikenCommentType,
-    isOnecommePost?: boolean
-  ): BotMessageType[] {
+  private generate(processedSteps: ProcessedStep[], omiken?: OmikenCommentType): BotMessageType[] {
     const messages: BotMessageType[] = []
-    const canPlaySound = this.soundEnabled && !!isOnecommePost
+    const canPlaySound = this.soundEnabled
 
     for (const { step, extra } of processedSteps) {
       const delaySeconds = step.delaySeconds + this.basicDelaySeconds
@@ -109,21 +96,5 @@ export class BotMessageGenerator {
     }
 
     return messages
-  }
-
-  /**
-   * 評価ブロック {{ }} を計算せずに除去する（ダミー演出用）
-   */
-  stripVariables(steps: ScenarioStepType[]): ProcessedStep[] {
-    return steps.map((step): ProcessedStep => {
-      if (step.kind !== 'message' && step.kind !== 'variable') return { step }
-      if (step.kind === 'message') {
-        const slots = Object.fromEntries(Object.entries(step.slots).map(([k, t]) => [k, t.replace(EVAL_PATTERN, '')]))
-        return { step: { ...step, message: (step.message ?? '').replace(EVAL_PATTERN, ''), slots } }
-      }
-      if (!step.message) return { step }
-
-      return { step: { ...step, message: step.message.replace(EVAL_PATTERN, '') } }
-    })
   }
 }

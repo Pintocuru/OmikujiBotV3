@@ -15,11 +15,7 @@ export class GameScriptsHandler {
   /**
    * gameScripts処理
    */
-  async process(
-    step: ScenarioStepGameScriptType,
-    omiken?: OmikenCommentType,
-    isOnecommePost?: boolean
-  ): Promise<BotMessageType[]> {
+  async process(step: ScenarioStepGameScriptType, omiken?: OmikenCommentType): Promise<BotMessageType[]> {
     // 1. スクリプトの実行
     const scriptResult = await this.playScript(step, omiken)
     if (!scriptResult) return []
@@ -32,7 +28,7 @@ export class GameScriptsHandler {
     // 3. わんコメへ投稿 & BotMessage を生成
     return [
       ...scriptMessages.map(fromRankingEntry),
-      ...this.generator.postAndGenerate(processedSteps, omiken, isOnecommePost),
+      ...this.generator.postAndGenerate(processedSteps, omiken),
     ]
   }
 }

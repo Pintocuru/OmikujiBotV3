@@ -52,16 +52,19 @@ export function useTestPost() {
     })
   }
 
-  // 本番と同じく steps は順番に実行する(variable などの結果に後続の step が依存するため)
+  // 本番と同じく steps は delaySeconds の時刻どおりに実行する(評価ブロックもその時刻に評価される)
+  // エディターは BotMessage を表示しないので、遅延分の結果は受け取らない
   const postTestOmikujiItem = async (steps: ScenarioStepType[], omikujiItem?: OmikujiItemType) => {
     const resultProcessor = new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable)
-    const botMessages: BotMessageType[] = []
-    for (const step of steps) {
-      botMessages.push(...(await resultProcessor.process(step, defaultPlaceholdersShortLabels, MOCK_COMMENT)))
-    }
+    const { messages } = await resultProcessor.processTimeline(
+      steps,
+      defaultPlaceholdersShortLabels,
+      MOCK_COMMENT,
+      () => undefined
+    )
 
     if (omikujiItem) showOmikujiResultToast(omikujiItem)
-    executeTestPostDelays(botMessages)
+    executeTestPostDelays(messages)
   }
 
   /**

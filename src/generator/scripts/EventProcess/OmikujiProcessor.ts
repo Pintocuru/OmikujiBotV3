@@ -16,6 +16,14 @@ import { buildDefaultPlaceholders } from '@/generator/scripts/EventProcess/Defau
 import { acquireCooldown, type CooldownBlock } from '@/generator/scripts/EventProcess/CooldownGate'
 import { showCooldownBlockNotice, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
+/** runSteps の結果 */
+export interface RunStepsResult {
+  /** delaySeconds が 0 のステップから、すぐ生成された BotMessage (遅延分は、実行時刻に store へ直接スケジュールされる) */
+  messages: BotMessageType[]
+  /** BotMessage を作るステップがあったか (遅延分を含む) */
+  handled: boolean
+}
+
 export class OmikujiProcessor {
   private readonly store = useAppStore()
   private readonly omikujiResult: OmikujiResultProcessor
@@ -42,7 +50,7 @@ export class OmikujiProcessor {
     // クールダウン中は何も実行しない
     if (!this.tryAcquireCooldown(item, omiken)) return []
 
-    return this.runSteps(item, omiken)
+    return (await this.runSteps(item, omiken)).messages
   }
 
   /**
@@ -96,20 +104,22 @@ export class OmikujiProcessor {
   }
 
   /**
-   * steps を順番に実行する。
+   * steps を delaySeconds の時刻どおりに実行する (評価ブロックもその時刻に評価される)。
    * 前の step (variable など) の結果に後の step が依存する可能性があるため、並列にはしない。
+   * 遅延分の BotMessage は、各ステップの実行時刻に store へスケジュールする。
    */
-  async runSteps(item: OmikujiItemStepsType, omiken: OmikenCommentType | undefined): Promise<BotMessageType[]> {
+  async runSteps(item: OmikujiItemStepsType, omiken: OmikenCommentType | undefined): Promise<RunStepsResult> {
     const steps = this.resolveScenarioSteps(item)
     const defaultPlaceholders = this.getDefaultPlaceholders(omiken)
-    const messages: BotMessageType[] = []
 
-    for (const step of steps) {
-      const result = await this.omikujiResult.process(step, defaultPlaceholders, omiken)
-      messages.push(...result)
-    }
+    const { messages, handled } = await this.omikujiResult.processTimeline(
+      steps,
+      defaultPlaceholders,
+      omiken,
+      (deferred) => this.store.scheduleBotMessages(this.attachOrigin(deferred, omiken))
+    )
 
-    return this.attachOrigin(messages, omiken)
+    return { messages: this.attachOrigin(messages, omiken), handled }
   }
 
   /**
