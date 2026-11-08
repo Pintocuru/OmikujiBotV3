@@ -61,7 +61,7 @@ export type OmikujiControlCommand = z.infer<typeof OmikujiControlCommandSchema>
 export const OmikujiItemControlSchema = OmikujiItemBase.extend({
   kind: z.literal('control'),
   command: OmikujiControlCommandSchema.default('return').catch('return'),
-  variable: z.string().default('').catch(''), // 評価ブロック {{ }} を含む文字列(処理の前に評価する)
+  variable: z.string().default('').catch(''), // 評価ブロック(式。処理の前に評価する)
 })
 export type OmikujiItemControlType = z.infer<typeof OmikujiItemControlSchema>
 

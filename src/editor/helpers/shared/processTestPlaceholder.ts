@@ -4,40 +4,32 @@ import { DisplayVariableResolver } from '@/engine/DisplayVariable/DisplayVariabl
 import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
 import { ContentPlaceholder } from '@/engine/ContentPlaceholder/processor'
 import { PlaceholderContext } from '@/engine/ContentPlaceholder/context'
-import { VariablePlaceholderProcessor } from '@/engine/VariablePlaceholder/VariableProcessor'
 import { defaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
 
 /**
  * テスト用：メッセージのプレースホルダーを処理して bubble を返す
+ * (本番と同じ順: <<placeholder>> → [[変数]]。変数は空なので、[[ ]] は解決されずに残る)
  */
 export const processTestPlaceholder = (
   message: string,
   placeholders: Record<string, PlaceholderType>
 ): { text: string; hasError: boolean } => {
   try {
-    // 参照プレースホルダー
-    const dummyContext = new PlaceholderVariable()
-    const displayVariable = new DisplayVariableResolver(dummyContext)
-    const resolved = displayVariable.resolve(message)
-
     // プレースホルダー
     const contentPlaceholder = new ContentPlaceholder(placeholders)
     const context = new PlaceholderContext()
     context.updateValues(defaultPlaceholdersShortLabels)
     contentPlaceholder.updateResolvedValues(context.getAll())
-    const withStatic = contentPlaceholder.processText(resolved)
+    const withPlaceholders = contentPlaceholder.processText(message)
 
-    // 再解決
-    const resolved2 = displayVariable.resolve(withStatic)
+    // 参照 [[変数]]
+    const displayVariable = new DisplayVariableResolver(new PlaceholderVariable())
+    const text = displayVariable.resolve(withPlaceholders)
 
-    // 評価ブロック
-    const dynamicProcessor = new VariablePlaceholderProcessor(dummyContext)
-    const processed = dynamicProcessor.process(resolved2)
+    // 解決できなかった [[ ]] が残っていればエラー
+    const hasError = /\[\[[\s\S]*?\]\]/.test(text)
 
-    // 未処理 {{ }} が残っていればエラー
-    const hasError = /\{\{[\s\S]*?\}\}/.test(processed.text)
-
-    return { text: processed.text, hasError }
+    return { text, hasError }
   } catch {
     return {
       text: message,

@@ -35,8 +35,8 @@ describe('OmikujiResultProcessor.processTimeline', () => {
   let processor: OmikujiResultProcessor
   let deferred: BotMessageType[]
 
-  const run = (steps: ScenarioStepType[]) =>
-    processor.processTimeline(steps, {}, undefined, (messages) => deferred.push(...messages))
+  const run = (steps: ScenarioStepType[], placeholders: Record<string, string | number> = {}) =>
+    processor.processTimeline(steps, placeholders, undefined, (messages) => deferred.push(...messages))
   const getVar = (key: string) => placeholderVariable.getAll()[key]
 
   beforeEach(() => {
@@ -51,7 +51,7 @@ describe('OmikujiResultProcessor.processTimeline', () => {
   })
 
   it('delaySeconds が 0 の評価ブロックは、呼び出し中に評価される', async () => {
-    const { messages, handled } = await run([variable(0, '{{a = 5}}'), message(0, '{{a}}')])
+    const { messages, handled } = await run([variable(0, 'a = 5'), message(0, '[[a]]')])
 
     expect(getVar('a')).toBe(5)
     expect(messages.map(bubbleText)).toEqual(['5'])
@@ -59,7 +59,7 @@ describe('OmikujiResultProcessor.processTimeline', () => {
   })
 
   it('delaySeconds が 0 より大きい評価ブロックは、その時刻まで評価されない', async () => {
-    await run([variable(5, '{{a = 5}}')])
+    await run([variable(5, 'a = 5')])
 
     expect(getVar('a')).toBeUndefined()
     await vi.advanceTimersByTimeAsync(4999)
@@ -70,10 +70,10 @@ describe('OmikujiResultProcessor.processTimeline', () => {
 
   it('メッセージは、その時刻の変数の値で評価され、出力の遅れは basicDelaySeconds だけになる', async () => {
     const { messages } = await run([
-      variable(0, '{{a = 1}}'),
-      message(2, '{{a}}'),
-      variable(3, '{{a = 2}}'),
-      message(5, '{{a}}'),
+      variable(0, 'a = 1'),
+      message(2, '[[a]]'),
+      variable(3, 'a = 2'),
+      message(5, '[[a]]'),
     ])
     expect(messages).toEqual([])
 
@@ -84,7 +84,7 @@ describe('OmikujiResultProcessor.processTimeline', () => {
   })
 
   it('時刻が同じステップは、並べた順に実行される', async () => {
-    await run([variable(1, '{{a = 1}}'), variable(1, '{{a = a * 10 + 2}}'), message(1, '{{a}}')])
+    await run([variable(1, 'a = 1'), variable(1, 'a = a * 10 + 2'), message(1, '[[a]]')])
     await vi.advanceTimersByTimeAsync(1000)
 
     expect(deferred.map(bubbleText)).toEqual(['12'])
@@ -95,8 +95,31 @@ describe('OmikujiResultProcessor.processTimeline', () => {
     expect(delayedMessage.messages).toEqual([])
     expect(delayedMessage.handled).toBe(true)
 
-    const variableOnly = await run([variable(0, '{{a = 1}}'), variable(2, '{{b = 1}}')])
+    const variableOnly = await run([variable(0, 'a = 1'), variable(2, 'b = 1')])
     expect(variableOnly.messages).toEqual([])
     expect(variableOnly.handled).toBe(false)
+  })
+
+  it('変数名にも <<プレースホルダー>> を使える ([[anygame_<<userId>>]])', async () => {
+    const { messages } = await run(
+      [variable(0, 'anygame_<<userId>> = 5'), message(0, '[[anygame_<<userId>>]]')],
+      { userId: 'abc' }
+    )
+
+    expect(getVar('anygame_abc')).toBe(5)
+    expect(messages.map(bubbleText)).toEqual(['5'])
+  })
+
+  it('未定義の [[x]] はそのまま表示される', async () => {
+    const { messages } = await run([message(0, '点数は [[nothing]] です')])
+
+    expect(messages.map(bubbleText)).toEqual(['点数は [[nothing]] です'])
+  })
+
+  it('メッセージの {{ }} は評価されない (評価は variable ステップだけ)', async () => {
+    const { messages } = await run([message(0, '{{a = 1}}こんにちは')])
+
+    expect(getVar('a')).toBeUndefined()
+    expect(messages.map(bubbleText)).toEqual(['{{a = 1}}こんにちは'])
   })
 })

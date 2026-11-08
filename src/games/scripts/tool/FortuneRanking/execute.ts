@@ -1,5 +1,5 @@
 // src/games/scripts/tool/FortuneRanking/execute.ts
-import { ScenarioStepMessageSchema } from '@/types/OmikujiData'
+import { ScenarioStepMessageSchema, ScenarioStepVariableSchema } from '@/types/OmikujiData'
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { ScriptClass, ScriptResult } from '@/games/types'
 
@@ -16,23 +16,28 @@ export class ExecuteScript implements ScriptClass {
     // シャッフルして順位決定
     const shuffled = [...fruitPairs].sort(() => Math.random() - 0.5)
 
-    // {{fortune_xxx = n}} を連結生成
-    const placeholders = shuffled
+    // fortune_xxx = n を ; で連結生成 (variable ステップで評価する)
+    const assignments = shuffled
       .map((fruit, index) => {
         const rank = index + 1
-        return `{{${projectName}_${fruit.key} = ${rank}}}`
+        return `${projectName}_${fruit.key} = ${rank}`
       })
-      .join('')
+      .join('; ')
+
+    const variableAction = ScenarioStepVariableSchema.parse({
+      delaySeconds: 0,
+      message: assignments,
+    })
 
     const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 0,
       characterKey,
-      message: placeholders + '占いランキングを作成したよ',
+      message: '占いランキングを作成したよ',
       sound: 'decision',
     })
 
     return {
-      steps: [messageAction],
+      steps: [variableAction, messageAction],
       rankingMessages: [],
     }
   }
@@ -44,7 +49,7 @@ export class ExecuteScript implements ScriptClass {
     const { projectName, fruitPairs } = this.parseParams(queryString)
     const random = fruitPairs[Math.floor(Math.random() * fruitPairs.length)]
 
-    return `${random.label}は {{${projectName}_${random.key}}} で順位が出るよ`
+    return `${random.label}は [[${projectName}_${random.key}]] で順位が出るよ`
   }
 
   /**

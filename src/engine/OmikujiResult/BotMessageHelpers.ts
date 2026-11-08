@@ -4,7 +4,6 @@ import {
   BotMessageSchema,
   BotMessageSlotsType,
   BotMessageType,
-  VariablePlaceholderExtra,
   getUiMessageSpec,
 } from '@/types/generator'
 import { ScenarioStepMessageType } from '@/types/OmikujiData'
@@ -14,19 +13,17 @@ import { OmikenCommentType, UserNameSchema } from '@/types/OmikenComment'
 /**
  * ScenarioStepMessage から BotMessage を生成
  * - uiKey ごとの仕様 (bubble を使うか・slots) は UiMessageSpecs で決まる
- * - slots は、editor のフォームの値を、評価ブロックの slotN が上書きする
+ * - slots は、editor のフォームの値をそのまま使う(変数の値は [[key]] で入れる)
  */
 export function createBotMessagesFromStep(
   step: ScenarioStepMessageType,
-  extra: VariablePlaceholderExtra | undefined,
   delaySeconds: number,
   characterResolver?: CharacterResolver,
   omiken?: OmikenCommentType
 ): BotMessageType[] {
   const spec = getUiMessageSpec(step.uiKey)
   const user = omiken ? UserNameSchema.parse(omiken) : undefined
-  const merged = { ...step.slots, ...extra?.slots }
-  const slots = Object.keys(merged).length > 0 ? (merged as BotMessageSlotsType) : undefined
+  const slots = Object.keys(step.slots).length > 0 ? (step.slots as BotMessageSlotsType) : undefined
 
   if (spec.bubble) {
     // 本文が空でも作る (空メッセージを弾くのは UI 側の責務)

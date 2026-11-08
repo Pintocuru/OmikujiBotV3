@@ -2,6 +2,7 @@
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { DefaultPlaceholdersCommentSchema, DefaultPlaceholdersMetaSchema, ServiceMetaCondition } from '@/types/engine'
 import type { useAppStore } from '@/generator/stores/useAppStore'
+import { createUserIconMarkup } from '@/common/UserIconMarkup/userIconMarkup'
 
 type AppStore = ReturnType<typeof useAppStore>
 
@@ -26,7 +27,7 @@ function buildBasePlaceholders(store: AppStore): Record<ServiceMetaCondition, st
     lc: liveComments,
     commenter: uniqueCount,
     syoken,
-    winner: winner ? `{{icon ${winner.userId}}}${winner.userName}` : 'Null',
+    winner: winner ? `${createUserIconMarkup(winner.userId)}${winner.userName}` : 'Null',
     winnerId: winner ? winner.userId : 'Null',
     clock: `${h}時${m}分`,
   })
@@ -43,7 +44,7 @@ export function buildDefaultPlaceholders(store: AppStore, omiken?: OmikenComment
 
   return DefaultPlaceholdersCommentSchema.parse({
     ...basePlaceholders,
-    user: `{{icon ${omiken.userId}}}${omiken.userName}`,
+    user: `${createUserIconMarkup(omiken.userId)}${omiken.userName}`,
     userId: omiken.userId,
     price: omiken.giftPrice,
     giftCount: omiken.giftCount,

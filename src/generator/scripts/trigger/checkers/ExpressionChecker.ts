@@ -3,9 +3,8 @@ import { OmikenCommentType } from '@/types/OmikenComment'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { buildDefaultPlaceholders } from '@/generator/scripts/EventProcess/DefaultPlaceholderBuilder'
 import { evaluateTriggerExpression, TriggerExpressionContext } from './ExpressionEvaluator'
+import { stripLeadingUserIconMarkup } from '@/common/UserIconMarkup/userIconMarkup'
 
-// {{icon ID}} は本文表示用のマークアップなので、判定では取り除く (先頭のものだけ)
-const LEADING_ICON_MARKUP = /^\{\{icon [^}]*\}\}/
 
 /**
  * おみくじの式で作った変数 (placeholderVariable) だけから評価コンテキストを作る。
@@ -40,7 +39,8 @@ function buildTriggerExpressionContext(omiken: OmikenCommentType): TriggerExpres
 
   // 2. 標準値 (本文の <<lc>> などと同じ値)
   for (const [key, value] of Object.entries(buildDefaultPlaceholders(store, omiken))) {
-    context[key] = typeof value === 'string' ? value.replace(LEADING_ICON_MARKUP, '') : value
+    // アイコンの目印は本文表示用なので、判定では取り除く (先頭のものだけ)
+    context[key] = typeof value === 'string' ? stripLeadingUserIconMarkup(value) : value
   }
 
   // 3. user / userName は表示名そのもの (アイコン用マークアップなし)

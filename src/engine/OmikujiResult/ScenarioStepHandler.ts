@@ -46,45 +46,46 @@ export class ScenarioStepHandler {
     defaultPlaceholders: Record<string, string | number>,
     omiken?: OmikenCommentType
   ): BotMessageType[] {
-    // ステップ展開とプレースホルダー置換
     const expandedSteps = ScenarioCallExpander.expand(steps, this.scenarios)
-    const resolvedSteps = this.resolvePlaceholders(expandedSteps, defaultPlaceholders)
 
-    // 評価ブロック {{ }} の処理
-    const processedActions = this.generator.processVariables(resolvedSteps)
+    // 1 ステップずつ、置換 → (variable なら)評価の順に進める。前のステップが更新した変数を、後のステップの [[key]] が読めるように
+    const preparedSteps = expandedSteps.map((step) => {
+      const [resolved] = this.resolvePlaceholders([step], defaultPlaceholders)
+      this.generator.evaluateVariableStep(resolved)
+      return resolved
+    })
 
     // BotMessage 生成
-    return this.generator.postAndGenerate(processedActions, omiken)
+    return this.generator.postAndGenerate(preparedSteps, omiken)
   }
 
   /**
-   * control アイテムの variable (評価ブロック {{ }}) を評価
+   * control アイテムの variable (評価ブロック) を評価
    */
   evaluateVariable(variable: string, defaultPlaceholders: Record<string, string | number>): void {
     const step: ScenarioStepVariableType = { kind: 'variable', delaySeconds: 0, message: variable }
-    const resolved = this.resolvePlaceholders([step], defaultPlaceholders)
-    this.generator.processVariables(resolved)
+    const [resolved] = this.resolvePlaceholders([step], defaultPlaceholders)
+    this.generator.evaluateVariableStep(resolved)
   }
 
   /**
-   * 表示変数 [[key]] と <<placeholder>> を置換する
+   * <<placeholder>> → 表示変数 [[key]] の順に置換する
+   * (先に <<>> を置換するので、[[anygame_<<userId>>]] のように変数名にも <<>> を使える)
    */
   private resolvePlaceholders(
     steps: ScenarioStepType[],
     defaultPlaceholders: Record<string, string | number>
   ): ScenarioStepType[] {
-    const displayResolved = this.displayResolver.processSteps(steps)
-
     this.placeContext.updateValues(defaultPlaceholders)
     this.placeProcess.updateResolvedValues(this.placeContext.getAll())
-    const resolved = this.placeProcess.processSteps(displayResolved)
+    const placeholderResolved = this.placeProcess.processSteps(steps)
     this.placeContext.clear()
 
-    return resolved
+    return this.displayResolver.processSteps(placeholderResolved)
   }
 
   /**
-   *  評価ブロックは通さず、[[key]] と <<placeholder>> だけ置換する (gameScript の queryString 用)
+   *  variable の評価は行わず、<<placeholder>> と [[key]] だけ置換する (gameScript の queryString 用)
    */
   resolveSteps(
     steps: ScenarioStepType[],

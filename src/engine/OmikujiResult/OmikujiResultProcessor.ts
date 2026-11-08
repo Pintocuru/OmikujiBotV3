@@ -56,7 +56,7 @@ export class OmikujiResultProcessor {
           break
         }
 
-        // variable は式の評価のみ (吹き出しは作らない。lists / slots がある場合のみ Ranking メッセージ)
+        // variable は式の評価のみ (BotMessage は作らない)
         case 'scenarioCall':
         case 'message':
         case 'variable':

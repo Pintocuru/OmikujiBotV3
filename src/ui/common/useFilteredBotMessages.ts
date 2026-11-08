@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { isBubbleMessage, type BotMessageBubbleType } from '@/types/generator'
 import type { UiKind } from '@/types/OmikujiData'
+import { replaceUserIconMarkup } from '@/common/UserIconMarkup/userIconMarkup'
 
 type Options = {
   displaySeconds?: number | null // 表示秒数（0 は無期限）
@@ -65,7 +66,7 @@ export function resolveIconPlaceholders(
 ): string {
   if (!getProfileImage) return raw
 
-  return raw.replace(/\{\{icon\s+([^}]+)\}\}/g, (_, userId) => {
+  return replaceUserIconMarkup(raw, (userId) => {
     const url = getProfileImage(userId)
     return url ? `<img class="inline-block w-${userIconSize} h-${userIconSize} rounded-full" src="${url}" />` : ''
   })

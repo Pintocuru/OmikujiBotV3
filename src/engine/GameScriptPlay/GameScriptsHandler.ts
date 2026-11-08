@@ -22,13 +22,10 @@ export class GameScriptsHandler {
 
     const { steps, rankingMessages: scriptMessages } = scriptResult
 
-    // 2. 評価ブロックを処理
-    const processedSteps = this.generator.processVariables(steps)
+    // 2. variable ステップの評価ブロックを評価
+    for (const step of steps) this.generator.evaluateVariableStep(step)
 
     // 3. わんコメへ投稿 & BotMessage を生成
-    return [
-      ...scriptMessages.map(fromRankingEntry),
-      ...this.generator.postAndGenerate(processedSteps, omiken),
-    ]
+    return [...scriptMessages.map(fromRankingEntry), ...this.generator.postAndGenerate(steps, omiken)]
   }
 }

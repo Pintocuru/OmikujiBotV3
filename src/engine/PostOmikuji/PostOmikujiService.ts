@@ -9,6 +9,7 @@ import { executeWordParty } from '@/sdk/post/PostWordParty'
 import { postComment, postSpeech } from '@/sdk/post/PostOneComme'
 import { SendCommentSchema, SendCommentType } from '@/types/subscribe'
 import { POST_SETTINGS } from '@/sdk/PostSettings'
+import { stripUserIconMarkup } from '@/common/UserIconMarkup/userIconMarkup'
 import { describeError, showErrorNotice } from '@/generator/scripts/Notice/showNotice'
 
 const MAX_REPEAT_COUNT = 30
@@ -158,8 +159,7 @@ function notifyPostError(error: unknown): void {
 
 function cleanPostMessage(raw: string): string {
   return raw
-    ? raw
-        .replace(/\{\{[^}]+\}\}/g, '')
+    ? stripUserIconMarkup(raw)
         .replace(/<<[^>]+>>/g, '')
         .trim()
     : ''

@@ -64,6 +64,7 @@
   import CommentBubbleMessagePreview from './CommentBubbleMessagePreview.vue'
   import { getUiPreview } from '@/editor/ui/uiEditorRegistry'
   import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
+  import { replaceUserIconMarkup } from '@/common/UserIconMarkup/userIconMarkup'
 
   const { t } = useI18n()
 
@@ -129,9 +130,9 @@
   })
 
   function transformIconPlaceholdersPreview(raw: string): string {
-    return raw.replace(/\{\{icon\s+([^\}]+)\}\}/g, (_, userId) => {
+    return replaceUserIconMarkup(raw, (userId) => {
       // userId の頭文字を使った placeholder
-      const initial = String(userId).charAt(0).toUpperCase()
+      const initial = userId.charAt(0).toUpperCase()
 
       return `
       <span class="avatar placeholder mr-1 inline-flex">

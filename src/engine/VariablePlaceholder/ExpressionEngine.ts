@@ -8,6 +8,8 @@ const MIN_VALUE = -999999999
 // 代入(=, +=, -=, *=, /=)の判定。比較演算子 == は代入として扱わない
 const ASSIGNMENT_PATTERN = /[a-zA-Z_][a-zA-Z0-9_]*\s*[\+\-\*\/]?=(?!=)/
 const ASSIGNMENT_HEAD_PATTERN = /^([a-zA-Z_][a-zA-Z0-9_]*)\s*[\+\-\*\/]?=(?!=)/
+// 複合代入 (+=, -=, *=, /=)。expr-eval は対応していないので、評価の前に通常の代入へ書き換える
+const COMPOUND_ASSIGNMENT_PATTERN = /^([a-zA-Z_][a-zA-Z0-9_]*)\s*([\+\-\*\/])=(?!=)\s*([\s\S]+)$/
 
 /**
  * expr-eval-fork ベースの式評価エンジン
@@ -84,7 +86,7 @@ export class ExpressionEngine extends KeyValueMap {
    * 単一の式を評価してステートを更新
    */
   private evaluateSingle(expression: string): string | number | boolean {
-    const trimmed = expression.trim()
+    const trimmed = this.expandCompoundAssignment(expression.trim())
 
     try {
       const context = this.buildContext()
@@ -114,6 +116,18 @@ export class ExpressionEngine extends KeyValueMap {
     } catch (error) {
       throw new Error(`式の評価に失敗しました: "${trimmed}" - ${error}`)
     }
+  }
+
+  /**
+   * 複合代入を通常の代入に書き換える: `x += a * 2` → `x = x + (a * 2)`
+   * (右辺を括弧で囲むので、`x -= 1 + 1` も `x = x - (1 + 1)` として計算される)
+   */
+  private expandCompoundAssignment(statement: string): string {
+    const match = statement.match(COMPOUND_ASSIGNMENT_PATTERN)
+    if (!match) return statement
+
+    const [, name, operator, right] = match
+    return `${name} = ${name} ${operator} (${right.trim()})`
   }
 
   /**
