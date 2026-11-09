@@ -1,61 +1,63 @@
 <!-- src/editor/helpers/presetsImport/ConfigImportModal.vue -->
 <template>
-  <div class="modal modal-open">
-    <div class="modal-box max-w-3xl">
-      <SectionCard
-        icon="Merge"
-        variant="success"
-        :label="t('presetImport.previewTitle')"
-        :description="
-          importManager.previewData.value
-            ? t(`presetImport.totalItems.${importManager.previewData.value.totalItems === 1 ? 'one' : 'other'}`, {
-                count: importManager.previewData.value.totalItems,
-              })
-            : ''
-        "
-      >
-        <div v-if="importManager.previewData.value" class="space-y-4">
-          <!-- Record型カテゴリ別設定 -->
-          <div class="space-y-2">
-            <h3 class="font-semibold text-lg">{{ t('presetImport.dataCategories') }}</h3>
-            <template v-for="(config, category) in importManager.previewData.value.recordCategories" :key="category">
-              <CategoryConfigSection
-                v-if="config.count > 0"
-                :category="category"
-                :config="config"
-                :import-manager="importManager"
-              />
-            </template>
-          </div>
+  <!-- 親が v-if で外す使い方のため、閉じるアニメーションは出ない(許容済み) -->
+  <BaseDialog
+    :open="importManager.showPreviewModal.value"
+    :title="t('presetImport.previewTitle')"
+    icon="Merge"
+    size="3xl"
+    @update:open="onUpdateOpen"
+  >
+    <div v-if="importManager.previewData.value" class="space-y-4">
+      <p class="text-sm opacity-70">
+        {{
+          t(`presetImport.totalItems.${importManager.previewData.value.totalItems === 1 ? 'one' : 'other'}`, {
+            count: importManager.previewData.value.totalItems,
+          })
+        }}
+      </p>
 
-          <!-- アイテム設定 -->
-          <div v-if="Object.keys(mergedComponentConfigs).length > 0" class="space-y-2">
-            <h3 class="font-semibold text-lg">{{ t('presetImport.itemSettings') }}</h3>
-            <ComponentConfigSection
-              v-for="(entry, component) in mergedComponentConfigs"
-              :key="component"
-              :componentKey="component as UiKind"
-              :config="entry.config"
-              :is-import-only="entry.isImportOnly"
-              :import-manager="importManager"
-            />
-          </div>
-
-          <ModalFooterActions
-            class="pt-4"
-            :on-cancel="importManager.closePreviewModal"
-            :on-save="handleImportConfirm"
-            :save-name="t('presetImport.import')"
-            :disabled="!importManager.enabledCategories.value.length || !importManager.previewData.value"
+      <!-- Record型カテゴリ別設定 -->
+      <div class="space-y-2">
+        <h3 class="font-semibold text-lg">{{ t('presetImport.dataCategories') }}</h3>
+        <template v-for="(config, category) in importManager.previewData.value.recordCategories" :key="category">
+          <CategoryConfigSection
+            v-if="config.count > 0"
+            :category="category"
+            :config="config"
+            :import-manager="importManager"
           />
-        </div>
+        </template>
+      </div>
 
-        <div v-else class="text-center py-8">
-          <div class="text-gray-500">{{ t('presetImport.loadingPreview') }}</div>
-        </div>
-      </SectionCard>
+      <!-- アイテム設定 -->
+      <div v-if="Object.keys(mergedComponentConfigs).length > 0" class="space-y-2">
+        <h3 class="font-semibold text-lg">{{ t('presetImport.itemSettings') }}</h3>
+        <ComponentConfigSection
+          v-for="(entry, component) in mergedComponentConfigs"
+          :key="component"
+          :componentKey="component as UiKind"
+          :config="entry.config"
+          :is-import-only="entry.isImportOnly"
+          :import-manager="importManager"
+        />
+      </div>
     </div>
-  </div>
+
+    <div v-else class="text-center py-8">
+      <div class="text-gray-500">{{ t('presetImport.loadingPreview') }}</div>
+    </div>
+
+    <template #actions>
+      <ModalFooterActions
+        class="w-full"
+        :on-cancel="importManager.closePreviewModal"
+        :on-save="handleImportConfirm"
+        :save-name="t('presetImport.import')"
+        :disabled="!importManager.enabledCategories.value.length || !importManager.previewData.value"
+      />
+    </template>
+  </BaseDialog>
 </template>
 
 <script setup lang="ts">
@@ -65,7 +67,7 @@
   import CategoryConfigSection from './CategoryConfigSection.vue'
   import ComponentConfigSection from './ComponentConfigSection.vue'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
-  import SectionCard from '@/editor/parts/SectionCard.vue'
+  import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import { ComponentImportConfig } from '@/editor/types'
   import { UiKind } from '@/types/OmikujiData'
 
@@ -93,6 +95,11 @@
       return result
     }
   )
+
+  // ×・Esc・バックドロップで閉じたときは、キャンセルと同じ扱い
+  const onUpdateOpen = (open: boolean) => {
+    if (!open) props.importManager.closePreviewModal()
+  }
 
   const handleImportConfirm = () => {
     try {

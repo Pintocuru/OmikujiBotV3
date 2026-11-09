@@ -67,3 +67,15 @@
 
 - 内部コンポーネント(CharacterMappingEditor 等)の中身が `max-h-[90vh]` のダイアログ内でスクロールしても崩れないか(従来の見た目と同じ構造のため大きな差は想定していない)
 - `CharacterSummary.vue` 上で2つのボタンから開く動作
+
+#### patch 4: ConfigImportModal を BaseDialog へ
+
+- `ConfigImportModal.vue`: `div.modal.modal-open` + `SectionCard` ヘッダーをやめ `BaseDialog`(`:open="importManager.showPreviewModal.value"`、`icon="Merge"`、`size="3xl"`)に。SectionCard の `label` → `title`、`description`(合計件数)は本文先頭の小さな段落へ。`variant="success"` の色は失われた
+- `ModalFooterActions` は `actions` スロット。×・Esc・バックドロップは `onUpdateOpen` で `closePreviewModal()` に接続
+- 親(`DataPacks.vue` / `FileMenuDropdown.vue`)は `v-if` のまま変更なし。閉じるアニメーションは出ない(本人が許容: 判断済み)
+- 検証: `vue-tsc --noEmit` エラー0、`eslint src/editor/helpers/presetsImport` 問題なし。実ブラウザは未確認
+
+未確認(本人確認待ち):
+
+- DataPacks と FileMenuDropdown の両方から開いてプレビュー・取り込み・キャンセルが動くこと
+- 大量のカテゴリがあるとき、`max-h-[90vh]` のダイアログ内スクロールで見づらくないか
