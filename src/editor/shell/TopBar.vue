@@ -1,58 +1,70 @@
 <!-- src/editor/shell/TopBar.vue -->
 <!-- 常設の上部バー: タイトル・ファイル名・保存・切り替え類をまとめる。色は DaisyUI のテーマに従う(開発時のファイル区別用) -->
 <template>
-  <header class="flex items-center gap-2 p-2 bg-primary text-primary-content shadow-md z-40">
-    <!-- サイドバー開閉 -->
-    <div v-if="!showGenerator" class="tooltip tooltip-bottom" :data-tip="t('shell.topBar.sidebar')">
-      <button
-        class="btn btn-sm btn-square btn-ghost text-primary-content hover:bg-primary-content/15"
-        :aria-label="t('shell.topBar.sidebar')"
-        @click="toggleSidebar"
-      >
-        <Menu class="w-5 h-5" />
-      </button>
-    </div>
-
-    <!-- タイトル -->
-    <div>
-      <button
-        type="button"
-        class="font-extrabold text-lg whitespace-nowrap hover:opacity-80 cursor-pointer"
-        @click="navigationStore.showTopPage()"
-      >
-        {{ t('appHeader.title') }}
-      </button>
-      <!-- バージョン -->
-      <div class="-mt-3 -mb-2 text-right">
+  <header class="flex items-center justify-between p-2 bg-primary text-primary-content shadow-md z-40">
+    <!-- 左側 -->
+    <div class="flex items-center gap-2 min-w-0">
+      <!-- サイドバー開閉 -->
+      <div v-if="!showGenerator" class="tooltip tooltip-bottom" :data-tip="t('shell.topBar.sidebar')">
         <button
-          class="shrink-0 badge badge-xs border-0"
-          :class="versionInfo.hasNewVersion ? 'badge-warning' : ''"
-          :title="versionInfo.hasNewVersion ? t('shell.topBar.versionNew') : t('shell.topBar.versionInfo')"
-          @click="showUpdateDialog"
+          class="btn btn-sm btn-square btn-ghost text-primary-content hover:bg-primary-content/15"
+          :aria-label="t('shell.topBar.sidebar')"
+          @click="toggleSidebar"
         >
-          {{ versionInfo.current }}
+          <Menu class="w-5 h-5" />
         </button>
-        <span v-if="versionInfo.error" class="badge badge-sm badge-error border-0 shrink-0" :title="versionInfo.error">
-          !
+      </div>
+
+      <!-- タイトル -->
+      <div>
+        <button
+          type="button"
+          class="font-extrabold text-lg whitespace-nowrap hover:opacity-80 cursor-pointer"
+          @click="navigationStore.showTopPage()"
+        >
+          {{ t('appHeader.title') }}
+        </button>
+
+        <!-- バージョン -->
+        <div class="-mt-3 -mb-2 text-right">
+          <button
+            class="shrink-0 badge badge-xs border-0"
+            :class="versionInfo.hasNewVersion ? 'badge-warning' : ''"
+            :title="versionInfo.hasNewVersion ? t('shell.topBar.versionNew') : t('shell.topBar.versionInfo')"
+            @click="showUpdateDialog"
+          >
+            {{ versionInfo.current }}
+          </button>
+
+          <span
+            v-if="versionInfo.error"
+            class="badge badge-sm badge-error border-0 shrink-0"
+            :title="versionInfo.error"
+          >
+            !
+          </span>
+        </div>
+      </div>
+
+      <!-- ファイル情報 -->
+      <div class="flex items-center gap-2 min-w-0">
+        <span v-if="fileLabel" class="badge badge-sm truncate" :title="fileLabel">
+          {{ fileLabel }}
         </span>
+
+        <IssuesBadge />
       </div>
     </div>
 
-    <!-- データソース・ファイル名・バージョン -->
-    <div class="flex">
-      <!-- ファイル名 -->
-      <span v-if="fileLabel" class="badge badge-sm truncate" :title="fileLabel">{{ fileLabel }}</span>
-      <IssuesBadge />
-    </div>
+    <!-- 右側 -->
+    <div class="flex items-center gap-2 shrink-0">
+      <!-- 開く・保存 -->
+      <template v-if="!showGenerator">
+        <ManagerView />
+        <SaveMenu />
+      </template>
 
-    <!-- 右: 開く・保存・切り替え -->
-    <div v-show="!showGenerator" class="ml-auto flex items-center gap-2 shrink-0">
-      <ManagerView />
-      <SaveMenu />
-    </div>
-
-    <!-- ジェネレーターサンプル -->
-    <div class="ml-auto flex items-center gap-2 shrink-0">
+      <!-- Generator -->
       <div class="tooltip tooltip-bottom" :data-tip="generatorTitle">
         <button
           class="btn btn-sm gap-2 shadow"
@@ -65,7 +77,7 @@
         </button>
       </div>
 
-      <!-- DaisyUi テーマ変更ボタン -->
+      <!-- テーマ変更 -->
       <div class="tooltip tooltip-bottom" :data-tip="themeTitle">
         <button class="btn btn-sm btn-square shadow" :aria-label="themeTitle" @click="toggleDaisyUiTheme">
           <component :is="isDark ? Sun : Moon" class="w-4 h-4" />
