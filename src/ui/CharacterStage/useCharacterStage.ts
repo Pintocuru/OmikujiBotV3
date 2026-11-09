@@ -20,7 +20,7 @@ const FORCE_REMOVE_MARGIN = 1000
  */
 export const useCharacterStage = (settings: Ref<CharacterStageType>) => {
   const appStore = useAppStore()
-  const { botMessages, data } = storeToRefs(appStore)
+  const { botMessages } = storeToRefs(appStore)
   const { getCharacterLayers, getCharacterAnimation } = useCharacters(() => appStore.data.assets.characters)
 
   const items = ref<StageItem[]>([])
@@ -83,7 +83,6 @@ export const useCharacterStage = (settings: Ref<CharacterStageType>) => {
   const stopWatch = watch(
     botMessages,
     (list) => {
-      if (!data.value.ui.settings.characterStage) return // この UI が有効でなければ何もしない
       for (const msg of list) {
         if (msg.uiKey !== 'characterStage' || !isBubbleMessage(msg) || processed.has(msg.id)) continue
         processed.add(msg.id)
