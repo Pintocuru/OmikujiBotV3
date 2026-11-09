@@ -5,7 +5,6 @@
     icon="Send"
     layout="vertical"
     labelKey="characterService.voice.label"
-    descriptionKey="characterService.voice.cardDescription"
   >
     <template #label-extra>
       <button
