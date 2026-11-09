@@ -9,7 +9,6 @@
     "updateFilesName": "tsx tools/fileName/UpdateTsFiles.ts",
     "lint": "eslint src",
     "tsc": "npx vue-tsc --noEmit",
-    "sync:meta": "tsx packages/syncMeta.ts",
     "build": "tsx packages/build.ts",
     "build:plugin": "vite build --config tools/viteConfig/vite.botPlugin.config.ts"
   },
