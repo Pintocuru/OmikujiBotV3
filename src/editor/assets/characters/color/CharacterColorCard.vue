@@ -5,7 +5,6 @@
     icon="Palette"
     layout="vertical"
     labelKey="characterService.cards.edit"
-    descriptionKey="characterService.cards.colorDescription"
   >
     <template #label-extra>
       <button
