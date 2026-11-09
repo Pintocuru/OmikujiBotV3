@@ -5,7 +5,10 @@
     class="tooltip tooltip-bottom"
     :data-tip="t(hasInvalidCharacters ? 'characterChanger.tooltip.invalid' : 'characterChanger.tooltip.normal')"
   >
-    <button :class="['btn', 'btn-sm', 'gap-2', hasInvalidCharacters ? 'btn-warning animate-pulse' : 'btn-ghost']" @click="openModal">
+    <button
+      :class="['btn', 'btn-sm', 'gap-2', hasInvalidCharacters ? 'btn-warning animate-pulse' : 'btn-ghost']"
+      @click="openModal"
+    >
       <Users class="w-4 h-4" />
       {{ t('characterChanger.buttonLabel') }}
       <span v-if="hasInvalidCharacters" class="badge badge-sm">
@@ -51,7 +54,8 @@
       />
 
       <div v-if="!isEditing && uniqueCharacterKeys.length > visibleMappingKeys.length" class="text-center">
-        <button class="btn btn-sm btn-ghost" @click="isEditing = true">
+        <!-- キャラクターを変更する -->
+        <button class="btn btn-sm btn-secondary" @click="isEditing = true">
           {{ t(visibleMappingKeys.length > 0 ? 'characterChanger.changeAll' : 'characterChanger.change') }}
         </button>
       </div>
@@ -108,7 +112,12 @@
   const { getCharacterName } = useCharacterLookup()
 
   // データ抽出（selectedIdがある場合は単一イベントのみ対象）
-  const { changeScope, scopeLabel, allTargets: extractedTargets, totalItems } = useDataExtractor(
+  const {
+    changeScope,
+    scopeLabel,
+    allTargets: extractedTargets,
+    totalItems,
+  } = useDataExtractor(
     props.category,
     () => props.selectedId,
     () => props.itemId

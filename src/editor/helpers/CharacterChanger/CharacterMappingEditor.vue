@@ -23,7 +23,9 @@
             getCharacterName(charKey) ? 'badge-outline' : 'badge-error',
           ]"
         >
-          {{ getCharacterName(charKey) || `⚠️ ${t('mapping.undefinedKey', { key: charKey || t('mapping.emptyKey') })}` }}
+          {{
+            getCharacterName(charKey) || `⚠️ ${t('mapping.undefinedKey', { key: charKey || t('mapping.emptyKey') })}`
+          }}
         </div>
         <p class="text-xs text-gray-400 mt-1">{{ usageInUse(usageCount[charKey]) }}</p>
       </div>
@@ -70,8 +72,7 @@
 
   const { characterArray, getCharacterName } = useCharacterLookup()
 
-  const usageInUse = (count: number) =>
-    t(`mapping.usageInUse.${count === 1 ? 'one' : 'other'}`, { count })
+  const usageInUse = (count: number) => t(`mapping.usageInUse.${count === 1 ? 'one' : 'other'}`, { count })
 
   // マッピング値を取得
   const getMappingValue = (charKey: string) => props.characterMappings[charKey] || ''
