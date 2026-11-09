@@ -56,7 +56,7 @@
     </div>
 
     <!-- ステージ: 余白をスクロールできる領域の中に、サイズ可変の枠を置く -->
-    <div class="flex-1 min-h-0 max-h-10/12 overflow-auto rounded bg-base-300">
+    <div class="min-h-0 flex-1 overflow-auto rounded bg-base-300">
       <div
         ref="outerRef"
         class="relative overflow-hidden outline outline-base-content/30"
@@ -160,11 +160,11 @@
 </script>
 
 <style scoped>
-  /* ジェネレーターのルートは h-screen(画面高さ)なので、ステージ内では枠の高さに合わせる */
+  /* ジェネレーターのルートは親の高さを継承するため、ステージ内では枠の高さに合わせる */
   .stage-inner :deep(.h-screen) {
     height: 100%;
   }
-  /* 100% の高さは、親が高さを持っていないと 0 になる。ジェネレーターのルート(h-screen の親)にも高さを渡す */
+  /* 100% の高さは、親が高さを持っていないと 0 になる。ジェネレーターのルートにも高さを渡す */
   .stage-inner > :deep(*) {
     height: 100%;
   }
