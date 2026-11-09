@@ -8,7 +8,7 @@
       :class="animationClass"
       :style="{ ...animationStyle, zIndex: sources.length - i }"
     >
-      <MediaLayer class="w-full h-full" :src="item.src" @error="onError(item.index)" />
+      <MediaLayer class="w-full h-full" :src="item.src" :muted="muted" @error="onError(item.index)" />
     </div>
   </div>
 </template>
@@ -22,13 +22,19 @@
   import 'animate.css'
   import './animations.css'
 
-  const props = defineProps<{
-    layers: string[] | string
-    size?: number | string // 正方形サイズ（数値は px 扱い）
-    width?: number | string // 縦横比が異なる場合の個別指定（size より優先）
-    height?: number | string
-    animation?: CharacterAnimationType
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      layers: string[] | string
+      size?: number | string // 正方形サイズ（数値は px 扱い）
+      width?: number | string // 縦横比が異なる場合の個別指定（size より優先）
+      height?: number | string
+      animation?: CharacterAnimationType
+      muted?: boolean
+    }>(),
+    {
+      muted: true,
+    }
+  )
 
   const toCssUnit = (val?: number | string): string | undefined => {
     if (val === undefined || val === null) return undefined
