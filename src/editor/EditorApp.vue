@@ -5,7 +5,7 @@
     <SidebarDrawer />
 
     <!-- メインコンテンツ -->
-    <div class="h-full overflow-y-auto p-4 pb-16">
+    <div class="h-full overflow-y-auto p-4 pb-16 xl:pl-64">
       <!-- デブワールド(NoData) -->
       <AppDevWorld v-if="isDevWorld" />
       <!-- トップページ -->

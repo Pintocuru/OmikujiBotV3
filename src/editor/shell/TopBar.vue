@@ -5,7 +5,7 @@
     <!-- 左側 -->
     <div class="flex items-center gap-2 min-w-0">
       <!-- サイドバー開閉 -->
-      <div v-if="!showGenerator" class="tooltip tooltip-bottom" :data-tip="t('shell.topBar.sidebar')">
+      <div v-if="!showGenerator" class="tooltip tooltip-bottom xl:hidden" :data-tip="t('shell.topBar.sidebar')">
         <button
           class="btn btn-sm btn-square btn-ghost text-primary-content hover:bg-primary-content/15"
           :aria-label="t('shell.topBar.sidebar')"
