@@ -4,7 +4,7 @@
     v-if="isVideo"
     :src="src"
     autoplay
-    muted
+    :muted="muted"
     loop
     playsinline
     class="object-contain w-full h-full"
@@ -16,9 +16,15 @@
 <script setup lang="ts">
   import { computed } from 'vue'
 
-  const props = defineProps<{
-    src: string
-  }>()
+  withDefaults(
+    defineProps<{
+      src: string
+      muted?: boolean
+    }>(),
+    {
+      muted: true,
+    }
+  )
   const emit = defineEmits<{
     error: []
   }>()
