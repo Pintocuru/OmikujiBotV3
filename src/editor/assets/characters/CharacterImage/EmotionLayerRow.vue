@@ -73,13 +73,27 @@
       </button>
     </div>
 
+    <!-- 読み込みの状態 (編集画面だけ。配信表示は、読めない画像を黙って非表示にする) -->
+    <p v-if="status === 'checking'" class="text-xs text-base-content/50">
+      {{ t('characterImage.layer.status.checking') }}
+    </p>
+    <p v-else-if="status === 'loaded'" class="text-xs text-success">{{ t('characterImage.layer.status.loaded') }}</p>
+    <p v-else-if="status === 'error'" class="flex items-center gap-1 text-xs text-warning">
+      <TriangleAlert class="w-3.5 h-3.5 shrink-0" />
+      {{ t('characterImage.layer.status.error') }}
+    </p>
+    <p v-if="warning" class="flex items-start gap-1 text-xs text-warning">
+      <TriangleAlert class="w-3.5 h-3.5 shrink-0 mt-0.5" />
+      {{ warning }}
+    </p>
+
     <ImagePreview :layers="path" :width="128" />
   </div>
 </template>
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { ChevronDown, ChevronUp, FolderOpen, ScanSearch, X } from 'lucide-vue-next'
+  import { ChevronDown, ChevronUp, FolderOpen, ScanSearch, TriangleAlert, X } from 'lucide-vue-next'
   import ImagePreview from '@/common/LayerImage/ImagePreview.vue'
   import { useLayerStatus } from './composables/useLayerStatus'
 
