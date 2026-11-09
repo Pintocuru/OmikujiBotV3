@@ -1,4 +1,4 @@
-// src/generator/stores/UserStats/UserStatsManager.ts
+// src/common/UserStats/UserStatsManager.ts
 import { UserStatsRecord } from '@/types/api'
 import { OmikenCommentType } from '@/types/OmikenComment'
 

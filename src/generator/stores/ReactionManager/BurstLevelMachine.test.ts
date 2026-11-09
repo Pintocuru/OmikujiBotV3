@@ -1,3 +1,4 @@
+// src/generator/stores/ReactionManager/BurstLevelMachine.test.ts
 import { describe, expect, it, vi } from 'vitest'
 import { BurstLevelMachine } from './BurstLevelMachine'
 

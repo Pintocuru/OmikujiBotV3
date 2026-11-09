@@ -1,4 +1,4 @@
-<!-- src/layout/CommentBubble/CommentBubble.vue -->
+<!-- src/layout/common/CommentBubble/CommentBubble.vue -->
 <template>
   <!-- フキダシのレイアウトは、該当に任せる -->
   <CommentBubble />

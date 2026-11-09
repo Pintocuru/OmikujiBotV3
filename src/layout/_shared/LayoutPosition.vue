@@ -1,4 +1,4 @@
-<!-- src/layout/common/LayoutPosition.vue -->
+<!-- src/layout/_shared/LayoutPosition.vue -->
 <template>
   <div class="flex h-full w-full items-center" :class="alignmentClass">
     <slot />

@@ -1,4 +1,4 @@
-<!-- src/layout/GameRanking/GameRanking.vue -->
+<!-- src/layout/common/GameRanking/GameRanking.vue -->
 <template>
   <!-- フキダシ・トーストは専用uiとしてこのままにする -->
   <GameRanking />

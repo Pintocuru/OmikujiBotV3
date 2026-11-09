@@ -1,4 +1,4 @@
-<!-- src/layout/SesupinTest/SesupinTest.vue -->
+<!-- src/layout/common/SesupinTest/SesupinTest.vue -->
 <template>
   <!-- 自由に差し替えて良い -->
   <KujibikiPanel />

@@ -1,3 +1,3 @@
-// src/i18n/editor/index.ts
+// src/i18n/common/index.ts
 
 // export * from './messageModules'

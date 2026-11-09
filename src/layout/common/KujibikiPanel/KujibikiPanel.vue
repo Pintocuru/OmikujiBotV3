@@ -1,4 +1,4 @@
-<!-- src/layout/KujibikiPanel/KujibikiPanel.vue -->
+<!-- src/layout/common/KujibikiPanel/KujibikiPanel.vue -->
 <template>
   <CharacterStage />
   <!-- おみくじパネル -->
