@@ -1,15 +1,15 @@
 <!-- src/editor/shell/GeneratorView.vue -->
 <template>
   <!-- 左: ジェネレーターの表示ステージ / 右: ツール(重ならないよう横に並べる) -->
-  <div class="flex h-screen bg-base-100 text-base-content">
-    <div class="flex-1 min-w-0 p-2">
+  <div class="flex h-full min-h-0 min-w-0 overflow-hidden bg-base-100 text-base-content">
+    <div class="min-h-0 min-w-0 flex-1 p-2">
       <GeneratorStage>
         <GeneratorApp />
       </GeneratorStage>
     </div>
 
     <!-- ツール(右上は切り替えボタンが使うので、上を空ける) -->
-    <aside v-show="showTools" class="w-104 shrink-0 overflow-y-auto space-y-2 pt-14 pr-2 pb-2">
+    <aside v-show="showTools" class="w-104 max-w-[40%] min-w-0 shrink-0 overflow-x-hidden overflow-y-auto space-y-2 pt-14 pr-2 pb-2">
       <TestComment />
       <VirtualStreamPanel />
       <EvaluationBlock />
