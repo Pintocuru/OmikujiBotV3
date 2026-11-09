@@ -23,7 +23,7 @@ export const uiMapMessages = {
       uiKind: {
         characterStage: {
           label: 'キャラクターステージ',
-          description: 'キャラクター画像だけを、指定した位置・秒数で表示します(演出用)。',
+          description: '演出向け。キャラクター画像を、指定した位置・秒数で表示します。',
         },
         commentBubble: {
           label: 'フキダシ',
