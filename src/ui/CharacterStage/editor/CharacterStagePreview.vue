@@ -6,7 +6,7 @@
       <!-- 既定の位置レンジ(キャラの中心 X / 下辺 Y が、この範囲に出る) -->
       <div class="absolute border border-dashed border-white/70 bg-white/10 pointer-events-none" :style="rangeStyle" />
 
-      <CharacterStageLayer :items="items" @remove="remove" />
+      <CharacterStageLayer :items="items" :muted="false" @remove="remove" />
 
       <div
         v-if="!canPreview"
