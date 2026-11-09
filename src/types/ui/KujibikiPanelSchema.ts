@@ -5,7 +5,7 @@ import { enterMotions } from '../OmikujiData/assets/EnterMotionSchema'
 // KujibikiPanel のコンポーネントセット
 export const kujibikiComponentSets = {
   standard: ['omikuji', 'flower'],
-  fortune: ['tarot'],
+  fortune: ['tarot', 'bigBang'],
   special: ['faceCutout'],
 } as const
 
