@@ -82,6 +82,8 @@ import {
   Home,
   Hourglass,
   FilePen,
+  Braces,
+  TriangleAlert,
 } from 'lucide-vue-next'
 
 // map（as const で literal 型を保持）
@@ -165,6 +167,8 @@ export const lucideIconMap = {
   Home,
   Hourglass,
   FilePen,
+  Braces,
+  TriangleAlert,
 } as const
 
 // map から union 型を生成

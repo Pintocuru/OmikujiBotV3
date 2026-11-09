@@ -50,6 +50,7 @@
         <textarea
           ref="textareaRef"
           v-model="draftText"
+          autofocus
           class="textarea textarea-bordered flex-1 min-h-16 font-mono text-sm resize-none leading-relaxed w-full"
           :placeholder="t('scenarioStep.messageDialog.textareaPlaceholder', { userName: '<<userName>>', r: '<<r>>' })"
           @keydown.ctrl.enter="handleSave"
@@ -124,7 +125,6 @@
   const openDialog = () => {
     draftText.value = props.modelValue
     baseDialog.value?.showModal()
-    nextTick(() => textareaRef.value?.focus())
   }
 
   const handleSave = () => {

@@ -4,23 +4,8 @@
   << '候補1', '候補2', '候補3' >> 形式のテキストを生成して挿入する
 -->
 <template>
-  <dialog ref="dialogRef" class="modal modal-bottom sm:modal-middle">
-    <div class="modal-box w-11/12 max-w-lg flex flex-col gap-3">
-      <!-- ヘッダー -->
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <Braces :size="18" class="text-accent" />
-          <h3 class="font-bold text-base">{{ t('scenarioStep.inlinePh.title') }}</h3>
-        </div>
-        <button
-          class="btn btn-sm btn-ghost btn-circle"
-          :aria-label="t('scenarioStep.common.cancel')"
-          @click="close"
-        >
-          <X :size="16" />
-        </button>
-      </div>
-
+  <BaseDialog v-model:open="isOpen" :title="t('scenarioStep.inlinePh.title')" icon="Braces" size="xl">
+    <div class="flex flex-col gap-3">
       <!-- 説明 -->
       <div class="alert alert-info text-xs py-2">
         <Info :size="14" />
@@ -49,6 +34,7 @@
               type="text"
               class="input input-bordered input-sm flex-1 font-mono text-sm"
               :placeholder="t('scenarioStep.inlinePh.candidatePlaceholder', { n: idx + 1, ph: '<<user>>' })"
+              :autofocus="idx === 0"
               @keydown.enter="idx === items.length - 1 ? addItem() : undefined"
             />
             <button
@@ -62,42 +48,38 @@
           </div>
         </div>
       </div>
-
-      <!-- フッター -->
-      <div class="flex justify-end gap-2">
-        <button class="btn btn-sm btn-ghost" @click="close">{{ t('scenarioStep.common.cancel') }}</button>
-        <button class="btn btn-sm btn-primary gap-2" :disabled="!canInsert" @click="insert">
-          <CornerDownLeft class="w-4 h-4" />
-          {{ t('scenarioStep.common.insert') }}
-        </button>
-      </div>
     </div>
 
-    <form method="dialog" class="modal-backdrop">
-      <button :aria-label="t('scenarioStep.common.cancel')" @click="close">{{ t('scenarioStep.common.cancel') }}</button>
-    </form>
-  </dialog>
+    <template #actions>
+      <button class="btn btn-sm btn-ghost" @click="close">{{ t('scenarioStep.common.cancel') }}</button>
+      <button class="btn btn-sm btn-primary gap-2" :disabled="!canInsert" @click="insert">
+        <CornerDownLeft class="w-4 h-4" />
+        {{ t('scenarioStep.common.insert') }}
+      </button>
+    </template>
+  </BaseDialog>
 </template>
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { ref, computed } from 'vue'
-  import { Braces, X, Plus, Trash2, CornerDownLeft, Info } from 'lucide-vue-next'
+  import { Plus, Trash2, CornerDownLeft, Info } from 'lucide-vue-next'
+  import BaseDialog from '@/editor/parts/BaseDialog.vue'
 
   const { t } = useI18n()
 
   const emit = defineEmits<{ insert: [text: string] }>()
 
-  const dialogRef = ref<HTMLDialogElement | null>(null)
+  const isOpen = ref(false)
   const items = ref<string[]>(['', ''])
 
   const open = () => {
     items.value = ['', '']
-    dialogRef.value?.showModal()
+    isOpen.value = true
   }
 
   const close = () => {
-    dialogRef.value?.close()
+    isOpen.value = false
   }
 
   const addItem = () => {

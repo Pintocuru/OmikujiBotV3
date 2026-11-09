@@ -70,7 +70,6 @@
     if (!selectedEmotionKey.value) return
     const result = await swalModal.confirmDelete({
       text: t('characterImage.editModal.confirmDelete', { name: draftItem.value?.label ?? selectedEmotionKey.value }),
-      target: baseDialog.value?.$el ?? 'body',
     })
     if (!result.isConfirmed) return
     emit('remove', selectedEmotionKey.value)

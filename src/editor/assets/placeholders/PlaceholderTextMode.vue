@@ -36,8 +36,8 @@
           </span>
         </label>
         <textarea
-          ref="textareaRef"
           v-model="textContent"
+          autofocus
           class="textarea textarea-bordered flex-1 min-h-40 font-mono text-sm resize-none w-full"
           :placeholder="t('placeholder.textareaPlaceholder')"
           @keydown.ctrl.enter="handleCtrlEnter"
@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, nextTick } from 'vue'
+  import { ref, computed } from 'vue'
   import { useI18n } from 'vue-i18n'
 
   import { WeightValuesArrayType, WeightValueSchema } from '@/types/OmikujiData'
@@ -75,7 +75,6 @@
   }>()
 
   const baseDialog = ref<InstanceType<typeof BaseEditDialog> | null>(null)
-  const textareaRef = ref<HTMLTextAreaElement | null>(null)
   const textContent = ref('')
 
   // 初期値をテキストに変換
@@ -166,7 +165,6 @@
   const open = () => {
     initializeText()
     baseDialog.value?.showModal()
-    nextTick(() => textareaRef.value?.focus())
   }
 
   defineExpose({ open })

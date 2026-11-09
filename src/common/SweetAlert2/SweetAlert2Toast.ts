@@ -52,20 +52,34 @@ export const swalToast = {
 }
 
 /**
+ * swalModal の描画先(target)の既定値を、呼び出し時点で決める。
+ * <dialog>.showModal() で開いたダイアログはトップレイヤーに出るため、body 直下に swal を出すと背面に隠れて操作できない。
+ * そのため、開いている <dialog> があればその中に出す。なければ 'body'。
+ * 複数開いている場合(ネスト)は、DOM 上で最後のものを最前面とみなす。
+ * 呼び出し側が target を明示した場合は、そちらを優先する(各 swalModal.* で options を後ろに展開している)。
+ */
+export const resolveSwalTarget = (): HTMLElement | 'body' => {
+  if (typeof document === 'undefined') return 'body'
+  const openDialogs = document.querySelectorAll<HTMLDialogElement>('dialog[open]')
+  return openDialogs.length > 0 ? openDialogs[openDialogs.length - 1] : 'body'
+}
+
+/**
  * modal API
  * swalModal.error({title:'内容',text:'内容'})
+ * target は含めない(resolveSwalTarget で呼び出しごとに決めるため)
  */
 export const baseModalOptions: SweetAlertOptions = {
   icon: 'info',
   showCancelButton: false,
   confirmButtonText: 'OK',
-  target: 'body',
 }
 
 export const swalModal = {
   error(options = {}) {
     return Swal.fire({
       ...baseModalOptions,
+      target: resolveSwalTarget(),
       icon: 'error',
       title: 'エラー',
       ...options,
@@ -75,6 +89,7 @@ export const swalModal = {
   warning(options = {}) {
     return Swal.fire({
       ...baseModalOptions,
+      target: resolveSwalTarget(),
       icon: 'warning',
       title: '注意',
       ...options,
@@ -84,6 +99,7 @@ export const swalModal = {
   info(options = {}) {
     return Swal.fire({
       ...baseModalOptions,
+      target: resolveSwalTarget(),
       icon: 'info',
       title: 'お知らせ',
       ...options,
@@ -93,6 +109,7 @@ export const swalModal = {
   success(options = {}) {
     return Swal.fire({
       ...baseModalOptions,
+      target: resolveSwalTarget(),
       icon: 'success',
       title: '成功',
       ...options,
@@ -107,6 +124,7 @@ export const swalModal = {
       showCancelButton: true,
       confirmButtonText: '削除する',
       cancelButtonText: 'キャンセル',
+      target: resolveSwalTarget(),
       ...options,
     })
   },
@@ -119,6 +137,7 @@ export const swalModal = {
       showCancelButton: true,
       confirmButtonText: '実行する',
       cancelButtonText: 'キャンセル',
+      target: resolveSwalTarget(),
       ...options,
     })
   },
@@ -130,7 +149,7 @@ export const swalModal = {
       showCancelButton: true,
       confirmButtonText: '決定',
       cancelButtonText: 'キャンセル',
-      target: 'body',
+      target: resolveSwalTarget(),
       ...options,
     })
   },
@@ -145,6 +164,7 @@ export const swalModal = {
       confirmButtonText: '上書きする',
       denyButtonText: 'マージする',
       cancelButtonText: 'キャンセル',
+      target: resolveSwalTarget(),
       ...options,
     })
   },
