@@ -2,7 +2,7 @@
 <template>
   <!-- Key表示 -->
   <SettingItem
-    v-if="category === 'placeholders'"
+    v-if="category === 'placeholders' || category === 'characters'"
     icon="Pencil"
     labelKey="baseSettings.key.edit"
     descriptionKey="baseSettings.key.description"

@@ -12,8 +12,8 @@
       </div>
 
       <dl v-if="selectedRecord" class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-2 text-sm">
-        <!-- キー名 (placeholders のみ) -->
-        <template v-if="selectedCategory === 'placeholders'">
+        <!-- キー名 -->
+        <template v-if="selectedCategory === 'placeholders' || selectedCategory === 'characters'">
           <dt class="opacity-60">{{ t('baseSettings.key.label') }}</dt>
           <dd class="wrap-break-word">{{ selectedRecord.key }}</dd>
         </template>
