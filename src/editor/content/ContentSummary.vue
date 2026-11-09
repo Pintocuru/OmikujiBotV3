@@ -2,7 +2,7 @@
 <!-- Events / Assets 用の概要。基本設定(BaseSummary)と、使うキャラクター(CharacterSummary)を並べる -->
 <template>
   <div class="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
-    <BaseSummary :class="{ 'md:col-span-2': !hasCharacters }" />
+    <BaseSummary />
     <CharacterSummary v-if="hasCharacters" />
   </div>
 </template>
