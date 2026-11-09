@@ -15,7 +15,7 @@
       :auto-hide="false"
       @after-leave="() => emit('remove', item.id)"
     >
-      <LayerImage :layers="item.layers" :size="item.size" :animation="item.animation" />
+      <LayerImage :layers="item.layers" :size="item.size" :animation="item.animation" :muted="muted" />
     </MotionWrapper>
   </div>
 </template>
@@ -26,6 +26,14 @@
   import type { StageItem } from './types'
 
   // 親(position: relative の枠)を基準に並べる。本番は画面全体、エディターはプレビュー枠
-  defineProps<{ items: StageItem[] }>()
+  withDefaults(
+    defineProps<{
+      items: StageItem[]
+      muted?: boolean
+    }>(),
+    {
+      muted: true,
+    }
+  )
   const emit = defineEmits<{ remove: [id: string] }>()
 </script>
