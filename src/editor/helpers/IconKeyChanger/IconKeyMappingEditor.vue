@@ -10,18 +10,19 @@
 
     <div
       v-for="pair in invalidPairs"
-      :key="`${pair.characterKey}:${pair.iconKey}`"
-      class="flex items-center gap-3 p-4 bg-base-100 rounded-lg border-2 border-error shadow-error/20 shadow-lg"
+      :key="toCompositeKey(pair.characterKey, pair.iconKey)"
+      class="flex items-start gap-3 p-4 bg-base-100 rounded-lg border-2 border-error shadow-error/20 shadow-lg"
     >
       <!-- 変更前 -->
-      <div class="flex-1 min-w-0">
+      <div class="w-40 shrink-0">
         <p class="text-xs text-gray-500 mb-1">{{ t('mapping.before') }}</p>
-        <div class="badge badge-lg badge-error w-full justify-start truncate">
-          ⚠️ {{ pair.iconKey || t('mapping.emptyKey') }}
+        <div class="badge badge-lg badge-error h-auto w-full justify-start gap-2 py-1 pl-1">
+          <CharacterThumb :character="getCharacter(pair.characterKey)" unknown :size="28" />
+          <span class="truncate">⚠️ {{ pair.iconKey || t('mapping.emptyKey') }}</span>
         </div>
         <p class="text-xs text-gray-400 mt-1">
           {{ getCharacterName(pair.characterKey) || pair.characterKey }} /
-          {{ usageCountLabel(usageCount[`${pair.characterKey}:${pair.iconKey}`] ?? 0) }}
+          {{ usageCountLabel(usageCount[toCompositeKey(pair.characterKey, pair.iconKey)] ?? 0) }}
         </p>
       </div>
 
@@ -31,19 +32,13 @@
       <!-- 変更後 -->
       <div class="flex-1 min-w-0">
         <p class="text-xs text-gray-500 mb-1">{{ t('mapping.after') }}</p>
-        <select
-          :value="getMappingValue(`${pair.characterKey}:${pair.iconKey}`)"
-          @input="
-            $emit('updateMapping', `${pair.characterKey}:${pair.iconKey}`, ($event.target as HTMLSelectElement).value)
+        <IconKeyChoices
+          :character="getCharacter(pair.characterKey)"
+          :model-value="getMappingValue(toCompositeKey(pair.characterKey, pair.iconKey))"
+          @update:model-value="
+            (value: string) => $emit('updateMapping', toCompositeKey(pair.characterKey, pair.iconKey), value)
           "
-          class="select select-bordered w-full"
-          :class="getMappingValue(`${pair.characterKey}:${pair.iconKey}`) ? 'select-primary' : ''"
-        >
-          <option value="">{{ t('mapping.noChange') }}</option>
-          <option v-for="iconKey in getValidIconKeys(pair.characterKey)" :key="iconKey" :value="iconKey">
-            {{ iconKey }}
-          </option>
-        </select>
+        />
       </div>
     </div>
   </div>
@@ -51,7 +46,10 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
+  import CharacterThumb from '@/editor/parts/CharacterPicker/CharacterThumb.vue'
   import { useCharacterLookup } from '../CharacterChanger/composables/useCharacterLookup'
+  import IconKeyChoices from './IconKeyChoices.vue'
+  import { toCompositeKey } from './compositeKey'
 
   const { t } = useI18n()
 
@@ -67,21 +65,9 @@
     updateMapping: [compositeKey: string, value: string]
   }>()
 
-  const { characterMap, getCharacterName } = useCharacterLookup()
+  const { getCharacter, getCharacterName } = useCharacterLookup()
 
   const usageCountLabel = (count: number) => t(`mapping.usageCount.${count === 1 ? 'one' : 'other'}`, { count })
 
   const getMappingValue = (compositeKey: string) => props.iconKeyMappings[compositeKey] || ''
-
-  /**
-   * 指定キャラクターの有効なiconKey一覧（src が存在するもの）
-   */
-  const getValidIconKeys = (characterKey: string): string[] => {
-    const character = characterMap.value[characterKey]
-
-    if (!character) return []
-    return Object.entries(character.image)
-      .filter(([_, item]) => item?.src.some((p) => p && p.trim()))
-      .map(([key]) => key)
-  }
 </script>

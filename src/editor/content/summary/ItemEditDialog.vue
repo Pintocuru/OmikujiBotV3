@@ -1,6 +1,5 @@
 <!-- src/editor/content/summary/ItemEditDialog.vue -->
-<!-- 選択中アイテムの基本設定(名前・説明・タグ・有効/無効・Key)を編集するダイアログ。入力は即時に反映される。
-     キャラクターの色・コメント表現は、CharacterEditor のカードから編集する -->
+<!-- 選択中アイテムの基本設定 -->
 <template>
   <BaseDialog
     :open="open"

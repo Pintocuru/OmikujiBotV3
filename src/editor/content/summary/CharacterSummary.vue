@@ -38,8 +38,8 @@
     <p v-else class="text-sm opacity-60">{{ t('connections.summary.noCharacters') }}</p>
 
     <div v-if="allTargets.length" class="mt-2 flex flex-wrap gap-2">
-      <CharacterChanger category="scenarios" :targets="allTargets" />
-      <IconKeyChanger category="scenarios" :targets="allTargets" />
+      <CharacterChanger :targets="allTargets" />
+      <IconKeyChanger :targets="allTargets" />
     </div>
   </section>
 </template>

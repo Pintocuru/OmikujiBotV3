@@ -1,39 +1,21 @@
 // src/editor/helpers/CharacterChanger/composables/useScenarioStepCharacters.ts
 import { ScenarioStepType, ScenarioType } from '@/types/OmikujiData/'
-import { FlowTarget } from './useDataExtractor'
+import { FlowTarget } from '../types'
 import { useCharacterLookup } from './useCharacterLookup'
-import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 
 /**
  * ステップ内のキャラクター情報を扱うユーティリティ
  */
 export function useScenarioStepCharacters() {
   const { getCharacter } = useCharacterLookup()
-  const { getAsset } = useGetAssetData()
 
   /**
-   * みくじ箱内のアイテムが変更対象か（itemId 未指定なら箱内すべて）
+   * 対象が参照しているシナリオ
    */
-  const isTargetItem = (target: FlowTarget, omikujiId: string): boolean =>
-    target.category !== 'mikuji' || !target.itemId || target.itemId === omikujiId
+  const getTargetScenarios = (target: FlowTarget): ScenarioType[] => [target.item]
 
   /**
-   * 対象が参照しているシナリオ(みくじ箱は steps 種別アイテムの scenarioKey から重複なしで解決)
-   */
-  const getTargetScenarios = (target: FlowTarget): ScenarioType[] => {
-    if (target.category === 'scenarios') return [target.item]
-
-    const scenarios = new Map<string, ScenarioType>()
-    target.item.omikuji.forEach((omikuji) => {
-      if (omikuji.kind !== 'scenario' || !isTargetItem(target, omikuji.id)) return
-      const scenario = getAsset('scenarios', omikuji.scenarioKey)
-      if (scenario) scenarios.set(scenario.key, scenario)
-    })
-    return [...scenarios.values()]
-  }
-
-  /**
-   * アセットが持つ steps 配列を取得（みくじ箱は steps 種別のアイテムごとに1配列）
+   * シナリオが持つ steps 配列を取得
    */
   const getStepGroups = (target: FlowTarget): ScenarioStepType[][] =>
     getTargetScenarios(target).map((scenario) => Object.values(scenario.steps))
@@ -140,7 +122,6 @@ export function useScenarioStepCharacters() {
   }
 
   return {
-    isTargetItem,
     getStepGroups,
     getTargetScenarios,
     extractCharacterKeys,

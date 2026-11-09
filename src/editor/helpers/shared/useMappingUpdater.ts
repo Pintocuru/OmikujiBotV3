@@ -2,7 +2,7 @@
 import { ComputedRef } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { ScenarioStepType, ScenarioType } from '@/types/OmikujiData'
-import { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
+import { FlowTarget } from '@/editor/helpers/CharacterChanger/types'
 import { useScenarioStepCharacters } from '@/editor/helpers/CharacterChanger/composables/useScenarioStepCharacters'
 
 /**

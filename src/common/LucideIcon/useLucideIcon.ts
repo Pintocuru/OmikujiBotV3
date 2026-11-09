@@ -86,6 +86,7 @@ import {
   TriangleAlert,
   UserRound,
   Send,
+  DraftingCompass,
 } from 'lucide-vue-next'
 
 // map（as const で literal 型を保持）
@@ -173,6 +174,7 @@ export const lucideIconMap = {
   TriangleAlert,
   UserRound,
   Send,
+  DraftingCompass,
 } as const
 
 // map から union 型を生成

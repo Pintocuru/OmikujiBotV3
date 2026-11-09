@@ -1,39 +1,32 @@
 <!-- src/editor/content/summary/BaseSummary.vue -->
 <!-- 選択中アイテムの基本設定(名前・説明・タグ)の概要。編集は「基本設定を編集」のダイアログで行う -->
 <template>
-  <SettingItem layout="vertical" icon="Hash" labelKey="categorySections.baseSettings.label">
+  <!-- タイトル & キー名 -->
+  <SettingItem
+    layout="vertical"
+    icon="DraftingCompass"
+    :label="selectedRecord?.name ?? '—'"
+    :description="
+      selectedCategory === 'placeholders' || selectedCategory === 'characters' ? `key: ${selectedRecord?.key}` : ''
+    "
+  >
     <template #label-extra>
       <button class="btn btn-xs btn-secondary gap-2" @click="editOpen = true">
         <Pencil class="w-4 h-4" />
       </button>
     </template>
 
-    <section class="rounded-box p-2">
-      <dl v-if="selectedRecord" class="grid grid-cols-[auto_minmax(0,1fr)] gap-2 text-sm">
-        <!-- キー名 -->
-        <template v-if="selectedCategory === 'placeholders' || selectedCategory === 'characters'">
-          <dt class="opacity-60">{{ t('baseSettings.key.label') }}</dt>
-          <dd class="wrap-break-word">{{ selectedRecord.key }}</dd>
-        </template>
+    <section v-if="selectedRecord" class="rounded-box p-2 space-y-2">
+      <div v-if="selectedRecord.description" class="wrap-break-word">
+        {{ selectedRecord.description }}
+      </div>
 
-        <!-- 名前 -->
-        <dt class="opacity-60">{{ t('baseSettings.name.label') }}</dt>
-        <dd class="wrap-break-word">{{ selectedRecord.name || '—' }}</dd>
-
-        <!-- 説明 -->
-        <template v-if="selectedRecord.description">
-          <dt class="opacity-60">{{ t('baseSettings.description.label') }}</dt>
-          <dd class="wrap-break-word">{{ selectedRecord.description }}</dd>
-        </template>
-
+      <div v-if="selectedRecord.tags?.length" class="flex gap-1">
         <!-- タグ -->
         <template v-if="selectedRecord.tags?.length">
-          <dt class="opacity-60">{{ t('baseSettings.tags.label') }}</dt>
-          <dd class="flex flex-wrap gap-1">
-            <span v-for="tag in selectedRecord.tags" :key="tag" class="badge badge-sm badge-outline">{{ tag }}</span>
-          </dd>
+          <span v-for="tag in selectedRecord.tags" :key="tag" class="badge badge-sm badge-outline">{{ tag }}</span>
         </template>
-      </dl>
+      </div>
     </section>
   </SettingItem>
 
@@ -44,14 +37,11 @@
 <script setup lang="ts">
   import { ref, watch } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { useI18n } from 'vue-i18n'
   import { Pencil } from 'lucide-vue-next'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useSelectedRecord } from '../composables/useSelectedRecord'
   import ItemEditDialog from './ItemEditDialog.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-
-  const { t } = useI18n()
 
   const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())
   const { selectedRecord } = useSelectedRecord()

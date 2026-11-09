@@ -1,6 +1,6 @@
 // src/editor/helpers/CharacterChanger/composables/useCharacterStats.ts
 import { computed, ComputedRef } from 'vue'
-import { FlowTarget } from './useDataExtractor'
+import { FlowTarget } from '../types'
 import { useScenarioStepCharacters } from './useScenarioStepCharacters'
 import { useCharacterLookup } from './useCharacterLookup'
 

@@ -21,21 +21,12 @@
   <!-- モーダル -->
   <BaseDialog
     :open="isModalOpen"
-    :title="t('characterChanger.title', { scope: scopeLabel })"
+    :title="t('characterChanger.title')"
     icon="Users"
     size="3xl"
     @update:open="onUpdateOpen"
   >
     <div class="space-y-4">
-      <!-- 統計情報（カテゴリ全体の場合のみ表示） -->
-      <CharacterStatistics
-        v-if="changeScope === 'category' && !props.targets"
-        :total-items="totalItems"
-        :unique-character-count="uniqueCharacterKeys.length"
-        :invalid-character-count="invalidCharacterCount"
-        :has-invalid-characters="hasInvalidCharacters"
-      />
-
       <!-- 現在のキャラクター情報 -->
       <CurrentCharacterList :character-keys="sortedCharacterKeys" :usage-count="characterUsageCount" />
 
@@ -65,7 +56,6 @@
         v-if="hasChanges"
         :character-mappings="characterMappings"
         :usage-count="characterUsageCount"
-        :scope-label="scopeLabel"
       />
     </div>
 
@@ -84,12 +74,11 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import CharacterStatistics from './CharacterStatistics.vue'
   import CurrentCharacterList from './CurrentCharacterList.vue'
   import InvalidCharacterAlert from './InvalidCharacterAlert.vue'
   import CharacterMappingEditor from './CharacterMappingEditor.vue'
   import MappingPreview from './MappingPreview.vue'
-  import { TargetCategoryType, FlowTarget, useDataExtractor } from './composables/useDataExtractor'
+  import type { FlowTarget } from './types'
   import { useCharacterStats } from './composables/useCharacterStats'
   import { useMappingModalState } from '@/editor/helpers/shared/useMappingModalState'
   import { useMappingUpdater } from '@/editor/helpers/shared/useMappingUpdater'
@@ -101,29 +90,15 @@
 
   const { t } = useI18n()
 
+  // 変更対象のシナリオ(選択中のアイテムに関係するシナリオ。呼び出し側が解決して渡す)
   const props = defineProps<{
-    category: TargetCategoryType
-    selectedId?: string
-    itemId?: string
-    targets?: FlowTarget[]
+    targets: FlowTarget[]
   }>()
 
   // キャラクターデータ
   const { getCharacterName } = useCharacterLookup()
 
-  // データ抽出（selectedIdがある場合は単一イベントのみ対象）
-  const {
-    changeScope,
-    scopeLabel,
-    allTargets: extractedTargets,
-    totalItems,
-  } = useDataExtractor(
-    props.category,
-    () => props.selectedId,
-    () => props.itemId
-  )
-
-  const allTargets = computed(() => props.targets ?? extractedTargets.value)
+  const allTargets = computed(() => props.targets)
 
   // キャラクター統計
   const { uniqueCharacterKeys, characterUsageCount, invalidCharacterCount, hasInvalidCharacters } =

@@ -1,6 +1,6 @@
 // src/editor/helpers/IconKeyChanger/composables/useIconKeyStats.ts
 import { computed, ComputedRef } from 'vue'
-import { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
+import { FlowTarget } from '@/editor/helpers/CharacterChanger/types'
 import { useScenarioStepCharacters } from '@/editor/helpers/CharacterChanger/composables/useScenarioStepCharacters'
 
 /**

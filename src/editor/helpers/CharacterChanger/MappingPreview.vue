@@ -18,7 +18,7 @@
         </li>
       </ul>
       <p class="text-sm mt-3 font-semibold text-warning-content">
-        {{ t('mapping.caution', { scope: scopeLabel }) }}
+        {{ t('mapping.caution') }}
       </p>
     </div>
   </div>
@@ -34,7 +34,6 @@
   defineProps<{
     characterMappings: Record<string, string>
     usageCount: Record<string, number>
-    scopeLabel: string
   }>()
 
   const { getCharacterName } = useCharacterLookup()

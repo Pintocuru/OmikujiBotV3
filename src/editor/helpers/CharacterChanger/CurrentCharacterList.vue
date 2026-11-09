@@ -7,8 +7,12 @@
       <span
         v-for="charKey in characterKeys"
         :key="charKey"
-        :class="['badge badge-lg', getCharacterName(charKey) ? 'badge-outline' : 'badge-error animate-pulse']"
+        :class="[
+          'badge badge-lg h-auto gap-2 py-1 pl-1',
+          getCharacterName(charKey) ? 'badge-outline' : 'badge-error animate-pulse',
+        ]"
       >
+        <CharacterThumb :character="getCharacter(charKey)" :size="28" />
         {{ getCharacterName(charKey) || `⚠️ ${t('mapping.undefinedKey', { key: charKey || t('mapping.emptyKey') })}` }}
         <span class="ml-1 text-xs opacity-70">({{ usageCountLabel(usageCount[charKey]) }})</span>
       </span>
@@ -18,6 +22,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
+  import CharacterThumb from '@/editor/parts/CharacterPicker/CharacterThumb.vue'
   import { useCharacterLookup } from './composables/useCharacterLookup'
 
   const { t } = useI18n()
@@ -27,7 +32,7 @@
     usageCount: Record<string, number>
   }>()
 
-  const { getCharacterName } = useCharacterLookup()
+  const { getCharacter, getCharacterName } = useCharacterLookup()
 
   const usageCountLabel = (count: number) => t(`mapping.usageCount.${count === 1 ? 'one' : 'other'}`, { count })
 </script>

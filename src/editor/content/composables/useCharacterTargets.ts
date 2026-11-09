@@ -1,7 +1,7 @@
 // src/editor/content/composables/useCharacterTargets.ts
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import type { FlowTarget } from '@/editor/helpers/CharacterChanger/composables/useDataExtractor'
+import type { FlowTarget } from '@/editor/helpers/CharacterChanger/types'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
