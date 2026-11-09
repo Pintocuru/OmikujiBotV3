@@ -1,44 +1,51 @@
 <!-- src/manager/components/ManagerDialog.vue -->
 <!-- 保存済みのデータを選んで開くダイアログ。上部バーの「開く」から表示する -->
 <template>
-  <div class="modal" :class="{ 'modal-open': isShown }" role="dialog" aria-modal="true" @click.self="open = false">
-    <div class="modal-box max-w-5xl w-11/12 p-0 overflow-hidden text-base-content">
-      <div class="card bg-linear-to-r from-primary to-secondary rounded-none">
-        <div class="card-body px-4 py-2">
-          <!-- ヘッダー -->
-          <ManagerHeader :showFileTools="tab === 'presets'" />
+  <dialog ref="dialogRef" class="modal" @close="close">
+    <!-- BaseDialog と同じ方式: 開いている間だけ中身を描画し、閉じるアニメーションが終わってから外す(rendered) -->
+    <template v-if="rendered">
+      <div class="modal-box max-w-5xl w-11/12 p-0 overflow-hidden text-base-content">
+        <div class="card bg-linear-to-r from-primary to-secondary rounded-none">
+          <div class="card-body px-4 py-2">
+            <!-- ヘッダー -->
+            <ManagerHeader :showFileTools="tab === 'presets'" />
+          </div>
+        </div>
+
+        <!-- 開く手段 -->
+        <OpenSourceBar @open-local="onOpenLocal" @open-package="onOpenPackage()" />
+
+        <!-- 保存先の切り替え -->
+        <div role="tablist" class="tabs tabs-border px-3 pt-2">
+          <button role="tab" class="tab" :class="{ 'tab-active font-bold': tab === 'presets' }" @click="tab = 'presets'">
+            {{ t('shell.topBar.tabPresets') }}
+          </button>
+          <button
+            role="tab"
+            class="tab"
+            :class="{ 'tab-active font-bold': tab === 'packages' }"
+            @click="tab = 'packages'"
+          >
+            {{ t('shell.topBar.tabPackages') }}
+          </button>
+        </div>
+
+        <!-- 一覧 -->
+        <div class="p-2 max-h-[60vh] overflow-y-auto">
+          <ManagerFileList v-if="tab === 'presets' && managerStore.isServerConnected" @opened="open = false" />
+          <ManagerPackageList v-else-if="tab === 'packages' && open" :key="packageListKey" @open="onOpenPackage" />
         </div>
       </div>
 
-      <!-- 開く手段 -->
-      <OpenSourceBar @open-local="onOpenLocal" @open-package="onOpenPackage()" />
-
-      <!-- 保存先の切り替え -->
-      <div role="tablist" class="tabs tabs-border px-3 pt-2">
-        <button role="tab" class="tab" :class="{ 'tab-active font-bold': tab === 'presets' }" @click="tab = 'presets'">
-          {{ t('shell.topBar.tabPresets') }}
-        </button>
-        <button
-          role="tab"
-          class="tab"
-          :class="{ 'tab-active font-bold': tab === 'packages' }"
-          @click="tab = 'packages'"
-        >
-          {{ t('shell.topBar.tabPackages') }}
-        </button>
-      </div>
-
-      <!-- 一覧 -->
-      <div class="p-2 max-h-[60vh] overflow-y-auto">
-        <ManagerFileList v-if="tab === 'presets' && managerStore.isServerConnected" @opened="open = false" />
-        <ManagerPackageList v-else-if="tab === 'packages' && open" :key="packageListKey" @open="onOpenPackage" />
-      </div>
-    </div>
-  </div>
+      <form method="dialog" class="modal-backdrop">
+        <button :aria-label="t('editorUi.dialog.close')" @click="close">{{ t('editorUi.dialog.close') }}</button>
+      </form>
+    </template>
+  </dialog>
 </template>
 
 <script setup lang="ts">
-  import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+  import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { useOpenLocal } from '../composables/useOpenLocal'
   import { useOpenPackage } from '../composables/useOpenPackage'
@@ -58,11 +65,41 @@
   // 開くたびにパッケージ一覧を取り直すためのキー
   const packageListKey = ref(0)
 
-  // 見た目の開閉。DaisyUI の modal は「閉じた状態 → modal-open」の CSS transition でアニメーションするため、
-  // 初回(マウントと同時に open=true)は 1 フレーム待ってから modal-open を付ける
-  const isShown = ref(false)
-  onMounted(() => requestAnimationFrame(() => (isShown.value = open.value)))
-  watch(open, (isOpen) => (isShown.value = isOpen))
+  // <dialog> + showModal で開閉する(Esc・バックドロップ・フォーカストラップは <dialog> に任せる)。
+  // Esc で閉じるとき、SweetAlert2 は <dialog> の中に出るため Esc はそちらが先に処理する
+  const dialogRef = ref<HTMLDialogElement | null>(null)
+
+  // 中身(modal-box)を DOM に置いているか。open より少し長く true にして、閉じるアニメーションを見せる
+  const rendered = ref(open.value)
+  // DaisyUI の modal-box の transition(.3s)に合わせる
+  const CLOSE_ANIMATION_MS = 300
+  let unmountTimer: ReturnType<typeof setTimeout> | undefined
+
+  const showDialog = () => {
+    if (open.value && dialogRef.value && !dialogRef.value.open) dialogRef.value.showModal()
+  }
+
+  // 初回(マウントと同時に open=true)は、閉じた状態のスタイルが確定してから開く(でないと transition が走らない)
+  onMounted(() => requestAnimationFrame(showDialog))
+  onBeforeUnmount(() => clearTimeout(unmountTimer))
+
+  watch(open, async (isOpen) => {
+    clearTimeout(unmountTimer)
+    if (isOpen) {
+      rendered.value = true
+      await nextTick()
+      void dialogRef.value?.offsetHeight
+      showDialog()
+    } else {
+      dialogRef.value?.close()
+      unmountTimer = setTimeout(() => (rendered.value = false), CLOSE_ANIMATION_MS)
+    }
+  })
+
+  // Esc・バックドロップ・dialog.close() のどれでもここに来る。すでに閉じていれば何もしない
+  const close = () => {
+    if (open.value) open.value = false
+  }
 
   // 開くたびに一覧を取り直す(初回はマウント時点で open なので immediate)
   watch(
@@ -76,13 +113,6 @@
     },
     { immediate: true }
   )
-
-  // Esc で閉じる(確認ダイアログ SweetAlert2 が出ている間は、そちらを優先する)
-  const onKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && open.value && !document.querySelector('.swal2-container')) open.value = false
-  }
-  onMounted(() => window.addEventListener('keydown', onKeydown))
-  onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
   // 開けたら閉じる
   const onOpenLocal = async () => {
