@@ -2,7 +2,7 @@
 <template>
   <!-- トリガーボタン -->
   <div
-    class="tooltip tooltip-bottom"
+    class="tooltip"
     :data-tip="t(hasInvalidCharacters ? 'characterChanger.tooltip.invalid' : 'characterChanger.tooltip.normal')"
   >
     <button
@@ -52,11 +52,7 @@
       </div>
 
       <!-- 変更内容のプレビュー -->
-      <MappingPreview
-        v-if="hasChanges"
-        :character-mappings="characterMappings"
-        :usage-count="characterUsageCount"
-      />
+      <MappingPreview v-if="hasChanges" :character-mappings="characterMappings" :usage-count="characterUsageCount" />
     </div>
 
     <template #actions>

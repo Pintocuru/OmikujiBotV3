@@ -1,7 +1,7 @@
 <!-- src/editor/helpers/IconKeyChanger/IconKeyChanger.vue -->
 <template>
   <div
-    class="tooltip tooltip-bottom"
+    class="tooltip"
     :data-tip="t(hasInvalidIconKeys ? 'iconKeyChanger.tooltip.invalid' : 'iconKeyChanger.tooltip.normal')"
   >
     <button
