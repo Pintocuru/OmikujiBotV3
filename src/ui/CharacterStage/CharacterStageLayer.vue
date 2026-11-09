@@ -15,7 +15,8 @@
       :auto-hide="false"
       @after-leave="() => emit('remove', item.id)"
     >
-      <LayerImage :layers="item.layers" :size="item.size" :animation="item.animation" :muted="muted" />
+      <!-- size だと正方形の枠になり、縦長・横長の画像は枠内で中央寄せされて隅に付かない。幅だけ指定し、高さは画像の縦横比に任せる -->
+      <LayerImage :layers="item.layers" :width="item.size" height="auto" :animation="item.animation" :muted="muted" />
     </MotionWrapper>
   </div>
 </template>
