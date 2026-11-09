@@ -11,11 +11,34 @@
     <div
       v-for="item in draggableItems"
       :key="item.key"
-      class="cursor-pointer rounded-lg border-2 transition-all hover:shadow-lg hover:border-primary group"
+      class="relative cursor-pointer rounded-lg border-2 transition-all hover:shadow-lg hover:border-primary group"
       :class="selectedKey === item.key ? 'border-primary bg-primary/10' : 'border-base-200'"
       @click="emit('select', item.key)"
     >
       <EmotionCard :item="item" show-drag-handle />
+
+      <!-- 複製・削除(カード全体が選択クリックなので .stop)。default は削除不可 -->
+      <div class="absolute top-1 right-1 z-10 flex gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+        <button
+          type="button"
+          class="btn btn-xs btn-square btn-ghost"
+          :title="t('characterImage.item.duplicateTip')"
+          :aria-label="t('characterImage.item.duplicateTip')"
+          @click.stop="emit('duplicate', item.key)"
+        >
+          <Copy class="w-3.5 h-3.5" />
+        </button>
+        <button
+          v-if="item.key !== 'default'"
+          type="button"
+          class="btn btn-xs btn-square btn-ghost text-error"
+          :title="t('characterImage.item.deleteTip')"
+          :aria-label="t('characterImage.item.deleteTip')"
+          @click.stop="emit('remove', item.key)"
+        >
+          <Trash2 class="w-3.5 h-3.5" />
+        </button>
+      </div>
     </div>
   </VueDraggable>
 
@@ -35,9 +58,13 @@
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import { Copy, Trash2 } from 'lucide-vue-next'
   import { VueDraggable } from 'vue-draggable-plus'
   import EmotionCard from './EmotionCard.vue'
   import type { CharacterImageSetType } from '@/types/OmikujiData'
+
+  const { t } = useI18n()
 
   // ── 内部用型 ──────────────────────────────────────────────────────────────
   type EmotionEntry = {
@@ -58,6 +85,8 @@
   const emit = defineEmits<{
     select: [key: string]
     reorder: [newImages: CharacterImageSetType]
+    duplicate: [key: string]
+    remove: [key: string]
   }>()
 
   // ── images オブジェクト → 配列へ変換

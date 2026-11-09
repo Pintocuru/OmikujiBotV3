@@ -79,3 +79,23 @@
 
 - DataPacks と FileMenuDropdown の両方から開いてプレビュー・取り込み・キャンセルが動くこと
 - 大量のカテゴリがあるとき、`max-h-[90vh]` のダイアログ内スクロールで見づらくないか
+
+#### patch 5: EmotionEditModal の整理 + EmotionGrid に削除・複製
+
+方針(本人確認済み): 追加・削除・複製は一覧側の即時操作。編集ダイアログは編集(ラベル・画像・アニメーション)に専念する。`default` キーは削除ボタンを出さない。複製の `src` は元と同じファイルを指したまま。
+
+- `composables/useEmotionDraft.ts`: ドラフトを「全感情」から「選択中の1件」(`draftKey` / `draftItem`)に変更。`initDraft(key)` が1件だけ複製する
+- `EmotionEditModal.vue`: `emit('update', key, value)` で1キーだけ書き戻す。`remove` emit・`handleDraftRemove`・`swalModal` の import を撤去
+- `EmotionImageItem.vue`: ダイアログ内の削除ボタン・`remove` emit を撤去
+- `EmotionGrid.vue`: `!readonly` のときだけ、カード右上(hover / focus で表示)に複製・削除ボタン(`@click.stop`)。`default` は削除ボタンなし。`duplicate` / `remove` を emit
+- `CharacterImageSettings.vue`: `handleUpdateEmotion`(1キー置換。並び順は変わらない)、`handleRemoveEmotion`(`swalModal.confirmDelete`、文言は既存の `characterImage.editModal.confirmDelete` を流用)、`handleDuplicateEmotion`(複製後に編集ダイアログを開く)
+- `composables/emotionOperations.ts`(新規): `nextCopyKey`(`${key}_2`, `_3` … と空くまで)と `duplicateEmotion`(元の直後に挿入、`animation` は JSON 経由で深くコピー、`label` は `copyLabel`)。`structuredClone` は reactive な値で失敗しうるため不使用
+- i18n: `characterImage.item.duplicateTip` / `copyLabel`(ja / en。`src/i18n/editor/apps/AppItemsCharacters.ts`)
+- 追加(`handleAddEmotion` / `handleAddPreset`)は変更なし: 作成してから編集ダイアログを開く。キャンセルしても追加は残る(仕様)
+- 検証: `vue-tsc --noEmit` エラー0、`eslint src/editor/assets/characters src/i18n/editor/apps` 問題なし。実ブラウザは未確認
+
+未確認(本人確認待ち):
+
+- カード右上のボタンがドラッグハンドル(左上)・画像と干渉しないか
+- 数字キーの感情を複製したとき(`5` → `5_2`)の並びと選択
+- 複製直後に開く編集ダイアログで、元と同じ `src` が表示されること

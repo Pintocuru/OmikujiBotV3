@@ -21,15 +21,20 @@
 
   <EmotionPresetButtons :existing-keys="Object.keys(currentImages)" @add="handleAddPreset" />
 
-  <EmotionGrid :images="currentImages" @select="handleSelectEmotion" @reorder="pushImages" />
+  <EmotionGrid
+    :images="currentImages"
+    @select="handleSelectEmotion"
+    @reorder="pushImages"
+    @duplicate="handleDuplicateEmotion"
+    @remove="handleRemoveEmotion"
+  />
 
   <EmotionEditModal
     ref="editModalRef"
     :model-value="currentImages"
     :selected-item-key="selectedItemKey"
     :is-default-filled="isDefaultFilled"
-    @update="handleUpdateImages"
-    @remove="handleRemoveEmotion"
+    @update="handleUpdateEmotion"
   />
 </template>
 
@@ -37,12 +42,14 @@
   import { useI18n } from 'vue-i18n'
   import { computed, nextTick, ref } from 'vue'
   import { Plus } from 'lucide-vue-next'
-  import { CharacterImageSetSchema, CharacterImageSetType } from '@/types/OmikujiData'
+  import { CharacterImageSetSchema, CharacterImageSetType, CharacterImageType } from '@/types/OmikujiData'
   import EmotionPresetButtons from './EmotionPresetButtons.vue'
 
   import EmotionGrid from './EmotionGrid.vue'
   import EmotionEditModal from './EmotionEditModal.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
+  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { duplicateEmotion } from './composables/emotionOperations'
 
   const { t } = useI18n()
 
@@ -70,9 +77,10 @@
     updateAssetProperty('characters', props.selectedItemKey, 'image', newImages)
   }
 
-  // 感情の追加・選択
-  const handleUpdateImages = (newImages: CharacterImageSetType) => {
-    pushImages(newImages)
+  // 編集ダイアログの保存: 編集した1キーだけを書き戻す(既存キーの置き換えなので並び順は変わらない)
+  const handleUpdateEmotion = (key: string, value: CharacterImageType) => {
+    if (!(key in currentImages.value)) return
+    pushImages({ ...currentImages.value, [key]: value })
   }
 
   const handleAddPreset = async (key: string, label: string) => {
@@ -95,9 +103,23 @@
     editModalRef.value?.showModal(key)
   }
 
-  // 感情の削除
-  const handleRemoveEmotion = (key: string) => {
+  // 感情の削除(一覧側の即時操作。確認してから消す)
+  const handleRemoveEmotion = async (key: string) => {
+    if (key === 'default') return
+    const result = await swalModal.confirmDelete({
+      text: t('characterImage.editModal.confirmDelete', { name: currentImages.value[key]?.label || key }),
+    })
+    if (!result.isConfirmed) return
     const { [key]: _, ...rest } = currentImages.value
     pushImages(rest as CharacterImageSetType)
+  }
+
+  // 感情の複製(元の直後に挿入し、すぐ編集ダイアログを開く)
+  const handleDuplicateEmotion = async (key: string) => {
+    const result = duplicateEmotion(currentImages.value, key, (label) => t('characterImage.item.copyLabel', { label }))
+    if (!result) return
+    pushImages(result.images)
+    await nextTick()
+    editModalRef.value?.showModal(result.newKey)
   }
 </script>

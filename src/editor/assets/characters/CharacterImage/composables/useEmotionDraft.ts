@@ -1,34 +1,42 @@
 // src/editor/assets/characters/CharacterImage/composables/useEmotionDraft.ts
 import { ref } from 'vue'
-import type { CharacterImageSetType, CharacterAnimationType } from '@/types/OmikujiData'
+import type { CharacterImageSetType, CharacterImageType, CharacterAnimationType } from '@/types/OmikujiData'
 
+/**
+ * 感情1件ぶんのドラフト。編集ダイアログで選択中の感情だけを複製して持ち、
+ * 保存時に呼び出し側がその1キーだけを書き戻す(他の感情は触らない)
+ */
 export function useEmotionDraft(getModelValue: () => CharacterImageSetType) {
-  const draftValue = ref<CharacterImageSetType>({})
+  const draftKey = ref<string | null>(null)
+  const draftItem = ref<CharacterImageType | null>(null)
 
-  const initDraft = () => {
-    draftValue.value = JSON.parse(JSON.stringify(getModelValue()))
+  const initDraft = (key: string) => {
+    const source = getModelValue()[key]
+    draftKey.value = source ? key : null
+    draftItem.value = source ? JSON.parse(JSON.stringify(source)) : null
   }
 
   // ── 個別更新 ──────────────────────────────────────────────────────────────
 
-  const updateSrc = (key: string, src: string[]) => {
-    if (!draftValue.value[key]) return
-    draftValue.value[key] = { ...draftValue.value[key], src }
+  const updateSrc = (src: string[]) => {
+    if (!draftItem.value) return
+    draftItem.value = { ...draftItem.value, src }
   }
 
-  const updateLabel = (key: string, label: string) => {
-    if (!draftValue.value[key]) return
-    draftValue.value[key] = { ...draftValue.value[key], label }
+  const updateLabel = (label: string) => {
+    if (!draftItem.value) return
+    draftItem.value = { ...draftItem.value, label }
   }
 
-  const updateAnimation = (key: string, animation: CharacterAnimationType | undefined) => {
-    if (!draftValue.value[key]) return
-    const { animation: _old, ...rest } = draftValue.value[key]
-    draftValue.value[key] = animation ? { ...rest, animation } : { ...rest }
+  const updateAnimation = (animation: CharacterAnimationType | undefined) => {
+    if (!draftItem.value) return
+    const { animation: _old, ...rest } = draftItem.value
+    draftItem.value = animation ? { ...rest, animation } : { ...rest }
   }
 
   return {
-    draftValue,
+    draftKey,
+    draftItem,
     initDraft,
     updateSrc,
     updateLabel,

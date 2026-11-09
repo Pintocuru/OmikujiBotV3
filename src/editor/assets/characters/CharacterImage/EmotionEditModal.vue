@@ -1,27 +1,26 @@
 <!-- src/editor/assets/characters/CharacterImage/EmotionEditModal.vue -->
 <template>
   <BaseEditDialog ref="baseDialog" :title="t('characterImage.editModal.title')" icon="Info" @save="handleSave">
-    <div v-if="selectedEmotionKey && draftItem" class="space-y-2">
+    <div v-if="draftKey && draftItem" class="space-y-2">
       <ImageSettingsInfo />
       <EmotionImageItem
-        :emotion-key="selectedEmotionKey"
+        :emotion-key="draftKey"
         :label="draftItem.label ?? ''"
-        :is-default-warning="selectedEmotionKey === 'default' && !props.isDefaultFilled"
-        @update:label="(v) => updateLabel(selectedEmotionKey!, v)"
-        @remove="handleDraftRemove"
+        :is-default-warning="draftKey === 'default' && !props.isDefaultFilled"
+        @update:label="updateLabel"
       />
       <div class="grid grid-cols-2 gap-4">
         <EmotionLayerEditor
           :src="draftItem.src"
-          :emotion-key="selectedEmotionKey"
+          :emotion-key="draftKey"
           :selected-item-key="selectedItemKey ?? 'default'"
-          @update:src="(v) => updateSrc(selectedEmotionKey!, v)"
+          @update:src="updateSrc"
         />
         <EmotionAnimationEditor
-          :emotion-key="selectedEmotionKey"
+          :emotion-key="draftKey"
           :src="draftItem.src"
           :animation="draftItem.animation"
-          @update:animation="(v) => updateAnimation(selectedEmotionKey!, v)"
+          @update:animation="updateAnimation"
         />
       </div>
     </div>
@@ -33,15 +32,14 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { ref, computed } from 'vue'
-  import type { CharacterImageSetType } from '@/types/OmikujiData'
+  import { ref } from 'vue'
+  import type { CharacterImageSetType, CharacterImageType } from '@/types/OmikujiData'
   import EmotionImageItem from './EmotionImageItem.vue'
   import EmotionLayerEditor from './EmotionLayerEditor.vue'
   import EmotionAnimationEditor from './EmotionAnimationEditor.vue'
   import ImageSettingsInfo from './ImageSettingsInfo.vue'
   import BaseEditDialog from '@/editor/parts/BaseEditDialog.vue'
   import { useEmotionDraft } from './composables/useEmotionDraft'
-  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 
   const { t } = useI18n()
 
@@ -49,42 +47,26 @@
     modelValue: CharacterImageSetType
     selectedItemKey: string | null
     isDefaultFilled: boolean
-    // initialEmotionKey は廃止 ✕
   }>()
 
+  // 保存は編集した1キーぶんだけ。追加・削除・複製は一覧側(EmotionGrid)の即時操作
   const emit = defineEmits<{
-    update: [value: CharacterImageSetType]
-    remove: [key: string]
+    update: [key: string, value: CharacterImageType]
   }>()
 
   const baseDialog = ref<InstanceType<typeof BaseEditDialog> | null>(null)
-  const selectedEmotionKey = ref<string | null>(null)
 
-  const { draftValue, initDraft, updateSrc, updateLabel, updateAnimation } = useEmotionDraft(() => props.modelValue)
-
-  const draftItem = computed(() =>
-    selectedEmotionKey.value ? (draftValue.value[selectedEmotionKey.value] ?? null) : null
+  const { draftKey, draftItem, initDraft, updateSrc, updateLabel, updateAnimation } = useEmotionDraft(
+    () => props.modelValue
   )
 
-  const handleDraftRemove = async () => {
-    if (!selectedEmotionKey.value) return
-    const result = await swalModal.confirmDelete({
-      text: t('characterImage.editModal.confirmDelete', { name: draftItem.value?.label ?? selectedEmotionKey.value }),
-    })
-    if (!result.isConfirmed) return
-    emit('remove', selectedEmotionKey.value)
-    selectedEmotionKey.value = null
-    closeModal()
-  }
-
   const handleSave = () => {
-    emit('update', { ...draftValue.value })
+    if (!draftKey.value || !draftItem.value) return
+    emit('update', draftKey.value, { ...draftItem.value })
   }
 
-  // watch を完全削除 — showModal の引数だけで状態確定
   const showModal = (key: string) => {
-    initDraft()
-    selectedEmotionKey.value = key
+    initDraft(key)
     baseDialog.value?.showModal()
   }
 

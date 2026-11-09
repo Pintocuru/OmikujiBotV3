@@ -109,6 +109,8 @@ export const appItemsCharactersMessages = {
         keyLabel: 'キー',
         unset: '未設定',
         deleteTip: 'この感情を削除',
+        duplicateTip: 'この感情を複製',
+        copyLabel: '{label}(コピー)',
       },
       layer: {
         title: '画像レイヤー',
@@ -280,6 +282,8 @@ export const appItemsCharactersMessages = {
         keyLabel: 'Key',
         unset: 'Not set',
         deleteTip: 'Delete this emotion',
+        duplicateTip: 'Duplicate this emotion',
+        copyLabel: '{label} (copy)',
       },
       layer: {
         title: 'Image layers',

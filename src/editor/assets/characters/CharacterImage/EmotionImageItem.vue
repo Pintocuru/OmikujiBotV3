@@ -16,25 +16,12 @@
     </div>
 
     <div v-if="isDefaultWarning" class="badge badge-warning badge-sm">{{ t('characterImage.item.unset') }}</div>
-
-    <!-- 削除ボタン -->
-    <div class="tooltip tooltip-top" :data-tip="t('characterImage.item.deleteTip')">
-      <button
-        type="button"
-        class="btn btn-error btn-sm btn-square"
-        :aria-label="t('characterImage.item.deleteTip')"
-        @click="emit('remove')"
-      >
-        <Trash2 class="w-4 h-4" />
-      </button>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { ref, watch } from 'vue'
-  import { Trash2 } from 'lucide-vue-next'
 
   const { t } = useI18n()
 
@@ -46,7 +33,6 @@
 
   const emit = defineEmits<{
     'update:label': [label: string]
-    remove: []
   }>()
 
   const localName = ref(props.label)
