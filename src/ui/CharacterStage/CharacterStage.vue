@@ -1,6 +1,6 @@
 <!-- src/ui/CharacterStage/CharacterStage.vue -->
 <template>
-  <div class="relative pointer-events-none z-10 h-screen w-screen overflow-hidden">
+  <div class="fixed inset-0 pointer-events-none z-10 overflow-hidden">
     <CharacterStageLayer :items="items" @remove="remove" />
   </div>
 </template>
