@@ -1,11 +1,8 @@
 <!-- src/editor/content/summary/CharacterSummary.vue -->
 <!-- 選択中アイテムに関係するシナリオで使われているキャラクター。クリックでキャラクター管理へ移動し、一括変更もできる -->
 <template>
-  <section class="w-full rounded-box border border-base-300 bg-base-200/40 p-4 min-w-0">
-    <div class="flex items-center justify-between gap-2 mb-3">
-      <h3 class="font-semibold">{{ t('connections.summary.characters') }}</h3>
-    </div>
-
+  <!-- タイトル & キー名 -->
+  <SettingItem layout="vertical" icon="Users" labelKey="connections.summary.characters">
     <div v-if="characters.length" class="flex gap-3 overflow-x-auto pb-2">
       <button
         v-for="character in characters"
@@ -41,7 +38,7 @@
       <CharacterChanger :targets="allTargets" />
       <IconKeyChanger :targets="allTargets" />
     </div>
-  </section>
+  </SettingItem>
 </template>
 
 <script setup lang="ts">
@@ -55,6 +52,7 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { useCharacterTargets } from '../composables/useCharacterTargets'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const { t } = useI18n()
   const navigationStore = useNavigationStore()
