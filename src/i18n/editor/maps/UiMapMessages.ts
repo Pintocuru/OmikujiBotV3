@@ -19,6 +19,10 @@ export const uiMapMessages = {
           label: '命の砂時計',
           description: 'リスナーが配信を閲覧した時間を「砂粒」として表示する、砂時計ジェネレーター',
         },
+        kujibikiPanel: {
+          label: 'くじ引きパネル',
+          description: 'おみくじ・占いの結果をパネル形式で表示します。',
+        },
       },
       uiKind: {
         characterStage: {
@@ -79,6 +83,14 @@ export const uiMapMessages = {
           label: 'Test layout (admin only)',
           description: 'A layout that displays all UI items.',
         },
+        kujibikiPanel: {
+          label: 'Lottery panel',
+          description: 'Displays omikuji and fortune-telling results in a panel.',
+        },
+        lifeHourglass: {
+          label: 'Life hourglass',
+          description: 'An hourglass generator that shows the time listeners spend watching your stream as grains of sand.',
+        },
       },
       uiKind: {
         characterStage: {
@@ -104,7 +116,7 @@ export const uiMapMessages = {
         },
         lifeHourglass: {
           label: 'Life hourglass',
-          description: 'Stores watch time and gifts as grains of sand in bowls (experimental).',
+          description: 'A count-up counter whose number increases as time passes.',
         },
         liveClock: {
           label: 'Live clock',

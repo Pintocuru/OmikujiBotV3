@@ -20,6 +20,10 @@ export const categorySectionMessages = {
       baseSettings: { label: 'Basic Settings', description: 'Basic settings' },
       trigger: { label: 'Trigger Conditions', description: 'Set trigger conditions for drawing omikuji' },
       mikuji: { label: 'Action Settings', description: 'Omikuji lottery settings and contents' },
+      scenarios: {
+        label: 'Edit Scenarios',
+        description: 'Edit the trigger order of scenarios (effect sets) and their steps (effect contents).',
+      },
       timerInterval: { label: 'Timer Settings', description: 'Set interval and timing for triggering' },
       placeholder: { label: 'Placeholder Settings', description: 'Edit placeholders to draw from' },
       characterStyle: {

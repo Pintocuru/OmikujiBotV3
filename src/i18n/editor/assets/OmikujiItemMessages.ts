@@ -22,6 +22,7 @@ export const omikujiItemMessages = {
         test: '抽選テスト',
         add: 'おみくじを追加',
         columns: 'おみくじ / シナリオ / クールダウン',
+        headerOmikuji: 'おみくじ',
       },
       summary: {
         unnamed: 'アイテム',
@@ -132,6 +133,7 @@ export const omikujiItemMessages = {
         test: 'Test draw',
         add: 'Add omikuji',
         columns: 'Omikuji / Scenario / Cooldown',
+        headerOmikuji: 'Omikuji',
       },
       summary: {
         unnamed: 'Item',
