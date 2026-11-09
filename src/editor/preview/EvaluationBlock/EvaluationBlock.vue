@@ -28,7 +28,7 @@
           />
           <button
             class="btn btn-xs join-item tooltip tooltip-top"
-            :class="paused ? 'btn-warning' : 'btn-neutral btn-outline'"
+            :class="paused ? 'btn-warning' : ' btn-outline'"
             :data-tip="t('editorPreview.evaluationBlock.pauseTip')"
             @click="paused = !paused"
           >

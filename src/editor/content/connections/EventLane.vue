@@ -21,7 +21,7 @@
         <span v-if="mikujiKey" class="badge badge-warning">{{ t('connections.boxMissing', { key: mikujiKey }) }}</span>
         <span class="text-sm">{{ t('connections.noBoxHint') }}</span>
         <button class="btn btn-sm btn-neutral" @click="pickerOpen = true">{{ t('connections.chooseBox') }}</button>
-        <button class="btn btn-sm btn-neutral btn-outline" @click="createAndConnect">
+        <button class="btn btn-sm btn-outline" @click="createAndConnect">
           {{ t('connections.createBox') }}
         </button>
       </div>
