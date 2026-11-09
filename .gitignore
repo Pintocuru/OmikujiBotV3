@@ -15,8 +15,8 @@ _archive
 .obsidian
 distZipped
 
-# build(v2からコピーした古いファイルが残っているため)
-build/
+# おみくじデータ(omikujiData.js)
+server/omikujiData.js
 
 # Editor directories and files
 .vscode/*

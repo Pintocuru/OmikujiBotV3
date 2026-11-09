@@ -49,7 +49,7 @@
       <div
         class="relative z-10 mt-auto w-full rounded-lg border border-cyan-100/20 bg-slate-950/65 p-3 backdrop-blur-sm"
       >
-        <p class="wrap-break-word text-center font-medium leading-relaxed tracking-wide text-white">
+        <p class="wrap-break-word text-2xl text-center font-medium leading-relaxed tracking-wide text-white">
           {{ currentSlot1 }}
         </p>
       </div>
@@ -74,9 +74,9 @@
   // 短い結果は大きく、長い結果は最大3行に収まるよう段階的に縮小する
   const slot0FontSize = computed(() => {
     const length = [...(currentSlot0.value ?? '')].length
-    if (length <= 4) return '2.25rem'
-    if (length <= 8) return '1.75rem'
-    if (length <= 14) return '1.25rem'
+    if (length <= 4) return '3.25rem'
+    if (length <= 8) return '2.75rem'
+    if (length <= 14) return '2.25rem'
     return '0.9rem'
   })
 </script>
