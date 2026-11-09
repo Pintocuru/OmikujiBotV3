@@ -89,11 +89,9 @@
     path: string
     index: number
     total: number
-    /** 1枚目か (「画像を検出」を出す) */
-    isFirst: boolean
+    isFirst: boolean /** 1枚目か (「画像を検出」を出す) */
     detecting: boolean
-    /** 入力欄の下に出す警告 (検出で見つからなかったときなど) */
-    warning: string
+    warning: string /** 入力欄の下に出す警告 (検出で見つからなかったときなど) */
   }>()
 
   const emit = defineEmits<{
