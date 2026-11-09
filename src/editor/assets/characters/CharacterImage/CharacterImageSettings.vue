@@ -97,7 +97,7 @@
   const handleAddEmotion = async () => {
     const key = newEmotionKey.value.trim()
     if (!key || NUMERIC_KEY_PATTERN.test(key) || key in currentImages.value) return
-    pushImages({ ...currentImages.value, [key]: { label: key, src: [] } })
+    pushImages({ ...currentImages.value, [key]: { label: key, src: [''] } }) // 空の1枚目 (ダイアログを開くと自動検出する)
     newEmotionKey.value = ''
     await nextTick()
     editModalRef.value?.showModal(key)

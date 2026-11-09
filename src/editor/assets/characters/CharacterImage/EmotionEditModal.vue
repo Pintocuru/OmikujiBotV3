@@ -2,7 +2,6 @@
 <template>
   <BaseEditDialog ref="baseDialog" :title="t('characterImage.editModal.title')" icon="Info" @save="handleSave">
     <div v-if="draftKey && draftItem" class="space-y-2">
-      <ImageSettingsInfo />
       <EmotionImageItem
         :emotion-key="draftKey"
         :label="draftItem.label ?? ''"
@@ -14,6 +13,7 @@
           :src="draftItem.src"
           :emotion-key="draftKey"
           :selected-item-key="selectedItemKey ?? 'default'"
+          :other-emotion-paths="otherEmotionPaths"
           @update:src="updateSrc"
         />
         <EmotionAnimationEditor
@@ -32,12 +32,11 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
   import type { CharacterImageSetType, CharacterImageType } from '@/types/OmikujiData'
   import EmotionImageItem from './EmotionImageItem.vue'
   import EmotionLayerEditor from './EmotionLayerEditor.vue'
   import EmotionAnimationEditor from './EmotionAnimationEditor.vue'
-  import ImageSettingsInfo from './ImageSettingsInfo.vue'
   import BaseEditDialog from '@/editor/parts/BaseEditDialog.vue'
   import { useEmotionDraft } from './composables/useEmotionDraft'
 
@@ -58,6 +57,14 @@
 
   const { draftKey, draftItem, initDraft, updateSrc, updateLabel, updateAnimation } = useEmotionDraft(
     () => props.modelValue
+  )
+
+  // このキャラクターの他の感情で使っているパス (レイヤー候補の1番目のグループ)
+  const otherEmotionPaths = computed(() =>
+    Object.entries(props.modelValue)
+      .filter(([key]) => key !== draftKey.value)
+      .flatMap(([, image]) => image.src)
+      .filter((path) => path.trim() !== '')
   )
 
   const handleSave = () => {

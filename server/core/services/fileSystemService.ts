@@ -1,6 +1,6 @@
 // server/core/services/fileSystemService.ts
 import fs from 'fs/promises'
-import type { Dirent } from 'fs'
+import { readdirSync, type Dirent } from 'fs'
 import path from 'path'
 import { randomUUID } from 'node:crypto'
 import { FileItem } from '@server/types'
@@ -8,7 +8,8 @@ import { MetaDataSchema, type MetaDataType } from '@/types/core/MetaDataSchema'
 import { ensureDirectory } from './directoryService'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { SERVER_ROOT } from '@server/constants'
-import { FILE_NAME, INVALID_PATH_CODE, SOUND_EXTENSIONS } from '@server/core/constants'
+import { FILE_NAME, IMAGE_ROOT_FOLDER_PATTERN, INVALID_PATH_CODE, SOUND_EXTENSIONS } from '@server/core/constants'
+import { getPathExtension, isImageExtension } from '@/maps/common/ImageExtensionMap'
 
 /**
  * rootName から基準ディレクトリを解決（null なら server 直下）
@@ -143,12 +144,11 @@ async function readMeta(fullPath: string): Promise<MetaDataType | undefined> {
 }
 
 /**
- * sounds 配下の音声ファイルを再帰的に列挙する (sounds からの相対パス、昇順)
+ * rootDir 配下のファイルのうち isTarget に合うものを再帰的に列挙する (rootDir からの相対パス、昇順)
  * フォルダがなければ空配列を返す (作成はしない)
  */
-export async function getSoundFileList(soundsDir: string): Promise<string[]> {
+async function walkFiles(rootDir: string, isTarget: (fileName: string) => boolean): Promise<string[]> {
   const results: string[] = []
-  const extensions: readonly string[] = SOUND_EXTENSIONS
 
   const walk = async (dir: string): Promise<void> => {
     let entries: Dirent[]
@@ -162,14 +162,49 @@ export async function getSoundFileList(soundsDir: string): Promise<string[]> {
       const fullPath = path.join(dir, entry.name)
       if (entry.isDirectory()) {
         await walk(fullPath)
-      } else if (entry.isFile() && extensions.includes(path.extname(entry.name).toLowerCase())) {
-        results.push(path.relative(soundsDir, fullPath).replace(/\\/g, '/'))
+      } else if (entry.isFile() && isTarget(entry.name)) {
+        results.push(path.relative(rootDir, fullPath).replace(/\\/g, '/'))
       }
     }
   }
 
-  await walk(soundsDir)
+  await walk(rootDir)
   return results.sort()
+}
+
+/**
+ * sounds 配下の音声ファイルを再帰的に列挙する (sounds からの相対パス、昇順)
+ * フォルダがなければ空配列を返す (作成はしない)
+ */
+export async function getSoundFileList(soundsDir: string): Promise<string[]> {
+  const extensions: readonly string[] = SOUND_EXTENSIONS
+  return walkFiles(soundsDir, (name) => extensions.includes(path.extname(name).toLowerCase()))
+}
+
+/**
+ * 画像ルート (複数可) 配下の画像・動画ファイルを再帰的に列挙する (各ルートからの相対パス、重複なし、昇順)
+ * 同じ相対パスが複数のルートにあっても1回だけ返す。存在しないルートは無視する (images フォルダが無いパッケージ用)
+ */
+export async function getImageFileList(imageDirs: readonly string[]): Promise<string[]> {
+  const lists = await Promise.all(
+    imageDirs.map((dir) => walkFiles(dir, (name) => isImageExtension(getPathExtension(name))))
+  )
+  return [...new Set(lists.flat())].sort()
+}
+
+/**
+ * 開発用: assets/Characters 直下の中間フォルダ (common / wip / YYYY-Qn) を、画像ルートとして列挙する
+ * フォルダ追加に追従できるよう、呼ぶたびに読み直す。フォルダがなければ空配列
+ */
+export function listImageRootDirs(charactersDir: string): string[] {
+  try {
+    return readdirSync(charactersDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory() && IMAGE_ROOT_FOLDER_PATTERN.test(entry.name))
+      .map((entry) => path.join(charactersDir, entry.name))
+      .sort()
+  } catch {
+    return []
+  }
 }
 
 /**

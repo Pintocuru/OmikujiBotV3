@@ -1,55 +1,60 @@
 <!-- src/editor/assets/characters/CharacterImage/EmotionLayerEditor.vue -->
 <template>
   <div class="space-y-2">
-    <div class="text-xs font-medium text-base-content/70 mb-1">{{ t('characterImage.layer.title') }}</div>
+    <div class="flex items-center gap-1 mb-1">
+      <div class="text-xs font-medium text-base-content/70">{{ t('characterImage.layer.title') }}</div>
+      <HelpButton :title="t('characterImage.help.title')">
+        <ImageSettingsInfo />
+      </HelpButton>
+    </div>
 
     <button type="button" class="btn btn-sm btn-secondary gap-2 w-full" @click="handleAddLayer">
       <Plus class="w-4 h-4" />
       {{ t('characterImage.layer.add') }}
     </button>
 
-    <div v-for="(layer, index) in layers" :key="index" class="border rounded p-2 bg-base-200 space-y-1">
-      <div class="flex items-center gap-2">
-        <span class="badge badge-xs">{{ index + 1 }}</span>
-        <div class="flex-1" />
-        <button type="button" class="btn btn-sm btn-neutral btn-outline gap-2" @click="handleSetDefaultPath(index)">
-          <RotateCcw class="w-4 h-4" />
-          {{ t('characterImage.layer.setPath') }}
-        </button>
-        <div class="tooltip tooltip-top" :data-tip="t('characterImage.layer.moveUp')">
-          <button type="button" class="btn btn-sm btn-ghost btn-square" :aria-label="t('characterImage.layer.moveUp')" @click="handleMoveUp(index)" :disabled="index === 0">
-            <ChevronUp class="w-4 h-4" />
-          </button>
-        </div>
-        <div class="tooltip tooltip-top" :data-tip="t('characterImage.layer.moveDown')">
-          <button type="button" class="btn btn-sm btn-ghost btn-square" :aria-label="t('characterImage.layer.moveDown')" @click="handleMoveDown(index)" :disabled="index === layers.length - 1">
-            <ChevronDown class="w-4 h-4" />
-          </button>
-        </div>
-        <div class="tooltip tooltip-top" :data-tip="t('characterImage.layer.remove')">
-          <button type="button" class="btn btn-sm btn-error btn-square" :aria-label="t('characterImage.layer.remove')" @click="handleRemoveLayer(index)">
-            <X class="w-4 h-4" />
-          </button>
-        </div>
-      </div>
+    <EmotionLayerRow
+      v-for="(layer, index) in layers"
+      :key="index"
+      :path="layer"
+      :index="index"
+      :total="layers.length"
+      :is-first="index === 0"
+      :detecting="detecting"
+      :warning="index === 0 ? detectWarning : ''"
+      @update:path="handleLayerUpdate(index, $event)"
+      @detect="runDetect(false)"
+      @pick="pickingIndex = index"
+      @move-up="handleMoveUp(index)"
+      @move-down="handleMoveDown(index)"
+      @remove="handleRemoveLayer(index)"
+    />
 
-      <input
-        type="url"
-        class="input input-xs w-full"
-        :placeholder="t('characterImage.layer.url', { n: index + 1 })"
-        :value="layer"
-        @input="handleLayerUpdate(index, ($event.target as HTMLInputElement).value)"
-      />
-      <ImagePreview :layers="layer" :width="128" />
-    </div>
+    <ImageCandidateDialog
+      :open="pickingIndex !== null"
+      :files="imageFiles"
+      :is-loading="isLoading"
+      :character-key="selectedItemKey"
+      :character-paths="otherEmotionPaths"
+      :used-paths="usedPaths"
+      :current-path="pickingIndex !== null ? (layers[pickingIndex] ?? '') : ''"
+      @update:open="pickingIndex = null"
+      @select="handlePick"
+      @reload="reload"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { computed, ref } from 'vue'
-  import { RotateCcw, Plus, ChevronUp, ChevronDown, X } from 'lucide-vue-next'
-  import ImagePreview from '@/common/LayerImage/ImagePreview.vue'
+  import { computed, onMounted, ref, watch } from 'vue'
+  import { Plus } from 'lucide-vue-next'
+  import HelpButton from '@/editor/parts/HelpButton.vue'
+  import EmotionLayerRow from './EmotionLayerRow.vue'
+  import ImageSettingsInfo from './ImageSettingsInfo.vue'
+  import ImageCandidateDialog from './ImageCandidateDialog.vue'
+  import { detectImagePath } from './composables/detectImagePath'
+  import { useImageFiles } from './composables/useImageFiles'
 
   const { t } = useI18n()
 
@@ -57,6 +62,8 @@
     src: string[]
     emotionKey: string
     selectedItemKey: string
+    /** このキャラクターの他の感情で使っているパス (候補の1番目のグループ) */
+    otherEmotionPaths: string[]
   }>()
 
   const emit = defineEmits<{
@@ -65,24 +72,67 @@
 
   const layers = computed(() => (Array.isArray(props.src) ? props.src : []))
 
-  const imageExtensions = ['png', 'gif', 'webp', 'jpg', 'jpeg', 'svg', 'webm', 'mp4']
-  const extensionIndex = ref(0)
+  const { imageFiles, isLoading, ensureLoaded, reload } = useImageFiles()
 
-  // 押されたレイヤー(index)のパスだけを既定パスに書き換える
-  const handleSetDefaultPath = (index: number) => {
-    const ext = imageExtensions[extensionIndex.value % imageExtensions.length]
-    extensionIndex.value++
-    const newPath = `${props.selectedItemKey}/${props.emotionKey}.${ext}`
+  // ── 画像の自動検出 (1枚目のみ) ───────────────────────────────────────────
+  const detecting = ref(false)
+  const detectWarning = ref('')
+
+  const isFirstEmpty = () => !(layers.value[0] ?? '').trim()
+
+  const setLayer = (index: number, path: string) => {
     const n = [...layers.value]
-    n[index] = newPath
+    n[index] = path
     emit('update:src', n)
   }
 
-  const handleLayerUpdate = (index: number, value: string) => {
-    const n = [...layers.value]
-    n[index] = value
-    emit('update:src', n)
+  // silent: ダイアログを開いたときの自動検出。見つからなくても警告は出さず、待っている間に入力されていたら何もしない
+  const runDetect = async (silent: boolean) => {
+    detecting.value = true
+    detectWarning.value = ''
+    try {
+      await ensureLoaded()
+      const found = await detectImagePath({
+        characterKey: props.selectedItemKey,
+        emotionKey: props.emotionKey,
+        files: imageFiles.value,
+      })
+      if (found) {
+        if (!silent || isFirstEmpty()) setLayer(0, found)
+      } else if (!silent) {
+        detectWarning.value = t('characterImage.layer.detectNotFound', {
+          base: `${props.selectedItemKey}/${props.emotionKey}`,
+        })
+      }
+    } finally {
+      detecting.value = false
+    }
   }
+
+  // 1枚目が変わったら、古い警告は消す
+  watch(
+    () => layers.value[0],
+    () => (detectWarning.value = '')
+  )
+
+  onMounted(() => {
+    if (isFirstEmpty()) void runDetect(true)
+  })
+
+  // ── 候補の選択 ─────────────────────────────────────────────────────────────
+  const pickingIndex = ref<number | null>(null)
+
+  // 選んでいるレイヤー以外で、この感情が使っているパス (重複して選ばせない)
+  const usedPaths = computed(() => layers.value.filter((path, i) => i !== pickingIndex.value && path.trim() !== ''))
+
+  const handlePick = (path: string) => {
+    if (pickingIndex.value === null) return
+    setLayer(pickingIndex.value, path)
+    pickingIndex.value = null
+  }
+
+  // ── レイヤー操作 ───────────────────────────────────────────────────────────
+  const handleLayerUpdate = (index: number, value: string) => setLayer(index, value)
   const handleAddLayer = () => emit('update:src', [...layers.value, ''])
   const handleRemoveLayer = (index: number) =>
     emit(

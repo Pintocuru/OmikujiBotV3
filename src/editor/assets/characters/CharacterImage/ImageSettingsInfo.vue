@@ -1,32 +1,21 @@
 <!-- src/editor/assets/characters/CharacterImage/ImageSettingsInfo.vue -->
+<!-- 画像設定のヘルプの中身 (HelpButton のスロットに入れて使う) -->
 <template>
-  <InformationCard>
-    <p>
-      {{ t('characterImage.info.line1Pre') }}
-      <code class="label bg-accent text-accent-content">{{ t('characterImage.info.code1') }}</code>
-      {{ t('characterImage.info.line1Post') }}
-    </p>
-
-    <p>
-      {{ t('characterImage.info.line2Pre') }}
-      <span class="btn btn-ghost btn-xs px-1 py-0 h-auto min-h-0 text-xs pointer-events-none">
-        <RotateCcw class="w-3 h-3 mr-1" />
-        {{ t('characterImage.layer.setPath') }}
-      </span>
-      {{ t('characterImage.info.line2Mid') }}
-      <code class="label bg-accent text-accent-content">{{ t('characterImage.info.code2') }}</code>
-      {{ t('characterImage.info.line2Post') }}
-    </p>
-    <p class="mt-2 text-sm">
-      <strong>{{ t('characterImage.info.layerFeature') }}</strong> {{ t('characterImage.info.layerDesc') }}
-    </p>
-  </InformationCard>
+  <p>
+    {{ t('characterImage.help.placePre') }}
+    <code class="label bg-accent text-accent-content">{{ t('characterImage.help.placeCode') }}</code>
+    {{ t('characterImage.help.placePost') }}
+  </p>
+  <p>{{ t('characterImage.help.detect', { button: t('characterImage.layer.detect') }) }}</p>
+  <p>{{ t('characterImage.help.pick', { button: t('characterImage.layer.candidates') }) }}</p>
+  <p>{{ t('characterImage.help.status') }}</p>
+  <p>
+    <strong>{{ t('characterImage.help.layerFeature') }}</strong> {{ t('characterImage.help.layerDesc') }}
+  </p>
 </template>
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import InformationCard from '@/editor/parts/InformationCard.vue'
-  import { RotateCcw } from 'lucide-vue-next'
 
   const { t } = useI18n()
 </script>

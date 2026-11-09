@@ -7,6 +7,7 @@ import * as gameStateHandler from './handlers/gameStateHandler'
 import * as userStatsHandler from './handlers/userStatsHandler'
 import * as padHandler from './handlers/padHandler'
 import * as soundHandler from './handlers/soundHandler'
+import * as imageHandler from './handlers/imageHandler'
 import { API_ACTION } from '@server/api/actions'
 import { HTTP } from './constants'
 import { ok, fail, badRequest } from './utils/result'
@@ -77,6 +78,9 @@ async function handleGetRequest(
 
     case API_ACTION.listSounds.action:
       return soundHandler.listSounds(ctx)
+
+    case API_ACTION.listImages.action:
+      return imageHandler.listImages(ctx)
 
     default:
       return fail(HTTP.NOT_FOUND, `Unknown GET action: ${action}`)
