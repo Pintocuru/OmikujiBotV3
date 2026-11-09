@@ -163,6 +163,7 @@ export const appItemsCharactersMessages = {
       // CharacterEditor 上部のカード(色・コメント表現)
       cards: {
         edit: 'カラー編集',
+        displayName: '表示するキャラクター名',
         editVoice: 'コメント表現を編集',
         colorSample: 'こんにちは！色の見え方はこんな感じです',
         colorNames: { name: '名前', text: '本文', background: '背景', accent: 'アクセント' },
@@ -334,6 +335,7 @@ export const appItemsCharactersMessages = {
       },
       cards: {
         edit: 'Edit',
+        displayName: 'Character name to display',
         editVoice: 'Edit comment display',
         colorSample: 'Hello! This is how the colors look',
         colorNames: { name: 'Name', text: 'Text', background: 'Background', accent: 'Accent' },
