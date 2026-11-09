@@ -18,7 +18,7 @@
   </div>
 
   <!-- おみくじ一覧 -->
-  <div v-if="omikujiItem.length > 0" class="w-full overflow-x-auto">
+  <div v-if="omikujiItem.length > 0" class="w-full">
     <!-- ヘッダー: 列幅は OmikujiRow と同じ grid-cols にしてある(変更時は両方を揃えること) -->
     <div class="grid grid-cols-[minmax(18rem,1fr)_1rem_16rem_7rem] items-center gap-2 px-2 pb-1 text-sm opacity-60">
       <span>おみくじ</span>
