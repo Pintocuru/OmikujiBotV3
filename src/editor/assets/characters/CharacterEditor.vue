@@ -9,11 +9,10 @@
       description-key="categorySections.characterStyle.description"
     >
       <!-- 表示するキャラクター名 -->
-      <!-- TODO:説明をi18n化 -->
       <SettingItem
-        icon="MessageSquare"
+        icon="UserRound"
         labelKey="characterService.cards.displayName"
-        description="ジェネレーターで表示されるキャラクター名"
+        descriptionKey="characterService.cards.displayNameDesc"
       >
         <input
           id="character-display-name"
