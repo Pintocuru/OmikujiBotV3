@@ -8,8 +8,12 @@
         v-for="character in characters"
         :key="character.key"
         type="button"
-        class="flex w-20 shrink-0 flex-col items-center gap-1 rounded-lg p-1"
-        :class="character.exists ? 'cursor-pointer hover:bg-base-300' : 'cursor-default'"
+        class="flex w-20 shrink-0 flex-col items-center gap-1 rounded-lg border-2 p-1 transition"
+        :class="
+          character.exists
+            ? 'cursor-pointer border-base-300 hover:border-primary focus-visible:border-primary'
+            : 'cursor-default border-transparent'
+        "
         :disabled="!character.exists"
         :title="character.exists ? character.name : t('connections.summary.undefinedCharacter', { key: character.key })"
         @click="goToCharacter(character)"
