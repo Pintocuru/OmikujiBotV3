@@ -15,6 +15,8 @@
           :modelValue="selectedItem.color"
           @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'color', value)"
         />
+        <!-- TODO:ここに「表示するキャラクター名変更」を入れる -->
+
         <!-- わんコメへの投稿方法 -->
         <CommentVoiceCard
           :modelValue="selectedItem.displayOption"
