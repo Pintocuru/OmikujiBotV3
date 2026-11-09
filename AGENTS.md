@@ -55,3 +55,15 @@
 
 - IssuesBadge の長い title の折り返しの見た目
 - InlinePlaceholderDialog を MessageTextDialog の上に開いたときの積み重なり・Esc は最前面だけが閉じること
+
+#### patch 3: CharacterChanger / IconKeyChanger を BaseDialog へ
+
+- `CharacterChanger.vue` / `IconKeyChanger.vue`: `div.modal.modal-open` + `v-if` をやめ、トリガーボタンと同居のまま `BaseDialog`(`:open="isModalOpen"`、`icon` は Users / Image、`size="3xl"`)に。`ModalFooterActions` は `actions` スロット(`class="w-full"`)。これにより Esc・バックドロップ閉じが新たに効く
+- ×・Esc・バックドロップで閉じたときも `closeModal()`(= 編集中マッピングの破棄)を呼ぶよう `@update:open` を接続(`useMappingModalState` は変更なし)
+- 未使用になった i18n キー `omikujiItem.scenario.dialog.close`(ja / en)を削除(`src/i18n/editor/assets/OmikujiItemMessages.ts`)
+- 検証: `vue-tsc --noEmit` エラー0、`eslint src/editor/helpers src/i18n` 問題なし。実ブラウザは未確認
+
+未確認(本人確認待ち):
+
+- 内部コンポーネント(CharacterMappingEditor 等)の中身が `max-h-[90vh]` のダイアログ内でスクロールしても崩れないか(従来の見た目と同じ構造のため大きな差は想定していない)
+- `CharacterSummary.vue` 上で2つのボタンから開く動作

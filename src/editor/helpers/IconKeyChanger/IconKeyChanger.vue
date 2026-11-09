@@ -17,101 +17,105 @@
   </div>
 
   <!-- モーダル -->
-  <div v-if="isModalOpen" class="modal modal-open">
-    <div class="modal-box max-w-3xl max-h-[90vh] overflow-y-auto">
-      <h3 class="font-bold text-lg mb-4">{{ t('iconKeyChanger.title', { scope: scopeLabel }) }}</h3>
-
-      <div class="space-y-4">
-        <!-- 使用中のアイコン（キャラクターごと） -->
-        <div class="bg-base-200 p-4 rounded-lg space-y-3">
-          <p class="text-sm font-semibold text-gray-600">{{ t('iconKeyChanger.currentListTitle') }}</p>
-          <p v-if="usedIconGroups.length === 0" class="text-sm text-gray-500">
-            {{ t('iconKeyChanger.emptyList') }}
+  <BaseDialog
+    :open="isModalOpen"
+    :title="t('iconKeyChanger.title', { scope: scopeLabel })"
+    icon="Image"
+    size="3xl"
+    @update:open="onUpdateOpen"
+  >
+    <div class="space-y-4">
+      <!-- 使用中のアイコン（キャラクターごと） -->
+      <div class="bg-base-200 p-4 rounded-lg space-y-3">
+        <p class="text-sm font-semibold text-gray-600">{{ t('iconKeyChanger.currentListTitle') }}</p>
+        <p v-if="usedIconGroups.length === 0" class="text-sm text-gray-500">
+          {{ t('iconKeyChanger.emptyList') }}
+        </p>
+        <div v-for="group in usedIconGroups" :key="group.characterKey">
+          <p class="text-xs text-gray-500 mb-1">
+            {{ getCharacterName(group.characterKey) || group.characterKey || t('mapping.emptyKey') }}
           </p>
-          <div v-for="group in usedIconGroups" :key="group.characterKey">
-            <p class="text-xs text-gray-500 mb-1">
-              {{ getCharacterName(group.characterKey) || group.characterKey || t('mapping.emptyKey') }}
-            </p>
-            <div class="flex flex-wrap gap-2">
-              <span
-                v-for="icon in group.icons"
-                :key="icon.iconKey"
-                :class="['badge badge-lg', icon.invalid ? 'badge-error animate-pulse' : 'badge-outline']"
-              >
-                {{ icon.invalid ? '⚠️ ' : '' }}{{ icon.iconKey || t('mapping.emptyKey') }}
-                <span class="ml-1 text-xs opacity-70">({{ usageCountLabel(icon.count) }})</span>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- エラー統計 -->
-        <div v-if="hasInvalidIconKeys" class="stats shadow w-full">
-          <div class="stat bg-error/10">
-            <div class="stat-title">{{ t('iconKeyChanger.invalidStatistics') }}</div>
-            <div class="stat-value text-error">{{ invalidIconKeyCount }}</div>
-          </div>
-        </div>
-
-        <!-- エラー警告 -->
-        <div v-if="hasInvalidIconKeys" class="alert alert-error">
-          <AlertTriangle class="w-4 h-4" />
-          <div class="flex-1">
-            <span class="font-semibold">{{ t('iconKeyChanger.invalidAlert.title') }}</span>
-            <p class="text-sm mt-1">{{ t('iconKeyChanger.invalidAlert.description') }}</p>
-          </div>
-        </div>
-
-        <!-- 不正キーがない場合 -->
-        <div v-else class="alert alert-success">
-          <span>{{ t('iconKeyChanger.validAlert') }}</span>
-        </div>
-
-        <!-- 変更エディター（不正キーがある場合のみ表示） -->
-        <IconKeyMappingEditor
-          v-if="hasInvalidIconKeys"
-          :invalid-pairs="invalidIconKeyPairs"
-          :icon-key-mappings="iconKeyMappings"
-          :usage-count="iconKeyUsageCount"
-          :has-changes="hasChanges"
-          @clear-all="clearAllMappings"
-          @update-mapping="updateMapping"
-        />
-
-        <!-- 変更プレビュー -->
-        <div v-if="hasChanges" class="alert alert-warning">
-          <AlertTriangle class="w-4 h-4" />
-          <div class="flex-1">
-            <span class="font-semibold">{{ t('mapping.review') }}</span>
-            <ul class="text-sm mt-2 space-y-1">
-              <li v-for="(newKey, compositeKey) in iconKeyMappings" :key="compositeKey">
-                <span v-if="newKey">
-                  {{
-                    t('mapping.itemChange', {
-                      before: formatPreviewLabel(compositeKey),
-                      after: newKey,
-                      usageCount: usageCountLabel(iconKeyUsageCount[compositeKey] ?? 0),
-                    })
-                  }}
-                </span>
-              </li>
-            </ul>
-            <p class="text-sm mt-3 font-semibold text-warning-content">
-              {{ t('mapping.caution', { scope: scopeLabel }) }}
-            </p>
+          <div class="flex flex-wrap gap-2">
+            <span
+              v-for="icon in group.icons"
+              :key="icon.iconKey"
+              :class="['badge badge-lg', icon.invalid ? 'badge-error animate-pulse' : 'badge-outline']"
+            >
+              {{ icon.invalid ? '⚠️ ' : '' }}{{ icon.iconKey || t('mapping.emptyKey') }}
+              <span class="ml-1 text-xs opacity-70">({{ usageCountLabel(icon.count) }})</span>
+            </span>
           </div>
         </div>
       </div>
 
+      <!-- エラー統計 -->
+      <div v-if="hasInvalidIconKeys" class="stats shadow w-full">
+        <div class="stat bg-error/10">
+          <div class="stat-title">{{ t('iconKeyChanger.invalidStatistics') }}</div>
+          <div class="stat-value text-error">{{ invalidIconKeyCount }}</div>
+        </div>
+      </div>
+
+      <!-- エラー警告 -->
+      <div v-if="hasInvalidIconKeys" class="alert alert-error">
+        <AlertTriangle class="w-4 h-4" />
+        <div class="flex-1">
+          <span class="font-semibold">{{ t('iconKeyChanger.invalidAlert.title') }}</span>
+          <p class="text-sm mt-1">{{ t('iconKeyChanger.invalidAlert.description') }}</p>
+        </div>
+      </div>
+
+      <!-- 不正キーがない場合 -->
+      <div v-else class="alert alert-success">
+        <span>{{ t('iconKeyChanger.validAlert') }}</span>
+      </div>
+
+      <!-- 変更エディター（不正キーがある場合のみ表示） -->
+      <IconKeyMappingEditor
+        v-if="hasInvalidIconKeys"
+        :invalid-pairs="invalidIconKeyPairs"
+        :icon-key-mappings="iconKeyMappings"
+        :usage-count="iconKeyUsageCount"
+        :has-changes="hasChanges"
+        @clear-all="clearAllMappings"
+        @update-mapping="updateMapping"
+      />
+
+      <!-- 変更プレビュー -->
+      <div v-if="hasChanges" class="alert alert-warning">
+        <AlertTriangle class="w-4 h-4" />
+        <div class="flex-1">
+          <span class="font-semibold">{{ t('mapping.review') }}</span>
+          <ul class="text-sm mt-2 space-y-1">
+            <li v-for="(newKey, compositeKey) in iconKeyMappings" :key="compositeKey">
+              <span v-if="newKey">
+                {{
+                  t('mapping.itemChange', {
+                    before: formatPreviewLabel(compositeKey),
+                    after: newKey,
+                    usageCount: usageCountLabel(iconKeyUsageCount[compositeKey] ?? 0),
+                  })
+                }}
+              </span>
+            </li>
+          </ul>
+          <p class="text-sm mt-3 font-semibold text-warning-content">
+            {{ t('mapping.caution', { scope: scopeLabel }) }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <template #actions>
       <ModalFooterActions
-        class="mt-6"
+        class="w-full"
         :on-cancel="closeModal"
         :on-save="executeIconKeyChange"
         :save-name="t('iconKeyChanger.execute')"
         :disabled="!hasChanges"
       />
-    </div>
-  </div>
+    </template>
+  </BaseDialog>
 </template>
 
 <script setup lang="ts">
@@ -120,6 +124,7 @@
   import { ImageIcon, AlertTriangle } from 'lucide-vue-next'
   import IconKeyMappingEditor from './IconKeyMappingEditor.vue'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
+  import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import { TargetCategoryType, FlowTarget, useDataExtractor } from '../CharacterChanger/composables/useDataExtractor'
   import { useIconKeyStats } from './composables/useIconKeyStats'
   import { useMappingModalState } from '@/editor/helpers/shared/useMappingModalState'
@@ -200,6 +205,11 @@
     const [characterKey, iconKey] = compositeKey.split(':')
     const character = getCharacterName(characterKey) || characterKey || t('mapping.emptyKey')
     return t('iconKeyChanger.mappingBeforeValue', { character, iconKey: iconKey || t('mapping.emptyKey') })
+  }
+
+  // ×・Esc・バックドロップで閉じたときも、編集中のマッピングを破棄する
+  const onUpdateOpen = (open: boolean) => {
+    if (!open) closeModal()
   }
 
   /**

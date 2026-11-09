@@ -16,62 +16,65 @@
   </div>
 
   <!-- モーダル -->
-  <div v-if="isModalOpen" class="modal modal-open">
-    <div class="modal-box max-w-3xl max-h-[90vh] overflow-y-auto">
-      <h3 class="font-bold text-lg mb-4">{{ t('characterChanger.title', { scope: scopeLabel }) }}</h3>
+  <BaseDialog
+    :open="isModalOpen"
+    :title="t('characterChanger.title', { scope: scopeLabel })"
+    icon="Users"
+    size="3xl"
+    @update:open="onUpdateOpen"
+  >
+    <div class="space-y-4">
+      <!-- 統計情報（カテゴリ全体の場合のみ表示） -->
+      <CharacterStatistics
+        v-if="changeScope === 'category' && !props.targets"
+        :total-items="totalItems"
+        :unique-character-count="uniqueCharacterKeys.length"
+        :invalid-character-count="invalidCharacterCount"
+        :has-invalid-characters="hasInvalidCharacters"
+      />
 
-      <div class="space-y-4">
-        <!-- 統計情報（カテゴリ全体の場合のみ表示） -->
-        <CharacterStatistics
-          v-if="changeScope === 'category' && !props.targets"
-          :total-items="totalItems"
-          :unique-character-count="uniqueCharacterKeys.length"
-          :invalid-character-count="invalidCharacterCount"
-          :has-invalid-characters="hasInvalidCharacters"
-        />
+      <!-- 現在のキャラクター情報 -->
+      <CurrentCharacterList :character-keys="sortedCharacterKeys" :usage-count="characterUsageCount" />
 
-        <!-- 現在のキャラクター情報 -->
-        <CurrentCharacterList :character-keys="sortedCharacterKeys" :usage-count="characterUsageCount" />
+      <!-- エラー警告 -->
+      <InvalidCharacterAlert v-if="hasInvalidCharacters" />
 
-        <!-- エラー警告 -->
-        <InvalidCharacterAlert v-if="hasInvalidCharacters" />
+      <!-- 個別変更セクション（未定義がある場合、または「変更する」を押したときだけ表示） -->
+      <CharacterMappingEditor
+        v-if="visibleMappingKeys.length > 0"
+        :character-keys="visibleMappingKeys"
+        :character-mappings="characterMappings"
+        :usage-count="characterUsageCount"
+        :has-changes="hasChanges"
+        @clear-all="clearAllMappings"
+        @update-mapping="updateMapping"
+      />
 
-        <!-- 個別変更セクション（未定義がある場合、または「変更する」を押したときだけ表示） -->
-        <CharacterMappingEditor
-          v-if="visibleMappingKeys.length > 0"
-          :character-keys="visibleMappingKeys"
-          :character-mappings="characterMappings"
-          :usage-count="characterUsageCount"
-          :has-changes="hasChanges"
-          @clear-all="clearAllMappings"
-          @update-mapping="updateMapping"
-        />
-
-        <div v-if="!isEditing && uniqueCharacterKeys.length > visibleMappingKeys.length" class="text-center">
-          <button class="btn btn-sm btn-ghost" @click="isEditing = true">
-            {{ t(visibleMappingKeys.length > 0 ? 'characterChanger.changeAll' : 'characterChanger.change') }}
-          </button>
-        </div>
-
-        <!-- 変更内容のプレビュー -->
-        <MappingPreview
-          v-if="hasChanges"
-          :character-mappings="characterMappings"
-          :usage-count="characterUsageCount"
-          :scope-label="scopeLabel"
-        />
+      <div v-if="!isEditing && uniqueCharacterKeys.length > visibleMappingKeys.length" class="text-center">
+        <button class="btn btn-sm btn-ghost" @click="isEditing = true">
+          {{ t(visibleMappingKeys.length > 0 ? 'characterChanger.changeAll' : 'characterChanger.change') }}
+        </button>
       </div>
 
-      <!-- モーダル -->
+      <!-- 変更内容のプレビュー -->
+      <MappingPreview
+        v-if="hasChanges"
+        :character-mappings="characterMappings"
+        :usage-count="characterUsageCount"
+        :scope-label="scopeLabel"
+      />
+    </div>
+
+    <template #actions>
       <ModalFooterActions
-        class="mt-6"
+        class="w-full"
         :on-cancel="closeModal"
         :on-save="executeCharacterChange"
         :save-name="t('characterChanger.execute')"
         :disabled="!hasChanges"
       />
-    </div>
-  </div>
+    </template>
+  </BaseDialog>
 </template>
 
 <script setup lang="ts">
@@ -89,6 +92,7 @@
   import { useScenarioStepCharacters } from './composables/useScenarioStepCharacters'
   import { useCharacterLookup } from './composables/useCharacterLookup'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
+  import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import { Users } from 'lucide-vue-next'
 
   const { t } = useI18n()
@@ -154,6 +158,11 @@
       if (!getCharacterName(charKey)) initialMappings[charKey] = ''
     })
     openModalBase(initialMappings)
+  }
+
+  // ×・Esc・バックドロップで閉じたときも、編集中のマッピングを破棄する
+  const onUpdateOpen = (open: boolean) => {
+    if (!open) closeModal()
   }
 
   /**

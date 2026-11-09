@@ -67,7 +67,6 @@ export const omikujiItemMessages = {
           noDescription: '説明はありません',
           steps: 'ステップ {count}件',
           select: '選択',
-          close: '閉じる',
         },
       },
       header: {
@@ -177,7 +176,6 @@ export const omikujiItemMessages = {
           noDescription: 'No description',
           steps: '{count} step(s)',
           select: 'Select',
-          close: 'Close',
         },
       },
       header: {
