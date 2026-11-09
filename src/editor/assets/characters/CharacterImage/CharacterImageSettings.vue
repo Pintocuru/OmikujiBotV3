@@ -49,7 +49,7 @@
   import EmotionEditModal from './EmotionEditModal.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { duplicateEmotion } from './composables/emotionOperations'
+  import { NUMERIC_KEY_PATTERN, duplicateEmotion, renameEmotion } from './composables/emotionOperations'
 
   const { t } = useI18n()
 
@@ -62,8 +62,7 @@
   const editModalRef = ref<InstanceType<typeof EmotionEditModal> | null>(null)
   const newEmotionKey = ref('')
 
-  // 数字だけのキーは JS の仕様でオブジェクトの先頭に昇順で並び、ドラッグした並び順を保存できないため追加させない
-  const NUMERIC_KEY_PATTERN = /^\d+$/
+  // 数字だけのキーは並び順を保存できないため追加させない(NUMERIC_KEY_PATTERN の説明を参照)
   const isNumericKey = computed(() => NUMERIC_KEY_PATTERN.test(newEmotionKey.value.trim()))
 
   // 現在の画像データ
@@ -77,10 +76,11 @@
     updateAssetProperty('characters', props.selectedItemKey, 'image', newImages)
   }
 
-  // 編集ダイアログの保存: 編集した1キーだけを書き戻す(既存キーの置き換えなので並び順は変わらない)
-  const handleUpdateEmotion = (key: string, value: CharacterImageType) => {
-    if (!(key in currentImages.value)) return
-    pushImages({ ...currentImages.value, [key]: value })
+  // 編集ダイアログの保存: 編集した1キーだけを書き戻す(キーを変えても元の位置に置くので並び順は変わらない)
+  // シナリオの iconKey など、他のデータの参照は書き換えない(未使用キーの修復は IconKeyChanger の役目)
+  const handleUpdateEmotion = (oldKey: string, newKey: string, value: CharacterImageType) => {
+    const next = renameEmotion(currentImages.value, oldKey, newKey, value)
+    if (next) pushImages(next)
   }
 
   const handleAddPreset = async (key: string, label: string) => {

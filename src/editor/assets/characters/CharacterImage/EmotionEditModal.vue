@@ -6,7 +6,10 @@
         :emotion-key="draftKey"
         :label="draftItem.label ?? ''"
         :is-default-warning="draftKey === 'default' && !props.isDefaultFilled"
+        :key-locked="originalKey === 'default'"
+        :validate-key="validateKey"
         @update:label="updateLabel"
+        @rename="updateKey"
       />
       <div class="grid grid-cols-2 gap-4">
         <EmotionLayerEditor
@@ -39,6 +42,7 @@
   import EmotionAnimationEditor from './EmotionAnimationEditor.vue'
   import BaseEditDialog from '@/editor/parts/BaseEditDialog.vue'
   import { useEmotionDraft } from './composables/useEmotionDraft'
+  import { validateEmotionKey } from './composables/emotionOperations'
 
   const { t } = useI18n()
 
@@ -48,28 +52,30 @@
     isDefaultFilled: boolean
   }>()
 
-  // 保存は編集した1キーぶんだけ。追加・削除・複製は一覧側(EmotionGrid)の即時操作
+  // 保存は編集した1キーぶんだけ(キーを変えたときは oldKey → newKey の付け替え)。追加・削除・複製は一覧側(EmotionGrid)の即時操作
   const emit = defineEmits<{
-    update: [key: string, value: CharacterImageType]
+    update: [oldKey: string, newKey: string, value: CharacterImageType]
   }>()
 
   const baseDialog = ref<InstanceType<typeof BaseEditDialog> | null>(null)
 
-  const { draftKey, draftItem, initDraft, updateSrc, updateLabel, updateAnimation } = useEmotionDraft(
-    () => props.modelValue
-  )
+  const { originalKey, draftKey, draftItem, initDraft, updateKey, updateSrc, updateLabel, updateAnimation } =
+    useEmotionDraft(() => props.modelValue)
+
+  const validateKey = (input: string) => validateEmotionKey(props.modelValue, originalKey.value ?? '', input)
 
   // このキャラクターの他の感情で使っているパス (レイヤー候補の1番目のグループ)
   const otherEmotionPaths = computed(() =>
     Object.entries(props.modelValue)
-      .filter(([key]) => key !== draftKey.value)
+      .filter(([key]) => key !== originalKey.value)
       .flatMap(([, image]) => image.src)
       .filter((path) => path.trim() !== '')
   )
 
   const handleSave = () => {
-    if (!draftKey.value || !draftItem.value) return
-    emit('update', draftKey.value, { ...draftItem.value })
+    if (!originalKey.value || !draftKey.value || !draftItem.value) return
+    emit('update', originalKey.value, draftKey.value, { ...draftItem.value })
+    originalKey.value = draftKey.value // ダイアログが開いたままでも、次の保存が新しいキーを指すように
   }
 
   const showModal = (key: string) => {

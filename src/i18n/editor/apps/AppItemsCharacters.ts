@@ -109,6 +109,9 @@ export const appItemsCharactersMessages = {
         keyLabel: 'キー',
         unset: '未設定',
         copyLabel: '{label}(コピー)',
+        keyEmpty: 'キーを入力してください',
+        keyInvalidChar: 'キーに / や \\ は使えません(画像パスに使うため)',
+        keyDuplicate: '同じキーの感情がすでにあります',
       },
       layer: {
         title: '画像レイヤー',
@@ -304,6 +307,9 @@ export const appItemsCharactersMessages = {
         keyLabel: 'Key',
         unset: 'Not set',
         copyLabel: '{label} (copy)',
+        keyEmpty: 'Enter a key',
+        keyInvalidChar: 'Keys cannot contain / or \\ (they are used in image paths)',
+        keyDuplicate: 'An emotion with this key already exists',
       },
       layer: {
         title: 'Image layers',
