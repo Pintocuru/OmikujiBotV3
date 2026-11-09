@@ -1,19 +1,16 @@
 <!-- src/editor/assets/characters/color/CharacterColorCard.vue -->
 <!-- キャラクターの色の要約カード(フキダシのサンプルと、4色の色見本)。編集はダイアログで行い、入力は即時に反映される -->
 <template>
-  <div class="p-2">
-    <div class="flex items-center gap-2 font-semibold">
-      {{ t('characterService.cards.edit') }}
-      <div class="tooltip tooltip-top" :data-tip="t('characterService.cards.edit')">
-        <button
-          class="btn btn-sm btn-secondary btn-square"
-          :aria-label="t('characterService.cards.edit')"
-          @click="editOpen = true"
-        >
-          <Pencil class="w-4 h-4" />
-        </button>
-      </div>
-    </div>
+  <SettingItem icon="MessageSquare" layout="vertical" labelKey="characterService.cards.edit">
+    <template #label-extra>
+      <button
+        class="btn btn-sm btn-secondary btn-square"
+        :aria-label="t('characterService.cards.edit')"
+        @click="editOpen = true"
+      >
+        <Pencil class="w-4 h-4" />
+      </button>
+    </template>
     <div class="flex flex-col gap-4 p-2">
       <!-- 色見本 -->
       <ul class="flex gap-x-4 gap-y-2 text-sm">
@@ -29,7 +26,7 @@
         </li>
       </ul>
     </div>
-  </div>
+  </SettingItem>
 
   <BaseDialog v-model:open="editOpen" icon="Palette" :title="t('characterService.cards.edit')" size="3xl">
     <CharacterColorSettings
@@ -47,6 +44,7 @@
   import { CharacterColorSchema, type CharacterColorType } from '@/types/OmikujiData/'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import CharacterColorSettings from './CharacterColorSettings.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const props = defineProps<{
     modelValue?: CharacterColorType

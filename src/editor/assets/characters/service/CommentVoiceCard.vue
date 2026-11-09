@@ -1,19 +1,17 @@
 <!-- src/editor/assets/characters/service/CommentVoiceCard.vue -->
 <!-- BOTコメント表現の要約(表示方法・枠・表示用画像)。編集はダイアログで行い、入力は即時に反映される -->
 <template>
-  <div class="p-2">
-    <div class="flex items-center gap-2 font-semibold">
-      {{ t('characterService.voice.label') }}
-      <div class="tooltip tooltip-top" :data-tip="t('characterService.cards.editVoice')">
-        <button
-          class="btn btn-sm btn-secondary btn-square"
-          :aria-label="t('characterService.cards.editVoice')"
-          @click="editOpen = true"
-        >
-          <Pencil class="w-4 h-4" />
-        </button>
-      </div>
-    </div>
+  <SettingItem icon="MessageSquare" layout="vertical" labelKey="characterService.voice.label">
+    <template #label-extra>
+      <button
+        class="btn btn-sm btn-secondary btn-square"
+        :aria-label="t('characterService.voice.label')"
+        @click="editOpen = true"
+      >
+        <Pencil class="w-4 h-4" />
+      </button>
+    </template>
+
     <div class="flex flex-col gap-4 p-2">
       <div class="flex gap-2">
         <span class="badge badge-primary">{{ t(`mapText.displayMode.${currentOption.mode}.label`) }}</span>
@@ -31,7 +29,7 @@
         </template>
       </div>
     </div>
-  </div>
+  </SettingItem>
 
   <BaseDialog v-model:open="editOpen" icon="MessageSquare" :title="t('characterService.voice.label')" size="3xl">
     <CommentVoiceSettings
@@ -49,11 +47,11 @@
   import { DisplayOptionSchema, type DisplayOptionType } from '@/types/OmikujiData'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import CommentVoiceSettings from './CommentVoiceSettings.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const props = defineProps<{
     modelValue?: DisplayOptionType
-    /** 表示用画像のプレビュー背景に使う、キャラクターの背景色 */
-    backgroundColor?: string
+    backgroundColor?: string /** 表示用画像のプレビュー背景に使う、キャラクターの背景色 */
   }>()
 
   const emit = defineEmits<{ 'update:modelValue': [value: DisplayOptionType] }>()

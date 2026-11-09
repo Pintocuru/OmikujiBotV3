@@ -8,6 +8,29 @@
       label-key="categorySections.characterStyle.label"
       description-key="categorySections.characterStyle.description"
     >
+      <!-- 表示するキャラクター名 -->
+      <!-- TODO:説明をi18n化 -->
+      <SettingItem
+        icon="MessageSquare"
+        labelKey="characterService.cards.displayName"
+        description="ジェネレーターで表示されるキャラクター名"
+      >
+        <input
+          id="character-display-name"
+          class="input input-bordered input-sm w-full"
+          :value="selectedItem.displayName"
+          @input="
+            (event) =>
+              updateAssetProperty(
+                'characters',
+                selectedItemKey!,
+                'displayName',
+                (event.target as HTMLInputElement).value
+              )
+          "
+        />
+      </SettingItem>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 items-start gap-2">
         <!-- キャラクターカラー -->
         <CharacterColorCard
@@ -15,18 +38,6 @@
           :modelValue="selectedItem.color"
           @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'color', value)"
         />
-        <!-- 表示するキャラクター名 -->
-        <div class="p-2">
-          <label class="mb-2 block font-semibold" for="character-display-name">
-            {{ t('characterService.cards.displayName') }}
-          </label>
-          <input
-            id="character-display-name"
-            class="input input-bordered input-sm w-full"
-            :value="selectedItem.displayName"
-            @input="(event) => updateAssetProperty('characters', selectedItemKey!, 'displayName', (event.target as HTMLInputElement).value)"
-          />
-        </div>
 
         <!-- わんコメへの投稿方法 -->
         <CommentVoiceCard
@@ -50,7 +61,6 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
   import CharacterImageSettings from './CharacterImage/CharacterImageSettings.vue'
   import CharacterColorCard from './color/CharacterColorCard.vue'
@@ -59,8 +69,7 @@
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SectionCard from '@/editor/parts/SectionCard.vue'
-
-  const { t } = useI18n()
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const navigationStore = useNavigationStore()
   const { selectedItemKey } = storeToRefs(navigationStore)
