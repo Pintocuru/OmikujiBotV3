@@ -1,6 +1,10 @@
 <!-- src/editor/parts/SectionCard.vue -->
 <template>
-  <div v-show="isActive" :id="sectionKey ? `section-${sectionKey}` : undefined" class="card bg-base-200">
+  <div
+    v-show="isActive"
+    :id="sectionKey ? `section-${sectionKey}` : undefined"
+    class="card bg-base-200 max-w-5xl mx-auto"
+  >
     <div class="flex items-center p-2 rounded-t-xl" :class="headerClass">
       <div class="card-title flex items-center gap-2 font-bold text-xl">
         <!-- アイコン -->
