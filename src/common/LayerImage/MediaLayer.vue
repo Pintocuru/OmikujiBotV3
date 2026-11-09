@@ -16,7 +16,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
 
-  withDefaults(
+  const props = withDefaults(
     defineProps<{
       src: string
       muted?: boolean
