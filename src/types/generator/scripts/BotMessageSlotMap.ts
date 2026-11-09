@@ -36,27 +36,26 @@ export const KujibikiSlotMap = {
 /**
  * characterStage(キャラ画像だけを表示する演出用 UI)
  * - 値は文字列で届く(editor・評価ブロック経由)ことがあるため、UI 側で number / boolean に変換する
- * - 空の slot は、UI 設定(CharacterStageSchema)の既定値にフォールバックする
- * - 位置は % 。X はキャラの中心、Y は下辺が基準(Y は画面上端が 0、下端が 100)
- * - slot9 は空き
+ * - 空の slot は、既定値(resolveStageSlots の STAGE_DEFAULTS)にフォールバックする
+ * - 位置は % (X は左端が 0、Y は上端が 0)。キャラ画像のどの点をその位置に置くかは anchor(slot9)で決める
  * - TODO: SlotMeta に型・範囲の情報がないため、editor では全 slot が文字列の入力欄になる(数値・boolean 用の入力欄は未対応)。
  *   不正値は UI 側(resolveStageSlots)で既定値に落としている。必要なら SlotMeta を拡張する
  */
 export const CharacterStageSlotMap = {
-  seconds: { slot: 'slot0', title: '表示秒数', description: '0 は無期限。空なら UI 設定の既定値' },
+  seconds: { slot: 'slot0', title: '表示秒数', description: '0 は無期限。空なら既定値' },
   xMin: {
     slot: 'slot1',
     title: '位置X 最小',
     description: '0〜100(%)。最小と最大が同じなら固定、違えば範囲内でランダム',
   },
   xMax: { slot: 'slot2', title: '位置X 最大', description: '0〜100(%)' },
-  yMin: { slot: 'slot3', title: '位置Y 最小', description: '0〜100(%)。画面上端が 0。キャラの下辺が基準' },
+  yMin: { slot: 'slot3', title: '位置Y 最小', description: '0〜100(%)。画面上端が 0' },
   yMax: { slot: 'slot4', title: '位置Y 最大', description: '0〜100(%)' },
   scale: { slot: 'slot5', title: 'サイズ倍率', description: '1 が標準。空なら 1' },
   motion: {
     slot: 'slot6',
     title: '登場・退場モーション',
-    description: 'モーションのキー(例: fade, slideUp)。空なら UI 設定の既定値',
+    description: 'モーションのキー(例: fade, slideUp)。空なら既定値',
   },
   clearPrevious: {
     slot: 'slot7',
@@ -67,6 +66,11 @@ export const CharacterStageSlotMap = {
     slot: 'slot8',
     title: 'アニメーション速度',
     description: '登場・退場のモーションの秒数。0.4〜5(小さいほど速い)。空なら 1',
+  },
+  anchor: {
+    slot: 'slot9',
+    title: '基準点',
+    description: '位置X・Yが、キャラ画像のどの点か(例: bottomRight)。空なら既定値',
   },
 } as const satisfies Record<string, SlotMeta>
 export type CharacterStageSlotKey = keyof typeof CharacterStageSlotMap

@@ -8,7 +8,7 @@ type BuildStageItemParams = {
   layers: string[]
   animation?: CharacterAnimationType
   spec: StageSpec
-  characterSize: number // UI 設定の標準の横幅(px)。spec.scale がかかる
+  characterSize: number // 標準の横幅(px)。spec.scale がかかる
   z: number
   random?: () => number
 }
@@ -29,6 +29,7 @@ export const buildStageItem = ({
   size: Math.round(characterSize * spec.scale),
   x: pickInRange(spec.xMin, spec.xMax, random),
   y: pickInRange(spec.yMin, spec.yMax, random),
+  anchor: spec.anchor,
   motion: spec.motion,
   motionDuration: spec.motionDuration,
   z,

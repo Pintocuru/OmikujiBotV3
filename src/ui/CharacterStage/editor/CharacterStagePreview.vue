@@ -3,7 +3,7 @@
   <HudPreview maxHeightClass="h-72" :defaultScale="0.5">
     <!-- 画面に見立てた枠(本番は画面全体。位置は % なので、枠が違っても相対的な位置は同じ) -->
     <div class="relative w-full h-full overflow-hidden">
-      <!-- 既定の位置レンジ(キャラの中心 X / 下辺 Y が、この範囲に出る) -->
+      <!-- 位置レンジ(基準点が、この範囲に出る) -->
       <div class="absolute border border-dashed border-white/70 bg-white/10 pointer-events-none" :style="rangeStyle" />
 
       <CharacterStageLayer :items="items" :muted="false" @remove="remove" />
@@ -38,31 +38,21 @@
 
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-  import { CharacterStageSchema, type CharacterStageType } from '@/types/ui'
   import type { BotMessageSlotsType } from '@/types/generator'
-  import { storeToRefs } from 'pinia'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
   import CharacterStageLayer from '../CharacterStageLayer.vue'
   import { buildStageItem } from '../buildStageItem'
-  import { resolveStageSlots } from '../resolveStageSlots'
+  import { resolveStageSlots, STAGE_DEFAULTS } from '../resolveStageSlots'
   import type { StageItem } from '../types'
 
-  // settings を渡さなければ、保存済みの UI 設定を使う(ScenarioStep のプレビュー用)
-  // slots / characterKey / iconKey は ScenarioStep の message から渡る。本番と同じく slots が UI 設定より優先される
+  // slots / characterKey / iconKey は ScenarioStep の message から渡る。空の slot は既定値(STAGE_DEFAULTS)になる
   const props = defineProps<{
-    settings?: CharacterStageType
     slots?: BotMessageSlotsType
     characterKey?: string
     iconKey?: string
     message?: string // 使わない(UI プレビュー共通の props)
   }>()
-
-  const { data } = storeToRefs(useOmikujiStore())
-  const settings = computed(
-    () => props.settings ?? CharacterStageSchema.parse(data.value.ui.settings.characterStage ?? {})
-  )
 
   // 重ねて出せる上限(「無期限」設定でも積み上がりすぎないように)
   const MAX_ITEMS = 5
@@ -123,7 +113,7 @@
 
   const hideAll = () => items.value.filter((i) => i.display.visible).forEach((i) => hide(i.id))
 
-  // 本番と同じ手順(resolveStageSlots → buildStageItem)で 1 枚出す。slots が空の項目は UI 設定の既定値
+  // 本番と同じ手順(resolveStageSlots → buildStageItem)で 1 枚出す
   const spawn = () => {
     const key = activeKey.value
     if (!key) return
@@ -135,13 +125,13 @@
     const visible = items.value.filter((i) => i.display.visible)
     visible.slice(0, Math.max(0, visible.length - (MAX_ITEMS - 1))).forEach((i) => hide(i.id))
 
-    const spec = resolveStageSlots(props.slots, settings.value)
+    const spec = resolveStageSlots(props.slots)
     const item = buildStageItem({
       id: `preview-${++counter}`,
       layers,
       animation: getCharacter(key)?.image[emotion]?.animation,
       spec,
-      characterSize: settings.value.characterSize,
+      characterSize: STAGE_DEFAULTS.characterSize,
       z: counter,
     })
     if (spec.seconds > 0) {
@@ -160,7 +150,7 @@
     }, RESPAWN_DELAY) as unknown as number
   }
 
-  watch(() => [settings.value, props.slots, props.iconKey], respawn, { deep: true })
+  watch(() => [props.slots, props.iconKey], respawn, { deep: true })
   watch(activeKey, respawn)
   onMounted(spawn)
 
@@ -169,9 +159,9 @@
     items.value.forEach((i) => clearTimers(i.id))
   })
 
-  // 位置レンジの目印。Y は下辺基準なので、枠の下辺が Y の位置になる
+  // 位置レンジの目印(この投稿の slots から決まる、基準点が動く範囲)
   const rangeStyle = computed(() => {
-    const { xMin, xMax, yMin, yMax } = settings.value
+    const { xMin, xMax, yMin, yMax } = resolveStageSlots(props.slots)
     return {
       left: `${xMin}%`,
       width: `${xMax - xMin}%`,

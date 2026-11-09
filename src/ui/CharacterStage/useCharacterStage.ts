@@ -1,11 +1,10 @@
 // src/ui/CharacterStage/useCharacterStage.ts
-import { ref, watch, onUnmounted, type Ref } from 'vue'
+import { ref, watch, onUnmounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { useCharacters } from '@/common/Characters/useCharacters'
 import { isBubbleMessage } from '@/types/generator'
-import type { CharacterStageType } from '@/types/ui'
-import { resolveStageSlots } from './resolveStageSlots'
+import { resolveStageSlots, STAGE_DEFAULTS } from './resolveStageSlots'
 import { buildStageItem } from './buildStageItem'
 import type { StageItem } from './types'
 
@@ -18,7 +17,7 @@ const FORCE_REMOVE_MARGIN = 1000
  *   本文を使わない UI なので、ここで専用に管理する。
  * - TODO: 個別対応。表示時間・本文の扱いを useBotDisplay の option で切り替えられるようにすれば共通化できる
  */
-export const useCharacterStage = (settings: Ref<CharacterStageType>) => {
+export const useCharacterStage = () => {
   const appStore = useAppStore()
   const { botMessages } = storeToRefs(appStore)
   const { getCharacterLayers, getCharacterAnimation } = useCharacters(() => appStore.data.assets.characters)
@@ -60,7 +59,7 @@ export const useCharacterStage = (settings: Ref<CharacterStageType>) => {
     const layers = getCharacterLayers(msg)
     if (layers.length === 0) return // キャラ未指定・画像なしは表示しない
 
-    const spec = resolveStageSlots(msg.slots, settings.value)
+    const spec = resolveStageSlots(msg.slots)
 
     // clearPrevious: 同じ UI で表示中のものだけを消す(このメッセージ自身は消さない)
     if (spec.clearPrevious) items.value.filter((i) => i.display.visible).forEach((i) => hide(i.id))
@@ -70,7 +69,7 @@ export const useCharacterStage = (settings: Ref<CharacterStageType>) => {
       layers,
       animation: getCharacterAnimation(msg),
       spec,
-      characterSize: settings.value.characterSize,
+      characterSize: STAGE_DEFAULTS.characterSize,
       z: ++zCounter,
     })
     if (spec.seconds > 0) {

@@ -65,28 +65,6 @@ export const uiSettingsMessages = {
           sample2: '実際の表示タイプと同じ配置で確認できます。',
         },
       },
-      characterStage: {
-        characterSize: {
-          label: 'キャラクターの大きさ',
-          description: '標準の横幅です。投稿ごとの「サイズ倍率」がこの値にかかります',
-        },
-        seconds: {
-          label: '既定の表示秒数',
-          description: '投稿で秒数を指定しなかったときの秒数です(0 は無期限)',
-        },
-        motion: {
-          label: '既定の登場・退場アニメーション',
-          description: '登場と退場で同じモーションを使います',
-        },
-        x: {
-          label: '既定の位置X',
-          description: '0〜100(%)。キャラの中心が基準。最小と最大が違えば範囲内でランダム',
-        },
-        y: {
-          label: '既定の位置Y',
-          description: '0〜100(%)。画面上端が 0、キャラの下辺が基準',
-        },
-      },
       streamCounter: {
         color: {
           add: '色を追加',
@@ -269,29 +247,6 @@ export const uiSettingsMessages = {
           userName: 'Test user',
           sample1: 'This is a preview.',
           sample2: 'You can check it with the same layout as the actual display type.',
-        },
-      },
-      characterStage: {
-        characterSize: {
-          label: 'Character size',
-          description: 'The default width. Each post\'s "size multiplier" is applied to this value',
-        },
-        seconds: {
-          label: 'Default display time',
-          description: 'Seconds used when a post does not specify a duration (0 = no limit)',
-        },
-        motion: {
-          label: 'Default enter/exit animation',
-          description: 'The same motion is used for both entering and exiting',
-        },
-        x: {
-          label: 'Default position X',
-          description:
-            "0–100 (%). Based on the character's center. If min and max differ, a random position within the range is used",
-        },
-        y: {
-          label: 'Default position Y',
-          description: '0–100 (%). 0 is the top of the screen; based on the bottom edge of the character',
         },
       },
       streamCounter: {

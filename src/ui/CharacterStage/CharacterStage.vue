@@ -6,16 +6,8 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
-  import { CharacterStageSchema } from '@/types/ui'
-  import { useAppStore } from '@/generator/stores/useAppStore'
   import CharacterStageLayer from './CharacterStageLayer.vue'
   import { useCharacterStage } from './useCharacterStage'
 
-  const appStore = useAppStore()
-
-  // 設定（未設定ならスキーマの既定値）
-  const settings = computed(() => CharacterStageSchema.parse(appStore.data.ui.settings.characterStage ?? {}))
-
-  const { items, remove } = useCharacterStage(settings)
+  const { items, remove } = useCharacterStage()
 </script>

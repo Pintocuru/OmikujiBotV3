@@ -1,19 +1,41 @@
 // src/ui/CharacterStage/resolveStageSlots.ts
 import { enterMotions, type EnterMotionType } from '@/types/OmikujiData'
 import type { BotMessageSlotsType } from '@/types/generator'
-import type { CharacterStageType } from '@/types/ui'
+import { stageAnchors, type StageAnchorType } from '@/types/ui'
 
-/** slots と UI 設定から決まる、1 メッセージ分の表示指定 */
+/** slots(空なら既定値)から決まる、1 メッセージ分の表示指定 */
 export type StageSpec = {
   seconds: number // 0 は無期限
   xMin: number
   xMax: number
   yMin: number
   yMax: number
+  anchor: StageAnchorType // xMin〜yMax の位置に置く、キャラ画像上の点
   scale: number
   motion: EnterMotionType
   clearPrevious: boolean
   motionDuration: number // 秒。登場・退場のモーションに共通
+}
+
+/** slots が空のときの既定値(UI 設定はないので、ここで決める) */
+export const STAGE_DEFAULTS = {
+  characterSize: 256, // 標準の横幅(px)。slot5 のサイズ倍率がかかる
+  seconds: 10, // 0 は無期限
+  xMin: 20,
+  xMax: 80,
+  yMin: 100,
+  yMax: 100,
+  motion: 'fade',
+  anchor: 'bottom',
+} as const satisfies {
+  characterSize: number
+  seconds: number
+  xMin: number
+  xMax: number
+  yMin: number
+  yMax: number
+  motion: EnterMotionType
+  anchor: StageAnchorType
 }
 
 type SlotValue = BotMessageSlotsType[keyof BotMessageSlotsType]
@@ -46,10 +68,11 @@ const toRange = (min: number, max: number): [number, number] => (min <= max ? [m
 
 /**
  * slots を表示指定に変換する
- * - 不正値(NaN・範囲外など)・空は UI 設定の既定値に落とす
+ * - 不正値(NaN・範囲外など)・空は STAGE_DEFAULTS に落とす
  */
-export const resolveStageSlots = (slots: BotMessageSlotsType | undefined, defaults: CharacterStageType): StageSpec => {
+export const resolveStageSlots = (slots: BotMessageSlotsType | undefined): StageSpec => {
   const s = slots ?? {}
+  const defaults = STAGE_DEFAULTS
 
   // 秒数
   const seconds = toNumber(s.slot0)
@@ -62,6 +85,7 @@ export const resolveStageSlots = (slots: BotMessageSlotsType | undefined, defaul
     clampPercent(toNumber(s.slot4) ?? defaults.yMax)
   )
   const scale = toNumber(s.slot5)
+  const anchorKey = typeof s.slot9 === 'string' ? s.slot9.trim() : ''
   const motionKey = typeof s.slot6 === 'string' ? s.slot6.trim() : ''
   const motionDuration = toNumber(s.slot8)
 
@@ -71,6 +95,7 @@ export const resolveStageSlots = (slots: BotMessageSlotsType | undefined, defaul
     xMax,
     yMin,
     yMax,
+    anchor: (stageAnchors as readonly string[]).includes(anchorKey) ? (anchorKey as StageAnchorType) : defaults.anchor,
     scale: scale !== undefined && scale > 0 ? scale : 1,
     motion: (enterMotions as readonly string[]).includes(motionKey) ? (motionKey as EnterMotionType) : defaults.motion,
     clearPrevious: toBoolean(s.slot7),

@@ -1,7 +1,7 @@
 <!-- src/ui/CharacterStage/editor/CharacterStageSlotsEditor.vue -->
 <template>
   <SettingItem layout="vertical" icon="MessageSquare" labelKey="scenarioStep.messageSettings.slots">
-    <p class="mb-2 text-xs opacity-60">空欄の項目は UI 設定の既定値が使われます</p>
+    <p class="mb-2 text-xs opacity-60">空欄の項目は既定値が使われます</p>
 
     <!-- 表示秒数 -->
     <div class="mb-3">
@@ -58,6 +58,22 @@
           既定に戻す
         </button>
       </div>
+    </div>
+
+    <!-- 基準点 -->
+    <div class="mb-3">
+      <p class="mb-1 text-sm font-medium">
+        {{ meta.anchor.title }}
+        <span class="ml-2 text-xs opacity-60">位置X・Yに置く、キャラ画像上の点</span>
+      </p>
+      <select
+        class="select select-bordered select-sm w-full max-w-xs"
+        :value="getRaw('anchor')"
+        @change="setRaw('anchor', ($event.target as HTMLSelectElement).value)"
+      >
+        <option value="">(既定: {{ anchorLabels[defaults.anchor] }})</option>
+        <option v-for="k in stageAnchors" :key="k" :value="k">{{ anchorLabels[k] }}</option>
+      </select>
     </div>
 
     <!-- サイズ倍率 -->
@@ -131,11 +147,10 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { storeToRefs } from 'pinia'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { CharacterStageSchema } from '@/types/ui'
+  import { STAGE_DEFAULTS } from '../resolveStageSlots'
   import { enterMotions } from '@/types/OmikujiData'
+  import { stageAnchors, type StageAnchorType } from '@/types/ui'
   import { useI18n } from 'vue-i18n'
   import { CharacterStageSlotMap, type CharacterStageSlotKey } from '@/types/generator'
 
@@ -145,15 +160,19 @@
   const emit = defineEmits<{ 'update:slots': [slots: Record<string, string>] }>()
 
   const meta = CharacterStageSlotMap
-  const { data } = storeToRefs(useOmikujiStore())
-
-  // 既定値(placeholder 表示用)。CharacterStageEditor と同じ parse
-  const defaults = computed(() => CharacterStageSchema.parse(data.value.ui.settings.characterStage ?? {}))
+  // 既定値(placeholder 表示用)
+  const defaults = STAGE_DEFAULTS
 
   const axes = [
-    { label: '位置X', description: '0〜100(%)。キャラ中心が基準。違う値ならランダム', min: 'xMin', max: 'xMax' },
-    { label: '位置Y', description: '0〜100(%)。上端が 0、キャラの下辺が基準', min: 'yMin', max: 'yMax' },
+    { label: '位置X', description: '0〜100(%)。左端が 0。違う値ならランダム', min: 'xMin', max: 'xMax' },
+    { label: '位置Y', description: '0〜100(%)。上端が 0。違う値ならランダム', min: 'yMin', max: 'yMax' },
   ] as const
+
+  const anchorLabels: Record<StageAnchorType, string> = {
+    topLeft: '左上', top: '上中央', topRight: '右上',
+    left: '左中央', center: '中央', right: '右中央',
+    bottomLeft: '左下', bottom: '下中央', bottomRight: '右下',
+  }
 
   const getRaw = (key: CharacterStageSlotKey): string => props.slots[meta[key].slot] ?? ''
 
@@ -194,6 +213,6 @@
 
   const previewWidth = computed(() => {
     const s = Number(getRaw('scale'))
-    return Math.round(defaults.value.characterSize * (Number.isFinite(s) && s > 0 ? s : 1))
+    return Math.round(defaults.characterSize * (Number.isFinite(s) && s > 0 ? s : 1))
   })
 </script>
