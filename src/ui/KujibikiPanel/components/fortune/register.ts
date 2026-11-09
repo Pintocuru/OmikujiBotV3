@@ -7,6 +7,7 @@ import { registerKujibikiPanelComponents, type KujibikiPanelComponent } from '..
  */
 const fortuneComponents = {
   tarot: { label: 'タロット', isVisual: false, loader: () => import('./Tarot.vue') },
+  bigBang: { label: 'ビッグバン', isVisual: false, loader: () => import('./BigBang.vue') },
 } satisfies Record<KujibikiComponentOf<'fortune'>, KujibikiPanelComponent>
 
 export const registerFortuneKujibikiComponents = () => registerKujibikiPanelComponents({ fortune: fortuneComponents })
