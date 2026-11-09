@@ -33,7 +33,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 items-start gap-2">
         <!-- キャラクターカラー -->
         <CharacterColorCard
-          :botName="selectedItem.displayName"
+          :botName="selectedItem.displayName === '' ? selectedItem.name : selectedItem.displayName"
           :modelValue="selectedItem.color"
           @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'color', value)"
         />

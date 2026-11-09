@@ -6,16 +6,28 @@ import { UiKind, UiLayoutType } from '@/types/OmikujiData'
  * label は editor/i18n/maps/UiMapMessages.ts にあります
  */
 export const uiLayoutMap: Record<NonNullable<UiLayoutType>, UiKind[]> = {
+  /**
+   * common
+   */
+
   // フキダシ
   commentBubble: ['commentBubble'],
 
   // ゲームランキング
   gameRanking: ['gameRanking'],
 
+  // おみくじ
+  kujibikiPanel: ['kujibikiPanel', 'characterStage'],
+
+  /**
+   * 2026-Q4
+   */
   // 命の砂時計
   lifeHourglass: ['lifeHourglass'],
 
-  // せすぴん(管理者)用
+  /**
+   * せすぴん(管理者)用
+   */
   sesupinTest: [
     'characterStage',
     'commentBubble',

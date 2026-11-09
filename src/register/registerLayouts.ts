@@ -8,6 +8,7 @@ export const registerAllLayouts = () =>
     // common
     commentBubble: () => import('@/layout/common/CommentBubble/CommentBubble.vue'),
     gameRanking: () => import('@/layout/common/GameRanking/GameRanking.vue'),
+    kujibikiPanel: () => import('@/layout/common/KujibikiPanel/KujibikiPanel.vue'),
 
     // 2026-Q4
     lifeHourglass: () => import('@/layout/2026-Q4/LifeHourglass/LifeHourglass.vue'),

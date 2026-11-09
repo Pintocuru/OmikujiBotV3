@@ -5,12 +5,16 @@ import { z } from 'zod'
  * レイアウトプリセット
  */
 export const uiLayouts = [
+  // common
   'commentBubble',
   'gameRanking',
+  'kujibikiPanel',
 
+  // 2026-Q4
   'lifeHourglass',
 
-  'sesupinTest', // 管理者用Dev
+  // 管理者用
+  'sesupinTest',
 ] as const
 
 // スキーマと型の定義
