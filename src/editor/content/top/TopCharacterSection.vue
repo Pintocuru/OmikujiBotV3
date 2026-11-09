@@ -22,7 +22,8 @@
         </div>
         <div class="min-w-0 flex-1">
           <div class="text-lg font-bold truncate">
-            {{ character.displayName || character.name || character.key }}
+            {{ character.name || character.key }}
+            <span class="text-sm"> {{ character.displayName ? `(表示名:${character.displayName})` : '' }}</span>
           </div>
           <div class="text-xs text-base-content/60 group-hover:text-primary-content truncate">
             {{ character.description }}
