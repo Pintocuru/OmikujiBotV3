@@ -1,8 +1,8 @@
 <!-- src/editor/parts/SectionTabs.vue -->
-<!-- SectionCard の sectionKey を切り替えるタブ。スクロールしても隠れないよう上に貼り付ける(左右はスクロール領域の p-4 の分だけ広げる) -->
+<!-- SubSection / SectionCard の sectionKey を切り替えるタブ。スクロールしても隠れないよう上に貼り付ける(左右は外枠 SectionCard の p-4 の分だけ広げる) -->
 <!-- どのタブを出すかは、使う側のエディター(UiEditor / AppInfoEditor)が自分で決めて tabs に渡す -->
 <template>
-  <div role="tablist" class="tabs tabs-border tabs-lg flex-wrap sticky top-0 z-10 -mx-4 bg-base-100 px-4">
+  <div role="tablist" class="tabs tabs-border tabs-lg flex-wrap sticky top-0 z-10 -mx-4 bg-base-200 px-4">
     <button
       v-for="tab in tabs"
       :key="tab.section"
@@ -29,7 +29,7 @@
 
   const { t } = useI18n()
 
-  // 選択中のタブ(SectionCard の sectionKey と同じ値。TopPage などからも設定される)
+  // 選択中のタブ(SubSection / SectionCard の sectionKey と同じ値。TopPage などからも設定される)
   const { activeSection } = storeToRefs(useNavigationStore())
 
   // activeSection がタブに無いとき(カテゴリ切り替え直後など)は、先頭のタブに揃える

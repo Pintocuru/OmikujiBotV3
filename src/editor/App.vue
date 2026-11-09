@@ -6,7 +6,7 @@
     <TopBar v-model:showGenerator="showGenerator" :generatorState="generatorState" @recheck="checkOneComme" />
 
     <!-- 上部バーを除いた残りの領域。スクロールは各画面に任せる -->
-    <div class="relative overflow-hidden">
+    <div class="relative flex-1 min-h-0 min-w-0 overflow-hidden">
       <!-- エディター -->
       <div v-show="!showGenerator" class="h-full">
         <EditorApp />

@@ -1,16 +1,16 @@
 <!-- src/editor/parts/SectionCard.vue -->
 <template>
-  <!-- sectionKey があるときは、SectionTabs で選択中のものだけ表示する -->
-  <div v-show="isActive" :id="sectionKey ? `section-${sectionKey}` : undefined" class="transition-all bg-base-200">
-    <div class="flex justify-between items-center p-2 rounded-t-xl" :class="headerClass">
-      <div class="flex items-center gap-2 font-bold text-xl">
+  <div v-show="isActive" :id="sectionKey ? `section-${sectionKey}` : undefined" class="card bg-base-200">
+    <div class="flex items-center p-2 rounded-t-xl" :class="headerClass">
+      <div class="card-title flex items-center gap-2 font-bold text-xl">
         <!-- アイコン -->
         <component :is="IconComponent" v-if="IconComponent" class="w-6 h-6" />
 
         <!-- タイトル -->
         <span>{{ label }}</span>
       </div>
-      <div v-if="description" class="text-sm pr-2">{{ description }}</div>
+      <!-- 説明 -->
+      <div v-if="description" class="ml-auto text-sm pr-2">{{ description }}</div>
     </div>
 
     <!-- カード本体 -->
@@ -21,10 +21,9 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
-  import { storeToRefs } from 'pinia'
+  import { computed, toRef } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { useNavigationStore } from '@/editor/stores/useNavigationStore'
+  import { useSectionActive } from './composables/useSectionActive'
   import { DaisyUIColorType } from '@/types/core'
   import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
@@ -45,8 +44,7 @@
   )
 
   const { t } = useI18n()
-  const { activeSection } = storeToRefs(useNavigationStore())
-  const isActive = computed(() => !props.sectionKey || activeSection.value === props.sectionKey)
+  const isActive = useSectionActive(toRef(props, 'sectionKey'))
 
   const label = computed(() => (props.labelKey ? t(props.labelKey) : (props.label ?? '')))
   const description = computed(() => (props.descriptionKey ? t(props.descriptionKey) : (props.description ?? '')))

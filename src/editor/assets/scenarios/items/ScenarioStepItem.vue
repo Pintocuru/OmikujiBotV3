@@ -48,6 +48,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { scenarioStepKinds, type ScenarioStepWithIdType } from '@/types/OmikujiData'
   import { scenarioStepKindIcons } from '@/maps/OmikujiData'
@@ -55,6 +56,7 @@
   import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
   import ScenarioStepPreview from '../preview/ScenarioStepPreview.vue'
   import { useScenarioStepItem } from './useScenarioStepItem'
+  import { settingsComponentMap } from './ScenarioStepKindMap'
 
   const { t } = useI18n()
 
@@ -67,6 +69,8 @@
     'update:step': [value: ScenarioStepWithIdType]
   }>()
 
-  const { basicDelaySeconds, currentComponent, componentProps, delaySeconds, kind, handleStepUpdate } =
-    useScenarioStepItem(props, emit)
+  // 現在表示する設定コンポーネント
+  const currentComponent = computed(() => settingsComponentMap[props.step.kind])
+
+  const { basicDelaySeconds, componentProps, delaySeconds, kind, handleStepUpdate } = useScenarioStepItem(props, emit)
 </script>

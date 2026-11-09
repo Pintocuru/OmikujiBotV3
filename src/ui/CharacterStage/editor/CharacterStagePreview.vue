@@ -1,7 +1,6 @@
 <!-- src/ui/CharacterStage/editor/CharacterStagePreview.vue -->
 <template>
   <HudPreview maxHeightClass="h-72" :defaultScale="0.5">
-    <!-- 画面に見立てた枠(本番は画面全体。位置は % なので、枠が違っても相対的な位置は同じ) -->
     <div class="relative w-full h-full overflow-hidden">
       <!-- 位置レンジ(基準点が、この範囲に出る) -->
       <div class="absolute border border-dashed border-white/70 bg-white/10 pointer-events-none" :style="rangeStyle" />
@@ -16,20 +15,9 @@
       </div>
     </div>
 
-    <template #hudLeft>
-      <select
-        v-if="canPreview"
-        v-model="selectedKey"
-        class="select select-xs select-bordered max-w-40"
-        title="プレビューに使うキャラクター(保存されません)"
-      >
-        <option v-for="c in characters" :key="c.key" :value="c.key">{{ c.name || c.displayName || c.key }}</option>
-      </select>
-    </template>
-
     <template #hud>
       <div class="flex items-center gap-1">
-        <button class="btn btn-xs btn-ghost" :disabled="!canPreview" @click="spawn">🎲 登場</button>
+        <button class="btn btn-xs btn-ghost" :disabled="!canPreview" @click="spawn">登場</button>
         <button class="btn btn-xs btn-ghost" :disabled="items.length === 0" @click="hideAll">消す</button>
       </div>
     </template>

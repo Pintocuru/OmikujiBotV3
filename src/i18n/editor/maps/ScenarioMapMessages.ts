@@ -39,11 +39,11 @@ export const scenarioMapMessages = {
       scenarioStepKind: {
         message: {
           label: 'メッセージ',
-          description: 'わんコメやジェネレーターに送信・表示するテキストを設定します',
+          description: 'おみくじBOTで表示するテキストを設定します',
         },
         sound: {
           label: 'サウンド',
-          description: 'シナリオ実行時に再生する効果音やBGMを設定します',
+          description: 'シナリオ実行時に再生する効果音を設定します',
         },
         wordParty: {
           label: 'WordParty',
@@ -54,12 +54,12 @@ export const scenarioMapMessages = {
           description: '変数の代入や計算・スクリプト評価処理を実行します',
         },
         gameScript: {
-          label: 'ゲームスクリプト',
-          description: '予め作成されたゲームを呼び出します',
+          label: 'スクリプト',
+          description: 'スクリプトやミニゲームを呼び出します',
         },
         scenarioCall: {
           label: 'シナリオ',
-          description: '登録済みのシナリオ（名前を付けたステップの並び）を呼び出します',
+          description: '登録済みのシナリオを呼び出します',
         },
       },
       omikujiItemKind: {

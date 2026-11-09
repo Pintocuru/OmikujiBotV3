@@ -4,24 +4,24 @@
   <SectionTabs :tabs="tabs" />
 
   <!-- 各セクションのカード -->
-  <SectionCard
+  <SubSection
     v-for="sec in sections"
     :key="sec.section"
     :section-key="sec.section"
     :icon="sec.icon"
     :variant="sec.variant"
-    :label-key="sec.labelKey"
+    :title-key="sec.labelKey"
     :description-key="sec.descriptionKey"
   >
     <component :is="sec.component" />
-  </SectionCard>
+  </SubSection>
 </template>
 
 <script setup lang="ts">
   import { computed, markRaw, type Component } from 'vue'
   import { isDev } from '@/common/AppEnv'
   import type { ContentTab } from '@/editor/types/apps'
-  import SectionCard from '@/editor/parts/SectionCard.vue'
+  import SubSection from '@/editor/parts/SubSection.vue'
   import SectionTabs from '@/editor/parts/SectionTabs.vue'
   import { useVisibleUiKinds } from './useVisibleUiKinds'
   import LayoutEditor from './conditions/LayoutEditor.vue'

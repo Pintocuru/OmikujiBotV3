@@ -1,23 +1,15 @@
 <!-- src/editor/content/ContentArea.vue -->
 <template>
-  <div class="space-y-2">
-    <!-- カテゴリ帯 -->
-    <div class="flex items-center justify-between px-4 py-2 rounded-xl bg-primary text-primary-content">
-      <div class="flex items-center gap-2 text-xl font-bold">
-        <component :is="currentIcon" class="w-6 h-6" />
-        {{ t(`categories.${selectedCategory}.label`) }}
-      </div>
-
-      <div class="text-sm opacity-80">
-        {{ t(`categories.${selectedCategory}.description`) }}
-      </div>
-    </div>
-
+  <!-- 主題(カテゴリ)。TopPage と同じ SectionCard。中の副題は SubSection / SubSectionHeader -->
+  <SectionCard
+    :icon="currentCategory.icon"
+    :label-key="`categories.${selectedCategory}.label`"
+    :description-key="`categories.${selectedCategory}.description`"
+  >
     <!-- データが0件のとき（Events / Assets）：新規作成を促す -->
     <NoParamsCard
       v-if="isEmpty"
       :key="selectedCategory"
-      class="mt-4"
       :iconName="currentCategory.icon"
       :message="t('navigation.create.emptyMessage')"
       :sub="t('navigation.create.emptyHint')"
@@ -32,7 +24,7 @@
 
       <component :is="currentContent.editor" :key="selectedCategory" v-bind="editorProps" />
     </template>
-  </div>
+  </SectionCard>
 </template>
 
 <script setup lang="ts">
@@ -42,8 +34,8 @@
   import { categoryMap } from '@/maps/OmikujiData'
   import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
+  import SectionCard from '@/editor/parts/SectionCard.vue'
   import ContentConnections from './ContentConnections.vue'
   import ContentSummary from './ContentSummary.vue'
 
@@ -55,7 +47,6 @@
   const isEmpty = computed(() => isCurrentDataCategory.value && (categoryArray.value?.length ?? 0) === 0)
 
   const currentCategory = computed(() => categoryMap[selectedCategory.value])
-  const currentIcon = computed(() => resolveLucideIcon(currentCategory.value.icon))
   const currentContent = computed(() => categoryContentMap[selectedCategory.value])
   // Events / Assets の ItemEditor には、セクションの内容を渡す
   const editorProps = computed(() => (currentContent.value.item ? { content: currentContent.value.item } : {}))

@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import type { ScenarioStepKind, ScenarioStepType, ScenarioStepWithIdType } from '@/types/OmikujiData'
 import { createDefaultStep } from './createDefaultStep'
-import { stepSchemaMap, settingsComponentMap } from './ScenarioStepKindMap'
+import { stepSchemaMap } from './ScenarioStepKindMap'
 
 type Props = { step: ScenarioStepWithIdType; currentKey?: string }
 type Emit = (event: 'update:step', value: ScenarioStepWithIdType) => void
@@ -11,9 +11,6 @@ type Emit = (event: 'update:step', value: ScenarioStepWithIdType) => void
 export const useScenarioStepItem = (props: Props, emit: Emit) => {
   const omikujiStore = useOmikujiStore()
   const basicDelaySeconds = computed(() => omikujiStore.data.settings.generator.basicDelaySeconds ?? 1)
-
-  // 現在表示する設定コンポーネント
-  const currentComponent = computed(() => settingsComponentMap[props.step.kind])
 
   // 動的コンポーネントへ渡す props (currentKey は scenarioCall だけが受け取る)
   const componentProps = computed(() =>
@@ -54,5 +51,5 @@ export const useScenarioStepItem = (props: Props, emit: Emit) => {
   // 子の設定コンポーネントが id を落としても、現在のステップの id を保つ
   const handleStepUpdate = (updated: ScenarioStepType) => emit('update:step', { ...updated, id: props.step.id })
 
-  return { basicDelaySeconds, currentComponent, componentProps, delaySeconds, kind, handleStepUpdate }
+  return { basicDelaySeconds, componentProps, delaySeconds, kind, handleStepUpdate }
 }

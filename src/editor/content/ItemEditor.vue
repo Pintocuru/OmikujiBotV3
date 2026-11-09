@@ -7,14 +7,14 @@
       {{ t(content.noticeKey) }}
     </InformationCard>
 
-    <SectionCard
+    <SubSection
       v-if="!isDisabled"
       :icon="content.section.icon"
-      :label-key="content.section.labelKey"
+      :title-key="content.section.labelKey"
       :description-key="content.section.descriptionKey"
     >
       <component :is="content.component" v-bind="bindings" />
-    </SectionCard>
+    </SubSection>
 
     <!-- 無効のときのメッセージ(isEnabled を持つのは events だけ) -->
     <DisabledEventNotice v-else />
@@ -31,7 +31,7 @@
   import { useSelectedRecord } from '@/editor/content/composables/useSelectedRecord'
   import DisabledEventNotice from './DisabledEventNotice.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
-  import SectionCard from '@/editor/parts/SectionCard.vue'
+  import SubSection from '@/editor/parts/SubSection.vue'
 
   const props = defineProps<{ content: ItemContentDef }>()
 

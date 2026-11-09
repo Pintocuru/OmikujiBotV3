@@ -3,19 +3,19 @@
   <SectionTabs :tabs="tabs" />
 
   <div class="space-y-4">
-    <SectionCard
+    <SubSection
       v-for="sec in sections"
       :key="sec.section"
       :section-key="sec.section"
       :icon="sec.icon"
-      :label-key="sec.labelKey"
+      :title-key="sec.labelKey"
       :description-key="sec.descriptionKey"
       :variant="sec.variant"
     >
       <template v-for="(child, i) in sec.components" :key="i">
         <component :is="child" />
       </template>
-    </SectionCard>
+    </SubSection>
   </div>
 </template>
 
@@ -29,7 +29,7 @@
   import PackageBasicInfo from './meta/PackageBasicInfo.vue'
   import PackageDistributionInfo from './meta/PackageDistributionInfo.vue'
   import PackageSystemInfo from './meta/PackageSystemInfo.vue'
-  import SectionCard from '@/editor/parts/SectionCard.vue'
+  import SubSection from '@/editor/parts/SubSection.vue'
   import SectionTabs from '@/editor/parts/SectionTabs.vue'
   import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 

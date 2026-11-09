@@ -3,9 +3,9 @@
   <!-- 選択されたキャラクターの編集フォーム -->
   <template v-if="selectedItemKey && selectedItem">
     <!-- 表示設定: フキダシの色(メイン)と、BOTコメント表現(サブ) -->
-    <SectionCard
+    <SubSection
       icon="Palette"
-      label-key="categorySections.characterStyle.label"
+      title-key="categorySections.characterStyle.label"
       description-key="categorySections.characterStyle.description"
     >
       <!-- 表示するキャラクター名 -->
@@ -45,16 +45,16 @@
           @update:modelValue="(value) => updateAssetProperty('characters', selectedItemKey!, 'displayOption', value)"
         />
       </div>
-    </SectionCard>
+    </SubSection>
 
     <!-- ジェネレーター用画像設定 -->
-    <SectionCard
+    <SubSection
       icon="Image"
-      label-key="categorySections.imageSettings.label"
+      title-key="categorySections.imageSettings.label"
       description-key="categorySections.imageSettings.description"
     >
       <CharacterImageSettings :modelValue="selectedItem.image" :selectedItemKey="selectedItemKey" />
-    </SectionCard>
+    </SubSection>
   </template>
 </template>
 
@@ -67,7 +67,7 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import SectionCard from '@/editor/parts/SectionCard.vue'
+  import SubSection from '@/editor/parts/SubSection.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const navigationStore = useNavigationStore()

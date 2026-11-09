@@ -1,7 +1,7 @@
 // src/editor/types/apps/ContentTab.ts
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
-/** SectionTabs に出すタブ1つ分。section は SectionCard の sectionKey と一致させる */
+/** SectionTabs に出すタブ1つ分。section は SubSection / SectionCard の sectionKey と一致させる */
 export type ContentTab = {
   section: string
   icon: LucideIconName
