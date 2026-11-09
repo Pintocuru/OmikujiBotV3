@@ -1,20 +1,19 @@
 <!-- src/editor/App.vue -->
 <!-- 製品版・開発版の最上位。上部バーの下に、エディター(EditorApp)とジェネレーター表示を切り替えて出す -->
 <template>
-  <!-- 画面全体の高さとスクロール境界をここで管理する -->
   <div :data-theme="daisyUiTheme" class="flex h-screen min-w-0 flex-col overflow-hidden bg-base-100 text-base-content">
     <!-- 上部バー(常設) -->
     <TopBar v-model:showGenerator="showGenerator" :generatorState="generatorState" @recheck="checkOneComme" />
 
     <!-- 上部バーを除いた残りの領域。スクロールは各画面に任せる -->
-    <div class="relative min-h-0 min-w-0 flex-1 overflow-hidden">
-      <!-- エディター: 切り替えで再読み込みが走らないよう、v-show で常に残す -->
-      <div v-show="!showGenerator" class="h-full min-h-0 min-w-0">
+    <div class="relative overflow-hidden">
+      <!-- エディター -->
+      <div v-show="!showGenerator" class="h-full">
         <EditorApp />
       </div>
 
       <!-- ジェネレーター＋ツール: 初めて開くときに読み込む -->
-      <div v-if="showGenerator" class="h-full min-h-0 min-w-0">
+      <div v-if="showGenerator" class="h-full">
         <GeneratorView />
       </div>
     </div>

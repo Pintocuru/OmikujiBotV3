@@ -1,14 +1,16 @@
 <!-- src/editor/EditorApp.vue -->
 <template>
   <div class="relative h-full min-h-0 min-w-0 overflow-hidden">
-    <!-- サイドバー: 普段は隠し、左端のホバーか上部バーのボタンで開く -->
+    <!-- サイドバー -->
     <SidebarDrawer />
 
-    <!-- メインコンテンツ: この領域だけがスクロールする(上部バーは動かない) -->
-    <div class="h-full min-w-0 overflow-x-hidden overflow-y-auto p-4 pb-16 space-y-4">
-      <!-- 開発版の起動時、データが読まれていないことを示す -->
+    <!-- メインコンテンツ -->
+    <div class="h-full overflow-y-auto p-4 pb-16">
+      <!-- デブワールド(NoData) -->
       <AppDevWorld v-if="isDevWorld" />
+      <!-- トップページ -->
       <TopPage v-else-if="isTopPage" />
+      <!-- 各種コンテンツエリア -->
       <ContentArea v-else />
     </div>
   </div>

@@ -1,36 +1,38 @@
 <!-- src/editor/content/ContentArea.vue -->
 <template>
-  <!-- カテゴリ帯 -->
-  <div class="flex items-center justify-between px-4 py-2 rounded-xl bg-primary text-primary-content">
-    <div class="flex items-center gap-2 text-xl font-bold">
-      <component :is="currentIcon" class="w-6 h-6" />
-      {{ t(`categories.${selectedCategory}.label`) }}
+  <div class="space-y-2">
+    <!-- カテゴリ帯 -->
+    <div class="flex items-center justify-between px-4 py-2 rounded-xl bg-primary text-primary-content">
+      <div class="flex items-center gap-2 text-xl font-bold">
+        <component :is="currentIcon" class="w-6 h-6" />
+        {{ t(`categories.${selectedCategory}.label`) }}
+      </div>
+
+      <div class="text-sm opacity-80">
+        {{ t(`categories.${selectedCategory}.description`) }}
+      </div>
     </div>
 
-    <div class="text-sm opacity-80">
-      {{ t(`categories.${selectedCategory}.description`) }}
-    </div>
-  </div>
+    <!-- データが0件のとき（Events / Assets）：新規作成を促す -->
+    <NoParamsCard
+      v-if="isEmpty"
+      :key="selectedCategory"
+      class="mt-4"
+      :iconName="currentCategory.icon"
+      :message="t('navigation.create.emptyMessage')"
+      :sub="t('navigation.create.emptyHint')"
+    />
 
-  <!-- データが0件のとき（Events / Assets）：新規作成を促す -->
-  <NoParamsCard
-    v-if="isEmpty"
-    :key="selectedCategory"
-    class="mt-4"
-    :iconName="currentCategory.icon"
-    :message="t('navigation.create.emptyMessage')"
-    :sub="t('navigation.create.emptyHint')"
-  />
+    <template v-else>
+      <!-- Events / Assets: 基本設定の概要と使用キャラクター、現在のアイテムと接続(親 → 自分 → 子) -->
+      <template v-if="isCurrentDataCategory">
+        <ContentSummary :key="selectedCategory" />
+        <ContentConnections />
+      </template>
 
-  <template v-else>
-    <!-- Events / Assets: 基本設定の概要と使用キャラクター、現在のアイテムと接続(親 → 自分 → 子) -->
-    <template v-if="isCurrentDataCategory">
-      <ContentSummary :key="selectedCategory" />
-      <ContentConnections />
+      <component :is="currentContent.editor" :key="selectedCategory" v-bind="editorProps" />
     </template>
-
-    <component :is="currentContent.editor" :key="selectedCategory" v-bind="editorProps" />
-  </template>
+  </div>
 </template>
 
 <script setup lang="ts">
