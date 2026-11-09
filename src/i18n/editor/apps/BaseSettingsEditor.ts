@@ -11,8 +11,8 @@ export const baseSettingsMessages = {
         description: '他のデータと区別できるよう名前を付けます',
       },
       isEnabled: {
-        label: 'イベントを有効にする',
-        description: '有効にすると、おみくじができます',
+        label: '有効にする',
+        description: 'おみくじのON/OFF',
       },
       // イベントにもアセット(みくじ箱・シナリオなど)にも使われるので、「イベント名」とは書かない
       name: {
@@ -25,7 +25,7 @@ export const baseSettingsMessages = {
       },
       tags: {
         label: 'タグ',
-        description: 'このデータに関連するタグを追加できます',
+        description: 'このデータに関連するタグ',
         placeholder: 'タグを追加',
         add: '追加',
         suggestions: '候補(クリックで追加)',

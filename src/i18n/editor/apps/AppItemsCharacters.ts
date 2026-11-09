@@ -184,7 +184,7 @@ export const appItemsCharactersMessages = {
       cards: {
         edit: 'カラー編集',
         displayName: '表示するキャラクター名',
-        displayNameDesc: 'ジェネレーターで表示されるキャラクター名です',
+        displayNameDesc: 'ジェネレーターで表示されます',
         editVoice: 'コメント表現を編集',
         colorSample: 'こんにちは！色の見え方はこんな感じです',
         colorNames: { name: '名前', text: '本文', background: '背景', accent: 'アクセント' },

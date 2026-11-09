@@ -1,17 +1,15 @@
 <!-- src/editor/content/summary/BaseSummary.vue -->
 <!-- 選択中アイテムの基本設定(名前・説明・タグ)の概要。編集は「基本設定を編集」のダイアログで行う -->
 <template>
-  <div>
-    <section class="w-full rounded-box border border-base-300 bg-base-200/40 p-4 min-w-0">
-      <div class="flex items-center justify-between gap-2 mb-3">
-        <h3 class="font-semibold">{{ t('categorySections.baseSettings.label') }}</h3>
-        <button class="btn btn-sm btn-secondary gap-2" @click="editOpen = true">
-          <Pencil class="w-4 h-4" />
-          {{ t('connections.switcher.edit') }}
-        </button>
-      </div>
+  <SettingItem layout="vertical" icon="Hash" labelKey="categorySections.baseSettings.label">
+    <template #label-extra>
+      <button class="btn btn-xs btn-secondary gap-2" @click="editOpen = true">
+        <Pencil class="w-4 h-4" />
+      </button>
+    </template>
 
-      <dl v-if="selectedRecord" class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-2 text-sm">
+    <section class="rounded-box p-2">
+      <dl v-if="selectedRecord" class="grid grid-cols-[auto_minmax(0,1fr)] gap-2 text-sm">
         <!-- キー名 -->
         <template v-if="selectedCategory === 'placeholders' || selectedCategory === 'characters'">
           <dt class="opacity-60">{{ t('baseSettings.key.label') }}</dt>
@@ -37,11 +35,10 @@
         </template>
       </dl>
     </section>
+  </SettingItem>
 
-    <!-- 編集ダイアログ -->
-    <!-- TODO:ItemEditDialog.vueとマージさせたい -->
-    <ItemEditDialog v-model:open="editOpen" />
-  </div>
+  <!-- 編集ダイアログ -->
+  <ItemEditDialog v-model:open="editOpen" />
 </template>
 
 <script setup lang="ts">
@@ -52,6 +49,7 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useSelectedRecord } from '../composables/useSelectedRecord'
   import ItemEditDialog from './ItemEditDialog.vue'
+  import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const { t } = useI18n()
 
