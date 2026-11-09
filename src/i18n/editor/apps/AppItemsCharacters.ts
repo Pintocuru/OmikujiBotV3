@@ -147,6 +147,7 @@ export const appItemsCharactersMessages = {
       },
       voice: {
         label: 'わんコメPost',
+        cardDescription: 'わんコメへのコメント投稿方法を設定します',
         come: 'わんコメへのPost',
         desc: 'Post(投稿)の種類を選択',
         note1: 'キャラクター専用の枠を作成すると、各キャラクターごとに',
@@ -163,7 +164,9 @@ export const appItemsCharactersMessages = {
       // CharacterEditor 上部のカード(色・コメント表現)
       cards: {
         edit: 'カラー編集',
+        colorDescription: 'キャラクターのフキダシに使用する色を設定します',
         displayName: '表示するキャラクター名',
+        displayNameDesc: 'ジェネレーターで表示されるキャラクター名です',
         editVoice: 'コメント表現を編集',
         colorSample: 'こんにちは！色の見え方はこんな感じです',
         colorNames: { name: '名前', text: '本文', background: '背景', accent: 'アクセント' },
@@ -321,6 +324,7 @@ export const appItemsCharactersMessages = {
       },
       voice: {
         label: 'Bot comment display method',
+        cardDescription: 'Configure how comments are posted to OneComme',
         desc: "Specify how the bot's text is expressed",
         note1: 'If you create a dedicated frame for a character, you can configure the ',
         noteCode: '"Text-to-speech" settings',
@@ -334,8 +338,10 @@ export const appItemsCharactersMessages = {
         voiceNote2: 'Comments will not be displayed in the generator.',
       },
       cards: {
-        edit: 'Edit',
+        edit: 'Edit colors',
+        colorDescription: 'Set the colors used for the character speech bubble',
         displayName: 'Character name to display',
+        displayNameDesc: 'The character name displayed in the generator',
         editVoice: 'Edit comment display',
         colorSample: 'Hello! This is how the colors look',
         colorNames: { name: 'Name', text: 'Text', background: 'Background', accent: 'Accent' },
