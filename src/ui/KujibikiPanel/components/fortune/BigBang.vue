@@ -28,7 +28,10 @@
       </div>
 
       <!-- おみくじ結果 -->
-      <div v-if="currentSlot0" class="result-plaque relative z-10 flex min-h-24 w-full items-center justify-center rounded-lg px-3 py-3">
+      <div
+        v-if="currentSlot0"
+        class="result-plaque relative z-10 flex min-h-24 w-full items-center justify-center rounded-lg px-3 py-3"
+      >
         <span
           class="result-text relative block w-full text-center font-black tracking-wide"
           :style="{ fontSize: slot0FontSize }"
@@ -40,12 +43,13 @@
       <!-- ユーザー名 -->
       <div v-if="currentName" class="relative z-10 flex items-center gap-1 text-cyan-50">
         <span class="text-lg font-semibold">{{ currentName }}</span>
-        <span class="text-cyan-100/80">の地球規模の運勢</span>
       </div>
 
       <!-- メッセージ -->
-      <div class="relative z-10 mt-auto w-full rounded-lg border border-cyan-100/20 bg-slate-950/65 p-3 backdrop-blur-sm">
-        <p class="break-words text-center font-medium leading-relaxed tracking-wide text-white">
+      <div
+        class="relative z-10 mt-auto w-full rounded-lg border border-cyan-100/20 bg-slate-950/65 p-3 backdrop-blur-sm"
+      >
+        <p class="wrap-break-word text-center font-medium leading-relaxed tracking-wide text-white">
           {{ currentSlot1 }}
         </p>
       </div>
@@ -63,7 +67,7 @@
   }>()
 
   const current = computed(() => props.messages[0])
-  const currentName = computed(() => current.value?.bubble?.name ?? null)
+  const currentName = computed(() => current.value?.user?.userName ?? null)
   const currentSlot0 = computed(() => current.value?.slots?.slot0 ?? null)
   const currentSlot1 = computed(() => current.value?.slots?.slot1 ?? null)
 
@@ -175,7 +179,13 @@
   }
 
   .earth-shine {
-    background: linear-gradient(115deg, rgba(255, 255, 255, 0.22), transparent 38%, transparent 70%, rgba(2, 6, 23, 0.45));
+    background: linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.22),
+      transparent 38%,
+      transparent 70%,
+      rgba(2, 6, 23, 0.45)
+    );
   }
 
   .earth-glow {
