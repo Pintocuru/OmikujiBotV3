@@ -27,7 +27,7 @@ export const placeholderMessages = {
       sampleText: '大吉',
       or: 'または',
       defaultWeightNote: '重みを省略すると、1として扱います',
-      textareaPlaceholder: '3,大吉\\n1,小吉\\n凶',
+      textareaPlaceholder: '3,大吉\n1,小吉\n凶',
     },
   },
   en: {
@@ -57,7 +57,7 @@ export const placeholderMessages = {
       sampleText: 'Great luck',
       or: 'or',
       defaultWeightNote: 'If omitted, the weight defaults to 1',
-      textareaPlaceholder: '3,Great luck\\n1,Small luck\\nBad luck',
+      textareaPlaceholder: '3,Great luck\n1,Small luck\nBad luck',
     },
   },
 }
