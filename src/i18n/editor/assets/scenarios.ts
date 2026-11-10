@@ -100,8 +100,8 @@ export const scenarioStepMessages = {
         addValue: '+ 値を追加',
       },
       gameScript: {
-        gameLabel: 'ゲーム',
-        gameDesc: '実行するゲームスクリプト',
+        gameLabel: 'スクリプト',
+        gameDesc: '実行するスクリプト',
         paramLabel: 'パラメータ',
         paramDesc: 'ゲームに渡す文字列',
         paramPlaceholder: 'パラメータを入力',
