@@ -3,18 +3,18 @@ export const triggerGiftMessages = {
   ja: {
     triggerGift: {
       label: 'ギフト条件',
-      description: '金額や種類で発動を変更できます',
-      kindsLabel: '種類(選ばなければ全ての種類)',
-      tiersLabel: '金額の段階(有料ギフトにだけ効きます)',
+      description: '金額や種類で発動条件を設定',
+      kindsLabel: '種類（未選択ならすべて）',
+      tiersLabel: '金額の段階（有料ギフトのみ）',
       kinds: {
-        paid: { label: '有料', description: '実際にお金が入るギフト(スパチャ・ジュエル・ビッツなど)' },
-        free: { label: '無料', description: 'お茶などの無料ギフト' },
+        paid: { label: '有料', description: '収益になるギフト（スパチャ・ジュエル・ビッツなど）' },
+        free: { label: '無料', description: 'お茶など、無料のギフト' },
         member: { label: 'メンバー/サブスク', description: 'メンバーシップ・サブスクの加入やギフト' },
       },
       conditions: {
         all: {
           label: '全て',
-          description: '金額を問わない全てのギフト(無料・メンバー/サブスクを含む)',
+          description: '金額を問わないすべてのギフト（無料・メンバー／サブスクを含む）',
         },
         blue: {
           label: '200円未満',
