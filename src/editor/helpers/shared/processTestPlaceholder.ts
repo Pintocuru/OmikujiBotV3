@@ -4,7 +4,8 @@ import { DisplayVariableResolver } from '@/engine/DisplayVariable/DisplayVariabl
 import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
 import { ContentPlaceholder } from '@/engine/ContentPlaceholder/processor'
 import { PlaceholderContext } from '@/engine/ContentPlaceholder/context'
-import { defaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
+import { getDefaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
+import i18n from '@/editor/i18n'
 
 /**
  * テスト用：メッセージのプレースホルダーを処理して bubble を返す
@@ -18,7 +19,7 @@ export const processTestPlaceholder = (
     // プレースホルダー
     const contentPlaceholder = new ContentPlaceholder(placeholders)
     const context = new PlaceholderContext()
-    context.updateValues(defaultPlaceholdersShortLabels)
+    context.updateValues(getDefaultPlaceholdersShortLabels((key) => i18n.global.t(key)))
     contentPlaceholder.updateResolvedValues(context.getAll())
     const withPlaceholders = contentPlaceholder.processText(message)
 
