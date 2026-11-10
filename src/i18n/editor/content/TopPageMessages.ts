@@ -3,7 +3,7 @@ export const topPageMessages = {
   ja: {
     topPage: {
       label: 'TOPページ',
-      description: '編集したい項目を選んでください',
+      description: '編集する項目を選択',
       count: '{count}件',
       countOne: '{count}件',
       orderHelp: {
