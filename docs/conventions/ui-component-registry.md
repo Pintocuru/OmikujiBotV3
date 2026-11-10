@@ -26,18 +26,26 @@ UI の内部で使う表示コンポーネント(例: KujibikiPanel の `omikuji
 
 #### 3.1 登録情報
 
-| 項目        | 内容                                                                                           |
-| ----------- | ---------------------------------------------------------------------------------------------- |
-| ID          | コンポーネントを識別する文字列。**オブジェクトのキーがそのまま ID**(`id` プロパティは持たない) |
-| `label`     | エディターで表示する名称。**日本語固定**(多言語化しない)                                       |
-| `loader`    | Vue コンポーネントを読み込む非同期 Loader                                                      |
-| UI 固有メタ | `isVisual` / `layout` など。**共通レジストリは解釈・加工しない**                               |
+| 項目        | 内容                                                                                                |
+| ----------- | --------------------------------------------------------------------------------------------------- |
+| ID          | コンポーネントを識別する文字列。**オブジェクトのキーがそのまま ID**(`id` プロパティは持たない)      |
+| `labelKey`  | エディターで表示する名称の i18n キー(`uiComponents.<UI名>.<ID>.label`)。文言は ja / en の両方を持つ |
+| `loader`    | Vue コンポーネントを読み込む非同期 Loader                                                           |
+| UI 固有メタ | `isVisual` / `layout` など。**共通レジストリは解釈・加工しない**                                    |
 
 ```ts
 registerUiComponents('kujibikiPanel', {
   standard: {
-    omikuji: { label: 'おみくじ', loader: () => import('./Omikuji.vue'), isVisual: false },
-    flower: { label: 'フラワー占い', loader: () => import('./Flower.vue'), isVisual: false },
+    omikuji: {
+      labelKey: 'uiComponents.kujibikiPanel.omikuji.label',
+      loader: () => import('./Omikuji.vue'),
+      isVisual: false,
+    },
+    flower: {
+      labelKey: 'uiComponents.kujibikiPanel.flower.label',
+      loader: () => import('./Flower.vue'),
+      isVisual: false,
+    },
   },
 })
 ```

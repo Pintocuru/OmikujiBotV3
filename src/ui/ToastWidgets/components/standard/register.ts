@@ -6,9 +6,9 @@ import { registerToastWidgetsComponents, type ToastWidgetsComponent } from '../.
  * ToastWidgets 標準セット
  */
 const standardComponents = {
-  standard: { label: 'スタンダード(チャット風)', loader: () => import('./Standard.vue') },
-  simple: { label: 'シンプル(角丸ラベル)', loader: () => import('./Simple.vue') },
-  card: { label: 'カード(アクセントライン付き)', loader: () => import('./Card.vue') },
+  standard: { labelKey: 'uiComponents.toastWidgets.standard.label', loader: () => import('./Standard.vue') },
+  simple: { labelKey: 'uiComponents.toastWidgets.simple.label', loader: () => import('./Simple.vue') },
+  card: { labelKey: 'uiComponents.toastWidgets.card.label', loader: () => import('./Card.vue') },
 } satisfies Record<ToastComponentOf<'standard'>, ToastWidgetsComponent>
 
 export const registerStandardToastComponents = () => registerToastWidgetsComponents({ standard: standardComponents })

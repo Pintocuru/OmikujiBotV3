@@ -6,8 +6,8 @@ import { registerGameRankingComponents, type GameRankingComponent } from '../../
  * GameRanking 標準セット
  */
 const standardComponents = {
-  standard: { label: 'スタンダード', loader: () => import('./Standard.vue') },
-  suikaGame: { label: 'スイカゲーム風ランキング', loader: () => import('./SuikaGame.vue') },
+  standard: { labelKey: 'uiComponents.gameRanking.standard.label', loader: () => import('./Standard.vue') },
+  suikaGame: { labelKey: 'uiComponents.gameRanking.suikaGame.label', loader: () => import('./SuikaGame.vue') },
 } satisfies Record<RankingComponentOf<'standard'>, GameRankingComponent>
 
 export const registerStandardRankingComponents = () => registerGameRankingComponents({ standard: standardComponents })

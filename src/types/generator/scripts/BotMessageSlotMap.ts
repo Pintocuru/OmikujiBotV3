@@ -5,11 +5,9 @@ import type { UiKind } from '@/types/OmikujiData'
 
 export type SlotName = `slot${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
 
-/** slotN が何を意味するか。editor の表示にも使う */
+/** slotN が何を意味するか。editor の表示名・補足は i18n(uiSettings.slots.<UI名>.<キー>.title / .description) */
 export type SlotMeta = {
   slot: SlotName
-  title: string // editor の表示名
-  description: string // editor の補足
 }
 
 /**
@@ -19,18 +17,18 @@ export type SlotMeta = {
 
 /** gameRanking */
 export const RankingSlotMap = {
-  gameKey: { slot: 'slot0', title: 'ゲームキー', description: 'ゲームの認識キー(任意)' },
-  listName: { slot: 'slot1', title: 'ユーザー名', description: '表示名。空なら user.userName を使う' },
-  symbol: { slot: 'slot2', title: 'シンボル', description: 'ユーザー名の右側につく記号' },
-  scoreText: { slot: 'slot3', title: '得点(文字)', description: '表示用の得点' },
-  score: { slot: 'slot4', title: '得点(数値)', description: '並び順を決める(表示しない)' },
+  gameKey: { slot: 'slot0' },
+  listName: { slot: 'slot1' },
+  symbol: { slot: 'slot2' },
+  scoreText: { slot: 'slot3' },
+  score: { slot: 'slot4' },
 } as const satisfies Record<string, SlotMeta>
 export type RankingSlotKey = keyof typeof RankingSlotMap
 
 /** kujibikiPanel */
 export const KujibikiSlotMap = {
-  result: { slot: 'slot0', title: '結果', description: '運勢などの見出し(例: 大吉)' },
-  detail: { slot: 'slot1', title: '解説', description: '結果の解説文' },
+  result: { slot: 'slot0' },
+  detail: { slot: 'slot1' },
 } as const satisfies Record<string, SlotMeta>
 
 /**
@@ -42,35 +40,25 @@ export const KujibikiSlotMap = {
  *   不正値は UI 側(resolveStageSlots)で既定値に落としている。必要なら SlotMeta を拡張する
  */
 export const CharacterStageSlotMap = {
-  seconds: { slot: 'slot0', title: '表示秒数', description: '0 は無期限。空なら既定値' },
+  seconds: { slot: 'slot0' },
   xMin: {
     slot: 'slot1',
-    title: '位置X 最小',
-    description: '0〜100(%)。最小と最大が同じなら固定、違えば範囲内でランダム',
   },
-  xMax: { slot: 'slot2', title: '位置X 最大', description: '0〜100(%)' },
-  yMin: { slot: 'slot3', title: '位置Y 最小', description: '0〜100(%)。画面上端が 0' },
-  yMax: { slot: 'slot4', title: '位置Y 最大', description: '0〜100(%)' },
-  scale: { slot: 'slot5', title: 'サイズ倍率', description: '1 が標準。空なら 1' },
+  xMax: { slot: 'slot2' },
+  yMin: { slot: 'slot3' },
+  yMax: { slot: 'slot4' },
+  scale: { slot: 'slot5' },
   motion: {
     slot: 'slot6',
-    title: '登場・退場モーション',
-    description: 'モーションのキー(例: fade, slideUp)。空なら既定値',
   },
   clearPrevious: {
     slot: 'slot7',
-    title: '前の表示を消す',
-    description: 'true なら、これまでの表示を消してから表示する',
   },
   motionDuration: {
     slot: 'slot8',
-    title: 'アニメーション速度',
-    description: '登場・退場のモーションの秒数。0.4〜5(小さいほど速い)。空なら 1',
   },
   anchor: {
     slot: 'slot9',
-    title: '基準点',
-    description: '位置X・Yが、キャラ画像のどの点か(例: bottomRight)。空なら既定値',
   },
 } as const satisfies Record<string, SlotMeta>
 export type CharacterStageSlotKey = keyof typeof CharacterStageSlotMap

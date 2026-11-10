@@ -13,7 +13,9 @@
 
     <template #hud>
       <div class="flex items-center gap-2">
-        <button class="btn btn-xs btn-ghost" @click="incrementAll">🎲 全て +1</button>
+        <button class="btn btn-xs btn-ghost" @click="incrementAll">
+          {{ $t('uiSettings.cookieCounter.incrementAll') }}
+        </button>
       </div>
     </template>
   </HudPreview>

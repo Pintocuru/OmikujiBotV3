@@ -2,8 +2,8 @@
 <template>
   <InformationCard variant="warning" icon="warning">
     <p>
-      シナリオで個別に編集するものです。<br />
-      設定できる項目がありません。
+      {{ $t('uiSettings.characterStage.noSettings.line1') }}<br />
+      {{ $t('uiSettings.characterStage.noSettings.line2') }}
     </p>
   </InformationCard>
 </template>

@@ -44,9 +44,9 @@
   >
     <div v-for="meta in slotMetas" :key="meta.slot" class="mb-2">
       <p class="mb-1 text-sm font-medium">
-        {{ meta.title }}
+        {{ t(`uiSettings.slots.${step.uiKey}.${meta.key}.title`) }}
         <span class="ml-2 text-xs opacity-60">
-          {{ meta.description }}
+          {{ t(`uiSettings.slots.${step.uiKey}.${meta.key}.description`) }}
         </span>
       </p>
 
@@ -102,7 +102,7 @@
   const slotsEditor = computed(() => getUiSlotsEditor(props.step.uiKey))
   // 表示先の UI
   const spec = computed(() => getUiMessageSpec(props.step.uiKey))
-  const slotMetas = computed(() => Object.values(spec.value.slots))
+  const slotMetas = computed(() => Object.entries(spec.value.slots).map(([key, meta]) => ({ key, slot: meta.slot })))
 
   // 投稿を受け取れる UI だけ選べる
   const selectableKinds = computed<UiKind[]>(() =>

@@ -7,14 +7,14 @@ import { registerCookieCounterComponents, type CookieCounterComponent } from '..
  */
 const standardComponents = {
   sakura: {
-    label: 'さくらツイン🌸',
+    labelKey: 'uiComponents.cookieCounter.sakura.label',
     maxCounters: 2,
     isColor: false,
     hasImage: true,
     loader: () => import('./Sakura.vue'),
   },
   block3d: {
-    label: 'ブロックツイン',
+    labelKey: 'uiComponents.cookieCounter.block3d.label',
     maxCounters: 2,
     isColor: true,
     hasImage: false,

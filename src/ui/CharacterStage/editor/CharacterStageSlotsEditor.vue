@@ -1,11 +1,11 @@
 <!-- src/ui/CharacterStage/editor/CharacterStageSlotsEditor.vue -->
 <template>
   <SettingItem layout="vertical" icon="MessageSquare" labelKey="scenarioStep.messageSettings.slots">
-    <p class="mb-2 text-xs opacity-60">空欄の項目は既定値が使われます</p>
+    <p class="mb-2 text-xs opacity-60">{{ t('uiSettings.characterStage.slots.hint') }}</p>
 
     <!-- 表示秒数 -->
     <div class="mb-3">
-      <p class="mb-1 text-sm font-medium">{{ meta.seconds.title }}</p>
+      <p class="mb-1 text-sm font-medium">{{ t('uiSettings.slots.characterStage.seconds.title') }}</p>
       <div class="flex items-center gap-2">
         <input
           type="number"
@@ -16,18 +16,18 @@
           :value="getRaw('seconds')"
           @change="setNumber('seconds', $event, { min: 0 })"
         />
-        <span class="text-sm">秒(0 は無期限)</span>
+        <span class="text-sm">{{ t('uiSettings.characterStage.slots.secondsUnit') }}</span>
         <button v-if="getRaw('seconds') !== ''" class="btn btn-ghost btn-xs" @click="clear('seconds')">
-          既定に戻す
+          {{ t('uiSettings.common.resetToDefault') }}
         </button>
       </div>
     </div>
 
     <!-- 位置X / 位置Y -->
-    <div v-for="axis in axes" :key="axis.label" class="mb-3">
+    <div v-for="axis in axes" :key="axis.key" class="mb-3">
       <p class="mb-1 text-sm font-medium">
-        {{ axis.label }}
-        <span class="ml-2 text-xs opacity-60">{{ axis.description }}</span>
+        {{ t(`uiSettings.characterStage.slots.${axis.key}.label`) }}
+        <span class="ml-2 text-xs opacity-60">{{ t(`uiSettings.characterStage.slots.${axis.key}.description`) }}</span>
       </p>
       <div class="flex items-center gap-2">
         <input
@@ -55,7 +55,7 @@
           class="btn btn-ghost btn-xs"
           @click="clear(axis.min, axis.max)"
         >
-          既定に戻す
+          {{ t('uiSettings.common.resetToDefault') }}
         </button>
       </div>
     </div>
@@ -63,22 +63,30 @@
     <!-- 基準点 -->
     <div class="mb-3">
       <p class="mb-1 text-sm font-medium">
-        {{ meta.anchor.title }}
-        <span class="ml-2 text-xs opacity-60">位置X・Yに置く、キャラ画像上の点</span>
+        {{ t('uiSettings.slots.characterStage.anchor.title') }}
+        <span class="ml-2 text-xs opacity-60">{{ t('uiSettings.characterStage.slots.anchorHint') }}</span>
       </p>
       <select
         class="select select-bordered select-sm w-full max-w-xs"
         :value="getRaw('anchor')"
         @change="setRaw('anchor', ($event.target as HTMLSelectElement).value)"
       >
-        <option value="">(既定: {{ anchorLabels[defaults.anchor] }})</option>
-        <option v-for="k in stageAnchors" :key="k" :value="k">{{ anchorLabels[k] }}</option>
+        <option value="">
+          {{
+            t('uiSettings.common.defaultOption', {
+              value: t(`uiSettings.characterStage.slots.anchors.${defaults.anchor}`),
+            })
+          }}
+        </option>
+        <option v-for="k in stageAnchors" :key="k" :value="k">
+          {{ t(`uiSettings.characterStage.slots.anchors.${k}`) }}
+        </option>
       </select>
     </div>
 
     <!-- サイズ倍率 -->
     <div class="mb-3">
-      <p class="mb-1 text-sm font-medium">{{ meta.scale.title }}</p>
+      <p class="mb-1 text-sm font-medium">{{ t('uiSettings.slots.characterStage.scale.title') }}</p>
       <div class="flex items-center gap-2">
         <input
           type="number"
@@ -90,27 +98,31 @@
           :value="getRaw('scale')"
           @change="setNumber('scale', $event, { min: 0.1 })"
         />
-        <span class="text-sm">倍(実寸 {{ previewWidth }}px)</span>
-        <button v-if="getRaw('scale') !== ''" class="btn btn-ghost btn-xs" @click="clear('scale')">既定に戻す</button>
+        <span class="text-sm">{{ t('uiSettings.characterStage.slots.scaleUnit', { px: previewWidth }) }}</span>
+        <button v-if="getRaw('scale') !== ''" class="btn btn-ghost btn-xs" @click="clear('scale')">
+          {{ t('uiSettings.common.resetToDefault') }}
+        </button>
       </div>
     </div>
 
     <!-- モーション -->
     <div class="mb-3">
-      <p class="mb-1 text-sm font-medium">{{ meta.motion.title }}</p>
+      <p class="mb-1 text-sm font-medium">{{ t('uiSettings.slots.characterStage.motion.title') }}</p>
       <select
         class="select select-bordered select-sm w-full max-w-xs"
         :value="getRaw('motion')"
         @change="setRaw('motion', ($event.target as HTMLSelectElement).value)"
       >
-        <option value="">(既定: {{ t(`mapText.enterMotion.${defaults.motion}.label`) }})</option>
+        <option value="">
+          {{ t('uiSettings.common.defaultOption', { value: t(`mapText.enterMotion.${defaults.motion}.label`) }) }}
+        </option>
         <option v-for="k in enterMotions" :key="k" :value="k">{{ t(`mapText.enterMotion.${k}.label`) }}</option>
       </select>
     </div>
 
     <!-- アニメーション速度(登場・退場とも) -->
     <div class="mb-3">
-      <p class="mb-1 text-sm font-medium">{{ meta.motionDuration.title }}</p>
+      <p class="mb-1 text-sm font-medium">{{ t('uiSettings.slots.characterStage.motionDuration.title') }}</p>
       <div class="flex items-center gap-2">
         <input
           type="number"
@@ -122,24 +134,24 @@
           :value="getRaw('motionDuration')"
           @change="setNumber('motionDuration', $event, { min: 0.4, max: 5 })"
         />
-        <span class="text-sm">秒(小さいほど速い)</span>
+        <span class="text-sm">{{ t('uiSettings.characterStage.slots.durationUnit') }}</span>
         <button v-if="getRaw('motionDuration') !== ''" class="btn btn-ghost btn-xs" @click="clear('motionDuration')">
-          既定に戻す
+          {{ t('uiSettings.common.resetToDefault') }}
         </button>
       </div>
     </div>
 
     <!-- 前の表示を消す -->
     <div class="mb-3">
-      <p class="mb-1 text-sm font-medium">{{ meta.clearPrevious.title }}</p>
+      <p class="mb-1 text-sm font-medium">{{ t('uiSettings.slots.characterStage.clearPrevious.title') }}</p>
       <select
         class="select select-bordered select-sm w-full max-w-xs"
         :value="getRaw('clearPrevious')"
         @change="setRaw('clearPrevious', ($event.target as HTMLSelectElement).value)"
       >
-        <option value="">(既定)</option>
-        <option value="true">消す</option>
-        <option value="false">消さない</option>
+        <option value="">{{ t('uiSettings.common.defaultOnly') }}</option>
+        <option value="true">{{ t('uiSettings.characterStage.slots.clearYes') }}</option>
+        <option value="false">{{ t('uiSettings.characterStage.slots.clearNo') }}</option>
       </select>
     </div>
   </SettingItem>
@@ -150,7 +162,7 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { STAGE_DEFAULTS } from '../resolveStageSlots'
   import { enterMotions } from '@/types/OmikujiData'
-  import { stageAnchors, type StageAnchorType } from '@/types/ui'
+  import { stageAnchors } from '@/types/ui'
   import { useI18n } from 'vue-i18n'
   import { CharacterStageSlotMap, type CharacterStageSlotKey } from '@/types/generator'
 
@@ -164,15 +176,9 @@
   const defaults = STAGE_DEFAULTS
 
   const axes = [
-    { label: '位置X', description: '0〜100(%)。左端が 0。違う値ならランダム', min: 'xMin', max: 'xMax' },
-    { label: '位置Y', description: '0〜100(%)。上端が 0。違う値ならランダム', min: 'yMin', max: 'yMax' },
+    { key: 'axisX', min: 'xMin', max: 'xMax' },
+    { key: 'axisY', min: 'yMin', max: 'yMax' },
   ] as const
-
-  const anchorLabels: Record<StageAnchorType, string> = {
-    topLeft: '左上', top: '上中央', topRight: '右上',
-    left: '左中央', center: '中央', right: '右中央',
-    bottomLeft: '左下', bottom: '下中央', bottomRight: '右下',
-  }
 
   const getRaw = (key: CharacterStageSlotKey): string => props.slots[meta[key].slot] ?? ''
 

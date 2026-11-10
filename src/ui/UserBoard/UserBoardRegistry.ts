@@ -13,7 +13,7 @@ const UI_NAME = 'userBoard'
 
 /** この UI 固有のメタ。 */
 type Meta = {
-  description: string // エディターの選択肢に出す説明
+  descriptionKey: string // エディターの選択肢に出す説明の i18n キー
   hasLimit: boolean // 表示件数(limit)の設定を使うか
 }
 

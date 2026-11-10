@@ -33,8 +33,8 @@
   <!-- 前回までの砂粒の引き継ぎ -->
   <SettingItem
     v-if="isPersistent"
-    label="前回までの砂粒を引き継ぐ"
-    :description="carryOverDescription"
+    labelKey="uiSettings.lifeHourglass.carryOver.label"
+    :descriptionKey="carryOverDescriptionKey"
     :showWarning="!isPersistent"
   >
     <input
@@ -48,6 +48,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -62,6 +63,8 @@
   import { createLifeHourglassPreviewState, type LifeHourglassPreviewState } from './useLifeHourglassPreview'
   import { getLifeHourglassComponent, getLifeHourglassComponentSets } from '../LifeHourglassRegistry'
 
+  const { t } = useI18n()
+
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
   const { updateItemSettings } = omikujiStore
@@ -74,19 +77,20 @@
 
   // 保存先が仮実装(メモリのみ)の間は、引き継ぎのトグルを無効にする
   const { isPersistent } = storeToRefs(useLifeHourglassStore())
-  const carryOverDescription = computed(() =>
+  const carryOverDescriptionKey = computed(() =>
     isPersistent.value
-      ? 'ON: 前回までの通算を表示します / OFF: 今回の配信ぶんだけを表示します'
-      : 'サーバーがないため、現在は使用できません(起動しごとに 0 に戻ります)'
+      ? 'uiSettings.lifeHourglass.carryOver.descriptionOn'
+      : 'uiSettings.lifeHourglass.carryOver.descriptionUnavailable'
   )
 
   // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
   const componentOptions = computed(() => {
     const options: Record<string, { label: string }> = {}
     const currentId = lifeHourglass.value.component
-    if (!getLifeHourglassComponent(currentId)) options[currentId] = { label: `未登録: ${currentId}` }
+    if (!getLifeHourglassComponent(currentId))
+      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }) }
     for (const set of Object.values(getLifeHourglassComponentSets())) {
-      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }
     return options
   })

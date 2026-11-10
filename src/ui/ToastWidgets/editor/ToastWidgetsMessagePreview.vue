@@ -6,7 +6,7 @@
         <ToastBubbleSelector
           :settings="settings"
           editorPreview
-          :message="message || '(未記入)'"
+          :message="message || $t('uiSettings.common.emptyMessage')"
           :color="getCharacterColor(characterKey || '')"
           :iconLayers="settings.showToastsCharacter ? iconSrc(characterKey || '', iconKey || 'default') : []"
         />

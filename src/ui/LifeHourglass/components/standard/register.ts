@@ -6,7 +6,7 @@ import { registerLifeHourglassComponents, type LifeHourglassUiComponent } from '
  * LifeHourglass 標準セット
  */
 const standardComponents = {
-  sandBowl: { label: '砂の器', loader: () => import('./SandBowl.vue') },
+  sandBowl: { labelKey: 'uiComponents.lifeHourglass.sandBowl.label', loader: () => import('./SandBowl.vue') },
 } satisfies Record<LifeHourglassComponentOf<'standard'>, LifeHourglassUiComponent>
 
 export const registerStandardLifeHourglassComponents = () =>

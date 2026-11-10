@@ -13,13 +13,21 @@
   />
 
   <!-- カラー設定 -->
-  <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description" layout="vertical">
+  <SettingItem
+    labelKey="uiSettings.common.color.label"
+    descriptionKey="uiSettings.common.color.description"
+    layout="vertical"
+  >
     <ColorPicker :modelValue="ranking.color" @update:modelValue="(val) => update('color', val)" />
   </SettingItem>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- 順位のソート -->
-    <SettingItem labelKey="uiSettings.gameRanking.sortOrder.label" descriptionKey="uiSettings.gameRanking.sortOrder.description" layout="vertical">
+    <SettingItem
+      labelKey="uiSettings.gameRanking.sortOrder.label"
+      descriptionKey="uiSettings.gameRanking.sortOrder.description"
+      layout="vertical"
+    >
       <div class="flex flex-wrap gap-2">
         <div
           v-for="(order, key) in rankingSortOrderMap"
@@ -53,7 +61,11 @@
   </div>
 
   <!-- ユーザーごとの重複 -->
-  <SettingItem labelKey="uiSettings.gameRanking.uniqueUser.label" descriptionKey="uiSettings.gameRanking.uniqueUser.description" layout="vertical">
+  <SettingItem
+    labelKey="uiSettings.gameRanking.uniqueUser.label"
+    descriptionKey="uiSettings.gameRanking.uniqueUser.description"
+    layout="vertical"
+  >
     <input
       type="checkbox"
       class="toggle toggle-primary"
@@ -64,6 +76,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -77,6 +90,8 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
 
+  const { t } = useI18n()
+
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
   const { updateItemSettings } = omikujiStore
@@ -88,9 +103,10 @@
   const componentOptions = computed(() => {
     const options: Record<string, { label: string }> = {}
     const currentId = ranking.value.component
-    if (!getGameRankingComponent(currentId)) options[currentId] = { label: `未登録: ${currentId}` }
+    if (!getGameRankingComponent(currentId))
+      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }) }
     for (const set of Object.values(getGameRankingComponentSets())) {
-      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }
     return options
   })

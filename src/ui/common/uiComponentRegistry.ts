@@ -3,9 +3,10 @@ import type { Component } from 'vue'
 
 export type UiComponentLoader = () => Promise<{ default: Component }>
 
-/** 共通項目(label / loader)+ UI 固有メタ。メタは共通側では解釈しない。 */
+/** 共通項目(labelKey / loader)+ UI 固有メタ。メタは共通側では解釈しない。 */
 export type UiComponentDefinition<TMeta extends object = object> = {
-  label: string
+  /** エディターに表示する名称の i18n キー(uiComponents.<UI名>.<ID>.label) */
+  labelKey: string
   loader: UiComponentLoader
 } & TMeta
 

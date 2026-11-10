@@ -1,7 +1,9 @@
 <!-- src/ui/StreamCounter/editor/CounterSelector/CounterOrderSection.vue -->
 <template>
   <div v-if="counters.length > 0" class="mt-4 p-4 bg-base-200 rounded-box text-sm">
-    <div class="font-bold mb-2">表示順（最大 {{ maxCounters }} 個）: 現在 {{ counters.length }}個</div>
+    <div class="font-bold mb-2">
+      {{ $t('uiSettings.counterSelector.orderTitle', { max: maxCounters, count: counters.length }) }}
+    </div>
     <VueDraggable v-model="draggableCounters" :animation="150" handle=".drag-handle" class="flex flex-wrap gap-1">
       <div
         v-for="(c, i) in draggableCounters"

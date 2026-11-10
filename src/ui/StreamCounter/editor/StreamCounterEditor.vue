@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { StreamCounterSchema, StreamCounterVariablesSchema } from '@/types/ui'
@@ -36,6 +37,8 @@
   import CounterSelectorPanel from './CounterSelector/CounterSelectorPanel.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import { CounterItem } from './CounterSelector/counterTypes'
+
+  const { t } = useI18n()
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
@@ -53,9 +56,10 @@
   const componentOptions = computed(() => {
     const options: Record<string, { label: string }> = {}
     const currentId = streamCounter.value.component
-    if (!getStreamCounterComponent(currentId)) options[currentId] = { label: `未登録: ${currentId}` }
+    if (!getStreamCounterComponent(currentId))
+      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }) }
     for (const set of Object.values(getStreamCounterComponentSets())) {
-      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }
     return options
   })

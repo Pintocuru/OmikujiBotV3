@@ -37,6 +37,7 @@ import * as m_shell_ShellMessages from './shell/ShellMessages'
 import * as m_ui_EditorUiMessages from './ui/EditorUiMessages'
 import * as m_preview_EditorPreviewMessages from './preview/EditorPreviewMessages'
 import * as m_ui_UiSettingsMessages from './ui/UiSettingsMessages'
+import * as m_ui_UiComponentMessages from './ui/UiComponentMessages'
 import * as m_content_ConnectionMessages from './content/ConnectionMessages'
 import * as m_content_TopPageMessages from './content/TopPageMessages'
 import * as m_apps_OrphanItemsMessages from './apps/OrphanItemsMessages'
@@ -80,4 +81,5 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   'shell/ShellMessages': m_shell_ShellMessages,
   'ui/EditorUiMessages': m_ui_EditorUiMessages,
   'ui/UiSettingsMessages': m_ui_UiSettingsMessages,
+  'ui/UiComponentMessages': m_ui_UiComponentMessages,
 }

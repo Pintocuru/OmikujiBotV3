@@ -11,7 +11,7 @@
       :images="settings.images"
     />
     <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
-      {{ loadError }}
+      {{ $t(loadError.key, { id: loadError.id }) }}
     </div>
   </div>
 </template>
@@ -34,19 +34,22 @@
 
   // 未登録・読み込み失敗のときは null のまま(配信画面は無表示。わんコメへ一度だけ通知する)
   const currentComponent = shallowRef<Component | null>(null)
-  const loadError = shallowRef('')
+  const loadError = shallowRef<{ key: string; id: string } | null>(null)
 
   watch(
     () => props.settings.component,
     async (id) => {
       currentComponent.value = null
-      loadError.value = ''
+      loadError.value = null
 
       const definition = getCookieCounterComponent(id)
       if (!definition) {
-        loadError.value = `未登録の表示タイプ: ${id}`
+        loadError.value = { key: 'uiSettings.common.loadError.unregistered', id }
         if (!props.editorPreview) {
-          notifyCookieCounterComponentIssue(id, `クッキーカウンターの表示タイプ「${id}」は、このバージョンには含まれていません`)
+          notifyCookieCounterComponentIssue(
+            id,
+            `クッキーカウンターの表示タイプ「${id}」は、このバージョンには含まれていません`
+          )
         }
         return
       }
@@ -57,7 +60,7 @@
       } catch (error) {
         if (props.settings.component !== id) return
         console.error(`[CookieCounter] Component load failed: ${id}`, error)
-        loadError.value = `表示タイプ「${id}」の読み込みに失敗しました`
+        loadError.value = { key: 'uiSettings.common.loadError.loadFailed', id }
         if (!props.editorPreview) {
           notifyCookieCounterComponentIssue(id, `クッキーカウンターの表示タイプ「${id}」の読み込みに失敗しました`)
         }

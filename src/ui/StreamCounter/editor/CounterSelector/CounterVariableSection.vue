@@ -8,20 +8,24 @@
       <!-- 追加フォーム -->
       <div class="flex flex-wrap gap-2 items-end">
         <div class="form-control">
-          <label class="label"><span class="label-text-alt">変数名</span></label>
+          <label class="label"
+            ><span class="label-text-alt">{{ $t('uiSettings.counterSelector.form.variableName') }}</span></label
+          >
           <input
             v-model="variableInput.target"
             type="text"
-            placeholder="point など"
+            :placeholder="$t('uiSettings.counterSelector.form.variablePlaceholder')"
             class="input input-bordered input-sm w-32"
           />
         </div>
         <div class="form-control">
-          <label class="label"><span class="label-text-alt">表示名</span></label>
+          <label class="label"
+            ><span class="label-text-alt">{{ $t('uiSettings.counterSelector.form.displayName') }}</span></label
+          >
           <input
             v-model="variableInput.label"
             type="text"
-            placeholder="ポイント"
+            :placeholder="$t('uiSettings.counterSelector.form.displayPlaceholder')"
             class="input input-bordered input-sm w-32"
           />
         </div>
@@ -30,7 +34,7 @@
           :disabled="!variableInput.target || !variableInput.label || addDisabled"
           @click="addVariable"
         >
-          追加
+          {{ $t('uiSettings.counterSelector.form.add') }}
         </button>
       </div>
 
@@ -40,7 +44,9 @@
           <!-- 編集モード -->
           <div v-if="editingId === c.id" class="flex flex-wrap gap-2 items-end">
             <div class="form-control">
-              <label class="label"><span class="label-text-alt">変数名</span></label>
+              <label class="label"
+                ><span class="label-text-alt">{{ $t('uiSettings.counterSelector.form.variableName') }}</span></label
+              >
               <input
                 v-model="editingInput.target"
                 type="text"
@@ -50,7 +56,9 @@
               />
             </div>
             <div class="form-control">
-              <label class="label"><span class="label-text-alt">表示名</span></label>
+              <label class="label"
+                ><span class="label-text-alt">{{ $t('uiSettings.counterSelector.form.displayName') }}</span></label
+              >
               <input
                 v-model="editingInput.label"
                 type="text"
@@ -59,8 +67,12 @@
                 @keyup.esc="cancelEdit"
               />
             </div>
-            <button class="btn btn-sm btn-success" @click="commitEdit">保存</button>
-            <button class="btn btn-sm btn-ghost" @click="cancelEdit">キャンセル</button>
+            <button class="btn btn-sm btn-success" @click="commitEdit">
+              {{ $t('uiSettings.counterSelector.form.save') }}
+            </button>
+            <button class="btn btn-sm btn-ghost" @click="cancelEdit">
+              {{ $t('uiSettings.counterSelector.form.cancel') }}
+            </button>
           </div>
 
           <!-- 表示モード -->

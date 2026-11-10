@@ -11,14 +11,18 @@
         v-if="!canPreview"
         class="absolute inset-0 flex items-center justify-center text-sm italic text-white/80 pointer-events-none"
       >
-        画像のあるキャラクターがありません
+        {{ $t('uiSettings.characterStage.preview.noImageCharacter') }}
       </div>
     </div>
 
     <template #hud>
       <div class="flex items-center gap-1">
-        <button class="btn btn-xs btn-ghost" :disabled="!canPreview" @click="spawn">登場</button>
-        <button class="btn btn-xs btn-ghost" :disabled="items.length === 0" @click="hideAll">消す</button>
+        <button class="btn btn-xs btn-ghost" :disabled="!canPreview" @click="spawn">
+          {{ $t('uiSettings.characterStage.preview.spawn') }}
+        </button>
+        <button class="btn btn-xs btn-ghost" :disabled="items.length === 0" @click="hideAll">
+          {{ $t('uiSettings.characterStage.preview.hideAll') }}
+        </button>
       </div>
     </template>
   </HudPreview>

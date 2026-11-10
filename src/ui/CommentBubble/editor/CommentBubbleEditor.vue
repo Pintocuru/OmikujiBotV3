@@ -108,7 +108,7 @@
     if (!currentDefinition.value)
       options[bubble.value.component] = { label: t('uiSettings.common.unregistered', { id: bubble.value.component }) }
     for (const set of Object.values(getCommentBubbleComponentSets())) {
-      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }
     return options
   })

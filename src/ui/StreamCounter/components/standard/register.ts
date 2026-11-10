@@ -6,7 +6,7 @@ import { registerStreamCounterComponents, type StreamCounterComponent } from '..
  * StreamCounter 標準セット
  */
 const standardComponents = {
-  pixelBadge: { label: 'ピクセルバッジ', loader: () => import('./PixelBadge.vue') },
+  pixelBadge: { labelKey: 'uiComponents.streamCounter.pixelBadge.label', loader: () => import('./PixelBadge.vue') },
 } satisfies Record<StreamComponentOf<'standard'>, StreamCounterComponent>
 
 export const registerStandardStreamComponents = () => registerStreamCounterComponents({ standard: standardComponents })

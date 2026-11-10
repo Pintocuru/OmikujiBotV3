@@ -47,15 +47,15 @@
 
 UI 名を `Xxx`、略称を `xxx` と表記する。
 
-| UI | 略称 |
-| --- | --- |
-| CommentBubble | bubble |
-| CookieCounter | cookie |
-| GameRanking | ranking |
-| LiveClock | clock |
+| UI            | 略称    |
+| ------------- | ------- |
+| CommentBubble | bubble  |
+| CookieCounter | cookie  |
+| GameRanking   | ranking |
+| LiveClock     | clock   |
 | StreamCounter | counter |
-| ToastWidgets | toast |
-| UserBoard | board |
+| ToastWidgets  | toast   |
+| UserBoard     | board   |
 
 - 型・定数・register 関数は略称(`bubbleComponentSets`、`registerStandardBubbleComponents`)、ラッパー関数とファイル名は UI 名(`registerCommentBubbleComponents`、`CommentBubbleRegistry.ts`)。KujibikiPanel と同じ。
 
@@ -89,7 +89,7 @@ export type XxxComponent = XxxComponentOf<XxxComponentSet>
 ### 3.3 セットの登録(`src/ui/<UI名>/components/<セット名>/register.ts`)
 
 - `satisfies Record<XxxComponentOf<'セット名'>, <UI名>Component>` にする(`: Record<...>` にしない)。
-- `label` は日本語固定。ID は先頭小文字の camelCase。
+- `labelKey` は `uiComponents.<UI名>.<ID>.label`。文言は `src/i18n/editor/ui/UiComponentMessages.ts` に ja / en の両方を足す。ID は先頭小文字の camelCase。
 - `src/maps/ui/XxxMap.ts` に表示名・メタがある場合は、`register.ts` に移し、Map ファイルと `src/maps/ui/index.ts` の export を削除する。
 - Map ファイルに component 以外の定義(ソート順など)が残る場合は、ファイルを残し、component の分だけ削除する。
 - 元の Map の中身が表示名だけでない場合、移し先が判断できなければ質問する。

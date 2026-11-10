@@ -6,7 +6,11 @@ import { registerKujibikiPanelComponents, type KujibikiPanelComponent } from '..
  * KujibikiPanel 特殊セット
  */
 const specialComponents = {
-  faceCutout: { label: '顔ハメ看板', isVisual: true, loader: () => import('./FaceCutout.vue') },
+  faceCutout: {
+    labelKey: 'uiComponents.kujibikiPanel.faceCutout.label',
+    isVisual: true,
+    loader: () => import('./FaceCutout.vue'),
+  },
 } satisfies Record<KujibikiComponentOf<'special'>, KujibikiPanelComponent>
 
 export const registerSpecialKujibikiComponents = () => registerKujibikiPanelComponents({ special: specialComponents })

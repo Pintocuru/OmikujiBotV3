@@ -40,7 +40,7 @@
       <input
         type="text"
         class="input input-bordered input-sm w-full"
-        placeholder="空欄でメインと同じ画像"
+        :placeholder="t('uiSettings.cookieCounter.subImagePlaceholder')"
         :value="cookieCounter.images.sub"
         @change="updateImage('sub', ($event.target as HTMLInputElement).value)"
       />
@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed, reactive } from 'vue'
   import { storeToRefs } from 'pinia'
   import { CookieCounterSchema, CookieCounterCountersSchema, CookieCounterType } from '@/types/ui'
@@ -74,6 +75,8 @@
   import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const { data } = storeToRefs(useOmikujiStore())
+  const { t } = useI18n()
+
   const omikujiStore = useOmikujiStore()
 
   const variableInput = reactive({ target: '', label: '' })
@@ -88,9 +91,9 @@
   const componentOptions = computed(() => {
     const options: Record<string, { label: string }> = {}
     const currentId = cookieCounter.value.component
-    if (!currentDefinition.value) options[currentId] = { label: `未登録: ${currentId}` }
+    if (!currentDefinition.value) options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }) }
     for (const set of Object.values(getCookieCounterComponentSets())) {
-      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }
     return options
   })

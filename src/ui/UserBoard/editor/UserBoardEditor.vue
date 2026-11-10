@@ -5,9 +5,7 @@
     <UserBoardSelector :users="previewUsers" :settings="board" :fontFamily="fontFamily" editorPreview />
   </HudPreview>
 
-  <p class="text-sm opacity-70">
-    LiveConsole(<code>console.html</code>)で操作した、ユーザーの得点・チームが表示されます。プレビューはダミーです。
-  </p>
+  <p class="text-sm opacity-70">{{ t('uiSettings.userBoard.liveConsoleNote') }}</p>
 
   <!-- 表示するコンポーネント -->
   <SettingItem
@@ -59,6 +57,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -69,6 +68,8 @@
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
   import UserBoardSelector from '@/ui/UserBoard/UserBoardSelector.vue'
   import { buildPreviewUsers } from '@/ui/UserBoard/scripts/boardData'
+
+  const { t } = useI18n()
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
@@ -83,11 +84,16 @@
   const componentOptions = computed(() => {
     const options: { id: string; label: string; description: string; known: boolean }[] = []
     if (!currentDefinition.value) {
-      options.push({ id: board.value.component, label: `未登録: ${board.value.component}`, description: 'このバージョンには含まれていません', known: false })
+      options.push({
+        id: board.value.component,
+        label: t('uiSettings.common.unregistered', { id: board.value.component }),
+        description: t('uiSettings.common.unregisteredDescription'),
+        known: false,
+      })
     }
     for (const set of Object.values(getUserBoardComponentSets())) {
       for (const [id, definition] of Object.entries(set)) {
-        options.push({ id, label: definition.label, description: definition.description, known: true })
+        options.push({ id, label: t(definition.labelKey), description: t(definition.descriptionKey), known: true })
       }
     }
     return options

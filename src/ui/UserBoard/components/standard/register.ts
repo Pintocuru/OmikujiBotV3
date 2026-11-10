@@ -7,20 +7,20 @@ import { registerUserBoardComponents, type UserBoardComponent } from '../../User
  */
 const standardComponents = {
   ranking: {
-    label: '個人の得点リスト',
-    description: '得点の高い順に、ユーザーを表示します',
+    labelKey: 'uiComponents.userBoard.ranking.label',
+    descriptionKey: 'uiComponents.userBoard.ranking.description',
     hasLimit: true,
     loader: () => import('./Ranking.vue'),
   },
   teamBar: {
-    label: 'チームの得点(バー)',
-    description: 'チーム色ごとの合計得点を、バーの長さで比べられるように表示します',
+    labelKey: 'uiComponents.userBoard.teamBar.label',
+    descriptionKey: 'uiComponents.userBoard.teamBar.description',
     hasLimit: false,
     loader: () => import('./TeamBar.vue'),
   },
   teamScore: {
-    label: 'チームの得点(スコアボード)',
-    description: 'チーム色ごとの合計得点を、大きな数字で横に並べて表示します',
+    labelKey: 'uiComponents.userBoard.teamScore.label',
+    descriptionKey: 'uiComponents.userBoard.teamScore.description',
     hasLimit: false,
     loader: () => import('./TeamScore.vue'),
   },

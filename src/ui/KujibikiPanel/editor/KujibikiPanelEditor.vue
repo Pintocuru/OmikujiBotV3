@@ -129,19 +129,17 @@
     const options: Record<string, { label: string }> = {}
     const currentId = kujibikiPanel.value.component
     if (!getKujibikiPanelComponent(currentId)) {
-      options[currentId] = { label: `未登録: ${currentId}` }
+      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }) }
     }
     for (const set of Object.values(getKujibikiPanelComponentSets())) {
       for (const [id, definition] of Object.entries(set)) {
-        options[id] = { label: definition.label }
+        options[id] = { label: t(definition.labelKey) }
       }
     }
     return options
   })
 
-  const isVisual = computed(
-    () => getKujibikiPanelComponent(kujibikiPanel.value.component)?.isVisual === true
-  )
+  const isVisual = computed(() => getKujibikiPanelComponent(kujibikiPanel.value.component)?.isVisual === true)
 
   // Field update
   const updateField = (field: keyof KujibikiPanelType, value: unknown) => {

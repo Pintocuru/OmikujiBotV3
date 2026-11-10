@@ -38,7 +38,9 @@
         v-model="liveClock.isDate"
         @change="(e) => update('isDate', (e.target as HTMLInputElement).checked)"
       />
-      <span class="ml-2"> 日付を表示{{ liveClock.isDate ? 'する' : 'しない' }} </span>
+      <span class="ml-2">
+        {{ t(liveClock.isDate ? 'uiSettings.liveClock.dateOn' : 'uiSettings.liveClock.dateOff') }}
+      </span>
     </label>
   </SettingItem>
 
@@ -54,12 +56,15 @@
         v-model="liveClock.isSecond"
         @change="(e) => update('isSecond', (e.target as HTMLInputElement).checked)"
       />
-      <span class="ml-2"> 秒数を表示{{ liveClock.isSecond ? 'する' : 'しない' }} </span>
+      <span class="ml-2">
+        {{ t(liveClock.isSecond ? 'uiSettings.liveClock.secondOn' : 'uiSettings.liveClock.secondOff') }}
+      </span>
     </label>
   </SettingItem>
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { LiveClockSchema } from '@/types/ui'
@@ -71,6 +76,8 @@
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
 
+  const { t } = useI18n()
+
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
 
@@ -80,9 +87,10 @@
   const componentOptions = computed(() => {
     const options: Record<string, { label: string }> = {}
     const currentId = liveClock.value.component
-    if (!getLiveClockComponent(currentId)) options[currentId] = { label: `未登録: ${currentId}` }
+    if (!getLiveClockComponent(currentId))
+      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }) }
     for (const set of Object.values(getLiveClockComponentSets())) {
-      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }
     return options
   })

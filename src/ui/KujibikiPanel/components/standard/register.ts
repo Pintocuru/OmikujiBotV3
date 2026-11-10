@@ -6,8 +6,16 @@ import { registerKujibikiPanelComponents, type KujibikiPanelComponent } from '..
  * KujibikiPanel 標準セット
  */
 const standardComponents = {
-  omikuji: { label: 'おみくじ', isVisual: false, loader: () => import('./Omikuji.vue') },
-  flower: { label: 'フラワー占い', isVisual: false, loader: () => import('./Flower.vue') },
+  omikuji: {
+    labelKey: 'uiComponents.kujibikiPanel.omikuji.label',
+    isVisual: false,
+    loader: () => import('./Omikuji.vue'),
+  },
+  flower: {
+    labelKey: 'uiComponents.kujibikiPanel.flower.label',
+    isVisual: false,
+    loader: () => import('./Flower.vue'),
+  },
 } satisfies Record<KujibikiComponentOf<'standard'>, KujibikiPanelComponent>
 
 export const registerStandardKujibikiComponents = () =>

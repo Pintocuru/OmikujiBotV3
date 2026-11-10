@@ -6,11 +6,23 @@ import { registerLiveClockComponents, type LiveClockComponent } from '../../Live
  * LiveClock 標準セット
  */
 const standardComponents = {
-  morning: { label: 'モーニング', isColor: true, loader: () => import('./Morning.vue') },
-  soundPlayer: { label: 'サウンドプレイヤー', isColor: true, loader: () => import('./SoundPlayer.vue') },
-  clearGlass: { label: 'クリアガラス', isColor: true, loader: () => import('./ClearGlass.vue') },
-  steampunk: { label: 'スチーム', isColor: true, loader: () => import('./Steampunk.vue') },
-  disco: { label: 'ディスコ', isColor: false, loader: () => import('./Disco.vue') },
+  morning: { labelKey: 'uiComponents.liveClock.morning.label', isColor: true, loader: () => import('./Morning.vue') },
+  soundPlayer: {
+    labelKey: 'uiComponents.liveClock.soundPlayer.label',
+    isColor: true,
+    loader: () => import('./SoundPlayer.vue'),
+  },
+  clearGlass: {
+    labelKey: 'uiComponents.liveClock.clearGlass.label',
+    isColor: true,
+    loader: () => import('./ClearGlass.vue'),
+  },
+  steampunk: {
+    labelKey: 'uiComponents.liveClock.steampunk.label',
+    isColor: true,
+    loader: () => import('./Steampunk.vue'),
+  },
+  disco: { labelKey: 'uiComponents.liveClock.disco.label', isColor: false, loader: () => import('./Disco.vue') },
 } satisfies Record<ClockComponentOf<'standard'>, LiveClockComponent>
 
 export const registerStandardClockComponents = () => registerLiveClockComponents({ standard: standardComponents })

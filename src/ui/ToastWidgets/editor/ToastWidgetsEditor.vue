@@ -10,7 +10,7 @@
           :key="i"
           :settings="toastSettings"
           editorPreview
-          :message="message.bubble?.message ?? '(未記入)'"
+          :message="message.bubble?.message ?? t('uiSettings.common.emptyMessage')"
           :color="getCharacterColor(message.bubble.characterKey)"
           :iconLayers="
             toastSettings.showToastsCharacter
@@ -25,7 +25,7 @@
         class="flex flex-row gap-4 mt-2"
         :class="toastSettings.showToastsOnRight ? 'flex-row self-end' : 'flex-row-reverse self-start'"
       >
-        <div>(OBSの対話モードでマウスを近づけると、キャラクターが表示され投稿テストができます)</div>
+        <div>{{ t('uiSettings.toastWidgets.previewHint') }}</div>
         <CharacterThumbnailsPreview :charactersArray="characterArray" :hoverVisibility="true" />
         <CharacterThumbnailsPreview :charactersArray="thumbnailCharacters" :hoverVisibility="false" />
       </div>
@@ -53,7 +53,11 @@
         v-model="toastSettings.showToastsOnRight"
         @change="(e) => updateField('showToastsOnRight', (e.target as HTMLInputElement).checked)"
       />
-      <span class="ml-2"> {{ toastSettings.showToastsOnRight ? '右' : '左' }}側に表示する </span>
+      <span class="ml-2">
+        {{
+          t(toastSettings.showToastsOnRight ? 'uiSettings.toastWidgets.sideRight' : 'uiSettings.toastWidgets.sideLeft')
+        }}
+      </span>
     </label>
   </SettingItem>
 
@@ -70,7 +74,7 @@
         v-model="toastSettings.showToastsCharacter"
         @change="(e) => updateField('showToastsCharacter', (e.target as HTMLInputElement).checked)"
       />
-      <span class="ml-2">キャラクターを表示する</span>
+      <span class="ml-2">{{ t('uiSettings.toastWidgets.showCharacterToggle') }}</span>
     </label>
   </SettingItem>
 
@@ -89,6 +93,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { ToastWidgetsSchema } from '@/types/ui'
@@ -103,6 +108,8 @@
   import CharacterThumbnailsPreview from '@/ui/ToastWidgets/parts/CharacterThumbnailsPreview.vue'
   import { useAppCharacters } from '@/ui/common/useAppCharacters'
   import HudPreview from '@/editor/parts/HudPreview.vue'
+
+  const { t } = useI18n()
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
@@ -122,9 +129,10 @@
   const componentOptions = computed(() => {
     const options: Record<string, { label: string }> = {}
     const currentId = toastSettings.value.component
-    if (!getToastWidgetsComponent(currentId)) options[currentId] = { label: `未登録: ${currentId}` }
+    if (!getToastWidgetsComponent(currentId))
+      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }) }
     for (const set of Object.values(getToastWidgetsComponentSets())) {
-      for (const [id, definition] of Object.entries(set)) options[id] = { label: definition.label }
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }
     return options
   })
