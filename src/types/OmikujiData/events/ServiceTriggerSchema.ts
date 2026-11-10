@@ -35,7 +35,7 @@ const defaultServiceCondition = (): ServiceConditionType => ({ comparison: 'chan
 /**
  * 配信数値条件の種類
  */
-export const serviceTriggerConditions = ['upVote', 'viewer', 'follower', 'elapsedMinutes'] as const
+export const serviceTriggerConditions = ['upVote', 'viewer', 'follower'] as const
 
 export const ServiceTriggerConditionSchema = z.enum(serviceTriggerConditions).default('upVote').catch('upVote')
 export type ServiceTriggerConditionType = z.infer<typeof ServiceTriggerConditionSchema>
@@ -57,10 +57,6 @@ export const ServiceTriggerSchema = z.discriminatedUnion('condition', [
   z.object({
     condition: z.literal('follower'),
     follower: z.literal(true).default(true), // フォロワーが増えたときに発火(設定値なし)
-  }),
-  z.object({
-    condition: z.literal('elapsedMinutes'),
-    elapsedMinutes: z.number().min(0).default(0), // 配信開始からの経過分
   }),
 ])
 
