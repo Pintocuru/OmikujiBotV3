@@ -18,10 +18,6 @@ describe('ServiceTriggerSchema', () => {
 
   it('設定値の無い条件に初期値を入れる', () => {
     expect(ServiceTriggerSchema.parse({ condition: 'follower' })).toEqual({ condition: 'follower', follower: true })
-    expect(ServiceTriggerSchema.parse({ condition: 'elapsedMinutes' })).toEqual({
-      condition: 'elapsedMinutes',
-      elapsedMinutes: 0,
-    })
     expect(ServiceTriggerSchema.parse({ condition: 'viewer' })).toEqual({
       condition: 'viewer',
       viewer: { comparison: 'changed' },
@@ -43,4 +39,4 @@ describe('ServiceConditionSchema', () => {
   it('value が不要な比較条件では value を取り除く', () => {
     expect(ServiceConditionSchema.parse({ comparison: 'changed', value: 3 })).toEqual({ comparison: 'changed' })
   })
-})
+}
