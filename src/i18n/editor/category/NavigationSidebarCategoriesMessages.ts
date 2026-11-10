@@ -60,7 +60,7 @@ export const navigationSidebarCategoriesMessages = {
       },
       appInfo: {
         label: '設定 / アプリ情報',
-        description: 'ライセンスと利用可能な機能を確認',
+        description: 'ジェネレーターとエディターの機能と制御',
       },
     },
   },
