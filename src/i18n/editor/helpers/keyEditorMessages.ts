@@ -3,24 +3,24 @@
 export const keyEditorMessages = {
   ja: {
     keyEditor: {
-      buttonLabel: 'Key編集',
-      buttonTip: 'Keyを変更します。参照している他の設定も影響を受ける可能性があります。',
-      title: '{category}Key編集',
+      buttonLabel: 'Keyを編集',
+      buttonTip: 'Keyを変更。参照先の設定にも影響する可能性があります。',
+      title: '{category}のKeyを編集',
       currentKey: '現在のKey',
       newKey: '新しいKey',
-      newKeyPlaceholder: '新しいKeyを入力',
+      newKeyPlaceholder: '新しいKey',
       validation: {
-        required: 'Keyを入力してください',
-        format: 'Keyは英数字、アンダースコア(_)、ハイフン(-)のみ使用可能です',
-        duplicate: 'このKeyは既に使用されています',
+        required: 'Keyを入力',
+        format: 'Keyに使える文字は英数字、アンダースコア（_）、ハイフン（-）のみ',
+        duplicate: 'このKeyは使用済み',
       },
       errors: {
         unsupported: 'サポートされていないカテゴリです',
-        failed: 'Key更新に失敗しました',
-        exception: 'Key更新中にエラーが発生しました',
+        failed: 'Keyを更新できませんでした',
+        exception: 'Keyの更新中にエラーが発生',
       },
       usage: {
-        title: 'このキャラクターの使用状況:',
+        title: 'このキャラクターの使用状況',
         unused: '使用されていません',
         count: '{count}箇所',
         events: {
@@ -32,7 +32,7 @@ export const keyEditorMessages = {
         },
       },
       warning: {
-        base: 'Keyを変更すると、この{target}を参照している他の設定も影響を受ける可能性があります。',
+        base: 'Keyを変更すると、この{target}を参照するほかの設定にも影響する可能性があります。',
         notes: {
           mikuji: 'このみくじ箱を指定しているイベントの設定が自動的に更新されます。',
           scenarios: 'このシナリオを呼び出しているステップが自動的に更新されます。',
