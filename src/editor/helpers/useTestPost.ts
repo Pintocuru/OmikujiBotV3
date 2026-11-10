@@ -5,7 +5,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
 import { OmikujiItemType, ScenarioStepType, sortedStepsFromRecord } from '@/types/OmikujiData'
-import { defaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
+import { getDefaultPlaceholdersShortLabels } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { BotMessageType } from '@/types/generator'
@@ -15,6 +15,7 @@ import { checkAllTriggers } from '@/generator/scripts/trigger/TriggerChecker'
 import i18n from '@/editor/i18n'
 
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
+const defaultPlaceholdersShortLabels = getDefaultPlaceholdersShortLabels((key) => t(key))
 
 const MOCK_COMMENT = OmikenCommentSchema.parse({
   userId: 'testUserId',
