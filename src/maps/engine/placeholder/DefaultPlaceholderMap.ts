@@ -1,75 +1,30 @@
 // src/maps/engine/placeholder/DefaultPlaceholderMap.ts
 import type { DefaultPlaceholders } from '@/types/engine'
-import { countUnitConditionMap } from '@/maps/engine/trigger/CountConditionMap'
-import { serviceMetaConditionMap } from '@/maps/engine/trigger/ServiceConditionMap'
 
 type DefaultPlaceholderDefinition = {
   slot: 'comment' | 'event'
-  label: string
-  short: string
+  labelKey: string
+  shortKey: string
 }
 
 export const defaultPlaceholderMap: Record<DefaultPlaceholders, DefaultPlaceholderDefinition> = {
-  viewer: {
-    slot: 'event',
-    label: serviceMetaConditionMap.viewer.label,
-    short: '【同時接続数】',
-  },
-  upVote: {
-    slot: 'event',
-    label: serviceMetaConditionMap.upVote.label,
-    short: '【高評価数】',
-  },
-  follower: {
-    slot: 'event',
-    label: serviceMetaConditionMap.follower.label,
-    short: '【登録数】',
-  },
-  lc: {
-    slot: 'comment',
-    label: countUnitConditionMap.lc.label,
-    short: '【配信コメント数】',
-  },
-  tc: {
-    slot: 'comment',
-    label: countUnitConditionMap.tc.label,
-    short: '【個人総コメント数】',
-  },
-  commenter: {
-    slot: 'event',
-    label: 'コメントをしたユーザー数',
-    short: '【コメント数】',
-  },
-  syoken: {
-    slot: 'event',
-    label: '初見さんの数',
-    short: '【初見数】',
-  },
-  user: {
-    slot: 'comment',
-    label: 'コメントしたユーザー',
-    short: '【ユーザー名】',
-  },
-  userId: {
-    slot: 'comment',
-    label: 'コメントしたユーザーID',
-    short: '【ユーザーID】',
-  },
-  price: {
-    slot: 'comment',
-    label: 'ギフト金額',
-    short: '【ギフト金額】',
-  },
-  giftCount: {
-    slot: 'comment',
-    label: 'ギフトの個数',
-    short: '【メンバーギフト数】',
-  },
+  viewer: { slot: 'event', labelKey: 'mapText.defaultPlaceholder.viewer.label', shortKey: 'mapText.defaultPlaceholder.viewer.short' },
+  upVote: { slot: 'event', labelKey: 'mapText.defaultPlaceholder.upVote.label', shortKey: 'mapText.defaultPlaceholder.upVote.short' },
+  follower: { slot: 'event', labelKey: 'mapText.defaultPlaceholder.follower.label', shortKey: 'mapText.defaultPlaceholder.follower.short' },
+  lc: { slot: 'comment', labelKey: 'mapText.defaultPlaceholder.lc.label', shortKey: 'mapText.defaultPlaceholder.lc.short' },
+  tc: { slot: 'comment', labelKey: 'mapText.defaultPlaceholder.tc.label', shortKey: 'mapText.defaultPlaceholder.tc.short' },
+  commenter: { slot: 'event', labelKey: 'mapText.defaultPlaceholder.commenter.label', shortKey: 'mapText.defaultPlaceholder.commenter.short' },
+  syoken: { slot: 'event', labelKey: 'mapText.defaultPlaceholder.syoken.label', shortKey: 'mapText.defaultPlaceholder.syoken.short' },
+  user: { slot: 'comment', labelKey: 'mapText.defaultPlaceholder.user.label', shortKey: 'mapText.defaultPlaceholder.user.short' },
+  userId: { slot: 'comment', labelKey: 'mapText.defaultPlaceholder.userId.label', shortKey: 'mapText.defaultPlaceholder.userId.short' },
+  price: { slot: 'comment', labelKey: 'mapText.defaultPlaceholder.price.label', shortKey: 'mapText.defaultPlaceholder.price.short' },
+  giftCount: { slot: 'comment', labelKey: 'mapText.defaultPlaceholder.giftCount.label', shortKey: 'mapText.defaultPlaceholder.giftCount.short' },
 }
 
 /**
- * 省略形（短い）ラベル
+ * 短縮ラベルを現在の言語で取得
  */
-export const defaultPlaceholdersShortLabels: Record<DefaultPlaceholders, string> = Object.fromEntries(
-  Object.entries(defaultPlaceholderMap).map(([k, v]) => [k, v.short])
-) as Record<DefaultPlaceholders, string>
+export const getDefaultPlaceholdersShortLabels = (translate: (key: string) => string): Record<DefaultPlaceholders, string> =>
+  Object.fromEntries(
+    Object.entries(defaultPlaceholderMap).map(([key, meta]) => [key, translate(meta.shortKey)])
+  ) as Record<DefaultPlaceholders, string>
