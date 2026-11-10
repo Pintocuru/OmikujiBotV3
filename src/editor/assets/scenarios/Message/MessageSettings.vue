@@ -30,7 +30,7 @@
       layout="vertical"
       labelKey="scenarioStep.messageSettings.message"
     >
-      <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
+      <MessageTextDialog v-model="bubbleText" />
     </SettingItem>
   </template>
 
