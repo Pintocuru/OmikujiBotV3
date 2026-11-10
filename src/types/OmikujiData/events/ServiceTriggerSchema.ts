@@ -44,20 +44,23 @@ export type ServiceTriggerConditionType = z.infer<typeof ServiceTriggerCondition
  * ServiceTriggerSchema
  * condition ごとに、必要なフィールドだけを持つ(保存形式は従来と同じ)
  * - 先頭の upVote は、condition が無いデータの初期値
+ * - 読めないデータ(旧 elapsedMinutes など未知の condition)は catch で初期値に戻す
  */
-export const ServiceTriggerSchema = z.discriminatedUnion('condition', [
-  z.object({
-    condition: z.literal('upVote').default('upVote'),
-    upVote: ServiceConditionSchema.default(defaultServiceCondition),
-  }),
-  z.object({
-    condition: z.literal('viewer'),
-    viewer: ServiceConditionSchema.default(defaultServiceCondition),
-  }),
-  z.object({
-    condition: z.literal('follower'),
-    follower: z.literal(true).default(true), // フォロワーが増えたときに発火(設定値なし)
-  }),
-])
+export const ServiceTriggerSchema = z
+  .discriminatedUnion('condition', [
+    z.object({
+      condition: z.literal('upVote').default('upVote'),
+      upVote: ServiceConditionSchema.default(defaultServiceCondition),
+    }),
+    z.object({
+      condition: z.literal('viewer'),
+      viewer: ServiceConditionSchema.default(defaultServiceCondition),
+    }),
+    z.object({
+      condition: z.literal('follower'),
+      follower: z.literal(true).default(true), // フォロワーが増えたときに発火(設定値なし)
+    }),
+  ])
+  .catch({ condition: 'upVote', upVote: defaultServiceCondition() })
 
 export type ServiceTriggerType = z.infer<typeof ServiceTriggerSchema>
