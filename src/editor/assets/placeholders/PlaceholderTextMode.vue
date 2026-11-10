@@ -27,16 +27,7 @@
             <!-- ヘルプボタン -->
             <HelpButton :title="t('placeholder.inputFormat')">
               <p>{{ t('placeholder.lineFormat') }}</p>
-              <p>
-                {{ t('placeholder.formatLabel') }}:
-                {{ t('placeholder.formatExample1') }}
-              </p>
-              <p>
-                {{ t('placeholder.example') }}: 3,{{ t('placeholder.sampleText') }}
-                {{ t('placeholder.or') }}
-                {{ t('placeholder.sampleText') }}
-                （{{ t('placeholder.defaultWeightNote') }}）
-              </p>
+              <p>{{ t('placeholder.weightFormat') }}</p>
               <p>{{ t('placeholder.weightNote') }}</p>
             </HelpButton>
           </div>
