@@ -95,11 +95,11 @@
         }
         return value.weight === 1 ? value.content : `${value.weight},${value.content}`
       })
-      .join('\\n')
+      .join('\n')
   }
 
   // 行数計算
-  const lineCount = computed(() => textContent.value.split('\\n').length)
+  const lineCount = computed(() => textContent.value.split('\n').length)
 
   type ParsedLine = { weight: number; content: string; hasError: boolean }
 
@@ -137,7 +137,7 @@
   // プレビューアイテム
   const previewItems = computed(() =>
     textContent.value
-      .split('\\n')
+      .split('\n')
       .map(parseAndValidateLine)
       .filter((item): item is ParsedLine => item !== null)
   )
