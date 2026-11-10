@@ -1,5 +1,13 @@
 <!-- src/editor/assets/placeholders/PlaceholderTextMode.vue -->
 <template>
+  <div class="flex justify-end">
+    <!-- テキストモード(ダイアログ)を開くボタン -->
+    <button @click="open" class="btn btn-sm btn-secondary">
+      <Text class="w-4 h-4" />
+      {{ t('placeholder.textMode') }}
+    </button>
+  </div>
+
   <BaseEditDialog
     ref="baseDialog"
     :title="t('placeholder.textMode')"
@@ -59,8 +67,9 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { Text } from 'lucide-vue-next'
 
-  import { WeightValuesArrayType, WeightValueSchema } from '@/types/OmikujiData'
+  import { WeightValueSchema, type WeightValueType, type WeightValuesArrayType } from '@/types/OmikujiData'
   import BaseEditDialog from '@/editor/parts/BaseEditDialog.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
 
@@ -86,29 +95,29 @@
         }
         return value.weight === 1 ? value.content : `${value.weight},${value.content}`
       })
-      .join('\n')
+      .join('\\n')
   }
 
   // 行数計算
-  const lineCount = computed(() => {
-    return textContent.value.split('\n').length
-  })
+  const lineCount = computed(() => textContent.value.split('\\n').length)
+
+  type ParsedLine = { weight: number; content: string; hasError: boolean }
 
   // 行をパースしてバリデーション
-  const parseAndValidateLine = (line: string) => {
+  const parseAndValidateLine = (line: string): ParsedLine | null => {
     const trimmed = line.trim()
     if (!trimmed) return null
 
     // 最初のカンマだけを分割対象にする
     const firstCommaIndex = trimmed.indexOf(',')
-    let candidate
+    let candidate: WeightValueType
 
     if (firstCommaIndex > -1) {
       const weightStr = trimmed.slice(0, firstCommaIndex).trim()
       const contentStr = trimmed.slice(firstCommaIndex + 1).trim()
-      const weight = parseInt(weightStr, 10)
+      const weight = Number.parseInt(weightStr, 10)
 
-      if (!isNaN(weight)) {
+      if (!Number.isNaN(weight)) {
         candidate = { weight, content: contentStr }
       } else {
         candidate = { weight: 1, content: trimmed }
@@ -126,12 +135,12 @@
   }
 
   // プレビューアイテム
-  const previewItems = computed(() => {
-    return textContent.value
-      .split('\n')
+  const previewItems = computed(() =>
+    textContent.value
+      .split('\\n')
       .map(parseAndValidateLine)
-      .filter((item) => item !== null)
-  })
+      .filter((item): item is ParsedLine => item !== null)
+  )
 
   // バリデーション状態
   const hasErrors = computed(() => previewItems.value.some((item) => item.hasError))
@@ -166,6 +175,4 @@
     initializeText()
     baseDialog.value?.showModal()
   }
-
-  defineExpose({ open })
 </script>
