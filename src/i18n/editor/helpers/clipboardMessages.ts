@@ -4,11 +4,11 @@
 export const clipboardMessages = {
   ja: {
     clipboard: {
-      copySuccess: 'JSONをクリップボードにコピーしました',
+      copySuccess: 'JSONをクリップボードにコピー',
       copyError: 'コピーに失敗しました: {error}',
-      pasteReadError: 'クリップボードの読み取りに失敗しました',
-      pasteInvalidJson: 'クリップボードの内容が正しいJSON形式ではありません',
-      pasteInvalidFormat: 'JSONの形式が一致しませんでした',
+      pasteReadError: 'クリップボードを読み取れませんでした',
+      pasteInvalidJson: 'クリップボードの内容がJSON形式ではありません',
+      pasteInvalidFormat: 'JSONの形式が一致しません',
     },
   },
   en: {
