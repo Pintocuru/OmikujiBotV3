@@ -5,7 +5,11 @@
   <div class="flex justify-end gap-2">
     <div class="tooltip tooltip-bottom" :data-tip="t('omikujiItem.list.testTooltip')">
       <!-- 抽選テスト -->
-      <button class="btn btn-sm gap-2" :disabled="omikujiItem.length === 0" @click="postTestMikuji(mikujiKey)">
+      <button
+        class="btn btn-sm btn-outline gap-2"
+        :disabled="omikujiItem.length === 0"
+        @click="postTestMikuji(mikujiKey)"
+      >
         <Dices class="w-4 h-4" />
         {{ t('omikujiItem.list.test') }}
       </button>

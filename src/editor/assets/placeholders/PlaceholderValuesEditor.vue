@@ -6,7 +6,8 @@
       <PlaceholderPreview v-if="modelValue.values.length > 0" :values="modelValue.values" />
 
       <!-- テキストモード(ダイアログ)を開くボタン -->
-      <button @click="textDialog?.open()" class="btn btn-sm btn-ghost">
+      <button @click="textDialog?.open()" class="btn btn-sm btn-secondary">
+        <Text class="w-4 h-4" />
         {{ t('placeholder.textMode') }}
       </button>
     </div>
@@ -27,6 +28,7 @@
   import PlaceholderInputMode from './PlaceholderInputMode.vue'
   import PlaceholderTextMode from './PlaceholderTextMode.vue'
   import PlaceholderPreview from './PlaceholderPreview.vue'
+  import { Text } from 'lucide-vue-next'
 
   const { t } = useI18n()
 

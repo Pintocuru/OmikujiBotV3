@@ -36,8 +36,11 @@
   >
     <!-- 中央: エディター + プレビュー -->
     <div class="flex flex-col h-full min-h-0">
-      <div class="px-3 py-2 bg-base-200 border-b border-base-300 shrink-0 flex items-center justify-between gap-2">
+      <div class="p-2 bg-base-200 border-b border-base-300 shrink-0 flex items-center justify-between gap-2">
+        <!-- タイトル -->
         <span class="text-xs font-semibold text-base-content">{{ t('scenarioStep.messageDialog.editTitle') }}</span>
+
+        <!-- キーボード表示 -->
         <div class="hidden sm:flex gap-1 items-center">
           <kbd class="kbd kbd-xs">Ctrl</kbd>
           <kbd class="kbd kbd-xs">Enter</kbd>
@@ -45,8 +48,8 @@
         </div>
       </div>
 
-      <!-- エディター: 最低 2 行ぶんは確保し、残りの高さを使う -->
-      <div class="flex-1 min-h-0 p-3 flex flex-col gap-2">
+      <!-- エディター -->
+      <div class="flex-1 min-h-0 p-2 flex flex-col gap-2">
         <textarea
           ref="textareaRef"
           v-model="draftText"
@@ -61,19 +64,15 @@
         </div>
       </div>
 
-      <!-- プレビュー(エラー時の長文は MessagePreviewPanel 側で折りたたむ) -->
-      <div class="shrink-0 max-h-[35%] overflow-y-auto border-t border-base-300 px-3 bg-base-100">
+      <!-- プレビュー -->
+      <div class="border-base-300 px-3 bg-base-100">
         <MessagePreviewPanel :draft-text="draftText" />
       </div>
     </div>
 
     <!-- 右: PlaceholderPanel -->
     <template #sidebar-right>
-      <PlaceholderPanel
-        :draft-text="draftText"
-        @insert="insertPlaceholder"
-        @open-inline-ph="inlinePhDialog?.open()"
-      />
+      <PlaceholderPanel :draft-text="draftText" @insert="insertPlaceholder" @open-inline-ph="inlinePhDialog?.open()" />
     </template>
 
     <!-- フッター補足リンク(評価ブロック チートリスト) -->
@@ -108,7 +107,9 @@
     singleLine?: boolean
   }>()
 
-  const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
+  const emit = defineEmits<{
+    'update:modelValue': [value: string]
+  }>()
 
   const baseDialog = ref<InstanceType<typeof BaseEditDialog> | null>(null)
   const textareaRef = ref<HTMLTextAreaElement | null>(null)

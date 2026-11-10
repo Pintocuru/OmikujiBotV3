@@ -3,15 +3,15 @@
   <div class="w-64 shrink-0 flex flex-col bg-base-100">
     <!-- ヘッダー -->
     <div class="px-2 py-1 bg-base-200 border-b border-base-300 shrink-0 flex items-center justify-between">
+      <!-- タイトル -->
       <span class="text-xs font-semibold text-base-content">{{ t('scenarioStep.placeholderPanel.title') }}</span>
-      <div class="flex gap-1">
-        <!-- 簡易追加ボタンー -->
-        <div class="tooltip tooltip-bottom" :data-tip="t('scenarioStep.placeholderPanel.inlineTip')">
-          <button class="btn btn-xs btn-neutral gap-2" @click="emit('openInlinePh')">
-            <Braces class="w-4 h-4" />
-            {{ t('scenarioStep.placeholderPanel.inline') }}
-          </button>
-        </div>
+
+      <!-- 簡易追加ボタンー -->
+      <div class="flex gap-1 tooltip tooltip-bottom" :data-tip="t('scenarioStep.placeholderPanel.inlineTip')">
+        <button class="btn btn-xs btn-neutral gap-2" @click="emit('openInlinePh')">
+          <Braces class="w-4 h-4" />
+          {{ t('scenarioStep.placeholderPanel.inline') }}
+        </button>
       </div>
     </div>
 
@@ -34,13 +34,12 @@
         </div>
       </div>
 
+      <!-- ユーザー定義プレースホルダー -->
       <div class="divider my-1 px-2 text-xs">{{ t('scenarioStep.placeholderPanel.userDefined') }}</div>
-
       <div v-if="sortedUserPlaceholders.length === 0" class="p-4 text-center text-xs text-base-content/40">
         {{ t('scenarioStep.placeholderPanel.none') }}
       </div>
 
-      <!-- ユーザー定義プレースホルダー -->
       <div
         v-for="ph in sortedUserPlaceholders"
         :key="ph.key"
