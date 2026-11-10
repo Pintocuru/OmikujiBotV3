@@ -81,6 +81,8 @@ export const useNavigationStore = defineStore('navigation', () => {
   }
 
   const selectItem = (key: string | null, section?: string) => {
+    // TOPページからレコードをクリックされた場合も ContentArea へ遷移させる
+    isTopPage.value = false
     selectedItemKey.value = key
     if (section) activeSection.value = section
   }
