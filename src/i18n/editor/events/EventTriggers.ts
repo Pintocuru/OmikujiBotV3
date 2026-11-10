@@ -32,7 +32,7 @@ export const eventTriggersMessages = {
       viewerDescription: '視聴者数の変化を監視',
       follower: {
         title: '登録者数の変化',
-        line1: '・登録者が増えたタイミングで反応します。',
+        line1: '・登録者数が増えたときに反応',
         line2: '・わんコメでは API の仕様により「上3桁」しか取得できません。',
         line3: '・そのため登録者が 1000 を超える場合は、10単位・100単位で増加したときに反応します。',
       },
@@ -41,7 +41,7 @@ export const eventTriggersMessages = {
       elapsedPlaceholder: '例：30（分）',
       beta: {
         prefix: 'この',
-        suffix: 'は現在テスト中の機能です。',
+        suffix: 'はテスト中の機能です。',
         line2: '・今後のバージョンで仕様が変わったり、設定がリセットされる可能性があります。',
       },
       placeholder: {
