@@ -1,5 +1,12 @@
 // src/i18n/editor/OmikujiDataMaps.ts
-import { characterMapMessages, commonMapMessages, eventMapMessages, scenarioMapMessages, uiMapMessages } from './maps'
+import {
+  characterMapMessages,
+  commonMapMessages,
+  engineMapMessages,
+  eventMapMessages,
+  scenarioMapMessages,
+  uiMapMessages,
+} from './maps'
 
 export const omikujiDataMapMessages = {
   ja: {
@@ -9,6 +16,7 @@ export const omikujiDataMapMessages = {
       ...eventMapMessages.ja.mapText,
       ...uiMapMessages.ja.mapText,
       ...commonMapMessages.ja.mapText,
+      ...engineMapMessages.ja.mapText,
     },
   },
   en: {
@@ -18,6 +26,7 @@ export const omikujiDataMapMessages = {
       ...eventMapMessages.en.mapText,
       ...uiMapMessages.en.mapText,
       ...commonMapMessages.en.mapText,
+      ...engineMapMessages.en.mapText,
     },
   },
 } as const
