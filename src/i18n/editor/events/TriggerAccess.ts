@@ -3,20 +3,20 @@ export const triggerAccessMessages = {
   ja: {
     triggerAccess: {
       label: 'ユーザーの役職',
-      description: 'メンバー限定の発動条件はここです!',
+      description: 'ユーザーの役職に応じた発動条件を設定',
       // バッジなどの選択肢の文言もここに統合する
       conditions: {
         basic: {
           label: '一般ユーザー',
-          description: '以下どれにも該当しないユーザー',
+          description: '以下のどれにも該当しないユーザー',
         },
         member: {
           label: '有料メンバー',
-          description: 'Youtube等のメンバーシップ',
+          description: 'YouTubeなどのメンバーシップ',
         },
         moderator: {
           label: 'モデレーター',
-          description: 'モデレーターの権限を持つユーザー',
+          description: 'モデレーター権限を持つユーザー',
         },
         owner: {
           label: '配信者',
