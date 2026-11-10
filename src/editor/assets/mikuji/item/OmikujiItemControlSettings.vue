@@ -2,7 +2,7 @@
 <template>
   <!-- 評価ブロック {{ }} -->
   <SettingItem icon="ListChecks" labelKey="omikujiItem.control.label" descriptionKey="omikujiItem.control.description">
-    <MessageTextDialog :modelValue="item.variable" :isCommentMode="true" @update:modelValue="updateVariable" />
+    <MessageTextDialog :modelValue="item.variable" @update:modelValue="updateVariable" />
   </SettingItem>
 </template>
 
