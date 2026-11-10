@@ -5,57 +5,57 @@ export const eventMapMessages = {
       reactionCondition: {
         milestone: {
           label: '増加した',
-          description: '累計がnの倍数に達するたびに発火します（例：100回ごと）',
+          description: '累計がnの倍数に達するたびに発火（例：100回ごと）',
         },
         burstSustain: {
           label: '増加した(レベル参照)',
-          description: '指定レベル以上の間、n回押されるたびに発火します',
+          description: '指定レベル以上で、n回押されるたびに発火',
         },
         equal: {
           label: '指定値と等しい',
-          description: '累計が指定値にぴったり一致したとき1回だけ発火します',
+          description: '累計が指定値に一致したとき1回だけ発火',
         },
         burstReach: {
           label: 'レベルアップ時',
-          description: '指定レベル以上に到達した瞬間に1回だけ発火します',
+          description: '指定レベルに達した瞬間に1回だけ発火',
         },
         burstDrop: {
           label: 'レベルダウン時',
-          description: '指定レベル以下に下がった瞬間に1回だけ発火します',
+          description: '指定レベル以下になった瞬間に1回だけ発火',
         },
       },
       serviceCondition: {
         changed: {
           label: '変化した',
-          description: '前回の値と異なる場合に条件を満たします',
+          description: '前回値と異なる場合に成立',
         },
         increased: {
           label: '増えた',
-          description: '前回の値より増加した場合に条件を満たします',
+          description: '前回値より増加した場合に成立',
         },
         decreased: {
           label: '減った',
-          description: '前回の値より減少した場合に条件を満たします',
+          description: '前回値より減少した場合に成立',
         },
         greaterThanPeak: {
           label: 'ピーク値を超えた',
-          description: '過去最高値を超えた場合に条件を満たします',
+          description: '過去最高値を超えた場合に成立',
         },
         lowerBound: {
           label: '指定値以上',
-          description: '指定値以上の場合に条件を満たします',
+          description: '指定値以上で成立',
         },
         upperBound: {
           label: '指定値以下',
-          description: '指定値以下の場合に条件を満たします',
+          description: '指定値以下で成立',
         },
         equal: {
           label: '指定値と等しい',
-          description: '指定値と等しい場合に条件を満たします',
+          description: '指定値と一致した場合に成立',
         },
         loop: {
           label: 'ループ',
-          description: '指定値の倍数の時に条件を満たします（例：10増えるごと）',
+          description: '指定値の倍数で成立（例：10増えるごと）',
         },
       },
       countComparison: {
