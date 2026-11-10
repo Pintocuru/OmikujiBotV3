@@ -58,7 +58,7 @@ export const defaultPlaceholderMap: Record<DefaultPlaceholders, DefaultPlacehold
   user: {
     slot: 'comment',
     label: 'コメントしたユーザー',
-    short: 'User_Name',
+    short: '【ユーザー名】',
   },
   userId: {
     slot: 'comment',
