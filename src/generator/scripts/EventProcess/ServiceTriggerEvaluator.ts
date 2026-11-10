@@ -5,14 +5,12 @@ import { ServiceConditionType, ServiceTriggerType } from '@/types/OmikujiData/'
 
 /**
  * 「今その状態か」で判定するトリガーか
- * lowerBound / upperBound / equal / elapsedMinutes は、条件を満たしている間ずっと true になる。
+ * lowerBound / upperBound / equal は、条件を満たしている間ずっと true になる。
  * サービスメタは 0.5 秒ごとに届くため、そのまま発火すると 0.5 秒ごとに実行されてしまう。
  * 呼び出し側で「条件を満たしていない → 満たした」の瞬間だけ発火させること。
  */
 export function isStateTrigger(trigger: ServiceTriggerType): boolean {
   switch (trigger.condition) {
-    case 'elapsedMinutes':
-      return true
     case 'upVote':
       return isStateCondition(trigger.upVote)
     case 'viewer':
@@ -47,9 +45,6 @@ export function evaluateServiceTrigger(trigger: ServiceTriggerType, event: MetaU
         event.previous?.viewer ?? 0,
         event.peakChanged.viewer
       )
-
-    case 'elapsedMinutes':
-      return evaluateElapsedTime(trigger.elapsedMinutes, event.current.startTime)
 
     // フォロワーは、増えたときに発火する
     case 'follower':
@@ -92,12 +87,4 @@ function evaluateServiceCondition(
     default:
       return false
   }
-}
-
-/**
- * 経過時間の評価
- */
-function evaluateElapsedTime(thresholdMinutes: number, startTime: number | null): boolean {
-  if (startTime == null) return false
-  return Date.now() - startTime >= thresholdMinutes * 60_000
 }
