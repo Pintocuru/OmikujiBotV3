@@ -160,7 +160,6 @@ export const uiSettingsMessages = {
           },
         },
       },
-      },
       userBoard: {
         liveConsoleNote:
           'LiveConsole(console.html)で操作した、ユーザーの得点・チームが表示されます。プレビューはダミーです。',
