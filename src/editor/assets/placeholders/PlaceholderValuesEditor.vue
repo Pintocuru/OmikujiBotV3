@@ -15,14 +15,10 @@
 </template>
 
 <script setup lang="ts">
-  import { useI18n } from 'vue-i18n'
-
   import { type PlaceholderType, type WeightValuesArrayType } from '@/types/OmikujiData'
   import PlaceholderInputMode from './PlaceholderInputMode.vue'
   import PlaceholderTextMode from './PlaceholderTextMode.vue'
   import PlaceholderPreview from './PlaceholderPreview.vue'
-
-  const { t } = useI18n()
 
   const props = defineProps<{
     modelValue: PlaceholderType | null
