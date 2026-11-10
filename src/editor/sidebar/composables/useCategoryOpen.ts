@@ -15,15 +15,21 @@ export const useCategoryOpen = () => {
   const navigationStore = useNavigationStore()
   const { selectedCategory } = storeToRefs(navigationStore)
 
+  // 設定カテゴリなど、カテゴリ自体のページへ移動する場合に使用
   const navigateCategory = (key: CategoryType) => {
     isOpenCategory.value = { [key]: !isOpenCategory.value[key] }
     navigationStore.selectCategory(key)
   }
 
-  /** 指定カテゴリのサブ項目を開く(他カテゴリは閉じる)。navigateCategory と違い、トグルしない */
+  // データカテゴリの一覧だけを開閉する。ContentArea の選択状態には触れない
+  const toggleCategoryList = (key: CategoryType) => {
+    isOpenCategory.value = { [key]: !isOpenCategory.value[key] }
+  }
+
+  /** 指定カテゴリのサブ項目を開く(他カテゴリは閉じる)。トグルしない */
   const revealCategory = (key: CategoryType) => {
     isOpenCategory.value = { [key]: true }
   }
 
-  return { selectedCategory, isOpenCategory, navigateCategory, revealCategory }
+  return { selectedCategory, isOpenCategory, navigateCategory, toggleCategoryList, revealCategory }
 }
