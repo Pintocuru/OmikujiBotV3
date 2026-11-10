@@ -1,6 +1,6 @@
 <!-- src/editor/assets/placeholders/PlaceholderValuesEditor.vue -->
 <template>
-  <template v-if="modelValue">
+  <div class="space-y-2">
     <div class="flex justify-end gap-2">
       <!-- 抽選テストボタン -->
       <PlaceholderPreview v-if="modelValue.values.length > 0" :values="modelValue.values" />
@@ -11,7 +11,7 @@
 
     <!-- 入力モード -->
     <PlaceholderInputMode :values="modelValue.values" @update="handleValuesUpdate" />
-  </template>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -21,7 +21,7 @@
   import PlaceholderPreview from './PlaceholderPreview.vue'
 
   const props = defineProps<{
-    modelValue: PlaceholderType | null
+    modelValue: PlaceholderType
   }>()
 
   const emit = defineEmits<{
