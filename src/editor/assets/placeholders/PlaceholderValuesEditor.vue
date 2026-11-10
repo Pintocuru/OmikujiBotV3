@@ -11,7 +11,6 @@
 
     <!-- 入力モード -->
     <PlaceholderInputMode :values="modelValue.values" @update="handleValuesUpdate" />
-
   </template>
 </template>
 
