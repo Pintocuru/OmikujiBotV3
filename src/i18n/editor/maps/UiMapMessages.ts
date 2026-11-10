@@ -5,15 +5,15 @@ export const uiMapMessages = {
       uiLayout: {
         commentBubble: {
           label: 'フキダシ',
-          description: 'シンプルなフキダシでおみくじ結果を表示します。',
+          description: 'シンプルなフキダシでおみくじ結果を表示',
         },
         gameRanking: {
           label: 'ゲームランキング',
-          description: 'ゲームの結果をランキング形式で表示します。',
+          description: 'ゲーム結果をランキング形式で表示',
         },
         sesupinTest: {
           label: 'せすぴん(管理者)用',
-          description: 'すべて表示するレイアウト',
+          description: 'すべてのUIを表示するレイアウト',
         },
         lifeHourglass: {
           label: '命の砂時計',
@@ -21,25 +21,25 @@ export const uiMapMessages = {
         },
         kujibikiPanel: {
           label: 'くじ引きパネル',
-          description: 'おみくじ・占いの結果をパネル形式で表示します。',
+          description: 'おみくじ・占いの結果をパネル形式で表示',
         },
       },
       uiKind: {
         characterStage: {
           label: 'キャラクターステージ',
-          description: '演出向け。キャラクター画像を、指定した位置・秒数で表示します。',
+          description: '演出用。キャラクター画像を指定位置・秒数で表示',
         },
         commentBubble: {
           label: 'フキダシ',
-          description: 'BOTの発言内容を吹き出し形式で表示します。',
+          description: 'BOTの発言を吹き出し形式で表示',
         },
         gameRanking: {
           label: 'ゲームランキング',
-          description: 'スイカゲーム等の結果をランキングボード形式で表示します。',
+          description: 'スイカゲームなどの結果をランキング形式で表示',
         },
         cookieCounter: {
           label: 'クッキーカウンター',
-          description: '配信のカウントをクッキー風のカウンターで表示します。',
+          description: '配信の数値をクッキー風カウンターで表示',
         },
         kujibikiPanel: {
           label: 'くじ引きパネル',
@@ -47,23 +47,23 @@ export const uiMapMessages = {
         },
         lifeHourglass: {
           label: '命の砂時計',
-          description: '時間経過に応じて数字が増加するカウントアップカウンター',
+          description: '時間経過で数字が増えるカウントアップカウンター',
         },
         liveClock: {
           label: 'ライブクロック',
-          description: '時計とメッセージを表示します。',
+          description: '時計とメッセージを表示',
         },
         streamCounter: {
           label: '配信カウンター',
-          description: '同時接続数や高評価数などを表示します。',
+          description: '同時接続数や高評価数などを表示',
         },
         toastWidgets: {
           label: 'トースト',
-          description: '通知メッセージをトースト形式で表示します。',
+          description: '通知メッセージをトースト形式で表示',
         },
         userBoard: {
           label: 'ユーザーボード',
-          description: 'ユーザーの得点・チームを、得点リストやチームのバー・スコアボードで表示します。',
+          description: 'ユーザーの得点・チームをリストやスコアボードで表示',
         },
       },
     },
