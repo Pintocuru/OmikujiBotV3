@@ -10,6 +10,7 @@
     ref="baseDialog"
     :title="t('placeholder.textMode')"
     icon="FileText"
+    bodyClass="h-[50vh]"
     :saveDisabled="hasErrors || validItemsCount === 0"
     @save="handleSave"
   >
@@ -22,8 +23,9 @@
             <span class="label-text-alt">
               {{ t(lineCount === 1 ? 'placeholder.lineCountSingular' : 'placeholder.lineCount', { count: lineCount }) }}
             </span>
+
+            <!-- ヘルプボタン -->
             <HelpButton :title="t('placeholder.inputFormat')">
-              <p>{{ t('placeholder.inputFormat') }}</p>
               <p>• {{ t('placeholder.lineFormat') }}</p>
               <p>
                 • {{ t('placeholder.formatLabel') }}:
