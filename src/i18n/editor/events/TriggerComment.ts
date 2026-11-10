@@ -3,7 +3,7 @@ export const triggerCommentMessages = {
   ja: {
     triggerComment: {
       label: '適用するチャットワード',
-      description: '正規表現対応。改行で複数指定できます',
+      description: '正規表現に対応。複数指定は改行で区切る',
       placeholder: `例:
 ^こんにちは|おはよう$
 テスト.*
