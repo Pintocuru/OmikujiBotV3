@@ -18,11 +18,11 @@ export function usePlaceholderTextMode(initialValues: Ref<WeightValuesArrayType>
         if (typeof value === 'string') return value
         return value.weight === 1 ? value.content : `${value.weight},${value.content}`
       })
-      .join('\\n')
+      .join('\n')
   }
 
   // 行数計算
-  const lineCount = computed(() => textContent.value.split('\\n').length)
+  const lineCount = computed(() => textContent.value.split('\n').length)
 
   // 行をパースしてバリデーション
   const parseAndValidateLine = (line: string): ParsedLine | null => {
@@ -58,7 +58,7 @@ export function usePlaceholderTextMode(initialValues: Ref<WeightValuesArrayType>
   // プレビューアイテム
   const previewItems = computed(() =>
     textContent.value
-      .split('\\n')
+      .split('\n')
       .map(parseAndValidateLine)
       .filter((item): item is ParsedLine => item !== null)
   )
