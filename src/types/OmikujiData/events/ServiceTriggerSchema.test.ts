@@ -39,4 +39,4 @@ describe('ServiceConditionSchema', () => {
   it('value が不要な比較条件では value を取り除く', () => {
     expect(ServiceConditionSchema.parse({ comparison: 'changed', value: 3 })).toEqual({ comparison: 'changed' })
   })
-}
+})
