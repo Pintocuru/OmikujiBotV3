@@ -3,14 +3,14 @@ export const triggerUsernameMessages = {
   ja: {
     triggerUsername: {
       label: '適用するユーザー名',
-      description: '先頭に「!」で除外指定します。改行で複数指定。',
+      description: '先頭に「!」を付けると除外。複数指定は改行で区切る',
       placeholder: `例:
 !管理者名
 !テストユーザー`,
       hints: {
-        regex: '• 正規表現でユーザー名をマッチングします',
-        normal: '• 通常の指定: マッチしたユーザー名が条件対象となります',
-        negative: '• ネガティブ指定(!付き): マッチしたユーザー名を条件から除外します',
+        regex: '• 正規表現でユーザー名を照合',
+        normal: '• 通常指定：一致したユーザー名が対象',
+        negative: '• 除外指定（!付き）：一致したユーザー名を対象外にする',
       },
     },
   },
