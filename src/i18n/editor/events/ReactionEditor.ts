@@ -2,7 +2,7 @@
 export const reactionEditorMessages = {
   ja: {
     reactionEditor: {
-      platformNotice: '「リアクションイベント」は、Youtube の リアクションのみ対応しています。',
+      platformNotice: 'リアクションイベントはYouTubeに対応',
     },
   },
   en: {
