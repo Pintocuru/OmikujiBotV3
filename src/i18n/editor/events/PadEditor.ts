@@ -3,11 +3,11 @@ export const padEditorMessages = {
   ja: {
     padEditor: {
       notice:
-        '「ポン出しイベント」は、LiveConsole のポン出しボタンが押されたときに発動します。おみくじBOTプラグインが必要です。',
+        'ポン出しボタンを押すと発動するイベントです。おみくじBOTプラグインが必要です。',
     },
     padTrigger: {
       padLabel: 'ボタン',
-      padDescription: '反応するポン出しボタンを選択',
+      padDescription: '対象のポン出しボタンを選択',
       padName: 'ボタン {n}',
       preview: 'ボタン',
     },
