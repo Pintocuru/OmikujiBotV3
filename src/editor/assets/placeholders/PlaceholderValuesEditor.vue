@@ -4,13 +4,14 @@
     <div class="flex justify-end gap-2">
       <!-- 抽選テストボタン -->
       <PlaceholderPreview v-if="modelValue.values.length > 0" :values="modelValue.values" />
+
+      <!-- テキストモード -->
+      <PlaceholderTextMode :initialValues="modelValue.values" @save="handleValuesUpdate" />
     </div>
 
     <!-- 入力モード -->
     <PlaceholderInputMode :values="modelValue.values" @update="handleValuesUpdate" />
 
-    <!-- テキストモード -->
-    <PlaceholderTextMode :initialValues="modelValue.values" @save="handleValuesUpdate" />
   </template>
 </template>
 
