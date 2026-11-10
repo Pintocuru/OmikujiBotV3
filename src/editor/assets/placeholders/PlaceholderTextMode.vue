@@ -1,12 +1,10 @@
 <!-- src/editor/assets/placeholders/PlaceholderTextMode.vue -->
 <template>
-  <div class="flex justify-end">
-    <!-- テキストモード(ダイアログ)を開くボタン -->
-    <button @click="open" class="btn btn-sm btn-secondary">
-      <Text class="w-4 h-4" />
-      {{ t('placeholder.textMode') }}
-    </button>
-  </div>
+  <!-- テキストモード(ダイアログ)を開くボタン -->
+  <button @click="open" class="btn btn-sm btn-secondary">
+    <Text class="w-4 h-4" />
+    {{ t('placeholder.textMode') }}
+  </button>
 
   <BaseEditDialog
     ref="baseDialog"
