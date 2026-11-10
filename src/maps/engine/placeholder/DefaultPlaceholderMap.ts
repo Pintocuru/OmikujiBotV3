@@ -13,32 +13,37 @@ export const defaultPlaceholderMap: Record<DefaultPlaceholders, DefaultPlacehold
   viewer: {
     slot: 'event',
     label: serviceMetaConditionMap.viewer.label,
-    short: 'Viewer_Count',
+    short: '【同時接続数】',
   },
   upVote: {
     slot: 'event',
     label: serviceMetaConditionMap.upVote.label,
-    short: 'UpVote_Count',
+    short: '【高評価数】',
   },
   follower: {
     slot: 'event',
     label: serviceMetaConditionMap.follower.label,
-    short: 'Subscribe_Count',
+    short: '【登録数】',
   },
   lc: {
     slot: 'comment',
     label: countUnitConditionMap.lc.label,
-    short: 'LiveComment_Count',
+    short: '【配信コメント数】',
+  },
+  tc: {
+    slot: 'comment',
+    label: countUnitConditionMap.tc.label,
+    short: '【個人総コメント数】',
   },
   commenter: {
     slot: 'event',
     label: 'コメントをしたユーザー数',
-    short: 'Commenter_Count',
+    short: '【コメント数】',
   },
   syoken: {
     slot: 'event',
     label: '初見さんの数',
-    short: 'Syoken_Count',
+    short: '【初見数】',
   },
   user: {
     slot: 'comment',
@@ -48,22 +53,17 @@ export const defaultPlaceholderMap: Record<DefaultPlaceholders, DefaultPlacehold
   userId: {
     slot: 'comment',
     label: 'コメントしたユーザーID',
-    short: 'test_userId',
+    short: '【ユーザーID】',
   },
   price: {
     slot: 'comment',
     label: 'ギフト金額',
-    short: 'Gift_Price',
+    short: '【ギフト金額】',
   },
   giftCount: {
     slot: 'comment',
     label: 'ギフトの個数',
-    short: 'Gift_Count',
-  },
-  tc: {
-    slot: 'comment',
-    label: countUnitConditionMap.tc.label,
-    short: 'TotalComment_Count',
+    short: '【メンバーギフト数】',
   },
 }
 
