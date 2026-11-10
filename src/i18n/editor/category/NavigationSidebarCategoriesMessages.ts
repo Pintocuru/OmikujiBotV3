@@ -4,63 +4,63 @@ export const navigationSidebarCategoriesMessages = {
     categories: {
       jsonMerge: {
         label: 'JSONマージ(Dev)',
-        description: 'ビルド時、jsonファイルをマージして出力します',
+        description: 'ビルド時にJSONファイルをマージして出力',
       },
       comments: {
         label: 'コメントイベント',
-        description: 'チャット内容やユーザー情報を基におみくじを発動します',
+        description: 'チャット内容やユーザー情報を基に発動',
       },
       timers: {
         label: 'タイマーイベント',
-        description: '指定した時間経過で、自動的におみくじを発動します',
+        description: '指定時間の経過後に自動発動',
       },
       services: {
         label: '配信数値イベント',
-        description: '配信の視聴数・高評価の変動でおみくじを発動します',
+        description: '視聴者数や高評価数の変化で発動',
       },
       reactions: {
         label: 'リアクションイベント(Youtube)',
-        description: '視聴者のリアクション（❤ 😄 🎉 😳 💯）でおみくじを発動します',
+        description: '視聴者のリアクションで発動',
       },
       pads: {
         label: 'ポン出しイベント',
-        description: 'LiveConsole のポン出しボタンが押されたとき、おみくじを発動します',
+        description: 'LiveConsoleのポン出しボタンで発動',
       },
       mikuji: {
         label: 'みくじ箱',
-        description: 'おみくじの内容を作成します',
+        description: 'おみくじの内容を設定',
       },
       scenarios: {
         label: 'シナリオ',
-        description: 'BOTのコメント・WordPartyの指定のプリセットを作成します',
+        description: 'BOTコメントやWordPartyのプリセットを作成',
       },
       placeholders: {
         label: 'プレースホルダー',
-        description: 'コメントやタイマーで利用できる、高性能なプレースホルダーを設定します',
+        description: 'コメントやタイマーで使うプレースホルダーを設定',
       },
       characters: {
         label: 'キャラクター',
-        description: 'BOTメッセージのキャラクターや吹き出し・トーストの色を設定します',
+        description: 'BOTメッセージのキャラクターと吹き出し・トーストの色を設定',
       },
       ui: {
         label: 'アイテム',
-        description: 'ジェネレーターで表示できる、アイテムの設定を行います',
+        description: 'ジェネレーターに表示するアイテムを設定',
       },
       dataPacks: {
         label: 'データパック',
-        description: '配布されているデータパックを読み込みます',
+        description: '配布データパックを読み込む',
       },
       orphans: {
         label: '使われていないアイテム',
-        description: 'イベントから辿れないアイテムを探して、削除できます',
+        description: 'イベントから辿れないアイテムを検索・削除',
       },
       cooldown: {
         label: 'クールダウン一覧',
-        description: 'すべてのおみくじのクールダウンを見渡して、まとめて調整できます',
+        description: 'すべてのおみくじのクールダウンを一覧・調整',
       },
       appInfo: {
         label: '設定 / アプリ情報',
-        description: 'ライセンスや使用できる機能を確認できます',
+        description: 'ライセンスと利用可能な機能を確認',
       },
     },
   },
