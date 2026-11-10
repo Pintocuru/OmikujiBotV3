@@ -96,8 +96,6 @@ export const uiSettingsComponents = {
       },
     },
   },
-    },
-  },
   en: {
     uiSettings: {
       kujibikiPanel: {
@@ -189,8 +187,6 @@ export const uiSettingsComponents = {
           description: 'Settings shared by all displays, such as fonts',
         },
       },
-    },
-  },
     },
   },
 } as const
