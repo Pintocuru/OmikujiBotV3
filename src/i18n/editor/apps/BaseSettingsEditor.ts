@@ -7,12 +7,12 @@ export const baseSettingsMessages = {
     baseSettings: {
       key: {
         label: 'キー名',
-        edit: 'キーの名前を変更する',
-        description: '他のデータと区別できるよう名前を付けます',
+        edit: 'キー名を変更',
+        description: 'ほかのデータと区別するための名前',
       },
       isEnabled: {
         label: '有効にする',
-        description: 'おみくじのON/OFF',
+        description: 'おみくじの有効・無効',
       },
       // イベントにもアセット(みくじ箱・シナリオなど)にも使われるので、「イベント名」とは書かない
       name: {
@@ -21,14 +21,14 @@ export const baseSettingsMessages = {
       },
       description: {
         label: '説明',
-        description: 'このデータの紹介文',
+        description: 'データの紹介文',
       },
       tags: {
         label: 'タグ',
-        description: 'このデータに関連するタグ',
+        description: 'データに関連するタグ',
         placeholder: 'タグを追加',
         add: '追加',
-        suggestions: '候補(クリックで追加)',
+        suggestions: '候補（クリックで追加）',
       },
     },
   },
