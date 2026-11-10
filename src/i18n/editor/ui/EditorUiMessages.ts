@@ -27,8 +27,8 @@ export const editorUiMessages = {
           removeCurrent: '今の色を解除',
           addFavorite: 'お気に入りに追加',
           removeFavorite: 'お気に入りから外す',
-          emptyFavorites: '☆ を押すと、ここに登録されます。',
-          emptyRecent: '色を選ぶと、ここに履歴が残ります。',
+          emptyFavorites: '☆を押してお気に入りに追加',
+          emptyRecent: '選択した色の履歴を表示',
         },
         fields: {
           name: '名前の色',
