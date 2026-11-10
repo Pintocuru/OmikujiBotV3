@@ -3,12 +3,12 @@ export const commentTriggerMessages = {
   ja: {
     commentTrigger: {
       information: {
-        descriptionBody: 'ユーザーのギフト、チャット数などを基に、イベント発動を制御します。',
-        note: '条件が複数ある場合、すべて満たしたときのみ発動します。(ANDのみ対応)',
+        descriptionBody: 'ギフトやチャット数などを基にイベントの発動を制御',
+        note: '複数の条件がある場合、すべて満たすと発動（ANDのみ対応）',
       },
       setting: {
         label: '適用する発動条件',
-        description: 'トリガーの種類を選択',
+        description: 'トリガーの種類',
       },
       noParams: {
         message: 'すべてのコメントで適用されます',
@@ -17,43 +17,43 @@ export const commentTriggerMessages = {
       conditions: {
         comment: {
           label: 'チャットワード',
-          description: 'チャットに含まれるキーワードで判定します',
+          description: 'チャット内のキーワードで判定',
         },
         syoken: {
           label: '初見判定ちゃん',
-          description: '初見ユーザー、配信の1回目コメントを判定します',
+          description: '初見ユーザーと配信中の初回コメントを判定',
         },
         access: {
           label: 'ユーザーの役職',
-          description: '配信者・モデレーター等を判定します',
+          description: '配信者・モデレーターなどを判定',
         },
         gift: {
           label: 'ギフト',
-          description: 'ギフトの種類や金額で判定します',
+          description: 'ギフトの種類や金額で判定',
         },
         count: {
           label: 'チャット数',
-          description: '配信枠や個人ごとのコメント数で判定します',
+          description: '配信枠・ユーザーごとのコメント数で判定',
         },
         service: {
           label: '配信プラットフォーム',
-          description: '配信サイトで判定します',
+          description: '配信サイトで判定',
         },
         userId: {
           label: 'ユーザーID',
-          description: '特定のユーザーIDで判定します',
+          description: '指定したユーザーIDで判定',
         },
         username: {
           label: 'ユーザー名',
-          description: '特定のユーザー名で判定します',
+          description: '指定したユーザー名で判定',
         },
         timeRange: {
           label: '時間帯',
-          description: '特定の時間帯で判定します',
+          description: '指定した時間帯で判定',
         },
         expression: {
           label: '判定式',
-          description: '式の評価結果で判定します',
+          description: '式の評価結果で判定',
         },
       },
     },
