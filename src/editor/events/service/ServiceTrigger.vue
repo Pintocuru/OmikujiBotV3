@@ -41,33 +41,6 @@
       {{ t('serviceTrigger.follower.line3') }}
     </p>
   </InformationCard>
-
-  <!-- 配信経過時間条件 -->
-  <SettingItem
-    icon="Clock"
-    v-if="selectedCondition === 'elapsedMinutes'"
-    labelKey="serviceTrigger.elapsedLabel"
-    descriptionKey="serviceTrigger.elapsedDescription"
-  >
-    <input
-      type="number"
-      min="0"
-      class="input input-bordered input-sm w-full"
-      :value="elapsedMinutes"
-      @input="elapsedMinutes = Number(($event.target as HTMLInputElement).value)"
-      :placeholder="t('serviceTrigger.elapsedPlaceholder')"
-    />
-  </SettingItem>
-
-  <!-- ベータ版の注意（登録者数・配信経過時間） -->
-  <InformationCard v-if="selectedCondition === 'follower' || selectedCondition === 'elapsedMinutes'" variant="warning">
-    <p class="leading-relaxed">
-      ・{{ t('serviceTrigger.beta.prefix') }}
-      <code class="label bg-accent text-accent-content">{{ t(`serviceTrigger.conditions.${selectedCondition}`) }}</code>
-      {{ t('serviceTrigger.beta.suffix') }}<br />
-      {{ t('serviceTrigger.beta.line2') }}
-    </p>
-  </InformationCard>
 </template>
 
 <script setup lang="ts">
@@ -109,10 +82,6 @@
     set: (value?: ServiceConditionType) => {
       if (value) updateTrigger({ condition: 'viewer', viewer: value })
     },
-  })
-  const elapsedMinutes = computed({
-    get: () => (props.modelValue.condition === 'elapsedMinutes' ? props.modelValue.elapsedMinutes : 0),
-    set: (value: number) => updateTrigger({ condition: 'elapsedMinutes', elapsedMinutes: value }),
   })
 
   // 単一選択(選んだ condition の初期値で作り直す)
