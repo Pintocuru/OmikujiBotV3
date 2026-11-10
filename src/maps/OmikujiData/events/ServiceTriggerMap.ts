@@ -38,5 +38,4 @@ export const serviceTriggerConditionMap: Record<ServiceTriggerConditionType, tru
   upVote: true,
   viewer: true,
   follower: true,
-  elapsedMinutes: true,
 }
