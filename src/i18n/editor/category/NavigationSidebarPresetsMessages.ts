@@ -3,33 +3,33 @@ export const navigationSidebarPresetsMessages = {
   ja: {
     presets: {
       comments: {
-        omikuji: { label: 'おみくじ', description: '「おみくじ」コメントで運勢をランダムに返します' },
-        fortune: { label: '占い', description: '「占い」コメントで運勢とラッキーカラー/アイテムを返します' },
-        dice: { label: 'ダイス', description: '「ダイス」コメントで1〜6の出目を返します' },
-        greeting: { label: '挨拶返し', description: '「こんにちは」などにランダムに返事します' },
+        omikuji: { label: 'おみくじ', description: '「おみくじ」コメントにランダムな運勢を返信' },
+        fortune: { label: '占い', description: '「占い」コメントに運勢とラッキーカラー・アイテムを返信' },
+        dice: { label: 'ダイス', description: '「ダイス」コメントに1〜6の出目を返信' },
+        greeting: { label: '挨拶返し', description: '「こんにちは」などにランダムに返信' },
         excludeUser: {
           label: 'ユーザー除外',
-          description: '指定ユーザー(配信者)をおみくじから除外します。追加後にユーザー名を設定してください',
+          description: '指定ユーザー（配信者など）をおみくじから除外。追加後にユーザー名を設定',
         },
       },
       timers: {
-        hourlyChime: { label: '時報', description: '毎正時にお知らせします' },
-        reminder: { label: '定期告知', description: '10分ごとにコメントを促します' },
+        hourlyChime: { label: '時報', description: '毎正時に通知' },
+        reminder: { label: '定期告知', description: '10分ごとにコメントを促す' },
         viewerWordParty: {
           label: '同時接続数 WordParty',
           description:
-            '30秒ごとに同時接続数の回数だけ WordParty を鳴らします。追加後に WordParty ID を設定してください',
+            '30秒ごとに同時接続数と同じ回数だけWordPartyを再生。追加後にIDを設定',
         },
       },
       services: {
-        upVotePeak: { label: '高評価 過去最大', description: '高評価が過去最大になるたびにお知らせします' },
-        viewerEvery10: { label: '同時接続 10ごと', description: '同時接続数が10の倍数を超えるたびに祝福します' },
-        followerUp: { label: 'フォロー感謝', description: 'フォロワーが増えたらお礼を言います' },
-        elapsed60: { label: '配信1時間', description: '配信開始から60分でお知らせします' },
+        upVotePeak: { label: '高評価 過去最大', description: '高評価数が過去最高を更新するたびに通知' },
+        viewerEvery10: { label: '同時接続 10ごと', description: '同時接続数が10の倍数を超えるたびに祝福' },
+        followerUp: { label: 'フォロー感謝', description: 'フォロワーが増えたらお礼を伝える' },
+        elapsed60: { label: '配信1時間', description: '配信開始から60分後に通知' },
       },
       reactions: {
-        maxLevel: { label: '最大レベル達成', description: '最大レベル達成時に「盛り上がってる～」と伝えます' },
-        heartBurst: { label: 'ハート盛り上がり', description: 'ハートが盛り上がったらお礼を言います' },
+        maxLevel: { label: '最大レベル達成', description: '最大レベル達成時に「盛り上がってる～」と表示' },
+        heartBurst: { label: 'ハート盛り上がり', description: 'ハートが盛り上がったらお礼を伝える' },
       },
       mikuji: {
         omikuji5: { label: 'おみくじ(5段階)', description: '大吉〜凶の5段階のおみくじ箱です' },
@@ -40,8 +40,8 @@ export const navigationSidebarPresetsMessages = {
         coinToss: { label: 'コイントス', description: '表・裏をランダムに返します' },
       },
       scenarios: {
-        thanks: { label: 'お礼', description: 'お礼のあと、2秒後にもう一言続けます' },
-        cheer: { label: '応援', description: '盛り上げのメッセージを1件投稿します' },
+        thanks: { label: 'お礼', description: 'お礼の2秒後にもう一言続ける' },
+        cheer: { label: '応援', description: '盛り上げメッセージを1件投稿' },
       },
       placeholders: {
         luckyColor: { label: 'ラッキーカラー', description: '色の候補を9件' },
