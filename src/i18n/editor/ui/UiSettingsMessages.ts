@@ -7,11 +7,11 @@ export const uiSettingsMessages = {
       common: {
         color: {
           label: 'カラー設定',
-          description: '表示するカラーを設定します',
+          description: '表示カラー',
         },
         bubbleMotion: {
           label: 'フキダシアニメーション',
-          description: 'フキダシの表示アニメーションを設定します',
+          description: 'フキダシの表示アニメーション',
         },
         displayStyle: {
           label: '表示スタイル',
@@ -22,40 +22,40 @@ export const uiSettingsMessages = {
       userBoard: {
         component: {
           label: '表示のしかた',
-          description: '個人の得点リスト・チームの得点(2種類)から選べます',
+          description: '個人の得点リスト・チーム得点（2種類）から選択',
         },
         color: {
           label: 'カラー設定',
-          description: '表示するカラーを設定します(チームの色は、LiveConsole で割り当てた色になります)',
+          description: '表示カラー（チームの色はLiveConsoleで割り当て）',
         },
         limit: {
           label: '表示件数',
-          description: '得点リストに表示する人数を設定します(最大30)',
+          description: '得点リストの表示人数（最大30）',
         },
       },
       toastWidgets: {
         position: {
           label: 'トースト位置',
-          description: '通知メッセージを右側に表示するかどうか',
+          description: '通知メッセージを右側に表示',
         },
         showCharacter: {
           label: 'キャラクター表示',
-          description: 'トーストにキャラクターアイコンを表示するか',
+          description: 'トーストにキャラクターアイコンを表示',
         },
         thumbnail: {
           label: 'サムネイル表示キャラクター',
-          description: '右下にサムネイルとして表示するキャラクターを選択します',
+          description: '右下にサムネイル表示するキャラクター',
         },
       },
       commentBubble: {
         persistentCharacter: {
           label: '常時表示キャラクター',
-          description: '未設定の場合、コメントが来たときのみ表示されます',
+          description: '未設定ならコメント受信時のみ表示',
           none: 'なし',
         },
         characterSize: {
           label: 'キャラクターの大きさ',
-          description: 'キャラクター画像の横幅を調整します',
+          description: 'キャラクター画像の横幅',
           current: '現在値: {size}px',
         },
         preview: {
@@ -74,7 +74,7 @@ export const uiSettingsMessages = {
       counterSelector: {
         default: {
           label: '標準カウンター',
-          description: '表示したい項目を選択してください',
+          description: '表示する項目を選択',
         },
         variable: {
           label: '評価ブロックカウンター',
@@ -98,7 +98,7 @@ export const uiSettingsMessages = {
       kujibikiPanel: {
         title: {
           label: 'タイトル',
-          description: 'タイトルを設定します',
+          description: 'タイトル',
         },
         displaySeconds: {
           label: '表示時間（秒）',
@@ -110,36 +110,36 @@ export const uiSettingsMessages = {
         },
         iconSize: {
           label: 'アイコンサイズ',
-          description: '中央に配置するアイコンの大きさを設定します',
+          description: '中央に配置するアイコンのサイズ',
         },
       },
       gameRanking: {
         sortOrder: {
           label: '順位のソート',
-          description: '得点の高い順・低い順・新しい順から選べます',
+          description: '得点の高い順・低い順・新しい順から選択',
         },
         limit: {
           label: '表示件数',
-          description: 'ランキングに表示する件数を設定します(最大20)',
+          description: 'ランキングの表示件数（最大20）',
         },
         uniqueUser: {
           label: 'ユーザーごとに1件だけ表示',
-          description: '同じユーザーの記録は、最新の1件だけを表示します',
+          description: '同じユーザーは最新の1件のみ表示',
         },
       },
       cookieCounter: {
         mainImage: {
           label: 'メイン画像',
-          description: '1つ目に使う画像ファイルのパス',
+          description: '1枚目の画像ファイルのパス',
         },
         subImage: {
           label: 'サブ画像',
-          description: '2つ目の画像パス。空欄ならメイン画像を使用',
+          description: '2枚目の画像パス。空欄ならメイン画像を使用',
         },
       },
       fontFamily: {
         label: 'フォントファミリー',
-        description: '表示に使用するフォント',
+        description: '表示フォント',
         previewTitle: 'プレビュータイトル',
         previewText: 'これはフォント確認用のサンプルです。',
         default: 'デフォルト',
@@ -173,7 +173,7 @@ export const uiSettingsMessages = {
       editorSections: {
         layout: {
           label: 'レイアウト',
-          description: 'ジェネレーターで使用するレイアウトの切り替え',
+          description: 'ジェネレーターで使用するレイアウトを切り替え',
         },
         unused: {
           label: '未使用UIの整理',
@@ -181,7 +181,7 @@ export const uiSettingsMessages = {
         },
         common: {
           label: 'フォント設定',
-          description: '表示に使用するフォントを設定します',
+          description: '表示フォントを設定',
         },
       },
     },
