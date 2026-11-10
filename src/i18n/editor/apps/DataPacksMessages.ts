@@ -4,9 +4,9 @@ export const dataPacksMessages = {
     dataPacks: {
       loading: 'データパックを読み込み中...',
       intro: {
-        thanks: 'GitHubからダウンロードしてくれてありがとう！',
-        free: 'お礼に全機能が使えるデータパックを公開しています。無料だよ！',
-        support: 'ただ、サポートはしていません。気軽にカスタムしてみてね。',
+        thanks: 'GitHubからのダウンロードありがとう！',
+        free: 'お礼として、全機能対応のデータパックを無料公開中！',
+        support: 'サポート対象外です。自由にカスタマイズしてね。',
       },
       filter: {
         label: 'タグ絞り込み:',
