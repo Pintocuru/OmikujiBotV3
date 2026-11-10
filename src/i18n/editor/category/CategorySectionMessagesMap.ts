@@ -2,7 +2,7 @@
 export const categorySectionMessages = {
   ja: {
     categorySections: {
-      baseSettings: { label: '基本設定', description: '基本設定' }, // TODO 説明文をどうするか
+      baseSettings: { label: '基本設定', description: 'データの名前や説明などを設定' }, // TODO 説明文をどうするか
       trigger: { label: 'トリガー設定', description: 'おみくじを引くきっかけを設定' },
       mikuji: { label: 'みくじ箱設定', description: 'おみくじの抽選方法と確率を設定' },
       scenarios: {
