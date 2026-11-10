@@ -87,7 +87,7 @@ export const appItemsCharactersMessages = {
     },
     characterImage: {
       newEmotionPlaceholder: '新しいエモーションキー（例: surprised）',
-      numericKeyError: '数字だけのキーは使えません（並び順を保存できません）。英字を含めてください。',
+      numericKeyError: '数字だけのキーは使えません。英字を含めてください。',
       add: '追加',
       animation: {
         title: 'アニメーション・プレビュー',
@@ -110,7 +110,7 @@ export const appItemsCharactersMessages = {
         unset: '未設定',
         copyLabel: '{label}(コピー)',
         keyEmpty: 'キーを入力',
-        keyInvalidChar: 'キーに / と \\ は使えません（画像パスに使用）',
+        keyInvalidChar: 'キーに / と \\ は使えません',
         keyDuplicate: 'このキーはすでに使用されています',
       },
       layer: {
@@ -122,7 +122,7 @@ export const appItemsCharactersMessages = {
         path: 'レイヤー{n}の画像パス',
         detect: '画像を検出',
         detectNotFound:
-          '「{base}」の画像が見つかりません。imagesフォルダ内の配置と、キャラクターID・感情キーを確認してください。',
+          '「{base}」の画像が見つかりません。imagesフォルダ内の配置と、キャラクターkey・エモートkeyを確認してください。',
         candidates: '候補',
         status: {
           checking: '確認中…',
