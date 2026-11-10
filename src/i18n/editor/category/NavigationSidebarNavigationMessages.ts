@@ -28,6 +28,8 @@ export const navigationSidebarNavigationMessages = {
         buttonTip: '「{category}」のプリセットから作成します',
         title: 'プリセットを新規作成',
         success: 'プリセット「{name}」を追加',
+        contents: '追加されるデータ',
+        more: '他 {count} 件',
       },
       menu: {
         enable: '有効にする',
@@ -81,6 +83,8 @@ export const navigationSidebarNavigationMessages = {
         buttonTip: 'Create "{category}" from a preset',
         title: 'Create from preset',
         success: 'Added preset "{name}"',
+        contents: 'Data to be added',
+        more: '+{count} more',
       },
       menu: {
         enable: 'Enable',

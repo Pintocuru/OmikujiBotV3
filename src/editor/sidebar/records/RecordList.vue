@@ -12,30 +12,17 @@
         <span class="truncate">{{ t('navigation.create.button') }}</span>
       </button>
 
-      <!-- プリセットを新規作成（プリセットがあるカテゴリのみ） -->
-      <div v-if="presets.length" class="dropdown dropdown-end">
-        <div class="tooltip tooltip-top" :data-tip="t('navigation.preset.buttonTip', { category: categoryLabel(category) })">
-          <button
-            tabindex="0"
-            class="btn btn-ghost btn-xs btn-square opacity-70 hover:opacity-100"
-            :aria-label="t('navigation.preset.buttonTip', { category: categoryLabel(category) })"
-          >
-            <Menu class="w-3 h-3" />
-          </button>
-        </div>
-        <ul
-          tabindex="0"
-          class="dropdown-content menu z-50 w-64 rounded-md border border-base-300 bg-base-200 text-base-content shadow-lg p-1"
+      <!-- プリセットを新規作成（プリセットがあるカテゴリのみ）: ダイアログで選ぶ -->
+      <div v-if="presets.length" class="tooltip tooltip-top" :data-tip="t('navigation.preset.buttonTip', { category: categoryLabel(category) })">
+        <button
+          class="btn btn-ghost btn-xs btn-square opacity-70 hover:opacity-100"
+          :aria-label="t('navigation.preset.buttonTip', { category: categoryLabel(category) })"
+          @click="isPresetDialogOpen = true"
         >
-          <li class="menu-title text-xs">{{ t('navigation.preset.title') }}</li>
-          <li v-for="preset in presets" :key="preset.id">
-            <button class="flex flex-col items-start gap-0 text-xs" @click="handleAddPreset(preset)">
-              <span class="font-medium">{{ presetLabel(preset) }}</span>
-              <span class="opacity-60 whitespace-normal text-left">{{ presetDescription(preset) }}</span>
-            </button>
-          </li>
-        </ul>
+          <Menu class="w-3 h-3" />
+        </button>
       </div>
+      <PresetDialog v-if="presets.length" v-model:open="isPresetDialogOpen" :category="category" />
     </div>
 
     <!-- ドラッグは常時有効(ハンドルは項目のホバーで表示) -->
@@ -58,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { VueDraggable } from 'vue-draggable-plus'
@@ -67,9 +54,9 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import RecordItem from './RecordItem.vue'
   import RecordMenu from './RecordMenu.vue'
+  import PresetDialog from './PresetDialog.vue'
   import { useSidebarCreate } from '../composables/useSidebarCreate'
   import { useSidebarPreset } from '../composables/useSidebarPreset'
-  import type { PresetDefinition } from '@/editor/presets'
   import { Menu, Plus } from 'lucide-vue-next'
 
   const props = defineProps<{
@@ -85,14 +72,10 @@
   const { t } = useI18n()
   const { categoryLabel, createItem } = useSidebarCreate()
 
-  const { presetsOf, presetLabel, presetDescription, addPreset } = useSidebarPreset()
+  const { presetsOf } = useSidebarPreset()
   const presets = computed(() => presetsOf(props.category))
 
-  // 追加後にフォーカスを外して dropdown を閉じる
-  const handleAddPreset = (preset: PresetDefinition) => {
-    addPreset(preset)
-    ;(document.activeElement as HTMLElement)?.blur()
-  }
+  const isPresetDialogOpen = ref(false)
 
   const navigationStore = useNavigationStore()
   const { selectedItemKey } = storeToRefs(navigationStore)
