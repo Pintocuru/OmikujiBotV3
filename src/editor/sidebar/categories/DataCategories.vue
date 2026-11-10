@@ -17,10 +17,10 @@
           :icon="visibleCategories[key].icon"
           :count="getCategoryItemCount(key)"
           :isSelected="selectedCategory === key"
-          @click="navigateCategory(key)"
+          @click="toggleCategoryList(key)"
         />
 
-        <!-- レコード一覧（カテゴリ選択中 & 開いているときのみ） -->
+        <!-- レコード一覧（カテゴリの開閉状態だけで表示。ContentArea の選択とは独立） -->
         <transition
           enter-active-class="transition-all duration-200 ease-out"
           leave-active-class="transition-all duration-150 ease-in"
@@ -29,7 +29,7 @@
           leave-from-class="opacity-100 max-h-screen"
           leave-to-class="opacity-0 max-h-0"
         >
-          <div v-if="selectedCategory === key && isOpenCategory[key]">
+          <div v-if="isOpenCategory[key]">
             <!-- 新規作成ボタン + ドラッグ可能なレコードリスト（データが0件でも表示する） -->
             <RecordList
               :category="key"
@@ -57,7 +57,7 @@
   const { t } = useI18n()
 
   const { getCategoryItemCount, visibleCategories, dataCategoryGroups } = useCategoryUtils()
-  const { selectedCategory, isOpenCategory, navigateCategory } = useCategoryOpen()
+  const { selectedCategory, isOpenCategory, toggleCategoryList } = useCategoryOpen()
 
   // ドラッグ(常時有効)
   const { draggableItems, onDragEnd } = useSidebarDrag()
