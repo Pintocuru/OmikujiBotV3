@@ -154,7 +154,6 @@
 
   const props = defineProps<{
     draftText: string
-    isCommentMode?: boolean
   }>()
 
   const emit = defineEmits<{
@@ -174,5 +173,5 @@
     removePlaceholderValue,
     addPlaceholderValue,
     createNewPlaceholder,
-  } = usePlaceholderEditor(toRef(props, 'draftText'), props.isCommentMode)
+  } = usePlaceholderEditor(toRef(props, 'draftText'))
 </script>
