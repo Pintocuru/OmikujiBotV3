@@ -2,36 +2,16 @@
 <template>
   <div class="w-64 shrink-0 flex flex-col bg-base-100">
     <!-- ヘッダー -->
-    <div class="px-3 py-2 bg-base-200 border-b border-base-300 shrink-0 flex items-center justify-between">
+    <div class="px-2 py-1 bg-base-200 border-b border-base-300 shrink-0 flex items-center justify-between">
       <span class="text-xs font-semibold text-base-content">{{ t('scenarioStep.placeholderPanel.title') }}</span>
       <div class="flex gap-1">
+        <!-- 簡易追加ボタンー -->
         <div class="tooltip tooltip-bottom" :data-tip="t('scenarioStep.placeholderPanel.inlineTip')">
-          <button class="btn btn-sm btn-ghost gap-2" @click="emit('openInlinePh')">
+          <button class="btn btn-xs btn-neutral gap-2" @click="emit('openInlinePh')">
             <Braces class="w-4 h-4" />
             {{ t('scenarioStep.placeholderPanel.inline') }}
           </button>
         </div>
-        <button class="btn btn-sm btn-secondary gap-2" @click="showAddPlaceholder = !showAddPlaceholder">
-          <Plus class="w-4 h-4" />
-          {{ t('scenarioStep.common.add') }}
-        </button>
-      </div>
-    </div>
-
-    <!-- 新規プレースホルダー追加フォーム -->
-    <div v-if="showAddPlaceholder" class="px-3 py-2 border-b border-base-300 bg-warning/10 shrink-0">
-      <p class="text-xs font-semibold text-warning mb-1">{{ t('scenarioStep.placeholderPanel.newTitle') }}</p>
-      <div class="flex gap-1">
-        <input
-          v-model="newPlaceholderKey"
-          type="text"
-          class="input input-bordered input-xs flex-1 font-mono"
-          :placeholder="t('scenarioStep.placeholderPanel.keyPlaceholder')"
-          @keydown.enter="createNewPlaceholder"
-        />
-        <button class="btn btn-sm btn-secondary" :disabled="!newPlaceholderKey.trim()" @click="createNewPlaceholder">
-          {{ t('scenarioStep.placeholderPanel.create') }}
-        </button>
       </div>
     </div>
 
@@ -60,6 +40,7 @@
         {{ t('scenarioStep.placeholderPanel.none') }}
       </div>
 
+      <!-- ユーザー定義プレースホルダー -->
       <div
         v-for="ph in sortedUserPlaceholders"
         :key="ph.key"
@@ -135,6 +116,29 @@
           </button>
         </div>
       </div>
+
+      <!-- 新規プレースホルダー追加フォーム -->
+      <div v-if="showAddPlaceholder" class="px-3 py-2 border-b border-base-300 bg-warning/10 shrink-0">
+        <p class="text-xs font-semibold text-warning mb-1">{{ t('scenarioStep.placeholderPanel.newTitle') }}</p>
+        <div class="flex gap-1">
+          <input
+            v-model="newPlaceholderKey"
+            type="text"
+            class="input input-bordered input-xs flex-1 font-mono"
+            :placeholder="t('scenarioStep.placeholderPanel.keyPlaceholder')"
+            @keydown.enter="createNewPlaceholder"
+          />
+          <button class="btn btn-xs btn-secondary" :disabled="!newPlaceholderKey.trim()" @click="createNewPlaceholder">
+            {{ t('scenarioStep.placeholderPanel.create') }}
+          </button>
+        </div>
+      </div>
+
+      <!-- プレースホルダーを追加 -->
+      <button class="btn btn-xs btn-secondary gap-2" @click="showAddPlaceholder = !showAddPlaceholder">
+        <Plus class="w-4 h-4" />
+        {{ t('scenarioStep.common.add') }}
+      </button>
     </div>
   </div>
 </template>
