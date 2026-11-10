@@ -1,11 +1,13 @@
 // src/i18n/editor/OmikujiDataMaps.ts
 // 後方互換のための再エクスポート
 // 各マップの翻訳メッセージは src/i18n/editor/maps/ 配下に分割されました
-import { characterMapMessages } from './maps/CharacterMapMessages'
-import { commonMapMessages } from './maps/CommonMapMessages'
-import { eventMapMessages } from './maps/EventMapMessages'
-import { scenarioMapMessages } from './maps/ScenarioMapMessages'
-import { uiMapMessages } from './maps/UiMapMessages'
+import {
+  characterMapMessages,
+  commonMapMessages,
+  eventMapMessages,
+  scenarioMapMessages,
+  uiMapMessages,
+} from './maps'
 
 export const omikujiDataMapMessages = {
   ja: {
