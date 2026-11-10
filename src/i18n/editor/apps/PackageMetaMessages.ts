@@ -5,18 +5,18 @@ export const packageMetaMessages = {
   ja: {
     packageMeta: {
       system: {
-        latestVersionTitle: '最新バージョンを入手する',
+        latestVersionTitle: '最新バージョンを入手',
         appName: {
           label: 'アプリ名',
-          description: 'このパッケージを生成したアプリ名',
+          description: 'パッケージの生成元アプリ',
         },
         appVersion: {
           label: 'アプリバージョン',
-          description: 'このアプリのバージョン',
+          description: 'アプリのバージョン',
         },
         dataVersion: {
           label: 'データバージョン',
-          description: 'このデータのスキーマバージョン',
+          description: 'データのスキーマバージョン',
         },
       },
       distribution: {
@@ -32,32 +32,32 @@ export const packageMetaMessages = {
       },
       basic: {
         id: {
-          description: 'プラグインでは、この名称で保存されます',
+          description: 'プラグインでの保存名',
           regenerate: '再生成',
           confirmTitle: 'IDを変更しますか？',
-          confirmText: '変更すると、このパッケージのIDが新しく生成されます。',
+          confirmText: '変更すると、パッケージIDを再生成します。',
           confirm: '変更する',
           cancel: 'キャンセル',
         },
         name: {
           label: 'パッケージ名',
-          description: 'パッケージ(データ)の名称',
+          description: 'パッケージ（データ）の名前',
         },
         description: {
           label: 'パッケージ説明',
-          description: 'どんな内容を表示できるかを端的に説明',
+          description: '表示できる内容の概要',
         },
         version: {
           label: 'バージョン',
-          description: 'パッケージのバージョン情報',
+          description: 'パッケージのバージョン',
         },
         author: {
           label: '作者',
-          description: 'パッケージの作成者名',
+          description: 'パッケージの作成者',
         },
         tags: {
           label: 'タグ',
-          description: 'パッケージの分類に使用されるタグ',
+          description: 'パッケージの分類タグ',
         },
       },
     },
