@@ -1,13 +1,13 @@
 <!-- src/editor/sidebar/records/PresetDialog.vue -->
 <!-- プリセットをカード一覧で選ぶダイアログ。カードに「追加されるデータ」のプレビューを出し、選ぶと追加して閉じる -->
+<!-- プリセットをカード一覧で選ぶダイアログ。カードに「追加されるデータ」のプレビューを出し、右下の「適用」ボタンで追加して閉じる -->
 <template>
   <BaseDialog :open="open" :title="t('navigation.preset.title')" size="3xl" @update:open="emit('update:open', $event)">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      <button
+      <div
         v-for="card in cards"
         :key="card.preset.id"
-        class="card card-border bg-base-100 border-base-300 hover:border-primary text-left p-3 flex flex-col gap-2 transition-colors"
-        @click="handleSelect(card.preset)"
+        class="card card-border bg-base-100 border-base-300 p-3 flex flex-col gap-2"
       >
         <div>
           <div class="text-sm font-medium">{{ presetLabel(card.preset) }}</div>
@@ -26,7 +26,13 @@
             </li>
           </ul>
         </div>
-      </button>
+
+        <div class="flex justify-end">
+          <button class="btn btn-secondary btn-sm" @click="handleSelect(card.preset)">
+            {{ t('navigation.preset.apply') }}
+          </button>
+        </div>
+      </div>
     </div>
   </BaseDialog>
 </template>
