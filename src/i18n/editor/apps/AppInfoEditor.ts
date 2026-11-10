@@ -4,23 +4,23 @@ export const appInfoEditorMessages = {
     appInfoEditor: {
       appSettings: {
         label: 'アプリ設定',
-        description: 'このおみくじBOT editorに関する設定です',
+        description: 'おみくじBOTエディターの設定',
       },
       appFeatures: {
         label: '利用可能な機能',
-        description: 'このバージョンで使えるUI・レイアウト・ゲームスクリプトです',
+        description: 'このバージョンで使えるUI・レイアウト・ゲームスクリプト',
       },
       packageBasic: {
         label: '基本情報',
-        description: 'このおみくじパッケージに関する情報です',
+        description: 'おみくじパッケージの情報',
       },
       packageDistribution: {
         label: '配布情報',
-        description: 'おみくじパッケージのライセンスや配布先の表示です',
+        description: 'おみくじパッケージのライセンスと配布先',
       },
       packageSystem: {
         label: 'システム情報',
-        description: 'このアプリ「おみくじBOT」の情報です',
+        description: 'おみくじBOTの情報',
       },
       features: {
         ui: {
@@ -45,7 +45,7 @@ export const appInfoEditorMessages = {
           description: 'UI・効果音など、配信挙動に関わる設定',
           commentType: {
             label: 'コメント購読タイプ',
-            description: 'コメントを受け取るアプリを設定します(現在はわんコメのみ)',
+            description: 'コメントを受け取るアプリ（現在はわんコメのみ）',
             options: { OneComme: 'わんコメ' },
           },
           basicDelaySeconds: {
@@ -70,16 +70,16 @@ export const appInfoEditorMessages = {
           description: 'エディターの見た目・動作・ライセンスなど、アプリ本体の設定',
           theme: {
             label: 'エディターテーマ',
-            description: 'DaisyUiのカラーテーマを設定します',
+            description: 'DaisyUIのカラーテーマ',
             random: 'ランダム',
           },
           locale: {
             label: '言語(Language)',
-            description: 'エディターの表示言語を設定します',
+            description: 'エディターの表示言語',
           },
           initialCategory: {
             label: '起動時に開くカテゴリ',
-            description: '起動時に最初に開くカテゴリを設定します',
+            description: '起動時に開くカテゴリ',
           },
         },
         common: {
