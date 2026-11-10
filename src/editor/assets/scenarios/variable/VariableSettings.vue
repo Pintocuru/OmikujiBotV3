@@ -1,7 +1,7 @@
 <!-- src/editor/assets/scenarios/variable/VariableSettings.vue -->
 <template>
   <SettingItem icon="Code2" layout="vertical" labelKey="scenarioStep.variable.label">
-    <MessageTextDialog v-model="bubbleText" :isCommentMode="true" />
+    <MessageTextDialog v-model="bubbleText" />
   </SettingItem>
 </template>
 
