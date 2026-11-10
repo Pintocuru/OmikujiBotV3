@@ -4,8 +4,8 @@ export const jsonMergeMessages = {
     jsonMerge: {
       add: 'マージ設定を追加',
       empty: {
-        title: 'マージ設定がありません。',
-        description: '下のボタンから追加してください。',
+        title: 'マージ設定なし',
+        description: '下のボタンから追加',
       },
       settings: {
         unnamed: 'マージ設定',
@@ -25,21 +25,21 @@ export const jsonMergeMessages = {
         empty: 'リマップ設定がありません',
         fromCharacter: '元キャラキー',
         toCharacter: '新キャラキー',
-        chooseCharacter: 'キャラクターを選択してください',
-        missingCharacter: '入力されてません',
+        chooseCharacter: 'キャラクターを選択',
+        missingCharacter: '未入力',
         fromIcon: '元アイコンキー',
         toIcon: '新アイコンキー',
         chooseIcon: 'アイコンキーを選択…',
       },
       source: {
         label: 'マージ元ファイル',
-        chooseFile: 'ファイルを選択してください',
-        missingFile: '入力されてません',
+        chooseFile: 'ファイルを選択',
+        missingFile: '未入力',
         suffixLabel: '複数用のキーサフィックス',
         suffixDescription: 'マージ時に元のキーに付加する接尾辞',
-        suffixPlaceholder: 'キャラクターキーを入力(1文字目は自動で大文字になります)',
+        suffixPlaceholder: 'キャラクターキー（先頭は自動で大文字）',
       },
-      unselected: '上のリストからマージ設定をクリックして編集してください',
+      unselected: '上のリストからマージ設定を選択して編集',
     },
   },
   en: {
