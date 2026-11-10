@@ -1,7 +1,5 @@
 // src/common/LucideIcon/useLucideIcon.ts
 import type { Component } from 'vue'
-// 名前空間 import だが、下の `L.Xxx` は静的アクセスなので未使用分は tree-shaking で落ちる。
-// ※ `L[name]` のような動的アクセスは全アイコン同梱になるので使わないこと。
 import * as L from 'lucide-vue-next'
 
 // 追加手順: 該当カテゴリに1行足すだけ(import 側の編集は不要)。
@@ -9,7 +7,6 @@ import * as L from 'lucide-vue-next'
 export const lucideIconMap = {
   // ── イベント・通知 ──
   MessageSquare: L.MessageSquare,
-  MessagesSquare: L.MessagesSquare,
   Timer: L.Timer,
   Clock: L.Clock,
   Hourglass: L.Hourglass,
@@ -18,7 +15,6 @@ export const lucideIconMap = {
   Bell: L.Bell,
   Megaphone: L.Megaphone,
   Gift: L.Gift,
-  Ticket: L.Ticket,
 
   // ── 構造・レイアウト・ドキュメント ──
   Layers: L.Layers,
@@ -27,8 +23,6 @@ export const lucideIconMap = {
   Package: L.Package, // resolver の既定値(削除しない)
   Home: L.Home,
   ListChecks: L.ListChecks,
-  ListOrdered: L.ListOrdered,
-  Notebook: L.Notebook,
   FileText: L.FileText,
   FilePen: L.FilePen,
   Tv: L.Tv,
@@ -39,13 +33,11 @@ export const lucideIconMap = {
   UserSquare: L.UserSquare,
   UserPlus: L.UserPlus,
   Users: L.Users,
-  IdCard: L.IdCard,
   Crown: L.Crown,
   Bot: L.Bot,
 
   // ── 設定・調整 ──
   Settings: L.Settings,
-  Settings2: L.Settings2,
   Sliders: L.Sliders,
   SlidersHorizontal: L.SlidersHorizontal,
   ToggleRight: L.ToggleRight,
@@ -54,7 +46,6 @@ export const lucideIconMap = {
   Type: L.Type,
   Image: L.Image,
   Languages: L.Languages,
-  Globe: L.Globe,
 
   // ── 操作 ──
   Pencil: L.Pencil,
@@ -64,11 +55,7 @@ export const lucideIconMap = {
   Search: L.Search,
   Filter: L.Filter,
   Merge: L.Merge,
-  Shuffle: L.Shuffle,
   Repeat: L.Repeat,
-  RotateCcw: L.RotateCcw,
-  CornerDownLeft: L.CornerDownLeft,
-  ArrowRight: L.ArrowRight,
   Link: L.Link,
 
   // ── コード・識別子 ──
@@ -84,7 +71,6 @@ export const lucideIconMap = {
   // ── 状態・警告 ──
   Info: L.Info,
   TriangleAlert: L.TriangleAlert,
-  ShieldAlert: L.ShieldAlert,
   Shield: L.Shield,
   Ban: L.Ban,
 
@@ -98,7 +84,6 @@ export const lucideIconMap = {
   PartyPopper: L.PartyPopper,
   Volume2: L.Volume2,
   Rocket: L.Rocket,
-  Plane: L.Plane,
   Apple: L.Apple,
   Bomb: L.Bomb,
   Rabbit: L.Rabbit,

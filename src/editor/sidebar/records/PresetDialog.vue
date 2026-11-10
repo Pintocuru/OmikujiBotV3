@@ -43,8 +43,14 @@
   /** カードに出すプレビュー行の上限(超えた分は「他 N 件」) */
   const MAX_PREVIEW_LINES = 5
 
-  const props = defineProps<{ open: boolean; category: DataCategoryType }>()
-  const emit = defineEmits<{ 'update:open': [open: boolean] }>()
+  const props = defineProps<{
+    open: boolean
+    category: DataCategoryType
+  }>()
+
+  const emit = defineEmits<{
+    'update:open': [open: boolean]
+  }>()
 
   const { t } = useI18n()
   const { categoryLabel } = useSidebarCreate()
