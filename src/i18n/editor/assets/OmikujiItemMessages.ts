@@ -12,7 +12,7 @@ export const omikujiItemMessages = {
         zero: '0・未設定のおみくじは他をブロックしませんが、ブロック対象にはなります。',
         negative: '負の値も使用可能。-3なら3秒間、-4以下のおみくじをブロックします。',
         blocked:
-          'ブロックされた回は投稿せず、再実行もしません。コメントの場合、後続イベントも判定しません。',
+          'ブロックされた回は投稿せず、再実行もしません。',
         examplesTitle: '使い方の例',
         example1: '初見さんの挨拶を5に設定 → 5秒間、0の定期案内に上書きされない',
         example2: 'レアなおみくじを10に設定 → 10秒間、通常のおみくじが割り込めない（演出時間を確保）',
@@ -42,8 +42,8 @@ export const omikujiItemMessages = {
         sectionTitle: '追加条件',
         sectionDescription: 'このおみくじに適用する追加条件',
         enable: '設定する',
-        priorityEnabledMessage: '条件を満たすと、このおみくじを必ず適用',
-        priorityDisabledMessage: 'ほかのおみくじと同じ条件で抽選',
+        priorityEnabledMessage: '条件を満たすと、このおみくじを適用',
+        priorityDisabledMessage: '他のおみくじと同じ条件で抽選',
       },
       scenario: {
         label: 'シナリオ',
@@ -103,8 +103,8 @@ export const omikujiItemMessages = {
         label: '適用する発動条件',
         description: 'トリガーの種類',
         help: {
-          conditionName: '追加発動条件',
-          conditionDescription: 'は、コメント内容やチャット数などを基にイベントの発動を制御',
+          conditionName: '',
+          conditionDescription: '【追加発動条件】は、コメント内容やチャット数などを基に、イベントの発動を制御',
           allRequired: '複数の条件がある場合、すべて満たすと発動',
           adminCommands: '管理者限定コマンドなどにも応用可能',
           empty: '発動条件が指定されていません',
