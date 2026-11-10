@@ -13,7 +13,6 @@ export const commentTriggerMessages = {
       noParams: {
         message: 'すべてのコメントで適用されます',
       },
-      // ▼ ここに旧 triggerConditionMap の内容を統合
       conditions: {
         comment: {
           label: 'チャットワード',
