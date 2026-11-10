@@ -9,93 +9,93 @@ export const characterMapMessages = {
         },
         happy: {
           label: '嬉しい',
-          description: '喜んでいる表情',
+          description: '喜びの表情',
         },
         surprised: {
           label: '驚き',
-          description: '驚いている表情',
+          description: '驚きの表情',
         },
         sad: {
           label: '悲しみ',
-          description: '悲しんでいる表情',
+          description: '悲しみの表情',
         },
         angry: {
           label: '怒り',
-          description: '怒っている表情',
+          description: '怒りの表情',
         },
         thinking: {
           label: '考え中',
-          description: '思案している表情',
+          description: '考え込む表情',
         },
       },
       loopMotion: {
         none: {
           label: 'なし',
-          description: 'ループアニメーションを適用しません',
+          description: 'ループアニメーションなし',
         },
         bounce: {
           label: 'バウンド',
-          description: '上下に跳ね続けるアニメーション',
+          description: '上下に跳ね続ける',
         },
         shake: {
           label: '小刻みシェイク',
-          description: '左右に小刻みに揺れるアニメーション',
+          description: '左右に小刻みに揺れる',
         },
         swing: {
           label: '左右揺れ',
-          description: 'ブランコのように左右に振れるアニメーション',
+          description: 'ブランコのように左右に揺れる',
         },
         wobble: {
           label: '大きく揺れ',
-          description: '全体が大きくゆがみながら揺れるアニメーション',
+          description: '全体が大きくゆがみながら揺れる',
         },
         rotate: {
           label: '回転（時計回り）',
-          description: '時計回りに回転し続けるアニメーション',
+          description: '時計回りに回転し続ける',
         },
         rotateR: {
           label: '逆回転',
-          description: '反時計回りに回転し続けるアニメーション',
+          description: '反時計回りに回転し続ける',
         },
         rubberBand: {
           label: 'ゴムバンド',
-          description: 'ゴムのように伸び縮みするアニメーション',
+          description: 'ゴムのように伸び縮みする',
         },
         jello: {
           label: 'ゼリー',
-          description: 'ゼリーのようにぷるぷると揺れるアニメーション',
+          description: 'ゼリーのようにぷるぷる揺れる',
         },
         tilt: {
           label: '傾き',
-          description: '左右に少し傾き続けるアニメーション',
+          description: '左右に少し傾き続ける',
         },
         headShake: {
           label: '首振り',
-          description: '首を横に振るようなアニメーション',
+          description: '首を横に振るような動き',
         },
         pulse: {
           label: '点滅',
-          description: 'ゆっくりと拡大縮小・明滅を繰り返すアニメーション',
+          description: 'ゆっくり拡大縮小・明滅を繰り返す',
         },
         flash: {
           label: '高速明滅',
-          description: '素早く点滅を繰り返すアニメーション',
+          description: '素早く点滅を繰り返す',
         },
         tada: {
           label: 'タダ！',
-          description: '強調してアピールするように揺れるアニメーション',
+          description: '強調するように揺れる',
         },
         combo: {
           label: 'よろこび',
-          description: '喜びを表現する複合的なループアニメーション',
+          description: '喜びを表現する複合ループアニメーション',
         },
         joyful: {
           label: 'ぴょこぴょこ',
-          description: '楽しそうにぴょこぴょこと動くアニメーション',
+          description: '楽しそうにぴょこぴょこ動く',
         },
         gentle: {
           label: 'ゆったり（呼吸）',
-          description: '深呼吸のようにゆったりと拡大縮小するアニメーション',
+          description: '深呼吸のようにゆったり拡大縮小する',
         },
       },
       enterMotion: {
@@ -106,10 +106,10 @@ export const characterMapMessages = {
         slideRight: { label: '左から右へ' },
         flipInY: { label: 'Y軸フリップ' },
         flipX: { label: 'X軸フリップ' },
-        rotateIn: { label: '回転しながら現れる' },
-        zoomIn: { label: '拡大しながら現れる' },
+        rotateIn: { label: '回転して登場' },
+        zoomIn: { label: '拡大して登場' },
         scale: { label: 'スケール拡大' },
-        bounce: { label: 'バウンスしながら現れる' },
+        bounce: { label: 'バウンスして登場' },
         rubberBand: { label: 'ゴム的変形' },
         jello: { label: 'ゼリー的変形' },
         fade: { label: 'フェード' },
@@ -117,15 +117,15 @@ export const characterMapMessages = {
       displayMode: {
         comment: {
           label: 'わんコメ投稿',
-          description: 'わんコメのコメント欄への投稿と音声読み上げの両方を行います',
+          description: 'わんコメへの投稿と音声読み上げ',
         },
         voice: {
           label: '読み上げのみ',
-          description: 'コメント投稿は行わず、音声読み上げのみを行います',
+          description: 'コメントを投稿せず、音声読み上げのみ',
         },
         none: {
           label: '読み上げしない',
-          description: 'コメント投稿も音声読み上げも行いません',
+          description: 'コメント投稿・音声読み上げを行わない',
         },
       },
     },
