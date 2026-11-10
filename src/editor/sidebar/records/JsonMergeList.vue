@@ -5,8 +5,8 @@
       v-for="item in items"
       :key="item.key"
       :label="item.label"
-      :isSelected="selectedItemKey === item.key"
-      @select="navigationStore.selectItem(item.key)"
+      :isSelected="selectedCategory === 'jsonMerge' && selectedItemKey === item.key"
+      @select="selectRecord(item.key)"
     />
   </div>
 </template>
@@ -22,5 +22,10 @@
   }>()
 
   const navigationStore = useNavigationStore()
-  const { selectedItemKey } = storeToRefs(navigationStore)
+  const { selectedCategory, selectedItemKey } = storeToRefs(navigationStore)
+
+  const selectRecord = (key: string) => {
+    navigationStore.selectCategory('jsonMerge')
+    navigationStore.selectItem(key)
+  }
 </script>
