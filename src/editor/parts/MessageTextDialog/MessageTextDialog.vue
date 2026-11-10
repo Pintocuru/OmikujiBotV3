@@ -71,7 +71,6 @@
     <template #sidebar-right>
       <PlaceholderPanel
         :draft-text="draftText"
-        :isCommentMode="isCommentMode"
         @insert="insertPlaceholder"
         @open-inline-ph="inlinePhDialog?.open()"
       />
@@ -106,7 +105,6 @@
 
   const props = defineProps<{
     modelValue: string
-    isCommentMode?: boolean
     singleLine?: boolean
   }>()
 
