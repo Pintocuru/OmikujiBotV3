@@ -27,6 +27,7 @@
 | 文書 | 内容 |
 | --- | --- |
 | [naming.md](./naming.md) | 命名規則・用語表 |
+| [japanese-ui-writing.md](./japanese-ui-writing.md) | 日本語 UI 文言の表現・短縮規約 |
 | [editor-ui-style.md](./editor-ui-style.md) | ボタン・アイコン・tooltip のスタイル規約 |
 | [ui-component-registry.md](./ui-component-registry.md) | UI 内コンポーネントの登録規約 |
 | [ui-kind-addition-checklist.md](./ui-kind-addition-checklist.md) | UiKind 追加の手順 |
