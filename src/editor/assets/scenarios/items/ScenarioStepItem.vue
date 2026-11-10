@@ -15,7 +15,7 @@
           v-model="kind"
           i18n-prefix="mapText.scenarioStepKind"
           :icons="scenarioStepKindIcons"
-          :keys="scenarioStepKinds"
+          :keys="availableScenarioStepKinds"
           :aria-label="t('scenarioStep.stepItem.typeLabel')"
         />
       </SettingItem>
@@ -57,6 +57,7 @@
   import ScenarioStepPreview from '../preview/ScenarioStepPreview.vue'
   import { useScenarioStepItem } from './useScenarioStepItem'
   import { settingsComponentMap } from './ScenarioStepKindMap'
+  import { getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
 
   const { t } = useI18n()
 
@@ -73,4 +74,9 @@
   const currentComponent = computed(() => settingsComponentMap[props.step.kind])
 
   const { basicDelaySeconds, componentProps, delaySeconds, kind, handleStepUpdate } = useScenarioStepItem(props, emit)
+
+  // scenarioStepKinds から項目が0 のものを除外する
+  const availableScenarioStepKinds = scenarioStepKinds.filter(
+    (kind) => kind !== 'gameScript' || getRegisteredGameScriptKeys().length > 0
+  )
 </script>
