@@ -8,13 +8,13 @@ export const baseSettingsMessages = {
       key: {
         label: 'キー名',
         edit: 'キー名を変更',
-        description: 'ほかのデータと区別するための名前',
+        description: 'プレースホルダー名やフォルダ名として使います',
       },
       isEnabled: {
         label: '有効にする',
         description: 'おみくじの有効・無効',
       },
-      // イベントにもアセット(みくじ箱・シナリオなど)にも使われるので、「イベント名」とは書かない
+      
       name: {
         label: '名前',
         description: '識別しやすい名前',
