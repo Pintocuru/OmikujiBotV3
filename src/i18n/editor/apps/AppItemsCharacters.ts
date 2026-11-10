@@ -3,14 +3,14 @@ export const appItemsCharactersMessages = {
   ja: {
     appHeader: {
       title: 'おみくじBOT エディター',
-      versionNotFound: 'バージョン情報が取得できませんでした',
-      versionFetchFailed: 'バージョン情報取得に失敗しました',
-      updateAvailable: '新しいバージョンが利用可能です！\n現在: {current}\n最新: {latest}',
+      versionNotFound: 'バージョン情報を取得できません',
+      versionFetchFailed: 'バージョン情報を取得できませんでした',
+      updateAvailable: '新しいバージョンがあります\n現在: {current}\n最新: {latest}',
       openGithub: 'GitHubを開く',
     },
     appPreview: {
       count: '{n}件',
-      more: '…他 {n} 件',
+      more: '…ほか {n} 件',
       mode: 'モード:',
       base: {
         noDescription: '説明なし',
@@ -87,7 +87,7 @@ export const appItemsCharactersMessages = {
     },
     characterImage: {
       newEmotionPlaceholder: '新しいエモーションキー（例: surprised）',
-      numericKeyError: '数字だけのキーは使えません（並び順を保存できないため）。英字を含めてください。',
+      numericKeyError: '数字だけのキーは使えません（並び順を保存できません）。英字を含めてください。',
       add: '追加',
       animation: {
         title: 'アニメーション・プレビュー',
@@ -109,9 +109,9 @@ export const appItemsCharactersMessages = {
         keyLabel: 'キー',
         unset: '未設定',
         copyLabel: '{label}(コピー)',
-        keyEmpty: 'キーを入力してください',
-        keyInvalidChar: 'キーに / や \\ は使えません(画像パスに使うため)',
-        keyDuplicate: '同じキーの感情がすでにあります',
+        keyEmpty: 'キーを入力',
+        keyInvalidChar: 'キーに / と \\ は使えません（画像パスに使用）',
+        keyDuplicate: 'このキーはすでに使用されています',
       },
       layer: {
         title: '画像レイヤー',
@@ -122,12 +122,12 @@ export const appItemsCharactersMessages = {
         path: 'レイヤー{n}の画像パス',
         detect: '画像を検出',
         detectNotFound:
-          '「{base}」の画像が見つかりませんでした。画像を images フォルダに置いたか、キャラクターIDと感情キーが一致しているかを確認してください。',
+          '「{base}」の画像が見つかりません。imagesフォルダ内の配置と、キャラクターID・感情キーを確認してください。',
         candidates: '候補',
         status: {
           checking: '確認中…',
           loaded: '読み込めました',
-          error: '画像を読み込めません。パスを確認してください',
+          error: '画像を読み込めません。パスを確認',
         },
       },
       candidate: {
@@ -140,8 +140,8 @@ export const appItemsCharactersMessages = {
         groupSameCharacter: 'このキャラクターの他の感情で使用中',
         groupFolder: '{key}/ フォルダの画像',
         groupOthers: 'その他の画像',
-        empty: '候補がありません。パスを直接入力してください。',
-        noList: '画像の一覧を取得できませんでした(サーバー未接続、または images フォルダがありません)。',
+        empty: '候補なし。パスを直接入力',
+        noList: '画像一覧を取得できません（サーバー未接続、またはimagesフォルダなし）',
       },
       preset: {
         label: 'プリセット:',
@@ -150,12 +150,12 @@ export const appItemsCharactersMessages = {
         title: '画像設定のヘルプ',
         placePre: '画像ファイルは事前に',
         placeCode: ' images/[キャラクターID] ',
-        placePost: 'フォルダ内に配置してください。(例: images/chocolate/default.webp)',
+        placePost: 'フォルダ内に配置（例: images/chocolate/default.webp）',
         detect:
-          '「{button}」は、1枚目の画像を「キャラクターID/感情キー.拡張子」の名前で探し、見つかったパスを入れます。拡張子は webp → png → gif → jpg → jpeg → svg → webm → mp4 の順に優先します。',
-        pick: '2枚目以降は、名前が感情と関係ないことがあるため自動では探しません。「{button}」から画像を選ぶか、パスを直接入力してください。',
+          '「{button}」は1枚目の画像を「キャラクターID/感情キー.拡張子」で検索し、見つかったパスを入力します。拡張子は webp → png → gif → jpg → jpeg → svg → webm → mp4 の順に検索します。',
+        pick: '2枚目以降は感情と無関係な名前の場合があるため、自動検索しません。「{button}」から選択するか、パスを直接入力してください。',
         status:
-          'パスの下に、画像を読み込めたかが表示されます。「読み込めません」と出たときは、パスの綴りと置き場所を確認してください。',
+          '画像の読み込み結果はパスの下に表示されます。「読み込めません」と表示された場合は、パスの綴りと配置を確認してください。',
         layerFeature: 'レイヤー機能:',
         layerDesc:
           '各エモーションに複数の画像を設定できます。上のレイヤーほど手前に表示されます（配列の0番が最前面）。',
@@ -164,30 +164,30 @@ export const appItemsCharactersMessages = {
     characterService: {
       base64: {
         label: 'わんコメ表示用画像',
-        desc: 'Base64として保存されます',
+        desc: 'Base64形式で保存',
         alt: 'Base64画像プレビュー',
-        reset: 'Base64画像をリセット',
+        reset: 'Base64画像を初期化',
       },
       voice: {
         label: 'わんコメPost',
         come: 'わんコメへのPost',
-        desc: 'Post(投稿)の種類を選択',
+        desc: 'Post（投稿）の種類',
         note1: 'キャラクター専用の枠を作成すると、各キャラクターごとに',
         noteCode: '「読み上げ」設定',
-        note2: 'を個別に行うことができます。',
+        note2: 'を個別に設定できます。',
         seeAlso: '詳しくは',
         link: '読み上げ機能を使う',
-        readIt: 'をお読みください。',
+        readIt: 'を参照',
         frameLabel: '枠のID名',
-        frameDesc: '空白なら、わんコメの一番上の枠を使用します',
-        voiceNote1: 'わんコメの「規定読み上げエンジン」のボイスで読み上げるようになります。',
-        voiceNote2: 'ジェネレーターには、コメントが表示されません。',
+        frameDesc: '空欄なら、わんコメの最上段の枠を使用',
+        voiceNote1: 'わんコメの「規定読み上げエンジン」のボイスで読み上げます。',
+        voiceNote2: 'ジェネレーターにはコメントを表示しません。',
       },
       // CharacterEditor 上部のカード(色・コメント表現)
       cards: {
         edit: 'カラー編集',
         displayName: '表示するキャラクター名',
-        displayNameDesc: 'ジェネレーターで表示されます',
+        displayNameDesc: 'ジェネレーターに表示',
         editVoice: 'コメント表現を編集',
         colorSample: 'こんにちは！色の見え方はこんな感じです',
         colorNames: { name: '名前', text: '本文', background: '背景', accent: 'アクセント' },
