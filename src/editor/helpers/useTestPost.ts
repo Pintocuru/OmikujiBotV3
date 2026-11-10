@@ -15,7 +15,7 @@ import { checkAllTriggers } from '@/generator/scripts/trigger/TriggerChecker'
 import i18n from '@/editor/i18n'
 
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
-const defaultPlaceholdersShortLabels = getDefaultPlaceholdersShortLabels((key) => t(key))
+const getShortLabels = () => getDefaultPlaceholdersShortLabels((key) => t(key))
 
 const MOCK_COMMENT = OmikenCommentSchema.parse({
   userId: 'testUserId',
@@ -59,7 +59,7 @@ export function useTestPost() {
     const resultProcessor = new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable)
     const { messages } = await resultProcessor.processTimeline(
       steps,
-      defaultPlaceholdersShortLabels,
+      getShortLabels(),
       MOCK_COMMENT,
       () => undefined
     )
@@ -96,7 +96,7 @@ export function useTestPost() {
       if (omikujiItem.variable.trim()) {
         new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable).evaluateVariable(
           omikujiItem.variable,
-          defaultPlaceholdersShortLabels
+          getShortLabels()
         )
       }
       showOmikujiResultToast(omikujiItem)
