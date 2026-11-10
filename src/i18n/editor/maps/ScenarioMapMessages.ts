@@ -39,11 +39,11 @@ export const scenarioMapMessages = {
       scenarioStepKind: {
         message: {
           label: 'メッセージ',
-          description: 'おみくじBOTで表示するテキストを設定します',
+          description: 'おみくじBOTに表示するテキスト',
         },
         sound: {
           label: 'サウンド',
-          description: 'シナリオ実行時に再生する効果音を設定します',
+          description: 'シナリオ実行時に再生する効果音',
         },
         wordParty: {
           label: 'WordParty',
@@ -51,35 +51,35 @@ export const scenarioMapMessages = {
         },
         variable: {
           label: '評価ブロック',
-          description: '変数の代入や計算・スクリプト評価処理を実行します',
+          description: '変数の代入・計算・スクリプト評価を実行',
         },
         gameScript: {
           label: 'スクリプト',
-          description: 'スクリプトやミニゲームを呼び出します',
+          description: 'スクリプトやミニゲームを呼び出す',
         },
         scenarioCall: {
           label: 'シナリオ',
-          description: '登録済みのシナリオを呼び出します',
+          description: '登録済みのシナリオを呼び出す',
         },
       },
       omikujiItemKind: {
         scenario: {
           label: 'シナリオ実行',
-          description: '下記の内容をわんコメやジェネレーターで表示します',
+          description: '下記の内容をわんコメやジェネレーターに表示',
         },
         control: {
           label: '処理を制御する',
-          description: 'シナリオを行わず、処理の流れを制御します。',
+          description: 'シナリオを実行せず、処理の流れを制御',
         },
       },
       omikujiControlCommand: {
         return: {
           label: '処理を終了する(return)',
-          description: 'シナリオを行わず、このイベントで処理を終了します。',
+          description: 'シナリオを実行せず、このイベントの処理を終了',
         },
         continue: {
           label: '次のイベントへ進む(continue)',
-          description: 'シナリオを行わず、次のイベントへ処理を進めます。',
+          description: 'シナリオを実行せず、次のイベントへ進む',
         },
       },
       sound: {
