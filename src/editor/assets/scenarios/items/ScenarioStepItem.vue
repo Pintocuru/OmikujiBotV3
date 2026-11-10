@@ -9,7 +9,7 @@
 
     <!-- 右側: 設定エリア -->
     <div class="col-span-2 space-y-2">
-      <!-- ActionType -->
+      <!-- ステップタイプ -->
       <SettingItem layout="vertical" icon="Rocket" labelKey="scenarioStep.stepItem.typeLabel">
         <IconRadioGroup
           v-model="kind"

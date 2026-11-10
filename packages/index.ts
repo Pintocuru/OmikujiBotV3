@@ -10,7 +10,7 @@ export default [
    * common
    */
   // OmikujiBot, // コアプロジェクト
-  // StrawberryChocolate, // ショコラ
+  StrawberryChocolate, // ショコラ
 
   /**
    * 2026-Q4
