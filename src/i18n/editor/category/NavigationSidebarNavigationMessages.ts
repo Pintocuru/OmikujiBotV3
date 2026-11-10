@@ -43,7 +43,7 @@ export const navigationSidebarNavigationMessages = {
         pasteDiffCategoryText: 'コピー元: {source} → 貼り付け先: {target}',
         pasteCrossConfirmTitle: 'カテゴリが異なります',
         pasteCrossConfirmText:
-          '「{source}」のデータを「{target}」として貼り付けます。\nトリガーなど一部の設定はリセットされますが、おみくじ設定は引き継がれます。よろしいですか？',
+          '「{source}」のデータを「{target}」として貼り付けます。\nトリガーなど一部の設定はリセットされ、おみくじ設定は引き継がれます。よろしいですか？',
         pasteConfirmButton: '貼り付け',
         pasteValidateError: 'データの検証に失敗',
         pasteSuccess: 'JSONを貼り付け',
