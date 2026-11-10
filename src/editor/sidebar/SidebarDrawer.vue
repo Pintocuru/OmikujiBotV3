@@ -13,13 +13,20 @@
     @mouseenter="cancelClose"
     @mouseleave="closeLater"
   >
-    <NavigationSidebar />
+    <div class="flex flex-col min-h-full py-2">
+      <!-- データ系カテゴリ（Events / Assets） -->
+      <DataCategories />
+
+      <!-- 設定系カテゴリ（ui / jsonMerge / dataPacks / appInfo） -->
+      <SettingsCategories />
+    </div>
   </aside>
 </template>
 
 <script setup lang="ts">
   import { onBeforeUnmount, onMounted } from 'vue'
-  import NavigationSidebar from './NavigationSidebar.vue'
+  import DataCategories from './categories/DataCategories.vue'
+  import SettingsCategories from './categories/SettingsCategories.vue'
   import { useSidebarDrawer } from './composables/useSidebarDrawer'
 
   const { isOpen, open, close } = useSidebarDrawer()

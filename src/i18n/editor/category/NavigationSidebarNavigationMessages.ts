@@ -30,7 +30,7 @@ export const navigationSidebarNavigationMessages = {
         success: 'プリセット「{name}」を追加',
         contents: '追加されるデータ',
         more: '他 {count} 件',
-        apply: '適用',
+        apply: 'プリセットを追加',
       },
       menu: {
         enable: '有効にする',

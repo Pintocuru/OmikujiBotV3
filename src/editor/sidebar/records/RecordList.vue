@@ -13,7 +13,7 @@
       </button>
 
       <!-- プリセットを新規作成（プリセットがあるカテゴリのみ）: ダイアログで選ぶ -->
-      <div v-if="presets.length" class="tooltip tooltip-top" :data-tip="t('navigation.preset.buttonTip', { category: categoryLabel(category) })">
+      <div v-if="presets.length" :title="t('navigation.preset.buttonTip', { category: categoryLabel(category) })">
         <button
           class="btn btn-ghost btn-xs btn-square opacity-70 hover:opacity-100"
           :aria-label="t('navigation.preset.buttonTip', { category: categoryLabel(category) })"
