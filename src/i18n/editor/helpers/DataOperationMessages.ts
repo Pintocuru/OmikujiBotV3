@@ -2,13 +2,13 @@
 export const dataOperationMessages = {
   ja: {
     dataOperation: {
-      loadError: 'データの読み込み中にエラーが発生しました',
+      loadError: 'データの読み込み中にエラーが発生',
       exportValidationError: {
         title: 'データの検証に失敗しました',
-        description: '内容に不備があるため、エクスポートできません。',
+        description: 'データに不備があるためエクスポートできません。',
       },
-      mergeSuccess: 'データの部分更新が完了しました。',
-      mergeError: 'データの更新中にエラーが発生しました',
+      mergeSuccess: 'データを部分更新しました',
+      mergeError: 'データの更新中にエラーが発生',
     },
   },
   en: {
