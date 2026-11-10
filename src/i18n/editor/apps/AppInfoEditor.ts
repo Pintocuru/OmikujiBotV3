@@ -8,7 +8,7 @@ export const appInfoEditorMessages = {
       },
       appFeatures: {
         label: '利用可能な機能',
-        description: 'このバージョンで使えるUI・レイアウト・ゲームスクリプト',
+        description: 'このバージョンで使えるUI・レイアウト・スクリプト',
       },
       packageBasic: {
         label: '基本情報',
@@ -34,9 +34,9 @@ export const appInfoEditorMessages = {
           empty: '利用可能なレイアウトはありません',
         },
         gameScript: {
-          title: 'ゲームスクリプト',
-          description: 'おみくじ結果に連動して動くゲーム演出',
-          empty: '利用可能なゲームスクリプトはありません',
+          title: 'スクリプト',
+          description: '複雑な処理でミニゲーム等を実現します',
+          empty: '利用可能なスクリプトはありません',
         },
       },
       settings: {
@@ -54,24 +54,24 @@ export const appInfoEditorMessages = {
           },
           soundEnabled: {
             label: '効果音を鳴らす',
-            description: 'BOTの効果音を再生するか',
+            description: 'ジェネレーターで鳴る効果音を再生するか',
             on: '音を鳴らす',
             off: 'ミュートする',
           },
           showCooldownNotice: {
             label: 'クールダウンのブロック通知',
-            description: 'クールダウンでブロックされたとき、配信画面の右下にトースト表示',
+            description: 'ブロックされたとき、ジェネレーターの右下にトースト表示',
             on: '表示する',
             off: '表示しない',
           },
         },
         editor: {
           title: 'エディター設定',
-          description: 'エディターの見た目・動作・ライセンスなど、アプリ本体の設定',
+          description: 'エディターの見た目・動作・ライセンス',
           theme: {
             label: 'エディターテーマ',
-            description: 'DaisyUIのカラーテーマ',
-            random: 'ランダム',
+            description: '説明不要',
+            random: '🎲',
           },
           locale: {
             label: '言語(Language)',
