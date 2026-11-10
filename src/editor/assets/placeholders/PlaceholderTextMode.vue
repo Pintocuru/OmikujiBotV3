@@ -14,33 +14,32 @@
     @save="handleSave"
   >
     <div class="flex flex-col h-full p-3 gap-3">
-      <!-- 入力形式の説明 -->
-      <InformationCard>
-        <p>{{ t('placeholder.inputFormat') }}</p>
-        <p>
-          • <code class="label bg-accent text-accent-content">{{ t('placeholder.lineFormat') }}</code>
-        </p>
-        <p>
-          • {{ t('placeholder.formatLabel') }}:
-          <code class="bg-accent px-1 rounded">{{ t('placeholder.formatExample1') }}</code>
-        </p>
-        <p>
-          • {{ t('placeholder.example') }}:
-          <code class="bg-accent px-1 rounded">3,{{ t('placeholder.sampleText') }}</code> {{ t('placeholder.or') }}
-          <code class="bg-accent px-1 rounded">{{ t('placeholder.sampleText') }}</code
-          >（{{ t('placeholder.defaultWeightNote') }}）
-        </p>
-        <p>• {{ t('placeholder.weightNote') }}</p>
-      </InformationCard>
-
       <!-- テキストエリア -->
       <div class="form-control flex-1 flex flex-col min-h-0">
-        <label class="label shrink-0">
+        <div class="label shrink-0">
           <span class="label-text font-medium">{{ t('placeholder.textInputLabel') }}</span>
-          <span class="label-text-alt">
-            {{ t(lineCount === 1 ? 'placeholder.lineCountSingular' : 'placeholder.lineCount', { count: lineCount }) }}
-          </span>
-        </label>
+          <div class="flex items-center gap-2">
+            <span class="label-text-alt">
+              {{ t(lineCount === 1 ? 'placeholder.lineCountSingular' : 'placeholder.lineCount', { count: lineCount }) }}
+            </span>
+            <HelpButton :title="t('placeholder.inputFormat')">
+              <p>{{ t('placeholder.inputFormat') }}</p>
+              <p>• <code>{{ t('placeholder.lineFormat') }}</code></p>
+              <p>
+                • {{ t('placeholder.formatLabel') }}:
+                <code>{{ t('placeholder.formatExample1') }}</code>
+              </p>
+              <p>
+                • {{ t('placeholder.example') }}:
+                <code>3,{{ t('placeholder.sampleText') }}</code>
+                {{ t('placeholder.or') }}
+                <code>{{ t('placeholder.sampleText') }}</code>
+                （{{ t('placeholder.defaultWeightNote') }}）
+              </p>
+              <p>• {{ t('placeholder.weightNote') }}</p>
+            </HelpButton>
+          </div>
+        </div>
         <textarea
           v-model="textContent"
           autofocus
@@ -63,13 +62,14 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref, toRef } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { Text } from 'lucide-vue-next'
 
-  import { WeightValueSchema, type WeightValueType, type WeightValuesArrayType } from '@/types/OmikujiData'
+  import type { WeightValuesArrayType } from '@/types/OmikujiData'
   import BaseEditDialog from '@/editor/parts/BaseEditDialog.vue'
-  import InformationCard from '@/editor/parts/InformationCard.vue'
+  import HelpButton from '@/editor/parts/HelpButton.vue'
+  import { usePlaceholderTextMode } from './composables/usePlaceholderTextMode'
 
   const { t } = useI18n()
 
@@ -82,78 +82,15 @@
   }>()
 
   const baseDialog = ref<InstanceType<typeof BaseEditDialog> | null>(null)
-  const textContent = ref('')
-
-  // 初期値をテキストに変換
-  const initializeText = () => {
-    textContent.value = props.initialValues
-      .map((value) => {
-        if (typeof value === 'string') {
-          return value
-        }
-        return value.weight === 1 ? value.content : `${value.weight},${value.content}`
-      })
-      .join('\n')
-  }
-
-  // 行数計算
-  const lineCount = computed(() => textContent.value.split('\n').length)
-
-  type ParsedLine = { weight: number; content: string; hasError: boolean }
-
-  // 行をパースしてバリデーション
-  const parseAndValidateLine = (line: string): ParsedLine | null => {
-    const trimmed = line.trim()
-    if (!trimmed) return null
-
-    // 最初のカンマだけを分割対象にする
-    const firstCommaIndex = trimmed.indexOf(',')
-    let candidate: WeightValueType
-
-    if (firstCommaIndex > -1) {
-      const weightStr = trimmed.slice(0, firstCommaIndex).trim()
-      const contentStr = trimmed.slice(firstCommaIndex + 1).trim()
-      const weight = Number.parseInt(weightStr, 10)
-
-      if (!Number.isNaN(weight)) {
-        candidate = { weight, content: contentStr }
-      } else {
-        candidate = { weight: 1, content: trimmed }
-      }
-    } else {
-      candidate = { weight: 1, content: trimmed }
-    }
-
-    const result = WeightValueSchema.safeParse(candidate)
-
-    return {
-      ...candidate,
-      hasError: !result.success,
-    }
-  }
-
-  // プレビューアイテム
-  const previewItems = computed(() =>
-    textContent.value
-      .split('\n')
-      .map(parseAndValidateLine)
-      .filter((item): item is ParsedLine => item !== null)
-  )
-
-  // バリデーション状態
-  const hasErrors = computed(() => previewItems.value.some((item) => item.hasError))
-  const validItemsCount = computed(() => previewItems.value.filter((item) => !item.hasError).length)
-  const errorCount = computed(() => previewItems.value.filter((item) => item.hasError).length)
-
-  // テキストから値に変換
-  const convertTextToValues = (): WeightValuesArrayType => {
-    return previewItems.value
-      .filter((item) => !item.hasError)
-      .map(({ weight, content }) => {
-        // 重みが1の場合は文字列として返す（スキーマの変換ロジックに合わせる）
-        return weight === 1 ? content : { weight, content }
-      })
-  }
+  const {
+    textContent,
+    lineCount,
+    hasErrors,
+    validItemsCount,
+    errorCount,
+    initializeText,
+    convertTextToValues,
+  } = usePlaceholderTextMode(toRef(props, 'initialValues'))
 
   // BaseEditDialog の保存ボタン(閉じる処理は BaseEditDialog 側)
   const handleSave = () => {
