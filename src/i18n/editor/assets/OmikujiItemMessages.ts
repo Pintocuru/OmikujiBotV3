@@ -7,18 +7,18 @@ export const omikujiItemMessages = {
       cooldownHelp: {
         title: 'クールダウン(秒)について',
         summary:
-          'このおみくじが実行されると、その秒数の間、値がこれより小さいおみくじの実行を止めます。同じ値や大きい値のおみくじは止まりません。',
-        basis: '止める基準になるのは、直前に実行された 1 件だけです。',
-        zero: '0 や未設定のおみくじは、他のおみくじを止めませんが、止められる側にはなります。',
-        negative: 'マイナスの値も使えます。-3 なら 3 秒間、-3 より小さい値(-4 以下)のおみくじを止めます。',
+          '実行後、指定秒数の間、これより小さい値のおみくじをブロックします。同じ値や大きい値はブロックしません。',
+        basis: '判定基準は直前に実行された1件のみです。',
+        zero: '0・未設定のおみくじは他をブロックしませんが、ブロック対象にはなります。',
+        negative: '負の値も使用可能。-3なら3秒間、-4以下のおみくじをブロックします。',
         blocked:
-          '止められた回は何も投稿されず、後から再実行もされません。コメントの場合は、以降のイベントの判定も行いません。',
+          'ブロックされた回は投稿せず、再実行もしません。コメントの場合、後続イベントも判定しません。',
         examplesTitle: '使い方の例',
-        example1: '初見さんの挨拶を 5 にする → 5 秒間は、0 の定期案内に上書きされません。',
-        example2: 'レアなおみくじを 10 にする → 10 秒間は、通常のおみくじが割り込めません(演出の時間を確保できます)。',
+        example1: '初見さんの挨拶を5に設定 → 5秒間、0の定期案内に上書きされない',
+        example2: 'レアなおみくじを10に設定 → 10秒間、通常のおみくじが割り込めない（演出時間を確保）',
       },
       list: {
-        testTooltip: 'わんコメを起動すると、投稿の確認ができます',
+        testTooltip: 'わんコメ起動中に投稿を確認',
         test: '抽選テスト',
         add: 'おみくじを追加',
         columns: 'おみくじ / シナリオ / クールダウン',
@@ -32,22 +32,22 @@ export const omikujiItemMessages = {
       priority: {
         criteria: {
           label: '追加発動条件',
-          description: '条件を満たした場合の優先度を設定できます',
+          description: '条件を満たした場合の優先度',
         },
         priority: {
           label: '優先度',
           badge: '優先',
-          description: '追加条件達成時、優先で選ばれます',
+          description: '追加条件を満たすと優先的に選択',
         },
         sectionTitle: '追加条件',
-        sectionDescription: 'このおみくじが適用される追加の条件を設定します',
+        sectionDescription: 'このおみくじに適用する追加条件',
         enable: '設定する',
-        priorityEnabledMessage: '適用時、このおみくじが必ず適用されます',
-        priorityDisabledMessage: '他のおみくじと同じ抽選を行います',
+        priorityEnabledMessage: '条件を満たすと、このおみくじを必ず適用',
+        priorityDisabledMessage: 'ほかのおみくじと同じ条件で抽選',
       },
       scenario: {
         label: 'シナリオ',
-        description: 'このおみくじを引いたとき、実行されます',
+        description: 'このおみくじを引くと実行',
         none: 'シナリオが選ばれていません…',
         noneShort: 'シナリオ未選択',
         missing: '「{key}」は存在しません',
@@ -58,7 +58,7 @@ export const omikujiItemMessages = {
         unlink: '接続を解除',
         create: '新しいシナリオを作成する',
         shared: '他に {count} 件のおみくじでも使用',
-        controlNote: 'このおみくじはシナリオを実行せず、処理の流れを制御します。',
+        controlNote: 'シナリオを実行せず、処理の流れを制御',
         controlShort: '制御',
         dialog: {
           title: 'シナリオを選択',
@@ -73,11 +73,11 @@ export const omikujiItemMessages = {
       header: {
         name: {
           label: '運勢の種類',
-          description: '識別しやすい名前を入力',
+          description: '識別しやすい名前',
         },
         cooldown: {
           label: 'クールダウン',
-          description: '実行後、この秒数の間、これより小さい値のおみくじをブロックします（秒）',
+          description: '実行後、この秒数の間、これより小さい値のおみくじをブロック',
           inputTitle: 'クールダウン(秒)',
           unit: '秒',
         },
@@ -88,25 +88,25 @@ export const omikujiItemMessages = {
       editor: {
         kind: {
           label: '実行内容',
-          description: 'このおみくじの処理内容を選択します',
+          description: 'このおみくじの処理内容',
         },
         command: {
           label: '制御の種類',
-          description: '処理の流れをどう制御するかを選択します',
+          description: '処理の流れを制御する方法',
         },
       },
       control: {
         label: '評価ブロック',
-        description: 'この制御を実行するときに評価されます',
+        description: 'この制御の実行時に評価',
       },
       criteria: {
         label: '適用する発動条件',
-        description: 'トリガーの種類を選択',
+        description: 'トリガーの種類',
         help: {
           conditionName: '追加発動条件',
-          conditionDescription: 'は、コメント内容やチャット数などを基にイベント発動を制御します。',
-          allRequired: '条件が複数ある場合は、すべて満たしたときのみ発動します。',
-          adminCommands: '管理者限定コマンドなどの応用も可能です。',
+          conditionDescription: 'は、コメント内容やチャット数などを基にイベントの発動を制御',
+          allRequired: '複数の条件がある場合、すべて満たすと発動',
+          adminCommands: '管理者限定コマンドなどにも応用可能',
           empty: '発動条件が指定されていません',
         },
       },
