@@ -24,8 +24,15 @@ describe('ServiceTriggerSchema', () => {
     })
   })
 
-  it('未知の condition は読めない', () => {
-    expect(ServiceTriggerSchema.safeParse({ condition: 'unknown' }).success).toBe(false)
+  it('読めないデータ(旧 elapsedMinutes・未知の condition)は初期値の upVote に戻す', () => {
+    expect(ServiceTriggerSchema.parse({ condition: 'elapsedMinutes', elapsedMinutes: 60 })).toEqual({
+      condition: 'upVote',
+      upVote: { comparison: 'changed' },
+    })
+    expect(ServiceTriggerSchema.parse({ condition: 'unknown' })).toEqual({
+      condition: 'upVote',
+      upVote: { comparison: 'changed' },
+    })
   })
 })
 
