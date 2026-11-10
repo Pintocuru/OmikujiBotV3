@@ -66,25 +66,4 @@ const followerUp: PresetDefinition<'services'> = {
   },
 }
 
-/** 配信開始から60分でお知らせ */
-const elapsed60: PresetDefinition<'services'> = {
-  id: 'elapsed60',
-  category: 'services',
-  build: () => {
-    const { key, mikuji, scenarios } = buildSimpleMikuji('配信1時間', [
-      message('配信開始から1時間が経ちました。ここまでありがとうございます！'),
-    ])
-    return {
-      assets: { mikuji: [mikuji], scenarios },
-      events: [
-        {
-          name: '配信1時間',
-          mikujiKey: key,
-          trigger: ServiceTriggerSchema.parse({ condition: 'elapsedMinutes', elapsedMinutes: 60 }),
-        },
-      ],
-    }
-  },
-}
-
-export const servicePresets = [upVotePeak, viewerEvery10, followerUp, elapsed60]
+export const servicePresets = [upVotePeak, viewerEvery10, followerUp]
