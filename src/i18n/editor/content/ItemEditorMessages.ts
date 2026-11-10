@@ -3,8 +3,8 @@ export const itemEditorMessages = {
   ja: {
     itemEditor: {
       disabledNotice: {
-        title: '現在、このイベントは無効になっています。',
-        action: '編集を行うには、まずイベントを有効にしてください(名前の横の鉛筆ボタンから切り替えられます)。',
+        title: 'このイベントは無効です',
+        action: '編集するには、名前の横の鉛筆ボタンからイベントを有効にしてください。',
       },
     },
   },
