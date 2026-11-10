@@ -3,16 +3,16 @@ export const categorySectionMessages = {
   ja: {
     categorySections: {
       baseSettings: { label: '基本設定', description: '基本設定' }, // TODO 説明文をどうするか
-      trigger: { label: 'トリガー設定', description: 'おみくじを引く、トリガー(きっかけ)の設定' },
-      mikuji: { label: 'みくじ箱設定', description: 'おみくじの抽選方法や確率を編集します' },
+      trigger: { label: 'トリガー設定', description: 'おみくじを引くきっかけを設定' },
+      mikuji: { label: 'みくじ箱設定', description: 'おみくじの抽選方法と確率を設定' },
       scenarios: {
         label: 'シナリオ編集',
-        description: 'シナリオ(演出セット)の発動順や、ステップ(演出内容)を編集します',
+        description: 'シナリオ（演出セット）の順番とステップ（演出内容）を設定',
       },
-      timerInterval: { label: 'タイマー設定', description: '発動する間隔やタイミングの設定' },
-      placeholder: { label: 'プレースホルダー設定', description: '抽選するプレースホルダーを編集します' },
-      characterStyle: { label: 'カラー・投稿設定', description: 'フキダシの色と、BOTコメントの表現を設定します' },
-      imageSettings: { label: 'キャラクター画像設定', description: 'ジェネレーターで表示する画像の設定' },
+      timerInterval: { label: 'タイマー設定', description: '発動間隔とタイミングを設定' },
+      placeholder: { label: 'プレースホルダー設定', description: '抽選するプレースホルダーを設定' },
+      characterStyle: { label: 'カラー・投稿設定', description: 'フキダシの色とBOTコメントの表現を設定' },
+      imageSettings: { label: 'キャラクター画像設定', description: 'ジェネレーターに表示する画像を設定' },
     },
   },
   en: {
