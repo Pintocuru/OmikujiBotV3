@@ -4,7 +4,7 @@ export const referenceGraphMessages = {
   ja: {
     connections: {
       searching: '検索中…',
-      scenarioMissing: 'シナリオが見つかりません({key})',
+      scenarioMissing: 'シナリオが見つかりません（{key}）',
     },
   },
   en: {
