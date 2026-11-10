@@ -3,7 +3,7 @@
 /**
  * 本文中にユーザーアイコンを差し込む位置を表す、内部用の目印。
  *
- * - <<user>> / <<winner>> のプレースホルダーが作る (DefaultPlaceholderBuilder)
+ * - <<user>> のプレースホルダーが作る (DefaultPlaceholderBuilder)
  * - 表示側の UI が、アイコン画像に置き換える (useFilteredBotMessages など)
  * - わんコメへの投稿・判定式では、取り除く
  *

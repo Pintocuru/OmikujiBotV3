@@ -40,21 +40,6 @@ export const defaultPlaceholderMap: Record<DefaultPlaceholders, DefaultPlacehold
     label: '初見さんの数',
     short: 'Syoken_Count',
   },
-  winner: {
-    slot: 'event',
-    label: 'コメントをしたランダムなユーザー',
-    short: 'Winner_Name',
-  },
-  winnerId: {
-    slot: 'event',
-    label: 'コメントをしたランダムなユーザーID',
-    short: 'test_userId',
-  },
-  clock: {
-    slot: 'event',
-    label: '現在時刻',
-    short: 'Clock_Time',
-  },
   user: {
     slot: 'comment',
     label: 'コメントしたユーザー',
