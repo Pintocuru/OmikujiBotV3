@@ -2,8 +2,8 @@
 export const commentEditorMessages = {
   ja: {
     commentEditor: {
-      mikujiKeyMissing: '存在しないみくじ箱を指定しているようです。設定を確認してください。',
-      mikujiKeyUnselected: 'みくじ箱を選択してください。',
+      mikujiKeyMissing: '指定したみくじ箱が見つかりません。設定を確認してください。',
+      mikujiKeyUnselected: 'みくじ箱を選択',
     },
   },
   en: {
