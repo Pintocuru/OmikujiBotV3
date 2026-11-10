@@ -1,5 +1,6 @@
 // src/editor/parts/MessageTextDialog/composables/usePlaceholderEditor.ts
 import { computed, Ref, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { PlaceholderSchema, PlaceholderType, handleNormalizedValues } from '@/types/OmikujiData'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
@@ -9,6 +10,7 @@ const PLACEHOLDER_PATTERN = /<<([^>]+)>>/g
 const PLACEHOLDER_ID_PATTERN = /^[a-zA-Z0-9_]+$/
 
 export function usePlaceholderEditor(draftText: Ref<string>) {
+  const { t } = useI18n()
   const omikujiStore = useOmikujiStore()
   const { getAssets } = useGetAssetData()
 
@@ -25,8 +27,8 @@ export function usePlaceholderEditor(draftText: Ref<string>) {
   const defaultPlaceholderList = computed(() => {
     return Object.entries(defaultPlaceholderMap).map(([key, meta]) => ({
       key,
-      label: meta.label,
-      short: meta.short,
+      label: t(meta.labelKey),
+      short: t(meta.shortKey),
       slot: meta.slot,
     }))
   })
