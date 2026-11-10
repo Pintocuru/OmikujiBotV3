@@ -20,7 +20,7 @@
           @click="navigateCategory(key)"
         />
 
-        <!-- レコード一覧（カテゴリ選択中 & 開いているときのみ） -->
+        <!-- レコード一覧（開いているときのみ。表示中のカテゴリとは独立して開閉する） -->
         <transition
           enter-active-class="transition-all duration-200 ease-out"
           leave-active-class="transition-all duration-150 ease-in"
@@ -29,7 +29,7 @@
           leave-from-class="opacity-100 max-h-screen"
           leave-to-class="opacity-0 max-h-0"
         >
-          <div v-if="selectedCategory === key && isOpenCategory[key]">
+          <div v-if="isOpenCategory[key]">
             <!-- 新規作成ボタン + ドラッグ可能なレコードリスト（データが0件でも表示する） -->
             <RecordList
               :category="key"

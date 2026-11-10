@@ -1,18 +1,20 @@
 // src/editor/sidebar/composables/useSidebarDrag.ts
-import { ref, watch, nextTick } from 'vue'
+import { computed, ref, watch, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
-import { DataCategoryType } from '@/types/OmikujiData/'
+import { CategoryType, DataCategoryType } from '@/types/OmikujiData/'
 import { DraggableSubItem } from '@/editor/types/apps'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
+import { useCategoryOpen } from './useCategoryOpen'
 import i18n from '@/editor/i18n'
 import { BaseRecordType } from '@/types/core'
 
 export const useSidebarDrag = () => {
   const navigationStore = useNavigationStore()
   const { selectedCategory } = storeToRefs(navigationStore)
+  const { isOpenCategory } = useCategoryOpen()
   const { getEvents, isEventCategory } = useGetEventData()
   const { getAssets, isAssetCategory } = useGetAssetData()
   const omikujiStore = useOmikujiStore()
@@ -37,29 +39,28 @@ export const useSidebarDrag = () => {
       .map((item) => toDraggable(item.key, item))
   }
 
-  // カテゴリ切り替え時に配列を再構築
-  watch(
-    selectedCategory,
-    (cat) => {
-      if (!isEventCategory(cat) && !isAssetCategory(cat)) return
-      draggableItems.value[cat] = buildDraggableItems(cat)
-    },
-    { immediate: true }
-  )
+  // 一覧の元になるカテゴリ = 表示中のカテゴリ + サイドバーで開いているカテゴリ
+  // (開くだけで表示は切り替わらないため、開いているカテゴリの配列も作っておく必要がある)
+  const targetCategories = computed<DataCategoryType[]>(() => {
+    const keys = [selectedCategory.value, ...(Object.keys(isOpenCategory.value) as CategoryType[]).filter((k) => isOpenCategory.value[k])]
+    const result: DataCategoryType[] = []
+    for (const key of keys) {
+      if ((isEventCategory(key) || isAssetCategory(key)) && !result.includes(key)) result.push(key)
+    }
+    return result
+  })
+
+  const rebuild = () => {
+    for (const cat of targetCategories.value) draggableItems.value[cat] = buildDraggableItems(cat)
+  }
+
+  // 対象カテゴリが変わったとき(表示の切り替え・一覧の開閉)に配列を再構築
+  watch(targetCategories, rebuild, { immediate: true })
 
   // ストアのデータ変更（追加・削除・名前変更・並び替え）に追従
   watch(
-    () => {
-      const cat = selectedCategory.value
-      if (isEventCategory(cat)) return getEvents(cat)
-      if (isAssetCategory(cat)) return getAssets(cat)
-      return null
-    },
-    () => {
-      const cat = selectedCategory.value
-      if (!isEventCategory(cat) && !isAssetCategory(cat)) return
-      draggableItems.value[cat] = buildDraggableItems(cat)
-    },
+    () => targetCategories.value.map((cat) => (isEventCategory(cat) ? getEvents(cat) : getAssets(cat))),
+    rebuild,
     { deep: true }
   )
 

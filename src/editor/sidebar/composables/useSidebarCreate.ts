@@ -33,7 +33,7 @@ export const useSidebarCreate = () => {
     }
     if (!newKey) return null
 
-    navigationStore.selectItem(newKey, 'baseSettings')
+    navigationStore.openItem(category, newKey, 'baseSettings')
     swalToast.success({ title: t('navigation.create.success', { name }) })
     return newKey
   }

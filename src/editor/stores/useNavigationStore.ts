@@ -87,6 +87,18 @@ export const useNavigationStore = defineStore('navigation', () => {
     if (section) activeSection.value = section
   }
 
+  /** カテゴリとレコードを同時に選んで表示する(サイドバーの一覧のクリックなど。先頭への自動選択は行わない) */
+  const openItem = (category: CategoryType, key: string | null, section?: string) => {
+    isTopPage.value = false
+    if (category !== selectedCategory.value) {
+      selectedCategory.value = category
+      // 選択中のタブは、ContentArea 側で新しいカテゴリのタブに合わせ直す
+      activeSection.value = null
+    }
+    selectedItemKey.value = key
+    if (section) activeSection.value = section
+  }
+
   const clearSelection = () => {
     selectedItemKey.value = null
   }
@@ -134,6 +146,7 @@ export const useNavigationStore = defineStore('navigation', () => {
     showTopPage,
     selectCategory,
     selectItem,
+    openItem,
     clearSelection,
     selectNextItem,
   }

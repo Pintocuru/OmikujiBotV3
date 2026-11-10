@@ -17,7 +17,9 @@ export const useCategoryOpen = () => {
 
   const navigateCategory = (key: CategoryType) => {
     isOpenCategory.value = { [key]: !isOpenCategory.value[key] }
-    navigationStore.selectCategory(key)
+    // レコード一覧を持つカテゴリ(Events / Assets)は、一覧の開閉だけ行う。
+    // 表示するレコードは、一覧のクリック(navigationStore.openItem)で切り替わる
+    if (!navigationStore.isDataCategory(key)) navigationStore.selectCategory(key)
   }
 
   /** 指定カテゴリのサブ項目を開く(他カテゴリは閉じる)。navigateCategory と違い、トグルしない */

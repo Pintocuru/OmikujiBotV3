@@ -205,7 +205,11 @@
     })
     if (!result.isConfirmed) return
 
-    navigationStore.selectNextItem()
+    // 表示中のレコードを消すときだけ、次のレコードへ選択を移す(開いているだけの別カテゴリの一覧から消すときは、表示を動かさない)
+    const itemKey = isEventCategory(props.category) ? props.item.id : props.item.key
+    if (navigationStore.selectedCategory === props.category && navigationStore.selectedItemKey === itemKey) {
+      navigationStore.selectNextItem()
+    }
 
     if (isEventCategory(props.category)) {
       omikujiStore.removeEvent(props.category, props.item.id)

@@ -32,9 +32,9 @@
         :key="item.key"
         :label="item.label ?? ''"
         :isEnabled="item.isEnabled"
-        :isSelected="selectedItemKey === item.key"
+        :isSelected="selectedCategory === category && selectedItemKey === item.key"
         draggable
-        @select="navigationStore.selectItem(item.key)"
+        @select="navigationStore.openItem(category, item.key)"
       >
         <template v-if="item.rawItem" #menu>
           <RecordMenu :item="item.rawItem" :category="category" />
@@ -78,7 +78,7 @@
   const isPresetDialogOpen = ref(false)
 
   const navigationStore = useNavigationStore()
-  const { selectedItemKey } = storeToRefs(navigationStore)
+  const { selectedCategory, selectedItemKey } = storeToRefs(navigationStore)
 
   const localItems = computed({
     get: () => props.modelValue,

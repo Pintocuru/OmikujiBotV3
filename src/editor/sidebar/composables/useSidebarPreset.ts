@@ -50,7 +50,7 @@ export const useSidebarPreset = () => {
     }
 
     if (!selectKey) return null
-    navigationStore.selectItem(selectKey, 'baseSettings')
+    navigationStore.openItem(preset.category, selectKey, 'baseSettings')
     swalToast.success({ title: t('navigation.preset.success', { name: presetLabel(preset) }) })
     return selectKey
   }
