@@ -24,16 +24,15 @@
             </span>
             <HelpButton :title="t('placeholder.inputFormat')">
               <p>{{ t('placeholder.inputFormat') }}</p>
-              <p>• <code>{{ t('placeholder.lineFormat') }}</code></p>
+              <p>• {{ t('placeholder.lineFormat') }}</p>
               <p>
                 • {{ t('placeholder.formatLabel') }}:
-                <code>{{ t('placeholder.formatExample1') }}</code>
+                {{ t('placeholder.formatExample1') }}
               </p>
               <p>
-                • {{ t('placeholder.example') }}:
-                <code>3,{{ t('placeholder.sampleText') }}</code>
+                • {{ t('placeholder.example') }}: 3,{{ t('placeholder.sampleText') }}
                 {{ t('placeholder.or') }}
-                <code>{{ t('placeholder.sampleText') }}</code>
+                {{ t('placeholder.sampleText') }}
                 （{{ t('placeholder.defaultWeightNote') }}）
               </p>
               <p>• {{ t('placeholder.weightNote') }}</p>
@@ -82,15 +81,8 @@
   }>()
 
   const baseDialog = ref<InstanceType<typeof BaseEditDialog> | null>(null)
-  const {
-    textContent,
-    lineCount,
-    hasErrors,
-    validItemsCount,
-    errorCount,
-    initializeText,
-    convertTextToValues,
-  } = usePlaceholderTextMode(toRef(props, 'initialValues'))
+  const { textContent, lineCount, hasErrors, validItemsCount, errorCount, initializeText, convertTextToValues } =
+    usePlaceholderTextMode(toRef(props, 'initialValues'))
 
   // BaseEditDialog の保存ボタン(閉じる処理は BaseEditDialog 側)
   const handleSave = () => {
