@@ -4,12 +4,11 @@ import { PlaceholderSchema, PlaceholderType, handleNormalizedValues } from '@/ty
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { defaultPlaceholderMap } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
-import { defaultBasePlaceholderLabel } from '@/types/engine/placeholder'
 
 const PLACEHOLDER_PATTERN = /<<([^>]+)>>/g
 const PLACEHOLDER_ID_PATTERN = /^[a-zA-Z0-9_]+$/
 
-export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boolean) {
+export function usePlaceholderEditor(draftText: Ref<string>) {
   const omikujiStore = useOmikujiStore()
   const { getAssets } = useGetAssetData()
 
@@ -22,21 +21,14 @@ export function usePlaceholderEditor(draftText: Ref<string>, isCommentMode?: boo
     return getAssets('placeholders')
   })
 
-  // defaultPlaceholders 一覧（常に表示）
+  // デフォルトプレースホルダー一覧
   const defaultPlaceholderList = computed(() => {
-    // isCommentMode が false のときは defaultBasePlaceholderLabel のみ
-    const defaultPlaceholderKeys = Object.keys(defaultPlaceholderMap) as (keyof typeof defaultPlaceholderMap)[]
-    const keys = isCommentMode ? defaultPlaceholderKeys : defaultBasePlaceholderLabel
-
-    return keys.map((key) => {
-      const meta = defaultPlaceholderMap[key]
-      return {
-        key,
-        label: meta.label,
-        short: meta.short,
-        slot: meta.slot,
-      }
-    })
+    return Object.entries(defaultPlaceholderMap).map(([key, meta]) => ({
+      key,
+      label: meta.label,
+      short: meta.short,
+      slot: meta.slot,
+    }))
   })
 
   // ユーザー定義プレースホルダー（isPlaceholder=true のみ）
