@@ -36,7 +36,7 @@
           :class="ranking.sortOrder === key ? 'badge-primary' : 'badge-outline'"
           @click="update('sortOrder', key)"
         >
-          {{ order }}
+          {{ t(order) }}
         </div>
       </div>
     </SettingItem>
