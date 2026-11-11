@@ -29,7 +29,7 @@ export const DEV_API = {
 // sounds フォルダ配下で一覧に出す音声ファイルの拡張子
 export const SOUND_EXTENSIONS = ['.mp3', '.wav', '.ogg', '.m4a'] as const
 
-// 画像フォルダ (assets/Characters/) 直下で、1つの画像ルートとして扱うフォルダ名
+// 画像フォルダ (assets/characters/) 直下で、1つの画像ルートとして扱うフォルダ名
 // tools/viteConfig/characterAssetsPlugin.ts の isIntermediateFolder と同じ判定 (片方を変えたらもう片方も直すこと)
 export const IMAGE_ROOT_FOLDER_PATTERN = /^(common|wip|\d{4}-Q\d+)$/
 

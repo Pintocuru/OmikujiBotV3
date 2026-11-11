@@ -5,10 +5,10 @@ import type { Plugin } from 'vite'
 
 /**
  * /images/{name} へのリクエストを (ビルド後の images/ と同じ URL)
- * assets/Characters/ 下の common/ または YYYY-QN/ フォルダから探して返すプラグイン
+ * assets/characters/ 下の common/ または YYYY-QN/ フォルダから探して返すプラグイン
  */
 export function characterAssetsPlugin(projectRoot: string): Plugin {
-  const charsDir = path.resolve(projectRoot, 'assets/Characters')
+  const charsDir = path.resolve(projectRoot, 'assets/characters')
 
   return {
     name: 'character-assets-fallback',
@@ -16,7 +16,7 @@ export function characterAssetsPlugin(projectRoot: string): Plugin {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const PREFIX = '/images/' // 公開 URL (ビルド後の root/images と同じ)
-        const SRC_PREFIX = '/assets/Characters/' // 実ファイルの置き場所
+        const SRC_PREFIX = '/assets/characters/' // 実ファイルの置き場所
         if (!req.url?.startsWith(PREFIX)) return next()
 
         const relativePath = req.url.slice(PREFIX.length).split('?')[0]
@@ -43,7 +43,7 @@ export function characterAssetsPlugin(projectRoot: string): Plugin {
   }
 }
 
-/** assets/Characters/ 直下のフォルダ一覧を動的に取得*/
+/** assets/characters/ 直下のフォルダ一覧を動的に取得*/
 function getIntermediateFolders(charsDir: string): string[] {
   if (!fs.existsSync(charsDir)) return []
   return fs

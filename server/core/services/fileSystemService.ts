@@ -193,7 +193,7 @@ export async function getImageFileList(imageDirs: readonly string[]): Promise<st
 }
 
 /**
- * 開発用: assets/Characters 直下の中間フォルダ (common / wip / YYYY-Qn) を、画像ルートとして列挙する
+ * 開発用: assets/characters 直下の中間フォルダ (common / wip / YYYY-Qn) を、画像ルートとして列挙する
  * フォルダ追加に追従できるよう、呼ぶたびに読み直す。フォルダがなければ空配列
  */
 export function listImageRootDirs(charactersDir: string): string[] {

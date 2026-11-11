@@ -1,7 +1,7 @@
 // src/editor/helpers/CharacterChanger/composables/useCharacterLookup.ts
 import { storeToRefs } from 'pinia'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { useCharacters } from '@/common/Characters/useCharacters'
+import { useCharacters } from '@/common/characters/useCharacters'
 
 /**
  * エディター用：編集中の omikujiStore のキャラクターを参照する CharacterResolver

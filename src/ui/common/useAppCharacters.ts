@@ -1,6 +1,6 @@
 // src/ui/common/useAppCharacters.ts
 import { useAppStore } from '@/generator/stores/useAppStore'
-import { useCharacters } from '@/common/Characters/useCharacters'
+import { useCharacters } from '@/common/characters/useCharacters'
 
 /**
  * ジェネレーターのデータ(appStore)のキャラクターを使う useCharacters

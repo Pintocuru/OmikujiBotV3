@@ -7,8 +7,8 @@ import { SERVER_ROOT } from '@server/constants'
 import { HTTP } from '@server/core/constants'
 import { listImageRootDirs } from '@server/core/services/fileSystemService'
 
-// 開発: リポジトリ直下の assets/Characters (直下の中間フォルダが、それぞれ1つの画像ルート)
-const CHARACTERS_DIR = path.join(path.dirname(SERVER_ROOT), 'assets', 'Characters')
+// 開発: リポジトリ直下の assets/characters (直下の中間フォルダが、それぞれ1つの画像ルート)
+const CHARACTERS_DIR = path.join(path.dirname(SERVER_ROOT), 'assets', 'characters')
 
 /**
  * Express(開発用)の実行環境

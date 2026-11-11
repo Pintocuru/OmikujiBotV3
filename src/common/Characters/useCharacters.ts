@@ -1,4 +1,4 @@
-// src/common/Characters/useCharacters.ts
+// src/common/characters/useCharacters.ts
 import { computed, MaybeRefOrGetter, toValue } from 'vue'
 import { CharacterAnimationType, CharacterType } from '@/types/OmikujiData'
 import { BotMessageBubbleType } from '@/types/generator'
