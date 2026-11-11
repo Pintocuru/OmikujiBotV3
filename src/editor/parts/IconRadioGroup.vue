@@ -23,7 +23,7 @@
       :key="key"
       class="tooltip"
       :class="compact ? 'flex-1 min-w-0' : ''"
-      :data-tip="t(`${i18nPrefix}.${key}.description`)"
+      :data-tip="t(`${i18nBase(key)}.description`)"
     >
       <button
         type="button"
@@ -34,13 +34,13 @@
           compact ? 'p-1 gap-1' : 'p-1 gap-1',
           modelValue === key ? 'bg-primary text-primary-content' : 'border-2 border-base-300 hover:border-primary',
         ]"
-        :aria-label="t(`${i18nPrefix}.${key}.label`)"
+        :aria-label="t(`${i18nBase(key)}.label`)"
         @click="modelValue = key"
       >
         <div class="flex items-center justify-center w-8 h-8">
           <component :is="resolveLucideIcon(icons[key])" class="w-5 h-5" />
         </div>
-        <span v-if="!compact" class="text-xs truncate max-w-20">{{ t(`${i18nPrefix}.${key}.label`) }}</span>
+        <span v-if="!compact" class="text-xs truncate max-w-20">{{ t(`${i18nBase(key)}.label`) }}</span>
       </button>
     </div>
   </div>
@@ -54,6 +54,7 @@
   const props = withDefaults(
     defineProps<{
       i18nPrefix: string /** i18n キー接頭辞。`<prefix>.<key>.label` / `.description` を参照する */
+      i18nBaseOf?: (key: K) => string /** キーごとに `<base>.label` / `.description` の base を変える(省略時は `<prefix>.<key>`) */
       icons: Record<K, LucideIconName> /** 言語非依存のアイコン定義 */
       keys: readonly K[]
       ariaLabel?: string
@@ -67,6 +68,8 @@
   const { t } = useI18n()
 
   const modelValue = defineModel<K | ''>({ required: true })
+
+  const i18nBase = (key: K): string => props.i18nBaseOf?.(key) ?? `${props.i18nPrefix}.${key}`
 
   /** compact モード: ラベル非表示・余白縮小で 1 行に収めやすくする */
   const compact = computed(() => props.keys.length + (props.allowEmpty ? 1 : 0) > props.compactThreshold)

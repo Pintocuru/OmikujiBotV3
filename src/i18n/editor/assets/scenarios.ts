@@ -64,7 +64,6 @@ export const scenarioStepMessages = {
       messageSettings: {
         icon: 'アイコン',
         message: 'メッセージ',
-        uiKey: '表示先のUI',
         slots: '表示内容の項目',
         noPost: 'このUIには投稿を表示するメッセージはありません',
       },
@@ -217,7 +216,6 @@ export const scenarioStepMessages = {
       },
       messageSettings: {
         icon: 'Icon',
-        uiKey: 'Target UI',
         slots: 'Display fields',
         noPost: 'This UI has no messages to display.',
         message: 'Message',

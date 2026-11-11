@@ -1,21 +1,5 @@
 <!-- src/editor/assets/scenarios/Message/MessageSettings.vue -->
 <template>
-  <!-- 表示先のUI UIごとに下のフォームが変わる(1つなら表示しない) -->
-  <SettingItem
-    v-if="selectableKinds.length > 1"
-    layout="vertical"
-    :icon="uiKindIcons[step.uiKey]"
-    labelKey="scenarioStep.messageSettings.uiKey"
-  >
-    <IconRadioGroup
-      v-model="uiKey"
-      i18n-prefix="mapText.uiKind"
-      :icons="uiKindIcons"
-      :keys="selectableKinds"
-      :aria-label="t('scenarioStep.messageSettings.uiKey')"
-    />
-  </SettingItem>
-
   <!-- bubble を使う UI: キャラ・アイコン・本文 -->
   <template v-if="spec.bubble">
     <!-- キャラクター選択 -->
@@ -81,11 +65,8 @@
   import MessageTextDialog from '@/editor/parts/MessageTextDialog/MessageTextDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SoundSettings from '../Sounds/SoundSettings.vue'
-  import { uiKindIcons, uiLayoutMap } from '@/maps/OmikujiData/ui'
-  import { getUiMessageSpec, postUiKinds } from '@/types/generator'
-  import type { UiKind } from '@/types/OmikujiData'
+  import { getUiMessageSpec } from '@/types/generator'
   import { getUiSlotsEditor } from '@/editor/ui/uiEditorRegistry'
-  import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
 
   const { t } = useI18n()
 
@@ -104,10 +85,6 @@
   const spec = computed(() => getUiMessageSpec(props.step.uiKey))
   const slotMetas = computed(() => Object.entries(spec.value.slots).map(([key, meta]) => ({ key, slot: meta.slot })))
 
-  // 投稿を受け取れる UI だけ選べる
-  const selectableKinds = computed<UiKind[]>(() =>
-    uiLayoutMap[data.value.ui.layout].filter((kind) => postUiKinds.includes(kind))
-  )
   const updateStep = (updates: Partial<ScenarioStepMessageType>) => {
     emit('update:step', { ...props.step, ...updates })
   }
@@ -115,11 +92,6 @@
   const bubbleText = computed<string>({
     get: () => props.step.message ?? '',
     set: (value) => updateStep({ message: value }),
-  })
-
-  const uiKey = computed<UiKind>({
-    get: () => props.step.uiKey,
-    set: (value) => updateStep({ uiKey: value }),
   })
 
   const updateSlot = (slot: string, value: string) => {
