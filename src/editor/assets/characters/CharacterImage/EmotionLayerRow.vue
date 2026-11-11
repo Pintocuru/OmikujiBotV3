@@ -77,7 +77,6 @@
     <p v-if="status === 'checking'" class="text-xs text-base-content/50">
       {{ t('characterImage.layer.status.checking') }}
     </p>
-    <p v-else-if="status === 'loaded'" class="text-xs text-success">{{ t('characterImage.layer.status.loaded') }}</p>
     <p v-else-if="status === 'error'" class="flex items-center gap-1 text-xs text-warning">
       <TriangleAlert class="w-3.5 h-3.5 shrink-0" />
       {{ t('characterImage.layer.status.error') }}
