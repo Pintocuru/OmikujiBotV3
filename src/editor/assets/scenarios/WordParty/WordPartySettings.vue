@@ -19,10 +19,9 @@
     >
       <div class="flex items-center gap-2 flex-1">
         <select v-model="repeatMode" class="select select-bordered select-sm w-32">
-          <option value="none">{{ t('scenarioStep.wordParty.none') }}</option>
-          <option value="fixed">{{ t('scenarioStep.wordParty.fixed') }}</option>
-          <option value="viewer">{{ t('scenarioStep.wordParty.viewer') }}</option>
-          <option value="upVote">{{ t('scenarioStep.wordParty.upVote') }}</option>
+          <option v-for="mode in REPEAT_MODES" :key="mode" :value="mode">
+            {{ t(`scenarioStep.wordParty.${mode}`) }}
+          </option>
         </select>
 
         <input
@@ -40,6 +39,11 @@
         </span>
       </div>
     </SettingItem>
+
+    <!-- Repeat の SettingItem の直後(isDev のみ) -->
+    <SettingItem v-if="isDev" icon="ListChecks" label="config.js ID" layout="vertical" variant="warning">
+      <WordPartyIdPicker class="flex-1" @select="wordPartyIdValue = $event" />
+    </SettingItem>
   </div>
 </template>
 
@@ -48,6 +52,8 @@
   import { computed } from 'vue'
   import { ScenarioStepWordPartyType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
+  import { isDev } from '@/common/AppEnv'
+  import WordPartyIdPicker from './WordPartyIdPicker.vue'
 
   const { t } = useI18n()
 
@@ -58,6 +64,8 @@
   const emit = defineEmits<{
     'update:step': [step: ScenarioStepWordPartyType]
   }>()
+
+  const REPEAT_MODES = ['none', 'fixed', 'viewer', 'upVote'] as const
 
   // 共通のupdateStep関数
   const updateStep = (updates: Partial<ScenarioStepWordPartyType>) => {
