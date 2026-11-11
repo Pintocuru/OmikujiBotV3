@@ -4,9 +4,8 @@ import type { RankingSortOrder } from '@/types/ui'
 /**
  * ランキング GameRanking
  */
-
 export const rankingSortOrderMap: Record<RankingSortOrder, string> = {
-  new: '新着順',
-  high: 'スコア高い順',
-  low: 'スコア低い順',
+  new: 'uiSettings.gameRanking.sortOrder.options.new',
+  high: 'uiSettings.gameRanking.sortOrder.options.high',
+  low: 'uiSettings.gameRanking.sortOrder.options.low',
 }
