@@ -8,7 +8,7 @@ import { createViteBuildConfig } from '../buildOptions/viteConfig'
 /**
  * Vite でビルドを実行 (entryPoints を entry ごとに iife でバンドルする)
  * 出力: scripts/<name>.js / scripts/<name>.css / scripts/entrypoints.js
- * ※ index.html / editor.html / script.js は assets/TemplateEntry からコピーされるため、ここでは作らない
+ * ※ index.html / editor.html / script.js は assets/entry からコピーされるため、ここでは作らない
  */
 export async function runVite(config: ViteBuildInput, outputSubDir: string): Promise<void> {
   const outDir = path.join(config.packageRoot, 'dist', outputSubDir)
