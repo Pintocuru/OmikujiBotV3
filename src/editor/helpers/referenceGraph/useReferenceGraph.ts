@@ -229,6 +229,13 @@ export function useReferenceGraph() {
   const placeholdersOfScenario = (scenarioKey: string): LinkItem[] =>
     toLinkItems(graph.value.scenarioPlaceholders.get(scenarioKey), 'placeholders')
 
+  /** シナリオが直接呼び出すシナリオ(scenarioCall の callKeys。自己呼び出しは除く。削除済みのものは missing 付き) */
+  const calledScenariosOf = (scenarioKey: string): LinkItem[] =>
+    toLinkItems(
+      [...(graph.value.scenarioCalls.get(scenarioKey) ?? [])].filter((key) => key !== scenarioKey),
+      'scenarios'
+    )
+
   /** プレースホルダーを使っているシナリオ */
   const scenariosOfPlaceholder = (placeholderKey: string): LinkItem[] =>
     toLinkItems(graph.value.placeholderScenarios.get(placeholderKey), 'scenarios')
@@ -308,6 +315,7 @@ export function useReferenceGraph() {
     scenariosOfBox,
     sourcesOfScenario,
     calledScenarios,
+    calledScenariosOf,
     placeholdersOfScenario,
     scenariosOfPlaceholder,
     childPlaceholders,

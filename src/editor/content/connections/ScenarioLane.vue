@@ -1,7 +1,7 @@
 <!-- src/editor/content/connections/ScenarioLane.vue -->
-<!-- シナリオ: 参照元(みくじ箱 / 他のシナリオ。親) → 現在のシナリオ(自分) → 使用しているプレースホルダー(子) -->
+<!-- シナリオ: 参照元(みくじ箱 / 他のシナリオ。親) → 現在のシナリオ(自分) → 呼び出し先のシナリオ / 使用しているプレースホルダー(子) -->
 <template>
-  <LaneLayout :upstreamLabel="t('connections.sources')" :downstreamLabel="t('connections.usedPlaceholders')">
+  <LaneLayout :upstreamLabel="t('connections.sources')" :downstreamLabel="t('connections.scenarioChildren')">
     <template #upstream>
       <LinkGroup v-if="sourceItems.length > 0" :items="sourceItems" />
       <!-- どこからも参照されていないとき -->
@@ -13,7 +13,11 @@
       </div>
     </template>
     <template #downstream>
-      <LinkGroup :items="placeholderItems" :emptyText="t('connections.noPlaceholders')" />
+      <LinkGroup :items="calledItems" />
+      <LinkGroup
+        :items="placeholderItems"
+        :emptyText="calledItems.length === 0 ? t('connections.noPlaceholders') : undefined"
+      />
     </template>
 
     <ScenarioConnectDialog v-model:open="connectOpen" :scenarioKey="selectedItemKey ?? ''" />
@@ -33,10 +37,11 @@
 
   const { t } = useI18n()
   const { selectedItemKey } = storeToRefs(useNavigationStore())
-  const { sourcesOfScenario, placeholdersOfScenario } = useReferenceGraph()
+  const { sourcesOfScenario, calledScenariosOf, placeholdersOfScenario } = useReferenceGraph()
 
   const connectOpen = ref(false)
 
   const sourceItems = useLaneItems(sourcesOfScenario)
+  const calledItems = useLaneItems(calledScenariosOf)
   const placeholderItems = useLaneItems(placeholdersOfScenario)
 </script>
