@@ -1,4 +1,3 @@
-<!-- src/editor/assets/scenarios/WordParty/WordPartyIdPicker.vue -->
 <template>
   <div class="space-y-2 rounded-lg border border-dashed border-warning/60 p-2">
     <div class="flex items-center gap-2">
@@ -6,42 +5,65 @@
         config.js を開く
         <input type="file" accept=".js" class="hidden" @change="onPick" />
       </label>
-      <span v-if="folderName" class="truncate text-xs text-gray-500">{{ folderName }}</span>
+      <span v-if="folderName" class="truncate text-xs text-gray-500">
+        {{ folderName }}
+      </span>
     </div>
 
     <p v-if="error" class="text-xs text-error">{{ error }}</p>
 
-    <ul v-if="items.length" class="max-h-64 divide-y divide-base-300 overflow-y-auto text-sm">
-      <li v-for="item in items" :key="item.id" class="flex items-center gap-2 py-1">
-        <div class="min-w-0 flex-1">
-          <div class="truncate">{{ item.name ?? '(no name)' }}</div>
-          <code class="text-xs text-gray-500">{{ item.id }}</code>
-        </div>
-        <button type="button" class="btn btn-ghost btn-xs" @click="copy(item.id)">
-          {{ copiedId === item.id ? 'コピー済' : 'コピー' }}
-        </button>
-        <button type="button" class="btn btn-primary btn-xs" @click="emit('select', item.id)">セット</button>
-      </li>
-    </ul>
+    <template v-if="items.length">
+      <input v-model="search" type="search" class="input input-sm w-full" placeholder="名前・IDで検索" />
+
+      <div class="text-xs text-gray-500">{{ filteredItems.length }} / {{ items.length }} 件</div>
+
+      <ul v-if="filteredItems.length" class="max-h-64 divide-y divide-base-300 overflow-y-auto text-sm">
+        <li v-for="item in filteredItems" :key="item.id" class="flex items-center gap-2 py-1">
+          <div class="min-w-0 flex-1">
+            <div class="truncate">{{ item.name ?? '(no name)' }}</div>
+            <code class="text-xs text-gray-500">{{ item.id }}</code>
+          </div>
+
+          <button type="button" class="btn btn-ghost btn-xs" @click="copy(item.id)">
+            {{ copiedId === item.id ? 'コピー済' : 'コピー' }}
+          </button>
+
+          <button type="button" class="btn btn-primary btn-xs" @click="emit('select', item.id)">セット</button>
+        </li>
+      </ul>
+
+      <p v-else class="py-3 text-center text-xs text-gray-500">該当する項目がありません</p>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
 
   type SetupItem = { id: string; name?: string }
 
-  const emit = defineEmits<{ select: [id: string] }>()
+  const emit = defineEmits<{
+    select: [id: string]
+  }>()
 
   const items = ref<SetupItem[]>([])
   const folderName = ref('')
   const error = ref('')
   const copiedId = ref('')
+  const search = ref('')
 
-  // config.js を実行し、window.WordParty.init(...).setup([...]) の引数だけ取り出す
+  const filteredItems = computed(() => {
+    const query = search.value.trim().toLowerCase()
+    if (!query) return items.value
+
+    return items.value.filter((item) => [item.name, item.id].some((value) => value?.toLowerCase().includes(query)))
+  })
+
+  // config.js を実行し、setup([...]) の引数だけ取り出す
   // (開発者本人のローカルファイル前提。dev 専用)
   const parseSetup = (code: string): SetupItem[] => {
     let captured: SetupItem[] = []
+
     const chain = {
       setup: (list: SetupItem[]) => {
         captured = list
@@ -49,7 +71,11 @@
       },
       start: () => chain,
     }
-    new Function('window', code)({ WordParty: { init: () => chain } })
+
+    new Function('window', code)({
+      WordParty: { init: () => chain },
+    })
+
     return captured
   }
 
@@ -59,6 +85,7 @@
 
     error.value = ''
     items.value = []
+    search.value = ''
 
     if (!file) return
 
