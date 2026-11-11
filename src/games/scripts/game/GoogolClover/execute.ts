@@ -5,6 +5,8 @@ import { ScriptClass, ScriptResult } from '@/games/types'
 import { GameParams, GameParamsSchema } from './params'
 import { prepareUserInfo } from '@/games/shared/rankingMessage'
 import { parseQueryString } from '@/games/shared/parseQueryString'
+import { buildVariableStep } from '@/games/shared/variableStep'
+import { OUTPUT_SCORE } from './meta'
 import { executeGame } from './sub/game'
 import { buildSteps } from './sub/stepBuilder'
 import { UserState } from './sub/types'
@@ -30,7 +32,10 @@ export class ExecuteScript implements ScriptClass {
     })
 
     return {
-      steps: steps,
+      steps: [
+        buildVariableStep([{ variable: OUTPUT_SCORE, value: gameResult.rankingMessage.slots.score }], omiken?.userId),
+        ...steps,
+      ],
       rankingMessages: [gameResult.rankingMessage],
     }
   }

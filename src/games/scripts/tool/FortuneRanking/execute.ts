@@ -3,7 +3,7 @@ import { ScenarioStepMessageSchema, ScenarioStepVariableSchema } from '@/types/O
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { ScriptClass, ScriptResult } from '@/games/types'
 
-import { DEFAULT_FRUITS, DEFAULT_KEY_MAP } from './params'
+import { resolveFortuneConfig } from './params'
 import { parseQueryString } from '@/games/shared/parseQueryString'
 
 export class ExecuteScript implements ScriptClass {
@@ -25,6 +25,7 @@ export class ExecuteScript implements ScriptClass {
       .join('; ')
 
     const variableAction = ScenarioStepVariableSchema.parse({
+      kind: 'variable',
       delaySeconds: 0,
       message: assignments,
     })
@@ -56,31 +57,7 @@ export class ExecuteScript implements ScriptClass {
    * パラメータをパース
    */
   private parseParams(queryString: string) {
-    const paramsObject = parseQueryString(queryString)
-
-    const projectName = paramsObject.projectName ?? 'fortune'
-    const fruitsRaw = paramsObject.fruits ?? ''
-
-    // クエリ未指定ならデフォルト10種
-    if (!fruitsRaw) {
-      return {
-        projectName,
-        fruitPairs: DEFAULT_FRUITS.map((label) => ({
-          label,
-          key: DEFAULT_KEY_MAP[label],
-        })),
-      }
-    }
-
-    const fruitPairs = fruitsRaw.split(',').map((v) => {
-      const [label, key] = v.split(':')
-      return { label, key }
-    })
-
-    return {
-      projectName,
-      fruitPairs,
-    }
+    return resolveFortuneConfig(parseQueryString(queryString))
   }
 }
 

@@ -105,6 +105,11 @@ export const scenarioStepMessages = {
         paramLabel: 'パラメータ',
         paramDesc: 'ゲームに渡す文字列',
         paramPlaceholder: 'パラメータを入力',
+        paramRawLabel: '詳細(手入力)',
+        paramRawDesc: '[[変数名]] や <<userId>> を使うときは、ここに直接書きます',
+        outputsLabel: '使える変数',
+        outputsDesc: 'ゲームが書き込みます。後ろのステップのメッセージに、そのまま書けます',
+        optionNone: '指定なし',
       },
       stepItem: {
         typeLabel: 'ステップタイプ',
@@ -254,6 +259,11 @@ export const scenarioStepMessages = {
         paramLabel: 'Parameter',
         paramDesc: 'String passed to the game',
         paramPlaceholder: 'Enter a parameter',
+        paramRawLabel: 'Advanced (raw)',
+        paramRawDesc: 'Write [[variable]] or <<userId>> here directly',
+        outputsLabel: 'Available variables',
+        outputsDesc: 'Written by the game. Use them in messages of later steps',
+        optionNone: 'Not specified',
       },
       stepItem: {
         typeLabel: 'Step type',

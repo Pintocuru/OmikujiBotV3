@@ -7,6 +7,8 @@ import { GameParams, GameParamsSchema } from './params'
 import { buildBotMessageRanking, prepareUserInfo } from '@/games/shared/rankingMessage'
 import { parseQueryString } from '@/games/shared/parseQueryString'
 import { generatePartyEffects, playGame } from './game/game'
+import { buildVariableStep } from '@/games/shared/variableStep'
+import { OUTPUT_DAY, OUTPUT_PAYOUT } from './meta'
 
 export class ExecuteScript implements ScriptClass {
   run(queryString: string, characterKey: string, omiken?: OmikenCommentType): ScriptResult {
@@ -27,8 +29,17 @@ export class ExecuteScript implements ScriptClass {
         ]
       : []
 
+    // 結果を変数に書き込む(後続ステップで [[dwarfbomb_payout_<<userId>>]] のように表示できる)
+    const variableStep = buildVariableStep(
+      [
+        { variable: OUTPUT_PAYOUT, value: result.payout },
+        { variable: OUTPUT_DAY, value: result.day },
+      ],
+      omiken?.userId
+    )
+
     return {
-      steps: this.buildSteps(partyEffects, characterKey, result.message),
+      steps: [variableStep, ...this.buildSteps(partyEffects, characterKey, result.message)],
       rankingMessages,
     }
   }

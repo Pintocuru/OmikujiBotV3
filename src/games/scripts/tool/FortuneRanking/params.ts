@@ -34,3 +34,26 @@ export const GameParamsSchema = z.object({
   fruits: z.string().min(1),
 })
 export type GameParams = z.infer<typeof GameParamsSchema>
+
+export const DEFAULT_PROJECT_NAME = 'fortune'
+
+/**
+ * projectName / fruits(ラベル:キー,ラベル:キー,...) を解釈する。fruits が空なら既定の10種
+ */
+export function resolveFortuneConfig(params: Record<string, string | undefined>) {
+  const projectName = params.projectName ?? DEFAULT_PROJECT_NAME
+  const fruitsRaw = params.fruits ?? ''
+
+  if (!fruitsRaw) {
+    return {
+      projectName,
+      fruitPairs: DEFAULT_FRUITS.map((label) => ({ label, key: DEFAULT_KEY_MAP[label] })),
+    }
+  }
+
+  const fruitPairs = fruitsRaw.split(',').map((v) => {
+    const [label, key] = v.split(':')
+    return { label, key }
+  })
+  return { projectName, fruitPairs }
+}

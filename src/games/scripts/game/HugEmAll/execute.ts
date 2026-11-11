@@ -7,6 +7,8 @@ import { GameParams, GameParamsSchema } from './params'
 import { GameEngine } from './game'
 import { buildBotMessageRanking, prepareUserInfo } from '@/games/shared/rankingMessage'
 import { parseQueryString } from '@/games/shared/parseQueryString'
+import { buildVariableStep } from '@/games/shared/variableStep'
+import { OUTPUT_PAYOUT } from './meta'
 
 export class ExecuteScript implements ScriptClass {
   run(queryString: string, characterKey: string, omiken?: OmikenCommentType): ScriptResult {
@@ -28,7 +30,10 @@ export class ExecuteScript implements ScriptClass {
       : []
 
     return {
-      steps: this.buildSteps(characterKey, gameResult.message),
+      steps: [
+        buildVariableStep([{ variable: OUTPUT_PAYOUT, value: gameResult.result.payout }], omiken?.userId),
+        ...this.buildSteps(characterKey, gameResult.message),
+      ],
       rankingMessages,
     }
   }

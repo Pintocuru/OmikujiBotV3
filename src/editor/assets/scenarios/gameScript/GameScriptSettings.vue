@@ -22,8 +22,15 @@
     />
   </SettingItem>
 
-  <!-- パラメータ -->
+  <!-- パラメータ: 宣言のあるゲームは項目ごとの入力欄、ないゲームは従来の手入力欄 -->
+  <GameScriptParamFields
+    v-if="meta && scriptKey"
+    v-model:query-string="queryString"
+    :game-key="scriptKey"
+    :meta="meta"
+  />
   <SettingItem
+    v-else
     icon="Code2"
     labelKey="scenarioStep.gameScript.paramLabel"
     descriptionKey="scenarioStep.gameScript.paramDesc"
@@ -46,6 +53,8 @@
   import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
   import { gameIcons } from '@/maps/games'
   import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
+  import GameScriptParamFields from './GameScriptParamFields.vue'
+  import { getGameScriptMeta } from '@/games/gameScriptMeta'
 
   const { t } = useI18n()
 
@@ -67,6 +76,9 @@
     get: () => (isGameScriptKey(props.step.scriptKey) ? props.step.scriptKey : ''),
     set: (value) => updateStep({ scriptKey: value }),
   })
+
+  // 選択中のゲームの入出力宣言 (宣言のないゲームは undefined)
+  const meta = computed(() => (scriptKey.value ? getGameScriptMeta(scriptKey.value) : undefined))
 
   function createStepComputed<K extends keyof ScenarioStepGameScriptType>(key: K) {
     return computed({

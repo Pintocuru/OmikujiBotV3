@@ -6,6 +6,8 @@ import { ScriptClass, ScriptResult } from '@/games/types'
 import { GameParams, GameParamsSchema } from './params'
 import { buildBotMessageRanking, prepareUserInfo } from '@/games/shared/rankingMessage'
 import { parseQueryString } from '@/games/shared/parseQueryString'
+import { buildVariableStep } from '@/games/shared/variableStep'
+import { OUTPUT_POINTS } from './meta'
 import { GachaGame } from './game'
 
 export class ExecuteScript implements ScriptClass {
@@ -28,7 +30,10 @@ export class ExecuteScript implements ScriptClass {
       : []
 
     return {
-      steps: this.buildSteps(gameResult.postArray, characterKey, bubbleText),
+      steps: [
+        buildVariableStep([{ variable: OUTPUT_POINTS, value: gameResult.points }], omiken?.userId),
+        ...this.buildSteps(gameResult.postArray, characterKey, bubbleText),
+      ],
       rankingMessages,
     }
   }
