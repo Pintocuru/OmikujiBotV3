@@ -25,6 +25,11 @@ export const uiSettingsComponents = {
         sortOrder: {
           label: '順位のソート',
           description: '得点の高い順・低い順・新しい順から選択',
+          options: {
+            new: '新着順',
+            high: 'スコア高い順',
+            low: 'スコア低い順',
+          },
         },
         limit: {
           label: '表示件数',
@@ -120,6 +125,11 @@ export const uiSettingsComponents = {
         sortOrder: {
           label: 'Ranking sort',
           description: 'Choose from highest score, lowest score, or newest first',
+          options: {
+            new: 'Newest first',
+            high: 'Highest score first',
+            low: 'Lowest score first',
+          },
         },
         limit: {
           label: 'Number of entries',
