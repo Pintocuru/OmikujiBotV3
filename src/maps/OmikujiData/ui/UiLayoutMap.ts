@@ -11,7 +11,7 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, UiKind[]> = {
    */
 
   // フキダシ
-  commentBubble: ['commentBubble'],
+  commentBubble: ['commentBubble', 'characterStage'],
 
   // ゲームランキング
   gameRanking: ['gameRanking'],
