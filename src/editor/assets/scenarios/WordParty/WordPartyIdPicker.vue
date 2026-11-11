@@ -23,11 +23,9 @@
             <div class="truncate">{{ item.name ?? '(no name)' }}</div>
             <code class="text-xs text-gray-500">{{ item.id }}</code>
           </div>
-
           <button type="button" class="btn btn-ghost btn-xs" @click="copy(item.id)">
             {{ copiedId === item.id ? 'コピー済' : 'コピー' }}
           </button>
-
           <button type="button" class="btn btn-primary btn-xs" @click="emit('select', item.id)">セット</button>
         </li>
       </ul>
@@ -38,13 +36,13 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+  import { computed, onMounted, ref } from 'vue'
 
   type SetupItem = { id: string; name?: string }
 
-  const emit = defineEmits<{
-    select: [id: string]
-  }>()
+  const STORAGE_KEY = 'omikujibot:word-party-setup-items'
+
+  const emit = defineEmits<{ select: [id: string] }>()
 
   const items = ref<SetupItem[]>([])
   const folderName = ref('')
@@ -57,6 +55,38 @@
     if (!query) return items.value
 
     return items.value.filter((item) => [item.name, item.id].some((value) => value?.toLowerCase().includes(query)))
+  })
+
+  // ページ移動後も同じタブ内で再利用できるよう、解析結果を復元する
+  onMounted(() => {
+    try {
+      const saved = sessionStorage.getItem(STORAGE_KEY)
+      if (!saved) return
+
+      const data: unknown = JSON.parse(saved)
+      if (
+        typeof data !== 'object' ||
+        data === null ||
+        !('items' in data) ||
+        !Array.isArray(data.items) ||
+        !data.items.every(
+          (item): item is SetupItem =>
+            typeof item === 'object' &&
+            item !== null &&
+            'id' in item &&
+            typeof item.id === 'string' &&
+            (!('name' in item) || typeof item.name === 'string')
+        )
+      ) {
+        sessionStorage.removeItem(STORAGE_KEY)
+        return
+      }
+
+      items.value = data.items
+      folderName.value = 'folderName' in data && typeof data.folderName === 'string' ? data.folderName : ''
+    } catch {
+      // sessionStorage が利用できない場合は、通常どおりファイル選択で読み込む
+    }
   })
 
   // config.js を実行し、setup([...]) の引数だけ取り出す
@@ -98,8 +128,18 @@
     folderName.value = file.name
 
     try {
-      items.value = parseSetup(await file.text()).filter((i) => i?.id)
-      if (!items.value.length) error.value = 'setup が空でした'
+      const parsedItems = parseSetup(await file.text()).filter((i) => i?.id)
+      items.value = parsedItems
+
+      if (!items.value.length) {
+        error.value = 'setup が空でした'
+      } else {
+        try {
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ items: items.value, folderName: folderName.value }))
+        } catch {
+          // 保存できなくても、現在のページでは読み込んだデータを利用できる
+        }
+      }
     } catch (err) {
       error.value = `config.js の読み込みに失敗: ${(err as Error).message}`
     }
