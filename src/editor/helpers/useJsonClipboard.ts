@@ -50,8 +50,8 @@ export function useJsonClipboard<T>(options: UseJsonClipboardOptions<T>) {
   }
 
   // 失敗したときは、通知を出して null を返す(理由は lastError にも入る)
-  const fail = (message: string): null => {
-    lastError.value = message
+  const fail = (message: string, reason?: string): null => {
+    lastError.value = reason ?? message
     swalToast.error({ title: message })
     return null
   }
@@ -63,8 +63,9 @@ export function useJsonClipboard<T>(options: UseJsonClipboardOptions<T>) {
       let text: string
       try {
         text = await navigator.clipboard.readText()
-      } catch {
-        return fail(messages()?.pasteReadError ?? t('clipboard.pasteReadError'))
+      } catch (e) {
+        const reason = e instanceof Error ? e.message : String(e)
+        return fail(messages()?.pasteReadError ?? t('clipboard.pasteReadError'), reason)
       }
 
       let raw: unknown
