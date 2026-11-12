@@ -49,7 +49,8 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'\n  import { useI18n } from 'vue-i18n'
+  import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import type { FileItem } from '@/manager/types'
   import { isDev } from '@/common/AppEnv'
   import FileMenuDropdown from './FileMenuDropdown.vue'
@@ -65,7 +66,8 @@
 
   const emit = defineEmits<{ opened: [] }>()
 
-  const { t } = useI18n()\n  const managerStore = useManagerStore()
+  const { t } = useI18n()
+  const managerStore = useManagerStore()
 
   // 読み込めたら親(ダイアログ)に知らせる。同じファイルを読み直しても閉じられるよう、戻り値で判定する
   const onApply = async () => {
