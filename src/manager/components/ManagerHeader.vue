@@ -53,7 +53,8 @@
 </template>
 
 <script setup lang="ts">
-  import { useI18n } from 'vue-i18n'\n  import { isDev } from '@/common/AppEnv'
+  import { useI18n } from 'vue-i18n'
+  import { isDev } from '@/common/AppEnv'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { ChevronsDown, ChevronsUp } from 'lucide-vue-next'
@@ -61,7 +62,8 @@
   // 並び替え・フォルダ開閉はプリセット一覧用なので、パッケージ一覧では隠す
   withDefaults(defineProps<{ showFileTools?: boolean }>(), { showFileTools: true })
 
-  const { t } = useI18n()\n  const managerStore = useManagerStore()
+  const { t } = useI18n()
+  const managerStore = useManagerStore()
 
   const expandAllFolders = () => {
     managerStore.openFolders = new Set(managerStore.folderNames)
