@@ -18,7 +18,13 @@ export const managerMessages = {
         name: '名前（A→Z）',
         history: '履歴（新しい順）',
       },
-      folders: { expandAll: '全フォルダを開く', collapseAll: '全フォルダを閉じる', root: 'ルート', create: '新規フォルダ', name: 'フォルダ名' },
+      folders: {
+        expandAll: '全フォルダを開く',
+        collapseAll: '全フォルダを閉じる',
+        root: 'ルート',
+        create: '新規フォルダ',
+        name: 'フォルダ名',
+      },
       files: {
         noMatch: '該当するファイルがありません',
         empty: '保存済みファイルはありません',
@@ -110,8 +116,19 @@ export const managerMessages = {
       tabPackages: 'Packages (for generator)',
       title: 'Package Manager',
       searchPlaceholder: 'Search by name or description',
-      sort: { label: 'Sort by', modified: 'Modified (newest first)', name: 'Name (A–Z)', history: 'History (newest first)' },
-      folders: { expandAll: 'Expand all folders', collapseAll: 'Collapse all folders', root: 'Root', create: 'New folder', name: 'Folder name' },
+      sort: {
+        label: 'Sort by',
+        modified: 'Modified (newest first)',
+        name: 'Name (A–Z)',
+        history: 'History (newest first)',
+      },
+      folders: {
+        expandAll: 'Expand all folders',
+        collapseAll: 'Collapse all folders',
+        root: 'Root',
+        create: 'New folder',
+        name: 'Folder name',
+      },
       files: {
         noMatch: 'No matching files',
         empty: 'No saved files',
@@ -136,7 +153,8 @@ export const managerMessages = {
         deleteTip: 'Delete this package',
         deleteConfirm: 'Delete this package?',
         deleteBody: 'Delete "{name}"? This action cannot be undone.',
-        deleteCurrentWarning: 'This is the current ID data. The generator will no longer be able to load this configuration if it is deleted.',
+        deleteCurrentWarning:
+          'This is the current ID data. The generator will no longer be able to load this configuration if it is deleted.',
         deleted: 'Package "{name}" deleted',
         deleteFailed: 'Failed to delete package',
         listFailed: 'Failed to retrieve package list',
@@ -161,7 +179,8 @@ export const managerMessages = {
         packageLoaded: 'Generator configuration loaded',
         openFailed: 'Failed to load',
         unsupportedData: 'Cannot load',
-        unsupportedDataText: 'This data uses format v{fileVersion}, which is not supported by this app (v{appVersion}).',
+        unsupportedDataText:
+          'This data uses format v{fileVersion}, which is not supported by this app (v{appVersion}).',
         connectionError: 'Connection error',
         error: 'Error',
         cannotUseCharacters: 'The name contains invalid characters',

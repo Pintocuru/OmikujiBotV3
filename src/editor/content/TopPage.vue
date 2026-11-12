@@ -6,7 +6,12 @@
       <TopUiSection />
       <TopCharacterSection @edit="openEdit" />
       <!-- events: 0件のカテゴリは表示しない -->
-      <TopEventSection v-for="category in visibleEventCategories" :key="category" :category="category" @edit="openEdit" />
+      <TopEventSection
+        v-for="category in visibleEventCategories"
+        :key="category"
+        :category="category"
+        @edit="openEdit"
+      />
     </div>
 
     <!-- 基本設定の編集ダイアログ(対象アイテムを一時選択して開く) -->

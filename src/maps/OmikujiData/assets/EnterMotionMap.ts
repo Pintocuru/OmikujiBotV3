@@ -4,10 +4,7 @@ import type { EnterMotionType } from '@/types/OmikujiData'
 /**
  * モーションの動作設定マップ
  */
-export const enterMotionMap: Record<
-  EnterMotionType,
-  { initial: string; enter: string; leave: string }
-> = {
+export const enterMotionMap: Record<EnterMotionType, { initial: string; enter: string; leave: string }> = {
   none: {
     initial: '',
     enter: '',

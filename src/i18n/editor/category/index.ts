@@ -1,4 +1,4 @@
-// 翻訳モジュール: カテゴリー・ナビゲーション
+// src/i18n/editor/category/index.ts
 export * from './CategorySectionMessagesMap'
 export * from './NavigationSidebarCategoriesMessages'
 export * from './NavigationSidebarMessagesMap'

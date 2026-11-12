@@ -8,4 +8,4 @@
 - A mini-game themed on the yellow squares in "Momotaro Dentetsu".
 - Enjoy collecting cards all over the country (including overseas and outer space).
 - You get a title + a station name + 1 to 3 cards (including historical heroes).
-	- There are about 64.08 trillion possible combinations!
+  - There are about 64.08 trillion possible combinations!

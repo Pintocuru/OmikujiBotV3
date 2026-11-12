@@ -1,2 +1,2 @@
-// 翻訳モジュール: プレビュー
+// src/i18n/editor/preview/index.ts
 export * from './EditorPreviewMessages'

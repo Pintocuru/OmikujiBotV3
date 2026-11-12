@@ -186,7 +186,10 @@ export function useReferenceGraph() {
   const { graph, cyclicScenarioKeys, cyclicPlaceholderKeys, isSearching } = getSharedGraph()
   const { data } = storeToRefs(useOmikujiStore())
 
-  const toLinkItems = (keys: Iterable<string> | undefined, category: 'scenarios' | 'placeholders' | 'mikuji'): LinkItem[] =>
+  const toLinkItems = (
+    keys: Iterable<string> | undefined,
+    category: 'scenarios' | 'placeholders' | 'mikuji'
+  ): LinkItem[] =>
     Array.from(keys ?? [], (key) => ({
       category,
       key,

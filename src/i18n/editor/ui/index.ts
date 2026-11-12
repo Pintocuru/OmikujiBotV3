@@ -1,4 +1,4 @@
-// 翻訳モジュール: UI 設定・コンポーネント
+// src/i18n/editor/ui/index.ts
 export * from './EditorUiMessages'
 export * from './UiComponentMessages'
 export * from './UiSettingsCoreMessages'

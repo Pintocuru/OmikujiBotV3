@@ -1,4 +1,5 @@
 ## Q. I want to limit how many times it can be used, such as once per day
+
 ![](../../../../images/21_LimitEdit-1792763951571.webp)
 
 1. In OmikujiBot Editor, open Comment Events > Omikuji Settings.

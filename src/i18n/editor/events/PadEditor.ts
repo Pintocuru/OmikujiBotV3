@@ -2,8 +2,7 @@
 export const padEditorMessages = {
   ja: {
     padEditor: {
-      notice:
-        'ポン出しボタンを押すと発動するイベントです。おみくじBOTプラグインが必要です。',
+      notice: 'ポン出しボタンを押すと発動するイベントです。おみくじBOTプラグインが必要です。',
     },
     padTrigger: {
       padLabel: 'ボタン',

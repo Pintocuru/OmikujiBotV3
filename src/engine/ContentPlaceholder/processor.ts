@@ -126,7 +126,9 @@ export class ContentPlaceholder {
     }
 
     if (safetyCounter >= ContentPlaceholder.MAX_REPLACEMENTS && result.indexOf('<<', searchFrom) !== -1) {
-      console.warn(`プレースホルダーの置換が上限(${ContentPlaceholder.MAX_REPLACEMENTS}回)に達したため、未解決の構文が残っています`)
+      console.warn(
+        `プレースホルダーの置換が上限(${ContentPlaceholder.MAX_REPLACEMENTS}回)に達したため、未解決の構文が残っています`
+      )
     }
 
     return result

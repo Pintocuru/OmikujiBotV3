@@ -1,6 +1,5 @@
 ## Q. How do I exclude the streamer from omikuji?
 
-
 You can do this by creating an "admin settings" entry in Comment Events.
 
 1. In OmikujiBot Editor, open Comment Events and click the + Add button to create a new event.

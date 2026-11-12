@@ -18,6 +18,6 @@
   const alignmentClass = computed(() => ({
     'justify-start': props.position === 'left',
     'justify-center': props.position === 'center',
-    'justify-end': props.position === 'right'
+    'justify-end': props.position === 'right',
   }))
 </script>

@@ -16,11 +16,7 @@ function validateKeyFormat(key: string): string | null {
 /**
  * Key重複チェック（existingKeys は同カテゴリの全 Key。自分自身は currentKey で除外）
  */
-function validateKeyDuplication(
-  key: string,
-  existingKeys: readonly string[],
-  currentKey: string
-): string | null {
+function validateKeyDuplication(key: string, existingKeys: readonly string[], currentKey: string): string | null {
   if (key === currentKey) return null
   return existingKeys.includes(key) ? t('keyEditor.validation.duplicate') : null
 }

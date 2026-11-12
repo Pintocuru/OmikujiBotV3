@@ -63,9 +63,7 @@
         <h3 class="text-sm md:text-base">
           {{
             t('jsonMerge.settings.editTitle', {
-              name:
-                merge[selectedIndex]?.name ||
-                t('jsonMerge.settings.fallbackName', { index: selectedIndex + 1 }),
+              name: merge[selectedIndex]?.name || t('jsonMerge.settings.fallbackName', { index: selectedIndex + 1 }),
             })
           }}
         </h3>
@@ -75,11 +73,7 @@
 
       <div class="space-y-4">
         <!-- イベント名 -->
-        <SettingItem
-          icon="Pencil"
-          :label="t('jsonMerge.name.label')"
-          :description="t('jsonMerge.name.description')"
-        >
+        <SettingItem icon="Pencil" :label="t('jsonMerge.name.label')" :description="t('jsonMerge.name.description')">
           <input type="text" v-model="merge[selectedIndex].name" @input="update" class="input w-full" />
         </SettingItem>
 

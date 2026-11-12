@@ -2,7 +2,10 @@
 <template>
   <div class="flex items-center justify-between bg-base-300 rounded p-2 text-sm">
     <div class="flex-1 min-w-0">
-      <div class="flex items-center tooltip tooltip-top" :data-tip="file.meta ? `${file.meta.name} ${file.meta.version}` : undefined">
+      <div
+        class="flex items-center tooltip tooltip-top"
+        :data-tip="file.meta ? `${file.meta.name} ${file.meta.version}` : undefined"
+      >
         <!-- ファイル名 -->
         <span class="font-medium">{{ file.displayName }}</span>
         <span v-if="file.meta" class="ml-2 text-xs opacity-60 truncate">{{ file.meta.version }}</span>
@@ -16,8 +19,12 @@
           >Ver2</span
         >
         <!-- TODO:製品版の際には名称を修正すること -->
-        <span v-else-if="status === 'legacy'" class="badge badge-error text-error-content badge-xs">{{ t('manager.files.legacy') }}</span>
-        <span v-else-if="status === 'unsupported'" class="badge badge-error badge-xs">{{ t('manager.files.unsupported') }}</span>
+        <span v-else-if="status === 'legacy'" class="badge badge-error text-error-content badge-xs">{{
+          t('manager.files.legacy')
+        }}</span>
+        <span v-else-if="status === 'unsupported'" class="badge badge-error badge-xs">{{
+          t('manager.files.unsupported')
+        }}</span>
       </div>
     </div>
 

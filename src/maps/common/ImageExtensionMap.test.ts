@@ -1,3 +1,4 @@
+// src/maps/common/ImageExtensionMap.test.ts
 import { describe, expect, it } from 'vitest'
 import { getPathExtension, imageExtensions, isImageExtension, isVideoPath } from './ImageExtensionMap'
 

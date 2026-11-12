@@ -2,7 +2,11 @@
 <!-- 読み込み時に除外・既定値に戻した要素があるときのバッジ。クリックで内容を表示する -->
 <template>
   <template v-if="loadIssues.length > 0">
-    <button class="badge badge-warning text-warning-content gap-1 cursor-pointer" :title="summary" @click="isOpen = true">
+    <button
+      class="badge badge-warning text-warning-content gap-1 cursor-pointer"
+      :title="summary"
+      @click="isOpen = true"
+    >
       <TriangleAlert class="w-3 h-3" />
       {{ loadIssues.length }}
     </button>

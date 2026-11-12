@@ -5,7 +5,8 @@ import { markParseIssues, recordParseIssue, rollbackParseIssues, withParsePath }
 const reasonOf = (error: z.ZodError): string =>
   error.issues.map((i) => (i.path.length ? `${i.path.join('.')}: ` : '') + i.message).join(' / ')
 
-const isPlainObject = (v: unknown): v is Record<string, unknown> => v !== null && typeof v === 'object' && !Array.isArray(v)
+const isPlainObject = (v: unknown): v is Record<string, unknown> =>
+  v !== null && typeof v === 'object' && !Array.isArray(v)
 
 /**
  * Array: 要素単位で検証し、不正な要素だけ除外する (除外は issues に記録)
@@ -102,7 +103,8 @@ export function normalizedObject<T extends z.ZodType>(schema: T, category = 'obj
         if (failed.length > 0) {
           const retry = schema.safeParse(candidate)
           if (retry.success) {
-            for (const f of failed) recordParseIssue({ category, key: f.key, action: 'defaulted', reason: f.reason, raw: f.raw })
+            for (const f of failed)
+              recordParseIssue({ category, key: f.key, action: 'defaulted', reason: f.reason, raw: f.raw })
             return retry.data
           }
           rollbackParseIssues(mark)

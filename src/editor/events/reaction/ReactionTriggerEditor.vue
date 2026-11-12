@@ -1,7 +1,11 @@
 <!-- src/editor/events/reaction/ReactionTriggerEditor.vue -->
 <template>
   <!-- リアクション選択 -->
-  <SettingItem icon="ThumbsUp" labelKey="reactionTrigger.targetLabel" descriptionKey="reactionTrigger.targetDescription">
+  <SettingItem
+    icon="ThumbsUp"
+    labelKey="reactionTrigger.targetLabel"
+    descriptionKey="reactionTrigger.targetDescription"
+  >
     <div class="flex flex-wrap gap-2">
       <label v-for="(label, key) in reactionMap.youtube" :key="key" class="cursor-pointer">
         <input type="checkbox" class="hidden" :checked="reactions.includes(key)" @change="toggleReaction(key)" />
@@ -13,7 +17,11 @@
   </SettingItem>
 
   <!-- 条件 -->
-  <SettingItem icon="Activity" labelKey="reactionTrigger.conditionLabel" descriptionKey="reactionTrigger.conditionDescription">
+  <SettingItem
+    icon="Activity"
+    labelKey="reactionTrigger.conditionLabel"
+    descriptionKey="reactionTrigger.conditionDescription"
+  >
     <select class="select select-bordered select-sm w-full" v-model="comparison">
       <option v-for="(_, key) in reactionConditionMap" :key="key" :value="key">
         {{ t(`mapText.reactionCondition.${key}.label`) }}

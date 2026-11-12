@@ -21,7 +21,10 @@ export function useLoadActions(state: DataManagerType, handleAsyncAction: AsyncA
     if (file?.meta && getDataVersionStatus(file.meta.dataVersion) === 'unsupported') {
       swalToast.error({
         title: t('manager.messages.unsupportedData'),
-        text: t('manager.messages.unsupportedDataText', { fileVersion: file.meta.dataVersion, appVersion: DATA_VERSION }),
+        text: t('manager.messages.unsupportedDataText', {
+          fileVersion: file.meta.dataVersion,
+          appVersion: DATA_VERSION,
+        }),
       })
       return null
     }

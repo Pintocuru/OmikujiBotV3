@@ -1,7 +1,11 @@
 <!-- src/editor/events/service/ServiceTrigger.vue -->
 <template>
   <!-- 条件タイプ選択（単一選択） -->
-  <SettingItem icon="Filter" labelKey="serviceTrigger.conditionLabel" descriptionKey="serviceTrigger.conditionDescription">
+  <SettingItem
+    icon="Filter"
+    labelKey="serviceTrigger.conditionLabel"
+    descriptionKey="serviceTrigger.conditionDescription"
+  >
     <div class="flex flex-wrap gap-2">
       <label v-for="(_, key) in serviceTriggerConditionMap" :key="key" class="cursor-pointer">
         <input type="radio" class="hidden" :checked="selectedCondition === key" @change="setCondition(key)" />
@@ -35,7 +39,8 @@
   <!-- 登録者数の場合の説明 -->
   <InformationCard v-if="selectedCondition === 'follower'">
     <p class="leading-relaxed">
-      <code class="label bg-accent text-accent-content">{{ t('serviceTrigger.follower.title') }}</code><br />
+      <code class="label bg-accent text-accent-content">{{ t('serviceTrigger.follower.title') }}</code
+      ><br />
       {{ t('serviceTrigger.follower.line1') }}<br />
       {{ t('serviceTrigger.follower.line2') }}<br />
       {{ t('serviceTrigger.follower.line3') }}
@@ -46,7 +51,12 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { ServiceConditionType, ServiceTriggerConditionType, ServiceTriggerSchema, ServiceTriggerType } from '@/types/OmikujiData'
+  import {
+    ServiceConditionType,
+    ServiceTriggerConditionType,
+    ServiceTriggerSchema,
+    ServiceTriggerType,
+  } from '@/types/OmikujiData'
   import { serviceTriggerConditionMap } from '@/maps/OmikujiData'
   import TriggerMetaCondition from './ServiceTriggerCondition.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

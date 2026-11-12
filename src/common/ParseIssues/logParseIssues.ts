@@ -7,7 +7,10 @@ export function logParseIssues(source: string, issues: readonly ParseIssue[]): v
   console.groupCollapsed(`⚠️ [${source}] ${formatParseIssuesSummary(issues)}`)
   for (const issue of issues) {
     const where = [...issue.path, issue.key].filter((k) => k !== '').join(' > ')
-    console.warn(`${issue.category} [${where}] ${issue.action === 'dropped' ? '除外' : '既定値に戻した'}: ${issue.reason}`, issue.raw)
+    console.warn(
+      `${issue.category} [${where}] ${issue.action === 'dropped' ? '除外' : '既定値に戻した'}: ${issue.reason}`,
+      issue.raw
+    )
   }
   console.groupEnd()
 }

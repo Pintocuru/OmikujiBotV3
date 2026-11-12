@@ -1,7 +1,12 @@
 <!-- src/editor/assets/mikuji/item/ScenarioPickerDialog.vue -->
 <!-- おみくじが実行するシナリオを選ぶダイアログ。誤操作を防ぐため、プルダウンではなくダイアログで切り替える -->
 <template>
-  <BaseDialog :open="open" :title="t('omikujiItem.scenario.dialog.title')" size="2xl" @update:open="emit('update:open', $event)">
+  <BaseDialog
+    :open="open"
+    :title="t('omikujiItem.scenario.dialog.title')"
+    size="2xl"
+    @update:open="emit('update:open', $event)"
+  >
     <input
       v-if="scenarioList.length > 6"
       v-model="query"

@@ -1,3 +1,4 @@
+// src/editor/assets/characters/CharacterImage/composables/imageCandidates.test.ts
 import { describe, expect, it } from 'vitest'
 import { buildImageCandidates } from './imageCandidates'
 

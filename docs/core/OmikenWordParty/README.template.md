@@ -66,8 +66,8 @@ A: This is the [specification](https://onecomme.com/docs/feature/wordparty#%E3%8
 
 - They are compiled in [WordParty for OmikujiBot Credits and Licenses](sub/OmikenWordPartyCredits.md).
 - The sound effect data included in this app also includes material that is not Creative Commons.
-	- These are either covered by separate terms of use, or are images and videos made exclusively for this app.
-	- Use for other purposes, reposting, and redistribution are prohibited.
+  - These are either covered by separate terms of use, or are images and videos made exclusively for this app.
+  - Use for other purposes, reposting, and redistribution are prohibited.
 
 ## Version Information
 

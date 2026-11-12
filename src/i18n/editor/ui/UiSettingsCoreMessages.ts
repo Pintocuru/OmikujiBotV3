@@ -1,4 +1,4 @@
-// UiSettingsCoreMessages.ts
+// src/i18n/editor/ui/UiSettingsCoreMessages.ts
 // UI 設定の翻訳: common / characterStage / lifeHourglass / slots
 export const uiSettingsCore = {
   ja: {

@@ -16,7 +16,10 @@
         <tr v-for="user in users" :key="user.userId" class="hover:bg-base-200">
           <!-- ピン留め (ピン留めしたユーザーは、常に先頭) -->
           <td>
-            <div class="tooltip tooltip-top" :data-tip="user.pinned ? usersMessages.table.pinOff : usersMessages.table.pinOn">
+            <div
+              class="tooltip tooltip-top"
+              :data-tip="user.pinned ? usersMessages.table.pinOff : usersMessages.table.pinOn"
+            >
               <button
                 class="btn btn-ghost btn-xs btn-square"
                 :class="user.pinned ? 'text-primary' : 'opacity-30'"
@@ -88,11 +91,7 @@
 
           <!-- 削除 (手動ユーザーのみ) -->
           <td>
-            <div
-              v-if="user.isManual"
-              class="tooltip tooltip-top"
-              :data-tip="usersMessages.table.remove"
-            >
+            <div v-if="user.isManual" class="tooltip tooltip-top" :data-tip="usersMessages.table.remove">
               <button
                 class="btn btn-ghost btn-xs btn-square"
                 :aria-label="usersMessages.table.remove"

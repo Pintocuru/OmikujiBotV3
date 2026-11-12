@@ -20,7 +20,8 @@ export type LifeHourglassUiComponent = UiComponentDefinition<Meta>
 export type LifeHourglassUiComponentSets = UiComponentSets<Meta>
 
 // 共通 UI コンポーネント登録
-export const registerLifeHourglassComponents = (sets: LifeHourglassUiComponentSets) => registerUiComponents(UI_NAME, sets)
+export const registerLifeHourglassComponents = (sets: LifeHourglassUiComponentSets) =>
+  registerUiComponents(UI_NAME, sets)
 export const getLifeHourglassComponentSets = () => getUiComponentSets<Meta>(UI_NAME)
 export const getLifeHourglassComponent = (id: string) => getUiComponent<Meta>(UI_NAME, id)
 

@@ -121,7 +121,9 @@ export type ScenarioStepWithIdType = z.infer<typeof ScenarioStepWithIdSchema>
  */
 export const ScenarioStepRecordSchema = normalizedRecord(ScenarioStepWithIdSchema, 'assets.scenarios.steps').transform(
   (record): Record<string, ScenarioStepWithIdType> =>
-    Object.fromEntries(Object.entries(record).map(([key, step]) => [key, step.id === key ? step : { ...step, id: key }]))
+    Object.fromEntries(
+      Object.entries(record).map(([key, step]) => [key, step.id === key ? step : { ...step, id: key }])
+    )
 )
 export type ScenarioStepRecordType = Record<string, ScenarioStepWithIdType>
 

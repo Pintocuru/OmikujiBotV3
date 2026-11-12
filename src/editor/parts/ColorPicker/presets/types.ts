@@ -8,7 +8,13 @@ export type ColorSet = Pick<CharacterColorType, 'name' | 'text' | 'background' |
 export type ColorTheme = ColorSet & { label: string }
 
 // 並びは「テーマ名, 名前の色, テキストの色, 背景色, アクセント」
-export const defineTheme = (label: string, name: string, text: string, background: string, accent: string): ColorTheme => ({
+export const defineTheme = (
+  label: string,
+  name: string,
+  text: string,
+  background: string,
+  accent: string
+): ColorTheme => ({
   label,
   name,
   text,

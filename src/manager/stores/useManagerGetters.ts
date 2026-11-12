@@ -26,8 +26,7 @@ export function useManagerGetters(state: DataManagerType) {
     const mode = state.sortMode.value
     const byName = (a: string, b: string) => a.localeCompare(b, 'ja', { numeric: true })
     const time = (f: FileItem) => new Date(f.modified).getTime() || 0
-    const byModifiedDesc = (a: FileItem, b: FileItem) =>
-      time(b) - time(a) || byName(a.displayName, b.displayName)
+    const byModifiedDesc = (a: FileItem, b: FileItem) => time(b) - time(a) || byName(a.displayName, b.displayName)
     const sortFiles = (files: FileItem[]) =>
       [...files].sort(mode === 'name' ? (a, b) => byName(a.displayName, b.displayName) : byModifiedDesc)
 
@@ -52,7 +51,9 @@ export function useManagerGetters(state: DataManagerType) {
     // フォルダの並び替え（更新日時順はフォルダ内の最新ファイルで比較）
     const folders = [...groups.entries()]
       .map(([folder, files]) => ({ folder, files: sortFiles(files), latest: Math.max(...files.map(time)) }))
-      .sort((a, b) => (mode === 'name' ? byName(a.folder, b.folder) : b.latest - a.latest || byName(a.folder, b.folder)))
+      .sort((a, b) =>
+        mode === 'name' ? byName(a.folder, b.folder) : b.latest - a.latest || byName(a.folder, b.folder)
+      )
 
     // フォルダを上、ルート直下のファイルを下に並べる
     const blocks: FileBlock[] = folders.map((f) => ({

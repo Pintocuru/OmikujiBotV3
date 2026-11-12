@@ -1,4 +1,4 @@
-// 翻訳モジュール: 共通ヘルパー
+// src/i18n/editor/helpers/index.ts
 export * from './CharacterChangerMessages'
 export * from './DataOperationMessages'
 export * from './PresetMessages'

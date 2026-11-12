@@ -27,7 +27,8 @@
 
   const resolvedIcon = computed(() => {
     // message は表示先の UI のアイコン(ステップタイプの選択肢と揃える)
-    const iconName = props.step.kind === 'message' ? uiKindIcons[props.step.uiKey] : scenarioStepKindIcons[props.step.kind]
+    const iconName =
+      props.step.kind === 'message' ? uiKindIcons[props.step.uiKey] : scenarioStepKindIcons[props.step.kind]
     return resolveLucideIcon(iconName)
   })
 </script>

@@ -1,7 +1,6 @@
 // tools/types/ViteBuild.ts
 // Vite 版ビルダーの型定義
 
-
 /**
  * パッケージ(製品)の共通情報
  * key と category は build.ts のあるフォルダ名から決まる (packages/<category>/<key>/build.ts)
@@ -106,4 +105,3 @@ export interface ResolvedPackageBuildConfig extends ViteBuildInput {
   template: TemplateConfig
   json?: JsonConfig
 }
-

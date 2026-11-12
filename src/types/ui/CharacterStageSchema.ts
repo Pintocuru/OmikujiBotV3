@@ -3,9 +3,15 @@ import { z } from 'zod'
 
 /** 位置(X・Y)が、キャラ画像のどの点を指すか。bottom = 下辺の中央(従来の挙動) */
 export const stageAnchors = [
-  'topLeft', 'top', 'topRight',
-  'left', 'center', 'right',
-  'bottomLeft', 'bottom', 'bottomRight',
+  'topLeft',
+  'top',
+  'topRight',
+  'left',
+  'center',
+  'right',
+  'bottomLeft',
+  'bottom',
+  'bottomRight',
 ] as const
 export type StageAnchorType = (typeof stageAnchors)[number]
 

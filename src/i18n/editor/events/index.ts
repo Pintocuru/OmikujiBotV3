@@ -1,4 +1,4 @@
-// 翻訳モジュール: イベント・トリガー
+// src/i18n/editor/events/index.ts
 export * from './CommentEditor'
 export * from './CommentTriggerEditor'
 export * from './EventTriggers'

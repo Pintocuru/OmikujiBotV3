@@ -1,11 +1,7 @@
 <!-- src/editor/assets/characters/service/CommentVoiceCard.vue -->
 <!-- BOTコメント表現の要約(表示方法・枠・表示用画像)。編集はダイアログで行い、入力は即時に反映される -->
 <template>
-  <SettingItem
-    icon="Send"
-    layout="vertical"
-    labelKey="characterService.voice.label"
-  >
+  <SettingItem icon="Send" layout="vertical" labelKey="characterService.voice.label">
     <template #label-extra>
       <button
         class="btn btn-sm btn-secondary btn-square"

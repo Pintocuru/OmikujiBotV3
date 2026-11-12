@@ -25,7 +25,10 @@ function withStepId(step: unknown, index: number): Obj {
   const s = obj(step)
   return {
     ...s,
-    id: typeof s.id === 'string' && s.id !== '' ? s.id : (globalThis.crypto?.randomUUID?.() ?? `step_${Date.now()}_${index}`),
+    id:
+      typeof s.id === 'string' && s.id !== ''
+        ? s.id
+        : (globalThis.crypto?.randomUUID?.() ?? `step_${Date.now()}_${index}`),
   }
 }
 

@@ -25,14 +25,16 @@
         >
           <span class="flex items-center gap-1 w-full">
             <span class="text-sm font-bold truncate">{{ pack.displayName }}</span>
-            <span v-if="pack.displayName === currentId" class="badge badge-primary badge-xs shrink-0">{{ t('manager.packages.current') }}</span>
+            <span v-if="pack.displayName === currentId" class="badge badge-primary badge-xs shrink-0">{{
+              t('manager.packages.current')
+            }}</span>
           </span>
           <span class="text-xs opacity-60">{{ formatFileDate(pack.modified) }}</span>
         </button>
 
         <button
           class="btn btn-ghost btn-square btn-sm self-center mr-1 text-error opacity-40 group-hover:opacity-100"
-           :title="t('manager.packages.deleteTip')"
+          :title="t('manager.packages.deleteTip')"
           :disabled="managerStore.isLoading || deletingName !== null"
           @click="onDelete(pack)"
         >
@@ -53,7 +55,7 @@
   import { formatFileDate } from '@/manager/services/apiServiceUtils'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-import { escapeHtml } from '@/common/escapeHtml'
+  import { escapeHtml } from '@/common/escapeHtml'
 
   // displayName は拡張子を除いた名前 = meta.id
   const emit = defineEmits<{ open: [id: string] }>()

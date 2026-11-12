@@ -27,7 +27,9 @@
   const { displayedComments, start, stop } = useBotDisplay(messages)
 
   // 常時表示モードでは messages の最新1件、そうでなければ displayedComments を使用
-  const activeMessages = computed(() => (isAlwaysOn.value ? messages.value.slice(-1).map(withDisplay) : displayedComments.value))
+  const activeMessages = computed(() =>
+    isAlwaysOn.value ? messages.value.slice(-1).map(withDisplay) : displayedComments.value
+  )
 
   onMounted(() => {
     if (!isAlwaysOn.value) start()

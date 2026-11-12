@@ -1,4 +1,4 @@
-// UiSettingsComponentsMessages.ts
+// src/i18n/editor/ui/UiSettingsComponentsMessages.ts
 // UI 設定の翻訳: kujibikiPanel / gameRanking / cookieCounter / fontFamily / layout / unused / editorSections
 export const uiSettingsComponents = {
   ja: {

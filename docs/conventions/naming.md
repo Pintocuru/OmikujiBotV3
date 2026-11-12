@@ -61,18 +61,18 @@
 
 以下は `src/` 配下の各階層で使う名前の規則。存在する階層はディレクトリにより異なる(例: `stores/` は `editor/` `generator/` `manager/` にある)。
 
-| ディレクトリ   | 役割                          | 中のファイル                           |
-| -------------- | ----------------------------- | -------------------------------------- |
-| `components/`  | 再利用可能なコンポーネント    | PascalCase `.vue`                      |
-| `components/<セット名>/` | UI 内の表示コンポーネントセット | `register.ts` / PascalCase `.vue` |
-| `composables/` | `use*` 関数のみ               | `useXxx.ts` のみ(`.vue` 禁止)          |
-| `layout/`      | 見た目のバリエーション(`src/layout/`) | PascalCase `.vue`                |
-| `stores/`      | Pinia Store(`useXxxStore.ts`) | `useXxxStore.ts`                       |
-| `types/`       | 型定義                        | `*Schema.ts` / `types.ts` / `index.ts` |
-| `scripts/`     | スクリプト・関数群            | camelCase                              |
-| `services/`    | API クライアント等            | camelCase(`configApi.ts` 形式)         |
-| `maps/`        | 対応表データ                  | PascalCase(`XxxMap.ts`)                |
-| `helpers/`     | 汎用関数                      | camelCase(`useXxx.ts` 含む)            |
+| ディレクトリ             | 役割                                  | 中のファイル                           |
+| ------------------------ | ------------------------------------- | -------------------------------------- |
+| `components/`            | 再利用可能なコンポーネント            | PascalCase `.vue`                      |
+| `components/<セット名>/` | UI 内の表示コンポーネントセット       | `register.ts` / PascalCase `.vue`      |
+| `composables/`           | `use*` 関数のみ                       | `useXxx.ts` のみ(`.vue` 禁止)          |
+| `layout/`                | 見た目のバリエーション(`src/layout/`) | PascalCase `.vue`                      |
+| `stores/`                | Pinia Store(`useXxxStore.ts`)         | `useXxxStore.ts`                       |
+| `types/`                 | 型定義                                | `*Schema.ts` / `types.ts` / `index.ts` |
+| `scripts/`               | スクリプト・関数群                    | camelCase                              |
+| `services/`              | API クライアント等                    | camelCase(`configApi.ts` 形式)         |
+| `maps/`                  | 対応表データ                          | PascalCase(`XxxMap.ts`)                |
+| `helpers/`               | 汎用関数                              | camelCase(`useXxx.ts` 含む)            |
 
 - Store は **`use` + 名詞 + `Store`**: `useOmikujiStore.ts`。
 - `editor/preview/`(`旧 editor/dev/`)はプレビュー用コード置き場。
@@ -107,13 +107,13 @@
 
 ### 6.1 シナリオ系(§8.1 の旧名称から改名)
 
-| 用語                 | UI 表示          | 意味                                                                           | 型・キー                                                                           |
-| -------------------- | ---------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| Scenario             | シナリオ         | 名前を持ち、再利用できるステップの並び。**assets にあるものだけを指す**        | `ScenarioSchema.ts` / `ScenarioType` / `assets.scenarios` / カテゴリ `'scenarios'` |
-| ScenarioStep         | ステップ         | シナリオを構成する処理 1 件                                                    | `ScenarioStepSchema.ts` / `ScenarioStepType` / プロパティ `steps`                  |
-| ScenarioStepKind     | ステップの種類   | `message` / `sound` / `wordParty` / `variable` / `gameScript` / `scenarioCall` | `ScenarioStepKind`                                                                 |
-| scenarioCall         | シナリオ呼び出し | 別のシナリオを `callKeys` の重み付き抽選で呼ぶステップ                         | kind `'scenarioCall'` / `callKeys`(名称維持)                                       |
-| OmikujiItem の scenario | シナリオ実行  | おみくじアイテムが、シナリオ(`assets.scenarios`)を `scenarioKey` で指定して実行する | `OmikujiItem.kind: 'scenario'` / `scenarioKey`                                  |
+| 用語                    | UI 表示          | 意味                                                                                | 型・キー                                                                           |
+| ----------------------- | ---------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Scenario                | シナリオ         | 名前を持ち、再利用できるステップの並び。**assets にあるものだけを指す**             | `ScenarioSchema.ts` / `ScenarioType` / `assets.scenarios` / カテゴリ `'scenarios'` |
+| ScenarioStep            | ステップ         | シナリオを構成する処理 1 件                                                         | `ScenarioStepSchema.ts` / `ScenarioStepType` / プロパティ `steps`                  |
+| ScenarioStepKind        | ステップの種類   | `message` / `sound` / `wordParty` / `variable` / `gameScript` / `scenarioCall`      | `ScenarioStepKind`                                                                 |
+| scenarioCall            | シナリオ呼び出し | 別のシナリオを `callKeys` の重み付き抽選で呼ぶステップ                              | kind `'scenarioCall'` / `callKeys`(名称維持)                                       |
+| OmikujiItem の scenario | シナリオ実行     | おみくじアイテムが、シナリオ(`assets.scenarios`)を `scenarioKey` で指定して実行する | `OmikujiItem.kind: 'scenario'` / `scenarioKey`                                     |
 
 ### 6.2 変更しない用語
 
@@ -128,13 +128,13 @@
 
 ### 6.3 そのほかの用語
 
-| 用語                | 意味                                                                                     |
-| ------------------- | ---------------------------------------------------------------------------------------- |
+| 用語                | 意味                                                                                                     |
+| ------------------- | -------------------------------------------------------------------------------------------------------- |
 | Event               | トリガー(comments / timers / services / reactions / pads)。`mikujiKey` でみくじ箱(`assets.mikuji`)を指す |
-| Post / 投稿         | わんコメへの送信だけを指す(`PostOmikujiService` / `PostOneComme`)                        |
-| Preset / プリセット | エディターの「新規作成テンプレート」(`src/editor/presets`)だけを指す                     |
-| Manager             | §4-1                                                                                     |
-| BotMessage          | ジェネレーターが UI へ渡すメッセージ                                                     |
+| Post / 投稿         | わんコメへの送信だけを指す(`PostOmikujiService` / `PostOneComme`)                                        |
+| Preset / プリセット | エディターの「新規作成テンプレート」(`src/editor/presets`)だけを指す                                     |
+| Manager             | §4-1                                                                                                     |
+| BotMessage          | ジェネレーターが UI へ渡すメッセージ                                                                     |
 
 ## 7. 混同防止ルール
 
@@ -149,7 +149,6 @@
 9. **`omikujiSet` は「みくじ箱の中身(おみくじアイテムの配列)」に限る**。セクションキーとして他の意味で使わない(§8 参照)。
 10. ステップの種類ごとの型名は `ScenarioStep` + 種類名(例: `ScenarioStepMessageType` / `ScenarioStepGameScriptType`)にし、`kind` の値と型名を一致させる。
     - 例外: シナリオ呼び出し(`kind: 'scenarioCall'`)の型名は `ScenarioStepCallType` で止める(`ScenarioStepScenarioCallType` は冗長なため)。
-
 
 ### 7.1 プロパティ・値の命名と表現
 
@@ -178,11 +177,11 @@
 | `ProcessedPostAction.action` / `ScriptResult.actions` / `actionItem` | `.step` / `steps` / `step`                            |
 | `OmikujiItem.kind: 'postFlow'` / BOTアクション                       | `'steps'` / ステップ実行                              |
 | v2 の `actionSets` / `postActions` / `actionSetKeys`                 | `v2ToV3.ts` の変換元としてのみ残す                    |
-| `OmikujiItem.stepKey`(dataVersion 3.0000001006 まで)               | `scenarioKey`(`renameProperties1007.ts` で変換)       |
-| `OmikujiItem.kind: 'steps'`(同上)                                  | `'scenario'`(同上)                                    |
-| `Event.omikujiKey`(同上)                                           | `mikujiKey`(同上。みくじ箱を指すため)                 |
+| `OmikujiItem.stepKey`(dataVersion 3.0000001006 まで)                 | `scenarioKey`(`renameProperties1007.ts` で変換)       |
+| `OmikujiItem.kind: 'steps'`(同上)                                    | `'scenario'`(同上)                                    |
+| `Event.omikujiKey`(同上)                                             | `mikujiKey`(同上。みくじ箱を指すため)                 |
 | `gameScript` ステップの `scriptId`                                   | `scriptKey`(同上)                                     |
-| 判定の `userName`(配列)                                             | `usernames`(同上)                                     |
+| 判定の `userName`(配列)                                              | `usernames`(同上)                                     |
 | キャラクターアニメーションの `duration`                              | `durationSeconds`(同上)                               |
 | `scenarioStep.characterKey` / `bubble.characterKey` の `null`        | 空文字 `''`(同上)                                     |
 | ランキングスロットの `label`                                         | `scoreText`(スロット名のみ。保存データには残らない)   |

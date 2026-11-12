@@ -5,7 +5,6 @@ import { buildDefaultPlaceholders } from '@/generator/scripts/EventProcess/Defau
 import { evaluateTriggerExpression, TriggerExpressionContext } from './ExpressionEvaluator'
 import { stripLeadingUserIconMarkup } from '@/common/UserIconMarkup/userIconMarkup'
 
-
 /**
  * おみくじの式で作った変数 (placeholderVariable) だけから評価コンテキストを作る。
  * コメントに依存しないので、タイマーの動作条件でも使える。

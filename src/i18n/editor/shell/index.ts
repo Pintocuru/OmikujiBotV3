@@ -1,2 +1,2 @@
-// 翻訳モジュール: エディターシェル
+// src/i18n/editor/shell/index.ts
 export * from './ShellMessages'

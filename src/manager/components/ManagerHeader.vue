@@ -24,10 +24,10 @@
         v-model="managerStore.searchQuery"
         type="search"
         class="input input-xs w-48"
-         :placeholder="t('manager.searchPlaceholder')"
+        :placeholder="t('manager.searchPlaceholder')"
       />
       <!-- 一覧の並び替え -->
-      <select v-model="managerStore.sortMode" class="select select-xs w-52"  :title="t('manager.sort.label')">
+      <select v-model="managerStore.sortMode" class="select select-xs w-52" :title="t('manager.sort.label')">
         <option value="modified">{{ t('manager.sort.modified') }}</option>
         <option value="name">{{ t('manager.sort.name') }}</option>
         <option value="history">{{ t('manager.sort.history') }}</option>
@@ -36,14 +36,14 @@
         <button
           @click="expandAllFolders"
           class="btn btn-ghost btn-xs btn-square join-item tooltip tooltip-bottom"
-           :data-tip="t('manager.folders.expandAll')"
+          :data-tip="t('manager.folders.expandAll')"
         >
           <ChevronsDown class="w-4 h-4" />
         </button>
         <button
           @click="collapseAllFolders"
           class="btn btn-ghost btn-xs btn-square join-item tooltip tooltip-bottom"
-           :data-tip="t('manager.folders.collapseAll')"
+          :data-tip="t('manager.folders.collapseAll')"
         >
           <ChevronsUp class="w-4 h-4" />
         </button>

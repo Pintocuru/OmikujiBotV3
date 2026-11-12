@@ -27,7 +27,9 @@
   })
 
   const message = computed(() =>
-    items.value ? formatBuildMismatchMessage(items.value) : 'このビルドでは、このデータの表示に必要な機能を読み込めませんでした'
+    items.value
+      ? formatBuildMismatchMessage(items.value)
+      : 'このビルドでは、このデータの表示に必要な機能を読み込めませんでした'
   )
 
   // 表示と同時に、わんコメにも通知する(表示のたびに連投しないよう throttle)

@@ -58,5 +58,4 @@ export const BotMessageBubbleSchema = BotMessageSchema.extend({
 })
 export type BotMessageBubbleType = z.infer<typeof BotMessageBubbleSchema>
 
-export const isBubbleMessage = (msg: BotMessageType): msg is BotMessageBubbleType =>
-  !!msg.bubble
+export const isBubbleMessage = (msg: BotMessageType): msg is BotMessageBubbleType => !!msg.bubble

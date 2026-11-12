@@ -23,7 +23,9 @@
       :aria-checked="modelValue === choice.key"
       :title="choice.key"
       class="flex w-20 flex-col items-center gap-1 rounded-lg p-1 transition cursor-pointer"
-      :class="modelValue === choice.key ? 'bg-primary text-primary-content' : 'border-2 border-base-300 hover:border-primary'"
+      :class="
+        modelValue === choice.key ? 'bg-primary text-primary-content' : 'border-2 border-base-300 hover:border-primary'
+      "
       @click="emit('update:modelValue', choice.key)"
     >
       <CharacterThumb :character="character" :icon-key="choice.key" :size="48" />

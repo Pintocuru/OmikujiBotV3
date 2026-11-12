@@ -17,7 +17,9 @@ const toKey = (s: ColorSet) => [s.name, s.text, s.background, s.accent].map((c) 
 const isColorSet = (v: unknown): v is ColorSet => {
   if (typeof v !== 'object' || v === null) return false
   const o = v as Record<string, unknown>
-  return (['name', 'text', 'background', 'accent'] as const).every((k) => typeof o[k] === 'string' && COLOR_RE.test(o[k] as string))
+  return (['name', 'text', 'background', 'accent'] as const).every(
+    (k) => typeof o[k] === 'string' && COLOR_RE.test(o[k] as string)
+  )
 }
 
 const pick = (s: ColorSet): ColorSet => ({ name: s.name, text: s.text, background: s.background, accent: s.accent })

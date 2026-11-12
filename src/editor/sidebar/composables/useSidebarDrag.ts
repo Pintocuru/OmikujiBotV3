@@ -42,7 +42,10 @@ export const useSidebarDrag = () => {
   // 一覧の元になるカテゴリ = 表示中のカテゴリ + サイドバーで開いているカテゴリ
   // (開くだけで表示は切り替わらないため、開いているカテゴリの配列も作っておく必要がある)
   const targetCategories = computed<DataCategoryType[]>(() => {
-    const keys = [selectedCategory.value, ...(Object.keys(isOpenCategory.value) as CategoryType[]).filter((k) => isOpenCategory.value[k])]
+    const keys = [
+      selectedCategory.value,
+      ...(Object.keys(isOpenCategory.value) as CategoryType[]).filter((k) => isOpenCategory.value[k]),
+    ]
     const result: DataCategoryType[] = []
     for (const key of keys) {
       if ((isEventCategory(key) || isAssetCategory(key)) && !result.includes(key)) result.push(key)
@@ -58,11 +61,9 @@ export const useSidebarDrag = () => {
   watch(targetCategories, rebuild, { immediate: true })
 
   // ストアのデータ変更（追加・削除・名前変更・並び替え）に追従
-  watch(
-    () => targetCategories.value.map((cat) => (isEventCategory(cat) ? getEvents(cat) : getAssets(cat))),
-    rebuild,
-    { deep: true }
-  )
+  watch(() => targetCategories.value.map((cat) => (isEventCategory(cat) ? getEvents(cat) : getAssets(cat))), rebuild, {
+    deep: true,
+  })
 
   // 並び替え: events は配列順、assets は order プロパティに反映する
   const onDragEnd = async (category: DataCategoryType) => {

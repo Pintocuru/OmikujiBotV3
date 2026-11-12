@@ -1,3 +1,4 @@
+// src/editor/assets/characters/CharacterImage/composables/detectImagePath.test.ts
 import { describe, expect, it, vi } from 'vitest'
 import { detectImagePath } from './detectImagePath'
 

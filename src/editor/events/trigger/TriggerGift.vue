@@ -5,13 +5,11 @@
     <p class="mb-1 text-xs opacity-70">{{ t('triggerGift.kindsLabel') }}</p>
     <div class="mb-3 flex flex-wrap gap-2">
       <label v-for="kind in giftKinds" :key="kind" class="cursor-pointer">
-        <input
-          type="checkbox"
-          class="hidden"
-          :checked="(kinds ?? []).includes(kind)"
-          @change="toggleKind(kind)"
-        />
-        <span class="badge badge-sm select-none" :class="(kinds ?? []).includes(kind) ? 'badge-primary' : 'badge-ghost'">
+        <input type="checkbox" class="hidden" :checked="(kinds ?? []).includes(kind)" @change="toggleKind(kind)" />
+        <span
+          class="badge badge-sm select-none"
+          :class="(kinds ?? []).includes(kind) ? 'badge-primary' : 'badge-ghost'"
+        >
           {{ t(`triggerGift.kinds.${kind}.label`) }}
         </span>
       </label>

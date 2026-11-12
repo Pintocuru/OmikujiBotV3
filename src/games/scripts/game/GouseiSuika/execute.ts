@@ -52,11 +52,7 @@ export class ExecuteScript implements ScriptClass {
   /**
    * ステップ の構築
    */
-  private buildSteps(
-    postArray: ScenarioStepType[],
-    characterKey: string,
-    bubbleText: string
-  ): ScenarioStepType[] {
+  private buildSteps(postArray: ScenarioStepType[], characterKey: string, bubbleText: string): ScenarioStepType[] {
     const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,

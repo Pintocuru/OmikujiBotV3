@@ -25,7 +25,9 @@ export function useOrphanItems() {
       Object.entries(assets.mikuji)
         .filter(
           ([, box]) =>
-            !box.omikuji.some((item) => item.kind === 'scenario' && item.scenarioKey && scenarioKeys.has(item.scenarioKey))
+            !box.omikuji.some(
+              (item) => item.kind === 'scenario' && item.scenarioKey && scenarioKeys.has(item.scenarioKey)
+            )
         )
         .map(([key]) => key)
     )
@@ -36,8 +38,7 @@ export function useOrphanItems() {
     for (const category of eventCategory) {
       const items = events[category]
         .filter(
-          (event) =>
-            !event.mikujiKey || !mikujiKeys.has(event.mikujiKey) || boxesWithoutScenario.has(event.mikujiKey)
+          (event) => !event.mikujiKey || !mikujiKeys.has(event.mikujiKey) || boxesWithoutScenario.has(event.mikujiKey)
         )
         .map((event) => ({ category, key: event.id, name: event.name || event.id }))
       groups.push({ category, items })

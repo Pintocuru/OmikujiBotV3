@@ -37,11 +37,7 @@
               {{ msg.slots.listName || msg.user.userName || 'Anonymous' }}
             </span>
             <!-- symbol -->
-            <span
-              v-if="msg.slots.symbol"
-              class="text-base font-semibold truncate ml-2"
-              :style="{ opacity: 0.6 }"
-            >
+            <span v-if="msg.slots.symbol" class="text-base font-semibold truncate ml-2" :style="{ opacity: 0.6 }">
               {{ msg.slots.symbol }}
             </span>
           </div>

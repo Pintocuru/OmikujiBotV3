@@ -20,10 +20,10 @@ Generator、Editor、LiveConsoleなどを配布用の製品として組み立て
 
 エントリーポイントは用途別に分かれています。
 
-| ファイル | 用途 |
-| --- | --- |
-| `main.ts` | Generator |
-| `editor.ts` | Editor |
+| ファイル     | 用途        |
+| ------------ | ----------- |
+| `main.ts`    | Generator   |
+| `editor.ts`  | Editor      |
 | `console.ts` | LiveConsole |
 
 EditorやConsoleを含めるかはパッケージごとのオプションで指定します。

@@ -17,7 +17,9 @@
           <Package class="w-4 h-4 shrink-0" />
           <span class="font-bold truncate">{{ box.name || box.key }}</span>
         </div>
-        <div class="text-xs opacity-60 mt-1 break-all">{{ t('connections.connectDialog.keyLabel') }}: {{ box.key }}</div>
+        <div class="text-xs opacity-60 mt-1 break-all">
+          {{ t('connections.connectDialog.keyLabel') }}: {{ box.key }}
+        </div>
         <div class="text-sm mt-1">{{ box.description || t('connections.picker.noDescription') }}</div>
         <div class="text-xs opacity-60 mt-1">
           {{ t('connections.picker.eventsCount', { count: eventsOfBox(box.key).length }) }} /

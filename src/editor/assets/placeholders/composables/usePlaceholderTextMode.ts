@@ -1,10 +1,6 @@
 // src/editor/assets/placeholders/composables/usePlaceholderTextMode.ts
 import { computed, type Ref, ref } from 'vue'
-import {
-  WeightValueSchema,
-  type WeightValueType,
-  type WeightValuesArrayType,
-} from '@/types/OmikujiData'
+import { WeightValueSchema, type WeightValueType, type WeightValuesArrayType } from '@/types/OmikujiData'
 
 type ParsedLine = { weight: number; content: string; hasError: boolean }
 

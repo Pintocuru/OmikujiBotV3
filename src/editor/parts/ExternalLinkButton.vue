@@ -1,10 +1,6 @@
 <!-- src/editor/parts/ExternalLinkButton.vue -->
 <template>
-  <div
-    v-if="isValidUrl(url)"
-    class="tooltip tooltip-top"
-    :data-tip="title ?? t('editorUi.externalLink.open')"
-  >
+  <div v-if="isValidUrl(url)" class="tooltip tooltip-top" :data-tip="title ?? t('editorUi.externalLink.open')">
     <button
       class="btn btn-sm btn-ghost btn-square"
       :aria-label="title ?? t('editorUi.externalLink.open')"

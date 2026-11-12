@@ -1,4 +1,4 @@
-// 翻訳モジュール: アセット編集
+// src/i18n/editor/assets/index.ts
 export * from './OmikujiItemMessages'
 export * from './PlaceholderMessages'
 export * from './scenarios'

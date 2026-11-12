@@ -17,8 +17,7 @@ export const navigationSidebarPresetsMessages = {
         reminder: { label: '定期告知', description: '10分ごとにコメントを促す' },
         viewerWordParty: {
           label: '同時接続数 WordParty',
-          description:
-            '30秒ごとに同時接続数と同じ回数だけWordPartyを再生。追加後にIDを設定',
+          description: '30秒ごとに同時接続数と同じ回数だけWordPartyを再生。追加後にIDを設定',
         },
       },
       services: {

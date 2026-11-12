@@ -1,4 +1,4 @@
-// 翻訳モジュール: アプリ・管理画面
+// src/i18n/editor/apps/index.ts
 export * from './AppInfoEditor'
 export * from './AppItemsCharacters'
 export * from './BaseSettingsEditor'

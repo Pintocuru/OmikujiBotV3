@@ -63,8 +63,7 @@ export class BotMessageGenerator {
       switch (step.kind) {
         case 'message':
           messages.push(...createBotMessagesFromStep(step, delaySeconds, this.characterResolver, omiken))
-          if (canPlaySound && (step.sound || step.soundPath))
-            playSoundDelay(step.sound, step.soundPath, delaySeconds)
+          if (canPlaySound && (step.sound || step.soundPath)) playSoundDelay(step.sound, step.soundPath, delaySeconds)
           break
 
         case 'variable':
@@ -72,8 +71,7 @@ export class BotMessageGenerator {
           break
 
         case 'sound':
-          if (canPlaySound && (step.sound || step.soundPath))
-            playSoundDelay(step.sound, step.soundPath, delaySeconds)
+          if (canPlaySound && (step.sound || step.soundPath)) playSoundDelay(step.sound, step.soundPath, delaySeconds)
           break
       }
     }

@@ -1,3 +1,4 @@
+<!-- src/editor/assets/scenarios/WordParty/WordPartyIdPicker.vue -->
 <template>
   <div class="space-y-2 rounded-lg border border-dashed border-warning/60 p-2">
     <div class="flex items-center gap-2">

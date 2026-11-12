@@ -1,1 +1,69 @@
-{"meta":{"id":"LifeHourglass-2026.11.10-3.0.0-alpha8","name":"命の砂時計  LifeHourglass","description":"リスナーが配信を閲覧した時間を「砂粒」として表示する、砂時計ジェネレーター","version":"2026.11.10-3.0.0-alpha8","generatorName":"omikuji-bot","generatorVersion":"3.0.0-alpha8","dataVersion":3.0000001008,"author":"Pintocuru(せすじピンとしてます)","tags":["命の砂時計","カウントアップ","閲覧数チェック","ギフト"],"license":"CC-BY 4.0","url":"https://pintocuru.booth.pm/items/7733810","banner":"https://raw.githubusercontent.com/Pintocuru/OmikujiBot-Docs/refs/heads/main2026-Q4/LifeHourglass/LifeHourglass.webp"},"events":{"comments":[],"timers":[],"services":[],"reactions":[],"pads":[]},"assets":{"mikuji":{},"scenarios":{},"placeholders":{},"characters":{"omiken":{"id":"1uSV7O5qNqabtI7FVKv8x","key":"omiken","name":"おみくじBOT","description":"","createdAt":"2026-11-04T15:50:32.352Z","updatedAt":"2026-11-05T01:53:18.151Z","order":1,"isEnabled":true,"tagColor":"primary","tags":[],"displayName":"サンプル","color":{"name":"#212121","text":"#212121","background":"#FFF3E0","accent":"#FF9800"},"image":{"default":{"label":"通常","src":[]},"happy":{"label":"嬉しい","src":[]},"surprised":{"label":"驚き","src":[]},"sad":{"label":"悲しい","src":[]},"angry":{"label":"怒り","src":[]},"thinking":{"label":"考え中","src":[]}},"displayOption":{"mode":"comment","imageBase64":"","frameId":""}}}},"ui":{"layout":"lifeHourglass","settings":{"lifeHourglass":{"component":"sandBowl","color":{"name":"#FFE2B8","text":"#FFFFFF","background":"#A8641C","accent":"#E0A458"},"carryOver":false}},"fontFamily":"kaiseiDecol"},"jsonMerge":[],"settings":{"generator":{"commentType":"OneComme","soundEnabled":true,"basicDelaySeconds":1,"showCooldownNotice":false},"editor":{"locale":"ja"},"developer":{"daisyUiTheme":"coffee"}}}
+{
+  "meta": {
+    "id": "LifeHourglass-2026.11.10-3.0.0-alpha8",
+    "name": "命の砂時計  LifeHourglass",
+    "description": "リスナーが配信を閲覧した時間を「砂粒」として表示する、砂時計ジェネレーター",
+    "version": "2026.11.10-3.0.0-alpha8",
+    "generatorName": "omikuji-bot",
+    "generatorVersion": "3.0.0-alpha8",
+    "dataVersion": 3.0000001008,
+    "author": "Pintocuru(せすじピンとしてます)",
+    "tags": ["命の砂時計", "カウントアップ", "閲覧数チェック", "ギフト"],
+    "license": "CC-BY 4.0",
+    "url": "https://pintocuru.booth.pm/items/7733810",
+    "banner": "https://raw.githubusercontent.com/Pintocuru/OmikujiBot-Docs/refs/heads/main2026-Q4/LifeHourglass/LifeHourglass.webp"
+  },
+  "events": { "comments": [], "timers": [], "services": [], "reactions": [], "pads": [] },
+  "assets": {
+    "mikuji": {},
+    "scenarios": {},
+    "placeholders": {},
+    "characters": {
+      "omiken": {
+        "id": "1uSV7O5qNqabtI7FVKv8x",
+        "key": "omiken",
+        "name": "おみくじBOT",
+        "description": "",
+        "createdAt": "2026-11-04T15:50:32.352Z",
+        "updatedAt": "2026-11-05T01:53:18.151Z",
+        "order": 1,
+        "isEnabled": true,
+        "tagColor": "primary",
+        "tags": [],
+        "displayName": "サンプル",
+        "color": { "name": "#212121", "text": "#212121", "background": "#FFF3E0", "accent": "#FF9800" },
+        "image": {
+          "default": { "label": "通常", "src": [] },
+          "happy": { "label": "嬉しい", "src": [] },
+          "surprised": { "label": "驚き", "src": [] },
+          "sad": { "label": "悲しい", "src": [] },
+          "angry": { "label": "怒り", "src": [] },
+          "thinking": { "label": "考え中", "src": [] }
+        },
+        "displayOption": { "mode": "comment", "imageBase64": "", "frameId": "" }
+      }
+    }
+  },
+  "ui": {
+    "layout": "lifeHourglass",
+    "settings": {
+      "lifeHourglass": {
+        "component": "sandBowl",
+        "color": { "name": "#FFE2B8", "text": "#FFFFFF", "background": "#A8641C", "accent": "#E0A458" },
+        "carryOver": false
+      }
+    },
+    "fontFamily": "kaiseiDecol"
+  },
+  "jsonMerge": [],
+  "settings": {
+    "generator": {
+      "commentType": "OneComme",
+      "soundEnabled": true,
+      "basicDelaySeconds": 1,
+      "showCooldownNotice": false
+    },
+    "editor": { "locale": "ja" },
+    "developer": { "daisyUiTheme": "coffee" }
+  }
+}

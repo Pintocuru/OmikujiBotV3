@@ -54,7 +54,9 @@
   const props = withDefaults(
     defineProps<{
       i18nPrefix: string /** i18n キー接頭辞。`<prefix>.<key>.label` / `.description` を参照する */
-      i18nBaseOf?: (key: K) => string /** キーごとに `<base>.label` / `.description` の base を変える(省略時は `<prefix>.<key>`) */
+      i18nBaseOf?: (
+        key: K
+      ) => string /** キーごとに `<base>.label` / `.description` の base を変える(省略時は `<prefix>.<key>`) */
       icons: Record<K, LucideIconName> /** 言語非依存のアイコン定義 */
       keys: readonly K[]
       ariaLabel?: string

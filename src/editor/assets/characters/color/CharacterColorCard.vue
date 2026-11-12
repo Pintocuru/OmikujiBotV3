@@ -1,11 +1,7 @@
 <!-- src/editor/assets/characters/color/CharacterColorCard.vue -->
 <!-- キャラクターの色の要約カード(フキダシのサンプルと、4色の色見本)。編集はダイアログで行い、入力は即時に反映される -->
 <template>
-  <SettingItem
-    icon="Palette"
-    layout="vertical"
-    labelKey="characterService.cards.edit"
-  >
+  <SettingItem icon="Palette" layout="vertical" labelKey="characterService.cards.edit">
     <template #label-extra>
       <button
         class="btn btn-sm btn-secondary btn-square"

@@ -111,7 +111,8 @@ export const shellMessages = {
         dropped: '{count} items skipped ({breakdown})',
         defaulted: '{count} fields reset to defaults ({breakdown})',
         categoryCount: '{category}: {count}',
-        explanation: 'Invalid data was skipped while loading. Saving now will remove the skipped data from the destination.',
+        explanation:
+          'Invalid data was skipped while loading. Saving now will remove the skipped data from the destination.',
         dropAction: 'Skipped',
         defaultAction: 'Reset to default',
         close: 'Close',

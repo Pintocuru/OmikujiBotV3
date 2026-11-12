@@ -54,11 +54,7 @@ export class ExecuteScript implements ScriptClass {
     return GameParamsSchema.parse(parseQueryString(queryString))
   }
 
-  private buildSteps(
-    partyEffects: ScenarioStepType[],
-    characterKey: string,
-    bubbleText: string
-  ): ScenarioStepType[] {
+  private buildSteps(partyEffects: ScenarioStepType[], characterKey: string, bubbleText: string): ScenarioStepType[] {
     const messageAction = ScenarioStepMessageSchema.parse({
       delaySeconds: 3.5,
       characterKey,

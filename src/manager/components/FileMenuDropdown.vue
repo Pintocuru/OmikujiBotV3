@@ -26,7 +26,7 @@
               <input
                 v-model="editingName"
                 class="input input-xs w-full"
-                 :placeholder="t('manager.files.newName')"
+                :placeholder="t('manager.files.newName')"
                 @keydown.enter="confirmRename"
                 @keydown.escape="cancelRename"
                 @click.stop
@@ -74,7 +74,7 @@
                   ref="newFolderInputRef"
                   v-model="newFolderName"
                   class="input input-xs flex-1 min-w-0"
-                   :placeholder="t('manager.folders.name')"
+                  :placeholder="t('manager.folders.name')"
                   @keydown.enter="confirmNewFolder"
                   @keydown.escape="cancelNewFolder"
                 />
@@ -152,7 +152,10 @@
     if (name && name !== props.currentFolder) {
       // サーバーが半角英数字しか受け付けないため。黙って閉じず、理由を伝えて入力を残す
       if (!isValidPresetName(name)) {
-        swalToast.warning({ title: t('manager.messages.folderNameInvalid'), text: t('manager.messages.presetNameRule') })
+        swalToast.warning({
+          title: t('manager.messages.folderNameInvalid'),
+          text: t('manager.messages.presetNameRule'),
+        })
         return
       }
       emit('move', name)

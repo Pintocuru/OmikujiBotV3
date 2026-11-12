@@ -11,7 +11,9 @@ export const findUnusedUiKinds = (ui: OmikujiDataType['ui'] | undefined): UiKind
   if (!ui?.settings) return []
   const used = uiLayoutMap[ui.layout]
   if (!used) return [] // 未知のレイアウトでは何も消さない
-  return (Object.keys(ui.settings) as UiKind[]).filter((kind) => ui.settings[kind] !== undefined && !used.includes(kind))
+  return (Object.keys(ui.settings) as UiKind[]).filter(
+    (kind) => ui.settings[kind] !== undefined && !used.includes(kind)
+  )
 }
 
 /**

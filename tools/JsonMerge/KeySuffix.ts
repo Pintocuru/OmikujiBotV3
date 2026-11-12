@@ -22,10 +22,7 @@ export function applyKeySuffix(data: OmikujiDataType, suffix?: string): OmikujiD
   ) as OmikujiDataType['events']
 
   const mikuji = Object.fromEntries(
-    Object.entries(data.assets.mikuji).map(([key, box]) => [
-      key + normalized,
-      { ...box, key: box.key + normalized },
-    ])
+    Object.entries(data.assets.mikuji).map(([key, box]) => [key + normalized, { ...box, key: box.key + normalized }])
   ) as OmikujiDataType['assets']['mikuji']
 
   return {

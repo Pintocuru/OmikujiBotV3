@@ -11,7 +11,6 @@
           <h4 class="font-bold">{{ title }}</h4>
           <p class="text-sm opacity-70 mt-1">{{ description }}</p>
         </div>
-
       </div>
     </div>
   </div>

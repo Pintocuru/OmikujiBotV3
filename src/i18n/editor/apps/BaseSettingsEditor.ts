@@ -14,7 +14,7 @@ export const baseSettingsMessages = {
         label: '有効にする',
         description: 'おみくじの有効・無効',
       },
-      
+
       name: {
         label: '名前',
         description: '識別しやすい名前',

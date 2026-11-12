@@ -3,7 +3,13 @@
   <div class="bg-base-300 p-4 flex flex-col space-y-4">
     <!-- タブ -->
     <div role="tablist" class="tabs tabs-box tabs-sm flex-wrap">
-      <button type="button" role="tab" class="tab" :class="{ 'tab-active': activeTab === 'my' }" @click="activeTab = 'my'">
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        :class="{ 'tab-active': activeTab === 'my' }"
+        @click="activeTab = 'my'"
+      >
         {{ t('editorUi.colorPicker.tabs.my') }}
       </button>
       <button
@@ -25,7 +31,11 @@
         <div class="flex items-center justify-between">
           <h4 class="text-sm font-bold">{{ t('editorUi.colorPicker.my.favorites') }}</h4>
           <button type="button" class="btn btn-sm" @click="toggleFavorite(currentSet)">
-            {{ isFavorite(currentSet) ? t('editorUi.colorPicker.my.removeCurrent') : t('editorUi.colorPicker.my.addCurrent') }}
+            {{
+              isFavorite(currentSet)
+                ? t('editorUi.colorPicker.my.removeCurrent')
+                : t('editorUi.colorPicker.my.addCurrent')
+            }}
           </button>
         </div>
         <div v-if="favorites.length" class="grid grid-cols-4 sm:grid-cols-6 gap-2">
@@ -50,7 +60,9 @@
             :key="`recent-${i}`"
             :theme="set"
             :favorite="isFavorite(set)"
-            :favorite-title="isFavorite(set) ? t('editorUi.colorPicker.my.removeFavorite') : t('editorUi.colorPicker.my.addFavorite')"
+            :favorite-title="
+              isFavorite(set) ? t('editorUi.colorPicker.my.removeFavorite') : t('editorUi.colorPicker.my.addFavorite')
+            "
             @select="applySet(set)"
             @toggle-favorite="toggleFavorite(set)"
           />
@@ -67,7 +79,9 @@
         :theme="theme"
         :title="theme.label"
         :favorite="isFavorite(theme)"
-        :favorite-title="isFavorite(theme) ? t('editorUi.colorPicker.my.removeFavorite') : t('editorUi.colorPicker.my.addFavorite')"
+        :favorite-title="
+          isFavorite(theme) ? t('editorUi.colorPicker.my.removeFavorite') : t('editorUi.colorPicker.my.addFavorite')
+        "
         @select="applySet(theme)"
         @toggle-favorite="toggleFavorite(theme)"
       />
@@ -122,7 +136,9 @@
   const currentSet = computed(() => toSet(props.modelValue))
 
   // 保存があれば「マイカラー」、なければ最初のプリセットタブから開く
-  const activeTab = ref<'my' | PresetTabKey>(recent.value.length || favorites.value.length ? 'my' : COLOR_PRESET_TABS[0].key)
+  const activeTab = ref<'my' | PresetTabKey>(
+    recent.value.length || favorites.value.length ? 'my' : COLOR_PRESET_TABS[0].key
+  )
   const activeThemes = computed(() => COLOR_PRESET_TABS.find((tab) => tab.key === activeTab.value)?.themes ?? [])
 
   // 色入力は連続して発火するので、操作が止まってから履歴に追加する

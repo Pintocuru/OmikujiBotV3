@@ -1,6 +1,10 @@
 <!-- src/ui/StreamCounter/editor/CounterColorEditor.vue -->
 <template>
-  <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description" layout="vertical">
+  <SettingItem
+    labelKey="uiSettings.common.color.label"
+    descriptionKey="uiSettings.common.color.description"
+    layout="vertical"
+  >
     <div class="flex flex-col gap-3">
       <div v-for="(color, index) in colors" :key="index" class="flex items-start gap-2">
         <span class="badge badge-neutral mt-4">{{ index + 1 }}</span>
@@ -57,5 +61,6 @@
     )
 
   // 追加する色は、最後の色をコピーする
-  const add = () => emit('update:colors', [...props.colors, { ...(props.colors.at(-1) ?? CharacterColorSchema.parse({})) }])
+  const add = () =>
+    emit('update:colors', [...props.colors, { ...(props.colors.at(-1) ?? CharacterColorSchema.parse({})) }])
 </script>

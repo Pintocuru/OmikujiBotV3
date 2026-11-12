@@ -25,8 +25,11 @@ export function useApiCore(state: DataManagerType) {
     } catch (error) {
       const err = error as Error
       if (err instanceof ConnectionError) {
-        swalModal.error({ title: t('manager.messages.connectionError'), text: `${err.message}
-サーバーが起動していることを確認してください。` })
+        swalModal.error({
+          title: t('manager.messages.connectionError'),
+          text: `${err.message}
+サーバーが起動していることを確認してください。`,
+        })
       } else {
         swalModal.error({ title: t('manager.messages.error'), text: err.message })
       }

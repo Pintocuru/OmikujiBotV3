@@ -89,7 +89,8 @@ export const uiMapMessages = {
         },
         lifeHourglass: {
           label: 'Life hourglass',
-          description: 'An hourglass generator that shows the time listeners spend watching your stream as grains of sand.',
+          description:
+            'An hourglass generator that shows the time listeners spend watching your stream as grains of sand.',
         },
       },
       uiKind: {

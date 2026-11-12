@@ -57,12 +57,7 @@ export function useTestPost() {
   // エディターは BotMessage を表示しないので、遅延分の結果は受け取らない
   const postTestOmikujiItem = async (steps: ScenarioStepType[], omikujiItem?: OmikujiItemType) => {
     const resultProcessor = new OmikujiResultProcessor(data.value, scriptManager.playScript, placeholderVariable)
-    const { messages } = await resultProcessor.processTimeline(
-      steps,
-      getShortLabels(),
-      MOCK_COMMENT,
-      () => undefined
-    )
+    const { messages } = await resultProcessor.processTimeline(steps, getShortLabels(), MOCK_COMMENT, () => undefined)
 
     if (omikujiItem) showOmikujiResultToast(omikujiItem)
     executeTestPostDelays(messages)

@@ -2,7 +2,6 @@
 import { MetaUpdateEvent } from '@/types/generator'
 import { ServiceConditionType, ServiceTriggerType } from '@/types/OmikujiData/'
 
-
 /**
  * 「今その状態か」で判定するトリガーか
  * lowerBound / upperBound / equal は、条件を満たしている間ずっと true になる。

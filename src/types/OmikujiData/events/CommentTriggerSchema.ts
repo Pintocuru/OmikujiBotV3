@@ -14,7 +14,13 @@ import {
  * - 条件の名前は全体の triggerConditions(engine/trigger)のいずれか
  * - みくじ箱の criteria(CommentCriteriaSchema)と共通のフィールドは commentConditionFields で共有する
  */
-export const commentTriggerConditions = ['comment', 'access', 'gift', 'username', 'expression'] as const satisfies readonly TriggerConditionType[]
+export const commentTriggerConditions = [
+  'comment',
+  'access',
+  'gift',
+  'username',
+  'expression',
+] as const satisfies readonly TriggerConditionType[]
 export type CommentTriggerCondition = (typeof commentTriggerConditions)[number]
 /** 保存データの conditions(string[])から、この版で扱える条件かどうかを判定する */
 export const isCommentTriggerCondition = (value: string): value is CommentTriggerCondition =>

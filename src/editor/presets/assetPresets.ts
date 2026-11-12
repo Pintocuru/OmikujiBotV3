@@ -73,9 +73,7 @@ const cheer: PresetDefinition<'scenarios'> = {
   category: 'scenarios',
   build: () => ({
     assets: {
-      scenarios: [
-        { name: '応援', steps: stepsRecord([message('みんなで盛り上がっていきましょう！')]) },
-      ],
+      scenarios: [{ name: '応援', steps: stepsRecord([message('みんなで盛り上がっていきましょう！')]) }],
     },
   }),
 }

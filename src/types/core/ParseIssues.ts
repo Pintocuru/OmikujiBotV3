@@ -63,7 +63,10 @@ export const rollbackParseIssues = (mark: number): void => {
 }
 
 /** カテゴリ別の件数 */
-export function summarizeParseIssues(issues: readonly ParseIssue[]): { total: number; byCategory: Record<string, number> } {
+export function summarizeParseIssues(issues: readonly ParseIssue[]): {
+  total: number
+  byCategory: Record<string, number>
+} {
   const byCategory: Record<string, number> = {}
   for (const issue of issues) byCategory[issue.category] = (byCategory[issue.category] ?? 0) + 1
   return { total: issues.length, byCategory }

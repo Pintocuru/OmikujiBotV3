@@ -11,7 +11,14 @@ import type { UserStatsManager } from '@/common/UserStats/UserStatsManager'
 type ControlFields = Pick<UserStatsRecord, 'score' | 'team' | 'order' | 'pinned' | 'tags' | 'badges'>
 
 /** 操作結果がないとき (リセット後など) の値 */
-const DEFAULT_FIELDS: ControlFields = { score: 0, team: null, order: undefined, pinned: undefined, tags: [], badges: [] }
+const DEFAULT_FIELDS: ControlFields = {
+  score: 0,
+  team: null,
+  order: undefined,
+  pinned: undefined,
+  tags: [],
+  badges: [],
+}
 
 const toFields = (control: UserStatsControlType | undefined): ControlFields =>
   control

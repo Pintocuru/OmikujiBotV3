@@ -46,7 +46,8 @@ export const placeholderMessages = {
       drawResultHtml: 'Content:<br>{content}<br>Weight: {weight}<br>Probability: {percent}%',
       drawFailed: 'Draw failed',
       previewTooltip: 'Test a draw with the current contents',
-      weightFormat: 'To set a weight, use the format “weight,content” (e.g. 3,Great luck). If omitted, the weight defaults to 1.',
+      weightFormat:
+        'To set a weight, use the format “weight,content” (e.g. 3,Great luck). If omitted, the weight defaults to 1.',
       textareaPlaceholder: '3,Great luck\n1,Small luck\nBad luck',
     },
   },

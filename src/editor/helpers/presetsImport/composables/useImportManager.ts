@@ -7,9 +7,7 @@ import { generateCategoryPreview, generateComponentPreview } from './importHelpe
 import { CategoryImportConfig, ComponentImportConfig, ImportPreview } from '@/editor/types'
 import i18n from '@/editor/i18n'
 
-type LoadResult =
-  | { success: true; data: OmikujiDataType }
-  | { success: false; error: string; data?: unknown }
+type LoadResult = { success: true; data: OmikujiDataType } | { success: false; error: string; data?: unknown }
 
 /**
  * インポート処理を管理するComposable

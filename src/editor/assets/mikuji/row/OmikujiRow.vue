@@ -20,7 +20,6 @@
       <OmikujiRowRun :item="item" @open="open('run')" />
 
       <OmikujiRowCooldown :item="item" @update:item="emit('update:item', $event)" />
-
     </div>
 
     <!-- ダイアログ(開いているものだけ作る) -->

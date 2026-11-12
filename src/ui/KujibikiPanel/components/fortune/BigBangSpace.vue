@@ -24,7 +24,7 @@
     { left: '80%', top: '20%', '--size': '1.2rem', '--delay': '1.1s', '--dur': '4s' },
     { left: '10%', top: '70%', '--size': '1rem', '--delay': '2s', '--dur': '3.6s' },
     { left: '88%', top: '78%', '--size': '0.8rem', '--delay': '0.6s', '--dur': '3s' },
-    { left: '50%', top: '4%', '--size': '0.7rem', '--delay': '1.7s', '--dur': '3.4s' }
+    { left: '50%', top: '4%', '--size': '0.7rem', '--delay': '1.7s', '--dur': '3.4s' },
   ]
 </script>
 

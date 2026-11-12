@@ -48,11 +48,7 @@
       <slot />
     </div>
 
-    <div
-      v-if="showReset"
-      class="tooltip tooltip-top"
-      :data-tip="t('appInfoEditor.settings.common.reset')"
-    >
+    <div v-if="showReset" class="tooltip tooltip-top" :data-tip="t('appInfoEditor.settings.common.reset')">
       <button
         class="btn btn-ghost btn-xs btn-square"
         :aria-label="t('appInfoEditor.settings.common.reset')"

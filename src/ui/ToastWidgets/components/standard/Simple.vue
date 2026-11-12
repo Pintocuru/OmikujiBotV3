@@ -7,7 +7,10 @@
     </div>
 
     <!-- メッセージ -->
-    <div class="max-w-xs rounded-full px-4 py-1.5 shadow-md" :style="{ backgroundColor: color.background, color: color.text }">
+    <div
+      class="max-w-xs rounded-full px-4 py-1.5 shadow-md"
+      :style="{ backgroundColor: color.background, color: color.text }"
+    >
       <div class="leading-tight text-base" v-html="displayedHtml" />
     </div>
   </div>

@@ -90,10 +90,7 @@ export class ScenarioStepHandler {
   /**
    *  variable の評価は行わず、<<placeholder>> と [[key]] だけ置換する (gameScript の queryString 用)
    */
-  resolveSteps(
-    steps: ScenarioStepType[],
-    defaultPlaceholders: Record<string, string | number>
-  ): ScenarioStepType[] {
+  resolveSteps(steps: ScenarioStepType[], defaultPlaceholders: Record<string, string | number>): ScenarioStepType[] {
     return this.resolvePlaceholders(steps, defaultPlaceholders)
   }
 }

@@ -2,11 +2,7 @@
 import { DataManagerType } from '@/manager/types'
 import { AsyncActionHandler } from './useApiCore'
 import { configApi } from '@/manager/services/configApi'
-import {
-  ensureJsonExtension,
-  generateCopyName,
-  isValidPresetName,
-} from '@/manager/services/apiServiceUtils'
+import { ensureJsonExtension, generateCopyName, isValidPresetName } from '@/manager/services/apiServiceUtils'
 import { escapeHtml } from '@/common/escapeHtml'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import i18n from '@/editor/i18n'
@@ -58,7 +54,9 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
 
       // 成功トースト
       const destination = toFolder ? `"${toFolder}"` : 'ルート'
-      swalToast.success({ title: t('manager.messages.fileMoved', { name: fromName.replace('.json', ''), destination }) })
+      swalToast.success({
+        title: t('manager.messages.fileMoved', { name: fromName.replace('.json', ''), destination }),
+      })
     }, 'isLoading')
   }
 

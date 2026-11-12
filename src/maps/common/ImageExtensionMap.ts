@@ -1,4 +1,4 @@
-// 画像・動画の拡張子 (ドットなし・小文字)。キャラクター画像の自動検出・一覧取得・判定で共通に使う
+// src/maps/common/ImageExtensionMap.ts
 
 /** 並びは自動検出の優先順位 (既定パッケージが webp のため webp が先頭) */
 export const imageExtensions = ['webp', 'png', 'gif', 'jpg', 'jpeg', 'svg', 'webm', 'mp4'] as const
