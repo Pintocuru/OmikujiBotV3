@@ -10,6 +10,7 @@ import * as preview from './preview'
 import * as shell from './shell'
 import * as ui from './ui'
 import * as maps from './OmikujiDataMaps'
+import * as manager from '../manager'
 
 export const messageModules: Record<string, Record<string, unknown>> = {
   maps,
@@ -22,4 +23,5 @@ export const messageModules: Record<string, Record<string, unknown>> = {
   preview,
   shell,
   ui,
+  manager,
 }
