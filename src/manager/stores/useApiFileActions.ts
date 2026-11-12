@@ -3,7 +3,6 @@ import { DataManagerType } from '@/manager/types'
 import { AsyncActionHandler } from './useApiCore'
 import { configApi } from '@/manager/services/configApi'
 import {
-  PRESET_NAME_RULE,
   ensureJsonExtension,
   generateCopyName,
   isValidPresetName,
