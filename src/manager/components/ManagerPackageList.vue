@@ -85,7 +85,7 @@ import { escapeHtml } from '@/common/escapeHtml'
         <p>${t('manager.packages.deleteBody', { name: escapeHtml(pack.displayName) })}</p>
         ${
           isCurrent
-            ? '<p style="font-size: 0.85em; color: #b91c1c; margin-top: 8px;">${t('manager.packages.deleteCurrentWarning')}</p>'
+            ? `<p style="font-size: 0.85em; color: #b91c1c; margin-top: 8px;">${t('manager.packages.deleteCurrentWarning')}</p>`
             : ''
         }
       `,
