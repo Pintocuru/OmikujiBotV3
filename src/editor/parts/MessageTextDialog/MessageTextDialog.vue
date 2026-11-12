@@ -10,14 +10,14 @@
       class="input input-bordered input-sm w-full"
       :placeholder="t('scenarioStep.messageDialog.inlinePlaceholder', { ph: '<<userName>>' })"
     />
-    <!-- デフォルト:textarea(従来どおり) -->
+    <!-- textarea -->
     <textarea
       v-else
       v-model="displayValue"
       rows="3"
       class="textarea textarea-bordered textarea-sm w-full"
       :placeholder="t('scenarioStep.messageDialog.inlinePlaceholder', { ph: '<<userName>>' })"
-    ></textarea>
+    />
     <button class="btn btn-sm btn-secondary gap-2" @click="openDialog">
       <PencilLine class="w-4 h-4" />
       <span class="hidden sm:inline">{{ t('scenarioStep.messageDialog.detailEdit') }}</span>
@@ -88,6 +88,7 @@
     </template>
   </BaseEditDialog>
 
+  <!-- 簡易プレースホルダー入力ダイアログ -->
   <InlinePlaceholderDialog ref="inlinePhDialog" @insert="insertInlinePlaceholder" />
 </template>
 
