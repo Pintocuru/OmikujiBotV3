@@ -6,6 +6,16 @@ import { PlaceholderVariableType } from '@/engine/types/VariablePlaceholder'
 const DISPLAY_VARIABLE_PATTERN = /\[\[\s*([^\]]+?)\s*\]\]/g
 
 /**
+ * text 内の [[key]] を、vars の値で置換する。未定義の変数は [[key]] のまま残す
+ * (ContentPlaceholder が <<...[[key]]...>> の中を置換するときにも使う)
+ */
+export function replaceDisplayVariables(text: string, vars: Record<string, string | number>): string {
+  return text.replace(DISPLAY_VARIABLE_PATTERN, (match: string, key: string) =>
+    Object.prototype.hasOwnProperty.call(vars, key) ? String(vars[key]) : match
+  )
+}
+
+/**
  * 変数の値を [[key]] で本文に出す。
  * 変数を書き換えるのは variable ステップだけで、ここは読み取りだけを行う。
  */
@@ -43,9 +53,6 @@ export class DisplayVariableResolver {
    */
   resolve(text?: string): string {
     if (!text) return ''
-    const vars = this.context.getAll()
-    return text.replace(DISPLAY_VARIABLE_PATTERN, (match: string, key: string) =>
-      Object.prototype.hasOwnProperty.call(vars, key) ? String(vars[key]) : match
-    )
+    return replaceDisplayVariables(text, this.context.getAll())
   }
 }

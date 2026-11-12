@@ -18,10 +18,10 @@ export class ScenarioStepHandler {
 
   constructor(
     omikujiData: OmikujiDataType,
-    variable: PlaceholderVariableType,
+    private readonly variable: PlaceholderVariableType,
     private readonly generator: BotMessageGenerator
   ) {
-    this.displayResolver = new DisplayVariableResolver(variable)
+    this.displayResolver = new DisplayVariableResolver(this.variable)
     this.placeProcess = new ContentPlaceholder(omikujiData.assets.placeholders)
     this.scenarios = omikujiData.assets.scenarios
   }
@@ -70,7 +70,8 @@ export class ScenarioStepHandler {
 
   /**
    * <<placeholder>> → 表示変数 [[key]] の順に置換する
-   * (先に <<>> を置換するので、[[anygame_<<userId>>]] のように変数名にも <<>> を使える)
+   * (先に <<>> を置換するので、[[anygame_<<userId>>]] のように変数名にも <<>> を使える。
+   *  逆に <<subCategory_[[subRand]]>> のように、<<>> の ID 内の [[key]] だけは <<>> の置換時に変数値へ置き換える)
    */
   private resolvePlaceholders(
     steps: ScenarioStepType[],
@@ -78,6 +79,8 @@ export class ScenarioStepHandler {
   ): ScenarioStepType[] {
     this.placeContext.updateValues(defaultPlaceholders)
     this.placeProcess.updateResolvedValues(this.placeContext.getAll())
+    // <<id_[[変数名]]>> の [[変数名]] は、このステップの時点の変数値で置き換える
+    this.placeProcess.updateVariables(this.variable.getAll())
     const placeholderResolved = this.placeProcess.processSteps(steps)
     this.placeContext.clear()
 

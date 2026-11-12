@@ -8,6 +8,7 @@ import {
 } from '@/types/OmikujiData'
 import { findMatchingClosingBracket, isInlineRandomSyntax, parseInlineValues, selectRandomValue } from './parser'
 import { drawByWeight } from '@/engine/DrawOmikuji/DrawOmikuji'
+import { replaceDisplayVariables } from '@/engine/DisplayVariable/DisplayVariableResolver'
 
 /**
  * プレースホルダー処理のメインクラス
@@ -16,10 +17,12 @@ import { drawByWeight } from '@/engine/DrawOmikuji/DrawOmikuji'
  * 対応する構文:
  * - <<placeholderId>> : 定義済みプレースホルダーからランダム選択
  * - <<'value1','value2','value3'>> : インラインでランダム選択
+ * - <<id_[[変数名]]>> : ID 内の [[変数名]] を現在の変数値に置き換えてから解決 (未定義なら未解決のまま残す)
  */
 export class ContentPlaceholder {
   private readonly placeholderMap: Map<string, PlaceholderType> = new Map()
   private contextValues: Map<string, string | number> = new Map()
+  private variables: Record<string, string | number> = {}
   private static readonly PLACEHOLDER_PATTERN = /<<([\s\S]+?)>>/g
   private static readonly MAX_RECURSION_DEPTH = 10
   private static readonly MAX_REPLACEMENTS = 20
@@ -38,6 +41,13 @@ export class ContentPlaceholder {
     Object.entries(data).forEach(([key, value]) => {
       this.contextValues.set(key, value)
     })
+  }
+
+  /**
+   * <<id_[[変数名]]>> の [[変数名]] を置き換えるための、現在の変数値を更新
+   */
+  updateVariables(variables: Record<string, string | number>): void {
+    this.variables = variables
   }
 
   /**
@@ -137,6 +147,15 @@ export class ContentPlaceholder {
     // インラインランダム選択構文: <<'value1','value2','value3'>>
     if (isInlineRandomSyntax(placeholderId)) {
       return this.resolveInlineRandom(placeholderId, depth)
+    }
+
+    // ID 内の [[変数名]] を変数値に置き換える (例: subCategory_[[subRand]] → subCategory_3)
+    // 未定義の変数は [[ ]] が残るので、プレースホルダーが見つからず元の構文のまま残る
+    if (placeholderId.includes('[[')) {
+      const replacedId = replaceDisplayVariables(placeholderId, this.variables)
+      // 置き換わらなかった(未定義の変数がある)ときは、元の構文のまま残す
+      if (replacedId.includes('[[')) return originalMatch
+      return this.resolvePlaceholder(originalMatch, replacedId.trim(), depth + 1)
     }
 
     // コンテキスト値を優先
