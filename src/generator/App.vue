@@ -43,7 +43,7 @@
   import ErrorInfo from '@/common/ErrorInfo/ErrorInfo.vue'
   import NoDataInfo from '@/common/ErrorInfo/NoDataInfo.vue'
   import ConnectionStatusIndicator from '@/common/ErrorInfo/ConnectionStatusIndicator.vue'
-  import NoticeWidget from '@/generator/NoticeWidget.vue'
+  import NoticeWidget from './components/NoticeWidget.vue'
   import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
   import DataMismatchNotice from '@/common/buildValidation/DataMismatchNotice.vue'
   import { defineGuardedAsyncComponent } from '@/common/buildValidation/guardedAsyncComponent'

@@ -1,7 +1,7 @@
 <!-- src/ui/KujibikiPanel/components/fortune/Tarot.vue -->
 <template>
   <div class="relative flex items-center justify-center">
-    <div class="tarot-card relative w-xs h-105 rounded-xl p-6 flex flex-col items-center gap-4 overflow-hidden">
+    <div class="tarot-card relative w-xs min-h-105 rounded-xl p-6 flex flex-col items-center gap-4 overflow-hidden">
       <!-- 背景グロー -->
       <div
         class="absolute top-[-40%] left-1/2 -translate-x-1/2 w-50 h-50 rounded-full pointer-events-none"
@@ -68,6 +68,22 @@
           {{ currentSlot1 }}
         </p>
       </div>
+
+      <!-- サブ(slot2: 見出し / slot3: 本文) -->
+      <div
+        v-if="currentSlot2 || currentSlot3"
+        class="relative flex w-full flex-col items-center gap-1 border-t border-[rgba(212,175,55,0.3)] pt-3"
+      >
+        <span v-if="currentSlot2" class="font-serif text-lg tracking-[0.2em] text-[rgba(212,175,55,1)]">
+          {{ currentSlot2 }}
+        </span>
+        <p
+          v-if="currentSlot3"
+          class="font-serif text-base text-center tracking-wide wrap-break-word text-[rgba(255,255,255,0.8)]"
+        >
+          {{ currentSlot3 }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -86,6 +102,8 @@
   const currentName = computed(() => current.value?.bubble?.name ?? null)
   const currentSlot0 = computed(() => current.value?.slots?.slot0 ?? null)
   const currentSlot1 = computed(() => current.value?.slots?.slot1 ?? null)
+  const currentSlot2 = computed(() => current.value?.slots?.slot2 ?? null)
+  const currentSlot3 = computed(() => current.value?.slots?.slot3 ?? null)
 </script>
 
 <style scoped>

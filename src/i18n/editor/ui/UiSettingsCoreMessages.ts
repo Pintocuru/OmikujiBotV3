@@ -115,6 +115,14 @@ export const uiSettingsCore = {
             title: '解説',
             description: '結果の解説文',
           },
+          subResult: {
+            title: 'サブ見出し',
+            description: '例: 恋愛(空ならサブ全体を表示しない)',
+          },
+          subDetail: {
+            title: 'サブ解説',
+            description: '例: 神様の後押しで愛が深まる',
+          },
         },
         characterStage: {
           seconds: {

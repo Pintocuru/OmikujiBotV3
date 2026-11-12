@@ -1,7 +1,7 @@
 <!-- src/ui/KujibikiPanel/components/fortune/BigBang.vue -->
 <template>
   <div class="relative flex items-center justify-center">
-    <div class="big-bang-card relative flex h-105 w-xs flex-col items-center gap-4 overflow-hidden rounded-xl p-6">
+    <div class="big-bang-card relative flex min-h-105 w-xs flex-col items-center gap-4 overflow-hidden rounded-xl p-6">
       <BigBangSpace />
       <BigBangEarth />
 
@@ -14,6 +14,19 @@
 
       <BigBangResult v-if="currentSlot0" :text="currentSlot0 as string" />
       <BigBangUserName v-if="currentName" :name="currentName" />
+
+      <!-- サブ(slot2: 見出し / slot3: 本文) -->
+      <div
+        v-if="currentSlot2 || currentSlot3"
+        class="relative z-10 flex w-full flex-col items-center gap-1 border-t border-cyan-100/25 pt-3"
+      >
+        <span v-if="currentSlot2" class="whitespace-nowrap font-serif text-lg tracking-[0.2em] text-cyan-100">
+          {{ currentSlot2 }}
+        </span>
+        <p v-if="currentSlot3" class="wrap-break-word text-lg text-center leading-relaxed text-white/90">
+          {{ currentSlot3 }}
+        </p>
+      </div>
 
       <!-- メッセージ -->
       <div
@@ -44,6 +57,8 @@
   const currentName = computed(() => current.value?.user?.userName ?? null)
   const currentSlot0 = computed(() => current.value?.slots?.slot0 ?? null)
   const currentSlot1 = computed(() => current.value?.slots?.slot1 ?? null)
+  const currentSlot2 = computed(() => current.value?.slots?.slot2 ?? null)
+  const currentSlot3 = computed(() => current.value?.slots?.slot3 ?? null)
 </script>
 
 <style scoped>

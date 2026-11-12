@@ -39,6 +39,18 @@
         </p>
       </div>
 
+      <!-- サブ(slot2: 見出し / slot3: 本文) -->
+      <div v-if="currentSlot2 || currentSlot3" class="w-full px-4">
+        <div class="flex flex-col items-center gap-1 border-t border-dashed border-[#c0392b]/40 pt-3">
+          <span v-if="currentSlot2" class="font-serif text-xl font-bold tracking-[0.3em] text-[#c0392b]">
+            {{ currentSlot2 }}
+          </span>
+          <p v-if="currentSlot3" class="text-lg text-center text-black wrap-break-word">
+            {{ currentSlot3 }}
+          </p>
+        </div>
+      </div>
+
       <!-- ユーザー -->
       <div v-if="currentName" class="flex items-center gap-1.5 px-5">
         <span class="text-xl opacity-70">⛩</span>
@@ -64,6 +76,8 @@
   const currentName = computed(() => current.value?.bubble?.name ?? null)
   const currentSlot0 = computed(() => current.value?.slots?.slot0 ?? null)
   const currentSlot1 = computed(() => current.value?.slots?.slot1 ?? null)
+  const currentSlot2 = computed(() => current.value?.slots?.slot2 ?? null)
+  const currentSlot3 = computed(() => current.value?.slots?.slot3 ?? null)
 </script>
 
 <style scoped>

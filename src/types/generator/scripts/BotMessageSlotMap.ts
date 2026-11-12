@@ -29,6 +29,8 @@ export type RankingSlotKey = keyof typeof RankingSlotMap
 export const KujibikiSlotMap = {
   result: { slot: 'slot0' },
   detail: { slot: 'slot1' },
+  subResult: { slot: 'slot2' },
+  subDetail: { slot: 'slot3' },
 } as const satisfies Record<string, SlotMeta>
 
 /**

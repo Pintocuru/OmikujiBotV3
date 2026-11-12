@@ -24,6 +24,19 @@
           </p>
         </div>
 
+        <!-- サブ(slot2: 見出し / slot3: 本文) -->
+        <div
+          v-if="currentSlot2 || currentSlot3"
+          class="flex flex-col items-center gap-1 border-t border-dashed border-[#e8d5c4] pt-3"
+        >
+          <span v-if="currentSlot2" class="font-serif text-xl font-medium tracking-wide text-[#8b6b55]">
+            {{ currentSlot2 }}
+          </span>
+          <p v-if="currentSlot3" class="text-base leading-relaxed text-[#4a3525] text-center wrap-break-word">
+            {{ currentSlot3 }}
+          </p>
+        </div>
+
         <!-- ユーザー名 -->
         <div v-if="currentName" class="text-right border-t border-dashed border-[#e8d5c4] pt-2">
           <span class="text-[#8b6b55]">{{ currentName }} 様</span>
@@ -46,4 +59,6 @@
   const currentName = computed(() => current.value?.bubble?.name ?? null)
   const currentSlot0 = computed(() => current.value?.slots?.slot0 ?? null)
   const currentSlot1 = computed(() => current.value?.slots?.slot1 ?? null)
+  const currentSlot2 = computed(() => current.value?.slots?.slot2 ?? null)
+  const currentSlot3 = computed(() => current.value?.slots?.slot3 ?? null)
 </script>
