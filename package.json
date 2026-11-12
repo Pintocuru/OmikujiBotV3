@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "tsx server/start-dev-server.ts",
     "dev:console": "vite dev --config tools/viteConfig/vite.console.config.ts",
-    "updateFilesName": "tsx tools/fileName/UpdateTsFiles.ts",
-    "lint": "eslint src",
+    "fix": "tsx tools/runFix.ts",
     "tsc": "npx vue-tsc --noEmit",
     "build": "tsx packages/build.ts",
     "build:plugin": "vite build --config tools/viteConfig/vite.botPlugin.config.ts"
