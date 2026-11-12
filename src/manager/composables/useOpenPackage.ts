@@ -32,7 +32,7 @@ export const useOpenPackage = () => {
         const fileName = id ? `packages/${id}.json` : FILE_NAME.generator
         swalToast.warning({
           title: t('manager.messages.packageNotFound'),
-          text: `${fileName} が存在しませんでした`,
+          text: t('manager.messages.packageMissingFile', { fileName }),
         })
         return false
       }
