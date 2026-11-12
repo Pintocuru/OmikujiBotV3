@@ -79,7 +79,7 @@
     <template #footer-info>
       <a
         class="link no-underline hover:underline"
-        href="https://github.com/Pintocuru/OmikujiBot-Docs/blob/main/core/ConfigEditor/sub/VariablePlaceholderCheatSheet.md"
+        href="https://github.com/Pintocuru/OmikujiBotV3/blob/main/docs/core/ConfigEditor/sub/VariablePlaceholderCheatSheet.md"
         target="_blank"
         rel="noopener noreferrer"
       >

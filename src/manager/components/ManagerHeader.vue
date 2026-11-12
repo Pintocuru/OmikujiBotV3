@@ -7,7 +7,10 @@
         @click="toggleApiMode"
         :disabled="!isDev"
         class="badge transition-colors"
-        :class="[managerStore.isExpressMode ? 'badge-warning' : 'badge-info', isDev && 'cursor-pointer hover:opacity-80']"
+        :class="[
+          managerStore.isExpressMode ? 'badge-warning' : 'badge-info',
+          isDev && 'cursor-pointer hover:opacity-80',
+        ]"
         :title="isDev ? 'クリックでAPIモードを切り替え' : undefined"
       >
         {{ managerStore.isExpressMode ? 'DEV' : 'Plugin' }}
@@ -17,11 +20,16 @@
 
     <div v-if="managerStore.isServerConnected && showFileTools" class="flex items-center gap-2">
       <!-- 検索(全フォルダ対象) -->
-      <input v-model="managerStore.searchQuery" type="search" class="input input-xs w-48" placeholder="名前・説明で検索" />
+      <input
+        v-model="managerStore.searchQuery"
+        type="search"
+        class="input input-xs w-48"
+        placeholder="名前・説明で検索"
+      />
       <!-- 一覧の並び替え -->
       <select v-model="managerStore.sortMode" class="select select-xs w-52" title="並び順">
-        <option value="name">名前（A→Z）</option>
         <option value="modified">更新日時（新しい順）</option>
+        <option value="name">名前（A→Z）</option>
         <option value="history">履歴（新しい順）</option>
       </select>
       <div v-if="managerStore.sortMode !== 'history' && managerStore.folderNames.length > 0" class="join">

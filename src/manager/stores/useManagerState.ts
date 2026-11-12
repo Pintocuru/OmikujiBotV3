@@ -8,15 +8,12 @@ export function useManagerState() {
   const saveFileName = ref('')
   const availableFiles = ref<FileItem[]>([])
 
-  // 一覧の並び替え（デフォルトは名前順）
-  const sortMode = ref<FileSortMode>('name')
-  // 開いているフォルダ（デフォルト閉じ）
+  // 一覧の並び替え
+  const sortMode = ref<FileSortMode>('modified')
+  // 開いているフォルダ
   const openFolders = ref<Set<string>>(new Set())
-  // 検索文字列(ファイル名 / meta.name / meta.description に部分一致)
+  // 検索文字列
   const searchQuery = ref('')
-
-  // APIモード（開発環境ではExpressモードがデフォルト、本番環境ではわんコメPluginのみ）
-  // baseApiClient と同じ ref を共有する(二重管理にしない)
 
   /**
    * ローディング状態
