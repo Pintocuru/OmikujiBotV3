@@ -2,7 +2,8 @@
 export const managerMessages = {
   ja: {
     manager: {
-      close: '閉じる',\n      open: '開く',
+      close: '閉じる',
+      open: '開く',
       openTip: '保存済みファイルを選択して開く',
       openLocal: 'omikujiData.js を開く',
       openGenerator: 'ジェネレーター用を読み込み',
@@ -75,7 +76,8 @@ export const managerMessages = {
   },
   en: {
     manager: {
-      close: 'Close',\n      open: 'Open',
+      close: 'Close',
+      open: 'Open',
       openTip: 'Choose a saved file to open',
       openLocal: 'Open omikujiData.js',
       openGenerator: 'Load generator data',
