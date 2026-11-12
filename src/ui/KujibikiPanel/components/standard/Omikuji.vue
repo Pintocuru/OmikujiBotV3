@@ -45,6 +45,7 @@
         <span class="text-xl font-semibold text-black">
           {{ currentName }}
         </span>
+        <span class="text-xl opacity-70">⛩</span>
       </div>
     </div>
   </div>
