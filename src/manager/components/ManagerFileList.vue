@@ -3,7 +3,7 @@
   <div class="card bg-base-200 p-2 space-y-2">
     <template v-if="managerStore.availableFiles.length > 0">
       <div v-if="managerStore.fileBlocks.length === 0" class="text-xs opacity-70 text-center py-4">
-        該当するファイルがありません
+        {{ t('manager.files.noMatch') }}
       </div>
       <template v-for="block in managerStore.fileBlocks" :key="block.key">
         <!-- ルート直下 -->
@@ -45,25 +45,25 @@
     </template>
 
     <div v-else-if="!managerStore.isLoadingFileList" class="text-xs opacity-70 text-center py-4">
-      保存済みファイルはありません
+      {{ t('manager.files.empty') }}
     </div>
 
     <div v-else class="text-xs opacity-70 text-center py-4">
       <span class="loading loading-spinner loading-xs mr-2"></span>
-      ファイル一覧を読み込み中...
+      {{ t('manager.files.loading') }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { useManagerStore } from '@/manager/stores/useManagerStore'
+  import { useI18n } from 'vue-i18n'\n  import { useManagerStore } from '@/manager/stores/useManagerStore'
   import ManagerFileItem from './ManagerFileItem.vue'
   import { formatFileDate } from '@/manager/services/apiServiceUtils'
   import { Folder, ChevronDown, ChevronRight } from 'lucide-vue-next'
 
   const emit = defineEmits<{ opened: [] }>()
 
-  const managerStore = useManagerStore()
+  const { t } = useI18n()\n  const managerStore = useManagerStore()
 
   // 検索中は該当ファイルを見逃さないよう、全フォルダを開いて表示する
   const isOpen = (folder: string) => managerStore.searchQuery.trim() !== '' || managerStore.openFolders.has(folder)
