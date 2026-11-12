@@ -8,7 +8,7 @@ const PROJECT: PackageProject = {
   tags: ['じゃんけん'],
   boothId: '7383088',
   licenseLabel: '利用規約に従う',
-  extraFiles: [{ from: 'assets/characters/2026-Q4/HondaJanken/', to: 'Characters/HondaJanken/' }],
+  extraFiles: [{ from: 'assets/characters/2026-Q4/HondaJanken/', to: 'images/HondaJanken/' }],
 }
 
 const VARIANTS: PackageVariant[] = [{ variant: '', withEditor: true, jsonFileName: 'HondaJanken.json' }]

@@ -8,7 +8,7 @@ const PROJECT: PackageProject = {
   tags: ['おみくじ', '巫女さんのおみくじ', '占い'],
   boothId: '5471598',
   licenseLabel: '利用規約に従う',
-  extraFiles: [{ from: 'assets/characters/2026-Q4/MaidenOmikuji/', to: 'Characters/MaidenOmikuji/' }],
+  extraFiles: [{ from: 'assets/characters/2026-Q4/MaidenOmikuji/', to: 'images/MaidenOmikuji/' }],
 }
 
 const VARIANTS: PackageVariant[] = [{ variant: '', withEditor: true, jsonFileName: 'MaidenOmikuji.json' }]
