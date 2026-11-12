@@ -18,7 +18,7 @@
         <!-- 保存先の切り替え -->
         <div role="tablist" class="tabs tabs-border px-3 pt-2">
           <button role="tab" class="tab" :class="{ 'tab-active font-bold': tab === 'presets' }" @click="tab = 'presets'">
-            {{ t('shell.topBar.tabPresets') }}
+            {{ t('manager.tabPresets') }}
           </button>
           <button
             role="tab"
@@ -26,7 +26,7 @@
             :class="{ 'tab-active font-bold': tab === 'packages' }"
             @click="tab = 'packages'"
           >
-            {{ t('shell.topBar.tabPackages') }}
+            {{ t('manager.tabPackages') }}
           </button>
         </div>
 
