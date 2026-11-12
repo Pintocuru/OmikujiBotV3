@@ -114,7 +114,7 @@
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'
   import ConfigImportModal from '@/editor/helpers/presetsImport/ConfigImportModal.vue'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { PRESET_NAME_RULE, isValidPresetName } from '@/manager/services/apiServiceUtils'
+  import { isValidPresetName } from '@/manager/services/apiServiceUtils'
   import { Menu, Copy, Trash2, Folder, FolderInput, FolderPlus, Check, FileText, Edit } from 'lucide-vue-next'
 
   const props = defineProps<{
