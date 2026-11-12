@@ -11,6 +11,36 @@ const ASSIGNMENT_HEAD_PATTERN = /^([a-zA-Z_][a-zA-Z0-9_]*)\s*[\+\-\*\/]?=(?!=)/
 // 複合代入 (+=, -=, *=, /=)。expr-eval は対応していないので、評価の前に通常の代入へ書き換える
 const COMPOUND_ASSIGNMENT_PATTERN = /^([a-zA-Z_][a-zA-Z0-9_]*)\s*([\+\-\*\/])=(?!=)\s*([\s\S]+)$/
 
+// 式の外にある不可視文字 (ゼロ幅スペース、ゼロ幅非接合子、ゼロ幅接合子、WORD JOINER、BOM)。コピー&貼り付けで混ざる
+const INVISIBLE_CHAR_PATTERN = /[\u200B-\u200D\u2060\uFEFF]/
+// 式の外にある、半角スペースとして扱う空白 (NBSP、全角スペース)
+const ODD_SPACE_PATTERN = /[\u00A0\u3000]/
+
+/**
+ * 式の外にある不可視文字を取り除き、NBSP と全角スペースを半角スペースにする
+ * ('...' と "..." の中の文字列は変更しない。絵文字のゼロ幅接合子などを壊さないため)
+ */
+export function normalizeExpressionText(code: string): string {
+  let out = ''
+  let quote = ''
+  for (let i = 0; i < code.length; i++) {
+    const ch = code[i]
+    if (quote) {
+      out += ch
+      if (ch === '\\' && i + 1 < code.length) out += code[++i] // エスケープされた文字は、そのまま通す
+      else if (ch === quote) quote = ''
+    } else if (ch === "'" || ch === '"') {
+      quote = ch
+      out += ch
+    } else if (INVISIBLE_CHAR_PATTERN.test(ch)) {
+      // 取り除く
+    } else {
+      out += ODD_SPACE_PATTERN.test(ch) ? ' ' : ch
+    }
+  }
+  return out
+}
+
 /**
  * expr-eval-fork ベースの式評価エンジン
  */
@@ -55,7 +85,7 @@ export class ExpressionEngine extends KeyValueMap {
     output: string
     hasOutput: boolean
   } {
-    const trimmed = expression.trim()
+    const trimmed = normalizeExpressionText(expression).trim()
 
     // セミコロン区切りで複数式を処理
     const statements = trimmed
