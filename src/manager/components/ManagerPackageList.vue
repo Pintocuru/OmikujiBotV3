@@ -45,7 +45,8 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue'\n  import { useI18n } from 'vue-i18n'
+  import { onMounted, ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { Trash2 } from 'lucide-vue-next'
   import { FileItem } from '@/manager/types'
   import { generatorApi } from '@/manager/services/generatorApi'
@@ -57,7 +58,8 @@ import { escapeHtml } from '@/common/escapeHtml'
   // displayName は拡張子を除いた名前 = meta.id
   const emit = defineEmits<{ open: [id: string] }>()
 
-  const { t } = useI18n()\n  const managerStore = useManagerStore()
+  const { t } = useI18n()
+  const managerStore = useManagerStore()
   const packages = ref<FileItem[]>([])
   const isLoadingList = ref(true)
   const deletingName = ref<string | null>(null)
@@ -80,7 +82,7 @@ import { escapeHtml } from '@/common/escapeHtml'
     const result = await swalModal.confirmDelete({
       title: t('manager.packages.deleteConfirm'),
       html: `
-        <p>"${escapeHtml(pack.displayName)}" {t('manager.packages.deleteBody', { name: escapeHtml(pack.displayName) })}</p>
+        <p>${t('manager.packages.deleteBody', { name: escapeHtml(pack.displayName) })}</p>
         ${
           isCurrent
             ? '<p style="font-size: 0.85em; color: #b91c1c; margin-top: 8px;">${t('manager.packages.deleteCurrentWarning')}</p>'
