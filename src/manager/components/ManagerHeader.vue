@@ -11,11 +11,11 @@
           managerStore.isExpressMode ? 'badge-warning' : 'badge-info',
           isDev && 'cursor-pointer hover:opacity-80',
         ]"
-        :title="isDev ? 'クリックでAPIモードを切り替え' : undefined"
+        :title="isDev ? t('manager.messages.apiModeTip') : undefined"
       >
         {{ managerStore.isExpressMode ? 'DEV' : 'Plugin' }}
       </button>
-      <h2 class="text-lg font-bold text-primary-content">パッケージ管理</h2>
+      <h2 class="text-lg font-bold text-primary-content">{{ t('manager.title') }}</h2>
     </div>
 
     <div v-if="managerStore.isServerConnected && showFileTools" class="flex items-center gap-2">
@@ -24,26 +24,26 @@
         v-model="managerStore.searchQuery"
         type="search"
         class="input input-xs w-48"
-        placeholder="名前・説明で検索"
+         :placeholder="t('manager.searchPlaceholder')"
       />
       <!-- 一覧の並び替え -->
-      <select v-model="managerStore.sortMode" class="select select-xs w-52" title="並び順">
-        <option value="modified">更新日時（新しい順）</option>
-        <option value="name">名前（A→Z）</option>
-        <option value="history">履歴（新しい順）</option>
+      <select v-model="managerStore.sortMode" class="select select-xs w-52"  :title="t('manager.sort.label')">
+        <option value="modified">{{ t('manager.sort.modified') }}</option>
+        <option value="name">{{ t('manager.sort.name') }}</option>
+        <option value="history">{{ t('manager.sort.history') }}</option>
       </select>
       <div v-if="managerStore.sortMode !== 'history' && managerStore.folderNames.length > 0" class="join">
         <button
           @click="expandAllFolders"
           class="btn btn-ghost btn-xs btn-square join-item tooltip tooltip-bottom"
-          data-tip="全フォルダを開く"
+           :data-tip="t('manager.folders.expandAll')"
         >
           <ChevronsDown class="w-4 h-4" />
         </button>
         <button
           @click="collapseAllFolders"
           class="btn btn-ghost btn-xs btn-square join-item tooltip tooltip-bottom"
-          data-tip="全フォルダを閉じる"
+           :data-tip="t('manager.folders.collapseAll')"
         >
           <ChevronsUp class="w-4 h-4" />
         </button>
@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-  import { isDev } from '@/common/AppEnv'
+  import { useI18n } from 'vue-i18n'\n  import { isDev } from '@/common/AppEnv'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { ChevronsDown, ChevronsUp } from 'lucide-vue-next'
@@ -61,7 +61,7 @@
   // 並び替え・フォルダ開閉はプリセット一覧用なので、パッケージ一覧では隠す
   withDefaults(defineProps<{ showFileTools?: boolean }>(), { showFileTools: true })
 
-  const managerStore = useManagerStore()
+  const { t } = useI18n()\n  const managerStore = useManagerStore()
 
   const expandAllFolders = () => {
     managerStore.openFolders = new Set(managerStore.folderNames)
@@ -76,8 +76,8 @@
       await managerStore.fetchFileList()
     } else if (isDev) {
       swalToast.error({
-        title: 'プラグインサーバ起動しとらんやん！',
-        text: '動かん思たら…そらサーバー止まっとったら無理やわな！',
+        title: t('manager.messages.pluginServerStoppedTitle'),
+        text: t('manager.messages.pluginServerStoppedText'),
       })
     }
   }
