@@ -56,14 +56,16 @@
 </template>
 
 <script setup lang="ts">
-  import { useI18n } from 'vue-i18n'\n  import { useManagerStore } from '@/manager/stores/useManagerStore'
+  import { useI18n } from 'vue-i18n'
+  import { useManagerStore } from '@/manager/stores/useManagerStore'
   import ManagerFileItem from './ManagerFileItem.vue'
   import { formatFileDate } from '@/manager/services/apiServiceUtils'
   import { Folder, ChevronDown, ChevronRight } from 'lucide-vue-next'
 
   const emit = defineEmits<{ opened: [] }>()
 
-  const { t } = useI18n()\n  const managerStore = useManagerStore()
+  const { t } = useI18n()
+  const managerStore = useManagerStore()
 
   // 検索中は該当ファイルを見逃さないよう、全フォルダを開いて表示する
   const isOpen = (folder: string) => managerStore.searchQuery.trim() !== '' || managerStore.openFolders.has(folder)
