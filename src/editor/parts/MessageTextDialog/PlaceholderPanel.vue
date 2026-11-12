@@ -1,6 +1,6 @@
 <!-- src/editor/parts/MessageTextDialog/PlaceholderPanel.vue -->
 <template>
-  <div class="w-64 shrink-0 flex flex-col bg-base-100">
+  <div class="w-full h-full min-h-0 flex flex-col bg-base-100">
     <!-- ヘッダー -->
     <div class="px-2 py-1 bg-base-200 border-b border-base-300 shrink-0 flex items-center justify-between">
       <!-- タイトル -->

@@ -15,7 +15,7 @@
       <!-- alwaysShowRightSidebar: true なら幅に関係なく常に表示 -->
       <div
         v-if="$slots['sidebar-right']"
-        class="shrink-0 flex-col bg-base-100"
+        class="shrink-0 flex-col bg-base-100 min-h-0 overflow-hidden"
         :class="alwaysShowRightSidebar ? 'flex w-72' : 'hidden lg:flex w-72'"
       >
         <slot name="sidebar-right" />
