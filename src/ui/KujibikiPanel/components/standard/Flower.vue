@@ -56,7 +56,7 @@
   }>()
 
   const current = computed(() => props.messages[0])
-  const currentName = computed(() => current.value?.bubble?.name ?? null)
+  const currentName = computed(() => current.value?.user?.userName ?? null)
   const currentSlot0 = computed(() => current.value?.slots?.slot0 ?? null)
   const currentSlot1 = computed(() => current.value?.slots?.slot1 ?? null)
   const currentSlot2 = computed(() => current.value?.slots?.slot2 ?? null)
