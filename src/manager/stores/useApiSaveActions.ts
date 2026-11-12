@@ -8,6 +8,9 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { confirmSaveWithIssues } from '@/editor/helpers/confirmSaveWithIssues'
 import { escapeHtml } from '@/common/escapeHtml'
+import i18n from '@/editor/i18n'
+
+const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 
 export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncActionHandler) {
   // ファイル一覧取得
@@ -28,11 +31,11 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
     return await handleAsyncAction(async () => {
       const configData = JSON.stringify(omikujiStore.data)
       const res = await configApi.saveConfig(trimmedFileName, configData)
-      if (!res) throw new Error('設定の保存に失敗しました')
+      if (!res) throw new Error(t('manager.messages.saveFailed'))
 
       await fetchFileList()
       const displayName = trimmedFileName.split('/').pop()!.replace('.json', '')
-      swalToast.success({ title: `設定を "${displayName}" として保存しました` })
+      swalToast.success({ title: t('manager.messages.fileSaved', { name: displayName }) })
 
       omikujiStore.resetChangeState()
       state.isServerConnected.value = true
@@ -46,19 +49,19 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
     const generatorId = window.omikujiData?.meta.id
     if (!generatorId) {
       swalToast.error({
-        title: '保存できません',
-        text: 'generatorId が存在しないため、ジェネレーター用設定を保存できません',
+        title: t('manager.messages.cannotSave'),
+        text: t('manager.messages.missingGeneratorId'),
       })
       return null
     }
 
     const result = await swalModal.confirm({
       icon: 'info',
-      title: 'ジェネレーター用に保存',
+      title: t('manager.messages.saveForGenerator'),
       html: `
-    <p>現在の設定を、ジェネレーターが読み込むデータとして保存しますか？</p>
+    <p>${t('manager.messages.saveForGeneratorConfirm')}</p>
     <p style="font-size: 0.8em; color: #666; margin-top: 8px;">
-      ID「${escapeHtml(generatorId)}」の保存済みデータは上書きされます。
+      ${t('manager.messages.overwriteGenerator', { id: escapeHtml(generatorId) })}
     </p>
   `,
       confirmButtonText: '保存',
@@ -82,7 +85,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
       await fetchFileList()
       omikujiStore.resetChangeState()
 
-      swalToast.success({ title: 'ジェネレーター用に保存しました' })
+      swalToast.success({ title: t('manager.messages.savedForGenerator') })
       state.isServerConnected.value = true
       return null
     }, 'isSaving')
@@ -94,9 +97,9 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
 
     const result = await swalModal.confirm({
       icon: 'warning',
-      title: '上書き確認',
-      text: `設定ファイル "${displayName}" を現在のデータで上書きしますか？`,
-      confirmButtonText: '上書き',
+      title: t('manager.messages.overwriteConfirm'),
+      text: t('manager.messages.overwriteFile', { name: displayName }),
+      confirmButtonText: t('manager.messages.overwrite'),
     })
 
     if (!result.isConfirmed) return
@@ -110,7 +113,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
       await fetchFileList()
 
       // 成功トースト
-      swalToast.success({ title: `設定ファイル "${displayName}" を上書きしました` })
+      swalToast.success({ title: t('manager.messages.fileOverwritten', { name: displayName }) })
 
       omikujiStore.resetChangeState()
       state.isServerConnected.value = true
@@ -138,7 +141,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
       await fetchFileList()
 
       // 成功トースト
-      swalToast.success({ title: `設定ファイル "omikujiData.js" を上書きしました` })
+      swalToast.success({ title: `${t('manager.messages.omikujiOverwritten')}` })
       state.isServerConnected.value = true
       return null
     }, 'isSaving')
