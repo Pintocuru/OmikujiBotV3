@@ -126,7 +126,7 @@ export function useSaveActions(state: DataManagerType, handleAsyncAction: AsyncA
     const result = await swalModal.confirm({
       icon: 'warning',
       title: '上書き確認',
-      text: `設定ファイル "omikujiData.js" を server に上書きしますか？`,
+      text: t('manager.messages.overwriteOmikujiData'),
       confirmButtonText: '上書き',
     })
 
