@@ -4,17 +4,17 @@
   <div class="flex flex-wrap items-center gap-2 px-3 pt-3">
     <button class="btn btn-sm btn-outline" :disabled="managerStore.isLoading" @click="emit('openLocal')">
       <FileCode class="w-4 h-4" />
-      {{ t('shell.topBar.openLocal') }}
+      {{ t('manager.openLocal') }}
     </button>
     <button
       v-if="!managerStore.isExpressMode"
       class="btn btn-sm btn-outline"
       :disabled="managerStore.isLoading"
-      :title="t('shell.topBar.openGeneratorTip')"
+      :title="t('manager.openGeneratorTip')"
       @click="emit('openPackage')"
     >
       <Download class="w-4 h-4" />
-      {{ t('shell.topBar.openGenerator') }}
+      {{ t('manager.openGenerator') }}
     </button>
   </div>
 </template>
