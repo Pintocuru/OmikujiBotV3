@@ -4,7 +4,10 @@ import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useManagerStore } from '@/manager/stores/useManagerStore'
 import { confirmDiscardChanges } from '@/editor/helpers/confirmDiscardChanges'
 import { isOmikujiDataLike } from '@/common/migrations/index'
-import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'\nimport i18n from '@/editor/i18n'\n\nconst t = (key: string) => i18n.global.t(key)
+import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import i18n from '@/editor/i18n'
+
+const t = (key: string) => i18n.global.t(key)
 
 /**
  * ブラウザが読み込んでいる omikujiData.js を、編集データとして開く。
