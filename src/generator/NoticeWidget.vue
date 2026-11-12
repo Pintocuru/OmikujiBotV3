@@ -10,10 +10,7 @@
       v-for="notice in notices"
       :key="notice.id"
       class="max-w-sm wrap-break-word px-2 py-1 rounded-2xl shadow-md text-[10px] font-medium bg-base-200/90 text-base-content border"
-      :class="[
-        kindClass[notice.kind],
-        notice.kind === 'error' && 'pointer-events-auto cursor-copy',
-      ]"
+      :class="[kindClass[notice.kind], notice.kind === 'error' && 'pointer-events-auto cursor-copy']"
       :title="notice.kind === 'error' ? 'ダブルクリックでコピー' : undefined"
       @dblclick="notice.kind === 'error' && copyNotice(notice.text)"
     >

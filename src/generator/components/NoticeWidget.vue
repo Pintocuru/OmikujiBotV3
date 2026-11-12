@@ -1,4 +1,4 @@
-<!-- src/generator/NoticeWidget.vue -->
+<!-- src/generator/components/NoticeWidget.vue -->
 <!-- クールダウンのブロックやエラーを、画面の右下に小さく知らせる。ToastWidgets とは独立して常に表示できる -->
 <template>
   <TransitionGroup

@@ -1,7 +1,11 @@
 // tools/runFix.ts
 import { execSync } from 'node:child_process'
 
-const cmds = ['tsx tools/fileName/UpdateTsFiles.ts', 'prettier --write .', 'eslint src --fix']
+const cmds = [
+  'tsx tools/fileName/UpdateTsFiles.ts',
+  'prettier --write \"src/**/*.{ts,tsx,js,vue,md}\"',
+  'eslint src --fix',
+]
 
 for (const cmd of cmds) {
   console.log(`> ${cmd}`)

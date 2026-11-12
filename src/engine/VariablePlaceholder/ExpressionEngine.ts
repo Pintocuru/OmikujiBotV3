@@ -27,7 +27,8 @@ export function normalizeExpressionText(code: string): string {
     const ch = code[i]
     if (quote) {
       out += ch
-      if (ch === '\\' && i + 1 < code.length) out += code[++i] // エスケープされた文字は、そのまま通す
+      if (ch === '\\' && i + 1 < code.length)
+        out += code[++i] // エスケープされた文字は、そのまま通す
       else if (ch === quote) quote = ''
     } else if (ch === "'" || ch === '"') {
       quote = ch
