@@ -16,8 +16,8 @@
           >Ver2</span
         >
         <!-- TODO:製品版の際には名称を修正すること -->
-        <span v-else-if="status === 'legacy'" class="badge badge-error text-error-content badge-xs">未更新</span>
-        <span v-else-if="status === 'unsupported'" class="badge badge-error badge-xs">未対応の新Ver</span>
+        <span v-else-if="status === 'legacy'" class="badge badge-error text-error-content badge-xs">{{ t('manager.files.legacy') }}</span>
+        <span v-else-if="status === 'unsupported'" class="badge badge-error badge-xs">{{ t('manager.files.unsupported') }}</span>
       </div>
     </div>
 
@@ -27,7 +27,7 @@
         @click="onApply"
         :disabled="managerStore.isLoading || managerStore.isAnyLoading || status === 'unsupported'"
         class="btn btn-xs btn-primary tooltip tooltip-top"
-        :data-tip="status === 'unsupported' ? 'このアプリでは読み込めない新しい形式です' : 'この設定を読み込む'"
+        :data-tip="status === 'unsupported' ? t('manager.files.unsupportedTip') : t('manager.files.load')"
       >
         <Download class="w-3 h-3" />
       </button>
@@ -50,6 +50,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import type { FileItem } from '@/manager/types'
   import { isDev } from '@/common/AppEnv'
   import FileMenuDropdown from './FileMenuDropdown.vue'
@@ -65,6 +66,7 @@
 
   const emit = defineEmits<{ opened: [] }>()
 
+  const { t } = useI18n()
   const managerStore = useManagerStore()
 
   // 読み込めたら親(ダイアログ)に知らせる。同じファイルを読み直しても閉じられるよう、戻り値で判定する

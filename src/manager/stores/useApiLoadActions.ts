@@ -5,6 +5,8 @@ import { configApi } from '@/manager/services/configApi'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import i18n from '@/editor/i18n'
+const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 import { getDataVersionStatus } from '@/manager/services/apiServiceUtils'
 import { DATA_VERSION } from '@/version'
 import { confirmDiscardChanges } from '@/editor/helpers/confirmDiscardChanges'
@@ -18,8 +20,8 @@ export function useLoadActions(state: DataManagerType, handleAsyncAction: AsyncA
     const file = state.availableFiles.value.find((f) => f.name === fileName)
     if (file?.meta && getDataVersionStatus(file.meta.dataVersion) === 'unsupported') {
       swalToast.error({
-        title: '読み込めません',
-        text: `このデータは v${file.meta.dataVersion} 形式です。このアプリ（v${DATA_VERSION}）では読み込めません。`,
+        title: t('manager.messages.unsupportedData'),
+        text: t('manager.messages.unsupportedDataText', { fileVersion: file.meta.dataVersion, appVersion: DATA_VERSION }),
       })
       return null
     }

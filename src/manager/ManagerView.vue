@@ -1,9 +1,9 @@
 <!-- src/manager/ManagerView.vue -->
 <!-- 上部バーの「開く」ボタン。サーバー接続時は保存済みデータの選択ダイアログ、未接続時は omikujiData.js を直接開く -->
 <template>
-  <button class="btn btn-sm btn-neutral" :title="t('shell.topBar.openTip')" @click="onOpen">
+  <button class="btn btn-sm btn-neutral" :title="t('manager.openTip')" @click="onOpen">
     <FolderOpen class="w-4 h-4" />
-    {{ t('shell.topBar.open') }}
+    {{ t('manager.open') }}
   </button>
 
   <!-- ダイアログは初めて開くときに読み込む(以降は開閉アニメーションを保つため常駐させる) -->
@@ -40,7 +40,7 @@
     try {
       await loadDialog()
     } catch (error) {
-      swalToast.error({ title: '画面の読み込みに失敗しました', text: String(error) })
+      swalToast.error({ title: t('manager.messages.loadFailed'), text: String(error) })
       return
     }
     isDialogLoaded.value = true

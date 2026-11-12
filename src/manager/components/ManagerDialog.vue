@@ -18,7 +18,7 @@
         <!-- 保存先の切り替え -->
         <div role="tablist" class="tabs tabs-border px-3 pt-2">
           <button role="tab" class="tab" :class="{ 'tab-active font-bold': tab === 'presets' }" @click="tab = 'presets'">
-            {{ t('shell.topBar.tabPresets') }}
+            {{ t('manager.tabPresets') }}
           </button>
           <button
             role="tab"
@@ -26,7 +26,7 @@
             :class="{ 'tab-active font-bold': tab === 'packages' }"
             @click="tab = 'packages'"
           >
-            {{ t('shell.topBar.tabPackages') }}
+            {{ t('manager.tabPackages') }}
           </button>
         </div>
 
@@ -38,7 +38,7 @@
       </div>
 
       <form method="dialog" class="modal-backdrop">
-        <button :aria-label="t('editorUi.dialog.close')" @click="close">{{ t('editorUi.dialog.close') }}</button>
+        <button :aria-label="t('manager.close')" @click="close">{{ t('manager.close') }}</button>
       </form>
     </template>
   </dialog>

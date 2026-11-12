@@ -10,7 +10,7 @@
       <li>
         <button class="text-sm" :disabled="disabled || importManager.isLoading.value" @click="handlePartialLoad">
           <FileText class="w-4 h-4" />
-          部分読み込み
+          {{ t('manager.files.partialLoad') }}
         </button>
       </li>
 
@@ -19,14 +19,14 @@
         <details>
           <summary class="text-sm">
             <Edit class="w-4 h-4" />
-            名前変更
+            {{ t('manager.files.rename') }}
           </summary>
           <ul>
             <li>
               <input
                 v-model="editingName"
                 class="input input-xs w-full"
-                placeholder="新しいファイル名"
+                 :placeholder="t('manager.files.newName')"
                 @keydown.enter="confirmRename"
                 @keydown.escape="cancelRename"
                 @click.stop
@@ -35,7 +35,7 @@
             <li>
               <button class="text-sm" @click="confirmRename">
                 <Check class="w-4 h-4" />
-                確定
+                {{ t('manager.files.confirm') }}
               </button>
             </li>
           </ul>
@@ -47,13 +47,13 @@
         <details>
           <summary class="text-sm">
             <FolderInput class="w-4 h-4" />
-            移動
+            {{ t('manager.files.move') }}
           </summary>
           <ul>
             <li v-if="currentFolder !== null">
               <button class="text-sm" @click="$emit('move', '')">
                 <Folder class="w-4 h-4" />
-                ルート
+                {{ t('manager.folders.root') }}
               </button>
             </li>
 
@@ -68,13 +68,13 @@
               <div>
                 <button class="text-sm text-success" @click.stop="isCreatingFolder = true">
                   <FolderPlus class="w-4 h-4" />
-                  新規フォルダ
+                  {{ t('manager.folders.create') }}
                 </button>
                 <input
                   ref="newFolderInputRef"
                   v-model="newFolderName"
                   class="input input-xs flex-1 min-w-0"
-                  placeholder="フォルダ名"
+                   :placeholder="t('manager.folders.name')"
                   @keydown.enter="confirmNewFolder"
                   @keydown.escape="cancelNewFolder"
                 />
@@ -90,14 +90,14 @@
       <li>
         <button class="text-sm" @click="$emit('duplicate')">
           <Copy class="w-4 h-4" />
-          複製
+          {{ t('manager.files.duplicate') }}
         </button>
       </li>
 
       <li>
         <button class="text-sm text-error" :disabled="disableDelete" @click="$emit('delete')">
           <Trash2 class="w-4 h-4" />
-          削除
+          {{ t('manager.files.delete') }}
         </button>
       </li>
     </ul>
@@ -108,12 +108,13 @@
 
 <script setup lang="ts">
   import { ref, nextTick, watch } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import type { FileItem } from '@/manager/types'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'
   import ConfigImportModal from '@/editor/helpers/presetsImport/ConfigImportModal.vue'
   import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { PRESET_NAME_RULE, isValidPresetName } from '@/manager/services/apiServiceUtils'
+  import { isValidPresetName } from '@/manager/services/apiServiceUtils'
   import { Menu, Copy, Trash2, Folder, FolderInput, FolderPlus, Check, FileText, Edit } from 'lucide-vue-next'
 
   const props = defineProps<{
@@ -132,6 +133,7 @@
     rename: [name: string]
   }>()
 
+  const { t } = useI18n()
   const managerStore = useManagerStore()
   const importManager = useImportManager()
 
@@ -150,7 +152,7 @@
     if (name && name !== props.currentFolder) {
       // サーバーが半角英数字しか受け付けないため。黙って閉じず、理由を伝えて入力を残す
       if (!isValidPresetName(name)) {
-        swalToast.warning({ title: 'フォルダ名に使えない文字があります', text: PRESET_NAME_RULE })
+        swalToast.warning({ title: t('manager.messages.folderNameInvalid'), text: t('manager.messages.presetNameRule') })
         return
       }
       emit('move', name)
@@ -190,13 +192,13 @@
       if (!result.success) {
         if (result.error === 'invalid-metadata') {
           await swalModal.error({
-            title: '無効なファイル',
-            text: 'このファイルはおみくじBOTのデータではありません。',
+            title: t('manager.messages.invalidFile'),
+            text: t('manager.messages.notOmikujiData'),
           })
         } else {
           await swalModal.error({
-            title: '読み込みエラー',
-            text: result.error || '不明なエラーが発生しました',
+            title: t('manager.messages.loadError'),
+            text: result.error || t('manager.messages.unknownError'),
           })
         }
         return
@@ -208,8 +210,8 @@
       console.error('Partial load error:', error)
 
       await swalModal.error({
-        title: 'ファイルの読み込みに失敗しました',
-        text: 'コンソールログをご確認ください',
+        title: t('manager.messages.loadFailed'),
+        text: t('manager.messages.checkConsole'),
       })
     }
   }

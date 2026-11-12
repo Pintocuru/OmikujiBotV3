@@ -3,13 +3,15 @@ import { DataManagerType } from '@/manager/types'
 import { AsyncActionHandler } from './useApiCore'
 import { configApi } from '@/manager/services/configApi'
 import {
-  PRESET_NAME_RULE,
   ensureJsonExtension,
   generateCopyName,
   isValidPresetName,
 } from '@/manager/services/apiServiceUtils'
 import { escapeHtml } from '@/common/escapeHtml'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import i18n from '@/editor/i18n'
+
+const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 
 export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncActionHandler) {
   // ファイル一覧取得
@@ -37,7 +39,7 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
 
       // 成功トースト
       const displayName = fileName.split('/').pop()!.replace('.json', '')
-      swalToast.success({ title: `設定ファイル "${displayName}" を複製しました` })
+      swalToast.success({ title: t('manager.messages.fileDuplicated', { name: displayName }) })
       state.isServerConnected.value = true
       return null
     }, 'isSaving')
@@ -56,7 +58,7 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
 
       // 成功トースト
       const destination = toFolder ? `"${toFolder}"` : 'ルート'
-      swalToast.success({ title: `設定ファイル "${fromName.replace('.json', '')}" を ${destination} に移動しました` })
+      swalToast.success({ title: t('manager.messages.fileMoved', { name: fromName.replace('.json', ''), destination }) })
     }, 'isLoading')
   }
 
@@ -64,7 +66,7 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
   const renameFile = async (oldFileName: string, newFileName: string) => {
     const newName = newFileName.trim().replace(/\.json$/, '')
     if (!isValidPresetName(newName)) {
-      swalToast.error({ title: '使えない文字が含まれています', text: PRESET_NAME_RULE })
+      swalToast.error({ title: t('manager.messages.cannotUseCharacters'), text: t('manager.messages.presetNameRule') })
       return null
     }
 
@@ -75,11 +77,11 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
 
     // 大文字小文字だけの違いは、Windows では同じファイルを指す。保存→旧名の削除で、ファイルごと消えてしまう
     if (oldFileName.toLowerCase() === finalKey) {
-      swalToast.warning({ title: '大文字小文字だけの変更はできません' })
+      swalToast.warning({ title: t('manager.messages.caseOnlyRename') })
       return null
     }
     if (state.availableFiles.value.some((f) => f.name.toLowerCase() === finalKey)) {
-      swalToast.error({ title: '同じ名前のファイルがあります', text: newName })
+      swalToast.error({ title: t('manager.messages.duplicateName'), text: newName })
       return null
     }
 
@@ -91,7 +93,7 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
       await fetchFileList()
 
       swalToast.success({
-        title: `設定ファイル名を "${oldFileName.replace('.json', '')}" から "${newName}" に変更しました`,
+        title: t('manager.messages.fileRenamed', { oldName: oldFileName.replace('.json', ''), newName }),
       })
 
       state.isServerConnected.value = true
@@ -104,7 +106,7 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
     const displayName = fileName.replace('.json', '')
 
     const result = await swalModal.confirmDelete({
-      title: `設定ファイル "${escapeHtml(displayName)}" を削除しますか？`,
+      title: t('manager.messages.deleteFileConfirm', { name: escapeHtml(displayName) }),
     })
 
     if (!result.isConfirmed) return
@@ -117,14 +119,14 @@ export function useFileActions(state: DataManagerType, handleAsyncAction: AsyncA
       const index = state.availableFiles.value.findIndex((f: any) => f.name === fileName)
       if (index >= 0) state.availableFiles.value.splice(index, 1)
 
-      swalToast.success({ title: `設定ファイル "${displayName}" を削除しました` })
+      swalToast.success({ title: t('manager.messages.fileDeleted', { name: displayName }) })
       state.isServerConnected.value = true
     } catch (error) {
       console.error('API Error:', error)
       state.isServerConnected.value = false
 
       // エラーダイアログ
-      const message = `${(error as Error).message}\nサーバーが起動していることを確認してください。`
+      const message = `${(error as Error).message}\n${t('manager.messages.connectionCheck')}`
       swalModal.error({ title: '接続エラー', text: message })
     } finally {
       state.isDeletingFileMap.delete(fileName)
