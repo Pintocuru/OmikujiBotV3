@@ -38,7 +38,7 @@
       </div>
 
       <form method="dialog" class="modal-backdrop">
-        <button :aria-label="t('editorUi.dialog.close')" @click="close">{{ t('editorUi.dialog.close') }}</button>
+        <button :aria-label="t('manager.close')" @click="close">{{ t('editorUi.dialog.close') }}</button>
       </form>
     </template>
   </dialog>
