@@ -6,7 +6,7 @@ import { useManagerStore } from '@/manager/stores/useManagerStore'
 import { generatorApi } from '@/manager/services/generatorApi'
 import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { confirmDiscardChanges } from '@/editor/helpers/confirmDiscardChanges'
-import { FILE_NAME } from '@server/core/constants'
+import { FILE_NAME } from '@server/core/constants'\nimport i18n from '@/editor/i18n'\n\nconst t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 
 /**
  * packages に保存された設定(ジェネレーター用)を、編集データとして開く。
@@ -28,7 +28,7 @@ export const useOpenPackage = () => {
       if (!data) {
         const fileName = id ? `packages/${id}.json` : FILE_NAME.generator
         swalToast.warning({
-          title: 'ジェネレーター設定が見つかりません',
+          title: t('manager.messages.packageNotFound'),
           text: `${fileName} が存在しませんでした`,
         })
         return false
@@ -40,10 +40,10 @@ export const useOpenPackage = () => {
       navigationStore.showTopPage()
       omikujiStore.resetChangeState()
 
-      swalToast.success({ title: 'ジェネレーター設定を読み込みました' })
+      swalToast.success({ title: t('manager.messages.packageLoaded') })
       return true
     } catch (error) {
-      swalToast.error({ title: '読み込みに失敗しました', text: String(error) })
+      swalToast.error({ title: t('manager.messages.openFailed'), text: String(error) })
       return false
     }
   }
