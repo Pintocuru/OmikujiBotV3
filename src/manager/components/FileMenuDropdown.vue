@@ -6,11 +6,11 @@
     </label>
 
     <ul tabindex="0" class="dropdown-content z-1 menu p-2 shadow bg-base-100 rounded-box w-52">
-      <!-- {{ t('manager.files.partialLoad') }} -->
+      <!-- 部分読み込み -->
       <li>
         <button class="text-sm" :disabled="disabled || importManager.isLoading.value" @click="handlePartialLoad">
           <FileText class="w-4 h-4" />
-          部分読み込み
+          {{ t('manager.files.partialLoad') }}
         </button>
       </li>
 
@@ -42,12 +42,12 @@
         </details>
       </li>
 
-      <!-- フォルダへ{{ t('manager.files.move') }} -->
+      <!-- フォルダへ移動 -->
       <li v-if="showMove">
         <details>
           <summary class="text-sm">
             <FolderInput class="w-4 h-4" />
-            移動
+            {{ t('manager.files.move') }}
           </summary>
           <ul>
             <li v-if="currentFolder !== null">
@@ -107,7 +107,8 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, nextTick, watch } from 'vue'\n  import { useI18n } from 'vue-i18n'
+  import { ref, nextTick, watch } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import type { FileItem } from '@/manager/types'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'
@@ -132,7 +133,8 @@
     rename: [name: string]
   }>()
 
-  const { t } = useI18n()\n  const managerStore = useManagerStore()
+  const { t } = useI18n()
+  const managerStore = useManagerStore()
   const importManager = useImportManager()
 
   // フォルダ作成
@@ -150,7 +152,7 @@
     if (name && name !== props.currentFolder) {
       // サーバーが半角英数字しか受け付けないため。黙って閉じず、理由を伝えて入力を残す
       if (!isValidPresetName(name)) {
-        swalToast.warning({ title: '${t('manager.messages.folderNameInvalid')}', text: PRESET_NAME_RULE })
+        swalToast.warning({ title: t('manager.messages.folderNameInvalid'), text: t('manager.messages.presetNameRule') })
         return
       }
       emit('move', name)
@@ -191,12 +193,12 @@
         if (result.error === 'invalid-metadata') {
           await swalModal.error({
             title: t('manager.messages.invalidFile'),
-            text: '${t('manager.messages.notOmikujiData')}',
+            text: t('manager.messages.notOmikujiData'),
           })
         } else {
           await swalModal.error({
             title: t('manager.messages.loadError'),
-            text: result.error || '${t('manager.messages.unknownError')}',
+            text: result.error || t('manager.messages.unknownError'),
           })
         }
         return
@@ -209,7 +211,7 @@
 
       await swalModal.error({
         title: t('manager.messages.loadFailed'),
-        text: '${t('manager.messages.checkConsole')}',
+        text: t('manager.messages.checkConsole'),
       })
     }
   }
