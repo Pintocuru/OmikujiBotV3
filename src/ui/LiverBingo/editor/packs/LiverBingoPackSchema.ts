@@ -8,7 +8,7 @@ import { LiverBingoItemSchema } from '@/types/ui'
  * - index.json: パックの一覧
  * - <file>: パック本体
  */
-export const LIVER_BINGO_PACK_BASE = `${REPO_BASE}/liver-bingo`
+export const LIVER_BINGO_PACK_BASE = `${REPO_BASE}/packages/2026-Q4/LiverBingo/bingoCard/`
 export const LIVER_BINGO_PACK_INDEX_URL = `${LIVER_BINGO_PACK_BASE}/index.json`
 
 /** パック本体のファイル名(URL に組み込むので、英数字・_・- の .json だけ許す) */
