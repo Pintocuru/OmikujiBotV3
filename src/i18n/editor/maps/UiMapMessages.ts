@@ -49,6 +49,10 @@ export const uiMapMessages = {
           label: '命の砂時計',
           description: '時間経過で数字が増えるカウントアップカウンター',
         },
+        liverBingo: {
+          label: 'ライバービンゴ',
+          description: '配信中に進めるビンゴカード。お題と達成目標を決めて、クリックで進めます',
+        },
         liveClock: {
           label: 'ライブクロック',
           description: '時計とメッセージを表示',
@@ -118,6 +122,10 @@ export const uiMapMessages = {
         lifeHourglass: {
           label: 'Life hourglass',
           description: 'A count-up counter whose number increases as time passes.',
+        },
+        liverBingo: {
+          label: 'Liver bingo',
+          description: 'A bingo card you play during the stream. Set topics and targets, then click to progress.',
         },
         liveClock: {
           label: 'Live clock',

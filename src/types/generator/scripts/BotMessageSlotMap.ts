@@ -87,6 +87,7 @@ export const UiMessageSpecs = {
   cookieCounter: { bubble: false, slots: {} },
   streamCounter: { bubble: false, slots: {} },
   lifeHourglass: { bubble: false, slots: {} },
+  liverBingo: { bubble: false, slots: {} },
 } as const satisfies Record<UiKind, UiMessageSpec>
 
 export const getUiMessageSpec = (kind: UiKind): UiMessageSpec => UiMessageSpecs[kind]

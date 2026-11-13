@@ -25,6 +25,7 @@ const registerUiKinds = () =>
     kujibikiPanel: () => import('@/ui/KujibikiPanel/KujibikiPanel.vue'),
     lifeHourglass: () => import('@/ui/LifeHourglass/LifeHourglass.vue'),
     liveClock: () => import('@/ui/LiveClock/LiveClock.vue'),
+    liverBingo: () => import('@/ui/LiverBingo/LiverBingo.vue'),
     streamCounter: () => import('@/ui/StreamCounter/StreamCounter.vue'),
     toastWidgets: () => import('@/ui/ToastWidgets/ToastWidgets.vue'),
     userBoard: () => import('@/ui/UserBoard/UserBoard.vue'),

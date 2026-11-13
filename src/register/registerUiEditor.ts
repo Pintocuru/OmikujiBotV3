@@ -35,5 +35,6 @@ export const registerAllUiEditor = () => {
     },
     userBoard: () => import('@/ui/UserBoard/editor/UserBoardEditor.vue'),
     lifeHourglass: () => import('@/ui/LifeHourglass/editor/LifeHourglassEditor.vue'),
+    liverBingo: () => import('@/ui/LiverBingo/editor/LiverBingoEditor.vue'),
   } satisfies Record<UiKind, EditorDef>)
 }
