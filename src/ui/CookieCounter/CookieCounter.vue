@@ -1,6 +1,11 @@
 <!-- src/ui/CookieCounter/CookieCounter.vue -->
 <template>
-  <CookieCounterSelector :settings="cookieSettings" :counters="counters" :variable-labels="variableLabels" />
+  <CookieCounterSelector
+    :settings="cookieSettings"
+    :counters="counters"
+    :variable-labels="variableLabels"
+    :shown-characters="shownCharacters"
+  />
 </template>
 
 <script setup lang="ts">
@@ -10,9 +15,15 @@
   import { useAppStore } from '@/generator/stores/useAppStore'
   import { CookieCounterSchema } from '@/types/ui'
   import { useStreamCounters } from '@/ui/common/useStreamCounters'
+  import { useAppCharacters } from '@/ui/common/useAppCharacters'
+  import { resolveCookieCharacters } from './composables/resolveCookieCharacters'
 
   const appStore = useAppStore()
   const cookieSettings = computed(() => CookieCounterSchema.parse(appStore.data.ui.settings.cookieCounter ?? {}))
+
+  // キャラクターの解決は component の外で行う
+  const appCharacters = useAppCharacters()
+  const shownCharacters = computed(() => resolveCookieCharacters(cookieSettings.value.characters, appCharacters))
 
   // type: 'variable' の { target → label } マップ
   const variableLabelMap = computed<Record<string, string>>(() => {

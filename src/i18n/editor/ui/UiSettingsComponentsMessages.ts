@@ -41,15 +41,10 @@ export const uiSettingsComponents = {
         },
       },
       cookieCounter: {
-        subImagePlaceholder: '空欄でメインと同じ画像',
         incrementAll: '🎲 全て +1',
-        mainImage: {
-          label: 'メイン画像',
-          description: '1枚目の画像ファイルのパス',
-        },
-        subImage: {
-          label: 'サブ画像',
-          description: '2枚目の画像パス。空欄ならメイン画像を使用',
+        character: {
+          label: 'キャラクター{n}',
+          description: '表示するキャラクターと表情。回転などの動きは表情の設定に従います',
         },
       },
       fontFamily: {
@@ -141,13 +136,9 @@ export const uiSettingsComponents = {
         },
       },
       cookieCounter: {
-        mainImage: {
-          label: 'Main image',
-          description: 'Path of the first image file to use',
-        },
-        subImage: {
-          label: 'Sub image',
-          description: 'Path of the second image. If empty, the main image is used',
+        character: {
+          label: 'Character {n}',
+          description: 'The character and emotion to show. Motion such as rotation follows the emotion settings',
         },
       },
       fontFamily: {

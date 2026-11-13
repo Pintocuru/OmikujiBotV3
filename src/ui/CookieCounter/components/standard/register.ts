@@ -10,14 +10,14 @@ const standardComponents = {
     labelKey: 'uiComponents.cookieCounter.sakura.label',
     maxCounters: 2,
     isColor: false,
-    hasImage: true,
+    maxCharacters: 2,
     loader: () => import('./Sakura.vue'),
   },
   block3d: {
     labelKey: 'uiComponents.cookieCounter.block3d.label',
     maxCounters: 2,
     isColor: true,
-    hasImage: false,
+    maxCharacters: 0,
     loader: () => import('./Block3d.vue'),
   },
 } satisfies Record<CookieComponentOf<'standard'>, CookieCounterComponent>

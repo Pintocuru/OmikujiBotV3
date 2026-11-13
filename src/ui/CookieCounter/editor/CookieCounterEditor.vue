@@ -19,33 +19,22 @@
     <ColorPicker :modelValue="cookieCounter.color" @update:modelValue="(val) => updateField('color', val)" />
   </SettingItem>
 
-  <!-- 画像パス指定（hasImage コンポーネントのみ） -->
-  <template v-if="currentDefinition?.hasImage">
-    <SettingItem
-      labelKey="uiSettings.cookieCounter.mainImage.label"
-      descriptionKey="uiSettings.cookieCounter.mainImage.description"
-    >
-      <input
-        type="text"
-        class="input input-bordered input-sm w-full"
-        placeholder="images/sakura.webp"
-        :value="cookieCounter.images.main"
-        @change="updateImage('main', ($event.target as HTMLInputElement).value)"
-      />
-    </SettingItem>
-    <SettingItem
-      labelKey="uiSettings.cookieCounter.subImage.label"
-      descriptionKey="uiSettings.cookieCounter.subImage.description"
-    >
-      <input
-        type="text"
-        class="input input-bordered input-sm w-full"
-        :placeholder="t('uiSettings.cookieCounter.subImagePlaceholder')"
-        :value="cookieCounter.images.sub"
-        @change="updateImage('sub', ($event.target as HTMLInputElement).value)"
-      />
-    </SettingItem>
-  </template>
+  <!-- キャラクター指定（maxCharacters が 1 以上のコンポーネントのみ。リセットで未選択に戻る） -->
+  <SettingItem
+    v-for="index in characterSlots"
+    :key="index"
+    :label="t('uiSettings.cookieCounter.character.label', { n: index + 1 })"
+    :description="t('uiSettings.cookieCounter.character.description')"
+    layout="vertical"
+    :showReset="true"
+    @reset="resetCharacter(index)"
+  >
+    <CharacterIconPicker
+      :character-key="characterAt(index).characterKey"
+      :icon-key="characterAt(index).iconKey"
+      @select="(payload) => setCharacter(index, payload)"
+    />
+  </SettingItem>
 
   <!-- カウンター設定 -->
   <CounterSelectorPanel
@@ -63,12 +52,19 @@
   import { useI18n } from 'vue-i18n'
   import { computed, reactive } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { CookieCounterSchema, CookieCounterCountersSchema, CookieCounterType } from '@/types/ui'
+  import {
+    CookieCounterSchema,
+    CookieCounterCharacterSchema,
+    CookieCounterCountersSchema,
+    CookieCounterType,
+  } from '@/types/ui'
   import { getCookieCounterComponent, getCookieCounterComponentSets } from '../CookieCounterRegistry'
   import CookieCounterPreview from './CookieCounterPreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
+  import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
+  import type { SelectPayload } from '@/editor/parts/CharacterPicker/types'
 
   import CounterSelectorPanel from '@/ui/StreamCounter/editor/CounterSelector/CounterSelectorPanel.vue'
   import { CounterItem } from '@/ui/StreamCounter/editor/CounterSelector/counterTypes'
@@ -86,6 +82,10 @@
   const currentDefinition = computed(() => getCookieCounterComponent(cookieCounter.value.component))
   // 未登録のコンポーネントのときは、スキーマの上限(8)にする
   const maxCounters = computed(() => currentDefinition.value?.maxCounters ?? 8)
+  // キャラクターの設定欄(未登録のコンポーネントのときは出さない)
+  const characterSlots = computed(() =>
+    Array.from({ length: currentDefinition.value?.maxCharacters ?? 0 }, (_, i) => i)
+  )
 
   // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
   const componentOptions = computed(() => {
@@ -103,10 +103,18 @@
     omikujiStore.updateItemSettings('cookieCounter', { ...cookieCounter.value, [field]: value })
   }
 
-  // ---- images 更新 ----
-  const updateImage = (key: keyof CookieCounterType['images'], value: string) => {
-    updateField('images', { ...cookieCounter.value.images, [key]: value })
+  // ---- characters 更新 ----
+  const characterAt = (index: number) => cookieCounter.value.characters[index] ?? CookieCounterCharacterSchema.parse({})
+
+  // 指定の番号まで空で埋めて、その番号だけ差し替える
+  const setCharacter = (index: number, payload: SelectPayload) => {
+    const next = [...cookieCounter.value.characters]
+    while (next.length <= index) next.push(CookieCounterCharacterSchema.parse({}))
+    next[index] = CookieCounterCharacterSchema.parse(payload)
+    updateField('characters', next)
   }
+
+  const resetCharacter = (index: number) => setCharacter(index, { characterKey: '' })
 
   // counters 配列の全体を差し替える（並び替え・フィルタ共用）
   const updateCounters = (next: CounterItem[] | typeof counters.value) => updateField('counters', next)

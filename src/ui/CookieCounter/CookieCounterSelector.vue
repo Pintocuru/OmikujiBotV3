@@ -8,7 +8,7 @@
       :counter-defs="settings.counters"
       :variable-labels="variableLabels"
       :color="settings.color"
-      :images="settings.images"
+      :characters="shownCharacters"
     />
     <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
       {{ $t(loadError.key, { id: loadError.id }) }}
@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
   import { shallowRef, watch, type Component } from 'vue'
-  import type { CookieCounterType } from '@/types/ui'
+  import type { CookieCounterType, ShownCharacter } from '@/types/ui'
   import { getCookieCounterComponent } from './CookieCounterRegistry'
   import { notifyCookieCounterComponentIssue } from './notifyCookieCounterComponentIssue'
 
@@ -27,6 +27,7 @@
       settings: CookieCounterType
       counters: Record<string, number>
       variableLabels: Record<string, string>
+      shownCharacters: (ShownCharacter | null)[] // 設定の順番のまま。画像がないものは null
       editorPreview?: boolean
     }>(),
     { editorPreview: false }

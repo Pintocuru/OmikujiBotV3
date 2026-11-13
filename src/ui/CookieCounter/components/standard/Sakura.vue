@@ -3,7 +3,12 @@
   <div class="flex justify-center items-center pt-30">
     <!-- メイン花びら（サブの absolute 基準） -->
     <div v-if="slots[0]" class="relative inline-block">
-      <SakuraPetal :src="props.images.main" class="w-110 h-110 animate-spin-slow" />
+      <LayerImage
+        v-if="characters[0]"
+        :layers="characters[0].layers"
+        :size="PETAL_MAIN_SIZE"
+        :animation="characters[0].animation"
+      />
 
       <!-- メインの数字・ラベル -->
       <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 leading-tight">
@@ -17,7 +22,12 @@
 
       <!-- サブ花びら -->
       <div v-if="slots[1]" class="absolute top-5 -right-10" style="transform: translate(50%, -50%)">
-        <SakuraPetal :src="props.images.sub || props.images.main" class="w-60 h-60 animate-spin-slow-reverse" />
+        <LayerImage
+          v-if="characters[1]"
+          :layers="characters[1].layers"
+          :size="PETAL_SUB_SIZE"
+          :animation="characters[1].animation"
+        />
 
         <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 leading-tight">
           <div class="flex flex-col items-center">
@@ -36,8 +46,8 @@
 
 <script setup lang="ts">
   import { computed, ref, watch } from 'vue'
-  import { CookieCounterType } from '@/types/ui'
-  import SakuraPetal from './SakuraPetal.vue'
+  import { CookieCounterType, ShownCharacter } from '@/types/ui'
+  import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { useCookieLabelResolver } from '../../composables/useCookieLabelResolver'
   import { useTransition, TransitionPresets } from '@vueuse/core'
 
@@ -45,8 +55,12 @@
     counters: Record<string, number>
     counterDefs: CookieCounterType['counters']
     variableLabels: Record<string, string>
-    images: CookieCounterType['images']
+    characters: (ShownCharacter | null)[] // 1つ目がメイン、2つ目がサブの花びら。回転などの動きはキャラクターの表情のデータに従う
   }>()
+
+  // 花びらの大きさ(px)
+  const PETAL_MAIN_SIZE = 440
+  const PETAL_SUB_SIZE = 240
 
   const { getLabel } = useCookieLabelResolver(props.variableLabels)
   const formatValue = (v: number) => new Intl.NumberFormat('ja-JP').format(Math.round(v))
@@ -111,29 +125,6 @@
 <style scoped>
   /* Google Fonts: Zen Maru Gothic（派手め・丸ゴ・日本語対応） */
   @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@900&display=swap');
-
-  @keyframes spin-slow {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes spin-slow-reverse {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(-360deg);
-    }
-  }
-  .animate-spin-slow {
-    animation: spin-slow 60s linear infinite;
-  }
-  .animate-spin-slow-reverse {
-    animation: spin-slow-reverse 80s linear infinite;
-  }
 
   /* 数値・ラベル共通フォント */
   .counter-value,

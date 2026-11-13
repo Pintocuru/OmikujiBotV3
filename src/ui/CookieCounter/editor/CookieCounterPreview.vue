@@ -8,6 +8,7 @@
         :settings="cookieCounter"
         :counters="previewCounters"
         :variableLabels="variableLabels"
+        :shownCharacters="shownCharacters"
       />
     </div>
 
@@ -29,6 +30,8 @@
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { usePreviewCounters } from '@/ui/StreamCounter/editor/usePreviewCounters'
+  import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
+  import { resolveCookieCharacters } from '../composables/resolveCookieCharacters'
 
   const props = defineProps<{
     cookieCounter: CookieCounterType
@@ -38,6 +41,10 @@
   const { previewCounters, incrementAll } = usePreviewCounters({
     getExtraKeys: () => props.cookieCounter.counters.map((c) => c.target),
   })
+
+  // エディターでは編集中のデータのキャラクターを使う
+  const characterLookup = useCharacterLookup()
+  const shownCharacters = computed(() => resolveCookieCharacters(props.cookieCounter.characters, characterLookup))
 
   const omikujiStore = useOmikujiStore()
   const fontFamily = computed(() => useFontFamily(omikujiStore.data.ui.fontFamily ?? 'default'))
