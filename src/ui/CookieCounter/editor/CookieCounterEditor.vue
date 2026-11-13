@@ -72,7 +72,6 @@
   import CounterSelectorPanel from '@/ui/StreamCounter/editor/CounterSelector/CounterSelectorPanel.vue'
   import { CounterItem } from '@/ui/StreamCounter/editor/CounterSelector/counterTypes'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { streamDefaultMap } from '@/maps/ui'
 
   const { data } = storeToRefs(useOmikujiStore())
   const { t } = useI18n()
