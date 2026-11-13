@@ -2,7 +2,33 @@
 <template>
   <!-- ランキングプレビュー -->
   <HudPreview :isAdminOnly="true">
-    <GameRankingSelector :rankingMessages="[]" :settings="ranking" :fontFamily="fontFamily" editorPreview />
+    <GameRankingSelector
+      :rankingMessages="previewMessages"
+      :settings="ranking"
+      :fontFamily="fontFamily"
+      editorPreview
+    />
+
+    <template #hud>
+      <button
+        type="button"
+        class="btn btn-xs btn-ghost tooltip tooltip-left"
+        :data-tip="t('uiSettings.gameRanking.preview.add')"
+        :aria-label="t('uiSettings.gameRanking.preview.add')"
+        @click="addPreviewMessage"
+      >
+        <Plus :size="16" />
+      </button>
+      <button
+        type="button"
+        class="btn btn-xs btn-ghost tooltip tooltip-left"
+        :data-tip="t('uiSettings.gameRanking.preview.clear')"
+        :aria-label="t('uiSettings.gameRanking.preview.clear')"
+        @click="clearPreviewMessages"
+      >
+        <Trash2 :size="16" />
+      </button>
+    </template>
   </HudPreview>
 
   <!-- コンポーネント選択 -->
@@ -77,10 +103,13 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { computed } from 'vue'
+  import { computed, ref, watch } from 'vue'
+  import { Plus, Trash2 } from 'lucide-vue-next'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { GameRankingType } from '@/types/ui/GameRankingSchema'
+  import type { BotMessageRankingType } from '@/types/generator'
+  import { generateDummyMessages } from '@/common/MockUser/MockGenerators'
   import { rankingSortOrderMap } from '@/maps/ui'
   import { getGameRankingComponent, getGameRankingComponentSets } from '../GameRankingRegistry'
   import { GameRankingSchema } from '@/types/ui/GameRankingSchema'
@@ -110,6 +139,31 @@
     }
     return options
   })
+
+  // プレビュー用のダミーデータ(エディターだけで持つ。本番の配信画面には入れない)
+  const PREVIEW_MAX = 50
+  const previewMessages = ref<BotMessageRankingType[]>(generateDummyMessages({ limit: ranking.value.limit }))
+
+  // ダミーを1件追加(timestamp が新しいので、新着順では先頭に入る)
+  const addPreviewMessage = () => {
+    previewMessages.value = [...previewMessages.value, ...generateDummyMessages({ limit: 1 })].slice(-PREVIEW_MAX)
+  }
+
+  // 空にして、記録がないときの表示を確認する
+  const clearPreviewMessages = () => {
+    previewMessages.value = []
+  }
+
+  // 表示件数を増やしたとき、足りない分のダミーを補う(空にした状態のときは補わない)
+  watch(
+    () => ranking.value.limit,
+    (limit, prevLimit) => {
+      const shortage = limit - previewMessages.value.length
+      if (limit > prevLimit && previewMessages.value.length > 0 && shortage > 0) {
+        previewMessages.value = [...previewMessages.value, ...generateDummyMessages({ limit: shortage })]
+      }
+    }
+  )
 
   // 更新関数
   const update = <K extends keyof GameRankingType>(field: K, value: GameRankingType[K]) => {

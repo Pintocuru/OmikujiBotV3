@@ -4,9 +4,10 @@
     <div class="flex flex-col p-2">
       <div class="space-y-1">
         <div
-          v-for="(msg, index) in displayMessages"
-          :key="`${msg.id}-${index}`"
+          v-for="(row, index) in rows"
+          :key="row.key"
           class="rank-row flex items-center gap-1 p-1 rounded-lg transition-all"
+          :class="{ 'is-placeholder opacity-50': row.placeholder }"
           :style="getRowStyle(index)"
         >
           <!-- スコア順のときだけ順位バッジを表示 -->
@@ -23,22 +24,21 @@
           <div class="grow min-w-0 items-center flex flex-nowrap">
             <!-- アイコン -->
             <div class="mr-1 shrink-0">
-              <div class="h-7 w-7 overflow-hidden rounded-full">
-                <img
-                  :src="msg.user?.profileImage || getAvatarUrl(msg.user?.userName ?? 'Anonymous')"
-                  class="w-full h-full object-cover"
-                  alt=""
-                />
+              <div
+                class="h-7 w-7 overflow-hidden rounded-full"
+                :style="row.placeholder ? placeholderIconStyle : undefined"
+              >
+                <img v-if="!row.placeholder" :src="row.iconUrl" class="w-full h-full object-cover" alt="" />
               </div>
             </div>
 
             <!-- 名前 -->
             <span class="text-lg font-bold truncate" :style="{ color: medal && index < 3 ? '#333' : 'var(--rk-name)' }">
-              {{ msg.slots.listName || msg.user.userName || 'Anonymous' }}
+              {{ row.name }}
             </span>
             <!-- symbol -->
-            <span v-if="msg.slots.symbol" class="text-base font-semibold truncate ml-2" :style="{ opacity: 0.6 }">
-              {{ msg.slots.symbol }}
+            <span v-if="row.symbol" class="text-base font-semibold truncate ml-2" :style="{ opacity: 0.6 }">
+              {{ row.symbol }}
             </span>
           </div>
 
@@ -48,7 +48,7 @@
               class="inline-flex h-8 items-center justify-center rounded-lg px-3 text-lg font-bold"
               :style="scoreBadgeStyle"
             >
-              {{ msg.slots.scoreText || msg.slots.score }}
+              {{ row.score }}
             </div>
           </div>
         </div>
@@ -59,7 +59,6 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { generateDummyMessages } from '@/common/MockUser/MockGenerators'
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
   import { BotMessageRankingType } from '@/types/generator'
   import { GameRankingType } from '@/types/ui'
@@ -70,36 +69,67 @@
     medal?: boolean // true: 1〜3位の行背景を金・銀・銅の固定色にする
   }>()
 
-  // 表示用メッセージ（空の場合はダミーを生成）
+  // 記録がないときの表示(ダミーは入れず、limit 行ぶん `---` を出す)
+  const PLACEHOLDER_TEXT = '---'
+
+  // 並び替え・件数制限をした表示用メッセージ
   const displayMessages = computed(() => {
-    if (props.listMessages.length > 0) {
-      let data = [...props.listMessages]
+    const data = [...props.listMessages]
 
-      switch (props.settings.sortOrder) {
-        case 'high':
-          data.sort((a, b) => {
-            const diff = b.slots.score - a.slots.score
-            if (diff !== 0) return diff
-            return b.user.timestamp - a.user.timestamp
-          })
-          break
-        case 'low':
-          data.sort((a, b) => {
-            const diff = a.slots.score - b.slots.score
-            if (diff !== 0) return diff
-            return b.user.timestamp - a.user.timestamp
-          })
-          break
-        case 'new':
-        default:
-          data.sort((a, b) => b.user.timestamp - a.user.timestamp)
-          break
-      }
-
-      return data.slice(0, props.settings.limit || 10)
+    switch (props.settings.sortOrder) {
+      case 'high':
+        data.sort((a, b) => {
+          const diff = b.slots.score - a.slots.score
+          if (diff !== 0) return diff
+          return b.user.timestamp - a.user.timestamp
+        })
+        break
+      case 'low':
+        data.sort((a, b) => {
+          const diff = a.slots.score - b.slots.score
+          if (diff !== 0) return diff
+          return b.user.timestamp - a.user.timestamp
+        })
+        break
+      case 'new':
+      default:
+        data.sort((a, b) => b.user.timestamp - a.user.timestamp)
+        break
     }
 
-    return generateDummyMessages(props.settings)
+    return data.slice(0, props.settings.limit || 10)
+  })
+
+  // 1行ぶんの表示データ(記録あり・なしを同じ形にそろえる)
+  type RankRow = {
+    key: string
+    name: string
+    symbol: string
+    score: string | number
+    iconUrl: string
+    placeholder: boolean
+  }
+
+  const rows = computed<RankRow[]>(() => {
+    if (displayMessages.value.length > 0) {
+      return displayMessages.value.map((msg, index) => ({
+        key: `${msg.id}-${index}`,
+        name: msg.slots.listName || msg.user.userName || 'Anonymous',
+        symbol: msg.slots.symbol,
+        score: msg.slots.scoreText || msg.slots.score,
+        iconUrl: msg.user?.profileImage || getAvatarUrl(msg.user?.userName ?? 'Anonymous'),
+        placeholder: false,
+      }))
+    }
+
+    return Array.from({ length: props.settings.limit || 10 }, (_, index) => ({
+      key: `placeholder-${index}`,
+      name: PLACEHOLDER_TEXT,
+      symbol: '',
+      score: PLACEHOLDER_TEXT,
+      iconUrl: '',
+      placeholder: true,
+    }))
   })
 
   // CharacterColorSchema の4色(name/text/background/accent)を CSS 変数として流し込む
@@ -140,6 +170,9 @@
     backgroundColor: 'var(--rk-accent)',
     color: 'var(--rk-bg)',
   }
+
+  // 記録がないときのアイコン(画像の代わりの丸)
+  const placeholderIconStyle = { backgroundColor: mix('var(--rk-text)', 20) }
 </script>
 
 <style scoped>
@@ -147,7 +180,7 @@
     animation: fadeIn 0.3s ease-in;
   }
 
-  .rank-row:hover {
+  .rank-row:not(.is-placeholder):hover {
     background-color: color-mix(in srgb, var(--rk-text) 10%, transparent);
   }
 

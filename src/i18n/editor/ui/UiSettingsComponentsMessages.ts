@@ -39,6 +39,10 @@ export const uiSettingsComponents = {
           label: 'ユーザーごとに1件だけ表示',
           description: '同じユーザーは最新の1件のみ表示',
         },
+        preview: {
+          add: 'ダミーのデータを1件追加',
+          clear: 'データを空にする(未記録の表示を確認)',
+        },
       },
       cookieCounter: {
         incrementAll: '🎲 全て +1',
@@ -133,6 +137,10 @@ export const uiSettingsComponents = {
         uniqueUser: {
           label: 'One entry per user',
           description: 'Only the latest record of each user is shown',
+        },
+        preview: {
+          add: 'Add one dummy entry',
+          clear: 'Clear all entries (check the empty display)',
         },
       },
       cookieCounter: {
