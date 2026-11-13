@@ -2,6 +2,7 @@
 import type { Component } from 'vue'
 import type { CategoryType } from '@/types/OmikujiData'
 import type { ItemContentDef } from '@/editor/types/apps'
+import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
 import JsonMergeEditor from '@/editor/apps/JsonMerge/JsonMergeEditor.vue'
 import DataPacks from '@/editor/apps/dataPacks/DataPacks.vue'
@@ -27,6 +28,8 @@ import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
  * カテゴリごとの、ContentArea に出す内容の定義
  */
 export type CategoryContentDef = {
+  /** カテゴリのアイコン(旧 categoryMap から統合) */
+  icon: LucideIconName
   editor: Component
   item?: ItemContentDef
 }
@@ -53,10 +56,11 @@ const scenariosSection: ItemContentDef['section'] = {
 }
 
 export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
-  jsonMerge: { editor: JsonMergeEditor },
+  jsonMerge: { icon: 'Layers', editor: JsonMergeEditor },
 
   // events
   comments: {
+    icon: 'MessageSquare',
     editor: ItemEditor,
     item: {
       component: CommentTriggerEditor,
@@ -66,6 +70,7 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
     },
   },
   timers: {
+    icon: 'Timer',
     editor: ItemEditor,
     item: {
       component: TimerIntervalEditor,
@@ -77,10 +82,12 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
     },
   },
   services: {
+    icon: 'ThumbsUp',
     editor: ItemEditor,
     item: { component: ServiceTrigger, section: triggerSection, modelField: 'trigger', keyProp: 'selectedItemKey' },
   },
   reactions: {
+    icon: 'Smile',
     editor: ItemEditor,
     item: {
       component: ReactionTriggerEditor,
@@ -91,6 +98,7 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
     },
   },
   pads: {
+    icon: 'LayoutGrid',
     editor: ItemEditor,
     item: {
       component: PadTriggerEditor,
@@ -103,14 +111,17 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
 
   // assets
   mikuji: {
+    icon: 'Package',
     editor: ItemEditor,
     item: { component: MikujiSettings, section: stepsSection, modelField: null, keyProp: 'mikujiKey' },
   },
   scenarios: {
+    icon: 'Zap',
     editor: ItemEditor,
     item: { component: ScenarioStepsEditor, section: scenariosSection, modelField: 'steps', keyProp: 'currentKey' },
   },
   placeholders: {
+    icon: 'Brackets',
     editor: ItemEditor,
     item: {
       component: PlaceholderValuesEditor,
@@ -121,12 +132,12 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
       },
     },
   },
-  characters: { editor: CharacterEditor },
+  characters: { icon: 'Users', editor: CharacterEditor },
 
   // settings
-  ui: { editor: UiEditor },
-  dataPacks: { editor: DataPacks },
-  orphans: { editor: OrphanItemsEditor },
-  cooldown: { editor: CooldownOverviewEditor },
-  appInfo: { editor: AppInfoEditor },
+  ui: { icon: 'LayoutGrid', editor: UiEditor },
+  dataPacks: { icon: 'Download', editor: DataPacks },
+  orphans: { icon: 'Search', editor: OrphanItemsEditor },
+  cooldown: { icon: 'Timer', editor: CooldownOverviewEditor },
+  appInfo: { icon: 'Settings', editor: AppInfoEditor },
 }

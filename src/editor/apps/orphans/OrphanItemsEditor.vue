@@ -19,7 +19,7 @@
 
     <section v-for="group in orphanGroups" :key="group.category" class="space-y-1.5">
       <TopCategoryHeader
-        :icon="categoryMap[group.category].icon"
+        :icon="categoryContentMap[group.category].icon"
         :title="t(`categories.${group.category}.label`)"
         :description="t(`categories.${group.category}.description`)"
         :count="group.items.length"
@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { categoryMap } from '@/maps/OmikujiData'
+  import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'

@@ -13,7 +13,7 @@ import {
 import { isDev } from '@/common/AppEnv'
 import { CategoryGroup } from '@/editor/types/apps'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { categoryMap } from '@/maps/OmikujiData'
+import { categoryContentMap, type CategoryContentDef } from '@/editor/maps/category/CategoryContentMap'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { isFullRegistered } from '@/editor/registrationState'
@@ -39,7 +39,7 @@ export const useCategoryUtils = () => {
   /**
    * ナビゲーションの表示・非表示設定
    */
-  const visibleCategories = computed<Record<CategoryType, (typeof categoryMap)[CategoryType]>>(() => {
+  const visibleCategories = computed<Record<CategoryType, CategoryContentDef>>(() => {
     const excludeKeys: CategoryType[] = []
 
     // 開発者のみの機能
@@ -49,8 +49,8 @@ export const useCategoryUtils = () => {
     if (!isFullRegistered.value) excludeKeys.push('dataPacks')
 
     return Object.fromEntries(
-      Object.entries(categoryMap).filter(([key]) => !excludeKeys.includes(key as CategoryType))
-    ) as Record<CategoryType, (typeof categoryMap)[CategoryType]>
+      Object.entries(categoryContentMap).filter(([key]) => !excludeKeys.includes(key as CategoryType))
+    ) as Record<CategoryType, CategoryContentDef>
   })
 
   /** 表示対象のキーから、指定リストに含まれるものだけを取り出す */
@@ -75,7 +75,7 @@ export const useCategoryUtils = () => {
     const groups: CategoryGroup<SettingsCategoryType>[] = [
       { id: 'ui', keys: pick(['ui']) as SettingsCategoryType[] },
       { id: 'check', keys: pick(['orphans', 'cooldown']) as SettingsCategoryType[] }, // 全体を見渡して整えるページ
-      { id: 'other', keys: pick(['jsonMerge', 'dataPacks', 'appInfo']) as SettingsCategoryType[] }, // 表示順は categoryMap に従う
+      { id: 'other', keys: pick(['jsonMerge', 'dataPacks', 'appInfo']) as SettingsCategoryType[] }, // 表示順は categoryContentMap に従う
     ]
     return groups.filter((group) => group.keys.length > 0)
   })

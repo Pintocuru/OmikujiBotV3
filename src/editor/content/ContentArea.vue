@@ -2,7 +2,7 @@
 <template>
   <!-- 主題(カテゴリ)。TopPage と同じ SectionCard。中の副題は SubSection / SubSectionHeader -->
   <SectionCard
-    :icon="currentCategory.icon"
+    :icon="currentContent.icon"
     :label-key="`categories.${selectedCategory}.label`"
     :description-key="`categories.${selectedCategory}.description`"
   >
@@ -10,7 +10,7 @@
     <NoParamsCard
       v-if="isEmpty"
       :key="selectedCategory"
-      :iconName="currentCategory.icon"
+      :iconName="currentContent.icon"
       :message="t('navigation.create.emptyMessage')"
       :sub="t('navigation.create.emptyHint')"
     />
@@ -31,7 +31,6 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { categoryMap } from '@/maps/OmikujiData'
   import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
@@ -46,7 +45,6 @@
   // Events / Assets のカテゴリでデータが1件もない
   const isEmpty = computed(() => isCurrentDataCategory.value && (categoryArray.value?.length ?? 0) === 0)
 
-  const currentCategory = computed(() => categoryMap[selectedCategory.value])
   const currentContent = computed(() => categoryContentMap[selectedCategory.value])
   // Events / Assets の ItemEditor には、セクションの内容を渡す
   const editorProps = computed(() => (currentContent.value.item ? { content: currentContent.value.item } : {}))

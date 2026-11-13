@@ -21,7 +21,7 @@
           <span class="truncate">{{ missingText(item) }}</span>
         </span>
         <button v-else class="btn btn-xs btn-outline gap-2" @click="goTo(item)">
-          <component :is="resolveLucideIcon(categoryMap[item.category].icon)" class="w-4 h-4 shrink-0" />
+          <component :is="resolveLucideIcon(categoryContentMap[item.category].icon)" class="w-4 h-4 shrink-0" />
           <span class="max-w-48 truncate">{{ item.name }}</span>
         </button>
       </template>
@@ -39,7 +39,7 @@
               <span class="truncate">{{ missingText(item) }}</span>
             </span>
             <button v-else @click="goTo(item)">
-              <component :is="resolveLucideIcon(categoryMap[item.category].icon)" class="w-4 h-4 shrink-0" />
+              <component :is="resolveLucideIcon(categoryContentMap[item.category].icon)" class="w-4 h-4 shrink-0" />
               <span class="truncate">{{ item.name }}</span>
             </button>
           </li>
@@ -60,7 +60,7 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { TriangleAlert } from 'lucide-vue-next'
-  import { categoryMap } from '@/maps/OmikujiData'
+  import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useCategoryOpen } from '@/editor/sidebar/composables/useCategoryOpen'

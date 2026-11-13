@@ -3,7 +3,7 @@
 <template>
   <section class="space-y-2">
     <TopCategoryHeader
-      :icon="categoryMap[category].icon"
+      :icon="categoryContentMap[category].icon"
       :title="t(`categories.${category}.label`)"
       :description="t(`categories.${category}.description`)"
       :count="items.length"
@@ -60,7 +60,7 @@
   import { GripVertical } from 'lucide-vue-next'
   import type { CategoryType, EventCategoryType } from '@/types/OmikujiData'
   import type { BaseRecordType } from '@/types/core'
-  import { categoryMap } from '@/maps/OmikujiData'
+  import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useTopItemActions } from '../composables/useTopItemActions'
@@ -81,7 +81,7 @@
   const { getEvents } = useGetEventData()
   const { goToItem, duplicateEventItem, removeEventItem } = useTopItemActions()
 
-  // events は「配列の並び」が正(サイドバーと同じ)。order プロパティでは並べ替えない
+  // events は「配列の並び」が正(サイドバーと同じ)。order プロパティでは並び替えない
   // (order で並べ直すと、reorderEvents の結果が打ち消されてドラッグが元に戻る)
   const items = computed<BaseRecordType[]>(() => [...getEvents(props.category)])
 

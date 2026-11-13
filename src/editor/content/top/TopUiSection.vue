@@ -3,7 +3,7 @@
 <template>
   <section v-if="uiItems.length > 0" class="space-y-1.5">
     <TopCategoryHeader
-      :icon="categoryMap.ui.icon"
+      :icon="categoryContentMap.ui.icon"
       :title="t('categories.ui.label')"
       :description="t('categories.ui.description')"
       :count="uiItems.length"
@@ -32,7 +32,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { categoryMap } from '@/maps/OmikujiData'
+  import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useVisibleUiKinds } from '@/editor/ui/useVisibleUiKinds'

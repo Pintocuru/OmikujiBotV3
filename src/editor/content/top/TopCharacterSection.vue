@@ -3,7 +3,7 @@
 <template>
   <section v-if="characterCards.length > 0" class="space-y-1.5">
     <TopCategoryHeader
-      :icon="categoryMap.characters.icon"
+      :icon="categoryContentMap.characters.icon"
       :title="t('categories.characters.label')"
       :description="t('categories.characters.description')"
       :count="characterCards.length"
@@ -43,7 +43,7 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import type { CategoryType, CharacterType } from '@/types/OmikujiData'
-  import { categoryMap } from '@/maps/OmikujiData'
+  import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import { sortByOrder } from '@/editor/helpers/sortByOrder'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'

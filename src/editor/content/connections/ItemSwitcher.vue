@@ -4,7 +4,7 @@
   <div class="flex items-center gap-1">
     <div class="dropdown">
       <button tabindex="0" class="btn btn-sm btn-neutral gap-2">
-        <component :is="resolveLucideIcon(categoryMap[selectedCategory].icon)" class="w-4 h-4 shrink-0" />
+        <component :is="resolveLucideIcon(categoryContentMap[selectedCategory].icon)" class="w-4 h-4 shrink-0" />
         <span class="truncate">{{ currentName }}</span>
         <TriangleAlert v-if="isCyclic(selectedItemKey)" class="w-4 h-4 shrink-0" />
         <span v-if="isDisabled" class="badge badge-sm">{{ t('connections.switcher.disabled') }}</span>
@@ -39,7 +39,7 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { ChevronsUpDown, TriangleAlert } from 'lucide-vue-next'
-  import { categoryMap } from '@/maps/OmikujiData'
+  import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useReferenceGraph } from '@/editor/helpers/referenceGraph/useReferenceGraph'
