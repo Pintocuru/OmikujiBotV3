@@ -1,7 +1,15 @@
 <!-- src/editor/ui/UiEditor.vue -->
 <template>
-  <!-- セクションのタブ -->
-  <SectionTabs :tabs="tabs" />
+  <!-- セクションのタブ。スクロールしても隠れないよう上に貼り付ける(左右は外枠 SectionCard の p-4 の分だけ広げる) -->
+  <div class="flex-wrap sticky top-0 z-10 -mx-4 bg-base-200 px-4 py-2">
+    <IconRadioGroup
+      v-model="selectedSection"
+      i18n-prefix="sectionTabs"
+      :icons="tabIcons"
+      :keys="tabSections"
+      :i18n-base-of="i18nBaseOf"
+    />
+  </div>
 
   <!-- 各セクションのカード -->
   <SubSection
@@ -22,7 +30,8 @@
   import { isDev } from '@/common/AppEnv'
   import type { ContentTab } from '@/editor/types/apps'
   import SubSection from '@/editor/parts/SubSection.vue'
-  import SectionTabs from '@/editor/parts/SectionTabs.vue'
+  import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
+  import { useSectionTabs } from '@/editor/parts/composables/useSectionTabs'
   import { useVisibleUiKinds } from './useVisibleUiKinds'
   import LayoutEditor from './conditions/LayoutEditor.vue'
   import FontFamilyEditor from './common/FontFamilyEditor.vue'
@@ -87,4 +96,6 @@
       .filter((sec) => (seen.has(sec.section) ? false : seen.add(sec.section)))
       .map(({ section, icon, labelKey }): ContentTab => ({ section, icon, labelKey }))
   })
+
+  const { selectedSection, tabSections, tabIcons, i18nBaseOf } = useSectionTabs(tabs)
 </script>
