@@ -1,6 +1,6 @@
 <!-- src/ui/LiverBingo/LiverBingo.vue -->
 <template>
-  <LiverBingoBoard :settings="settings" :fontFamily="appStore.data.ui.fontFamily" />
+  <LiverBingoBoard :settings="settings" :fontFamily="appStore.data.ui.fontFamily" sync />
 </template>
 
 <script setup lang="ts">

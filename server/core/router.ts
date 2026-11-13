@@ -6,6 +6,7 @@ import * as omikujiHandler from './handlers/omikujiHandler'
 import * as gameStateHandler from './handlers/gameStateHandler'
 import * as userStatsHandler from './handlers/userStatsHandler'
 import * as padHandler from './handlers/padHandler'
+import * as bingoHandler from './handlers/bingoHandler'
 import * as soundHandler from './handlers/soundHandler'
 import * as imageHandler from './handlers/imageHandler'
 import { API_ACTION } from '@server/api/actions'
@@ -76,6 +77,12 @@ async function handleGetRequest(
     case API_ACTION.loadPadStatus.action:
       return padHandler.loadPadStatus(params.since)
 
+    case API_ACTION.loadBingoCommands.action:
+      return bingoHandler.loadBingoCommands(params.since)
+
+    case API_ACTION.loadBingoSnapshot.action:
+      return bingoHandler.loadBingoSnapshot()
+
     case API_ACTION.listSounds.action:
       return soundHandler.listSounds(ctx)
 
@@ -143,6 +150,12 @@ async function handlePostRequest(
 
     case API_ACTION.triggerPad.action:
       return padHandler.triggerPad(body)
+
+    case API_ACTION.sendBingoCommand.action:
+      return bingoHandler.sendBingoCommand(body)
+
+    case API_ACTION.saveBingoSnapshot.action:
+      return bingoHandler.saveBingoSnapshot(body)
 
     default:
       return fail(HTTP.NOT_FOUND, `Unknown POST action: ${action}`)

@@ -24,16 +24,6 @@
     </div>
   </SettingItem>
 
-  <!-- タイトル -->
-  <SettingItem labelKey="uiSettings.liverBingo.title.label" descriptionKey="uiSettings.liverBingo.title.description">
-    <input
-      type="text"
-      class="input input-bordered input-sm w-full"
-      :value="liverBingo.title"
-      @change="update('title', ($event.target as HTMLInputElement).value)"
-    />
-  </SettingItem>
-
   <!-- カラー設定 -->
   <SettingItem
     labelKey="uiSettings.common.color.label"

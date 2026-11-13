@@ -8,12 +8,9 @@ export const uiSettingsLiverBingo = {
           label: 'カードサイズ',
           description: 'ビンゴカードの一辺のマス数',
         },
-        title: {
-          label: 'タイトル',
-          description: 'カード上部のバーに表示する文字。右クリックでカードを作り直せます',
-        },
         color: {
-          description: '名前: タイトルの文字 / テキスト: マスの文字 / 背景: マスの地 / アクセント: タイトルバー・達成',
+          description:
+            '名前: ラインが成立したマスの文字 / テキスト: マスの文字 / 背景: マスの地 / アクセント: 達成・進捗',
         },
         fixedItems: {
           label: '固定項目',
@@ -48,13 +45,9 @@ export const uiSettingsLiverBingo = {
           label: 'Card size',
           description: 'Number of cells per side of the bingo card',
         },
-        title: {
-          label: 'Title',
-          description: 'Text shown in the bar at the top of the card. Right-click it to regenerate the card.',
-        },
         color: {
           description:
-            'Name: title text / Text: cell text / Background: cell fill / Accent: title bar and completed cells',
+            'Name: text on cells in a completed line / Text: cell text / Background: cell fill / Accent: completed cells and progress',
         },
         fixedItems: {
           label: 'Fixed items',

@@ -21,6 +21,7 @@
 
     <UsersView v-if="view === 'users'" />
     <PadsView v-else-if="view === 'pads'" />
+    <BingoView v-else-if="view === 'bingo'" />
     <GameLogsView v-else />
   </div>
 </template>
@@ -30,8 +31,9 @@
   import GameLogsView from './games/components/GameLogsView.vue'
   import UsersView from './users/UsersView.vue'
   import PadsView from './pads/components/PadsView.vue'
+  import BingoView from './bingo/components/BingoView.vue'
 
-  const views = { pads: 'ポン出し', users: 'ユーザー操作', games: 'ゲームの記録' } as const
+  const views = { pads: 'ポン出し', bingo: 'ビンゴ', users: 'ユーザー操作', games: 'ゲームの記録' } as const
   type ViewKey = keyof typeof views
 
   // 再読み込みしても、同じ画面に戻れるよう URL の # に覚えておく (例: console.html#games)

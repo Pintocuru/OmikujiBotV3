@@ -1,5 +1,6 @@
 // src/ui/LiverBingo/composables/useLiverBingo.ts
 import { computed, onBeforeUnmount, ref, watch, type Ref } from 'vue'
+import type { LiverBingoCellPatchType } from '@/types/api'
 import type { LiverBingoItemType, LiverBingoType } from '@/types/ui'
 import { generateCard, rerollItem } from './bingoItems'
 import { getWinLines } from './winLines'
@@ -7,13 +8,12 @@ import { useLiverBingoSound } from './useLiverBingoSound'
 
 /** マスのカウントアニメーションの長さ(ms) */
 const CELL_ANIMATION_MS = 800
-/** ビンゴ成立時のタイトル演出の長さ(ms) */
-const BINGO_EFFECT_MS = 3000
 
 /**
  * ライバービンゴの状態と操作
  * - 進行状態(進捗・お題の入れ替え)はメモリだけで持つ(リロードで最初から)
  * - 設定(カードサイズ・固定項目・ランダム項目)が変わったらカードを作り直す
+ * - OBS 上のクリックと、LiveConsole からの命令(useLiverBingoSync)は、同じ操作を呼ぶ
  */
 export const useLiverBingo = (settings: Ref<LiverBingoType>) => {
   const sound = useLiverBingoSound()
@@ -24,8 +24,8 @@ export const useLiverBingo = (settings: Ref<LiverBingoType>) => {
   const items = ref<LiverBingoItemType[]>([])
   const progress = ref<number[]>([])
   const animating = ref<boolean[]>([])
-  const randomCell = ref<number | null>(null)
-  const showBingoEffect = ref(false)
+  /** 注目中のマス(LiveConsole から指定される) */
+  const focusCell = ref<number | null>(null)
 
   // ---- 判定 ----
   const completedCells = computed(() => items.value.map((item, index) => (progress.value[index] ?? 0) >= item.target))
@@ -47,7 +47,6 @@ export const useLiverBingo = (settings: Ref<LiverBingoType>) => {
 
   // ---- タイマー ----
   const cellTimers = new Map<number, number>()
-  let effectTimer: number | undefined
 
   const triggerAnimation = (index: number) => {
     window.clearTimeout(cellTimers.get(index))
@@ -64,18 +63,16 @@ export const useLiverBingo = (settings: Ref<LiverBingoType>) => {
   const clearTimers = () => {
     cellTimers.forEach((timer) => window.clearTimeout(timer))
     cellTimers.clear()
-    window.clearTimeout(effectTimer)
   }
   onBeforeUnmount(clearTimers)
 
   // ---- カード生成(音なし。設定変更でも呼ばれる) ----
   const regenerate = () => {
     clearTimers()
-    showBingoEffect.value = false
     items.value = generateCard(cardSize.value, settings.value.randomSeeds, settings.value.seeds)
     progress.value = Array(totalCells.value).fill(0)
     animating.value = Array(totalCells.value).fill(false)
-    randomCell.value = null
+    focusCell.value = null
   }
 
   watch(() => [settings.value.cardSize, settings.value.seeds, settings.value.randomSeeds], regenerate, {
@@ -89,45 +86,68 @@ export const useLiverBingo = (settings: Ref<LiverBingoType>) => {
     sound.cheers()
     if (now === 1) sound.single()
     else sound.multi()
-    showBingoEffect.value = true
-    window.clearTimeout(effectTimer)
-    effectTimer = window.setTimeout(() => (showBingoEffect.value = false), BINGO_EFFECT_MS)
   })
 
   // ---- 操作 ----
-  /** 左クリック: 進捗 +1 */
+  const isCell = (index: number) => Number.isInteger(index) && index >= 0 && index < totalCells.value
+
+  /** 進捗 +1(OBS では左クリック) */
   const increment = (index: number) => {
-    randomCell.value = null
+    if (!isCell(index)) return
+    focusCell.value = null
     progress.value[index] = (progress.value[index] ?? 0) + 1
     triggerAnimation(index)
     sound.click()
   }
 
-  /** 右クリック: 進捗 -1。0 のときはお題を入れ替える(固定項目のマスは入れ替えない) */
-  const decrement = (index: number) => {
-    randomCell.value = null
-    if ((progress.value[index] ?? 0) > 0) {
-      progress.value[index]--
-    } else if (!fixedCells.value.has(index)) {
-      items.value[index] = rerollItem(settings.value.randomSeeds, items.value[index])
-    }
+  /** お題を入れ替える(進捗は 0 に戻す) */
+  const reroll = (index: number) => {
+    if (!isCell(index)) return
+    focusCell.value = null
+    items.value[index] = rerollItem(settings.value.randomSeeds, items.value[index])
+    progress.value[index] = 0
     sound.reset()
   }
 
-  /** タイトルを右クリック: カードを作り直す */
-  const generate = () => {
+  /** 進捗 -1(OBS では右クリック)。0 のときはお題を入れ替える(固定項目のマスは入れ替えない) */
+  const decrement = (index: number) => {
+    if (!isCell(index)) return
+    if ((progress.value[index] ?? 0) > 0) {
+      focusCell.value = null
+      progress.value[index]--
+      sound.reset()
+    } else if (!fixedCells.value.has(index)) {
+      reroll(index)
+    }
+  }
+
+  /** カードを作り直す */
+  const reset = () => {
     regenerate()
     sound.reset()
   }
 
-  /** [R] ボタン: 未達成のマスを 1 つランダムに光らせる */
-  const randomSelect = () => {
-    randomCell.value = null
-    const available = completedCells.value.flatMap((done, index) => (done ? [] : [index]))
-    if (available.length === 0) return
-    const index = available[Math.floor(Math.random() * available.length)]
-    randomCell.value = index
+  /** 注目するマスを光らせる(null で解除) */
+  const focus = (index: number | null) => {
+    if (index === null) {
+      focusCell.value = null
+      return
+    }
+    if (!isCell(index)) return
+    focusCell.value = index
     triggerAnimation(index)
+  }
+
+  /** お題・目標・単位を書き換える(進捗はそのまま) */
+  const patchCell = (index: number, patch: LiverBingoCellPatchType) => {
+    if (!isCell(index)) return
+    const current = items.value[index]
+    items.value[index] = {
+      ...current,
+      ...(patch.title !== undefined && { title: patch.title }),
+      ...(patch.target !== undefined && { target: patch.target }),
+      ...(patch.unit !== undefined && { unit: patch.unit }),
+    }
   }
 
   return {
@@ -135,15 +155,19 @@ export const useLiverBingo = (settings: Ref<LiverBingoType>) => {
     items,
     progress,
     animating,
-    randomCell,
-    showBingoEffect,
+    focusCell,
     completedCells,
     lineCount,
     highlightedCells,
+    fixedCells,
     increment,
     decrement,
-    generate,
-    randomSelect,
+    reroll,
+    reset,
+    focus,
+    patchCell,
     playHover: sound.hover,
   }
 }
+
+export type LiverBingoBoardState = ReturnType<typeof useLiverBingo>

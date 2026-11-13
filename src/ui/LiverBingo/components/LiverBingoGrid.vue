@@ -8,7 +8,7 @@
       :class="{
         'lb-cell--done': completedCells[index],
         'lb-cell--line': highlightedCells.includes(index),
-        'lb-cell--random': randomCell === index,
+        'lb-cell--focus': focusCell === index,
       }"
       @click="emit('cell-click', index)"
       @contextmenu.prevent="emit('cell-right-click', index)"
@@ -45,7 +45,7 @@
     progress: number[]
     completedCells: boolean[]
     highlightedCells: number[]
-    randomCell: number | null
+    focusCell: number | null
     animating: boolean[]
   }>()
 
@@ -111,8 +111,8 @@
     color: var(--lb-name);
     box-shadow: 0 0 0 2px var(--lb-text);
   }
-  /* ランダム選択されたマス */
-  .lb-cell--random {
+  /* LiveConsole で注目されたマス */
+  .lb-cell--focus {
     outline: 4px solid var(--lb-accent);
     animation: lb-pulse 1s ease-in-out infinite;
   }

@@ -11,9 +11,6 @@ export type LiverBingoCardSize = (typeof LIVER_BINGO_CARD_SIZES)[number]
 export const LIVER_BINGO_UNITS = [1, 10, 100, 1000] as const
 export type LiverBingoUnit = (typeof LIVER_BINGO_UNITS)[number]
 
-/** タイトルの既定値 */
-export const LIVER_BINGO_DEFAULT_TITLE = 'ライバービンゴ'
-
 /**
  * ビンゴのお題 1 件
  * - title: お題(空なら未設定として扱う)
@@ -45,8 +42,7 @@ export type LiverBingoSeedType = z.infer<typeof LiverBingoSeedSchema>
 /**
  * ライバービンゴ(実験枠)
  * - cardSize: カードの一辺のマス数
- * - title: タイトルバーの文字
- * - color: 配色(name: タイトル・強調部分の文字 / text: マスの文字 / background: マスの地 / accent: タイトルバー・達成の色)
+ * - color: 配色(name: ラインが成立したマスの文字 / text: マスの文字 / background: マスの地 / accent: 達成・進捗の色)
  * - seeds: 固定項目(位置を決めたお題。既定は空。固定されていないマスはランダム項目から選ばれる)
  * - randomSeeds: ランダム項目(固定されていないマスに、重み付きで割り当てる)
  */
@@ -64,7 +60,6 @@ export const LiverBingoSchema = z.object({
     ])
     .default(3)
     .catch(3),
-  title: z.string().default(LIVER_BINGO_DEFAULT_TITLE).catch(LIVER_BINGO_DEFAULT_TITLE),
   color: normalizedObject(CharacterColorSchema, 'ui.LiverBingo.color'),
   seeds: z.array(LiverBingoSeedSchema).default([]).catch([]),
   randomSeeds: z.array(LiverBingoItemSchema).default([]).catch([]),

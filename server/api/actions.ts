@@ -15,6 +15,8 @@ export const API_ACTION = {
   loadUserStats: { method: 'GET', action: 'load-user-stats' },
   loadUsers: { method: 'GET', action: 'load-users' },
   loadPadStatus: { method: 'GET', action: 'load-pad-status' },
+  loadBingoCommands: { method: 'GET', action: 'load-bingo-commands' },
+  loadBingoSnapshot: { method: 'GET', action: 'load-bingo-snapshot' },
   listSounds: { method: 'GET', action: 'list-sounds' },
   listImages: { method: 'GET', action: 'list-images' },
 
@@ -34,6 +36,8 @@ export const API_ACTION = {
   resetUsers: { method: 'POST', action: 'reset-users' },
   seedMockUsers: { method: 'POST', action: 'seed-mock-users' }, // 開発サーバー専用 (ctx.allowMock)
   triggerPad: { method: 'POST', action: 'trigger-pad' },
+  sendBingoCommand: { method: 'POST', action: 'send-bingo-command' },
+  saveBingoSnapshot: { method: 'POST', action: 'save-bingo-snapshot' },
 } as const
 
 type ApiActionEntry = (typeof API_ACTION)[keyof typeof API_ACTION]
