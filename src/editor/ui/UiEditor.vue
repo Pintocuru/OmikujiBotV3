@@ -1,13 +1,14 @@
 <!-- src/editor/ui/UiEditor.vue -->
 <template>
   <!-- セクションのタブ。スクロールしても隠れないよう上に貼り付ける(左右は外枠 SectionCard の p-4 の分だけ広げる) -->
-  <div class="flex-wrap sticky top-0 z-10 -mx-4 bg-base-200 px-4 py-2">
+  <div class="flex-wrap top-0 z-10 -mx-4 bg-base-200 px-4 py-2">
     <IconRadioGroup
       v-model="selectedSection"
       i18n-prefix="sectionTabs"
       :icons="tabIcons"
       :keys="tabSections"
       :i18n-base-of="i18nBaseOf"
+      :compactThreshold="20"
     />
   </div>
 

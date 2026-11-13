@@ -95,7 +95,9 @@
     },
   ]
 
-  const tabs = computed<ContentTab[]>(() => sections.map(({ section, icon, labelKey }): ContentTab => ({ section, icon, labelKey })))
+  const tabs = computed<ContentTab[]>(() =>
+    sections.map(({ section, icon, labelKey }): ContentTab => ({ section, icon, labelKey }))
+  )
 
   const { selectedSection, tabSections, tabIcons, i18nBaseOf } = useSectionTabs(tabs)
 </script>
