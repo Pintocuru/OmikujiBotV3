@@ -1,7 +1,5 @@
 <!-- src/editor/parts/SectionTabs.vue -->
-<!-- SubSection / SectionCard の sectionKey を切り替えるタブ。スクロールしても隠れないよう上に貼り付ける(左右は外枠 SectionCard の p-4 の分だけ広げる) -->
-<!-- どのタブを出すかは、使う側のエディター(UiEditor / AppInfoEditor)が自分で決めて tabs に渡す -->
-<!-- タブ UI は IconRadioGroup(単一選択ラジオ)で描画する。ContentTab.labelKey は <base>.label 形式なので i18nBaseOf で .label を外して流用する -->
+<!-- SubSection / SectionCard の sectionKey を切り替えるタブ -->
 <template>
   <div class="flex-wrap sticky top-0 z-10 -mx-4 bg-base-200 px-4 py-2">
     <IconRadioGroup
@@ -10,6 +8,7 @@
       :icons="tabIcons"
       :keys="tabSections"
       :i18n-base-of="i18nBaseOf"
+      :compactThreshold="15"
     />
   </div>
 </template>
