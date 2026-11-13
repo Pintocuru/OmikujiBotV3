@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "title": "配信者が噛む",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "「えーっと」と言う",
+      "weight": 1,
+      "target": 5,
+      "unit": 1
+    },
+    {
+      "title": "初見さんが来る",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "同じ話を2回する",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "コメントを読み間違える",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "飲み物を飲む",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "話が脱線する",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "「ちょっと待って」と言う",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "笑いすぎて咳き込む",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "視聴者の名前を呼ぶ",
+      "weight": 1,
+      "target": 10,
+      "unit": 1
+    },
+    {
+      "title": "昨日の出来事を話す",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "ご飯の話になる",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "天気の話をする",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "眠いと言う",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "「何の話だっけ」と言う",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "コメントでスタンプが連打される",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "常連さんが来る",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "質問コメントに答える",
+      "weight": 1,
+      "target": 5,
+      "unit": 1
+    },
+    {
+      "title": "配信者が照れる",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "家族やペットの声が入る",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "友達の話が出る",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "「それな」と言う",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "「もうこんな時間」と言う",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "配信者が独り言を言う",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "高評価が増える",
+      "weight": 1,
+      "target": 10,
+      "unit": 1
+    },
+    {
+      "title": "チャンネル登録が増える",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "機材トラブルが起きる",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "おすすめを聞く",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "「ありがとう」と言う",
+      "weight": 1,
+      "target": 10,
+      "unit": 1
+    },
+    {
+      "title": "誰かにあだ名がつく",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    }
+  ],
+  "fixed": [
+    {
+      "title": "FREE",
+      "weight": 1,
+      "target": 0,
+      "unit": 1
+    }
+  ]
+}

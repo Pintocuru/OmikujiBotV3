@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "title": "初見殺しでやられる",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "「あっ」と叫ぶ",
+      "weight": 1,
+      "target": 5,
+      "unit": 1
+    },
+    {
+      "title": "ゲームオーバーになる",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "コメントのアドバイスを採用",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "アイテムを無駄遣いする",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "道に迷う",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "ボスに挑む",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "ボスを倒す",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "操作ミスで笑う",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "セーブを忘れる",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "隠し要素を見つける",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "「これ無理」と言う",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "視聴者にネタバレされる",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "「ネタバレ禁止」と言う",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "同じ場所で3回やられる",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "敵の攻撃を完璧に避ける",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "配信者が叫ぶ",
+      "weight": 1,
+      "target": 5,
+      "unit": 1
+    },
+    {
+      "title": "休憩をはさむ",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "回復アイテムを使い切る",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "新しいエリアに入る",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "レベルが上がる",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "宝箱を開ける",
+      "weight": 1,
+      "target": 5,
+      "unit": 1
+    },
+    {
+      "title": "強い装備を手に入れる",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "キャラに話しかける",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "ナイスプレーに拍手が流れる",
+      "weight": 1,
+      "target": 5,
+      "unit": 1
+    },
+    {
+      "title": "「ラスト1回」と言う",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "BGMを褒める",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "設定画面を開く",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "難易度の話になる",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "高評価が増える",
+      "weight": 1,
+      "target": 10,
+      "unit": 1
+    }
+  ],
+  "fixed": [
+    {
+      "title": "FREE",
+      "weight": 1,
+      "target": 0,
+      "unit": 1
+    }
+  ]
+}

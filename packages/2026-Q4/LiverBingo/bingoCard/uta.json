@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "title": "曲のリクエストが来る",
+      "weight": 1,
+      "target": 5,
+      "unit": 1
+    },
+    {
+      "title": "歌い出しを間違える",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "高音が出る",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "声が裏返る",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "水を飲む",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "歌詞を忘れる",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "コメントで一緒に歌う人が出る",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "拍手のコメントが流れる",
+      "weight": 1,
+      "target": 10,
+      "unit": 1
+    },
+    {
+      "title": "アンコールされる",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "曲紹介で思い出を話す",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "次の曲を決められない",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "好きな歌手の話をする",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "「懐かしい」とコメントされる",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "歌い終わって息切れする",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "キーを変える相談をする",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "マイクの音量を調整する",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "初見さんがリクエストする",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "常連さんがリクエストする",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "ノリノリで体が揺れる",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "ラスサビで盛り上がる",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "歌い方を褒められる",
+      "weight": 1,
+      "target": 3,
+      "unit": 1
+    },
+    {
+      "title": "喉の調子の話をする",
+      "weight": 1,
+      "target": 2,
+      "unit": 1
+    },
+    {
+      "title": "点数や出来の話になる",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "同時視聴者が増える",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "高評価が増える",
+      "weight": 1,
+      "target": 10,
+      "unit": 1
+    },
+    {
+      "title": "休憩を入れる",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "ウォームアップをする",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "好きなジャンルの話をする",
+      "weight": 1,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "笑って歌が止まる",
+      "weight": 0.5,
+      "target": 1,
+      "unit": 1
+    },
+    {
+      "title": "歌った曲が5曲になる",
+      "weight": 1,
+      "target": 5,
+      "unit": 1
+    }
+  ],
+  "fixed": [
+    {
+      "title": "FREE",
+      "weight": 1,
+      "target": 0,
+      "unit": 1
+    }
+  ]
+}

@@ -12,6 +12,27 @@ export const uiSettingsLiverBingo = {
           description:
             '名前: ラインが成立したマスの文字 / テキスト: マスの文字 / 背景: マスの地 / アクセント: 達成・進捗',
         },
+        packs: {
+          label: 'お題パック',
+          description: '雑談・ゲーム・歌枠などのお題のセットを読み込みます(インターネットに接続している必要があります)',
+          load: 'パック一覧を読み込む',
+          loading: '読み込み中…',
+          indexError: 'パック一覧を読み込めませんでした。接続を確認して、もう一度お試しください',
+          packError: 'このパックを読み込めませんでした。もう一度お試しください',
+          select: '選ぶ',
+          back: '一覧に戻る',
+          count: '{count} 個のお題が入っています',
+          withFixed: '固定項目({count} 個)も取り込む',
+          withFixedNote: '今の固定項目は置き換わります。中央に近い空きマスから順に入ります',
+          add: 'ランダム項目に追加',
+          replace: 'ランダム項目を置き換え',
+          replaceConfirm: '今のランダム項目をすべて置き換えます。よろしいですか?',
+          result: {
+            added: '{added} 件を追加しました({skipped} 件は同じお題があるため追加していません)',
+            replaced: '{count} 件に置き換えました',
+            fixedSkipped: '固定項目のうち {skipped} 件は、マスが足りず入りませんでした',
+          },
+        },
         fixedItems: {
           label: '固定項目',
           description:
@@ -48,6 +69,29 @@ export const uiSettingsLiverBingo = {
         color: {
           description:
             'Name: text on cells in a completed line / Text: cell text / Background: cell fill / Accent: completed cells and progress',
+        },
+        packs: {
+          label: 'Topic packs',
+          description:
+            'Load ready-made sets of topics for chat, gaming, singing streams and more (requires an internet connection).',
+          load: 'Load pack list',
+          loading: 'Loading…',
+          indexError: 'Could not load the pack list. Check your connection and try again.',
+          packError: 'Could not load this pack. Please try again.',
+          select: 'Select',
+          back: 'Back to list',
+          count: 'Contains {count} topics',
+          withFixed: 'Also import fixed items ({count})',
+          withFixedNote:
+            'Your current fixed items will be replaced. They fill empty cells starting nearest the center.',
+          add: 'Add to random items',
+          replace: 'Replace random items',
+          replaceConfirm: 'This replaces all of your current random items. Continue?',
+          result: {
+            added: 'Added {added} topics ({skipped} skipped because they already exist).',
+            replaced: 'Replaced with {count} topics.',
+            fixedSkipped: '{skipped} fixed items did not fit on the card.',
+          },
         },
         fixedItems: {
           label: 'Fixed items',

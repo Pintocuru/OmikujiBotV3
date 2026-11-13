@@ -33,6 +33,15 @@
     <ColorPicker :modelValue="liverBingo.color" @update:modelValue="(val) => update('color', val)" />
   </SettingItem>
 
+  <!-- お題パック -->
+  <SectionCard
+    icon="Package"
+    labelKey="uiSettings.liverBingo.packs.label"
+    descriptionKey="uiSettings.liverBingo.packs.description"
+  >
+    <LiverBingoPacks :randomSeeds="liverBingo.randomSeeds" :cardSize="liverBingo.cardSize" @apply="applyPack" />
+  </SectionCard>
+
   <!-- 固定項目 -->
   <SectionCard
     icon="LayoutGrid"
@@ -67,6 +76,7 @@
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
   import LiverBingoBoard from '../components/LiverBingoBoard.vue'
   import LiverBingoFixedItems from './LiverBingoFixedItems.vue'
+  import LiverBingoPacks from './LiverBingoPacks.vue'
   import LiverBingoRandomItems from './LiverBingoRandomItems.vue'
   import { dropOutOfRange } from './seedList'
 
@@ -82,6 +92,11 @@
 
   const update = <K extends keyof LiverBingoType>(field: K, value: LiverBingoType[K]) => {
     updateItemSettings('liverBingo', { [field]: value })
+  }
+
+  // パックのお題を取り込む(固定項目も取り込むときは、seeds も入る)
+  const applyPack = (patch: Pick<LiverBingoType, 'randomSeeds'> & Partial<Pick<LiverBingoType, 'seeds'>>) => {
+    updateItemSettings('liverBingo', patch)
   }
 
   // カードサイズを小さくしたら、カードの外になる固定項目を取り除く
