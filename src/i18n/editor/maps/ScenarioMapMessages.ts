@@ -81,7 +81,10 @@ export const scenarioMapMessages = {
         },
         SnipeTimer: {
           min: { label: '最低秒数', description: '目標時刻までの最低秒数 (これより近い時刻は引き上げます)' },
-          max: { label: '最大秒数', description: '目標時刻までの最大秒数 (これより遠い時刻は引き下げます。最大 43200)' },
+          max: {
+            label: '最大秒数',
+            description: '目標時刻までの最大秒数 (これより遠い時刻は引き下げます。最大 43200)',
+          },
           adjust: { label: '丸める単位', description: '目標時刻の秒をこの単位に切り上げます' },
         },
       },
@@ -244,7 +247,10 @@ export const scenarioMapMessages = {
         },
         SnipeTimer: {
           min: { label: 'Min seconds', description: 'Minimum seconds until the target (nearer times are pushed back)' },
-          max: { label: 'Max seconds', description: 'Maximum seconds until the target (farther times are pulled in; up to 43200)' },
+          max: {
+            label: 'Max seconds',
+            description: 'Maximum seconds until the target (farther times are pulled in; up to 43200)',
+          },
           adjust: { label: 'Round to', description: 'Round the target time up to a multiple of this many seconds' },
         },
       },

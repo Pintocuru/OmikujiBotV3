@@ -1,3 +1,4 @@
+// src/editor/types/apps/ContentTab.ts
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
 /** エディター(UiEditor / AppInfoEditor)が IconRadioGroup に出すタブ1つ分。section は SubSection / SectionCard の sectionKey と一致させる */

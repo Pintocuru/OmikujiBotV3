@@ -55,7 +55,8 @@ export const uiMapMessages = {
         },
         snipeTimer: {
           label: 'スナイプタイマー',
-          description: 'コメントの時刻(例: 30秒後・21:30)でカウントダウンを始めるタイマー。クリックで手動操作もできます',
+          description:
+            'コメントの時刻(例: 30秒後・21:30)でカウントダウンを始めるタイマー。クリックで手動操作もできます',
         },
         liveClock: {
           label: 'ライブクロック',
@@ -133,7 +134,8 @@ export const uiMapMessages = {
         },
         snipeTimer: {
           label: 'Snipe timer',
-          description: 'A countdown timer started by a time in a comment (e.g. 30s later, 21:30). Click to control it manually.',
+          description:
+            'A countdown timer started by a time in a comment (e.g. 30s later, 21:30). Click to control it manually.',
         },
         liveClock: {
           label: 'Live clock',
