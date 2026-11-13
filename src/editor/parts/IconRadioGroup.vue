@@ -62,7 +62,7 @@
       ariaLabel?: string
       allowEmpty?: boolean
       emptyLabel?: string /** 省略時は t('common.none') */
-      compactThreshold?: number /** この数(表示ボタン総数)を超えたら compact モード。省略時 6 */
+      compactThreshold?: number /** この数(表示ボタン総数)を超えたら compact モード */
     }>(),
     { allowEmpty: false, compactThreshold: 8 }
   )
