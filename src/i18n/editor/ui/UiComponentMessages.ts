@@ -63,6 +63,14 @@ export const uiComponentMessages = {
           label: '砂の器',
         },
       },
+      snipeTimer: {
+        simpleWhite: {
+          label: 'シンプルホワイト',
+        },
+        simplePink: {
+          label: 'シンプルピンク',
+        },
+      },
       liveClock: {
         morning: {
           label: 'モーニング',
@@ -170,6 +178,14 @@ export const uiComponentMessages = {
       lifeHourglass: {
         sandBowl: {
           label: 'Sand bowl',
+        },
+      },
+      snipeTimer: {
+        simpleWhite: {
+          label: 'Simple white',
+        },
+        simplePink: {
+          label: 'Simple pink',
         },
       },
       liveClock: {

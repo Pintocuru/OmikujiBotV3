@@ -13,4 +13,5 @@ export const registerAllGameScripts = () =>
     HugEmAll: () => import('@/games/scripts/game/HugEmAll/execute'),
     FortuneRanking: () => import('@/games/scripts/tool/FortuneRanking/execute'),
     CommentBot: () => import('@/games/scripts/tool/CommentBot/execute'),
+    SnipeTimer: () => import('@/games/scripts/tool/SnipeTimer/execute'),
   } satisfies Record<GameScriptKey, GameScriptLoader>)

@@ -9,6 +9,7 @@ import { googolCloverMeta } from '@/games/scripts/game/GoogolClover/meta'
 import { hugEmAllMeta } from '@/games/scripts/game/HugEmAll/meta'
 import { fortuneRankingMeta } from '@/games/scripts/tool/FortuneRanking/meta'
 import { commentBotMeta } from '@/games/scripts/tool/CommentBot/meta'
+import { snipeTimerMeta } from '@/games/scripts/tool/SnipeTimer/meta'
 
 // 入出力の宣言 (GameScriptKey の全キーに必須)
 const metas: Record<GameScriptKey, GameScriptMeta> = {
@@ -20,6 +21,7 @@ const metas: Record<GameScriptKey, GameScriptMeta> = {
   HugEmAll: hugEmAllMeta,
   FortuneRanking: fortuneRankingMeta,
   CommentBot: commentBotMeta,
+  SnipeTimer: snipeTimerMeta,
 }
 
 export const getGameScriptMeta = (key: GameScriptKey): GameScriptMeta => metas[key]

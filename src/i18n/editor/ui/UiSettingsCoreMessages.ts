@@ -124,6 +124,12 @@ export const uiSettingsCore = {
             description: '例: 神様の後押しで愛が深まる',
           },
         },
+        snipeTimer: {
+          targetAt: {
+            title: '目標時刻',
+            description: 'エポックミリ秒。通常は SnipeTimer ゲームスクリプトがコメントから決めて渡します',
+          },
+        },
         characterStage: {
           seconds: {
             title: '表示秒数',

@@ -66,6 +66,15 @@ export const CharacterStageSlotMap = {
 export type CharacterStageSlotKey = keyof typeof CharacterStageSlotMap
 
 /**
+ * snipeTimer(スナイプタイマー)
+ * - targetAt: 目標時刻(エポックミリ秒)。通常は SnipeTimer ゲームスクリプトがコメントから決めて渡す
+ */
+export const SnipeTimerSlotMap = {
+  targetAt: { slot: 'slot0' },
+} as const satisfies Record<string, SlotMeta>
+export type SnipeTimerSlotKey = keyof typeof SnipeTimerSlotMap
+
+/**
  * UI ごとの「投稿メッセージの仕様」
  * - bubble: キャラ・本文(吹き出し)を使うか
  *     'comment' = キャラ + 本文 / 'character' = キャラだけ(本文は使わない) / false = 使わない
@@ -88,6 +97,7 @@ export const UiMessageSpecs = {
   streamCounter: { bubble: false, slots: {} },
   lifeHourglass: { bubble: false, slots: {} },
   liverBingo: { bubble: false, slots: {} },
+  snipeTimer: { bubble: false, slots: SnipeTimerSlotMap },
 } as const satisfies Record<UiKind, UiMessageSpec>
 
 export const getUiMessageSpec = (kind: UiKind): UiMessageSpec => UiMessageSpecs[kind]

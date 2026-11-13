@@ -53,6 +53,10 @@ export const uiMapMessages = {
           label: 'ライバービンゴ',
           description: '配信中に進めるビンゴカード。お題と達成目標を決めて、クリックで進めます',
         },
+        snipeTimer: {
+          label: 'スナイプタイマー',
+          description: 'コメントの時刻(例: 30秒後・21:30)でカウントダウンを始めるタイマー。クリックで手動操作もできます',
+        },
         liveClock: {
           label: 'ライブクロック',
           description: '時計とメッセージを表示',
@@ -126,6 +130,10 @@ export const uiMapMessages = {
         liverBingo: {
           label: 'Liver bingo',
           description: 'A bingo card you play during the stream. Set topics and targets, then click to progress.',
+        },
+        snipeTimer: {
+          label: 'Snipe timer',
+          description: 'A countdown timer started by a time in a comment (e.g. 30s later, 21:30). Click to control it manually.',
         },
         liveClock: {
           label: 'Live clock',

@@ -19,6 +19,7 @@ export const gameIcons: Record<GameScriptKey, LucideIconName> = {
   HugEmAll: 'Swords',
   FortuneRanking: 'Sparkles',
   CommentBot: 'Bot',
+  SnipeTimer: 'Timer',
 }
 
 /**
@@ -48,4 +49,5 @@ export const gameLinksMap: Record<GameScriptKey, { url: string; banner: string }
   HugEmAll: { url: '', banner: '' },
   FortuneRanking: { url: '', banner: '' },
   CommentBot: { url: '', banner: '' },
+  SnipeTimer: { url: '', banner: '' },
 }

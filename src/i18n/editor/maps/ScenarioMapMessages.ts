@@ -35,6 +35,10 @@ export const scenarioMapMessages = {
           label: 'コメントBOT',
           description: 'BOTとしてわんコメにコメントを自動投稿する拡張スクリプト',
         },
+        SnipeTimer: {
+          label: 'スナイプタイマー',
+          description: 'コメントの時刻(例: 30秒後・21:30)でカウントダウンを始める拡張スクリプト',
+        },
       },
       // ゲームの入力欄・出力変数の説明 (宣言は src/games/scripts/**/meta.ts)
       gameParams: {
@@ -74,6 +78,11 @@ export const scenarioMapMessages = {
           name: { label: '投稿者名', description: '空欄ならランダム' },
           comments: { label: 'コメント', description: 'カンマ区切りで指定。空欄ならテーマから選びます' },
           users: { label: '人数', description: '投稿者の人数 (範囲外は自動で丸めます)' },
+        },
+        SnipeTimer: {
+          min: { label: '最低秒数', description: '目標時刻までの最低秒数 (これより近い時刻は引き上げます)' },
+          max: { label: '最大秒数', description: '目標時刻までの最大秒数 (これより遠い時刻は引き下げます。最大 43200)' },
+          adjust: { label: '丸める単位', description: '目標時刻の秒をこの単位に切り上げます' },
         },
       },
       gameOutputs: {
@@ -189,6 +198,10 @@ export const scenarioMapMessages = {
           label: 'Comment Bot',
           description: 'Extension script that automatically posts comments to OneComme as the BOT',
         },
+        SnipeTimer: {
+          label: 'Snipe Timer',
+          description: 'Extension script that starts a countdown from a time in a comment (e.g. 30s later, 21:30)',
+        },
       },
       // Descriptions for game inputs and output variables (declared in src/games/scripts/**/meta.ts)
       gameParams: {
@@ -228,6 +241,11 @@ export const scenarioMapMessages = {
           name: { label: 'Poster name', description: 'Empty means random' },
           comments: { label: 'Comments', description: 'Comma-separated. Empty picks from the theme' },
           users: { label: 'Users', description: 'Number of posters (out-of-range values are clamped)' },
+        },
+        SnipeTimer: {
+          min: { label: 'Min seconds', description: 'Minimum seconds until the target (nearer times are pushed back)' },
+          max: { label: 'Max seconds', description: 'Maximum seconds until the target (farther times are pulled in; up to 43200)' },
+          adjust: { label: 'Round to', description: 'Round the target time up to a multiple of this many seconds' },
         },
       },
       gameOutputs: {

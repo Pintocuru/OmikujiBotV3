@@ -14,4 +14,5 @@ export const uiKindIcons: Record<UiKind, LucideIconName> = {
   userBoard: 'Users',
   lifeHourglass: 'Hourglass',
   liverBingo: 'LayoutGrid',
+  snipeTimer: 'Timer',
 }

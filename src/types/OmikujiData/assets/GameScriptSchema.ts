@@ -13,6 +13,7 @@ export const gameScriptKeys = [
   'HugEmAll',
   'FortuneRanking',
   'CommentBot',
+  'SnipeTimer',
 ] as const
 
 // スキーマと型の定義
