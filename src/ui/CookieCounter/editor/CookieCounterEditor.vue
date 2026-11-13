@@ -54,6 +54,7 @@
   import { useI18n } from 'vue-i18n'
   import { computed, reactive } from 'vue'
   import { storeToRefs } from 'pinia'
+  import { streamDefaultMap } from '@/maps/ui'
   import {
     CookieCounterSchema,
     CookieCounterCharacterSchema,
