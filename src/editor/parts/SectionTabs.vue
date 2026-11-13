@@ -1,6 +1,5 @@
 <!-- src/editor/parts/SectionTabs.vue -->
-<!-- SubSection / SectionCard の sectionKey を切り替えるタブ。スクロールしても隠れないよう上に貼り付ける(左右は外枠 SectionCard の p-4 の分だけ広げる) -->
-<!-- どのタブを出すかは、使う側のエディター(UiEditor / AppInfoEditor)が自分で決めて tabs に渡す -->
+<!-- SubSection / SectionCard の sectionKey を切り替えるタブ -->
 <template>
   <div role="tablist" class="tabs tabs-border tabs-lg flex-wrap sticky top-0 z-10 -mx-4 bg-base-200 px-4">
     <button

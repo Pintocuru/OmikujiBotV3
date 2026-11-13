@@ -134,8 +134,10 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
   },
   characters: { icon: 'Users', editor: CharacterEditor },
 
-  // settings
+  // UI
   ui: { icon: 'LayoutGrid', editor: UiEditor },
+
+  // settings
   dataPacks: { icon: 'Download', editor: DataPacks },
   orphans: { icon: 'Search', editor: OrphanItemsEditor },
   cooldown: { icon: 'Timer', editor: CooldownOverviewEditor },
