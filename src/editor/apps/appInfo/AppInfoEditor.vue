@@ -1,6 +1,15 @@
 <!-- src/editor/apps/appInfo/AppInfoEditor.vue -->
 <template>
-  <SectionTabs :tabs="tabs" />
+  <!-- セクションのタブ。スクロールしても隠れないよう上に貼り付ける(左右は外枠 SectionCard の p-4 の分だけ広げる) -->
+  <div class="flex-wrap sticky top-0 z-10 -mx-4 bg-base-200 px-4 py-2">
+    <IconRadioGroup
+      v-model="selectedSection"
+      i18n-prefix="sectionTabs"
+      :icons="tabIcons"
+      :keys="tabSections"
+      :i18n-base-of="i18nBaseOf"
+    />
+  </div>
 
   <div class="space-y-4">
     <SubSection
@@ -20,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
   import type { Component } from 'vue'
   import { markRaw } from 'vue'
   import type { ContentTab } from '@/editor/types/apps'
@@ -30,7 +40,8 @@
   import PackageDistributionInfo from './meta/PackageDistributionInfo.vue'
   import PackageSystemInfo from './meta/PackageSystemInfo.vue'
   import SubSection from '@/editor/parts/SubSection.vue'
-  import SectionTabs from '@/editor/parts/SectionTabs.vue'
+  import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
+  import { useSectionTabs } from '@/editor/parts/composables/useSectionTabs'
   import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
   type AppInfoSection = {
@@ -84,5 +95,9 @@
     },
   ]
 
-  const tabs: ContentTab[] = sections.map(({ section, icon, labelKey }) => ({ section, icon, labelKey }))
+  const tabs = computed<ContentTab[]>(() =>
+    sections.map(({ section, icon, labelKey }): ContentTab => ({ section, icon, labelKey }))
+  )
+
+  const { selectedSection, tabSections, tabIcons, i18nBaseOf } = useSectionTabs(tabs)
 </script>
