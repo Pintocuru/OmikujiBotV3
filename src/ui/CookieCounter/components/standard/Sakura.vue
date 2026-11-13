@@ -11,7 +11,7 @@
       />
 
       <!-- メインの数字・ラベル -->
-      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 leading-tight">
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 leading-tight z-10">
         <div class="flex flex-col items-center">
           <span class="counter-label text-6xl truncate">{{ slots[0].label }}</span>
           <span class="counter-value text-[260px] -mt-8" :style="{ transform: `scale(${mainScale})` }">
@@ -29,7 +29,7 @@
           :animation="characters[1].animation"
         />
 
-        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 leading-tight">
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 leading-tight z-10">
           <div class="flex flex-col items-center">
             <span class="counter-label text-4xl truncate">{{ slots[1].label }}</span>
             <span class="counter-value text-9xl -mt-3" :style="{ transform: `scale(${subScale})` }">

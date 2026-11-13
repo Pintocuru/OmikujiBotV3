@@ -20,21 +20,23 @@
   </SettingItem>
 
   <!-- キャラクター指定（maxCharacters が 1 以上のコンポーネントのみ。リセットで未選択に戻る） -->
-  <SettingItem
-    v-for="index in characterSlots"
-    :key="index"
-    :label="t('uiSettings.cookieCounter.character.label', { n: index + 1 })"
-    :description="t('uiSettings.cookieCounter.character.description')"
-    layout="vertical"
-    :showReset="true"
-    @reset="resetCharacter(index)"
-  >
-    <CharacterIconPicker
-      :character-key="characterAt(index).characterKey"
-      :icon-key="characterAt(index).iconKey"
-      @select="(payload) => setCharacter(index, payload)"
-    />
-  </SettingItem>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    <SettingItem
+      v-for="index in characterSlots"
+      :key="index"
+      :label="t('uiSettings.cookieCounter.character.label', { n: index + 1 })"
+      :description="t('uiSettings.cookieCounter.character.description')"
+      layout="vertical"
+      :showReset="true"
+      @reset="resetCharacter(index)"
+    >
+      <CharacterIconPicker
+        :character-key="characterAt(index).characterKey"
+        :icon-key="characterAt(index).iconKey"
+        @select="(payload) => setCharacter(index, payload)"
+      />
+    </SettingItem>
+  </div>
 
   <!-- カウンター設定 -->
   <CounterSelectorPanel
@@ -69,6 +71,7 @@
   import CounterSelectorPanel from '@/ui/StreamCounter/editor/CounterSelector/CounterSelectorPanel.vue'
   import { CounterItem } from '@/ui/StreamCounter/editor/CounterSelector/counterTypes'
   import SettingItem from '@/editor/parts/SettingItem.vue'
+  import { streamDefaultMap } from '@/maps/ui'
 
   const { data } = storeToRefs(useOmikujiStore())
   const { t } = useI18n()
@@ -78,7 +81,11 @@
   const variableInput = reactive({ target: '', label: '' })
 
   const cookieCounter = computed(() => data.value.ui.settings.cookieCounter ?? CookieCounterSchema.parse({}))
-  const counters = computed(() => cookieCounter.value.counters)
+  const counters = computed(() =>
+    cookieCounter.value.counters.map((counter) =>
+      counter.type === 'default' ? { ...counter, label: streamDefaultMap[counter.target] } : counter
+    )
+  )
   const currentDefinition = computed(() => getCookieCounterComponent(cookieCounter.value.component))
   // 未登録のコンポーネントのときは、スキーマの上限(8)にする
   const maxCounters = computed(() => currentDefinition.value?.maxCounters ?? 8)

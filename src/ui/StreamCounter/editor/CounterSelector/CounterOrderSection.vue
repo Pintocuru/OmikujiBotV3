@@ -12,7 +12,7 @@
       >
         <span class="opacity-50 text-xs">{{ i + 1 }}</span>
         {{ c.label }}
-        <button class="btn btn-ghost btn-xs px-0 min-h-0 h-auto" @click.stop="emit('remove', c.id)">×</button>
+        <button class="btn btn-primary btn-sm px-0 min-h-0 h-auto" @click.stop="emit('remove', c.id)">×</button>
       </div>
     </VueDraggable>
   </div>
