@@ -119,6 +119,8 @@ export const UiMessageSpecs = {
   characterStage: { bubble: 'character', slots: CharacterStageSlotMap },
   commentBubble: { bubble: 'comment', slots: {} },
   toastWidgets: { bubble: 'comment', slots: {} },
+  // userComment: 投稿の origin(元コメント)と bubble.message(結果)をペアで表示する。comment イベント以外(origin なし)は表示しない
+  userComment: { bubble: 'comment', slots: {} },
   liveClock: { bubble: 'comment', slots: LiveClockSlotMap },
   flashBanner: { bubble: 'comment', slots: FlashBannerSlotMap },
   kujibikiPanel: { bubble: 'comment', slots: KujibikiSlotMap },

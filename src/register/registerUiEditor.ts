@@ -41,6 +41,7 @@ export const registerAllUiEditor = () => {
       preview: () => import('@/ui/bot/ToastWidgets/editor/ToastWidgetsMessagePreview.vue'),
     },
     userBoard: () => import('@/ui/user/UserBoard/editor/UserBoardEditor.vue'),
+    userComment: () => import('@/ui/comment/UserComment/editor/UserCommentEditor.vue'),
     lifeHourglass: () => import('@/ui/counter/LifeHourglass/editor/LifeHourglassEditor.vue'),
     liverBingo: () => import('@/ui/game/LiverBingo/editor/LiverBingoEditor.vue'),
     luckyDraw: () => import('@/ui/user/LuckyDraw/editor/LuckyDrawEditor.vue'),

@@ -41,6 +41,7 @@ const registerUiKinds = () =>
     streamCounter: () => import('@/ui/counter/StreamCounter/StreamCounter.vue'),
     toastWidgets: () => import('@/ui/bot/ToastWidgets/ToastWidgets.vue'),
     userBoard: () => import('@/ui/user/UserBoard/UserBoard.vue'),
+    userComment: () => import('@/ui/comment/UserComment/UserComment.vue'),
   } satisfies Record<UiKind, UiLoader>)
 
 // CommentBubble

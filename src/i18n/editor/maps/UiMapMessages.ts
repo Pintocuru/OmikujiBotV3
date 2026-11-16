@@ -74,6 +74,10 @@ export const uiMapMessages = {
           label: 'ニュースフラッシュ',
           description: '速報風のバナーにメッセージを流す',
         },
+        userComment: {
+          label: 'ユーザーコメント',
+          description: 'おみくじが反応したコメントと結果を、レス風に縦に並べて表示',
+        },
         luckyDraw: {
           label: '抽選',
           description: '参加者の中から、ランダムに1名または複数名を選んで表示します(カップリング・ランキング風の表示)',
@@ -173,6 +177,10 @@ export const uiMapMessages = {
         flashBanner: {
           label: 'News flash',
           description: 'Scrolls messages in a news-flash style banner.',
+        },
+        userComment: {
+          label: 'User comments',
+          description: 'Lists the comments that triggered a reaction, with their results, in a thread style.',
         },
         liveClock: {
           label: 'Live clock',

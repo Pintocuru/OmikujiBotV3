@@ -8,6 +8,7 @@ import {
   LiverBingoSchema,
   LuckyDrawSchema,
   SnipeTimerSchema,
+  UserCommentSchema,
 } from '@/types/ui'
 
 /**
@@ -23,4 +24,5 @@ export const experimentalUiSchemas = {
   liverBingo: LiverBingoSchema, // ライバービンゴ(OmikenTemplates から移植)
   luckyDraw: LuckyDrawSchema, // 抽選(旧 WinnerGroup から移植)
   snipeTimer: SnipeTimerSchema, // スナイプタイマー(旧 NextTimer から移植)
+  userComment: UserCommentSchema, // ユーザーコメント(おみくじが反応したコメントと結果をレス風に表示)
 } as const

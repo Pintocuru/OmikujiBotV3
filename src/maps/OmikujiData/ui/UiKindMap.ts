@@ -16,6 +16,7 @@ export const uiKindIcons: Record<UiKind, LucideIconName> = {
   streamCounter: 'Hash',
   toastWidgets: 'Bell',
   userBoard: 'Users',
+  userComment: 'MessagesSquare',
   lifeHourglass: 'Hourglass',
   liverBingo: 'LayoutGrid',
   luckyDraw: 'Gift',

@@ -7,6 +7,7 @@ import * as L from 'lucide-vue-next'
 export const lucideIconMap = {
   // ── イベント・通知 ──
   MessageSquare: L.MessageSquare,
+  MessagesSquare: L.MessagesSquare,
   Timer: L.Timer,
   Clock: L.Clock,
   Hourglass: L.Hourglass,

@@ -26,6 +26,7 @@
 | `src/ui/counter/` | 時間・カウンター | StreamCounter / CookieCounter / SnipeTimer / LifeHourglass |
 | `src/ui/game/` | ゲーム | DeadAir / LiverBingo / GameRanking |
 | `src/ui/user/` | ユーザー | UserBoard / LabelMaker / FlightSeat / LuckyDraw |
+| `src/ui/comment/` | コメント表示 | UserComment(おみくじが反応したコメントと結果をレス風に表示) |
 
 - `src/ui/common/` と `src/ui/uiRegistry.ts` は直下に配置。
 - 「ユーザーコメント」(`comment/`)は UI が未作成のためフォルダ未作成(最初の UI を作るときに作成)。

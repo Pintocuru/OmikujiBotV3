@@ -46,5 +46,6 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, UiKind[]> = {
     'streamCounter',
     'toastWidgets',
     'userBoard',
+    'userComment',
   ],
 }
