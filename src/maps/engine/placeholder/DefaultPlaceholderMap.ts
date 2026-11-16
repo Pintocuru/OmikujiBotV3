@@ -1,13 +1,10 @@
 // src/maps/engine/placeholder/DefaultPlaceholderMap.ts
-import { defaultPlaceholderLabel } from '@/types/engine'
 import type { DefaultPlaceholders } from '@/types/engine'
-
-type DefaultPlaceholderSlot = 'comment' | 'event'
 
 /**
  * デフォルトプレースホルダーの利用可能スロット
  */
-export const defaultPlaceholderMap: Record<DefaultPlaceholders, DefaultPlaceholderSlot> = {
+export const defaultPlaceholderMap: Record<DefaultPlaceholders, 'comment' | 'event'> = {
   viewer: 'event',
   upVote: 'event',
   follower: 'event',
@@ -20,13 +17,3 @@ export const defaultPlaceholderMap: Record<DefaultPlaceholders, DefaultPlacehold
   price: 'comment',
   giftCount: 'comment',
 }
-
-/**
- * 短縮ラベルを現在の言語で取得
- */
-export const getDefaultPlaceholdersShortLabels = (
-  translate: (key: string) => string
-): Record<DefaultPlaceholders, string> =>
-  Object.fromEntries(
-    defaultPlaceholderLabel.map((key) => [key, translate(`mapText.defaultPlaceholder.${key}.short`)])
-  ) as Record<DefaultPlaceholders, string>
