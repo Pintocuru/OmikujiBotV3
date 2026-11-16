@@ -32,6 +32,7 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, UiKind[]> = {
     'characterStage',
     'commentBubble',
     'cookieCounter',
+    'deadAir',
     'flightSeat',
     'flashBanner',
     'gameRanking',

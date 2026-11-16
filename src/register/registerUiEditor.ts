@@ -16,6 +16,7 @@ export const registerAllUiEditor = () => {
     },
     commentBubble: () => import('@/ui/CommentBubble/editor/CommentBubbleEditor.vue'),
     cookieCounter: () => import('@/ui/CookieCounter/editor/CookieCounterEditor.vue'),
+    deadAir: () => import('@/ui/DeadAir/editor/DeadAirEditor.vue'),
     flightSeat: () => import('@/ui/FlightSeat/editor/FlightSeatEditor.vue'),
     flashBanner: {
       editor: () => import('@/ui/FlashBanner/editor/FlashBannerEditor.vue'),

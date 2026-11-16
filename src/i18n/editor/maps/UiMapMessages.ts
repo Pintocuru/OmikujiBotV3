@@ -41,6 +41,10 @@ export const uiMapMessages = {
           label: 'クッキーカウンター',
           description: '配信の数値をクッキー風カウンターで表示',
         },
+        deadAir: {
+          label: '15分後に初見が来ないと',
+          description: '条件未達成で爆発する爆弾タイマー。コメントや配信の数値で時間を回復できます',
+        },
         flightSeat: {
           label: 'フライトシート',
           description: '投稿されたユーザーを座席に座らせて、座席表のように表示',
@@ -131,6 +135,11 @@ export const uiMapMessages = {
         cookieCounter: {
           label: 'Cookie counter',
           description: 'Displays stream counts in a cookie-themed counter.',
+        },
+        deadAir: {
+          label: 'Dead air',
+          description:
+            'A bomb timer that explodes when the stream goes quiet. Comments and stream counts can restore time.',
         },
         flightSeat: {
           label: 'Flight seat',

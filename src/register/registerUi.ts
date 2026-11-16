@@ -5,6 +5,7 @@ import type { UiKind } from '@/types/OmikujiData'
 import { registerBubbleBubbleComponents } from '@/ui/CommentBubble/components/bubble/register'
 import { registerMessageBoardBubbleComponents } from '@/ui/CommentBubble/components/messageBoard/register'
 import { registerStandardRankingComponents } from '@/ui/GameRanking/components/standard/register'
+import { registerStandardDeadAirComponents } from '@/ui/DeadAir/components/standard/register'
 import { registerStandardClockComponents } from '@/ui/LiveClock/components/standard/register'
 import { registerStandardFlashBannerComponents } from '@/ui/FlashBanner/components/standard/register'
 import { registerStandardStreamComponents } from '@/ui/StreamCounter/components/standard/register'
@@ -25,6 +26,7 @@ const registerUiKinds = () =>
     characterStage: () => import('@/ui/CharacterStage/CharacterStage.vue'),
     commentBubble: () => import('@/ui/CommentBubble/CommentBubble.vue'),
     cookieCounter: () => import('@/ui/CookieCounter/CookieCounter.vue'),
+    deadAir: () => import('@/ui/DeadAir/DeadAir.vue'),
     flightSeat: () => import('@/ui/FlightSeat/FlightSeat.vue'),
     flashBanner: () => import('@/ui/FlashBanner/FlashBanner.vue'),
     gameRanking: () => import('@/ui/GameRanking/GameRanking.vue'),
@@ -102,6 +104,11 @@ const registerSnipeTimerComponents = () => {
   registerStandardSnipeTimerComponents()
 }
 
+// DeadAir
+const registerDeadAirComponents = () => {
+  registerStandardDeadAirComponents()
+}
+
 // FlightSeat
 const registerFlightSeatComponents = () => {
   registerStandardFlightSeatComponents()
@@ -123,4 +130,5 @@ export const registerAllUi = () => {
   registerLabelMakerComponents()
   registerSnipeTimerComponents()
   registerFlightSeatComponents()
+  registerDeadAirComponents()
 }

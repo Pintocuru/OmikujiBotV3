@@ -4,6 +4,7 @@
 export * from './CharacterStageSchema'
 export * from './CommentBubbleSchema'
 export * from './CookieCounterSchema'
+export * from './DeadAirSchema'
 export * from './FlightSeatSchema'
 export * from './FlashBannerSchema'
 export * from './GameRankingSchema'

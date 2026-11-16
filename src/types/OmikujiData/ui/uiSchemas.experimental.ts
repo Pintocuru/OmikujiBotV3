@@ -1,5 +1,6 @@
 // src/types/OmikujiData/ui/uiSchemas.experimental.ts
 import {
+  DeadAirSchema,
   FlightSeatSchema,
   LabelMakerSchema,
   FlashBannerSchema,
@@ -13,6 +14,7 @@ import {
  * 気に入ったら 1 行を uiSchemas.stable.ts に移す。失敗したら 1 行消す。
  */
 export const experimentalUiSchemas = {
+  deadAir: DeadAirSchema, // デッドエア(OmikujiBotV2 から移植)
   flightSeat: FlightSeatSchema, // フライトシート(OmikujiBotV2 から移植)
   labelMaker: LabelMakerSchema, // ラベルメーカー(旧 CounterPreview のユーザーリストを移植)
   flashBanner: FlashBannerSchema, // ニュースフラッシュ(旧 V2 FlashBanner から移植)

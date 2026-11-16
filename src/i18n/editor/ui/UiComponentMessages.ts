@@ -48,6 +48,11 @@ export const uiComponentMessages = {
           label: '300ユーザー',
         },
       },
+      deadAir: {
+        bomb: {
+          label: '爆弾',
+        },
+      },
       cookieCounter: {
         sakura: {
           label: 'さくらツイン🌸',
@@ -216,6 +221,11 @@ export const uiComponentMessages = {
         },
         goldenCrowd: {
           label: '300 users',
+        },
+      },
+      deadAir: {
+        bomb: {
+          label: 'Bomb',
         },
       },
       cookieCounter: {
