@@ -7,7 +7,7 @@
     descriptionKey="serviceTrigger.conditionDescription"
   >
     <div class="flex flex-wrap gap-2">
-      <label v-for="(_, key) in serviceTriggerConditionMap" :key="key" class="cursor-pointer">
+      <label v-for="key in serviceTriggerConditions" :key="key" class="cursor-pointer">
         <input type="radio" class="hidden" :checked="selectedCondition === key" @change="setCondition(key)" />
         <span class="badge badge-lg select-none" :class="selectedCondition === key ? 'badge-primary' : 'badge-ghost'">
           {{ t(`serviceTrigger.conditions.${key}`) }}
@@ -56,8 +56,8 @@
     ServiceTriggerConditionType,
     ServiceTriggerSchema,
     ServiceTriggerType,
+    serviceTriggerConditions,
   } from '@/types/OmikujiData'
-  import { serviceTriggerConditionMap } from '@/maps/OmikujiData'
   import TriggerMetaCondition from './ServiceTriggerCondition.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
