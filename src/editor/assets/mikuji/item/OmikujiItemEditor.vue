@@ -12,11 +12,11 @@
   >
     <div class="flex flex-wrap gap-2">
       <span
-        v-for="(_, key) in omikujiItemKindMap"
+        v-for="key in omikujiItemKinds"
         :key="key"
         class="badge cursor-pointer select-none"
         :class="omikujiItem.kind === key ? 'badge-primary' : 'badge-ghost'"
-        @click="updateKind(key as OmikujiItemKind)"
+        @click="updateKind(key)"
       >
         {{ t(`mapText.omikujiItemKind.${key}.label`) }}
       </span>
@@ -32,11 +32,11 @@
   >
     <div class="flex flex-wrap gap-2">
       <span
-        v-for="(_, command) in omikujiControlCommandMap"
+        v-for="command in omikujiControlCommands"
         :key="command"
         class="badge cursor-pointer select-none"
         :class="omikujiItem.command === command ? 'badge-primary' : 'badge-ghost'"
-        @click="updateCommand(command as OmikujiControlCommand)"
+        @click="updateCommand(command)"
       >
         {{ t(`mapText.omikujiControlCommand.${command}.label`) }}
       </span>
@@ -51,13 +51,18 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed } from 'vue'
-  import { OmikujiControlCommand, OmikujiItemKind, OmikujiItemSchema, OmikujiItemType } from '@/types/OmikujiData/'
+  import {
+    omikujiControlCommands,
+    omikujiItemKinds,
+    OmikujiControlCommand,
+    OmikujiItemKind,
+    OmikujiItemSchema,
+    OmikujiItemType,
+  } from '@/types/OmikujiData/'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import OmikujiItemScenario from './OmikujiItemScenario.vue'
   import OmikujiItemControlSettings from './OmikujiItemControlSettings.vue'
-
-  import { omikujiItemKindMap, omikujiControlCommandMap } from '@/maps/OmikujiData'
 
   const { t } = useI18n()
 
@@ -110,7 +115,5 @@
     updateItemProperties({ command })
   }
 
-  const shouldShowKindSelector = computed(() => {
-    return Object.keys(omikujiItemKindMap).length > 1
-  })
+  const shouldShowKindSelector = computed(() => omikujiItemKinds.length > 1)
 </script>
