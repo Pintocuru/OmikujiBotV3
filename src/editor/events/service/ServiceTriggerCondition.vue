@@ -8,7 +8,7 @@
         @change="updateField('comparison', ($event.target as HTMLSelectElement).value)"
         class="select select-bordered select-sm flex-1"
       >
-        <option v-for="(info, key) in comparisonMap" :key="key" :value="key">
+        <option v-for="key in comparisonOptions" :key="key" :value="key">
           {{ t(`mapText.serviceCondition.${key}.label`) }}
         </option>
       </select>
@@ -38,8 +38,12 @@
   import { computed } from 'vue'
 
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { isServiceValueComparison, ServiceComparisonConditionType, ServiceConditionType } from '@/types/OmikujiData'
-  import { serviceConditionMap, serviceSimpleComparisonConditionMap } from '@/maps/OmikujiData'
+  import {
+    isServiceValueComparison,
+    ServiceComparisonConditionType,
+    ServiceConditionType,
+    serviceConditions,
+  } from '@/types/OmikujiData'
   import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
   const { t, te } = useI18n()
@@ -63,8 +67,10 @@
     emit('update:modelValue', defaultCondition())
   }
 
-  // 以下は既存ロジック
-  const comparisonMap = computed(() => (props.hasPeak ? serviceConditionMap : serviceSimpleComparisonConditionMap))
+  // 選択肢（hasPeak が false の場合は greaterThanPeak を除外）
+  const comparisonOptions = computed(() =>
+    props.hasPeak ? serviceConditions : serviceConditions.filter((condition) => condition !== 'greaterThanPeak')
+  )
 
   const needsValue = computed(() => isServiceValueComparison(props.modelValue?.comparison ?? ''))
 
