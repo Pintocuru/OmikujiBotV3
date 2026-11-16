@@ -98,6 +98,15 @@ export const uiComponentMessages = {
         simplePink: {
           label: 'シンプルピンク',
         },
+        miniPill: {
+          label: 'ミニピル',
+        },
+        miniFlip: {
+          label: 'ミニフリップ',
+        },
+        miniRing: {
+          label: 'ミニリング',
+        },
       },
       flashBanner: {
         standard: {
@@ -272,6 +281,15 @@ export const uiComponentMessages = {
         },
         simplePink: {
           label: 'Simple pink',
+        },
+        miniPill: {
+          label: 'Mini pill',
+        },
+        miniFlip: {
+          label: 'Mini flip',
+        },
+        miniRing: {
+          label: 'Mini ring',
         },
       },
       flashBanner: {

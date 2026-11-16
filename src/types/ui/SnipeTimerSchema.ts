@@ -6,7 +6,7 @@ import { enterMotions } from '../OmikujiData/assets/EnterMotionSchema'
 
 // SnipeTimer のコンポーネントセット
 export const snipeTimerComponentSets = {
-  standard: ['simpleWhite', 'simplePink'],
+  standard: ['simpleWhite', 'simplePink', 'miniPill', 'miniFlip', 'miniRing'],
 } as const
 
 export type SnipeTimerComponentSets = typeof snipeTimerComponentSets

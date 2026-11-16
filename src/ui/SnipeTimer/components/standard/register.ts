@@ -14,6 +14,18 @@ const standardComponents = {
     labelKey: 'uiComponents.snipeTimer.simplePink.label',
     loader: () => import('./SimplePink.vue'),
   },
+  miniPill: {
+    labelKey: 'uiComponents.snipeTimer.miniPill.label',
+    loader: () => import('./MiniPill.vue'),
+  },
+  miniFlip: {
+    labelKey: 'uiComponents.snipeTimer.miniFlip.label',
+    loader: () => import('./MiniFlip.vue'),
+  },
+  miniRing: {
+    labelKey: 'uiComponents.snipeTimer.miniRing.label',
+    loader: () => import('./MiniRing.vue'),
+  },
 } satisfies Record<SnipeTimerComponentOf<'standard'>, SnipeTimerUiComponent>
 
 export const registerStandardSnipeTimerComponents = () => registerSnipeTimerComponents({ standard: standardComponents })
