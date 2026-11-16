@@ -1,3 +1,13 @@
-// src/i18n/ui/index.ts
-
-// export * from './assets'
+// src/i18n/editor/ui/index.ts
+export * from './EditorUiMessages'
+export * from './UiComponentMessages'
+export * from './UiSettingsCoreMessages'
+export * from './UiSettingsDisplayMessages'
+export * from './UiSettingsDeadAirMessages'
+export * from './UiSettingsComponentsMessages'
+export * from './UiSettingsFlightSeatMessages'
+export * from './UiSettingsLabelMakerMessages'
+export * from './UiSettingsFlashBannerMessages'
+export * from './UiSettingsLiverBingoMessages'
+export * from './UiSettingsLuckyDrawMessages'
+export * from './UiSettingsSnipeTimerMessages'
