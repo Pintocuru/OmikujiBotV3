@@ -5,6 +5,7 @@ import { PlaceholderSchema, PlaceholderType, handleNormalizedValues } from '@/ty
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { defaultPlaceholderMap } from '@/maps/engine/placeholder/DefaultPlaceholderMap'
+import { defaultPlaceholderLabel } from '@/types/engine'
 
 const PLACEHOLDER_PATTERN = /<<([^>]+)>>/g
 const PLACEHOLDER_ID_PATTERN = /^[a-zA-Z0-9_]+$/
@@ -25,11 +26,11 @@ export function usePlaceholderEditor(draftText: Ref<string>) {
 
   // デフォルトプレースホルダー一覧
   const defaultPlaceholderList = computed(() => {
-    return Object.entries(defaultPlaceholderMap).map(([key, meta]) => ({
+    return defaultPlaceholderLabel.map((key) => ({
       key,
-      label: t(meta.labelKey),
-      short: t(meta.shortKey),
-      slot: meta.slot,
+      label: t(`mapText.defaultPlaceholder.${key}.label`),
+      short: t(`mapText.defaultPlaceholder.${key}.short`),
+      slot: defaultPlaceholderMap[key],
     }))
   })
 
