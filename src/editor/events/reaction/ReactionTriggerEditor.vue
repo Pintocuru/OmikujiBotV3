@@ -23,7 +23,7 @@
     descriptionKey="reactionTrigger.conditionDescription"
   >
     <select class="select select-bordered select-sm w-full" v-model="comparison">
-      <option v-for="(_, key) in reactionConditionMap" :key="key" :value="key">
+      <option v-for="key in reactionConditions" :key="key" :value="key">
         {{ t(`mapText.reactionCondition.${key}.label`) }}
       </option>
     </select>
@@ -89,8 +89,8 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { VolumeX, Volume2, Dot } from 'lucide-vue-next'
-  import { ReactionKeyType, ReactionTriggerType } from '@/types/OmikujiData'
-  import { reactionConditionMap, reactionMap } from '@/maps/OmikujiData'
+  import { ReactionKeyType, ReactionTriggerType, reactionConditions } from '@/types/OmikujiData'
+  import { reactionMap } from '@/maps/OmikujiData'
 
   const { t } = useI18n()
   const props = defineProps<{
