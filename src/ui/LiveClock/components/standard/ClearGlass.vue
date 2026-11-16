@@ -50,11 +50,11 @@
 
           <!-- 下部メッセージ -->
           <div
-            v-if="defaultMessage"
+            v-if="slotMessage"
             class="text-lg font-bold tracking-normal line-clamp-1 drop-shadow-sm opacity-85"
             :style="{ color: 'var(--lc-accent)' }"
           >
-            <RotatingMessage :message="defaultMessage" />
+            <RotatingMessage :message="slotMessage" />
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@
 
   const props = defineProps<{
     settings: LiveClockType
-    defaultMessage: string
+    slotMessage: string
     isMounted: boolean
     isFlipped: boolean
     currentMsg: string

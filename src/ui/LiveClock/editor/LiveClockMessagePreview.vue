@@ -5,7 +5,7 @@
       <LiveClockSelector
         editorPreview
         :settings="settings"
-        :default-message="settings.defaultMessage ?? ''"
+        :slot-message="String(slots?.slot0 ?? '')"
         :is-mounted="isMounted"
         :is-flipped="true"
         :current-msg="message ?? ''"
@@ -24,7 +24,7 @@
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import LiveClockSelector from '@/ui/LiveClock/LiveClockSelector.vue'
 
-  // UI プレビュー共通の props。liveClock は message だけを使う
+  // UI プレビュー共通の props。liveClock は message と slot0 を使う
   defineProps<{
     message?: string
     characterKey?: string

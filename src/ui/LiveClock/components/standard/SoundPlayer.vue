@@ -49,7 +49,7 @@
 
               <!-- 下部メッセージ -->
               <div class="text-xl truncate font-bold line-clamp-1 opacity-80" :style="{ color: 'var(--lc-text)' }">
-                <RotatingMessage :message="defaultMessage" />
+                <RotatingMessage :message="slotMessage" />
               </div>
             </div>
           </div>
@@ -98,7 +98,7 @@
 
   const props = defineProps<{
     settings: LiveClockType
-    defaultMessage: string
+    slotMessage: string
     isMounted: boolean
     isFlipped: boolean
     currentMsg: string

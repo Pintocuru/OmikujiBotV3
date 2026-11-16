@@ -4,7 +4,7 @@
     <component
       :is="currentComponent"
       :settings="settings"
-      :default-message="defaultMessage"
+      :slot-message="slotMessage"
       :is-mounted="isMounted"
       :is-flipped="isFlipped"
       :current-msg="currentMsg"
@@ -24,7 +24,7 @@
   const props = withDefaults(
     defineProps<{
       settings: LiveClockType
-      defaultMessage: string
+      slotMessage: string
       isMounted: boolean
       isFlipped: boolean
       currentMsg: string

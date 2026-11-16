@@ -1,7 +1,7 @@
 <!-- src/ui/LiveClock/editor/LiveClockEditor.vue -->
 <template>
   <!-- プレビュー -->
-  <LiveClockPreview :settings="liveClock" :messageText="messageText" />
+  <LiveClockPreview :settings="liveClock" />
 
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
@@ -17,16 +17,6 @@
     layout="vertical"
   >
     <ColorPicker :modelValue="liveClock.color" @update:modelValue="(val) => update('color', val)" />
-  </SettingItem>
-
-  <!-- デフォルトで表示させるメッセージ -->
-  <SettingItem
-    labelKey="uiSettings.liveClock.defaultMessage.label"
-    descriptionKey="uiSettings.liveClock.defaultMessage.description"
-    :showReset="true"
-    @reset="resetMap.defaultMessage"
-  >
-    <MessageTextDialog v-model="messageText" />
   </SettingItem>
 
   <!-- 日付を表示するか -->
@@ -72,7 +62,6 @@
   import LiveClockPreview from './LiveClockPreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import MessageTextDialog from '@/editor/parts/MessageTextDialog/MessageTextDialog.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
 
@@ -103,20 +92,4 @@
     })
   }
 
-  const resetField = (field: keyof typeof liveClock.value) => {
-    const defaults = LiveClockSchema.parse({})
-    update(field, defaults[field])
-  }
-
-  const resetMap = {
-    defaultMessage: () => resetField('defaultMessage'),
-  }
-
-  // Message Text
-  const messageText = computed<string>({
-    get: () => liveClock.value.defaultMessage ?? '',
-    set: (value) => {
-      update('defaultMessage', value)
-    },
-  })
 </script>

@@ -124,6 +124,12 @@ export const uiSettingsCore = {
             description: '例: 神様の後押しで愛が深まる',
           },
         },
+        liveClock: {
+          message: {
+            title: '下部メッセージ',
+            description: '時計の下に出し続けるメッセージ。次に届くまで保持(空欄なら更新しない)',
+          },
+        },
         snipeTimer: {
           targetAt: {
             title: '目標時刻',

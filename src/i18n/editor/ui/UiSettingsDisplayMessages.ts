@@ -82,10 +82,6 @@ export const uiSettingsDisplay = {
         },
       },
       liveClock: {
-        defaultMessage: {
-          label: 'デフォルトメッセージ',
-          description: 'プレースホルダーが使えます',
-        },
         isDate: {
           label: '日付表示',
           description: '時計に日付を表示するか',
@@ -162,10 +158,6 @@ export const uiSettingsDisplay = {
         },
       },
       liveClock: {
-        defaultMessage: {
-          label: 'Default message',
-          description: 'Placeholders can be used',
-        },
         isDate: {
           label: 'Show date',
           description: 'Whether to show the date on the clock',

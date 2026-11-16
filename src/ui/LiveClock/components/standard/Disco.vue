@@ -45,10 +45,10 @@
               {{ year }}/{{ month }}/{{ date }} ({{ day }})
             </div>
 
-            <div v-if="defaultMessage" class="flex items-center justify-center gap-1">
+            <div v-if="slotMessage" class="flex items-center justify-center gap-1">
               <span class="text-sm text-yellow-400 animate-bounce">★</span>
               <div class="text-base font-bold text-yellow-400 uppercase tracking-widest drop-shadow-sm line-clamp-1">
-                <RotatingMessage :message="defaultMessage" />
+                <RotatingMessage :message="slotMessage" />
               </div>
               <span class="text-sm text-yellow-400 animate-bounce">★</span>
             </div>
@@ -74,7 +74,7 @@
 
   defineProps<{
     settings: LiveClockType
-    defaultMessage: string
+    slotMessage: string
     isMounted: boolean
     isFlipped: boolean
     currentMsg: string

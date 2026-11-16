@@ -127,7 +127,7 @@
             </div>
 
             <!-- ゲージバー風メッセージ -->
-            <div v-if="defaultMessage" class="w-full">
+            <div v-if="slotMessage" class="w-full">
               <div
                 class="relative rounded px-3 py-0.5 overflow-hidden border"
                 :style="{
@@ -148,7 +148,7 @@
                   class="text-base font-bold text-center line-clamp-1 pl-1 opacity-80"
                   :style="{ color: 'var(--lc-text)' }"
                 >
-                  <RotatingMessage :message="defaultMessage" />
+                  <RotatingMessage :message="slotMessage" />
                 </div>
               </div>
             </div>
@@ -218,7 +218,7 @@
 
   const props = defineProps<{
     settings: LiveClockType
-    defaultMessage: string
+    slotMessage: string
     isMounted: boolean
     isFlipped: boolean
     currentMsg: string

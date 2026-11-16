@@ -5,7 +5,7 @@
       <LiveClockSelector
         editorPreview
         :settings="settings"
-        :default-message="defaultMessage"
+        :slot-message="slotMessage"
         :is-mounted="isMounted"
         :is-flipped="isFlipped"
         :current-msg="currentMsg"
@@ -23,11 +23,9 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import LiveClockSelector from '@/ui/LiveClock/LiveClockSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
-  import { usePlaceholderInterval } from '@/ui/common/usePlaceholderInterval'
 
   const props = defineProps<{
     settings: LiveClockType
-    messageText: string
   }>()
 
   const omikujiStore = useOmikujiStore()
@@ -36,15 +34,7 @@
   const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
   const settings = computed(() => props.settings)
 
-  const {
-    message: defaultMessage,
-    registerIntervalHook,
-    commitIfPending,
-  } = usePlaceholderInterval(() => settings.value.defaultMessage ?? '', 5000)
-  registerIntervalHook(() => {
-    commitIfPending(!isFlipped.value)
-  })
-
+  const slotMessage = ref('テスト用の下部メッセージです')
   const currentMsg = ref('テストメッセージです！テストメッセージです！')
 
   const isMounted = ref(false) // 表示アニメーションON

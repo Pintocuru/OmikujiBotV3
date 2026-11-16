@@ -62,7 +62,7 @@
 
             <!-- 下部メッセージ -->
             <div
-              v-if="defaultMessage"
+              v-if="slotMessage"
               class="px-3 rounded-full border shadow-sm"
               :style="{
                 borderColor: 'color-mix(in srgb, var(--lc-accent) 60%, transparent)',
@@ -70,7 +70,7 @@
               }"
             >
               <div class="text-sm font-black gap-1 line-clamp-1 opacity-80" :style="{ color: 'var(--lc-text)' }">
-                <RotatingMessage :message="defaultMessage" />
+                <RotatingMessage :message="slotMessage" />
               </div>
             </div>
           </div>
@@ -120,7 +120,7 @@
 
   const props = defineProps<{
     settings: LiveClockType
-    defaultMessage: string
+    slotMessage: string
     isMounted: boolean
     isFlipped: boolean
     currentMsg: string

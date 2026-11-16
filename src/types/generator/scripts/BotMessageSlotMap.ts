@@ -66,6 +66,15 @@ export const CharacterStageSlotMap = {
 export type CharacterStageSlotKey = keyof typeof CharacterStageSlotMap
 
 /**
+ * liveClock(ライブクロック)
+ * - message: 時計の下に出し続けるメッセージ(次の slot0 が届くまで保持。空の slot0 では更新しない)
+ */
+export const LiveClockSlotMap = {
+  message: { slot: 'slot0' },
+} as const satisfies Record<string, SlotMeta>
+export type LiveClockSlotKey = keyof typeof LiveClockSlotMap
+
+/**
  * snipeTimer(スナイプタイマー)
  * - targetAt: 目標時刻(エポックミリ秒)。通常は SnipeTimer ゲームスクリプトがコメントから決めて渡す
  */
@@ -89,7 +98,7 @@ export const UiMessageSpecs = {
   characterStage: { bubble: 'character', slots: CharacterStageSlotMap },
   commentBubble: { bubble: 'comment', slots: {} },
   toastWidgets: { bubble: 'comment', slots: {} },
-  liveClock: { bubble: 'comment', slots: {} }, // TODO: slots を使うなら map を足す
+  liveClock: { bubble: 'comment', slots: LiveClockSlotMap },
   kujibikiPanel: { bubble: 'comment', slots: KujibikiSlotMap },
   gameRanking: { bubble: false, slots: RankingSlotMap },
   userBoard: { bubble: false, slots: {} },

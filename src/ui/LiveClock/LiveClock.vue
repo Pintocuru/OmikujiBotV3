@@ -2,7 +2,7 @@
 <template>
   <LiveClockSelector
     :settings="settings"
-    :default-message="defaultMessage"
+    :slot-message="slotMessage"
     :is-mounted="isMounted"
     :is-flipped="isFlipped"
     :current-msg="currentMsg"
@@ -16,7 +16,6 @@
   import { useAppStore } from '@/generator/stores/useAppStore'
   import { useBotDisplay } from '@/ui/common/useBotDisplay'
   import { useFilteredBotMessages } from '../common/useFilteredBotMessages'
-  import { usePlaceholderInterval } from '../common/usePlaceholderInterval'
 
   const appStore = useAppStore()
 
@@ -27,15 +26,21 @@
   })
   const { displayedComments, start, stop } = useBotDisplay(messages)
 
-  const {
-    message: defaultMessage,
-    commitIfPending,
-    registerIntervalHook,
-  } = usePlaceholderInterval(() => settings.value.defaultMessage ?? '')
-
-  registerIntervalHook(() => {
-    commitIfPending(!isFlipped.value)
-  })
+  // 時計の下のメッセージ: 最新の slot0 を保持する(届くまでは空=非表示)
+  const slotMessage = ref('')
+  watch(
+    messages,
+    (list) => {
+      for (let i = list.length - 1; i >= 0; i--) {
+        const text = String(list[i].slots?.slot0 ?? '').trim()
+        if (text) {
+          slotMessage.value = text
+          return
+        }
+      }
+    },
+    { immediate: true }
+  )
 
   // 時計
   const isMounted = ref(false)
