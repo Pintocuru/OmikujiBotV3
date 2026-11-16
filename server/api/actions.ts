@@ -17,6 +17,8 @@ export const API_ACTION = {
   loadPadStatus: { method: 'GET', action: 'load-pad-status' },
   loadBingoCommands: { method: 'GET', action: 'load-bingo-commands' },
   loadBingoSnapshot: { method: 'GET', action: 'load-bingo-snapshot' },
+  listBingoPatterns: { method: 'GET', action: 'list-bingo-patterns' },
+  loadBingoPattern: { method: 'GET', action: 'load-bingo-pattern' },
   listSounds: { method: 'GET', action: 'list-sounds' },
   listImages: { method: 'GET', action: 'list-images' },
 
@@ -38,6 +40,8 @@ export const API_ACTION = {
   triggerPad: { method: 'POST', action: 'trigger-pad' },
   sendBingoCommand: { method: 'POST', action: 'send-bingo-command' },
   saveBingoSnapshot: { method: 'POST', action: 'save-bingo-snapshot' },
+  saveBingoPattern: { method: 'POST', action: 'save-bingo-pattern' },
+  deleteBingoPattern: { method: 'POST', action: 'delete-bingo-pattern' },
 } as const
 
 type ApiActionEntry = (typeof API_ACTION)[keyof typeof API_ACTION]

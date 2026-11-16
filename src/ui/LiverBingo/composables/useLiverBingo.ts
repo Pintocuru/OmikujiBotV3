@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, ref, watch, type Ref } from 'vue'
 import type { LiverBingoCellPatchType } from '@/types/api'
 import type { LiverBingoItemType, LiverBingoType } from '@/types/ui'
+import type { ProgressTracker } from '@/ui/common/useProgressTracker'
 import { generateCard, rerollItem } from './bingoItems'
 import { getWinLines } from './winLines'
 import { useLiverBingoSound } from './useLiverBingoSound'
@@ -14,21 +15,35 @@ const CELL_ANIMATION_MS = 800
  * - 進行状態(進捗・お題の入れ替え)はメモリだけで持つ(リロードで最初から)
  * - 設定(カードサイズ・固定項目・ランダム項目)が変わったらカードを作り直す
  * - OBS 上のクリックと、LiveConsole からの命令(useLiverBingoSync)は、同じ操作を呼ぶ
+ * - 進捗 = 手動の操作(クリック・LiveConsole の ±。自動のマスでは補正になる) + 自動の進捗(tracker)
+ *   tracker を渡さなければ、すべて手動として動く
  */
-export const useLiverBingo = (settings: Ref<LiverBingoType>) => {
+export const useLiverBingo = (settings: Ref<LiverBingoType>, tracker?: ProgressTracker) => {
   const sound = useLiverBingoSound()
 
   const cardSize = computed(() => settings.value.cardSize)
   const totalCells = computed(() => cardSize.value * cardSize.value)
 
   const items = ref<LiverBingoItemType[]>([])
-  const progress = ref<number[]>([])
+  /** 手動の進捗(クリックの回数。自動のマスでは負の値もありうる補正) */
+  const manual = ref<number[]>([])
   const animating = ref<boolean[]>([])
   /** 注目中のマス(LiveConsole から指定される) */
   const focusCell = ref<number | null>(null)
 
+  // ---- 進捗 ----
+  /** 自動で進むマスか */
+  const autoCells = computed(() => items.value.map((item) => item.source.type !== 'manual'))
+  /** 自動の進捗(unit 換算後。ギフト金額で unit 100 なら 100 円で 1) */
+  const autoProgress = computed(() =>
+    items.value.map((item, index) => (autoCells.value[index] ? (tracker?.values.value[index] ?? 0) / item.unit : 0))
+  )
+  /** 手動 + 自動(unit 換算後) */
+  const progress = computed(() => items.value.map((_, index) => (manual.value[index] ?? 0) + autoProgress.value[index]))
+
   // ---- 判定 ----
-  const completedCells = computed(() => items.value.map((item, index) => (progress.value[index] ?? 0) >= item.target))
+  // 割り算の誤差で、ちょうど目標の値が未達成にならないよう、少しだけ余裕を持たせる
+  const completedCells = computed(() => items.value.map((item, index) => progress.value[index] + 1e-9 >= item.target))
   const winLines = computed(() =>
     getWinLines(cardSize.value).filter((line) => line.every((i) => completedCells.value[i]))
   )
@@ -70,7 +85,8 @@ export const useLiverBingo = (settings: Ref<LiverBingoType>) => {
   const regenerate = () => {
     clearTimers()
     items.value = generateCard(cardSize.value, settings.value.randomSeeds, settings.value.seeds)
-    progress.value = Array(totalCells.value).fill(0)
+    tracker?.rebase(items.value.map((item) => item.source))
+    manual.value = Array(totalCells.value).fill(0)
     animating.value = Array(totalCells.value).fill(false)
     focusCell.value = null
   }
@@ -95,7 +111,7 @@ export const useLiverBingo = (settings: Ref<LiverBingoType>) => {
   const increment = (index: number) => {
     if (!isCell(index)) return
     focusCell.value = null
-    progress.value[index] = (progress.value[index] ?? 0) + 1
+    manual.value[index] = (manual.value[index] ?? 0) + 1
     triggerAnimation(index)
     sound.click()
   }
@@ -105,16 +121,17 @@ export const useLiverBingo = (settings: Ref<LiverBingoType>) => {
     if (!isCell(index)) return
     focusCell.value = null
     items.value[index] = rerollItem(settings.value.randomSeeds, items.value[index])
-    progress.value[index] = 0
+    manual.value[index] = 0
+    tracker?.rebaseCell(index, items.value[index].source)
     sound.reset()
   }
 
-  /** 進捗 -1(OBS では右クリック)。0 のときはお題を入れ替える(固定項目のマスは入れ替えない) */
+  /** 進捗 -1(OBS では右クリック)。進捗が 1 に満たないときはお題を入れ替える(固定項目のマスは入れ替えない) */
   const decrement = (index: number) => {
     if (!isCell(index)) return
-    if ((progress.value[index] ?? 0) > 0) {
+    if (progress.value[index] + 1e-9 >= 1) {
       focusCell.value = null
-      progress.value[index]--
+      manual.value[index] = (manual.value[index] ?? 0) - 1
       sound.reset()
     } else if (!fixedCells.value.has(index)) {
       reroll(index)
@@ -156,6 +173,7 @@ export const useLiverBingo = (settings: Ref<LiverBingoType>) => {
     progress,
     animating,
     focusCell,
+    autoCells,
     completedCells,
     lineCount,
     highlightedCells,

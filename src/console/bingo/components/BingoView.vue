@@ -37,13 +37,17 @@
             @change="commitTitle(index, $event)"
           />
 
+          <span v-if="cell.auto" class="badge badge-info badge-xs self-start" title="自動で進むマス(± は補正になります)"
+            >自動</span
+          >
+
           <!-- 進捗 -->
           <div class="flex items-center justify-between gap-1">
             <button type="button" class="btn btn-xs btn-square" aria-label="進捗 -1" @click="decrement(index)">
               −
             </button>
             <span class="text-center text-sm">
-              <span class="text-lg font-bold">{{ cell.progress * cell.unit }}</span>
+              <span class="text-lg font-bold">{{ formatValue(cell) }}</span>
               / {{ cell.target * cell.unit }}
             </span>
             <button type="button" class="btn btn-xs btn-square" aria-label="進捗 +1" @click="increment(index)">
@@ -113,9 +117,12 @@
 
   type Cell = LiverBingoSnapshotType['cells'][number]
 
+  // 自動で進むマスは小数になるので、実際の値(元の単位)に直して、小数以下は切り捨てて表示する
+  const formatValue = (cell: Cell) => Math.floor(cell.progress * cell.unit + 1e-6)
+
   const cellClass = (cell: Cell, index: number) => {
     if (snapshot.value?.focus === index) return 'border-warning bg-warning/10'
-    return cell.progress >= cell.target ? 'border-success bg-success/10' : 'border-base-300'
+    return cell.progress + 1e-9 >= cell.target ? 'border-success bg-success/10' : 'border-base-300'
   }
 
   const commitTitle = (index: number, event: Event) => {

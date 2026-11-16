@@ -9,6 +9,7 @@ export const DIR_NAME = {
   // meta.id ごとの Generator 設定 (packages/<id>.json)。fileName なしの Generator 設定は server 直下の generator.json
   packages: 'packages',
   streams: 'streams', // 1配信ごとのゲームステート (streams/<streamId>.json)
+  bingoPatterns: 'bingo-patterns', // ライバービンゴの保存パターン (bingo-patterns/<id>.json)
 } as const
 
 // 固定ファイル名

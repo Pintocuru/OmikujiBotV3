@@ -19,6 +19,7 @@
 <script setup lang="ts">
   import { computed, toRef } from 'vue'
   import type { LiverBingoType } from '@/types/ui'
+  import { useProgressTracker } from '@/ui/common/useProgressTracker'
   import { useLiverBingo } from '../composables/useLiverBingo'
   import { useLiverBingoSync } from '../composables/useLiverBingoSync'
   import LiverBingoGrid from './LiverBingoGrid.vue'
@@ -30,7 +31,9 @@
     sync?: boolean
   }>()
 
-  const board = useLiverBingo(toRef(props, 'settings'))
+  // 自動で進むマスの進捗(配信の数値・評価ブロックの変数)
+  const tracker = useProgressTracker()
+  const board = useLiverBingo(toRef(props, 'settings'), tracker)
   if (props.sync) useLiverBingoSync(board)
 
   // 配色(name: ラインが成立したマスの文字 / text: マスの文字 / background: マスの地 / accent: 達成・進捗)

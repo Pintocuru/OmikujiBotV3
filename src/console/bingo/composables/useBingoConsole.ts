@@ -75,7 +75,7 @@ export function useBingoConsole() {
   /** 未達成のマスから 1 つ選んで注目する(全部達成済みなら何もしない) */
   const focusRandom = () => {
     const cells = snapshot.value?.cells ?? []
-    const open = cells.flatMap((cell, index) => (cell.progress >= cell.target ? [] : [index]))
+    const open = cells.flatMap((cell, index) => (cell.progress + 1e-9 >= cell.target ? [] : [index]))
     if (open.length === 0) return
     return focus(open[Math.floor(Math.random() * open.length)])
   }

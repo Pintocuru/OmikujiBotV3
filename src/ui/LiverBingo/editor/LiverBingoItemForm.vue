@@ -9,6 +9,38 @@
       @input="emit('update', { title: ($event.target as HTMLInputElement).value })"
     />
 
+    <!-- 何で進むか(手動 / 配信の数値 / 評価ブロックの変数) -->
+    <div class="flex flex-col gap-1 text-xs">
+      <label class="flex flex-col gap-1">
+        {{ t('uiSettings.liverBingo.item.source.label') }}
+        <select class="select select-bordered select-sm" :value="sourceValue" @change="changeSource">
+          <option value="manual">{{ t('uiSettings.liverBingo.item.source.manual') }}</option>
+          <optgroup :label="t('uiSettings.liverBingo.item.source.counterGroup')">
+            <option v-for="key in PROGRESS_COUNTER_KEYS" :key="key" :value="`counter:${key}`">
+              {{ t(`uiSettings.liverBingo.item.source.counter.${key}`) }}
+            </option>
+          </optgroup>
+          <option value="variable">{{ t('uiSettings.liverBingo.item.source.variable') }}</option>
+        </select>
+      </label>
+
+      <input
+        v-if="item.source.type === 'variable'"
+        type="text"
+        class="input input-bordered input-sm w-full"
+        :placeholder="t('uiSettings.liverBingo.item.source.variablePlaceholder')"
+        :value="item.source.name"
+        @change="
+          emit('update', { source: { type: 'variable', name: ($event.target as HTMLInputElement).value.trim() } })
+        "
+      />
+
+      <p v-if="item.source.type !== 'manual'" class="opacity-70">
+        {{ t('uiSettings.liverBingo.item.source.note.auto') }}
+        <template v-if="sourceNoteKey">{{ t(`uiSettings.liverBingo.item.source.note.${sourceNoteKey}`) }}</template>
+      </p>
+    </div>
+
     <div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
       <label v-if="showWeight" class="flex flex-col gap-1 text-xs">
         {{ t('uiSettings.liverBingo.item.weight', { percent: weightPercent }) }}
@@ -48,9 +80,10 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { LIVER_BINGO_UNITS, type LiverBingoItemType, type LiverBingoUnit } from '@/types/ui'
+  import { computed } from 'vue'
+  import { LIVER_BINGO_UNITS, PROGRESS_COUNTER_KEYS, type LiverBingoItemType, type LiverBingoUnit } from '@/types/ui'
 
-  defineProps<{
+  const props = defineProps<{
     item: LiverBingoItemType
     /** 出現の重みを編集するか(ランダム項目のみ) */
     showWeight?: boolean
@@ -63,6 +96,31 @@
   }>()
 
   const { t } = useI18n()
+
+  // 「何で進むか」の select の値(manual / counter:<key> / variable)
+  const sourceValue = computed(() => {
+    const { source } = props.item
+    return source.type === 'counter' ? `counter:${source.key}` : source.type
+  })
+
+  // 補足を出す項目(ギフト金額・同時視聴者数・変数)
+  const sourceNoteKey = computed(() => {
+    const { source } = props.item
+    if (source.type === 'variable') return 'variable'
+    if (source.type === 'counter' && (source.key === 'totalPrice' || source.key === 'viewer')) return source.key
+    return ''
+  })
+
+  const changeSource = (event: Event) => {
+    const value = (event.target as HTMLSelectElement).value
+    if (value === 'manual') return emit('update', { source: { type: 'manual' } })
+    if (value === 'variable') {
+      const name = props.item.source.type === 'variable' ? props.item.source.name : ''
+      return emit('update', { source: { type: 'variable', name } })
+    }
+    const key = PROGRESS_COUNTER_KEYS.find((k) => `counter:${k}` === value)
+    if (key) emit('update', { source: { type: 'counter', key } })
+  }
 
   // 入力が数値でない・負のときは、元の値のままにする
   const toNumber = (event: Event, fallback: number) => {

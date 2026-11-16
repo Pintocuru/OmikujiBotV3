@@ -2,6 +2,7 @@
 import { z } from 'zod'
 import { normalizedObject } from '../core'
 import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
+import { ProgressSourceSchema } from './ProgressSourceSchema'
 
 /** カードの一辺のマス数(3〜10) */
 export const LIVER_BINGO_CARD_SIZES = [3, 4, 5, 6, 7, 8, 9, 10] as const
@@ -16,7 +17,8 @@ export type LiverBingoUnit = (typeof LIVER_BINGO_UNITS)[number]
  * - title: お題(空なら未設定として扱う)
  * - weight: ランダム項目での出現の重み(固定項目では使わない)
  * - target: 達成に必要な回数
- * - unit: 表示の単位(進捗 × unit を表示)
+ * - unit: 表示の単位(進捗 × unit を表示。自動で進むときは、元の値 ÷ unit が進捗になる。ギフト金額で unit 100 なら 100 円で 1)
+ * - source: 何で進むか(既定は手動。配信の数値や評価ブロックの変数で自動に進められる。手動の操作は補正として足される)
  */
 export const LiverBingoItemSchema = z.object({
   title: z.string().default('').catch(''),
@@ -26,6 +28,7 @@ export const LiverBingoItemSchema = z.object({
     .union([z.literal(1), z.literal(10), z.literal(100), z.literal(1000)])
     .default(1)
     .catch(1),
+  source: ProgressSourceSchema,
 })
 export type LiverBingoItemType = z.infer<typeof LiverBingoItemSchema>
 

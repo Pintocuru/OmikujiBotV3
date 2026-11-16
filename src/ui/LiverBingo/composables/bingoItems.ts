@@ -2,7 +2,13 @@
 import type { LiverBingoItemType, LiverBingoSeedType } from '@/types/ui'
 
 /** お題が 1 件も無いときのマス */
-export const EMPTY_ITEM: LiverBingoItemType = { title: '未設定', weight: 0, target: 1, unit: 1 }
+export const EMPTY_ITEM: LiverBingoItemType = {
+  title: '未設定',
+  weight: 0,
+  target: 1,
+  unit: 1,
+  source: { type: 'manual' },
+}
 
 type Random = () => number
 

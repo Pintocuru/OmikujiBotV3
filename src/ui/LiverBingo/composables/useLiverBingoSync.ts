@@ -51,6 +51,7 @@ export const useLiverBingoSync = (board: LiverBingoBoardState) => {
       target: item.target,
       unit: item.unit,
       fixed: board.fixedCells.value.has(index),
+      auto: board.autoCells.value[index] ?? false,
     })),
     focus: board.focusCell.value,
     lineCount: board.lineCount.value,
@@ -111,5 +112,6 @@ export const useLiverBingoSync = (board: LiverBingoBoardState) => {
   })
 
   // カードが変わったら写しを送る
+  // (progress は手動 + 自動の合計なので、自動で進んだときも写しが送られる)
   watch([board.items, board.progress, board.focusCell], scheduleSnapshot, { deep: true })
 }

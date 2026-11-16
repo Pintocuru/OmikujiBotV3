@@ -82,6 +82,7 @@ export const LiverBingoSnapshotSchema = z.object({
         target: z.number(),
         unit: z.number(),
         fixed: z.boolean(), // 固定項目のマスか
+        auto: z.boolean().default(false), // 自動で進むマスか(進捗は手動 + 自動の合計)
       })
     )
     .max(400),

@@ -19,7 +19,7 @@
       <!-- 数値(クリック時に拡大) -->
       <div class="lb-cell__count">
         <span class="lb-cell__value" :class="{ 'lb-cell__value--pop': animating[index] }">
-          {{ (progress[index] ?? 0) * item.unit }}
+          {{ formatValue(progress[index] ?? 0, item.unit) }}
         </span>
         / {{ item.target * item.unit }}
       </div>
@@ -67,6 +67,9 @@
   const MAX_TITLE_LENGTH = 24
   const formatTitle = (text: string) =>
     text.length > MAX_TITLE_LENGTH ? `${text.slice(0, MAX_TITLE_LENGTH - 3)}...` : text
+
+  // 自動で進むマスは小数になるので、実際の値(元の単位)に直して、小数以下は切り捨てて表示する
+  const formatValue = (value: number, unit: number) => Math.floor(value * unit + 1e-6)
 
   // target が 0 のときは達成済みとして 100%
   const percent = (value: number, target: number) =>

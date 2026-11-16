@@ -96,6 +96,10 @@ const ERROR_MESSAGES: Record<ApiActionName, string> = {
   'load-bingo-snapshot': 'ビンゴの状態の取得に失敗しました',
   'send-bingo-command': 'ビンゴの命令の送信に失敗しました',
   'save-bingo-snapshot': 'ビンゴの状態の送信に失敗しました',
+  'list-bingo-patterns': 'ビンゴの保存パターン一覧の取得に失敗しました',
+  'load-bingo-pattern': 'ビンゴの保存パターンの読み込みに失敗しました',
+  'save-bingo-pattern': 'ビンゴの保存パターンの保存に失敗しました',
+  'delete-bingo-pattern': 'ビンゴの保存パターンの削除に失敗しました',
   'list-sounds': 'サウンド一覧の取得に失敗しました',
   'list-images': '画像一覧の取得に失敗しました',
 }
