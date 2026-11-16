@@ -1,4 +1,4 @@
-// src/ui/SnipeTimer/SnipeTimerRegistry.ts
+// src/ui/counter/SnipeTimer/SnipeTimerRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

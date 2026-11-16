@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/UiSettingsLiverBingoMessages.ts
+// src/i18n/ui/UiSettingsLiverBingoMessages.ts
 // UI 設定の翻訳: liverBingo
 export const uiSettingsLiverBingo = {
   ja: {

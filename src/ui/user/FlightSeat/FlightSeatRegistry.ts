@@ -1,4 +1,4 @@
-// src/ui/FlightSeat/FlightSeatRegistry.ts
+// src/ui/user/FlightSeat/FlightSeatRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

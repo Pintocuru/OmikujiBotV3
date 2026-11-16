@@ -1,4 +1,4 @@
-<!-- src/ui/FlashBanner/editor/FlashBannerMessagePreview.vue -->
+<!-- src/ui/bot/FlashBanner/editor/FlashBannerMessagePreview.vue -->
 <template>
   <HudPreview>
     <div :class="[fontFamily]">

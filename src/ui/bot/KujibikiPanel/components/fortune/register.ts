@@ -1,4 +1,4 @@
-// src/ui/KujibikiPanel/components/fortune/register.ts
+// src/ui/bot/KujibikiPanel/components/fortune/register.ts
 import type { KujibikiComponentOf } from '@/types/ui'
 import { registerKujibikiPanelComponents, type KujibikiPanelComponent } from '../../KujibikiPanelRegistry'
 

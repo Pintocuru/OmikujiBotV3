@@ -1,4 +1,4 @@
-// src/ui/CharacterStage/types.ts
+// src/ui/bot/CharacterStage/types.ts
 import type { CharacterAnimationType, EnterMotionType } from '@/types/OmikujiData'
 import type { BotDisplayState, StageAnchorType } from '@/types/ui'
 

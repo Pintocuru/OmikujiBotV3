@@ -1,4 +1,4 @@
-<!-- src/ui/KujibikiPanel/components/fortune/BigBangEarth.vue -->
+<!-- src/ui/bot/KujibikiPanel/components/fortune/BigBangEarth.vue -->
 <!-- 地球を模したおみくじ箱 -->
 <template>
   <div class="earth-scene pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">

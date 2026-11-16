@@ -1,4 +1,4 @@
-// src/ui/LiveClock/composables/useLiveClockTime.ts
+// src/ui/bot/LiveClock/composables/useLiveClockTime.ts
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const hours = ref('--')

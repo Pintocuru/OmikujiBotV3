@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/composables/useBowlEffects.ts
+// src/ui/counter/LifeHourglass/composables/useBowlEffects.ts
 import { onUnmounted, ref, watch, type Ref } from 'vue'
 import { LIFE_HOURGLASS_BOWLS, type BowlCounts, type LifeHourglassBowlId } from './bowls'
 

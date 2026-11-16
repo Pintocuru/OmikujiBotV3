@@ -1,4 +1,4 @@
-// src/ui/LiverBingo/composables/useLiverBingoSound.ts
+// src/ui/game/LiverBingo/composables/useLiverBingoSound.ts
 import { playSoundResolved } from '@/common/sounds'
 
 /** assets/sounds/ からの相対パス */

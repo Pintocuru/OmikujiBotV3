@@ -1,4 +1,4 @@
-// src/ui/ToastWidgets/toastCharacter.ts
+// src/ui/bot/ToastWidgets/toastCharacter.ts
 import { TOAST_CHARACTER_RANDOM } from '@/types/ui'
 import type { CharacterType } from '@/types/OmikujiData'
 

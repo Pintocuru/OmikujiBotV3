@@ -1,4 +1,4 @@
-<!-- src/ui/KujibikiPanel/components/fortune/BigBangResult.vue -->
+<!-- src/ui/bot/KujibikiPanel/components/fortune/BigBangResult.vue -->
 <!-- おみくじ結果(slot0) -->
 <template>
   <div class="result-plaque relative z-10 flex min-h-24 w-full items-center justify-center rounded-lg px-3 py-3">

@@ -1,4 +1,4 @@
-// src/ui/FlashBanner/components/standard/register.ts
+// src/ui/bot/FlashBanner/components/standard/register.ts
 import type { FlashBannerComponentOf } from '@/types/ui'
 import { registerFlashBannerComponents, type FlashBannerComponentDefinition } from '../../FlashBannerRegistry'
 

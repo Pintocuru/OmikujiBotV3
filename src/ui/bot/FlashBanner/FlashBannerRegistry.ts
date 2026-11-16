@@ -1,4 +1,4 @@
-// src/ui/FlashBanner/FlashBannerRegistry.ts
+// src/ui/bot/FlashBanner/FlashBannerRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

@@ -1,4 +1,4 @@
-<!-- src/ui/KujibikiPanel/components/fortune/Tarot.vue -->
+<!-- src/ui/bot/KujibikiPanel/components/fortune/Tarot.vue -->
 <template>
   <div class="relative flex items-center justify-center">
     <div class="tarot-card relative w-xs min-h-105 rounded-xl p-6 flex flex-col items-center gap-4 overflow-hidden">

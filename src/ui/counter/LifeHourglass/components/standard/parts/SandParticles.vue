@@ -1,4 +1,4 @@
-<!-- src/ui/LifeHourglass/components/standard/parts/SandParticles.vue -->
+<!-- src/ui/counter/LifeHourglass/components/standard/parts/SandParticles.vue -->
 <template>
   <span
     v-for="p in visible"

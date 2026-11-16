@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/LiveClockSelector.vue -->
+<!-- src/ui/bot/LiveClock/LiveClockSelector.vue -->
 <template>
   <div v-if="currentComponent" class="bg-base-100 transparent-bg overflow-hidden">
     <component

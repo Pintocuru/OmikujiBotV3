@@ -1,4 +1,4 @@
-// src/ui/CommentBubble/CommentBubbleRegistry.ts
+// src/ui/bot/CommentBubble/CommentBubbleRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

@@ -1,4 +1,4 @@
-// src/ui/LabelMaker/composables/useLabelMakerUsers.ts
+// src/ui/user/LabelMaker/composables/useLabelMakerUsers.ts
 import { shallowRef, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'

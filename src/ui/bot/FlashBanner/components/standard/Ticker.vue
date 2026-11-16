@@ -1,4 +1,4 @@
-<!-- src/ui/FlashBanner/components/standard/Ticker.vue -->
+<!-- src/ui/bot/FlashBanner/components/standard/Ticker.vue -->
 <template>
   <div
     class="flex items-center overflow-hidden px-2"

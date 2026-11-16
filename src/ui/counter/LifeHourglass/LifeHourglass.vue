@@ -1,4 +1,4 @@
-<!-- src/ui/LifeHourglass/LifeHourglass.vue -->
+<!-- src/ui/counter/LifeHourglass/LifeHourglass.vue -->
 <template>
   <LifeHourglassSelector
     :settings="settings"

@@ -1,4 +1,4 @@
-<!-- src/ui/FlightSeat/components/standard/SeatFlightSeat.vue -->
+<!-- src/ui/user/FlightSeat/components/standard/SeatFlightSeat.vue -->
 <template>
   <div class="flex flex-col items-center gap-1">
     <!-- ファースト -->

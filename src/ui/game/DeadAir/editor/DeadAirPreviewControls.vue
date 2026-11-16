@@ -1,4 +1,4 @@
-<!-- src/ui/DeadAir/editor/DeadAirPreviewControls.vue -->
+<!-- src/ui/game/DeadAir/editor/DeadAirPreviewControls.vue -->
 <template>
   <div class="flex flex-col gap-1 p-1.5 rounded-box bg-base-200">
     <!-- 倍速 -->

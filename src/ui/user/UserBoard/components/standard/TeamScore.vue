@@ -1,4 +1,4 @@
-<!-- src/ui/UserBoard/components/standard/TeamScore.vue -->
+<!-- src/ui/user/UserBoard/components/standard/TeamScore.vue -->
 <!-- チームの得点 (チーム色ごとの大きな得点を、横に並べるスコアボード) -->
 <template>
   <div v-if="bars.length > 0" class="flex gap-2 rounded-2xl p-2 shadow-xl" :style="boardRootStyle(settings)">

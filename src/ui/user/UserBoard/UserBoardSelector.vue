@@ -1,4 +1,4 @@
-<!-- src/ui/UserBoard/UserBoardSelector.vue -->
+<!-- src/ui/user/UserBoard/UserBoardSelector.vue -->
 <template>
   <div class="relative" :class="useFontFamily(fontFamily)">
     <component :is="currentComponent" v-if="currentComponent" :users="users" :settings="settings" />

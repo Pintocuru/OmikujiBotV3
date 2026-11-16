@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/components/messageBoard/ChalkBoard.vue -->
+<!-- src/ui/bot/CommentBubble/components/messageBoard/ChalkBoard.vue -->
 <!-- 黒板: 木枠の黒板にチョークで書く。名前はマグネット名札。キャラは黒板の横に立つ -->
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex items-end justify-center gap-4 pb-8">

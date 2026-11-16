@@ -1,4 +1,4 @@
-// src/ui/DeadAir/editor/useDeadAirPreview.ts
+// src/ui/game/DeadAir/editor/useDeadAirPreview.ts
 import { reactive, ref, type Ref } from 'vue'
 import type { DeadAirType } from '@/types/ui'
 import { useDeadAirLogic } from '../composables/useDeadAirLogic'

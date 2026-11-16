@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/parts/GameRankingScore.vue -->
+<!-- src/ui/game/GameRanking/parts/GameRankingScore.vue -->
 <template>
   <Transition name="bubble-fade" @after-leave="$emit('hidden')">
     <div v-if="isVisible && latestMessage" ref="bubbleRef" class="inline-block relative z-10" :style="colorVars">

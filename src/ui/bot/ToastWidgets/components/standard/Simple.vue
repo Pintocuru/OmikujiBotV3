@@ -1,4 +1,4 @@
-<!-- src/ui/ToastWidgets/components/standard/Simple.vue -->
+<!-- src/ui/bot/ToastWidgets/components/standard/Simple.vue -->
 <template>
   <div class="flex items-end gap-2 my-1" :class="showToastsOnRight ? 'flex-row-reverse' : 'flex-row'">
     <!-- アイコン -->

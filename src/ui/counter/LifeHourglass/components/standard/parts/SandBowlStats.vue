@@ -1,4 +1,4 @@
-<!-- src/ui/LifeHourglass/components/standard/parts/SandBowlStats.vue -->
+<!-- src/ui/counter/LifeHourglass/components/standard/parts/SandBowlStats.vue -->
 <template>
   <!-- 同接・ギフト合計・配信時間(配信時間は小さく) -->
   <div class="lh-stats flex items-center gap-3 whitespace-nowrap tabular-nums">

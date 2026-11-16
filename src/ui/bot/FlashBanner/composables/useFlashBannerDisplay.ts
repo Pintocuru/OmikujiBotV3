@@ -1,4 +1,4 @@
-// src/ui/FlashBanner/composables/useFlashBannerDisplay.ts
+// src/ui/bot/FlashBanner/composables/useFlashBannerDisplay.ts
 import { computed, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'

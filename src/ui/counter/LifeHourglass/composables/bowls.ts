@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/composables/bowls.ts
+// src/ui/counter/LifeHourglass/composables/bowls.ts
 
 /**
  * 器のランクと砂粒の計算(純粋な関数と定数のみ。状態は持たない)。

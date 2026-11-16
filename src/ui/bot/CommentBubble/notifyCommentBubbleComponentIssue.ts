@@ -1,4 +1,4 @@
-// src/ui/CommentBubble/notifyCommentBubbleComponentIssue.ts
+// src/ui/bot/CommentBubble/notifyCommentBubbleComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

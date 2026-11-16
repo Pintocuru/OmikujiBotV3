@@ -1,4 +1,4 @@
-<!-- src/ui/DeadAir/DeadAir.vue -->
+<!-- src/ui/game/DeadAir/DeadAir.vue -->
 <template>
   <DeadAirSelector
     :settings="settings"

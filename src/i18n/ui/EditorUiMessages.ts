@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/EditorUiMessages.ts
+// src/i18n/ui/EditorUiMessages.ts
 export const editorUiMessages = {
   ja: {
     common: { none: '（なし）' },

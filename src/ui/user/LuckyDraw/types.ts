@@ -1,4 +1,4 @@
-// src/ui/LuckyDraw/types.ts
+// src/ui/user/LuckyDraw/types.ts
 import type { UserNameType } from '@/types/OmikenComment'
 
 /** 履歴 1 件(抽選 1 回分の当選者) */

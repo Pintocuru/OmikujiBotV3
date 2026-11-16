@@ -1,4 +1,4 @@
-// src/ui/CookieCounter/composables/resolveCookieCharacters.ts
+// src/ui/counter/CookieCounter/composables/resolveCookieCharacters.ts
 import type { useCharacters } from '@/common/characters/useCharacters'
 import type { CookieCounterType, ShownCharacter } from '@/types/ui'
 

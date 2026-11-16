@@ -1,4 +1,4 @@
-<!-- src/ui/FlightSeat/FlightSeat.vue -->
+<!-- src/ui/user/FlightSeat/FlightSeat.vue -->
 <template>
   <FlightSeatSelector
     :settings="settings"

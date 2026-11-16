@@ -1,4 +1,4 @@
-// src/ui/LuckyDraw/composables/useLuckyDraw.ts
+// src/ui/user/LuckyDraw/composables/useLuckyDraw.ts
 import { watch, type Ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'

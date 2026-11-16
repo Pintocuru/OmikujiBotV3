@@ -1,4 +1,4 @@
-<!-- src/ui/SnipeTimer/components/standard/SimplePink.vue -->
+<!-- src/ui/counter/SnipeTimer/components/standard/SimplePink.vue -->
 <template>
   <div
     class="rounded-2xl px-2 py-4 border-4 shadow-lg text-center"

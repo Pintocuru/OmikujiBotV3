@@ -1,4 +1,4 @@
-// src/ui/LiverBingo/composables/bingoItems.ts
+// src/ui/game/LiverBingo/composables/bingoItems.ts
 import type { LiverBingoItemType, LiverBingoSeedType } from '@/types/ui'
 
 /** お題が 1 件も無いときのマス */

@@ -1,4 +1,4 @@
-// src/ui/SnipeTimer/notifySnipeTimerComponentIssue.ts
+// src/ui/counter/SnipeTimer/notifySnipeTimerComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

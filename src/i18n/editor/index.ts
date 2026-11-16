@@ -1,4 +1,4 @@
-// src/i18n/editor/messageModules.ts
+// src/i18n/editor/index.ts
 import * as apps from './apps'
 import * as assets from './assets'
 import * as category from './category'

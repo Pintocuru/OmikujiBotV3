@@ -1,4 +1,4 @@
-<!-- src/ui/KujibikiPanel/KujibikiPanelSelector.vue -->
+<!-- src/ui/bot/KujibikiPanel/KujibikiPanelSelector.vue -->
 <template>
   <MotionWrapper
     v-if="hasMessage && currentComponent"

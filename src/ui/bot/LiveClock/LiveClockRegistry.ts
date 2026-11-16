@@ -1,4 +1,4 @@
-// src/ui/LiveClock/LiveClockRegistry.ts
+// src/ui/bot/LiveClock/LiveClockRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

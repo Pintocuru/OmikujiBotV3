@@ -1,4 +1,4 @@
-<!-- src/ui/LifeHourglass/editor/LifeHourglassEditor.vue -->
+<!-- src/ui/counter/LifeHourglass/editor/LifeHourglassEditor.vue -->
 <template>
   <!-- プレビュー -->
   <HudPreview :isAdminOnly="true">

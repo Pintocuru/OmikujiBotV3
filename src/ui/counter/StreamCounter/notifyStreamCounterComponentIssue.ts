@@ -1,4 +1,4 @@
-// src/ui/StreamCounter/notifyStreamCounterComponentIssue.ts
+// src/ui/counter/StreamCounter/notifyStreamCounterComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/components/bubble/Standard.vue -->
+<!-- src/ui/bot/CommentBubble/components/bubble/Standard.vue -->
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex justify-center items-end">
     <div class="relative flex flex-col items-center">

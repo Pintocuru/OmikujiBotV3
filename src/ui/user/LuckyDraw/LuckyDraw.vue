@@ -1,4 +1,4 @@
-<!-- src/ui/LuckyDraw/LuckyDraw.vue -->
+<!-- src/ui/user/LuckyDraw/LuckyDraw.vue -->
 <!-- 参加者(slot0=join)を貯め、抽選(slot0=draw)で選んだ人を表示する。参加者はこの UI が持つ -->
 <template>
   <LuckyDrawSelector

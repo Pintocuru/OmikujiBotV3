@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/LiveClock.vue -->
+<!-- src/ui/bot/LiveClock/LiveClock.vue -->
 <template>
   <LiveClockSelector
     :settings="settings"

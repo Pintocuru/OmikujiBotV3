@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/components/standard/SuikaGame.vue -->
+<!-- src/ui/game/GameRanking/components/standard/SuikaGame.vue -->
 <template>
   <!-- スコア表示（バブル） -->
   <div class="flex justify-center">

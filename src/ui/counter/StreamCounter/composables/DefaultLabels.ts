@@ -1,4 +1,4 @@
-// src/ui/StreamCounter/composables/DefaultLabels.ts
+// src/ui/counter/StreamCounter/composables/DefaultLabels.ts
 import type { Component } from 'vue'
 import { StreamDefaultKey } from '@/types/ui'
 import {

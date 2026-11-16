@@ -1,4 +1,4 @@
-// src/ui/LiverBingo/editor/packs/packImport.ts
+// src/ui/game/LiverBingo/editor/packs/packImport.ts
 import {
   LiverBingoItemSchema,
   LiverBingoSeedSchema,

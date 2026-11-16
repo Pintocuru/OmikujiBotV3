@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/GameRankingSelector.vue -->
+<!-- src/ui/game/GameRanking/GameRankingSelector.vue -->
 <template>
   <div class="relative" :class="useFontFamily(fontFamily)">
     <component :is="currentComponent" v-if="currentComponent" :rankingMessages="rankingMessages" :settings="settings" />

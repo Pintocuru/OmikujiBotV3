@@ -1,4 +1,4 @@
-// src/ui/LuckyDraw/composables/pickRandom.ts
+// src/ui/user/LuckyDraw/composables/pickRandom.ts
 
 type Random = () => number
 

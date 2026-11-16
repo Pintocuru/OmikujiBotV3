@@ -1,4 +1,4 @@
-// src/ui/CharacterStage/useCharacterStage.ts
+// src/ui/bot/CharacterStage/useCharacterStage.ts
 import { ref, watch, onUnmounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'

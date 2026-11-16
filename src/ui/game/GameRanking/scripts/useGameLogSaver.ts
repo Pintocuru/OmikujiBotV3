@@ -1,4 +1,4 @@
-// src/ui/GameRanking/scripts/useGameLogSaver.ts
+// src/ui/game/GameRanking/scripts/useGameLogSaver.ts
 import { Ref, watch } from 'vue'
 import { BotMessageRankingType } from '@/types/generator'
 import { gameStateApi } from '@/manager/services/gameStateApi'

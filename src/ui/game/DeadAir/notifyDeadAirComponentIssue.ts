@@ -1,4 +1,4 @@
-// src/ui/DeadAir/notifyDeadAirComponentIssue.ts
+// src/ui/game/DeadAir/notifyDeadAirComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

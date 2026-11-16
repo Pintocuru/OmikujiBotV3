@@ -1,4 +1,4 @@
-// src/ui/UserBoard/notifyUserBoardComponentIssue.ts
+// src/ui/user/UserBoard/notifyUserBoardComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

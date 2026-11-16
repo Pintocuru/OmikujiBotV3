@@ -1,4 +1,4 @@
-// src/ui/LabelMaker/scripts/labelUsers.ts
+// src/ui/user/LabelMaker/scripts/labelUsers.ts
 // ラベルに載せるユーザーを作る (純粋関数)
 import type { UserNameType } from '@/types/OmikenComment'
 import type { LabelMakerTarget } from '@/types/ui'

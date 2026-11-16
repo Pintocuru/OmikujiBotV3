@@ -1,4 +1,4 @@
-// src/ui/FlashBanner/composables/useBannerColorVars.ts
+// src/ui/bot/FlashBanner/composables/useBannerColorVars.ts
 import { computed, type CSSProperties } from 'vue'
 import type { CharacterColorType } from '@/types/OmikujiData'
 

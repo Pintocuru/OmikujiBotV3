@@ -1,4 +1,4 @@
-// src/ui/FlashBanner/notifyFlashBannerComponentIssue.ts
+// src/ui/bot/FlashBanner/notifyFlashBannerComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

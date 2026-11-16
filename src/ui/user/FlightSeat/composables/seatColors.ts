@@ -1,4 +1,4 @@
-// src/ui/FlightSeat/composables/seatColors.ts
+// src/ui/user/FlightSeat/composables/seatColors.ts
 import type { CharacterColorType } from '@/types/OmikujiData/'
 
 /**

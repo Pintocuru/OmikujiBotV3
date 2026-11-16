@@ -1,4 +1,4 @@
-// src/ui/LuckyDraw/LuckyDrawRegistry.ts
+// src/ui/user/LuckyDraw/LuckyDrawRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

@@ -1,4 +1,4 @@
-<!-- src/ui/StreamCounter/StreamCounter.vue -->
+<!-- src/ui/counter/StreamCounter/StreamCounter.vue -->
 <template>
   <StreamCounterSelector :settings="liverSettings" :counters="counters" :variable-labels="variableLabels" />
 </template>

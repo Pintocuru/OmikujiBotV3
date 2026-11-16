@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/components/messageBoard/WoodBoard.vue -->
+<!-- src/ui/bot/CommentBubble/components/messageBoard/WoodBoard.vue -->
 <!-- 木の看板: 板を並べた掲示板にメモ紙をピンで留める。キャラは板の後ろから顔を出す -->
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex justify-center pb-10">

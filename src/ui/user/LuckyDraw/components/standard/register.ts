@@ -1,4 +1,4 @@
-// src/ui/LuckyDraw/components/standard/register.ts
+// src/ui/user/LuckyDraw/components/standard/register.ts
 import type { LuckyDrawComponentOf } from '@/types/ui'
 import { registerLuckyDrawComponents, type LuckyDrawUiComponent } from '../../LuckyDrawRegistry'
 

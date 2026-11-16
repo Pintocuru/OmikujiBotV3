@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/components/standard/Standard.vue -->
+<!-- src/ui/game/GameRanking/components/standard/Standard.vue -->
 <template>
   <GameRankingList :listMessages="listMessages" :settings="settings" />
 </template>

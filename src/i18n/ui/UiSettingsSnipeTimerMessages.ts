@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/UiSettingsSnipeTimerMessages.ts
+// src/i18n/ui/UiSettingsSnipeTimerMessages.ts
 // UI 設定の翻訳: snipeTimer
 export const uiSettingsSnipeTimer = {
   ja: {

@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/components/standard/register.ts
+// src/ui/counter/LifeHourglass/components/standard/register.ts
 import type { LifeHourglassComponentOf } from '@/types/ui'
 import { registerLifeHourglassComponents, type LifeHourglassUiComponent } from '../../LifeHourglassRegistry'
 

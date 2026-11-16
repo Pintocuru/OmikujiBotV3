@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/LifeHourglassRegistry.ts
+// src/ui/counter/LifeHourglass/LifeHourglassRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

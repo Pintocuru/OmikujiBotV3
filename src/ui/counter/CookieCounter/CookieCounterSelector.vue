@@ -1,4 +1,4 @@
-<!-- src/ui/CookieCounter/CookieCounterSelector.vue -->
+<!-- src/ui/counter/CookieCounter/CookieCounterSelector.vue -->
 <template>
   <div class="w-full bg-base-100 transparent-bg">
     <component

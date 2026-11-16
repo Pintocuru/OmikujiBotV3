@@ -1,4 +1,4 @@
-<!-- src/ui/CharacterStage/editor/CharacterStageEditor.vue -->
+<!-- src/ui/bot/CharacterStage/editor/CharacterStageEditor.vue -->
 <template>
   <InformationCard variant="warning" icon="warning">
     <p>

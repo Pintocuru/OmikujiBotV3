@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/UiComponentMessages.ts
+// src/i18n/ui/UiComponentMessages.ts
 // UI 内コンポーネントの表示名 (register.ts の labelKey / descriptionKey 用)
 // キー: uiComponents.<UI名>.<コンポーネントID>.label / .description
 

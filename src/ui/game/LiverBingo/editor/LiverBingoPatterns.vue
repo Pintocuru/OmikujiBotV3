@@ -1,4 +1,4 @@
-<!-- src/ui/LiverBingo/editor/LiverBingoPatterns.vue -->
+<!-- src/ui/game/LiverBingo/editor/LiverBingoPatterns.vue -->
 <template>
   <div class="space-y-3">
     <!-- 保存先 -->

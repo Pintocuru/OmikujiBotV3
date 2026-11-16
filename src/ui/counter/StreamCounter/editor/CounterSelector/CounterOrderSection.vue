@@ -1,4 +1,4 @@
-<!-- src/ui/StreamCounter/editor/CounterSelector/CounterOrderSection.vue -->
+<!-- src/ui/counter/StreamCounter/editor/CounterSelector/CounterOrderSection.vue -->
 <template>
   <div v-if="counters.length > 0" class="mt-4 p-4 bg-base-200 rounded-box text-sm">
     <div class="font-bold mb-2">

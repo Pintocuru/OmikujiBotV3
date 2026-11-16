@@ -1,4 +1,4 @@
-// src/ui/FlashBanner/composables/useFlashScroll.ts
+// src/ui/bot/FlashBanner/composables/useFlashScroll.ts
 import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import type { FlashBannerType } from '@/types/ui'
 import { FLASH_BANNER_SCROLL_SPEED } from '@/types/ui'

@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/UiSettingsFlashBannerMessages.ts
+// src/i18n/ui/UiSettingsFlashBannerMessages.ts
 // UI 設定の翻訳: flashBanner
 export const uiSettingsFlashBanner = {
   ja: {

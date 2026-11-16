@@ -1,4 +1,4 @@
-// src/ui/DeadAir/composables/useDeadAirLogic.ts
+// src/ui/game/DeadAir/composables/useDeadAirLogic.ts
 import { computed, nextTick, onMounted, onUnmounted, ref, watch, type Ref } from 'vue'
 import { DEAD_AIR_BUILTIN_COUNTER_KEYS, type DeadAirEventRuleType, type DeadAirType } from '@/types/ui'
 

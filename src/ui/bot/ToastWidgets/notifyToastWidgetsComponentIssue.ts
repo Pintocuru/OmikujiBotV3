@@ -1,4 +1,4 @@
-// src/ui/ToastWidgets/notifyToastWidgetsComponentIssue.ts
+// src/ui/bot/ToastWidgets/notifyToastWidgetsComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

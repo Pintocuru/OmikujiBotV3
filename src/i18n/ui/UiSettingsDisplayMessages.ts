@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/UiSettingsDisplayMessages.ts
+// src/i18n/ui/UiSettingsDisplayMessages.ts
 // UI 設定の翻訳: userBoard / toastWidgets / commentBubble / streamCounter / counterSelector / liveClock
 export const uiSettingsDisplay = {
   ja: {

@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/editor/LiveClockPreview.vue -->
+<!-- src/ui/bot/LiveClock/editor/LiveClockPreview.vue -->
 <template>
   <HudPreview maxHeightClass="">
     <div class="flex justify-center" :class="[fontFamily]">

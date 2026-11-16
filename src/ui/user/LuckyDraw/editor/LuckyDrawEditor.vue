@@ -1,4 +1,4 @@
-<!-- src/ui/LuckyDraw/editor/LuckyDrawEditor.vue -->
+<!-- src/ui/user/LuckyDraw/editor/LuckyDrawEditor.vue -->
 <template>
   <!-- プレビュー(クリックで抽選できる。参加者はダミー) -->
   <HudPreview :isAdminOnly="true">
@@ -36,7 +36,10 @@
   </SettingItem>
 
   <!-- アニメーション -->
-  <SettingItem labelKey="uiSettings.luckyDraw.animation.label" descriptionKey="uiSettings.luckyDraw.animation.description">
+  <SettingItem
+    labelKey="uiSettings.luckyDraw.animation.label"
+    descriptionKey="uiSettings.luckyDraw.animation.description"
+  >
     <select
       class="select select-bordered select-sm w-full max-w-xs"
       :value="luckyDraw.animation"

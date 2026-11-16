@@ -1,4 +1,4 @@
-// src/ui/StreamCounter/StreamCounterRegistry.ts
+// src/ui/counter/StreamCounter/StreamCounterRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

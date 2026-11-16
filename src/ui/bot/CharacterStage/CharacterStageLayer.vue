@@ -1,4 +1,4 @@
-<!-- src/ui/CharacterStage/CharacterStageLayer.vue -->
+<!-- src/ui/bot/CharacterStage/CharacterStageLayer.vue -->
 <template>
   <!-- 位置決め用の枠(アニメーションの transform と分けるため、MotionWrapper の外に置く) -->
   <div

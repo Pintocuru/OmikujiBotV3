@@ -1,4 +1,4 @@
-<!-- src/ui/ToastWidgets/editor/ToastWidgetsMessagePreview.vue -->
+<!-- src/ui/bot/ToastWidgets/editor/ToastWidgetsMessagePreview.vue -->
 <template>
   <HudPreview>
     <div class="flex flex-col" :class="[fontFamily]">

@@ -1,4 +1,4 @@
-<!-- src/ui/FlashBanner/editor/FlashBannerEditor.vue -->
+<!-- src/ui/bot/FlashBanner/editor/FlashBannerEditor.vue -->
 <template>
   <!-- プレビュー(クリックで短文・長文を切り替えて、スクロールを試せる) -->
   <HudPreview>

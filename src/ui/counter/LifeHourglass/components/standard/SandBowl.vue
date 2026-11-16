@@ -1,4 +1,4 @@
-<!-- src/ui/LifeHourglass/components/standard/SandBowl.vue -->
+<!-- src/ui/counter/LifeHourglass/components/standard/SandBowl.vue -->
 <template>
   <!-- OBS に載せるため、円の背景を持つ -->
   <div class="flex pt-10 justify-center" :style="cssVars">

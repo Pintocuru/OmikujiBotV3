@@ -1,4 +1,4 @@
-<!-- src/ui/ToastWidgets/components/standard/Standard.vue -->
+<!-- src/ui/bot/ToastWidgets/components/standard/Standard.vue -->
 <template>
   <div :class="showToastsOnRight ? 'chat chat-end' : 'chat chat-start'">
     <!-- アイコン -->

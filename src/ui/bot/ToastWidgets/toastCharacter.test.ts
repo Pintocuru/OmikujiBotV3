@@ -1,4 +1,4 @@
-// src/ui/ToastWidgets/toastCharacter.test.ts
+// src/ui/bot/ToastWidgets/toastCharacter.test.ts
 import { describe, expect, it } from 'vitest'
 import type { CharacterType } from '@/types/OmikujiData'
 import { resolveToastCharacterKey, toastIconLayers } from './toastCharacter'

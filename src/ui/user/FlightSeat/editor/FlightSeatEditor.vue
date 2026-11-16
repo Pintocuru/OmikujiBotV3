@@ -1,4 +1,4 @@
-<!-- src/ui/FlightSeat/editor/FlightSeatEditor.vue -->
+<!-- src/ui/user/FlightSeat/editor/FlightSeatEditor.vue -->
 <template>
   <!-- プレビュー -->
   <FlightSeatPreview :flightSeat="flightSeat" />

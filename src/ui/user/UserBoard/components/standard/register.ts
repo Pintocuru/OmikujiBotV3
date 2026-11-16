@@ -1,4 +1,4 @@
-// src/ui/UserBoard/components/standard/register.ts
+// src/ui/user/UserBoard/components/standard/register.ts
 import type { BoardComponentOf } from '@/types/ui'
 import { registerUserBoardComponents, type UserBoardComponent } from '../../UserBoardRegistry'
 

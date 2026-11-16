@@ -1,4 +1,4 @@
-// src/ui/CommentBubble/components/messageBoard/register.ts
+// src/ui/bot/CommentBubble/components/messageBoard/register.ts
 import type { BubbleComponentOf } from '@/types/ui'
 import { registerCommentBubbleComponents, type CommentBubbleComponent } from '../../CommentBubbleRegistry'
 

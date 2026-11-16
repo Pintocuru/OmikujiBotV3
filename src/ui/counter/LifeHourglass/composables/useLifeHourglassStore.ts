@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/composables/useLifeHourglassStore.ts
+// src/ui/counter/LifeHourglass/composables/useLifeHourglassStore.ts
 import { defineStore } from 'pinia'
 
 /**

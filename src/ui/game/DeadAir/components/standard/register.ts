@@ -1,4 +1,4 @@
-// src/ui/DeadAir/components/standard/register.ts
+// src/ui/game/DeadAir/components/standard/register.ts
 import type { DeadAirComponentOf } from '@/types/ui'
 import { registerDeadAirComponents, type DeadAirUiComponent } from '../../DeadAirRegistry'
 

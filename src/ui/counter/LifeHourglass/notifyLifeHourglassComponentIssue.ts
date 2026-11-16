@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/notifyLifeHourglassComponentIssue.ts
+// src/ui/counter/LifeHourglass/notifyLifeHourglassComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

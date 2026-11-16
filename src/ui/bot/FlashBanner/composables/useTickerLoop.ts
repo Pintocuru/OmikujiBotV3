@@ -1,4 +1,4 @@
-// src/ui/FlashBanner/composables/useTickerLoop.ts
+// src/ui/bot/FlashBanner/composables/useTickerLoop.ts
 import { computed, type CSSProperties } from 'vue'
 import { FLASH_BANNER_SCROLL_SPEED } from '@/types/ui'
 

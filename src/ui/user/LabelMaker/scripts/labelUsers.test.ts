@@ -1,4 +1,4 @@
-// src/ui/LabelMaker/scripts/labelUsers.test.ts
+// src/ui/user/LabelMaker/scripts/labelUsers.test.ts
 import { describe, expect, it } from 'vitest'
 import { buildLabelUsers, buildPreviewUsers, type LabelEntry } from './labelUsers'
 

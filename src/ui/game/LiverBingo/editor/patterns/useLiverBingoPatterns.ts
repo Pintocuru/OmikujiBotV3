@@ -1,4 +1,4 @@
-// src/ui/LiverBingo/editor/patterns/useLiverBingoPatterns.ts
+// src/ui/game/LiverBingo/editor/patterns/useLiverBingoPatterns.ts
 import { computed, ref, watch, type Ref } from 'vue'
 import type { LiverBingoPatternContentType, LiverBingoPatternInfoType, LiverBingoPatternType } from '@/types/ui'
 import { createLocalRepository, createServerRepository, type PatternRepository } from './patternRepository'

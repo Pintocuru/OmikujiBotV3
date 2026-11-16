@@ -1,4 +1,4 @@
-<!-- src/ui/StreamCounter/editor/StreamCounterEditor.vue -->
+<!-- src/ui/counter/StreamCounter/editor/StreamCounterEditor.vue -->
 <template>
   <!-- プレビュー -->
   <StreamCounterPreview :streamCounter="streamCounter" :variable-labels="previewVariableLabels" />

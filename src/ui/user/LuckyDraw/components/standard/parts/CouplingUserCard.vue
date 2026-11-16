@@ -1,4 +1,4 @@
-<!-- src/ui/LuckyDraw/components/standard/parts/CouplingUserCard.vue -->
+<!-- src/ui/user/LuckyDraw/components/standard/parts/CouplingUserCard.vue -->
 <template>
   <div
     class="w-44 overflow-hidden rounded-xl border-2 p-3 text-center shadow-xl"

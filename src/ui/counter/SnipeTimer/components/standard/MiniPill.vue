@@ -1,4 +1,4 @@
-<!-- src/ui/SnipeTimer/components/standard/MiniPill.vue -->
+<!-- src/ui/counter/SnipeTimer/components/standard/MiniPill.vue -->
 <template>
   <div
     class="inline-flex items-center gap-2 rounded-full border px-3 py-1 shadow-md"

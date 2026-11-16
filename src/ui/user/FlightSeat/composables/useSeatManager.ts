@@ -1,4 +1,4 @@
-// src/ui/FlightSeat/composables/useSeatManager.ts
+// src/ui/user/FlightSeat/composables/useSeatManager.ts
 import { ref, computed, type Ref } from 'vue'
 import type { UserNameType } from '@/types/OmikenComment'
 import type { UserStatsRecord } from '@/types/api'

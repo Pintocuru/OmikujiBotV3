@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/editor/LiveClockEditor.vue -->
+<!-- src/ui/bot/LiveClock/editor/LiveClockEditor.vue -->
 <template>
   <!-- プレビュー -->
   <LiveClockPreview :settings="liveClock" />
@@ -91,5 +91,4 @@
       [field]: value,
     })
   }
-
 </script>

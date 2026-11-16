@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/editor/useLifeHourglassPreview.ts
+// src/ui/counter/LifeHourglass/editor/useLifeHourglassPreview.ts
 import { onBeforeUnmount, reactive, watch } from 'vue'
 import { LIFE_HOURGLASS_BOWLS, LIFE_HOURGLASS_GRAINS_PER_YEN } from '../composables/bowls'
 

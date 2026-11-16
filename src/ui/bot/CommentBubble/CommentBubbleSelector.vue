@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/CommentBubbleSelector.vue -->
+<!-- src/ui/bot/CommentBubble/CommentBubbleSelector.vue -->
 <template>
   <div
     class="relative pointer-events-none z-10"

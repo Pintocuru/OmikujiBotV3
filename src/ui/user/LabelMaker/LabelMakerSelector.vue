@@ -1,4 +1,4 @@
-<!-- src/ui/LabelMaker/LabelMakerSelector.vue -->
+<!-- src/ui/user/LabelMaker/LabelMakerSelector.vue -->
 <template>
   <div class="relative" :class="useFontFamily(fontFamily)">
     <component :is="currentComponent" v-if="currentComponent" :users="displayedUsers" :settings="settings" />

@@ -1,4 +1,4 @@
-// src/ui/UserBoard/composables/useUserStatsList.ts
+// src/ui/user/UserBoard/composables/useUserStatsList.ts
 import { onScopeDispose, shallowRef } from 'vue'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import type { UserStatsRecord } from '@/types/api'

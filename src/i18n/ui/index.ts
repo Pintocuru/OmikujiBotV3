@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/index.ts
+// src/i18n/ui/index.ts
 export * from './EditorUiMessages'
 export * from './UiComponentMessages'
 export * from './UiSettingsCoreMessages'

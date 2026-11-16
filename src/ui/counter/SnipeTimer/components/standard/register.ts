@@ -1,4 +1,4 @@
-// src/ui/SnipeTimer/components/standard/register.ts
+// src/ui/counter/SnipeTimer/components/standard/register.ts
 import type { SnipeTimerComponentOf } from '@/types/ui'
 import { registerSnipeTimerComponents, type SnipeTimerUiComponent } from '../../SnipeTimerRegistry'
 

@@ -1,4 +1,4 @@
-<!-- src/ui/LiverBingo/components/LiverBingoGrid.vue -->
+<!-- src/ui/game/LiverBingo/components/LiverBingoGrid.vue -->
 <template>
   <div class="lb-grid" :style="gridStyle">
     <div

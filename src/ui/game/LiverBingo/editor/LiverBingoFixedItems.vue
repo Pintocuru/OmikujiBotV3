@@ -1,4 +1,4 @@
-<!-- src/ui/LiverBingo/editor/LiverBingoFixedItems.vue -->
+<!-- src/ui/game/LiverBingo/editor/LiverBingoFixedItems.vue -->
 <template>
   <div class="space-y-3">
     <p v-if="seeds.length === 0" class="text-sm opacity-70">{{ t('uiSettings.liverBingo.fixedItems.empty') }}</p>

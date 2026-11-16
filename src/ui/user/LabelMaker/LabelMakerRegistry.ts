@@ -1,4 +1,4 @@
-// src/ui/LabelMaker/LabelMakerRegistry.ts
+// src/ui/user/LabelMaker/LabelMakerRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

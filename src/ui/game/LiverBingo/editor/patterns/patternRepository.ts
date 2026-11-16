@@ -1,4 +1,4 @@
-// src/ui/LiverBingo/editor/patterns/patternRepository.ts
+// src/ui/game/LiverBingo/editor/patterns/patternRepository.ts
 import { bingoApi } from '@/manager/services/bingoApi'
 import {
   LiverBingoPatternSchema,

@@ -1,4 +1,4 @@
-<!-- src/ui/ToastWidgets/ToastBubbleSelector.vue -->
+<!-- src/ui/bot/ToastWidgets/ToastBubbleSelector.vue -->
 <template>
   <component
     :is="currentComponent"

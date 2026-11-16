@@ -1,4 +1,4 @@
-// src/ui/LiverBingo/composables/winLines.ts
+// src/ui/game/LiverBingo/composables/winLines.ts
 
 /**
  * ビンゴが成立するライン(マスの番号の配列)を返す

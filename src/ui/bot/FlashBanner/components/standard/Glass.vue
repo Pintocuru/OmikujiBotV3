@@ -1,4 +1,4 @@
-<!-- src/ui/FlashBanner/components/standard/Glass.vue -->
+<!-- src/ui/bot/FlashBanner/components/standard/Glass.vue -->
 <template>
   <div
     class="flex min-h-12 items-center gap-3 overflow-hidden rounded-full px-4 py-2"

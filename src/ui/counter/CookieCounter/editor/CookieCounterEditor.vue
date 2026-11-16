@@ -1,4 +1,4 @@
-<!-- src/ui/CookieCounter/editor/CookieCounterEditor.vue -->
+<!-- src/ui/counter/CookieCounter/editor/CookieCounterEditor.vue -->
 <template>
   <!-- プレビュー -->
   <CookieCounterPreview :cookieCounter="cookieCounter" :variable-labels="variableInput" />

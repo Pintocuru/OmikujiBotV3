@@ -1,4 +1,4 @@
-<!-- src/ui/LifeHourglass/LifeHourglassSelector.vue -->
+<!-- src/ui/counter/LifeHourglass/LifeHourglassSelector.vue -->
 <template>
   <div class="relative" :class="useFontFamily(props.fontFamily)">
     <component

@@ -1,4 +1,4 @@
-<!-- src/ui/LifeHourglass/components/standard/parts/SandBowlDeco.vue -->
+<!-- src/ui/counter/LifeHourglass/components/standard/parts/SandBowlDeco.vue -->
 <template>
   <!-- 装飾: 輪(ゆっくり回る目盛り)・砂時計の透かし・落ちる砂。同接が強いほど流れが速く太くなる -->
   <svg class="lh-deco" viewBox="0 0 200 200" aria-hidden="true">

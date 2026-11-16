@@ -1,4 +1,4 @@
-<!-- src/ui/DeadAir/editor/DeadAirEditor.vue -->
+<!-- src/ui/game/DeadAir/editor/DeadAirEditor.vue -->
 <template>
   <!-- プレビュー -->
   <HudPreview :isAdminOnly="true">

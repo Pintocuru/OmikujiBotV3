@@ -1,4 +1,4 @@
-<!-- src/ui/StreamCounter/StreamCounterSelector.vue -->
+<!-- src/ui/counter/StreamCounter/StreamCounterSelector.vue -->
 <template>
   <div class="w-full transparent-bg">
     <div v-if="allKeys.length === 0" class="flex flex-col items-center">

@@ -1,4 +1,4 @@
-<!-- src/ui/LabelMaker/components/standard/UserCardScroller.vue -->
+<!-- src/ui/user/LabelMaker/components/standard/UserCardScroller.vue -->
 <!-- ユーザーのカードを縦に並べ、新しいユーザーを右から滑り込ませる -->
 <template>
   <div v-if="users.length > 0" class="rounded-2xl p-2 shadow-xl" :style="labelRootStyle(settings)">

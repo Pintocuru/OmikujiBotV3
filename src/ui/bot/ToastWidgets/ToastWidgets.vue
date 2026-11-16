@@ -1,4 +1,4 @@
-<!-- src/ui/ToastWidgets/ToastWidgets.vue -->
+<!-- src/ui/bot/ToastWidgets/ToastWidgets.vue -->
 <template>
   <div :class="!toastSettings.showToastsOnRight ? 'self-start' : 'self-end'">
     <div v-for="message in displayedComments.slice().reverse()" :key="message.id">

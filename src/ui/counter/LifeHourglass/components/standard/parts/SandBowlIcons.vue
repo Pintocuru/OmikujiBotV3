@@ -1,4 +1,4 @@
-<!-- src/ui/LifeHourglass/components/standard/parts/SandBowlIcons.vue -->
+<!-- src/ui/counter/LifeHourglass/components/standard/parts/SandBowlIcons.vue -->
 <template>
   <!-- サブ: 器のアイコン(大きい器から順。超えた分は小さい器から省略) -->
   <div class="lh-bowls mt-1 flex flex-nowrap items-center justify-center leading-none">

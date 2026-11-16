@@ -1,4 +1,4 @@
-// src/ui/FlightSeat/notifyFlightSeatComponentIssue.ts
+// src/ui/user/FlightSeat/notifyFlightSeatComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

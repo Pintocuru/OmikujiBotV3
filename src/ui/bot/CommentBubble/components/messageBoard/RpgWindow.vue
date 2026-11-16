@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/components/messageBoard/RpgWindow.vue -->
+<!-- src/ui/bot/CommentBubble/components/messageBoard/RpgWindow.vue -->
 <!-- RPG ウィンドウ: 青いメッセージウィンドウ + 顔グラ枠。話者は ◆名前、最新行に ▼ が点滅する -->
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex items-end justify-center gap-3 pb-8">

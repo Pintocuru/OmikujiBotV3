@@ -1,4 +1,4 @@
-<!-- src/ui/LuckyDraw/LuckyDrawSelector.vue -->
+<!-- src/ui/user/LuckyDraw/LuckyDrawSelector.vue -->
 <template>
   <!-- クリックで抽選する -->
   <div class="relative inline-block min-w-80 cursor-pointer select-none" :class="useFontFamily(props.fontFamily)">

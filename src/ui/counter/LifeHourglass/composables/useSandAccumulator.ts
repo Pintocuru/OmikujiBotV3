@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/composables/useSandAccumulator.ts
+// src/ui/counter/LifeHourglass/composables/useSandAccumulator.ts
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useStreamCounters } from '@/ui/common/useStreamCounters'
 import { useAppStore } from '@/generator/stores/useAppStore'

@@ -1,4 +1,4 @@
-<!-- src/ui/FlightSeat/components/standard/SeatBingo.vue -->
+<!-- src/ui/user/FlightSeat/components/standard/SeatBingo.vue -->
 <template>
   <div class="flex flex-col items-center gap-2">
     <!-- ヘッダー: B I N G O -->

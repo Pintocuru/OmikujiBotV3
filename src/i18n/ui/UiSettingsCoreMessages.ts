@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/UiSettingsCoreMessages.ts
+// src/i18n/ui/UiSettingsCoreMessages.ts
 // UI 設定の翻訳: common / characterStage / lifeHourglass / slots
 export const uiSettingsCore = {
   ja: {
@@ -145,7 +145,8 @@ export const uiSettingsCore = {
         luckyDraw: {
           action: {
             title: '操作',
-            description: 'join(参加者に追加。メッセージのユーザーが参加者になります) / draw(抽選する) / reset(参加者を空にする)',
+            description:
+              'join(参加者に追加。メッセージのユーザーが参加者になります) / draw(抽選する) / reset(参加者を空にする)',
           },
           count: {
             title: '当選人数',

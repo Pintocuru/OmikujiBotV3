@@ -1,4 +1,4 @@
-// src/ui/StreamCounter/components/standard/register.ts
+// src/ui/counter/StreamCounter/components/standard/register.ts
 import type { StreamComponentOf } from '@/types/ui'
 import { registerStreamCounterComponents, type StreamCounterComponent } from '../../StreamCounterRegistry'
 

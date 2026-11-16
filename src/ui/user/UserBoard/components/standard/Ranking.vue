@@ -1,4 +1,4 @@
-<!-- src/ui/UserBoard/components/standard/Ranking.vue -->
+<!-- src/ui/user/UserBoard/components/standard/Ranking.vue -->
 <!-- 個人の得点リスト (得点の高い順) -->
 <template>
   <div v-if="rows.length > 0" class="flex flex-col gap-1 rounded-2xl p-2 shadow-xl" :style="boardRootStyle(settings)">

@@ -1,4 +1,4 @@
-// src/ui/FlightSeat/composables/useFlightSeatLayout.ts
+// src/ui/user/FlightSeat/composables/useFlightSeatLayout.ts
 import { computed, type Ref } from 'vue'
 import type { FlightSeatType } from '@/types/ui'
 import { getFlightSeatComponent } from '../FlightSeatRegistry'

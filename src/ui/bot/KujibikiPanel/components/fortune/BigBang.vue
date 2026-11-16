@@ -1,4 +1,4 @@
-<!-- src/ui/KujibikiPanel/components/fortune/BigBang.vue -->
+<!-- src/ui/bot/KujibikiPanel/components/fortune/BigBang.vue -->
 <template>
   <div class="relative flex items-center justify-center">
     <div class="big-bang-card relative flex min-h-105 w-xs flex-col items-center gap-4 overflow-hidden rounded-xl p-6">

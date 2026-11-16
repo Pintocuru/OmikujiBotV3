@@ -1,4 +1,4 @@
-<!-- src/ui/LiverBingo/editor/LiverBingoPacks.vue -->
+<!-- src/ui/game/LiverBingo/editor/LiverBingoPacks.vue -->
 <template>
   <div class="space-y-3">
     <!-- 一覧 -->

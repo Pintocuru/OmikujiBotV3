@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/CommentBubble.vue -->
+<!-- src/ui/bot/CommentBubble/CommentBubble.vue -->
 <template>
   <CommentBubbleSelector
     :displayedComments="displayedComments"

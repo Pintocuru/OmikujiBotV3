@@ -1,4 +1,4 @@
-// src/ui/GameRanking/components/standard/register.ts
+// src/ui/game/GameRanking/components/standard/register.ts
 import type { RankingComponentOf } from '@/types/ui'
 import { registerGameRankingComponents, type GameRankingComponent } from '../../GameRankingRegistry'
 

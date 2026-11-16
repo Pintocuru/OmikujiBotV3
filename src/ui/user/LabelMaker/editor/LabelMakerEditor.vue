@@ -1,4 +1,4 @@
-<!-- src/ui/LabelMaker/editor/LabelMakerEditor.vue -->
+<!-- src/ui/user/LabelMaker/editor/LabelMakerEditor.vue -->
 <template>
   <!-- プレビュー (ダミーのユーザーで表示) -->
   <HudPreview :isAdminOnly="true">

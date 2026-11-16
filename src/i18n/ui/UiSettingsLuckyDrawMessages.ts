@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/UiSettingsLuckyDrawMessages.ts
+// src/i18n/ui/UiSettingsLuckyDrawMessages.ts
 // UI 設定の翻訳: luckyDraw
 export const uiSettingsLuckyDraw = {
   ja: {

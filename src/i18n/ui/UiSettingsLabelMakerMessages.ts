@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/UiSettingsLabelMakerMessages.ts
+// src/i18n/ui/UiSettingsLabelMakerMessages.ts
 // UI 設定の翻訳: labelMaker
 export const uiSettingsLabelMaker = {
   ja: {

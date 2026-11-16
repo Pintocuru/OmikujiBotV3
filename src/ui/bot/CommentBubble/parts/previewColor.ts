@@ -1,4 +1,4 @@
-// src/ui/CommentBubble/parts/previewColor.ts
+// src/ui/bot/CommentBubble/parts/previewColor.ts
 import type { ComputedRef, InjectionKey } from 'vue'
 import type { CharacterColorType } from '@/types/OmikujiData'
 

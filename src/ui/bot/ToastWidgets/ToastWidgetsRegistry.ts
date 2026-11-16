@@ -1,4 +1,4 @@
-// src/ui/ToastWidgets/ToastWidgetsRegistry.ts
+// src/ui/bot/ToastWidgets/ToastWidgetsRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

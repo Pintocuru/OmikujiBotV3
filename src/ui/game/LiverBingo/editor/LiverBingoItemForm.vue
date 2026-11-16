@@ -1,4 +1,4 @@
-<!-- src/ui/LiverBingo/editor/LiverBingoItemForm.vue -->
+<!-- src/ui/game/LiverBingo/editor/LiverBingoItemForm.vue -->
 <template>
   <div class="flex flex-col gap-2 rounded border border-base-300 bg-base-200 p-3">
     <input

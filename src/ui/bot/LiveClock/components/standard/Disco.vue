@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/components/standard/Disco.vue -->
+<!-- src/ui/bot/LiveClock/components/standard/Disco.vue -->
 <template>
   <div
     class="w-85 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"

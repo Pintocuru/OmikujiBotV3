@@ -1,4 +1,4 @@
-<!-- src/ui/SnipeTimer/components/standard/MiniRing.vue -->
+<!-- src/ui/counter/SnipeTimer/components/standard/MiniRing.vue -->
 <template>
   <div
     class="inline-flex flex-col items-center gap-1 rounded-2xl px-2 py-2 shadow-md"

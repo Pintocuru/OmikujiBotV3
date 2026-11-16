@@ -1,4 +1,4 @@
-// src/ui/LuckyDraw/composables/useLuckyDrawCore.ts
+// src/ui/user/LuckyDraw/composables/useLuckyDrawCore.ts
 import { computed, onBeforeUnmount, reactive, ref, type Ref } from 'vue'
 import type { UserNameType } from '@/types/OmikenComment'
 import type { LuckyDrawType } from '@/types/ui'

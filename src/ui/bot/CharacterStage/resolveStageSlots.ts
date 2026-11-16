@@ -1,4 +1,4 @@
-// src/ui/CharacterStage/resolveStageSlots.ts
+// src/ui/bot/CharacterStage/resolveStageSlots.ts
 import { enterMotions, type EnterMotionType } from '@/types/OmikujiData'
 import type { BotMessageSlotsType } from '@/types/generator'
 import { stageAnchors, type StageAnchorType } from '@/types/ui'

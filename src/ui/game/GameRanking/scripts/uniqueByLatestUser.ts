@@ -1,4 +1,4 @@
-// src/ui/GameRanking/scripts/uniqueByLatestUser.ts
+// src/ui/game/GameRanking/scripts/uniqueByLatestUser.ts
 import { BotMessageRankingType } from '@/types/generator'
 
 /**

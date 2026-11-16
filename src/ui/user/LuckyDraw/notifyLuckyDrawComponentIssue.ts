@@ -1,4 +1,4 @@
-// src/ui/LuckyDraw/notifyLuckyDrawComponentIssue.ts
+// src/ui/user/LuckyDraw/notifyLuckyDrawComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

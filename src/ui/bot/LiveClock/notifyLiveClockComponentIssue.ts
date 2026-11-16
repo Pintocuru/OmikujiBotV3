@@ -1,4 +1,4 @@
-// src/ui/LiveClock/notifyLiveClockComponentIssue.ts
+// src/ui/bot/LiveClock/notifyLiveClockComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

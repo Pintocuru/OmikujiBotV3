@@ -1,4 +1,4 @@
-<!-- src/ui/FlashBanner/FlashBannerSelector.vue -->
+<!-- src/ui/bot/FlashBanner/FlashBannerSelector.vue -->
 <template>
   <div v-if="currentComponent && message" class="bg-base-100 transparent-bg w-full overflow-hidden">
     <component

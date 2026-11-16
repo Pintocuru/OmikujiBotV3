@@ -1,4 +1,4 @@
-<!-- src/ui/UserBoard/UserBoard.vue -->
+<!-- src/ui/user/UserBoard/UserBoard.vue -->
 <!-- LiveConsole で操作した、ユーザーの得点・チームを表示する (表示はコンポーネントで選ぶ) -->
 <template>
   <UserBoardSelector :users="users" :settings="settings" :fontFamily="appStore.data.ui.fontFamily" />

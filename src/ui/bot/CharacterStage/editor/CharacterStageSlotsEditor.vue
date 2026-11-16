@@ -1,4 +1,4 @@
-<!-- src/ui/CharacterStage/editor/CharacterStageSlotsEditor.vue -->
+<!-- src/ui/bot/CharacterStage/editor/CharacterStageSlotsEditor.vue -->
 <template>
   <SettingItem layout="vertical" icon="MessageSquare" labelKey="scenarioStep.messageSettings.slots">
     <p class="mb-2 text-xs opacity-60">{{ t('uiSettings.characterStage.slots.hint') }}</p>

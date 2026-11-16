@@ -1,4 +1,4 @@
-// src/ui/LabelMaker/parts/labelStyle.ts
+// src/ui/user/LabelMaker/parts/labelStyle.ts
 import type { LabelMakerType } from '@/types/ui'
 
 /**

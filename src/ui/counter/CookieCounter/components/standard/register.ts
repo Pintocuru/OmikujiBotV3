@@ -1,4 +1,4 @@
-// src/ui/CookieCounter/components/standard/register.ts
+// src/ui/counter/CookieCounter/components/standard/register.ts
 import type { CookieComponentOf } from '@/types/ui'
 import { registerCookieCounterComponents, type CookieCounterComponent } from '../../CookieCounterRegistry'
 

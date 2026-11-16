@@ -1,4 +1,4 @@
-// src/ui/UserBoard/UserBoardRegistry.ts
+// src/ui/user/UserBoard/UserBoardRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

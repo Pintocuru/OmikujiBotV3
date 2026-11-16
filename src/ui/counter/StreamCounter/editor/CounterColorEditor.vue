@@ -1,4 +1,4 @@
-<!-- src/ui/StreamCounter/editor/CounterColorEditor.vue -->
+<!-- src/ui/counter/StreamCounter/editor/CounterColorEditor.vue -->
 <template>
   <SettingItem
     labelKey="uiSettings.common.color.label"

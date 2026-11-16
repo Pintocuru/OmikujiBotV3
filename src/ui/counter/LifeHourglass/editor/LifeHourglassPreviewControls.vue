@@ -1,4 +1,4 @@
-<!-- src/ui/LifeHourglass/editor/LifeHourglassPreviewControls.vue -->
+<!-- src/ui/counter/LifeHourglass/editor/LifeHourglassPreviewControls.vue -->
 <template>
   <div class="flex flex-col gap-1 p-1.5 rounded-box bg-base-200">
     <!-- 同時接続数 -->

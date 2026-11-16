@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/components/bubble/Right.vue -->
+<!-- src/ui/bot/CommentBubble/components/bubble/Right.vue -->
 <!-- ライト: キャラを右、吹き出しを左に並べる(画面右下) -->
 <template>
   <div class="absolute bottom-0 right-0 flex flex-row-reverse items-end gap-6 p-8">

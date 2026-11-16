@@ -1,4 +1,4 @@
-<!-- src/ui/SnipeTimer/SnipeTimerSelector.vue -->
+<!-- src/ui/counter/SnipeTimer/SnipeTimerSelector.vue -->
 <template>
   <!-- 左クリック: 開始・一時停止・再開 / 右クリック: リセット(停止中のみ) -->
   <div

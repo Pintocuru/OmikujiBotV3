@@ -1,4 +1,4 @@
-// src/ui/LiveClock/components/standard/register.ts
+// src/ui/bot/LiveClock/components/standard/register.ts
 import type { ClockComponentOf } from '@/types/ui'
 import { registerLiveClockComponents, type LiveClockComponent } from '../../LiveClockRegistry'
 

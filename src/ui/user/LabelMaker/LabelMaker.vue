@@ -1,4 +1,4 @@
-<!-- src/ui/LabelMaker/LabelMaker.vue -->
+<!-- src/ui/user/LabelMaker/LabelMaker.vue -->
 <!-- 投稿で届いたユーザーを、名前ラベルのリストとして表示する (表示はコンポーネントで選ぶ) -->
 <template>
   <LabelMakerSelector :users="users" :settings="settings" :fontFamily="appStore.data.ui.fontFamily" />

@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/editor/CommentBubbleEditor.vue -->
+<!-- src/ui/bot/CommentBubble/editor/CommentBubbleEditor.vue -->
 <template>
   <!-- プレビュー表示 -->
   <CommentBubblePreview

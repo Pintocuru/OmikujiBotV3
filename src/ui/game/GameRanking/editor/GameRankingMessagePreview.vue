@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/editor/GameRankingMessagePreview.vue -->
+<!-- src/ui/game/GameRanking/editor/GameRankingMessagePreview.vue -->
 <template>
   <HudPreview :isAdminOnly="true">
     <GameRankingSelector

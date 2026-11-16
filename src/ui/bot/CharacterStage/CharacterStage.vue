@@ -1,4 +1,4 @@
-<!-- src/ui/CharacterStage/CharacterStage.vue -->
+<!-- src/ui/bot/CharacterStage/CharacterStage.vue -->
 <template>
   <div class="fixed inset-0 pointer-events-none z-10 overflow-hidden">
     <CharacterStageLayer :items="items" :muted="false" @remove="remove" />

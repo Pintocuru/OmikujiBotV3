@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/GameRanking.vue -->
+<!-- src/ui/game/GameRanking/GameRanking.vue -->
 <template>
   <GameRankingSelector
     :rankingMessages="rankingMessages"

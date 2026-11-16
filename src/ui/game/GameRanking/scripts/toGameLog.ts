@@ -1,4 +1,4 @@
-// src/ui/GameRanking/scripts/toGameLog.ts
+// src/ui/game/GameRanking/scripts/toGameLog.ts
 import { BotMessageRankingType } from '@/types/generator'
 import { GameLogSchema, GameLogType } from '@/types/api'
 

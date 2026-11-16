@@ -1,4 +1,4 @@
-<!-- src/ui/SnipeTimer/components/standard/SimpleWhite.vue -->
+<!-- src/ui/counter/SnipeTimer/components/standard/SimpleWhite.vue -->
 <template>
   <div class="font-mono w-80 rounded-xl shadow-xl p-4" :style="{ background: color.background, color: color.text }">
     <!-- ヘッダー -->

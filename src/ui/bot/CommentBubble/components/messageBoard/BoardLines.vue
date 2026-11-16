@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/components/messageBoard/BoardLines.vue -->
+<!-- src/ui/bot/CommentBubble/components/messageBoard/BoardLines.vue -->
 <!-- ボード面に並べるコメント(新しいものが下)。1 件の見た目は、各ボードがスロットで決める -->
 <template>
   <div class="flex h-full flex-col justify-end gap-3 overflow-hidden" :style="FADE_TOP">

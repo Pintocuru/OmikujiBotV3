@@ -1,4 +1,4 @@
-// src/ui/LabelMaker/components/standard/register.ts
+// src/ui/user/LabelMaker/components/standard/register.ts
 import type { LabelMakerComponentOf } from '@/types/ui'
 import { registerLabelMakerComponents, type LabelMakerUiComponent } from '../../LabelMakerRegistry'
 

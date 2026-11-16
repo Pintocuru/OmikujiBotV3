@@ -1,4 +1,4 @@
-<!-- src/ui/DeadAir/components/standard/DeadAirBomb.vue -->
+<!-- src/ui/game/DeadAir/components/standard/DeadAirBomb.vue -->
 <template>
   <!-- ルート:背景色。全画面にするか(本番)、プレビュー枠に収めるかは Selector 側が決める -->
   <div class="absolute inset-0 overflow-hidden" :class="obstacle === 'white' ? 'bg-white' : 'bg-black'">

@@ -1,4 +1,4 @@
-// src/ui/GameRanking/scripts/services/MessageService.ts
+// src/ui/game/GameRanking/scripts/services/MessageService.ts
 import { ScenarioStepMessageSchema, ScenarioStepMessageType } from '@/types/OmikujiData'
 
 /**

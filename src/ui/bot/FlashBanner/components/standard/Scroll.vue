@@ -1,4 +1,4 @@
-<!-- src/ui/FlashBanner/components/standard/Scroll.vue -->
+<!-- src/ui/bot/FlashBanner/components/standard/Scroll.vue -->
 <template>
   <div
     class="flex items-center overflow-hidden"

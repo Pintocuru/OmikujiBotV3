@@ -1,4 +1,4 @@
-// src/ui/LuckyDraw/composables/pickRandom.test.ts
+// src/ui/user/LuckyDraw/composables/pickRandom.test.ts
 import { describe, expect, it } from 'vitest'
 import { pickRandom } from './pickRandom'
 

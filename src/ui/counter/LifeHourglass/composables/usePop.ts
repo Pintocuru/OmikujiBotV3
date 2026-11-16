@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/composables/usePop.ts
+// src/ui/counter/LifeHourglass/composables/usePop.ts
 import { onUnmounted, ref } from 'vue'
 
 /** 一定時間だけ true になるフラグ。連続で呼ぶとアニメーションを再生し直す */

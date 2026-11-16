@@ -1,4 +1,4 @@
-<!-- src/ui/UserBoard/editor/UserBoardEditor.vue -->
+<!-- src/ui/user/UserBoard/editor/UserBoardEditor.vue -->
 <template>
   <!-- プレビュー (ダミーのユーザーで表示) -->
   <HudPreview :isAdminOnly="true">

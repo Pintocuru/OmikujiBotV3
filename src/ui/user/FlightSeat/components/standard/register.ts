@@ -1,4 +1,4 @@
-// src/ui/FlightSeat/components/standard/register.ts
+// src/ui/user/FlightSeat/components/standard/register.ts
 import type { FlightSeatComponentOf } from '@/types/ui'
 import {
   registerFlightSeatComponents,

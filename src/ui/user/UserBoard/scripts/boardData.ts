@@ -1,4 +1,4 @@
-// src/ui/UserBoard/scripts/boardData.ts
+// src/ui/user/UserBoard/scripts/boardData.ts
 // ユーザーボードの表示データを作る (純粋関数)
 import type { UserStatsRecord } from '@/types/api'
 import type { DaisyUIColorType } from '@/types/core'

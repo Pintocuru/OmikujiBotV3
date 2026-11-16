@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/UiSettingsDeadAirMessages.ts
+// src/i18n/ui/UiSettingsDeadAirMessages.ts
 // UI 設定の翻訳: deadAir
 export const uiSettingsDeadAir = {
   ja: {

@@ -1,4 +1,4 @@
-<!-- src/ui/LabelMaker/parts/UserAvatar.vue -->
+<!-- src/ui/user/LabelMaker/parts/UserAvatar.vue -->
 <template>
   <img
     :src="src"

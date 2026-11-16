@@ -1,4 +1,4 @@
-<!-- src/ui/KujibikiPanel/components/fortune/BigBangUserName.vue -->
+<!-- src/ui/bot/KujibikiPanel/components/fortune/BigBangUserName.vue -->
 <!-- ユーザー名: 星の光が走る銀色の文字 + 菱形の飾り罫 -->
 <template>
   <div class="relative z-10 flex max-w-full items-center gap-2.5">

@@ -1,4 +1,4 @@
-// src/ui/SnipeTimer/types.ts
+// src/ui/counter/SnipeTimer/types.ts
 
 /** idle: 待機(開始前・リセット後) / running: カウント中 / paused: 一時停止 / finished: 0 になった */
 export type SnipeTimerStatus = 'idle' | 'running' | 'paused' | 'finished'

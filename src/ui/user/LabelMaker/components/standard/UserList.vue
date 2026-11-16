@@ -1,4 +1,4 @@
-<!-- src/ui/LabelMaker/components/standard/UserList.vue -->
+<!-- src/ui/user/LabelMaker/components/standard/UserList.vue -->
 <!-- ユーザー名のバッジを、折り返しながら並べる -->
 <template>
   <div v-if="users.length > 0" class="rounded-2xl p-2 shadow-xl" :style="labelRootStyle(settings)">

@@ -1,4 +1,4 @@
-// src/ui/StreamCounter/composables/useStreamCounterDisplay.ts
+// src/ui/counter/StreamCounter/composables/useStreamCounterDisplay.ts
 import { computed, type Ref } from 'vue'
 import type { StreamCounterType } from '@/types/ui'
 import type { CharacterColorType } from '@/types/OmikujiData/'

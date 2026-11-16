@@ -1,4 +1,4 @@
-<!-- src/ui/LiverBingo/LiverBingo.vue -->
+<!-- src/ui/game/LiverBingo/LiverBingo.vue -->
 <template>
   <LiverBingoBoard :settings="settings" :fontFamily="appStore.data.ui.fontFamily" sync />
 </template>

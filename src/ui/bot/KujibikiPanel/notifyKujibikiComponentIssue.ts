@@ -1,4 +1,4 @@
-// src/ui/KujibikiPanel/notifyKujibikiComponentIssue.ts
+// src/ui/bot/KujibikiPanel/notifyKujibikiComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

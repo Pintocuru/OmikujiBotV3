@@ -1,4 +1,4 @@
-<!-- src/ui/DeadAir/DeadAirSelector.vue -->
+<!-- src/ui/game/DeadAir/DeadAirSelector.vue -->
 <template>
   <!-- 本番は全画面、エディタのプレビューは 16:9 の枠に収める -->
   <div

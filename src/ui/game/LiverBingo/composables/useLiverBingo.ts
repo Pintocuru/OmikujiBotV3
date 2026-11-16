@@ -1,4 +1,4 @@
-// src/ui/LiverBingo/composables/useLiverBingo.ts
+// src/ui/game/LiverBingo/composables/useLiverBingo.ts
 import { computed, onBeforeUnmount, ref, watch, type Ref } from 'vue'
 import type { LiverBingoCellPatchType } from '@/types/api'
 import type { LiverBingoItemType, LiverBingoType } from '@/types/ui'

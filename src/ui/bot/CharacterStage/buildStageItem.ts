@@ -1,4 +1,4 @@
-// src/ui/CharacterStage/buildStageItem.ts
+// src/ui/bot/CharacterStage/buildStageItem.ts
 import type { CharacterAnimationType } from '@/types/OmikujiData'
 import { pickInRange, type StageSpec } from './resolveStageSlots'
 import type { StageItem } from './types'

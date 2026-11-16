@@ -1,4 +1,4 @@
-// src/ui/DeadAir/DeadAirRegistry.ts
+// src/ui/game/DeadAir/DeadAirRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

@@ -1,4 +1,4 @@
-<!-- src/ui/CommentBubble/editor/CommentBubblePreview.vue -->
+<!-- src/ui/bot/CommentBubble/editor/CommentBubblePreview.vue -->
 <template>
   <HudPreview :isHeight="false">
     <div class="relative h-100 overflow-hidden">

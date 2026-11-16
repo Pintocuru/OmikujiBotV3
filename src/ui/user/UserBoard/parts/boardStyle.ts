@@ -1,4 +1,4 @@
-// src/ui/UserBoard/parts/boardStyle.ts
+// src/ui/user/UserBoard/parts/boardStyle.ts
 import type { DaisyUIColorType } from '@/types/core'
 import type { UserBoardType } from '@/types/ui'
 

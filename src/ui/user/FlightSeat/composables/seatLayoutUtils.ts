@@ -1,4 +1,4 @@
-// src/ui/FlightSeat/composables/seatLayoutUtils.ts
+// src/ui/user/FlightSeat/composables/seatLayoutUtils.ts
 
 /**
  * flightComponentDefaults の値から総座席数を計算

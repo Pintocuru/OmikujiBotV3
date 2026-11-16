@@ -1,4 +1,4 @@
-// src/ui/KujibikiPanel/KujibikiPanelRegistry.ts
+// src/ui/bot/KujibikiPanel/KujibikiPanelRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

@@ -1,4 +1,4 @@
-// src/ui/SnipeTimer/useSnipeTimer.ts
+// src/ui/counter/SnipeTimer/useSnipeTimer.ts
 import { onUnmounted, watch, type Ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'

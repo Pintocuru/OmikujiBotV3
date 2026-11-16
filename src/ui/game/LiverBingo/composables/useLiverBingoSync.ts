@@ -1,4 +1,4 @@
-// src/ui/LiverBingo/composables/useLiverBingoSync.ts
+// src/ui/game/LiverBingo/composables/useLiverBingoSync.ts
 import { onBeforeUnmount, onMounted, watch } from 'vue'
 import { bingoApi } from '@/manager/services/bingoApi'
 import type { LiverBingoCommandType, LiverBingoSnapshotType } from '@/types/api'

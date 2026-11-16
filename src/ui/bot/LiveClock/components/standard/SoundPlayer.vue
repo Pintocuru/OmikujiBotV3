@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/components/standard/SoundPlayer.vue -->
+<!-- src/ui/bot/LiveClock/components/standard/SoundPlayer.vue -->
 <template>
   <div class="w-md transition-all duration-500 ease-out" :style="rootStyle">
     <div

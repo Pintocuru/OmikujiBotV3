@@ -1,4 +1,4 @@
-<!-- src/ui/LuckyDraw/components/standard/TopStars.vue -->
+<!-- src/ui/user/LuckyDraw/components/standard/TopStars.vue -->
 <!-- 当選者を 1 位(王冠つき・大きく)と 2 位以降(横並び)で表示する(旧 WinnerGroup の topStars) -->
 <template>
   <div class="relative p-4">
@@ -36,7 +36,11 @@
     </div>
 
     <!-- 当選者なし -->
-    <div v-else-if="users.length === 0" class="relative z-10 py-8 text-center opacity-60" :style="{ color: color.text }">
+    <div
+      v-else-if="users.length === 0"
+      class="relative z-10 py-8 text-center opacity-60"
+      :style="{ color: color.text }"
+    >
       <Users class="mx-auto mb-3 h-12 w-12" />
       <p class="text-base">{{ $t('uiSettings.luckyDraw.topStars.noUsers') }}</p>
     </div>
@@ -47,7 +51,12 @@
         <div
           v-motion
           :initial="{ opacity: 0, y: -50, scale: 0.8 }"
-          :enter="{ opacity: 1, y: 0, scale: 1, transition: { duration: 1000, delay: 300, type: 'spring', stiffness: 80 } }"
+          :enter="{
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            transition: { duration: 1000, delay: 300, type: 'spring', stiffness: 80 },
+          }"
           class="flex flex-col items-center"
         >
           <div class="relative">
@@ -85,7 +94,10 @@
           class="flex flex-col items-center"
         >
           <div class="relative">
-            <Medal class="absolute -top-4 left-1/2 h-6 w-6 -translate-x-1/2" :style="{ color: color.name, opacity: 0.7 }" />
+            <Medal
+              class="absolute -top-4 left-1/2 h-6 w-6 -translate-x-1/2"
+              :style="{ color: color.name, opacity: 0.7 }"
+            />
             <img
               :src="user.profileImage || getAvatarUrl(user.userName || 'Anonymous')"
               :alt="user.userName"

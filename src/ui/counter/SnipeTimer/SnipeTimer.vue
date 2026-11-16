@@ -1,4 +1,4 @@
-<!-- src/ui/SnipeTimer/SnipeTimer.vue -->
+<!-- src/ui/counter/SnipeTimer/SnipeTimer.vue -->
 <template>
   <SnipeTimerSelector
     :settings="settings"

@@ -1,4 +1,4 @@
-<!-- src/ui/LiverBingo/editor/LiverBingoRandomItems.vue -->
+<!-- src/ui/game/LiverBingo/editor/LiverBingoRandomItems.vue -->
 <template>
   <div class="space-y-3">
     <button type="button" class="btn btn-secondary btn-sm" @click="emit('update', [createEmptyItem(), ...items])">

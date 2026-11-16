@@ -1,4 +1,4 @@
-// src/i18n/manager/ManagerMessages.ts
+// src/i18n/manager/index.ts
 export const managerMessages = {
   ja: {
     manager: {

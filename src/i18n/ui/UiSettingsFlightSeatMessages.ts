@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/UiSettingsFlightSeatMessages.ts
+// src/i18n/ui/UiSettingsFlightSeatMessages.ts
 // UI 設定の翻訳: flightSeat
 export const uiSettingsFlightSeat = {
   ja: {

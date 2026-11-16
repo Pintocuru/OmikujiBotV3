@@ -1,4 +1,4 @@
-<!-- src/ui/LuckyDraw/components/standard/ValentineCoupling.vue -->
+<!-- src/ui/user/LuckyDraw/components/standard/ValentineCoupling.vue -->
 <!-- 2 名をペアにして、ハートで結んで表示する(旧 WinnerGroup の valentineCoupling) -->
 <template>
   <div
@@ -38,10 +38,22 @@
         </div>
 
         <div class="grid grid-cols-2 items-center gap-8 sm:gap-12">
-          <div :key="`left-${drawKey}`" v-motion :initial="cardInitial('left')" :enter="cardEnter" class="flex justify-end">
+          <div
+            :key="`left-${drawKey}`"
+            v-motion
+            :initial="cardInitial('left')"
+            :enter="cardEnter"
+            class="flex justify-end"
+          >
             <UserCard :user="users[0]" :color="color" :border="color.accent" />
           </div>
-          <div :key="`right-${drawKey}`" v-motion :initial="cardInitial('right')" :enter="cardEnter" class="flex justify-start">
+          <div
+            :key="`right-${drawKey}`"
+            v-motion
+            :initial="cardInitial('right')"
+            :enter="cardEnter"
+            class="flex justify-start"
+          >
             <UserCard :user="users[1]" :color="color" :border="color.name" />
           </div>
         </div>

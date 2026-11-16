@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/composables/useBowlEntries.ts
+// src/ui/counter/LifeHourglass/composables/useBowlEntries.ts
 import { computed, type Ref } from 'vue'
 import {
   LIFE_HOURGLASS_BOWLS,

@@ -1,4 +1,4 @@
-<!-- src/ui/CharacterStage/editor/CharacterStagePreview.vue -->
+<!-- src/ui/bot/CharacterStage/editor/CharacterStagePreview.vue -->
 <template>
   <HudPreview maxHeightClass="h-72" :defaultScale="0.5">
     <div class="relative w-full h-full overflow-hidden">

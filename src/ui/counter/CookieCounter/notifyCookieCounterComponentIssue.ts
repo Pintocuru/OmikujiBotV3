@@ -1,4 +1,4 @@
-// src/ui/CookieCounter/notifyCookieCounterComponentIssue.ts
+// src/ui/counter/CookieCounter/notifyCookieCounterComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

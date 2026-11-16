@@ -1,4 +1,4 @@
-<!-- src/ui/KujibikiPanel/components/fortune/BigBangSpace.vue -->
+<!-- src/ui/bot/KujibikiPanel/components/fortune/BigBangSpace.vue -->
 <!-- 宇宙空間: 星・星雲・きらめき・流れ星 -->
 <template>
   <div class="pointer-events-none absolute inset-0" aria-hidden="true">

@@ -1,4 +1,4 @@
-// src/ui/LiverBingo/editor/packs/LiverBingoPackSchema.ts
+// src/ui/game/LiverBingo/editor/packs/LiverBingoPackSchema.ts
 import { z } from 'zod'
 import { REPO_BASE } from '@/editor/constants'
 import { LiverBingoItemSchema } from '@/types/ui'

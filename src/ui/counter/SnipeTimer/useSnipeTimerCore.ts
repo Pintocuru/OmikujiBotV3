@@ -1,4 +1,4 @@
-// src/ui/SnipeTimer/useSnipeTimerCore.ts
+// src/ui/counter/SnipeTimer/useSnipeTimerCore.ts
 import { computed, onUnmounted, reactive, watch, type Ref } from 'vue'
 import { SNIPE_TIMER_INITIAL_SECONDS, type SnipeTimerType } from '@/types/ui'
 import { alignSnipeTime } from '@/common/SnipeTimer/parseSnipeTime'

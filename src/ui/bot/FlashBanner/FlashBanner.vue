@@ -1,4 +1,4 @@
-<!-- src/ui/FlashBanner/FlashBanner.vue -->
+<!-- src/ui/bot/FlashBanner/FlashBanner.vue -->
 <template>
   <FlashBannerSelector
     :key="currentKey"

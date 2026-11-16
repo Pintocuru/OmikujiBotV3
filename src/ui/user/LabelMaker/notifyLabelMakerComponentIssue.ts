@@ -1,4 +1,4 @@
-// src/ui/LabelMaker/notifyLabelMakerComponentIssue.ts
+// src/ui/user/LabelMaker/notifyLabelMakerComponentIssue.ts
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 const notifiedIds = new Set<string>()

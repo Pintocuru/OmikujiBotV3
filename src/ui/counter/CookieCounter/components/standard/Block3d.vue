@@ -1,4 +1,4 @@
-<!-- src/ui/CookieCounter/components/standard/Block3d.vue -->
+<!-- src/ui/counter/CookieCounter/components/standard/Block3d.vue -->
 <template>
   <div class="flex justify-center items-center" :style="rootStyle">
     <div v-if="slots.length === 0" class="text-base-content/40 text-2xl">まだ何も表示されません…</div>

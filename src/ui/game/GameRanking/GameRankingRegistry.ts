@@ -1,4 +1,4 @@
-// src/ui/GameRanking/GameRankingRegistry.ts
+// src/ui/game/GameRanking/GameRankingRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

@@ -1,4 +1,4 @@
-<!-- src/ui/CookieCounter/CookieCounter.vue -->
+<!-- src/ui/counter/CookieCounter/CookieCounter.vue -->
 <template>
   <CookieCounterSelector
     :settings="cookieSettings"

@@ -1,4 +1,4 @@
-<!-- src/ui/GameRanking/editor/GameRankingEditor.vue -->
+<!-- src/ui/game/GameRanking/editor/GameRankingEditor.vue -->
 <template>
   <!-- ランキングプレビュー -->
   <HudPreview :isAdminOnly="true">

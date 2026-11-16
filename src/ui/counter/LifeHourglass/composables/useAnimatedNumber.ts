@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/composables/useAnimatedNumber.ts
+// src/ui/counter/LifeHourglass/composables/useAnimatedNumber.ts
 import { onBeforeUnmount, ref, watch, type Ref } from 'vue'
 
 /**

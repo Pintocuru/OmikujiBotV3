@@ -1,4 +1,4 @@
-// src/ui/LiverBingo/editor/packs/useLiverBingoPacks.ts
+// src/ui/game/LiverBingo/editor/packs/useLiverBingoPacks.ts
 import { ref } from 'vue'
 import axios from 'axios'
 import {

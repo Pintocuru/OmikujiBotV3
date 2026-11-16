@@ -1,4 +1,4 @@
-// src/ui/LifeHourglass/composables/useViewerIntensity.ts
+// src/ui/counter/LifeHourglass/composables/useViewerIntensity.ts
 import { computed, onMounted, onUnmounted, ref, watch, type Ref } from 'vue'
 
 /** 同接の記録間隔(ミリ秒) */

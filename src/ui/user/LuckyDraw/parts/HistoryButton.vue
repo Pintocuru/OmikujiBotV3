@@ -1,4 +1,4 @@
-<!-- src/ui/LuckyDraw/parts/HistoryButton.vue -->
+<!-- src/ui/user/LuckyDraw/parts/HistoryButton.vue -->
 <template>
   <div class="absolute top-0 right-0 z-50" @mouseenter="isHovered = true" @mouseleave="isHovered = false" @click.stop>
     <!-- 履歴ボタン -->

@@ -1,4 +1,4 @@
-// src/ui/ToastWidgets/components/standard/register.ts
+// src/ui/bot/ToastWidgets/components/standard/register.ts
 import type { ToastComponentOf } from '@/types/ui'
 import { registerToastWidgetsComponents, type ToastWidgetsComponent } from '../../ToastWidgetsRegistry'
 

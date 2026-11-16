@@ -1,4 +1,4 @@
-// src/ui/LiverBingo/editor/seedList.ts
+// src/ui/game/LiverBingo/editor/seedList.ts
 import {
   LiverBingoItemSchema,
   LiverBingoSeedSchema,

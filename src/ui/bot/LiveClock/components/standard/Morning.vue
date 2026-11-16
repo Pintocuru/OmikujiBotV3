@@ -1,4 +1,4 @@
-<!-- src/ui/LiveClock/components/standard/Morning.vue -->
+<!-- src/ui/bot/LiveClock/components/standard/Morning.vue -->
 <template>
   <div
     class="w-80 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"

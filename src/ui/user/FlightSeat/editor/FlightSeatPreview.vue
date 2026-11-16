@@ -1,4 +1,4 @@
-<!-- src/ui/FlightSeat/editor/FlightSeatPreview.vue -->
+<!-- src/ui/user/FlightSeat/editor/FlightSeatPreview.vue -->
 <template>
   <HudPreview>
     <div class="overflow-hidden" :class="[fontFamily]">

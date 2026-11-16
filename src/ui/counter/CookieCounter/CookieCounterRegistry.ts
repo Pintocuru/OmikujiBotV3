@@ -1,4 +1,4 @@
-// src/ui/CookieCounter/CookieCounterRegistry.ts
+// src/ui/counter/CookieCounter/CookieCounterRegistry.ts
 import {
   getUiComponent,
   getUiComponentSets,

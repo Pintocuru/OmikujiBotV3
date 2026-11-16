@@ -1,4 +1,4 @@
-// src/ui/FlightSeat/composables/useFlightSeatBoarding.ts
+// src/ui/user/FlightSeat/composables/useFlightSeatBoarding.ts
 import { onUnmounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/generator/stores/useAppStore'
