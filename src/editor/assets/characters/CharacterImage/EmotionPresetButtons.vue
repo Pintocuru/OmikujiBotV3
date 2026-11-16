@@ -3,7 +3,7 @@
   <div class="flex flex-wrap gap-1">
     <span class="text-xs text-base-content/50 self-center mr-1">{{ t('characterImage.preset.label') }}</span>
     <button
-      v-for="(_, key) in characterEmotionMap"
+      v-for="key in characterEmotions"
       :key="key"
       type="button"
       class="btn btn-xs"
@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { characterEmotionMap } from '@/maps/OmikujiData'
+  import { characterEmotions } from '@/types/OmikujiData'
 
   const { t } = useI18n()
 
