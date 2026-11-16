@@ -25,6 +25,7 @@ export const registerAllUiEditor = () => {
       editor: () => import('@/ui/KujibikiPanel/editor/KujibikiPanelEditor.vue'),
       preview: () => import('@/ui/KujibikiPanel/editor/KujibikiPanelMessagePreview.vue'),
     },
+    labelMaker: () => import('@/ui/LabelMaker/editor/LabelMakerEditor.vue'),
     liveClock: {
       editor: () => import('@/ui/LiveClock/editor/LiveClockEditor.vue'),
       preview: () => import('@/ui/LiveClock/editor/LiveClockMessagePreview.vue'),

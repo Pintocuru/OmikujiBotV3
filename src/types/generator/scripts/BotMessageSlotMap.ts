@@ -104,6 +104,7 @@ export const UiMessageSpecs = {
   // flightSeat: 投稿先に選べるよう bubble を 'comment' にしている(本文は使わない。着席させるのは投稿の user)
   flightSeat: { bubble: 'comment', slots: {} },
   userBoard: { bubble: false, slots: {} },
+  labelMaker: { bubble: false, slots: {} }, // TODO: 投稿の受け取り方(slot の有無)は未決定。slots が空だと editor の投稿先に出ない
   cookieCounter: { bubble: false, slots: {} },
   streamCounter: { bubble: false, slots: {} },
   lifeHourglass: { bubble: false, slots: {} },

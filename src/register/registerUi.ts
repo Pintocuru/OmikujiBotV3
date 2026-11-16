@@ -13,6 +13,7 @@ import { registerStandardCookieComponents } from '@/ui/CookieCounter/components/
 import { registerStandardKujibikiComponents } from '@/ui/KujibikiPanel/components/standard/register'
 import { registerFortuneKujibikiComponents } from '@/ui/KujibikiPanel/components/fortune/register'
 import { registerSpecialKujibikiComponents } from '@/ui/KujibikiPanel/components/special/register'
+import { registerStandardLabelMakerComponents } from '@/ui/LabelMaker/components/standard/register'
 import { registerStandardLifeHourglassComponents } from '@/ui/LifeHourglass/components/standard/register'
 import { registerStandardSnipeTimerComponents } from '@/ui/SnipeTimer/components/standard/register'
 import { registerStandardFlightSeatComponents } from '@/ui/FlightSeat/components/standard/register'
@@ -26,6 +27,7 @@ const registerUiKinds = () =>
     flightSeat: () => import('@/ui/FlightSeat/FlightSeat.vue'),
     gameRanking: () => import('@/ui/GameRanking/GameRanking.vue'),
     kujibikiPanel: () => import('@/ui/KujibikiPanel/KujibikiPanel.vue'),
+    labelMaker: () => import('@/ui/LabelMaker/LabelMaker.vue'),
     lifeHourglass: () => import('@/ui/LifeHourglass/LifeHourglass.vue'),
     liveClock: () => import('@/ui/LiveClock/LiveClock.vue'),
     liverBingo: () => import('@/ui/LiverBingo/LiverBingo.vue'),
@@ -83,6 +85,11 @@ const registerLifeHourglassComponents = () => {
   registerStandardLifeHourglassComponents()
 }
 
+// LabelMaker
+const registerLabelMakerComponents = () => {
+  registerStandardLabelMakerComponents()
+}
+
 // SnipeTimer
 const registerSnipeTimerComponents = () => {
   registerStandardSnipeTimerComponents()
@@ -105,6 +112,7 @@ export const registerAllUi = () => {
   registerBoardComponents()
   registerKujibikiComponents()
   registerLifeHourglassComponents()
+  registerLabelMakerComponents()
   registerSnipeTimerComponents()
   registerFlightSeatComponents()
 }

@@ -141,6 +141,16 @@ export const uiComponentMessages = {
           description: 'チーム色ごとの合計得点を、大きな数字で横に並べて表示します',
         },
       },
+      labelMaker: {
+        userList: {
+          label: 'ユーザーリスト(バッジ)',
+          description: 'ユーザー名のバッジを、折り返しながら並べて表示します',
+        },
+        userCardScroller: {
+          label: 'ユーザーカード(スクロール)',
+          description: 'ユーザーのカードを縦に並べ、新しいユーザーを右から滑り込ませます',
+        },
+      },
     },
   },
   en: {
@@ -279,6 +289,16 @@ export const uiComponentMessages = {
         teamScore: {
           label: 'Team scores (scoreboard)',
           description: 'Shows the total score of each team color as large numbers side by side',
+        },
+      },
+      labelMaker: {
+        userList: {
+          label: 'User list (badges)',
+          description: 'Shows user names as badges, wrapping onto new lines',
+        },
+        userCardScroller: {
+          label: 'User cards (scrolling)',
+          description: 'Stacks user cards vertically and slides new users in from the right',
         },
       },
     },

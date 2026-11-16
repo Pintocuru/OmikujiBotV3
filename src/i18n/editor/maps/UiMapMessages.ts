@@ -57,6 +57,10 @@ export const uiMapMessages = {
           label: 'ライバービンゴ',
           description: '配信中に進めるビンゴカード。お題と達成目標を決めて、クリックで進めます',
         },
+        labelMaker: {
+          label: 'ラベルメーカー',
+          description: '投稿で届いたユーザーを、名前ラベルのリストで表示します',
+        },
         snipeTimer: {
           label: 'スナイプタイマー',
           description:
@@ -139,6 +143,10 @@ export const uiMapMessages = {
         liverBingo: {
           label: 'Liver bingo',
           description: 'A bingo card you play during the stream. Set topics and targets, then click to progress.',
+        },
+        labelMaker: {
+          label: 'Label maker',
+          description: 'Shows the users who posted as a list of name labels',
         },
         snipeTimer: {
           label: 'Snipe timer',

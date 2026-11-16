@@ -9,6 +9,7 @@ export const uiKindIcons: Record<UiKind, LucideIconName> = {
   cookieCounter: 'Cookie',
   flightSeat: 'Armchair',
   kujibikiPanel: 'Sparkles',
+  labelMaker: 'Tags',
   liveClock: 'Clock',
   streamCounter: 'Hash',
   toastWidgets: 'Bell',

@@ -35,6 +35,7 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, UiKind[]> = {
     'flightSeat',
     'gameRanking',
     'kujibikiPanel',
+    'labelMaker',
     'lifeHourglass',
     'liveClock',
     'liverBingo',

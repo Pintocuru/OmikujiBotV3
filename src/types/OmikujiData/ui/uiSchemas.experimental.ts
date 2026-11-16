@@ -1,5 +1,5 @@
 // src/types/OmikujiData/ui/uiSchemas.experimental.ts
-import { FlightSeatSchema, LifeHourglassSchema, LiverBingoSchema, SnipeTimerSchema } from '@/types/ui'
+import { FlightSeatSchema, LabelMakerSchema, LifeHourglassSchema, LiverBingoSchema, SnipeTimerSchema } from '@/types/ui'
 
 /**
  * 実験中の UI(捨てる候補)。
@@ -7,6 +7,7 @@ import { FlightSeatSchema, LifeHourglassSchema, LiverBingoSchema, SnipeTimerSche
  */
 export const experimentalUiSchemas = {
   flightSeat: FlightSeatSchema, // フライトシート(OmikujiBotV2 から移植)
+  labelMaker: LabelMakerSchema, // ラベルメーカー(旧 CounterPreview のユーザーリストを移植)
   lifeHourglass: LifeHourglassSchema, // 命の砂時計(仮名 hourglass は廃止)
   liverBingo: LiverBingoSchema, // ライバービンゴ(OmikenTemplates から移植)
   snipeTimer: SnipeTimerSchema, // スナイプタイマー(旧 NextTimer から移植)
