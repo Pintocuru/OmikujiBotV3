@@ -40,7 +40,7 @@
       <SettingItem icon="Image" :label="t('jsonMerge.remap.fromIcon')">
         <select v-model="localRemap.fromIconKey" class="select select-sm select-bordered w-full">
           <option value="">{{ t('jsonMerge.remap.chooseIcon') }}</option>
-          <option v-for="(_, key) in characterEmotionMap" :key="key" :value="key">
+          <option v-for="key in characterEmotions" :key="key" :value="key">
             {{ t(`mapText.characterEmotion.${key}.label`) }}
           </option>
         </select>
@@ -66,7 +66,8 @@
   import { storeToRefs } from 'pinia'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { characterEmotionMap, jsonMergeSourceCharacterKeys } from '@/maps/OmikujiData'
+  import { jsonMergeSourceCharacterKeys } from '@/maps/OmikujiData'
+  import { characterEmotions } from '@/types/OmikujiData'
   import { CharacterType, JsonMergeRemapType } from '@/types/OmikujiData'
 
   const props = defineProps<{
