@@ -1,10 +1,11 @@
 // src/maps/common/StatusConfigMap.ts
-import { AppStatus } from '@/types/core'
+import type { AppStatus } from '@/types/core'
+import type { Component } from 'vue'
 import { Loader, Wifi, WifiOff } from 'lucide-vue-next'
 
 // ステータスごとの設定をMapで一元管理
 type StatusConfig = {
-  icon: any
+  icon: Component
   label: string
   badgeClass: string
   isAlwaysVisible?: boolean
