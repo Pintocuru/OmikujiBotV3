@@ -101,6 +101,8 @@ export const UiMessageSpecs = {
   liveClock: { bubble: 'comment', slots: LiveClockSlotMap },
   kujibikiPanel: { bubble: 'comment', slots: KujibikiSlotMap },
   gameRanking: { bubble: false, slots: RankingSlotMap },
+  // flightSeat: 投稿先に選べるよう bubble を 'comment' にしている(本文は使わない。着席させるのは投稿の user)
+  flightSeat: { bubble: 'comment', slots: {} },
   userBoard: { bubble: false, slots: {} },
   cookieCounter: { bubble: false, slots: {} },
   streamCounter: { bubble: false, slots: {} },

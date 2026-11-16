@@ -7,6 +7,7 @@ export const uiKindIcons: Record<UiKind, LucideIconName> = {
   commentBubble: 'MessageSquare',
   gameRanking: 'Trophy',
   cookieCounter: 'Cookie',
+  flightSeat: 'Armchair',
   kujibikiPanel: 'Sparkles',
   liveClock: 'Clock',
   streamCounter: 'Hash',

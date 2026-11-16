@@ -16,6 +16,7 @@ export const registerAllUiEditor = () => {
     },
     commentBubble: () => import('@/ui/CommentBubble/editor/CommentBubbleEditor.vue'),
     cookieCounter: () => import('@/ui/CookieCounter/editor/CookieCounterEditor.vue'),
+    flightSeat: () => import('@/ui/FlightSeat/editor/FlightSeatEditor.vue'),
     gameRanking: {
       editor: () => import('@/ui/GameRanking/editor/GameRankingEditor.vue'),
       preview: () => import('@/ui/GameRanking/editor/GameRankingMessagePreview.vue'),

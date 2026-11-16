@@ -90,6 +90,7 @@ export const lucideIconMap = {
   Flower2: L.Flower2,
   Clover: L.Clover,
   Cookie: L.Cookie,
+  Armchair: L.Armchair,
   DraftingCompass: L.DraftingCompass,
 } as const satisfies Record<string, Component>
 

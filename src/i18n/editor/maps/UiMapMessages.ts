@@ -41,6 +41,10 @@ export const uiMapMessages = {
           label: 'クッキーカウンター',
           description: '配信の数値をクッキー風カウンターで表示',
         },
+        flightSeat: {
+          label: 'フライトシート',
+          description: '投稿されたユーザーを座席に座らせて、座席表のように表示',
+        },
         kujibikiPanel: {
           label: 'くじ引きパネル',
           description: 'おみくじ・占いの結果をパネル形式で表示します。',
@@ -119,6 +123,10 @@ export const uiMapMessages = {
         cookieCounter: {
           label: 'Cookie counter',
           description: 'Displays stream counts in a cookie-themed counter.',
+        },
+        flightSeat: {
+          label: 'Flight seat',
+          description: 'Seats the users of posted messages in a seating chart.',
         },
         kujibikiPanel: {
           label: 'Lottery panel',

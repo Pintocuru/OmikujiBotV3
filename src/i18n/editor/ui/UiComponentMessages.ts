@@ -25,6 +25,29 @@ export const uiComponentMessages = {
           label: 'メッセージボード(RPGウィンドウ)',
         },
       },
+      flightSeat: {
+        plain: {
+          label: 'プレーン',
+        },
+        nineViewers: {
+          label: '9人のユーザー。',
+        },
+        bingo: {
+          label: 'ビンゴカード風',
+        },
+        flightSeat: {
+          label: '8時間フライト',
+        },
+        graduation: {
+          label: '卒業写真',
+        },
+        ferrisWheel: {
+          label: '観覧車',
+        },
+        goldenCrowd: {
+          label: '300ユーザー',
+        },
+      },
       cookieCounter: {
         sakura: {
           label: 'さくらツイン🌸',
@@ -140,6 +163,29 @@ export const uiComponentMessages = {
         },
         rpgWindow: {
           label: 'Message board (RPG window)',
+        },
+      },
+      flightSeat: {
+        plain: {
+          label: 'Plain',
+        },
+        nineViewers: {
+          label: 'Nine viewers',
+        },
+        bingo: {
+          label: 'Bingo card',
+        },
+        flightSeat: {
+          label: '8-hour flight',
+        },
+        graduation: {
+          label: 'Graduation photo',
+        },
+        ferrisWheel: {
+          label: 'Ferris wheel',
+        },
+        goldenCrowd: {
+          label: '300 users',
         },
       },
       cookieCounter: {
