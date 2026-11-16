@@ -1,44 +1,30 @@
-# docs/conventions と docs/work の使い分け
+# 開発ドキュメントの使い分け
 
-## 配置の基準
+## 配置
 
-| 場所                | 置くもの                                                                                                         | 例                                        |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| `docs/conventions/` | **恒久ルール**。時間が経っても有効で、新規コード・新規文書が従うもの。チェックリストなど、繰り返し使う手順も含む | 命名規則、UI スタイル規約、レジストリ規約 |
-| `docs/work/`        | **恒久ルールではないもの**。作業指示書、移行計画、引き継ぎ記録、AI への依頼文                                    | 命名の移行計画、UI スタイル統一作業       |
+- `docs/conventions/`: 長く有効な設計上の制約・共通方針。
+- `docs/architecture/`: 現在の構造や処理の説明。
+- `docs/work/`: 一時的な作業計画・引き継ぎ。完了後は不要なら削除する。
 
-## docs/work のルール
+規約は必要最小限にする。細かな作業手順、チェックリスト、作業履歴を恒久規約に含めない。
 
-- 各ファイルの先頭に **状態**(`作業前` / `作業中` / `完了`)を書く。
-- 作業の根拠となる恒久ルールは `docs/conventions/` に置き、work 文書とルールが食い違う場合は **conventions を優先**する。
-- 作業の中で恒久ルールが決まったら、`docs/conventions/` に移す(work に残さない)。
-- `完了` になった文書は、残す理由がなければ削除してよい(履歴は git に残る)。
-- コミット・push は依頼者の許可がある場合だけ行う(各作業指示書の指定に従う)。
+## 規約の読み方
 
-## src/ には置かない
+- 「必須」と明記したものは、互換性・安全性・プロジェクト全体の整合性に関わる制約に限る。
+- それ以外は原則・推奨であり、状況に応じて変更してよい。
+- 規約への適合自体を目的にした変更は行わない。
+- 既存実装と規約が異なる場合、直ちに違反とせず、意図・影響・変更の必要性を確認する。
+- より適切な方法があれば、理由を説明したうえで規約にない方法を採用してよい。
+- 作業依頼に関係する文書だけを読む。無関係な規約や work 文書を一律に読み込まない。
 
-- ルール・作業指示書は `src/` に置かない(`naming.md` §4-6)。
-- 例外: `src/ui/` と `src/games/` はプラグインのため、各プラグイン自身の説明ドキュメントをそのディレクトリ内に置いてよい。
+## 文書一覧
 
-## 目次
+- [naming.md](./naming.md): 命名とドメイン用語
+- [japanese-ui-writing.md](./japanese-ui-writing.md): 日本語 UI 文言
+- [editor-ui-style.md](./editor-ui-style.md): UI 表現の基本方針
+- [ui-component-registry.md](./ui-component-registry.md): UI 内コンポーネント登録の設計
+- [root-readme.md](./root-readme.md): README・構成ドキュメント
 
-### docs/conventions/
+## src/ への配置
 
-| 文書                                                             | 内容                                     |
-| ---------------------------------------------------------------- | ---------------------------------------- |
-| [naming.md](./naming.md)                                         | 命名規則・用語表                         |
-| [japanese-ui-writing.md](./japanese-ui-writing.md)               | 日本語 UI 文言の表現・短縮規約           |
-| [editor-ui-style.md](./editor-ui-style.md)                       | ボタン・アイコン・tooltip のスタイル規約 |
-| [ui-component-registry.md](./ui-component-registry.md)           | UI 内コンポーネントの登録規約            |
-| [ui-kind-addition-checklist.md](./ui-kind-addition-checklist.md) | UiKind 追加の手順                        |
-| [root-readme.md](./root-readme.md)                               | README・構成ドキュメントのルール         |
-
-### docs/work/
-
-| 文書                                                                             | 状態                   |
-| -------------------------------------------------------------------------------- | ---------------------- |
-| [editor-ui-style-work.md](../work/editor-ui-style-work.md)                       | 作業前                 |
-| [ui-folder-categorize.md](../work/ui-folder-categorize.md)                       | 作業中                 |
-| [naming-migration-plan.md](../work/naming-migration-plan.md)                     | 完了(C4b は実施しない) |
-| [ui-component-registry-migration.md](../work/ui-component-registry-migration.md) | 完了                   |
-| [root-readme-prompt.md](../work/root-readme-prompt.md)                           | 依頼文(随時使用)       |
+開発規約や作業指示書は `src/` に置かない。プラグイン固有の利用者向け説明は、そのプラグインのディレクトリに置いてよい。
