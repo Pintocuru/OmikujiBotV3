@@ -5,5 +5,5 @@
 </template>
 
 <script setup lang="ts">
-  import KujibikiPanel from '@/ui/KujibikiPanel/KujibikiPanel.vue'
+  import KujibikiPanel from '@/ui/bot/KujibikiPanel/KujibikiPanel.vue'
 </script>

@@ -9,6 +9,6 @@
 </template>
 
 <script setup lang="ts">
-  import KujibikiPanel from '@/ui/KujibikiPanel/KujibikiPanel.vue'
-  import CharacterStage from '@/ui/CharacterStage/CharacterStage.vue'
+  import KujibikiPanel from '@/ui/bot/KujibikiPanel/KujibikiPanel.vue'
+  import CharacterStage from '@/ui/bot/CharacterStage/CharacterStage.vue'
 </script>

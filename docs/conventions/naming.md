@@ -94,7 +94,7 @@
    - `MikujiEditor.vue` / `MikujiSettings.vue` / `MikujiBoxSchema.ts` 等の `Mikuji` 名は**リネーム禁止**。新規ファイルもこの区別に従うこと。
 5. **`Syoken`** は歴史的経緯(OmikujiBotは初見を大事にしている)により維持。
 6. **ドキュメントを `src/` に置かない**。ルールに関する事は `docs/conventions/`、作業指示書・移行計画などは `docs/work/` へ置く(配置の基準は `docs/conventions/README.md`)。
-   - 例外: **`src/ui/` と `src/games/` はプラグインのため**、各プラグインのディレクトリ内にそのプラグイン自身の説明ドキュメント(例: `src/ui/LifeHourglass/LifeHourglass.md`)を置いてよい。ルール・作業指示書は例外に含めない。
+   - 例外: **`src/ui/` と `src/games/` はプラグインのため**、各プラグインのディレクトリ内にそのプラグイン自身の説明ドキュメント(例: `src/ui/counter/LifeHourglass/LifeHourglass.md`)を置いてよい。ルール・作業指示書は例外に含めない。
 
 ## 5. ドキュメントの配置
 
@@ -192,8 +192,8 @@
 
 - `GameScriptsHandler`(複数形)は 1 件ずつ処理する。`GameScriptManager` との単複が不統一。
 - `tools/JsonMerge/KeySuffix.ts` は events と mikuji のキーにだけ接尾辞を付ける。`assets.scenarios` と `callKeys` は対象外のため、マージ時にキーが衝突し得る(コード上の確認のみ・実行は未確認)。
-- ディレクトリ名が §3.2(すべて camelCase)に合っていない。PascalCase が 75 件ある。`editor/assets/scenarios/` 配下は `Call` / `Message` / `Sounds` / `WordParty` が PascalCase で、`kind` の値(`scenarioCall` / `message` / `sound` / `wordParty`)とも不一致。`src/ui/<UI名>/` を camelCase にする場合は、`ui-component-registry.md` と `ui-component-registry-migration.md` の `<UI名>` を使うパス表記も合わせて更新する。
-- `src/ui/GameRanking/scripts/services/` のように、`scripts/` の下に `services/` がある例がある。§3.1 の役割分担(`scripts/` と `services/`)と合っているか未確認。
+- ディレクトリ名が §3.2(すべて camelCase)に合っていない。PascalCase が 75 件ある。`editor/assets/scenarios/` 配下は `Call` / `Message` / `Sounds` / `WordParty` が PascalCase で、`kind` の値(`scenarioCall` / `message` / `sound` / `wordParty`)とも不一致。`src/ui/<役割>/<UI名>/` を camelCase にする場合は、`ui-component-registry.md` と `ui-component-registry-migration.md` の `<UI名>` を使うパス表記も合わせて更新する。
+- `src/ui/game/GameRanking/scripts/services/` のように、`scripts/` の下に `services/` がある例がある。§3.1 の役割分担(`scripts/` と `services/`)と合っているか未確認。
 
 ## α 版データの扱い
 

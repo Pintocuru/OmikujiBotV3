@@ -22,7 +22,7 @@ Game scripts executed by the bot. They can handle complex logic and run when a t
 
 ### UI : on-screen UI for streams (`src/ui`)
 
-UI components displayed on the stream screen (such as CommentBubble).
+UI components displayed on the stream screen (such as CommentBubble), categorized by role (`bot/`, `counter/`, `game/`, `user/`).
 
 ### Manager : data manager (`src/manager`)
 

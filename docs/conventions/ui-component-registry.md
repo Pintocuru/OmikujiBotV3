@@ -74,7 +74,7 @@ registerUiComponents('kujibikiPanel', {
 #### 4.1 ディレクトリ構成
 
 ```text
-src/ui/<UI名>/components/
+src/ui/<役割>/<UI名>/components/
 ├─ <セット名>/
 │  ├─ register.ts      … そのセットの登録
 │  └─ <コンポーネント>.vue

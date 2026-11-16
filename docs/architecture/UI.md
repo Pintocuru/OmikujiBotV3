@@ -13,6 +13,25 @@
 - `src/ui/uiRegistry.ts`: Generator側のUI・レイアウト登録先
 - `src/editor/ui/uiEditorRegistry.ts`: Editor側のUI編集機能登録先
 
+### 分類の基準
+
+「視聴者が最初に目にする主役は何か」で決める。仕組みや副次機能は基準にしない。
+(例: LiveClock はコメントも出すが、主役は時計付きの BOT なので BOT演出)
+
+### フォルダ構成
+
+| フォルダ | 役割 | UI |
+|---|---|---|
+| `src/ui/bot/` | BOT演出 | CharacterStage / CommentBubble / KujibikiPanel / FlashBanner / ToastWidgets / LiveClock |
+| `src/ui/counter/` | 時間・カウンター | StreamCounter / CookieCounter / SnipeTimer / LifeHourglass |
+| `src/ui/game/` | ゲーム | DeadAir / LiverBingo / GameRanking |
+| `src/ui/user/` | ユーザー | UserBoard / LabelMaker / FlightSeat / LuckyDraw |
+
+- `src/ui/common/` と `src/ui/uiRegistry.ts` は直下に配置。
+- 「ユーザーコメント」(`comment/`)は UI が未作成のためフォルダ未作成(最初の UI を作るときに作成)。
+- 各 UI フォルダの中身(`components/` `editor/` `composables/` など)は UI ごとに保持。
+- 型定義(`src/types/ui/`)は平置きのまま。安定/実験の分類(`uiSchemas.stable.ts` / `uiSchemas.experimental.ts`)はフォルダに持ち込まない。
+
 ## 登録と表示
 
 `src/registerRuntime.ts` がUI、レイアウト、ゲームスクリプトのローダーを登録します。パッケージ単体では `packages/_shared/` などから必要なUIだけを登録することもできます。

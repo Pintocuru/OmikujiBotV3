@@ -6,6 +6,6 @@
 </template>
 
 <script setup lang="ts">
-  import LifeHourglass from '@/ui/LifeHourglass/LifeHourglass.vue'
+  import LifeHourglass from '@/ui/counter/LifeHourglass/LifeHourglass.vue'
   import LayoutPosition from '@/layout/_shared/LayoutPosition.vue'
 </script>

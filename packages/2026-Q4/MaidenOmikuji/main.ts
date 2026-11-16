@@ -2,7 +2,7 @@
 import App from '@/generator/App.vue'
 import { createAppOneSDK } from '@/common/EntryCore/core'
 import { definePackage } from '@/register/definePackage'
-import { registerStandardKujibikiComponents } from '@/ui/KujibikiPanel/components/standard/register'
+import { registerStandardKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/standard/register'
 import '@assets/styles/DaisyUiObs.css'
 
 definePackage({

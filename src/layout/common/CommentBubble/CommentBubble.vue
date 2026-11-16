@@ -7,6 +7,6 @@
 </template>
 
 <script setup lang="ts">
-  import CommentBubble from '@/ui/CommentBubble/CommentBubble.vue'
-  import CharacterStage from '@/ui/CharacterStage/CharacterStage.vue'
+  import CommentBubble from '@/ui/bot/CommentBubble/CommentBubble.vue'
+  import CharacterStage from '@/ui/bot/CharacterStage/CharacterStage.vue'
 </script>

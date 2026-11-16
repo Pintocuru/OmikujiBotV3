@@ -5,5 +5,5 @@
 </template>
 
 <script setup lang="ts">
-  import GameRanking from '@/ui/GameRanking/GameRanking.vue'
+  import GameRanking from '@/ui/game/GameRanking/GameRanking.vue'
 </script>

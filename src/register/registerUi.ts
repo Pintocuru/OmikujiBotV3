@@ -2,45 +2,45 @@
 // UI 関係の登録をすべてこのファイルに集約する窓口
 import { registerUi, type UiLoader } from '@/ui/uiRegistry'
 import type { UiKind } from '@/types/OmikujiData'
-import { registerBubbleBubbleComponents } from '@/ui/CommentBubble/components/bubble/register'
-import { registerMessageBoardBubbleComponents } from '@/ui/CommentBubble/components/messageBoard/register'
-import { registerStandardRankingComponents } from '@/ui/GameRanking/components/standard/register'
-import { registerStandardDeadAirComponents } from '@/ui/DeadAir/components/standard/register'
-import { registerStandardClockComponents } from '@/ui/LiveClock/components/standard/register'
-import { registerStandardFlashBannerComponents } from '@/ui/FlashBanner/components/standard/register'
-import { registerStandardStreamComponents } from '@/ui/StreamCounter/components/standard/register'
-import { registerStandardToastComponents } from '@/ui/ToastWidgets/components/standard/register'
-import { registerStandardBoardComponents } from '@/ui/UserBoard/components/standard/register'
-import { registerStandardCookieComponents } from '@/ui/CookieCounter/components/standard/register'
-import { registerStandardKujibikiComponents } from '@/ui/KujibikiPanel/components/standard/register'
-import { registerFortuneKujibikiComponents } from '@/ui/KujibikiPanel/components/fortune/register'
-import { registerSpecialKujibikiComponents } from '@/ui/KujibikiPanel/components/special/register'
-import { registerStandardLabelMakerComponents } from '@/ui/LabelMaker/components/standard/register'
-import { registerStandardLifeHourglassComponents } from '@/ui/LifeHourglass/components/standard/register'
-import { registerStandardSnipeTimerComponents } from '@/ui/SnipeTimer/components/standard/register'
-import { registerStandardFlightSeatComponents } from '@/ui/FlightSeat/components/standard/register'
-import { registerStandardLuckyDrawComponents } from '@/ui/LuckyDraw/components/standard/register'
+import { registerBubbleBubbleComponents } from '@/ui/bot/CommentBubble/components/bubble/register'
+import { registerMessageBoardBubbleComponents } from '@/ui/bot/CommentBubble/components/messageBoard/register'
+import { registerStandardRankingComponents } from '@/ui/game/GameRanking/components/standard/register'
+import { registerStandardDeadAirComponents } from '@/ui/game/DeadAir/components/standard/register'
+import { registerStandardClockComponents } from '@/ui/bot/LiveClock/components/standard/register'
+import { registerStandardFlashBannerComponents } from '@/ui/bot/FlashBanner/components/standard/register'
+import { registerStandardStreamComponents } from '@/ui/counter/StreamCounter/components/standard/register'
+import { registerStandardToastComponents } from '@/ui/bot/ToastWidgets/components/standard/register'
+import { registerStandardBoardComponents } from '@/ui/user/UserBoard/components/standard/register'
+import { registerStandardCookieComponents } from '@/ui/counter/CookieCounter/components/standard/register'
+import { registerStandardKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/standard/register'
+import { registerFortuneKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/fortune/register'
+import { registerSpecialKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/special/register'
+import { registerStandardLabelMakerComponents } from '@/ui/user/LabelMaker/components/standard/register'
+import { registerStandardLifeHourglassComponents } from '@/ui/counter/LifeHourglass/components/standard/register'
+import { registerStandardSnipeTimerComponents } from '@/ui/counter/SnipeTimer/components/standard/register'
+import { registerStandardFlightSeatComponents } from '@/ui/user/FlightSeat/components/standard/register'
+import { registerStandardLuckyDrawComponents } from '@/ui/user/LuckyDraw/components/standard/register'
 
 /** UI 種別本体の登録 */
 const registerUiKinds = () =>
   registerUi({
-    characterStage: () => import('@/ui/CharacterStage/CharacterStage.vue'),
-    commentBubble: () => import('@/ui/CommentBubble/CommentBubble.vue'),
-    cookieCounter: () => import('@/ui/CookieCounter/CookieCounter.vue'),
-    deadAir: () => import('@/ui/DeadAir/DeadAir.vue'),
-    flightSeat: () => import('@/ui/FlightSeat/FlightSeat.vue'),
-    flashBanner: () => import('@/ui/FlashBanner/FlashBanner.vue'),
-    gameRanking: () => import('@/ui/GameRanking/GameRanking.vue'),
-    kujibikiPanel: () => import('@/ui/KujibikiPanel/KujibikiPanel.vue'),
-    labelMaker: () => import('@/ui/LabelMaker/LabelMaker.vue'),
-    lifeHourglass: () => import('@/ui/LifeHourglass/LifeHourglass.vue'),
-    liveClock: () => import('@/ui/LiveClock/LiveClock.vue'),
-    liverBingo: () => import('@/ui/LiverBingo/LiverBingo.vue'),
-    luckyDraw: () => import('@/ui/LuckyDraw/LuckyDraw.vue'),
-    snipeTimer: () => import('@/ui/SnipeTimer/SnipeTimer.vue'),
-    streamCounter: () => import('@/ui/StreamCounter/StreamCounter.vue'),
-    toastWidgets: () => import('@/ui/ToastWidgets/ToastWidgets.vue'),
-    userBoard: () => import('@/ui/UserBoard/UserBoard.vue'),
+    characterStage: () => import('@/ui/bot/CharacterStage/CharacterStage.vue'),
+    commentBubble: () => import('@/ui/bot/CommentBubble/CommentBubble.vue'),
+    cookieCounter: () => import('@/ui/counter/CookieCounter/CookieCounter.vue'),
+    deadAir: () => import('@/ui/game/DeadAir/DeadAir.vue'),
+    flightSeat: () => import('@/ui/user/FlightSeat/FlightSeat.vue'),
+    flashBanner: () => import('@/ui/bot/FlashBanner/FlashBanner.vue'),
+    gameRanking: () => import('@/ui/game/GameRanking/GameRanking.vue'),
+    kujibikiPanel: () => import('@/ui/bot/KujibikiPanel/KujibikiPanel.vue'),
+    labelMaker: () => import('@/ui/user/LabelMaker/LabelMaker.vue'),
+    lifeHourglass: () => import('@/ui/counter/LifeHourglass/LifeHourglass.vue'),
+    liveClock: () => import('@/ui/bot/LiveClock/LiveClock.vue'),
+    liverBingo: () => import('@/ui/game/LiverBingo/LiverBingo.vue'),
+    luckyDraw: () => import('@/ui/user/LuckyDraw/LuckyDraw.vue'),
+    snipeTimer: () => import('@/ui/counter/SnipeTimer/SnipeTimer.vue'),
+    streamCounter: () => import('@/ui/counter/StreamCounter/StreamCounter.vue'),
+    toastWidgets: () => import('@/ui/bot/ToastWidgets/ToastWidgets.vue'),
+    userBoard: () => import('@/ui/user/UserBoard/UserBoard.vue'),
   } satisfies Record<UiKind, UiLoader>)
 
 // CommentBubble

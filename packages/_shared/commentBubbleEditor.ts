@@ -2,4 +2,4 @@
 import { registerUiEditor } from '@/editor/ui/uiEditorRegistry'
 
 export const registerCommentBubbleEditor = () =>
-  registerUiEditor({ commentBubble: () => import('@/ui/CommentBubble/editor/CommentBubbleEditor.vue') })
+  registerUiEditor({ commentBubble: () => import('@/ui/bot/CommentBubble/editor/CommentBubbleEditor.vue') })

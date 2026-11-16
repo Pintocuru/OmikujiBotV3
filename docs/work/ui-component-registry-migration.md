@@ -2,7 +2,7 @@
 
 > 状態: **完了**(`LifeHourglass` は新方式の構成で作成済み)
 
-`src/ui/KujibikiPanel` を雛形として、他の UI を同じ構造に揃える作業の指示書。
+`src/ui/bot/KujibikiPanel` を雛形として、他の UI を同じ構造に揃える作業の指示書。
 **雛形と指示書が食い違う場合は、雛形(実コード)を優先する。**
 
 ## 0. 前提
@@ -11,11 +11,11 @@
 - 雛形(コピー元):
   - `src/ui/common/uiComponentRegistry.ts`(共通レジストリ。変更しない)
   - `src/types/ui/KujibikiPanelSchema.ts`(ID の定数と型)
-  - `src/ui/KujibikiPanel/KujibikiPanelRegistry.ts`(薄いラッパー)
-  - `src/ui/KujibikiPanel/components/standard/register.ts`(セットの登録)
-  - `src/ui/KujibikiPanel/KujibikiPanelSelector.vue`(登録からの読み込み・未登録時の扱い)
-  - `src/ui/KujibikiPanel/notifyKujibikiComponentIssue.ts`(わんコメへの通知)
-  - `src/ui/KujibikiPanel/editor/KujibikiPanelEditor.vue`(選択肢を登録から作る)
+  - `src/ui/bot/KujibikiPanel/KujibikiPanelRegistry.ts`(薄いラッパー)
+  - `src/ui/bot/KujibikiPanel/components/standard/register.ts`(セットの登録)
+  - `src/ui/bot/KujibikiPanel/KujibikiPanelSelector.vue`(登録からの読み込み・未登録時の扱い)
+  - `src/ui/bot/KujibikiPanel/notifyKujibikiComponentIssue.ts`(わんコメへの通知)
+  - `src/ui/bot/KujibikiPanel/editor/KujibikiPanelEditor.vue`(選択肢を登録から作る)
 - 目的: UI 内コンポーネントをセット単位で追加・配布できるようにする。
 
 ## 1. 対象(上から順に、1 UI = 1 patch)
@@ -78,7 +78,7 @@ export type XxxComponent = XxxComponentOf<XxxComponentSet>
   - 理由: 未同梱の ID が既定値に書き換わると、未登録を検出できないため(規約 §3.3)。
 - 既定 ID はスキーマ内の `.default()` に書く(定数は作らない)。
 
-### 3.2 ラッパー(`src/ui/<UI名>/<UI名>Registry.ts`)
+### 3.2 ラッパー(`src/ui/<役割>/<UI名>/<UI名>Registry.ts`)
 
 `KujibikiPanelRegistry.ts` をコピーし、次の 3 点だけを変える。
 
@@ -86,7 +86,7 @@ export type XxxComponent = XxxComponentOf<XxxComponentSet>
 2. `Meta`(非 export。その UI 固有のメタ。今ある設定・表示条件の分岐から決める。ID の分岐がなければ `object` でよい。並べ方・ラベルの見せ方など、見た目に関わるものは Meta にせず、コンポーネント側で決める)
 3. 名前の `KujibikiPanel` を UI 名に置き換える
 
-### 3.3 セットの登録(`src/ui/<UI名>/components/<セット名>/register.ts`)
+### 3.3 セットの登録(`src/ui/<役割>/<UI名>/components/<セット名>/register.ts`)
 
 - `satisfies Record<XxxComponentOf<'セット名'>, <UI名>Component>` にする(`: Record<...>` にしない)。
 - `labelKey` は `uiComponents.<UI名>.<ID>.label`。文言は `src/i18n/editor/ui/UiComponentMessages.ts` に ja / en の両方を足す。ID は先頭小文字の camelCase。
@@ -112,7 +112,7 @@ export type XxxComponent = XxxComponentOf<XxxComponentSet>
 ### 3.6 ディレクトリ構成
 
 ```text
-src/ui/<UI名>/
+src/ui/<役割>/<UI名>/
 ├─ <UI名>.vue
 ├─ <UI名>Selector.vue
 ├─ <UI名>Registry.ts
