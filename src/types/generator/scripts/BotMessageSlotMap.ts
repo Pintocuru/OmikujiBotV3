@@ -94,6 +94,17 @@ export const FlashBannerSlotMap = {
 export type FlashBannerSlotKey = keyof typeof FlashBannerSlotMap
 
 /**
+ * luckyDraw(抽選)
+ * - action: 'join'(参加者に追加。メッセージの user が参加者) / 'draw'(参加者から抽選) / 'reset'(参加者を空にする)
+ * - count: 'draw' のときの当選人数(空なら設定値)
+ */
+export const LuckyDrawSlotMap = {
+  action: { slot: 'slot0' },
+  count: { slot: 'slot1' },
+} as const satisfies Record<string, SlotMeta>
+export type LuckyDrawSlotKey = keyof typeof LuckyDrawSlotMap
+
+/**
  * UI ごとの「投稿メッセージの仕様」
  * - bubble: キャラ・本文(吹き出し)を使うか
  *     'comment' = キャラ + 本文 / 'character' = キャラだけ(本文は使わない) / false = 使わない
@@ -121,6 +132,7 @@ export const UiMessageSpecs = {
   streamCounter: { bubble: false, slots: {} },
   lifeHourglass: { bubble: false, slots: {} },
   liverBingo: { bubble: false, slots: {} },
+  luckyDraw: { bubble: false, slots: LuckyDrawSlotMap },
   snipeTimer: { bubble: false, slots: SnipeTimerSlotMap },
 } as const satisfies Record<UiKind, UiMessageSpec>
 

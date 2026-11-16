@@ -41,6 +41,7 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, UiKind[]> = {
     'lifeHourglass',
     'liveClock',
     'liverBingo',
+    'luckyDraw',
     'snipeTimer',
     'streamCounter',
     'toastWidgets',

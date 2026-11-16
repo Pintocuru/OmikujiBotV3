@@ -6,6 +6,7 @@ import {
   FlashBannerSchema,
   LifeHourglassSchema,
   LiverBingoSchema,
+  LuckyDrawSchema,
   SnipeTimerSchema,
 } from '@/types/ui'
 
@@ -20,5 +21,6 @@ export const experimentalUiSchemas = {
   flashBanner: FlashBannerSchema, // ニュースフラッシュ(旧 V2 FlashBanner から移植)
   lifeHourglass: LifeHourglassSchema, // 命の砂時計(仮名 hourglass は廃止)
   liverBingo: LiverBingoSchema, // ライバービンゴ(OmikenTemplates から移植)
+  luckyDraw: LuckyDrawSchema, // 抽選(旧 WinnerGroup から移植)
   snipeTimer: SnipeTimerSchema, // スナイプタイマー(旧 NextTimer から移植)
 } as const

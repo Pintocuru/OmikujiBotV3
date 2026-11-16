@@ -128,6 +128,14 @@ export const uiComponentMessages = {
           label: 'ティッカー',
         },
       },
+      luckyDraw: {
+        valentineCoupling: {
+          label: 'バレンタインカップル',
+        },
+        topStars: {
+          label: 'トップスター',
+        },
+      },
       liveClock: {
         morning: {
           label: 'モーニング',
@@ -310,6 +318,14 @@ export const uiComponentMessages = {
         },
         ticker: {
           label: 'Ticker',
+        },
+      },
+      luckyDraw: {
+        valentineCoupling: {
+          label: 'Valentine coupling',
+        },
+        topStars: {
+          label: 'Top stars',
         },
       },
       liveClock: {

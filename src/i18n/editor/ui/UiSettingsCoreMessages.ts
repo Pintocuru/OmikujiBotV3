@@ -142,6 +142,16 @@ export const uiSettingsCore = {
             description: 'エポックミリ秒。通常は SnipeTimer ゲームスクリプトがコメントから決めて渡します',
           },
         },
+        luckyDraw: {
+          action: {
+            title: '操作',
+            description: 'join(参加者に追加。メッセージのユーザーが参加者になります) / draw(抽選する) / reset(参加者を空にする)',
+          },
+          count: {
+            title: '当選人数',
+            description: 'draw のときの人数。空なら設定の当選人数を使います',
+          },
+        },
         characterStage: {
           seconds: {
             title: '表示秒数',

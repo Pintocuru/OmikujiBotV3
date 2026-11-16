@@ -19,6 +19,7 @@ import { registerStandardLabelMakerComponents } from '@/ui/LabelMaker/components
 import { registerStandardLifeHourglassComponents } from '@/ui/LifeHourglass/components/standard/register'
 import { registerStandardSnipeTimerComponents } from '@/ui/SnipeTimer/components/standard/register'
 import { registerStandardFlightSeatComponents } from '@/ui/FlightSeat/components/standard/register'
+import { registerStandardLuckyDrawComponents } from '@/ui/LuckyDraw/components/standard/register'
 
 /** UI 種別本体の登録 */
 const registerUiKinds = () =>
@@ -35,6 +36,7 @@ const registerUiKinds = () =>
     lifeHourglass: () => import('@/ui/LifeHourglass/LifeHourglass.vue'),
     liveClock: () => import('@/ui/LiveClock/LiveClock.vue'),
     liverBingo: () => import('@/ui/LiverBingo/LiverBingo.vue'),
+    luckyDraw: () => import('@/ui/LuckyDraw/LuckyDraw.vue'),
     snipeTimer: () => import('@/ui/SnipeTimer/SnipeTimer.vue'),
     streamCounter: () => import('@/ui/StreamCounter/StreamCounter.vue'),
     toastWidgets: () => import('@/ui/ToastWidgets/ToastWidgets.vue'),
@@ -114,6 +116,11 @@ const registerFlightSeatComponents = () => {
   registerStandardFlightSeatComponents()
 }
 
+// LuckyDraw
+const registerLuckyDrawComponentSets = () => {
+  registerStandardLuckyDrawComponents()
+}
+
 /** UI 関係を全部登録 */
 export const registerAllUi = () => {
   registerUiKinds()
@@ -131,4 +138,5 @@ export const registerAllUi = () => {
   registerSnipeTimerComponents()
   registerFlightSeatComponents()
   registerDeadAirComponents()
+  registerLuckyDrawComponentSets()
 }
