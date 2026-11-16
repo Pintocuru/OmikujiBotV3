@@ -54,7 +54,7 @@ export type OmikujiItemStepsType = z.infer<typeof OmikujiItemStepsSchema>
  * - return  : 処理を終了する
  * - continue: 次のイベントへ処理を進める
  */
-const omikujiControlCommands = ['return', 'continue'] as const
+export const omikujiControlCommands = ['return', 'continue'] as const
 const OmikujiControlCommandSchema = z.enum(omikujiControlCommands)
 export type OmikujiControlCommand = z.infer<typeof OmikujiControlCommandSchema>
 
