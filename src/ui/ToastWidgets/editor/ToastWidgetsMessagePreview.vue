@@ -7,8 +7,10 @@
           :settings="settings"
           editorPreview
           :message="message || $t('uiSettings.common.emptyMessage')"
-          :color="getCharacterColor(characterKey || '')"
-          :iconLayers="settings.showToastsCharacter ? iconSrc(characterKey || '', iconKey || 'default') : []"
+          :color="getCharacterColor(shownKey)"
+          :iconLayers="
+            settings.showToastsCharacter ? toastIconLayers(getCharacter(shownKey), iconKey || 'default') : []
+          "
         />
       </div>
     </div>
@@ -22,12 +24,13 @@
   import type { BotMessageSlotsType } from '@/types/generator'
   import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useAppCharacters } from '@/ui/common/useAppCharacters'
+  import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
+  import { resolveToastCharacterKey, toastIconLayers } from '../toastCharacter'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import ToastBubbleSelector from '@/ui/ToastWidgets/ToastBubbleSelector.vue'
 
   // UI プレビュー共通の props。toastWidgets は slots を使わない
-  defineProps<{
+  const props = defineProps<{
     message?: string
     characterKey?: string
     iconKey?: string
@@ -35,7 +38,13 @@
   }>()
 
   const { data } = storeToRefs(useOmikujiStore())
-  const { iconSrc, getCharacterColor } = useAppCharacters()
+  // 編集中のデータ(omikujiStore)のキャラクターを参照する(配信側の appStore ではない)
+  const { characterArray, getCharacter, getCharacterColor } = useCharacterLookup()
   const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
   const settings = computed(() => ToastWidgetsSchema.parse(data.value.ui.settings.toastWidgets ?? {}))
+
+  // キャラ未指定なら fallbackCharacter(ランダムは設定・キャラ・キーが変わったときだけ引き直す)
+  const shownKey = computed(() =>
+    resolveToastCharacterKey(props.characterKey, settings.value.fallbackCharacter, characterArray.value)
+  )
 </script>

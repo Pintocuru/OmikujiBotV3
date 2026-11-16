@@ -6,30 +6,32 @@
       <!-- トーストサンプル -->
       <div :class="!toastSettings.showToastsOnRight ? 'self-start' : 'self-end'">
         <ToastBubbleSelector
-          v-for="(message, i) in previewMessages"
-          :key="i"
+          v-for="message in previewMessages"
+          :key="message.id"
           :settings="toastSettings"
           editorPreview
-          :message="message.bubble?.message ?? t('uiSettings.common.emptyMessage')"
+          :message="message.bubble.message"
           :color="getCharacterColor(message.bubble.characterKey)"
           :iconLayers="
             toastSettings.showToastsCharacter
-              ? iconSrc(message.bubble?.characterKey ?? '', message.bubble?.iconKey ?? 'default')
+              ? toastIconLayers(getCharacter(message.bubble.characterKey), message.bubble.iconKey)
               : []
           "
         />
       </div>
-
-      <!-- サムネイルサンプル表示 -->
-      <div
-        class="flex flex-row gap-4 mt-2"
-        :class="toastSettings.showToastsOnRight ? 'flex-row self-end' : 'flex-row-reverse self-start'"
-      >
-        <div>{{ t('uiSettings.toastWidgets.previewHint') }}</div>
-        <CharacterThumbnailsPreview :charactersArray="characterArray" :hoverVisibility="true" />
-        <CharacterThumbnailsPreview :charactersArray="thumbnailCharacters" :hoverVisibility="false" />
-      </div>
     </div>
+
+    <!-- 右下: 追加のフキダシ(キャラはランダム) -->
+    <template #hud>
+      <div class="flex gap-1">
+        <button v-if="extraMessages.length" type="button" class="btn btn-ghost btn-xs" @click="clearExtra">
+          {{ t('uiSettings.toastWidgets.preview.clear') }}
+        </button>
+        <button type="button" class="btn btn-primary btn-xs" @click="addExtra">
+          {{ t('uiSettings.toastWidgets.preview.add') }}
+        </button>
+      </div>
+    </template>
   </HudPreview>
 
   <!-- コンポーネント選択 -->
@@ -79,51 +81,50 @@
   </SettingItem>
 
   <SettingItem
-    labelKey="uiSettings.toastWidgets.thumbnail.label"
-    descriptionKey="uiSettings.toastWidgets.thumbnail.description"
+    labelKey="uiSettings.toastWidgets.fallbackCharacter.label"
+    descriptionKey="uiSettings.toastWidgets.fallbackCharacter.description"
     :showReset="true"
-    @reset="resetMap.showThumbnail"
+    @reset="resetMap.fallbackCharacter"
   >
-    <CharacterSelectorMulti
-      :characters="data.assets.characters"
-      :selectedKeys="toastSettings.showThumbnail"
-      @update:selectedKeys="(keys) => updateField('showThumbnail', keys)"
-    />
+    <select
+      class="select select-bordered w-full max-w-xs"
+      :value="toastSettings.fallbackCharacter"
+      @change="(e) => updateField('fallbackCharacter', (e.target as HTMLSelectElement).value)"
+    >
+      <option value="">{{ t('uiSettings.toastWidgets.fallbackCharacter.none') }}</option>
+      <option :value="TOAST_CHARACTER_RANDOM">{{ t('uiSettings.toastWidgets.fallbackCharacter.random') }}</option>
+      <option v-for="character in characterArray" :key="character.key" :value="character.key">
+        {{ getCharacterName(character.key) }}
+      </option>
+    </select>
   </SettingItem>
 </template>
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { ToastWidgetsSchema } from '@/types/ui'
+  import { ToastWidgetsSchema, TOAST_CHARACTER_RANDOM } from '@/types/ui'
   import { getToastWidgetsComponent, getToastWidgetsComponentSets } from '../ToastWidgetsRegistry'
   import { BotMessageBubbleSchema } from '@/types/generator'
   import { useFontFamily } from '@/common/FontFamily/fontFamily'
-  import CharacterSelectorMulti from './CharacterSelectorMulti.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ToastBubbleSelector from '@/ui/ToastWidgets/ToastBubbleSelector.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
-  import CharacterThumbnailsPreview from '@/ui/ToastWidgets/parts/CharacterThumbnailsPreview.vue'
-  import { useAppCharacters } from '@/ui/common/useAppCharacters'
   import HudPreview from '@/editor/parts/HudPreview.vue'
+  import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
+  import { resolveToastCharacterKey, toastIconLayers } from '../toastCharacter'
 
   const { t } = useI18n()
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
-  const { iconSrc, getCharacterColor } = useAppCharacters()
+  // 編集中のデータ(omikujiStore)のキャラクターを参照する(配信側の appStore ではない)
+  const { characterArray, getCharacter, getCharacterColor, getCharacterName } = useCharacterLookup()
   const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
 
   const toastSettings = computed(() => ToastWidgetsSchema.parse(data.value.ui.settings.toastWidgets ?? {}))
-  const characterArray = computed(() => Object.values(data.value.assets.characters))
-
-  // showThumbnail に含まれるキーを持つキャラクターのみをフィルタリング
-  const thumbnailCharacters = computed(() => {
-    const selectedKeys = new Set(toastSettings.value.showThumbnail)
-    return characterArray.value.filter((character) => selectedKeys.has(character.key))
-  })
 
   // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
   const componentOptions = computed(() => {
@@ -156,28 +157,36 @@
   const resetMap = {
     showToastsOnRight: () => resetField('showToastsOnRight'),
     showToastsCharacter: () => resetField('showToastsCharacter'),
-    showThumbnail: () => resetField('showThumbnail'),
+    fallbackCharacter: () => resetField('fallbackCharacter'),
   }
 
-  // プレビュー用メッセージ
-  const previewMessages = computed(() => {
-    return Array(2)
-      .fill(null)
-      .map((_, i) => {
-        const charIndex = i < characterArray.value.length ? i : 0
-        const character = characterArray.value[charIndex]
-        const messageText = i === 0 ? 'テストコメントです' : 'テストユーザーの運勢は【大吉】長文のテストコメントです。'
-        const characterKey = character.key
+  // --- プレビュー用メッセージ ---
+  const buildPreviewMessage = (id: string, message: string, characterKey: string) =>
+    BotMessageBubbleSchema.parse({
+      id,
+      uiKey: 'toastWidgets',
+      bubble: { name: 'テストユーザー', message, characterKey },
+    })
 
-        return BotMessageBubbleSchema.parse({
-          uiKey: 'toastWidgets',
-          bubble: {
-            name: 'テストユーザー',
-            message: messageText,
-            isToast: true,
-            characterKey,
-          },
-        })
-      })
-  })
+  // 基本の2つ: 登録順の先頭2人(1人ならその人)。キャラ未登録ならキャラなし
+  const baseMessages = computed(() =>
+    ['テストコメントです', 'テストユーザーの運勢は【大吉】長文のテストコメントです。'].map((text, i) => {
+      const character = characterArray.value[i] ?? characterArray.value[0]
+      return buildPreviewMessage(`preview-base-${i}`, text, character?.key ?? '')
+    })
+  )
+
+  // 追加のフキダシ: ボタンを押すたびに、画像を持つ登録キャラからランダムで1人
+  const extraMessages = ref<ReturnType<typeof buildPreviewMessage>[]>([])
+  let extraSeq = 0
+  const addExtra = () => {
+    const key = resolveToastCharacterKey('', TOAST_CHARACTER_RANDOM, characterArray.value)
+    extraSeq += 1
+    extraMessages.value.push(buildPreviewMessage(`preview-extra-${extraSeq}`, `追加のテストコメント ${extraSeq}`, key))
+  }
+  const clearExtra = () => {
+    extraMessages.value = []
+  }
+
+  const previewMessages = computed(() => [...baseMessages.value, ...extraMessages.value])
 </script>

@@ -23,7 +23,6 @@ export const uiSettingsDisplay = {
         sideRight: '右側に表示する',
         sideLeft: '左側に表示する',
         showCharacterToggle: 'キャラクターを表示する',
-        previewHint: '(OBSの対話モードでマウスを近づけると、キャラクターが表示され投稿テストができます)',
         position: {
           label: 'トースト位置',
           description: '通知メッセージを右側に表示',
@@ -32,9 +31,15 @@ export const uiSettingsDisplay = {
           label: 'キャラクター表示',
           description: 'トーストにキャラクターアイコンを表示',
         },
-        thumbnail: {
-          label: 'サムネイル表示キャラクター',
-          description: '右下にサムネイル表示するキャラクター',
+        fallbackCharacter: {
+          label: 'キャラ未指定時のキャラクター',
+          description: 'メッセージにキャラがないとき、トーストに表示するキャラクター',
+          none: '表示しない',
+          random: 'ランダム',
+        },
+        preview: {
+          add: 'フキダシを追加',
+          clear: 'クリア',
         },
       },
       commentBubble: {
@@ -118,9 +123,15 @@ export const uiSettingsDisplay = {
           label: 'Show character',
           description: 'Whether to show a character icon on the toast',
         },
-        thumbnail: {
-          label: 'Thumbnail characters',
-          description: 'Choose the characters shown as thumbnails at the bottom right',
+        fallbackCharacter: {
+          label: 'Character when none is specified',
+          description: 'Character shown on the toast when the message has no character',
+          none: 'None',
+          random: 'Random',
+        },
+        preview: {
+          add: 'Add bubble',
+          clear: 'Clear',
         },
       },
       commentBubble: {
