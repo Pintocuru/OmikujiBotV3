@@ -1,5 +1,6 @@
 // src/maps/engine/placeholder/DefaultPlaceholderMap.ts
-import { DefaultPlaceholders, defaultPlaceholderLabel } from '@/types/engine'
+import { defaultPlaceholderLabel } from '@/types/engine'
+import type { DefaultPlaceholders } from '@/types/engine'
 
 type DefaultPlaceholderSlot = 'comment' | 'event'
 
