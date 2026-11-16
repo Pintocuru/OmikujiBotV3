@@ -74,6 +74,10 @@ export const uiMapMessages = {
           label: 'ニュースフラッシュ',
           description: '速報風のバナーにメッセージを流す',
         },
+        luckyDraw: {
+          label: '抽選',
+          description: '参加者の中から、ランダムに1名または複数名を選んで表示します(カップリング・ランキング風の表示)',
+        },
         liveClock: {
           label: 'ライブクロック',
           description: '時計とメッセージを表示',
