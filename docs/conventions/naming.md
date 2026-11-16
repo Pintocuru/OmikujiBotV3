@@ -1,204 +1,40 @@
-# 命名規則指示書 — OmikujiBotV3(Vue 3 + TypeScript)
+# 命名とドメイン用語
 
-この文書は、新規ファイル作成・リネーム・生成AIへの依頼時の**唯一の命名基準**とする。
+## 基本方針
 
-## 0. 前提
+- 新規ファイル・識別子は、同じ役割の既存コードと周辺の命名に合わせる。
+- 一般的な命名は読みやすさと一貫性を優先する。ケーススタイルや語数を機械的に統一するためだけのリネームは行わない。
+- Vue コンポーネントは通常 PascalCase、関数・変数は通常 camelCase とする。既存構成に合理的な例外があれば踏襲してよい。
+- barrel は原則 `index.ts`。型・スキーマ・定数のファイル名は内容が分かる名前にする。
+- ディレクトリ名やファイル名の変更は、参照先・ビルド・配布への影響を確認できる場合に限る。
 
-- Vue 3 + TypeScript(`type: module`)、Vue SFC を使用。
-- 原則: **「同じディレクトリ内で同じ役割のファイルは、同じ命名パターンにする」**。この原則に反する場合、個別の好みより優先する。
-- 既存ファイルとの整合が取れる場合を除き、本規則に合わせてリネームを行う。変更が多くなることは許容する。
-- **ファイル先頭のパスコメント(`// src/xxx/yyy.ts`)は一切無視してよい**。内容の誤記・古さの指摘や、移動・リネームに伴う更新は不要(作者の独自ツールで一括修正するため)。
+## プロジェクト固有の用語
 
-## 1. ケーススタイル定義
+次の区別は意味やデータ構造に関わるため維持する。
 
-| 名称            | 形式                     | 例                                             |
-| --------------- | ------------------------ | ---------------------------------------------- |
-| PascalCase      | 各単語先頭大文字         | `UserStatsManager.ts`                          |
-| camelCase       | 先頭小文字・以降大文字   | `getAvatarUrl.ts`                              |
-| kebab-case      | 全小文字・ハイフン区切り | `user-profile.vue`(本プロジェクトでは使わない) |
-| SCREAMING_SNAKE | 全大文字・アンダースコア | `APP_CONFIG`(ファイル名では使わない)           |
+| 用語 | 意味 |
+|---|---|
+| `Mikuji` | みくじ箱。おみくじを入れる容器 |
+| `Omikuji` / `OmikujiItem` | おみくじ。みくじ箱の中身 |
+| `Scenario` | `assets.scenarios` にある再利用可能なシナリオ |
+| `ScenarioStep` | シナリオを構成するステップ |
+| `scenarioCall` | 別のシナリオを呼び出すステップ |
+| `Event` | トリガー。みくじ箱は `mikujiKey` で参照する |
+| `Post` | わんコメへの送信 |
+| `Preset` | エディターの新規作成テンプレート |
+| `Syoken` | 既存のドメイン用語。理由なく改名しない |
 
-## 2. ファイル種別ごとの規則
+シナリオ内の処理単位は `step`、複数は `steps` と呼ぶ。`Scenario` と、おみくじアイテム内のステップ列を混同しない。投稿を伴わない処理に `Post` を付けない。
 
-### 2.1 Vue コンポーネント(`.vue`)— **PascalCase 固定**
+## データ・型の命名
 
-- コンポーネント名は **PascalCase 1〜2語を基本**とする。3語以上になる場合はディレクトリで文脈を補う。
-  - 良: `EmotionGrid.vue` / `NavigationSidebar.vue`
-  - 不可: `faceCutout.vue` / `flower.vue`(小文字開始は禁止)
-- レイアウトバリエーション も PascalCase のまま(`Sakura.vue`, `Tarot.vue`)。
-- **`use` プレフィックスの `.vue` は作らない**。逆に、`composables/` ディレクトリに `.vue` を置かない。
-- エントリポイントのみ慣例名を許可: `App.vue` / `main.ts`。
-- 画面・ページとしての `.vue` には `View` / `App` / `Editor` など役割が分かる語を付ける(`DataManager.vue` → `ManagerView.vue` 等)。**`.vue` に `Manager` を付けない**(Manager はクラスの名称として定義済み)。
+- `Key` は参照先を検索するキー、`Id` は個体を識別する ID として、用途に応じて使い分ける。
+- 数値の単位が重要な場合は、プロパティ名から単位が分かるようにする（例: `delaySeconds`）。
+- 配列は可能な範囲で複数形にする。
+- 表示用文字列をデータ値として保存しない。未設定値は型と用途に合う `null`・空文字・optional などで表現する。
+- 保存データのキー・値・構造を変更するときは、既存データとの互換性を確認し、必要なら migration を用意する。Zod の既定値や `.catch()` で不整合を隠さない。
+- 不正データを一部だけ除外する仕様では、コレクション全体を既定値に置き換えない。
 
-### 2.2 TypeScript ファイル — エクスポート内容で判断
+## 迷った場合
 
-| エクスポートするもの                         | ケース                                      | 例                                      |
-| -------------------------------------------- | ------------------------------------------- | --------------------------------------- |
-| クラス(`class X`)                            | PascalCase                                  | `CharacterResolver.ts`                  |
-| 定数オブジェクト・設定まとめ                 | PascalCase                                  | `MockConstants.ts`                      |
-| 関数・関数群(default export 関数含む)        | camelCase                                   | `getAvatarUrl.ts` / `summarizeState.ts` |
-| Zod スキーマ・型定義のみ                     | `*Schema.ts` に統一                         | `CharacterSchema.ts`                    |
-| 純粋な型(`type` / `interface`)のみのファイル | 型名の PascalCase、または `types.ts` に集約 | `TriggerCondition.ts`                   |
-| コンポーザブル                               | `use` + PascalCase                          | `useEmotionDraft.ts`                    |
-| barrel(再エクスポート専用)                   | **`index.ts` 固定**                         | `index.ts`                              |
-
-- **接尾辞の乱立を禁止**: `*Type.ts` / `*Types.ts` / `types.ts` / 接尾辞なしを混在させない。
-  - Zod スキーマを含む or スキーマに対応する型 → `*Schema.ts`
-  - 複数型の集約 → そのディレクトリの `types.ts` または上位の `index.ts`
-  - 既存の `presetsImportType.ts` / `keyEditorTypes.ts` / `shellTypes.ts` / `counterTypes.ts` は上記へ統合する。
-
-### 2.3 CSS ファイル — kebab-case
-
-- `animations.css` の形式を踏襲。新規 CSS は kebab-case。
-
-### 2.4 テストファイル — 対象名 + `.test.ts`
-
-- `resolveStageSlots.test.ts` の形式を踏襲(`*.spec.ts` は使わない)。
-
-## 3. ディレクトリ規則
-
-### 3.1 名前ごとの役割
-
-以下は `src/` 配下の各階層で使う名前の規則。存在する階層はディレクトリにより異なる(例: `stores/` は `editor/` `generator/` `manager/` にある)。
-
-| ディレクトリ             | 役割                                  | 中のファイル                           |
-| ------------------------ | ------------------------------------- | -------------------------------------- |
-| `components/`            | 再利用可能なコンポーネント            | PascalCase `.vue`                      |
-| `components/<セット名>/` | UI 内の表示コンポーネントセット       | `register.ts` / PascalCase `.vue`      |
-| `composables/`           | `use*` 関数のみ                       | `useXxx.ts` のみ(`.vue` 禁止)          |
-| `layout/`                | 見た目のバリエーション(`src/layout/`) | PascalCase `.vue`                      |
-| `stores/`                | Pinia Store(`useXxxStore.ts`)         | `useXxxStore.ts`                       |
-| `types/`                 | 型定義                                | `*Schema.ts` / `types.ts` / `index.ts` |
-| `scripts/`               | スクリプト・関数群                    | camelCase                              |
-| `services/`              | API クライアント等                    | camelCase(`configApi.ts` 形式)         |
-| `maps/`                  | 対応表データ                          | PascalCase(`XxxMap.ts`)                |
-| `helpers/`               | 汎用関数                              | camelCase(`useXxx.ts` 含む)            |
-
-- Store は **`use` + 名詞 + `Store`**: `useOmikujiStore.ts`。
-- `editor/preview/`(`旧 editor/dev/`)はプレビュー用コード置き場。
-
-### 3.2 ディレクトリ名のケース
-
-- **すべて camelCase**。例外は設けない(`composables/` / `scenarios/` / `gameScript/` / `keyEditor/` / `kujibikiPanel/`)。
-- ステップの種類ごとのフォルダ(`editor/assets/scenarios/` 配下)は、`kind` の値と同じ camelCase にする(`sound` / `wordParty` / `scenarioCall` など)。
-- 新規作成時は必ず従う。既存の PascalCase ディレクトリ(現状 75 件。`games/scripts/`、`editor/assets/`、`generator/stores/` ほか)は、リネームを別作業として行う(§8.2)。
-
-## 4. プロジェクト固有ルール
-
-1. **Manager の定義**: Manager = データを管理するもの(保存・読み込み・供給)。境界外の責務を持たせない。`Manager` を名に含むファイルは `class` をエクスポートする `.ts` に限る。
-2. **クラス名は 2語まで** を目安とする。ファイル名もこれに準ずる。
-3. **`Dev` プレフィックス禁止**(管理者専用時代の名残。順次除去済み。新規に付けることは禁止)。ただし **`AppDevWorld.vue` は例外としてそのまま維持**する(固有名詞扱い)。
-4. **`Mikuji` / `Omikuji` は別物として区別する**:
-   - `Mikuji` = **みくじ箱**(中におみくじが入る容器)
-   - `Omikuji` / `OmikujiItem` = **おみくじ**(箱の中身)
-   - `MikujiEditor.vue` / `MikujiSettings.vue` / `MikujiBoxSchema.ts` 等の `Mikuji` 名は**リネーム禁止**。新規ファイルもこの区別に従うこと。
-5. **`Syoken`** は歴史的経緯(OmikujiBotは初見を大事にしている)により維持。
-6. **ドキュメントを `src/` に置かない**。ルールに関する事は `docs/conventions/`、作業指示書・移行計画などは `docs/work/` へ置く(配置の基準は `docs/conventions/README.md`)。
-   - 例外: **`src/ui/` と `src/games/` はプラグインのため**、各プラグインのディレクトリ内にそのプラグイン自身の説明ドキュメント(例: `src/ui/counter/LifeHourglass/LifeHourglass.md`)を置いてよい。ルール・作業指示書は例外に含めない。
-
-## 5. ドキュメントの配置
-
-- ルール(恒久) → `docs/conventions/`、作業指示書・移行計画・引き継ぎ記録 → `docs/work/`。詳細は `docs/conventions/README.md`。
-- `src/` には置かない(§4-6。`src/ui/` と `src/games/` のプラグイン自身の説明は例外)。
-
-## 6. 用語表(ドメイン用語)
-
-新規コード・UI 文言・i18n キー・コメント・AI への依頼のすべてで、この表に従う。
-
-### 6.1 シナリオ系(§8.1 の旧名称から改名)
-
-| 用語                    | UI 表示          | 意味                                                                                | 型・キー                                                                           |
-| ----------------------- | ---------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Scenario                | シナリオ         | 名前を持ち、再利用できるステップの並び。**assets にあるものだけを指す**             | `ScenarioSchema.ts` / `ScenarioType` / `assets.scenarios` / カテゴリ `'scenarios'` |
-| ScenarioStep            | ステップ         | シナリオを構成する処理 1 件                                                         | `ScenarioStepSchema.ts` / `ScenarioStepType` / プロパティ `steps`                  |
-| ScenarioStepKind        | ステップの種類   | `message` / `sound` / `wordParty` / `variable` / `gameScript` / `scenarioCall`      | `ScenarioStepKind`                                                                 |
-| scenarioCall            | シナリオ呼び出し | 別のシナリオを `callKeys` の重み付き抽選で呼ぶステップ                              | kind `'scenarioCall'` / `callKeys`(名称維持)                                       |
-| OmikujiItem の scenario | シナリオ実行     | おみくじアイテムが、シナリオ(`assets.scenarios`)を `scenarioKey` で指定して実行する | `OmikujiItem.kind: 'scenario'` / `scenarioKey`                                     |
-
-### 6.2 変更しない用語
-
-| 用語                    | UI 表示          | 備考                                                                        |
-| ----------------------- | ---------------- | --------------------------------------------------------------------------- |
-| Mikuji / `Mikuji*`      | みくじ箱         | §4-4。リネーム禁止                                                          |
-| Omikuji / OmikujiItem   | おみくじ         | みくじ箱の中身                                                              |
-| Syoken                  | 初見さん         | §4-5。歴史的経緯で維持                                                      |
-| `delaySeconds`          | 遅延秒数         | ステップ共通のプロパティ                                                    |
-| gameScript / GameScript | ゲームスクリプト | ステップの種類の 1 つ。実行されるスクリプト本体を指す(ステップ自体ではない) |
-| `callKeys`              | –                | 呼び出し先シナリオの key 配列                                               |
-
-### 6.3 そのほかの用語
-
-| 用語                | 意味                                                                                                     |
-| ------------------- | -------------------------------------------------------------------------------------------------------- |
-| Event               | トリガー(comments / timers / services / reactions / pads)。`mikujiKey` でみくじ箱(`assets.mikuji`)を指す |
-| Post / 投稿         | わんコメへの送信だけを指す(`PostOmikujiService` / `PostOneComme`)                                        |
-| Preset / プリセット | エディターの「新規作成テンプレート」(`src/editor/presets`)だけを指す                                     |
-| Manager             | §4-1                                                                                                     |
-| BotMessage          | ジェネレーターが UI へ渡すメッセージ                                                                     |
-
-## 7. 混同防止ルール
-
-1. **Scenario は assets のものだけ**。おみくじアイテム内の並びは `steps` と呼ぶ。
-2. **`action` / `Action` を単独の用語として使わない**(識別子・UI 文言・i18n キー・コメント)。ステップは `step`、その配列は `steps`。
-3. **`Post` は「わんコメへの投稿」に限る**。投稿しないステップ(sound / variable / scenarioCall / gameScript)に `Post` を付けない。
-4. **変数名**: ステップ 1 件は `step`、複数は `steps`(保存データでは id をキーにした Record。配列だった旧形式は migration で変換済み)。ステップの意味で `flow` / `action` / `item` を使わない(`item` は OmikujiItem やアセット 1 件の意味)。
-5. **UI 文言**: 「シナリオ」「ステップ」を使う。「アクション」「アクションセット」「PostAction」「BOTアクション」は使わない。
-6. **「プリセット」は §6.3 の意味に限る**。シナリオの説明文に使わない。
-7. **i18n キー**: `scenario.*` / `scenarioStep.*`。フォルダ名・コンポーネント名も `Scenario*` / `ScenarioStep*` にする(`PostAction*` は作らない)。
-8. **保存データの値(キー名・`kind` の値・構造)を変えるときは、必ず `migrations` に変換を書く**。変換しないと、検証(zod)で不正な要素として除外される(除外内容は読み込み時の issues に出る)。
-9. **`omikujiSet` は「みくじ箱の中身(おみくじアイテムの配列)」に限る**。セクションキーとして他の意味で使わない(§8 参照)。
-10. ステップの種類ごとの型名は `ScenarioStep` + 種類名(例: `ScenarioStepMessageType` / `ScenarioStepGameScriptType`)にし、`kind` の値と型名を一致させる。
-    - 例外: シナリオ呼び出し(`kind: 'scenarioCall'`)の型名は `ScenarioStepCallType` で止める(`ScenarioStepScenarioCallType` は冗長なため)。
-
-### 7.1 プロパティ・値の命名と表現
-
-1. **秒数を表す数値プロパティには `Seconds` を付ける**。ミリ秒は `Ms` / `Milliseconds` など、既存コードで採用している単位表記に合わせ、単位を名前から判別できるようにする。
-2. **配列を保持するプロパティ名は複数形にする**。単一要素は単数形、配列・複数要素は複数形とし、要素の型名や値の種類ではなく保持するデータの個数に合わせる。
-3. **文字列プロパティで値が「なし」の場合は空文字 `''` を使う**。`'なし'` や `'未設定'` などの表示用文字列をデータ値として保存しない。表示文言は UI / i18n 側で表現する。
-4. **`Key` と `Id` を使い分ける**。
-   - `Key`: アセット・設定・マップなどを検索・参照するためのキー。対応するデータ内で参照先を特定する用途に使う。
-   - `Id`: 個々のレコード・インスタンスを識別する ID。参照先を引くためのキーではなく、個体そのものの識別に使う。
-   - 同じ値を指していても、用途に合わせて命名する。既存の保存データのキー名を変更する場合は §7-8 の migration ルールに従う。
-5. **ダミー値を既定値にしない**。`'__ERROR__'`、`'unknown'`、`-1` など、正規の値として扱えない番兵値を通常の初期値・default に使わない。値がない状態は型で `null` / 空文字 / optional として表現し、必要な値は呼び出し側で明示する。
-6. **配列・Record は要素単位の除外を考慮する**。不正な要素を除外して残りを利用する仕様なら、コレクション全体を `.catch()` で既定値に置き換えず、要素単位で検証・除外できる正規化処理を使う。全体を無効にする仕様とは区別する。
-
-## 8. 旧名称と既知の問題
-
-### 8.1 旧名称(新規使用禁止。移行は完了済み)
-
-| 旧                                                                   | 新                                                    |
-| -------------------------------------------------------------------- | ----------------------------------------------------- |
-| `ActionSet` / `actionSet` / アクションセット                         | `Scenario` / シナリオ                                 |
-| `PostFlow` / `postFlow`                                              | `ScenarioStep` / `step`                               |
-| `postFlows`                                                          | `steps`                                               |
-| `PostAction*` / `postAction*` / `PostActions`                        | `ScenarioStep*`                                       |
-| `flowCall` / `FlowCallExpander` / `flowSets`                         | `scenarioCall` / `ScenarioCallExpander` / `scenarios` |
-| `assets.actions` / `'actions'`                                       | `assets.scenarios` / `'scenarios'`                    |
-| `ProcessedPostAction.action` / `ScriptResult.actions` / `actionItem` | `.step` / `steps` / `step`                            |
-| `OmikujiItem.kind: 'postFlow'` / BOTアクション                       | `'steps'` / ステップ実行                              |
-| v2 の `actionSets` / `postActions` / `actionSetKeys`                 | `v2ToV3.ts` の変換元としてのみ残す                    |
-| `OmikujiItem.stepKey`(dataVersion 3.0000001006 まで)                 | `scenarioKey`(`renameProperties1007.ts` で変換)       |
-| `OmikujiItem.kind: 'steps'`(同上)                                    | `'scenario'`(同上)                                    |
-| `Event.omikujiKey`(同上)                                             | `mikujiKey`(同上。みくじ箱を指すため)                 |
-| `gameScript` ステップの `scriptId`                                   | `scriptKey`(同上)                                     |
-| 判定の `userName`(配列)                                              | `usernames`(同上)                                     |
-| キャラクターアニメーションの `duration`                              | `durationSeconds`(同上)                               |
-| `scenarioStep.characterKey` / `bubble.characterKey` の `null`        | 空文字 `''`(同上)                                     |
-| ランキングスロットの `label`                                         | `scoreText`(スロット名のみ。保存データには残らない)   |
-
-### 8.2 既知の問題(未対応・未確認)
-
-確認日: 2026-11-07(リポジトリの現行コードとの照合)。解消済みの項目(`omikujiSet` の多義、`ActionSetPreview`、`OmikujiItemToolbar`、`PostFlow/actions/`、エンジン内の「アクションセット」文言)は削除した。
-
-- `GameScriptsHandler`(複数形)は 1 件ずつ処理する。`GameScriptManager` との単複が不統一。
-- `tools/JsonMerge/KeySuffix.ts` は events と mikuji のキーにだけ接尾辞を付ける。`assets.scenarios` と `callKeys` は対象外のため、マージ時にキーが衝突し得る(コード上の確認のみ・実行は未確認)。
-- ディレクトリ名が §3.2(すべて camelCase)に合っていない。PascalCase が 75 件ある。`editor/assets/scenarios/` 配下は `Call` / `Message` / `Sounds` / `WordParty` が PascalCase で、`kind` の値(`scenarioCall` / `message` / `sound` / `wordParty`)とも不一致。`src/ui/<役割>/<UI名>/` を camelCase にする場合は、`ui-component-registry.md` と `ui-component-registry-migration.md` の `<UI名>` を使うパス表記も合わせて更新する。
-- `src/ui/game/GameRanking/scripts/services/` のように、`scripts/` の下に `services/` がある例がある。§3.1 の役割分担(`scripts/` と `services/`)と合っているか未確認。
-
-## α 版データの扱い
-
-- **dataVersion 3 の α 版データは、作者の自己責任とする**。旧名称・旧構造の v3 データ(例: `server/presets/common/StrawberryChocolatePro.json`)の変換・検出は、エージェントの作業対象外(移行計画 C4b は実施しない)。
-
-## TODO(α 版のため未対応)
-
-- データバージョン(`DATA_VERSION` の `3.0000001005` 形式、上げる条件、`migrations/v3/*.ts` の命名)の運用ルール。β 版以降に必要になった時点で定める。
+近くの既存実装と型定義を確認し、意味が伝わる名前を選ぶ。規約にない命名を理由だけで作り直さない。
