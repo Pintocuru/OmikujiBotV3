@@ -56,13 +56,13 @@
     >
       <div class="flex flex-wrap gap-2">
         <div
-          v-for="(order, key) in rankingSortOrderMap"
+          v-for="key in rankingSortOrders"
           :key="key"
           class="badge badge-lg cursor-pointer whitespace-nowrap"
           :class="ranking.sortOrder === key ? 'badge-primary' : 'badge-outline'"
           @click="update('sortOrder', key)"
         >
-          {{ t(order) }}
+          {{ t(`uiSettings.gameRanking.sortOrder.options.${key}`) }}
         </div>
       </div>
     </SettingItem>
@@ -107,10 +107,9 @@
   import { Plus, Trash2 } from 'lucide-vue-next'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { GameRankingType } from '@/types/ui/GameRankingSchema'
+  import { GameRankingType, rankingSortOrders } from '@/types/ui/GameRankingSchema'
   import type { BotMessageRankingType } from '@/types/generator'
   import { generateDummyMessages } from '@/common/MockUser/MockGenerators'
-  import { rankingSortOrderMap } from '@/maps/ui'
   import { getGameRankingComponent, getGameRankingComponentSets } from '../GameRankingRegistry'
   import { GameRankingSchema } from '@/types/ui/GameRankingSchema'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
