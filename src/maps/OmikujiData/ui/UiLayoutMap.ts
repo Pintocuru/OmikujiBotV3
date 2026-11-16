@@ -33,6 +33,7 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, UiKind[]> = {
     'commentBubble',
     'cookieCounter',
     'flightSeat',
+    'flashBanner',
     'gameRanking',
     'kujibikiPanel',
     'labelMaker',

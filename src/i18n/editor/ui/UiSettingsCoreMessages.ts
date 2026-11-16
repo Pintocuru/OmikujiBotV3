@@ -130,6 +130,12 @@ export const uiSettingsCore = {
             description: '時計の下に出し続けるメッセージ。次に届くまで保持(空欄なら更新しない)',
           },
         },
+        flashBanner: {
+          defaultMessage: {
+            title: 'コメントがないときの文言',
+            description: 'コメントが来ていない間に流す文言。プレースホルダーが使えます(最後に届いたものを使います)',
+          },
+        },
         snipeTimer: {
           targetAt: {
             title: '目標時刻',

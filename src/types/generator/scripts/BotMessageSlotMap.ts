@@ -84,6 +84,16 @@ export const SnipeTimerSlotMap = {
 export type SnipeTimerSlotKey = keyof typeof SnipeTimerSlotMap
 
 /**
+ * flashBanner(ニュースフラッシュ)
+ * - defaultMessage: コメントがないときに流す文言。プレースホルダーが使える。
+ *   最後に届いたものを使い、何も届いていないときは何も表示しない
+ */
+export const FlashBannerSlotMap = {
+  defaultMessage: { slot: 'slot0' },
+} as const satisfies Record<string, SlotMeta>
+export type FlashBannerSlotKey = keyof typeof FlashBannerSlotMap
+
+/**
  * UI ごとの「投稿メッセージの仕様」
  * - bubble: キャラ・本文(吹き出し)を使うか
  *     'comment' = キャラ + 本文 / 'character' = キャラだけ(本文は使わない) / false = 使わない
@@ -99,6 +109,7 @@ export const UiMessageSpecs = {
   commentBubble: { bubble: 'comment', slots: {} },
   toastWidgets: { bubble: 'comment', slots: {} },
   liveClock: { bubble: 'comment', slots: LiveClockSlotMap },
+  flashBanner: { bubble: 'comment', slots: FlashBannerSlotMap },
   kujibikiPanel: { bubble: 'comment', slots: KujibikiSlotMap },
   gameRanking: { bubble: false, slots: RankingSlotMap },
   // flightSeat: 投稿先に選べるよう bubble を 'comment' にしている(本文は使わない。着席させるのは投稿の user)

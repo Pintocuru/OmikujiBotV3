@@ -6,6 +6,7 @@ import { registerBubbleBubbleComponents } from '@/ui/CommentBubble/components/bu
 import { registerMessageBoardBubbleComponents } from '@/ui/CommentBubble/components/messageBoard/register'
 import { registerStandardRankingComponents } from '@/ui/GameRanking/components/standard/register'
 import { registerStandardClockComponents } from '@/ui/LiveClock/components/standard/register'
+import { registerStandardFlashBannerComponents } from '@/ui/FlashBanner/components/standard/register'
 import { registerStandardStreamComponents } from '@/ui/StreamCounter/components/standard/register'
 import { registerStandardToastComponents } from '@/ui/ToastWidgets/components/standard/register'
 import { registerStandardBoardComponents } from '@/ui/UserBoard/components/standard/register'
@@ -25,6 +26,7 @@ const registerUiKinds = () =>
     commentBubble: () => import('@/ui/CommentBubble/CommentBubble.vue'),
     cookieCounter: () => import('@/ui/CookieCounter/CookieCounter.vue'),
     flightSeat: () => import('@/ui/FlightSeat/FlightSeat.vue'),
+    flashBanner: () => import('@/ui/FlashBanner/FlashBanner.vue'),
     gameRanking: () => import('@/ui/GameRanking/GameRanking.vue'),
     kujibikiPanel: () => import('@/ui/KujibikiPanel/KujibikiPanel.vue'),
     labelMaker: () => import('@/ui/LabelMaker/LabelMaker.vue'),
@@ -51,6 +53,11 @@ const registerRankingComponents = () => {
 // LiveClock
 const registerClockComponents = () => {
   registerStandardClockComponents()
+}
+
+// FlashBanner
+const registerFlashBannerComponents = () => {
+  registerStandardFlashBannerComponents()
 }
 
 // StreamCounter
@@ -107,6 +114,7 @@ export const registerAllUi = () => {
   registerRankingComponents()
   registerClockComponents()
   registerCookieComponents()
+  registerFlashBannerComponents()
   registerStreamComponents()
   registerToastComponents()
   registerBoardComponents()

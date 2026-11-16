@@ -94,6 +94,26 @@ export const uiComponentMessages = {
           label: 'シンプルピンク',
         },
       },
+      flashBanner: {
+        standard: {
+          label: 'シンプル',
+        },
+        glass: {
+          label: 'ガラス',
+        },
+        clear: {
+          label: 'クリア',
+        },
+        arcade: {
+          label: 'アーケード',
+        },
+        scroll: {
+          label: 'スクロール',
+        },
+        ticker: {
+          label: 'ティッカー',
+        },
+      },
       liveClock: {
         morning: {
           label: 'モーニング',
@@ -242,6 +262,26 @@ export const uiComponentMessages = {
         },
         simplePink: {
           label: 'Simple pink',
+        },
+      },
+      flashBanner: {
+        standard: {
+          label: 'Simple',
+        },
+        glass: {
+          label: 'Glass',
+        },
+        clear: {
+          label: 'Clear',
+        },
+        arcade: {
+          label: 'Arcade',
+        },
+        scroll: {
+          label: 'Scroll',
+        },
+        ticker: {
+          label: 'Ticker',
         },
       },
       liveClock: {

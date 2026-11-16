@@ -66,6 +66,10 @@ export const uiMapMessages = {
           description:
             'コメントの時刻(例: 30秒後・21:30)でカウントダウンを始めるタイマー。クリックで手動操作もできます',
         },
+        flashBanner: {
+          label: 'ニュースフラッシュ',
+          description: '速報風のバナーにメッセージを流す',
+        },
         liveClock: {
           label: 'ライブクロック',
           description: '時計とメッセージを表示',
@@ -152,6 +156,10 @@ export const uiMapMessages = {
           label: 'Snipe timer',
           description:
             'A countdown timer started by a time in a comment (e.g. 30s later, 21:30). Click to control it manually.',
+        },
+        flashBanner: {
+          label: 'News flash',
+          description: 'Scrolls messages in a news-flash style banner.',
         },
         liveClock: {
           label: 'Live clock',

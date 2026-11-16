@@ -11,6 +11,7 @@ export const uiKindIcons: Record<UiKind, LucideIconName> = {
   kujibikiPanel: 'Sparkles',
   labelMaker: 'Tags',
   liveClock: 'Clock',
+  flashBanner: 'Megaphone',
   streamCounter: 'Hash',
   toastWidgets: 'Bell',
   userBoard: 'Users',

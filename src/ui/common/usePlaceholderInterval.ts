@@ -28,6 +28,11 @@ export function usePlaceholderInterval(templateRef: () => string, intervalMs = 3
     }
   }
 
+  /** テンプレートが変わったとき、次のインターバルを待たずに新しい文言を用意する */
+  function refreshPending() {
+    pending.value = generateOne()
+  }
+
   let interval: ReturnType<typeof setInterval> | null = null
 
   onMounted(() => {
@@ -55,6 +60,7 @@ export function usePlaceholderInterval(templateRef: () => string, intervalMs = 3
   return {
     message,
     commitIfPending,
+    refreshPending,
     registerIntervalHook,
   }
 }
