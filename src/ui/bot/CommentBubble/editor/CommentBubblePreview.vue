@@ -1,6 +1,6 @@
 <!-- src/ui/bot/CommentBubble/editor/CommentBubblePreview.vue -->
 <template>
-  <HudPreview>
+  <HudPreview :defaultScale="0.8">
     <CommentBubbleSelector
       :displayedComments="displayedComments"
       :removeComment="removeComment"

@@ -1,7 +1,6 @@
 // packages/_shared/commentBubble.ts
 import { registerLayout, registerUi } from '@/ui/uiRegistry'
 import { registerBubbleBubbleComponents } from '@/ui/bot/CommentBubble/components/bubble/register'
-import { registerMessageBoardBubbleComponents } from '@/ui/bot/CommentBubble/components/messageBoard/register'
 
 const commentBubbleLayout = () => import('@/layout/common/CommentBubble/CommentBubble.vue')
 
@@ -14,5 +13,4 @@ export const registerCommentBubble = () => {
   registerUi({ commentBubble: commentBubbleLayout })
   registerLayout({ commentBubble: commentBubbleLayout })
   registerBubbleBubbleComponents()
-  registerMessageBoardBubbleComponents()
 }

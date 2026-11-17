@@ -4,7 +4,6 @@ import { registerCommentBubbleComponents, type CommentBubbleComponent } from '..
 
 /**
  * CommentBubble フキダシセット
- * (キャラなしは standard で再現できる: persistentCharacter 未設定 + キャラ画像なし)
  */
 const bubbleComponents = {
   standard: {

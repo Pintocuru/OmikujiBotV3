@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <template v-if="isDev">
+      <template>
         <!-- Lucide Icons -->
         <div
           class="absolute top-2 right-2 flex gap-1 transition-opacity duration-300"
@@ -58,7 +58,6 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { isDev } from '@/common/AppEnv'
   import { Sun, Moon, Palette } from 'lucide-vue-next'
 
   const props = withDefaults(
