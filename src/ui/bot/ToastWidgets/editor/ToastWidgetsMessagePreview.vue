@@ -2,7 +2,7 @@
 <template>
   <HudPreview>
     <div class="flex flex-col">
-      <div :class="!settings.showToastsOnRight ? 'self-start' : 'self-end'">
+      <div>
         <ToastBubbleSelector
           :settings="settings"
           :fontFamily="data.ui.fontFamily"
