@@ -1,7 +1,18 @@
 <!-- src/editor/content/connections/EventLane.vue -->
-<!-- イベント: 現在のイベント(自分) → みくじ箱(子)。親はなし。孫にあたるシナリオは出さない(親・自分・子の3点で見る) -->
+<!-- イベント: 発動順(自分) → みくじ箱(子)。親はなし。孫にあたるシナリオは出さない(親・自分・子の3点で見る) -->
 <template>
   <LaneLayout :downstreamLabel="t('categories.mikuji.label')">
+    <template #upstream>
+      <!-- 発動順(カテゴリ内の並び順) -->
+      <span
+        v-if="eventOrder"
+        class="tooltip tooltip-bottom badge badge-outline"
+        :data-tip="t('connections.eventOrderHint')"
+      >
+        {{ t('connections.eventOrder', eventOrder) }}
+      </span>
+    </template>
+
     <template #downstream>
       <!-- みくじ箱の変更ボタン -->
       <div class="tooltip tooltip-bottom" :data-tip="t('connections.changeBox')">
@@ -48,7 +59,7 @@
 
   const { t } = useI18n()
   const { selectedCategory, selectedItemKey } = storeToRefs(useNavigationStore())
-  const { getEvent } = useGetEventData()
+  const { getEvent, getEvents } = useGetEventData()
   const { getAsset } = useGetAssetData()
   const { updateEvent, addAsset } = useOmikujiStore()
 
@@ -64,6 +75,14 @@
   const boxItems = computed<LinkItem[]>(() =>
     box.value ? [{ category: 'mikuji', key: box.value.key, name: box.value.name || box.value.key }] : []
   )
+
+  /** カテゴリ内の発動順(1始まり)。イベントが取れないときは null */
+  const eventOrder = computed(() => {
+    if (!event.value) return null
+    const list = getEvents(selectedCategory.value as EventCategoryType)
+    const index = list.findIndex((item) => item.id === event.value!.id)
+    return index >= 0 ? { index: index + 1, total: list.length } : null
+  })
 
   /** イベントのみくじ箱を切り替える('' で接続解除) */
   const onSelectBox = (key: string) => {

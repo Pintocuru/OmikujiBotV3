@@ -35,6 +35,8 @@ export const connectionMessages = {
       sources: 'みくじ箱',
       noSources: '参照元がありません…',
       connectOmikuji: 'おみくじと接続する',
+      eventOrder: '発動順 {index} / {total}',
+      eventOrderHint: 'イベントは上からこの順に発動します',
       picker: {
         title: 'みくじ箱を選択',
         empty: 'みくじ箱がありません…',
@@ -97,6 +99,8 @@ export const connectionMessages = {
       sources: 'Referenced by',
       noSources: 'Nothing references this scenario…',
       connectOmikuji: 'Connect to a box',
+      eventOrder: 'Fire order {index} / {total}',
+      eventOrderHint: 'Events fire in this order, top to bottom',
       picker: {
         title: 'Select an omikuji box',
         empty: 'No omikuji boxes yet…',
