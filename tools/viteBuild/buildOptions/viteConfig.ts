@@ -4,13 +4,24 @@ import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import type { InlineConfig } from 'vite'
 import { ViteBuildInput } from '@tools/types'
-import { externalDynamicImportPlugin, failOnCircularDependency } from './plugins'
+import { externalDynamicImportPlugin, failOnCircularDependency, sharedCssPlugin } from './plugins'
 
 /**
  * 外部依存関係 (HTML 側で Vue / OneSDK をグローバル読み込みする)
  */
 const EXTERNALS = ['vue', '@onecomme.com/onesdk']
 const GLOBALS = { vue: 'Vue', '@onecomme.com/onesdk': 'OneSDK' }
+
+/**
+ * vendor.js (全 entry 共通) に束ねるライブラリ。各 entry からは external として扱う
+ * 追加するときは tools/viteBuild/shared/vendor.ts にも同じものを足す
+ */
+const VENDOR_GLOBALS = {
+  axios: 'OmikujiAxios',
+  sweetalert2: 'OmikujiSwal',
+  '@vueuse/motion': 'OmikujiMotion',
+  'expr-eval-fork': 'OmikujiExprEval',
+}
 
 /**
  * ビルド時の define (vue-i18n / Vue の機能フラグ)
@@ -35,8 +46,7 @@ const DEFINE = {
 export function createViteBuildConfig(
   config: ViteBuildInput,
   entry: { name: string; file: string },
-  outDir: string,
-  emptyOutDir: boolean
+  outDir: string
 ): InlineConfig {
   return {
     configFile: false,
@@ -46,12 +56,12 @@ export function createViteBuildConfig(
     // → import.meta.env.VITE_* は undefined になり、コード側の既定値 './images/' と isDev=false が使われる
     envDir: false,
     logLevel: 'warn',
-    plugins: [externalDynamicImportPlugin(), vue(), tailwindcss()],
+    plugins: [sharedCssPlugin(config.packageRoot), externalDynamicImportPlugin(), vue(), tailwindcss()],
     resolve: { alias: config.system.alias },
     define: DEFINE,
     build: {
       outDir: path.resolve(outDir),
-      emptyOutDir, // 2つ目以降の entry は前の出力を消さない
+      emptyOutDir: false, // vendor を先にビルドするため、entry は出力を消さない
       lib: {
         entry: entry.file,
         formats: ['iife'],
@@ -63,9 +73,47 @@ export function createViteBuildConfig(
       minify: 'oxc',
       sourcemap: false,
       rolldownOptions: {
-        external: EXTERNALS,
+        external: [...EXTERNALS, ...Object.keys(VENDOR_GLOBALS)],
         checks: { circularDependency: true },
         onLog: failOnCircularDependency,
+        output: {
+          globals: { ...GLOBALS, ...VENDOR_GLOBALS },
+          minify: { compress: { dropConsole: true, dropDebugger: true }, mangle: true },
+          codeSplitting: false,
+        },
+      },
+    },
+  }
+}
+
+/**
+ * 共通ライブラリ + 共通 CSS (vendor.js / vendor.css) のビルド設定
+ * 各 entry より先に 1 回だけビルドする
+ */
+export function createVendorBuildConfig(config: ViteBuildInput, outDir: string): InlineConfig {
+  return {
+    configFile: false,
+    root: config.packageRoot,
+    mode: 'production',
+    envDir: false,
+    logLevel: 'warn',
+    plugins: [vue(), tailwindcss()],
+    resolve: { alias: config.system.alias },
+    define: DEFINE,
+    build: {
+      outDir: path.resolve(outDir),
+      emptyOutDir: true,
+      lib: {
+        entry: path.resolve(config.packageRoot, 'tools/viteBuild/shared/vendor.ts'),
+        formats: ['iife'],
+        name: 'OmikujiBotVendor',
+        fileName: () => 'scripts/vendor.js',
+        cssFileName: 'scripts/vendor',
+      },
+      minify: 'oxc',
+      sourcemap: false,
+      rolldownOptions: {
+        external: EXTERNALS,
         output: {
           globals: GLOBALS,
           minify: { compress: { dropConsole: true, dropDebugger: true }, mangle: true },

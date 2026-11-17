@@ -1,4 +1,5 @@
 // tools/viteBuild/buildOptions/plugins.ts
+import path from 'path'
 import type { BuildEnvironmentOptions, Plugin } from 'vite'
 
 type OnLog = NonNullable<NonNullable<BuildEnvironmentOptions['rolldownOptions']>['onLog']>
@@ -29,4 +30,25 @@ export const failOnCircularDependency: OnLog = (level, log, defaultHandler) => {
   if (log.code !== 'CIRCULAR_DEPENDENCY') return defaultHandler(level, log)
   if (log.ids?.some((id) => id.includes('node_modules'))) return
   throw new Error(`[Build] 循環依存を検出しました: ${log.message}`)
+}
+
+/**
+ * 各 entry が import する DaisyUi*.css を差し替える
+ * Tailwind / daisyUI 本体は vendor.css に 1 回だけ出すので、entry 側では重複させない
+ * - DaisyUi.css    → 空
+ * - DaisyUiObs.css → OBS 用の透明化ぶんだけ
+ */
+export function sharedCssPlugin(packageRoot: string): Plugin {
+  const styles = path.resolve(packageRoot, 'assets/styles')
+  return {
+    name: 'shared-css-to-vendor',
+    enforce: 'pre',
+    resolveId(source) {
+      const name = source.split('?')[0].split(/[\\/]/).pop()
+      if (!source.includes('styles/') && !source.includes('assets/styles')) return null
+      if (name === 'DaisyUi.css') return path.join(styles, 'Empty.css')
+      if (name === 'DaisyUiObs.css') return path.join(styles, 'ObsOverride.css')
+      return null
+    },
+  }
 }

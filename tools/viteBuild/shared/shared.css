@@ -1,0 +1,7 @@
+/* tools/viteBuild/shared/shared.css
+ * 全 entry 共通の Tailwind / daisyUI。vendor.css として 1 回だけ出力する。
+ * 各 entry の DaisyUi*.css import は sharedCssPlugin が差し替える。
+ */
+@import '../../../assets/styles/DaisyUi.css';
+@source '../../../src';
+@source '../../../packages';
