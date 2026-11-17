@@ -15,10 +15,8 @@
     </div>
 
     <!-- コーナーエンブレム -->
-    <template v-for="(pos, i) in ['top-3 left-3', 'top-3 right-3', 'bottom-3 left-3', 'bottom-3 right-3']" :key="i">
-      <div
-        :class="`absolute ${pos} text-amber-400 z-30 animate-pulse text-xl drop-shadow-[0_0_6px_rgba(255,215,0,0.8)]`"
-      >
+    <template v-for="(position, i) in cornerPositions" :key="i">
+      <div :class="['absolute', position, 'z-30 animate-pulse text-xl text-amber-400 drop-shadow-[0_0_6px_rgba(255,215,0,0.8)]']">
         ✦
       </div>
     </template>
@@ -67,6 +65,7 @@
 
   const palette = computed(() => createSeatPalette(props.color))
 
+  const cornerPositions = ['top-3 left-3', 'top-3 right-3', 'bottom-3 left-3', 'bottom-3 right-3'] as const
   const layout = props.customLayout ?? ([22, 23, 24, 23, 24, 23, 22, 23, 24, 23, 24, 23, 22] as const)
   const rowOffset = (row: number) => layout.slice(0, row).reduce((sum, n) => sum + n, 0)
   const seatAt = (row: number, col: number): UserStatsRecord | null => props.seats[rowOffset(row) + col - 1] ?? null
