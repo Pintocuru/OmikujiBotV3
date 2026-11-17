@@ -12,6 +12,7 @@
         <ToastBubbleSelector
           :key="message.id"
           :settings="toastSettings"
+          :fontFamily="data.ui.fontFamily"
           :message="message.bubble?.message"
           :color="getCharacterColor(characterKeyOf(message))"
           :iconLayers="toastSettings.showToastsCharacter ? iconLayersOf(message) : []"
