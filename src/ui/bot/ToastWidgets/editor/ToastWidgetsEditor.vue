@@ -2,13 +2,14 @@
 <template>
   <!-- サンプル表示 -->
   <HudPreview>
-    <div class="flex flex-col" :class="[fontFamily]">
+    <div class="flex flex-col">
       <!-- トーストサンプル -->
       <div :class="!toastSettings.showToastsOnRight ? 'self-start' : 'self-end'">
         <ToastBubbleSelector
           v-for="message in previewMessages"
           :key="message.id"
           :settings="toastSettings"
+          :fontFamily="data.ui.fontFamily"
           editorPreview
           :message="message.bubble.message"
           :color="getCharacterColor(message.bubble.characterKey)"
@@ -89,7 +90,6 @@
   import { ToastWidgetsSchema, TOAST_CHARACTER_RANDOM } from '@/types/ui'
   import { getToastWidgetsComponent, getToastWidgetsComponentSets } from '../ToastWidgetsRegistry'
   import { BotMessageBubbleSchema } from '@/types/generator'
-  import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ToastBubbleSelector from '@/ui/bot/ToastWidgets/ToastBubbleSelector.vue'
@@ -104,7 +104,6 @@
   const { data } = storeToRefs(omikujiStore)
   // 編集中のデータ(omikujiStore)のキャラクターを参照する(配信側の appStore ではない)
   const { characterArray, getCharacter, getCharacterColor, getCharacterName } = useCharacterLookup()
-  const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
 
   const toastSettings = computed(() => ToastWidgetsSchema.parse(data.value.ui.settings.toastWidgets ?? {}))
 
