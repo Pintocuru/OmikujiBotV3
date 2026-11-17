@@ -37,6 +37,24 @@
     @update:modelValue="(val) => updateField('component', val)"
   />
 
+  <!-- 登場・退場アニメーション -->
+  <SettingItem
+    labelKey="uiSettings.common.bubbleMotion.label"
+    descriptionKey="uiSettings.common.bubbleMotion.description"
+    :showReset="true"
+    @reset="resetField('bubbleMotion')"
+  >
+    <select
+      :value="toastSettings.bubbleMotion"
+      @change="(e) => updateField('bubbleMotion', (e.target as HTMLSelectElement).value as EnterMotionType)"
+      class="select select-bordered w-full max-w-xs"
+    >
+      <option v-for="key in enterMotions" :key="key" :value="key">
+        {{ t(`mapText.enterMotion.${key}.label`) }}
+      </option>
+    </select>
+  </SettingItem>
+
   <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
     <!-- キャラクターアイコンを表示するか -->
     <SettingItem
@@ -83,6 +101,7 @@
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { ToastWidgetsSchema } from '@/types/ui'
+  import { enterMotions, EnterMotionType } from '@/types/OmikujiData'
   import { getToastWidgetsComponent, getToastWidgetsComponentSets } from '../ToastWidgetsRegistry'
   import { BotMessageBubbleSchema } from '@/types/generator'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -133,6 +152,7 @@
   const resetMap = {
     showToastsOnRight: () => resetField('showToastsOnRight'),
     showToastsCharacter: () => resetField('showToastsCharacter'),
+    bubbleMotion: () => resetField('bubbleMotion'),
   }
 
   // --- プレビュー用メッセージ ---
