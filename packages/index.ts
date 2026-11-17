@@ -11,7 +11,7 @@ export default [
   /**
    * common
    */
-  // OmikujiBot, // コアプロジェクト
+  OmikujiBot, // コアプロジェクト
   StrawberryChocolate, // ショコラ
 
   /**

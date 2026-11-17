@@ -20,6 +20,8 @@ const SOURCE_DIRS = ['src', 'packages', 'server', 'tools']
 const ROOT_FILES = ['tsconfig.json', 'package-lock.json']
 const EXTENSIONS = new Set(['.ts', '.vue', '.json'])
 const SKIP_DIRS = new Set(['node_modules', 'dist', 'build', 'archives', '.git'])
+/** ビルド対象の選択だけを書くファイル。毎回変わるのでハッシュに含めない (型チェックは他のファイルが変わらなければ結果が同じ) */
+const IGNORED_FILES = new Set(['packages/index.ts'])
 
 const collectFiles = (dir: string, out: string[]) => {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -49,7 +51,9 @@ const hashSources = (root: string): string => {
 
   const hash = crypto.createHash('sha256')
   for (const file of files.sort()) {
-    hash.update(path.relative(root, file).replace(/\\/g, '/'))
+    const relative = path.relative(root, file).replace(/\\/g, '/')
+    if (IGNORED_FILES.has(relative)) continue
+    hash.update(relative)
     hash.update(fs.readFileSync(file))
   }
   return hash.digest('hex')
