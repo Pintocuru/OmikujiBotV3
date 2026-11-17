@@ -1,6 +1,6 @@
 <!-- src/ui/bot/ToastWidgets/ToastBubbleSelector.vue -->
 <template>
-  <div :class="useFontFamily(props.fontFamily)">
+  <div :class="[useFontFamily(props.fontFamily), settings.showToastsOnRight ? 'ml-auto' : 'mr-auto']">
     <component
       :is="currentComponent"
       v-if="currentComponent"
