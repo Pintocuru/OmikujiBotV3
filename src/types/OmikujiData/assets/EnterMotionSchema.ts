@@ -25,10 +25,11 @@ export const enterMotions = [
   'flipX',
   'rotateIn',
   'zoomIn',
-  'scale',
+  'zoomInUp',
+  'zoomInDown',
+  'backInUp',
+  'backInDown',
   'bounce',
-  'rubberBand',
-  'jello',
   'fade',
 ] as const
 
