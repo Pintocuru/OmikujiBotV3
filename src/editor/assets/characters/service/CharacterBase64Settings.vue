@@ -34,7 +34,7 @@
         </div>
         <div
           v-else
-          :class="`w-${Math.max(16, imageSize)} h-${Math.max(16, imageSize)} rounded border-2 border-dashed border-base-300 flex items-center justify-center bg-base-200`"
+          class="flex h-24 w-24 items-center justify-center rounded border-2 border-dashed border-base-300 bg-base-200"
         >
           <ImageIcon class="w-6 h-6 text-base-content/30" />
         </div>
