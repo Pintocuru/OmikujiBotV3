@@ -1,10 +1,6 @@
 <!-- src/ui/counter/StreamCounter/editor/CounterColorEditor.vue -->
 <template>
-  <SettingItem
-    labelKey="uiSettings.common.color.label"
-    descriptionKey="uiSettings.common.color.description"
-    layout="vertical"
-  >
+  <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description">
     <div class="flex flex-col gap-3">
       <div v-for="(color, index) in colors" :key="index" class="flex items-start gap-2">
         <span class="badge badge-neutral mt-4">{{ index + 1 }}</span>

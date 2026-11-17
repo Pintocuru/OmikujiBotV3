@@ -5,12 +5,12 @@ export const uiSettingsLabelMaker = {
     uiSettings: {
       labelMaker: {
         component: {
-          label: '表示のしかた',
+          label: '表示形式を選択',
           description: 'ユーザーリスト(バッジ)・ユーザーカード(スクロール)から選択',
         },
         target: {
           label: 'ユーザーの数え方',
-          description: '同じユーザーを何度も載せるか(プレビューで確認できます)',
+          description: '同じユーザーを何度も載せるか',
           options: {
             user: 'ユーザーごと(重複なし)',
             draw: '投稿ごと(重複あり)',

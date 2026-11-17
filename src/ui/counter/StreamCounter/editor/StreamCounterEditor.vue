@@ -10,9 +10,7 @@
     @update:modelValue="(val) => updateField('component', val)"
   />
 
-  <!-- 配色 -->
-  <CounterColorEditor :colors="streamCounter.color" @update:colors="(v) => updateField('color', v)" />
-
+  <!-- カウンター選択 -->
   <CounterSelectorPanel
     :counters="counters"
     :max-counters="maxCounters"
@@ -22,6 +20,9 @@
     @reorder="handleReorder"
     @update="handleUpdate"
   />
+
+  <!-- 配色 -->
+  <CounterColorEditor :colors="streamCounter.color" @update:colors="(v) => updateField('color', v)" />
 </template>
 
 <script setup lang="ts">

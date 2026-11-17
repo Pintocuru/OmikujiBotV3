@@ -6,11 +6,7 @@
   </HudPreview>
 
   <!-- 表示するコンポーネント -->
-  <SettingItem
-    labelKey="uiSettings.labelMaker.component.label"
-    descriptionKey="uiSettings.labelMaker.component.description"
-    layout="vertical"
-  >
+  <SettingItem labelKey="uiSettings.labelMaker.component.label">
     <div class="flex flex-wrap gap-2">
       <div
         v-for="option in componentOptions"
@@ -26,11 +22,7 @@
   </SettingItem>
 
   <!-- ユーザーの数え方 -->
-  <SettingItem
-    labelKey="uiSettings.labelMaker.target.label"
-    descriptionKey="uiSettings.labelMaker.target.description"
-    layout="vertical"
-  >
+  <SettingItem labelKey="uiSettings.labelMaker.target.label" descriptionKey="uiSettings.labelMaker.target.description">
     <div class="flex flex-wrap gap-2">
       <div
         v-for="target in labelMakerTargets"
@@ -44,20 +36,10 @@
     </div>
   </SettingItem>
 
-  <!-- カラー設定 -->
-  <SettingItem
-    labelKey="uiSettings.labelMaker.color.label"
-    descriptionKey="uiSettings.labelMaker.color.description"
-    layout="vertical"
-  >
-    <ColorPicker :modelValue="labelMaker.color" @update:modelValue="(val) => update('color', val)" />
-  </SettingItem>
-
   <!-- 表示件数 -->
   <SettingItem
     labelKey="uiSettings.labelMaker.limit.label"
     descriptionKey="uiSettings.labelMaker.limit.description"
-    layout="vertical"
     :showReset="true"
     @reset="resetField('limit')"
   >
@@ -69,6 +51,11 @@
       :value="labelMaker.limit"
       @input="(e) => update('limit', Number((e.target as HTMLInputElement).value))"
     />
+  </SettingItem>
+
+  <!-- カラー設定 -->
+  <SettingItem labelKey="uiSettings.labelMaker.color.label" descriptionKey="uiSettings.labelMaker.color.description">
+    <ColorPicker :modelValue="labelMaker.color" @update:modelValue="(val) => update('color', val)" />
   </SettingItem>
 </template>
 

@@ -7,7 +7,7 @@ export const uiSettingsDisplay = {
         liveConsoleNote:
           'LiveConsole(console.html)で操作した、ユーザーの得点・チームが表示されます。プレビューはダミーです。',
         component: {
-          label: '表示のしかた',
+          label: '表示形式を選択',
           description: '個人の得点リスト・チーム得点（2種類）から選択',
         },
         color: {

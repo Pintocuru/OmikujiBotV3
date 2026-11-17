@@ -26,12 +26,12 @@ export const uiMapMessages = {
       },
       uiKind: {
         characterStage: {
-          label: 'キャラクターステージ',
-          description: '演出用。キャラクター画像を指定位置・秒数で表示',
+          label: '画像演出',
+          description: '画像を指定位置・秒数で表示する演出',
         },
         commentBubble: {
-          label: 'フキダシ',
-          description: 'BOTの発言を吹き出し形式で表示',
+          label: 'コメントパネル',
+          description: 'BOTの発言をパネル形式で表示',
         },
         gameRanking: {
           label: 'ゲームランキング',
@@ -62,7 +62,7 @@ export const uiMapMessages = {
           description: '配信中に進めるビンゴカード。お題と達成目標を決めて、クリックで進めます',
         },
         labelMaker: {
-          label: 'ラベルメーカー',
+          label: 'ユーザーラベル',
           description: '投稿で届いたユーザーを、名前ラベルのリストで表示します',
         },
         snipeTimer: {
@@ -79,7 +79,7 @@ export const uiMapMessages = {
           description: 'おみくじが反応したコメントと結果を、レス風に縦に並べて表示',
         },
         luckyDraw: {
-          label: '抽選',
+          label: 'リスナー抽選機',
           description: '参加者の中から、ランダムに1名または複数名を選んで表示します(カップリング・ランキング風の表示)',
         },
         liveClock: {
@@ -87,11 +87,11 @@ export const uiMapMessages = {
           description: '時計とメッセージを表示',
         },
         streamCounter: {
-          label: '配信カウンター',
+          label: 'ライバーカウンター',
           description: '同時接続数や高評価数などを表示',
         },
         toastWidgets: {
-          label: 'トースト',
+          label: 'トーストメッセージ',
           description: '通知メッセージをトースト形式で表示',
         },
         userBoard: {

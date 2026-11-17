@@ -10,18 +10,6 @@
     :options="componentOptions"
     @update:modelValue="(val) => updateField('component', val)"
   />
-  <SettingItem v-else labelKey="uiSettings.common.displayStyle.label">
-    <button
-      v-for="(option, id) in componentOptions"
-      :key="id"
-      type="button"
-      class="badge cursor-pointer"
-      :class="kujibikiPanel.component === id ? 'badge-primary' : 'badge-outline'"
-      @click="updateField('component', id)"
-    >
-      {{ option.label }}
-    </button>
-  </SettingItem>
 
   <!-- フキダシアニメーション -->
   <SettingItem

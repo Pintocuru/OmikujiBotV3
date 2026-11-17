@@ -41,63 +41,45 @@
     @update:modelValue="(val) => updateField('component', val)"
   />
 
-  <!-- 設定項目 -->
-  <SettingItem
-    labelKey="uiSettings.toastWidgets.position.label"
-    descriptionKey="uiSettings.toastWidgets.position.description"
-    :showReset="true"
-    @reset="resetMap.showToastsOnRight"
-  >
-    <label class="flex items-center cursor-pointer">
-      <input
-        type="checkbox"
-        class="toggle toggle-primary"
-        v-model="toastSettings.showToastsOnRight"
-        @change="(e) => updateField('showToastsOnRight', (e.target as HTMLInputElement).checked)"
-      />
-      <span class="ml-2">
-        {{
-          t(toastSettings.showToastsOnRight ? 'uiSettings.toastWidgets.sideRight' : 'uiSettings.toastWidgets.sideLeft')
-        }}
-      </span>
-    </label>
-  </SettingItem>
-
-  <SettingItem
-    labelKey="uiSettings.toastWidgets.showCharacter.label"
-    descriptionKey="uiSettings.toastWidgets.showCharacter.description"
-    :showReset="true"
-    @reset="resetMap.showToastsCharacter"
-  >
-    <label class="flex items-center cursor-pointer">
-      <input
-        type="checkbox"
-        class="toggle toggle-primary"
-        v-model="toastSettings.showToastsCharacter"
-        @change="(e) => updateField('showToastsCharacter', (e.target as HTMLInputElement).checked)"
-      />
-      <span class="ml-2">{{ t('uiSettings.toastWidgets.showCharacterToggle') }}</span>
-    </label>
-  </SettingItem>
-
-  <SettingItem
-    labelKey="uiSettings.toastWidgets.fallbackCharacter.label"
-    descriptionKey="uiSettings.toastWidgets.fallbackCharacter.description"
-    :showReset="true"
-    @reset="resetMap.fallbackCharacter"
-  >
-    <select
-      class="select select-bordered w-full max-w-xs"
-      :value="toastSettings.fallbackCharacter"
-      @change="(e) => updateField('fallbackCharacter', (e.target as HTMLSelectElement).value)"
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+    <!-- キャラクターアイコンを表示するか -->
+    <SettingItem
+      labelKey="uiSettings.toastWidgets.showCharacter.label"
+      descriptionKey="uiSettings.toastWidgets.showCharacter.description"
     >
-      <option value="">{{ t('uiSettings.toastWidgets.fallbackCharacter.none') }}</option>
-      <option :value="TOAST_CHARACTER_RANDOM">{{ t('uiSettings.toastWidgets.fallbackCharacter.random') }}</option>
-      <option v-for="character in characterArray" :key="character.key" :value="character.key">
-        {{ getCharacterName(character.key) }}
-      </option>
-    </select>
-  </SettingItem>
+      <label class="flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          class="toggle toggle-primary"
+          v-model="toastSettings.showToastsCharacter"
+          @change="(e) => updateField('showToastsCharacter', (e.target as HTMLInputElement).checked)"
+        />
+        <span class="ml-2">{{ t('uiSettings.toastWidgets.showCharacterToggle') }}</span>
+      </label>
+    </SettingItem>
+
+    <!-- トースト位置 -->
+    <SettingItem
+      labelKey="uiSettings.toastWidgets.position.label"
+      descriptionKey="uiSettings.toastWidgets.position.description"
+    >
+      <label class="flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          class="toggle toggle-primary"
+          v-model="toastSettings.showToastsOnRight"
+          @change="(e) => updateField('showToastsOnRight', (e.target as HTMLInputElement).checked)"
+        />
+        <span class="ml-2">
+          {{
+            t(
+              toastSettings.showToastsOnRight ? 'uiSettings.toastWidgets.sideRight' : 'uiSettings.toastWidgets.sideLeft'
+            )
+          }}
+        </span>
+      </label>
+    </SettingItem>
+  </div>
 </template>
 
 <script setup lang="ts">
