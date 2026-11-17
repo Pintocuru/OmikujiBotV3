@@ -5,7 +5,10 @@
     <div class="avatar">
       <div
         class="overflow-hidden rounded-full"
-        :class="seat.isSyoken ? 'ring-3 ring-warning ring-offset-6' : ''"
+        :class="[
+          seat.isSyoken ? 'ring-3 ring-warning ring-offset-6' : '',
+          seat.team ? 'border-3' : '',
+        ]"
         :style="{
           width: cellSize + 'px',
           height: cellSize + 'px',
