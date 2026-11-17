@@ -2,14 +2,19 @@
 <template>
   <SettingItem icon="LayoutGrid" labelKey="padTrigger.padLabel" descriptionKey="padTrigger.padDescription">
     <!-- グリッドサイズ切り替えタブ -->
-    <div role="tablist" class="tabs tabs-sm mb-2 w-fit">
+    <div role="tablist" aria-label="グリッドサイズ" class="mb-2 flex w-fit gap-1 border-b border-base-300">
       <button
         v-for="size in gridSizes"
         :key="size"
         type="button"
         role="tab"
-        class="tab"
-        :class="{ 'tab-active': gridSize === size }"
+        :aria-selected="gridSize === size"
+        class="rounded-t px-3 py-1 text-sm transition-colors"
+        :class="
+          gridSize === size
+            ? 'border-b-2 border-primary font-semibold text-primary'
+            : 'border-b-2 border-transparent text-base-content/70 hover:text-base-content'
+        "
         @click="gridSize = size"
       >
         {{ size }}×{{ size }}
@@ -25,9 +30,13 @@
         v-for="id in visiblePadIds"
         :key="id"
         type="button"
-        class="btn btn-sm tooltip tooltip-top"
-        :class="padId === id ? 'btn-primary' : 'btn-ghost border-base-300'"
-        :data-tip="t('padTrigger.padName', { n: padNumber(id) })"
+        class="rounded border px-2 py-1 text-sm transition-colors"
+        :class="
+          padId === id
+            ? 'border-primary bg-primary text-primary-content'
+            : 'border-base-300 bg-base-100 hover:bg-base-200'
+        "
+        :title="t('padTrigger.padName', { n: padNumber(id) })"
         :aria-label="t('padTrigger.padName', { n: padNumber(id) })"
         @click="padId = id"
       >
