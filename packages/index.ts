@@ -12,12 +12,12 @@ export default [
    * common
    */
   // OmikujiBot, // コアプロジェクト
-  //  StrawberryChocolate, // ショコラ
+  StrawberryChocolate, // ショコラ
 
   /**
    * 2026-Q4
    */
-  HondaJanken, // じゃんけん
+  // HondaJanken, // じゃんけん
   //  LifeHourglass, // 命の砂時計
-  MaidenOmikuji, // 巫女さんのおみくじ
+  // MaidenOmikuji, // 巫女さんのおみくじ
 ]

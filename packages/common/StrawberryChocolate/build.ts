@@ -4,7 +4,7 @@ import { PackageProject, PackageVariant } from '@tools/types'
 
 const PROJECT: PackageProject = {
   title: 'ストロベリーショコラ',
-  description: '世話好きでお姉さんらしいオリキャラ「ストロベリーショコラ」が挨拶してくれるジェネレーター',
+  description: '世話好きなお姉さん「ストロベリーショコラ」が挨拶してくれるジェネレーター',
   tags: [
     'ショコラ',
     '初見判定',

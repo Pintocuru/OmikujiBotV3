@@ -1,7 +1,6 @@
 // eslint.config.ts
 import type { Linter } from 'eslint'
 import pluginVue from 'eslint-plugin-vue'
-import pluginImport from 'eslint-plugin-import'
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 
@@ -60,7 +59,6 @@ export default defineConfigWithVueTs(
   {
     name: 'import-plugin-config',
     plugins: {
-      import: pluginImport,
     },
     settings: {
       'import/resolver': {
