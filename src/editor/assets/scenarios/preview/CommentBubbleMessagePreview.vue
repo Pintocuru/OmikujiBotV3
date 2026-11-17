@@ -22,7 +22,7 @@
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { CharacterColorSchema } from '@/types/OmikujiData'
-  import { CommentBubbleSchema } from '@/types/ui/CommentBubbleSchema'
+  import { CommentBubbleSchema } from '@/types/ui/bot/CommentBubbleSchema'
   import type { BotMessageSlotsType } from '@/types/generator'
   import CommentBubbleItem from '@/ui/bot/CommentBubble/components/bubble/CommentBubbleItem.vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
