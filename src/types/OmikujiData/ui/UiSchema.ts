@@ -1,7 +1,7 @@
 // src/types/OmikujiData/ui/UiSchema.ts
 import { z } from 'zod'
 import { normalizedObject } from '@/types/core/ParsedDefault'
-import { FontFamilySchema } from '@/types/OmikujiData/fontFamily'
+import { FontFamilySchema } from '@/types/OmikujiData/common/fontFamily'
 import { UiLayoutSchema } from '@/types/OmikujiData/ui/UiLayoutSchema'
 import { UiSettingsSchema } from '@/types/OmikujiData/ui/UiSettingsSchema'
 

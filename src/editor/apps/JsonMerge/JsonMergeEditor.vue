@@ -117,7 +117,7 @@
   import { storeToRefs } from 'pinia'
   import { VueDraggable } from 'vue-draggable-plus'
   import { GripVertical, Plus } from 'lucide-vue-next'
-  import { JsonMergeItemSchema, JsonMergeRemapSchema, JsonMergeItemType } from '@/types/OmikujiData/JsonMergeType'
+  import { JsonMergeItemSchema, JsonMergeRemapSchema, JsonMergeItemType } from '@/types/OmikujiData/common/JsonMergeType'
   import JsonMergeRemapEditor from './JsonMergeRemapEditor.vue'
   import JsonMergeSourceFileSelector from './JsonMergeSourceFileSelector.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

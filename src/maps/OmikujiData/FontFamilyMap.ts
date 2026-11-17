@@ -1,5 +1,5 @@
 // src/maps/OmikujiData/FontFamilyMap.ts
-import { FontFamilyType } from '@/types/OmikujiData/fontFamily'
+import { FontFamilyType } from '@/types/OmikujiData/common/fontFamily'
 
 /**
  * フォント情報のUI表示マップ
