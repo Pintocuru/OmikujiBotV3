@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import type { UiKind } from '@/types/OmikujiData'
-import { uiLayoutMap } from '@/maps/OmikujiData'
+import { uiLayoutMap } from '@/ui/uiLayoutMap'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { getUiEditorEntries } from './uiEditorRegistry'
 
