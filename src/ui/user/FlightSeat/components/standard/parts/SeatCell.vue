@@ -4,14 +4,13 @@
   <div v-if="seat" class="relative flex items-center justify-center seat-pop">
     <div class="avatar">
       <div
-        class="rounded-full overflow-hidden"
-        :class="[
-          seat.isSyoken ? 'ring-3 ring-warning ring-offset-6' : '',
-          seat.team ? `border-3 border-${seat.team}` : '',
-        ]"
+        class="overflow-hidden rounded-full"
+        :class="seat.isSyoken ? 'ring-3 ring-warning ring-offset-6' : ''"
         :style="{
           width: cellSize + 'px',
           height: cellSize + 'px',
+          borderWidth: seat.team ? '3px' : undefined,
+          borderColor: seat.team ? `var(--color-${seat.team})` : undefined,
           '--tw-ring-offset-color': 'var(--seat-bg, transparent)',
         }"
       >
