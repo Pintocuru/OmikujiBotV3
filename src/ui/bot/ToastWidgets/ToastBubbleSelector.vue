@@ -2,16 +2,16 @@
 <template>
   <div :class="useFontFamily(props.fontFamily)">
     <component
-    :is="currentComponent"
-    v-if="currentComponent"
-    :message="message"
-    :color="color"
-    :iconLayers="iconLayers"
-    :showToastsOnRight="settings.showToastsOnRight"
-    :getProfileImage="getProfileImage"
-  />
-  <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
-    {{ $t(loadError.key, { id: loadError.id }) }}
+      :is="currentComponent"
+      v-if="currentComponent"
+      :message="message"
+      :color="color"
+      :iconLayers="iconLayers"
+      :showToastsOnRight="settings.showToastsOnRight"
+      :getProfileImage="getProfileImage"
+    />
+    <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
+      {{ $t(loadError.key, { id: loadError.id }) }}
     </div>
   </div>
 </template>
