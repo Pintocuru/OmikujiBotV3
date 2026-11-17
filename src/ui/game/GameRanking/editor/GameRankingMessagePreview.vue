@@ -14,7 +14,7 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { GameRankingSchema } from '@/types/ui/GameRankingSchema'
+  import { GameRankingSchema } from '@/types/ui/game/GameRankingSchema'
   import { BotMessageSchema, toRankingEntry, type BotMessageSlotsType } from '@/types/generator'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import GameRankingSelector from '@/ui/game/GameRanking/GameRankingSelector.vue'
