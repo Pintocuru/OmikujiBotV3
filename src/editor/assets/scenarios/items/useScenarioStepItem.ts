@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import type { ScenarioStepKind, ScenarioStepType, ScenarioStepWithIdType, UiKind } from '@/types/OmikujiData'
-import { uiLayoutMap } from '@/maps/OmikujiData/ui'
+import { uiLayoutMap } from '@/ui/uiLayoutMap'
 import { postUiKinds } from '@/types/generator'
 import { createDefaultStep } from './createDefaultStep'
 import { stepSchemaMap } from './ScenarioStepKindMap'
