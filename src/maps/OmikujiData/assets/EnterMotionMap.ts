@@ -56,10 +56,25 @@ export const enterMotionMap: Record<EnterMotionType, { initial: string; enter: s
     enter: 'animate__zoomIn',
     leave: 'animate__zoomOut',
   },
-  scale: {
+  zoomInUp: {
     initial: 'opacity-0',
-    enter: 'animate__zoomIn',
-    leave: 'animate__zoomOut',
+    enter: 'animate__zoomInUp',
+    leave: 'animate__zoomOutDown',
+  },
+  zoomInDown: {
+    initial: 'opacity-0',
+    enter: 'animate__zoomInDown',
+    leave: 'animate__zoomOutUp',
+  },
+  backInUp: {
+    initial: 'opacity-0',
+    enter: 'animate__backInUp',
+    leave: 'animate__backOutDown',
+  },
+  backInDown: {
+    initial: 'opacity-0',
+    enter: 'animate__backInDown',
+    leave: 'animate__backOutUp',
   },
 
   // ─── 弾性・変形系 ────────────────────────────
@@ -67,16 +82,6 @@ export const enterMotionMap: Record<EnterMotionType, { initial: string; enter: s
     initial: 'opacity-0',
     enter: 'animate__bounceIn',
     leave: 'animate__bounceOut',
-  },
-  rubberBand: {
-    initial: 'opacity-0',
-    enter: 'animate__fadeIn animate__rubberBand',
-    leave: 'animate__fadeOut',
-  },
-  jello: {
-    initial: 'opacity-0',
-    enter: 'animate__fadeIn animate__jello',
-    leave: 'animate__fadeOut',
   },
 
   // ─── フェード ──────────────────────────────
