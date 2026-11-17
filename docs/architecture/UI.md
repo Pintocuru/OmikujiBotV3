@@ -29,8 +29,9 @@
 | `src/ui/comment/` | コメント表示 | UserComment(おみくじが反応したコメントと結果をレス風に表示) |
 
 - `src/ui/common/` と `src/ui/uiRegistry.ts` は直下に配置。
+- 「ユーザーコメント」(`comment/`)は UI が未作成のためフォルダ未作成(最初の UI を作るときに作成)。
 - 各 UI フォルダの中身(`components/` `editor/` `composables/` など)は UI ごとに保持。
-- 型定義(`src/types/ui/`)は平置きのまま。安定/実験の分類(`uiSchemas.stable.ts` / `uiSchemas.experimental.ts`)はフォルダに持ち込まない。
+- 型定義(`src/types/ui/`)も、`src/ui/` と同じカテゴリで分類する。共通スキーマは `common/` に配置し、UI設定スキーマの集約もカテゴリ単位で行う。安定/実験の区分は設けない。
 
 ## 登録と表示
 
