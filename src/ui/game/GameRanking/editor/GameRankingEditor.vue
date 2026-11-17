@@ -1,7 +1,7 @@
 <!-- src/ui/game/GameRanking/editor/GameRankingEditor.vue -->
 <template>
   <!-- ランキングプレビュー -->
-  <HudPreview :isAdminOnly="true">
+  <HudPreview>
     <GameRankingSelector
       :rankingMessages="previewMessages"
       :settings="ranking"

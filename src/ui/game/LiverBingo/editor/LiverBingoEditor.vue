@@ -1,7 +1,7 @@
 <!-- src/ui/game/LiverBingo/editor/LiverBingoEditor.vue -->
 <template>
   <!-- プレビュー(クリックで実際に操作できる) -->
-  <HudPreview :isAdminOnly="true">
+  <HudPreview>
     <LiverBingoBoard :settings="liverBingo" :fontFamily="fontFamily" />
   </HudPreview>
 

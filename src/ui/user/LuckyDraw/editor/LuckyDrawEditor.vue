@@ -1,7 +1,7 @@
 <!-- src/ui/user/LuckyDraw/editor/LuckyDrawEditor.vue -->
 <template>
   <!-- プレビュー(クリックで抽選できる。参加者はダミー) -->
-  <HudPreview :isAdminOnly="true">
+  <HudPreview>
     <LuckyDrawSelector
       :settings="luckyDraw"
       :state="state"

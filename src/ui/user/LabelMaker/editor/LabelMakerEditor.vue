@@ -1,7 +1,7 @@
 <!-- src/ui/user/LabelMaker/editor/LabelMakerEditor.vue -->
 <template>
   <!-- プレビュー (ダミーのユーザーで表示) -->
-  <HudPreview :isAdminOnly="true">
+  <HudPreview>
     <LabelMakerSelector :users="previewUsers" :settings="labelMaker" :fontFamily="fontFamily" editorPreview />
   </HudPreview>
 

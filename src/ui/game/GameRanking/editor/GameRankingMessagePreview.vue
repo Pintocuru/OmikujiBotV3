@@ -1,6 +1,6 @@
 <!-- src/ui/game/GameRanking/editor/GameRankingMessagePreview.vue -->
 <template>
-  <HudPreview :isAdminOnly="true">
+  <HudPreview>
     <GameRankingSelector
       :rankingMessages="rankingMessages"
       :settings="ranking"

@@ -1,7 +1,7 @@
 <!-- src/ui/user/UserBoard/editor/UserBoardEditor.vue -->
 <template>
   <!-- プレビュー (ダミーのユーザーで表示) -->
-  <HudPreview :isAdminOnly="true">
+  <HudPreview>
     <UserBoardSelector :users="previewUsers" :settings="board" :fontFamily="fontFamily" editorPreview />
   </HudPreview>
 

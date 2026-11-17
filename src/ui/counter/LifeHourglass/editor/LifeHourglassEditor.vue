@@ -1,7 +1,7 @@
 <!-- src/ui/counter/LifeHourglass/editor/LifeHourglassEditor.vue -->
 <template>
   <!-- プレビュー -->
-  <HudPreview :isAdminOnly="true">
+  <HudPreview>
     <LifeHourglassSelector
       :settings="lifeHourglass"
       :grains="preview.grains"

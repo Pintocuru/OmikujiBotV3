@@ -1,7 +1,7 @@
 <!-- src/ui/counter/SnipeTimer/editor/SnipeTimerEditor.vue -->
 <template>
   <!-- プレビュー(クリックで実際に操作できる) -->
-  <HudPreview :isAdminOnly="true">
+  <HudPreview>
     <SnipeTimerSelector
       :settings="snipeTimer"
       :state="state"

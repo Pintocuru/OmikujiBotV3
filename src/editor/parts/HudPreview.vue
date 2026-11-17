@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <template v-if="(isAdminOnly && isDev) || !isAdminOnly">
+      <template v-if="isDev">
         <!-- Lucide Icons -->
         <div
           class="absolute top-2 right-2 flex gap-1 transition-opacity duration-300"
@@ -65,13 +65,11 @@
     defineProps<{
       isHeight?: boolean
       maxHeightClass?: string
-      isAdminOnly?: boolean
       defaultScale?: number
     }>(),
     {
       isHeight: true,
       maxHeightClass: 'h-64',
-      isAdminOnly: false,
       defaultScale: 1,
     }
   )

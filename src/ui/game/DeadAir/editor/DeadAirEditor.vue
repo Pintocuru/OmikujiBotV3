@@ -1,7 +1,7 @@
 <!-- src/ui/game/DeadAir/editor/DeadAirEditor.vue -->
 <template>
   <!-- プレビュー -->
-  <HudPreview :isAdminOnly="true">
+  <HudPreview>
     <DeadAirSelector
       :settings="deadAir"
       :phase="phase"
