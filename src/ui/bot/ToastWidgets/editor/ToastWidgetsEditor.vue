@@ -2,25 +2,20 @@
 <template>
   <!-- サンプル表示 -->
   <HudPreview>
-    <div class="flex flex-col">
-      <!-- トーストサンプル -->
-      <div>
-        <ToastBubbleSelector
-          v-for="message in previewMessages"
-          :key="message.id"
-          :settings="toastSettings"
-          :fontFamily="data.ui.fontFamily"
-          editorPreview
-          :message="message.bubble.message"
-          :color="getCharacterColor(message.bubble.characterKey)"
-          :iconLayers="
-            toastSettings.showToastsCharacter
-              ? toastIconLayers(getCharacter(message.bubble.characterKey), message.bubble.iconKey)
-              : []
-          "
-        />
-      </div>
-    </div>
+    <ToastBubbleSelector
+      v-for="message in previewMessages"
+      :key="message.id"
+      :settings="toastSettings"
+      :fontFamily="data.ui.fontFamily"
+      editorPreview
+      :message="message.bubble.message"
+      :color="getCharacterColor(message.bubble.characterKey)"
+      :iconLayers="
+        toastSettings.showToastsCharacter
+          ? toastIconLayers(getCharacter(message.bubble.characterKey), message.bubble.iconKey)
+          : []
+      "
+    />
 
     <!-- 右下: 追加のフキダシ(キャラはランダム) -->
     <template #hud>
