@@ -1,12 +1,12 @@
 // tools/viteBuild/buildPackages.ts
 import fs from 'fs'
 import path from 'path'
-import { execSync } from 'child_process'
 import { PackageDefinition } from '@tools/types'
 import { PROJECT_ROOT } from './constants/system'
 import { resolvePackageBuildConfigs } from './core/ConfigResolver'
 import { executePackageBuild } from './core/BuildExecutor'
 import { buildZipFolders } from './utils/ZipBuilder'
+import { runPreBuildChecks } from './utils/CheckRunner'
 
 interface BuildPackagesOptions {
   /** 全ビルド後に dist 直下のフォルダを個別に ZIP 化する (既定: true = 配布用) */
@@ -32,9 +32,8 @@ export async function buildPackages(definitions: PackageDefinition[], options: B
   const distPath = path.join(PROJECT_ROOT, 'dist')
   fs.rmSync(distPath, { recursive: true, force: true })
 
-  // 型チェックは全体で1回だけ
-  console.log('🔍 vue-tsc を実行中...')
-  execSync('npx vue-tsc --noEmit', { stdio: 'inherit', cwd: PROJECT_ROOT })
+  // 型チェックと依存関係チェックは全体で1回だけ (ソースが前回成功時と同じなら飛ばす)
+  runPreBuildChecks(PROJECT_ROOT)
 
   for (const config of configs) {
     await executePackageBuild(config)
