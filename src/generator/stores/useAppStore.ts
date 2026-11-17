@@ -6,7 +6,6 @@ import { useAppStatus } from './useAppStatus'
 import { useBotMessageActions } from './useBotMessageActions'
 import { createAppServices } from './createAppServices'
 import { isOmikujiDataLike, normalizeData } from '@/common/migrations/index'
-import { useOmikensActions } from './useOmikensActions'
 import { logParseIssues } from '@/common/ParseIssues/logParseIssues'
 import type { ParseIssue } from '@/types/core/ParseIssues'
 
@@ -54,9 +53,6 @@ export const useAppStore = defineStore('app', () => {
   // アプリ状態
   const appStatus = useAppStatus()
 
-  // omiken
-  const omikensActions = useOmikensActions()
-
   // botMessage
   const botMessageActions = useBotMessageActions()
 
@@ -71,7 +67,6 @@ export const useAppStore = defineStore('app', () => {
     loadData,
 
     ...appStatus,
-    ...omikensActions,
     ...botMessageActions,
     ...services,
   }

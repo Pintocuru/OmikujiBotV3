@@ -10,9 +10,12 @@ import { startUserStatsPolling } from '@/generator/stores/UserStats/startUserSta
 import { formatParseIssuesSummary } from '@/types/core/ParseIssues'
 import { describeError, showErrorNotice } from '../scripts/Notice/showNotice'
 import { COMMENT_RESPONSE_WINDOW_MS } from '@/generator/GeneratorConstants'
+import { useOmikensActions } from './useOmikensActions'
 
 export function useAppInitializer() {
   const appStore = useAppStore()
+  // 受け取り済みコメントの履歴 (store ではなく、受信処理がここで持つ)
+  const { addOmikens, clearOmikens } = useOmikensActions()
   let stopPolling: (() => void) | null = null
 
   const initialize = async () => {
@@ -25,12 +28,12 @@ export function useAppInitializer() {
         try {
           // リセット検出
           if (isReset) {
-            resetAppState()
+            resetAppState(clearOmikens)
             return
           }
           // 新規コメントを記録
           const filterOmikens = filterNewOmikens(omikens)
-          const newOmikens = appStore.addOmikens(filterOmikens)
+          const newOmikens = addOmikens(filterOmikens)
 
           // 新規コメントからユーザーデータを記録 (遅れて届いたコメントも、ギフトなどを取りこぼさないよう全件)
           recordStats(newOmikens)
@@ -91,9 +94,9 @@ export function useAppInitializer() {
 }
 
 // リセット検出
-function resetAppState() {
+function resetAppState(clearOmikens: () => void) {
   const appStore = useAppStore()
-  appStore.clearOmikens()
+  clearOmikens()
   appStore.resetStreamData()
 }
 

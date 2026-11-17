@@ -7,9 +7,9 @@
         <!-- 名前 -->
         <div class="text-xs font-bold text-sky-300">{{ entry.name }}</div>
         <!-- 元コメント(ユーザー入力なので、HTML として扱わない) -->
-        <div class="text-base leading-tight break-words">{{ entry.comment }}</div>
+        <div class="text-base leading-tight wrap-break-word">{{ entry.comment }}</div>
         <!-- おみくじ結果(BOT が作る文面。アイコン置換の <img> を含むので HTML として表示) -->
-        <div class="mt-1 border-t border-white/20 pt-1 text-base leading-tight break-words">
+        <div class="mt-1 border-t border-white/20 pt-1 text-base leading-tight wrap-break-word">
           <span class="mr-1 opacity-60">→</span><span v-html="entry.reply" />
         </div>
       </div>

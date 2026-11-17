@@ -1,4 +1,4 @@
-// src/generator/stores/useOmikensActions.ts
+// src/generator/composables/useOmikensActions.ts
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { OMIKEN_ID_HISTORY_MAX } from '@/generator/GeneratorConstants'
 
