@@ -1,6 +1,7 @@
 <!-- src/ui/bot/ToastWidgets/ToastBubbleSelector.vue -->
 <template>
-  <component
+  <div :class="useFontFamily(props.fontFamily)">
+    <component
     :is="currentComponent"
     v-if="currentComponent"
     :message="message"
@@ -11,13 +12,15 @@
   />
   <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
     {{ $t(loadError.key, { id: loadError.id }) }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { shallowRef, watch, type Component } from 'vue'
+  import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import type { ToastWidgetsType } from '@/types/ui'
-  import type { CharacterColorType } from '@/types/OmikujiData/'
+  import type { CharacterColorType, FontFamilyType } from '@/types/OmikujiData/'
   import { getToastWidgetsComponent } from './ToastWidgetsRegistry'
   import { notifyToastWidgetsComponentIssue } from './notifyToastWidgetsComponentIssue'
 
@@ -29,8 +32,9 @@
       iconLayers?: string[]
       getProfileImage?: (userId: string) => string | undefined
       editorPreview?: boolean
+      fontFamily?: FontFamilyType
     }>(),
-    { editorPreview: false }
+    { editorPreview: false, fontFamily: 'default' }
   )
 
   // 未登録・読み込み失敗のときは null のまま(配信画面は無表示。わんコメへ一度だけ通知する)
