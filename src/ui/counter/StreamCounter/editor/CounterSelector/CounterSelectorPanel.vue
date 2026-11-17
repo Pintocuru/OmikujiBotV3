@@ -41,8 +41,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { streamDefaultKeyLabels } from '@/types/ui'
-  import type { StreamDefaultKey } from '@/types/ui'
+  import { streamDefaultKeyLabels, StreamDefaultKey } from '@/types/ui'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import CounterVariableSection from './CounterVariableSection.vue'
   import CounterOrderSection from './CounterOrderSection.vue'
