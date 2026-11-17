@@ -2,20 +2,28 @@
 <template>
   <!-- サンプル表示 -->
   <HudPreview>
-    <ToastBubbleSelector
+    <MotionWrapper
       v-for="message in previewMessages"
       :key="message.id"
-      :settings="toastSettings"
-      :fontFamily="data.ui.fontFamily"
-      editorPreview
-      :message="message.bubble.message"
-      :color="getCharacterColor(message.bubble.characterKey)"
-      :iconLayers="
-        toastSettings.showToastsCharacter
-          ? toastIconLayers(getCharacter(message.bubble.characterKey), message.bubble.iconKey)
-          : []
-      "
-    />
+      v-model:visible="message.display.visible"
+      :motion="toastSettings.bubbleMotion"
+      :leave-motion="toastSettings.bubbleMotion"
+      :auto-hide="false"
+      @after-leave="removePreviewMessage(message.id)"
+    >
+      <ToastBubbleSelector
+        :settings="toastSettings"
+        :fontFamily="data.ui.fontFamily"
+        editorPreview
+        :message="message.bubble.message"
+        :color="getCharacterColor(message.bubble.characterKey)"
+        :iconLayers="
+          toastSettings.showToastsCharacter
+            ? toastIconLayers(getCharacter(message.bubble.characterKey), message.bubble.iconKey)
+            : []
+        "
+      />
+    </MotionWrapper>
 
     <!-- 右下: 追加のフキダシ(キャラはランダム) -->
     <template #hud>
@@ -29,7 +37,7 @@
       </div>
     </template>
   </HudPreview>
-
+  
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
     :modelValue="toastSettings.component"
@@ -109,6 +117,9 @@
   import ToastBubbleSelector from '@/ui/bot/ToastWidgets/ToastBubbleSelector.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
+  import MotionWrapper from '@/ui/common/MotionVariants/MotionWrapper.vue'
+  import { withDisplay } from '@/ui/common/useBotDisplay'
+  import type { DisplayedBotMessage } from '@/ui/common/useBotDisplay'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
   import { getRandomToastCharacterKey, toastIconLayers } from '../toastCharacter'
 
@@ -156,12 +167,14 @@
   }
 
   // --- プレビュー用メッセージ ---
-  const buildPreviewMessage = (id: string, message: string, characterKey: string) =>
-    BotMessageBubbleSchema.parse({
-      id,
-      uiKey: 'toastWidgets',
-      bubble: { name: 'テストユーザー', message, characterKey },
-    })
+  const buildPreviewMessage = (id: string, message: string, characterKey: string): DisplayedBotMessage =>
+    withDisplay(
+      BotMessageBubbleSchema.parse({
+        id,
+        uiKey: 'toastWidgets',
+        bubble: { name: 'テストユーザー', message, characterKey },
+      })
+    )
 
   // 基本の2つ: 登録順の先頭2人(1人ならその人)。キャラ未登録ならキャラなし
   const baseMessages = computed(() =>
@@ -172,15 +185,20 @@
   )
 
   // 追加のフキダシ: ボタンを押すたびに、画像を持つ登録キャラからランダムで1人
-  const extraMessages = ref<ReturnType<typeof buildPreviewMessage>[]>([])
+  const extraMessages = ref<DisplayedBotMessage[]>([])
   let extraSeq = 0
   const addExtra = () => {
     const key = getRandomToastCharacterKey(characterArray.value)
     extraSeq += 1
     extraMessages.value.push(buildPreviewMessage(`preview-extra-${extraSeq}`, `追加のテストコメント ${extraSeq}`, key))
   }
+  const removePreviewMessage = (id: string) => {
+    extraMessages.value = extraMessages.value.filter((message) => message.id !== id)
+  }
   const clearExtra = () => {
-    extraMessages.value = []
+    extraMessages.value.forEach((message) => {
+      message.display.visible = false
+    })
   }
 
   const previewMessages = computed(() => [...baseMessages.value, ...extraMessages.value])
