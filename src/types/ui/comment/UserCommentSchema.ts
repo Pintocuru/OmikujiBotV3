@@ -1,4 +1,4 @@
-// src/types/ui/UserCommentSchema.ts
+// src/types/ui/comment/UserCommentSchema.ts
 import { z } from 'zod'
 
 /**

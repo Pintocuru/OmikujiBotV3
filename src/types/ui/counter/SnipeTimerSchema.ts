@@ -1,8 +1,8 @@
-// src/types/ui/SnipeTimerSchema.ts
+// src/types/ui/counter/SnipeTimerSchema.ts
 import { z } from 'zod'
-import { normalizedObject } from '../core'
-import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
-import { enterMotions } from '../OmikujiData/assets/EnterMotionSchema'
+import { normalizedObject } from '../../core'
+import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
+import { enterMotions } from '../../OmikujiData/assets/EnterMotionSchema'
 
 // SnipeTimer のコンポーネントセット
 export const snipeTimerComponentSets = {

@@ -1,9 +1,9 @@
-// src/types/ui/CookieCounterSchema.ts
+// src/types/ui/counter/CookieCounterSchema.ts
 import { z } from 'zod'
 
-import { idSchema, normalizedObject } from '../core'
+import { idSchema, normalizedObject } from '../../core'
 import { streamDefaultKeyLabels } from './StreamCounterSchema'
-import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
+import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
 
 /**
  * クッキーカウンター CookieCounter

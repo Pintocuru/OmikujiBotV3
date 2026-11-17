@@ -1,6 +1,6 @@
-// src/types/ui/LifeHourglassSchema.ts
-import { normalizedObject } from '../core'
-import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
+// src/types/ui/counter/LifeHourglassSchema.ts
+import { normalizedObject } from '../../core'
+import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
 import { z } from 'zod'
 
 // LifeHourglass のコンポーネントセット

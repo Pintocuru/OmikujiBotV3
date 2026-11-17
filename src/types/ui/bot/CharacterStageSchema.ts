@@ -1,4 +1,4 @@
-// src/types/ui/CharacterStageSchema.ts
+// src/types/ui/bot/CharacterStageSchema.ts
 import { z } from 'zod'
 
 /** 位置(X・Y)が、キャラ画像のどの点を指すか。bottom = 下辺の中央(従来の挙動) */

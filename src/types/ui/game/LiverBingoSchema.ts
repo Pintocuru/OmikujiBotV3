@@ -1,8 +1,8 @@
-// src/types/ui/LiverBingoSchema.ts
+// src/types/ui/game/LiverBingoSchema.ts
 import { z } from 'zod'
-import { normalizedObject } from '../core'
-import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
-import { ProgressSourceSchema } from './ProgressSourceSchema'
+import { normalizedObject } from '../../core'
+import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
+import { ProgressSourceSchema } from '../common/ProgressSourceSchema'
 
 /** カードの一辺のマス数(3〜10) */
 export const LIVER_BINGO_CARD_SIZES = [3, 4, 5, 6, 7, 8, 9, 10] as const

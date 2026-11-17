@@ -1,4 +1,4 @@
-// src/types/ui/ProgressSourceSchema.ts
+// src/types/ui/common/ProgressSourceSchema.ts
 import { z } from 'zod'
 
 /**

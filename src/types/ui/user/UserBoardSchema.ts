@@ -1,6 +1,6 @@
-// src/types/ui/UserBoardSchema.ts
-import { normalizedObject } from '../core'
-import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
+// src/types/ui/user/UserBoardSchema.ts
+import { normalizedObject } from '../../core'
+import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
 import { z } from 'zod'
 
 /**

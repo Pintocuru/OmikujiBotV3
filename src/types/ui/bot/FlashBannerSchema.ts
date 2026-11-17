@@ -1,7 +1,7 @@
-// src/types/ui/FlashBannerSchema.ts
+// src/types/ui/bot/FlashBannerSchema.ts
 import { z } from 'zod'
-import { normalizedObject } from '../core'
-import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
+import { normalizedObject } from '../../core'
+import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
 
 /**
  * ニュースフラッシュ FlashBanner(実験枠。V2 の FlashBanner から移植)

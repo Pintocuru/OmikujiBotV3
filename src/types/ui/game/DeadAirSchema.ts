@@ -1,4 +1,4 @@
-// src/types/ui/DeadAirSchema.ts
+// src/types/ui/game/DeadAirSchema.ts
 import { z } from 'zod'
 
 // DeadAir のコンポーネントセット

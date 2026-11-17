@@ -1,4 +1,4 @@
-// src/types/ui/LiverBingoPatternSchema.ts
+// src/types/ui/game/LiverBingoPatternSchema.ts
 import { z } from 'zod'
 import { LiverBingoItemSchema, LiverBingoSchema, LiverBingoSeedSchema } from './LiverBingoSchema'
 

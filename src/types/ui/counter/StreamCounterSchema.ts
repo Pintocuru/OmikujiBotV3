@@ -1,7 +1,7 @@
-// src/types/ui/StreamCounterSchema.ts
+// src/types/ui/counter/StreamCounterSchema.ts
 import { z } from 'zod'
-import { idSchema } from '../core'
-import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
+import { idSchema } from '../../core'
+import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
 
 /**
  * StreamCounter のコンポーネントセット

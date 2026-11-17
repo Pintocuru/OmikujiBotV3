@@ -1,7 +1,7 @@
-// src/types/ui/LabelMakerSchema.ts
+// src/types/ui/user/LabelMakerSchema.ts
 import { z } from 'zod'
-import { normalizedObject } from '../core'
-import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
+import { normalizedObject } from '../../core'
+import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
 
 /**
  * ラベルメーカー LabelMaker

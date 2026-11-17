@@ -1,7 +1,7 @@
-// src/types/ui/FlightSeatSchema.ts
+// src/types/ui/user/FlightSeatSchema.ts
 import { z } from 'zod'
-import { normalizedObject } from '../core'
-import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
+import { normalizedObject } from '../../core'
+import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
 
 /**
  * フライトシート FlightSeat(実験枠。OmikujiBotV2 から移植)

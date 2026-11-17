@@ -1,7 +1,7 @@
-// src/types/ui/CommentBubbleSchema.ts
+// src/types/ui/bot/CommentBubbleSchema.ts
 import { z } from 'zod'
-import { enterMotions } from '../OmikujiData/assets/EnterMotionSchema'
-import { CharacterAnimationType } from '../OmikujiData/assets/CharacterSchema'
+import { enterMotions } from '../../OmikujiData/assets/EnterMotionSchema'
+import { CharacterAnimationType } from '../../OmikujiData/assets/CharacterSchema'
 
 // レイアウトに渡す「現在表示するキャラクター」
 export type ShownCharacter = {

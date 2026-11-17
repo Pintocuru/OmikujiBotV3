@@ -1,6 +1,6 @@
-// src/types/ui/KujibikiPanelSchema.ts
+// src/types/ui/bot/KujibikiPanelSchema.ts
 import { z } from 'zod'
-import { enterMotions } from '../OmikujiData/assets/EnterMotionSchema'
+import { enterMotions } from '../../OmikujiData/assets/EnterMotionSchema'
 
 // KujibikiPanel のコンポーネントセット
 export const kujibikiComponentSets = {

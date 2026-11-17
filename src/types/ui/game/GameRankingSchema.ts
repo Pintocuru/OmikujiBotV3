@@ -1,6 +1,6 @@
-// src/types/ui/GameRankingSchema.ts
-import { normalizedObject } from '../core'
-import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
+// src/types/ui/game/GameRankingSchema.ts
+import { normalizedObject } from '../../core'
+import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
 import { z } from 'zod'
 
 /**

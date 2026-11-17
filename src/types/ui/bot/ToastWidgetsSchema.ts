@@ -1,4 +1,4 @@
-// src/types/ui/ToastWidgetsSchema.ts
+// src/types/ui/bot/ToastWidgetsSchema.ts
 import { z } from 'zod'
 
 /**

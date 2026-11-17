@@ -1,8 +1,8 @@
-// src/types/ui/LuckyDrawSchema.ts
+// src/types/ui/user/LuckyDrawSchema.ts
 import { z } from 'zod'
-import { normalizedObject } from '../core'
-import { CharacterColorSchema } from '../OmikujiData/assets/CharacterSchema'
-import { enterMotions } from '../OmikujiData/assets/EnterMotionSchema'
+import { normalizedObject } from '../../core'
+import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
+import { enterMotions } from '../../OmikujiData/assets/EnterMotionSchema'
 
 // LuckyDraw のコンポーネントセット
 export const luckyDrawComponentSets = {
