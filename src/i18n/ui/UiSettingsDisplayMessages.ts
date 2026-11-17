@@ -80,6 +80,17 @@ export const uiSettingsDisplay = {
         default: {
           label: '標準カウンター',
           description: '表示する項目を選択',
+          options: {
+            syoken: '初コメ',
+            commenter: 'コメントをしたユーザー数',
+            lc: '配信コメント数',
+            totalComments: '累計コメント数',
+            upVote: '高評価数',
+            viewer: '同時接続数',
+            totalPrice: 'ギフト金額',
+            follower: '登録者数',
+            reaction: 'リアクション数(Youtubeのみ)',
+          },
         },
         variable: {
           label: '評価ブロックカウンター',
@@ -162,6 +173,17 @@ export const uiSettingsDisplay = {
         default: {
           label: 'Standard counters',
           description: 'Select the items you want to display',
+          options: {
+            syoken: 'First-time commenters',
+            commenter: 'Unique commenters',
+            lc: 'Stream comments',
+            totalComments: 'Total comments',
+            upVote: 'Likes',
+            viewer: 'Concurrent viewers',
+            totalPrice: 'Gift amount',
+            follower: 'Subscribers',
+            reaction: 'Reactions (YouTube only)',
+          },
         },
         variable: {
           label: 'Evaluation block counters',
