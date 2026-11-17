@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted, onUnmounted, watch } from 'vue'
+  import { computed, onMounted, onUnmounted } from 'vue'
   import { storeToRefs } from 'pinia'
   import ToastBubbleSelector from './ToastBubbleSelector.vue'
   import { useBotDisplay } from '@/ui/common/useBotDisplay'
@@ -43,19 +43,9 @@
   const toastSettings = computed(() => ToastWidgetsSchema.parse(data.value.ui.settings.toastWidgets ?? {}))
   const { characterArray, getCharacter, getCharacterColor } = useAppCharacters()
 
-  // メッセージごとに表示キャラを一度だけ決める(ランダムが再描画で変わらないよう、id でキャッシュ)
-  const resolvedKeys = new Map<string, string>()
-  const characterKeyOf = (message: BotMessageBubbleType): string => {
-    const cached = resolvedKeys.get(message.id)
-    if (cached !== undefined) return cached
-    const key = resolveToastCharacterKey(
-      message.bubble.characterKey,
-      toastSettings.value.fallbackCharacter,
-      characterArray.value
-    )
-    resolvedKeys.set(message.id, key)
-    return key
-  }
+  // メッセージに指定された登録済みキャラクターのみ表示する
+  const characterKeyOf = (message: BotMessageBubbleType): string =>
+    resolveToastCharacterKey(message.bubble.characterKey, characterArray.value)
   const iconLayersOf = (message: BotMessageBubbleType): string[] =>
     toastIconLayers(getCharacter(characterKeyOf(message)), message.bubble.iconKey)
 
@@ -65,15 +55,6 @@
 
   // コメント表示ロジック
   const { displayedComments, removeComment, hideComment, start, stop } = useBotDisplay(messages)
-
-  // 表示を終えたメッセージのキャッシュを捨てる
-  watch(
-    () => displayedComments.value.length,
-    () => {
-      const ids = new Set(displayedComments.value.map((m) => m.id))
-      for (const id of resolvedKeys.keys()) if (!ids.has(id)) resolvedKeys.delete(id)
-    }
-  )
 
   onMounted(start)
   onUnmounted(stop)
