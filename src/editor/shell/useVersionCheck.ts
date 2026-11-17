@@ -1,7 +1,7 @@
 // src/editor/shell/useVersionCheck.ts
 import { ref, computed, Ref } from 'vue'
 import Swal from 'sweetalert2'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 import { LATEST_RELEASE_API_URL, LATEST_RELEASE_PAGE_URL } from '@/editor/constants/versionCheck'
 
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))

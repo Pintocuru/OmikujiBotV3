@@ -4,7 +4,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { confirmSaveWithIssues } from '@/editor/helpers/confirmSaveWithIssues'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 
 const t = (key: string) => i18n.global.t(key)
 

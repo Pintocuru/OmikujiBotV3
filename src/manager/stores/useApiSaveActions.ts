@@ -8,7 +8,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { confirmSaveWithIssues } from '@/editor/helpers/confirmSaveWithIssues'
 import { escapeHtml } from '@/common/escapeHtml'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 

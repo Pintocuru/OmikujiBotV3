@@ -1,19 +1,8 @@
 // src/games/scripts/game/GoogolClover/sub/game.ts
-import type { UserState } from './types'
+import type { UserState, GameExecutionResult } from './types'
 import { executeSlotSpins } from './slotExecution'
 import { buildGameResult } from './resultBuilder'
-import { BotMessageRankingType } from '@/types/generator'
 import { UserNameType } from '@/types/OmikenComment'
-
-/**
- * ゲーム結果の完全な型定義
- */
-export interface GameExecutionResult {
-  bubble: string
-  rankingMessage: BotMessageRankingType
-  shouldDeleteState: boolean
-  newState: UserState | null
-}
 
 /**
  * スロットゲームのメイン処理

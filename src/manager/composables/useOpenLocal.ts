@@ -5,7 +5,7 @@ import { useManagerStore } from '@/manager/stores/useManagerStore'
 import { confirmDiscardChanges } from '@/editor/helpers/confirmDiscardChanges'
 import { isOmikujiDataLike } from '@/common/migrations/index'
 import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 
 const t = (key: string) => i18n.global.t(key)
 

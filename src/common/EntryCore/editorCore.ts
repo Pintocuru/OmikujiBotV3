@@ -1,5 +1,5 @@
 // src/common/EntryCore/editorCore.ts
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 import { createBaseApp } from './core'
 
 export function createAppNotOneSDK(AppComponent: any, props?: any) {

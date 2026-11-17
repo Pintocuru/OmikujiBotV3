@@ -5,7 +5,7 @@ import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
 import { ContentPlaceholder } from '@/engine/ContentPlaceholder/processor'
 import { PlaceholderContext } from '@/engine/ContentPlaceholder/context'
 import { getDefaultPlaceholdersShortLabels } from '@/editor/helpers/shared/getDefaultPlaceholdersShortLabels'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 
 /**
  * テスト用：メッセージのプレースホルダーを処理して bubble を返す

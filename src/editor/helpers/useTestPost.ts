@@ -12,7 +12,7 @@ import { BotMessageType } from '@/types/generator'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { checkAllTriggers } from '@/generator/scripts/trigger/TriggerChecker'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 const getShortLabels = () => getDefaultPlaceholdersShortLabels((key) => t(key))

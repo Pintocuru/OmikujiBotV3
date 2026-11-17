@@ -1,5 +1,5 @@
 // src/editor/helpers/KeyEditor/keyEditorValidation.ts
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 
 const t = (key: string) => i18n.global.t(key)
 

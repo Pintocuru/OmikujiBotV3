@@ -32,6 +32,8 @@ module.exports = {
       },
       to: {
         path: '^src/(console|editor|generator|manager|ui)/',
+        // 他に依存しない純粋なマップ/レジストリで、配置を src/ui 直下に固定しているもの
+        pathNot: '^src/ui/(uiLayoutMap|uiRegistry)\\.ts$',
       },
     },
   ],

@@ -8,7 +8,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useCategoryOpen } from './useCategoryOpen'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 import { BaseRecordType } from '@/types/core'
 
 export const useSidebarDrag = () => {

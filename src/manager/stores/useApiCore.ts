@@ -2,7 +2,7 @@
 import { DataManagerType } from '@/manager/types'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { ConnectionError } from '@/manager/services/baseApiClient'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 
 const t = (key: string) => i18n.global.t(key)
 

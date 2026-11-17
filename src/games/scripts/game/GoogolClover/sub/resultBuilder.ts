@@ -1,8 +1,7 @@
 // src/games/scripts/game/GoogolClover/sub/resultBuilder.ts
 import { CURRENCY_SYMBOL, GOAL_EXPONENT } from './constants'
 import { BotMessageRankingType } from '@/types/generator'
-import type { UserState, SlotExecutionResult } from './types'
-import type { GameExecutionResult } from './game'
+import type { UserState, SlotExecutionResult, GameExecutionResult } from './types'
 import { calculateScoreValue, formatScoreText, formatShort } from './utils'
 import { UserNameType } from '@/types/OmikenComment'
 import { buildBotMessageRanking } from '@/games/shared/rankingMessage'

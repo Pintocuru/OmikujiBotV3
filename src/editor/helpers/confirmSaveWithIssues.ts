@@ -2,7 +2,7 @@
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 import { summarizeParseIssues } from '@/types/core/ParseIssues'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 

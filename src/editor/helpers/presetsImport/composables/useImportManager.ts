@@ -5,7 +5,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { normalizeData } from '@/common/migrations/index'
 import { generateCategoryPreview, generateComponentPreview } from './importHelpers'
 import { CategoryImportConfig, ComponentImportConfig, ImportPreview } from '@/editor/types'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 
 type LoadResult = { success: true; data: OmikujiDataType } | { success: false; error: string; data?: unknown }
 

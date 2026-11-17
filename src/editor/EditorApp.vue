@@ -29,7 +29,7 @@
   import SidebarDrawer from './sidebar/SidebarDrawer.vue'
   import { useOmikujiStore } from './stores/useOmikujiStore'
   import { useNavigationStore } from './stores/useNavigationStore'
-  import i18n from './i18n'
+  import i18n from '@/i18n/editorI18n'
 
   import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
   import { useManagerStore } from '@/manager/stores/useManagerStore'

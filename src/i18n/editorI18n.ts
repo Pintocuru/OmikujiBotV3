@@ -1,4 +1,4 @@
-// src/editor/i18n.ts
+// src/i18n/editorI18n.ts
 import { createI18n } from 'vue-i18n'
 import { messageModules } from '@/i18n/editor'
 

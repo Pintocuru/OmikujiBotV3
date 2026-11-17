@@ -7,7 +7,7 @@ import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
 import type { ParseIssue } from '@/types/core/ParseIssues'
 import { logParseIssues } from '@/common/ParseIssues/logParseIssues'
 import { reportDataMismatch, validateAgainstBuild } from '@/common/buildValidation/validateAgainstBuild'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 
 const t = (key: string) => i18n.global.t(key)
 

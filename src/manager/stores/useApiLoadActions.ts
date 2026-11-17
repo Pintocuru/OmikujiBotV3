@@ -5,7 +5,7 @@ import { configApi } from '@/manager/services/configApi'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-import i18n from '@/editor/i18n'
+import i18n from '@/i18n/editorI18n'
 const t = (key: string, named?: Record<string, unknown>) => (named ? i18n.global.t(key, named) : i18n.global.t(key))
 import { getDataVersionStatus } from '@/manager/services/apiServiceUtils'
 import { DATA_VERSION } from '@/version'

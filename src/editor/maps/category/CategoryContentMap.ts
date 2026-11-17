@@ -3,6 +3,7 @@ import type { Component } from 'vue'
 import type { CategoryType } from '@/types/OmikujiData'
 import type { ItemContentDef } from '@/editor/types/apps'
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
+import { categoryIconMap } from './CategoryIconMap'
 
 import JsonMergeEditor from '@/editor/apps/JsonMerge/JsonMergeEditor.vue'
 import DataPacks from '@/editor/apps/dataPacks/DataPacks.vue'
@@ -28,7 +29,7 @@ import CharacterEditor from '@/editor/assets/characters/CharacterEditor.vue'
  * カテゴリごとの、ContentArea に出す内容の定義
  */
 export type CategoryContentDef = {
-  /** カテゴリのアイコン(旧 categoryMap から統合) */
+  /** カテゴリのアイコン(値は CategoryIconMap が持つ) */
   icon: LucideIconName
   editor: Component
   item?: ItemContentDef
@@ -65,13 +66,13 @@ const triggerItem = (component: Component, extra: Partial<ItemContentDef> = {}):
 })
 
 export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
-  jsonMerge: { icon: 'Layers', editor: JsonMergeEditor },
+  jsonMerge: { icon: categoryIconMap.jsonMerge, editor: JsonMergeEditor },
 
   // events
-  comments: { icon: 'MessageSquare', editor: ItemEditor, item: triggerItem(CommentTriggerEditor) },
+  comments: { icon: categoryIconMap.comments, editor: ItemEditor, item: triggerItem(CommentTriggerEditor) },
 
   timers: {
-    icon: 'Timer',
+    icon: categoryIconMap.timers,
     editor: ItemEditor,
     item: {
       component: TimerIntervalEditor,
@@ -82,31 +83,31 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
       },
     },
   },
-  services: { icon: 'ThumbsUp', editor: ItemEditor, item: triggerItem(ServiceTrigger) },
+  services: { icon: categoryIconMap.services, editor: ItemEditor, item: triggerItem(ServiceTrigger) },
   reactions: {
-    icon: 'Smile',
+    icon: categoryIconMap.reactions,
     editor: ItemEditor,
     item: triggerItem(ReactionTriggerEditor, { noticeKey: 'reactionEditor.platformNotice' }),
   },
   pads: {
-    icon: 'LayoutGrid',
+    icon: categoryIconMap.pads,
     editor: ItemEditor,
     item: triggerItem(PadTriggerEditor, { noticeKey: 'padEditor.notice' }),
   },
 
   // assets
   mikuji: {
-    icon: 'Package',
+    icon: categoryIconMap.mikuji,
     editor: ItemEditor,
     item: { component: MikujiSettings, section: stepsSection, modelField: null, keyProp: 'mikujiKey' },
   },
   scenarios: {
-    icon: 'Zap',
+    icon: categoryIconMap.scenarios,
     editor: ItemEditor,
     item: { component: ScenarioStepsEditor, section: scenariosSection, modelField: 'steps', keyProp: 'currentKey' },
   },
   placeholders: {
-    icon: 'Brackets',
+    icon: categoryIconMap.placeholders,
     editor: ItemEditor,
     item: {
       component: PlaceholderValuesEditor,
@@ -117,14 +118,14 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
       },
     },
   },
-  characters: { icon: 'Users', editor: CharacterEditor },
+  characters: { icon: categoryIconMap.characters, editor: CharacterEditor },
 
   // UI
-  ui: { icon: 'LayoutGrid', editor: UiEditor },
+  ui: { icon: categoryIconMap.ui, editor: UiEditor },
 
   // settings
-  dataPacks: { icon: 'Download', editor: DataPacks },
-  orphans: { icon: 'Search', editor: OrphanItemsEditor },
-  cooldown: { icon: 'Timer', editor: CooldownOverviewEditor },
-  appInfo: { icon: 'Settings', editor: AppInfoEditor },
+  dataPacks: { icon: categoryIconMap.dataPacks, editor: DataPacks },
+  orphans: { icon: categoryIconMap.orphans, editor: OrphanItemsEditor },
+  cooldown: { icon: categoryIconMap.cooldown, editor: CooldownOverviewEditor },
+  appInfo: { icon: categoryIconMap.appInfo, editor: AppInfoEditor },
 }
