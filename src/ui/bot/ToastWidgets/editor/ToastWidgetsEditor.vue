@@ -87,7 +87,7 @@
   import { useI18n } from 'vue-i18n'
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { ToastWidgetsSchema, TOAST_CHARACTER_RANDOM } from '@/types/ui'
+  import { ToastWidgetsSchema } from '@/types/ui'
   import { getToastWidgetsComponent, getToastWidgetsComponentSets } from '../ToastWidgetsRegistry'
   import { BotMessageBubbleSchema } from '@/types/generator'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -96,7 +96,7 @@
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
-  import { resolveToastCharacterKey, toastIconLayers } from '../toastCharacter'
+  import { getRandomToastCharacterKey, toastIconLayers } from '../toastCharacter'
 
   const { t } = useI18n()
 
@@ -138,7 +138,6 @@
   const resetMap = {
     showToastsOnRight: () => resetField('showToastsOnRight'),
     showToastsCharacter: () => resetField('showToastsCharacter'),
-    fallbackCharacter: () => resetField('fallbackCharacter'),
   }
 
   // --- プレビュー用メッセージ ---
@@ -161,7 +160,7 @@
   const extraMessages = ref<ReturnType<typeof buildPreviewMessage>[]>([])
   let extraSeq = 0
   const addExtra = () => {
-    const key = resolveToastCharacterKey('', TOAST_CHARACTER_RANDOM, characterArray.value)
+    const key = getRandomToastCharacterKey(characterArray.value)
     extraSeq += 1
     extraMessages.value.push(buildPreviewMessage(`preview-extra-${extraSeq}`, `追加のテストコメント ${extraSeq}`, key))
   }
