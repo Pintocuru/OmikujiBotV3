@@ -77,9 +77,10 @@
   // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
   const currentDefinition = computed(() => getLabelMakerComponent(labelMaker.value.component))
   const componentOptions = computed(() => {
-    const options: Record<string, { label: string }> = {}
+    const options: Record<string, { label: string; invalid?: boolean }> = {}
     const currentId = labelMaker.value.component
-    if (!currentDefinition.value) options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }
+    if (!currentDefinition.value)
+      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }
     for (const set of Object.values(getLabelMakerComponentSets())) {
       for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }

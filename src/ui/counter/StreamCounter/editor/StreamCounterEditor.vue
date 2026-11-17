@@ -55,7 +55,7 @@
 
   // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
   const componentOptions = computed(() => {
-    const options: Record<string, { label: string }> = {}
+    const options: Record<string, { label: string; invalid?: boolean }> = {}
     const currentId = streamCounter.value.component
     if (!getStreamCounterComponent(currentId))
       options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }

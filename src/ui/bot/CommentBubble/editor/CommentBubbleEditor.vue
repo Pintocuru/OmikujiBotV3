@@ -104,9 +104,12 @@
   // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
   const currentDefinition = computed(() => getCommentBubbleComponent(bubble.value.component))
   const componentOptions = computed(() => {
-    const options: Record<string, { label: string }> = {}
+    const options: Record<string, { label: string; invalid?: boolean }> = {}
     if (!currentDefinition.value)
-      options[bubble.value.component] = { label: t('uiSettings.common.unregistered', { id: bubble.value.component }), invalid: true }
+      options[bubble.value.component] = {
+        label: t('uiSettings.common.unregistered', { id: bubble.value.component }),
+        invalid: true,
+      }
     for (const set of Object.values(getCommentBubbleComponentSets())) {
       for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }

@@ -114,7 +114,7 @@
   )
 
   const componentOptions = computed(() => {
-    const options: Record<string, { label: string }> = {}
+    const options: Record<string, { label: string; invalid?: boolean }> = {}
     const currentId = kujibikiPanel.value.component
     if (!getKujibikiPanelComponent(currentId)) {
       options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }
