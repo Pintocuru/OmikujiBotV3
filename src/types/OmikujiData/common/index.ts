@@ -1,4 +1,4 @@
-// src/types/OmikujiData/events/index.ts
+// src/types/OmikujiData/common/index.ts
 
 // 各型定義の公開
 export * from './CategoryType'

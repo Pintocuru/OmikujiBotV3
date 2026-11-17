@@ -7,7 +7,7 @@ import { execSync } from 'child_process'
 /** ビルド前に通すチェック */
 const CHECKS = [
   { name: 'vue-tsc', command: 'npx vue-tsc --noEmit' },
-  { name: 'depcruise', command: 'npx depcruise src' },
+  { name: 'depcruise', command: 'npx depcruise src --config tools/depcruise/dependency-cruiser.config.ts' },
 ] as const
 
 type CheckName = (typeof CHECKS)[number]['name']
@@ -17,8 +17,8 @@ const CACHE_PATH = 'node_modules/.cache/omikuji-build-checks.json'
 
 /** チェック結果に影響するものだけを対象にする (vue-tsc の include と同じ範囲 + 設定ファイル) */
 const SOURCE_DIRS = ['src', 'packages', 'server', 'tools']
-const ROOT_FILES = ['tsconfig.json', '.dependency-cruiser.cjs', 'package-lock.json']
-const EXTENSIONS = new Set(['.ts', '.vue', '.json', '.cjs'])
+const ROOT_FILES = ['tsconfig.json', 'package-lock.json']
+const EXTENSIONS = new Set(['.ts', '.vue', '.json'])
 const SKIP_DIRS = new Set(['node_modules', 'dist', 'build', 'archives', '.git'])
 
 const collectFiles = (dir: string, out: string[]) => {

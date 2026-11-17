@@ -1,4 +1,4 @@
-// src/types/OmikujiData/fontFamily.ts
+// src/types/OmikujiData/common/fontFamily.ts
 import { z } from 'zod'
 
 /**

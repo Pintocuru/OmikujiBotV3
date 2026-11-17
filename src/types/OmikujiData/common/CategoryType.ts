@@ -1,4 +1,4 @@
-// src/types/OmikujiData/CategoryType.ts
+// src/types/OmikujiData/common/CategoryType.ts
 import { z } from 'zod'
 import { assetCategory } from '@/types/OmikujiData/assets'
 import type { AssetCategoryType } from '@/types/OmikujiData/assets'

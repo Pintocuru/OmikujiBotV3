@@ -35,8 +35,7 @@
           @change="applyAnimation"
         />
         <div class="flex justify-between text-xs text-base-content/40">
-          <span>{{ t('characterImage.animation.fast') }}</span
-          ><span>{{ t('characterImage.animation.slow') }}</span>
+          <span>{{ t('characterImage.animation.fast') }}</span><span>{{ t('characterImage.animation.slow') }}</span>
         </div>
       </div>
 

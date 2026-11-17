@@ -39,7 +39,13 @@
       labelClass?: string
       editorPreview?: boolean
     }>(),
-    { characterLayers: () => [], characterAnimation: undefined, labelClass: '', fontFamily: undefined, editorPreview: false }
+    {
+      characterLayers: () => [],
+      characterAnimation: undefined,
+      labelClass: '',
+      fontFamily: undefined,
+      editorPreview: false,
+    }
   )
 
   // 未登録・読み込み失敗のときは null のまま(配信画面は無表示。わんコメへ一度だけ通知する)

@@ -1,9 +1,5 @@
 // src/types/OmikujiData/ui/schemas/game.ts
-import {
-  DeadAirSchema,
-  GameRankingSchema,
-  LiverBingoSchema,
-} from '@/types/ui/game'
+import { DeadAirSchema, GameRankingSchema, LiverBingoSchema } from '@/types/ui/game'
 
 /** game カテゴリの UI スキーマ */
 export const gameUiSchemas = {

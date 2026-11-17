@@ -20,8 +20,9 @@
     <!-- 補足説明 -->
     <InformationCard>
       {{ t('characterService.voice.note1') }}
-      <code class="label bg-accent text-accent-content">{{ t('characterService.voice.noteCode') }}</code
-      >{{ t('characterService.voice.note2') }}<br />
+      <code class="label bg-accent text-accent-content">{{ t('characterService.voice.noteCode') }}</code>{{
+        t('characterService.voice.note2')
+      }}<br />
       {{ t('characterService.voice.seeAlso') }}
       <a
         href="https://onecomme.com/docs/guide/speech"

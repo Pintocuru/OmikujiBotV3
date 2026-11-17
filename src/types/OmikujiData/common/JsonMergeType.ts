@@ -1,4 +1,4 @@
-// src/types/OmikujiData/JsonMergeType.ts
+// src/types/OmikujiData/common/JsonMergeType.ts
 import { z } from 'zod'
 import { BaseRecordSchema } from '@/types/core'
 import { normalizedArray } from '@/types/core/ParsedDefault'

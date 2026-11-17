@@ -1,4 +1,4 @@
-// src/types/OmikujiData/SettingsSchema.ts
+// src/types/OmikujiData/common/SettingsSchema.ts
 import { z } from 'zod'
 import { ThemeSchema } from '@/types/core/DaisyUiTheme'
 import { normalizedObject } from '@/types/core/ParsedDefault'

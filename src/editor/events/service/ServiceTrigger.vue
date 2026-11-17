@@ -39,8 +39,7 @@
   <!-- 登録者数の場合の説明 -->
   <InformationCard v-if="selectedCondition === 'follower'">
     <p class="leading-relaxed">
-      <code class="label bg-accent text-accent-content">{{ t('serviceTrigger.follower.title') }}</code
-      ><br />
+      <code class="label bg-accent text-accent-content">{{ t('serviceTrigger.follower.title') }}</code><br />
       {{ t('serviceTrigger.follower.line1') }}<br />
       {{ t('serviceTrigger.follower.line2') }}<br />
       {{ t('serviceTrigger.follower.line3') }}

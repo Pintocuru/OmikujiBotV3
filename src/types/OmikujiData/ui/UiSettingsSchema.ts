@@ -1,12 +1,6 @@
 // src/types/OmikujiData/ui/UiSettingsSchema.ts
 import { z } from 'zod'
-import {
-  botUiSchemas,
-  commentUiSchemas,
-  counterUiSchemas,
-  gameUiSchemas,
-  userUiSchemas,
-} from './schemas'
+import { botUiSchemas, commentUiSchemas, counterUiSchemas, gameUiSchemas, userUiSchemas } from './schemas'
 
 /** UI 種別(カテゴリ別スキーマのキーから導出) */
 const uiSchemas = {

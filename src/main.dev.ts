@@ -1,4 +1,4 @@
-// src/main.dev-package.ts
+// src/main.dev.ts
 import '@packages/common/StrawberryChocolate/editor'
 
 window.OmikujiBot!.mountEditor!()
