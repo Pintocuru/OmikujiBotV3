@@ -54,7 +54,6 @@
   import { useI18n } from 'vue-i18n'
   import { computed, reactive } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { streamDefaultMap } from '@/maps/ui'
   import {
     CookieCounterSchema,
     CookieCounterCharacterSchema,
@@ -83,7 +82,7 @@
   const cookieCounter = computed(() => data.value.ui.settings.cookieCounter ?? CookieCounterSchema.parse({}))
   const counters = computed(() =>
     cookieCounter.value.counters.map((counter) =>
-      counter.type === 'default' ? { ...counter, label: streamDefaultMap[counter.target] } : counter
+      counter.type === 'default' ? { ...counter, label: t(`uiSettings.counterSelector.default.options.${counter.target}`) } : counter
     )
   )
   const currentDefinition = computed(() => getCookieCounterComponent(cookieCounter.value.component))
