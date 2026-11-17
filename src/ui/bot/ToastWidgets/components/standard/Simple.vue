@@ -3,7 +3,7 @@
   <div class="flex items-end gap-2 my-1" :class="showToastsOnRight ? 'flex-row-reverse' : 'flex-row'">
     <!-- アイコン -->
     <div v-if="iconLayers?.length" class="shrink-0 w-10 h-10">
-      <CharacterLayerImage :layers="iconLayers" :size="10" :color="color" />
+      <CharacterLayerImage :layers="iconLayers" :size="40" :color="color" />
     </div>
 
     <!-- メッセージ -->
