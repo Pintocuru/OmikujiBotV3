@@ -4,7 +4,7 @@
     <!-- 対象の値 -->
     <div class="flex flex-wrap gap-2 pb-2">
       <span
-        v-for="value in Object.keys(countUnitConditionMap)"
+        v-for="value in countUnitConditions"
         :key="value"
         class="badge badge-sm cursor-pointer select-none"
         :class="modelValue?.unit === value ? 'badge-secondary' : 'badge-ghost'"
@@ -21,7 +21,7 @@
         @change="updateField('comparison', ($event.target as HTMLSelectElement).value)"
         class="select select-bordered select-sm flex-1"
       >
-        <option v-for="value in Object.keys(countComparisonConditionMap)" :key="value" :value="value">
+        <option v-for="value in countComparisonConditions" :key="value" :value="value">
           {{ t(`mapText.countComparison.${value}.label`) }}
         </option>
       </select>
@@ -42,7 +42,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { countComparisonConditionMap, countUnitConditionMap } from '@/maps/engine/trigger/CountConditionMap'
+  import { countComparisonConditions, countUnitConditions } from '@/types/engine/trigger/CountCondition'
   import { CountConditionType } from '@/types/engine/trigger'
 
   const { t } = useI18n()
