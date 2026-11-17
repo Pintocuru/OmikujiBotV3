@@ -1,4 +1,4 @@
-// src/i18n/editor/ui/UiSettingsUserCommentMessages.ts
+// src/i18n/ui/UiSettingsUserCommentMessages.ts
 // UI 設定の翻訳: userComment
 export const uiSettingsUserComment = {
   ja: {
