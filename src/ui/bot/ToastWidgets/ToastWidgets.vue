@@ -4,8 +4,8 @@
     <div v-for="message in displayedComments.slice().reverse()" :key="message.id">
       <MotionWrapper
         v-model:visible="message.display.visible"
-        :motion="!toastSettings.showToastsOnRight ? 'slideRight' : 'slideLeft'"
-        :leave-motion="!toastSettings.showToastsOnRight ? 'slideLeft' : 'slideRight'"
+        :motion="toastSettings.bubbleMotion"
+        :leave-motion="toastSettings.bubbleMotion"
         :auto-hide="false"
         @after-leave="() => removeComment(message.id)"
       >
