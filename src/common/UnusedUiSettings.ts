@@ -1,6 +1,6 @@
 // src/common/UnusedUiSettings.ts
 import type { OmikujiDataType, UiKind } from '@/types/OmikujiData'
-import { uiLayoutMap } from '@/maps/OmikujiData'
+import { uiLayoutMap } from '@/ui/uiLayoutMap'
 
 /**
  * 設定が入っていて、現在のレイアウトが使わない UI の一覧
