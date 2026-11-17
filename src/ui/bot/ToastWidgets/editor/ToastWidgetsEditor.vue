@@ -4,7 +4,7 @@
   <HudPreview>
     <div class="flex flex-col">
       <!-- トーストサンプル -->
-      <div :class="!toastSettings.showToastsOnRight ? 'self-start' : 'self-end'">
+      <div>
         <ToastBubbleSelector
           v-for="message in previewMessages"
           :key="message.id"
