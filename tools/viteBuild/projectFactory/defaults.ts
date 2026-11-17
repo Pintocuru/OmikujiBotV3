@@ -6,7 +6,7 @@
 export const DEFAULT_FILES_TO_COPY = [
   { from: 'assets/entry/index.html', to: 'index.html' },
   { from: 'assets/entry/script.js', to: 'script.js' },
-  { from: 'assets/sounds/', to: 'sounds/' },
+  { from: 'assets/sounds/core/', to: 'sounds/core/' },
 ]
 
 /**
