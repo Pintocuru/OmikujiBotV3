@@ -75,7 +75,7 @@
     const options: Record<string, { label: string }> = {}
     const currentId = liveClock.value.component
     if (!getLiveClockComponent(currentId))
-      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }) }
+      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }
     for (const set of Object.values(getLiveClockComponentSets())) {
       for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }

@@ -106,7 +106,7 @@
   const componentOptions = computed(() => {
     const options: Record<string, { label: string }> = {}
     if (!currentDefinition.value)
-      options[bubble.value.component] = { label: t('uiSettings.common.unregistered', { id: bubble.value.component }) }
+      options[bubble.value.component] = { label: t('uiSettings.common.unregistered', { id: bubble.value.component }), invalid: true }
     for (const set of Object.values(getCommentBubbleComponentSets())) {
       for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }

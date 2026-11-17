@@ -5,21 +5,12 @@
     <LabelMakerSelector :users="previewUsers" :settings="labelMaker" :fontFamily="fontFamily" editorPreview />
   </HudPreview>
 
-  <!-- 表示するコンポーネント -->
-  <SettingItem labelKey="uiSettings.labelMaker.component.label">
-    <div class="flex flex-wrap gap-2">
-      <div
-        v-for="option in componentOptions"
-        :key="option.id"
-        class="badge badge-lg cursor-pointer whitespace-nowrap"
-        :class="labelMaker.component === option.id ? (option.known ? 'badge-primary' : 'badge-error') : 'badge-outline'"
-        :title="option.description"
-        @click="update('component', option.id)"
-      >
-        {{ option.label }}
-      </div>
-    </div>
-  </SettingItem>
+  <!-- コンポーネント選択 -->
+  <DisplayStyleSelector
+    :modelValue="labelMaker.component"
+    :options="componentOptions"
+    @update:modelValue="(val) => update('component', val)"
+  />
 
   <!-- ユーザーの数え方 -->
   <SettingItem labelKey="uiSettings.labelMaker.target.label" descriptionKey="uiSettings.labelMaker.target.description">
@@ -69,6 +60,7 @@
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
+  import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import LabelMakerSelector from '@/ui/user/LabelMaker/LabelMakerSelector.vue'
   import { buildPreviewUsers } from '@/ui/user/LabelMaker/scripts/labelUsers'
 
@@ -85,19 +77,11 @@
   // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
   const currentDefinition = computed(() => getLabelMakerComponent(labelMaker.value.component))
   const componentOptions = computed(() => {
-    const options: { id: string; label: string; description: string; known: boolean }[] = []
-    if (!currentDefinition.value) {
-      options.push({
-        id: labelMaker.value.component,
-        label: t('uiSettings.common.unregistered', { id: labelMaker.value.component }),
-        description: t('uiSettings.common.unregisteredDescription'),
-        known: false,
-      })
-    }
+    const options: Record<string, { label: string }> = {}
+    const currentId = labelMaker.value.component
+    if (!currentDefinition.value) options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }
     for (const set of Object.values(getLabelMakerComponentSets())) {
-      for (const [id, definition] of Object.entries(set)) {
-        options.push({ id, label: t(definition.labelKey), description: t(definition.descriptionKey), known: true })
-      }
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }
     return options
   })

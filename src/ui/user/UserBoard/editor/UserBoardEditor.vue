@@ -7,25 +7,12 @@
 
   <p class="text-sm opacity-70">{{ t('uiSettings.userBoard.liveConsoleNote') }}</p>
 
-  <!-- 表示するコンポーネント -->
-  <SettingItem
-    labelKey="uiSettings.userBoard.component.label"
-    descriptionKey="uiSettings.userBoard.component.description"
-    layout="vertical"
-  >
-    <div class="flex flex-wrap gap-2">
-      <div
-        v-for="option in componentOptions"
-        :key="option.id"
-        class="badge badge-lg cursor-pointer whitespace-nowrap"
-        :class="board.component === option.id ? (option.known ? 'badge-primary' : 'badge-error') : 'badge-outline'"
-        :title="option.description"
-        @click="update('component', option.id)"
-      >
-        {{ option.label }}
-      </div>
-    </div>
-  </SettingItem>
+  <!-- コンポーネント選択 -->
+  <DisplayStyleSelector
+    :modelValue="board.component"
+    :options="componentOptions"
+    @update:modelValue="(val) => update('component', val)"
+  />
 
   <!-- カラー設定 -->
   <SettingItem
@@ -66,6 +53,7 @@
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
+  import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import UserBoardSelector from '@/ui/user/UserBoard/UserBoardSelector.vue'
   import { buildPreviewUsers } from '@/ui/user/UserBoard/scripts/boardData'
 
@@ -82,19 +70,11 @@
   // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
   const currentDefinition = computed(() => getUserBoardComponent(board.value.component))
   const componentOptions = computed(() => {
-    const options: { id: string; label: string; description: string; known: boolean }[] = []
-    if (!currentDefinition.value) {
-      options.push({
-        id: board.value.component,
-        label: t('uiSettings.common.unregistered', { id: board.value.component }),
-        description: t('uiSettings.common.unregisteredDescription'),
-        known: false,
-      })
-    }
+    const options: Record<string, { label: string }> = {}
+    const currentId = board.value.component
+    if (!currentDefinition.value) options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }
     for (const set of Object.values(getUserBoardComponentSets())) {
-      for (const [id, definition] of Object.entries(set)) {
-        options.push({ id, label: t(definition.labelKey), description: t(definition.descriptionKey), known: true })
-      }
+      for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }
     return options
   })

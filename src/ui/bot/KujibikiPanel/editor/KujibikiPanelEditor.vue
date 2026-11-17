@@ -117,7 +117,7 @@
     const options: Record<string, { label: string }> = {}
     const currentId = kujibikiPanel.value.component
     if (!getKujibikiPanelComponent(currentId)) {
-      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }) }
+      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }
     }
     for (const set of Object.values(getKujibikiPanelComponentSets())) {
       for (const [id, definition] of Object.entries(set)) {

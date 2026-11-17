@@ -92,7 +92,7 @@
   const componentOptions = computed(() => {
     const options: Record<string, { label: string }> = {}
     const currentId = cookieCounter.value.component
-    if (!currentDefinition.value) options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }) }
+    if (!currentDefinition.value) options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }
     for (const set of Object.values(getCookieCounterComponentSets())) {
       for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }

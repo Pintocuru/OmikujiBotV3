@@ -104,7 +104,7 @@
   const componentOptions = computed(() => {
     const options: Record<string, { label: string }> = {}
     const currentId = flightSeat.value.component
-    if (!definition.value) options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }) }
+    if (!definition.value) options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }
     for (const set of Object.values(getFlightSeatComponentSets())) {
       for (const [id, def] of Object.entries(set)) options[id] = { label: t(def.labelKey) }
     }

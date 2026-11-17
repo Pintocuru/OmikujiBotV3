@@ -10,7 +10,7 @@
         v-for="(config, key) in options"
         :key="key"
         class="badge cursor-pointer"
-        :class="modelValue === key ? 'badge-primary' : 'badge-outline'"
+        :class="modelValue === key ? (config?.invalid ? 'badge-error' : 'badge-primary') : 'badge-outline'"
         @click="select(key)"
       >
         {{ config?.label }}
@@ -24,6 +24,8 @@
 
   type BaseComponentConfig = {
     label: string
+    /** 未登録の ID など、選択中なら異常として赤く表示する */
+    invalid?: boolean
   }
 
   defineProps<{
