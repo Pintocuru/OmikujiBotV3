@@ -9,9 +9,6 @@
   <SettingItem
     labelKey="uiSettings.userComment.nameMode.label"
     descriptionKey="uiSettings.userComment.nameMode.description"
-    layout="vertical"
-    :showReset="true"
-    @reset="resetField('nameMode')"
   >
     <div class="flex flex-wrap gap-2">
       <div
@@ -30,7 +27,6 @@
   <SettingItem
     labelKey="uiSettings.userComment.maxItems.label"
     descriptionKey="uiSettings.userComment.maxItems.description"
-    layout="vertical"
     :showReset="true"
     @reset="resetField('maxItems')"
   >
