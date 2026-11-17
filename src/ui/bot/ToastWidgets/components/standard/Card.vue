@@ -8,7 +8,7 @@
     >
       <!-- アイコン -->
       <div v-if="iconLayers?.length" class="shrink-0 w-10 h-10">
-        <CharacterLayerImage :layers="iconLayers" :size="10" :color="color" />
+        <CharacterLayerImage :layers="iconLayers" :size="40" :color="color" />
       </div>
 
       <!-- メッセージ -->
