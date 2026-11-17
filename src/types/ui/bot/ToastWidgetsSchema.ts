@@ -1,5 +1,6 @@
 // src/types/ui/bot/ToastWidgetsSchema.ts
 import { z } from 'zod'
+import { enterMotions } from '../../OmikujiData/assets/EnterMotionSchema'
 
 /**
  * トースト ToastWidgets
@@ -22,5 +23,6 @@ export const ToastWidgetsSchema = z.object({
   component: z.string().min(1).default('standard').catch('standard'), // トーストのレイアウト(保存データは文字列。未同梱の ID も保持する。空文字は standard に戻す)
   showToastsOnRight: z.boolean().default(false).catch(false), // トースト・サムネイルを右側に表示するか(falseで左側)
   showToastsCharacter: z.boolean().default(false).catch(false), // トースト表示時、キャラクターを表示するか
+  bubbleMotion: z.enum(enterMotions).default('slideUp').catch('slideUp'), // トーストの登場・退場アニメーション
 })
 export type ToastWidgetsType = z.infer<typeof ToastWidgetsSchema>
