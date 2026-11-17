@@ -42,10 +42,11 @@
   const navigationStore = useNavigationStore()
   const { selectedCategory, isCurrentDataCategory, categoryArray } = storeToRefs(navigationStore)
 
+  // 各種コンテンツ
+  const currentContent = computed(() => categoryContentMap[selectedCategory.value])
+
   // Events / Assets のカテゴリでデータが1件もない
   const isEmpty = computed(() => isCurrentDataCategory.value && (categoryArray.value?.length ?? 0) === 0)
-
-  const currentContent = computed(() => categoryContentMap[selectedCategory.value])
   // Events / Assets の ItemEditor には、セクションの内容を渡す
   const editorProps = computed(() => (currentContent.value.item ? { content: currentContent.value.item } : {}))
 </script>

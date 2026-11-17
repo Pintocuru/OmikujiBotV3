@@ -55,20 +55,21 @@ const scenariosSection: ItemContentDef['section'] = {
   descriptionKey: 'categorySections.scenarios.description',
 }
 
+// 「発動条件」セクションを持つイベント(timers 以外)の item 定義
+const triggerItem = (component: Component, extra: Partial<ItemContentDef> = {}): ItemContentDef => ({
+  component,
+  section: triggerSection,
+  modelField: 'trigger',
+  keyProp: 'selectedItemKey',
+  ...extra,
+})
+
 export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
   jsonMerge: { icon: 'Layers', editor: JsonMergeEditor },
 
   // events
-  comments: {
-    icon: 'MessageSquare',
-    editor: ItemEditor,
-    item: {
-      component: CommentTriggerEditor,
-      section: triggerSection,
-      modelField: 'trigger',
-      keyProp: 'selectedItemKey',
-    },
-  },
+  comments: { icon: 'MessageSquare', editor: ItemEditor, item: triggerItem(CommentTriggerEditor) },
+
   timers: {
     icon: 'Timer',
     editor: ItemEditor,
@@ -81,32 +82,16 @@ export const categoryContentMap: Record<CategoryType, CategoryContentDef> = {
       },
     },
   },
-  services: {
-    icon: 'ThumbsUp',
-    editor: ItemEditor,
-    item: { component: ServiceTrigger, section: triggerSection, modelField: 'trigger', keyProp: 'selectedItemKey' },
-  },
+  services: { icon: 'ThumbsUp', editor: ItemEditor, item: triggerItem(ServiceTrigger) },
   reactions: {
     icon: 'Smile',
     editor: ItemEditor,
-    item: {
-      component: ReactionTriggerEditor,
-      section: triggerSection,
-      modelField: 'trigger',
-      keyProp: 'selectedItemKey',
-      noticeKey: 'reactionEditor.platformNotice',
-    },
+    item: triggerItem(ReactionTriggerEditor, { noticeKey: 'reactionEditor.platformNotice' }),
   },
   pads: {
     icon: 'LayoutGrid',
     editor: ItemEditor,
-    item: {
-      component: PadTriggerEditor,
-      section: triggerSection,
-      modelField: 'trigger',
-      keyProp: 'selectedItemKey',
-      noticeKey: 'padEditor.notice',
-    },
+    item: triggerItem(PadTriggerEditor, { noticeKey: 'padEditor.notice' }),
   },
 
   // assets

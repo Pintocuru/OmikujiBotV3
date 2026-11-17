@@ -1,6 +1,6 @@
 <!-- src/editor/parts/HudPreview.vue -->
 <template>
-  <div :class="[heightClass, 'overflow-hidden relative']">
+  <div class="sticky top-0 z-20" :class="[heightClass, 'overflow-hidden relative']">
     <div :style="bgStyle" class="w-full h-full">
       <!-- スケーリング可能なコンテンツ（メインスロット） -->
       <div :style="contentStyle" class="origin-top-left">
