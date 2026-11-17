@@ -1,16 +1,14 @@
 <!-- src/ui/bot/CommentBubble/editor/CommentBubblePreview.vue -->
 <template>
-  <HudPreview :isHeight="false">
-    <div class="relative h-100 overflow-hidden">
-      <CommentBubbleSelector
-        :displayedComments="displayedComments"
-        :removeComment="removeComment"
-        :shown="shown"
-        :settings="settings"
-        :fontFamily="fontFamily"
-        editorPreview
-      />
-    </div>
+  <HudPreview>
+    <CommentBubbleSelector
+      :displayedComments="displayedComments"
+      :removeComment="removeComment"
+      :shown="shown"
+      :settings="settings"
+      :fontFamily="fontFamily"
+      editorPreview
+    />
 
     <template #hud>
       <div class="flex justify-center mt-2">
