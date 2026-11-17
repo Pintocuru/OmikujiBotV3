@@ -68,6 +68,7 @@ export function resolveIconPlaceholders(
 
   return replaceUserIconMarkup(raw, (userId) => {
     const url = getProfileImage(userId)
-    return url ? `<img class="inline-block w-${userIconSize} h-${userIconSize} rounded-full" src="${url}" />` : ''
+    const size = userIconSize * 4
+    return url ? `<img class="inline-block rounded-full" style="width:${size}px;height:${size}px" src="${url}" />` : ''
   })
 }
