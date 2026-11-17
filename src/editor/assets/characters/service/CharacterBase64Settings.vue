@@ -20,7 +20,7 @@
           <img
             :src="modelValue.imageBase64"
             :alt="t('characterService.base64.alt')"
-            :class="`w-${Math.max(16, imageSize)} h-${Math.max(16, imageSize)} rounded border-2 border-primary bg-white object-cover`"
+            class="h-24 w-24 rounded border-2 border-primary bg-white object-cover"
           />
           <div class="tooltip tooltip-top absolute -top-1 -right-1" :data-tip="t('characterService.base64.reset')">
             <button
