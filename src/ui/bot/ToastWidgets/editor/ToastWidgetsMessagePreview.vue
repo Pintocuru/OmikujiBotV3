@@ -42,8 +42,6 @@
   const { characterArray, getCharacter, getCharacterColor } = useCharacterLookup()
   const settings = computed(() => ToastWidgetsSchema.parse(data.value.ui.settings.toastWidgets ?? {}))
 
-  // キャラ未指定なら fallbackCharacter(ランダムは設定・キャラ・キーが変わったときだけ引き直す)
-  const shownKey = computed(() =>
-    resolveToastCharacterKey(props.characterKey, settings.value.fallbackCharacter, characterArray.value)
-  )
+  // メッセージに指定された登録済みキャラクターのみ表示する
+  const shownKey = computed(() => resolveToastCharacterKey(props.characterKey, characterArray.value))
 </script>
