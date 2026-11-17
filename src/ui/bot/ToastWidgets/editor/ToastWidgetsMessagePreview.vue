@@ -1,10 +1,11 @@
 <!-- src/ui/bot/ToastWidgets/editor/ToastWidgetsMessagePreview.vue -->
 <template>
   <HudPreview>
-    <div class="flex flex-col" :class="[fontFamily]">
+    <div class="flex flex-col">
       <div :class="!settings.showToastsOnRight ? 'self-start' : 'self-end'">
         <ToastBubbleSelector
           :settings="settings"
+          :fontFamily="data.ui.fontFamily"
           editorPreview
           :message="message || $t('uiSettings.common.emptyMessage')"
           :color="getCharacterColor(shownKey)"
@@ -22,7 +23,6 @@
   import { storeToRefs } from 'pinia'
   import { ToastWidgetsSchema } from '@/types/ui'
   import type { BotMessageSlotsType } from '@/types/generator'
-  import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
   import { resolveToastCharacterKey, toastIconLayers } from '../toastCharacter'
@@ -40,7 +40,6 @@
   const { data } = storeToRefs(useOmikujiStore())
   // 編集中のデータ(omikujiStore)のキャラクターを参照する(配信側の appStore ではない)
   const { characterArray, getCharacter, getCharacterColor } = useCharacterLookup()
-  const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
   const settings = computed(() => ToastWidgetsSchema.parse(data.value.ui.settings.toastWidgets ?? {}))
 
   // キャラ未指定なら fallbackCharacter(ランダムは設定・キャラ・キーが変わったときだけ引き直す)
