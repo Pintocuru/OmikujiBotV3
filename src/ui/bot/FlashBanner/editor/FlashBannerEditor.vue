@@ -26,11 +26,8 @@
   />
 
   <!-- カラー設定(キャラがいないとき) -->
-  <SettingItem
-    labelKey="uiSettings.flashBanner.color.label"
-    descriptionKey="uiSettings.flashBanner.color.description"
-    layout="vertical"
-  >
+  <!-- TODO:これは要らない。 -->
+  <SettingItem labelKey="uiSettings.flashBanner.color.label" descriptionKey="uiSettings.flashBanner.color.description">
     <ColorPicker :modelValue="flashBanner.color" @update:modelValue="(val) => update('color', val)" />
   </SettingItem>
 

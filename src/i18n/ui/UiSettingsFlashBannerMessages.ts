@@ -9,9 +9,8 @@ export const uiSettingsFlashBanner = {
         sampleLong:
           'ニュースフラッシュのテストメッセージです！長い文章は枠に収まらないので、ゆっくりスクロールして最後まで読めるようになります。',
         color: {
-          label: '配色',
-          description:
-            'キャラクターがいないとき(コメントがないときの文言など)の色。キャラクターがいるときは、そのキャラクターの色になります',
+          label: 'デフォルトカラー',
+          description: 'キャラクターがいないときの色',
         },
         label: {
           label: 'ラベル',

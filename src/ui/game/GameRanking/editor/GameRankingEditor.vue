@@ -38,16 +38,7 @@
     @update:modelValue="(val) => update('component', val)"
   />
 
-  <!-- カラー設定 -->
-  <SettingItem
-    labelKey="uiSettings.common.color.label"
-    descriptionKey="uiSettings.common.color.description"
-    layout="vertical"
-  >
-    <ColorPicker :modelValue="ranking.color" @update:modelValue="(val) => update('color', val)" />
-  </SettingItem>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
     <!-- 順位のソート -->
     <SettingItem
       labelKey="uiSettings.gameRanking.sortOrder.label"
@@ -72,8 +63,6 @@
       labelKey="uiSettings.gameRanking.limit.label"
       descriptionKey="uiSettings.gameRanking.limit.description"
       layout="vertical"
-      :showReset="true"
-      @reset="resetField('limit')"
     >
       <input
         type="number"
@@ -84,20 +73,25 @@
         @input="(e) => update('limit', Number((e.target as HTMLInputElement).value))"
       />
     </SettingItem>
+
+    <!-- ユーザーごとの重複 -->
+    <SettingItem
+      labelKey="uiSettings.gameRanking.uniqueUser.label"
+      descriptionKey="uiSettings.gameRanking.uniqueUser.description"
+      layout="vertical"
+    >
+      <input
+        type="checkbox"
+        class="toggle toggle-primary"
+        :checked="ranking.uniqueUser"
+        @change="(e) => update('uniqueUser', (e.target as HTMLInputElement).checked)"
+      />
+    </SettingItem>
   </div>
 
-  <!-- ユーザーごとの重複 -->
-  <SettingItem
-    labelKey="uiSettings.gameRanking.uniqueUser.label"
-    descriptionKey="uiSettings.gameRanking.uniqueUser.description"
-    layout="vertical"
-  >
-    <input
-      type="checkbox"
-      class="toggle toggle-primary"
-      :checked="ranking.uniqueUser"
-      @change="(e) => update('uniqueUser', (e.target as HTMLInputElement).checked)"
-    />
+  <!-- カラー設定 -->
+  <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description">
+    <ColorPicker :modelValue="ranking.color" @update:modelValue="(val) => update('color', val)" />
   </SettingItem>
 </template>
 
