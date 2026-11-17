@@ -31,12 +31,6 @@ export const uiSettingsDisplay = {
           label: 'キャラクター表示',
           description: 'トーストにキャラクターアイコンを表示',
         },
-        fallbackCharacter: {
-          label: 'キャラ未指定時のキャラクター',
-          description: 'メッセージにキャラがないとき、トーストに表示するキャラクター',
-          none: '表示しない',
-          random: 'ランダム',
-        },
         preview: {
           add: 'フキダシを追加',
           clear: 'クリア',
@@ -133,12 +127,6 @@ export const uiSettingsDisplay = {
         showCharacter: {
           label: 'Show character',
           description: 'Whether to show a character icon on the toast',
-        },
-        fallbackCharacter: {
-          label: 'Character when none is specified',
-          description: 'Character shown on the toast when the message has no character',
-          none: 'None',
-          random: 'Random',
         },
         preview: {
           add: 'Add bubble',
