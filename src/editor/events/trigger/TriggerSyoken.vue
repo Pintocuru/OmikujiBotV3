@@ -3,7 +3,7 @@
   <SettingItem icon="UserPlus" labelKey="triggerSyoken.label" descriptionKey="triggerSyoken.description">
     <div class="flex flex-wrap gap-2">
       <span
-        v-for="option in syokenOptions"
+        v-for="option in syokenConditions"
         :key="option"
         class="badge badge-sm cursor-pointer select-none"
         :class="modelValue.includes(option) ? 'badge-secondary' : 'badge-ghost'"
@@ -18,7 +18,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { syokenConditionMap } from '@/maps/engine/trigger/SyokenConditionMap'
+  import { syokenConditions } from '@/types/engine/trigger/SyokenCondition'
   import { SyokenConditionType } from '@/types/engine/trigger'
 
   const props = defineProps<{
@@ -29,9 +29,6 @@
   const emit = defineEmits<{
     'update:modelValue': [value: SyokenConditionType[]]
   }>()
-
-  // 選択肢の生成
-  const syokenOptions = Object.keys(syokenConditionMap) as SyokenConditionType[]
 
   // オプションの切り替え
   const toggleOption = (value: SyokenConditionType) => {
