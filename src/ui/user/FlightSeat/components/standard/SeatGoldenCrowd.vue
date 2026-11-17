@@ -65,6 +65,7 @@
 
   const palette = computed(() => createSeatPalette(props.color))
 
+  const cornerPositions = ['top-3 left-3', 'top-3 right-3', 'bottom-3 left-3', 'bottom-3 right-3'] as const
   const layout = props.customLayout ?? ([22, 23, 24, 23, 24, 23, 22, 23, 24, 23, 24, 23, 22] as const)
   const rowOffset = (row: number) => layout.slice(0, row).reduce((sum, n) => sum + n, 0)
   const seatAt = (row: number, col: number): UserStatsRecord | null => props.seats[rowOffset(row) + col - 1] ?? null
