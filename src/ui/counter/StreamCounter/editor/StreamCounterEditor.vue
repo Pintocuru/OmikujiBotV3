@@ -37,7 +37,6 @@
   import CounterSelectorPanel from './CounterSelector/CounterSelectorPanel.vue'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
   import { CounterItem } from './CounterSelector/counterTypes'
-  import { streamDefaultMap } from '@/maps/ui'
 
   const { t } = useI18n()
 
@@ -76,7 +75,7 @@
       id: `default:${target}`,
       type: 'default' as const,
       target,
-      label: streamDefaultMap[target],
+      label: t(`uiSettings.counterSelector.default.options.${target}`),
     })),
     // 評価ブロックカウンター
     ...streamCounter.value.variableCounters, // StreamCounterVariablesSchema[] がそのまま CounterItem と互換
