@@ -1,6 +1,10 @@
 <!-- src/ui/bot/FlashBanner/FlashBannerSelector.vue -->
 <template>
-  <div v-if="currentComponent && message" class="bg-base-100 transparent-bg w-full overflow-hidden">
+  <div
+    v-if="currentComponent && message"
+    class="bg-base-100 transparent-bg w-full overflow-hidden"
+    :class="useFontFamily(fontFamily)"
+  >
     <component
       :is="currentComponent"
       :settings="settings"
@@ -18,7 +22,8 @@
 
 <script setup lang="ts">
   import { shallowRef, watch, type Component } from 'vue'
-  import type { CharacterAnimationType, CharacterColorType } from '@/types/OmikujiData'
+  import type { CharacterAnimationType, CharacterColorType, FontFamilyType } from '@/types/OmikujiData'
+  import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import type { FlashBannerType } from '@/types/ui'
   import { getFlashBannerComponent } from './FlashBannerRegistry'
   import { notifyFlashBannerComponentIssue } from './notifyFlashBannerComponentIssue'
@@ -30,10 +35,11 @@
       characterLayers?: string[]
       characterAnimation?: CharacterAnimationType
       color: CharacterColorType
+      fontFamily?: FontFamilyType
       labelClass?: string
       editorPreview?: boolean
     }>(),
-    { characterLayers: () => [], characterAnimation: undefined, labelClass: '', editorPreview: false }
+    { characterLayers: () => [], characterAnimation: undefined, labelClass: '', fontFamily: undefined, editorPreview: false }
   )
 
   // 未登録・読み込み失敗のときは null のまま(配信画面は無表示。わんコメへ一度だけ通知する)

@@ -2,7 +2,7 @@
 <template>
   <!-- プレビュー(クリックで短文・長文を切り替えて、スクロールを試せる) -->
   <HudPreview>
-    <div class="cursor-pointer" :class="[fontFamily]" @click="isLong = !isLong">
+    <div class="cursor-pointer" @click="isLong = !isLong">
       <FlashBannerSelector
         :key="`${flashBanner.component}-${flashBanner.scrollSpeed}-${flashBanner.scrollReturnMode}-${isLong}`"
         editorPreview
@@ -10,6 +10,7 @@
         :message="sampleMessage"
         :color="flashBanner.color"
         :label-class="blinkClass"
+        :fontFamily="fontFamily"
       />
     </div>
     <template #hudLeft>
@@ -145,7 +146,6 @@
   import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import {
     FLASH_BANNER_ICON_SIZE,
     FLASH_BANNER_SCROLL_SPEED,
@@ -167,7 +167,7 @@
   const { data } = storeToRefs(omikujiStore)
   const { updateItemSettings } = omikujiStore
 
-  const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
+  const fontFamily = computed(() => data.value.ui.fontFamily)
   const flashBanner = computed(() => FlashBannerSchema.parse(data.value.ui.settings.flashBanner ?? {}))
 
   // プレビューの文言(クリックで長文に切り替えて、スクロールを確かめる)

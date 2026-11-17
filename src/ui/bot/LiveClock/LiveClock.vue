@@ -6,6 +6,7 @@
     :is-mounted="isMounted"
     :is-flipped="isFlipped"
     :current-msg="currentMsg"
+    :fontFamily="appStore.data.ui.fontFamily"
   />
 </template>
 

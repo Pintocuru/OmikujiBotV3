@@ -1,6 +1,6 @@
 <!-- src/ui/bot/LiveClock/LiveClockSelector.vue -->
 <template>
-  <div v-if="currentComponent" class="bg-base-100 transparent-bg overflow-hidden">
+  <div v-if="currentComponent" class="bg-base-100 transparent-bg overflow-hidden" :class="useFontFamily(fontFamily)">
     <component
       :is="currentComponent"
       :settings="settings"
@@ -17,7 +17,9 @@
 
 <script setup lang="ts">
   import { shallowRef, watch, type Component } from 'vue'
+  import type { FontFamilyType } from '@/types/OmikujiData'
   import type { LiveClockType } from '@/types/ui'
+  import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import { getLiveClockComponent } from './LiveClockRegistry'
   import { notifyLiveClockComponentIssue } from './notifyLiveClockComponentIssue'
 
@@ -28,9 +30,10 @@
       isMounted: boolean
       isFlipped: boolean
       currentMsg: string
+      fontFamily?: FontFamilyType
       editorPreview?: boolean
     }>(),
-    { editorPreview: false }
+    { fontFamily: undefined, editorPreview: false }
   )
 
   // 未登録・読み込み失敗のときは null のまま(配信画面は無表示。わんコメへ一度だけ通知する)

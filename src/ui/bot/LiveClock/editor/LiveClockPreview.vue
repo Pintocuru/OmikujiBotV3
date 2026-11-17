@@ -1,7 +1,7 @@
 <!-- src/ui/bot/LiveClock/editor/LiveClockPreview.vue -->
 <template>
   <HudPreview maxHeightClass="">
-    <div class="flex justify-center" :class="[fontFamily]">
+    <div class="flex justify-center">
       <LiveClockSelector
         editorPreview
         :settings="settings"
@@ -9,6 +9,7 @@
         :is-mounted="isMounted"
         :is-flipped="isFlipped"
         :current-msg="currentMsg"
+        :fontFamily="fontFamily"
         @click="isFlipped = !isFlipped"
       />
     </div>
@@ -18,7 +19,6 @@
 <script setup lang="ts">
   import { ref, computed, onMounted } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import { LiveClockType } from '@/types/ui'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import LiveClockSelector from '@/ui/bot/LiveClock/LiveClockSelector.vue'
@@ -31,7 +31,7 @@
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
 
-  const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
+  const fontFamily = computed(() => data.value.ui.fontFamily)
   const settings = computed(() => props.settings)
 
   const slotMessage = ref('テスト用の下部メッセージです')

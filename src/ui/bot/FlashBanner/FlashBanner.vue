@@ -8,6 +8,7 @@
     :character-animation="characterAnimation"
     :color="color"
     :label-class="blinkClass"
+    :fontFamily="appStore.data.ui.fontFamily"
   />
 </template>
 
