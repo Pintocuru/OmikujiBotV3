@@ -1,7 +1,7 @@
 // src/ui/bot/ToastWidgets/toastCharacter.test.ts
 import { describe, expect, it } from 'vitest'
 import type { CharacterType } from '@/types/OmikujiData'
-import { resolveToastCharacterKey, toastIconLayers } from './toastCharacter'
+import { getRandomToastCharacterKey, resolveToastCharacterKey, toastIconLayers } from './toastCharacter'
 
 const make = (key: string, images: Record<string, string[]>) =>
   ({
@@ -15,23 +15,21 @@ const none = make('none', {}) // 画像なし
 const all = [a, b, none]
 
 describe('resolveToastCharacterKey', () => {
-  it('登録済みのキャラが指定されていればそのまま使う', () => {
-    expect(resolveToastCharacterKey('b', 'a', all)).toBe('b')
+  it('登録済みのキャラが指定されていればその key を返す', () => {
+    expect(resolveToastCharacterKey('b', all)).toBe('b')
   })
-  it('未指定で fallback が空なら補わない', () => {
-    expect(resolveToastCharacterKey('', '', all)).toBe('')
+  it('未指定・未登録のキャラは補完しない', () => {
+    expect(resolveToastCharacterKey('', all)).toBe('')
+    expect(resolveToastCharacterKey('x', all)).toBe('')
+    expect(resolveToastCharacterKey(undefined, all)).toBe('')
   })
-  it('未登録キーは fallback を使う', () => {
-    expect(resolveToastCharacterKey('x', 'a', all)).toBe('a')
-  })
-  it('fallback が画像なしキャラ・未登録キーなら補わない', () => {
-    expect(resolveToastCharacterKey('', 'none', all)).toBe('')
-    expect(resolveToastCharacterKey('', 'x', all)).toBe('')
-  })
-  it('random は画像を持つキャラだけから選ぶ', () => {
-    expect(resolveToastCharacterKey('', 'random', all, () => 0)).toBe('a')
-    expect(resolveToastCharacterKey('', 'random', all, () => 0.99)).toBe('b')
-    expect(resolveToastCharacterKey('', 'random', [none])).toBe('')
+})
+
+describe('getRandomToastCharacterKey', () => {
+  it('画像を持つキャラだけからランダムに選ぶ', () => {
+    expect(getRandomToastCharacterKey(all, () => 0)).toBe('a')
+    expect(getRandomToastCharacterKey(all, () => 0.99)).toBe('b')
+    expect(getRandomToastCharacterKey([none])).toBe('')
   })
 })
 
