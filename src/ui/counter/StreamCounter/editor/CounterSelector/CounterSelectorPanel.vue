@@ -9,13 +9,13 @@
   >
     <div class="flex flex-wrap gap-2">
       <div
-        v-for="(label, key) in streamDefaultMap"
+        v-for="key in streamDefaultKeyLabels"
         :key="key"
         class="badge cursor-pointer"
         :class="isSelected('default', key) ? 'badge-primary' : 'badge-outline'"
-        @click="toggleDefault(key, label)"
+        @click="toggleDefault(key)"
       >
-        {{ label }}
+        {{ t(`uiSettings.counterSelector.default.options.${key}`) }}
       </div>
     </div>
   </SettingItem>
@@ -40,11 +40,15 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { streamDefaultMap } from '@/maps/ui'
+  import { useI18n } from 'vue-i18n'
+  import { streamDefaultKeyLabels } from '@/types/ui'
+  import type { StreamDefaultKey } from '@/types/ui'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import CounterVariableSection from './CounterVariableSection.vue'
   import CounterOrderSection from './CounterOrderSection.vue'
   import type { CounterItem } from './counterTypes'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     counters: CounterItem[]
@@ -67,12 +71,12 @@
   const isDisabled = (type: CounterItem['type'], target: string) =>
     !isSelected(type, target) && counterCount.value >= props.maxCounters
 
-  const toggleDefault = (target: string, label: string) => {
+  const toggleDefault = (target: StreamDefaultKey) => {
     const found = props.counters.find((c) => c.type === 'default' && c.target === target)
     if (found) {
       emit('remove', found.id)
     } else if (!isDisabled('default', target)) {
-      emit('add', { type: 'default', target, label })
+      emit('add', { type: 'default', target, label: t(`uiSettings.counterSelector.default.options.${target}`) })
     }
   }
 </script>
