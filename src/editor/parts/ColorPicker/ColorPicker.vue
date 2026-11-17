@@ -1,6 +1,6 @@
 <!-- src/editor/parts/ColorPicker/ColorPicker.vue -->
 <template>
-  <div class="bg-base-300 p-4 flex flex-col space-y-4">
+  <div class="flex flex-col space-y-2">
     <!-- タブ -->
     <div role="tablist" class="tabs tabs-box tabs-sm flex-wrap">
       <button

@@ -10,34 +10,6 @@
     @update:modelValue="(val) => updateField('component', val)"
   />
 
-  <!-- カラー設定 -->
-  <SettingItem
-    labelKey="uiSettings.common.color.label"
-    descriptionKey="uiSettings.common.color.description"
-    layout="vertical"
-  >
-    <ColorPicker :modelValue="cookieCounter.color" @update:modelValue="(val) => updateField('color', val)" />
-  </SettingItem>
-
-  <!-- キャラクター指定（maxCharacters が 1 以上のコンポーネントのみ。リセットで未選択に戻る） -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-    <SettingItem
-      v-for="index in characterSlots"
-      :key="index"
-      :label="t('uiSettings.cookieCounter.character.label', { n: index + 1 })"
-      :description="t('uiSettings.cookieCounter.character.description')"
-      layout="vertical"
-      :showReset="true"
-      @reset="resetCharacter(index)"
-    >
-      <CharacterIconPicker
-        :character-key="characterAt(index).characterKey"
-        :icon-key="characterAt(index).iconKey"
-        @select="(payload) => setCharacter(index, payload)"
-      />
-    </SettingItem>
-  </div>
-
   <!-- カウンター設定 -->
   <CounterSelectorPanel
     :counters="counters"
@@ -48,6 +20,27 @@
     @reorder="updateCounters"
     @update="updateCounter"
   />
+
+  <!-- カラー設定 -->
+  <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description">
+    <ColorPicker :modelValue="cookieCounter.color" @update:modelValue="(val) => updateField('color', val)" />
+  </SettingItem>
+
+  <!-- キャラクター指定（maxCharacters が 1 以上のコンポーネントのみ。リセットで未選択に戻る） -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    <SettingItem
+      v-for="index in characterSlots"
+      :key="index"
+      :label="t('uiSettings.cookieCounter.character.label', { n: index + 1 })"
+      layout="vertical"
+    >
+      <CharacterIconPicker
+        :character-key="characterAt(index).characterKey"
+        :icon-key="characterAt(index).iconKey"
+        @select="(payload) => setCharacter(index, payload)"
+      />
+    </SettingItem>
+  </div>
 </template>
 
 <script setup lang="ts">

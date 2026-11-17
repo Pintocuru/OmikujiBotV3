@@ -75,11 +75,7 @@
   </SettingItem>
 
   <!-- カラー設定 -->
-  <SettingItem
-    labelKey="uiSettings.common.color.label"
-    descriptionKey="uiSettings.common.color.description"
-    layout="vertical"
-  >
+  <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description">
     <ColorPicker :modelValue="flightSeat.color" @update:modelValue="(val) => updateField('color', val)" />
   </SettingItem>
 </template>
