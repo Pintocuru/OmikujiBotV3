@@ -1,5 +1,4 @@
 // src/ui/bot/ToastWidgets/toastCharacter.ts
-import { TOAST_CHARACTER_RANDOM } from '@/types/ui'
 import type { CharacterType } from '@/types/OmikujiData'
 
 const hasSrc = (src?: string[]) => (src ?? []).some((p) => p && p.trim() !== '')
@@ -8,26 +7,17 @@ const hasSrc = (src?: string[]) => (src ?? []).some((p) => p && p.trim() !== '')
 export const hasCharacterImage = (character: CharacterType): boolean =>
   Object.values(character.image ?? {}).some((item) => hasSrc(item?.src))
 
-/**
- * トーストに表示するキャラクターの key を決める。
- * - メッセージのキャラが登録済みならそれを使う
- * - 未指定・不明なら fallback('' = なし / 'random' = 画像を持つキャラからランダム / key = そのキャラ)
- * 返す key は '' (キャラなし)か登録済みキャラの key。
- */
-export const resolveToastCharacterKey = (
-  characterKey: string | undefined,
-  fallback: string,
+/** メッセージに指定されたキャラクターが登録済みか確認する */
+export const resolveToastCharacterKey = (characterKey: string | undefined, characters: CharacterType[]): string =>
+  characterKey && characters.some((character) => character.key === characterKey) ? characterKey : ''
+
+/** プレビュー用: 画像を持つ登録キャラクターからランダムに1人選ぶ */
+export const getRandomToastCharacterKey = (
   characters: CharacterType[],
   random: () => number = Math.random
 ): string => {
-  if (characterKey && characters.some((c) => c.key === characterKey)) return characterKey
-  if (!fallback) return ''
-
   const candidates = characters.filter(hasCharacterImage)
-  if (fallback === TOAST_CHARACTER_RANDOM) {
-    return candidates.length > 0 ? candidates[Math.floor(random() * candidates.length)].key : ''
-  }
-  return candidates.some((c) => c.key === fallback) ? fallback : ''
+  return candidates.length > 0 ? candidates[Math.floor(random() * candidates.length)].key : ''
 }
 
 /**
