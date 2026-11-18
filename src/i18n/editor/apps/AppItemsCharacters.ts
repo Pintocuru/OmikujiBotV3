@@ -123,25 +123,11 @@ export const appItemsCharactersMessages = {
         detect: '画像を検出',
         detectNotFound:
           '「{base}」の画像が見つかりません。imagesフォルダ内の配置と、キャラクターkey・エモートkeyを確認してください。',
-        candidates: '候補',
         status: {
           checking: '確認中…',
           loaded: '読み込めました',
           error: '画像を読み込めません。パスを確認',
         },
-      },
-      candidate: {
-        title: '画像の候補',
-        search: 'パスで絞り込み',
-        showOthers: '他のキャラクター・フォルダの画像も表示 ({n})',
-        reload: '一覧を再取得',
-        used: '使用中',
-        current: '選択中',
-        groupSameCharacter: 'このキャラクターの他の感情で使用中',
-        groupFolder: '{key}/ フォルダの画像',
-        groupOthers: 'その他の画像',
-        empty: '候補なし。パスを直接入力',
-        noList: '画像一覧を取得できません（サーバー未接続、またはimagesフォルダなし）',
       },
       preset: {
         label: 'プリセット:',
@@ -153,7 +139,6 @@ export const appItemsCharactersMessages = {
         placePost: 'フォルダ内に配置（例: images/chocolate/default.webp）',
         detect:
           '「{button}」は1枚目の画像を「キャラクターID/感情キー.拡張子」で検索し、見つかったパスを入力します。拡張子は webp → png → gif → jpg → jpeg → svg → webm → mp4 の順に検索します。',
-        pick: '2枚目以降は感情と無関係な名前の場合があるため、自動検索しません。「{button}」から選択するか、パスを直接入力してください。',
         status:
           '画像の読み込み結果はパスの下に表示されます。「読み込めません」と表示された場合は、パスの綴りと配置を確認してください。',
         layerFeature: 'レイヤー機能:',
@@ -328,19 +313,6 @@ export const appItemsCharactersMessages = {
           error: 'Cannot load this image. Check the path.',
         },
       },
-      candidate: {
-        title: 'Image candidates',
-        search: 'Filter by path',
-        showOthers: 'Also show images of other characters and folders ({n})',
-        reload: 'Reload list',
-        used: 'In use',
-        current: 'Selected',
-        groupSameCharacter: 'Used by other emotions of this character',
-        groupFolder: 'Images in {key}/',
-        groupOthers: 'Other images',
-        empty: 'No candidates. Enter the path directly.',
-        noList: 'Could not get the image list (server not connected, or there is no images folder).',
-      },
       preset: {
         label: 'Presets:',
       },
@@ -351,7 +323,6 @@ export const appItemsCharactersMessages = {
         placePost: ' folder beforehand. (e.g. images/chocolate/default.webp)',
         detect:
           '"{button}" looks for the first image named "characterID/emotionKey.extension" and fills in the path it finds. Extensions are tried in this order: webp → png → gif → jpg → jpeg → svg → webm → mp4.',
-        pick: 'Layers after the first are not searched automatically, because their names may have nothing to do with the emotion. Choose an image with "{button}" or type the path directly.',
         status:
           'Below each path you can see whether the image could be loaded. If it says it cannot be loaded, check the spelling and location of the file.',
         layerFeature: 'Layer feature:',
