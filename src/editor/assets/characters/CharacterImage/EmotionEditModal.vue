@@ -16,7 +16,6 @@
           :src="draftItem.src"
           :emotion-key="draftKey"
           :selected-item-key="selectedItemKey ?? 'default'"
-          :other-emotion-paths="otherEmotionPaths"
           @update:src="updateSrc"
         />
         <EmotionAnimationEditor
@@ -35,7 +34,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { computed, ref } from 'vue'
+  import { ref } from 'vue'
   import type { CharacterImageSetType, CharacterImageType } from '@/types/OmikujiData'
   import EmotionImageItem from './EmotionImageItem.vue'
   import EmotionLayerEditor from './EmotionLayerEditor.vue'
@@ -63,14 +62,6 @@
     useEmotionDraft(() => props.modelValue)
 
   const validateKey = (input: string) => validateEmotionKey(props.modelValue, originalKey.value ?? '', input)
-
-  // このキャラクターの他の感情で使っているパス (レイヤー候補の1番目のグループ)
-  const otherEmotionPaths = computed(() =>
-    Object.entries(props.modelValue)
-      .filter(([key]) => key !== originalKey.value)
-      .flatMap(([, image]) => image.src)
-      .filter((path) => path.trim() !== '')
-  )
 
   const handleSave = () => {
     if (!originalKey.value || !draftKey.value || !draftItem.value) return
