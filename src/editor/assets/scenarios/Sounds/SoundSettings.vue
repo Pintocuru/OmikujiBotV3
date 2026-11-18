@@ -10,10 +10,12 @@
 
   <!-- カスタムサウンド -->
   <SettingItem icon="Volume2" labelKey="scenarioStep.sound.customLabel" descriptionKey="scenarioStep.sound.customDesc">
-    <select v-model="soundPath" class="select select-bordered select-sm w-full">
-      <option value="">{{ t('scenarioStep.common.none') }}</option>
-      <option v-for="file in soundFiles" :key="file" :value="file">{{ file }}</option>
-    </select>
+    <input
+      v-model="soundPath"
+      type="text"
+      class="input input-bordered input-sm w-full"
+      :placeholder="t('scenarioStep.sound.customPlaceholder')"
+    />
   </SettingItem>
 </template>
 
@@ -23,10 +25,7 @@
   import { ScenarioStepMessageType, ScenarioStepSoundType } from '@/types/OmikujiData'
   import { soundMap } from '@/maps/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { useSoundFiles } from '@/editor/assets/scenarios/composables/useSoundFiles'
-
   const { t } = useI18n()
-  const { soundFiles } = useSoundFiles()
 
   const props = defineProps<{
     step: ScenarioStepMessageType | ScenarioStepSoundType
