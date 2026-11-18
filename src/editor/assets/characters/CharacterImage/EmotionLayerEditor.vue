@@ -67,7 +67,7 @@
     emit('update:src', n)
   }
 
-  // silent: ダイアログを開いたときの自動検出。見つからなくても警告は出さず、待っている間に入力されていたら何もしない
+  // silent: 初期自動検出では警告を出さず、検出中に入力された場合は上書きしない
   const runDetect = async (silent: boolean) => {
     detecting.value = true
     detectWarning.value = ''
