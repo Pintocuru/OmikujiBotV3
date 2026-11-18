@@ -31,11 +31,9 @@
     "src/**/*.d.ts",
     "src/**/*.vue",
     "packages/**/*.ts",
-    "packages/**/*.d.ts",
-    "packages/**/*.vue",
     "server/**/*.ts",
     "tools/**/*.ts",
     "*.ts"
   ],
-  "exclude": ["node_modules", "archives", "**/*.test.ts", "build/**/*"]
+  "exclude": ["node_modules", "**/*.test.ts"]
 }
