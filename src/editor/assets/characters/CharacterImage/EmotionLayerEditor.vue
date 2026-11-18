@@ -24,23 +24,9 @@
       :warning="index === 0 ? detectWarning : ''"
       @update:path="handleLayerUpdate(index, $event)"
       @detect="runDetect(false)"
-      @pick="pickingIndex = index"
       @move-up="handleMoveUp(index)"
       @move-down="handleMoveDown(index)"
       @remove="handleRemoveLayer(index)"
-    />
-
-    <ImageCandidateDialog
-      :open="pickingIndex !== null"
-      :files="imageFiles"
-      :is-loading="isLoading"
-      :character-key="selectedItemKey"
-      :character-paths="otherEmotionPaths"
-      :used-paths="usedPaths"
-      :current-path="pickingIndex !== null ? (layers[pickingIndex] ?? '') : ''"
-      @update:open="pickingIndex = null"
-      @select="handlePick"
-      @reload="reload"
     />
   </div>
 </template>
@@ -52,9 +38,7 @@
   import HelpButton from '@/editor/parts/HelpButton.vue'
   import EmotionLayerRow from './EmotionLayerRow.vue'
   import ImageSettingsInfo from './ImageSettingsInfo.vue'
-  import ImageCandidateDialog from './ImageCandidateDialog.vue'
   import { detectImagePath } from './composables/detectImagePath'
-  import { useImageFiles } from './composables/useImageFiles'
 
   const { t } = useI18n()
 
@@ -62,8 +46,6 @@
     src: string[]
     emotionKey: string
     selectedItemKey: string
-    /** このキャラクターの他の感情で使っているパス (候補の1番目のグループ) */
-    otherEmotionPaths: string[]
   }>()
 
   const emit = defineEmits<{
@@ -72,7 +54,6 @@
 
   const layers = computed(() => (Array.isArray(props.src) ? props.src : []))
 
-  const { imageFiles, isLoading, ensureLoaded, reload } = useImageFiles()
 
   // ── 画像の自動検出 (1枚目のみ) ───────────────────────────────────────────
   const detecting = ref(false)
@@ -91,11 +72,9 @@
     detecting.value = true
     detectWarning.value = ''
     try {
-      await ensureLoaded()
       const found = await detectImagePath({
         characterKey: props.selectedItemKey,
         emotionKey: props.emotionKey,
-        files: imageFiles.value,
       })
       if (found) {
         if (!silent || isFirstEmpty()) setLayer(0, found)
@@ -118,18 +97,6 @@
   onMounted(() => {
     if (isFirstEmpty()) void runDetect(true)
   })
-
-  // ── 候補の選択 ─────────────────────────────────────────────────────────────
-  const pickingIndex = ref<number | null>(null)
-
-  // 選んでいるレイヤー以外で、この感情が使っているパス (重複して選ばせない)
-  const usedPaths = computed(() => layers.value.filter((path, i) => i !== pickingIndex.value && path.trim() !== ''))
-
-  const handlePick = (path: string) => {
-    if (pickingIndex.value === null) return
-    setLayer(pickingIndex.value, path)
-    pickingIndex.value = null
-  }
 
   // ── レイヤー操作 ───────────────────────────────────────────────────────────
   const handleLayerUpdate = (index: number, value: string) => setLayer(index, value)
