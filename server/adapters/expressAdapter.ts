@@ -1,25 +1,15 @@
 // server/adapters/expressAdapter.ts
-import path from 'path'
 import { Request, Response, Application } from 'express'
 import { RequestContext, UnifiedRequest, ApiResult } from '@server/types'
 import { routeRequest } from '@server/core/router'
 import { SERVER_ROOT } from '@server/constants'
 import { HTTP } from '@server/core/constants'
-import { listImageRootDirs } from '@server/core/services/fileSystemService'
-
-// 開発: リポジトリ直下の assets/characters (直下の中間フォルダが、それぞれ1つの画像ルート)
-const CHARACTERS_DIR = path.join(path.dirname(SERVER_ROOT), 'assets', 'characters')
 
 /**
  * Express(開発用)の実行環境
  */
 const EXPRESS_CONTEXT: RequestContext = {
   omikujiOutputDir: SERVER_ROOT,
-  soundsDir: path.join(path.dirname(SERVER_ROOT), 'assets', 'sounds'), // 開発: リポジトリ直下の assets/sounds
-  // 中間フォルダの追加に追従するため、リクエストのたびに読み直す
-  get imagesDirs() {
-    return listImageRootDirs(CHARACTERS_DIR)
-  },
   allowMock: true, // 開発サーバーにはわんコメがないため、ダミーデータを追加するアクションを許可する
 }
 
