@@ -1,7 +1,8 @@
 // src/generator/scripts/Notice/showNotice.ts
 // 配信画面の右下の通知(NoticeWidget)を出す関数
 import { useAppStore } from '@/generator/stores/useAppStore'
-import { useNoticeStore } from '@/generator/stores/useNoticeStore'
+import { NOTICE_DISPLAY_MS } from '@/generator/GeneratorConstants'
+import { pushNotice } from '@/common/Notice/noticeState'
 
 /**
  * クールダウンでブロックされたことを知らせる。
@@ -10,7 +11,12 @@ import { useNoticeStore } from '@/generator/stores/useNoticeStore'
 export function showCooldownBlockNotice(userName: string, remainingSeconds: number): void {
   if (!useAppStore().data.settings.generator.showCooldownNotice) return
   const seconds = (Math.ceil(remainingSeconds * 10) / 10).toFixed(1)
-  useNoticeStore().push(`${userName}がブロックされました(あと${seconds}秒)`, 'cooldown')
+  pushNotice({
+    kind: 'cooldown',
+    scope: 'stage',
+    title: `${userName}がブロックされました(あと${seconds}秒)`,
+    durationMs: NOTICE_DISPLAY_MS.cooldown,
+  })
 }
 
 /**
@@ -20,7 +26,7 @@ export function showCooldownBlockNotice(userName: string, remainingSeconds: numb
  * 繰り返し起きうるエラーはこちらを使う。1 回しか起きないエラーは postSystemMessage で伝える。
  */
 export function showErrorNotice(message: string): void {
-  useNoticeStore().push(message, 'error')
+  pushNotice({ kind: 'error', scope: 'stage', title: message, durationMs: NOTICE_DISPLAY_MS.error })
 }
 
 /**

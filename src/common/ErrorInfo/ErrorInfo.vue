@@ -1,6 +1,6 @@
 <!-- src/common/ErrorInfo/ErrorInfo.vue -->
 <template>
-  <div ref="rootEl" class="w-full h-full flex flex-col items-center justify-center p-2">
+  <div ref="rootEl" class="w-full h-screen overflow-hidden flex flex-col items-center justify-center p-2">
     <!-- 極小画面 -->
     <template v-if="isXs">
       <AlertTriangle class="w-6 h-6 text-error shrink-0" />

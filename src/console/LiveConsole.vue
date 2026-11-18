@@ -23,15 +23,32 @@
     <PadsView v-else-if="view === 'pads'" />
     <BingoView v-else-if="view === 'bingo'" />
     <GameLogsView v-else />
+
+    <!-- 通知(notify.*)と確認ダイアログ(dialog.*)の表示先 -->
+    <ToastHost />
+    <DialogHost />
   </div>
 </template>
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
+  import ToastHost from '@/common/Notice/ToastHost.vue'
+  import DialogHost from '@/common/Dialog/DialogHost.vue'
+  import { configureDialogLabels } from '@/common/Dialog/dialogState'
   import GameLogsView from './games/components/GameLogsView.vue'
   import UsersView from './users/UsersView.vue'
   import PadsView from './pads/components/PadsView.vue'
   import BingoView from './bingo/components/BingoView.vue'
+
+  // コンソールは日本語のみ
+  configureDialogLabels({
+    ok: 'OK',
+    cancel: 'キャンセル',
+    confirm: '実行する',
+    delete: '削除する',
+    deleteTitle: '削除しますか？',
+    deleteText: 'この操作は取り消せません',
+  })
 
   const views = { pads: 'ポン出し', bingo: 'ビンゴ', users: 'ユーザー操作', games: 'ゲームの記録' } as const
   type ViewKey = keyof typeof views

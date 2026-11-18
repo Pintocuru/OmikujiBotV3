@@ -17,6 +17,10 @@
         <GeneratorView />
       </div>
     </div>
+
+    <!-- 通知(notify.*)と確認ダイアログ(dialog.*)の表示先。テーマを当てている要素の内側に置く -->
+    <ToastHost />
+    <DialogHost />
   </div>
 </template>
 
@@ -24,6 +28,10 @@
   import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import EditorApp from './EditorApp.vue'
+  import ToastHost from '@/common/Notice/ToastHost.vue'
+  import DialogHost from '@/common/Dialog/DialogHost.vue'
+  import { configureDialogLabels } from '@/common/Dialog/dialogState'
+  import i18n from '@/i18n/editorI18n'
   import TopBar from './shell/TopBar.vue'
   import type { GeneratorState } from './shell/shellTypes'
   import GeneratorLoading from './shell/GeneratorLoading.vue'
@@ -34,6 +42,19 @@
   const GeneratorView = defineAsyncComponent({
     loader: () => import('./shell/GeneratorView.vue'),
     loadingComponent: GeneratorLoading,
+  })
+
+  // ダイアログの既定の文言は、開くたびに現在の言語で引く
+  configureDialogLabels(() => {
+    const t = i18n.global.t
+    return {
+      ok: t('dialog.ok'),
+      cancel: t('dialog.cancel'),
+      confirm: t('dialog.confirm'),
+      delete: t('dialog.delete'),
+      deleteTitle: t('dialog.deleteTitle'),
+      deleteText: t('dialog.deleteText'),
+    }
   })
 
   const showGenerator = ref(false)

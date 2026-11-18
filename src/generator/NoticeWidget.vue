@@ -7,26 +7,39 @@
     class="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-1 pointer-events-none select-none"
   >
     <div
-      v-for="notice in notices"
+      v-for="notice in stageNotices"
       :key="notice.id"
       class="max-w-sm wrap-break-word px-2 py-1 rounded-2xl shadow-md text-[10px] font-medium bg-base-200/90 text-base-content border"
       :class="[kindClass[notice.kind], notice.kind === 'error' && 'pointer-events-auto cursor-copy']"
       :title="notice.kind === 'error' ? 'ダブルクリックでコピー' : undefined"
-      @dblclick="notice.kind === 'error' && copyNotice(notice.text)"
+      @dblclick="notice.kind === 'error' && copyNotice(noticeText(notice))"
     >
-      {{ notice.text }}
+      {{ noticeText(notice) }}
     </div>
   </TransitionGroup>
 </template>
 
 <script setup lang="ts">
-  import { storeToRefs } from 'pinia'
-  import { useNoticeStore, type NoticeKind } from '@/generator/stores/useNoticeStore'
+  import { computed, onBeforeUnmount, onMounted } from 'vue'
+  import { notices, registerNoticeHost, type Notice, type NoticeKind } from '@/common/Notice/noticeState'
 
-  const { notices } = storeToRefs(useNoticeStore())
+  // 配信画面向けの通知(scope: 'stage')だけを出す
+  const stageNotices = computed(() => notices.value.filter((notice) => notice.scope === 'stage'))
+
+  let unregister: (() => void) | undefined
+  onMounted(() => {
+    unregister = registerNoticeHost('stage')
+  })
+  onBeforeUnmount(() => unregister?.())
+
+  // タイトルと補足は 1 行にまとめる(小さく出すため)
+  const noticeText = (notice: Notice) => (notice.text ? `${notice.title}: ${notice.text}` : notice.title)
 
   const kindClass: Record<NoticeKind, string> = {
     cooldown: 'border-warning/40',
+    warning: 'border-warning/40',
+    info: 'border-info/40',
+    success: 'border-success/40',
     error: 'border-error/60 text-error',
   }
 

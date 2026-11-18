@@ -2,7 +2,8 @@
 import { uiKinds, isGameScriptKey, type OmikujiDataType } from '@/types/OmikujiData'
 import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
 import { getGameScriptLoader } from '@/games/gameScriptRegistry'
-import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { dialog } from '@/common/Dialog/dialogState'
+import { notify } from '@/common/Notice/notify'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 
 /**
@@ -102,8 +103,9 @@ export const reportDataMismatch = (
   const text = formatBuildMismatchMessage(items)
   const title = 'データが不一致です'
 
-  if (display === 'toast') swalToast.error({ title, text })
-  else swalModal.error({ title, text })
+  // toast は実行中(OBS の配信画面など)の表示なので、配信画面向け(stage)に出す
+  if (display === 'toast') notify.error(title, { text, scope: 'stage' })
+  else void dialog.alert({ tone: 'error', title, text })
 
   // わんコメに接続できない環境では失敗するため、握りつぶす(画面表示は済んでいる)
   postSystemMessage(`❌ ${title}: ${text}`, { username: 'error', throttle }).catch(() => {
