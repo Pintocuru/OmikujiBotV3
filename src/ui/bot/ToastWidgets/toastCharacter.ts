@@ -12,10 +12,7 @@ export const resolveToastCharacterKey = (characterKey: string | undefined, chara
   characterKey && characters.some((character) => character.key === characterKey) ? characterKey : ''
 
 /** プレビュー用: 画像を持つ登録キャラクターからランダムに1人選ぶ */
-export const getRandomToastCharacterKey = (
-  characters: CharacterType[],
-  random: () => number = Math.random
-): string => {
+export const getRandomToastCharacterKey = (characters: CharacterType[], random: () => number = Math.random): string => {
   const candidates = characters.filter(hasCharacterImage)
   return candidates.length > 0 ? candidates[Math.floor(random() * candidates.length)].key : ''
 }

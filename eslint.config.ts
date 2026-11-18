@@ -7,10 +7,6 @@ import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescri
 const baseRules: Linter.RulesRecord = {
   // コンポーネント名が複数単語かどうか
   'vue/multi-word-component-names': 'off',
-  // import パスのうち不要な部分(拡張子 .js など)を禁止
-  'import/no-useless-path-segments': ['error', { noUselessIndex: false }],
-  // ファイル間の循環参照を検出
-  'import/no-cycle': 'error',
   // 明示的な型付けがない場合でも許可するか
   '@typescript-eslint/no-inferrable-types': 'off',
   // 'any'型の使用を許可するか(Componentでanyを使うので許容)
@@ -56,22 +52,6 @@ export default defineConfigWithVueTs(
   // TypeScript (推奨構成)
   vueTsConfigs.recommended,
 
-  {
-    name: 'import-plugin-config',
-    plugins: {
-    },
-    settings: {
-      'import/resolver': {
-        typescript: {
-          project: ['./tsconfig.json'],
-          alwaysTryTypes: true,
-        },
-        node: {
-          extensions: ['.ts', '.tsx', '.vue'],
-        },
-      },
-    },
-  },
 
   {
     name: 'app/base-rules',

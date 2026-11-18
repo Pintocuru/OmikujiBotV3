@@ -16,7 +16,13 @@
 
     <!-- コーナーエンブレム -->
     <template v-for="(position, i) in cornerPositions" :key="i">
-      <div :class="['absolute', position, 'z-30 animate-pulse text-xl text-amber-400 drop-shadow-[0_0_6px_rgba(255,215,0,0.8)]']">
+      <div
+        :class="[
+          'absolute',
+          position,
+          'z-30 animate-pulse text-xl text-amber-400 drop-shadow-[0_0_6px_rgba(255,215,0,0.8)]',
+        ]"
+      >
         ✦
       </div>
     </template>

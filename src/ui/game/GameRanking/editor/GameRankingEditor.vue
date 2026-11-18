@@ -162,9 +162,4 @@
   const update = <K extends keyof GameRankingType>(field: K, value: GameRankingType[K]) => {
     updateItemSettings('gameRanking', { [field]: value })
   }
-
-  // リセット関数
-  const resetField = (field: keyof GameRankingType) => {
-    update(field, GameRankingSchema.parse({})[field])
-  }
 </script>

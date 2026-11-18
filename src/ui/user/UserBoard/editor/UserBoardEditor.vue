@@ -72,7 +72,8 @@
   const componentOptions = computed(() => {
     const options: Record<string, { label: string; invalid?: boolean }> = {}
     const currentId = board.value.component
-    if (!currentDefinition.value) options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }
+    if (!currentDefinition.value)
+      options[currentId] = { label: t('uiSettings.common.unregistered', { id: currentId }), invalid: true }
     for (const set of Object.values(getUserBoardComponentSets())) {
       for (const [id, definition] of Object.entries(set)) options[id] = { label: t(definition.labelKey) }
     }

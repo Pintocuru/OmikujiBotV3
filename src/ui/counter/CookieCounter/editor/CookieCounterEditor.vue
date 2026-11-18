@@ -116,8 +116,6 @@
     updateField('characters', next)
   }
 
-  const resetCharacter = (index: number) => setCharacter(index, { characterKey: '' })
-
   // counters 配列の全体を差し替える（並び替え・フィルタ共用）
   const updateCounters = (next: CounterItem[] | typeof counters.value) => updateField('counters', next)
 

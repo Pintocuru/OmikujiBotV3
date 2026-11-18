@@ -22,10 +22,7 @@
     </div>
 
     <!-- 選択したサイズのグリッドで選ぶ (LiveConsole のボタン配置と同じ並び) -->
-    <div
-      class="grid w-full max-w-md gap-2"
-      :style="{ gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))` }"
-    >
+    <div class="grid w-full max-w-md gap-2" :style="{ gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))` }">
       <button
         v-for="id in visiblePadIds"
         :key="id"

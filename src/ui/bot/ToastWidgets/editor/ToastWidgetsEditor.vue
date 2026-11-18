@@ -37,7 +37,7 @@
       </div>
     </template>
   </HudPreview>
-  
+
   <!-- コンポーネント選択 -->
   <DisplayStyleSelector
     :modelValue="toastSettings.component"
@@ -128,7 +128,7 @@
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
   // 編集中のデータ(omikujiStore)のキャラクターを参照する(配信側の appStore ではない)
-  const { characterArray, getCharacter, getCharacterColor, getCharacterName } = useCharacterLookup()
+  const { characterArray, getCharacter, getCharacterColor } = useCharacterLookup()
 
   const toastSettings = computed(() => ToastWidgetsSchema.parse(data.value.ui.settings.toastWidgets ?? {}))
 
@@ -158,12 +158,6 @@
   const resetField = (field: keyof typeof toastSettings.value) => {
     const defaults = ToastWidgetsSchema.parse({})
     updateField(field, defaults[field])
-  }
-
-  const resetMap = {
-    showToastsOnRight: () => resetField('showToastsOnRight'),
-    showToastsCharacter: () => resetField('showToastsCharacter'),
-    bubbleMotion: () => resetField('bubbleMotion'),
   }
 
   // --- プレビュー用メッセージ ---
