@@ -7,7 +7,6 @@
     {{ t('characterImage.help.placePost') }}
   </p>
   <p>{{ t('characterImage.help.detect', { button: t('characterImage.layer.detect') }) }}</p>
-  <p>{{ t('characterImage.help.pick', { button: t('characterImage.layer.candidates') }) }}</p>
   <p>{{ t('characterImage.help.status') }}</p>
   <p>
     <strong>{{ t('characterImage.help.layerFeature') }}</strong> {{ t('characterImage.help.layerDesc') }}
