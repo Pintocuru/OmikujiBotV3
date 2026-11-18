@@ -19,8 +19,6 @@ export const API_ACTION = {
   loadBingoSnapshot: { method: 'GET', action: 'load-bingo-snapshot' },
   listBingoPatterns: { method: 'GET', action: 'list-bingo-patterns' },
   loadBingoPattern: { method: 'GET', action: 'load-bingo-pattern' },
-  listSounds: { method: 'GET', action: 'list-sounds' },
-  listImages: { method: 'GET', action: 'list-images' },
 
   // POST
   move: { method: 'POST', action: 'move' },
