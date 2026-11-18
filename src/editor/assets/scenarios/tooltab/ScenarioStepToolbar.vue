@@ -55,7 +55,8 @@
   import { ScenarioStepRecordType, ScenarioStepRecordSchema, sortedStepsFromRecord } from '@/types/OmikujiData'
   import { generateId } from '@/types/core'
   import DelaySecondsAdjuster from './DelaySecondsAdjuster.vue'
-  import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { dialog } from '@/common/Dialog/dialogState'
+  import { notify } from '@/common/Notice/notify'
   import { useTestPost } from '@/editor/helpers/useTestPost'
   import { Send, ClipboardCopy, ClipboardPaste } from 'lucide-vue-next'
   import { useJsonClipboard } from '@/editor/helpers/useJsonClipboard'
@@ -110,23 +111,25 @@
     const parsed = await clipboard.pasteJson()
 
     if (parsed === null) {
-      swalToast.error({
-        title: t('scenarioStep.toolbar.pasteFailed', { error: clipboard.lastError.value }),
-      })
+      notify.error(t('scenarioStep.toolbar.pasteFailed', { error: clipboard.lastError.value }))
       return
     }
 
-    const result = await swalModal.confirmTriple({
+    const choice = await dialog.choose({
       title: t('scenarioStep.toolbar.pasteTitle'),
       text: t('scenarioStep.toolbar.pasteText'),
+      choices: [
+        { key: 'overwrite', label: t('scenarioStep.toolbar.pasteOverwriteButton'), variant: 'primary' },
+        { key: 'merge', label: t('scenarioStep.toolbar.pasteMergeButton') },
+      ],
     })
 
-    if (result.isConfirmed) {
+    if (choice === 'overwrite') {
       emit('update:modelValue', withFreshIds(parsed))
-      swalToast.success({ title: t('scenarioStep.toolbar.pasteOverwrite') })
-    } else if (result.isDenied) {
+      notify.success(t('scenarioStep.toolbar.pasteOverwrite'))
+    } else if (choice === 'merge') {
       emit('update:modelValue', { ...props.modelValue, ...withFreshIds(parsed) })
-      swalToast.success({ title: t('scenarioStep.toolbar.pasteMerge') })
+      notify.success(t('scenarioStep.toolbar.pasteMerge'))
     }
   }
 </script>

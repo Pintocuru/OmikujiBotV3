@@ -56,7 +56,7 @@
   import { useI18n } from 'vue-i18n'
   import { isDev } from '@/common/AppEnv'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
-  import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { notify } from '@/common/Notice/notify'
   import { ChevronsDown, ChevronsUp } from 'lucide-vue-next'
 
   // 並び替え・フォルダ開閉はプリセット一覧用なので、パッケージ一覧では隠す
@@ -77,8 +77,7 @@
     if (ok) {
       await managerStore.fetchFileList()
     } else if (isDev) {
-      swalToast.error({
-        title: t('manager.messages.pluginServerStoppedTitle'),
+      notify.error(t('manager.messages.pluginServerStoppedTitle'), {
         text: t('manager.messages.pluginServerStoppedText'),
       })
     }

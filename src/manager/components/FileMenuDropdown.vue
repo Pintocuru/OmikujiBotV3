@@ -113,7 +113,8 @@
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { useImportManager } from '@/editor/helpers/presetsImport/composables/useImportManager'
   import ConfigImportModal from '@/editor/helpers/presetsImport/ConfigImportModal.vue'
-  import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { dialog } from '@/common/Dialog/dialogState'
+  import { notify } from '@/common/Notice/notify'
   import { isValidPresetName } from '@/manager/services/apiServiceUtils'
   import { Menu, Copy, Trash2, Folder, FolderInput, FolderPlus, Check, FileText, Edit } from 'lucide-vue-next'
 
@@ -152,10 +153,7 @@
     if (name && name !== props.currentFolder) {
       // サーバーが半角英数字しか受け付けないため。黙って閉じず、理由を伝えて入力を残す
       if (!isValidPresetName(name)) {
-        swalToast.warning({
-          title: t('manager.messages.folderNameInvalid'),
-          text: t('manager.messages.presetNameRule'),
-        })
+        notify.warning(t('manager.messages.folderNameInvalid'), { text: t('manager.messages.presetNameRule') })
         return
       }
       emit('move', name)
@@ -194,12 +192,14 @@
 
       if (!result.success) {
         if (result.error === 'invalid-metadata') {
-          await swalModal.error({
+          await dialog.alert({
+            tone: 'error',
             title: t('manager.messages.invalidFile'),
             text: t('manager.messages.notOmikujiData'),
           })
         } else {
-          await swalModal.error({
+          await dialog.alert({
+            tone: 'error',
             title: t('manager.messages.loadError'),
             text: result.error || t('manager.messages.unknownError'),
           })
@@ -212,7 +212,8 @@
     } catch (error) {
       console.error('Partial load error:', error)
 
-      await swalModal.error({
+      await dialog.alert({
+        tone: 'error',
         title: t('manager.messages.loadFailed'),
         text: t('manager.messages.checkConsole'),
       })

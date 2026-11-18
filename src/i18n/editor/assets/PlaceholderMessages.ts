@@ -18,7 +18,7 @@ export const placeholderMessages = {
       emptyValues: '内容が空です',
       drawTest: '抽選テスト',
       drawResultTitle: '抽選結果',
-      drawResultHtml: '内容:<br>{content}<br>重み: {weight}<br>確率: {percent}%',
+      drawResultText: '内容:\n{content}\n重み: {weight}\n確率: {percent}%',
       drawFailed: '抽選できませんでした',
       previewTooltip: '現在の内容で抽選をテスト',
       weightFormat: '重みを指定する場合は「重み,内容」の形式で入力します（例：3,大吉）。省略すると重みは1になります。',
@@ -43,7 +43,7 @@ export const placeholderMessages = {
       emptyValues: 'No placeholder content',
       drawTest: 'Test draw',
       drawResultTitle: 'Draw result',
-      drawResultHtml: 'Content:<br>{content}<br>Weight: {weight}<br>Probability: {percent}%',
+      drawResultText: 'Content:\n{content}\nWeight: {weight}\nProbability: {percent}%',
       drawFailed: 'Draw failed',
       previewTooltip: 'Test a draw with the current contents',
       weightFormat:

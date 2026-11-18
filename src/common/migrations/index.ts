@@ -1,7 +1,7 @@
 // src/common/migrations/index.ts
 import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
 import { collectParseIssues, ParseIssue } from '@/types/core/ParseIssues'
-import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { notify } from '@/common/Notice/notify'
 import { APP_VERSION, DATA_VERSION } from '@/version'
 import { ensureSampleCharacters } from './v3/sampleCharacter'
 import { migrateV2ToV3 } from './v2/v2ToV3'
@@ -57,7 +57,7 @@ export function normalizeData(data: unknown): NormalizeResult {
   const incomingVersion = getDataVersion(data)
   if (incomingVersion > DATA_VERSION) {
     const msg = `このデータは v${incomingVersion} 形式です。\nこのアプリ（v${DATA_VERSION}）では読み込めません。`
-    swalToast.error({ title: '読み込みエラー', text: msg })
+    notify.error('読み込みエラー', { text: msg })
     throw new Error(msg)
   }
 
@@ -71,8 +71,7 @@ export function normalizeData(data: unknown): NormalizeResult {
   if (incomingVersion < LEGACY_DATA_VERSION_LIMIT) {
     console.log(`Migrating data from v${incomingVersion} to v${LEGACY_DATA_VERSION_LIMIT}...`)
     updatedData = migrateV2ToV3(updatedData)
-    swalToast.warning({
-      title: '古いバージョンのデータを変換しました',
+    notify.warning('古いバージョンのデータを変換しました', {
       text: `v${incomingVersion} → v${LEGACY_DATA_VERSION_LIMIT} 形式に変換し、廃止された項目は破棄しました。`,
     })
   }

@@ -10,7 +10,8 @@ import {
 import { useDataMergeHelpers } from './useDataMergeHelpers'
 import { ImportPreview } from '@/editor/types'
 import { normalizeData } from '@/common/migrations/index'
-import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { dialog } from '@/common/Dialog/dialogState'
+import { notify } from '@/common/Notice/notify'
 import { reportDataMismatch, validateAgainstBuild } from '@/common/buildValidation/validateAgainstBuild'
 import i18n from '@/i18n/editorI18n'
 
@@ -38,16 +39,13 @@ export function useDataMerge(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
         return false
       }
 
-      swalToast.success({ title: t('dataOperation.mergeSuccess') })
+      notify.success(t('dataOperation.mergeSuccess'))
 
       data.value = result
       hasChanged.value = true
       return true
     } catch (error) {
-      swalModal.error({
-        title: t('dataOperation.mergeError'),
-        text: String(error),
-      })
+      void dialog.alert({ tone: 'error', title: t('dataOperation.mergeError'), text: String(error) })
       console.error('Merge error:', error)
       return false
     }

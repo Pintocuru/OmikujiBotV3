@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { generateJsContent } from '@/common/presetsExport/generateContent'
-import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { dialog } from '@/common/Dialog/dialogState'
 import { confirmSaveWithIssues } from '@/editor/helpers/confirmSaveWithIssues'
 import i18n from '@/i18n/editorI18n'
 
@@ -70,7 +70,8 @@ export const useConfigExport = () => {
       // OmikujiDataをstringで持ってくる
       const configData = omikujiStore.exportData()
       if (!configData) {
-        await swalModal.error({
+        await dialog.alert({
+          tone: 'error',
           title: t('presetExport.invalidData.title'),
           text: t('presetExport.invalidData.description'),
         })
@@ -81,12 +82,14 @@ export const useConfigExport = () => {
       const success = downloadFile(content, config.filename, config.contentType)
 
       if (success) {
-        swalModal.success({
+        void dialog.alert({
+          tone: 'success',
           title: t(config.successMessage.titleKey),
           text: t(config.successMessage.descriptionKey),
         })
       } else {
-        await swalModal.error({
+        await dialog.alert({
+          tone: 'error',
           title: t('presetExport.downloadFailed.title'),
           text: t('presetExport.downloadFailed.description'),
         })
@@ -95,7 +98,8 @@ export const useConfigExport = () => {
       return success
     } catch (error) {
       console.error(`${type} export error:`, error)
-      await swalModal.error({
+      await dialog.alert({
+        tone: 'error',
         title: t('presetExport.exportFailed.title'),
         text: t('presetExport.exportFailed.description'),
       })

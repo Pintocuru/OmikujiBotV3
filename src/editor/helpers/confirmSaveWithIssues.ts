@@ -1,6 +1,6 @@
 // src/editor/helpers/confirmSaveWithIssues.ts
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { dialog } from '@/common/Dialog/dialogState'
 import { summarizeParseIssues } from '@/types/core/ParseIssues'
 import i18n from '@/i18n/editorI18n'
 
@@ -16,21 +16,16 @@ export async function confirmSaveWithIssues(): Promise<boolean> {
   if (loadIssues.length === 0) return true
 
   const { total, byCategory } = summarizeParseIssues(loadIssues)
-  const rows = Object.entries(byCategory)
-    .map(([category, count]) => {
-      const countText = t(`saveIssues.count.${count === 1 ? 'one' : 'other'}`, { count })
-      return `<li>${category}: ${countText}</li>`
-    })
-    .join('')
-  const result = await swalModal.confirm({
-    icon: 'warning',
-    title: t(`saveIssues.title.${total === 1 ? 'one' : 'other'}`, { count: total }),
-    html: `
-      <p>${t('saveIssues.description')}</p>
-      <ul style="text-align:left; margin:8px auto; display:table;">${rows}</ul>
-      <p style="font-size:0.85em; color:#666;">${t('saveIssues.recommendation')}</p>
-    `,
-    confirmButtonText: t('saveIssues.confirm'),
+  const items = Object.entries(byCategory).map(([category, count]) => {
+    const countText = t(`saveIssues.count.${count === 1 ? 'one' : 'other'}`, { count })
+    return `${category}: ${countText}`
   })
-  return result.isConfirmed
+  return dialog.confirm({
+    tone: 'warning',
+    title: t(`saveIssues.title.${total === 1 ? 'one' : 'other'}`, { count: total }),
+    text: t('saveIssues.description'),
+    items,
+    note: t('saveIssues.recommendation'),
+    confirmLabel: t('saveIssues.confirm'),
+  })
 }

@@ -5,7 +5,7 @@ export const editorPreviewMessages = {
       testPost: {
         resultTitle: 'おみくじ抽選結果',
         unnamedItem: '無名のアイテム',
-        resultDetails: 'おみくじ: {name}<br>重み: {weight}',
+        resultDetails: 'おみくじ: {name}\n重み: {weight}',
         noSelectedEventTitle: 'イベントが選択されていません',
         noSelectedEvent: 'テスト投稿するイベントを選択',
         noMatchingItem: '該当するおみくじがありません（すべて優先の場合は抽選されません）',
@@ -86,7 +86,7 @@ export const editorPreviewMessages = {
       testPost: {
         resultTitle: 'Omikuji Result',
         unnamedItem: 'Unnamed item',
-        resultDetails: 'Omikuji: {name}<br>Weight: {weight}',
+        resultDetails: 'Omikuji: {name}\nWeight: {weight}',
         noSelectedEventTitle: 'No event selected',
         noSelectedEvent: 'Select the event to use for the test post.',
         noMatchingItem: 'No matching omikuji was found.',

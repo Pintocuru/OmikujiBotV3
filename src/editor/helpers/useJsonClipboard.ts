@@ -1,7 +1,7 @@
 // src/editor/helpers/useJsonClipboard.ts
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { notify } from '@/common/Notice/notify'
 
 // 通知文言。省略したものは i18n の clipboard.* を使う(用途に合わせて上書きしたいものだけ渡す)
 type NotifyMessages = {
@@ -37,12 +37,12 @@ export function useJsonClipboard<T>(options: UseJsonClipboardOptions<T>) {
     try {
       const json = JSON.stringify(serialize(value), null, 2)
       await navigator.clipboard.writeText(json)
-      swalToast.success({ title: messages()?.copySuccess ?? t('clipboard.copySuccess') })
+      notify.success(messages()?.copySuccess ?? t('clipboard.copySuccess'))
       return true
     } catch (e) {
       const reason = e instanceof Error ? e.message : String(e)
       lastError.value = reason
-      swalToast.error({ title: messages()?.copyError ?? t('clipboard.copyError', { error: reason }) })
+      notify.error(messages()?.copyError ?? t('clipboard.copyError', { error: reason }))
       return false
     } finally {
       isCopying.value = false
@@ -52,7 +52,7 @@ export function useJsonClipboard<T>(options: UseJsonClipboardOptions<T>) {
   // 失敗したときは、通知を出して null を返す(理由は lastError にも入る)
   const fail = (message: string, reason?: string): null => {
     lastError.value = reason ?? message
-    swalToast.error({ title: message })
+    notify.error(message)
     return null
   }
 

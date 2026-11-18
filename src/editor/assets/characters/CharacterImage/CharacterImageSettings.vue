@@ -48,7 +48,7 @@
   import EmotionGrid from './EmotionGrid.vue'
   import EmotionEditModal from './EmotionEditModal.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { dialog } from '@/common/Dialog/dialogState'
   import { NUMERIC_KEY_PATTERN, duplicateEmotion, renameEmotion } from './composables/emotionOperations'
 
   const { t } = useI18n()
@@ -106,10 +106,10 @@
   // 感情の削除(一覧側の即時操作。確認してから消す)
   const handleRemoveEmotion = async (key: string) => {
     if (key === 'default') return
-    const result = await swalModal.confirmDelete({
+    const confirmed = await dialog.confirmDelete({
       text: t('characterImage.editModal.confirmDelete', { name: currentImages.value[key]?.label || key }),
     })
-    if (!result.isConfirmed) return
+    if (!confirmed) return
     const { [key]: _, ...rest } = currentImages.value
     pushImages(rest as CharacterImageSetType)
   }

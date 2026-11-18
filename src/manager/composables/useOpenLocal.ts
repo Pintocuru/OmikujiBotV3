@@ -4,7 +4,7 @@ import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useManagerStore } from '@/manager/stores/useManagerStore'
 import { confirmDiscardChanges } from '@/editor/helpers/confirmDiscardChanges'
 import { isOmikujiDataLike } from '@/common/migrations/index'
-import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { notify } from '@/common/Notice/notify'
 import i18n from '@/i18n/editorI18n'
 
 const t = (key: string) => i18n.global.t(key)
@@ -22,7 +22,7 @@ export const useOpenLocal = () => {
   const openLocal = async (): Promise<boolean> => {
     // 無いときに openLocalOmikujiData を呼ぶと、編集中のデータが初期データに置き換わるため、先に確かめる
     if (!isOmikujiDataLike(window.omikujiData)) {
-      swalToast.error({ title: t('manager.messages.localLoadFailed'), text: t('manager.messages.localNotFound') })
+      notify.error(t('manager.messages.localLoadFailed'), { text: t('manager.messages.localNotFound') })
       return false
     }
 
@@ -34,7 +34,7 @@ export const useOpenLocal = () => {
     managerStore.setSaveFileName()
     omikujiStore.resetChangeState()
     navigationStore.showTopPage()
-    swalToast.success({ title: t('manager.messages.localLoaded'), text: t('manager.messages.localLoadedText') })
+    notify.success(t('manager.messages.localLoaded'), { text: t('manager.messages.localLoadedText') })
     return true
   }
 

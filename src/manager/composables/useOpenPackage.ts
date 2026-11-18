@@ -4,7 +4,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useManagerStore } from '@/manager/stores/useManagerStore'
 import { generatorApi } from '@/manager/services/generatorApi'
-import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { notify } from '@/common/Notice/notify'
 import { confirmDiscardChanges } from '@/editor/helpers/confirmDiscardChanges'
 import { FILE_NAME } from '@server/core/constants'
 import i18n from '@/i18n/editorI18n'
@@ -30,8 +30,7 @@ export const useOpenPackage = () => {
       const data = await generatorApi.loadGeneratorConfig(id)
       if (!data) {
         const fileName = id ? `packages/${id}.json` : FILE_NAME.generator
-        swalToast.warning({
-          title: t('manager.messages.packageNotFound'),
+        notify.warning(t('manager.messages.packageNotFound'), {
           text: t('manager.messages.packageMissingFile', { fileName }),
         })
         return false
@@ -43,10 +42,10 @@ export const useOpenPackage = () => {
       navigationStore.showTopPage()
       omikujiStore.resetChangeState()
 
-      swalToast.success({ title: t('manager.messages.packageLoaded') })
+      notify.success(t('manager.messages.packageLoaded'))
       return true
     } catch (error) {
-      swalToast.error({ title: t('manager.messages.openFailed'), text: String(error) })
+      notify.error(t('manager.messages.openFailed'), { text: String(error) })
       return false
     }
   }

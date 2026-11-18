@@ -31,7 +31,7 @@
   import { useNavigationStore } from './stores/useNavigationStore'
   import i18n from '@/i18n/editorI18n'
 
-  import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { notify } from '@/common/Notice/notify'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { generatorApi } from '@/manager/services/generatorApi'
 
@@ -70,10 +70,7 @@
         const lowData = (await generatorApi.loadGeneratorConfig()) as OmikujiDataType
         if (lowData) {
           if (!omikujiStore.loadData(lowData)) return // 読み込み拒否(エラー表示済み)
-          swalToast.success({
-            title: '読み込み完了',
-            text: `${lowData.meta.name} を読み込みました`,
-          })
+          notify.success('読み込み完了', { text: `${lowData.meta.name} を読み込みました` })
           return
         }
       } catch (e) {
@@ -86,15 +83,9 @@
     if (result === 'rejected') return // 読み込み拒否(エラー表示済み)
     if (result === 'empty') {
       // サーバーにも omikujiData.js にもデータがなかった: 読み込んだと偽らず、初期データで開始したことを伝える
-      swalToast.info({
-        title: 'データがありません',
-        text: 'omikujiData.js が見つからないため、初期データで開始しました。',
-      })
+      notify.info('データがありません', { text: 'omikujiData.js が見つからないため、初期データで開始しました。' })
       return
     }
-    swalToast.success({
-      title: '読み込み完了',
-      text: 'omikujiData.js を読み込みました。',
-    })
+    notify.success('読み込み完了', { text: 'omikujiData.js を読み込みました。' })
   })
 </script>

@@ -2,7 +2,7 @@
 import { computed, Component } from 'vue'
 import { storeToRefs } from 'pinia'
 import { FileDown, FilePlus, HardDriveUpload } from 'lucide-vue-next'
-import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { dialog } from '@/common/Dialog/dialogState'
 import { isDev } from '@/common/AppEnv'
 import i18n from '@/i18n/editorI18n'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
@@ -54,13 +54,12 @@ export const useSaveActions = () => {
   // プリセット(presets 配下のファイル)として名前を付けて保存し、そのまま開く
   const saveAsPreset = async () => {
     const taken = new Set(managerStore.availableFiles.map((file) => file.name.toLowerCase()))
-    const result = await swalModal.prompt({
-      icon: 'question',
+    const input = await dialog.prompt({
       title: t('shell.save.preset'),
       text: t('shell.save.presetPrompt'),
-      inputValue: generateDateFileName(),
-      confirmButtonText: t('shell.save.presetConfirm'),
-      inputValidator: (value: string) => {
+      defaultValue: generateDateFileName(),
+      confirmLabel: t('shell.save.presetConfirm'),
+      validate: (value: string) => {
         const name = value.trim()
         if (!name) return t('shell.save.presetNameEmpty')
         if (/[\\/:*?"<>|]/.test(name)) return t('shell.save.presetNameInvalid')
@@ -68,9 +67,9 @@ export const useSaveActions = () => {
         return null
       },
     })
-    if (!result.isConfirmed) return
+    if (input === null) return
 
-    const fileName = ensureJsonExtension(String(result.value).trim())
+    const fileName = ensureJsonExtension(input.trim())
     if (!(await managerStore.saveConfig(fileName))) return
     await managerStore.applyConfigFile(fileName)
   }

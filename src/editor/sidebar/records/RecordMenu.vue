@@ -70,7 +70,8 @@
   } from '@/types/OmikujiData/'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
-  import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { dialog } from '@/common/Dialog/dialogState'
+  import { notify } from '@/common/Notice/notify'
   import { Eye, EyeOff, Copy, Trash2, MoreHorizontal, ClipboardCopy, ClipboardPaste } from 'lucide-vue-next'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
   import { useJsonClipboard } from '@/editor/helpers/useJsonClipboard'
@@ -105,7 +106,7 @@
       })
     }
 
-    swalToast.success({ title: t('navigation.menu.toggleSuccess') })
+    notify.success(t('navigation.menu.toggleSuccess'))
     close()
   }
 
@@ -116,7 +117,7 @@
       omikujiStore.duplicateAsset(props.category, props.item.key)
     }
 
-    swalToast.success({ title: t('navigation.menu.duplicateSuccess') })
+    notify.success(t('navigation.menu.duplicateSuccess'))
     close()
   }
 
@@ -155,21 +156,19 @@
     const isCrossEvent = !isSame && isEventCategory(source) && isEventCategory(target)
 
     if (!isSame && !isCrossEvent) {
-      swalToast.error({
-        title: t('navigation.menu.pasteDiffCategory'),
+      notify.error(t('navigation.menu.pasteDiffCategory'), {
         text: t('navigation.menu.pasteDiffCategoryText', { source, target }),
       })
       return
     }
 
     if (isCrossEvent) {
-      const result = await swalModal.confirmDelete({
+      const confirmed = await dialog.confirmDelete({
         title: t('navigation.menu.pasteCrossConfirmTitle'),
         text: t('navigation.menu.pasteCrossConfirmText', { source, target }),
-        icon: 'warning',
-        confirmButtonText: t('navigation.menu.pasteConfirmButton'),
+        confirmLabel: t('navigation.menu.pasteConfirmButton'),
       })
-      if (!result.isConfirmed) return
+      if (!confirmed) return
     }
 
     // 3. スキーマ検証 → 追加
@@ -177,7 +176,7 @@
       const result = EventCategorySchemaMap[target].safeParse(rest)
       if (!result.success) {
         console.warn('[PasteJson] validation failed', result.error.issues)
-        swalToast.error({ title: t('navigation.menu.pasteValidateError') })
+        notify.error(t('navigation.menu.pasteValidateError'))
         return
       }
       omikujiStore.addEvent(target, result.data)
@@ -185,25 +184,23 @@
       const result = AssetCategorySchemaMap[target].safeParse(rest)
       if (!result.success) {
         console.warn('[PasteJson] validation failed', result.error.issues)
-        swalToast.error({ title: t('navigation.menu.pasteValidateError') })
+        notify.error(t('navigation.menu.pasteValidateError'))
         return
       }
       omikujiStore.addAsset(target, result.data)
     }
 
-    swalToast.success({
-      title: isCrossEvent ? t('navigation.menu.pasteCrossSuccess', { source }) : t('navigation.menu.pasteSuccess'),
-    })
+    notify.success(
+      isCrossEvent ? t('navigation.menu.pasteCrossSuccess', { source }) : t('navigation.menu.pasteSuccess')
+    )
   }
 
   const handleDelete = async () => {
     close()
 
     const name = props.item.name || t('navigation.unnamed')
-    const result = await swalModal.confirmDelete({
-      title: t('navigation.menu.deleteConfirmTitle', { name }),
-    })
-    if (!result.isConfirmed) return
+    const confirmed = await dialog.confirmDelete({ title: t('navigation.menu.deleteConfirmTitle', { name }) })
+    if (!confirmed) return
 
     // 表示中のレコードを消すときだけ、次のレコードへ選択を移す(開いているだけの別カテゴリの一覧から消すときは、表示を動かさない)
     const itemKey = isEventCategory(props.category) ? props.item.id : props.item.key
@@ -217,6 +214,6 @@
       omikujiStore.removeAsset(props.category, props.item.key)
     }
 
-    swalToast.success({ title: t('navigation.menu.deleteSuccess', { name }) })
+    notify.success(t('navigation.menu.deleteSuccess', { name }))
   }
 </script>

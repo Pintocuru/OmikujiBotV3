@@ -5,7 +5,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
-import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { notify } from '@/common/Notice/notify'
 
 /**
  * サイドバーからの新規作成
@@ -34,7 +34,7 @@ export const useSidebarCreate = () => {
     if (!newKey) return null
 
     navigationStore.openItem(category, newKey, 'baseSettings')
-    swalToast.success({ title: t('navigation.create.success', { name }) })
+    notify.success(t('navigation.create.success', { name }))
     return newKey
   }
 

@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { dialog } from '@/common/Dialog/dialogState'
   import { isDev } from '@/common/AppEnv'
   import { usersMessages } from '../maps/UsersMessageMap'
 
@@ -53,12 +53,12 @@
   }
 
   const confirmReset = async () => {
-    const result = await swalModal.confirm({
-      icon: 'warning',
+    const confirmed = await dialog.confirm({
+      tone: 'warning',
       title: usersMessages.confirm.resetTitle,
       text: usersMessages.confirm.resetText,
-      confirmButtonText: usersMessages.confirm.resetButton,
+      confirmLabel: usersMessages.confirm.resetButton,
     })
-    if (result.isConfirmed) emit('reset')
+    if (confirmed) emit('reset')
   }
 </script>

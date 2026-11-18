@@ -18,7 +18,6 @@ const GLOBALS = { vue: 'Vue', '@onecomme.com/onesdk': 'OneSDK' }
  */
 const VENDOR_GLOBALS = {
   axios: 'OmikujiAxios',
-  sweetalert2: 'OmikujiSwal',
   '@vueuse/motion': 'OmikujiMotion',
   'expr-eval-fork': 'OmikujiExprEval',
 }

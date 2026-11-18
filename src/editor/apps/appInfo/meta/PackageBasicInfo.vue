@@ -46,7 +46,7 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { storeToRefs } from 'pinia'
-  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { dialog } from '@/common/Dialog/dialogState'
   import { generateId } from '@/types/core'
 
   const { t } = useI18n()
@@ -99,15 +99,15 @@
 
   // id 再生成ハンドラ
   const handleRegenerateId = async () => {
-    const result = await swalModal.warning({
+    const confirmed = await dialog.confirm({
+      tone: 'warning',
       title: t('packageMeta.basic.id.confirmTitle'),
       text: t('packageMeta.basic.id.confirmText'),
-      showCancelButton: true,
-      confirmButtonText: t('packageMeta.basic.id.confirm'),
-      cancelButtonText: t('packageMeta.basic.id.cancel'),
+      confirmLabel: t('packageMeta.basic.id.confirm'),
+      cancelLabel: t('packageMeta.basic.id.cancel'),
     })
 
-    if (!result.isConfirmed) return
+    if (!confirmed) return
 
     data.value.meta.id = generateId()
     omikujiStore.hasChanged = true

@@ -144,6 +144,8 @@ export const scenarioStepMessages = {
         pasteText: '現在のデータの扱い',
         pasteOverwrite: 'クリップボードから貼り付けました（上書き）',
         pasteMerge: 'クリップボードから貼り付けました（マージ）',
+        pasteOverwriteButton: '上書きする',
+        pasteMergeButton: 'マージする',
       },
       tabs: {
         add: '＋ 追加',
@@ -297,6 +299,8 @@ export const scenarioStepMessages = {
         pasteText: 'What would you like to do with the current data?',
         pasteOverwrite: 'Pasted from clipboard (overwritten)',
         pasteMerge: 'Pasted from clipboard (merged)',
+        pasteOverwriteButton: 'Overwrite',
+        pasteMergeButton: 'Merge',
       },
       tabs: {
         add: '+ Add',

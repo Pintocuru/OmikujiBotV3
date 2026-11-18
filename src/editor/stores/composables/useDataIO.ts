@@ -3,7 +3,7 @@ import { Ref } from 'vue'
 import { OmikujiDataSchema, OmikujiDataType } from '@/types/OmikujiData'
 import { DataSource } from '@/editor/types'
 import { isOmikujiDataLike, normalizeData } from '@/common/migrations/index'
-import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { dialog } from '@/common/Dialog/dialogState'
 import type { ParseIssue } from '@/types/core/ParseIssues'
 import { logParseIssues } from '@/common/ParseIssues/logParseIssues'
 import { reportDataMismatch, validateAgainstBuild } from '@/common/buildValidation/validateAgainstBuild'
@@ -33,7 +33,7 @@ export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource
       dataSource.value = 'api'
       return true
     } catch (error) {
-      swalModal.error({ title: t('dataOperation.loadError'), text: error })
+      void dialog.alert({ tone: 'error', title: t('dataOperation.loadError'), text: String(error) })
       console.error('Load data error:', error)
       return false
     }
@@ -60,7 +60,8 @@ export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource
       return JSON.stringify(data.value)
     }
 
-    swalModal.error({
+    void dialog.alert({
+      tone: 'error',
       title: t('dataOperation.exportValidationError.title'),
       text: t('dataOperation.exportValidationError.description'),
     })

@@ -8,7 +8,6 @@
 // (axios.AxiosError のような名前付き export も、default export 自身の持つプロパティで参照できる)
 import './shared.css'
 import axios from 'axios'
-import Swal from 'sweetalert2'
 import * as motion from '@vueuse/motion'
 import * as exprEval from 'expr-eval-fork'
 
@@ -20,6 +19,5 @@ const named = (ns: object) => ({ ...ns, __esModule: true })
 
 const w = window as unknown as Record<string, unknown>
 w.OmikujiAxios = selfDefault(axios)
-w.OmikujiSwal = selfDefault(Swal)
 w.OmikujiMotion = named(motion)
 w.OmikujiExprEval = named(exprEval)

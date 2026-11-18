@@ -117,10 +117,6 @@ A. Redistributing the distributed data as-is is prohibited. JSON data that you h
   - [Open Peeps](https://www.dicebear.com/styles/open-peeps/) - CC0 1.0
   - [Pixel Art](https://www.dicebear.com/styles/pixel-art/) - CC0 1.0
 
-### Dialogs
-
-- SweetAlert2 <https://sweetalert2.github.io/> - MIT License
-
 ![license_91_AppLicense](../../template/en/license/license_91_AppLicense.md)
 
 ## Version Information

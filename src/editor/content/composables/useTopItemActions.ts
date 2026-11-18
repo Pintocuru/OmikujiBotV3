@@ -5,7 +5,8 @@ import { useI18n } from 'vue-i18n'
 import type { AssetCategoryType, CategoryType, EventCategoryType } from '@/types/OmikujiData'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { dialog } from '@/common/Dialog/dialogState'
+import { notify } from '@/common/Notice/notify'
 
 export function useTopItemActions() {
   const { t } = useI18n()
@@ -25,19 +26,19 @@ export function useTopItemActions() {
 
   const duplicateWith = (duplicate: () => void) => {
     duplicate()
-    swalToast.success({ title: t('navigation.menu.duplicateSuccess') })
+    notify.success(t('navigation.menu.duplicateSuccess'))
     closeMenu()
   }
 
   const removeWith = async (key: string, name: string | undefined, remove: () => void) => {
     closeMenu()
     const label = name || t('navigation.unnamed')
-    const result = await swalModal.confirmDelete({ title: t('navigation.menu.deleteConfirmTitle', { name: label }) })
-    if (!result.isConfirmed) return
+    const confirmed = await dialog.confirmDelete({ title: t('navigation.menu.deleteConfirmTitle', { name: label }) })
+    if (!confirmed) return
     remove()
     // 選択中のアイテムを消した場合は選択解除
     if (selectedItemKey.value === key) selectedItemKey.value = null
-    swalToast.success({ title: t('navigation.menu.deleteSuccess', { name: label }) })
+    notify.success(t('navigation.menu.deleteSuccess', { name: label }))
   }
 
   // characters

@@ -6,7 +6,8 @@ import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
 import { PlaceholderVariable } from '@/engine/types/VariablePlaceholder'
 import { OmikujiItemType, ScenarioStepType, sortedStepsFromRecord } from '@/types/OmikujiData'
 import { getDefaultPlaceholdersShortLabels } from '@/editor/helpers/shared/getDefaultPlaceholdersShortLabels'
-import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { dialog } from '@/common/Dialog/dialogState'
+import { notify } from '@/common/Notice/notify'
 import { drawOmikuji } from '@/engine/DrawOmikuji/DrawOmikuji'
 import { BotMessageType } from '@/types/generator'
 import { OmikujiResultProcessor } from '@/engine/OmikujiResult/OmikujiResultProcessor'
@@ -43,13 +44,12 @@ export function useTestPost() {
 
   // 抽選結果の詳細トーストを表示
   const showOmikujiResultToast = (omikujiItem: OmikujiItemType) => {
-    swalToast.success({
-      title: t('editorPreview.testPost.resultTitle'),
-      html: t('editorPreview.testPost.resultDetails', {
+    notify.success(t('editorPreview.testPost.resultTitle'), {
+      text: t('editorPreview.testPost.resultDetails', {
         name: omikujiItem.name || t('editorPreview.testPost.unnamedItem'),
         weight: getWeight(omikujiItem) || 1,
       }),
-      timer: 15000,
+      durationMs: 15000,
     })
   }
 
@@ -79,10 +79,7 @@ export function useTestPost() {
     const omikujiItem = drawOmikuji(candidates)
 
     if (!omikujiItem) {
-      swalToast.info({
-        title: t('editorPreview.testPost.resultTitle'),
-        text: t('editorPreview.testPost.noMatchingItem'),
-      })
+      notify.info(t('editorPreview.testPost.resultTitle'), { text: t('editorPreview.testPost.noMatchingItem') })
       return
     }
 
@@ -100,8 +97,7 @@ export function useTestPost() {
 
     const scenario = data.value.assets.scenarios[omikujiItem.scenarioKey]
     if (!scenario) {
-      swalToast.error({
-        title: t('editorPreview.testPost.missingScenarioTitle'),
+      notify.error(t('editorPreview.testPost.missingScenarioTitle'), {
         text: omikujiItem.scenarioKey
           ? t('editorPreview.testPost.missingScenario', { key: omikujiItem.scenarioKey })
           : t('editorPreview.testPost.missingScenarioKey'),
@@ -126,9 +122,6 @@ const executeTestPostDelays = async (posts: BotMessageType[]): Promise<void> => 
     )
   } catch (error) {
     console.error(t('editorPreview.testPost.postError'), error)
-    swalModal.error({
-      title: t('editorPreview.testPost.postErrorTitle'),
-      text: String(error),
-    })
+    void dialog.alert({ tone: 'error', title: t('editorPreview.testPost.postErrorTitle'), text: String(error) })
   }
 }

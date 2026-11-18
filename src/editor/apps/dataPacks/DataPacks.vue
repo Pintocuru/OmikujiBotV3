@@ -79,7 +79,7 @@
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import NoParamsCard from '@/editor/parts/NoParamsCard.vue'
   import InformationCard from '@/editor/parts/InformationCard.vue'
-  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { dialog } from '@/common/Dialog/dialogState'
 
   const { t } = useI18n()
 
@@ -90,17 +90,18 @@
   onMounted(fetchAll)
 
   async function onReplace(pack: DataPackEntry) {
-    const result = await swalModal.confirmDelete({
+    const confirmed = await dialog.confirmDelete({
       title: t('dataPacks.replaceConfirm.title'),
       text: t('dataPacks.replaceConfirm.text', { name: pack.meta.name }),
-      confirmButtonText: t('dataPacks.replaceConfirm.confirm'),
+      confirmLabel: t('dataPacks.replaceConfirm.confirm'),
     })
-    if (!result.isConfirmed) return
+    if (!confirmed) return
 
     try {
       const res = await importManager.loadFromJsonData(pack.json)
       if (!res.success) {
-        await swalModal.error({
+        await dialog.alert({
+          tone: 'error',
           title: t('dataPacks.loadError.title'),
           text:
             res.error === 'invalid-metadata'
@@ -129,13 +130,15 @@
       if (!omikujiStore.loadData(merged)) return // 読み込み拒否(エラー表示済み)
       omikujiStore.resetChangeState()
 
-      await swalModal.success({
+      await dialog.alert({
+        tone: 'success',
         title: t('dataPacks.loaded.title'),
         text: t('dataPacks.loaded.text', { name: pack.meta.name }),
       })
     } catch (err) {
       console.error('[DataPacks] replace error:', err)
-      await swalModal.error({
+      await dialog.alert({
+        tone: 'error',
         title: t('dataPacks.replaceFailed.title'),
         text: t('dataPacks.replaceFailed.console'),
       })
@@ -146,7 +149,8 @@
     try {
       const res = await importManager.loadFromJsonData(pack.json)
       if (!res.success) {
-        await swalModal.error({
+        await dialog.alert({
+          tone: 'error',
           title: t('dataPacks.loadError.title'),
           text:
             res.error === 'invalid-metadata'
@@ -159,7 +163,8 @@
       importManager.openPreviewModal()
     } catch (err) {
       console.error('[DataPacks] partial-load error:', err)
-      await swalModal.error({
+      await dialog.alert({
+        tone: 'error',
         title: t('dataPacks.partialLoadFailed.title'),
         text: t('dataPacks.partialLoadFailed.console'),
       })

@@ -110,7 +110,7 @@
 <script setup lang="ts">
   import type { UserListItemType } from '@/types/api'
   import type { DaisyUIColorType } from '@/types/core'
-  import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { dialog } from '@/common/Dialog/dialogState'
   import { usersMessages } from '../maps/UsersMessageMap'
   import { TEAM_STYLE } from '../scripts/userConsole'
   import { X } from 'lucide-vue-next'
@@ -146,10 +146,10 @@
   }
 
   const confirmRemove = async (user: UserListItemType) => {
-    const result = await swalModal.confirmDelete({
+    const confirmed = await dialog.confirmDelete({
       title: usersMessages.confirm.removeTitle(user.userName),
       text: usersMessages.confirm.removeText,
     })
-    if (result.isConfirmed) emit('remove', user.userId)
+    if (confirmed) emit('remove', user.userId)
   }
 </script>

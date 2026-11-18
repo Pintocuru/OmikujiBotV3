@@ -5,7 +5,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { useNavigationStore } from '@/editor/stores/useNavigationStore'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
 import { getPresets, PresetDefinition } from '@/editor/presets'
-import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { notify } from '@/common/Notice/notify'
 
 /**
  * サイドバーからのプリセット追加
@@ -51,7 +51,7 @@ export const useSidebarPreset = () => {
 
     if (!selectKey) return null
     navigationStore.openItem(preset.category, selectKey, 'baseSettings')
-    swalToast.success({ title: t('navigation.preset.success', { name: presetLabel(preset) }) })
+    notify.success(t('navigation.preset.success', { name: presetLabel(preset) }))
     return selectKey
   }
 

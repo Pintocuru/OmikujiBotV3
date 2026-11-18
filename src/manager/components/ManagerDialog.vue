@@ -71,7 +71,7 @@
   const packageListKey = ref(0)
 
   // <dialog> + showModal で開閉する(Esc・バックドロップ・フォーカストラップは <dialog> に任せる)。
-  // Esc で閉じるとき、SweetAlert2 は <dialog> の中に出るため Esc はそちらが先に処理する
+  // 確認ダイアログ(dialog.*)も <dialog> + showModal なので、重なったときは最前面のものだけが Esc で閉じる
   const dialogRef = ref<HTMLDialogElement | null>(null)
 
   // 中身(modal-box)を DOM に置いているか。open より少し長く true にして、閉じるアニメーションを見せる

@@ -15,7 +15,7 @@
   import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
   import { FolderOpen } from 'lucide-vue-next'
-  import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { notify } from '@/common/Notice/notify'
   import { useOpenLocal } from './composables/useOpenLocal'
   import { useManagerStore } from './stores/useManagerStore'
 
@@ -40,7 +40,7 @@
     try {
       await loadDialog()
     } catch (error) {
-      swalToast.error({ title: t('manager.messages.loadFailed'), text: String(error) })
+      notify.error(t('manager.messages.loadFailed'), { text: String(error) })
       return
     }
     isDialogLoaded.value = true

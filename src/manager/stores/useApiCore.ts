@@ -1,6 +1,6 @@
 // src/manager/stores/useApiCore.ts
 import { DataManagerType } from '@/manager/types'
-import { swalModal } from '@/common/SweetAlert2/SweetAlert2Toast'
+import { dialog } from '@/common/Dialog/dialogState'
 import { ConnectionError } from '@/manager/services/baseApiClient'
 import i18n from '@/i18n/editorI18n'
 
@@ -25,13 +25,14 @@ export function useApiCore(state: DataManagerType) {
     } catch (error) {
       const err = error as Error
       if (err instanceof ConnectionError) {
-        swalModal.error({
+        void dialog.alert({
+          tone: 'error',
           title: t('manager.messages.connectionError'),
           text: `${err.message}
 サーバーが起動していることを確認してください。`,
         })
       } else {
-        swalModal.error({ title: t('manager.messages.error'), text: err.message })
+        void dialog.alert({ tone: 'error', title: t('manager.messages.error'), text: err.message })
       }
       return null
     } finally {

@@ -28,7 +28,8 @@
   import { storeToRefs } from 'pinia'
   import type { UiKind } from '@/types/OmikujiData'
   import { findUnusedUiKinds } from '@/common/UnusedUiSettings'
-  import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { dialog } from '@/common/Dialog/dialogState'
+  import { notify } from '@/common/Notice/notify'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 
@@ -43,15 +44,15 @@
   const unusedKinds = computed(() => findUnusedUiKinds(data.value.ui))
 
   const removeOne = async (kind: UiKind) => {
-    const { isConfirmed } = await swalModal.confirmDelete({
+    const confirmed = await dialog.confirmDelete({
       title: t('uiSettings.unused.deleteOneConfirm', { label: kindLabel(kind) }),
     })
-    if (!isConfirmed) return
+    if (!confirmed) return
     omikujiStore.removeItemSetting(kind)
   }
 
   const removeAll = async () => {
-    const { isConfirmed } = await swalModal.confirmDelete({
+    const confirmed = await dialog.confirmDelete({
       title: t(
         unusedKinds.value.length === 1
           ? 'uiSettings.unused.deleteAllConfirm.one'
@@ -59,9 +60,9 @@
         { count: unusedKinds.value.length }
       ),
     })
-    if (!isConfirmed) return
+    if (!confirmed) return
     // 削除中に computed が変わるためコピーして回す
     for (const kind of [...unusedKinds.value]) omikujiStore.removeItemSetting(kind)
-    swalToast.success({ title: t('uiSettings.unused.deleteSuccess') })
+    notify.success(t('uiSettings.unused.deleteSuccess'))
   }
 </script>

@@ -117,10 +117,6 @@ A. 配布データをそのまま再配布することは禁止です。内容�
   - [Open Peeps](https://www.dicebear.com/styles/open-peeps/) - CC0 1.0
   - [Pixel Art](https://www.dicebear.com/styles/pixel-art/) - CC0 1.0
 
-### ダイアログ
-
-- SweetAlert2 <https://sweetalert2.github.io/> - MIT License
-
 ![license_91_AppLicense](../../template/jp/license/license_91_AppLicense.md)
 
 ## バージョン情報

@@ -54,8 +54,8 @@
   import { generatorApi } from '@/manager/services/generatorApi'
   import { formatFileDate } from '@/manager/services/apiServiceUtils'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
-  import { swalModal, swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
-  import { escapeHtml } from '@/common/escapeHtml'
+  import { notify } from '@/common/Notice/notify'
+  import { dialog } from '@/common/Dialog/dialogState'
 
   // displayName は拡張子を除いた名前 = meta.id
   const emit = defineEmits<{ open: [id: string] }>()
@@ -73,7 +73,7 @@
     try {
       packages.value = await generatorApi.listPackages()
     } catch (error) {
-      swalToast.error({ title: t('manager.packages.listFailed'), text: String(error) })
+      notify.error(t('manager.packages.listFailed'), { text: String(error) })
     } finally {
       isLoadingList.value = false
     }
@@ -81,26 +81,20 @@
 
   const onDelete = async (pack: FileItem) => {
     const isCurrent = pack.displayName === currentId
-    const result = await swalModal.confirmDelete({
+    const confirmed = await dialog.confirmDelete({
       title: t('manager.packages.deleteConfirm'),
-      html: `
-        <p>${t('manager.packages.deleteBody', { name: escapeHtml(pack.displayName) })}</p>
-        ${
-          isCurrent
-            ? `<p style="font-size: 0.85em; color: #b91c1c; margin-top: 8px;">${t('manager.packages.deleteCurrentWarning')}</p>`
-            : ''
-        }
-      `,
+      text: t('manager.packages.deleteBody', { name: pack.displayName }),
+      note: isCurrent ? t('manager.packages.deleteCurrentWarning') : undefined,
     })
-    if (!result.isConfirmed) return
+    if (!confirmed) return
 
     deletingName.value = pack.name
     try {
       await generatorApi.deletePackage(pack.name)
       packages.value = packages.value.filter((item) => item.name !== pack.name)
-      swalToast.success({ title: `${t('manager.packages.deleted', { name: pack.displayName })}` })
+      notify.success(`${t('manager.packages.deleted', { name: pack.displayName })}`)
     } catch (error) {
-      swalToast.error({ title: t('manager.packages.deleteFailed'), text: String(error) })
+      notify.error(t('manager.packages.deleteFailed'), { text: String(error) })
     } finally {
       deletingName.value = null
     }

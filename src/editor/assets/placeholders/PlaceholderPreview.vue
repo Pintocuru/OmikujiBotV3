@@ -15,7 +15,7 @@
   import { handleNormalizedValues, WeightValueType, WeightValuesArrayType } from '@/types/OmikujiData'
   import { processTestPlaceholder } from '@/editor/helpers/shared/processTestPlaceholder'
 
-  import { swalToast } from '@/common/SweetAlert2/SweetAlert2Toast'
+  import { notify } from '@/common/Notice/notify'
   import { Dices } from 'lucide-vue-next'
   import { calcWeightPercentages, drawByWeight } from '@/engine/DrawOmikuji/DrawOmikuji'
   import { postSpeech } from '@/sdk/post/PostOneComme'
@@ -40,18 +40,14 @@
 
   // 結果表示
   const showResult = (drawn: WeightValueType, percent: number, message: string) => {
-    swalToast.success({
-      title: t('placeholder.drawResultTitle'),
-      html: t('placeholder.drawResultHtml', { content: message, weight: drawn.weight, percent }),
-      timer: 15000,
+    notify.success(t('placeholder.drawResultTitle'), {
+      text: t('placeholder.drawResultText', { content: message, weight: drawn.weight, percent }),
+      durationMs: 15000,
     })
   }
 
   const showError = () => {
-    swalToast.error({
-      title: t('placeholder.drawResultTitle'),
-      text: t('placeholder.drawFailed'),
-    })
+    notify.error(t('placeholder.drawResultTitle'), { text: t('placeholder.drawFailed') })
   }
 
   // メイン処理

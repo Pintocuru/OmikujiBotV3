@@ -1,6 +1,6 @@
 // src/editor/shell/useVersionCheck.ts
 import { ref, computed, Ref } from 'vue'
-import Swal from 'sweetalert2'
+import { notify } from '@/common/Notice/notify'
 import i18n from '@/i18n/editorI18n'
 import { LATEST_RELEASE_API_URL, LATEST_RELEASE_PAGE_URL } from '@/editor/constants/versionCheck'
 
@@ -77,20 +77,13 @@ export function useVersionCheck(currentVersion: Ref<string>) {
   const showUpdateDialog = () => {
     if (!hasNewVersion.value) return
 
-    Swal.fire({
-      toast: true,
-      position: 'bottom-end',
-      icon: 'info',
-      title: t('appHeader.updateAvailable', { current: versionInfo.value.current, latest: versionInfo.value.latest }),
-      showConfirmButton: true,
-      confirmButtonText: t('appHeader.openGithub'),
-      timer: 15000,
-      timerProgressBar: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.open(LATEST_RELEASE_PAGE_URL, '_blank')
+    notify.info(
+      t('appHeader.updateAvailable', { current: versionInfo.value.current, latest: versionInfo.value.latest }),
+      {
+        durationMs: 15000,
+        action: { label: t('appHeader.openGithub'), run: () => window.open(LATEST_RELEASE_PAGE_URL, '_blank') },
       }
-    })
+    )
   }
 
   return {
