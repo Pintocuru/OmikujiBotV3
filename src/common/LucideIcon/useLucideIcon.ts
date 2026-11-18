@@ -1,6 +1,6 @@
 // src/common/LucideIcon/useLucideIcon.ts
 import type { Component } from 'vue'
-import * as L from 'lucide-vue-next'
+import * as L from '@lucide/vue'
 
 // 追加手順: 該当カテゴリに1行足すだけ(import 側の編集は不要)。
 // 分類は「使う場所」ではなく「意味」で決める。迷ったら末尾の「演出・装飾」へ。

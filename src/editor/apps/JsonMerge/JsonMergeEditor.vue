@@ -116,7 +116,7 @@
   import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
   import { VueDraggable } from 'vue-draggable-plus'
-  import { GripVertical, Plus } from 'lucide-vue-next'
+  import { GripVertical, Plus } from '@lucide/vue'
   import {
     JsonMergeItemSchema,
     JsonMergeRemapSchema,

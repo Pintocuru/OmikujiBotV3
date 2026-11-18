@@ -82,7 +82,7 @@
   import { useCharacterLookup } from './composables/useCharacterLookup'
   import ModalFooterActions from '@/editor/parts/ModalFooterActions.vue'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
-  import { Users } from 'lucide-vue-next'
+  import { Users } from '@lucide/vue'
 
   const { t } = useI18n()
 

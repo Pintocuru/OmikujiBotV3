@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
   import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-  import { X } from 'lucide-vue-next'
+  import { X } from '@lucide/vue'
   import { useI18n } from 'vue-i18n'
   import { type LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 

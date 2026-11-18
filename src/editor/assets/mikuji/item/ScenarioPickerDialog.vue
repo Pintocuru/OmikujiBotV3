@@ -59,7 +59,7 @@
 <script setup lang="ts">
   import { computed, ref, watch } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { Zap } from 'lucide-vue-next'
+  import { Zap } from '@lucide/vue'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

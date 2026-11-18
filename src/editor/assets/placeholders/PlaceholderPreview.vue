@@ -16,7 +16,7 @@
   import { processTestPlaceholder } from '@/editor/helpers/shared/processTestPlaceholder'
 
   import { notify } from '@/common/Notice/notify'
-  import { Dices } from 'lucide-vue-next'
+  import { Dices } from '@lucide/vue'
   import { calcWeightPercentages, drawByWeight } from '@/engine/DrawOmikuji/DrawOmikuji'
   import { postSpeech } from '@/sdk/post/PostOneComme'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'

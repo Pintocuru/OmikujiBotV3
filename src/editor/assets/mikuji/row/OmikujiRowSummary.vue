@@ -77,7 +77,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { Filter, GripVertical, Pencil, Scale, Sparkles } from 'lucide-vue-next'
+  import { Filter, GripVertical, Pencil, Scale, Sparkles } from '@lucide/vue'
   import type { OmikujiItemType } from '@/types/OmikujiData/'
   import MenuDropdown from '@/editor/parts/MenuDropdown.vue'
 

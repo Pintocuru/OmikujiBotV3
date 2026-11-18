@@ -56,7 +56,7 @@
 <script setup lang="ts">
   import { ref, toRef } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { Text } from 'lucide-vue-next'
+  import { Text } from '@lucide/vue'
 
   import type { WeightValuesArrayType } from '@/types/OmikujiData'
   import BaseEditDialog from '@/editor/parts/BaseEditDialog.vue'

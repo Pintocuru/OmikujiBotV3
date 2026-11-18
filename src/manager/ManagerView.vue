@@ -14,7 +14,7 @@
   import { defineAsyncComponent, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { storeToRefs } from 'pinia'
-  import { FolderOpen } from 'lucide-vue-next'
+  import { FolderOpen } from '@lucide/vue'
   import { notify } from '@/common/Notice/notify'
   import { useOpenLocal } from './composables/useOpenLocal'
   import { useManagerStore } from './stores/useManagerStore'

@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { AlertTriangle } from 'lucide-vue-next'
+  import { AlertTriangle } from '@lucide/vue'
 
   const { t } = useI18n()
 </script>

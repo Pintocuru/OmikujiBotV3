@@ -116,7 +116,7 @@
   import { dialog } from '@/common/Dialog/dialogState'
   import { notify } from '@/common/Notice/notify'
   import { isValidPresetName } from '@/manager/services/apiServiceUtils'
-  import { Menu, Copy, Trash2, Folder, FolderInput, FolderPlus, Check, FileText, Edit } from 'lucide-vue-next'
+  import { Menu, Copy, Trash2, Folder, FolderInput, FolderPlus, Check, FileText, Edit } from '@lucide/vue'
 
   const props = defineProps<{
     file: FileItem

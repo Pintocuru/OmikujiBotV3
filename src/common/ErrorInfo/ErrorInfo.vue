@@ -110,7 +110,7 @@
 
 <script setup lang="ts">
   import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-  import { AlertTriangle, XCircle, ChevronRight, Lightbulb, RotateCcw, Clock } from 'lucide-vue-next'
+  import { AlertTriangle, XCircle, ChevronRight, Lightbulb, RotateCcw, Clock } from '@lucide/vue'
 
   defineProps<{
     isPlugin?: boolean

@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { Plus, Trash2 } from 'lucide-vue-next'
+  import { Plus, Trash2 } from '@lucide/vue'
   import { CharacterColorSchema, type CharacterColorType } from '@/types/OmikujiData/'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'

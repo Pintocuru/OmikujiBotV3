@@ -57,7 +57,7 @@
   import PresetDialog from './PresetDialog.vue'
   import { useSidebarCreate } from '../composables/useSidebarCreate'
   import { useSidebarPreset } from '../composables/useSidebarPreset'
-  import { Menu, Plus } from 'lucide-vue-next'
+  import { Menu, Plus } from '@lucide/vue'
 
   const props = defineProps<{
     category: DataCategoryType

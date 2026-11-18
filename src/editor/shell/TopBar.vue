@@ -91,7 +91,7 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { Cpu, Menu, Moon, Settings, Sun } from 'lucide-vue-next'
+  import { Cpu, Menu, Moon, Settings, Sun } from '@lucide/vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useManagerStore } from '@/manager/stores/useManagerStore'

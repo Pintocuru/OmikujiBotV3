@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Clock, Gift, Users } from 'lucide-vue-next'
+  import { Clock, Gift, Users } from '@lucide/vue'
   import { formatGrains, formatStreamTime } from '../../../composables/bowls'
 
   defineProps<{ viewer: number; giftTotal: number; streamSeconds: number }>()

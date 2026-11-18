@@ -75,7 +75,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Clock, History, Hash, User, Trash2 } from 'lucide-vue-next'
+  import { Clock, History, Hash, User, Trash2 } from '@lucide/vue'
   import type { CharacterColorType } from '@/types/OmikujiData'
   import type { LuckyDrawHistoryItem } from '../types'
 

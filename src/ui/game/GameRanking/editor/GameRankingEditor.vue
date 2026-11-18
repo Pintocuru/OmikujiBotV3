@@ -98,7 +98,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed, ref, watch } from 'vue'
-  import { Plus, Trash2 } from 'lucide-vue-next'
+  import { Plus, Trash2 } from '@lucide/vue'
   import { storeToRefs } from 'pinia'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { GameRankingType, rankingSortOrders } from '@/types/ui/game/GameRankingSchema'

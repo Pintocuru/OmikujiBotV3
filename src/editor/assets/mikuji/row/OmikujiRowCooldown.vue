@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { Timer } from 'lucide-vue-next'
+  import { Timer } from '@lucide/vue'
   import type { OmikujiItemType } from '@/types/OmikujiData/'
 
   const { t } = useI18n()

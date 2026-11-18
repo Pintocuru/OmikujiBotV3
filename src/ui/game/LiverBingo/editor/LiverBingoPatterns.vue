@@ -78,7 +78,7 @@
 <script setup lang="ts">
   import { ref, toRef } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { Trash2 } from 'lucide-vue-next'
+  import { Trash2 } from '@lucide/vue'
   import type { LiverBingoPatternContentType, LiverBingoPatternInfoType } from '@/types/ui'
   import { useLiverBingoPatterns } from './patterns/useLiverBingoPatterns'
 

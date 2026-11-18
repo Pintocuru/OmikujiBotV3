@@ -48,7 +48,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed, ref } from 'vue'
-  import { ChevronDown, ChevronUp } from 'lucide-vue-next'
+  import { ChevronDown, ChevronUp } from '@lucide/vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { processTestPlaceholder } from '@/editor/helpers/shared/processTestPlaceholder'
 

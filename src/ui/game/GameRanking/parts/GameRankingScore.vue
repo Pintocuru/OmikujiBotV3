@@ -42,7 +42,7 @@
   import { computed, watch, ref } from 'vue'
   import { BotMessageRankingType } from '@/types/generator'
   import { GameRankingType } from '@/types/ui'
-  import { Trophy } from 'lucide-vue-next'
+  import { Trophy } from '@lucide/vue'
   import { useMotion } from '@vueuse/motion'
 
   const DISPLAY_DURATION_MS = 8000

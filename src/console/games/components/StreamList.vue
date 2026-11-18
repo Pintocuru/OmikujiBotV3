@@ -31,7 +31,7 @@
   import type { GameStateListItemType } from '@/types/api'
   import { formatDateTime } from '@/console/common/scripts/formatters'
   import { formatStreamId } from '../scripts/summarizeState'
-  import { X } from 'lucide-vue-next'
+  import { X } from '@lucide/vue'
 
   defineProps<{
     streams: GameStateListItemType[]

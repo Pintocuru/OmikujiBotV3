@@ -49,7 +49,7 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { Trash2 } from 'lucide-vue-next'
+  import { Trash2 } from '@lucide/vue'
   import { FileItem } from '@/manager/types'
   import { generatorApi } from '@/manager/services/generatorApi'
   import { formatFileDate } from '@/manager/services/apiServiceUtils'

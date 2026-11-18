@@ -11,7 +11,7 @@ import {
   UserPlus,
   Heart,
   MessageSquareMore,
-} from 'lucide-vue-next'
+} from '@lucide/vue'
 
 export const LIVER_LUCIDE_LABELS: Record<StreamDefaultKey, Component> = {
   upVote: ThumbsUp,

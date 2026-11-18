@@ -69,7 +69,7 @@
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { DataPackEntry } from '@/editor/types'
-  import { Download, FileText, Image } from 'lucide-vue-next'
+  import { Download, FileText, Image } from '@lucide/vue'
 
   defineProps<{
     pack: DataPackEntry

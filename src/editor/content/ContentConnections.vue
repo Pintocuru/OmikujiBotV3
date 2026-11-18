@@ -18,7 +18,7 @@
 <script setup lang="ts">
   import { computed, type Component } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { TriangleAlert } from 'lucide-vue-next'
+  import { TriangleAlert } from '@lucide/vue'
   import { storeToRefs } from 'pinia'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetEventData } from '@/editor/stores/useGetEventData'

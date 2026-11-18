@@ -61,7 +61,7 @@
   import type { DaisyUIColorType } from '@/types/core'
   import { userSortLabels } from '../maps/UserSortMap'
   import { usersMessages } from '../maps/UsersMessageMap'
-  import { Pencil } from 'lucide-vue-next'
+  import { Pencil } from '@lucide/vue'
 
   defineProps<{
     teams: readonly DaisyUIColorType[]

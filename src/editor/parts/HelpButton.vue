@@ -29,7 +29,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { CircleHelp } from 'lucide-vue-next'
+  import { CircleHelp } from '@lucide/vue'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
 
   const { t } = useI18n()

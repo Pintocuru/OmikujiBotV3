@@ -40,7 +40,7 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { Pencil } from 'lucide-vue-next'
+  import { Pencil } from '@lucide/vue'
   import { CharacterColorSchema, type CharacterColorType } from '@/types/OmikujiData/'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import CharacterColorSettings from './CharacterColorSettings.vue'

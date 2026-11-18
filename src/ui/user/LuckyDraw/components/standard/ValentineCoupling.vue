@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Heart, HeartCrack } from 'lucide-vue-next'
+  import { Heart, HeartCrack } from '@lucide/vue'
   import type { UserNameType } from '@/types/OmikenComment'
   import type { CharacterColorType } from '@/types/OmikujiData'
   import UserCard from './parts/CouplingUserCard.vue'

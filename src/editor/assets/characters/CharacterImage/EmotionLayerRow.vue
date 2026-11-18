@@ -92,7 +92,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { ChevronDown, ChevronUp, FolderOpen, ScanSearch, TriangleAlert, X } from 'lucide-vue-next'
+  import { ChevronDown, ChevronUp, FolderOpen, ScanSearch, TriangleAlert, X } from '@lucide/vue'
   import ImagePreview from '@/common/LayerImage/ImagePreview.vue'
   import { useLayerStatus } from './composables/useLayerStatus'
 

@@ -120,7 +120,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { Star, Crown, Trophy, Medal, Sparkles, Users } from 'lucide-vue-next'
+  import { Star, Crown, Trophy, Medal, Sparkles, Users } from '@lucide/vue'
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
   import type { UserNameType } from '@/types/OmikenComment'
   import type { CharacterColorType } from '@/types/OmikujiData'

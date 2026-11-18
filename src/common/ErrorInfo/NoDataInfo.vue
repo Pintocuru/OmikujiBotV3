@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-  import { FileQuestion, RotateCcw } from 'lucide-vue-next'
+  import { FileQuestion, RotateCcw } from '@lucide/vue'
 
   defineProps<{ errorDetail?: string }>()
 

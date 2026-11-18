@@ -43,7 +43,7 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { Pencil } from 'lucide-vue-next'
+  import { Pencil } from '@lucide/vue'
   import { DisplayOptionSchema, type DisplayOptionType } from '@/types/OmikujiData'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import CommentVoiceSettings from './CommentVoiceSettings.vue'

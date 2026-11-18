@@ -1,7 +1,7 @@
 // src/editor/shell/useSaveActions.ts
 import { computed, Component } from 'vue'
 import { storeToRefs } from 'pinia'
-import { FileDown, FilePlus, HardDriveUpload } from 'lucide-vue-next'
+import { FileDown, FilePlus, HardDriveUpload } from '@lucide/vue'
 import { dialog } from '@/common/Dialog/dialogState'
 import { isDev } from '@/common/AppEnv'
 import i18n from '@/i18n/editorI18n'

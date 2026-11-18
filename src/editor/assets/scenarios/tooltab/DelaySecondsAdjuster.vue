@@ -30,7 +30,7 @@
   import { computed } from 'vue'
   import { ScenarioStepRecordType } from '@/types/OmikujiData/'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { Minus, Plus } from 'lucide-vue-next'
+  import { Minus, Plus } from '@lucide/vue'
 
   // Props
   const { t } = useI18n()

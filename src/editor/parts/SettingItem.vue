@@ -64,7 +64,7 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { DaisyUIColorType } from '@/types/core'
-  import { RotateCcw, AlertTriangle, Info } from 'lucide-vue-next'
+  import { RotateCcw, AlertTriangle, Info } from '@lucide/vue'
   import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
   const props = withDefaults(

@@ -113,7 +113,7 @@
   import { dialog } from '@/common/Dialog/dialogState'
   import { usersMessages } from '../maps/UsersMessageMap'
   import { TEAM_STYLE } from '../scripts/userConsole'
-  import { X } from 'lucide-vue-next'
+  import { X } from '@lucide/vue'
 
   const props = defineProps<{
     users: UserListItemType[]

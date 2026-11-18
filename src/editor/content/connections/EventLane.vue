@@ -46,7 +46,7 @@
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { ArrowLeftRight } from 'lucide-vue-next'
+  import { ArrowLeftRight } from '@lucide/vue'
   import type { EventCategoryType } from '@/types/OmikujiData'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useGetEventData } from '@/editor/stores/useGetEventData'

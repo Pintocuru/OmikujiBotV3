@@ -48,7 +48,7 @@
   import { ref } from 'vue'
   import { DisplayOptionType } from '@/types/OmikujiData/'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { X, ImageIcon } from 'lucide-vue-next'
+  import { X, ImageIcon } from '@lucide/vue'
 
   const { t } = useI18n()
 

@@ -1,7 +1,7 @@
 // src/maps/common/StatusConfigMap.ts
 import type { AppStatus } from '@/types/core'
 import type { Component } from 'vue'
-import { Loader, Wifi, WifiOff } from 'lucide-vue-next'
+import { Loader, Wifi, WifiOff } from '@lucide/vue'
 
 // ステータスごとの設定をMapで一元管理
 type StatusConfig = {

@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-  import { GripVertical, EyeOff } from 'lucide-vue-next'
+  import { GripVertical, EyeOff } from '@lucide/vue'
 
   // Boolean の props は未指定だと false になるため、isEnabled を渡さない一覧(JsonMergeList)で
   // 「無効」表示(取り消し線・目のアイコン)になってしまう。未指定は undefined のままにする

@@ -54,7 +54,7 @@
   import { computed, toRef } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { VueDraggable } from 'vue-draggable-plus'
-  import { Dices, Plus } from 'lucide-vue-next'
+  import { Dices, Plus } from '@lucide/vue'
   import type { OmikujiItemType } from '@/types/OmikujiData/'
   import { useTestPost } from '@/editor/helpers/useTestPost'
   import { useBoxOmikujiList } from './composables/useBoxOmikujiList'

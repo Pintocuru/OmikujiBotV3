@@ -37,7 +37,7 @@
 <script setup lang="ts">
   import { ref, watch } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { Pencil } from 'lucide-vue-next'
+  import { Pencil } from '@lucide/vue'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { useSelectedRecord } from '../composables/useSelectedRecord'
   import ItemEditDialog from './ItemEditDialog.vue'

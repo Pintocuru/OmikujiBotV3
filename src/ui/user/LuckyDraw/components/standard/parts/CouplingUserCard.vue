@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Heart } from 'lucide-vue-next'
+  import { Heart } from '@lucide/vue'
   import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
   import type { UserNameType } from '@/types/OmikenComment'
   import type { CharacterColorType } from '@/types/OmikujiData'

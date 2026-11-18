@@ -87,7 +87,7 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import type { CategoryType } from '@/types/OmikujiData'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { ExternalLink } from 'lucide-vue-next'
+  import { ExternalLink } from '@lucide/vue'
 
   const { t } = useI18n()
 

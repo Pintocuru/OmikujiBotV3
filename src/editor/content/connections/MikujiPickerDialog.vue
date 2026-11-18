@@ -50,7 +50,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { Package } from 'lucide-vue-next'
+  import { Package } from '@lucide/vue'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'

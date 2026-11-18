@@ -211,7 +211,7 @@
 
 <script setup lang="ts">
   import { ref, watch, computed } from 'vue'
-  import { Cog } from 'lucide-vue-next'
+  import { Cog } from '@lucide/vue'
   import { LiveClockType } from '@/types/ui'
   import { useLiveClockTime } from '../../composables/useLiveClockTime'
   import RotatingMessage from '../../parts/RotatingMessage.vue'

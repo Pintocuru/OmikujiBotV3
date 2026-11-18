@@ -37,7 +37,7 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { TriangleAlert } from 'lucide-vue-next'
+  import { TriangleAlert } from '@lucide/vue'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import { ParseIssue, summarizeParseIssues } from '@/types/core/ParseIssues'

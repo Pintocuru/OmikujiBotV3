@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { CircleHelp, ImageOff } from 'lucide-vue-next'
+  import { CircleHelp, ImageOff } from '@lucide/vue'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
   import type { CharacterType } from '@/types/OmikujiData'
 

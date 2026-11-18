@@ -93,7 +93,7 @@
 
 <script setup lang="ts">
   import { reactive, ref, computed } from 'vue'
-  import { Pencil, X } from 'lucide-vue-next'
+  import { Pencil, X } from '@lucide/vue'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import type { CounterItem } from './counterTypes'
 

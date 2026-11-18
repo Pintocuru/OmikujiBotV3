@@ -60,7 +60,7 @@
 
 <script setup lang="ts">
   import { onBeforeUnmount, onMounted, ref } from 'vue'
-  import { CircleCheck, CircleHelp, CircleX, Info, TriangleAlert } from 'lucide-vue-next'
+  import { CircleCheck, CircleHelp, CircleX, Info, TriangleAlert } from '@lucide/vue'
   import type { Component } from 'vue'
   import { removeDialogRequest, type DialogButtonVariant, type DialogRequest, type DialogTone } from './dialogState'
 

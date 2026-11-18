@@ -88,7 +88,7 @@
   import { computed } from 'vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
-  import { VolumeX, Volume2, Dot } from 'lucide-vue-next'
+  import { VolumeX, Volume2, Dot } from '@lucide/vue'
   import { ReactionKeyType, ReactionTriggerType, reactionConditions } from '@/types/OmikujiData'
   import { reactionMap } from '@/maps/OmikujiData'
 

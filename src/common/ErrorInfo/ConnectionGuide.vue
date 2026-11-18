@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ShieldAlert } from 'lucide-vue-next'
+  import { ShieldAlert } from '@lucide/vue'
 
   // GitHub 上の導入方法画像 (docs/images にファイルを追加してから、ファイル名を差し替える)
   const GUIDE_IMAGE_URL =

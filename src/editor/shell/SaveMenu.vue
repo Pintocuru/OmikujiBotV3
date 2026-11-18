@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { ChevronDown, Save } from 'lucide-vue-next'
+  import { ChevronDown, Save } from '@lucide/vue'
   import { useSaveActions } from './useSaveActions'
 
   const { t } = useI18n()

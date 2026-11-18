@@ -42,7 +42,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { RefreshCw } from 'lucide-vue-next'
+  import { RefreshCw } from '@lucide/vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { storeToRefs } from 'pinia'

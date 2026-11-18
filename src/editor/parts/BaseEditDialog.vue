@@ -44,7 +44,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { Check } from 'lucide-vue-next'
+  import { Check } from '@lucide/vue'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 

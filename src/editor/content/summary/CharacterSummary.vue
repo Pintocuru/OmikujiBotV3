@@ -48,7 +48,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { CircleHelp, ImageOff } from 'lucide-vue-next'
+  import { CircleHelp, ImageOff } from '@lucide/vue'
   import { useCharacterStats } from '@/editor/helpers/CharacterChanger/composables/useCharacterStats'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
   import CharacterChanger from '@/editor/helpers/CharacterChanger/CharacterChanger.vue'

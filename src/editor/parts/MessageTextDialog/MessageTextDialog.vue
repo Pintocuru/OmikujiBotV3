@@ -99,7 +99,7 @@
   import PlaceholderPanel from './PlaceholderPanel.vue'
   import MessagePreviewPanel from './MessagePreviewPanel.vue'
   import InlinePlaceholderDialog from './InlinePlaceholderDialog.vue'
-  import { PencilLine } from 'lucide-vue-next'
+  import { PencilLine } from '@lucide/vue'
 
   const { t } = useI18n()
 

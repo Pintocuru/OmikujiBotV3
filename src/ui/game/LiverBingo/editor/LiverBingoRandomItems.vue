@@ -43,7 +43,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { Trash2 } from 'lucide-vue-next'
+  import { Trash2 } from '@lucide/vue'
   import type { LiverBingoItemType } from '@/types/ui'
   import LiverBingoItemForm from './LiverBingoItemForm.vue'
   import { createEmptyItem } from './seedList'

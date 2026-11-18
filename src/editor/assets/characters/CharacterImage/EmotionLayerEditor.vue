@@ -48,7 +48,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed, onMounted, ref, watch } from 'vue'
-  import { Plus } from 'lucide-vue-next'
+  import { Plus } from '@lucide/vue'
   import HelpButton from '@/editor/parts/HelpButton.vue'
   import EmotionLayerRow from './EmotionLayerRow.vue'
   import ImageSettingsInfo from './ImageSettingsInfo.vue'

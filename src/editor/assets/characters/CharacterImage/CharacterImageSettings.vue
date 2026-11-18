@@ -41,7 +41,7 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { computed, nextTick, ref } from 'vue'
-  import { Plus } from 'lucide-vue-next'
+  import { Plus } from '@lucide/vue'
   import { CharacterImageSetSchema, CharacterImageSetType, CharacterImageType } from '@/types/OmikujiData'
   import EmotionPresetButtons from './EmotionPresetButtons.vue'
 

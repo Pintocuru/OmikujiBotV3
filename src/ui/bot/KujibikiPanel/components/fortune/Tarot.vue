@@ -90,7 +90,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { Sparkles, Moon, Star } from 'lucide-vue-next'
+  import { Sparkles, Moon, Star } from '@lucide/vue'
   import { BotMessageBubbleType } from '@/types/generator'
 
   const props = defineProps<{

@@ -24,7 +24,7 @@
 <script setup lang="ts">
   import { CharacterImageSetType } from '@/types/OmikujiData'
   import LayerImage from '@/common/LayerImage/LayerImage.vue'
-  import { GripVertical } from 'lucide-vue-next'
+  import { GripVertical } from '@lucide/vue'
 
   defineProps<{
     item: { key: string; value: CharacterImageSetType[string] }

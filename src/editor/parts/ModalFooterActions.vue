@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { X, Save } from 'lucide-vue-next'
+  import { X, Save } from '@lucide/vue'
 
   const { t } = useI18n()
 

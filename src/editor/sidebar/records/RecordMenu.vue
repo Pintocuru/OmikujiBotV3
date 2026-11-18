@@ -72,7 +72,7 @@
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'
   import { dialog } from '@/common/Dialog/dialogState'
   import { notify } from '@/common/Notice/notify'
-  import { Eye, EyeOff, Copy, Trash2, MoreHorizontal, ClipboardCopy, ClipboardPaste } from 'lucide-vue-next'
+  import { Eye, EyeOff, Copy, Trash2, MoreHorizontal, ClipboardCopy, ClipboardPaste } from '@lucide/vue'
   import { useGetEventData } from '@/editor/stores/useGetEventData'
   import { useJsonClipboard } from '@/editor/helpers/useJsonClipboard'
 

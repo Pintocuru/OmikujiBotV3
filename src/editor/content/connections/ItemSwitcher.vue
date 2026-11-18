@@ -38,7 +38,7 @@
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { ChevronsUpDown, TriangleAlert } from 'lucide-vue-next'
+  import { ChevronsUpDown, TriangleAlert } from '@lucide/vue'
   import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'
   import { resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'

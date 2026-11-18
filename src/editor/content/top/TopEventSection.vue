@@ -57,7 +57,7 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { VueDraggable } from 'vue-draggable-plus'
-  import { GripVertical } from 'lucide-vue-next'
+  import { GripVertical } from '@lucide/vue'
   import type { CategoryType, EventCategoryType } from '@/types/OmikujiData'
   import type { BaseRecordType } from '@/types/core'
   import { categoryContentMap } from '@/editor/maps/category/CategoryContentMap'

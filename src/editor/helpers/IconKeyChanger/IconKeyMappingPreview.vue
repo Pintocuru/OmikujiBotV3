@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { AlertTriangle } from 'lucide-vue-next'
+  import { AlertTriangle } from '@lucide/vue'
   import { useCharacterLookup } from '../CharacterChanger/composables/useCharacterLookup'
   import { parseCompositeKey } from './compositeKey'
 

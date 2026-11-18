@@ -20,7 +20,7 @@
     Star,
     Shield,
     type LucideIcon,
-  } from 'lucide-vue-next'
+  } from '@lucide/vue'
   import { DaisyUIColorType } from '@/types/core'
 
   const props = defineProps<{

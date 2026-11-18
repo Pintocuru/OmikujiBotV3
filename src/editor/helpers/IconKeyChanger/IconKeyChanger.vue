@@ -59,7 +59,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { ImageIcon } from 'lucide-vue-next'
+  import { ImageIcon } from '@lucide/vue'
   import CurrentIconList from './CurrentIconList.vue'
   import IconKeyStatus from './IconKeyStatus.vue'
   import IconKeyMappingEditor from './IconKeyMappingEditor.vue'

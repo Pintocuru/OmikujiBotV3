@@ -58,7 +58,7 @@
   import { dialog } from '@/common/Dialog/dialogState'
   import { notify } from '@/common/Notice/notify'
   import { useTestPost } from '@/editor/helpers/useTestPost'
-  import { Send, ClipboardCopy, ClipboardPaste } from 'lucide-vue-next'
+  import { Send, ClipboardCopy, ClipboardPaste } from '@lucide/vue'
   import { useJsonClipboard } from '@/editor/helpers/useJsonClipboard'
 
   // Props

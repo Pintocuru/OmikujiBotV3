@@ -55,7 +55,7 @@
   import { useI18n } from 'vue-i18n'
   import { computed, ref, watch, type Component } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { Volume2, PartyPopper, MessagesSquare, Settings } from 'lucide-vue-next'
+  import { Volume2, PartyPopper, MessagesSquare, Settings } from '@lucide/vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import type { ScenarioStepType } from '@/types/OmikujiData'
   import SoundTestButton from './SoundTestButton.vue'

@@ -63,7 +63,7 @@
   import FileMenuDropdown from './FileMenuDropdown.vue'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { getDataVersionStatus } from '@/manager/services/apiServiceUtils'
-  import { Download } from 'lucide-vue-next'
+  import { Download } from '@lucide/vue'
 
   const props = defineProps<{
     file: FileItem

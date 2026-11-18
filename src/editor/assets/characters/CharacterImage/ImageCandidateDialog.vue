@@ -73,7 +73,7 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { RefreshCw } from 'lucide-vue-next'
+  import { RefreshCw } from '@lucide/vue'
   import BaseDialog from '@/editor/parts/BaseDialog.vue'
   import { buildImageCandidates, type ImageCandidateGroupKey } from './composables/imageCandidates'
 

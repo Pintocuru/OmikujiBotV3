@@ -18,7 +18,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { Ban, ExternalLink, Zap } from 'lucide-vue-next'
+  import { Ban, ExternalLink, Zap } from '@lucide/vue'
   import type { OmikujiItemType } from '@/types/OmikujiData/'
   import { useGetAssetData } from '@/editor/stores/useGetAssetData'
   import { useNavigationStore } from '@/editor/stores/useNavigationStore'

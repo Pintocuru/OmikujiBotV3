@@ -62,7 +62,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { X } from 'lucide-vue-next'
+  import { X } from '@lucide/vue'
   import { storeToRefs } from 'pinia'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'

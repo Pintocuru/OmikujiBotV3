@@ -60,7 +60,7 @@
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import ManagerFileItem from './ManagerFileItem.vue'
   import { formatFileDate } from '@/manager/services/apiServiceUtils'
-  import { Folder, ChevronDown, ChevronRight } from 'lucide-vue-next'
+  import { Folder, ChevronDown, ChevronRight } from '@lucide/vue'
 
   const emit = defineEmits<{ opened: [] }>()
 

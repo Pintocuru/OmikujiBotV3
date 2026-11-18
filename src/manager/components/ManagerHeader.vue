@@ -57,7 +57,7 @@
   import { isDev } from '@/common/AppEnv'
   import { useManagerStore } from '@/manager/stores/useManagerStore'
   import { notify } from '@/common/Notice/notify'
-  import { ChevronsDown, ChevronsUp } from 'lucide-vue-next'
+  import { ChevronsDown, ChevronsUp } from '@lucide/vue'
 
   // 並び替え・フォルダ開閉はプリセット一覧用なので、パッケージ一覧では隠す
   withDefaults(defineProps<{ showFileTools?: boolean }>(), { showFileTools: true })

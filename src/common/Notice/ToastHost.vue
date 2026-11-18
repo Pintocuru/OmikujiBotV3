@@ -40,7 +40,7 @@
 <script setup lang="ts">
   import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import type { Component } from 'vue'
-  import { CircleCheck, CircleX, Info, TriangleAlert } from 'lucide-vue-next'
+  import { CircleCheck, CircleX, Info, TriangleAlert } from '@lucide/vue'
   import {
     notices,
     pauseNotice,

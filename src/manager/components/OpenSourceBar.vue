@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { Download, FileCode } from 'lucide-vue-next'
+  import { Download, FileCode } from '@lucide/vue'
   import { useManagerStore } from '../stores/useManagerStore'
 
   const emit = defineEmits<{ openLocal: []; openPackage: [] }>()
