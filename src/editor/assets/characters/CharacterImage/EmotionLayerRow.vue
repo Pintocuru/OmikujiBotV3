@@ -66,7 +66,8 @@
         :placeholder="t('characterImage.layer.path', { n: index + 1 })"
         :value="path"
         @input="emit('update:path', ($event.target as HTMLInputElement).value)"
-      />    </div>
+      />
+    </div>
 
     <!-- 読み込みの状態 (編集画面だけ。配信表示は、読めない画像を黙って非表示にする) -->
     <p v-if="status === 'checking'" class="text-xs text-base-content/50">
