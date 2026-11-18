@@ -1,5 +1,5 @@
 <!-- src/editor/assets/characters/CharacterImage/EmotionLayerRow.vue -->
-<!-- レイヤー1枚ぶん: パス入力・候補・(1枚目だけ)画像を検出・並び替え・削除・読み込み状態・プレビュー -->
+<!-- レイヤー1枚ぶん: パス入力・(1枚目だけ)画像を検出・並び替え・削除・読み込み状態・プレビュー -->
 <template>
   <div class="border rounded p-2 bg-base-200 space-y-1">
     <div class="flex items-center gap-2">
@@ -66,12 +66,7 @@
         :placeholder="t('characterImage.layer.path', { n: index + 1 })"
         :value="path"
         @input="emit('update:path', ($event.target as HTMLInputElement).value)"
-      />
-      <button type="button" class="btn btn-xs btn-outline gap-1 shrink-0" @click="emit('pick')">
-        <FolderOpen class="w-3.5 h-3.5" />
-        {{ t('characterImage.layer.candidates') }}
-      </button>
-    </div>
+      />    </div>
 
     <!-- 読み込みの状態 (編集画面だけ。配信表示は、読めない画像を黙って非表示にする) -->
     <p v-if="status === 'checking'" class="text-xs text-base-content/50">
@@ -92,7 +87,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { ChevronDown, ChevronUp, FolderOpen, ScanSearch, TriangleAlert, X } from '@lucide/vue'
+  import { ChevronDown, ChevronUp, ScanSearch, TriangleAlert, X } from '@lucide/vue'
   import ImagePreview from '@/common/LayerImage/ImagePreview.vue'
   import { useLayerStatus } from './composables/useLayerStatus'
 
@@ -110,7 +105,6 @@
   const emit = defineEmits<{
     'update:path': [path: string]
     detect: []
-    pick: []
     moveUp: []
     moveDown: []
     remove: []
