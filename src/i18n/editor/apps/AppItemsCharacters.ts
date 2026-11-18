@@ -306,7 +306,6 @@ export const appItemsCharactersMessages = {
         detect: 'Detect image',
         detectNotFound:
           'No image found for "{base}". Check that the image is in the images folder and that the character ID and emotion key match.',
-        candidates: 'Pick',
         status: {
           checking: 'Checking…',
           loaded: 'Loaded',
