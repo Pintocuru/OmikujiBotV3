@@ -15,7 +15,9 @@ const config: IConfiguration = {
       severity: 'warn',
       comment: '共通型定義は実装層に依存しない',
       from: { path: '^src/types/' },
-      to: { path: '^src/(common|console|editor|engine|games|generator|i18n|layout|manager|maps|plugin|register|sdk|ui)/' },
+      to: {
+        path: '^src/(common|console|editor|engine|games|generator|i18n|layout|manager|maps|plugin|register|sdk|ui)/',
+      },
     },
     {
       name: 'common-no-feature-dependencies',

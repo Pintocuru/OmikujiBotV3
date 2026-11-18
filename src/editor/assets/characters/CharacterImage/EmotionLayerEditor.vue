@@ -54,7 +54,6 @@
 
   const layers = computed(() => (Array.isArray(props.src) ? props.src : []))
 
-
   // ── 画像の自動検出 (1枚目のみ) ───────────────────────────────────────────
   const detecting = ref(false)
   const detectWarning = ref('')

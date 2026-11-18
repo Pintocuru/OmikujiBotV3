@@ -14,10 +14,13 @@ const baseRules: Linter.RulesRecord = {
   // const'の強制
   'prefer-const': 'off',
   // 未使用の変数 (_ は例外)
-  '@typescript-eslint/no-unused-vars': ['warn', {
-    argsIgnorePattern: '^_',
-    varsIgnorePattern: '^_',
-  }],
+  '@typescript-eslint/no-unused-vars': [
+    'warn',
+    {
+      argsIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
+    },
+  ],
   // 空の関数定義
   '@typescript-eslint/no-empty-function': 'warn',
   // Vueコンポーネント内の未使用変数
@@ -39,11 +42,7 @@ export default defineConfigWithVueTs(
   },
   {
     name: 'app/files-to-ignore',
-    ignores: [
-      '**/node_modules/**',
-      '**/dist/**',
-      '**/*.test.ts',
-    ],
+    ignores: ['**/node_modules/**', '**/dist/**', '**/*.test.ts'],
   },
 
   // Vue essential (flat)
@@ -52,10 +51,9 @@ export default defineConfigWithVueTs(
   // TypeScript (推奨構成)
   vueTsConfigs.recommended,
 
-
   {
     name: 'app/base-rules',
     rules: baseRules,
   },
-  skipFormatting,
+  skipFormatting
 )

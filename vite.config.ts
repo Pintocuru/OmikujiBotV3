@@ -20,10 +20,7 @@ export const alias = { ...createViteAliases(projectRoot) }
 
 export default defineConfig(() => {
   const overrideConfig: UserConfig = {
-    plugins: [
-      characterAssetsPlugin(projectRoot),
-      soundAssetsPlugin(projectRoot),
-    ],
+    plugins: [characterAssetsPlugin(projectRoot), soundAssetsPlugin(projectRoot)],
     resolve: { alias },
     server: {
       watch: {
@@ -37,7 +34,6 @@ export default defineConfig(() => {
   }
   return mergeConfig(base, overrideConfig)
 })
-
 
 export function baseViteConfig(childDir: string) {
   const plugins = [
