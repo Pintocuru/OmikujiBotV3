@@ -32,10 +32,6 @@ export interface UnifiedRequest {
 export interface RequestContext {
   /** omikujiData.js の出力先ディレクトリ */
   omikujiOutputDir: string
-  /** sounds フォルダ (音声ファイル一覧の取得元) */
-  soundsDir: string
-  /** 画像ルート (画像一覧の取得元)。複数のルートの中身を1つの一覧にまとめる。実行のたびに読み直すため getter でもよい */
-  imagesDirs: readonly string[]
   /** 開発用のアクション (ダミーデータの追加など) を許可するか。Express の開発サーバーだけ true */
   allowMock?: boolean
 }
