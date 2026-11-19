@@ -1,25 +1,15 @@
 <!-- src/console/LiveConsole.vue -->
 <template>
-  <div class="min-h-screen bg-base-100 text-base-content" data-theme="dark">
+  <div class="min-h-screen bg-base-100 text-base-content">
     <!-- 別ウィンドウで開いた画面(launch: 'window')は、タブなしでその画面だけを表示する -->
-    <header v-if="!windowKey" class="navbar sticky top-0 z-10 gap-4 bg-base-200 shadow">
-      <h1 class="text-lg font-bold">LiveConsole</h1>
-
-      <!-- 画面の切り替え -->
-      <div role="tablist" class="tabs tabs-box tabs-sm">
-        <button
-          v-for="key in keys"
-          :key="key"
-          role="tab"
-          class="tab gap-1"
-          :class="{ 'tab-active': key === current }"
-          @click="select(key)"
-        >
-          {{ getConsoleViewMeta(key).label }}
-          <span v-if="getConsoleViewMeta(key).launch === 'window'" aria-hidden="true">↗</span>
-        </button>
-      </div>
-    </header>
+    <ConsoleHeader
+      v-if="!windowKey"
+      :keys="keys"
+      :current="current"
+      :theme="theme"
+      @select="select"
+      @toggle-theme="toggleTheme"
+    />
 
     <component :is="currentComponent" v-if="currentComponent" :key="current" />
     <p v-else class="p-6 text-sm opacity-70">表示できる画面が登録されていません</p>
@@ -36,8 +26,33 @@
   import DialogHost from '@/common/Dialog/DialogHost.vue'
   import { configureDialogLabels } from '@/common/Dialog/dialogState'
   import { notify } from '@/common/Notice/notify'
+  import ConsoleHeader from './shell/ConsoleHeader.vue'
   import { getConsoleViewMeta, type ConsoleViewKey } from './maps/ConsoleViewMap'
   import { getConsoleViewKeys, getConsoleViewLoader } from './consoleRegistry'
+
+  const THEME_STORAGE_KEY = 'omikuji-console-theme'
+
+  // テーマはConsole専用で保存する。保存値がなければ従来どおりdarkを初期値にする。
+  const getInitialTheme = (): 'dark' | 'light' => {
+    try {
+      return localStorage.getItem(THEME_STORAGE_KEY) === 'light' ? 'light' : 'dark'
+    } catch {
+      return 'dark'
+    }
+  }
+
+  const theme = ref<'dark' | 'light'>(getInitialTheme())
+  document.documentElement.dataset.theme = theme.value
+
+  const toggleTheme = () => {
+    theme.value = theme.value === 'dark' ? 'light' : 'dark'
+    document.documentElement.dataset.theme = theme.value
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, theme.value)
+    } catch {
+      // localStorageが利用できない環境では、現在の画面内でのみ切り替える。
+    }
+  }
 
   // コンソールは日本語のみ
   configureDialogLabels({
@@ -58,7 +73,7 @@
 
   // # が「別ウィンドウ起動の画面」なら、このページはその画面専用のウィンドウ
   const windowKey = hashKey && getConsoleViewMeta(hashKey).launch === 'window' ? hashKey : undefined
-  if (windowKey) document.title = getConsoleViewMeta(windowKey).label
+  document.title = windowKey ? getConsoleViewMeta(windowKey).label : 'おみくじBOT コンソール'
 
   const current = ref<ConsoleViewKey | undefined>(windowKey ?? hashKey ?? embeddedKeys[0])
 

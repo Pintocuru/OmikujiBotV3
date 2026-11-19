@@ -14,9 +14,7 @@
           :aria-selected="key === current"
           class="px-2 py-1 text-sm border-b-2 transition-colors whitespace-nowrap"
           :class="
-            key === current
-              ? 'border-primary-content font-semibold'
-              : 'border-transparent opacity-80 hover:opacity-100'
+            key === current ? 'border-primary-content font-semibold' : 'border-transparent opacity-80 hover:opacity-100'
           "
           @click="emit('select', key)"
         >
@@ -26,14 +24,11 @@
       </nav>
     </div>
 
+    <!-- 右側 -->
     <div class="flex items-center gap-2 shrink-0">
-      <div class="tooltip tooltip-bottom" :data-tip="themeTitle">
-        <button
-          type="button"
-          class="btn btn-sm btn-square btn-ghost text-primary-content hover:bg-primary-content/15"
-          :aria-label="themeTitle"
-          @click="emit('toggle-theme')"
-        >
+      <!-- テーマ切り替えボタン -->
+      <div class="tooltip tooltip-left" :data-tip="themeTitle">
+        <button type="button" class="btn btn-sm btn-square" :aria-label="themeTitle" @click="emit('toggle-theme')">
           <component :is="isDark ? Sun : Moon" class="w-4 h-4" />
         </button>
       </div>
@@ -44,7 +39,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { Moon, Sun } from '@lucide/vue'
-  import { getConsoleViewMeta, type ConsoleViewKey } from './maps/ConsoleViewMap'
+  import { getConsoleViewMeta, type ConsoleViewKey } from '../maps/ConsoleViewMap'
 
   const props = defineProps<{
     keys: ConsoleViewKey[]
@@ -58,7 +53,5 @@
   }>()
 
   const isDark = computed(() => props.theme === 'dark')
-  const themeTitle = computed(() =>
-    isDark.value ? 'ライトテーマに切り替え' : 'ダークテーマに切り替え',
-  )
+  const themeTitle = computed(() => (isDark.value ? 'ライトテーマに切り替え' : 'ダークテーマに切り替え'))
 </script>
