@@ -1,6 +1,6 @@
 <!-- src/editor/parts/InformationCard.vue -->
 <template>
-  <div class="alert w-full" :class="headerClass">
+  <div class="alert w-full" :class="VARIANT[variant]">
     <component :is="resolvedIcon" class="w-6 h-6" />
     <div class="space-y-1">
       <slot />
@@ -10,49 +10,21 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import {
-    Info,
-    CheckCircle,
-    AlertTriangle,
-    XCircle,
-    Sparkles,
-    CircleDot,
-    Star,
-    Shield,
-    type LucideIcon,
-  } from '@lucide/vue'
   import { DaisyUIColorType } from '@/types/core'
+  import { LucideIconName, resolveLucideIcon } from '@/common/LucideIcon/useLucideIcon'
 
-  const props = defineProps<{
-    variant?: DaisyUIColorType
-    icon?: DaisyUIColorType
-  }>()
+  type AlertVariant = Extract<DaisyUIColorType, 'info' | 'success' | 'warning' | 'error'>
 
-  const VARIANT_CLASS: Record<DaisyUIColorType, string> = {
-    info: 'alert-info text-info-content',
-    success: 'alert-success text-success-content',
-    warning: 'alert-warning text-warning-content',
-    error: 'alert-error text-error-content',
+  const { variant = 'info', icon = 'Info' } = defineProps<{ variant?: AlertVariant; icon?: LucideIconName }>()
 
-    // 存在しないのはbgを使う
-    primary: 'bg-primary text-primary-content',
-    secondary: ' bg-secondary text-secondary-content',
-    accent: ' bg-accent text-accent-content',
-    neutral: 'bg-neutral text-neutral-content',
+  // アイコン名文字列 → Lucideコンポーネントに解決
+  const resolvedIcon = computed(() => resolveLucideIcon(icon))
+
+  // alert-* は safelist 対象外なので、完全なクラス名で持つ
+  const VARIANT: Record<AlertVariant, string> = {
+    info: 'alert-info',
+    success: 'alert-success',
+    warning: 'alert-warning',
+    error: 'alert-error',
   }
-
-  const VARIANT_ICON: Record<DaisyUIColorType, LucideIcon> = {
-    primary: Sparkles, // 強調・目立たせたい
-    secondary: CircleDot, // 補助的
-    accent: Star, // 特別感
-    info: Info,
-    success: CheckCircle,
-    warning: AlertTriangle,
-    error: XCircle,
-    neutral: Shield, // 中立・保護
-  }
-
-  const headerClass = computed(() => VARIANT_CLASS[props.variant ?? 'info'])
-
-  const resolvedIcon = computed(() => VARIANT_ICON[props.icon ?? props.variant ?? 'info'])
 </script>

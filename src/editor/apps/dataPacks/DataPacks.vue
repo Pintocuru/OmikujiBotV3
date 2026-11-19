@@ -13,7 +13,7 @@
 
   <template v-else>
     <!-- Githubからダウンロードしてくれてありがとう！ -->
-    <InformationCard variant="warning" icon="primary">
+    <InformationCard variant="warning" icon="Sparkles">
       <p>
         {{ t('dataPacks.intro.thanks') }}<br />
         {{ t('dataPacks.intro.free') }}<br />

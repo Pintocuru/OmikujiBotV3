@@ -1,6 +1,6 @@
 <!-- src/ui/bot/CharacterStage/editor/CharacterStageEditor.vue -->
 <template>
-  <InformationCard variant="warning" icon="warning">
+  <InformationCard variant="warning" icon="TriangleAlert">
     <p>
       {{ $t('uiSettings.characterStage.noSettings.line1') }}<br />
       {{ $t('uiSettings.characterStage.noSettings.line2') }}

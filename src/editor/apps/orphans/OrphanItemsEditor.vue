@@ -10,7 +10,7 @@
   <NoParamsCard v-else-if="orphanGroups.length === 0" :message="t('orphans.empty')" />
 
   <div v-else class="space-y-4">
-    <InformationCard variant="warning" icon="primary">
+    <InformationCard variant="warning" icon="Sparkles">
       <p>
         {{ t('orphans.criteria') }}<br />
         {{ t('orphans.caution') }}
