@@ -2,3 +2,4 @@
 
 //
 export * from './ConsoleStatus'
+export * from './ConsoleView'
