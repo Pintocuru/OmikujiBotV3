@@ -2,9 +2,10 @@
 <template>
   <header class="flex items-center justify-between p-2 bg-primary text-primary-content shadow-md z-40">
     <div class="flex items-center gap-4 min-w-0">
+      <!-- タイトル -->
       <h1 class="font-extrabold text-lg whitespace-nowrap">おみくじBOT コンソール</h1>
 
-      <!-- 画面の切り替え -->
+      <!-- 各種コンテンツ -->
       <nav role="tablist" aria-label="コンソール画面" class="flex items-center gap-1 min-w-0">
         <button
           v-for="key in keys"
