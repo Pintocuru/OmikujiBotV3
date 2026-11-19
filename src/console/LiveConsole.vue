@@ -4,7 +4,7 @@
     <!-- 別ウィンドウで開いた画面(launch: 'window')は、タブなしでその画面だけを表示する -->
     <ConsoleHeader
       v-if="!windowKey"
-      :keys="embeddedKeys"
+      :keys="keys"
       :current="current"
       :theme="theme"
       @select="select"
