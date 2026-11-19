@@ -12,6 +12,7 @@
 - `src/console/control/BingoConsole/`: ビンゴの進行操作
 - `src/console/control/UsersConsole/`: ユーザー一覧・ユーザー操作
 - `src/console/log/GameLog/`: ゲームログやランキング等の閲覧
+- `src/console/game/UserRace/`: ブラウザゲーム「ユーザーレース」（別ウィンドウで開く）
 - `src/console/common/`・`src/console/types/`: 画面をまたぐ共通部品・型
 - `src/console/maps/ConsoleViewMap.ts`: 全画面の表示名・カテゴリ・起動方式
 - `src/console/consoleRegistry.ts`: 画面のレジストリ（key → loader）
@@ -47,6 +48,20 @@ UIの登録（`uiRegistry.ts` と `UiKind`）と同じ考え方です。
 - 配布ビルドはコード分割をしない（`codeSplitting: false`）ため、動的 import にしても遅延読み込みにはならず、画面を外す手段は「登録しない」ことだけです。
 - 表示名などのマップは全画面分を持つため、登録しない画面の表示名の文字列は配布物に残ります（画面のコードは含まれません）。
 - 開発サーバーは全部入りです。配布パッケージと同じ構成で確認したいときは、パッケージの `console.ts` 側の登録で確認してください。
+
+## ゲーム（`game` カテゴリ）
+
+ゲームは別ウィンドウで開き、OBSでそのウィンドウをキャプチャして配信に映します（Chromeで動かすため背景は透過しません）。
+
+### ユーザーレース（`userRace`）
+
+ユーザーリスト（`load-users`）から最大8人（ピン留めを優先、残りはランダム）が走るミニゲームです。
+
+- 流れ: スタート → ユーザー取得 → 3秒のカウントダウン → レース → 結果（1〜3位）。平均の速さは全員同じで、速さの波だけが違うため、勝敗は運です。
+- 得点: 結果の「得点に加算する」ボタンを押したときだけ、1位+3・2位+2・3位+1点を `update-user-stats`（`addScore`）で加算します。自動では加算しません。
+- 操作バーは、`H` キーまたは「操作を隠す」で隠せます（キャプチャ用）。
+- 構成: レースの進行は純粋関数（`scripts/raceEngine.ts`、乱数だけを外から渡す）、通信と時計は `composables/useUserRace.ts`、表示は `components/`。ゲームエンジンは使っていません。
+- 配布パッケージに入れるときは、そのパッケージの `console.ts` に `userRace` の loader を1行足します（既定では入っていません。足すと約12KB増えます）。
 
 ## サーバーとの連携
 

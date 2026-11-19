@@ -10,6 +10,8 @@ export const consoleViewMap = {
   usersConsole: { label: 'ユーザー操作', category: 'control', launch: 'embedded' },
   // log: 記録・閲覧
   gameLog: { label: 'ゲームの記録', category: 'log', launch: 'embedded' },
+  // game: ブラウザゲーム (OBS でウィンドウをキャプチャするので、別ウィンドウで開く)
+  userRace: { label: 'ユーザーレース', category: 'game', launch: 'window', windowSize: { width: 960, height: 540 } },
 } as const satisfies Record<string, ConsoleViewMeta>
 
 export type ConsoleViewKey = keyof typeof consoleViewMap

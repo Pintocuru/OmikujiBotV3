@@ -11,4 +11,6 @@ export const registerAllConsoleViews = () =>
     usersConsole: () => import('@/console/control/UsersConsole/UsersConsole.vue'),
     // log
     gameLog: () => import('@/console/log/GameLog/GameLog.vue'),
+    // game
+    userRace: () => import('@/console/game/UserRace/UserRace.vue'),
   } satisfies Record<ConsoleViewKey, ConsoleViewLoader>)
