@@ -1,7 +1,7 @@
 <!-- src/editor/ui/UiEditor.vue -->
 <template>
   <!-- セクションのタブ。スクロールしても隠れないよう上に貼り付ける(左右は外枠 SectionCard の p-4 の分だけ広げる) -->
-  <div class="flex-wrap top-0 z-10 -mx-4 bg-base-200 px-4 py-2">
+  <div class="flex-wrap top-0 z-10 -mx-4 bg-base-200 p-4">
     <IconRadioGroup
       v-model="selectedSection"
       i18n-prefix="sectionTabs"
@@ -18,7 +18,6 @@
     :key="sec.section"
     :section-key="sec.section"
     :icon="sec.icon"
-    :variant="sec.variant"
     :title-key="sec.labelKey"
     :description-key="sec.descriptionKey"
   >
@@ -38,14 +37,12 @@
   import FontFamilyEditor from './common/FontFamilyEditor.vue'
   import UnusedUiSettingsEditor from './conditions/UnusedUiSettingsEditor.vue'
   import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
-  import { DaisyUIColorType } from '@/types/core'
 
   type UiEditorSection = {
     section: string
     icon: LucideIconName
     labelKey: string
     descriptionKey?: string
-    variant?: DaisyUIColorType
     component: Component
   }
 
@@ -69,6 +66,7 @@
       component: markRaw(FontFamilyEditor),
     },
     // 開発時のみ: レイアウト / 未使用UIの整理(タブはまとめて 1 つ)
+    // TODO:レイアウト選択は、フルパッケージでもONにする
     ...(isDev
       ? [
           {
@@ -76,14 +74,12 @@
             icon: 'LayoutGrid' as const,
             labelKey: 'uiSettings.editorSections.layout.label',
             descriptionKey: 'uiSettings.editorSections.layout.description',
-            variant: 'warning' as const,
             component: markRaw(LayoutEditor),
           },
           {
             section: 'dev',
             icon: 'LayoutGrid' as const,
             labelKey: 'shell.contentTabs.dev',
-            variant: 'warning' as const,
             component: markRaw(UnusedUiSettingsEditor),
           },
         ]

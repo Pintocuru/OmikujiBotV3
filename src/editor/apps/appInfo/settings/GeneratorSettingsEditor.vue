@@ -3,7 +3,7 @@
   <!-- ジェネレーター設定 -->
   <SubSectionHeader
     icon="Sparkles"
-    :title="t('appInfoEditor.settings.generator.title')"
+    titleKey="appInfoEditor.settings.generator.title"
     descriptionKey="appInfoEditor.settings.generator.description"
   />
 

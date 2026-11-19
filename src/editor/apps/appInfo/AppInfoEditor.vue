@@ -19,7 +19,6 @@
       :icon="sec.icon"
       :title-key="sec.labelKey"
       :description-key="sec.descriptionKey"
-      :variant="sec.variant"
     >
       <template v-for="(child, i) in sec.components" :key="i">
         <component :is="child" />
@@ -49,7 +48,6 @@
     icon: LucideIconName
     labelKey: string
     descriptionKey: string
-    variant?: 'neutral'
     components: Component[]
   }
 
@@ -74,7 +72,6 @@
       icon: 'Info',
       labelKey: 'appInfoEditor.packageBasic.label',
       descriptionKey: 'appInfoEditor.packageBasic.description',
-      variant: 'neutral',
       components: [markRaw(PackageBasicInfo)],
     },
     {
@@ -82,7 +79,6 @@
       icon: 'Package',
       labelKey: 'appInfoEditor.packageDistribution.label',
       descriptionKey: 'appInfoEditor.packageDistribution.description',
-      variant: 'neutral',
       components: [markRaw(PackageDistributionInfo)],
     },
     {
@@ -90,7 +86,6 @@
       icon: 'Cpu',
       labelKey: 'appInfoEditor.packageSystem.label',
       descriptionKey: 'appInfoEditor.packageSystem.description',
-      variant: 'neutral',
       components: [markRaw(PackageSystemInfo)],
     },
   ]

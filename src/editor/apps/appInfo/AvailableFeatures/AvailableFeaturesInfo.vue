@@ -4,8 +4,8 @@
     <div v-for="section in sections" :key="section.id" class="card shadow-lg">
       <SubSectionHeader
         :icon="section.icon"
-        :title="t(`appInfoEditor.features.${section.id}.title`)"
-        :description="t(`appInfoEditor.features.${section.id}.description`)"
+        :titleKey="`appInfoEditor.features.${section.id}.title`"
+        :descriptionKey="`appInfoEditor.features.${section.id}.description`"
       />
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
