@@ -4,7 +4,7 @@
   <div class="flex flex-col">
     <!-- ツールバー -->
     <div class="flex flex-wrap items-center justify-end gap-3 px-4 pt-3">
-      <span class="badge" :class="statusBadge.class">{{ statusBadge.text }}</span>
+      <span v-if="status === 'error'" class="badge badge-error">エラー</span>
       <span v-if="lastLoadedAt" class="hidden text-xs opacity-60 sm:inline">更新 {{ formatTime(lastLoadedAt) }}</span>
       <label class="label cursor-pointer gap-2 text-sm">
         <input v-model="autoRefresh" type="checkbox" class="toggle toggle-sm toggle-primary" />
@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+  import { ref } from 'vue'
   import { isDev } from '@/common/AppEnv'
   import { useGameLog } from './composables/useGameLog'
   import { useMockGameLogs } from './composables/useMockGameLogs'
@@ -134,17 +134,4 @@
 
   const views = { ranking: 'ランキング', users: 'ユーザー別', logs: 'ログ' } as const
   const view = ref<keyof typeof views>('ranking')
-
-  const statusBadge = computed(() => {
-    switch (status.value) {
-      case 'online':
-        return { text: '接続中', class: 'badge-success' }
-      case 'offline':
-        return { text: '未接続', class: 'badge-warning' }
-      case 'error':
-        return { text: 'エラー', class: 'badge-error' }
-      default:
-        return { text: '読み込み中', class: 'badge-ghost' }
-    }
-  })
 </script>

@@ -1,5 +1,5 @@
 <!-- src/console/control/UsersConsole/components/UsersToolbar.vue -->
-<!-- ツールバー: 接続の状態・自動更新・更新ボタン -->
+<!-- ツールバー: 読み込みの状態・自動更新・更新ボタン -->
 <template>
   <div class="flex flex-wrap items-center justify-end gap-3 px-4 pt-3">
     <ConnectionBadge :status="status" :lastLoadedAt="lastLoadedAt" />

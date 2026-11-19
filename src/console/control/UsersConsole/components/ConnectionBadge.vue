@@ -1,7 +1,7 @@
 <!-- src/console/control/UsersConsole/components/ConnectionBadge.vue -->
-<!-- 接続の状態 (接続中 / 未接続 / エラー / 読み込み中) と、最後に読み込んだ時刻 -->
+<!-- 読み込みの状態 (エラー / 読み込み中) と、最後に読み込んだ時刻。サーバーへの接続状態は、ヘッダーの ServerStatus が表示する -->
 <template>
-  <span class="badge" :class="badge.class">{{ badge.text }}</span>
+  <span v-if="badge" class="badge" :class="badge.class">{{ badge.text }}</span>
   <span v-if="lastLoadedAt" class="hidden text-xs opacity-60 sm:inline">
     {{ usersMessages.toolbar.updatedAt(formatTime(lastLoadedAt)) }}
   </span>
@@ -17,14 +17,12 @@
 
   const badge = computed(() => {
     switch (props.status) {
-      case 'online':
-        return { text: usersMessages.connection.online, class: 'badge-success' }
-      case 'offline':
-        return { text: usersMessages.connection.offline, class: 'badge-warning' }
       case 'error':
         return { text: usersMessages.connection.error, class: 'badge-error' }
-      default:
+      case 'loading':
         return { text: usersMessages.connection.loading, class: 'badge-ghost' }
+      default:
+        return undefined
     }
   })
 </script>

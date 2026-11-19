@@ -4,9 +4,6 @@
   <div class="flex flex-col">
     <!-- ツールバー -->
     <div class="flex flex-wrap items-center justify-end gap-3 px-4 pt-3">
-      <span class="badge" :class="status === 'online' ? 'badge-success' : 'badge-error'">
-        {{ status === 'online' ? '接続中' : '未接続' }}
-      </span>
       <label class="label gap-2 text-sm">
         ボタン構成
         <select v-model.number="layout" class="select select-sm select-bordered">

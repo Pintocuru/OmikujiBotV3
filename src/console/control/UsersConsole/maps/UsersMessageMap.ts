@@ -8,8 +8,6 @@ export const usersMessages = {
     refresh: '更新',
   },
   connection: {
-    online: '接続中',
-    offline: '未接続',
     error: 'エラー',
     loading: '読み込み中',
   },
