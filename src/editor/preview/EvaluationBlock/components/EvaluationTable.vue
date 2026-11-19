@@ -1,4 +1,4 @@
-<!-- components/EvaluationTable.vue -->
+<!-- src/editor/preview/EvaluationBlock/components/EvaluationTable.vue -->
 <template>
   <div class="max-h-64 overflow-y-auto rounded border border-base-300">
     <table class="table table-xs table-zebra table-pin-rows">

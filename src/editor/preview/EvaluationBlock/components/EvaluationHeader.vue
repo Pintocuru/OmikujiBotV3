@@ -1,4 +1,4 @@
-<!-- components/EvaluationHeader.vue -->
+<!-- src/editor/preview/EvaluationBlock/components/EvaluationHeader.vue -->
 <template>
   <div
     class="flex items-center justify-between border-b border-base-300 cursor-pointer"

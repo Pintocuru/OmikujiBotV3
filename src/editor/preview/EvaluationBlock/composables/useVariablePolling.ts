@@ -1,4 +1,4 @@
-// composables/useVariablePolling.ts
+// src/editor/preview/EvaluationBlock/composables/useVariablePolling.ts
 import { onMounted, onUnmounted, ref, shallowRef } from 'vue'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import type { VarEntry, VarValue } from '../evaluationStats'

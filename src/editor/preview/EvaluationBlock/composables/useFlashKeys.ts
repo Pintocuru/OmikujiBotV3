@@ -1,4 +1,4 @@
-// composables/useFlashKeys.ts
+// src/editor/preview/EvaluationBlock/composables/useFlashKeys.ts
 import { onUnmounted, shallowRef } from 'vue'
 
 const FLASH_MS = 1200

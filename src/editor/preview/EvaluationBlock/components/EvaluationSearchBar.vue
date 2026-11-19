@@ -1,4 +1,4 @@
-<!-- components/EvaluationSearchBar.vue -->
+<!-- src/editor/preview/EvaluationBlock/components/EvaluationSearchBar.vue -->
 <template>
   <div class="join w-full">
     <input

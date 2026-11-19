@@ -1,4 +1,4 @@
-<!-- components/EvaluationForm.vue -->
+<!-- src/editor/preview/EvaluationBlock/components/EvaluationForm.vue -->
 <template>
   <div class="space-y-1">
     <div class="join w-full">

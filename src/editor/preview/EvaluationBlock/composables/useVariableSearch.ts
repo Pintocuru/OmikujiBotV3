@@ -1,4 +1,4 @@
-// composables/useVariableSearch.ts
+// src/editor/preview/EvaluationBlock/composables/useVariableSearch.ts
 import { computed, ref, type Ref } from 'vue'
 import { hasWildcard, summarizeByPattern, wildcardToRegExp, type VarEntry } from '../evaluationStats'
 

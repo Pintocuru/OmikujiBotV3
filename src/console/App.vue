@@ -1,4 +1,4 @@
-<!-- src/console/LiveConsole.vue -->
+<!-- src/console/App.vue -->
 <template>
   <div class="min-h-screen bg-base-100 text-base-content">
     <!-- 別ウィンドウで開いた画面(launch: 'window')は、タブなしでその画面だけを表示する -->

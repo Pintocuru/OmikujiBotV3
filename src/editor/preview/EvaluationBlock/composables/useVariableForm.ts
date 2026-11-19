@@ -1,4 +1,4 @@
-// composables/useVariableForm.ts
+// src/editor/preview/EvaluationBlock/composables/useVariableForm.ts
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { parseVariableValue, VARIABLE_NAME_PATTERN, type VarValue } from '../evaluationStats'

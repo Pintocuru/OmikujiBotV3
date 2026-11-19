@@ -1,4 +1,4 @@
-<!-- components/EvaluationSummary.vue -->
+<!-- src/editor/preview/EvaluationBlock/components/EvaluationSummary.vue -->
 <template>
   <div class="rounded border border-base-300 p-2 space-y-1 text-xs">
     <div class="font-semibold">

@@ -1,4 +1,4 @@
-<!-- src/console/ConsoleHeader.vue -->
+<!-- src/console/shell/ConsoleHeader.vue -->
 <template>
   <header class="flex items-center justify-between p-2 bg-primary text-primary-content shadow-md z-40">
     <div class="flex items-center gap-4 min-w-0">
