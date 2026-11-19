@@ -22,11 +22,15 @@
   import ConsoleHeader from './shell/ConsoleHeader.vue'
   import { useConsoleNavigation } from './composables/useConsoleNavigation'
   import { useConsoleTheme } from './composables/useConsoleTheme'
+  import { useServerConnection } from './composables/useServerConnection'
   import type { ConsoleViewKey } from './maps/ConsoleViewMap'
   import { getConsoleViewLoader } from './consoleRegistry'
 
   // テーマの初期適用。別ウィンドウでは Header がないため、App からも初期化する。
   useConsoleTheme()
+
+  // サーバーの選択(開発時)を復元し、接続確認を始める。別ウィンドウでも、画面の通信より前に行う。
+  useServerConnection()
 
   // コンソールは日本語のみ
   configureDialogLabels({

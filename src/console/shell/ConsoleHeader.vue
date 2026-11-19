@@ -8,7 +8,7 @@
       <!-- 各種コンテンツ -->
       <nav role="tablist" aria-label="コンソール画面" class="flex items-center gap-1 min-w-0">
         <button
-          v-for="key in keys"
+          v-for="key in visibleKeys"
           :key="key"
           type="button"
           role="tab"
@@ -27,6 +27,9 @@
 
     <!-- 右側 -->
     <div class="flex items-center gap-2 shrink-0">
+      <!-- サーバーとの接続状態 -->
+      <ServerStatus />
+
       <!-- テーマ切り替えボタン -->
       <div class="tooltip tooltip-left" :data-tip="themeTitle">
         <button type="button" class="btn btn-sm btn-square" :aria-label="themeTitle" @click="toggleTheme">
@@ -38,11 +41,14 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
   import { Moon, Sun } from '@lucide/vue'
   import { useConsoleTheme } from '../composables/useConsoleTheme'
+  import { useServerConnection } from '../composables/useServerConnection'
   import { getConsoleViewMeta, type ConsoleViewKey } from '../maps/ConsoleViewMap'
+  import ServerStatus from './ServerStatus.vue'
 
-  defineProps<{
+  const props = defineProps<{
     keys: ConsoleViewKey[]
     current: ConsoleViewKey | undefined
   }>()
@@ -52,4 +58,10 @@
   }>()
 
   const { isDark, themeTitle, toggleTheme } = useConsoleTheme()
+  const { connected } = useServerConnection()
+
+  // 別ウィンドウで開く画面は、サーバーに接続できているときだけ表示する
+  const visibleKeys = computed(() =>
+    props.keys.filter((key) => getConsoleViewMeta(key).launch !== 'window' || connected.value)
+  )
 </script>
