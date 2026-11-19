@@ -12,9 +12,10 @@ if (server) {
   process.exit(1)
 }
 
-//  Vite 起動
+// Vite 起動(引数はそのまま Vite に渡す。例: --config tools/viteConfig/vite.console.config.ts)
+const viteArgs = process.argv.slice(2)
 console.log('🚀 Starting Vite dev server...')
-const vite = spawn('vite', [], { stdio: 'inherit', shell: true })
+const vite = spawn('vite', viteArgs, { stdio: 'inherit', shell: true })
 
 vite.on('close', (code) => {
   console.log(`Vite process exited with code ${code}`)

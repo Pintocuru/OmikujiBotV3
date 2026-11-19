@@ -1,7 +1,7 @@
 // tools/viteConfig/vite.console.config.ts
 // LiveConsole (console.html / src/console) の開発サーバー・ビルド用の設定。
-// 使い方: npm run dev:console → http://localhost:5174/console.html
-// ※ データの保存先は、サーバー (開発中は `npm run dev` の API サーバー / 本番はわんコメのプラグイン) が必要。
+// 使い方: npm run dev:console → http://localhost:5174/console.html (開発用 API サーバーも一緒に起動する。editor は起動しない)
+// ※ `npm run dev` とは同時に使えない (API のポートが重複する)。本番のデータ保存先はわんコメのプラグイン。
 import { defineConfig, mergeConfig, UserConfig } from 'vite'
 import path from 'path'
 import { fileURLToPath } from 'url'
