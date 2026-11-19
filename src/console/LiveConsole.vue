@@ -1,6 +1,6 @@
 <!-- src/console/LiveConsole.vue -->
 <template>
-  <div class="min-h-screen bg-base-100 text-base-content" :data-theme="theme">
+  <div class="min-h-screen bg-base-100 text-base-content">
     <!-- 別ウィンドウで開いた画面(launch: 'window')は、タブなしでその画面だけを表示する -->
     <ConsoleHeader
       v-if="!windowKey"
@@ -42,8 +42,11 @@
   }
 
   const theme = ref<'dark' | 'light'>(getInitialTheme())
+  document.documentElement.dataset.theme = theme.value
+
   const toggleTheme = () => {
     theme.value = theme.value === 'dark' ? 'light' : 'dark'
+    document.documentElement.dataset.theme = theme.value
     try {
       localStorage.setItem(THEME_STORAGE_KEY, theme.value)
     } catch {
