@@ -41,7 +41,7 @@ type StringSummary = {
   ranking: { value: string; count: number }[] // 多い順
 }
 
-type WildcardSummary = {
+export type WildcardSummary = {
   matched: number
   numbers: NumberSummary | null
   strings: StringSummary | null
