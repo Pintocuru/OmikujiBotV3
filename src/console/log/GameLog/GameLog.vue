@@ -2,108 +2,40 @@
 <!-- ゲームの記録 (配信ごとのランキング・ユーザー別・ログ) を見る画面 -->
 <template>
   <div class="flex flex-col">
-    <!-- ツールバー -->
-    <div class="flex flex-wrap items-center justify-end gap-3 px-4 pt-3">
-      <span v-if="status === 'error'" class="badge badge-error">エラー</span>
-      <span v-if="lastLoadedAt" class="hidden text-xs opacity-60 sm:inline">更新 {{ formatTime(lastLoadedAt) }}</span>
-      <label class="label cursor-pointer gap-2 text-sm">
-        <input v-model="autoRefresh" type="checkbox" class="toggle toggle-sm toggle-primary" />
-        自動更新
-      </label>
-      <button class="btn btn-sm btn-neutral" @click="refresh">更新</button>
-      <!-- 開発サーバー専用: 本番では GameRanking が記録を追記するが、開発サーバーには追記する側がいない -->
-      <button
-        v-if="isDev"
-        class="btn btn-sm btn-outline btn-accent"
-        :disabled="adding"
-        title="開発用: テスト用のゲームの記録を追加します(本番では表示されません)"
-        @click="addMockLogs"
-      >
-        🧪 テスト用の記録を追加
-      </button>
-    </div>
-
-    <div v-if="mockError" class="alert alert-error mx-4 mt-3 py-2 text-sm">
-      <span class="break-all">テスト用の記録を追加できませんでした: {{ mockError }}</span>
-    </div>
+    <GameLogToolbar
+      v-model:autoRefresh="autoRefresh"
+      :status="status"
+      :lastLoadedAt="lastLoadedAt"
+      :adding="adding"
+      :mockError="mockError"
+      @refresh="refresh"
+      @addMock="addMockLogs"
+    />
 
     <StatusNotice :status="status" :errorMessage="errorMessage" />
 
-    <!-- 本体 -->
-    <main
+    <GameLogBody
       v-if="status === 'loading' || status === 'online'"
-      class="mx-auto grid max-w-6xl gap-4 p-4 md:grid-cols-[18rem_1fr]"
-    >
-      <aside>
-        <StreamList
-          :streams="streams"
-          :selectedStreamId="selectedStreamId"
-          @select="selectStream"
-          @remove="removeStream"
-        />
-      </aside>
-
-      <section class="flex min-w-0 flex-col gap-3">
-        <p v-if="status === 'loading'" class="py-8 text-center opacity-60">読み込み中...</p>
-        <p v-else-if="!selectedStreamId" class="py-8 text-center opacity-60">
-          配信を選ぶと、ゲームの記録を表示します。GameRanking が動くと、ここに記録が増えていきます。
-        </p>
-        <p v-else-if="eventKeys.length === 0" class="py-8 text-center opacity-60">
-          この配信には、まだゲームの記録がありません
-        </p>
-
-        <template v-else>
-          <!-- eventKey (ゲームごと) -->
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="text-sm opacity-60">イベント</span>
-            <button
-              v-for="key in eventKeys"
-              :key="key"
-              class="btn btn-sm"
-              :class="key === selectedEventKey ? 'btn-primary' : 'btn-outline'"
-              @click="selectEventKey(key)"
-            >
-              {{ key }}
-              <span class="badge badge-sm">{{ file?.states[key]?.logs.length ?? 0 }}</span>
-            </button>
-          </div>
-
-          <!-- 表示の切り替え -->
-          <div role="tablist" class="tabs tabs-bordered">
-            <button
-              v-for="(name, key) in views"
-              :key="key"
-              role="tab"
-              class="tab"
-              :class="{ 'tab-active': view === key }"
-              @click="view = key"
-            >
-              {{ name }}
-            </button>
-          </div>
-
-          <template v-if="currentState">
-            <RankingTable v-if="view === 'ranking'" :state="currentState" />
-            <UserStatsTable v-else-if="view === 'users'" :state="currentState" />
-            <LogList v-else :state="currentState" />
-          </template>
-        </template>
-      </section>
-    </main>
+      :status="status"
+      :streams="streams"
+      :selectedStreamId="selectedStreamId"
+      :file="file"
+      :eventKeys="eventKeys"
+      :selectedEventKey="selectedEventKey"
+      :currentState="currentState"
+      @selectStream="selectStream"
+      @removeStream="removeStream"
+      @selectEventKey="selectEventKey"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import { isDev } from '@/common/AppEnv'
+  import StatusNotice from '@/console/common/components/StatusNotice.vue'
+  import GameLogToolbar from './components/GameLogToolbar.vue'
+  import GameLogBody from './components/GameLogBody.vue'
   import { useGameLog } from './composables/useGameLog'
   import { useMockGameLogs } from './composables/useMockGameLogs'
-  import { formatTime } from '@/console/common/scripts/formatters'
-  import StatusNotice from '@/console/common/components/StatusNotice.vue'
-  import StreamList from './components/StreamList.vue'
-  import RankingTable from './components/RankingTable.vue'
-  import UserStatsTable from './components/UserStatsTable.vue'
-  import LogList from './components/LogList.vue'
 
   const {
     streams,
@@ -131,7 +63,4 @@
     await selectStream(added.streamId)
     selectEventKey(added.eventKey)
   }
-
-  const views = { ranking: 'ランキング', users: 'ユーザー別', logs: 'ログ' } as const
-  const view = ref<keyof typeof views>('ranking')
 </script>
