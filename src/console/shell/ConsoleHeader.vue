@@ -28,7 +28,7 @@
     <div class="flex items-center gap-2 shrink-0">
       <!-- テーマ切り替えボタン -->
       <div class="tooltip tooltip-left" :data-tip="themeTitle">
-        <button type="button" class="btn btn-sm btn-square" :aria-label="themeTitle" @click="emit('toggle-theme')">
+        <button type="button" class="btn btn-sm btn-square" :aria-label="themeTitle" @click="toggleTheme">
           <component :is="isDark ? Sun : Moon" class="w-4 h-4" />
         </button>
       </div>
@@ -37,21 +37,18 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
   import { Moon, Sun } from '@lucide/vue'
+  import { useConsoleTheme } from '../composables/useConsoleTheme'
   import { getConsoleViewMeta, type ConsoleViewKey } from '../maps/ConsoleViewMap'
 
-  const props = defineProps<{
+  defineProps<{
     keys: ConsoleViewKey[]
     current: ConsoleViewKey | undefined
-    theme: 'dark' | 'light'
   }>()
 
   const emit = defineEmits<{
     select: [key: ConsoleViewKey]
-    'toggle-theme': []
   }>()
 
-  const isDark = computed(() => props.theme === 'dark')
-  const themeTitle = computed(() => (isDark.value ? 'ライトテーマに切り替え' : 'ダークテーマに切り替え'))
+  const { isDark, themeTitle, toggleTheme } = useConsoleTheme()
 </script>
