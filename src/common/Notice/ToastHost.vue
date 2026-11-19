@@ -1,6 +1,5 @@
 <!-- src/common/Notice/ToastHost.vue -->
-<!-- notify.* の表示先(エディター・マネージャー・コンソール用)。各 entry の最上位(daisyUI のテーマを当てている要素の内側)に 1 つだけ置く。
-     開いている <dialog>(トップレイヤー)の前に出すため、使える環境では Popover API で最前面に出す -->
+<!-- notify.* の表示先(エディター・マネージャー・コンソール用) -->
 <template>
   <div
     ref="hostRef"

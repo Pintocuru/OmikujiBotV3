@@ -1,6 +1,6 @@
 // packages/common/StrawberryChocolate/console.ts
 // LiveConsole 用のアクセスポイント。build.ts の getProjects で withConsole を true にしたときだけ同梱される
-import LiveConsole from '@/console/LiveConsole.vue'
+import LiveConsole from '@/console/App.vue'
 import { createBaseApp } from '@/common/EntryCore/core'
 import { registerConsoleView } from '@/console/consoleRegistry'
 import '@assets/styles/DaisyUi.css'
