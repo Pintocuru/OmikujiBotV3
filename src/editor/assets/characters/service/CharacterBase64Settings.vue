@@ -36,7 +36,7 @@
           v-else
           class="flex h-24 w-24 items-center justify-center rounded border-2 border-dashed border-base-300 bg-base-200"
         >
-          <ImageIcon class="w-6 h-6 text-base-content/30" />
+          <ImageIcon class="w-6 h-6 text-base-content/60" />
         </div>
       </div>
     </div>

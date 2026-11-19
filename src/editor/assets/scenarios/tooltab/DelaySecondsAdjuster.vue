@@ -11,7 +11,7 @@
     >
       <Minus class="w-4 h-4" />
     </button>
-    <span class="text-xs text-base-content/70">{{ t('scenarioStep.delay.label') }}</span>
+    <span class="text-xs text-base-content/60">{{ t('scenarioStep.delay.label') }}</span>
     <button
       @click="adjustAllDelaySeconds(0.1)"
       class="btn btn-sm btn-ghost btn-square tooltip tooltip-top"

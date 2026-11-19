@@ -26,7 +26,7 @@
         />
       </div>
     </div>
-    <div v-else class="flex items-center justify-center h-32 text-base-content/40 text-sm">
+    <div v-else class="flex items-center justify-center h-32 text-base-content/60 text-sm">
       {{ t('characterImage.editModal.noneSelected') }}
     </div>
   </BaseEditDialog>

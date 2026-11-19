@@ -16,7 +16,7 @@
       <ul class="flex gap-x-4 gap-y-2 text-sm">
         <li v-for="field in colorFields" :key="field" class="flex items-center gap-2">
           <span
-            class="h-5 w-5 shrink-0 rounded border border-base-content/20"
+            class="h-5 w-5 shrink-0 rounded border border-base-content/60"
             :style="{ backgroundColor: currentColor[field] }"
           />
           <span class="min-w-0">

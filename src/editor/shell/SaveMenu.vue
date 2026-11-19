@@ -8,7 +8,7 @@
       </span>
       <button
         class="btn btn-sm join-item"
-        :class="[primary.class, !hasChanged ? 'btn-soft text-primary-content/40' : '']"
+        :class="[primary.class, !hasChanged ? 'btn-soft text-primary-content/60' : '']"
         :disabled="primary.disabled"
         :title="primary.tip"
         @click="primary.run"

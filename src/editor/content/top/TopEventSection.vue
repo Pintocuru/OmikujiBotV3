@@ -31,7 +31,7 @@
       >
         <!-- ドラッグハンドル -->
         <div class="top-drag-handle cursor-move shrink-0" @click.stop>
-          <GripVertical class="w-4 h-4 text-base-content/40 hover:text-base-content/80" />
+          <GripVertical class="w-4 h-4 text-base-content/60 hover:text-base-content" />
         </div>
         <!-- 判定の順番(配列の先頭から順に判定する) -->
         <span class="badge badge-xs badge-neutral">{{ index + 1 }}</span>

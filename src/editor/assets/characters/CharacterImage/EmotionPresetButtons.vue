@@ -1,7 +1,7 @@
 <!-- src/editor/assets/characters/CharacterImage/EmotionPresetButtons.vue -->
 <template>
   <div class="flex flex-wrap gap-1">
-    <span class="text-xs text-base-content/50 self-center mr-1">{{ t('characterImage.preset.label') }}</span>
+    <span class="text-xs text-base-content/60 self-center mr-1">{{ t('characterImage.preset.label') }}</span>
     <button
       v-for="key in characterEmotions"
       :key="key"

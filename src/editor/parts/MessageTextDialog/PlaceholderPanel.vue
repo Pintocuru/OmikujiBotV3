@@ -36,7 +36,7 @@
 
       <!-- ユーザー定義プレースホルダー -->
       <div class="divider my-1 px-2 text-xs">{{ t('scenarioStep.placeholderPanel.userDefined') }}</div>
-      <div v-if="sortedUserPlaceholders.length === 0" class="p-4 text-center text-xs text-base-content/40">
+      <div v-if="sortedUserPlaceholders.length === 0" class="p-4 text-center text-xs text-base-content/60">
         {{ t('scenarioStep.placeholderPanel.none') }}
       </div>
 
@@ -53,7 +53,7 @@
         >
           <ChevronRight
             :size="12"
-            class="text-base-content/40 transition-transform shrink-0"
+            class="text-base-content/60 transition-transform shrink-0"
             :class="{ 'rotate-90': expandedKeys.has(ph.key) }"
           />
           <div class="flex-1 min-w-0">
@@ -63,7 +63,7 @@
                 t('scenarioStep.placeholderPanel.inUse')
               }}</span>
             </div>
-            <p class="text-xs text-base-content/50 truncate">{{ ph.name }}</p>
+            <p class="text-xs text-base-content/60 truncate">{{ ph.name }}</p>
           </div>
           <div
             class="tooltip tooltip-left opacity-0 group-hover:opacity-100 transition-opacity shrink-0"

@@ -70,7 +70,7 @@
     </div>
 
     <!-- 読み込みの状態 (編集画面だけ。配信表示は、読めない画像を黙って非表示にする) -->
-    <p v-if="status === 'checking'" class="text-xs text-base-content/50">
+    <p v-if="status === 'checking'" class="text-xs text-base-content/60">
       {{ t('characterImage.layer.status.checking') }}
     </p>
     <p v-else-if="status === 'error'" class="flex items-center gap-1 text-xs text-warning">

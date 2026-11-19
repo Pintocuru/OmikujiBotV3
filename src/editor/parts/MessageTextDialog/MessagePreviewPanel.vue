@@ -29,7 +29,7 @@
           :class="[
             hasError
               ? 'bg-error/10 text-error border border-error/30'
-              : 'bg-base-200 text-base-content/70 hover:bg-base-300',
+              : 'bg-base-200 text-base-content/60 hover:bg-base-300',
             expanded ? 'max-h-64' : hasError ? 'max-h-16' : 'max-h-40',
           ]"
           :title="t('scenarioStep.preview.clickRefresh')"

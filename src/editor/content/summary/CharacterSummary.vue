@@ -21,7 +21,7 @@
         <div class="relative h-12 w-12 overflow-hidden rounded-lg bg-base-300">
           <LayerImage v-if="character.images.length" :layers="character.images" />
           <!-- キーが見つからない場合はハテナアイコン -->
-          <div v-else class="flex h-full w-full items-center justify-center text-base-content/50">
+          <div v-else class="flex h-full w-full items-center justify-center text-base-content/60">
             <ImageOff v-if="character.exists" class="h-6 w-6" />
             <CircleHelp v-else class="h-7 w-7 text-warning" />
           </div>

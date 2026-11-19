@@ -22,7 +22,7 @@
     </InformationCard>
 
     <div v-if="allTags.length > 0" class="flex flex-wrap items-center gap-2 mb-4">
-      <span class="text-xs text-base-content/50">{{ t('dataPacks.filter.label') }}</span>
+      <span class="text-xs text-base-content/60">{{ t('dataPacks.filter.label') }}</span>
       <button
         v-for="tag in allTags"
         :key="tag"

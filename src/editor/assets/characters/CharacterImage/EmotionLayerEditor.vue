@@ -2,7 +2,7 @@
 <template>
   <div class="space-y-2">
     <div class="flex items-center gap-1 mb-1">
-      <div class="text-xs font-medium text-base-content/70">{{ t('characterImage.layer.title') }}</div>
+      <div class="text-xs font-medium text-base-content/60">{{ t('characterImage.layer.title') }}</div>
       <HelpButton :title="t('characterImage.help.title')">
         <ImageSettingsInfo />
       </HelpButton>

@@ -13,7 +13,7 @@
         :class="
           gridSize === size
             ? 'border-b-2 border-primary font-semibold text-primary'
-            : 'border-b-2 border-transparent text-base-content/70 hover:text-base-content'
+            : 'border-b-2 border-transparent text-base-content/60 hover:text-base-content'
         "
         @click="gridSize = size"
       >

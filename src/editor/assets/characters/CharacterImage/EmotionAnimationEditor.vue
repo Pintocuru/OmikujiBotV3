@@ -1,7 +1,7 @@
 <!-- src/editor/assets/characters/CharacterImage/EmotionAnimationEditor.vue -->
 <template>
   <div class="space-y-3">
-    <div class="text-xs font-medium text-base-content/70 mb-1">{{ t('characterImage.animation.title') }}</div>
+    <div class="text-xs font-medium text-base-content/60 mb-1">{{ t('characterImage.animation.title') }}</div>
 
     <!-- プレビュー -->
     <div class="flex justify-center bg-base-200 rounded p-3">
@@ -34,7 +34,7 @@
           v-model.number="localAnimation.durationSeconds"
           @change="applyAnimation"
         />
-        <div class="flex justify-between text-xs text-base-content/40">
+        <div class="flex justify-between text-xs text-base-content/60">
           <span>{{ t('characterImage.animation.fast') }}</span><span>{{ t('characterImage.animation.slow') }}</span>
         </div>
       </div>
@@ -52,7 +52,7 @@
       </div>
     </template>
 
-    <div v-else class="text-xs text-base-content/30 text-center py-4">{{ t('characterImage.animation.none') }}</div>
+    <div v-else class="text-xs text-base-content/60 text-center py-4">{{ t('characterImage.animation.none') }}</div>
   </div>
 </template>
 

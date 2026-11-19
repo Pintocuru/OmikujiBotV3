@@ -28,7 +28,7 @@
 
         <div class="flex flex-col gap-1.5 max-h-56 overflow-y-auto pr-1">
           <div v-for="(item, idx) in items" :key="idx" class="flex items-center gap-2 group">
-            <span class="text-xs text-base-content/40 w-5 text-right shrink-0">{{ idx + 1 }}</span>
+            <span class="text-xs text-base-content/60 w-5 text-right shrink-0">{{ idx + 1 }}</span>
             <input
               v-model="items[idx]"
               type="text"

@@ -1,57 +1,43 @@
 <!-- src/editor/parts/HudPreview.vue -->
 <template>
-  <div class="sticky top-0 z-20" :class="[heightClass, 'overflow-hidden relative']">
-    <div :style="bgStyle" class="w-full h-full">
-      <!-- スケーリング可能なコンテンツ（メインスロット） -->
-      <div :style="contentStyle" class="origin-top-left">
+  <div class="sticky top-0 z-20 overflow-hidden" :class="isHeight ? maxHeightClass : 'h-auto'">
+    <div class="w-full h-full" :style="{ backgroundColor: `hsl(${hue} 60% ${lightness}%)` }">
+      <!-- スケーリング対象のメインスロット -->
+      <div class="origin-top-left" :style="contentStyle">
         <slot />
       </div>
 
-      <!-- 右下に配置するHUD用のスロット -->
+      <!-- 右下HUD -->
       <div class="absolute bottom-2 right-2 z-10 space-y-1">
         <slot name="hud" />
       </div>
 
-      <!-- 左下に配置するHUD用のスロットとスケール操作 -->
+      <!-- 左下HUD + スケール操作 -->
       <div class="absolute bottom-2 left-2 z-10 space-y-2">
-        <!-- スケール値表示 -->
         <slot name="hudLeft" />
         <div class="flex gap-2">
-          <!-- Scale -->
           <div class="text-xs text-white bg-black/50 px-1 rounded">{{ Math.round(scale * 100) }}%</div>
-          <input type="range" min="0.2" max="1" step="0.1" v-model="scale" class="range range-xs w-12" />
+          <input v-model="scale" type="range" min="0.2" max="1" step="0.1" class="range range-xs w-12" />
         </div>
       </div>
 
-      <template>
-        <!-- Lucide Icons -->
-        <div
-          class="absolute top-2 right-2 flex gap-1 transition-opacity duration-300"
-          :class="showTools ? 'opacity-100' : 'opacity-0'"
-          @mouseenter="showTemporarily"
-          @mousemove="showTemporarily"
-          @mouseleave="showTemporarily"
-        >
-          <component
-            :is="Sun"
-            :size="24"
-            class="cursor-pointer hover:text-gray-300 transition-colors"
-            @click="lightness = Math.min(lightness + 10, 100)"
-          />
-          <component
-            :is="Moon"
-            :size="24"
-            class="cursor-pointer hover:text-gray-300 transition-colors"
-            @click="lightness = Math.max(lightness - 10, 0)"
-          />
-          <component
-            :is="Palette"
-            :size="24"
-            class="cursor-pointer hover:text-gray-300 transition-colors"
-            @click="hue = (hue + 40) % 360"
-          />
-        </div>
-      </template>
+      <!-- 色調整ツール -->
+      <div
+        class="absolute top-2 right-2 flex gap-1 transition-opacity duration-300"
+        :class="showTools ? 'opacity-100' : 'opacity-0'"
+        @mouseenter="showTemporarily"
+        @mousemove="showTemporarily"
+        @mouseleave="showTemporarily"
+      >
+        <component
+          :is="icon"
+          v-for="{ icon, action } in tools"
+          :key="icon.name"
+          :size="24"
+          class="cursor-pointer hover:text-gray-300 transition-colors"
+          @click="action"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -75,29 +61,24 @@
 
   const hue = ref(200)
   const lightness = ref(50)
-  const scale = ref(props.defaultScale ?? 1)
+  const scale = ref(props.defaultScale)
   const showTools = ref(false)
-  let hideTimer: number | null = null
+  let hideTimer: number | undefined
 
   const showTemporarily = () => {
     showTools.value = true
-    if (hideTimer) clearTimeout(hideTimer)
-    hideTimer = window.setTimeout(() => {
-      showTools.value = false
-    }, 2000) // 2秒後にフェードアウト
+    clearTimeout(hideTimer)
+    hideTimer = window.setTimeout(() => (showTools.value = false), 2000)
   }
 
-  const heightClass = computed(() => {
-    return props.isHeight ? props.maxHeightClass : 'h-auto'
+  const tools = [
+    { icon: Sun, action: () => (lightness.value = Math.min(lightness.value + 10, 100)) },
+    { icon: Moon, action: () => (lightness.value = Math.max(lightness.value - 10, 0)) },
+    { icon: Palette, action: () => (hue.value = (hue.value + 40) % 360) },
+  ]
+
+  const contentStyle = computed(() => {
+    const size = `${100 / Math.min(scale.value, 1)}%`
+    return { transform: `scale(${scale.value})`, width: size, height: size }
   })
-
-  const bgStyle = computed(() => ({
-    backgroundColor: `hsl(${hue.value} 60% ${lightness.value}%)`,
-  }))
-
-  const contentStyle = computed(() => ({
-    transform: `scale(${scale.value})`,
-    width: scale.value < 1 ? `${100 / scale.value}%` : '100%',
-    height: scale.value < 1 ? `${100 / scale.value}%` : '100%',
-  }))
 </script>

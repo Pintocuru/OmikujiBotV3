@@ -44,7 +44,7 @@
         <div class="hidden sm:flex gap-1 items-center">
           <kbd class="kbd kbd-xs">Ctrl</kbd>
           <kbd class="kbd kbd-xs">Enter</kbd>
-          <span class="text-xs text-base-content/50 ml-1">{{ t('scenarioStep.messageDialog.saveWith') }}</span>
+          <span class="text-xs text-base-content/60 ml-1">{{ t('scenarioStep.messageDialog.saveWith') }}</span>
         </div>
       </div>
 
@@ -58,7 +58,7 @@
           :placeholder="t('scenarioStep.messageDialog.textareaPlaceholder', { userName: '<<userName>>', r: '<<r>>' })"
           @keydown.ctrl.enter="handleSave"
         />
-        <div class="text-right text-xs text-base-content/40">
+        <div class="text-right text-xs text-base-content/60">
           {{ t('scenarioStep.messageDialog.charCount', { n: draftText.length }) }}
           <span v-if="lineCount > 1">{{ t('scenarioStep.messageDialog.lineCount', { n: lineCount }) }}</span>
         </div>

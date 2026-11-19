@@ -59,7 +59,7 @@
     <div class="min-h-0 flex-1 overflow-auto rounded bg-base-300">
       <div
         ref="outerRef"
-        class="relative overflow-hidden outline outline-base-content/30"
+        class="relative overflow-hidden outline outline-base-content/60"
         :class="fit ? 'w-full h-full' : 'resize'"
         :style="outerStyle"
       >

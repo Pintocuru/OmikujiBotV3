@@ -34,7 +34,7 @@
       >
         <!-- ドラッグハンドル -->
         <div class="drag-handle cursor-move shrink-0">
-          <GripVertical class="w-4 h-4 text-base-content/40 hover:text-base-content/80" />
+          <GripVertical class="w-4 h-4 text-base-content/60 hover:text-base-content" />
         </div>
 
         <!-- 色インジケーター -->
