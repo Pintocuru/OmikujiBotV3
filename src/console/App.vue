@@ -6,9 +6,7 @@
       v-if="!windowKey"
       :keys="keys"
       :current="current"
-      :theme="theme"
       @select="select"
-      @toggle-theme="toggleTheme"
     />
 
     <component :is="currentComponent" v-if="currentComponent" :key="current" />
@@ -21,38 +19,18 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, defineAsyncComponent, h, ref, type Component } from 'vue'
+  import { computed, defineAsyncComponent, h, type Component } from 'vue'
   import ToastHost from '@/common/Notice/ToastHost.vue'
   import DialogHost from '@/common/Dialog/DialogHost.vue'
   import { configureDialogLabels } from '@/common/Dialog/dialogState'
-  import { notify } from '@/common/Notice/notify'
   import ConsoleHeader from './shell/ConsoleHeader.vue'
-  import { getConsoleViewMeta, type ConsoleViewKey } from './maps/ConsoleViewMap'
-  import { getConsoleViewKeys, getConsoleViewLoader } from './consoleRegistry'
+  import { useConsoleNavigation } from './composables/useConsoleNavigation'
+  import { useConsoleTheme } from './composables/useConsoleTheme'
+  import type { ConsoleViewKey } from './maps/ConsoleViewMap'
+  import { getConsoleViewLoader } from './consoleRegistry'
 
-  const THEME_STORAGE_KEY = 'omikuji-console-theme'
-
-  // テーマはConsole専用で保存する。保存値がなければ従来どおりdarkを初期値にする。
-  const getInitialTheme = (): 'dark' | 'light' => {
-    try {
-      return localStorage.getItem(THEME_STORAGE_KEY) === 'light' ? 'light' : 'dark'
-    } catch {
-      return 'dark'
-    }
-  }
-
-  const theme = ref<'dark' | 'light'>(getInitialTheme())
-  document.documentElement.dataset.theme = theme.value
-
-  const toggleTheme = () => {
-    theme.value = theme.value === 'dark' ? 'light' : 'dark'
-    document.documentElement.dataset.theme = theme.value
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, theme.value)
-    } catch {
-      // localStorageが利用できない環境では、現在の画面内でのみ切り替える。
-    }
-  }
+  // テーマの初期適用。別ウィンドウでは Header がないため、App からも初期化する。
+  useConsoleTheme()
 
   // コンソールは日本語のみ
   configureDialogLabels({
@@ -64,18 +42,7 @@
     deleteText: 'この操作は取り消せません',
   })
 
-  // 登録された画面 (並び順は consoleViewMap の順)。画面の中身は、ここでは知らない
-  const keys = getConsoleViewKeys()
-  const embeddedKeys = keys.filter((key) => getConsoleViewMeta(key).launch !== 'window')
-
-  // 再読み込みしても、同じ画面に戻れるよう URL の # に覚えておく (例: console.html#gameLog)
-  const hashKey = keys.find((key) => key === location.hash.slice(1))
-
-  // # が「別ウィンドウ起動の画面」なら、このページはその画面専用のウィンドウ
-  const windowKey = hashKey && getConsoleViewMeta(hashKey).launch === 'window' ? hashKey : undefined
-  document.title = windowKey ? getConsoleViewMeta(windowKey).label : 'おみくじBOT コンソール'
-
-  const current = ref<ConsoleViewKey | undefined>(windowKey ?? hashKey ?? embeddedKeys[0])
+  const { keys, windowKey, current, select } = useConsoleNavigation()
 
   // 画面の読み込みは、選ばれたときに 1 回だけ行う
   const loadFailed: Component = {
@@ -94,20 +61,4 @@
     return component
   }
   const currentComponent = computed(() => (current.value ? toComponent(current.value) : undefined))
-
-  // 別ウィンドウで開く (同じ画面を押し直したときは、開いているウィンドウを再利用する)
-  const openInWindow = (key: ConsoleViewKey) => {
-    const url = new URL(location.href)
-    url.hash = key
-    const { width, height } = getConsoleViewMeta(key).windowSize ?? { width: 1280, height: 720 }
-    const opened = window.open(url.href, `omikuji-console-${key}`, `popup,width=${width},height=${height}`)
-    if (opened) opened.focus()
-    else notify.warning('ウィンドウを開けませんでした', { text: 'ブラウザのポップアップのブロックを解除してください' })
-  }
-
-  const select = (key: ConsoleViewKey) => {
-    if (getConsoleViewMeta(key).launch === 'window') return openInWindow(key)
-    current.value = key
-    history.replaceState(null, '', `#${key}`)
-  }
 </script>
