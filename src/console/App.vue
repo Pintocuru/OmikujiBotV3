@@ -2,13 +2,9 @@
 <template>
   <div class="min-h-screen bg-base-100 text-base-content">
     <!-- 別ウィンドウで開いた画面(launch: 'window')は、タブなしでその画面だけを表示する -->
-    <ConsoleHeader
-      v-if="!windowKey"
-      :keys="keys"
-      :current="current"
-      @select="select"
-    />
+    <ConsoleHeader v-if="!windowKey" :keys="keys" :current="current" @select="select" />
 
+    <!-- 各種コンテンツ -->
     <component :is="currentComponent" v-if="currentComponent" :key="current" />
     <p v-else class="p-6 text-sm opacity-70">表示できる画面が登録されていません</p>
 
