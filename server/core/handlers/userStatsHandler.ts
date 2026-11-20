@@ -3,7 +3,7 @@
 // Generator (OBS) は load-user-stats を since 付きでポーリングして、差分を取り込む。
 import { z } from 'zod'
 import { ApiResult } from '@server/types'
-import { loadFile, saveFile } from '@server/core/services/fileSystemService'
+import { loadFile, saveFile, moveFile } from '@server/core/services/fileSystemService'
 import { ok, badRequest, guard } from '@server/core/utils/result'
 import { parseWith } from '@server/core/utils/schema'
 import { withLock } from '@server/core/utils/mutex'
@@ -49,10 +49,24 @@ async function getState(): Promise<StoreState> {
     const file = UserStatsFileSchema.parse(await loadFile(null, FILE_NAME.userStats))
     cache = { revision: file.revision, baseRevision: file.baseRevision, users: new Map(Object.entries(file.users)) }
   } catch (error: any) {
-    if (error?.code !== 'ENOENT') console.error('User stats file is unreadable, starting empty:', error)
+    if (error?.code !== 'ENOENT') await backupUnreadableFile(error)
     cache = { revision: 0, baseRevision: 0, users: new Map() }
   }
   return cache
+}
+
+/**
+ * 読めないファイルは、次の保存で上書きされて消えないよう、別名に退避してから空で始める
+ * (配信中に止まらないことを優先する。退避できなかったときも、続行はする)
+ */
+async function backupUnreadableFile(cause: unknown): Promise<void> {
+  const backupName = FILE_NAME.userStats.replace(/\.json$/, `.corrupt-${Date.now()}.json`)
+  console.error(`User stats file is unreadable, backing up to ${backupName} and starting empty:`, cause)
+  try {
+    await moveFile(null, FILE_NAME.userStats, backupName)
+  } catch (error) {
+    console.error('Failed to back up unreadable user stats file:', error)
+  }
 }
 
 /**
@@ -97,7 +111,7 @@ export async function updateUserStats(body: unknown): Promise<ApiResult> {
   if (parsed.data.updates.some(({ userId }) => !isSafeRecordKey(userId))) return badRequest('Invalid userId')
 
   return withLock(LOCK_KEY, () =>
-    guard('Update user stats', 'Failed to update user stats', async () => {
+    guard<unknown>('Update user stats', 'Failed to update user stats', async () => {
       const state = await getState()
       const revision = state.revision + 1
       const now = Date.now()
@@ -107,6 +121,8 @@ export async function updateUserStats(body: unknown): Promise<ApiResult> {
         const previous = users.get(userId)
         const next: UserStatsControlType = { ...previous, ...set, rev: revision, updatedAt: now }
         if (addScore !== undefined) next.score = (next.score ?? 0) + addScore
+        // Infinity は JSON で null になり、次回から読めなくなるため、保存前に弾く
+        if (next.score !== undefined && !Number.isFinite(next.score)) return badRequest('score is out of range')
         users.set(userId, next)
       }
 

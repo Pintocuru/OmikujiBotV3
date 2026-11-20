@@ -31,6 +31,10 @@ export async function routeRequest(req: UnifiedRequest, ctx: RequestContext): Pr
   }
 
   if (method === 'POST') {
+    // body は JSON オブジェクトのみ受け付ける (null・配列・数値などだと、ハンドラーが例外を投げて 500 になるため)
+    if (typeof body !== 'object' || body === null || Array.isArray(body)) {
+      return badRequest('body must be a JSON object')
+    }
     return handlePostRequest(action, params, body, ctx)
   }
 

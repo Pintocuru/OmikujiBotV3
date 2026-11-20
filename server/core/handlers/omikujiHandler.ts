@@ -2,6 +2,7 @@
 import { ApiResult, RequestContext } from '@server/types'
 import * as fileSystem from '@server/core/services/fileSystemService'
 import { ok, badRequest, guard } from '@server/core/utils/result'
+import { isValidJson } from '@server/core/utils/validation'
 
 /**
  * おみくじデータを保存
@@ -9,6 +10,7 @@ import { ok, badRequest, guard } from '@server/core/utils/result'
  */
 export async function saveOmikujiData(configData: string, ctx: RequestContext): Promise<ApiResult> {
   if (!configData) return badRequest('configData is required')
+  if (!isValidJson(configData)) return badRequest('configData must be valid JSON')
 
   return guard('Save omikuji', 'Failed to save omikuji data', async () => {
     const filePath = await fileSystem.saveOmikujiData(configData, ctx.omikujiOutputDir)

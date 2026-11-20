@@ -1,7 +1,7 @@
 // server/core/handlers/generatorHandler.ts
 import { ApiResult } from '@server/types'
 import * as fileSystem from '@server/core/services/fileSystemService'
-import { validatePackageFileName } from '@server/core/utils/validation'
+import { validatePackageFileName, isValidJson } from '@server/core/utils/validation'
 import { ok, badRequest, guard } from '@server/core/utils/result'
 import { DIR_NAME, FILE_NAME } from '@server/core/constants'
 
@@ -68,6 +68,7 @@ export async function deletePackage(fileName: string): Promise<ApiResult> {
  */
 export async function saveGeneratorConfig(data: string, fileName?: string | null): Promise<ApiResult> {
   if (!data) return badRequest('data is required')
+  if (!isValidJson(data)) return badRequest('data must be valid JSON')
   if (fileName && !validatePackageFileName(fileName)) return badRequest('Invalid file name')
 
   const { dir, name } = resolveTarget(fileName)

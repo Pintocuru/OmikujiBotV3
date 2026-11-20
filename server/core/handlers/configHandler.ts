@@ -1,7 +1,7 @@
 // server/core/handlers/configHandler.ts
 import { ApiResult } from '@server/types'
 import * as fileSystem from '@server/core/services/fileSystemService'
-import { validateFileName } from '@server/core/utils/validation'
+import { validateFileName, isValidJson } from '@server/core/utils/validation'
 import { ok, badRequest, guard } from '@server/core/utils/result'
 import { DIR_NAME } from '@server/core/constants'
 
@@ -63,6 +63,7 @@ export async function moveConfig(fromName: string, toName: string): Promise<ApiR
 export async function saveConfig(fileName: string, data: string): Promise<ApiResult> {
   if (!fileName || !data) return badRequest('fileName and data are required')
   if (!validateFileName(fileName)) return badRequest('Invalid file name')
+  if (!isValidJson(data)) return badRequest('data must be valid JSON')
 
   return guard('Save file', 'Failed to save file', async () => {
     await fileSystem.saveFile(DIR_NAME.data, fileName, data)
