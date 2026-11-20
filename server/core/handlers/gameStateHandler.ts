@@ -1,4 +1,3 @@
-// server/core/handlers/gameStateHandler.ts
 import { ApiResult } from '@server/types'
 import * as fileSystem from '@server/core/services/fileSystemService'
 import { ok, badRequest, fail, guard } from '@server/core/utils/result'
@@ -21,7 +20,8 @@ import {
 
 const toFileName = (streamId: string) => `${streamId}.json`
 
-// userMap に保存するアイコンは URL (http / https) だけ。base64 (コメントテスター) はファイルが膨らむので保存しない
+// userMap に保存するアイコンは HTTP / HTTPS の URL のみ
+// base64 (コメントテスター) はファイルが膨らむので保存しない
 const toStorableProfileImage = (value: string | undefined): string | undefined =>
   value && /^https?:\/\//i.test(value) ? value : undefined
 
@@ -30,7 +30,7 @@ const toStorableProfileImage = (value: string | undefined): string | undefined =
  */
 export async function listGameStates(): Promise<ApiResult> {
   return guard('List game states', 'Failed to list game states', async () => {
-    const files = await fileSystem.getFileList(DIR_NAME.streams, { withMeta: false }) // meta は使わないので、各ファイルを解析しない
+    const files = await fileSystem.getFileList(DIR_NAME.streams, { withMeta: false })
 
     const items: GameStateListItemType[] = files
       .filter((f) => !f.name.includes('/') && f.name.endsWith('.json'))
@@ -57,7 +57,6 @@ export async function loadGameState(streamId: string | undefined, eventKey?: str
 
       if (eventKey === undefined) return ok(file)
 
-      // eventKey が 'constructor' などでも、プロトタイプの値を拾わないよう hasOwn で確認する
       const state = Object.hasOwn(file.states, eventKey) ? file.states[eventKey] : undefined
       if (!state) return fail(HTTP.NOT_FOUND, 'Game state not found')
       return ok({ ...file, states: { [eventKey]: state } })
@@ -70,14 +69,16 @@ export async function loadGameState(streamId: string | undefined, eventKey?: str
  * ログを追記する共通の処理 (呼び出し側が withLock と guard の中で呼ぶ)
  * - 1配信 = 1ファイル、eventKey ごとに state を持つ
  * - 同じ log.id が保存済み (または、リクエスト内で重複) なら、そのログは保存しない
- * - userMap の統計 (回数・累計ポイント・自己ベスト) もここで更新する
- *   totalWins は、ランキングでは勝敗を使わないため更新しない
+ * - userMap の統計 (回数・累計ポイント・自己ベスト) とアイコンも更新する
+ * - profileImage は HTTP / HTTPS の URL のみ保存する
+ * - totalWins は、ランキングでは勝敗を使わないため更新しない
  * - 保存するログが 1 件もないときは、ファイルを書き換えない
  */
 async function appendLogs(
   streamId: string,
   eventKey: string,
-  logs: GameLogType[]
+  logs: GameLogType[],
+  profileImage?: string
 ): Promise<{ updatedAt: number; appendedCount: number; skippedCount: number }> {
   const fileName = toFileName(streamId)
   const now = Date.now()
@@ -95,16 +96,19 @@ async function appendLogs(
 
   const savedIds = new Set(state.logs.map((saved) => saved.id))
   const newLogs = logs.filter((log) => !savedIds.has(log.id) && (savedIds.add(log.id), true))
+
   if (newLogs.length === 0) {
     return { updatedAt: current?.updatedAt ?? now, appendedCount: 0, skippedCount: logs.length }
   }
 
   // userId をキーに使うので、代入ではなく computed key のスプレッドで更新する
   let userMap = state.userMap
+
   for (const log of newLogs) {
     const previous = Object.hasOwn(userMap, log.userId)
       ? userMap[log.userId]
       : UserStatsSchema.parse({ userId: log.userId })
+
     userMap = {
       ...userMap,
       [log.userId]: {
@@ -112,10 +116,16 @@ async function appendLogs(
         totalDraws: previous.totalDraws + 1,
         totalPoints: previous.totalPoints + log.score,
         bestScore: Math.max(previous.bestScore, log.score),
+        ...(profileImage ? { profileImage } : {}),
       },
     }
   }
-  const nextState: GameStateType = { ...state, logs: [...state.logs, ...newLogs], userMap }
+
+  const nextState: GameStateType = {
+    ...state,
+    logs: [...state.logs, ...newLogs],
+    userMap,
+  }
 
   const next: StreamGameFileType = {
     streamId,
@@ -126,7 +136,12 @@ async function appendLogs(
 
   await fileSystem.saveFile(DIR_NAME.streams, fileName, JSON.stringify(next))
   console.info(`💾 Appended game log: ${fileName} (eventKey: ${eventKey}, logs: ${newLogs.length})`)
-  return { updatedAt: now, appendedCount: newLogs.length, skippedCount: logs.length - newLogs.length }
+
+  return {
+    updatedAt: now,
+    appendedCount: newLogs.length,
+    skippedCount: logs.length - newLogs.length,
+  }
 }
 
 /**
@@ -137,13 +152,21 @@ export async function appendGameLog(body: unknown): Promise<ApiResult> {
   if (!parsed.ok) return badRequest(parsed.error)
 
   const { streamId, eventKey, log } = parsed.data
+  const profileImage = toStorableProfileImage(parsed.data.profileImage)
+
   if (!isSafeRecordKey(eventKey)) return badRequest('Invalid eventKey')
   if (!isSafeRecordKey(log.userId)) return badRequest('Invalid userId')
 
   return withLock(`game-state:${streamId}`, () =>
     guard('Append game log', 'Failed to append game log', async () => {
-      const result = await appendLogs(streamId, eventKey, [log])
-      return ok({ streamId, eventKey, updatedAt: result.updatedAt, appended: result.appendedCount > 0 })
+      const result = await appendLogs(streamId, eventKey, [log], profileImage)
+
+      return ok({
+        streamId,
+        eventKey,
+        updatedAt: result.updatedAt,
+        appended: result.appendedCount > 0,
+      })
     })
   )
 }
@@ -156,12 +179,14 @@ export async function appendGameLogs(body: unknown): Promise<ApiResult> {
   if (!parsed.ok) return badRequest(parsed.error)
 
   const { streamId, eventKey, logs } = parsed.data
+  const profileImage = toStorableProfileImage(parsed.data.profileImage)
+
   if (!isSafeRecordKey(eventKey)) return badRequest('Invalid eventKey')
   if (logs.some((log) => !isSafeRecordKey(log.userId))) return badRequest('Invalid userId')
 
   return withLock(`game-state:${streamId}`, () =>
     guard('Append game logs', 'Failed to append game logs', async () => {
-      const result = await appendLogs(streamId, eventKey, logs)
+      const result = await appendLogs(streamId, eventKey, logs, profileImage)
       return ok({ streamId, eventKey, ...result })
     })
   )

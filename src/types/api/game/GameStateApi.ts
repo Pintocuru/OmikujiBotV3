@@ -58,6 +58,7 @@ export const GameLogsAppendRequestSchema = z.object({
   streamId: StreamIdSchema,
   eventKey: z.string().min(1),
   logs: z.array(GameLogSchema).min(1).max(MAX_GAME_LOGS_PER_APPEND),
+  profileImage: z.string().optional(),
 })
 export type GameLogsAppendRequestType = z.infer<typeof GameLogsAppendRequestSchema>
 
