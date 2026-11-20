@@ -6,6 +6,7 @@ import StrawberryChocolate from './common/StrawberryChocolate/build'
 import HondaJanken from './2026-Q4/HondaJanken/build'
 import LifeHourglass from './2026-Q4/LifeHourglass/build'
 import MaidenOmikuji from './2026-Q4/MaidenOmikuji/build'
+import GouseiSuika from './2026-Q4/GouseiSuika/build'
 
 export default [
   /**
@@ -20,4 +21,5 @@ export default [
   // HondaJanken, // じゃんけん
   //  LifeHourglass, // 命の砂時計
   // MaidenOmikuji, // 巫女さんのおみくじ
+  GouseiSuika, // スイカジェネレーター
 ]
