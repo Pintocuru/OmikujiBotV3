@@ -28,6 +28,7 @@ export const API_ACTION = {
   loadBingoSnapshot: { method: 'GET', action: 'load-bingo-snapshot' },
   listBingoPatterns: { method: 'GET', action: 'list-bingo-patterns' },
   loadBingoPattern: { method: 'GET', action: 'load-bingo-pattern' },
+  loadGameConfig: { method: 'GET', action: 'load-game-config' },
 
   // POST
   move: { method: 'POST', action: 'move' },
@@ -50,6 +51,7 @@ export const API_ACTION = {
   saveBingoSnapshot: { method: 'POST', action: 'save-bingo-snapshot' },
   saveBingoPattern: { method: 'POST', action: 'save-bingo-pattern' },
   deleteBingoPattern: { method: 'POST', action: 'delete-bingo-pattern' },
+  saveGameConfig: { method: 'POST', action: 'save-game-config' },
 } as const
 
 type ApiActionEntry = (typeof API_ACTION)[keyof typeof API_ACTION]

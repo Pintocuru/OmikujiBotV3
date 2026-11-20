@@ -13,6 +13,7 @@
 - `src/console/control/UsersConsole/`: ユーザー一覧・ユーザー操作
 - `src/console/log/GameLog/`: ゲームログやランキング等の閲覧
 - `src/console/game/UserRace/`: ブラウザゲーム「ユーザーレース」（別ウィンドウで開く）
+- `src/console/game/NuisanceSurvival/`: ブラウザゲーム「邪魔者サバイバル」（別ウィンドウで開く。仕様は同フォルダの `SPEC.md`）
 - `src/console/common/`・`src/console/types/`: 画面をまたぐ共通部品・型
 - `src/console/maps/ConsoleViewMap.ts`: 全画面の表示名・カテゴリ・起動方式
 - `src/console/consoleRegistry.ts`: 画面のレジストリ（key → loader）
@@ -63,6 +64,17 @@ UIの登録（`uiRegistry.ts` と `UiKind`）と同じ考え方です。
 - 操作バーは、`H` キーまたは「操作を隠す」で隠せます（キャプチャ用）。
 - 構成: レースの進行は純粋関数（`scripts/raceEngine.ts`、乱数だけを外から渡す）、通信と時計は `composables/useUserRace.ts`、表示は `components/`。ゲームエンジンは使っていません。
 - 配布パッケージに入れるときは、そのパッケージの `console.ts` に `userRace` の loader を1行足します（既定では入っていません。足すと約12KB増えます）。
+
+### 邪魔者サバイバル（`nuisanceSurvival`）
+
+コメントした人が「邪魔者」になって盤面に居残り、主人公のライフを減らし続けるゲームです。主人公は WASD で動き、邪魔者にぶつかったまま押し続けて取り除きます。
+
+- コメントは、`load-users` のポーリングではなく、OneSDK の購読（`GetOmikenComments`）で受け取ります。ほかの画面と違い、わんコメへの接続が前提です。
+- 設定（コンフィグ）は、サーバーの `game-configs/nuisanceSurvival.json` に保存します（`load-game-config` / `save-game-config`）。
+- 記録: 終了時に、ユーザーごとの貢献度（`eventKey`: `nuisanceSurvival`）と、全体の生存時間（`eventKey`: `nuisanceSurvivalTime`）を自動でゲームログに残します。ユーザーの得点は変えません。
+- ウィンドウが隠れても、ゲームは止まりません（時間は実時間で進め、止まっていた分は次の更新でまとめて追いつきます）。
+- 仕様・設計・調整できる定数は、`src/console/game/NuisanceSurvival/SPEC.md` を参照してください。
+- 配布パッケージに入れるときは、そのパッケージの `console.ts` に `nuisanceSurvival` の loader を1行足します（既定では入っていません）。
 
 ## ユーザーの得点
 

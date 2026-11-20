@@ -31,6 +31,7 @@ export default defineConfig(() => {
           path.resolve(projectRoot, 'server/presets/**'),
           path.resolve(projectRoot, 'server/streams/**'),
           path.resolve(projectRoot, 'server/userStats.json'),
+          path.resolve(projectRoot, 'server/game-configs/**'),
         ],
       },
     },

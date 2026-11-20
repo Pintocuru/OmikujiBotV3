@@ -101,6 +101,8 @@ const ERROR_MESSAGES: Record<ApiActionName, string> = {
   'load-bingo-pattern': 'ビンゴの保存パターンの読み込みに失敗しました',
   'save-bingo-pattern': 'ビンゴの保存パターンの保存に失敗しました',
   'delete-bingo-pattern': 'ビンゴの保存パターンの削除に失敗しました',
+  'load-game-config': 'ゲームの設定の読み込みに失敗しました',
+  'save-game-config': 'ゲームの設定の保存に失敗しました',
 }
 
 /**

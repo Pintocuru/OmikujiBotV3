@@ -12,6 +12,13 @@ export const consoleViewMap = {
   gameLog: { label: 'ゲームの記録', category: 'log', launch: 'embedded' },
   // game: ブラウザゲーム (OBS でウィンドウをキャプチャするので、別ウィンドウで開く)
   userRace: { label: 'ユーザーレース', category: 'game', launch: 'window', windowSize: { width: 960, height: 540 } },
+  // 盤面は横 11 × 縦 8 マス (1マス 64px = 704×512) + 上部バー 40px。マス数は NuisanceSurvival/scripts/nuisanceConstants.ts (縮尺は画面に合わせて自動)
+  nuisanceSurvival: {
+    label: '邪魔者サバイバル',
+    category: 'game',
+    launch: 'window',
+    windowSize: { width: 704, height: 552 },
+  },
 } as const satisfies Record<string, ConsoleViewMeta>
 
 export type ConsoleViewKey = keyof typeof consoleViewMap

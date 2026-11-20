@@ -8,6 +8,7 @@ import * as userStatsHandler from './handlers/userStatsHandler'
 import * as padHandler from './handlers/padHandler'
 import * as bingoHandler from './handlers/bingoHandler'
 import * as bingoPatternHandler from './handlers/bingoPatternHandler'
+import * as gameConfigHandler from './handlers/gameConfigHandler'
 import { API_ACTION, API_VERSION } from '@server/api/actions'
 import { APP_VERSION } from '@/version'
 import { HTTP } from './constants'
@@ -93,6 +94,9 @@ async function handleGetRequest(
     case API_ACTION.loadBingoPattern.action:
       return bingoPatternHandler.loadBingoPattern(params.id)
 
+    case API_ACTION.loadGameConfig.action:
+      return gameConfigHandler.loadGameConfig(params.gameKey)
+
     default:
       return fail(HTTP.NOT_FOUND, `Unknown GET action: ${action}`)
   }
@@ -169,6 +173,9 @@ async function handlePostRequest(
 
     case API_ACTION.deleteBingoPattern.action:
       return bingoPatternHandler.deleteBingoPattern(params.id || body.id)
+
+    case API_ACTION.saveGameConfig.action:
+      return gameConfigHandler.saveGameConfig(body)
 
     default:
       return fail(HTTP.NOT_FOUND, `Unknown POST action: ${action}`)

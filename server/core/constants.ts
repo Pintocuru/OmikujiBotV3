@@ -10,6 +10,7 @@ export const DIR_NAME = {
   packages: 'packages',
   streams: 'streams', // 1配信ごとのゲームステート (streams/<streamId>.json)
   bingoPatterns: 'bingo-patterns', // ライバービンゴの保存パターン (bingo-patterns/<id>.json)
+  gameConfigs: 'game-configs', // LiveConsole のゲームの設定 (game-configs/<gameKey>.json)
 } as const
 
 // 固定ファイル名

@@ -23,4 +23,5 @@ server/omikujiData.js
 # 実行時に生成される server のデータ
 server/streams/
 server/bingo-patterns/
+server/game-configs/
 server/userStats.json
