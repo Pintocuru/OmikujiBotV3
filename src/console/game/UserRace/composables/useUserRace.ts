@@ -9,7 +9,6 @@ import {
   GAME_KEY,
   MIN_RACERS,
   buildGameLogs,
-  buildScoreUpdates,
   createRace,
   createRng,
   getRanking,
@@ -33,7 +32,7 @@ const messageOf = (error: unknown) => (error instanceof Error ? error.message : 
  * ユーザーレースの進行
  * idle → loading (ユーザー取得) → countdown → running → finished
  * - 結果 (全員の順位) は、レースが終わると自動でゲームログ (GameLog) に記録する。保存先は、このウィンドウを開いた日時の配信ID
- * - ユーザーの得点の加算は、結果が出たあとに手動で 1 回だけ
+ * - ユーザーの得点 (update-user-stats) は変えない。得点は LiveConsole の手動操作だけ (docs/conventions/obs-server-access.md)
  */
 export function useUserRace() {
   const phase = ref<RacePhase>('idle')
@@ -42,10 +41,6 @@ export function useUserRace() {
   const notEnough = ref(false)
   const race = shallowRef<RaceState | null>(null)
   const countdown = ref(0)
-
-  const applying = ref(false)
-  const applied = ref(false)
-  const applyError = ref('')
 
   const recordStatus = ref<RecordStatus>('idle')
   const recordError = ref('')
@@ -125,8 +120,6 @@ export function useUserRace() {
     phase.value = 'loading'
     notEnough.value = false
     errorMessage.value = ''
-    applied.value = false
-    applyError.value = ''
     recordStatus.value = 'idle'
     recordError.value = ''
     race.value = null
@@ -164,26 +157,9 @@ export function useUserRace() {
     phase.value = 'idle'
     race.value = null
     notEnough.value = false
-    applied.value = false
-    applyError.value = ''
     recordStatus.value = 'idle'
     recordError.value = ''
     raceId = ''
-  }
-
-  /** 1〜3位に得点を加算する (手動のボタンから。1 回だけ) */
-  const applyPoints = async () => {
-    if (phase.value !== 'finished' || applied.value || applying.value || results.value.length === 0) return
-    applying.value = true
-    applyError.value = ''
-    try {
-      await userStatsApi.updateUserStats(buildScoreUpdates(results.value))
-      applied.value = true
-    } catch (error) {
-      applyError.value = messageOf(error)
-    } finally {
-      applying.value = false
-    }
   }
 
   onBeforeUnmount(stopTimers)
@@ -197,15 +173,11 @@ export function useUserRace() {
     countdown,
     results,
     ranks,
-    applying,
-    applied,
-    applyError,
     recordStatus,
     recordError,
     streamId,
     start,
     reset,
-    applyPoints,
     record,
   }
 }

@@ -30,7 +30,7 @@
           <tr>
             <th class="w-16">順位</th>
             <th>ユーザー</th>
-            <th class="text-right">得点</th>
+            <th class="text-right">スコア</th>
             <th class="text-right">記録時刻</th>
           </tr>
         </thead>

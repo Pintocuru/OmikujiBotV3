@@ -41,4 +41,8 @@ Generatorは設定データの `ui.settings` に有効化されたUIをRegistry�
 
 Editor側では `registerUiEditor` に編集画面・プレビュー等を登録します。実際に登録されるUIはパッケージ構成に依存します。
 
+## サーバーとの関わり
+
+OBS 側はサーバーなしでも動く前提です。UI・ゲームがサーバーへ書くのは記録（ゲームログ）が中心で、ユーザーの得点は変えません（得点は LiveConsole の手動操作だけ）。詳しくは [OBS 側のサーバーアクセス](../conventions/obs-server-access.md) を参照してください。
+
 関連: [Generator](./Generator.md)、[Editor](./Editor.md)、[Packages](./Packages.md)

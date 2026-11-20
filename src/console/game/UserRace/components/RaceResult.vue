@@ -1,5 +1,5 @@
 <!-- src/console/game/UserRace/components/RaceResult.vue -->
-<!-- 結果の表示 (1〜3位)。得点の加算は、ここのボタンから手動で行う -->
+<!-- 結果の表示 (1〜3位)。ユーザーの得点は変えない (結果は、ゲームログに記録する) -->
 <template>
   <div class="rounded-box bg-base-100 p-6 text-base-content shadow-2xl">
     <h2 class="mb-3 text-center text-xl font-bold">{{ userRaceMessages.result.title }}</h2>
@@ -12,19 +12,7 @@
       </li>
     </ol>
 
-    <div class="mt-4 flex flex-col items-center gap-2">
-      <button type="button" class="btn btn-primary btn-sm" :disabled="applied || applying" @click="emit('apply')">
-        {{
-          applied
-            ? userRaceMessages.result.applied
-            : applying
-              ? userRaceMessages.result.applying
-              : userRaceMessages.result.apply
-        }}
-      </button>
-      <p v-if="applyError" class="text-error text-xs break-all">{{ userRaceMessages.result.applyError(applyError) }}</p>
-      <p v-else class="text-xs opacity-60">{{ userRaceMessages.result.note }}</p>
-    </div>
+    <p class="mt-4 text-center text-xs opacity-60">{{ userRaceMessages.result.note }}</p>
 
     <!-- ゲームログへの記録 (自動。失敗したときだけ、再試行できる) -->
     <p v-if="recordStatus === 'saving'" class="mt-3 text-center text-xs opacity-60">
@@ -47,14 +35,11 @@
 
   defineProps<{
     results: RaceResult[]
-    applying: boolean
-    applied: boolean
-    applyError: string
     recordStatus: RecordStatus
     recordError: string
     streamId: string
   }>()
-  const emit = defineEmits<{ apply: []; retryRecord: [] }>()
+  const emit = defineEmits<{ retryRecord: [] }>()
 
   const MEDALS = ['🥇', '🥈', '🥉']
 </script>

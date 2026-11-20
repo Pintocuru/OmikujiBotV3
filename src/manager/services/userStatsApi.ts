@@ -18,8 +18,12 @@ import { BaseApiClient } from './baseApiClient'
 
 /**
  * ブラウザから OBS の表示を変更するための、ユーザー統計の操作 API
- * - 操作する側: updateUserStats / resetUserStats
+ * - 操作する側 (LiveConsole の手動操作だけ): updateUserStats / resetUserStats
  * - 反映する側 (Generator): loadUserStats を、前回の revision 付きでポーリングする
+ *
+ * ⚠ 書き込み (updateUserStats / resetUserStats) は、UI・ゲーム・Generator から呼ばない。
+ *   得点は手動専用で、addScore には二重加算を防ぐ仕組みがない。結果を残すときは game-log に書く
+ *   (docs/conventions/obs-server-access.md)
  */
 class UserStatsApiService extends BaseApiClient {
   /**
@@ -80,6 +84,7 @@ class UserStatsApiService extends BaseApiClient {
 
   /**
    * ユーザー統計を更新 (1回で最大200ユーザー)
+   * LiveConsole の手動操作だけから呼ぶ (UI・ゲーム・Generator からは呼ばない)
    */
   async updateUserStats(updates: UserStatsUpdateType[]): Promise<UserStatsUpdateResponseType> {
     const response = await this.post(API_ACTION.updateUserStats.action, { updates })
@@ -90,6 +95,7 @@ class UserStatsApiService extends BaseApiClient {
 
   /**
    * 操作結果を全件リセット
+   * LiveConsole の手動操作だけから呼ぶ (UI・ゲーム・Generator からは呼ばない)
    */
   async resetUserStats(): Promise<void> {
     const response = await this.post(API_ACTION.resetUserStats.action, {})

@@ -1,5 +1,5 @@
 <!-- src/console/game/UserRace/UserRace.vue -->
-<!-- ユーザーレース: ユーザーリストから最大8人が走り、1〜3位に手動で得点を加算できる。別ウィンドウで開き、OBS でキャプチャする -->
+<!-- ユーザーレース: ユーザーリストから最大8人が走り、結果をゲームログに記録する。別ウィンドウで開き、OBS でキャプチャする -->
 <!-- 画面の部品: RaceTrack / RaceResult / RaceControls。ここは組み立てと状態の受け渡しだけ -->
 <template>
   <div class="flex h-screen flex-col bg-neutral text-neutral-content">
@@ -20,13 +20,9 @@
       <div v-if="phase === 'finished'" class="absolute inset-0 flex items-center justify-center bg-black/50">
         <RaceResult
           :results="results"
-          :applying="applying"
-          :applied="applied"
-          :applyError="applyError"
           :recordStatus="recordStatus"
           :recordError="recordError"
           :streamId="streamId"
-          @apply="applyPoints"
           @retryRecord="record"
         />
       </div>
@@ -55,15 +51,11 @@
     countdown,
     results,
     ranks,
-    applying,
-    applied,
-    applyError,
     recordStatus,
     recordError,
     streamId,
     start,
     reset,
-    applyPoints,
     record,
   } = useUserRace()
 

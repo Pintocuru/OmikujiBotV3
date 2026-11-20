@@ -30,6 +30,14 @@ const config: IConfiguration = {
         pathNot: '^src/ui/(uiLayoutMap|uiRegistry)\\.ts$',
       },
     },
+    {
+      name: 'ui-no-user-stats-api',
+      severity: 'error',
+      comment:
+        'ユーザーの得点は LiveConsole の手動操作だけ。OBS 側 (UI・ゲーム・エンジン・レイアウト) から userStatsApi を使わない (docs/conventions/obs-server-access.md)',
+      from: { path: '^src/(ui|games|engine|layout)/' },
+      to: { path: '^src/manager/services/userStatsApi\\.ts$' },
+    },
   ],
   options: {
     tsConfig: { fileName: 'tsconfig.json' },

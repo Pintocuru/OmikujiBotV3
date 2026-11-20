@@ -24,6 +24,7 @@
 - [editor-ui-style.md](./editor-ui-style.md): UI 表現の基本方針
 - [ui-component-registry.md](./ui-component-registry.md): UI 内コンポーネント登録の設計
 - [root-readme.md](./root-readme.md): README・構成ドキュメント
+- [obs-server-access.md](./obs-server-access.md): OBS 側（UI・ゲーム）のサーバーアクセス。ユーザーの得点は LiveConsole の手動操作だけ
 
 ## src/ への配置
 

@@ -6,7 +6,6 @@ import {
   MAX_RACERS,
   RACE_SECONDS,
   buildGameLogs,
-  buildScoreUpdates,
   createRace,
   createRng,
   getFinalRanking,
@@ -141,7 +140,7 @@ describe('getFinalRanking', () => {
 })
 
 describe('buildGameLogs', () => {
-  it('全員ぶんの記録を作る (得点 3/2/1/0、順位とタイムの表示、再送で同じ内容)', () => {
+  it('全員ぶんの記録を作る (ポイント 3/2/1/0、順位とタイムの表示、再送で同じ内容)', () => {
     const state = run(7)
     const logs = buildGameLogs(state, 'race-x', 5000)
     expect(logs).toHaveLength(8)
@@ -167,12 +166,5 @@ describe('buildGameLogs', () => {
       1
     )
     expect(logs.map((l) => l.item)).toEqual(['1位 13.0秒', '2位'])
-  })
-})
-
-describe('buildScoreUpdates', () => {
-  it('得点の加算リクエストになる', () => {
-    const results = getResults(run(5, 2))
-    expect(buildScoreUpdates(results)).toEqual(results.map((r) => ({ userId: r.userId, addScore: r.points })))
   })
 })

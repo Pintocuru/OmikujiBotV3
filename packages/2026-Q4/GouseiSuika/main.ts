@@ -4,6 +4,11 @@ import { createAppOneSDK } from '@/common/EntryCore/core'
 import { definePackage } from '@/register/definePackage'
 import { registerStandardRankingComponents } from '@/ui/game/GameRanking/components/standard/register'
 import '@assets/styles/DaisyUiObs.css'
+import { registerGameScript } from '@/games/gameScriptRegistry'
+
+registerGameScript({
+  GouseiSuika: () => import('@/games/scripts/game/GouseiSuika/execute'),
+})
 
 definePackage({
   kind: 'gameRanking',

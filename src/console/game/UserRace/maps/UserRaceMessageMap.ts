@@ -16,12 +16,8 @@ export const userRaceMessages = {
   idle: 'スタートを押すと、ユーザーリストから最大8人が走ります (ピン留めのユーザーが優先)',
   result: {
     title: '結果',
-    points: (points: number) => `+${points}点`,
-    apply: '得点に加算する',
-    applying: '加算中…',
-    applied: '加算しました',
-    applyError: (message: string) => `得点を加算できませんでした: ${message}`,
-    note: '得点は、ボタンを押したときだけ加算されます',
+    points: (points: number) => `${points} pt`,
+    note: 'ユーザーの得点は変わりません (必要なら、ユーザー操作の画面で手動で加算)',
   },
   record: {
     saving: '結果を記録中…',
