@@ -39,9 +39,20 @@ class GameStateApiService extends BaseApiClient {
 
   /**
    * ログを1件追記 (統計はサーバ側で更新。同じ log.id は無視され、appended が false になる)
+   * profileImage は、ユーザーのアイコンとして保存される (http(s) の URL のみ。それ以外はサーバが無視)
    */
-  async appendGameLog(streamId: string, eventKey: string, log: GameLogType): Promise<GameLogAppendResponseType> {
-    const response = await this.post(API_ACTION.appendGameLog.action, { streamId, eventKey, log })
+  async appendGameLog(
+    streamId: string,
+    eventKey: string,
+    log: GameLogType,
+    profileImage?: string
+  ): Promise<GameLogAppendResponseType> {
+    const response = await this.post(API_ACTION.appendGameLog.action, {
+      streamId,
+      eventKey,
+      log,
+      ...(profileImage ? { profileImage } : {}),
+    })
     this.validateResponse(response, 'ゲームログの追記に失敗しました')
 
     return GameLogAppendResponseSchema.parse(response.data)

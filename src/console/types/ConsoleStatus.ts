@@ -23,6 +23,7 @@ export interface RankingRow {
   logId: string
   userId: string
   userName: string
+  profileImage?: string // アイコンの URL (保存されていなければなし)
   score: number
   label: string // 表示用の得点 (保存されていなければ score を文字にしたもの)
   createdAt: number

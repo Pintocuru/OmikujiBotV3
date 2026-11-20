@@ -7,6 +7,7 @@ import { GameLogType, GameStateType } from '@/types/api'
 interface UserRow {
   userId: string
   userName: string
+  profileImage?: string
   totalDraws: number
   totalPoints: number
   bestScore: number
@@ -27,6 +28,10 @@ export function resolveUserNames(logs: GameLogType[]): Map<string, string> {
 }
 
 const nameOf = (names: Map<string, string>, userId: string) => names.get(userId) ?? userId
+
+// userMap のアイコン (userId が 'constructor' などでも、プロトタイプの値を拾わないよう hasOwn で確認する)
+const iconOf = (state: GameStateType, userId: string): string | undefined =>
+  (Object.hasOwn(state.userMap, userId) ? state.userMap[userId].profileImage : undefined) || undefined
 
 /**
  * ランキング (high: 高い順 / low: 低い順 / new: 新しい順)
@@ -57,6 +62,7 @@ export function buildRanking(
     logId: log.id,
     userId: log.userId,
     userName: nameOf(names, log.userId),
+    profileImage: iconOf(state, log.userId),
     score: log.score,
     label: log.item || String(log.score),
     createdAt: log.createdAt,
@@ -75,6 +81,7 @@ export function buildUserRows(state: GameStateType): UserRow[] {
     .map((stats) => ({
       userId: stats.userId,
       userName: nameOf(names, stats.userId),
+      profileImage: stats.profileImage || undefined,
       totalDraws: stats.totalDraws,
       totalPoints: stats.totalPoints,
       bestScore: stats.bestScore,

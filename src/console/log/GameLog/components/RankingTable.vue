@@ -37,7 +37,12 @@
         <tbody>
           <tr v-for="row in rows" :key="row.logId">
             <td class="font-mono">{{ medal(row.rank) }}</td>
-            <td>{{ row.userName }}</td>
+            <td>
+              <div class="flex items-center gap-2">
+                <UserIcon :src="row.profileImage" :userName="row.userName" />
+                <span>{{ row.userName }}</span>
+              </div>
+            </td>
             <td class="text-right font-mono">
               {{ row.label }}
               <span v-if="row.label !== String(row.score)" class="ml-1 text-xs opacity-50"
@@ -58,6 +63,7 @@
   import { formatDateTime, formatNumber } from '@/console/common/scripts/formatters'
   import { buildRanking } from '../scripts/summarizeState'
   import { RankingSortOrder } from '@/console/types'
+  import UserIcon from '@/console/common/components/UserIcon.vue'
 
   const props = defineProps<{ state: GameStateType }>()
 

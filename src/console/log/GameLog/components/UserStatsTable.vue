@@ -14,7 +14,12 @@
       </thead>
       <tbody>
         <tr v-for="row in rows" :key="row.userId">
-          <td>{{ row.userName }}</td>
+          <td>
+            <div class="flex items-center gap-2">
+              <UserIcon :src="row.profileImage" :userName="row.userName" />
+              <span>{{ row.userName }}</span>
+            </div>
+          </td>
           <td class="text-right font-mono">{{ formatNumber(row.totalDraws) }}</td>
           <td class="text-right font-mono">{{ formatNumber(row.totalPoints) }}</td>
           <td class="text-right font-mono">{{ formatNumber(row.bestScore) }}</td>
@@ -30,6 +35,7 @@
   import type { GameStateType } from '@/types/api'
   import { formatDateTime, formatNumber } from '@/console/common/scripts/formatters'
   import { buildUserRows } from '../scripts/summarizeState'
+  import UserIcon from '@/console/common/components/UserIcon.vue'
 
   const props = defineProps<{ state: GameStateType }>()
   const rows = computed(() => buildUserRows(props.state))

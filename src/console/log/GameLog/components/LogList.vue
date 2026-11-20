@@ -4,6 +4,7 @@
   <ul v-else class="flex flex-col divide-y divide-base-300">
     <li v-for="row in rows" :key="row.logId" class="flex items-baseline gap-3 py-1.5 text-sm">
       <span class="w-20 shrink-0 font-mono text-xs opacity-60">{{ formatTime(row.createdAt) }}</span>
+      <UserIcon :src="row.profileImage" :userName="row.userName" class="self-center" />
       <span class="grow truncate">{{ row.userName }}</span>
       <span class="font-mono">{{ row.label }}</span>
       <span v-if="row.label !== String(row.score)" class="font-mono text-xs opacity-50"
@@ -18,6 +19,7 @@
   import type { GameStateType } from '@/types/api'
   import { formatNumber, formatTime } from '@/console/common/scripts/formatters'
   import { buildLogRows } from '../scripts/summarizeState'
+  import UserIcon from '@/console/common/components/UserIcon.vue'
 
   const props = defineProps<{ state: GameStateType }>()
   const rows = computed(() => buildLogRows(props.state))

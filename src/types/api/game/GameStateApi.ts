@@ -24,11 +24,14 @@ export type StreamGameFileType = z.infer<typeof StreamGameFileSchema>
 /**
  * append-game-log: リクエスト
  * eventKey の state に、ログを1件追記する (userMap の統計もサーバ側で更新する)
+ * profileImage は、userMap のユーザーのアイコンとして保存する (ログには入れない)。
+ * http(s) 以外 (コメントテスターの base64 など) はサーバ側で無視する。
  */
 export const GameLogAppendRequestSchema = z.object({
   streamId: StreamIdSchema,
   eventKey: z.string().min(1),
   log: GameLogSchema,
+  profileImage: z.string().optional(),
 })
 export type GameLogAppendRequestType = z.infer<typeof GameLogAppendRequestSchema>
 

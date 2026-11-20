@@ -19,6 +19,10 @@ import {
 
 const toFileName = (streamId: string) => `${streamId}.json`
 
+// userMap に保存するアイコンは URL (http / https) だけ。base64 (コメントテスター) はファイルが膨らむので保存しない
+const toStorableProfileImage = (value: string | undefined): string | undefined =>
+  value && /^https?:\/\//i.test(value) ? value : undefined
+
 /**
  * 保存済みの配信一覧 (更新日時の新しい順)
  */
@@ -63,7 +67,7 @@ export async function loadGameState(streamId: string | undefined, eventKey?: str
 /**
  * ログを1件追記する (1配信 = 1ファイル、eventKey ごとに state を持つ)
  * - 同じ log.id が保存済みなら何もしない (appended: false)
- * - userMap の統計 (回数・累計ポイント・自己ベスト) もここで更新する
+ * - userMap の統計 (回数・累計ポイント・自己ベスト) とアイコン (最新の http(s) の URL) もここで更新する
  *   totalWins は、ランキングでは勝敗を使わないため更新しない
  */
 export async function appendGameLog(body: unknown): Promise<ApiResult> {
@@ -71,6 +75,7 @@ export async function appendGameLog(body: unknown): Promise<ApiResult> {
   if (!parsed.ok) return badRequest(parsed.error)
 
   const { streamId, eventKey, log } = parsed.data
+  const profileImage = toStorableProfileImage(parsed.data.profileImage)
   if (!isSafeRecordKey(eventKey)) return badRequest('Invalid eventKey')
   if (!isSafeRecordKey(log.userId)) return badRequest('Invalid userId')
 
@@ -111,6 +116,7 @@ export async function appendGameLog(body: unknown): Promise<ApiResult> {
             totalDraws: previous.totalDraws + 1,
             totalPoints: previous.totalPoints + log.score,
             bestScore: Math.max(previous.bestScore, log.score),
+            ...(profileImage ? { profileImage } : {}), // アイコンがないときは、前回のものを残す
           },
         },
       }

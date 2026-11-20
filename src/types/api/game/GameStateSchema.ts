@@ -25,6 +25,7 @@ export const UserStatsSchema = z.object({
   totalPoints: z.number().default(0), // 累計ポイント
   totalWins: z.number().default(0), // 累計勝利回数
   bestScore: z.number().default(0), // 自己ベストスコア
+  profileImage: z.string().optional(), // アイコンの URL(閲覧用。https のみ。過去の保存データ・アイコンのないユーザーにはない)
 })
 export type UserStatsType = z.infer<typeof UserStatsSchema>
 
