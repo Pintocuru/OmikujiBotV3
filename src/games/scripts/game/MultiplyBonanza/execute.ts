@@ -29,6 +29,7 @@ export class ExecuteScript implements ScriptClass {
             user,
             score: gameResult.result.payout,
             symbol: gameResult.result.symbol,
+            gameKey: 'MultiplyBonanza',
           }),
         ]
       : []

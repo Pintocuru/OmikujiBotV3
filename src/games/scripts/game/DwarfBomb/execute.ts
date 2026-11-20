@@ -25,6 +25,7 @@ export class ExecuteScript implements ScriptClass {
             user,
             score: result.payout,
             symbol: '',
+            gameKey: 'DwarfBomb',
           }),
         ]
       : []

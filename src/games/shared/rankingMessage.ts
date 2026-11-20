@@ -12,7 +12,7 @@ interface BuildRankingMessageParams {
   score: number // 比較用の得点
   symbol: string // 名前の補助記号
   scoreText?: string // 表示用の得点 (省略時は score をそのまま文字にする)
-  gameKey?: string // ゲームの認識キー(任意)
+  gameKey: string // ゲームの認識キー(任意)
   delaySeconds?: number
 }
 

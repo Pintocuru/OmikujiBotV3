@@ -25,6 +25,7 @@ export class ExecuteScript implements ScriptClass {
             user,
             score: gameResult.points,
             symbol: params.mode,
+            gameKey: 'GouseiSuika',
           }),
         ]
       : []

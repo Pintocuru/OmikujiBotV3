@@ -26,6 +26,7 @@ export class ExecuteScript implements ScriptClass {
             user,
             score: gameResult.payout,
             symbol: gameResult.symbol,
+            gameKey: 'BomberSpin',
           }),
         ]
       : []

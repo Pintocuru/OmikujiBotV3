@@ -83,6 +83,7 @@ function createFailureRankingData(user: UserNameType, successCount: number): Bot
     score: 0,
     symbol: `${successCount}回目`,
     scoreText: '0',
+    gameKey: 'GoogolClover',
   })
 }
 
@@ -95,5 +96,6 @@ function createSuccessRankingData(state: UserState, user: UserNameType): BotMess
     score: calculateScoreValue(state.funds, state.exp) * 1000000,
     symbol: `${state.successCount}回目`,
     scoreText: formatScoreText(state.funds, state.exp),
+    gameKey: 'GoogolClover',
   })
 }
