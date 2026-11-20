@@ -124,6 +124,9 @@ async function handlePostRequest(
     case API_ACTION.appendGameLog.action:
       return gameStateHandler.appendGameLog(body)
 
+    case API_ACTION.appendGameLogs.action:
+      return gameStateHandler.appendGameLogs(body)
+
     case API_ACTION.deleteGameState.action:
       return gameStateHandler.deleteGameState(params.streamId || body.streamId)
 

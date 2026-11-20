@@ -8,6 +8,8 @@ import { DIR_NAME, HTTP } from '@server/core/constants'
 import { isSafeRecordKey } from '@server/core/utils/validation'
 import {
   GameLogAppendRequestSchema,
+  GameLogsAppendRequestSchema,
+  GameLogType,
   GameStateSchema,
   GameStateType,
   StreamGameFileSchema,
@@ -65,72 +67,102 @@ export async function loadGameState(streamId: string | undefined, eventKey?: str
 }
 
 /**
- * ログを1件追記する (1配信 = 1ファイル、eventKey ごとに state を持つ)
- * - 同じ log.id が保存済みなら何もしない (appended: false)
- * - userMap の統計 (回数・累計ポイント・自己ベスト) とアイコン (最新の http(s) の URL) もここで更新する
+ * ログを追記する共通の処理 (呼び出し側が withLock と guard の中で呼ぶ)
+ * - 1配信 = 1ファイル、eventKey ごとに state を持つ
+ * - 同じ log.id が保存済み (または、リクエスト内で重複) なら、そのログは保存しない
+ * - userMap の統計 (回数・累計ポイント・自己ベスト) もここで更新する
  *   totalWins は、ランキングでは勝敗を使わないため更新しない
+ * - 保存するログが 1 件もないときは、ファイルを書き換えない
+ */
+async function appendLogs(
+  streamId: string,
+  eventKey: string,
+  logs: GameLogType[]
+): Promise<{ updatedAt: number; appendedCount: number; skippedCount: number }> {
+  const fileName = toFileName(streamId)
+  const now = Date.now()
+
+  // 既存ファイルがあれば引き継ぐ。読めない場合は上書きせずエラーにする
+  let current: StreamGameFileType | null = null
+  try {
+    current = StreamGameFileSchema.parse(await fileSystem.loadFile(DIR_NAME.streams, fileName))
+  } catch (error: any) {
+    if (error?.code !== 'ENOENT') throw error
+  }
+
+  const state =
+    current && Object.hasOwn(current.states, eventKey) ? current.states[eventKey] : GameStateSchema.parse({ eventKey })
+
+  const savedIds = new Set(state.logs.map((saved) => saved.id))
+  const newLogs = logs.filter((log) => !savedIds.has(log.id) && (savedIds.add(log.id), true))
+  if (newLogs.length === 0) {
+    return { updatedAt: current?.updatedAt ?? now, appendedCount: 0, skippedCount: logs.length }
+  }
+
+  // userId をキーに使うので、代入ではなく computed key のスプレッドで更新する
+  let userMap = state.userMap
+  for (const log of newLogs) {
+    const previous = Object.hasOwn(userMap, log.userId)
+      ? userMap[log.userId]
+      : UserStatsSchema.parse({ userId: log.userId })
+    userMap = {
+      ...userMap,
+      [log.userId]: {
+        ...previous,
+        totalDraws: previous.totalDraws + 1,
+        totalPoints: previous.totalPoints + log.score,
+        bestScore: Math.max(previous.bestScore, log.score),
+      },
+    }
+  }
+  const nextState: GameStateType = { ...state, logs: [...state.logs, ...newLogs], userMap }
+
+  const next: StreamGameFileType = {
+    streamId,
+    createdAt: current?.createdAt ?? now,
+    updatedAt: now,
+    states: { ...current?.states, [eventKey]: nextState },
+  }
+
+  await fileSystem.saveFile(DIR_NAME.streams, fileName, JSON.stringify(next))
+  console.info(`💾 Appended game log: ${fileName} (eventKey: ${eventKey}, logs: ${newLogs.length})`)
+  return { updatedAt: now, appendedCount: newLogs.length, skippedCount: logs.length - newLogs.length }
+}
+
+/**
+ * ログを1件追記する
  */
 export async function appendGameLog(body: unknown): Promise<ApiResult> {
   const parsed = parseWith(GameLogAppendRequestSchema, body)
   if (!parsed.ok) return badRequest(parsed.error)
 
   const { streamId, eventKey, log } = parsed.data
-  const profileImage = toStorableProfileImage(parsed.data.profileImage)
   if (!isSafeRecordKey(eventKey)) return badRequest('Invalid eventKey')
   if (!isSafeRecordKey(log.userId)) return badRequest('Invalid userId')
 
   return withLock(`game-state:${streamId}`, () =>
     guard('Append game log', 'Failed to append game log', async () => {
-      const fileName = toFileName(streamId)
-      const now = Date.now()
+      const result = await appendLogs(streamId, eventKey, [log])
+      return ok({ streamId, eventKey, updatedAt: result.updatedAt, appended: result.appendedCount > 0 })
+    })
+  )
+}
 
-      // 既存ファイルがあれば引き継ぐ。読めない場合は上書きせずエラーにする
-      let current: StreamGameFileType | null = null
-      try {
-        current = StreamGameFileSchema.parse(await fileSystem.loadFile(DIR_NAME.streams, fileName))
-      } catch (error: any) {
-        if (error?.code !== 'ENOENT') throw error
-      }
+/**
+ * ログを複数件まとめて追記する (1回の書き込み。全件保存されるか、1件も保存されないか)
+ */
+export async function appendGameLogs(body: unknown): Promise<ApiResult> {
+  const parsed = parseWith(GameLogsAppendRequestSchema, body)
+  if (!parsed.ok) return badRequest(parsed.error)
 
-      const state =
-        current && Object.hasOwn(current.states, eventKey)
-          ? current.states[eventKey]
-          : GameStateSchema.parse({ eventKey })
+  const { streamId, eventKey, logs } = parsed.data
+  if (!isSafeRecordKey(eventKey)) return badRequest('Invalid eventKey')
+  if (logs.some((log) => !isSafeRecordKey(log.userId))) return badRequest('Invalid userId')
 
-      // 重複 (同じ log.id) は保存しない
-      if (state.logs.some((saved) => saved.id === log.id)) {
-        return ok({ streamId, eventKey, updatedAt: current?.updatedAt ?? now, appended: false })
-      }
-
-      // userId をキーに使うので、代入ではなく computed key のスプレッドで更新する
-      const previous = Object.hasOwn(state.userMap, log.userId)
-        ? state.userMap[log.userId]
-        : UserStatsSchema.parse({ userId: log.userId })
-      const nextState: GameStateType = {
-        ...state,
-        logs: [...state.logs, log],
-        userMap: {
-          ...state.userMap,
-          [log.userId]: {
-            ...previous,
-            totalDraws: previous.totalDraws + 1,
-            totalPoints: previous.totalPoints + log.score,
-            bestScore: Math.max(previous.bestScore, log.score),
-            ...(profileImage ? { profileImage } : {}), // アイコンがないときは、前回のものを残す
-          },
-        },
-      }
-
-      const next: StreamGameFileType = {
-        streamId,
-        createdAt: current?.createdAt ?? now,
-        updatedAt: now,
-        states: { ...current?.states, [eventKey]: nextState },
-      }
-
-      await fileSystem.saveFile(DIR_NAME.streams, fileName, JSON.stringify(next))
-      console.info(`💾 Appended game log: ${fileName} (eventKey: ${eventKey}, userId: ${log.userId})`)
-      return ok({ streamId, eventKey, updatedAt: now, appended: true })
+  return withLock(`game-state:${streamId}`, () =>
+    guard('Append game logs', 'Failed to append game logs', async () => {
+      const result = await appendLogs(streamId, eventKey, logs)
+      return ok({ streamId, eventKey, ...result })
     })
   )
 }

@@ -23,7 +23,11 @@
           :applying="applying"
           :applied="applied"
           :applyError="applyError"
+          :recordStatus="recordStatus"
+          :recordError="recordError"
+          :streamId="streamId"
           @apply="applyPoints"
+          @retryRecord="record"
         />
       </div>
     </main>
@@ -54,9 +58,13 @@
     applying,
     applied,
     applyError,
+    recordStatus,
+    recordError,
+    streamId,
     start,
     reset,
     applyPoints,
+    record,
   } = useUserRace()
 
   // 操作バーは、OBS でキャプチャするときに隠せる (H キーで戻す)

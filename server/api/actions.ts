@@ -28,6 +28,7 @@ export const API_ACTION = {
   deletePackage: { method: 'POST', action: 'delete-package' },
   saveOmikuji: { method: 'POST', action: 'save-omikuji' },
   appendGameLog: { method: 'POST', action: 'append-game-log' },
+  appendGameLogs: { method: 'POST', action: 'append-game-logs' },
   deleteGameState: { method: 'POST', action: 'delete-game-state' },
   updateUserStats: { method: 'POST', action: 'update-user-stats' },
   resetUserStats: { method: 'POST', action: 'reset-user-stats' },

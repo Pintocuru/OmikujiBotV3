@@ -23,4 +23,10 @@ export const userRaceMessages = {
     applyError: (message: string) => `得点を加算できませんでした: ${message}`,
     note: '得点は、ボタンを押したときだけ加算されます',
   },
+  record: {
+    saving: '結果を記録中…',
+    saved: (streamId: string) => `結果を GameLog に記録しました (${streamId})`,
+    error: (message: string) => `結果を記録できませんでした: ${message}`,
+    retry: '再試行',
+  },
 } as const

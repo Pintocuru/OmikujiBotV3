@@ -3,6 +3,8 @@ import { API_ACTION } from '@server/api/actions'
 import {
   GameLogAppendResponseSchema,
   GameLogAppendResponseType,
+  GameLogsAppendResponseSchema,
+  GameLogsAppendResponseType,
   GameLogType,
   GameStateListItemSchema,
   GameStateListItemType,
@@ -56,6 +58,16 @@ class GameStateApiService extends BaseApiClient {
     this.validateResponse(response, 'ゲームログの追記に失敗しました')
 
     return GameLogAppendResponseSchema.parse(response.data)
+  }
+
+  /**
+   * 同じ eventKey のログを、まとめて追記 (1回の書き込み。同じ log.id は無視するので、失敗したら同じ内容で再送してよい)
+   */
+  async appendGameLogs(streamId: string, eventKey: string, logs: GameLogType[]): Promise<GameLogsAppendResponseType> {
+    const response = await this.post(API_ACTION.appendGameLogs.action, { streamId, eventKey, logs })
+    this.validateResponse(response, 'ゲームログの追記に失敗しました')
+
+    return GameLogsAppendResponseSchema.parse(response.data)
   }
 
   /**

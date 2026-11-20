@@ -48,6 +48,33 @@ export const GameLogAppendResponseSchema = z.object({
 export type GameLogAppendResponseType = z.infer<typeof GameLogAppendResponseSchema>
 
 /**
+ * append-game-logs: リクエスト
+ * 同じ eventKey の state に、ログを複数件まとめて追記する (1レースの全員ぶんなど)。
+ * 1回の書き込みで保存するので、全件保存されるか、1件も保存されないかのどちらか。
+ * 同じ log.id は保存済みでも、リクエスト内の重複でも1件だけ保存する (再送しても二重にならない)
+ */
+export const MAX_GAME_LOGS_PER_APPEND = 100
+export const GameLogsAppendRequestSchema = z.object({
+  streamId: StreamIdSchema,
+  eventKey: z.string().min(1),
+  logs: z.array(GameLogSchema).min(1).max(MAX_GAME_LOGS_PER_APPEND),
+})
+export type GameLogsAppendRequestType = z.infer<typeof GameLogsAppendRequestSchema>
+
+/**
+ * append-game-logs: レスポンス
+ * 保存済み・重複で保存しなかった件数は skippedCount
+ */
+export const GameLogsAppendResponseSchema = z.object({
+  streamId: StreamIdSchema,
+  eventKey: z.string(),
+  updatedAt: z.number(),
+  appendedCount: z.number(),
+  skippedCount: z.number(),
+})
+export type GameLogsAppendResponseType = z.infer<typeof GameLogsAppendResponseSchema>
+
+/**
  * list-game-states: 一覧の1件 (更新日時の新しい順)
  */
 export const GameStateListItemSchema = z.object({

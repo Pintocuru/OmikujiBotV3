@@ -1,6 +1,6 @@
 // src/console/game/UserRace/scripts/raceEngine.ts
 // ユーザーレースの進行を決める純粋関数 (画面・通信・時計に依存しない。乱数だけを外から渡す)
-import type { UserListItemType, UserStatsUpdateType } from '@/types/api'
+import type { GameLogType, UserListItemType, UserStatsUpdateType } from '@/types/api'
 
 /** 走る人数 (多すぎると、レーンの名前が読めない) */
 export const MAX_RACERS = 8
@@ -9,6 +9,8 @@ export const MIN_RACERS = 2
 export const RACE_SECONDS = 14
 /** 上位(得点の対象)が決まってから、残りの人を走らせる時間 (秒) */
 export const FINISH_GRACE_SECONDS = 2
+/** ゲームログの eventKey (GameLog の画面では、この名前で一覧に出る) */
+export const GAME_KEY = 'userRace'
 /** 1位・2位・3位の得点 */
 export const RACE_POINTS = [3, 2, 1] as const
 
@@ -51,6 +53,9 @@ export type RaceState = {
 }
 
 export type RaceResult = { rank: number; userId: string; userName: string; points: number }
+
+/** 全員の最終順位 (ゴールした順。ゴールしていない人は、進んだ位置の順で、その後ろ) */
+export type FinalRank = { rank: number; racer: Racer }
 
 const shuffle = <T>(items: T[], rng: Rng): T[] => {
   const a = [...items]
@@ -127,6 +132,15 @@ export const getRanking = (state: RaceState): { rank: number; racer: Racer }[] =
     .sort((a, b) => a.finishedAt - b.finishedAt)
     .map((racer, i) => ({ rank: i + 1, racer }))
 
+/** 全員の最終順位。ゴールした人 → ゴールしていない人 (位置が先の順) */
+export const getFinalRanking = (state: RaceState): FinalRank[] => {
+  const goal = getRanking(state).map(({ racer }) => racer)
+  const rest = state.racers
+    .filter((r) => r.finishedAt === null)
+    .sort((a, b) => b.position - a.position || a.lane - b.lane)
+  return [...goal, ...rest].map((racer, i) => ({ rank: i + 1, racer }))
+}
+
 /** 得点の対象 (1〜3位) */
 export const getResults = (state: RaceState): RaceResult[] =>
   getRanking(state)
@@ -136,3 +150,20 @@ export const getResults = (state: RaceState): RaceResult[] =>
 /** 得点の加算リクエスト (サーバー側で加算するので、他の操作と同時でも取りこぼさない) */
 export const buildScoreUpdates = (results: RaceResult[]): UserStatsUpdateType[] =>
   results.map((r) => ({ userId: r.userId, addScore: r.points }))
+
+/**
+ * ゲームログ (GameLog) に残す記録。走った全員ぶんを 1 件ずつ作る
+ * - score: そのレースで得た得点 (1位 3 / 2位 2 / 3位 1 / それ以外 0)。サーバー側で累計ポイントになる
+ * - item: 順位とゴールタイムの表示 (例: '1位 12.3秒')。ゴールしていない人はタイムなし
+ * - id: レースごとの ID + userId。同じレースを再送しても、サーバーが二重に保存しない
+ * ユーザーの「得点」(update-user-stats) とは別の記録で、得点の加算とは関係なく残る
+ */
+export const buildGameLogs = (state: RaceState, raceId: string, createdAt: number = Date.now()): GameLogType[] =>
+  getFinalRanking(state).map(({ rank, racer }) => ({
+    id: `${raceId}:${racer.userId}`,
+    userId: racer.userId,
+    userName: racer.userName,
+    score: RACE_POINTS[rank - 1] ?? 0,
+    item: racer.finishedAt === null ? `${rank}位` : `${rank}位 ${racer.finishedAt.toFixed(1)}秒`,
+    createdAt,
+  }))

@@ -1,10 +1,14 @@
 // src/console/game/UserRace/composables/useUserRace.ts
 import { computed, onBeforeUnmount, ref, shallowRef } from 'vue'
 import { userStatsApi } from '@/manager/services/userStatsApi'
+import { gameStateApi } from '@/manager/services/gameStateApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'
 import type { ConsoleStatus } from '@/console/types'
+import { createStreamId } from '@/console/common/scripts/streamId'
 import {
+  GAME_KEY,
   MIN_RACERS,
+  buildGameLogs,
   buildScoreUpdates,
   createRace,
   createRng,
@@ -16,6 +20,8 @@ import {
 } from '../scripts/raceEngine'
 
 export type RacePhase = 'idle' | 'loading' | 'countdown' | 'running' | 'finished'
+/** ゲームログへの記録の状態 */
+export type RecordStatus = 'idle' | 'saving' | 'saved' | 'error'
 
 const COUNTDOWN_SECONDS = 3
 /** 1 フレームで進める時間の上限 (秒)。ウィンドウが隠れて止まっていたあとに、一気に進まないようにする */
@@ -25,7 +31,9 @@ const messageOf = (error: unknown) => (error instanceof Error ? error.message : 
 
 /**
  * ユーザーレースの進行
- * idle → loading (ユーザー取得) → countdown → running → finished。得点の加算は、結果が出たあとに手動で 1 回だけ
+ * idle → loading (ユーザー取得) → countdown → running → finished
+ * - 結果 (全員の順位) は、レースが終わると自動でゲームログ (GameLog) に記録する。保存先は、このウィンドウを開いた日時の配信ID
+ * - ユーザーの得点の加算は、結果が出たあとに手動で 1 回だけ
  */
 export function useUserRace() {
   const phase = ref<RacePhase>('idle')
@@ -38,6 +46,13 @@ export function useUserRace() {
   const applying = ref(false)
   const applied = ref(false)
   const applyError = ref('')
+
+  const recordStatus = ref<RecordStatus>('idle')
+  const recordError = ref('')
+  /** ゲームログの保存先 (1配信 = 1ファイル)。このウィンドウを開いている間は、同じファイルに残す */
+  const streamId = createStreamId()
+  let raceId = ''
+  let recordedAt = 0
 
   let frameId = 0
   let lastTimestamp = 0
@@ -55,6 +70,23 @@ export function useUserRace() {
     countdownTimer = undefined
   }
 
+  /** 結果をゲームログに記録する (同じ内容を何度送っても、サーバーが二重に保存しない。失敗したら再試行できる) */
+  const record = async () => {
+    const current = race.value
+    if (!current || !raceId || recordStatus.value === 'saving' || recordStatus.value === 'saved') return
+    const id = raceId
+    recordStatus.value = 'saving'
+    recordError.value = ''
+    try {
+      await gameStateApi.appendGameLogs(streamId, GAME_KEY, buildGameLogs(current, id, recordedAt))
+      if (id === raceId) recordStatus.value = 'saved'
+    } catch (error) {
+      if (id !== raceId) return // 保存中に、次のレースが始まっていた
+      recordStatus.value = 'error'
+      recordError.value = error instanceof ConnectionError ? 'サーバーに接続できません' : messageOf(error)
+    }
+  }
+
   const tick = (timestamp: number) => {
     if (phase.value !== 'running' || !race.value) return
     const dt = lastTimestamp ? Math.min((timestamp - lastTimestamp) / 1000, MAX_FRAME_SECONDS) : 0
@@ -62,6 +94,8 @@ export function useUserRace() {
     race.value = stepRace(race.value, dt)
     if (race.value.finished) {
       phase.value = 'finished'
+      recordedAt = Date.now()
+      void record()
       return
     }
     frameId = requestAnimationFrame(tick)
@@ -93,6 +127,8 @@ export function useUserRace() {
     errorMessage.value = ''
     applied.value = false
     applyError.value = ''
+    recordStatus.value = 'idle'
+    recordError.value = ''
     race.value = null
 
     // 走る人は、スタートのたびに最新のユーザーリストから選ぶ
@@ -119,6 +155,7 @@ export function useUserRace() {
       return
     }
     race.value = createRace(racers, rng)
+    raceId = `race-${Date.now().toString(36)}-${Math.floor(rng() * 0x10000).toString(36)}`
     startCountdown()
   }
 
@@ -129,6 +166,9 @@ export function useUserRace() {
     notEnough.value = false
     applied.value = false
     applyError.value = ''
+    recordStatus.value = 'idle'
+    recordError.value = ''
+    raceId = ''
   }
 
   /** 1〜3位に得点を加算する (手動のボタンから。1 回だけ) */
@@ -160,8 +200,12 @@ export function useUserRace() {
     applying,
     applied,
     applyError,
+    recordStatus,
+    recordError,
+    streamId,
     start,
     reset,
     applyPoints,
+    record,
   }
 }

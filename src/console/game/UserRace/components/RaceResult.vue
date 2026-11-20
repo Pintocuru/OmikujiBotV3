@@ -25,15 +25,36 @@
       <p v-if="applyError" class="text-error text-xs break-all">{{ userRaceMessages.result.applyError(applyError) }}</p>
       <p v-else class="text-xs opacity-60">{{ userRaceMessages.result.note }}</p>
     </div>
+
+    <!-- ゲームログへの記録 (自動。失敗したときだけ、再試行できる) -->
+    <p v-if="recordStatus === 'saving'" class="mt-3 text-center text-xs opacity-60">
+      {{ userRaceMessages.record.saving }}
+    </p>
+    <p v-else-if="recordStatus === 'saved'" class="mt-3 text-center text-xs opacity-60">
+      {{ userRaceMessages.record.saved(streamId) }}
+    </p>
+    <p v-else-if="recordStatus === 'error'" class="text-error mt-3 flex items-center justify-center gap-2 text-xs">
+      <span class="break-all">{{ userRaceMessages.record.error(recordError) }}</span>
+      <button type="button" class="btn btn-xs" @click="emit('retryRecord')">{{ userRaceMessages.record.retry }}</button>
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
   import type { RaceResult } from '../scripts/raceEngine'
+  import type { RecordStatus } from '../composables/useUserRace'
   import { userRaceMessages } from '../maps/UserRaceMessageMap'
 
-  defineProps<{ results: RaceResult[]; applying: boolean; applied: boolean; applyError: string }>()
-  const emit = defineEmits<{ apply: [] }>()
+  defineProps<{
+    results: RaceResult[]
+    applying: boolean
+    applied: boolean
+    applyError: string
+    recordStatus: RecordStatus
+    recordError: string
+    streamId: string
+  }>()
+  const emit = defineEmits<{ apply: []; retryRecord: [] }>()
 
   const MEDALS = ['🥇', '🥈', '🥉']
 </script>

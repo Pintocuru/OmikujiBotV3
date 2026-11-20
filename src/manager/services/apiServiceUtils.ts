@@ -81,6 +81,7 @@ const ERROR_MESSAGES: Record<ApiActionName, string> = {
   'list-game-states': 'ゲームステート一覧の取得に失敗しました',
   'load-game-state': 'ゲームステートの読み込みに失敗しました',
   'append-game-log': 'ゲームログの追記に失敗しました',
+  'append-game-logs': 'ゲームログの追記に失敗しました',
   'delete-game-state': 'ゲームステートの削除に失敗しました',
   'load-user-stats': 'ユーザー統計の取得に失敗しました',
   'update-user-stats': 'ユーザー統計の更新に失敗しました',
