@@ -8,16 +8,17 @@
 let last: { seconds: number; at: number; label: string } | null = null
 
 /**
- * 実行済み(previous)のシナリオが、後続(next)のシナリオを時間内にブロックしうるか。経過時間は考慮しない。
- * エディターの一覧表示(止められる件数)と判定式を共有するために切り出している。
+ * 実行済み(previous)のシナリオが、後続(next)のシナリオをブロックしうるか。
+ * next が previous より小さく、next の絶対値が 0 より大きい場合にブロック可能。
+ * 経過時間は考慮しないため、エディターの一覧表示でも共通して使用する。
  */
 export function canCooldownBlock(previous: number, next: number): boolean {
-  return previous !== 0 && next < previous
+  return next !== 0 && next < previous
 }
 
 /**
  * ブロックされた理由。通知・ログ用
- * - remainingSeconds: 直前のシナリオの制限が解けるまでの残り秒
+ * - remainingSeconds: 今回のシナリオの制限が解けるまでの残り秒
  * - blockedBy: 直前に実行されたシナリオ(label は表示用の名前)
  */
 export type CooldownBlock = { remainingSeconds: number; blockedBy: { label: string; seconds: number } }
@@ -26,7 +27,7 @@ export type CooldownResult = { allowed: true } | ({ allowed: false } & CooldownB
 /**
  * 実行可否を判定し、通過なら今回の cooldownSeconds・名前・時刻を記録する。
  * ブロックされた場合は記録を更新しない。
- * ブロック条件: 経過秒 < |S| かつ N < S (S: 直前の値 / N: 今回の値。undefined は 0 扱い)
+ * ブロック条件: 経過秒 < |N| かつ N < S (S: 直前の値 / N: 今回の値。undefined は 0 扱い)
  * 戻り値が boolean でないのは、呼び出し側が「なぜ止まったか」を通知・ログに使うため。
  */
 export function acquireCooldown(
@@ -37,10 +38,10 @@ export function acquireCooldown(
   const n = cooldownSeconds ?? 0
   if (last) {
     const elapsed = (now - last.at) / 1000
-    if (elapsed < Math.abs(last.seconds) && canCooldownBlock(last.seconds, n)) {
+    if (elapsed < Math.abs(n) && canCooldownBlock(last.seconds, n)) {
       return {
         allowed: false,
-        remainingSeconds: Math.abs(last.seconds) - elapsed,
+        remainingSeconds: Math.abs(n) - elapsed,
         blockedBy: { label: last.label, seconds: last.seconds },
       }
     }
