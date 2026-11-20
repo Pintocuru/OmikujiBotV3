@@ -53,9 +53,6 @@ export const NOTICE_DISPLAY_MS = {
  */
 export const META_OFFLINE_CONFIRM_COUNT = 10
 
-// 受け取り済みコメントの id を覚えておく件数の上限 (定義は共通側へ移した)
-export { OMIKEN_ID_HISTORY_MAX } from '@/common/OmikenHistory'
-
 /**
  * バーストレベルが上がる条件 (レベル 0→1、1→2、2→3 の順)
  * 「最大ピーク速度 × この割合」の数のリアクションが、次のレベルに上がるまでに必要。

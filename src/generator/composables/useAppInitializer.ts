@@ -10,12 +10,12 @@ import { startUserStatsPolling } from '@/generator/stores/UserStats/startUserSta
 import { formatParseIssuesSummary } from '@/types/core/ParseIssues'
 import { describeError, showErrorNotice } from '../scripts/Notice/showNotice'
 import { COMMENT_RESPONSE_WINDOW_MS } from '@/generator/GeneratorConstants'
-import { useOmikensActions } from './useOmikensActions'
+import { createOmikenHistory } from '@/common/OmikenHistory'
 
 export function useAppInitializer() {
   const appStore = useAppStore()
   // 受け取り済みコメントの履歴 (store ではなく、受信処理がここで持つ)
-  const { addOmikens, clearOmikens } = useOmikensActions()
+  const { addOmikens, clearOmikens } = createOmikenHistory()
   let stopPolling: (() => void) | null = null
 
   const initialize = async () => {
