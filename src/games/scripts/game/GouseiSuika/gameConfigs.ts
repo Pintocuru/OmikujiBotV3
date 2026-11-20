@@ -17,7 +17,7 @@ export type GameConfigItem = {
   times?: number // オプショナル: 繰り返し回数
   points: number // ポイント
   damage?: number // オプショナル: ダメージ
-  party: string // キャラクターやアイテムの名前
+  partyId: string // WordParty で出すID
 }
 
 export interface GameResult {
@@ -43,57 +43,57 @@ export const GAME_CONFIGS: GameConfigs = {
   // スイカゲーム
   スイカ: {
     small: [
-      { chance: 67, times: 15, points: 1, party: 'GouseiSuikaStrawberry' }, // いちご：1点
-      { chance: 50, times: 15, points: 3, party: 'GouseiSuikaGrape' }, // ぶどう：3点
-      { chance: 50, times: 10, points: 10, party: 'GouseiSuikaGrape' }, // デコポン：10点
-      { chance: 50, times: 8, points: 20, party: 'GouseiSuikaPersimmon' }, // かき：20点
-      { chance: 67, times: 5, points: 50, party: 'GouseiSuikaApple' }, // りんご：50点
+      { chance: 67, times: 15, points: 1, partyId: 'berryABm' }, // いちご：1点
+      { chance: 50, times: 15, points: 3, partyId: 'Grape1Be' }, // ぶどう：3点
+      { chance: 50, times: 10, points: 10, partyId: 'Dekopon6' }, // デコポン：10点
+      { chance: 50, times: 8, points: 20, partyId: 'Persimmo' }, // かき：20点
+      { chance: 67, times: 5, points: 50, partyId: 'ApplekcL' }, // りんご：50点
     ],
     big: [
-      { chance: 25, points: 300, damage: 1, party: 'GouseiSuikaPear' }, // なし
-      { chance: 25, points: 400, damage: 1, party: 'GouseiSuikaPineapple' }, // パイナップル
-      { chance: 33, points: 500, damage: 2, party: 'GouseiSuikaPeach' }, // もも
-      { chance: 33, points: 700, damage: 2, party: 'GouseiSuikaMelon' }, // メロン
-      { chance: 50, points: 1000, damage: 3, party: 'GouseiSuikaWatermelon' }, // スイカ
-      { chance: 100, points: 1000, damage: -3, party: 'GouseiSuikaWatermelon' }, // ダブル
+      { chance: 25, points: 300, damage: 1, partyId: 'PeartFgh' }, // なし
+      { chance: 25, points: 400, damage: 1, partyId: 'Pineappl' }, // パイナップル
+      { chance: 33, points: 500, damage: 2, partyId: 'PeachLbe' }, // もも
+      { chance: 33, points: 700, damage: 2, partyId: 'MelonDNo' }, // メロン
+      { chance: 50, points: 1000, damage: 3, partyId: 'Watermel' }, // スイカ
+      { chance: 100, points: 1000, damage: -3, partyId: 'Watermel' }, // ダブル
     ],
   },
 
   // カボチャゲーム
   カボチャ: {
     small: [
-      { chance: 67, times: 15, points: 1, party: 'GouseiSuikaStrawberry' }, // いちご strawberry
-      { chance: 50, times: 15, points: 3, party: 'GouseiSuikaGrape' }, // ぶどう grape
-      { chance: 50, times: 10, points: 10, party: 'GouseiSuikaDekopon' }, // デコポン dekopon
-      { chance: 50, times: 8, points: 20, party: 'GouseiSuikaPersimmon' }, // かき persimmon
-      { chance: 67, times: 5, points: 50, party: 'GouseiSuikaApple' }, // りんご apple
+      { chance: 67, times: 15, points: 1, partyId: 'berryABm' }, // いちご strawberry
+      { chance: 50, times: 15, points: 3, partyId: 'Grape1Be' }, // ぶどう grape
+      { chance: 50, times: 10, points: 10, partyId: 'Dekopon6' }, // デコポン dekopon
+      { chance: 50, times: 8, points: 20, partyId: 'Persimmo' }, // かき persimmon
+      { chance: 67, times: 5, points: 50, partyId: 'ApplekcL' }, // りんご apple
     ],
     big: [
-      { chance: 33, points: 200, damage: 0, party: 'GouseiSuikaCandy' }, // キャンディー candy
-      { chance: 33, points: 300, damage: 1, party: 'GouseiSuikaPear' }, // なし pear
-      { chance: 33, points: 400, damage: 1, party: 'GouseiSuikaPineapple' }, // パイナップル pineapple
-      { chance: 33, points: 500, damage: 2, party: 'GouseiSuikaPeach' }, // もも peach
-      { chance: 33, points: 700, damage: 2, party: 'GouseiSuikaMelon' }, // メロン melon
-      { chance: 50, points: 1000, damage: 3, party: 'GouseiSuikaWatermelon' }, // スイカ watermelon
-      { chance: 100, points: 1000, damage: -3, party: 'GouseiSuikaPumpkin' }, // カボチャ pumpkin
+      { chance: 33, points: 200, damage: 0, partyId: 'Candyvqq' }, // キャンディー candy
+      { chance: 33, points: 300, damage: 1, partyId: 'PeartFgh' }, // なし pear
+      { chance: 33, points: 400, damage: 1, partyId: 'Pineappl' }, // パイナップル pineapple
+      { chance: 33, points: 500, damage: 2, partyId: 'PeachLbe' }, // もも peach
+      { chance: 33, points: 700, damage: 2, partyId: 'MelonDNo' }, // メロン melon
+      { chance: 50, points: 1000, damage: 3, partyId: 'Watermel' }, // スイカ watermelon
+      { chance: 100, points: 1000, damage: -3, partyId: 'Pumpkinj' }, // カボチャ pumpkin
     ],
   },
 
   // クジラゲーム
   クジラ: {
     small: [
-      { chance: 50, times: 5, points: 11, party: 'GouseiSuikaClownfish' },
-      { chance: 50, times: 5, points: 22, party: 'GouseiSuikaJellyfish' },
-      { chance: 50, times: 5, points: 33, party: 'GouseiSuikaPufferfish' },
-      { chance: 50, times: 5, points: 44, party: 'GouseiSuikaCrab' },
-      { chance: 50, times: 5, points: 55, party: 'GouseiSuikaTuna' },
+      { chance: 50, times: 5, points: 11, partyId: 'Clownfish' }, // クマノミ
+      { chance: 50, times: 5, points: 22, partyId: 'Jellyfis' }, // クラゲ
+      { chance: 50, times: 5, points: 33, partyId: 'Pufferfi' }, // フグ
+      { chance: 50, times: 5, points: 44, partyId: 'CrabI78W' }, // カニ
+      { chance: 50, times: 5, points: 55, partyId: 'TunapGIR' }, // ご期待ください
     ],
     big: [
-      { chance: 20, points: 0, damage: 3, party: 'GouseiSuikaOrca' },
-      { chance: 25, points: 200, damage: 0, party: 'GouseiSuikaTurtle' },
-      { chance: 25, points: 250, damage: 0, party: 'GouseiSuikaSunfish' },
-      { chance: 25, points: 300, damage: 0, party: 'GouseiSuikaShark' },
-      { chance: 100, points: 500, damage: 0, party: 'GouseiSuikaWhale' },
+      { chance: 20, points: 0, damage: 3, partyId: 'OrcazXcx' }, // シャチ
+      { chance: 25, points: 200, damage: 0, partyId: 'TurtleDZ' }, // カメ
+      { chance: 25, points: 250, damage: 0, partyId: 'Sunfishl' }, // マンボウ
+      { chance: 25, points: 300, damage: 0, partyId: 'SharkpBa' }, // サメ
+      { chance: 100, points: 500, damage: 0, partyId: 'Whalefep' }, // クジラ
     ],
   },
 }

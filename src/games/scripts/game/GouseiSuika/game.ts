@@ -37,7 +37,7 @@ export class GachaGame {
       {
         kind: 'wordParty',
         delaySeconds: GAME_CONSTANTS.EMOJI_DELAY,
-        wordPartyId: this.params.mode === 'クジラ' ? 'GouseiSuikaMarimo' : 'GouseiSuikaCherry',
+        wordPartyId: this.params.mode === 'クジラ' ? 'Marimoj8' : 'CherrylB',
         repeat: 1,
       },
     ]
@@ -52,7 +52,7 @@ export class GachaGame {
       const result = lottery.draw()
 
       this.totalPoints += result.pointsEarned
-      this.addEmojiEffects(item.party, result.wins)
+      this.addEmojiEffects(item.partyId, result.wins)
     }
   }
 
@@ -67,7 +67,7 @@ export class GachaGame {
 
       this.totalPoints += selectedItem.points
       life -= selectedItem.damage ?? 0
-      this.addEffect(selectedItem.party)
+      this.addEffect(selectedItem.partyId)
     }
   }
 
@@ -87,21 +87,21 @@ export class GachaGame {
   /**
    * 絵文字エフェクトを追加
    */
-  private addEmojiEffects(party: string, wins: number): void {
+  private addEmojiEffects(partyId: string, wins: number): void {
     const halfWins = Math.floor(wins / GAME_CONSTANTS.HALF_DIVISOR)
     for (let i = 0; i < halfWins; i++) {
-      this.addEffect(party)
+      this.addEffect(partyId)
     }
   }
 
   /**
    * エフェクトを追加
    */
-  private addEffect(party: string): void {
+  private addEffect(wordPartyId: string): void {
     this.postArray.push({
       kind: 'wordParty',
       delaySeconds: GAME_CONSTANTS.EMOJI_DELAY,
-      wordPartyId: party,
+      wordPartyId,
       repeat: 1,
     })
   }
