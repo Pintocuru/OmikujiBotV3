@@ -1,5 +1,5 @@
 <!-- src/console/game/UserRace/components/RaceResult.vue -->
-<!-- 結果の表示 (1〜3位)。ユーザーの得点は変えない (結果は、ゲームログに記録する) -->
+<!-- レース結果 (1〜3位) -->
 <template>
   <div class="rounded-box bg-base-100 p-6 text-base-content shadow-2xl">
     <h2 class="mb-3 text-center text-xl font-bold">{{ userRaceMessages.result.title }}</h2>
@@ -12,9 +12,7 @@
       </li>
     </ol>
 
-    <p class="mt-4 text-center text-xs opacity-60">{{ userRaceMessages.result.note }}</p>
-
-    <!-- ゲームログへの記録 (自動。失敗したときだけ、再試行できる) -->
+    <!-- ゲームログへの記録 -->
     <p v-if="recordStatus === 'saving'" class="mt-3 text-center text-xs opacity-60">
       {{ userRaceMessages.record.saving }}
     </p>
