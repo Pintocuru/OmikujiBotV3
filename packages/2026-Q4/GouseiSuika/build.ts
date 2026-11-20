@@ -11,8 +11,8 @@ const PROJECT: PackageProject = {
 }
 
 const VARIANTS: PackageVariant[] = [
-  { variant: '', withEditor: false, jsonFileName: 'GouseiSuika.json' },
-  { variant: 'Adv', withEditor: true, jsonFileName: 'GouseiSuika.json' },
+  { variant: '', withEditor: false, withConsole: true, jsonFileName: 'GouseiSuika.json' },
+  { variant: 'Adv', withEditor: true, withConsole: true, jsonFileName: 'GouseiSuika.json' },
 ]
 
 export default definePackage(import.meta.url, PROJECT, VARIANTS)
