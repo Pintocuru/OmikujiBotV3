@@ -1,7 +1,7 @@
 <!-- src/console/log/GameLog/components/GameLogBody.vue -->
 <!-- ゲームの記録画面の本体: 配信一覧 / イベント(eventKey) の選択 / ランキング・ユーザー別・ログの表示 -->
 <template>
-  <main class="mx-auto grid max-w-6xl gap-4 p-4 md:grid-cols-[18rem_1fr]">
+  <main class="mx-auto grid w-full max-w-6xl gap-4 p-4 md:grid-cols-[18rem_minmax(0,1fr)]">
     <aside>
       <StreamList
         :streams="streams"
