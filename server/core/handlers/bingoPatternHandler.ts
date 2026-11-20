@@ -22,7 +22,7 @@ const toFileName = (id: string) => `${id}.json`
  */
 export async function listBingoPatterns(): Promise<ApiResult> {
   return guard('List bingo patterns', 'Failed to list bingo patterns', async () => {
-    const files = await fileSystem.getFileList(DIR_NAME.bingoPatterns, { withMeta: false })
+    const files = await fileSystem.getFileList(DIR_NAME.bingoPatterns, { withMeta: false, recursive: false })
 
     const items: LiverBingoPatternInfoType[] = []
     for (const file of files) {

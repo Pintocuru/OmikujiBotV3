@@ -6,6 +6,7 @@
 import { ApiResult } from '@server/types'
 import { ok, badRequest } from '@server/core/utils/result'
 import { parseWith } from '@server/core/utils/schema'
+import { parseSince } from '@server/core/utils/validation'
 import {
   SaveBingoSnapshotRequestSchema,
   SendBingoCommandRequestSchema,
@@ -41,13 +42,17 @@ export async function sendBingoCommand(body: unknown): Promise<ApiResult> {
 
 /**
  * since より新しい命令を返す
- * since が無い (または数値でない) ときは、命令を返さず latest だけを返す (OBS を開き直したときに、過去の命令を再生しないため)
+ * since が無い (空文字を含む) ときは、命令を返さず latest だけを返す (OBS を開き直したときに、過去の命令を再生しないため)
+ * since が 0 以上の整数でないときは 400
  */
 export async function loadBingoCommands(since?: string): Promise<ApiResult> {
-  const sinceSeq = since === undefined || since.trim() === '' ? NaN : Number(since)
+  const parsedSince = parseSince(since)
+  if (!parsedSince.ok) return badRequest('since must be a non-negative integer')
+  const sinceSeq = parsedSince.value
+
   const response: LoadBingoCommandsResponseType = {
     latest: lastSeq,
-    commands: Number.isFinite(sinceSeq) ? commands.filter((entry) => entry.seq > sinceSeq) : [],
+    commands: sinceSeq === undefined ? [] : commands.filter((entry) => entry.seq > sinceSeq),
   }
   return ok(response)
 }

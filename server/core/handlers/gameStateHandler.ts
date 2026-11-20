@@ -30,7 +30,7 @@ const toStorableProfileImage = (value: string | undefined): string | undefined =
  */
 export async function listGameStates(): Promise<ApiResult> {
   return guard('List game states', 'Failed to list game states', async () => {
-    const files = await fileSystem.getFileList(DIR_NAME.streams, { withMeta: false })
+    const files = await fileSystem.getFileList(DIR_NAME.streams, { withMeta: false, recursive: false })
 
     const items: GameStateListItemType[] = files
       .filter((f) => !f.name.includes('/') && f.name.endsWith('.json'))
@@ -161,11 +161,14 @@ export async function appendGameLog(body: unknown): Promise<ApiResult> {
     guard('Append game log', 'Failed to append game log', async () => {
       const result = await appendLogs(streamId, eventKey, [log], profileImage)
 
+      // append-game-logs と同じ項目 (appendedCount / skippedCount) も返す
       return ok({
         streamId,
         eventKey,
         updatedAt: result.updatedAt,
         appended: result.appendedCount > 0,
+        appendedCount: result.appendedCount,
+        skippedCount: result.skippedCount,
       })
     })
   )
@@ -187,7 +190,8 @@ export async function appendGameLogs(body: unknown): Promise<ApiResult> {
   return withLock(`game-state:${streamId}`, () =>
     guard('Append game logs', 'Failed to append game logs', async () => {
       const result = await appendLogs(streamId, eventKey, logs, profileImage)
-      return ok({ streamId, eventKey, ...result })
+      // append-game-log と同じ項目 (appended) も返す
+      return ok({ streamId, eventKey, ...result, appended: result.appendedCount > 0 })
     })
   )
 }

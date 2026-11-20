@@ -136,6 +136,22 @@ export abstract class BaseApiClient {
   }
 
   /**
+   * サーバー (プラグイン) の API バージョンを取得
+   * apiVersion を返さない古いプラグインは 0、つながらないときは null
+   * (API_VERSION より小さければ、新しいアクションを呼ばないこと。詳しくは server/api/actions.ts)
+   */
+  async getApiVersion(): Promise<number | null> {
+    try {
+      const response = await this.get<any>(API_ACTION.health.action)
+      if (response.code !== 200) return null
+      const version = response.data?.apiVersion
+      return typeof version === 'number' ? version : 0
+    } catch {
+      return null
+    }
+  }
+
+  /**
    * ヘルスチェック
    */
   async getHealth(): Promise<boolean> {

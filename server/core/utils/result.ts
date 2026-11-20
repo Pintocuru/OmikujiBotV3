@@ -14,12 +14,15 @@ export const badRequest = (error: string) => fail(HTTP.BAD_REQUEST, error)
 interface GuardOptions {
   /** ENOENT のとき 404 として返すメッセージ。未指定なら 500 扱い */
   notFound?: string
+  /** EEXIST (移動先がすでにある) のとき 409 として返すメッセージ。未指定なら 500 扱い */
+  conflict?: string
 }
 
 /**
  * ハンドラー共通のエラー処理
  * - パス検証失敗 → 400
  * - ENOENT (notFound 指定時) → 404
+ * - EEXIST (conflict 指定時) → 409
  * - それ以外 → 500
  */
 export async function guard<T>(
@@ -37,6 +40,10 @@ export async function guard<T>(
     if (options.notFound && error?.code === 'ENOENT') {
       console.info(`${label}: not found`)
       return fail(HTTP.NOT_FOUND, options.notFound)
+    }
+    if (options.conflict && error?.code === 'EEXIST') {
+      console.info(`${label}: already exists`)
+      return fail(HTTP.CONFLICT, options.conflict)
     }
     console.error(`${label} error:`, error)
     return fail(HTTP.INTERNAL_ERROR, failMessage)

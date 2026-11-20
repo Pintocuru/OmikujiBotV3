@@ -38,7 +38,7 @@ export async function loadGeneratorConfig(fileName: string | null): Promise<ApiR
  */
 export async function listPackages(): Promise<ApiResult> {
   return guard('List packages', 'Failed to list packages', async () => {
-    const files = await fileSystem.getFileList(DIR_NAME.packages)
+    const files = await fileSystem.getFileList(DIR_NAME.packages, { recursive: false })
     return ok(files)
   })
 }

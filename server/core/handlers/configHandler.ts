@@ -53,7 +53,7 @@ export async function moveConfig(fromName: string, toName: string): Promise<ApiR
       console.info(`📦 Moved config file: ${fromName} → ${toName}`)
       return ok({ message: 'File moved successfully', fromName, toName })
     },
-    { notFound: NOT_FOUND_MESSAGE }
+    { notFound: NOT_FOUND_MESSAGE, conflict: 'A file with the same name already exists' }
   )
 }
 

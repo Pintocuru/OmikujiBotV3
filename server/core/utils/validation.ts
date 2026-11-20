@@ -64,6 +64,21 @@ export function isValidJson(text: string): boolean {
   }
 }
 
+export type SinceResult = { ok: true; value: number | undefined } | { ok: false }
+
+/**
+ * ポーリングの since (クエリ文字列) を読む
+ * - 未指定・空文字 → value は undefined (「最初の問い合わせ」として扱う)
+ * - 0 以上の整数 → その値
+ * - それ以外 → ok: false (呼び出し側が 400 にする)
+ */
+export function parseSince(since: string | undefined): SinceResult {
+  if (since === undefined || since.trim() === '') return { ok: true, value: undefined }
+  const value = Number(since)
+  if (!Number.isInteger(value) || value < 0) return { ok: false }
+  return { ok: true, value }
+}
+
 /**
  * オブジェクトのキー (eventKey・userId など) に使える文字列か
  * '__proto__' は、zod の record が読み込み時に黙って捨てるため、保存しても消えてしまう。受け付けない

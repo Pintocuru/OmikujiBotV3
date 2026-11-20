@@ -5,6 +5,7 @@
 import { ApiResult } from '@server/types'
 import { ok, badRequest } from '@server/core/utils/result'
 import { parseWith } from '@server/core/utils/schema'
+import { parseSince } from '@server/core/utils/validation'
 import type { PadIdType } from '@/types/OmikujiData'
 import { PadTriggerRequestSchema, type PadStatusResponseType, type PadTriggerResponseType } from '@/types/api'
 
@@ -32,13 +33,16 @@ export async function triggerPad(body: unknown): Promise<ApiResult> {
 
 /**
  * since より新しい発火があるかを返す
- * since が無い (または数値でない) ときは、発火の有無にかかわらず hasNew: false で、最後の発火時刻だけを返す
+ * since が無い (空文字を含む) ときは、発火の有無にかかわらず hasNew: false で、最後の発火時刻だけを返す
+ * since が 0 以上の整数でないときは 400
  */
 export async function loadPadStatus(since?: string): Promise<ApiResult> {
-  const latest = last?.firedAt ?? 0
-  const sinceMs = since === undefined || since.trim() === '' ? NaN : Number(since)
+  const parsedSince = parseSince(since)
+  if (!parsedSince.ok) return badRequest('since must be a non-negative integer')
+  const sinceMs = parsedSince.value
 
-  const hasNew = last !== null && Number.isFinite(sinceMs) && last.firedAt > sinceMs
+  const latest = last?.firedAt ?? 0
+  const hasNew = last !== null && sinceMs !== undefined && last.firedAt > sinceMs
   const response: PadStatusResponseType = {
     hasNew,
     firedAt: latest,

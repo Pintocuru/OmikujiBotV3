@@ -8,7 +8,8 @@ import * as userStatsHandler from './handlers/userStatsHandler'
 import * as padHandler from './handlers/padHandler'
 import * as bingoHandler from './handlers/bingoHandler'
 import * as bingoPatternHandler from './handlers/bingoPatternHandler'
-import { API_ACTION } from '@server/api/actions'
+import { API_ACTION, API_VERSION } from '@server/api/actions'
+import { APP_VERSION } from '@/version'
 import { HTTP } from './constants'
 import { ok, fail, badRequest } from './utils/result'
 
@@ -51,7 +52,7 @@ async function handleGetRequest(
 ): Promise<ApiResult> {
   switch (action) {
     case API_ACTION.health.action:
-      return ok({ status: 'OK', message: 'API is running' })
+      return ok({ status: 'OK', message: 'API is running', apiVersion: API_VERSION, appVersion: APP_VERSION })
 
     case API_ACTION.list.action:
       return configHandler.listFiles()

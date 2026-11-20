@@ -11,7 +11,7 @@ import { FILE_NAME } from '@server/core/constants'
 import { randomUUID } from 'node:crypto'
 import { getCommentUsers, resetCommentUsers, seedCommentUsers } from '@server/core/services/userListService'
 import { buildUserList } from '@server/core/utils/userList'
-import { isSafeRecordKey } from '@server/core/utils/validation'
+import { isSafeRecordKey, parseSince } from '@server/core/utils/validation'
 import {
   AddManualUserRequestSchema,
   RemoveManualUserRequestSchema,
@@ -83,13 +83,9 @@ async function commit(next: StoreState): Promise<void> {
  * since 以降に変更されたユーザーだけを返す。since 未指定・リセット前の値・サーバより先の値のときは全件 (isFull)
  */
 export async function loadUserStats(since?: string): Promise<ApiResult> {
-  let sinceRevision: number | undefined
-  if (since !== undefined && since !== '') {
-    sinceRevision = Number(since)
-    if (!Number.isInteger(sinceRevision) || sinceRevision < 0) {
-      return badRequest('since must be a non-negative integer')
-    }
-  }
+  const parsedSince = parseSince(since)
+  if (!parsedSince.ok) return badRequest('since must be a non-negative integer')
+  const sinceRevision = parsedSince.value
 
   return withLock(LOCK_KEY, () =>
     guard('Load user stats', 'Failed to load user stats', async () => {

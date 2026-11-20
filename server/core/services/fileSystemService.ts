@@ -77,23 +77,21 @@ async function renameWithRetry(from: string, to: string): Promise<void> {
 interface FileListOptions {
   /** 各ファイルの meta を読むか (既定: true)。読むには JSON 全体を解析するため、meta を使わない一覧では false にする */
   withMeta?: boolean
+  /** サブフォルダも探すか (既定: true)。フォルダを使わない置き場 (packages など) では false にする */
+  recursive?: boolean
 }
 
 /**
- * ファイル一覧を再帰的に取得（フォルダネスト対応）
+ * ファイル一覧を取得（既定では再帰的。フォルダネスト対応）
+ * 読み取りに失敗したときは例外を投げる (空の一覧と区別するため。呼び出し側の guard が 500 にする)
  */
 export async function getFileList(rootName: string | null, options: FileListOptions = {}): Promise<FileItem[]> {
-  const { withMeta = true } = options
-  try {
-    const baseDir = resolveBaseDir(rootName)
-    await ensureDirectory(baseDir)
+  const { withMeta = true, recursive = true } = options
+  const baseDir = resolveBaseDir(rootName)
+  await ensureDirectory(baseDir)
 
-    const results = await collectJsonFiles(baseDir, baseDir, withMeta)
-    return results.sort((a, b) => new Date(b.modified).getTime() - new Date(a.modified).getTime())
-  } catch (error) {
-    console.error('Error getting file list:', error)
-    return []
-  }
+  const results = await collectJsonFiles(baseDir, baseDir, withMeta, recursive)
+  return results.sort((a, b) => new Date(b.modified).getTime() - new Date(a.modified).getTime())
 }
 
 /**
@@ -101,8 +99,14 @@ export async function getFileList(rootName: string | null, options: FileListOpti
  * @param currentDir 現在探索中のディレクトリ
  * @param baseDir ルートディレクトリ（相対パス計算用）
  * @param withMeta meta も読むか
+ * @param recursive サブフォルダも探すか
  */
-async function collectJsonFiles(currentDir: string, baseDir: string, withMeta: boolean): Promise<FileItem[]> {
+async function collectJsonFiles(
+  currentDir: string,
+  baseDir: string,
+  withMeta: boolean,
+  recursive: boolean
+): Promise<FileItem[]> {
   const entries = await fs.readdir(currentDir, { withFileTypes: true })
   const results: FileItem[] = []
 
@@ -110,11 +114,14 @@ async function collectJsonFiles(currentDir: string, baseDir: string, withMeta: b
     const fullPath = path.join(currentDir, entry.name)
 
     if (entry.isDirectory()) {
-      // サブフォルダを再帰探索
-      const nested = await collectJsonFiles(fullPath, baseDir, withMeta)
-      results.push(...nested)
+      if (!recursive) continue
+      // サブフォルダを再帰探索 (探索中に消えたフォルダは飛ばす)
+      const nested = await collectJsonFiles(fullPath, baseDir, withMeta, recursive).catch(skipVanished)
+      if (nested) results.push(...nested)
     } else if (entry.isFile() && entry.name.endsWith('.json')) {
-      const stats = await fs.stat(fullPath)
+      // 探索中に消えたファイルは飛ばす
+      const stats = await fs.stat(fullPath).catch(skipVanished)
+      if (!stats) continue
       // baseDir からの相対パスを name として返す（例: "folder/file.json"）
       const relativePath = path.relative(baseDir, fullPath).replace(/\\/g, '/')
       results.push({
@@ -126,6 +133,12 @@ async function collectJsonFiles(currentDir: string, baseDir: string, withMeta: b
   }
 
   return results
+}
+
+/** 探索中に消えたもの (ENOENT) は、一覧に含めず飛ばす。それ以外のエラーは投げ直す */
+function skipVanished(error: any): undefined {
+  if (error?.code === 'ENOENT') return undefined
+  throw error
 }
 
 /**
@@ -141,14 +154,32 @@ async function readMeta(fullPath: string): Promise<MetaDataType | undefined> {
   }
 }
 
+async function pathExists(target: string): Promise<boolean> {
+  try {
+    await fs.access(target)
+    return true
+  } catch {
+    return false
+  }
+}
+
 /**
  * ファイルを移動（リネーム）
+ * 移動先に同名のファイルがあるときは、上書きせず EEXIST のエラーを投げる
  */
 export async function moveFile(rootName: string | null, fromName: string, toName: string): Promise<void> {
   const dir = resolveBaseDir(rootName)
 
   const fromPath = resolveSafePath(dir, fromName)
   const toPath = resolveSafePath(dir, toName)
+
+  // 移動元がなければ ENOENT。移動先に同名のファイルがあれば、上書きせず EEXIST にする
+  await fs.stat(fromPath)
+  if (fromPath !== toPath && (await pathExists(toPath))) {
+    const error: NodeJS.ErrnoException = new Error(`Destination already exists: ${toName}`)
+    error.code = 'EEXIST'
+    throw error
+  }
 
   // 移動先フォルダを作成
   await ensureDirectory(path.dirname(toPath))

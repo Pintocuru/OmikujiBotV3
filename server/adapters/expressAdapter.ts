@@ -41,12 +41,27 @@ async function handleApiRequest(req: Request, res: Response): Promise<void> {
  * ExpressリクエストをUnifiedRequest形式に変換
  */
 function adaptExpressRequest(req: Request): UnifiedRequest {
+  const params = toStringParams(req.query)
   return {
     method: req.method as UnifiedRequest['method'],
-    action: (req.query.action as string) || '',
-    params: req.query as Record<string, string>,
+    action: params.action || '',
+    params,
     body: req.body || {},
   }
+}
+
+/**
+ * クエリを string だけにそろえる
+ * ?a=1&a=2 は配列、?a[b]=1 はオブジェクトになるため、型 (Record<string, string>) と実体がずれる。
+ * 配列は最初の値を使い、オブジェクトは捨てる (わんコメプラグインは常に string で渡す)
+ */
+function toStringParams(query: Request['query']): Record<string, string> {
+  const params: Record<string, string> = {}
+  for (const [key, value] of Object.entries(query)) {
+    const first = Array.isArray(value) ? value[0] : value
+    if (typeof first === 'string') params[key] = first
+  }
+  return params
 }
 
 /**
