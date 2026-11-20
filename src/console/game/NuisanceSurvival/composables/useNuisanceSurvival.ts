@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import { gameStateApi } from '@/manager/services/gameStateApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'
 import { createStreamId } from '@/console/common/scripts/streamId'
+import { createOmikenHistory } from '@/common/OmikenHistory'
 import { POST_SETTINGS } from '@/sdk/PostSettings'
 import { GetOmikenComments } from '@/sdk/subscribe/OmikenComment/GetOmikenComments'
 import { MAX_GAME_LOGS_PER_APPEND } from '@/types/api'
@@ -165,11 +166,21 @@ export function useNuisanceSurvival() {
 
   // ---- コメント (OneSDK の購読) ----
 
+  // 受け取り済みコメントの履歴 (再配信されたコメントを、邪魔者にしないため)
+  const { addOmikens, clearOmikens } = createOmikenHistory()
+
   const onComments = (omikens: OmikenCommentType[], isReset: boolean, isFirstLoad: boolean) => {
-    // 履歴 (購読の最初に届く過去のコメント) とリセットは、邪魔者にしない。ゲーム中のコメントだけが対象
-    if (isReset || isFirstLoad || phase.value !== 'running') return
+    if (isReset) {
+      clearOmikens()
+      return
+    }
+    // 履歴 (購読の最初に届く過去のコメント) やゲーム前のコメントも、「受け取り済み」として覚える
+    // (覚えておかないと、あとから再配信されたときに、新規コメントとして邪魔者になる)
+    const newOmikens = addOmikens(omikens)
+    // 邪魔者になるのは、ゲーム中に届いた新規コメントだけ
+    if (isFirstLoad || phase.value !== 'running') return
     const atSeconds = wallSeconds()
-    for (const omiken of omikens) {
+    for (const omiken of newOmikens) {
       if (omiken.userId === POST_SETTINGS.botUserId) continue // おみくじBOT自身の投稿は、ユーザーではない
       pendingSpawns.push({
         atSeconds,
