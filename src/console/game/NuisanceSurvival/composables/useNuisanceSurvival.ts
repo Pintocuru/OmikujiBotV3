@@ -187,6 +187,7 @@ export function useNuisanceSurvival() {
         userId: omiken.userId,
         userName: omiken.userName,
         profileImage: omiken.profileImage,
+        lc: omiken.meta.lc, // 0 は不明 (ボスにならない)
       })
     }
   }

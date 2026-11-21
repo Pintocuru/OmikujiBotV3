@@ -23,16 +23,18 @@ const config = (overrides: Partial<NuisanceConfigType> = {}): NuisanceConfigType
   ...overrides,
 })
 
-const spawn = (userId: string, atSeconds = 0): SpawnRequest => ({
+const spawn = (userId: string, atSeconds = 0, lc?: number): SpawnRequest => ({
   atSeconds,
+  lc,
   userId,
   userName: `name-${userId}`,
   profileImage: '',
 })
 
-/** 指定した種類になる userId を探す */
+/** 指定した種類になる userId を探す (static は、特殊能力の割合 0 のとき) */
 const findUserId = (kind: NuisanceKind, from = 0): string => {
-  for (let i = from; i < from + 5000; i++) if (getNuisanceTraits(`u${i}`).kind === kind) return `u${i}`
+  const rate = kind === 'static' ? 0 : 1
+  for (let i = from; i < from + 5000; i++) if (getNuisanceTraits(`u${i}`, rate).kind === kind) return `u${i}`
   throw new Error(`no user for ${kind}`)
 }
 
@@ -44,7 +46,7 @@ const withNuisance = (
   row: number,
   patch: Partial<Nuisance> = {}
 ): GameState => {
-  const traits = getNuisanceTraits(userId)
+  const traits = getNuisanceTraits(userId, patch.traits?.kind === 'static' ? 0 : 1)
   const nuisance: Nuisance = {
     id: state.nextId,
     userId,
@@ -312,7 +314,7 @@ describe('advance: 邪魔者の動き', () => {
 
   it('どの種類も、壁の外にも主人公のマスにも出ない', () => {
     const cfg = config({ startLife: 1e6, growthMultiplier: 1.2, growthIntervalSeconds: 5 })
-    const kinds: NuisanceKind[] = ['wanderer', 'evader', 'bouncer', 'bomber']
+    const kinds: NuisanceKind[] = ['wanderer', 'evader', 'creeper', 'bouncer']
     let state = createGame(cfg, grid)
     kinds.forEach((kind, i) => {
       state = withNuisance(state, findUserId(kind, i * 100), i, 0, { ...moveFast, fuse: null })
@@ -343,6 +345,39 @@ describe('advance: 邪魔者の動き', () => {
     expect(Math.abs(n.col - after.hero.col) + Math.abs(n.row - after.hero.row)).toBeGreaterThanOrEqual(2)
   })
 
+  it('creeper は、主人公に近づき、隣り合ったら止まる', () => {
+    const cfg = config({ growthMultiplier: 1, startLife: 1e6 })
+    const userId = findUserId('creeper')
+    const state = withNuisance(createGame(cfg, grid), userId, 0, 0, { moveTimer: 0.01 }) // 主人公は (3,2)
+    const after = run(state, cfg, 20)
+    const n = after.nuisances[0]
+    expect(Math.abs(n.col - after.hero.col) + Math.abs(n.row - after.hero.row)).toBe(1)
+    const later = run(after, cfg, after.elapsed + 10)
+    expect([later.nuisances[0].col, later.nuisances[0].row]).toEqual([n.col, n.row])
+  })
+
+  it('static と bomber は、動かない', () => {
+    const cfg = config({ growthMultiplier: 1, startLife: 1e6 })
+    for (const kind of ['static', 'bomber'] as const) {
+      const userId = findUserId(kind)
+      const traits = getNuisanceTraits(userId, kind === 'static' ? 0 : 1)
+      const state = withNuisance(createGame(cfg, grid), userId, 1, 1, { moveTimer: 0.01, fuse: null, traits })
+      const after = run(state, cfg, 30)
+      expect(after.nuisances[0].traits.kind).toBe(kind)
+      expect([after.nuisances[0].col, after.nuisances[0].row]).toEqual([1, 1])
+    }
+  })
+
+  it('特殊能力の割合 0 なら、出現した邪魔者はすべて static。100 なら、すべて特殊能力持ち', () => {
+    const spawns = Array.from({ length: 30 }, (_, i) => spawn(`user${i}`, 0))
+    const none = config({ specialRate: 0, maxNuisances: 100 })
+    const all = config({ specialRate: 100, maxNuisances: 100 })
+    const a = advance(createGame(none), none, 0.1, NO_INPUT, spawns, createRng(21)).state
+    const b = advance(createGame(all), all, 0.1, NO_INPUT, spawns, createRng(21)).state
+    expect(a.nuisances.every((n) => n.traits.kind === 'static')).toBe(true)
+    expect(b.nuisances.every((n) => n.traits.kind !== 'static')).toBe(true)
+  })
+
   it('bouncer は、壁に当たると向きを変えて動き続ける', () => {
     const cfg = config({ growthMultiplier: 1, startLife: 1e6 })
     const userId = findUserId('bouncer')
@@ -354,6 +389,57 @@ describe('advance: 邪魔者の動き', () => {
     const bounced = run(state, cfg, 0.06 + interval * 1.5)
     expect(bounced.nuisances[0].dirX).toBe(-1)
     expect(bounced.nuisances[0].col).toBeLessThan(6)
+  })
+})
+
+describe('advance: ボス', () => {
+  const grid: GridSize = { cols: 7, rows: 5 }
+  const bossAt = (cfg: NuisanceConfigType, lc: number | undefined, g = grid) =>
+    advance(createGame(cfg, g), cfg, 0.1, NO_INPUT, [spawn('boss', 0, lc)], createRng(31)).state
+
+  it('lc が間隔の倍数のコメントだけが、ボスになる', () => {
+    const cfg = config({ bossInterval: 10 })
+    expect(bossAt(cfg, 10).nuisances[0].traits.kind).toBe('boss')
+    expect(bossAt(cfg, 30).nuisances[0].traits.kind).toBe('boss')
+    expect(bossAt(cfg, 11).nuisances[0].traits.kind).not.toBe('boss')
+    expect(bossAt(cfg, 0).nuisances[0].traits.kind).not.toBe('boss') // 0 は不明
+    expect(bossAt(cfg, undefined).nuisances[0].traits.kind).not.toBe('boss')
+  })
+
+  it('間隔 0 なら、ボスは出ない', () => {
+    expect(bossAt(config({ bossInterval: 0 }), 100).nuisances[0].traits.kind).not.toBe('boss')
+  })
+
+  it('上限のときや、大きさぶんの空きがないときは、ボスは出ない (無視する)', () => {
+    const capped = config({ bossInterval: 10, maxNuisances: 1 })
+    const state = advance(
+      createGame(capped, grid),
+      capped,
+      0.1,
+      NO_INPUT,
+      [spawn('a', 0, 1), spawn('boss', 0, 10)],
+      createRng(32)
+    ).state
+    expect(state.nuisances.map((n) => n.userId)).toEqual(['a'])
+    expect(state.ignoredCount).toBe(1)
+
+    const tiny: GridSize = { cols: 2, rows: 1 } // 主人公 + 空き 1 マスでは、2x2 のボスは入らない
+    const none = bossAt(config({ bossInterval: 10 }), 10, tiny)
+    expect(none.nuisances).toHaveLength(0)
+    expect(none.ignoredCount).toBe(1)
+  })
+
+  it('ボスは、主人公に近づき、時間が来ると爆発して消える (主人公のマスには入らない)', () => {
+    const cfg = config({ bossInterval: 10, growthMultiplier: 1, startLife: 1e6 })
+    let state = bossAt(cfg, 10)
+    const boss = state.nuisances[0]
+    const start = Math.abs(boss.col - state.hero.col) + Math.abs(boss.row - state.hero.row)
+    state = run(state, cfg, 10)
+    const near = state.nuisances[0]
+    expect(Math.abs(near.col - state.hero.col) + Math.abs(near.row - state.hero.row)).toBeLessThanOrEqual(start)
+    state = run(state, cfg, 40)
+    expect(state.nuisances).toHaveLength(0)
+    expect(state.explodedCount).toBe(1)
   })
 })
 

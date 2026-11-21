@@ -22,6 +22,8 @@
         :draft="configStore.draft"
         :limits="configStore.limits"
         :keys="configStore.keys"
+        :presetIds="configStore.presetIds"
+        :activePreset="configStore.activePreset.value"
         :online="configStore.online.value"
         :loadError="configStore.loadError.value"
         :saveError="configStore.saveError.value"
@@ -29,6 +31,7 @@
         @close="showMenu = false"
         @resetConfig="configStore.reset"
         @update="configStore.setField"
+        @applyPreset="configStore.applyPreset"
       />
 
       <NuisanceResult

@@ -1,7 +1,7 @@
 // src/console/game/NuisanceSurvival/maps/NuisanceSurvivalMessageMap.ts
 // 邪魔者サバイバル画面の文言 (日本語)。画面のコンポーネントは、文字をここから取る。
 // i18n 化するときは、この map を翻訳ファイルに置き換える (関数の項目は、引数つきの文言)。
-import type { NuisanceConfigKey } from '../scripts/nuisanceConfig'
+import type { ConfigPresetId, NuisanceConfigKey } from '../scripts/nuisanceConfig'
 import type { NuisanceKind } from '../scripts/nuisanceTraits'
 
 export const nuisanceSurvivalMessages = {
@@ -36,7 +36,23 @@ export const nuisanceSurvivalMessages = {
       growthIntervalSeconds: { label: '成長の間隔', unit: '秒', hint: '' },
       drainMultiplier: { label: 'ダメージの倍率', unit: '倍', hint: 'ライフの減る速さと、爆発のダメージ' },
       pushMultiplier: { label: '取り除きにくさ', unit: '倍', hint: '大きいほど、押し続ける時間が長くなります' },
+      specialRate: {
+        label: '特殊能力の頻度',
+        unit: '%',
+        hint: '動く・爆発する邪魔者の割合。それ以外は動きません',
+      },
+      bossInterval: {
+        label: 'ボスの間隔',
+        unit: 'コメントごと',
+        hint: '配信枠のコメント数がこの数の倍数のとき、ボスが出ます。0 ならボスは出ません',
+      },
     } satisfies Record<NuisanceConfigKey, { label: string; unit: string; hint: string }>,
+    presetsTitle: 'プリセット',
+    presets: {
+      endurance: { label: '耐久配信向け', hint: '長時間、のんびり' },
+      tenMinutes: { label: '10分耐久', hint: '標準的な難しさ' },
+      merciless: { label: '情け無用組み手', hint: '短期決戦。特殊能力だらけ' },
+    } satisfies Record<ConfigPresetId, { label: string; hint: string }>,
   },
   comments: {
     connecting: 'わんコメに接続中…',
@@ -44,10 +60,13 @@ export const nuisanceSurvivalMessages = {
     retry: '再接続',
   },
   kinds: {
+    static: 'じっとしている',
     wanderer: 'ふらふら',
     evader: 'にげる',
+    creeper: 'すりよる',
     bouncer: 'はねる',
     bomber: 'ばくだん',
+    boss: 'ボス',
   } satisfies Record<NuisanceKind, string>,
   result: {
     title: 'ゲームオーバー',

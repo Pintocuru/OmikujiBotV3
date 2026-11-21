@@ -17,6 +17,22 @@
 
       <!-- コンフィグ -->
       <section v-if="showConfig" class="mt-4 flex flex-col gap-3">
+        <div class="flex flex-col gap-1">
+          <span class="text-sm">{{ nuisanceSurvivalMessages.config.presetsTitle }}</span>
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="id in presetIds"
+              :key="id"
+              type="button"
+              class="btn btn-sm"
+              :class="activePreset === id ? 'btn-primary' : 'btn-outline'"
+              :title="nuisanceSurvivalMessages.config.presets[id].hint"
+              @click="emit('applyPreset', id)"
+            >
+              {{ nuisanceSurvivalMessages.config.presets[id].label }}
+            </button>
+          </div>
+        </div>
         <label v-for="key in keys" :key="key" class="flex flex-col gap-1">
           <span class="flex items-center gap-2">
             <span class="grow text-sm">{{ nuisanceSurvivalMessages.config.fields[key].label }}</span>
@@ -61,13 +77,16 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { nuisanceSurvivalMessages } from '../maps/NuisanceSurvivalMessageMap'
-  import type { CONFIG_LIMITS, NuisanceConfigKey, NuisanceConfigType } from '../scripts/nuisanceConfig'
+  import type { CONFIG_LIMITS, ConfigPresetId, NuisanceConfigKey, NuisanceConfigType } from '../scripts/nuisanceConfig'
 
   defineProps<{
     /** フォームで編集中の値 (編集は、update で親に伝える) */
     draft: NuisanceConfigType
     limits: typeof CONFIG_LIMITS
     keys: NuisanceConfigKey[]
+    presetIds: ConfigPresetId[]
+    /** 入力欄の値と一致しているプリセット (なければ null) */
+    activePreset: ConfigPresetId | null
     online: boolean
     loadError: string
     saveError: string
@@ -77,6 +96,7 @@
     close: []
     resetConfig: []
     update: [key: NuisanceConfigKey, value: number]
+    applyPreset: [id: ConfigPresetId]
   }>()
 
   const showConfig = ref(false)

@@ -16,7 +16,7 @@ import {
 } from './nuisanceConstants'
 import type { NuisanceConfigType } from './nuisanceConfig'
 import { NO_INPUT, type HeroInput } from './heroInput'
-import { getNuisanceTraits, type NuisanceTraits } from './nuisanceTraits'
+import { getBossTraits, getNuisanceTraits, MOVING_KINDS, type NuisanceTraits } from './nuisanceTraits'
 import type { Rng } from './rng'
 
 export type GridSize = { cols: number; rows: number }
@@ -90,6 +90,8 @@ export type SpawnRequest = {
   userId: string
   userName: string
   profileImage: string
+  /** 配信枠のコメント数 (lc)。コンフィグの間隔の倍数のとき、ボスになる。分からなければ省略 */
+  lc?: number
 }
 
 const DIRECTIONS: readonly (readonly [number, number])[] = [
@@ -146,7 +148,13 @@ const cloneState = (s: GameState): GameState => ({
 
 // ---- 出現 ----
 
-const pickFreeCell = (s: GameState, config: NuisanceConfigType, rng: Rng): { col: number; row: number } | null => {
+/** 空いているマスをランダムに 1 つ選ぶ。footprint が 2 以上なら、その一辺ぶんが丸ごと空いている左上のマス */
+const pickFreeCell = (
+  s: GameState,
+  config: NuisanceConfigType,
+  rng: Rng,
+  size = 1
+): { col: number; row: number } | null => {
   const occupied = new Set<number>()
   occupied.add(s.hero.row * s.grid.cols + s.hero.col)
   for (const n of s.nuisances) {
@@ -155,24 +163,35 @@ const pickFreeCell = (s: GameState, config: NuisanceConfigType, rng: Rng): { col
       for (let c = n.col; c < n.col + footprint; c++) occupied.add(r * s.grid.cols + c)
     }
   }
+  const isFree = (col: number, row: number) => {
+    for (let r = row; r < row + size; r++) {
+      for (let c = col; c < col + size; c++) if (occupied.has(r * s.grid.cols + c)) return false
+    }
+    return true
+  }
   const free: { col: number; row: number }[] = []
-  for (let row = 0; row < s.grid.rows; row++) {
-    for (let col = 0; col < s.grid.cols; col++) {
-      if (!occupied.has(row * s.grid.cols + col)) free.push({ col, row })
+  for (let row = 0; row + size <= s.grid.rows; row++) {
+    for (let col = 0; col + size <= s.grid.cols; col++) {
+      if (isFree(col, row)) free.push({ col, row })
     }
   }
   return free.length ? free[Math.floor(rng() * free.length)] : null
 }
 
 const spawnOne = (s: GameState, config: NuisanceConfigType, request: SpawnRequest, rng: Rng): void => {
+  // lc がキリ番のコメントは、ボスになる。上限・空きなしのときは、ボスも出ない (普通の邪魔者にもならない)
+  const isBoss =
+    config.bossInterval > 0 && request.lc !== undefined && request.lc > 0 && request.lc % config.bossInterval === 0
+  const traits = isBoss ? getBossTraits(request.userId) : getNuisanceTraits(request.userId, config.specialRate / 100)
+
   // 上限・空きマスなし: コメントは無視する (上限を固くすると、すぐゲームオーバーになるため)
-  const cell = s.nuisances.length >= config.maxNuisances ? null : pickFreeCell(s, config, rng)
+  const cell =
+    s.nuisances.length >= config.maxNuisances ? null : pickFreeCell(s, config, rng, footprintOf(traits.baseSize))
   if (!cell) {
     s.ignoredCount++
     return
   }
 
-  const traits = getNuisanceTraits(request.userId)
   const [dirX, dirY] = DIRECTIONS[Math.floor(rng() * DIRECTIONS.length)]
   s.nuisances.push({
     id: s.nextId++,
@@ -218,13 +237,18 @@ const moveNuisance = (s: GameState, n: Nuisance, footprint: number, rng: Rng): v
   let chosen: readonly [number, number] | undefined
 
   switch (n.traits.kind) {
-    case 'evader': {
-      // 主人公から遠ざかる向きだけを選ぶ (遠ざかれないなら動かない = 壁際に追い込める)
+    case 'evader':
+    case 'creeper':
+    case 'boss': {
+      // evader: 主人公から遠ざかる向きだけを選ぶ (遠ざかれないなら動かない = 壁際に追い込める)
+      // creeper・boss: 主人公に近づく向きだけを選ぶ (近づけないなら動かない = 隣り合ったら止まる)
       const distance = (dx: number, dy: number) =>
         Math.abs(n.col + dx + (footprint - 1) / 2 - s.hero.col) +
         Math.abs(n.row + dy + (footprint - 1) / 2 - s.hero.row)
       const current = distance(0, 0)
-      const better = valid.filter(([dx, dy]) => distance(dx, dy) > current)
+      const better = valid.filter(([dx, dy]) =>
+        n.traits.kind === 'evader' ? distance(dx, dy) > current : distance(dx, dy) < current
+      )
       chosen = better.length ? better[Math.floor(rng() * better.length)] : undefined
       break
     }
@@ -311,10 +335,13 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, rn
     n.col = Math.max(0, Math.min(n.col, s.grid.cols - footprint))
     n.row = Math.max(0, Math.min(n.row, s.grid.rows - footprint))
 
-    n.moveTimer -= dt
-    if (n.moveTimer <= 0) {
-      n.moveTimer += n.traits.moveIntervalSeconds
-      moveNuisance(s, n, footprint, rng)
+    // 動くのは、特殊能力を持つ邪魔者だけ (static・bomber は動かない)
+    if (MOVING_KINDS.includes(n.traits.kind)) {
+      n.moveTimer -= dt
+      if (n.moveTimer <= 0) {
+        n.moveTimer += n.traits.moveIntervalSeconds
+        moveNuisance(s, n, footprint, rng)
+      }
     }
 
     events.push({ userId: n.userId, amount: n.traits.drainPerSecond * scale * config.drainMultiplier * dt })

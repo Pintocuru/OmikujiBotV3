@@ -34,7 +34,15 @@
   /** 動いたときに、前のマスから新しいマスへ動かす時間 (秒) */
   const MOVE_ANIM_SECONDS = 0.15
   const FLASH_SECONDS = 0.25
-  const KIND_GLYPH: Record<NuisanceKind, string> = { wanderer: '', evader: '💨', bouncer: '⇄', bomber: '💣' }
+  const KIND_GLYPH: Record<NuisanceKind, string> = {
+    static: '',
+    wanderer: '👣',
+    evader: '💨',
+    creeper: '💕',
+    bouncer: '⇄',
+    bomber: '💣',
+    boss: '👑',
+  }
 
   // ---- アイコン画像 (読み込めるまでは、頭文字を出す) ----
   const images = new Map<string, HTMLImageElement | null>()
