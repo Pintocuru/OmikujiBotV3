@@ -1,4 +1,5 @@
 // src/console/types/ConsoleView.ts
+import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
 /** 画面のカテゴリ。フォルダ分けに使う (control: 配信中の操作 / log: 記録・閲覧 / game: ブラウザゲーム) */
 export type ConsoleViewCategory = 'control' | 'log' | 'game'
@@ -10,9 +11,11 @@ export type ConsoleViewCategory = 'control' | 'log' | 'game'
  */
 export type ConsoleViewLaunch = 'embedded' | 'window'
 
-/** 画面の表示名・カテゴリ・起動方式 (ConsoleViewMap.ts で全画面分を定義する) */
+/** 画面の表示名・アイコン・カテゴリ・起動方式 (ConsoleViewMap.ts で全画面分を定義する) */
 export type ConsoleViewMeta = {
   label: string
+  /** タブに表示する Lucide アイコン (src/common/LucideIcon/useLucideIcon.ts の lucideIconMap にあるもの) */
+  icon: LucideIconName
   category: ConsoleViewCategory
   launch: ConsoleViewLaunch
   /** launch が window のときのウィンドウの大きさ(px)。省略時は 1280×720 */
