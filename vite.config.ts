@@ -6,7 +6,7 @@ import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import checker from 'vite-plugin-checker'
 import { createViteAliases } from './tools/viteConfig/CreateViteAliases.ts'
-import { characterAssetsPlugin } from './tools/viteConfig/characterAssetsPlugin.ts'
+import { imageAssetsPlugin } from './tools/viteConfig/imageAssetsPlugin.ts'
 import { soundAssetsPlugin } from './tools/viteConfig/soundAssetsPlugin.ts'
 
 // projectRoot の設定
@@ -20,7 +20,7 @@ export const alias = { ...createViteAliases(projectRoot) }
 
 export default defineConfig(() => {
   const overrideConfig: UserConfig = {
-    plugins: [characterAssetsPlugin(projectRoot), soundAssetsPlugin(projectRoot)],
+    plugins: [imageAssetsPlugin(projectRoot), soundAssetsPlugin(projectRoot)],
     resolve: { alias },
     server: {
       watch: {
