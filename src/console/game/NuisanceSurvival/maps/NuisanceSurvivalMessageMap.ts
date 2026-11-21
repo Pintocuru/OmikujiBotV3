@@ -13,8 +13,8 @@ export const nuisanceSurvivalMessages = {
     removed: (count: number) => `取り除いた ${count}`,
   },
   menu: {
-    description: 'コメントした人は「邪魔者」になって居残り、ライフを減らし続けます。取り除いて、長く生き残りましょう',
-    howTo: 'WASD で移動 / 邪魔者にぶつかったまま押し続けると取り除けます',
+    description: 'コメントした人は「邪魔者」になって居残り、ライフを減らし続けます。画面の外へ押し出して、長く生き残りましょう',
+    howTo: 'WASD で移動 / 邪魔者にぶつかると押し出せます。画面の端まで押し出すと取り除けます',
     start: 'スタート',
     config: 'コンフィグ',
     close: '閉じる',
@@ -26,7 +26,7 @@ export const nuisanceSurvivalMessages = {
   },
   config: {
     fields: {
-      startLife: { label: '最大ライフ', unit: '', hint: '' },
+      startLife: { label: '最大ライフ', unit: '', hint: '100 固定です' },
       maxNuisances: { label: '邪魔者の上限', unit: '体', hint: '超えたコメントは無視します' },
       growthMultiplier: {
         label: '成長の倍率',
@@ -35,7 +35,12 @@ export const nuisanceSurvivalMessages = {
       },
       growthIntervalSeconds: { label: '成長の間隔', unit: '秒', hint: '' },
       drainMultiplier: { label: 'ダメージの倍率', unit: '倍', hint: 'ライフの減る速さと、爆発のダメージ' },
-      pushMultiplier: { label: '取り除きにくさ', unit: '倍', hint: '大きいほど、押し続ける時間が長くなります' },
+      damageRampPerMinute: {
+        label: 'ダメージの増え方',
+        unit: '倍/分',
+        hint: '1 分ごとに、基本ダメージのこの割合ぶん増えます (上限あり)',
+      },
+      regenPerSecond: { label: '自然回復', unit: '/秒', hint: 'ライフが 1 秒あたりに回復する量' },
       specialRate: {
         label: '特殊能力の頻度',
         unit: '%',

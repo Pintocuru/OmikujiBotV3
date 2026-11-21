@@ -15,17 +15,27 @@ import {
 } from 'excalibur'
 import { getSoundPath } from '@/common/AppEnv'
 import { resolveAsset } from '@/common/sounds'
-import { CELL_PX, HERO_MOVE_INTERVAL_SECONDS, MAX_FOOTPRINT } from '../scripts/nuisanceConstants'
+import {
+  BUBBLE_ALPHA,
+  BUBBLE_FADE_SECONDS,
+  BUBBLE_MAX,
+  BUBBLE_SECONDS,
+  CELL_PX,
+  HERO_MOVE_INTERVAL_SECONDS,
+  MAX_FOOTPRINT,
+} from '../scripts/nuisanceConstants'
+import { bubbleLabel, pickBubbleCenter, type CommentBubble } from '../scripts/nuisanceBubble'
 import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
 import {
   footprintOf,
-  pushNeededOf,
   sizeScaleOf,
   type GameState,
   type GridSize,
   type Nuisance,
   type NuisanceEvent,
+  type Obstacle,
 } from '../scripts/nuisanceEngine'
+import { formatObstaclePrice, obstacleColorOf } from '../scripts/nuisanceObstacle'
 import type { NuisanceKind } from '../scripts/nuisanceTraits'
 import { FALL_EXTRA_CELLS, FALL_SECONDS, playDeath, playLand, type BurstOptions, type EffectHost } from './effectPresets'
 import { MAX_CONCURRENT_PER_SOUND, SOUND_FILES, SOUND_FOLDER, type SoundKey } from './stageSounds'
@@ -38,6 +48,8 @@ export type StageSource = {
   getClock: () => number
   /** 溜まった演出用イベントを受け取って、空にする */
   drainEvents: () => NuisanceEvent[]
+  /** 溜まった吹き出しの依頼を受け取って、空にする */
+  drainBubbles: () => CommentBubble[]
 }
 
 const MOVE_ANIM_SECONDS = 0.15
@@ -66,6 +78,9 @@ type NuisanceView = {
   isBoss: boolean
 }
 
+/** 吹き出し 1 つぶんの表示 (視界妨害。見た目だけで、ゲームには影響しない) */
+type BubbleView = { actor: Actor; remaining: number }
+
 export class NuisanceStage implements EffectHost {
   private readonly engine: Engine
   private readonly views = new Map<number, NuisanceView>()
@@ -73,6 +88,8 @@ export class NuisanceStage implements EffectHost {
   /** 読み込めた効果音 (素材がないものは null。一度だけ試して、再試行しない) */
   private readonly sounds = new Map<SoundKey, Sound | null>()
   private readonly heroActor: Actor
+  private readonly bubbles: BubbleView[] = []
+  private readonly obstacleViews = new Map<number, { actor: Actor; obstacle: Obstacle }>()
   private readonly grid: GridSize
   private heroX = NaN
   private heroY = NaN
@@ -118,6 +135,8 @@ export class NuisanceStage implements EffectHost {
     this.engine.stop()
     this.engine.dispose()
     this.views.clear()
+    this.bubbles.length = 0
+    this.obstacleViews.clear()
   }
 
   // ---- 効果音 ----
@@ -179,6 +198,7 @@ export class NuisanceStage implements EffectHost {
   private sync(dt: number): void {
     if (this.disposed) return
     const events = this.source.drainEvents()
+    const bubbleRequests = this.source.drainBubbles()
     const state = this.source.getState()
     const config = this.source.getConfig()
     const clock = this.source.getClock()
@@ -186,6 +206,8 @@ export class NuisanceStage implements EffectHost {
     if (!state || !config) {
       // ゲーム前・メニュー中: 盤面を空にする
       this.clearViews()
+      this.clearBubbles()
+      this.clearObstacles()
       this.heroActor.graphics.isVisible = false
       this.lastLife = Infinity
       this.heroX = NaN
@@ -195,6 +217,146 @@ export class NuisanceStage implements EffectHost {
     this.applyEvents(events, state, clock)
     this.syncNuisances(state, config, clock)
     this.syncHero(state, dt)
+    this.syncObstacles(state, clock)
+    this.syncBubbles(state, bubbleRequests, dt)
+  }
+
+  // ---- ギフト障害物 ----
+
+  /** 障害物を置けなかったギフトの金額を、盤面の上のほうに少しの間だけ出す (無視しない) */
+  private showGiftNotice(userName: string, price: number): void {
+    const color = obstacleColorOf(price)
+    const label = `${userName} ${formatObstaclePrice(price)}`
+    const width = Math.min(this.grid.cols * CELL_PX, Math.max(180, label.length * 24 + 32))
+    const height = 48
+    const actor = new Actor({ pos: vec((this.grid.cols * CELL_PX) / 2, 36 + Math.random() * 40), width, height, z: 1600 })
+    actor.graphics.use(
+      new Canvas({
+        width,
+        height,
+        cache: true,
+        draw: (ctx) => {
+          ctx.fillStyle = color.background
+          ctx.beginPath()
+          ctx.roundRect(2, 2, width - 4, height - 4, 14)
+          ctx.fill()
+          ctx.fillStyle = color.text
+          ctx.font = 'bold 22px sans-serif'
+          ctx.textAlign = 'center'
+          ctx.textBaseline = 'middle'
+          ctx.fillText(label, width / 2, height / 2)
+        },
+      })
+    )
+    this.engine.add(actor)
+    actor.actions.delay(2500).fade(0, 700).die()
+  }
+
+  private clearObstacles(): void {
+    for (const v of this.obstacleViews.values()) v.actor.kill()
+    this.obstacleViews.clear()
+  }
+
+  /** 状態の障害物に合わせて、表示を足す・消す。消える直前の 2 秒は点滅する */
+  private syncObstacles(state: GameState, clock: number): void {
+    const alive = new Set(state.obstacles.map((o) => o.id))
+    for (const [id, v] of this.obstacleViews) {
+      if (alive.has(id)) continue
+      v.actor.kill()
+      this.obstacleViews.delete(id)
+    }
+    for (const o of state.obstacles) {
+      let v = this.obstacleViews.get(o.id)
+      if (!v) {
+        const w = o.size * CELL_PX
+        const actor = new Actor({ pos: vec(0, 0), width: w, height: w, z: 5 })
+        actor.graphics.use(new Canvas({ width: w, height: w, cache: true, draw: (ctx) => this.drawObstacle(ctx, o, w) }))
+        this.engine.add(actor)
+        v = { actor, obstacle: o }
+        this.obstacleViews.set(o.id, v)
+      }
+      v.actor.pos = vec((o.col + o.size / 2) * CELL_PX, (o.row + o.size / 2) * CELL_PX)
+      const left = o.expiresAt - state.elapsed
+      v.actor.graphics.opacity = left < 2 ? 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(clock * 16)) : 1
+    }
+  }
+
+  private drawObstacle(ctx: CanvasRenderingContext2D, o: Obstacle, w: number): void {
+    const color = obstacleColorOf(o.price)
+    ctx.fillStyle = color.background
+    ctx.strokeStyle = '#ffffff'
+    ctx.lineWidth = 4
+    ctx.beginPath()
+    ctx.roundRect(3, 3, w - 6, w - 6, 10)
+    ctx.fill()
+    ctx.stroke()
+    ctx.fillStyle = color.text
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.font = `bold ${Math.round(14 + o.size * 4)}px sans-serif`
+    ctx.fillText(formatObstaclePrice(o.price), w / 2, w / 2)
+  }
+
+  // ---- 吹き出し (視界妨害) ----
+
+  private measureCtx: CanvasRenderingContext2D | null = null
+
+  private clearBubbles(): void {
+    for (const b of this.bubbles) b.actor.kill()
+    this.bubbles.length = 0
+  }
+
+  /** 新しい吹き出しを足し、時間が来たものを消す。濃さは、現れる・消えるときだけフェードする */
+  private syncBubbles(state: GameState, requests: CommentBubble[], dt: number): void {
+    for (const request of requests) this.addBubble(state, request)
+    for (let i = this.bubbles.length - 1; i >= 0; i--) {
+      const b = this.bubbles[i]
+      b.remaining -= dt
+      if (b.remaining <= 0) {
+        b.actor.kill()
+        this.bubbles.splice(i, 1)
+        continue
+      }
+      const age = BUBBLE_SECONDS - b.remaining
+      const fade = clamp(Math.min(age, b.remaining) / BUBBLE_FADE_SECONDS, 0, 1)
+      b.actor.graphics.opacity = BUBBLE_ALPHA * fade
+    }
+  }
+
+  private addBubble(state: GameState, request: CommentBubble): void {
+    const label = bubbleLabel(request)
+    if (!label) return
+    const font = 'bold 22px sans-serif'
+    this.measureCtx ??= document.createElement('canvas').getContext('2d')
+    if (this.measureCtx) this.measureCtx.font = font
+    const textWidth = this.measureCtx?.measureText(label).width ?? label.length * 22
+    const width = Math.ceil(textWidth) + 32
+    const height = 48
+    const { x, y } = pickBubbleCenter(state.hero, this.grid, Math.random)
+    const actor = new Actor({ pos: vec(x, y), width, height, z: 1500 })
+    actor.graphics.use(
+      new Canvas({
+        width,
+        height,
+        cache: true,
+        draw: (ctx) => {
+          ctx.fillStyle = '#ffffff'
+          ctx.beginPath()
+          ctx.roundRect(2, 2, width - 4, height - 4, 14)
+          ctx.fill()
+          ctx.fillStyle = '#222222'
+          ctx.font = font
+          ctx.textAlign = 'center'
+          ctx.textBaseline = 'middle'
+          ctx.fillText(label, width / 2, height / 2)
+        },
+      })
+    )
+    actor.graphics.opacity = 0
+    this.engine.add(actor)
+    this.bubbles.push({ actor, remaining: BUBBLE_SECONDS })
+    // 上限を超えたら、古いものから消す
+    while (this.bubbles.length > BUBBLE_MAX) this.bubbles.shift()!.actor.kill()
   }
 
   private applyEvents(events: NuisanceEvent[], state: GameState, clock: number): void {
@@ -205,6 +367,8 @@ export class NuisanceStage implements EffectHost {
         if (!nuisance) continue
         const view = this.createView(nuisance, event.isBoss)
         view.fallStartedAt = clock
+      } else if (event.type === 'obstacleSkipped') {
+        this.showGiftNotice(event.userName, event.price)
       } else if (event.type === 'enemyDeath') {
         const size = event.footprint * CELL_PX
         playDeath(this, event, { x: (event.col + event.footprint / 2) * CELL_PX, y: (event.row + event.footprint / 2) * CELL_PX, size })
@@ -385,18 +549,6 @@ export class NuisanceStage implements EffectHost {
       ctx.beginPath()
       ctx.arc(cx, cy, radius + 5, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * clamp(remaining, 0, 1))
       ctx.stroke()
-    }
-
-    // 押している進み具合
-    if (n.pushed > 0) {
-      const progress = clamp(n.pushed / pushNeededOf(n, config), 0, 1)
-      ctx.strokeStyle = '#7CFC9A'
-      ctx.lineWidth = 6
-      ctx.lineCap = 'round'
-      ctx.beginPath()
-      ctx.arc(cx, cy, radius - 2, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * progress)
-      ctx.stroke()
-      ctx.lineCap = 'butt'
     }
   }
 

@@ -4,8 +4,8 @@ import { z } from 'zod'
 
 /** 項目ごとの範囲と既定値。フォームの入力範囲も、ここを使う */
 export const CONFIG_LIMITS = {
-  /** 最大ライフ (開始時のライフ) */
-  startLife: { min: 10, max: 1000, step: 10, default: 100 },
+  /** 最大ライフ (開始時のライフ)。100 固定 */
+  startLife: { min: 100, max: 100, step: 1, default: 100 },
   /** 同時に存在できる邪魔者の上限。超えたコメントは無視する */
   maxNuisances: { min: 1, max: 200, step: 1, default: 30 },
   /** 成長の倍率。growthIntervalSeconds ごとに、邪魔者の大きさにこの倍率が掛かる */
@@ -14,8 +14,10 @@ export const CONFIG_LIMITS = {
   growthIntervalSeconds: { min: 1, max: 600, step: 1, default: 10 },
   /** ライフの減る速さと爆発のダメージの倍率 (難しさ) */
   drainMultiplier: { min: 0.1, max: 10, step: 0.1, default: 1 },
-  /** 取り除くのに必要な、押し続ける時間の倍率 */
-  pushMultiplier: { min: 0.1, max: 10, step: 0.1, default: 1 },
+  /** 時間経過によるダメージの増え方 (1 分ごとに、基本ダメージのこの割合ぶん増える。上限は MAX_DAMAGE_RAMP) */
+  damageRampPerMinute: { min: 0, max: 5, step: 0.1, default: 0.5 },
+  /** ライフの自然回復 (1 秒あたり) */
+  regenPerSecond: { min: 0, max: 10, step: 0.5, default: 1 },
   /** 特殊能力 (動く・爆発) を持つ邪魔者の割合 (%)。それ以外は、動かない */
   specialRate: { min: 0, max: 100, step: 5, default: 20 },
   /** ボスが出るコメント数 (配信枠のコメント数 lc が、この数の倍数のとき。0 ならボスは出ない) */
@@ -36,7 +38,8 @@ export const NuisanceConfigSchema = z.object({
   growthMultiplier: field('growthMultiplier'),
   growthIntervalSeconds: field('growthIntervalSeconds'),
   drainMultiplier: field('drainMultiplier'),
-  pushMultiplier: field('pushMultiplier'),
+  damageRampPerMinute: field('damageRampPerMinute'),
+  regenPerSecond: field('regenPerSecond'),
   specialRate: field('specialRate'),
   bossInterval: field('bossInterval', true),
 })
@@ -52,12 +55,13 @@ export type ConfigPresetId = 'endurance' | 'tenMinutes' | 'merciless'
 export const CONFIG_PRESETS: Record<ConfigPresetId, NuisanceConfigType> = {
   /** 耐久配信向け: 長時間、のんびり */
   endurance: {
-    startLife: 300,
+    startLife: 100,
     maxNuisances: 20,
     growthMultiplier: 1.02,
     growthIntervalSeconds: 60,
     drainMultiplier: 0.3,
-    pushMultiplier: 0.7,
+    damageRampPerMinute: 0.2,
+    regenPerSecond: 2,
     specialRate: 5,
     bossInterval: 300,
   },
@@ -68,7 +72,8 @@ export const CONFIG_PRESETS: Record<ConfigPresetId, NuisanceConfigType> = {
     growthMultiplier: 1.1,
     growthIntervalSeconds: 30,
     drainMultiplier: 1,
-    pushMultiplier: 1,
+    damageRampPerMinute: 0.5,
+    regenPerSecond: 1,
     specialRate: 20,
     bossInterval: 50,
   },
@@ -79,7 +84,8 @@ export const CONFIG_PRESETS: Record<ConfigPresetId, NuisanceConfigType> = {
     growthMultiplier: 1.3,
     growthIntervalSeconds: 10,
     drainMultiplier: 2,
-    pushMultiplier: 1.5,
+    damageRampPerMinute: 1,
+    regenPerSecond: 0.5,
     specialRate: 60,
     bossInterval: 10,
   },

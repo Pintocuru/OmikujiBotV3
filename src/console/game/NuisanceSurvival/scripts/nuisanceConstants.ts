@@ -22,14 +22,46 @@ export const MAX_FRAME_SECONDS = 0.25
 // ---- 主人公 ----
 /** 1マス動く間隔 (秒)。キーを押し続けている間、この間隔で動く */
 export const HERO_MOVE_INTERVAL_SECONDS = 0.14
-/** 押すのをやめたとき、押した時間が減る速さ (1秒あたりに減る秒数の倍率) */
-export const PUSH_DECAY_RATE = 1.5
+/** 時間経過によるダメージ倍率の上限 (操作と無関係に倒されないための安全装置) */
+export const MAX_DAMAGE_RAMP = 5
 
 // ---- 邪魔者 ----
 /** 邪魔者の大きさ (倍率) の上限 */
 export const MAX_SIZE_SCALE = 3.4
 /** 邪魔者が占めるマスの一辺の上限 (大きさの倍率を四捨五入して、1〜この値) */
 export const MAX_FOOTPRINT = 3
+
+// ---- 吹き出し (視界妨害。見た目だけで、ゲームの当たり判定には影響しない) ----
+/** 吹き出しが出ている時間 (秒。フェードを含む) */
+export const BUBBLE_SECONDS = 5
+/** 現れる・消えるときのフェード (秒) */
+export const BUBBLE_FADE_SECONDS = 0.4
+/** 吹き出しの透明度 (1 で不透明) */
+export const BUBBLE_ALPHA = 0.85
+/** 同時に出せる吹き出しの数。超えたら、古いものから消す */
+export const BUBBLE_MAX = 10
+/** 主人公のまわり、何マスまでの範囲に出すか (主人公を隠すため、主人公の近くに出る) */
+export const BUBBLE_SPREAD_CELLS = 2
+/** 吹き出しに出す文字数の上限 (超えたら省略) */
+export const BUBBLE_MAX_CHARS = 20
+
+// ---- ギフト障害物 (プレイヤーは取り除けない。ダメージはなく、通行と押し出しを妨げる) ----
+/** 障害物が残る時間 (秒)。基本はこの秒数で、金額が大きいほど伸びる (OBSTACLE_SECONDS_FULL_PRICE 以上で最大) */
+export const OBSTACLE_SECONDS = 15
+export const OBSTACLE_SECONDS_MAX = 25
+export const OBSTACLE_SECONDS_FULL_PRICE = 10000
+/** 障害物を置いたあと、主人公が (敵を無視して) 動ける範囲がこのマス数を下回る場所には置かない (閉じ込め防止) */
+export const MIN_HERO_REACHABLE_CELLS = 20
+/** 同時に置ける障害物の数。超えたら、古いものから消す */
+export const MAX_OBSTACLES = 5
+/** 障害物が占めるマスの合計の上限 (盤面を埋めて、ゲームが成立しなくならないようにする) */
+export const MAX_OBSTACLE_CELLS = 20
+/** 金額と大きさ (一辺のマス数)。金額が大きいほど大きい。金額 0 (無料ギフトなど) も 1 マスで置く */
+export const OBSTACLE_SIZE_TIERS: readonly { minPrice: number; size: number }[] = [
+  { minPrice: 0, size: 1 },
+  { minPrice: 500, size: 2 },
+  { minPrice: 2000, size: 3 },
+]
 
 // ---- 記録 (GameLog) ----
 /** ユーザーごとの貢献度 (ダメージ) の eventKey */

@@ -1,13 +1,13 @@
 // src/console/game/NuisanceSurvival/scripts/nuisanceEngine.test.ts
 import { describe, expect, it } from 'vitest'
 import { createDefaultConfig, type NuisanceConfigType } from './nuisanceConfig'
-import { MAX_FOOTPRINT, MAX_SIZE_SCALE, STEP_SECONDS } from './nuisanceConstants'
+import { MAX_DAMAGE_RAMP, MAX_FOOTPRINT, MAX_OBSTACLES, MAX_SIZE_SCALE, OBSTACLE_SECONDS, STEP_SECONDS } from './nuisanceConstants'
 import {
   advance,
   createGame,
   footprintOf,
   getContributionRanking,
-  pushNeededOf,
+  damageRampOf,
   sizeScaleOf,
   type GameState,
   type GridSize,
@@ -20,6 +20,8 @@ import { createRng } from './rng'
 
 const config = (overrides: Partial<NuisanceConfigType> = {}): NuisanceConfigType => ({
   ...createDefaultConfig(),
+  regenPerSecond: 0, // 既存のテストは、回復・時間経過の増加なしで書かれている
+  damageRampPerMinute: 0,
   ...overrides,
 })
 
@@ -62,7 +64,6 @@ const withNuisance = (
     dirY: 0,
     moveTimer: 1e9, // 勝手に動かない
     age: 0,
-    pushed: 0,
     fuse: traits.fuseSeconds,
     ...patch,
   }
@@ -276,35 +277,67 @@ describe('advance: 主人公の移動と除去', () => {
     expect([none.hero.col, none.hero.row]).toEqual([2, 1])
   })
 
-  it('邪魔者にぶつかったまま押し続けると取り除ける。途中でやめると、押した時間は減る', () => {
+  it('邪魔者にぶつかると、1 マス押し出される (主人公は、空いたマスへ進む)', () => {
     const cfg = config({ growthMultiplier: 1 })
-    const userId = findUserId('wanderer')
-    const base = withNuisance(createGame(cfg, grid), userId, 3, 1) // 主人公 (2,1) の右隣
-    const need = pushNeededOf(base.nuisances[0], cfg)
-
-    const partial = run(base, cfg, need * 0.5, { dx: 1, dy: 0 })
-    expect(partial.nuisances).toHaveLength(1)
-    expect(partial.hero.col).toBe(2) // 押している間は動けない
-    expect(partial.nuisances[0].pushed).toBeGreaterThan(0)
-
-    const released = run(partial, cfg, partial.elapsed + need, NO_INPUT)
-    expect(released.nuisances[0].pushed).toBe(0)
-
-    const done = run(base, cfg, need + 0.2, { dx: 1, dy: 0 })
-    expect(done.nuisances).toHaveLength(0)
-    expect(done.removedCount).toBe(1)
-    expect(done.life).toBeLessThan(cfg.startLife) // 取り除くまでの間は減っている
+    const base = withNuisance(createGame(cfg, grid), findUserId('static'), 3, 1) // 主人公 (2,1) の右隣
+    const r = advance(base, cfg, STEP_SECONDS, { dx: 1, dy: 0 }, [], createRng(1)).state
+    expect([r.hero.col, r.hero.row]).toEqual([3, 1])
+    expect([r.nuisances[0].col, r.nuisances[0].row]).toEqual([4, 1])
+    expect(r.removedCount).toBe(0)
   })
 
-  it('大きい邪魔者ほど、取り除くのに時間がかかる (設定の倍率も効く)', () => {
+  it('壁際の邪魔者をさらに押すと、撃破される', () => {
     const cfg = config({ growthMultiplier: 1 })
-    const userId = findUserId('wanderer')
-    const small = withNuisance(createGame(cfg), userId, 0, 0).nuisances[0]
-    const big = { ...small, age: 0, traits: { ...small.traits, baseSize: 2 } }
-    expect(pushNeededOf(big, cfg)).toBeGreaterThan(pushNeededOf(small, cfg))
-    expect(pushNeededOf(small, config({ growthMultiplier: 1, pushMultiplier: 2 }))).toBeCloseTo(
-      pushNeededOf(small, cfg) * 2
-    )
+    const base = withNuisance(createGame(cfg, grid), findUserId('static'), 4, 1) // 右端
+    const state = { ...base, hero: { col: 3, row: 1, cooldown: 0 } }
+    const r = advance(state, cfg, STEP_SECONDS, { dx: 1, dy: 0 }, [], createRng(1))
+    expect(r.state.nuisances).toHaveLength(0)
+    expect(r.state.removedCount).toBe(1)
+    expect(r.state.hero.col).toBe(4)
+    expect(r.events).toMatchObject([{ type: 'enemyDeath', cause: 'removed', col: 4, row: 1 }])
+  })
+
+  it('連鎖して押す。先頭が壁際なら、先頭だけ撃破され、後ろは詰まる', () => {
+    const cfg = config({ growthMultiplier: 1 })
+    let state = createGame(cfg, grid)
+    state = withNuisance(state, findUserId('static'), 3, 1)
+    state = withNuisance(state, findUserId('static', 100), 4, 1)
+    const r = advance(state, cfg, STEP_SECONDS, { dx: 1, dy: 0 }, [], createRng(1)).state
+    expect(r.removedCount).toBe(1)
+    expect(r.nuisances.map((n) => [n.col, n.row])).toEqual([[4, 1]])
+  })
+
+  it('押し出しは、移動と同じ間隔でしか起きない', () => {
+    const cfg = config({ growthMultiplier: 1 })
+    const base = withNuisance(createGame(cfg, { cols: 9, rows: 3 }), findUserId('static'), 5, 1) // 主人公 (4,1)
+    const r = run(base, cfg, 0.2, { dx: 1, dy: 0 })
+    expect(r.hero.col).toBeLessThanOrEqual(6)
+    expect(r.nuisances[0].col).toBeLessThanOrEqual(7)
+  })
+})
+
+describe('advance: 時間経過のダメージ増加と自然回復', () => {
+  it('ダメージ倍率は時間とともに増え、上限を超えない', () => {
+    const cfg = config({ damageRampPerMinute: 1 })
+    expect(damageRampOf(0, cfg)).toBe(1)
+    expect(damageRampOf(60, cfg)).toBeCloseTo(2)
+    expect(damageRampOf(1e6, cfg)).toBe(MAX_DAMAGE_RAMP)
+  })
+
+  it('時間が経った後のほうが、同じ邪魔者から受けるダメージが大きい', () => {
+    const cfg = config({ growthMultiplier: 1, damageRampPerMinute: 2, startLife: 1e6 })
+    const base = withNuisance(createGame(cfg), findUserId('static'), 0, 0)
+    const early = run(base, cfg, 5)
+    const lateStart = { ...base, elapsed: 120 }
+    const late = run(lateStart, cfg, 125)
+    expect(cfg.startLife - late.life).toBeGreaterThan(cfg.startLife - early.life)
+  })
+
+  it('自然回復する。最大ライフを超えない', () => {
+    const cfg = config({ regenPerSecond: 5 })
+    const hurt = { ...createGame(cfg), life: 50 }
+    expect(run(hurt, cfg, 2).life).toBeCloseTo(60, 5)
+    expect(run(hurt, cfg, 100).life).toBe(cfg.startLife)
   })
 })
 
@@ -478,8 +511,8 @@ describe('advance: 演出用のイベント', () => {
     expect(deaths[0]).toMatchObject({ cause: 'exploded', userId, col: 2, row: 3 })
   })
 
-  it('主人公が取り除くと、cause が removed の enemyDeath が返る', () => {
-    const cfg = config({ growthMultiplier: 1, pushMultiplier: 0.1 })
+  it('主人公が壁際まで押し出すと、cause が removed の enemyDeath が返る', () => {
+    const cfg = config({ growthMultiplier: 1 })
     const userId = findUserId('static')
     let state = withNuisance(createGame(cfg), userId, 0, 0)
     state = { ...state, hero: { col: 1, row: 0, cooldown: 0 } }
@@ -493,3 +526,84 @@ describe('advance: 演出用のイベント', () => {
     expect(advance(createGame(cfg), cfg, 0).events).toEqual([])
   })
 })
+
+const DEFAULT_GRID_FOR_TEST: GridSize = { cols: 11, rows: 8 }
+
+describe('advance: ギフト障害物', () => {
+  const gift = (userId: string, price: number, atSeconds = 0): SpawnRequest => ({ ...spawn(userId, atSeconds), giftPrice: price })
+  const place = (cfg: NuisanceConfigType, grid: GridSize, state: GameState, ...gifts: SpawnRequest[]) =>
+    advance(state, cfg, STEP_SECONDS, NO_INPUT, gifts, createRng(1)).state
+
+  it('ギフトは、邪魔者ではなく障害物になる。金額が大きいほど大きい (0 円も置く)', () => {
+    const cfg = config()
+    const r = place(cfg, DEFAULT_GRID_FOR_TEST, createGame(cfg), gift('a', 0), gift('b', 500), gift('c', 5000))
+    expect(r.nuisances).toHaveLength(0)
+    expect(r.obstacles.map((o) => [o.price, o.size])).toEqual([
+      [0, 1],
+      [500, 2],
+      [5000, 3],
+    ])
+  })
+
+  it('一定時間で消える。主人公のマスには置かれない', () => {
+    const cfg = config({ startLife: 1e6 })
+    const r = place(cfg, DEFAULT_GRID_FOR_TEST, createGame(cfg), gift('a', 100))
+    const o = r.obstacles[0]
+    expect(o.col <= r.hero.col && r.hero.col < o.col + o.size && o.row <= r.hero.row && r.hero.row < o.row + o.size).toBe(false)
+    expect(run(r, cfg, OBSTACLE_SECONDS - 1).obstacles).toHaveLength(1)
+    expect(run(r, cfg, OBSTACLE_SECONDS + 1).obstacles).toHaveLength(0)
+  })
+
+  it('同時数の上限を超えたら、古いものから消える', () => {
+    const cfg = config()
+    const gifts = Array.from({ length: MAX_OBSTACLES + 2 }, (_, i) => gift(`g${i}`, 0))
+    const r = place(cfg, DEFAULT_GRID_FOR_TEST, createGame(cfg), ...gifts)
+    expect(r.obstacles).toHaveLength(MAX_OBSTACLES)
+    expect(r.obstacles[0].userId).toBe('g2')
+  })
+
+  it('主人公は障害物のマスに入れない', () => {
+    const cfg = config()
+    const grid: GridSize = { cols: 5, rows: 3 }
+    const base = createGame(cfg, grid) // 主人公 (2,1)
+    const state = { ...base, obstacles: [{ id: 99, userId: 'x', userName: 'x', price: 0, col: 3, row: 1, size: 1, placedAt: 0, expiresAt: 100 }] }
+    const r = run(state, cfg, 1, { dx: 1, dy: 0 })
+    expect([r.hero.col, r.hero.row]).toEqual([2, 1])
+  })
+
+  it('押す先に障害物があるときは押せない。主人公も動かない', () => {
+    const cfg = config({ growthMultiplier: 1 })
+    const grid: GridSize = { cols: 6, rows: 3 }
+    let state = withNuisance(createGame(cfg, grid), findUserId('static'), 3, 1) // 主人公 (3,1)? 中央は col 3
+    state = { ...state, hero: { col: 2, row: 1, cooldown: 0 } }
+    state = { ...state, obstacles: [{ id: 99, userId: 'x', userName: 'x', price: 0, col: 4, row: 1, size: 1, placedAt: 0, expiresAt: 100 }] }
+    const r = run(state, cfg, 1, { dx: 1, dy: 0 })
+    expect([r.hero.col, r.nuisances[0].col]).toEqual([2, 3])
+    expect(r.removedCount).toBe(0)
+  })
+
+  it('邪魔者は、障害物のマスには動かない', () => {
+    const cfg = config({ growthMultiplier: 1, startLife: 1e6 })
+    const grid: GridSize = { cols: 5, rows: 1 }
+    let state = withNuisance(createGame(cfg, grid), findUserId('wanderer'), 0, 0, { moveTimer: 0 })
+    state = { ...state, hero: { col: 4, row: 0, cooldown: 0 }, obstacles: [{ id: 99, userId: 'x', userName: 'x', price: 0, col: 1, row: 0, size: 1, placedAt: 0, expiresAt: 1e6 }] }
+    const r = run(state, cfg, 30)
+    expect(r.nuisances[0].col).toBe(0)
+  })
+
+  it('主人公が閉じ込められる場所には置かない。置けなければ、金額の表示イベントを返す', () => {
+    const cfg = config()
+    const grid: GridSize = { cols: 5, rows: 3 } // 15 マスしかなく、20 マス動ける範囲を保てない
+    const r = advance(createGame(cfg, grid), cfg, STEP_SECONDS, NO_INPUT, [gift('a', 700)], createRng(1))
+    expect(r.state.obstacles).toHaveLength(0)
+    expect(r.events).toMatchObject([{ type: 'obstacleSkipped', userName: 'name-a', price: 700 }])
+  })
+
+  it('金額が大きいほど、長く残る', () => {
+    const cfg = config()
+    const r = place(cfg, DEFAULT_GRID_FOR_TEST, createGame(cfg), gift('a', 100), gift('b', 10000))
+    const [small, big] = r.obstacles
+    expect(big.expiresAt - big.placedAt).toBeGreaterThan(small.expiresAt - small.placedAt)
+  })
+})
+

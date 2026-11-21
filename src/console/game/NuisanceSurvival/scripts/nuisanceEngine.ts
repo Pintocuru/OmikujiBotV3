@@ -9,15 +9,19 @@ import {
   GRID_COLS,
   GRID_ROWS,
   HERO_MOVE_INTERVAL_SECONDS,
+  MAX_DAMAGE_RAMP,
   MAX_FOOTPRINT,
+  MAX_OBSTACLE_CELLS,
+  MAX_OBSTACLES,
   MAX_SIZE_SCALE,
+  MIN_HERO_REACHABLE_CELLS,
   MAX_STEPS_PER_ADVANCE,
-  PUSH_DECAY_RATE,
   STEP_SECONDS,
 } from './nuisanceConstants'
 import type { NuisanceConfigType } from './nuisanceConfig'
 import { NO_INPUT, type HeroInput } from './heroInput'
 import { getBossTraits, getNuisanceTraits, MOVING_KINDS, type NuisanceTraits } from './nuisanceTraits'
+import { obstacleSecondsOf, obstacleSizeOf } from './nuisanceObstacle'
 import type { Rng } from './rng'
 
 export type GridSize = { cols: number; rows: number }
@@ -50,10 +54,24 @@ export type Nuisance = {
   moveTimer: number
   /** 生まれてからの秒 (大きさはこれで決まる) */
   age: number
-  /** 主人公に押されている秒 (押すのをやめると減る) */
-  pushed: number
   /** 爆発までの残り秒 (bomber 以外は null) */
   fuse: number | null
+}
+
+/** ギフト障害物 (一定時間だけ盤面に残る。取り除けず、ダメージもない。通行と押し出しを妨げる) */
+export type Obstacle = {
+  id: number
+  userId: string
+  userName: string
+  /** ギフトの金額 (表示に使う) */
+  price: number
+  /** 占めるマスの左上と、一辺のマス数 */
+  col: number
+  row: number
+  size: number
+  /** 置かれた時刻と、消える時刻 (開始からの秒) */
+  placedAt: number
+  expiresAt: number
 }
 
 /** ユーザーごとの貢献度 (その人の邪魔者が減らしたライフ) */
@@ -73,6 +91,7 @@ export type GameState = {
   life: number
   hero: Hero
   nuisances: Nuisance[]
+  obstacles: Obstacle[]
   nextId: number
   contributions: Record<string, Contribution>
   /** 主人公が取り除いた数 / 爆発で消えた数 / 上限などで無視したコメントの数 */
@@ -93,6 +112,8 @@ export type SpawnRequest = {
   profileImage: string
   /** 配信枠のコメント数 (lc)。コンフィグの間隔の倍数のとき、ボスになる。分からなければ省略 */
   lc?: number
+  /** ギフトの金額。指定があれば、邪魔者ではなく障害物を置く (0 も置く。ギフトでなければ省略) */
+  giftPrice?: number
 }
 
 /**
@@ -120,6 +141,12 @@ export type NuisanceEvent =
       /** removed: 主人公が取り除いた / exploded: 爆発して消えた */
       cause: 'removed' | 'exploded'
     }
+  | {
+      /** 置ける場所がなく、障害物を置けなかったギフト (金額だけ表示する。無視はしない) */
+      type: 'obstacleSkipped'
+      userName: string
+      price: number
+    }
 
 const DIRECTIONS: readonly (readonly [number, number])[] = [
   [1, 0],
@@ -134,6 +161,7 @@ export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_
   life: config.startLife,
   hero: { col: Math.floor(grid.cols / 2), row: Math.floor(grid.rows / 2), cooldown: 0 },
   nuisances: [],
+  obstacles: [],
   nextId: 1,
   contributions: {},
   removedCount: 0,
@@ -157,12 +185,12 @@ const measure = (n: Nuisance, config: NuisanceConfigType) => {
   return { scale, footprint: footprintOf(scale) }
 }
 
-/** 取り除くのに必要な、押し続ける秒数 */
-export const pushNeededOf = (n: Nuisance, config: NuisanceConfigType): number =>
-  n.traits.pushSeconds * sizeScaleOf(n, config) * config.pushMultiplier
-
 const covers = (n: Nuisance, footprint: number, col: number, row: number): boolean =>
   col >= n.col && col < n.col + footprint && row >= n.row && row < n.row + footprint
+
+/** 時間経過によるダメージ倍率 (1 + 分あたりの増加 × 経過分。上限あり) */
+export const damageRampOf = (elapsed: number, config: NuisanceConfigType): number =>
+  Math.min(MAX_DAMAGE_RAMP, 1 + (config.damageRampPerMinute * elapsed) / 60)
 
 // ---- 状態の複製 ----
 
@@ -170,6 +198,7 @@ const cloneState = (s: GameState): GameState => ({
   ...s,
   hero: { ...s.hero },
   nuisances: s.nuisances.map((n) => ({ ...n })),
+  obstacles: s.obstacles.map((o) => ({ ...o })),
   contributions: Object.fromEntries(Object.entries(s.contributions).map(([id, c]) => [id, { ...c }])),
 })
 
@@ -180,10 +209,16 @@ const pickFreeCell = (
   s: GameState,
   config: NuisanceConfigType,
   rng: Rng,
-  size = 1
+  size = 1,
+  accept: (col: number, row: number) => boolean = () => true
 ): { col: number; row: number } | null => {
   const occupied = new Set<number>()
   occupied.add(s.hero.row * s.grid.cols + s.hero.col)
+  for (const o of s.obstacles) {
+    for (let r = o.row; r < o.row + o.size; r++) {
+      for (let c = o.col; c < o.col + o.size; c++) occupied.add(r * s.grid.cols + c)
+    }
+  }
   for (const n of s.nuisances) {
     const { footprint } = measure(n, config)
     for (let r = n.row; r < n.row + footprint; r++) {
@@ -199,10 +234,74 @@ const pickFreeCell = (
   const free: { col: number; row: number }[] = []
   for (let row = 0; row + size <= s.grid.rows; row++) {
     for (let col = 0; col + size <= s.grid.cols; col++) {
-      if (isFree(col, row)) free.push({ col, row })
+      if (isFree(col, row) && accept(col, row)) free.push({ col, row })
     }
   }
   return free.length ? free[Math.floor(rng() * free.length)] : null
+}
+
+/** 障害物を置く。同時数・マスの合計の上限を超えるときは、古いものから消す。置ける場所がなければ置かない */
+/** 障害物を足したあとに、主人公が (敵を無視して) 動けるマスの数 */
+const reachableCellsFrom = (s: GameState, extra: { col: number; row: number; size: number }): number => {
+  const blocked = (c: number, r: number) =>
+    s.obstacles.some((o) => c >= o.col && c < o.col + o.size && r >= o.row && r < o.row + o.size) ||
+    (c >= extra.col && c < extra.col + extra.size && r >= extra.row && r < extra.row + extra.size)
+  const seen = new Set<number>([s.hero.row * s.grid.cols + s.hero.col])
+  const queue: [number, number][] = [[s.hero.col, s.hero.row]]
+  while (queue.length) {
+    const [c, r] = queue.pop()!
+    for (const [dx, dy] of DIRECTIONS) {
+      const nc = c + dx
+      const nr = r + dy
+      if (nc < 0 || nr < 0 || nc >= s.grid.cols || nr >= s.grid.rows || blocked(nc, nr)) continue
+      const key = nr * s.grid.cols + nc
+      if (seen.has(key)) continue
+      seen.add(key)
+      queue.push([nc, nr])
+    }
+  }
+  return seen.size
+}
+
+const placeObstacle = (
+  s: GameState,
+  config: NuisanceConfigType,
+  request: SpawnRequest,
+  rng: Rng,
+  events: NuisanceEvent[]
+): void => {
+  const price = request.giftPrice ?? 0
+  const wanted = Math.min(obstacleSizeOf(price), s.grid.cols, s.grid.rows)
+  const cells = () => s.obstacles.reduce((sum, o) => sum + o.size * o.size, 0)
+  while (s.obstacles.length > 0 && (s.obstacles.length >= MAX_OBSTACLES || cells() + wanted * wanted > MAX_OBSTACLE_CELLS)) {
+    s.obstacles.shift()
+  }
+  // 置ける場所がなければ、小さくして試す。主人公が閉じ込められる場所には置かない
+  let cell: { col: number; row: number } | null = null
+  let size = wanted
+  for (; size >= 1 && !cell; size--) {
+    const trySize = size
+    cell = pickFreeCell(s, config, rng, trySize, (col, row) =>
+      reachableCellsFrom(s, { col, row, size: trySize }) >= MIN_HERO_REACHABLE_CELLS
+    )
+    if (cell) break
+  }
+  if (!cell) {
+    // 置けなくても、無視はしない (金額は、画面に表示する)
+    events.push({ type: 'obstacleSkipped', userName: request.userName, price })
+    return
+  }
+  s.obstacles.push({
+    id: s.nextId++,
+    userId: request.userId,
+    userName: request.userName,
+    price,
+    col: cell.col,
+    row: cell.row,
+    size,
+    placedAt: s.elapsed,
+    expiresAt: s.elapsed + obstacleSecondsOf(price),
+  })
 }
 
 const spawnOne = (
@@ -212,6 +311,11 @@ const spawnOne = (
   rng: Rng,
   events: NuisanceEvent[]
 ): void => {
+  // ギフトは、邪魔者ではなく障害物になる
+  if (request.giftPrice !== undefined) {
+    placeObstacle(s, config, request, rng, events)
+    return
+  }
   // lc がキリ番のコメントは、ボスになる。上限・空きなしのときは、ボスも出ない (普通の邪魔者にもならない)
   const isBoss =
     config.bossInterval > 0 && request.lc !== undefined && request.lc > 0 && request.lc % config.bossInterval === 0
@@ -241,7 +345,6 @@ const spawnOne = (
     dirY,
     moveTimer: traits.moveIntervalSeconds * (0.5 + rng() * 0.5), // 全員が同時に動き出さないよう、ずらす
     age: 0,
-    pushed: 0,
     fuse: traits.fuseSeconds,
   })
   events.push({
@@ -270,9 +373,16 @@ const spawnOne = (
 
 const canPlace = (s: GameState, footprint: number, col: number, row: number): boolean => {
   if (col < 0 || row < 0 || col + footprint > s.grid.cols || row + footprint > s.grid.rows) return false
+  if (hitsObstacle(s, footprint, col, row)) return false
   const h = s.hero
   return !(h.col >= col && h.col < col + footprint && h.row >= row && h.row < row + footprint)
 }
+
+/** footprint 四方の範囲が、障害物と重なるか */
+const hitsObstacle = (s: GameState, footprint: number, col: number, row: number): boolean =>
+  s.obstacles.some(
+    (o) => col < o.col + o.size && col + footprint > o.col && row < o.row + o.size && row + footprint > o.row
+  )
 
 const moveNuisance = (s: GameState, n: Nuisance, footprint: number, rng: Rng): void => {
   const valid = DIRECTIONS.filter(([dx, dy]) => canPlace(s, footprint, n.col + dx, n.row + dy))
@@ -339,6 +449,69 @@ const deathEvent = (n: Nuisance, footprint: number, cause: 'removed' | 'exploded
   cause,
 })
 
+/**
+ * (col, row) にいる邪魔者を、(dx, dy) の向きへ 1 マス押す。押した先にいる邪魔者も、連鎖して押す。
+ * 押した結果、盤面の外へ出る邪魔者は撃破 (removed)。重なっている邪魔者は、押す集合に含めて一緒に動かす。
+ */
+const pushChain = (
+  s: GameState,
+  config: NuisanceConfigType,
+  col: number,
+  row: number,
+  dx: number,
+  dy: number,
+  removed: Set<number>,
+  notices: NuisanceEvent[]
+): boolean => {
+  const sizes = new Map<number, number>()
+  const footprintById = (n: Nuisance) => {
+    let f = sizes.get(n.id)
+    if (f === undefined) sizes.set(n.id, (f = measure(n, config).footprint))
+    return f
+  }
+  const pushing = new Map<number, Nuisance>()
+  const queue: Nuisance[] = s.nuisances.filter((n) => covers(n, footprintById(n), col, row))
+  while (queue.length) {
+    const n = queue.pop()!
+    if (pushing.has(n.id)) continue
+    pushing.set(n.id, n)
+    const f = footprintById(n)
+    // 押した先のマス (進む向きの、1 つ外側の辺)
+    for (let i = 0; i < f; i++) {
+      const c = dx > 0 ? n.col + f : dx < 0 ? n.col - 1 : n.col + i
+      const r = dy > 0 ? n.row + f : dy < 0 ? n.row - 1 : n.row + i
+      for (const other of s.nuisances) {
+        if (!pushing.has(other.id) && covers(other, footprintById(other), c, r)) queue.push(other)
+      }
+    }
+  }
+  // 押す先に障害物があれば、まるごと押せない (盤面の外へ出るものは、障害物の影響を受けない)
+  for (const n of pushing.values()) {
+    const f = footprintById(n)
+    const nextCol = n.col + dx
+    const nextRow = n.row + dy
+    const inside = nextCol >= 0 && nextRow >= 0 && nextCol + f <= s.grid.cols && nextRow + f <= s.grid.rows
+    if (inside && hitsObstacle(s, f, nextCol, nextRow)) return false
+  }
+  for (const n of pushing.values()) {
+    const f = footprintById(n)
+    const nextCol = n.col + dx
+    const nextRow = n.row + dy
+    if (nextCol < 0 || nextRow < 0 || nextCol + f > s.grid.cols || nextRow + f > s.grid.rows) {
+      removed.add(n.id)
+      s.removedCount++
+      notices.push(deathEvent(n, f, 'removed'))
+      continue
+    }
+    n.prevCol = n.col
+    n.prevRow = n.row
+    n.movedAt = s.elapsed
+    n.col = nextCol
+    n.row = nextRow
+  }
+  return true
+}
+
 const stepOnce = (
   s: GameState,
   config: NuisanceConfigType,
@@ -347,43 +520,31 @@ const stepOnce = (
   notices: NuisanceEvent[]
 ): void => {
   const dt = STEP_SECONDS
+  const ramp = damageRampOf(s.elapsed, config)
+  // 自然回復 (最大ライフまで)
+  s.life = Math.min(config.startLife, s.life + config.regenPerSecond * dt)
 
-  // 主人公: 向きのマスが空いていれば動き、邪魔者がいれば押す (押している間だけ、押した時間が溜まる)
+  // 主人公: 向きのマスが空いていれば動く。邪魔者がいれば、連鎖して 1 マス押し出す (画面の外へ出た邪魔者は撃破)
   const hero = s.hero
   hero.cooldown = Math.max(0, hero.cooldown - dt)
-  let pushTarget: Nuisance | null = null
-  if (input.dx !== 0 || input.dy !== 0) {
+  const removed = new Set<number>()
+  if ((input.dx !== 0 || input.dy !== 0) && hero.cooldown === 0) {
     const col = hero.col + input.dx
     const row = hero.row + input.dy
     if (col >= 0 && row >= 0 && col < s.grid.cols && row < s.grid.rows) {
-      let bestRemaining = Infinity
-      for (const n of s.nuisances) {
-        if (!covers(n, measure(n, config).footprint, col, row)) continue
-        const remaining = pushNeededOf(n, config) - n.pushed
-        if (remaining < bestRemaining) {
-          bestRemaining = remaining
-          pushTarget = n
-        }
-      }
-      if (!pushTarget && hero.cooldown === 0) {
+      const free = !s.obstacles.some((o) => col >= o.col && col < o.col + o.size && row >= o.row && row < o.row + o.size)
+      if (free && pushChain(s, config, col, row, input.dx, input.dy, removed, notices)) {
         hero.col = col
         hero.row = row
         hero.cooldown = HERO_MOVE_INTERVAL_SECONDS
       }
     }
   }
+  if (removed.size) s.nuisances = s.nuisances.filter((n) => !removed.has(n.id))
+  removed.clear()
 
-  // 押した時間: 押している邪魔者は増え、それ以外は減る。必要な時間に達したら取り除く
-  const removed = new Set<number>()
-  for (const n of s.nuisances) {
-    if (n === pushTarget) n.pushed += dt
-    else n.pushed = Math.max(0, n.pushed - dt * PUSH_DECAY_RATE)
-    if (n === pushTarget && n.pushed >= pushNeededOf(n, config)) {
-      removed.add(n.id)
-      s.removedCount++
-      notices.push(deathEvent(n, measure(n, config).footprint, 'removed'))
-    }
-  }
+  // 障害物: 時間が来たら消える
+  if (s.obstacles.some((o) => o.expiresAt <= s.elapsed)) s.obstacles = s.obstacles.filter((o) => o.expiresAt > s.elapsed)
 
   // 邪魔者: 成長・移動・ライフを減らす・爆発
   const events: DamageEvent[] = []
@@ -404,12 +565,12 @@ const stepOnce = (
       }
     }
 
-    events.push({ userId: n.userId, amount: n.traits.drainPerSecond * scale * config.drainMultiplier * dt })
+    events.push({ userId: n.userId, amount: n.traits.drainPerSecond * scale * config.drainMultiplier * ramp * dt })
 
     if (n.fuse !== null) {
       n.fuse -= dt
       if (n.fuse <= 0) {
-        events.push({ userId: n.userId, amount: n.traits.explosionDamage * scale * config.drainMultiplier })
+        events.push({ userId: n.userId, amount: n.traits.explosionDamage * scale * config.drainMultiplier * ramp })
         removed.add(n.id)
         s.explodedCount++
         notices.push(deathEvent(n, footprint, 'exploded'))

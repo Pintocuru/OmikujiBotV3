@@ -8,7 +8,7 @@ import { buildDamageLogs, buildSurvivalLog, formatClock, formatSurvival } from '
 import { createRng } from './rng'
 
 const finished = (): GameState => {
-  const config = { ...createDefaultConfig(), startLife: 30, maxNuisances: 100, drainMultiplier: 4 }
+  const config = { ...createDefaultConfig(), startLife: 30, maxNuisances: 100, drainMultiplier: 4, regenPerSecond: 0, damageRampPerMinute: 0 }
   const spawns = ['a', 'a', 'b', 'c'].map((userId) => ({
     atSeconds: 0,
     userId,

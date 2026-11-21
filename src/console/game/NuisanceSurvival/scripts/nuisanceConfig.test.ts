@@ -14,9 +14,9 @@ import {
 describe('parseConfig', () => {
   it('空なら既定値、項目が足りないだけなら足りない項目だけが既定値 (エラーにしない)', () => {
     expect(parseConfig({})).toEqual({ config: createDefaultConfig(), error: null })
-    const { config, error } = parseConfig({ startLife: 200 })
+    const { config, error } = parseConfig({ bossInterval: 200 })
     expect(error).toBeNull()
-    expect(config.startLife).toBe(200)
+    expect(config.bossInterval).toBe(200)
     expect(config.maxNuisances).toBe(CONFIG_LIMITS.maxNuisances.default)
   })
 
@@ -43,7 +43,8 @@ describe('sanitizeConfig', () => {
     expect(config.growthMultiplier).toBe(CONFIG_LIMITS.growthMultiplier.min)
     expect(config.growthIntervalSeconds).toBe(CONFIG_LIMITS.growthIntervalSeconds.default)
     expect(config.drainMultiplier).toBe(CONFIG_LIMITS.drainMultiplier.default)
-    expect(config.pushMultiplier).toBe(CONFIG_LIMITS.pushMultiplier.default)
+    expect(config.damageRampPerMinute).toBe(CONFIG_LIMITS.damageRampPerMinute.default)
+    expect(config.startLife).toBe(100) // 最大ライフは 100 固定
   })
 })
 
@@ -57,6 +58,6 @@ describe('プリセット', () => {
 
   it('入力欄の値がプリセットと一致するときだけ、そのプリセットが分かる', () => {
     expect(findMatchingPreset(CONFIG_PRESETS.merciless)).toBe('merciless')
-    expect(findMatchingPreset({ ...CONFIG_PRESETS.merciless, startLife: 110 })).toBeNull()
+    expect(findMatchingPreset({ ...CONFIG_PRESETS.merciless, regenPerSecond: 9 })).toBeNull()
   })
 })
