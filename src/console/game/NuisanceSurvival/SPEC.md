@@ -220,6 +220,12 @@ NuisanceSurvival/
 - 見た目（円・アイコン・輪）は、前の canvas 2D の描き方のまま、Excalibur の `Canvas` グラフィックで描く。
 - `NuisanceField.vue` は、起動と破棄（`onMounted` / `onBeforeUnmount`）だけ。
 
+## 素材（効果音・画像）
+
+- 効果音は `render/stageSounds.ts` の一覧（`land.mp3` / `boss-land.mp3` / `explode.mp3` / `remove.mp3`）。素材は `assets/sounds/<四半期>/NuisanceSurvival/` に置く（配布後は `sounds/NuisanceSurvival/`）。素材がなければ、その音が鳴らないだけでゲームは動く（コンソールに警告を 1 回出す）。
+- 画像は `images/NuisanceSurvival/`（`player/` `effects/` `backgrounds/` `cutins/`）にまとめる。置き場所は、いまは `assets/characters/<四半期>/NuisanceSurvival/`（`assets/images/` への名前変更は `docs/work/assets-images-rename.md`）。
+- URL は `assetBase`（なければ `./`）から作る。開発サーバー（5174）では、Vite のプラグインが `/sounds/` `/images/` を `assets/` から探す。
+
 ## 今後の検討
 
 - 主人公の操作にゲームパッドを足す（入力は `HeroInput` に変換する層なので、足しやすい）。

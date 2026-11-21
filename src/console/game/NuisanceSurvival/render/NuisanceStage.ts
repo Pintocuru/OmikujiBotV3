@@ -9,9 +9,12 @@ import {
   Engine,
   EmitterType,
   ParticleEmitter,
+  Sound,
   vec,
   type Scene,
 } from 'excalibur'
+import { getSoundPath } from '@/common/AppEnv'
+import { resolveAsset } from '@/common/sounds'
 import { CELL_PX, HERO_MOVE_INTERVAL_SECONDS, MAX_FOOTPRINT } from '../scripts/nuisanceConstants'
 import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
 import {
@@ -25,6 +28,7 @@ import {
 } from '../scripts/nuisanceEngine'
 import type { NuisanceKind } from '../scripts/nuisanceTraits'
 import { FALL_EXTRA_CELLS, FALL_SECONDS, playDeath, playLand, type BurstOptions, type EffectHost } from './effectPresets'
+import { MAX_CONCURRENT_PER_SOUND, SOUND_FILES, SOUND_FOLDER, type SoundKey } from './stageSounds'
 
 /** 盤面が読み取るゲームの窓口 (読み取り専用。ゲームを操作するものは入れない) */
 export type StageSource = {
@@ -66,6 +70,8 @@ export class NuisanceStage implements EffectHost {
   private readonly engine: Engine
   private readonly views = new Map<number, NuisanceView>()
   private readonly images = new Map<string, HTMLImageElement | null>()
+  /** 読み込めた効果音 (素材がないものは null。一度だけ試して、再試行しない) */
+  private readonly sounds = new Map<SoundKey, Sound | null>()
   private readonly heroActor: Actor
   private readonly grid: GridSize
   private heroX = NaN
@@ -102,6 +108,7 @@ export class NuisanceStage implements EffectHost {
 
     this.engine.currentScene.on('preupdate', (event) => this.sync(event.elapsed / 1000))
     void this.engine.start()
+    this.loadSounds()
   }
 
   /** 画面を片付ける (Vue の onBeforeUnmount から呼ぶ) */
@@ -113,7 +120,28 @@ export class NuisanceStage implements EffectHost {
     this.views.clear()
   }
 
+  // ---- 効果音 ----
+
+  private loadSounds(): void {
+    for (const key of Object.keys(SOUND_FILES) as SoundKey[]) {
+      const url = resolveAsset(getSoundPath(SOUND_FOLDER + SOUND_FILES[key].file))
+      const sound = new Sound({ paths: [url], maxConcurrentTracks: MAX_CONCURRENT_PER_SOUND })
+      sound
+        .load()
+        .then(() => this.sounds.set(key, sound))
+        .catch(() => {
+          // 素材がなくても、音が鳴らないだけでゲームは動く
+          this.sounds.set(key, null)
+          console.warn(`[NuisanceSurvival] 効果音を読み込めませんでした: ${url}`)
+        })
+    }
+  }
+
   // ---- EffectHost (演出の実体) ----
+
+  play(key: SoundKey): void {
+    void this.sounds.get(key)?.play({ volume: SOUND_FILES[key].volume })
+  }
 
   shake(magnitude: number, durationMs: number): void {
     this.engine.currentScene.camera.shake(magnitude, magnitude, durationMs)

@@ -4,7 +4,7 @@ import { resolveSound } from './soundUtils'
 /**
  * pathを解決して再生
  */
-const resolveAsset = (path: string) => {
+export const resolveAsset = (path: string) => {
   const base = window.OmikujiBot?.assetBase ?? './'
   return base + path
 }

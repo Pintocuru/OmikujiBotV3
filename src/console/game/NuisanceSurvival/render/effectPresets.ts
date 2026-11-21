@@ -2,6 +2,7 @@
 // 演出のプリセット。イベント (NuisanceEvent) に対して「何を、どれくらい派手に出すか」だけを決める。
 // 描画の実体 (Excalibur) は EffectHost の向こう側にあり、ここは Excalibur を知らない
 import type { NuisanceEvent } from '../scripts/nuisanceEngine'
+import type { SoundKey } from './stageSounds'
 
 /** 演出を出す側 (NuisanceStage が実装する) */
 export interface EffectHost {
@@ -9,6 +10,8 @@ export interface EffectHost {
   shake(magnitude: number, durationMs: number): void
   /** 粒を一度に飛ばす (座標は盤面の px) */
   burst(options: BurstOptions): void
+  /** 効果音を鳴らす (素材がなければ、何もしない) */
+  play(key: SoundKey): void
 }
 
 export type BurstOptions = {
@@ -57,6 +60,7 @@ export const playLand = (host: EffectHost, at: { x: number; y: number; size: num
     radius: at.size * 0.35,
   })
   host.shake(at.isBoss ? 9 : 2.5, at.isBoss ? 420 : 160)
+  host.play(at.isBoss ? 'bossLand' : 'land')
 }
 
 // ---- 撃破 (enemyDeath) ----
@@ -83,6 +87,7 @@ export const playDeath = (
       radius: at.size * 0.3,
     })
     host.shake(8 + event.footprint * 2, 360)
+    host.play('explode')
     return
   }
   host.burst({
@@ -100,4 +105,5 @@ export const playDeath = (
     radius: at.size * 0.3,
   })
   host.shake(3, 140)
+  host.play('remove')
 }
