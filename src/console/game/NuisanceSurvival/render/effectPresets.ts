@@ -87,7 +87,7 @@ export const playDeath = (
       radius: at.size * 0.3,
     })
     host.shake(8 + event.footprint * 2, 360)
-    host.play('explode')
+    host.play('explosion')
     return
   }
   host.burst({
