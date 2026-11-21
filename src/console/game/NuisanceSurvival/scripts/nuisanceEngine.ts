@@ -4,6 +4,7 @@
 // 時間は固定の刻み (STEP_SECONDS) で進める。画面が隠れて更新が止まっていた間も、
 // 「前回から今まで」の時間を、必要な回数だけ刻んで追いつく (advance)。
 // コメントは到着した時刻 (開始からの秒) をつけて渡すので、追いつく途中の正しい時刻に邪魔者が出る。
+// 進行の結果は、状態 (GameState) とは別に、演出用のイベント (NuisanceEvent) としても返す。
 import {
   GRID_COLS,
   GRID_ROWS,
@@ -94,6 +95,32 @@ export type SpawnRequest = {
   lc?: number
 }
 
+/**
+ * 演出に渡すイベント (ゲームの状態とは別。進行の結果として起きたことだけを知らせる)
+ * 座標はマス単位 (占めるマスの左上)。演出側は、この情報だけで描く
+ */
+export type NuisanceEvent =
+  | {
+      type: 'enemySpawn'
+      id: number
+      userId: string
+      col: number
+      row: number
+      kind: NuisanceTraits['kind']
+      isBoss: boolean
+    }
+  | {
+      type: 'enemyDeath'
+      id: number
+      userId: string
+      col: number
+      row: number
+      footprint: number
+      hue: number
+      /** removed: 主人公が取り除いた / exploded: 爆発して消えた */
+      cause: 'removed' | 'exploded'
+    }
+
 const DIRECTIONS: readonly (readonly [number, number])[] = [
   [1, 0],
   [-1, 0],
@@ -178,7 +205,13 @@ const pickFreeCell = (
   return free.length ? free[Math.floor(rng() * free.length)] : null
 }
 
-const spawnOne = (s: GameState, config: NuisanceConfigType, request: SpawnRequest, rng: Rng): void => {
+const spawnOne = (
+  s: GameState,
+  config: NuisanceConfigType,
+  request: SpawnRequest,
+  rng: Rng,
+  events: NuisanceEvent[]
+): void => {
   // lc がキリ番のコメントは、ボスになる。上限・空きなしのときは、ボスも出ない (普通の邪魔者にもならない)
   const isBoss =
     config.bossInterval > 0 && request.lc !== undefined && request.lc > 0 && request.lc % config.bossInterval === 0
@@ -210,6 +243,15 @@ const spawnOne = (s: GameState, config: NuisanceConfigType, request: SpawnReques
     age: 0,
     pushed: 0,
     fuse: traits.fuseSeconds,
+  })
+  events.push({
+    type: 'enemySpawn',
+    id: s.nextId - 1,
+    userId: request.userId,
+    col: cell.col,
+    row: cell.row,
+    kind: traits.kind,
+    isBoss,
   })
 
   const contribution = (s.contributions[request.userId] ??= {
@@ -286,7 +328,24 @@ const moveNuisance = (s: GameState, n: Nuisance, footprint: number, rng: Rng): v
 
 type DamageEvent = { userId: string; amount: number }
 
-const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, rng: Rng): void => {
+const deathEvent = (n: Nuisance, footprint: number, cause: 'removed' | 'exploded'): NuisanceEvent => ({
+  type: 'enemyDeath',
+  id: n.id,
+  userId: n.userId,
+  col: n.col,
+  row: n.row,
+  footprint,
+  hue: n.traits.hue,
+  cause,
+})
+
+const stepOnce = (
+  s: GameState,
+  config: NuisanceConfigType,
+  input: HeroInput,
+  rng: Rng,
+  notices: NuisanceEvent[]
+): void => {
   const dt = STEP_SECONDS
 
   // 主人公: 向きのマスが空いていれば動き、邪魔者がいれば押す (押している間だけ、押した時間が溜まる)
@@ -322,6 +381,7 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, rn
     if (n === pushTarget && n.pushed >= pushNeededOf(n, config)) {
       removed.add(n.id)
       s.removedCount++
+      notices.push(deathEvent(n, measure(n, config).footprint, 'removed'))
     }
   }
 
@@ -352,6 +412,7 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, rn
         events.push({ userId: n.userId, amount: n.traits.explosionDamage * scale * config.drainMultiplier })
         removed.add(n.id)
         s.explodedCount++
+        notices.push(deathEvent(n, footprint, 'exploded'))
       }
     }
   }
@@ -385,6 +446,8 @@ export type AdvanceResult = {
   pending: SpawnRequest[]
   /** 刻みの上限で止まった (まだ追いついていない)。すぐにもう一度 advance を呼ぶ */
   reachedStepLimit: boolean
+  /** この呼び出しで起きたこと (時系列順)。演出に渡す。ゲームの状態には含めない */
+  events: NuisanceEvent[]
 }
 
 /**
@@ -402,24 +465,25 @@ export const advance = (
   rng: Rng = Math.random,
   maxSteps: number = MAX_STEPS_PER_ADVANCE
 ): AdvanceResult => {
-  if (state.over) return { state, pending: [], reachedStepLimit: false }
+  if (state.over) return { state, pending: [], reachedStepLimit: false, events: [] }
   // 1 刻みも進まないなら、複製せずにそのまま返す (毎フレーム呼んでも軽い)
   if (state.elapsed + STEP_SECONDS > untilSeconds + 1e-9)
-    return { state, pending: [...spawns], reachedStepLimit: false }
+    return { state, pending: [...spawns], reachedStepLimit: false, events: [] }
 
   const s = cloneState(state)
   const queue = [...spawns].sort((a, b) => a.atSeconds - b.atSeconds)
+  const events: NuisanceEvent[] = []
   let next = 0
   let steps = 0
   while (!s.over && s.elapsed + STEP_SECONDS <= untilSeconds + 1e-9 && steps < maxSteps) {
     const stepEnd = s.elapsed + STEP_SECONDS
-    while (next < queue.length && queue[next].atSeconds <= stepEnd + 1e-9) spawnOne(s, config, queue[next++], rng)
-    stepOnce(s, config, input, rng)
+    while (next < queue.length && queue[next].atSeconds <= stepEnd + 1e-9) spawnOne(s, config, queue[next++], rng, events)
+    stepOnce(s, config, input, rng, events)
     steps++
   }
 
   const reachedStepLimit = !s.over && s.elapsed + STEP_SECONDS <= untilSeconds + 1e-9
-  return { state: s, pending: s.over ? [] : queue.slice(next), reachedStepLimit }
+  return { state: s, pending: s.over ? [] : queue.slice(next), reachedStepLimit, events }
 }
 
 /** 貢献度の順位 (ダメージの多い順。同じなら出現数の多い順) */

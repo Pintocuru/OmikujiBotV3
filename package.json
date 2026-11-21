@@ -23,6 +23,7 @@
     "@vueuse/motion": "^3.0.3",
     "animate.css": "^4.1.1",
     "daisyui": "^5.8.1",
+    "excalibur": "^1.0.1",
     "expr-eval-fork": "^3.0.3",
     "nanoid": "^5.1.16",
     "pinia": "^3.0.4",

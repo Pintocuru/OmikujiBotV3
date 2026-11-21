@@ -452,3 +452,44 @@ describe('決定性', () => {
     expect(a).toEqual(b)
   })
 })
+
+describe('advance: 演出用のイベント', () => {
+  it('出現すると enemySpawn が返る。上限で無視されたコメントは返らない', () => {
+    const cfg = config({ maxNuisances: 1 })
+    const r = advance(createGame(cfg), cfg, 1, NO_INPUT, [spawn('a', 0.1), spawn('b', 0.2)], createRng(1))
+    expect(r.events.map((e) => e.type)).toEqual(['enemySpawn'])
+    expect(r.events[0]).toMatchObject({ type: 'enemySpawn', userId: 'a', isBoss: false })
+  })
+
+  it('lc が bossInterval の倍数なら、isBoss が立つ', () => {
+    const cfg = config({ bossInterval: 10 })
+    const r = advance(createGame(cfg), cfg, 1, NO_INPUT, [spawn('a', 0.1, 10)], createRng(1))
+    expect(r.events[0]).toMatchObject({ type: 'enemySpawn', isBoss: true })
+  })
+
+  it('爆発すると、cause が exploded の enemyDeath が 1 回だけ返る', () => {
+    const cfg = config({ growthMultiplier: 1 })
+    const userId = findUserId('bomber')
+    const fuse = getNuisanceTraits(userId).fuseSeconds!
+    const before = withNuisance(createGame(cfg), userId, 2, 3)
+    const r = advance(before, cfg, fuse + 1, NO_INPUT, [], createRng(1))
+    const deaths = r.events.filter((e) => e.type === 'enemyDeath')
+    expect(deaths).toHaveLength(1)
+    expect(deaths[0]).toMatchObject({ cause: 'exploded', userId, col: 2, row: 3 })
+  })
+
+  it('主人公が取り除くと、cause が removed の enemyDeath が返る', () => {
+    const cfg = config({ growthMultiplier: 1, pushMultiplier: 0.1 })
+    const userId = findUserId('static')
+    let state = withNuisance(createGame(cfg), userId, 0, 0)
+    state = { ...state, hero: { col: 1, row: 0, cooldown: 0 } }
+    const r = advance(state, cfg, 10, { dx: -1, dy: 0 }, [], createRng(1))
+    expect(r.state.removedCount).toBe(1)
+    expect(r.events.filter((e) => e.type === 'enemyDeath')).toMatchObject([{ cause: 'removed', userId }])
+  })
+
+  it('1 刻みも進まないときは、イベントは空', () => {
+    const cfg = config()
+    expect(advance(createGame(cfg), cfg, 0).events).toEqual([])
+  })
+})

@@ -15,7 +15,7 @@
     />
 
     <main class="relative min-h-0 grow">
-      <NuisanceField :state="state" :config="activeConfig" :getClock="getClock" />
+      <NuisanceField :source="stageSource" />
 
       <NuisanceMenu
         v-if="phase === 'idle' && showMenu"
@@ -59,6 +59,7 @@
   import NuisanceTestPanel from './components/NuisanceTestPanel.vue'
   import NuisanceTopBar from './components/NuisanceTopBar.vue'
   import { useNuisanceSurvival } from './composables/useNuisanceSurvival'
+  import type { StageSource } from './render/NuisanceStage'
 
   const {
     phase,
@@ -72,12 +73,21 @@
     streamId,
     configStore,
     getClock,
+    drainEvents,
     start,
     toMenu,
     toggleMenu,
     record,
     connectComments,
   } = useNuisanceSurvival()
+
+  // 盤面 (Excalibur) が毎フレーム読み取る窓口。読み取り専用で、ゲームには何も返さない
+  const stageSource: StageSource = {
+    getState: () => state.value,
+    getConfig: () => activeConfig.value,
+    getClock,
+    drainEvents,
+  }
 
   // テストコメントは、OBS でキャプチャするときに隠せる (H キーで戻す)
   const hideTools = ref(false)

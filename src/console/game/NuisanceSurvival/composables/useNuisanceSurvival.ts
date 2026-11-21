@@ -10,12 +10,13 @@ import { MAX_GAME_LOGS_PER_APPEND } from '@/types/api'
 import type { OmikenCommentType } from '@/types/OmikenComment'
 import { isMoveKey, resolveInput } from '../scripts/heroInput'
 import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
-import { DAMAGE_EVENT_KEY, PUMP_INTERVAL_MS, SURVIVAL_EVENT_KEY } from '../scripts/nuisanceConstants'
+import { DAMAGE_EVENT_KEY, MAX_FRAME_SECONDS, SURVIVAL_EVENT_KEY } from '../scripts/nuisanceConstants'
 import {
   advance,
   createGame,
   getContributionRanking,
   type GameState,
+  type NuisanceEvent,
   type SpawnRequest,
 } from '../scripts/nuisanceEngine'
 import { buildDamageLogs, buildSurvivalLog } from '../scripts/nuisanceRecord'
@@ -27,6 +28,9 @@ export type NuisancePhase = 'idle' | 'running' | 'over'
 export type RecordStatus = 'idle' | 'saving' | 'saved' | 'error'
 export type CommentStatus = 'connecting' | 'ready' | 'error'
 
+/** 演出が受け取らないまま溜まるイベントの上限 */
+const MAX_QUEUED_EVENTS = 200
+
 const messageOf = (error: unknown) => (error instanceof Error ? error.message : String(error))
 
 /** 文字入力中のキーは、ゲームの操作にしない */
@@ -37,9 +41,10 @@ const isTyping = (target: EventTarget | null) =>
 /**
  * 邪魔者サバイバルの進行
  * idle (メニュー) → running → over (結果)
- * - 時間は壁時計 (performance.now) で進める。更新は requestAnimationFrame とタイマーの両方から呼ぶので、
- *   ウィンドウが隠れて描画が止まっても、ゲームは止まらない (止まっていた分は、次の更新でまとめて追いつく)
- * - コメントは OneSDK の購読で受け取り、届いた時刻をつけて溜める。ゲーム中のコメントだけが邪魔者になる (履歴・BOT は除く)
+ * - 時間は、フレームごとの経過時間 (上限つき) を足したゲーム内の時計で進める。更新は requestAnimationFrame だけから呼ぶので、
+ *   ウィンドウが非表示の間は、ゲームも止まる (再表示されたら、そのときの状態から続ける)
+ * - コメントは OneSDK の購読で受け取り、届いた時刻をつけて溜める。ゲーム中のコメントだけが邪魔者になる (履歴・BOT・非表示中は除く)
+ * - 進行で起きたこと (出現・撃破) は、演出用のイベントとして溜める。演出側が drainEvents で受け取る (ゲームから演出は操作しない)
  * - 結果は、終わったときに自動でゲームログ (GameLog) に記録する。ユーザーの得点 (update-user-stats) は変えない
  */
 export function useNuisanceSurvival() {
@@ -59,46 +64,57 @@ export function useNuisanceSurvival() {
 
   let rng: Rng = createRng(1)
   let runId = ''
-  let runStartedAt = 0
+  /** ゲーム内の時計 (開始からの秒)。ゲーム中だけ、フレームごとに進む */
+  let gameClock = 0
+  let lastFrameAt = 0
   let recordedAt = 0
   let pendingSpawns: SpawnRequest[] = []
+  let eventQueue: NuisanceEvent[] = []
   const heldCodes: string[] = []
   let frameId = 0
-  let intervalId: ReturnType<typeof setInterval> | undefined
 
   const ranking = computed(() => (state.value ? getContributionRanking(state.value) : []))
 
-  /** ゲーム開始からの実時間 (秒) */
-  const wallSeconds = () => (performance.now() - runStartedAt) / 1000
-  /** 描画用の時計。ゲーム中は実時間、それ以外は止まった時刻 */
-  const getClock = () => (phase.value === 'running' ? wallSeconds() : (state.value?.elapsed ?? 0))
+  /** 描画用の時計。ゲーム中はゲーム内の時計、それ以外は止まった時刻 */
+  const getClock = () => (phase.value === 'running' ? gameClock : (state.value?.elapsed ?? 0))
+
+  /** 溜まった演出用のイベントを渡して、空にする (受け取り手がいなくても溜まり続けないよう、上限がある) */
+  const drainEvents = (): NuisanceEvent[] => {
+    const events = eventQueue
+    eventQueue = []
+    return events
+  }
 
   // ---- 進行 ----
 
-  const stopDrivers = () => {
+  const stopDriver = () => {
     cancelAnimationFrame(frameId)
-    if (intervalId) clearInterval(intervalId)
-    intervalId = undefined
+    frameId = 0
   }
 
   const pump = () => {
     const current = state.value
     const config = activeConfig.value
     if (phase.value !== 'running' || !current || !config) return
-    const result = advance(current, config, wallSeconds(), resolveInput(heldCodes), pendingSpawns, rng)
+    const result = advance(current, config, gameClock, resolveInput(heldCodes), pendingSpawns, rng)
     pendingSpawns = result.pending
+    if (result.events.length) eventQueue = [...eventQueue, ...result.events].slice(-MAX_QUEUED_EVENTS)
     if (result.state === current) return
     state.value = result.state
     if (result.state.over) finish()
-    // 刻みの上限で止まったときは、次のタイマー (数十ミリ秒後) で続きを進める
+    // 刻みの上限で止まったときは、次のフレームで続きを進める
   }
 
-  const startDrivers = () => {
-    stopDrivers()
-    intervalId = setInterval(pump, PUMP_INTERVAL_MS)
-    const loop = () => {
+  const startDriver = () => {
+    stopDriver()
+    lastFrameAt = 0
+    const loop = (timestamp: number) => {
+      // 非表示の間は、このコールバックが呼ばれない。再表示の最初のフレームは、経過時間の上限で丸める
+      const dt = lastFrameAt ? Math.min(MAX_FRAME_SECONDS, (timestamp - lastFrameAt) / 1000) : 0
+      lastFrameAt = timestamp
+      gameClock += dt
       pump()
-      frameId = requestAnimationFrame(loop)
+      if (phase.value === 'running') frameId = requestAnimationFrame(loop)
     }
     frameId = requestAnimationFrame(loop)
   }
@@ -106,7 +122,7 @@ export function useNuisanceSurvival() {
   const start = async () => {
     if (phase.value === 'running') return
     const config = await configStore.commit()
-    stopDrivers()
+    stopDriver()
     activeConfig.value = config
     rng = createRng((Date.now() ^ Math.floor(Math.random() * 0x100000000)) >>> 0)
     runId = `run-${Date.now().toString(36)}-${Math.floor(rng() * 0x10000).toString(36)}`
@@ -115,14 +131,15 @@ export function useNuisanceSurvival() {
     heldCodes.length = 0
     recordStatus.value = 'idle'
     recordError.value = ''
-    runStartedAt = performance.now()
+    gameClock = 0
+    eventQueue = []
     phase.value = 'running'
     showMenu.value = false
-    startDrivers()
+    startDriver()
   }
 
   const finish = () => {
-    stopDrivers()
+    stopDriver()
     phase.value = 'over'
     recordedAt = Date.now()
     void record()
@@ -177,9 +194,9 @@ export function useNuisanceSurvival() {
     // 履歴 (購読の最初に届く過去のコメント) やゲーム前のコメントも、「受け取り済み」として覚える
     // (覚えておかないと、あとから再配信されたときに、新規コメントとして邪魔者になる)
     const newOmikens = addOmikens(omikens)
-    // 邪魔者になるのは、ゲーム中に届いた新規コメントだけ
-    if (isFirstLoad || phase.value !== 'running') return
-    const atSeconds = wallSeconds()
+    // 邪魔者になるのは、ゲーム中に届いた新規コメントだけ (非表示の間は、ゲームが止まっているので無視する)
+    if (isFirstLoad || phase.value !== 'running' || document.hidden) return
+    const atSeconds = gameClock
     for (const omiken of newOmikens) {
       if (omiken.userId === POST_SETTINGS.botUserId) continue // おみくじBOT自身の投稿は、ユーザーではない
       pendingSpawns.push({
@@ -227,7 +244,7 @@ export function useNuisanceSurvival() {
     window.addEventListener('blur', clearKeys)
   })
   onBeforeUnmount(() => {
-    stopDrivers()
+    stopDriver()
     window.removeEventListener('keydown', onKeydown)
     window.removeEventListener('keyup', onKeyup)
     window.removeEventListener('blur', clearKeys)
@@ -245,6 +262,7 @@ export function useNuisanceSurvival() {
     streamId,
     configStore,
     getClock,
+    drainEvents,
     start,
     toMenu,
     toggleMenu,
