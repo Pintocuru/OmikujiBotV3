@@ -23,8 +23,6 @@ export const UserAccessLevelSchema = AccessConditionValueSchema.default('basic')
 
 /**
  * メタタグスキーマ(わんコメのコメントの meta)
- * - no / tc / lc は必ず指定する(欠けたコメントを 2 回目・10 件目として扱わないため、既定値は持たない)
- *   わんコメが meta を付けないときは、OmikenCommentProcessor が 0(不明)として渡す
  */
 export const CommentMetaSchema = z.object({
   no: z.number(), // この枠での個人のコメント数(1 なら今回が初コメント)

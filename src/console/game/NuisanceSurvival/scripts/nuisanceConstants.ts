@@ -22,6 +22,10 @@ export const MAX_FRAME_SECONDS = 0.25
 // ---- 主人公 ----
 /** 1マス動く間隔 (秒)。キーを押し続けている間、この間隔で動く */
 export const HERO_MOVE_INTERVAL_SECONDS = 0.14
+/** 何かを押し出したあと、次に動けるまでの間隔 (秒。クールダウン) */
+export const HERO_PUSH_INTERVAL_SECONDS = 0.5
+/** 連鎖して押されるとき、1 つ後ろにつき動き出しを遅らせる秒数 (ウェーブ状に見せる。見た目だけで、位置は即座に変わる) */
+export const PUSH_WAVE_DELAY_SECONDS = 0.15
 /** 時間経過によるダメージ倍率の上限 (操作と無関係に倒されないための安全装置) */
 export const MAX_DAMAGE_RAMP = 5
 
@@ -30,6 +34,17 @@ export const MAX_DAMAGE_RAMP = 5
 export const MAX_SIZE_SCALE = 3.4
 /** 邪魔者が占めるマスの一辺の上限 (大きさの倍率を四捨五入して、1〜この値) */
 export const MAX_FOOTPRINT = 3
+
+// ---- コメントの文字 (ことば。ダメージなし・得点なし。押し出せて、時間が経つと消える) ----
+/** 1 つの「ことば」に入れる文字数。コメントの文字数がこれを超えるごとに、1 つ増える */
+export const WORD_CHARS_PER_ITEM = 5
+/** 1 コメントから降ってくる「ことば」の上限 */
+export const WORD_MAX_PER_COMMENT = 5
+/** 同時に盤面にある「ことば」の上限。超えたら、古いものから消す */
+export const WORD_MAX = 30
+/** 「ことば」が残る時間 (秒)。この範囲でランダム */
+export const WORD_SECONDS_MIN = 5
+export const WORD_SECONDS_MAX = 20
 
 // ---- 吹き出し (視界妨害。見た目だけで、ゲームの当たり判定には影響しない) ----
 /** 吹き出しが出ている時間 (秒。フェードを含む) */

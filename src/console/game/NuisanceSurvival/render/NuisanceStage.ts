@@ -34,6 +34,7 @@ import {
   type Nuisance,
   type NuisanceEvent,
   type Obstacle,
+  type Word,
 } from '../scripts/nuisanceEngine'
 import { formatObstaclePrice, obstacleColorOf } from '../scripts/nuisanceObstacle'
 import type { NuisanceKind } from '../scripts/nuisanceTraits'
@@ -78,6 +79,25 @@ type NuisanceView = {
   isBoss: boolean
 }
 
+/** 「ことば」1 つぶんの表示 */
+type WordView = {
+  actor: Actor
+  word: Word
+  /** 落下の開始時刻 (描画用の時計の秒)。null なら落下は終わっている */
+  fallStartedAt: number | null
+}
+
+/** 盤面の外へ押し出されていく途中の表示 (ウェーブに合わせて、少し遅れて動き出し、外へ滑って消える) */
+type Ghost = {
+  actor: Actor
+  x: number
+  y: number
+  dx: number
+  dy: number
+  startAt: number
+  onEnd: () => void
+}
+
 /** 吹き出し 1 つぶんの表示 (視界妨害。見た目だけで、ゲームには影響しない) */
 type BubbleView = { actor: Actor; remaining: number }
 
@@ -89,6 +109,8 @@ export class NuisanceStage implements EffectHost {
   private readonly sounds = new Map<SoundKey, Sound | null>()
   private readonly heroActor: Actor
   private readonly bubbles: BubbleView[] = []
+  private readonly wordViews = new Map<number, WordView>()
+  private readonly ghosts: Ghost[] = []
   private readonly obstacleViews = new Map<number, { actor: Actor; obstacle: Obstacle }>()
   private readonly grid: GridSize
   private heroX = NaN
@@ -137,6 +159,8 @@ export class NuisanceStage implements EffectHost {
     this.views.clear()
     this.bubbles.length = 0
     this.obstacleViews.clear()
+    this.wordViews.clear()
+    this.ghosts.length = 0
   }
 
   // ---- 効果音 ----
@@ -208,6 +232,8 @@ export class NuisanceStage implements EffectHost {
       this.clearViews()
       this.clearBubbles()
       this.clearObstacles()
+      this.clearWords()
+      this.clearGhosts()
       this.heroActor.graphics.isVisible = false
       this.lastLife = Infinity
       this.heroX = NaN
@@ -218,7 +244,110 @@ export class NuisanceStage implements EffectHost {
     this.syncNuisances(state, config, clock)
     this.syncHero(state, dt)
     this.syncObstacles(state, clock)
+    this.syncWords(state, clock)
+    this.syncGhosts(clock)
     this.syncBubbles(state, bubbleRequests, dt)
+  }
+
+  // ---- 押し出されて消えるもの (ウェーブ) ----
+
+  /** 盤面の外へ押し出されるものを、delaySeconds 後に 1 マス外へ滑らせて消す (終わったら onEnd) */
+  private slideOut(
+    actor: Actor,
+    x: number,
+    y: number,
+    push: { pushDx: number; pushDy: number; delaySeconds: number },
+    clock: number,
+    onEnd: () => void
+  ): void {
+    this.ghosts.push({ actor, x, y, dx: push.pushDx, dy: push.pushDy, startAt: clock + push.delaySeconds, onEnd })
+  }
+
+  private syncGhosts(clock: number): void {
+    for (let i = this.ghosts.length - 1; i >= 0; i--) {
+      const g = this.ghosts[i]
+      const t = clamp((clock - g.startAt) / MOVE_ANIM_SECONDS, 0, 1)
+      const eased = 1 - (1 - t) * (1 - t)
+      g.actor.pos = vec(g.x + g.dx * CELL_PX * eased, g.y + g.dy * CELL_PX * eased)
+      if (t < 1) continue
+      g.actor.kill()
+      this.ghosts.splice(i, 1)
+      g.onEnd()
+    }
+  }
+
+  private clearGhosts(): void {
+    for (const g of this.ghosts) g.actor.kill()
+    this.ghosts.length = 0
+  }
+
+  // ---- ことば (コメントの文字。ダメージなし・押し出せる・時間で消える) ----
+
+  private createWordView(word: Word): WordView {
+    const size = CELL_PX - 6
+    const actor = new Actor({ pos: vec(-1000, -1000), width: CELL_PX, height: CELL_PX, z: 50 })
+    actor.graphics.use(new Canvas({ width: CELL_PX, height: CELL_PX, cache: true, draw: (ctx) => this.drawWord(ctx, word, size) }))
+    this.engine.add(actor)
+    const view: WordView = { actor, word, fallStartedAt: null }
+    this.wordViews.set(word.id, view)
+    return view
+  }
+
+  private clearWords(): void {
+    for (const v of this.wordViews.values()) v.actor.kill()
+    this.wordViews.clear()
+  }
+
+  /** 状態のことばに合わせて、表示を足す・消す。消える直前の 2 秒は点滅する */
+  private syncWords(state: GameState, clock: number): void {
+    const alive = new Set<number>()
+    for (const w of state.words) {
+      alive.add(w.id)
+      // イベントを取り逃したものは、落下なしで表示する
+      const view = this.wordViews.get(w.id) ?? this.createWordView(w)
+      view.word = w
+      const t = clamp((clock - w.movedAt) / MOVE_ANIM_SECONDS, 0, 1)
+      const eased = 1 - (1 - t) * (1 - t)
+      const x = (lerp(w.prevCol, w.col, eased) + 0.5) * CELL_PX
+      let y = (lerp(w.prevRow, w.row, eased) + 0.5) * CELL_PX
+      let opacity = 1
+      if (view.fallStartedAt !== null) {
+        const fallT = clamp((clock - view.fallStartedAt) / FALL_SECONDS, 0, 1)
+        y -= (w.row + 1 + FALL_EXTRA_CELLS) * CELL_PX * (1 - fallT * fallT)
+        opacity = clamp(fallT * 4, 0, 1)
+        if (fallT >= 1) view.fallStartedAt = null
+      }
+      const left = w.expiresAt - state.elapsed
+      if (left < 2) opacity *= 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(clock * 16))
+      view.actor.pos = vec(x, y)
+      view.actor.graphics.opacity = opacity
+    }
+    // 消えたもの (時間切れ。押し出されたものは、ウェーブに合わせて別に消す)
+    for (const [id, view] of this.wordViews) {
+      if (alive.has(id)) continue
+      view.actor.kill()
+      this.wordViews.delete(id)
+    }
+  }
+
+  /** 白い札に、コメントの一部を 2 行まで書く (1 マスに収まるよう、3 文字ずつで折り返す) */
+  private drawWord(ctx: CanvasRenderingContext2D, word: Word, size: number): void {
+    const offset = (CELL_PX - size) / 2
+    ctx.fillStyle = '#ffffff'
+    ctx.strokeStyle = 'rgba(0,0,0,0.25)'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.roundRect(offset, offset, size, size, 8)
+    ctx.fill()
+    ctx.stroke()
+    const chars = Array.from(word.text)
+    const lines = chars.length <= 3 ? [chars.join('')] : [chars.slice(0, Math.ceil(chars.length / 2)).join(''), chars.slice(Math.ceil(chars.length / 2)).join('')]
+    ctx.fillStyle = '#222222'
+    ctx.font = 'bold 18px sans-serif'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    const lineHeight = 22
+    lines.forEach((line, i) => ctx.fillText(line, CELL_PX / 2, CELL_PX / 2 + (i - (lines.length - 1) / 2) * lineHeight, size - 6))
   }
 
   // ---- ギフト障害物 ----
@@ -369,9 +498,33 @@ export class NuisanceStage implements EffectHost {
         view.fallStartedAt = clock
       } else if (event.type === 'obstacleSkipped') {
         this.showGiftNotice(event.userName, event.price)
+      } else if (event.type === 'wordSpawn') {
+        const word = state.words.find((w) => w.id === event.id)
+        if (!word) continue
+        this.createWordView(word).fallStartedAt = clock
+      } else if (event.type === 'wordGone') {
+        const view = this.wordViews.get(event.id)
+        if (!view) continue
+        this.wordViews.delete(event.id)
+        this.slideOut(view.actor, (event.col + 0.5) * CELL_PX, (event.row + 0.5) * CELL_PX, event, clock, () => {})
       } else if (event.type === 'enemyDeath') {
         const size = event.footprint * CELL_PX
-        playDeath(this, event, { x: (event.col + event.footprint / 2) * CELL_PX, y: (event.row + event.footprint / 2) * CELL_PX, size })
+        const at = { x: (event.col + event.footprint / 2) * CELL_PX, y: (event.row + event.footprint / 2) * CELL_PX, size }
+        const view = this.views.get(event.id)
+        if (view && event.delaySeconds && event.pushDx !== undefined && event.pushDy !== undefined) {
+          // 連鎖の途中で押し出されたもの: ウェーブが届くまで盤面に残し、外へ滑らせてから消す
+          this.views.delete(event.id)
+          this.slideOut(
+            view.actor,
+            at.x,
+            at.y,
+            { pushDx: event.pushDx, pushDy: event.pushDy, delaySeconds: event.delaySeconds },
+            clock,
+            () => playDeath(this, event, at)
+          )
+        } else {
+          playDeath(this, event, at)
+        }
       }
     }
   }

@@ -217,6 +217,7 @@ export function useNuisanceSurvival() {
         userName: omiken.userName,
         profileImage: omiken.profileImage,
         lc: omiken.meta.lc, // 0 は不明 (ボスにならない)
+        comment: omiken.comment, // 文字数に応じて、「ことば」が降ってくる
         giftPrice: omiken.giftPrice ?? undefined, // ギフトなら、邪魔者ではなく障害物になる
       })
     }

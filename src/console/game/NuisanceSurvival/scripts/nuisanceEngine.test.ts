@@ -1,7 +1,21 @@
 // src/console/game/NuisanceSurvival/scripts/nuisanceEngine.test.ts
 import { describe, expect, it } from 'vitest'
 import { createDefaultConfig, type NuisanceConfigType } from './nuisanceConfig'
-import { MAX_DAMAGE_RAMP, MAX_FOOTPRINT, MAX_OBSTACLES, MAX_SIZE_SCALE, OBSTACLE_SECONDS, STEP_SECONDS } from './nuisanceConstants'
+import {
+  HERO_MOVE_INTERVAL_SECONDS,
+  HERO_PUSH_INTERVAL_SECONDS,
+  MAX_DAMAGE_RAMP,
+  MAX_FOOTPRINT,
+  MAX_OBSTACLES,
+  MAX_SIZE_SCALE,
+  OBSTACLE_SECONDS,
+  PUSH_WAVE_DELAY_SECONDS,
+  STEP_SECONDS,
+  WORD_MAX,
+  WORD_MAX_PER_COMMENT,
+  WORD_SECONDS_MAX,
+  WORD_SECONDS_MIN,
+} from './nuisanceConstants'
 import {
   advance,
   createGame,
@@ -607,3 +621,121 @@ describe('advance: ギフト障害物', () => {
   })
 })
 
+describe('advance: 押し出しのクールダウンとウェーブ', () => {
+  const grid: GridSize = { cols: 9, rows: 3 }
+  const cfg = config({ growthMultiplier: 1 })
+
+  it('何かを押し出したあとは、長いクールダウンになる。空きマスへ動いただけなら、短い', () => {
+    const empty = advance(createGame(cfg, grid), cfg, STEP_SECONDS, { dx: 1, dy: 0 }, [], createRng(1)).state
+    expect(empty.hero.cooldown).toBeCloseTo(HERO_MOVE_INTERVAL_SECONDS - 0, 5)
+    const base = withNuisance(createGame(cfg, grid), findUserId('static'), 5, 1) // 主人公 (4,1) の右隣
+    const pushed = advance(base, cfg, STEP_SECONDS, { dx: 1, dy: 0 }, [], createRng(1)).state
+    expect(pushed.hero.cooldown).toBeCloseTo(HERO_PUSH_INTERVAL_SECONDS, 5)
+  })
+
+  it('連鎖して押すと、後ろのものほど動き出しが遅れる (位置は即座に変わる)', () => {
+    let state = createGame(cfg, grid)
+    state = withNuisance(state, findUserId('static'), 5, 1)
+    state = withNuisance(state, findUserId('static', 100), 6, 1)
+    state = withNuisance(state, findUserId('static', 200), 7, 1)
+    const r = advance(state, cfg, STEP_SECONDS, { dx: 1, dy: 0 }, [], createRng(1)).state
+    expect(r.nuisances.map((n) => n.col)).toEqual([6, 7, 8])
+    const delays = r.nuisances.map((n) => n.movedAt - r.nuisances[0].movedAt)
+    expect(delays[0]).toBeCloseTo(0, 5)
+    expect(delays[1]).toBeCloseTo(PUSH_WAVE_DELAY_SECONDS, 5)
+    expect(delays[2]).toBeCloseTo(PUSH_WAVE_DELAY_SECONDS * 2, 5)
+  })
+
+  it('連鎖の途中で壁の外へ出るものには、演出を遅らせる情報がつく', () => {
+    let state = createGame(cfg, grid)
+    state = withNuisance(state, findUserId('static'), 7, 1)
+    state = withNuisance(state, findUserId('static', 100), 8, 1) // 右端
+    state = { ...state, hero: { col: 6, row: 1, cooldown: 0 } }
+    const r = advance(state, cfg, STEP_SECONDS, { dx: 1, dy: 0 }, [], createRng(1))
+    expect(r.events).toMatchObject([
+      { type: 'enemyDeath', cause: 'removed', col: 8, row: 1, pushDx: 1, pushDy: 0, delaySeconds: PUSH_WAVE_DELAY_SECONDS },
+    ])
+  })
+})
+
+describe('advance: コメントの文字 (ことば)', () => {
+  const grid: GridSize = { cols: 9, rows: 4 }
+  const cfg = config({ growthMultiplier: 1 })
+  const comment = (text: string, userId = 'a', atSeconds = 0): SpawnRequest => ({ ...spawn(userId, atSeconds), comment: text })
+  const first = (spawns: SpawnRequest[], state = createGame(cfg, grid)) =>
+    advance(state, cfg, STEP_SECONDS, NO_INPUT, spawns, createRng(1))
+
+  it('文字数に応じて降ってくる (5 文字ごとに 1 つ。上限あり)', () => {
+    expect(first([comment('あ')]).state.words).toHaveLength(1)
+    expect(first([comment('あいうえお')]).state.words).toHaveLength(1)
+    expect(first([comment('あいうえおか')]).state.words).toHaveLength(2)
+    expect(first([comment('あ'.repeat(500))]).state.words).toHaveLength(WORD_MAX_PER_COMMENT)
+    expect(first([comment('あいうえおかきくけこ')]).state.words.map((w) => w.text)).toEqual(['あいうえお', 'かきくけこ'])
+  })
+
+  it('空白だけ・本文なし・ギフトのコメントでは降らない', () => {
+    expect(first([comment('  \n ')]).state.words).toHaveLength(0)
+    expect(first([spawn('a')]).state.words).toHaveLength(0)
+    expect(first([{ ...comment('ありがとう'), giftPrice: 100 }]).state.words).toHaveLength(0)
+  })
+
+  it('邪魔者の上限で無視されても、ことばは降る。ダメージ・貢献度・出現数には関わらない', () => {
+    const limited = config({ growthMultiplier: 1, maxNuisances: 1 })
+    const r = advance(createGame(limited, grid), limited, STEP_SECONDS, NO_INPUT, [comment('こんにちは'), comment('こんばんは', 'b')], createRng(1))
+    expect(r.state.nuisances).toHaveLength(1)
+    expect(r.state.ignoredCount).toBe(1)
+    expect(r.state.words).toHaveLength(2)
+    expect(r.events.filter((e) => e.type === 'wordSpawn')).toHaveLength(2)
+    const onlyWords = advance(createGame(cfg, grid), cfg, 5, NO_INPUT, [], createRng(1)).state
+    expect(onlyWords.life).toBe(cfg.startLife)
+  })
+
+  it('消える時間は、5〜20 秒のランダム。時間が来ると消える', () => {
+    const r = first([comment('あ'.repeat(25))]).state
+    for (const w of r.words) {
+      expect(w.expiresAt - 0).toBeGreaterThanOrEqual(WORD_SECONDS_MIN)
+      expect(w.expiresAt - 0).toBeLessThanOrEqual(WORD_SECONDS_MAX + STEP_SECONDS)
+    }
+    const later = advance(r, cfg, WORD_SECONDS_MAX + 1, NO_INPUT, [], createRng(1)).state
+    expect(later.words).toHaveLength(0)
+  })
+
+  it('同時に出せる数には上限があり、超えたら古いものから消える', () => {
+    const many = Array.from({ length: 12 }, (_, i) => comment('あ'.repeat(25), `u${i}`))
+    const r = first(many).state
+    expect(r.words.length).toBeLessThanOrEqual(WORD_MAX)
+    const ids = r.words.map((w) => w.id)
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('空きマスにだけ降る (主人公・邪魔者・ことばと重ならない)', () => {
+    const r = first([comment('あ'.repeat(25))]).state
+    const cells = r.words.map((w) => `${w.col},${w.row}`)
+    expect(new Set(cells).size).toBe(cells.length)
+    expect(cells).not.toContain(`${r.hero.col},${r.hero.row}`)
+  })
+
+  it('主人公が押し出せる。連鎖して邪魔者も押す。盤面の外へ出ても、撃破数・得点には数えない', () => {
+    let state = createGame(cfg, grid) // 主人公 (4,2)
+    state = {
+      ...state,
+      words: [{ id: 900, userId: 'w', text: 'ことば', col: 5, row: 2, prevCol: 5, prevRow: 2, movedAt: 0, expiresAt: 1e6 }],
+    }
+    state = withNuisance(state, findUserId('static'), 6, 2)
+    const r = advance(state, cfg, STEP_SECONDS, { dx: 1, dy: 0 }, [], createRng(1)).state
+    expect(r.words[0].col).toBe(6)
+    expect(r.nuisances[0].col).toBe(7)
+    expect(r.hero.cooldown).toBeCloseTo(HERO_PUSH_INTERVAL_SECONDS, 5)
+
+    // 壁際で押す
+    const edge = {
+      ...createGame(cfg, grid),
+      hero: { col: 7, row: 2, cooldown: 0 },
+      words: [{ id: 901, userId: 'w', text: 'ことば', col: 8, row: 2, prevCol: 8, prevRow: 2, movedAt: 0, expiresAt: 1e6 }],
+    }
+    const out = advance(edge, cfg, STEP_SECONDS, { dx: 1, dy: 0 }, [], createRng(1))
+    expect(out.state.words).toHaveLength(0)
+    expect(out.state.removedCount).toBe(0)
+    expect(out.events).toMatchObject([{ type: 'wordGone', id: 901, pushDx: 1, pushDy: 0 }])
+  })
+})
