@@ -21,30 +21,39 @@ describe('parseConfig', () => {
   })
 
   it('範囲外・型違いは、既定値で始めて理由を返す (黙って直さない)', () => {
-    const { config, error } = parseConfig({ growthMultiplier: 99 })
+    const { config, error } = parseConfig({ maxSeconds: 99999 })
     expect(config).toEqual(createDefaultConfig())
-    expect(error).toContain('growthMultiplier')
+    expect(error).toContain('maxSeconds')
     expect(parseConfig({ maxNuisances: 1.5 }).error).toContain('maxNuisances')
+  })
+
+  it('以前の設定 (ライフ制のときの項目) が残っていても、無視して読める', () => {
+    const { config, error } = parseConfig({ startLife: 100, drainMultiplier: 3, maxNuisances: 20 })
+    expect(error).toBeNull()
+    expect(config.maxNuisances).toBe(20)
+    expect(config).not.toHaveProperty('startLife')
   })
 })
 
 describe('sanitizeConfig', () => {
   it('範囲に収める。数字でない項目は既定値、上限の数は四捨五入', () => {
     const config = sanitizeConfig({
-      startLife: 99999,
+      maxSeconds: 99999,
       maxNuisances: 12.6,
-      growthMultiplier: 0.2,
-      growthIntervalSeconds: Number.NaN,
-      drainMultiplier: '5',
+      iconSeconds: 0,
+      wordSeconds: Number.NaN,
+      coefficientFloorPercent: '5',
     })
-    expect(config.startLife).toBe(CONFIG_LIMITS.startLife.max)
+    expect(config.maxSeconds).toBe(CONFIG_LIMITS.maxSeconds.max)
     expect(config.maxNuisances).toBe(13)
+    expect(config.iconSeconds).toBe(CONFIG_LIMITS.iconSeconds.min)
+    expect(config.wordSeconds).toBe(CONFIG_LIMITS.wordSeconds.default)
+    expect(config.coefficientFloorPercent).toBe(CONFIG_LIMITS.coefficientFloorPercent.default)
     expect(config.bossInterval).toBe(CONFIG_LIMITS.bossInterval.default)
-    expect(config.growthMultiplier).toBe(CONFIG_LIMITS.growthMultiplier.min)
-    expect(config.growthIntervalSeconds).toBe(CONFIG_LIMITS.growthIntervalSeconds.default)
-    expect(config.drainMultiplier).toBe(CONFIG_LIMITS.drainMultiplier.default)
-    expect(config.damageRampPerMinute).toBe(CONFIG_LIMITS.damageRampPerMinute.default)
-    expect(config.startLife).toBe(100) // 最大ライフは 100 固定
+  })
+
+  it('残り時間の上限の既定値は、15 分', () => {
+    expect(createDefaultConfig().maxSeconds).toBe(900)
   })
 })
 
@@ -58,6 +67,6 @@ describe('プリセット', () => {
 
   it('入力欄の値がプリセットと一致するときだけ、そのプリセットが分かる', () => {
     expect(findMatchingPreset(CONFIG_PRESETS.merciless)).toBe('merciless')
-    expect(findMatchingPreset({ ...CONFIG_PRESETS.merciless, regenPerSecond: 9 })).toBeNull()
+    expect(findMatchingPreset({ ...CONFIG_PRESETS.merciless, maxSeconds: 301 })).toBeNull()
   })
 })

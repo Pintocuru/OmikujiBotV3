@@ -4,22 +4,18 @@ import { z } from 'zod'
 
 /** 項目ごとの範囲と既定値。フォームの入力範囲も、ここを使う */
 export const CONFIG_LIMITS = {
-  /** 最大ライフ (開始時のライフ)。100 固定 */
-  startLife: { min: 100, max: 100, step: 1, default: 100 },
-  /** 同時に存在できる邪魔者の上限。超えたコメントは無視する */
+  /** 残り時間の上限 (秒)。ゲームは、この時間から始まる (満タン)。時間は、1 秒ごとに 1 秒減る */
+  maxSeconds: { min: 60, max: 3600, step: 30, default: 900 },
+  /** アイコン (コメントした人) を画面の外へ押し出したときに得る秒数 (これに、連鎖数と係数が掛かる) */
+  iconSeconds: { min: 1, max: 30, step: 1, default: 5 },
+  /** ことば (コメントの文字) を画面の外へ押し出したときに得る秒数 (これに、連鎖数と係数が掛かる) */
+  wordSeconds: { min: 0, max: 10, step: 0.5, default: 1 },
+  /** 係数の下がり方 (1 分ごとに、何 % 下がるか)。係数は、初見さんのコメントが届くと 100 % に戻る */
+  coefficientDropPerMinute: { min: 0, max: 50, step: 1, default: 5 },
+  /** 係数の下限 (%)。これより下がらない */
+  coefficientFloorPercent: { min: 0, max: 100, step: 5, default: 20 },
+  /** 同時に存在できるアイコンの上限。超えたコメントは無視する */
   maxNuisances: { min: 1, max: 200, step: 1, default: 30 },
-  /** 成長の倍率。growthIntervalSeconds ごとに、邪魔者の大きさにこの倍率が掛かる */
-  growthMultiplier: { min: 1, max: 3, step: 0.05, default: 1.1 },
-  /** 成長の間隔 (秒) */
-  growthIntervalSeconds: { min: 1, max: 600, step: 1, default: 10 },
-  /** ライフの減る速さと爆発のダメージの倍率 (難しさ) */
-  drainMultiplier: { min: 0.1, max: 10, step: 0.1, default: 1 },
-  /** 時間経過によるダメージの増え方 (1 分ごとに、基本ダメージのこの割合ぶん増える。上限は MAX_DAMAGE_RAMP) */
-  damageRampPerMinute: { min: 0, max: 5, step: 0.1, default: 0.5 },
-  /** ライフの自然回復 (1 秒あたり) */
-  regenPerSecond: { min: 0, max: 10, step: 0.5, default: 1 },
-  /** 特殊能力 (動く・爆発) を持つ邪魔者の割合 (%)。それ以外は、動かない */
-  specialRate: { min: 0, max: 100, step: 5, default: 20 },
   /** ボスが出るコメント数 (配信枠のコメント数 lc が、この数の倍数のとき。0 ならボスは出ない) */
   bossInterval: { min: 0, max: 1000, step: 5, default: 100 },
 } as const
@@ -33,14 +29,12 @@ const field = (key: NuisanceConfigKey, integer = false) => {
 }
 
 export const NuisanceConfigSchema = z.object({
-  startLife: field('startLife'),
+  maxSeconds: field('maxSeconds'),
+  iconSeconds: field('iconSeconds'),
+  wordSeconds: field('wordSeconds'),
+  coefficientDropPerMinute: field('coefficientDropPerMinute'),
+  coefficientFloorPercent: field('coefficientFloorPercent'),
   maxNuisances: field('maxNuisances', true),
-  growthMultiplier: field('growthMultiplier'),
-  growthIntervalSeconds: field('growthIntervalSeconds'),
-  drainMultiplier: field('drainMultiplier'),
-  damageRampPerMinute: field('damageRampPerMinute'),
-  regenPerSecond: field('regenPerSecond'),
-  specialRate: field('specialRate'),
   bossInterval: field('bossInterval', true),
 })
 export type NuisanceConfigType = z.infer<typeof NuisanceConfigSchema>
@@ -53,40 +47,34 @@ export const createDefaultConfig = (): NuisanceConfigType => NuisanceConfigSchem
 export type ConfigPresetId = 'endurance' | 'tenMinutes' | 'merciless'
 
 export const CONFIG_PRESETS: Record<ConfigPresetId, NuisanceConfigType> = {
-  /** 耐久配信向け: 長時間、のんびり */
+  /** 耐久配信向け: 長い持ち時間で、係数がゆっくり下がる */
   endurance: {
-    startLife: 100,
-    maxNuisances: 20,
-    growthMultiplier: 1.02,
-    growthIntervalSeconds: 60,
-    drainMultiplier: 0.3,
-    damageRampPerMinute: 0.2,
-    regenPerSecond: 2,
-    specialRate: 5,
+    maxSeconds: 1800,
+    iconSeconds: 5,
+    wordSeconds: 1,
+    coefficientDropPerMinute: 3,
+    coefficientFloorPercent: 30,
+    maxNuisances: 40,
     bossInterval: 300,
   },
-  /** 10分耐久 */
+  /** 標準: 15 分 */
   tenMinutes: {
-    startLife: 100,
+    maxSeconds: 900,
+    iconSeconds: 5,
+    wordSeconds: 1,
+    coefficientDropPerMinute: 5,
+    coefficientFloorPercent: 20,
     maxNuisances: 30,
-    growthMultiplier: 1.1,
-    growthIntervalSeconds: 30,
-    drainMultiplier: 1,
-    damageRampPerMinute: 0.5,
-    regenPerSecond: 1,
-    specialRate: 20,
     bossInterval: 50,
   },
-  /** 情け無用組み手: 短期決戦、特殊能力だらけ */
+  /** 情け無用組み手: 短期決戦。係数がすぐ下がる */
   merciless: {
-    startLife: 100,
-    maxNuisances: 100,
-    growthMultiplier: 1.3,
-    growthIntervalSeconds: 10,
-    drainMultiplier: 2,
-    damageRampPerMinute: 1,
-    regenPerSecond: 0.5,
-    specialRate: 60,
+    maxSeconds: 300,
+    iconSeconds: 3,
+    wordSeconds: 0.5,
+    coefficientDropPerMinute: 10,
+    coefficientFloorPercent: 10,
+    maxNuisances: 60,
     bossInterval: 10,
   },
 }

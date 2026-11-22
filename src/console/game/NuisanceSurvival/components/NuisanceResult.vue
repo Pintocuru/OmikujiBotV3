@@ -1,5 +1,5 @@
 <!-- src/console/game/NuisanceSurvival/components/NuisanceResult.vue -->
-<!-- ゲームオーバーの結果: 生存時間・取り除いた数・ダメージを与えた人。ユーザーの得点は変えない (結果は、ゲームログに記録する) -->
+<!-- ゲームオーバーの結果: 生存時間・最大連鎖・押し出した数・時間を生んだ人。ユーザーの得点は変えない (結果は、ゲームログに記録する) -->
 <template>
   <div class="absolute inset-0 flex items-center justify-center bg-black/55 p-4">
     <div class="rounded-box w-full max-w-md bg-base-100 p-6 text-base-content shadow-2xl">
@@ -10,7 +10,8 @@
         <span class="ml-2 text-3xl font-black">{{ formatSurvival(survivalSeconds) }}</span>
       </p>
       <p class="mt-1 text-center text-xs opacity-70">
-        {{ nuisanceSurvivalMessages.result.removed(state.removedCount) }}
+        {{ nuisanceSurvivalMessages.result.bestChain(state.bestChain) }} /
+        {{ nuisanceSurvivalMessages.result.removed(state.removedCount, state.removedWordCount) }}
       </p>
 
       <h3 class="mt-4 text-sm font-bold">{{ nuisanceSurvivalMessages.result.ranking }}</h3>
@@ -19,7 +20,7 @@
           <span class="w-6 text-center text-lg">{{ MEDALS[i] ?? i + 1 }}</span>
           <UserIcon :src="c.profileImage" :userName="c.userName" />
           <span class="grow truncate font-bold">{{ c.userName }}</span>
-          <span class="font-mono text-sm">{{ nuisanceSurvivalMessages.result.damage(Math.round(c.damage)) }}</span>
+          <span class="font-mono text-sm">{{ nuisanceSurvivalMessages.result.seconds(Math.round(c.seconds)) }}</span>
         </li>
       </ol>
       <p v-else class="mt-2 text-xs opacity-60">{{ nuisanceSurvivalMessages.result.none }}</p>
@@ -70,5 +71,5 @@
   const MEDALS = ['🥇', '🥈', '🥉']
   const TOP_COUNT = 5
   const survivalSeconds = computed(() => props.state.endedAt ?? props.state.elapsed)
-  const top = computed(() => props.ranking.filter((c) => Math.round(c.damage) > 0).slice(0, TOP_COUNT))
+  const top = computed(() => props.ranking.filter((c) => Math.round(c.seconds) > 0).slice(0, TOP_COUNT))
 </script>

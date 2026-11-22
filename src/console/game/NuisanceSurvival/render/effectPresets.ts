@@ -65,31 +65,12 @@ export const playLand = (host: EffectHost, at: { x: number; y: number; size: num
 
 // ---- 撃破 (enemyDeath) ----
 
-/** 撃破: 爆発は赤橙の大きな破片と強い揺れ、取り除いたときは邪魔者の色の小さな破片 */
+/** 押し出されて画面の外へ出たとき: アイコンの色の小さな破片 */
 export const playDeath = (
   host: EffectHost,
   event: Extract<NuisanceEvent, { type: 'enemyDeath' }>,
   at: { x: number; y: number; size: number }
 ): void => {
-  if (event.cause === 'exploded') {
-    host.burst({
-      x: at.x,
-      y: at.y,
-      count: 46,
-      hue: 18,
-      saturation: 95,
-      lightness: 55,
-      minSpeed: 90,
-      maxSpeed: 360,
-      minSize: 8,
-      maxSize: 26,
-      lifeMs: 800,
-      radius: at.size * 0.3,
-    })
-    host.shake(8 + event.footprint * 2, 360)
-    host.play('explosion')
-    return
-  }
   host.burst({
     x: at.x,
     y: at.y,

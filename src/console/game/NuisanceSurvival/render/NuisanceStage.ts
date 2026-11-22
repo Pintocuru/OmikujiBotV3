@@ -38,7 +38,14 @@ import {
 } from '../scripts/nuisanceEngine'
 import { formatObstaclePrice, obstacleColorOf } from '../scripts/nuisanceObstacle'
 import type { NuisanceKind } from '../scripts/nuisanceTraits'
-import { FALL_EXTRA_CELLS, FALL_SECONDS, playDeath, playLand, type BurstOptions, type EffectHost } from './effectPresets'
+import {
+  FALL_EXTRA_CELLS,
+  FALL_SECONDS,
+  playDeath,
+  playLand,
+  type BurstOptions,
+  type EffectHost,
+} from './effectPresets'
 import { MAX_CONCURRENT_PER_SOUND, SOUND_FILES, SOUND_FOLDER, type SoundKey } from './stageSounds'
 
 /** 盤面が読み取るゲームの窓口 (読み取り専用。ゲームを操作するものは入れない) */
@@ -54,16 +61,10 @@ export type StageSource = {
 }
 
 const MOVE_ANIM_SECONDS = 0.15
-const FLASH_SECONDS = 0.25
 /** 邪魔者 1 体を描く canvas の一辺。最大の大きさ + 赤い輪・緑の輪の分の余白 */
 const VIEW_PX = CELL_PX * MAX_FOOTPRINT + 32
 const KIND_GLYPH: Record<NuisanceKind, string> = {
   static: '',
-  wanderer: '👣',
-  evader: '💨',
-  creeper: '💕',
-  bouncer: '⇄',
-  bomber: '💣',
   boss: '👑',
 }
 
@@ -95,7 +96,7 @@ type Ghost = {
   dx: number
   dy: number
   startAt: number
-  onEnd: () => void
+  onEnd?: () => void
 }
 
 /** 吹き出し 1 つぶんの表示 (視界妨害。見た目だけで、ゲームには影響しない) */
@@ -115,8 +116,6 @@ export class NuisanceStage implements EffectHost {
   private readonly grid: GridSize
   private heroX = NaN
   private heroY = NaN
-  private lastLife = Infinity
-  private flashRemaining = 0
   private disposed = false
 
   constructor(
@@ -141,7 +140,9 @@ export class NuisanceStage implements EffectHost {
     this.engine.add(board)
 
     this.heroActor = new Actor({ pos: vec(-1000, -1000), width: CELL_PX, height: CELL_PX, z: 1000 })
-    this.heroActor.graphics.use(new Canvas({ width: CELL_PX, height: CELL_PX, cache: false, draw: (ctx) => this.drawHero(ctx) }))
+    this.heroActor.graphics.use(
+      new Canvas({ width: CELL_PX, height: CELL_PX, cache: false, draw: (ctx) => this.drawHero(ctx) })
+    )
     this.heroActor.graphics.isVisible = false
     this.engine.add(this.heroActor)
 
@@ -235,13 +236,12 @@ export class NuisanceStage implements EffectHost {
       this.clearWords()
       this.clearGhosts()
       this.heroActor.graphics.isVisible = false
-      this.lastLife = Infinity
       this.heroX = NaN
       return
     }
 
     this.applyEvents(events, state, clock)
-    this.syncNuisances(state, config, clock)
+    this.syncNuisances(state, clock)
     this.syncHero(state, dt)
     this.syncObstacles(state, clock)
     this.syncWords(state, clock)
@@ -258,7 +258,7 @@ export class NuisanceStage implements EffectHost {
     y: number,
     push: { pushDx: number; pushDy: number; delaySeconds: number },
     clock: number,
-    onEnd: () => void
+    onEnd?: () => void
   ): void {
     this.ghosts.push({ actor, x, y, dx: push.pushDx, dy: push.pushDy, startAt: clock + push.delaySeconds, onEnd })
   }
@@ -272,7 +272,7 @@ export class NuisanceStage implements EffectHost {
       if (t < 1) continue
       g.actor.kill()
       this.ghosts.splice(i, 1)
-      g.onEnd()
+      g.onEnd?.()
     }
   }
 
@@ -286,7 +286,9 @@ export class NuisanceStage implements EffectHost {
   private createWordView(word: Word): WordView {
     const size = CELL_PX - 6
     const actor = new Actor({ pos: vec(-1000, -1000), width: CELL_PX, height: CELL_PX, z: 50 })
-    actor.graphics.use(new Canvas({ width: CELL_PX, height: CELL_PX, cache: true, draw: (ctx) => this.drawWord(ctx, word, size) }))
+    actor.graphics.use(
+      new Canvas({ width: CELL_PX, height: CELL_PX, cache: true, draw: (ctx) => this.drawWord(ctx, word, size) })
+    )
     this.engine.add(actor)
     const view: WordView = { actor, word, fallStartedAt: null }
     this.wordViews.set(word.id, view)
@@ -341,13 +343,18 @@ export class NuisanceStage implements EffectHost {
     ctx.fill()
     ctx.stroke()
     const chars = Array.from(word.text)
-    const lines = chars.length <= 3 ? [chars.join('')] : [chars.slice(0, Math.ceil(chars.length / 2)).join(''), chars.slice(Math.ceil(chars.length / 2)).join('')]
+    const lines =
+      chars.length <= 3
+        ? [chars.join('')]
+        : [chars.slice(0, Math.ceil(chars.length / 2)).join(''), chars.slice(Math.ceil(chars.length / 2)).join('')]
     ctx.fillStyle = '#222222'
     ctx.font = 'bold 18px sans-serif'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     const lineHeight = 22
-    lines.forEach((line, i) => ctx.fillText(line, CELL_PX / 2, CELL_PX / 2 + (i - (lines.length - 1) / 2) * lineHeight, size - 6))
+    lines.forEach((line, i) =>
+      ctx.fillText(line, CELL_PX / 2, CELL_PX / 2 + (i - (lines.length - 1) / 2) * lineHeight, size - 6)
+    )
   }
 
   // ---- ギフト障害物 ----
@@ -358,7 +365,12 @@ export class NuisanceStage implements EffectHost {
     const label = `${userName} ${formatObstaclePrice(price)}`
     const width = Math.min(this.grid.cols * CELL_PX, Math.max(180, label.length * 24 + 32))
     const height = 48
-    const actor = new Actor({ pos: vec((this.grid.cols * CELL_PX) / 2, 36 + Math.random() * 40), width, height, z: 1600 })
+    const actor = new Actor({
+      pos: vec((this.grid.cols * CELL_PX) / 2, 36 + Math.random() * 40),
+      width,
+      height,
+      z: 1600,
+    })
     actor.graphics.use(
       new Canvas({
         width,
@@ -399,7 +411,9 @@ export class NuisanceStage implements EffectHost {
       if (!v) {
         const w = o.size * CELL_PX
         const actor = new Actor({ pos: vec(0, 0), width: w, height: w, z: 5 })
-        actor.graphics.use(new Canvas({ width: w, height: w, cache: true, draw: (ctx) => this.drawObstacle(ctx, o, w) }))
+        actor.graphics.use(
+          new Canvas({ width: w, height: w, cache: true, draw: (ctx) => this.drawObstacle(ctx, o, w) })
+        )
         this.engine.add(actor)
         v = { actor, obstacle: o }
         this.obstacleViews.set(o.id, v)
@@ -506,10 +520,14 @@ export class NuisanceStage implements EffectHost {
         const view = this.wordViews.get(event.id)
         if (!view) continue
         this.wordViews.delete(event.id)
-        this.slideOut(view.actor, (event.col + 0.5) * CELL_PX, (event.row + 0.5) * CELL_PX, event, clock, () => {})
+        this.slideOut(view.actor, (event.col + 0.5) * CELL_PX, (event.row + 0.5) * CELL_PX, event, clock)
       } else if (event.type === 'enemyDeath') {
         const size = event.footprint * CELL_PX
-        const at = { x: (event.col + event.footprint / 2) * CELL_PX, y: (event.row + event.footprint / 2) * CELL_PX, size }
+        const at = {
+          x: (event.col + event.footprint / 2) * CELL_PX,
+          y: (event.row + event.footprint / 2) * CELL_PX,
+          size,
+        }
         const view = this.views.get(event.id)
         if (view && event.delaySeconds && event.pushDx !== undefined && event.pushDy !== undefined) {
           // 連鎖の途中で押し出されたもの: ウェーブが届くまで盤面に残し、外へ滑らせてから消す
@@ -550,7 +568,7 @@ export class NuisanceStage implements EffectHost {
     this.views.clear()
   }
 
-  private syncNuisances(state: GameState, config: NuisanceConfigType, clock: number): void {
+  private syncNuisances(state: GameState, clock: number): void {
     const alive = new Set<number>()
     for (const n of state.nuisances) {
       alive.add(n.id)
@@ -558,7 +576,7 @@ export class NuisanceStage implements EffectHost {
       const view = this.views.get(n.id) ?? this.createView(n, false)
       view.nuisance = n
 
-      const scale = sizeScaleOf(n, config)
+      const scale = sizeScaleOf(n)
       const footprint = footprintOf(scale)
       const t = clamp((clock - n.movedAt) / MOVE_ANIM_SECONDS, 0, 1)
       const eased = 1 - (1 - t) * (1 - t)
@@ -603,11 +621,6 @@ export class NuisanceStage implements EffectHost {
     this.heroY += (targetY - this.heroY) * follow
     this.heroActor.pos = vec(this.heroX, this.heroY)
     this.heroActor.graphics.isVisible = true
-
-    // ライフが減ったとき、主人公を赤くする
-    if (state.life < this.lastLife - 0.01) this.flashRemaining = FLASH_SECONDS
-    this.lastLife = state.life
-    this.flashRemaining = Math.max(0, this.flashRemaining - dt)
   }
 
   // ---- 描き方 (Canvas 2D。見た目は前の実装のまま) ----
@@ -646,11 +659,8 @@ export class NuisanceStage implements EffectHost {
   }
 
   private drawNuisance(ctx: CanvasRenderingContext2D, view: NuisanceView): void {
-    const config = this.source.getConfig()
-    if (!config) return
     const n = view.nuisance
-    const clock = this.source.getClock()
-    const scale = sizeScaleOf(n, config)
+    const scale = sizeScaleOf(n)
     const footprint = footprintOf(scale)
     const cx = VIEW_PX / 2
     const cy = VIEW_PX / 2
@@ -692,24 +702,13 @@ export class NuisanceStage implements EffectHost {
       ctx.textBaseline = 'middle'
       ctx.fillText(glyph, cx + radius * 0.72, cy - radius * 0.72)
     }
-
-    // 爆発までの時間 (残りが少ないほど、赤い輪が点滅する)
-    if (n.fuse !== null && n.traits.fuseSeconds) {
-      const remaining = n.fuse / n.traits.fuseSeconds
-      const blink = n.fuse < 4 ? 0.5 + 0.5 * Math.sin(clock * 14) : 1
-      ctx.strokeStyle = `rgba(255,70,70,${0.35 + 0.65 * blink})`
-      ctx.lineWidth = 4
-      ctx.beginPath()
-      ctx.arc(cx, cy, radius + 5, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * clamp(remaining, 0, 1))
-      ctx.stroke()
-    }
   }
 
   private drawHero(ctx: CanvasRenderingContext2D): void {
     const cx = CELL_PX / 2
     const cy = CELL_PX / 2
     const radius = CELL_PX * 0.34
-    ctx.fillStyle = this.flashRemaining > 0 ? '#ff5a5a' : '#f5f7fa'
+    ctx.fillStyle = '#f5f7fa'
     ctx.strokeStyle = '#2d6cdf'
     ctx.lineWidth = 4
     ctx.beginPath()

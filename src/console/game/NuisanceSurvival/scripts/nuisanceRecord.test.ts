@@ -4,18 +4,27 @@ import { createDefaultConfig } from './nuisanceConfig'
 import { PLAYER_USER_ID } from './nuisanceConstants'
 import { NO_INPUT } from './heroInput'
 import { advance, createGame, type GameState } from './nuisanceEngine'
-import { buildDamageLogs, buildSurvivalLog, formatClock, formatSurvival } from './nuisanceRecord'
+import { buildContributionLogs, buildSurvivalLog, formatClock, formatSurvival } from './nuisanceRecord'
 import { createRng } from './rng'
 
+/** a・b・c が、それぞれ決まった秒数を生んで終わったゲーム (a: 2 体のアイコン、b: 1 体) */
 const finished = (): GameState => {
-  const config = { ...createDefaultConfig(), startLife: 30, maxNuisances: 100, drainMultiplier: 4, regenPerSecond: 0, damageRampPerMinute: 0 }
+  const config = { ...createDefaultConfig(), maxSeconds: 60, maxNuisances: 100 }
   const spawns = ['a', 'a', 'b', 'c'].map((userId) => ({
     atSeconds: 0,
     userId,
     userName: `n-${userId}`,
     profileImage: '',
   }))
-  return advance(createGame(config), config, 300, NO_INPUT, spawns, createRng(1)).state
+  const state = advance(createGame(config), config, 300, NO_INPUT, spawns, createRng(1)).state
+  return {
+    ...state,
+    contributions: {
+      a: { ...state.contributions.a, seconds: 38.4 },
+      b: { ...state.contributions.b, seconds: 12 },
+      c: { ...state.contributions.c, seconds: 0 },
+    },
+  }
 }
 
 describe('formatClock / formatSurvival', () => {
@@ -28,16 +37,18 @@ describe('formatClock / formatSurvival', () => {
   })
 })
 
-describe('buildDamageLogs', () => {
-  it('出現したユーザー全員ぶんを、ダメージの多い順に 1 件ずつ作る。同じゲームの再送は同じ内容', () => {
+describe('buildContributionLogs', () => {
+  it('秒数を生んだユーザーを、多い順に 1 件ずつ作る。同じゲームの再送は同じ内容', () => {
     const state = finished()
-    const logs = buildDamageLogs(state, 'run-x', 7000)
-    expect(logs).toHaveLength(3)
-    expect(new Set(logs.map((l) => l.id)).size).toBe(3)
+    const logs = buildContributionLogs(state, 'run-x', 7000)
+    expect(logs.map((l) => [l.userId, l.score])).toEqual([
+      ['a', 38],
+      ['b', 12],
+    ]) // 0 秒の c は残さない
+    expect(new Set(logs.map((l) => l.id)).size).toBe(2)
     expect(logs.every((l) => l.id.startsWith('run-x:') && l.createdAt === 7000)).toBe(true)
-    for (let i = 1; i < logs.length; i++) expect(logs[i - 1].score).toBeGreaterThanOrEqual(logs[i].score)
-    expect(logs.find((l) => l.userId === 'a')?.item).toMatch(/ダメージ \/ 2体$/)
-    expect(buildDamageLogs(state, 'run-x', 7000)).toEqual(logs)
+    expect(logs.find((l) => l.userId === 'a')?.item).toBe('38秒 / 2体')
+    expect(buildContributionLogs(state, 'run-x', 7000)).toEqual(logs)
   })
 })
 

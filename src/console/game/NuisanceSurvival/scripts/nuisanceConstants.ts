@@ -22,17 +22,15 @@ export const MAX_FRAME_SECONDS = 0.25
 // ---- 主人公 ----
 /** 1マス動く間隔 (秒)。キーを押し続けている間、この間隔で動く */
 export const HERO_MOVE_INTERVAL_SECONDS = 0.14
-/** 何かを押し出したあと、次に動けるまでの間隔 (秒。クールダウン) */
+/** 初見さんのコメントで係数が戻ったことを、演出で知らせるのは、係数がこの値を下回っていたとき (わずかな下がりでは知らせない) */
+export const COEFFICIENT_RESET_NOTICE_BELOW = 0.95
+/** 画面の外へ押し出して得点したあと、次に動けるまでの間隔 (秒。クールダウン。得点のリズムになる) */
 export const HERO_PUSH_INTERVAL_SECONDS = 0.5
 /** 連鎖して押されるとき、1 つ後ろにつき動き出しを遅らせる秒数 (ウェーブ状に見せる。見た目だけで、位置は即座に変わる) */
 export const PUSH_WAVE_DELAY_SECONDS = 0.15
-/** 時間経過によるダメージ倍率の上限 (操作と無関係に倒されないための安全装置) */
-export const MAX_DAMAGE_RAMP = 5
 
-// ---- 邪魔者 ----
-/** 邪魔者の大きさ (倍率) の上限 */
-export const MAX_SIZE_SCALE = 3.4
-/** 邪魔者が占めるマスの一辺の上限 (大きさの倍率を四捨五入して、1〜この値) */
+// ---- アイコン (コメントした人) ----
+/** アイコンが占めるマスの一辺の上限 (大きさの倍率を四捨五入して、1〜この値) */
 export const MAX_FOOTPRINT = 3
 
 // ---- コメントの文字 (ことば。ダメージなし・得点なし。押し出せて、時間が経つと消える) ----
@@ -79,8 +77,8 @@ export const OBSTACLE_SIZE_TIERS: readonly { minPrice: number; size: number }[] 
 ]
 
 // ---- 記録 (GameLog) ----
-/** ユーザーごとの貢献度 (ダメージ) の eventKey */
-export const DAMAGE_EVENT_KEY = 'nuisanceSurvival'
+/** ユーザーごとの貢献度 (その人のものが生んだ秒数) の eventKey。ライフ制のときのダメージの記録とは、別にしてある */
+export const CONTRIBUTION_EVENT_KEY = 'nuisanceSurvivalSeconds'
 /** ゲーム全体の生存時間の eventKey (貢献度とは別にして、ランキングを混ぜない) */
 export const SURVIVAL_EVENT_KEY = 'nuisanceSurvivalTime'
 /** 生存時間の記録に使う、プレイヤー (配信者) の userId と表示名。ユーザーリストにはいない */

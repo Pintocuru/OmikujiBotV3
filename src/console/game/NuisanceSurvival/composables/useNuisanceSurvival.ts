@@ -10,7 +10,7 @@ import { MAX_GAME_LOGS_PER_APPEND } from '@/types/api'
 import type { OmikenCommentType } from '@/types/OmikenComment'
 import { isMoveKey, resolveInput } from '../scripts/heroInput'
 import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
-import { BUBBLE_MAX, DAMAGE_EVENT_KEY, MAX_FRAME_SECONDS, SURVIVAL_EVENT_KEY } from '../scripts/nuisanceConstants'
+import { BUBBLE_MAX, CONTRIBUTION_EVENT_KEY, MAX_FRAME_SECONDS, SURVIVAL_EVENT_KEY } from '../scripts/nuisanceConstants'
 import type { CommentBubble } from '../scripts/nuisanceBubble'
 import {
   advance,
@@ -20,7 +20,7 @@ import {
   type NuisanceEvent,
   type SpawnRequest,
 } from '../scripts/nuisanceEngine'
-import { buildDamageLogs, buildSurvivalLog } from '../scripts/nuisanceRecord'
+import { buildContributionLogs, buildSurvivalLog } from '../scripts/nuisanceRecord'
 import { createRng, type Rng } from '../scripts/rng'
 import { useNuisanceConfig } from './useNuisanceConfig'
 
@@ -178,9 +178,13 @@ export function useNuisanceSurvival() {
     recordError.value = ''
     try {
       // ユーザーごとの貢献度 (1 回に送れる件数の上限があるので、分けて送る) と、全体の生存時間は、別の eventKey に記録する
-      const damageLogs = buildDamageLogs(finished, id, recordedAt)
-      for (let i = 0; i < damageLogs.length; i += MAX_GAME_LOGS_PER_APPEND) {
-        await gameStateApi.appendGameLogs(streamId, DAMAGE_EVENT_KEY, damageLogs.slice(i, i + MAX_GAME_LOGS_PER_APPEND))
+      const contributionLogs = buildContributionLogs(finished, id, recordedAt)
+      for (let i = 0; i < contributionLogs.length; i += MAX_GAME_LOGS_PER_APPEND) {
+        await gameStateApi.appendGameLogs(
+          streamId,
+          CONTRIBUTION_EVENT_KEY,
+          contributionLogs.slice(i, i + MAX_GAME_LOGS_PER_APPEND)
+        )
       }
       await gameStateApi.appendGameLogs(streamId, SURVIVAL_EVENT_KEY, [buildSurvivalLog(finished, id, recordedAt)])
       if (id === runId) recordStatus.value = 'saved'
@@ -217,6 +221,7 @@ export function useNuisanceSurvival() {
         userName: omiken.userName,
         profileImage: omiken.profileImage,
         lc: omiken.meta.lc, // 0 は不明 (ボスにならない)
+        isFirst: omiken.meta.tc === 1, // その人の最初のコメント (初見さん)。係数が 1 に戻る
         comment: omiken.comment, // 文字数に応じて、「ことば」が降ってくる
         giftPrice: omiken.giftPrice ?? undefined, // ギフトなら、邪魔者ではなく障害物になる
       })

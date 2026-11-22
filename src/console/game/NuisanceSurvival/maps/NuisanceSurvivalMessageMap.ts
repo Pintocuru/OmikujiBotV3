@@ -8,13 +8,17 @@ export const nuisanceSurvivalMessages = {
   title: '邪魔者サバイバル',
   bar: {
     openHint: 'クリックでメニューを開く',
-    life: 'ライフ',
-    nuisances: (count: number, max: number) => `邪魔者 ${count} / ${max}`,
-    removed: (count: number) => `取り除いた ${count}`,
+    timeLeft: '残り時間',
+    coefficient: (value: number) => `係数 ×${value.toFixed(2)}`,
+    chain: (count: number) => `${count} 連鎖`,
+    elapsed: (clock: string) => `経過 ${clock}`,
+    nuisances: (count: number, max: number) => `アイコン ${count} / ${max}`,
   },
   menu: {
-    description: 'コメントした人は「邪魔者」になって居残り、ライフを減らし続けます。画面の外へ押し出して、長く生き残りましょう',
-    howTo: 'WASD で移動 / 邪魔者にぶつかると押し出せます。画面の端まで押し出すと取り除けます',
+    description:
+      'コメントした人のアイコンと、コメントの文字が降ってきます。画面の外へ押し出すと、残り時間が増えます。並べて連続で押し出すほど、連鎖で大きく増えます',
+    howTo:
+      'WASD で移動 / ぶつかると押し出せます。画面の端の外まで押し出すと得点です。得点しない動きをすると、連鎖が切れます',
     start: 'スタート',
     config: 'コンフィグ',
     close: '閉じる',
@@ -26,25 +30,31 @@ export const nuisanceSurvivalMessages = {
   },
   config: {
     fields: {
-      startLife: { label: '最大ライフ', unit: '', hint: '100 固定です' },
-      maxNuisances: { label: '邪魔者の上限', unit: '体', hint: '超えたコメントは無視します' },
-      growthMultiplier: {
-        label: '成長の倍率',
-        unit: '倍',
-        hint: '次の間隔ごとに、邪魔者の大きさにこの倍率が掛かります',
+      maxSeconds: {
+        label: '残り時間の上限',
+        unit: '秒',
+        hint: 'ゲームは、この時間から始まります。時間は 1 秒ごとに 1 秒減り、押し出すと増えます (これ以上は増えません)',
       },
-      growthIntervalSeconds: { label: '成長の間隔', unit: '秒', hint: '' },
-      drainMultiplier: { label: 'ダメージの倍率', unit: '倍', hint: 'ライフの減る速さと、爆発のダメージ' },
-      damageRampPerMinute: {
-        label: 'ダメージの増え方',
-        unit: '倍/分',
-        hint: '1 分ごとに、基本ダメージのこの割合ぶん増えます (上限あり)',
+      iconSeconds: {
+        label: 'アイコンの獲得秒数',
+        unit: '秒',
+        hint: '押し出したときに得る基本の秒数 (連鎖数と係数が掛かります)',
       },
-      regenPerSecond: { label: '自然回復', unit: '/秒', hint: 'ライフが 1 秒あたりに回復する量' },
-      specialRate: {
-        label: '特殊能力の頻度',
-        unit: '%',
-        hint: '動く・爆発する邪魔者の割合。それ以外は動きません',
+      wordSeconds: {
+        label: 'ことばの獲得秒数',
+        unit: '秒',
+        hint: '押し出したときに得る基本の秒数 (連鎖数と係数が掛かります)',
+      },
+      coefficientDropPerMinute: {
+        label: '係数の下がり方',
+        unit: '%/分',
+        hint: '1 分ごとに、係数がこの割合ずつ下がります。初見さんのコメントが届くと、1 に戻ります',
+      },
+      coefficientFloorPercent: { label: '係数の下限', unit: '%', hint: 'これより下がりません' },
+      maxNuisances: {
+        label: 'アイコンの上限',
+        unit: '個',
+        hint: '超えたコメントのアイコンは出ません (ことばは降ります)',
       },
       bossInterval: {
         label: 'ボスの間隔',
@@ -54,31 +64,27 @@ export const nuisanceSurvivalMessages = {
     } satisfies Record<NuisanceConfigKey, { label: string; unit: string; hint: string }>,
     presetsTitle: 'プリセット',
     presets: {
-      endurance: { label: '耐久配信向け', hint: '長時間、のんびり' },
-      tenMinutes: { label: '10分耐久', hint: '標準的な難しさ' },
-      merciless: { label: '情け無用組み手', hint: '短期決戦。特殊能力だらけ' },
+      endurance: { label: '耐久配信向け', hint: '30 分の持ち時間。係数がゆっくり下がる' },
+      tenMinutes: { label: '標準', hint: '15 分の持ち時間' },
+      merciless: { label: '情け無用組み手', hint: '短期決戦。係数がすぐ下がる' },
     } satisfies Record<ConfigPresetId, { label: string; hint: string }>,
   },
   comments: {
     connecting: 'わんコメに接続中…',
-    error: 'わんコメに接続できません。コメントが邪魔者になりません',
+    error: 'わんコメに接続できません。コメントがアイコンになりません',
     retry: '再接続',
   },
   kinds: {
-    static: 'じっとしている',
-    wanderer: 'ふらふら',
-    evader: 'にげる',
-    creeper: 'すりよる',
-    bouncer: 'はねる',
-    bomber: 'ばくだん',
+    static: 'アイコン',
     boss: 'ボス',
   } satisfies Record<NuisanceKind, string>,
   result: {
     title: 'ゲームオーバー',
     survived: '生存時間',
-    removed: (count: number) => `取り除いた邪魔者: ${count} 体`,
-    ranking: 'ダメージを与えた人',
-    damage: (damage: number) => `${damage} ダメージ`,
+    bestChain: (count: number) => `最大 ${count} 連鎖`,
+    removed: (icons: number, words: number) => `押し出し: アイコン ${icons} 個 / ことば ${words} 個`,
+    ranking: '時間を生んだ人',
+    seconds: (seconds: number) => `+${seconds} 秒`,
     none: '記録はありません',
     again: 'もう一度',
     toMenu: 'メニューへ',

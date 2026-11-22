@@ -19,20 +19,22 @@ export const formatSurvival = (seconds: number): string => {
 }
 
 /**
- * ユーザーごとの貢献度のログ。出現した邪魔者があるユーザー全員ぶんを 1 件ずつ作る
- * - score: その人の邪魔者が減らしたライフ (四捨五入)
- * - item: 表示用 (例: '38ダメージ / 3体')
+ * ユーザーごとの貢献度のログ。アイコンまたはことばが得点につながったユーザー全員ぶんを 1 件ずつ作る
+ * - score: その人のアイコン・ことばが生んだ秒数 (四捨五入)
+ * - item: 表示用 (例: '38秒 / 3体')
  * - id: ゲームごとの ID + userId。同じゲームを再送しても、サーバーが二重に保存しない
  */
-export const buildDamageLogs = (state: GameState, runId: string, createdAt: number = Date.now()): GameLogType[] =>
-  getContributionRanking(state).map((c) => ({
-    id: `${runId}:${c.userId}`,
-    userId: c.userId,
-    userName: c.userName,
-    score: Math.round(c.damage),
-    item: `${Math.round(c.damage)}ダメージ / ${c.spawned}体`,
-    createdAt,
-  }))
+export const buildContributionLogs = (state: GameState, runId: string, createdAt: number = Date.now()): GameLogType[] =>
+  getContributionRanking(state)
+    .filter((c) => Math.round(c.seconds) > 0)
+    .map((c) => ({
+      id: `${runId}:${c.userId}`,
+      userId: c.userId,
+      userName: c.userName,
+      score: Math.round(c.seconds),
+      item: `${Math.round(c.seconds)}秒 / ${c.spawned}体`,
+      createdAt,
+    }))
 
 /**
  * ゲーム全体の生存時間のログ (1 件)。プレイヤー (配信者) は、ユーザーリストにいないので固定の ID で残す
