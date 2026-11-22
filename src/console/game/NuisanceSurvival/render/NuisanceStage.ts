@@ -41,10 +41,15 @@ import type { NuisanceKind } from '../scripts/nuisanceTraits'
 import {
   FALL_EXTRA_CELLS,
   FALL_SECONDS,
+  playChainBreak,
+  playCoefficientReset,
   playDeath,
   playLand,
+  playScore,
+  playWordGone,
   type BurstOptions,
   type EffectHost,
+  type PopupOptions,
 } from './effectPresets'
 import { MAX_CONCURRENT_PER_SOUND, SOUND_FILES, SOUND_FOLDER, type SoundKey } from './stageSounds'
 
@@ -61,6 +66,8 @@ export type StageSource = {
 }
 
 const MOVE_ANIM_SECONDS = 0.15
+/** 同時に出せる浮かぶ文字の数の上限 (連鎖が一気に続いても、画面が文字だらけにならないように) */
+const POPUP_MAX = 40
 /** 邪魔者 1 体を描く canvas の一辺。最大の大きさ + 赤い輪・緑の輪の分の余白 */
 const VIEW_PX = CELL_PX * MAX_FOOTPRINT + 32
 const KIND_GLYPH: Record<NuisanceKind, string> = {
@@ -86,7 +93,12 @@ type WordView = {
   word: Word
   /** 落下の開始時刻 (描画用の時計の秒)。null なら落下は終わっている */
   fallStartedAt: number | null
+  /** 消えるまでの残りの割合 (1 → 0)。円グラフで見せる */
+  leftRatio: number
 }
+
+/** 浮かぶ文字 1 つぶんの表示 (連鎖・得点・初見の知らせ。見た目だけで、ゲームには影響しない) */
+type PopupView = { actor: Actor; options: PopupOptions; age: number; baseY: number }
 
 /** 盤面の外へ押し出されていく途中の表示 (ウェーブに合わせて、少し遅れて動き出し、外へ滑って消える) */
 type Ghost = {
@@ -112,6 +124,8 @@ export class NuisanceStage implements EffectHost {
   private readonly bubbles: BubbleView[] = []
   private readonly wordViews = new Map<number, WordView>()
   private readonly ghosts: Ghost[] = []
+  private readonly popups: PopupView[] = []
+  private audio: AudioContext | null = null
   private readonly obstacleViews = new Map<number, { actor: Actor; obstacle: Obstacle }>()
   private readonly grid: GridSize
   private heroX = NaN
@@ -162,6 +176,9 @@ export class NuisanceStage implements EffectHost {
     this.obstacleViews.clear()
     this.wordViews.clear()
     this.ghosts.length = 0
+    this.popups.length = 0
+    void this.audio?.close().catch(() => undefined)
+    this.audio = null
   }
 
   // ---- 効果音 ----
@@ -185,6 +202,92 @@ export class NuisanceStage implements EffectHost {
 
   play(key: SoundKey): void {
     void this.sounds.get(key)?.play({ volume: SOUND_FILES[key].volume })
+  }
+
+  get boardSize(): { width: number; height: number } {
+    return { width: this.grid.cols * CELL_PX, height: this.grid.rows * CELL_PX }
+  }
+
+  /** 音階の音 (素材なし。三角波を、短く鳴らす)。音が出せない環境では、鳴らないだけでゲームは動く */
+  playNote(frequency: number, delaySeconds: number): void {
+    try {
+      const audio = (this.audio ??= new AudioContext())
+      if (audio.state === 'suspended') void audio.resume()
+      const start = audio.currentTime + Math.max(0, delaySeconds)
+      const length = 0.28
+      const oscillator = audio.createOscillator()
+      const gain = audio.createGain()
+      oscillator.type = 'triangle'
+      oscillator.frequency.value = frequency
+      gain.gain.setValueAtTime(0.0001, start)
+      gain.gain.exponentialRampToValueAtTime(0.22, start + 0.01)
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + length)
+      oscillator.connect(gain).connect(audio.destination)
+      oscillator.start(start)
+      oscillator.stop(start + length + 0.02)
+    } catch {
+      // 音が出せなくても、ゲームは動く
+    }
+  }
+
+  popup(o: PopupOptions): void {
+    const probe = (this.measureCtx ??= document.createElement('canvas').getContext('2d')!)
+    const font = `bold ${o.size}px sans-serif`
+    probe.font = font
+    const width = Math.ceil(probe.measureText(o.text).width) + 24
+    const height = o.size + 18
+    const board = this.boardSize
+    const x = clamp(o.x, width / 2, Math.max(width / 2, board.width - width / 2))
+    const y = clamp(o.y, height / 2, board.height)
+    const actor = new Actor({ pos: vec(x, y), width, height, z: 1700 })
+    actor.graphics.use(
+      new Canvas({
+        width,
+        height,
+        cache: true,
+        draw: (ctx) => {
+          ctx.font = font
+          ctx.textAlign = 'center'
+          ctx.textBaseline = 'middle'
+          ctx.lineJoin = 'round'
+          ctx.lineWidth = Math.max(4, o.size / 6)
+          ctx.strokeStyle = 'rgba(20,20,30,0.85)'
+          ctx.strokeText(o.text, width / 2, height / 2)
+          ctx.fillStyle = o.color
+          ctx.fillText(o.text, width / 2, height / 2)
+        },
+      })
+    )
+    actor.graphics.isVisible = false
+    this.engine.add(actor)
+    this.popups.push({ actor, options: o, age: 0, baseY: y })
+    while (this.popups.length > POPUP_MAX) this.popups.shift()!.actor.kill()
+  }
+
+  /** 浮かぶ文字を進める。待ち時間のあいだは見えず、出たら少し弾んで、上へ浮かびながら、最後に薄くなる */
+  private syncPopups(dt: number): void {
+    for (let i = this.popups.length - 1; i >= 0; i--) {
+      const p = this.popups[i]
+      p.age += dt * 1000
+      const t = (p.age - p.options.delayMs) / p.options.lifeMs
+      if (t >= 1) {
+        p.actor.kill()
+        this.popups.splice(i, 1)
+        continue
+      }
+      if (t < 0) continue
+      const eased = 1 - (1 - t) * (1 - t)
+      const pop = 1 + 0.35 * Math.max(0, 1 - t * 8)
+      p.actor.graphics.isVisible = true
+      p.actor.pos = vec(p.actor.pos.x, p.baseY - p.options.rise * eased)
+      p.actor.scale = vec(pop, pop)
+      p.actor.graphics.opacity = t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3
+    }
+  }
+
+  private clearPopups(): void {
+    for (const p of this.popups) p.actor.kill()
+    this.popups.length = 0
   }
 
   shake(magnitude: number, durationMs: number): void {
@@ -235,6 +338,7 @@ export class NuisanceStage implements EffectHost {
       this.clearObstacles()
       this.clearWords()
       this.clearGhosts()
+      this.clearPopups()
       this.heroActor.graphics.isVisible = false
       this.heroX = NaN
       return
@@ -246,6 +350,7 @@ export class NuisanceStage implements EffectHost {
     this.syncObstacles(state, clock)
     this.syncWords(state, clock)
     this.syncGhosts(clock)
+    this.syncPopups(dt)
     this.syncBubbles(state, bubbleRequests, dt)
   }
 
@@ -286,11 +391,12 @@ export class NuisanceStage implements EffectHost {
   private createWordView(word: Word): WordView {
     const size = CELL_PX - 6
     const actor = new Actor({ pos: vec(-1000, -1000), width: CELL_PX, height: CELL_PX, z: 50 })
+    const view: WordView = { actor, word, fallStartedAt: null, leftRatio: 1 }
+    // 円グラフ (消えるまでの時間) が毎フレーム変わるので、キャッシュしない (ことばは最大 30 個で、軽い)
     actor.graphics.use(
-      new Canvas({ width: CELL_PX, height: CELL_PX, cache: true, draw: (ctx) => this.drawWord(ctx, word, size) })
+      new Canvas({ width: CELL_PX, height: CELL_PX, cache: false, draw: (ctx) => this.drawWord(ctx, view, size) })
     )
     this.engine.add(actor)
-    const view: WordView = { actor, word, fallStartedAt: null }
     this.wordViews.set(word.id, view)
     return view
   }
@@ -320,6 +426,7 @@ export class NuisanceStage implements EffectHost {
         if (fallT >= 1) view.fallStartedAt = null
       }
       const left = w.expiresAt - state.elapsed
+      view.leftRatio = clamp(left / w.lifeSeconds, 0, 1)
       if (left < 2) opacity *= 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(clock * 16))
       view.actor.pos = vec(x, y)
       view.actor.graphics.opacity = opacity
@@ -332,8 +439,9 @@ export class NuisanceStage implements EffectHost {
     }
   }
 
-  /** 白い札に、コメントの一部を 2 行まで書く (1 マスに収まるよう、3 文字ずつで折り返す) */
-  private drawWord(ctx: CanvasRenderingContext2D, word: Word, size: number): void {
+  /** 白い札に、コメントの一部を 2 行まで書く (1 マスに収まるよう、3 文字ずつで折り返す)。右上に、消えるまでの円グラフ */
+  private drawWord(ctx: CanvasRenderingContext2D, view: WordView, size: number): void {
+    const word = view.word
     const offset = (CELL_PX - size) / 2
     ctx.fillStyle = '#ffffff'
     ctx.strokeStyle = 'rgba(0,0,0,0.25)'
@@ -353,8 +461,29 @@ export class NuisanceStage implements EffectHost {
     ctx.textBaseline = 'middle'
     const lineHeight = 22
     lines.forEach((line, i) =>
-      ctx.fillText(line, CELL_PX / 2, CELL_PX / 2 + (i - (lines.length - 1) / 2) * lineHeight, size - 6)
+      ctx.fillText(line, CELL_PX / 2, CELL_PX / 2 + 2 + (i - (lines.length - 1) / 2) * lineHeight, size - 6)
     )
+
+    // 円グラフ: 札の右上の角に、残りの割合ぶんの扇を描く (時計回りに減る。残りが少ないほど、緑から赤へ)
+    const radius = 8
+    const cx = CELL_PX - offset - radius - 1
+    const cy = offset + radius + 1
+    const ratio = view.leftRatio
+    ctx.fillStyle = '#ffffff'
+    ctx.strokeStyle = 'rgba(0,0,0,0.35)'
+    ctx.lineWidth = 1.5
+    ctx.beginPath()
+    ctx.arc(cx, cy, radius + 1.5, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.stroke()
+    if (ratio > 0) {
+      ctx.fillStyle = `hsl(${Math.round(ratio * 120)}, 80%, 48%)`
+      ctx.beginPath()
+      ctx.moveTo(cx, cy)
+      ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * ratio)
+      ctx.closePath()
+      ctx.fill()
+    }
   }
 
   // ---- ギフト障害物 ----
@@ -520,7 +649,15 @@ export class NuisanceStage implements EffectHost {
         const view = this.wordViews.get(event.id)
         if (!view) continue
         this.wordViews.delete(event.id)
-        this.slideOut(view.actor, (event.col + 0.5) * CELL_PX, (event.row + 0.5) * CELL_PX, event, clock)
+        const at = { x: (event.col + 0.5) * CELL_PX, y: (event.row + 0.5) * CELL_PX, size: CELL_PX }
+        // 連鎖のウェーブが届いたら外へ滑って、白い破片になる
+        this.slideOut(view.actor, at.x, at.y, event, clock, () => playWordGone(this, at))
+      } else if (event.type === 'score') {
+        playScore(this, event, { x: (event.col + 0.5) * CELL_PX, y: (event.row + 0.5) * CELL_PX })
+      } else if (event.type === 'chainBreak') {
+        playChainBreak(this, event)
+      } else if (event.type === 'coefficientReset') {
+        playCoefficientReset(this, event)
       } else if (event.type === 'enemyDeath') {
         const size = event.footprint * CELL_PX
         const at = {

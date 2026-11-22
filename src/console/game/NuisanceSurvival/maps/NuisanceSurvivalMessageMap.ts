@@ -10,7 +10,7 @@ export const nuisanceSurvivalMessages = {
     openHint: 'クリックでメニューを開く',
     timeLeft: '残り時間',
     coefficient: (value: number) => `係数 ×${value.toFixed(2)}`,
-    chain: (count: number) => `${count} 連鎖`,
+    chain: (count: number, total: string) => (count > 0 ? `${count} 連鎖 / TOTAL +${total}秒` : `${count} 連鎖`),
     elapsed: (clock: string) => `経過 ${clock}`,
     nuisances: (count: number, max: number) => `アイコン ${count} / ${max}`,
   },

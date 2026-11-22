@@ -11,6 +11,12 @@ export const formatClock = (seconds: number): string => {
   return `${pad(Math.floor(total / 60))}:${pad(total % 60)}`
 }
 
+/** 得た秒数の表示 (例: 2.5 → '2.5' / 5 → '5' / 12.4 → '12')。10 秒未満は小数 1 桁まで、それ以上は整数 */
+export const formatGain = (seconds: number): string => {
+  const value = Math.max(0, seconds)
+  return value >= 10 ? String(Math.round(value)) : String(Math.round(value * 10) / 10)
+}
+
 /** 生存時間の表示 (例: '12分34秒' / '45秒') */
 export const formatSurvival = (seconds: number): string => {
   const total = Math.max(0, Math.floor(seconds))

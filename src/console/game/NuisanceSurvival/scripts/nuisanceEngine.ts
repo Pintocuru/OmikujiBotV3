@@ -95,8 +95,9 @@ export type Word = {
   prevCol: number
   prevRow: number
   movedAt: number
-  /** 消える時刻 (開始からの秒) */
+  /** 消える時刻 (開始からの秒)。降ってきてから消えるまでの長さは lifeSeconds (円グラフで、残り時間を見せるため) */
   expiresAt: number
+  lifeSeconds: number
 }
 
 /** 押し出せるもの (アイコン・ことば) */
@@ -434,6 +435,7 @@ const dropWords = (s: GameState, request: SpawnRequest, rng: Rng, events: Nuisan
     const cell = pickFreeCell(s, rng)
     if (!cell) return
     const id = s.nextId++
+    const lifeSeconds = WORD_SECONDS_MIN + rng() * (WORD_SECONDS_MAX - WORD_SECONDS_MIN)
     s.words.push({
       id,
       userId: request.userId,
@@ -445,7 +447,8 @@ const dropWords = (s: GameState, request: SpawnRequest, rng: Rng, events: Nuisan
       prevCol: cell.col,
       prevRow: cell.row,
       movedAt: s.elapsed,
-      expiresAt: s.elapsed + WORD_SECONDS_MIN + rng() * (WORD_SECONDS_MAX - WORD_SECONDS_MIN),
+      expiresAt: s.elapsed + lifeSeconds,
+      lifeSeconds,
     })
     events.push({ type: 'wordSpawn', id, col: cell.col, row: cell.row })
   }

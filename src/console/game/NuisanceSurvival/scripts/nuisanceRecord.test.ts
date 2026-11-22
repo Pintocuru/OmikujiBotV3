@@ -4,7 +4,7 @@ import { createDefaultConfig } from './nuisanceConfig'
 import { PLAYER_USER_ID } from './nuisanceConstants'
 import { NO_INPUT } from './heroInput'
 import { advance, createGame, type GameState } from './nuisanceEngine'
-import { buildContributionLogs, buildSurvivalLog, formatClock, formatSurvival } from './nuisanceRecord'
+import { buildContributionLogs, buildSurvivalLog, formatClock, formatGain, formatSurvival } from './nuisanceRecord'
 import { createRng } from './rng'
 
 /** a・b・c が、それぞれ決まった秒数を生んで終わったゲーム (a: 2 体のアイコン、b: 1 体) */
@@ -60,5 +60,15 @@ describe('buildSurvivalLog', () => {
     expect(log.id).toBe(`run-x:${PLAYER_USER_ID}`)
     expect(log.score).toBeCloseTo(state.endedAt!, 1)
     expect(log.item).toBe(formatSurvival(state.endedAt!))
+  })
+})
+
+describe('formatGain', () => {
+  it('10 秒未満は小数 1 桁まで、それ以上は整数', () => {
+    expect(formatGain(5)).toBe('5')
+    expect(formatGain(2.5)).toBe('2.5')
+    expect(formatGain(0.25)).toBe('0.3')
+    expect(formatGain(12.4)).toBe('12')
+    expect(formatGain(-1)).toBe('0')
   })
 })

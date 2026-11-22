@@ -78,6 +78,7 @@ const withWord = (state: GameState, userId: string, col: number, row: number, pa
     prevRow: row,
     movedAt: 0,
     expiresAt: 1e6,
+    lifeSeconds: 1e6,
     ...patch,
   }
   return { ...state, nextId: state.nextId + 1, words: [...state.words, word] }
@@ -684,9 +685,12 @@ describe('advance: コメントの文字 (ことば)', () => {
     expect(r.events.filter((e) => e.type === 'wordSpawn')).toHaveLength(2)
   })
 
-  it('消える時間は、5〜20 秒のランダム。時間が来ると消える', () => {
+  it('消える時間は、5〜20 秒のランダム。時間が来ると消える (降ってからの長さも持つ。円グラフ用)', () => {
     const r = first([comment('あ'.repeat(25))]).state
     for (const w of r.words) {
+      expect(w.lifeSeconds).toBeGreaterThanOrEqual(WORD_SECONDS_MIN)
+      expect(w.lifeSeconds).toBeLessThanOrEqual(WORD_SECONDS_MAX)
+      expect(w.expiresAt).toBeCloseTo(r.elapsed - STEP_SECONDS + w.lifeSeconds, 5)
       expect(w.expiresAt).toBeGreaterThanOrEqual(WORD_SECONDS_MIN)
       expect(w.expiresAt).toBeLessThanOrEqual(WORD_SECONDS_MAX + STEP_SECONDS)
     }

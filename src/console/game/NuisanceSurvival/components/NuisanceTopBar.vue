@@ -21,7 +21,9 @@
         <span class="w-12 font-mono text-sm">{{ formatClock(state.timeLeft) }}</span>
       </div>
       <span class="font-mono text-sm">{{ nuisanceSurvivalMessages.bar.coefficient(coefficient) }}</span>
-      <span class="font-mono text-sm">{{ nuisanceSurvivalMessages.bar.chain(state.chain) }}</span>
+      <span class="font-mono text-sm">{{
+        nuisanceSurvivalMessages.bar.chain(state.chain, formatGain(state.chainTotal))
+      }}</span>
       <span class="text-xs opacity-70">{{ nuisanceSurvivalMessages.bar.elapsed(formatClock(clockSeconds)) }}</span>
       <span class="text-xs opacity-70">
         {{ nuisanceSurvivalMessages.bar.nuisances(state.nuisances.length, config?.maxNuisances ?? 0) }}
@@ -45,7 +47,7 @@
 
 <script setup lang="ts">
   import { computed, onBeforeUnmount, ref, watch } from 'vue'
-  import { formatClock } from '../scripts/nuisanceRecord'
+  import { formatClock, formatGain } from '../scripts/nuisanceRecord'
   import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
   import { coefficientOf, type GameState } from '../scripts/nuisanceEngine'
   import type { CommentStatus, NuisancePhase } from '../composables/useNuisanceSurvival'
