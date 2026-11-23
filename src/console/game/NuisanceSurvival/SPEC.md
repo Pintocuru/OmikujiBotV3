@@ -190,8 +190,8 @@ NuisanceSurvival/
 ├─ SPEC.md                         この仕様
 ├─ components/                     画面の部品 (TopBar / Field / Menu / Result / TestPanel)
 ├─ render/                         Excalibur の描画・演出
-│  ├─ NuisanceStage.ts             状態を読み取って映す・イベントから演出を出す
-│  ├─ NuisanceAudio.ts             効果音の読み込み・再生 (Excalibur Sound / Web Audio)
+│  ├─ OshikuraChainStage.ts             状態を読み取って映す・イベントから演出を出す
+│  ├─ OshikuraChainAudio.ts             効果音の読み込み・再生 (Excalibur Sound / Web Audio)
 │  └─ effectPresets.ts             イベント → 演出のプリセット (Excalibur を知らない)
 ├─ composables/
 │  ├─ useOshikuraChain.ts       進行・ゲーム内の時計・コメント購読・キー入力・記録・演出イベントの受け渡し
@@ -215,7 +215,7 @@ NuisanceSurvival/
 
 描画と演出だけを Excalibur（`excalibur`）で行う。進行は、これまでどおり純粋関数（`nuisanceEngine.ts`）が決める。ゲームの進行を Excalibur に載せない理由は、固定刻み・種からの決定性・テストを保つため。
 
-- 役割: ゲームロジック = `scripts/`、描画・演出 = `render/`、つなぎ = `StageSource`（読み取り専用の窓口。`getState` / `getConfig` / `getClock` / `drainEvents`）。ゲームの側から Excalibur は操作しない。
+- 役割: ゲームロジック = `scripts/`、描画・演出 = `render/`、つなぎ = `OshikuraChainStageSource`（読み取り専用の窓口。`getState` / `getConfig` / `getClock` / `drainEvents`）。ゲームの側から Excalibur は操作しない。
 - 状態と演出イベントは別: `advance` は、状態とは別に `events`（`enemySpawn` / `enemyDeath` / `wordSpawn` / `wordGone` / `score` / `chainBreak` / `coefficientReset` / `obstacleSkipped`）を返す。コンポーザブルが溜めて、盤面が `drainEvents` で受け取る。
 - 演出はプリセット（`render/effectPresets.ts`）: イベント → 「何を、どれくらい派手に出すか」だけを決める。Excalibur は `EffectHost`（`shake` / `burst`）の向こうにあり、プリセットは知らない。演出を足すときは、プリセットを足して、イベントに対応させる。
 - 見た目（円・アイコン・輪）は、前の canvas 2D の描き方のまま、Excalibur の `Canvas` グラフィックで描く。
