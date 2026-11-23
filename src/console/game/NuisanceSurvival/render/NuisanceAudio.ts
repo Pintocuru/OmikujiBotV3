@@ -29,7 +29,7 @@ export class NuisanceAudio {
         .catch(() => {
           // 素材がなくても、音が鳴らないだけでゲームは動く
           this.sounds.set(key, null)
-          console.warn(`[NuisanceSurvival] 効果音を読み込めませんでした: ${url}`)
+          console.warn(`[OshikuraChain] 効果音を読み込めませんでした: ${url}`)
         })
     }
   }
