@@ -1,6 +1,6 @@
 // src/console/game/OshikuraChain/scripts/autoComment.ts
 // コメントオートモード: 実コメントの代わりに、ゲーム内の時計で一定間隔ごとに架空のコメントを入れる (純粋関数。投稿者と本文は外から渡す)
-import type { SpawnRequest } from './nuisanceEngine'
+import type { SpawnRequest } from './oshikuraChainEngine'
 
 /**
  * clock (ゲーム内の時計の秒) までに来ているコメントを、間隔ごとに作る
