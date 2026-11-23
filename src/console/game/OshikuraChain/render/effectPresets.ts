@@ -6,7 +6,7 @@ import type { OshikuraChainEvent } from '../scripts/oshikuraChainEngine'
 import { formatGain } from '../scripts/oshikuraChainRecord'
 import type { SoundKey } from './stageSounds'
 
-/** 演出を出す側 (NuisanceStage が実装する) */
+/** 演出を出す側 (OshikuraChainStage が実装する) */
 export interface EffectHost {
   /** 画面を揺らす (強さは盤面の px、時間はミリ秒) */
   shake(magnitude: number, durationMs: number): void
