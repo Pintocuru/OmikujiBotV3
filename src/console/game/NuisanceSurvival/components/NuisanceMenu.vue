@@ -3,22 +3,22 @@
 <template>
   <div class="absolute inset-0 flex items-center justify-center bg-black/55 p-4" @click.self="emit('close')">
     <div class="rounded-box max-h-full w-full max-w-md overflow-y-auto bg-base-100 p-6 text-base-content shadow-2xl">
-      <h2 class="text-center text-2xl font-black">{{ nuisanceSurvivalMessages.title }}</h2>
-      <p class="mt-3 text-sm opacity-80">{{ nuisanceSurvivalMessages.menu.description }}</p>
-      <p class="mt-2 text-xs opacity-60">{{ nuisanceSurvivalMessages.menu.howTo }}</p>
+      <h2 class="text-center text-2xl font-black">{{ oshikuraChainMessages.title }}</h2>
+      <p class="mt-3 text-sm opacity-80">{{ oshikuraChainMessages.menu.description }}</p>
+      <p class="mt-2 text-xs opacity-60">{{ oshikuraChainMessages.menu.howTo }}</p>
 
-      <p v-if="!online" class="alert alert-warning mt-3 py-2 text-xs">{{ nuisanceSurvivalMessages.menu.offline }}</p>
+      <p v-if="!online" class="alert alert-warning mt-3 py-2 text-xs">{{ oshikuraChainMessages.menu.offline }}</p>
       <p v-if="loadError" class="alert alert-warning mt-3 py-2 text-xs break-all">
-        {{ nuisanceSurvivalMessages.menu.configLoadError(loadError) }}
+        {{ oshikuraChainMessages.menu.configLoadError(loadError) }}
       </p>
       <p v-if="saveError" class="alert alert-error mt-3 py-2 text-xs break-all">
-        {{ nuisanceSurvivalMessages.menu.configSaveError(saveError) }}
+        {{ oshikuraChainMessages.menu.configSaveError(saveError) }}
       </p>
 
       <!-- コンフィグ -->
       <section v-if="showConfig" class="mt-4 flex flex-col gap-3">
         <div class="flex flex-col gap-1">
-          <span class="text-sm">{{ nuisanceSurvivalMessages.config.presetsTitle }}</span>
+          <span class="text-sm">{{ oshikuraChainMessages.config.presetsTitle }}</span>
           <div class="flex flex-wrap gap-2">
             <button
               v-for="id in presetIds"
@@ -26,16 +26,16 @@
               type="button"
               class="btn btn-sm"
               :class="activePreset === id ? 'btn-primary' : 'btn-outline'"
-              :title="nuisanceSurvivalMessages.config.presets[id].hint"
+              :title="oshikuraChainMessages.config.presets[id].hint"
               @click="emit('applyPreset', id)"
             >
-              {{ nuisanceSurvivalMessages.config.presets[id].label }}
+              {{ oshikuraChainMessages.config.presets[id].label }}
             </button>
           </div>
         </div>
         <label v-for="key in keys" :key="key" class="flex flex-col gap-1">
           <span class="flex items-center gap-2">
-            <span class="grow text-sm">{{ nuisanceSurvivalMessages.config.fields[key].label }}</span>
+            <span class="grow text-sm">{{ oshikuraChainMessages.config.fields[key].label }}</span>
             <input
               :value="draft[key]"
               type="number"
@@ -45,29 +45,29 @@
               :max="limits[key].max"
               :step="limits[key].step"
             />
-            <span class="w-6 text-xs opacity-70">{{ nuisanceSurvivalMessages.config.fields[key].unit }}</span>
+            <span class="w-6 text-xs opacity-70">{{ oshikuraChainMessages.config.fields[key].unit }}</span>
           </span>
-          <span v-if="nuisanceSurvivalMessages.config.fields[key].hint" class="text-xs opacity-60">
-            {{ nuisanceSurvivalMessages.config.fields[key].hint }}
+          <span v-if="oshikuraChainMessages.config.fields[key].hint" class="text-xs opacity-60">
+            {{ oshikuraChainMessages.config.fields[key].hint }}
           </span>
         </label>
         <div class="flex items-center gap-2">
-          <span class="grow text-xs opacity-60">{{ nuisanceSurvivalMessages.menu.configNote }}</span>
+          <span class="grow text-xs opacity-60">{{ oshikuraChainMessages.menu.configNote }}</span>
           <button type="button" class="btn btn-ghost btn-xs" @click="emit('resetConfig')">
-            {{ nuisanceSurvivalMessages.menu.resetConfig }}
+            {{ oshikuraChainMessages.menu.resetConfig }}
           </button>
         </div>
       </section>
 
       <div class="mt-5 flex items-center justify-center gap-3">
         <button type="button" class="btn btn-primary" @click="emit('start')">
-          {{ nuisanceSurvivalMessages.menu.start }}
+          {{ oshikuraChainMessages.menu.start }}
         </button>
         <button type="button" class="btn btn-outline" @click="showConfig = !showConfig">
-          {{ nuisanceSurvivalMessages.menu.config }}
+          {{ oshikuraChainMessages.menu.config }}
         </button>
         <button type="button" class="btn btn-ghost" @click="emit('close')">
-          {{ nuisanceSurvivalMessages.menu.close }}
+          {{ oshikuraChainMessages.menu.close }}
         </button>
       </div>
     </div>
@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { nuisanceSurvivalMessages } from '../maps/NuisanceSurvivalMessageMap'
+  import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
   import type { CONFIG_LIMITS, ConfigPresetId, NuisanceConfigKey, NuisanceConfigType } from '../scripts/nuisanceConfig'
 
   defineProps<{

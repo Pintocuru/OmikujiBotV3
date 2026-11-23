@@ -7,7 +7,7 @@ import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
 import { postComment } from '@/sdk/post/PostOneComme'
 import { getPostServiceId, resetPostServiceId } from '@/sdk/service/getPostServiceId'
 import { CommentPickSchema } from '@/types/subscribe'
-import { nuisanceSurvivalMessages } from '../maps/NuisanceSurvivalMessageMap'
+import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
 
 const MIN_INTERVAL_SECONDS = 0.1
 const BURST_COUNT = 10
@@ -38,7 +38,7 @@ export function useTestComments() {
     const serviceId = await getPostServiceId()
     if (!serviceId) {
       resetPostServiceId() // 次回また取得し直す
-      notice.value = nuisanceSurvivalMessages.test.unavailable
+      notice.value = oshikuraChainMessages.test.unavailable
       if (isRunning.value) stop()
       return
     }

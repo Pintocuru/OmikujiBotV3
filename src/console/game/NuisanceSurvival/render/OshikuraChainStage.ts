@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/render/NuisanceStage.ts
+// src/console/game/NuisanceSurvival/render/OshikuraChainStage.ts
 // Excalibur による盤面の描画・演出。ゲームの状態 (GameState) を毎フレーム読み取って映すだけで、ゲームには何も返さない。
 // 進行 (nuisanceEngine) からは呼ばれない。受け取るのは source (読み取り専用の窓口) だけ
 import {
@@ -9,12 +9,9 @@ import {
   Engine,
   EmitterType,
   ParticleEmitter,
-  Sound,
   vec,
   type Scene,
 } from 'excalibur'
-import { getSoundPath } from '@/common/AppEnv'
-import { resolveAsset } from '@/common/sounds'
 import { CELL_PX, HERO_MOVE_INTERVAL_SECONDS, MAX_FOOTPRINT } from '../scripts/nuisanceConstants'
 import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
 import {
@@ -43,10 +40,11 @@ import {
   type EffectHost,
   type PopupOptions,
 } from './effectPresets'
-import { MAX_CONCURRENT_PER_SOUND, SOUND_FILES, SOUND_FOLDER, type SoundKey } from './stageSounds'
+import { OshikuraChainAudio } from './OshikuraChainAudio'
+import type { SoundKey } from './stageSounds'
 
 /** 盤面が読み取るゲームの窓口 (読み取り専用。ゲームを操作するものは入れない) */
-export type StageSource = {
+export type OshikuraChainStageSource = {
   getState: () => GameState | null
   getConfig: () => NuisanceConfigType | null
   /** 描画用の時計 (開始からの秒) */
@@ -101,18 +99,16 @@ type Ghost = {
   onEnd?: () => void
 }
 
-export class NuisanceStage implements EffectHost {
+export class OshikuraChainStage implements EffectHost {
   private readonly engine: Engine
   private readonly views = new Map<number, NuisanceView>()
   private readonly images = new Map<string, HTMLImageElement | null>()
-  /** 読み込めた効果音 (素材がないものは null。一度だけ試して、再試行しない) */
-  private readonly sounds = new Map<SoundKey, Sound | null>()
+  private readonly audio: OshikuraChainAudio
   private readonly heroActor: Actor
   private readonly wordViews = new Map<number, WordView>()
   private readonly ghosts: Ghost[] = []
   private readonly popups: PopupView[] = []
-  private audio: AudioContext | null = null
-  private readonly obstacleViews = new Map<number, { actor: Actor; obstacle: Obstacle }>()
+  private readonly obstacleViews = new Map<number, Actor>()
   private readonly grid: GridSize
   private heroX = NaN
   private heroY = NaN
@@ -121,9 +117,10 @@ export class NuisanceStage implements EffectHost {
   constructor(
     canvas: HTMLCanvasElement,
     grid: GridSize,
-    private readonly source: StageSource
+    private readonly source: OshikuraChainStageSource
   ) {
     this.grid = grid
+    this.audio = new OshikuraChainAudio()
     const width = grid.cols * CELL_PX
     const height = grid.rows * CELL_PX
     this.engine = new Engine({
@@ -148,7 +145,6 @@ export class NuisanceStage implements EffectHost {
 
     this.engine.currentScene.on('preupdate', (event) => this.sync(event.elapsed / 1000))
     void this.engine.start()
-    this.loadSounds()
   }
 
   /** 画面を片付ける (Vue の onBeforeUnmount から呼ぶ) */
@@ -162,100 +158,22 @@ export class NuisanceStage implements EffectHost {
     this.wordViews.clear()
     this.ghosts.length = 0
     this.popups.length = 0
-    void this.audio?.close().catch(() => undefined)
-    this.audio = null
-  }
-
-  // ---- 効果音 ----
-
-  private loadSounds(): void {
-    for (const key of Object.keys(SOUND_FILES) as SoundKey[]) {
-      const url = resolveAsset(getSoundPath(SOUND_FOLDER + SOUND_FILES[key].file))
-      const sound = new Sound({ paths: [url], maxConcurrentTracks: MAX_CONCURRENT_PER_SOUND })
-      sound
-        .load()
-        .then(() => this.sounds.set(key, sound))
-        .catch(() => {
-          // 素材がなくても、音が鳴らないだけでゲームは動く
-          this.sounds.set(key, null)
-          console.warn(`[NuisanceSurvival] 効果音を読み込めませんでした: ${url}`)
-        })
-    }
+    this.audio.dispose()
   }
 
   // ---- EffectHost (演出の実体) ----
 
   play(key: SoundKey): void {
-    const sound = this.sounds.get(key)
-    if (sound) {
-      void sound.play({ volume: SOUND_FILES[key].volume })
-    } else if (sound === null && key === 'wordBlast') {
-      // 素材 (word-blast.mp3) がなければ、ブラウザの音で代わりに鳴らす
-      this.playBlastFallback()
-    }
-  }
-
-  /** 爆発の代わりの音: 低く落ちていく音と、短いノイズ (素材なし) */
-  private playBlastFallback(): void {
-    try {
-      const audio = (this.audio ??= new AudioContext())
-      if (audio.state === 'suspended') void audio.resume()
-      const now = audio.currentTime
-      const length = 0.5
-      const noise = audio.createBuffer(1, Math.floor(audio.sampleRate * length), audio.sampleRate)
-      const data = noise.getChannelData(0)
-      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length)
-      const source = audio.createBufferSource()
-      source.buffer = noise
-      const filter = audio.createBiquadFilter()
-      filter.type = 'lowpass'
-      filter.frequency.setValueAtTime(1800, now)
-      filter.frequency.exponentialRampToValueAtTime(200, now + length)
-      const noiseGain = audio.createGain()
-      noiseGain.gain.setValueAtTime(0.5, now)
-      noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + length)
-      source.connect(filter).connect(noiseGain).connect(audio.destination)
-      source.start(now)
-
-      const boom = audio.createOscillator()
-      const boomGain = audio.createGain()
-      boom.type = 'sine'
-      boom.frequency.setValueAtTime(170, now)
-      boom.frequency.exponentialRampToValueAtTime(38, now + length)
-      boomGain.gain.setValueAtTime(0.5, now)
-      boomGain.gain.exponentialRampToValueAtTime(0.0001, now + length)
-      boom.connect(boomGain).connect(audio.destination)
-      boom.start(now)
-      boom.stop(now + length + 0.02)
-    } catch {
-      // 音が出せなくても、ゲームは動く
-    }
+    this.audio.play(key)
   }
 
   get boardSize(): { width: number; height: number } {
     return { width: this.grid.cols * CELL_PX, height: this.grid.rows * CELL_PX }
   }
 
-  /** 音階の音 (素材なし。三角波を、短く鳴らす)。音が出せない環境では、鳴らないだけでゲームは動く */
+  /** 音階の音は OshikuraChainAudio に委譲する */
   playNote(frequency: number, delaySeconds: number): void {
-    try {
-      const audio = (this.audio ??= new AudioContext())
-      if (audio.state === 'suspended') void audio.resume()
-      const start = audio.currentTime + Math.max(0, delaySeconds)
-      const length = 0.28
-      const oscillator = audio.createOscillator()
-      const gain = audio.createGain()
-      oscillator.type = 'triangle'
-      oscillator.frequency.value = frequency
-      gain.gain.setValueAtTime(0.0001, start)
-      gain.gain.exponentialRampToValueAtTime(0.22, start + 0.01)
-      gain.gain.exponentialRampToValueAtTime(0.0001, start + length)
-      oscillator.connect(gain).connect(audio.destination)
-      oscillator.start(start)
-      oscillator.stop(start + length + 0.02)
-    } catch {
-      // 音が出せなくても、ゲームは動く
-    }
+    this.audio.playNote(frequency, delaySeconds)
   }
 
   popup(o: PopupOptions): void {
@@ -548,33 +466,32 @@ export class NuisanceStage implements EffectHost {
   }
 
   private clearObstacles(): void {
-    for (const v of this.obstacleViews.values()) v.actor.kill()
+    for (const actor of this.obstacleViews.values()) actor.kill()
     this.obstacleViews.clear()
   }
 
   /** 状態の障害物に合わせて、表示を足す・消す。消える直前の 2 秒は点滅する */
   private syncObstacles(state: GameState, clock: number): void {
     const alive = new Set(state.obstacles.map((o) => o.id))
-    for (const [id, v] of this.obstacleViews) {
+    for (const [id, actor] of this.obstacleViews) {
       if (alive.has(id)) continue
-      v.actor.kill()
+      actor.kill()
       this.obstacleViews.delete(id)
     }
     for (const o of state.obstacles) {
-      let v = this.obstacleViews.get(o.id)
-      if (!v) {
+      let actor = this.obstacleViews.get(o.id)
+      if (!actor) {
         const w = o.size * CELL_PX
-        const actor = new Actor({ pos: vec(0, 0), width: w, height: w, z: 5 })
+        actor = new Actor({ pos: vec(0, 0), width: w, height: w, z: 5 })
         actor.graphics.use(
           new Canvas({ width: w, height: w, cache: true, draw: (ctx) => this.drawObstacle(ctx, o, w) })
         )
         this.engine.add(actor)
-        v = { actor, obstacle: o }
-        this.obstacleViews.set(o.id, v)
+        this.obstacleViews.set(o.id, actor)
       }
-      v.actor.pos = vec((o.col + o.size / 2) * CELL_PX, (o.row + o.size / 2) * CELL_PX)
+      actor.pos = vec((o.col + o.size / 2) * CELL_PX, (o.row + o.size / 2) * CELL_PX)
       const left = o.expiresAt - state.elapsed
-      v.actor.graphics.opacity = left < 2 ? 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(clock * 16)) : 1
+      actor.graphics.opacity = left < 2 ? 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(clock * 16)) : 1
     }
   }
 

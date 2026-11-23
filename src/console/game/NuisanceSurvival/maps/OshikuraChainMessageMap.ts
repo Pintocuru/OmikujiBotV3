@@ -1,11 +1,11 @@
-// src/console/game/NuisanceSurvival/maps/NuisanceSurvivalMessageMap.ts
-// 邪魔者サバイバル画面の文言 (日本語)。画面のコンポーネントは、文字をここから取る。
+// src/console/game/NuisanceSurvival/maps/OshikuraChainMessageMap.ts
+// おしくらチェイン画面の文言 (日本語)。画面のコンポーネントは、文字をここから取る。
 // i18n 化するときは、この map を翻訳ファイルに置き換える (関数の項目は、引数つきの文言)。
 import type { ConfigPresetId, NuisanceConfigKey } from '../scripts/nuisanceConfig'
 import type { NuisanceKind } from '../scripts/nuisanceTraits'
 
-export const nuisanceSurvivalMessages = {
-  title: '邪魔者サバイバル',
+export const oshikuraChainMessages = {
+  title: 'おしくらチェイン',
   bar: {
     openHint: 'クリックでメニューを開く',
     timeLeft: '残り時間',

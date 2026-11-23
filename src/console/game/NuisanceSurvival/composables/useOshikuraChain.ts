@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/composables/useNuisanceSurvival.ts
+// src/console/game/NuisanceSurvival/composables/useOshikuraChain.ts
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import { gameStateApi } from '@/manager/services/gameStateApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'
@@ -39,7 +39,7 @@ const isTyping = (target: EventTarget | null) =>
   (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))
 
 /**
- * 邪魔者サバイバルの進行
+ * おしくらチェインの進行
  * idle (メニュー) → running → over (結果)
  * - 時間は、フレームごとの経過時間 (上限つき) を足したゲーム内の時計で進める。更新は requestAnimationFrame だけから呼ぶので、
  *   ウィンドウが非表示の間は、ゲームも止まる (再表示されたら、そのときの状態から続ける)
@@ -47,7 +47,7 @@ const isTyping = (target: EventTarget | null) =>
  * - 進行で起きたこと (出現・撃破) は、演出用のイベントとして溜める。演出側が drainEvents で受け取る (ゲームから演出は操作しない)
  * - 結果は、終わったときに自動でゲームログ (GameLog) に記録する。ユーザーの得点 (update-user-stats) は変えない
  */
-export function useNuisanceSurvival() {
+export function useOshikuraChain() {
   const configStore = useNuisanceConfig()
 
   const phase = ref<NuisancePhase>('idle')
@@ -222,7 +222,7 @@ export function useNuisanceSurvival() {
     try {
       commentStatus.value = (await GetOmikenComments(onComments)) ? 'ready' : 'error'
     } catch (error) {
-      console.error('[NuisanceSurvival] コメントの購読に失敗しました:', error)
+      console.error('[OshikuraChain] コメントの購読に失敗しました:', error)
       commentStatus.value = 'error'
     }
   }

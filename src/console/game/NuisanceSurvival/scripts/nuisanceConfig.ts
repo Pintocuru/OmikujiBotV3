@@ -1,5 +1,5 @@
 // src/console/game/NuisanceSurvival/scripts/nuisanceConfig.ts
-// 邪魔者サバイバルのコンフィグ (サーバーに保存する。形はここのスキーマが決める)
+// おしくらチェインのコンフィグ (サーバーに保存する。形はここのスキーマが決める)
 import { z } from 'zod'
 
 /** 項目ごとの範囲と既定値。フォームの入力範囲も、ここを使う */

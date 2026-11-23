@@ -1,5 +1,5 @@
 // src/console/game/NuisanceSurvival/scripts/nuisanceConstants.ts
-// 邪魔者サバイバルの定数。マス目・時間の刻み・記録の名前は、ここだけを変える
+// おしくらチェインの定数。マス目・時間の刻み・記録の名前は、ここだけを変える
 
 // ---- マス目 (横長: 横 11 × 縦 8) ----
 export const GRID_COLS = 11
@@ -63,13 +63,13 @@ export const OBSTACLE_SIZE_TIERS: readonly { minPrice: number; size: number }[] 
 ]
 
 // ---- 記録 (GameLog) ----
-/** ユーザーごとの貢献度 (その人のものが生んだ秒数) の eventKey。ライフ制のときのダメージの記録とは、別にしてある */
-export const CONTRIBUTION_EVENT_KEY = 'nuisanceSurvivalSeconds'
+/** ユーザーごとの貢献度 (その人のものが生んだ秒数) の eventKey。生存時間とは別のランキングにする */
+export const CONTRIBUTION_EVENT_KEY = 'oshikuraChainSeconds'
 /** ゲーム全体の生存時間の eventKey (貢献度とは別にして、ランキングを混ぜない) */
-export const SURVIVAL_EVENT_KEY = 'nuisanceSurvivalTime'
+export const SURVIVAL_EVENT_KEY = 'oshikuraChainTime'
 /** 生存時間の記録に使う、プレイヤー (配信者) の userId と表示名。ユーザーリストにはいない */
 export const PLAYER_USER_ID = 'player'
 export const PLAYER_USER_NAME = '配信者'
 
 /** 設定をサーバーに保存するときの gameKey (ConsoleViewKey と同じ) */
-export const CONFIG_GAME_KEY = 'nuisanceSurvival'
+export const CONFIG_GAME_KEY = 'oshikuraChain'

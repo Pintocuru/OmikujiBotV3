@@ -1,5 +1,5 @@
-<!-- src/console/game/NuisanceSurvival/NuisanceSurvival.vue -->
-<!-- 邪魔者サバイバル: コメントした人が「邪魔者」になり、居残ってライフを減らし続ける。WASD で押して取り除き、生き残る -->
+<!-- src/console/game/NuisanceSurvival/OshikuraChain.vue -->
+<!-- おしくらチェイン: コメントのアイコンや文字を WASD で盤面の外へ押し出し、連鎖で残り時間を増やす -->
 <!-- 画面の部品: NuisanceTopBar / NuisanceField / NuisanceMenu / NuisanceResult / NuisanceTestPanel。ここは組み立てだけ -->
 <!-- 仕様: ./SPEC.md。別ウィンドウで開き、OBS でキャプチャする -->
 <template>
@@ -58,8 +58,8 @@
   import NuisanceResult from './components/NuisanceResult.vue'
   import NuisanceTestPanel from './components/NuisanceTestPanel.vue'
   import NuisanceTopBar from './components/NuisanceTopBar.vue'
-  import { useNuisanceSurvival } from './composables/useNuisanceSurvival'
-  import type { StageSource } from './render/NuisanceStage'
+  import { useOshikuraChain } from './composables/useOshikuraChain'
+  import type { OshikuraChainStageSource } from './render/OshikuraChainStage'
 
   const {
     phase,
@@ -79,10 +79,10 @@
     toggleMenu,
     record,
     connectComments,
-  } = useNuisanceSurvival()
+  } = useOshikuraChain()
 
   // 盤面 (Excalibur) が毎フレーム読み取る窓口。読み取り専用で、ゲームには何も返さない
-  const stageSource: StageSource = {
+  const stageSource: OshikuraChainStageSource = {
     getState: () => state.value,
     getConfig: () => activeConfig.value,
     getClock,

@@ -6,11 +6,11 @@
     :class="phase === 'idle' ? 'cursor-pointer hover:bg-base-200' : ''"
     @click="emit('toggle')"
   >
-    <span class="font-bold">{{ nuisanceSurvivalMessages.title }}</span>
+    <span class="font-bold">{{ oshikuraChainMessages.title }}</span>
 
     <template v-if="state && phase !== 'idle'">
       <div class="flex items-center gap-2">
-        <span class="text-xs opacity-70">{{ nuisanceSurvivalMessages.bar.timeLeft }}</span>
+        <span class="text-xs opacity-70">{{ oshikuraChainMessages.bar.timeLeft }}</span>
         <div class="h-3 w-44 overflow-hidden rounded bg-base-100">
           <div
             class="h-full transition-[width] duration-150"
@@ -20,26 +20,26 @@
         </div>
         <span class="w-12 font-mono text-sm">{{ formatClock(state.timeLeft) }}</span>
       </div>
-      <span class="font-mono text-sm">{{ nuisanceSurvivalMessages.bar.coefficient(coefficient) }}</span>
+      <span class="font-mono text-sm">{{ oshikuraChainMessages.bar.coefficient(coefficient) }}</span>
       <span class="font-mono text-sm">{{
-        nuisanceSurvivalMessages.bar.chain(state.chain, formatGain(state.chainTotal))
+        oshikuraChainMessages.bar.chain(state.chain, formatGain(state.chainTotal))
       }}</span>
-      <span class="text-xs opacity-70">{{ nuisanceSurvivalMessages.bar.elapsed(formatClock(clockSeconds)) }}</span>
+      <span class="text-xs opacity-70">{{ oshikuraChainMessages.bar.elapsed(formatClock(clockSeconds)) }}</span>
       <span class="text-xs opacity-70">
-        {{ nuisanceSurvivalMessages.bar.nuisances(state.nuisances.length, config?.maxNuisances ?? 0) }}
+        {{ oshikuraChainMessages.bar.nuisances(state.nuisances.length, config?.maxNuisances ?? 0) }}
       </span>
     </template>
-    <span v-else class="text-xs opacity-60">{{ nuisanceSurvivalMessages.bar.openHint }}</span>
+    <span v-else class="text-xs opacity-60">{{ oshikuraChainMessages.bar.openHint }}</span>
 
     <!-- コメントの購読の状態 (つながっていないと、コメントが邪魔者にならない) -->
     <span class="grow" />
     <span v-if="commentStatus === 'connecting'" class="text-xs opacity-60">
-      {{ nuisanceSurvivalMessages.comments.connecting }}
+      {{ oshikuraChainMessages.comments.connecting }}
     </span>
     <span v-else-if="commentStatus === 'error'" class="text-error flex items-center gap-2 text-xs" @click.stop>
-      {{ nuisanceSurvivalMessages.comments.error }}
+      {{ oshikuraChainMessages.comments.error }}
       <button type="button" class="btn btn-xs" @click="emit('reconnect')">
-        {{ nuisanceSurvivalMessages.comments.retry }}
+        {{ oshikuraChainMessages.comments.retry }}
       </button>
     </span>
   </header>
@@ -51,7 +51,7 @@
   import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
   import { coefficientOf, type GameState } from '../scripts/nuisanceEngine'
   import type { CommentStatus, NuisancePhase } from '../composables/useNuisanceSurvival'
-  import { nuisanceSurvivalMessages } from '../maps/NuisanceSurvivalMessageMap'
+  import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
 
   const props = defineProps<{
     phase: NuisancePhase
