@@ -63,7 +63,7 @@ export const OBSTACLE_SIZE_TIERS: readonly { minPrice: number; size: number }[] 
 ]
 
 // ---- 記録 (GameLog) ----
-/** ユーザーごとの貢献度 (その人のものが生んだ秒数) の eventKey。ライフ制のときのダメージの記録とは、別にしてある */
+/** ユーザーごとの貢献度 (その人のものが生んだ秒数) の eventKey。生存時間とは別のランキングにする */
 export const CONTRIBUTION_EVENT_KEY = 'oshikuraChainSeconds'
 /** ゲーム全体の生存時間の eventKey (貢献度とは別にして、ランキングを混ぜない) */
 export const SURVIVAL_EVENT_KEY = 'oshikuraChainTime'
