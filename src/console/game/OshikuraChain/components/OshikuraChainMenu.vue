@@ -152,12 +152,12 @@
     type CommentSource,
     type DifficultyLevel,
     type GameMode,
-    type NuisanceConfigType,
+    type OshikuraChainConfig,
   } from '../scripts/nuisanceConfig'
   import { AUTO_COMMENT_INTERVAL_SECONDS } from '../scripts/nuisanceConstants'
 
   defineProps<{
-    draft: NuisanceConfigType
+    draft: OshikuraChainConfig
     online: boolean
     loadError: string
     saveError: string
