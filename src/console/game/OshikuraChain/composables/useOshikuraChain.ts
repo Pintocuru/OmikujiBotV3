@@ -219,8 +219,7 @@ export function useOshikuraChain() {
         userId: omiken.userId,
         userName: omiken.userName,
         profileImage: omiken.profileImage,
-        lc: omiken.meta.lc, // 0 は不明 (ボスにならない)
-        isFirst: omiken.meta.tc === 1, // その人の最初のコメント (初見さん)。係数が 1 に戻る
+        isFirst: omiken.meta.tc === 1, // その人の最初のコメント (初見さん)。係数リセットの判定に使う
         comment: omiken.comment, // 文字数に応じて、「ことば」が降ってくる
         giftPrice: omiken.giftPrice ?? undefined, // ギフトなら、邪魔者ではなく障害物になる
       })
