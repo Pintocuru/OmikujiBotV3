@@ -53,7 +53,7 @@
       <!-- アイコンの数 -->
       <div class="flex items-center gap-1" :title="iconCountTitle">
         <Users :size="16" :class="iconCountClass" />
-        <span class="font-mono text-xs" :class="iconCountClass">{{ state.icons.length }} / {{ config?.maxParticipantIcons ?? 0 }}</span>
+        <span class="font-mono text-xs" :class="iconCountClass">{{ state.icons.length }} / {{ config?.maxIcons ?? 0 }}</span>
       </div>
     </template>
     <span v-else class="flex items-center gap-2 text-xs opacity-60">
@@ -105,11 +105,11 @@
   import { formatClock } from '../scripts/nuisanceRecord'
   import type { OshikuraChainConfig } from '../scripts/nuisanceConfig'
   import { multiplierOf, type GameState } from '../scripts/nuisanceEngine'
-  import type { CommentStatus, ParticipantIconPhase } from '../composables/useOshikuraChain'
+  import type { CommentStatus, OshikuraChainPhase } from '../composables/useOshikuraChain'
   import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
 
   const props = defineProps<{
-    phase: ParticipantIconPhase
+    phase: OshikuraChainPhase
     state: GameState | null
     config: OshikuraChainConfig | null
     commentStatus: CommentStatus
@@ -144,7 +144,7 @@
 
   // 上限の 80% から警告し、上限到達時は新しいアイコンが出現しないことを示す
   const iconCount = computed(() => props.state?.icons.length ?? 0)
-  const maxIcons = computed(() => props.config?.maxParticipantIcons ?? 0)
+  const maxIcons = computed(() => props.config?.maxIcons ?? 0)
   const isAtIconLimit = computed(() => maxIcons.value > 0 && iconCount.value >= maxIcons.value)
   const isNearIconLimit = computed(
     () => maxIcons.value > 0 && !isAtIconLimit.value && iconCount.value / maxIcons.value >= 0.8
