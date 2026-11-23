@@ -1,5 +1,4 @@
 // src/console/game/OshikuraChain/render/draw/participantIcon.ts
-// アイコン (邪魔者) 1 体
 import { CELL_PX, MAX_FOOTPRINT } from '../../scripts/oshikuraChainConstants'
 import { footprintOf, sizeScaleOf, type ParticipantIcon } from '../../scripts/oshikuraChainEngine'
 import type { ParticipantIconKind } from '../../scripts/participantIconTraits'
