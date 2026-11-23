@@ -84,7 +84,8 @@ function buildCommentPayload(comment: Comment): OmikenCommentInput {
     profileImage: data.profileImage,
     accessLevel: isExternal ? determineTestAccessLevel(fields) : determineAccessLevel(fields),
     ...getGiftInfo(fields),
-    comment: data.comment,
+    // YouTube のステッカー等が含む img タグは、文字列として表示されないよう除去する
+    comment: data.comment.replace(/<img\\b[^>]*\\/?>/gi, ''),
     meta: isTester ? createTestMeta(data.isFirstTime, meta) : createMeta(isExternal, meta),
   }
 }
