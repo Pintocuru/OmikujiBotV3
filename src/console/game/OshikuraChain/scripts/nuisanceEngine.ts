@@ -440,7 +440,7 @@ const spawnOne = (
   // コメントの文字数に応じて、「ことば」も降ってくる (アイコンが上限で出なくても降る)
   dropWords(s, request, rng, events)
   // 2 分経過するごとに、その後最初に出現するユーザーを巨大化する
-  const canSpawn = s.icons.length < config.maxParticipantIcons
+  const canSpawn = s.icons.length < config.maxIcons
   const isGiantDue = request.atSeconds >= s.nextGiantAt
   const giantTraits = isGiantDue ? getGiantIconTraits(request.userId) : null
   const giantCell = canSpawn ? (giantTraits ? pickFreeCell(s, rng, footprintOf(giantTraits.baseSize)) : null) : null
