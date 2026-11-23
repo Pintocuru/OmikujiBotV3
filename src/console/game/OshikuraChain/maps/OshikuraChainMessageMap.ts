@@ -13,6 +13,8 @@ export const oshikuraChainMessages = {
     chainTitle: '連鎖数 / この連鎖で得た秒数',
     elapsedTitle: '経過時間',
     nuisancesTitle: 'アイコンの数 / 上限',
+    iconsNearLimit: 'アイコン数が上限に近づいています',
+    iconsAtLimit: 'アイコンの上限です。これ以上、新しいアイコンは出現しません',
     gained: '獲得',
     gainedValue: (gained: string, target: string) => `${gained} / ${target}`,
     auto: 'オート',
