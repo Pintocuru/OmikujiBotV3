@@ -53,7 +53,7 @@
       <!-- アイコンの数 -->
       <div class="flex items-center gap-1" :title="iconCountTitle">
         <Users :size="16" :class="iconCountClass" />
-        <span class="font-mono text-xs" :class="iconCountClass">{{ state.nuisances.length }} / {{ config?.maxNuisances ?? 0 }}</span>
+        <span class="font-mono text-xs" :class="iconCountClass">{{ state.icons.length }} / {{ config?.maxParticipantIcons ?? 0 }}</span>
       </div>
     </template>
     <span v-else class="flex items-center gap-2 text-xs opacity-60">
@@ -103,15 +103,15 @@
   import { computed, onBeforeUnmount, ref, watch } from 'vue'
   import { Bot, Clock, Flame, Hourglass, Loader, Menu, RefreshCw, Target, Users, WifiOff, X } from '@lucide/vue'
   import { formatClock } from '../scripts/nuisanceRecord'
-  import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
+  import type { OshikuraChainConfig } from '../scripts/nuisanceConfig'
   import { multiplierOf, type GameState } from '../scripts/nuisanceEngine'
-  import type { CommentStatus, NuisancePhase } from '../composables/useOshikuraChain'
+  import type { CommentStatus, ParticipantIconPhase } from '../composables/useOshikuraChain'
   import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
 
   const props = defineProps<{
-    phase: NuisancePhase
+    phase: ParticipantIconPhase
     state: GameState | null
-    config: NuisanceConfigType | null
+    config: OshikuraChainConfig | null
     commentStatus: CommentStatus
     getClock: () => number
   }>()
@@ -143,8 +143,8 @@
   const isAuto = computed(() => props.config?.commentSource === 'auto')
 
   // 上限の 80% から警告し、上限到達時は新しいアイコンが出現しないことを示す
-  const iconCount = computed(() => props.state?.nuisances.length ?? 0)
-  const maxIcons = computed(() => props.config?.maxNuisances ?? 0)
+  const iconCount = computed(() => props.state?.icons.length ?? 0)
+  const maxIcons = computed(() => props.config?.maxParticipantIcons ?? 0)
   const isAtIconLimit = computed(() => maxIcons.value > 0 && iconCount.value >= maxIcons.value)
   const isNearIconLimit = computed(
     () => maxIcons.value > 0 && !isAtIconLimit.value && iconCount.value / maxIcons.value >= 0.8
@@ -157,7 +157,7 @@
       ? oshikuraChainMessages.bar.iconsAtLimit
       : isNearIconLimit.value
         ? oshikuraChainMessages.bar.iconsNearLimit
-        : oshikuraChainMessages.bar.nuisancesTitle
+        : oshikuraChainMessages.bar.iconsTitle
   )
 
   // 耐久: 残り時間 (少ないほど赤) / タイムアタック: 目標までの獲得秒数 (増えていく)
