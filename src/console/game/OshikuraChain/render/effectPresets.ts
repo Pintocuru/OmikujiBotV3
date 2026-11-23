@@ -1,9 +1,9 @@
 // src/console/game/OshikuraChain/render/effectPresets.ts
 // 演出のプリセット。イベント (OshikuraChainEvent) に対して「何を、どれくらい派手に出すか」だけを決める。
 // 描画の実体 (Excalibur) は EffectHost の向こう側にあり、ここは Excalibur を知らない
-import { BIG_CHAIN_MIN } from '../scripts/nuisanceConstants'
-import type { OshikuraChainEvent } from '../scripts/nuisanceEngine'
-import { formatGain } from '../scripts/nuisanceRecord'
+import { BIG_CHAIN_MIN } from '../scripts/oshikuraChainConstants'
+import type { OshikuraChainEvent } from '../scripts/oshikuraChainEngine'
+import { formatGain } from '../scripts/oshikuraChainRecord'
 import type { SoundKey } from './stageSounds'
 
 /** 演出を出す側 (NuisanceStage が実装する) */
