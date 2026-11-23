@@ -4,13 +4,13 @@
   <div class="card absolute bottom-2 left-2 w-64 border border-base-300 bg-base-200 text-base-content shadow-lg">
     <div class="card-body gap-2 p-2">
       <button type="button" class="flex items-center justify-between text-left text-sm" @click="collapsed = !collapsed">
-        <span>{{ nuisanceSurvivalMessages.test.title }}</span>
+        <span>{{ oshikuraChainMessages.test.title }}</span>
         <span class="text-xs opacity-60">{{ collapsed ? '▶' : '▼' }}</span>
       </button>
 
       <template v-if="!collapsed">
         <div class="flex flex-col gap-1">
-          <span class="text-xs opacity-60">{{ nuisanceSurvivalMessages.test.expectedUsers }}</span>
+          <span class="text-xs opacity-60">{{ oshikuraChainMessages.test.expectedUsers }}</span>
           <div class="join w-full">
             <button
               v-for="n in MOCK_USER_POOL_PRESETS"
@@ -20,7 +20,7 @@
               :class="userCount === n ? 'btn-accent' : ''"
               @click="userCount = n"
             >
-              {{ nuisanceSurvivalMessages.test.people(n) }}
+              {{ oshikuraChainMessages.test.people(n) }}
             </button>
           </div>
           <div class="join w-full">
@@ -32,13 +32,13 @@
               :class="pickMode === mode ? 'btn-accent' : ''"
               @click="pickMode = mode"
             >
-              {{ nuisanceSurvivalMessages.test.pickMode[mode] }}
+              {{ oshikuraChainMessages.test.pickMode[mode] }}
             </button>
           </div>
         </div>
 
         <label class="flex items-center gap-2 text-xs opacity-80">
-          {{ nuisanceSurvivalMessages.test.interval }}
+          {{ oshikuraChainMessages.test.interval }}
           <input
             v-model.number="intervalSeconds"
             type="number"
@@ -50,7 +50,7 @@
 
         <div class="join w-full">
           <button type="button" class="btn btn-xs btn-neutral join-item flex-1" @click="sendComment">
-            {{ nuisanceSurvivalMessages.test.send }}
+            {{ oshikuraChainMessages.test.send }}
           </button>
           <button
             type="button"
@@ -58,17 +58,17 @@
             :class="isRunning ? 'btn-ghost' : 'btn-primary'"
             @click="toggleAuto"
           >
-            {{ isRunning ? nuisanceSurvivalMessages.test.stop : nuisanceSurvivalMessages.test.auto }}
+            {{ isRunning ? oshikuraChainMessages.test.stop : oshikuraChainMessages.test.auto }}
           </button>
           <button type="button" class="btn btn-xs btn-warning join-item flex-1" @click="burst">
-            {{ nuisanceSurvivalMessages.test.burst }}
+            {{ oshikuraChainMessages.test.burst }}
           </button>
         </div>
 
         <p class="truncate text-xs opacity-60">
-          {{ notice || nuisanceSurvivalMessages.test.sent(sentCount) }}
+          {{ notice || oshikuraChainMessages.test.sent(sentCount) }}
         </p>
-        <p class="text-[10px] opacity-40">{{ nuisanceSurvivalMessages.test.hint }}</p>
+        <p class="text-[10px] opacity-40">{{ oshikuraChainMessages.test.hint }}</p>
       </template>
     </div>
   </div>
@@ -78,7 +78,7 @@
   import { ref } from 'vue'
   import { MOCK_USER_PICK_MODE_LABELS, MOCK_USER_POOL_PRESETS, type MockUserPickMode } from '@/common/MockUser'
   import { useTestComments } from '../composables/useTestComments'
-  import { nuisanceSurvivalMessages } from '../maps/NuisanceSurvivalMessageMap'
+  import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
 
   const { userCount, pickMode, intervalSeconds, isRunning, sentCount, notice, sendComment, toggleAuto, burst } =
     useTestComments()
