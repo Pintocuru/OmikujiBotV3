@@ -2,7 +2,16 @@
 // 効果音の一覧。素材は assets/sounds/core/ か assets/sounds/core_more/ のものだけを使う (配布後は sounds/core/ ・ sounds/core_more/)。
 // ファイル名を変えるときは、ここだけを変える。ファイルがなくても、その音が鳴らないだけでゲームは動く
 export type SoundKey =
-  'land' | 'bossLand' | 'explosion' | 'remove' | 'wordBlast' | 'bigChain' | 'heatUp' | 'gameOver' | 'timeAttackClear' | 'gift'
+  | 'land'
+  | 'bossLand'
+  | 'explosion'
+  | 'remove'
+  | 'wordBlast'
+  | 'bigChain'
+  | 'heatUp'
+  | 'gameOver'
+  | 'timeAttackClear'
+  | 'gift'
 
 /** sounds/ からの相対フォルダ */
 export type SoundFolder = 'core' | 'core_more'

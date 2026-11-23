@@ -53,7 +53,9 @@
       <!-- アイコンの数 -->
       <div class="flex items-center gap-1" :title="iconCountTitle">
         <Users :size="16" :class="iconCountClass" />
-        <span class="font-mono text-xs" :class="iconCountClass">{{ state.icons.length }} / {{ config?.maxIcons ?? 0 }}</span>
+        <span class="font-mono text-xs" :class="iconCountClass">
+          {{ state.icons.length }} / {{ config?.maxIcons ?? 0 }}
+        </span>
       </div>
     </template>
     <span v-else class="flex items-center gap-2 text-xs opacity-60">

@@ -12,7 +12,11 @@ const KIND_GLYPH: Record<ParticipantIconKind, string> = {
   boss: '👑',
 }
 
-export const drawParticipantIcon = (ctx: CanvasRenderingContext2D, n: ParticipantIcon, image: HTMLImageElement | null): void => {
+export const drawParticipantIcon = (
+  ctx: CanvasRenderingContext2D,
+  n: ParticipantIcon,
+  image: HTMLImageElement | null
+): void => {
   const scale = sizeScaleOf(n)
   const footprint = footprintOf(scale)
   const cx = VIEW_PX / 2

@@ -260,7 +260,10 @@ const HEAT_STYLES: Record<number, { text: string; color: string; hue: number }> 
 }
 
 /** 倍率が上がった (エンジンがヒートアップした): 段階が上がるほど、揺れ・火の粉・音が強くなる */
-export const playMultiplierUp = (host: EffectHost, event: Extract<OshikuraChainEvent, { type: 'multiplierUp' }>): void => {
+export const playMultiplierUp = (
+  host: EffectHost,
+  event: Extract<OshikuraChainEvent, { type: 'multiplierUp' }>
+): void => {
   const style = HEAT_STYLES[Math.min(5, Math.max(2, event.level))]
   host.popup({
     x: host.boardSize.width / 2,

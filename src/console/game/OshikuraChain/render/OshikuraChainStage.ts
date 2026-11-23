@@ -120,7 +120,9 @@ export class OshikuraChainStage implements EffectHost {
     })
 
     const board = new Actor({ pos: vec(width / 2, height / 2), width, height, z: 0 })
-    board.graphics.use(new Canvas({ width, height, cache: true, draw: (ctx) => drawBoard(ctx, this.grid, width, height) }))
+    board.graphics.use(
+      new Canvas({ width, height, cache: true, draw: (ctx) => drawBoard(ctx, this.grid, width, height) })
+    )
     this.engine.add(board)
 
     // 背景の星: 盤面の上、アクターの下。毎フレーム描き直す (速さは sync で連鎖数から決める)
@@ -329,7 +331,12 @@ export class OshikuraChainStage implements EffectHost {
     const view: WordView = { actor, word, fallStartedAt: null, leftRatio: 1 }
     // 円グラフ (消えるまでの時間) が毎フレーム変わるので、キャッシュしない (ことばは最大 30 個で、軽い)
     actor.graphics.use(
-      new Canvas({ width: CELL_PX, height: CELL_PX, cache: false, draw: (ctx) => drawWord(ctx, view.word, view.leftRatio, size) })
+      new Canvas({
+        width: CELL_PX,
+        height: CELL_PX,
+        cache: false,
+        draw: (ctx) => drawWord(ctx, view.word, view.leftRatio, size),
+      })
     )
     this.engine.add(actor)
     this.wordViews.set(word.id, view)
