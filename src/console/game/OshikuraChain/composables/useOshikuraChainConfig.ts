@@ -12,8 +12,8 @@ import {
   type DifficultyLevel,
   type GameMode,
   type OshikuraChainConfig,
-} from '../scripts/nuisanceConfig'
-import { CONFIG_GAME_KEY } from '../scripts/nuisanceConstants'
+} from '../scripts/oshikuraChainConfig'
+import { CONFIG_GAME_KEY } from '../scripts/oshikuraChainConstants'
 
 const messageOf = (error: unknown) => (error instanceof Error ? error.message : String(error))
 
