@@ -14,6 +14,7 @@ import { CONTRIBUTION_EVENT_KEY, MAX_FRAME_SECONDS, SURVIVAL_EVENT_KEY } from '.
 import {
   advance,
   createGame,
+  endGame,
   getContributionRanking,
   type GameState,
   type NuisanceEvent,
@@ -40,7 +41,7 @@ const isTyping = (target: EventTarget | null) =>
 
 /**
  * おしくらチェインの進行
- * idle (メニュー) → running → over (結果)
+ * idle (メニュー) → running → over (結果)。running 中に abort (やめる) しても over になり、結果を記録する
  * - 時間は、フレームごとの経過時間 (上限つき) を足したゲーム内の時計で進める。更新は requestAnimationFrame だけから呼ぶので、
  *   ウィンドウが非表示の間は、ゲームも止まる (再表示されたら、そのときの状態から続ける)
  * - コメントは OneSDK の購読で受け取り、届いた時刻をつけて溜める。ゲーム中のコメントだけが邪魔者になる (履歴・BOT・非表示中は除く)
@@ -143,6 +144,16 @@ export function useOshikuraChain() {
     phase.value = 'over'
     recordedAt = Date.now()
     void record()
+  }
+
+  /** ゲーム中にやめる。時間切れと同じく、いまの生存時間で終わりにして、結果を記録する (ウィンドウを閉じたときは、記録しない) */
+  const abort = () => {
+    const current = state.value
+    if (phase.value !== 'running' || !current) return
+    pendingSpawns = []
+    heldCodes.length = 0
+    state.value = endGame(current)
+    finish()
   }
 
   const toMenu = () => {
@@ -271,6 +282,7 @@ export function useOshikuraChain() {
     getClock,
     drainEvents,
     start,
+    abort,
     toMenu,
     toggleMenu,
     record,

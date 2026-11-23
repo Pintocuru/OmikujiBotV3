@@ -31,6 +31,7 @@ import {
   type PopupOptions,
 } from './effectPresets'
 import { OshikuraChainAudio } from './OshikuraChainAudio'
+import { StarField } from './StarField'
 import type { SoundKey } from './stageSounds'
 
 /** 盤面が読み取るゲームの窓口 (読み取り専用。ゲームを操作するものは入れない) */
@@ -44,6 +45,8 @@ export type OshikuraChainStageSource = {
 }
 
 const MOVE_ANIM_SECONDS = 0.15
+/** 盤面の背景色 (宇宙の暗い青) */
+const BOARD_BACKGROUND = '#0b1022'
 /** 同時に出せる浮かぶ文字の数の上限 (連鎖が一気に続いても、画面が文字だらけにならないように) */
 const POPUP_MAX = 40
 /** 邪魔者 1 体を描く canvas の一辺。最大の大きさ + 赤い輪・緑の輪の分の余白 */
@@ -95,6 +98,7 @@ export class OshikuraChainStage implements EffectHost {
   private readonly images = new Map<string, HTMLImageElement | null>()
   private readonly audio: OshikuraChainAudio
   private readonly heroActor: Actor
+  private readonly starField: StarField
   private readonly wordViews = new Map<number, WordView>()
   private readonly ghosts: Ghost[] = []
   private readonly popups: PopupView[] = []
@@ -118,13 +122,19 @@ export class OshikuraChainStage implements EffectHost {
       width,
       height,
       displayMode: DisplayMode.FitContainerAndFill,
-      backgroundColor: Color.fromHex('#1b2230'),
+      backgroundColor: Color.fromHex(BOARD_BACKGROUND),
       suppressPlayButton: true,
     })
 
     const board = new Actor({ pos: vec(width / 2, height / 2), width, height, z: 0 })
     board.graphics.use(new Canvas({ width, height, cache: true, draw: (ctx) => this.drawBoard(ctx, width, height) }))
     this.engine.add(board)
+
+    // 背景の星: 盤面の上、アクターの下。毎フレーム描き直す (速さは sync で連鎖数から決める)
+    this.starField = new StarField(width, height)
+    const stars = new Actor({ pos: vec(width / 2, height / 2), width, height, z: 1 })
+    stars.graphics.use(new Canvas({ width, height, cache: false, draw: (ctx) => this.starField.draw(ctx) }))
+    this.engine.add(stars)
 
     this.heroActor = new Actor({ pos: vec(-1000, -1000), width: CELL_PX, height: CELL_PX, z: 1000 })
     this.heroActor.graphics.use(
@@ -265,6 +275,8 @@ export class OshikuraChainStage implements EffectHost {
     const state = this.source.getState()
     const config = this.source.getConfig()
     const clock = this.source.getClock()
+    // 背景の星は、ゲーム前・メニュー中も、ゆっくり流す (連鎖が増えるほど速くなる)
+    this.starField.update(dt, state && config ? state.chain : 0)
 
     if (!state || !config) {
       // ゲーム前・メニュー中: 盤面を空にする
@@ -649,7 +661,7 @@ export class OshikuraChainStage implements EffectHost {
   // ---- 描き方 (Canvas 2D。見た目は前の実装のまま) ----
 
   private drawBoard(ctx: CanvasRenderingContext2D, width: number, height: number): void {
-    ctx.fillStyle = '#1b2230'
+    ctx.fillStyle = BOARD_BACKGROUND
     ctx.fillRect(0, 0, width, height)
     ctx.strokeStyle = 'rgba(255,255,255,0.07)'
     ctx.lineWidth = 1

@@ -1,5 +1,5 @@
 <!-- src/console/game/OshikuraChain/components/NuisanceTopBar.vue -->
-<!-- 上部バー。待機中はクリックでメニュー (タイトル・コンフィグ・スタート) を開く。ゲーム中は、残り時間・係数・連鎖・経過時間を表示する -->
+<!-- 上部バー。待機中はクリックでメニュー (タイトル・コンフィグ・スタート) を開く。ゲーム中は、残り時間・係数・連鎖・経過時間と、「やめる」ボタン (2 回押し) を表示する -->
 <template>
   <header
     class="flex h-10 shrink-0 items-center gap-4 bg-base-300 px-3 text-base-content select-none"
@@ -33,6 +33,16 @@
 
     <!-- コメントの購読の状態 (つながっていないと、コメントが邪魔者にならない) -->
     <span class="grow" />
+    <!-- やめる: 配信中の押し間違いを防ぐため、2 回押しで終了する (3 秒で元に戻る) -->
+    <button
+      v-if="phase === 'running'"
+      type="button"
+      class="btn btn-xs"
+      :class="confirming ? 'btn-warning' : 'btn-ghost'"
+      @click.stop="onAbortClick"
+    >
+      {{ confirming ? oshikuraChainMessages.bar.abortConfirm : oshikuraChainMessages.bar.abort }}
+    </button>
     <span v-if="commentStatus === 'connecting'" class="text-xs opacity-60">
       {{ oshikuraChainMessages.comments.connecting }}
     </span>
@@ -50,7 +60,7 @@
   import { formatClock, formatGain } from '../scripts/nuisanceRecord'
   import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
   import { coefficientOf, type GameState } from '../scripts/nuisanceEngine'
-  import type { CommentStatus, NuisancePhase } from '../composables/useNuisanceSurvival'
+  import type { CommentStatus, NuisancePhase } from '../composables/useOshikuraChain'
   import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
 
   const props = defineProps<{
@@ -60,7 +70,29 @@
     commentStatus: CommentStatus
     getClock: () => number
   }>()
-  const emit = defineEmits<{ toggle: []; reconnect: [] }>()
+  const emit = defineEmits<{ toggle: []; reconnect: []; abort: [] }>()
+
+  // やめる (2 回押し)
+  const CONFIRM_MS = 3000
+  const confirming = ref(false)
+  let confirmTimer = 0
+  const resetConfirm = () => {
+    clearTimeout(confirmTimer)
+    confirming.value = false
+  }
+  const onAbortClick = () => {
+    if (!confirming.value) {
+      confirming.value = true
+      confirmTimer = window.setTimeout(resetConfirm, CONFIRM_MS)
+      return
+    }
+    resetConfirm()
+    emit('abort')
+  }
+  watch(
+    () => props.phase,
+    () => resetConfirm()
+  )
 
   const timePercent = computed(() =>
     props.state && props.config ? Math.max(0, Math.min(100, (props.state.timeLeft / props.config.maxSeconds) * 100)) : 0
@@ -77,5 +109,8 @@
   const refreshClock = () => (clockSeconds.value = props.getClock())
   const timer = setInterval(refreshClock, 250)
   watch(() => [props.phase, props.state?.over], refreshClock, { immediate: true })
-  onBeforeUnmount(() => clearInterval(timer))
+  onBeforeUnmount(() => {
+    clearInterval(timer)
+    clearTimeout(confirmTimer)
+  })
 </script>

@@ -144,7 +144,7 @@ export type GameState = {
   removedWordCount: number
   ignoredCount: number
   over: boolean
-  /** 残り時間が 0 になった時刻 (開始からの秒)。ゲームオーバーでなければ null */
+  /** 終わった時刻 (開始からの秒)。残り時間が 0 になった時刻、またはプレイヤーがやめた時刻。ゲームオーバーでなければ null */
   endedAt: number | null
 }
 
@@ -766,6 +766,10 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, ev
 }
 
 // ---- 進行 ----
+
+/** プレイヤーが途中でやめたときの終了。いまの時刻で終わりにする (結果・記録は、時間切れと同じ扱い) */
+export const endGame = (state: GameState): GameState =>
+  state.over ? state : { ...state, over: true, endedAt: state.elapsed }
 
 export type AdvanceResult = {
   state: GameState

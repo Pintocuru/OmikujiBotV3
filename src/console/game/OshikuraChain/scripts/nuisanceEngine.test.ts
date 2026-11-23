@@ -18,6 +18,7 @@ import {
   advance,
   coefficientOf,
   createGame,
+  endGame,
   footprintOf,
   getContributionRanking,
   sizeScaleOf,
@@ -832,5 +833,23 @@ describe('advance: ことばの爆発', () => {
     const r = boom(state, 1.2)
     expect(r.events.filter((e) => e.type === 'wordExplode')).toHaveLength(2)
     expect(r.state.words).toHaveLength(0)
+  })
+})
+
+describe('endGame (やめる)', () => {
+  it('いまの時刻で終わりにする (ゲームオーバーと同じ扱い)', () => {
+    const config = createDefaultConfig()
+    const state = { ...createGame(config), elapsed: 42.5 }
+    const ended = endGame(state)
+    expect(ended.over).toBe(true)
+    expect(ended.endedAt).toBe(42.5)
+    expect(state.over).toBe(false)
+    // 終わったあとは進まない
+    expect(advance(ended, config, 100).state).toBe(ended)
+  })
+
+  it('すでに終わっているものは、そのまま返す', () => {
+    const over = { ...createGame(createDefaultConfig()), over: true, endedAt: 10, elapsed: 10 }
+    expect(endGame(over)).toBe(over)
   })
 })

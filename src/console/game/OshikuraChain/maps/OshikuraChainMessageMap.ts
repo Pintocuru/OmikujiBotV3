@@ -13,6 +13,8 @@ export const oshikuraChainMessages = {
     chain: (count: number, total: string) => (count > 0 ? `${count} 連鎖 / TOTAL +${total}秒` : `${count} 連鎖`),
     elapsed: (clock: string) => `経過 ${clock}`,
     nuisances: (count: number, max: number) => `アイコン ${count} / ${max}`,
+    abort: 'やめる',
+    abortConfirm: 'もう一度押すと終了 (結果を記録)',
   },
   menu: {
     description:

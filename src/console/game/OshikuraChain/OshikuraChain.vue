@@ -11,6 +11,7 @@
       :commentStatus="commentStatus"
       :getClock="getClock"
       @toggle="toggleMenu"
+      @abort="abort"
       @reconnect="connectComments"
     />
 
@@ -75,6 +76,7 @@
     getClock,
     drainEvents,
     start,
+    abort,
     toMenu,
     toggleMenu,
     record,
