@@ -1,7 +1,7 @@
-# 邪魔者サバイバル 仕様（協力パズル）
+# おしくらチェイン 仕様（協力パズル）
 
 LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウで開き、OBS でウィンドウをキャプチャして配信に映す。
-ゲーム名・キー（`nuisanceSurvival`）は仮の名前。変えるときは、フォルダ名・`ConsoleViewMap.ts`・`registerConsoleViews.ts`・`CONFIG_GAME_KEY`・保存済みの設定ファイル名をそろえる。
+ゲーム名・キーは `OshikuraChain` / `oshikuraChain`。画面のフォルダ名 `NuisanceSurvival/` は既存の配置を維持する。
 
 ## 概要
 
@@ -114,7 +114,7 @@ LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウ
 
 - 上部バーをクリック → メニュー（タイトル・説明・コンフィグ・スタート）が開く。ゲーム中は、バーを押しても何も起きない（メニューでゲームが止まることはない）。
 - 変更した値は、**スタートしたときに**範囲に収めて、サーバーに保存する。保存に失敗しても、ゲームは始められる。
-- 保存先: `server/game-configs/nuisanceSurvival.json`（API: `load-game-config` / `save-game-config`）。サーバーは中身を知らず、形は `scripts/nuisanceConfig.ts` のスキーマが決める。
+- 保存先: `server/game-configs/oshikuraChain.json`（API: `load-game-config` / `save-game-config`）。サーバーは中身を知らず、形は `scripts/nuisanceConfig.ts` のスキーマが決める。
 - 読み込んだ値の形が違うときは、初期値で始めて理由を表示する（黙って直さない）。項目が足りないだけなら、足りない項目だけが初期値になる。
 
 | 項目                       | 内容                                               | 初期値 | 範囲     |
@@ -167,11 +167,11 @@ LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウ
 
 | 内容                 | `eventKey`                | 1 件の単位                           | `score`                | `item`       |
 | -------------------- | ------------------------- | ------------------------------------ | ---------------------- | ------------ |
-| ユーザーごとの貢献度 | `nuisanceSurvivalSeconds` | 秒数を生んだユーザー 1 人につき 1 件 | 生んだ秒数（四捨五入） | `38秒 / 3体` |
-| ゲーム全体の生存時間 | `nuisanceSurvivalTime`    | 1 ゲーム 1 件                        | 生存秒（小数第 1 位）  | `12分34秒`   |
+| ユーザーごとの貢献度 | `oshikuraChainSeconds` | 秒数を生んだユーザー 1 人につき 1 件 | 生んだ秒数（四捨五入） | `38秒 / 3体` |
+| ゲーム全体の生存時間 | `oshikuraChainTime`    | 1 ゲーム 1 件                        | 生存秒（小数第 1 位）  | `12分34秒`   |
 
 - 生存時間は、ユーザーではなくプレイヤー（配信者）の記録。ユーザーリストにいないため、固定の `userId`（`player`）・表示名（`配信者`）で残す。
-- 生存時間（秒）と、生んだ秒数（貢献度）は意味が違うので、`eventKey` を分けている（ランキングが混ざらない）。ライフ制のときのダメージの記録（`nuisanceSurvival`）とも別にしてある（意味が違うため。読み出す側は、新しい eventKey を使う）。
+- 生存時間（秒）と、生んだ秒数（貢献度）は意味が違うので、`eventKey` を分けている（ランキングが混ざらない）。貢献度と生存時間は意味が異なるため、`eventKey` を分けている。
 - ユーザーの得点（`update-user-stats`）は変えない。
 - 1 回に送れるログの件数には上限があるため、貢献度は分けて送る。
 
@@ -186,7 +186,7 @@ editor の「テストコメント」と同じ仕組みで、想定ユーザー�
 
 ```
 NuisanceSurvival/
-├─ NuisanceSurvival.vue            組み立てだけ
+├─ OshikuraChain.vue            組み立てだけ
 ├─ SPEC.md                         この仕様
 ├─ components/                     画面の部品 (TopBar / Field / Menu / Result / TestPanel)
 ├─ render/                         Excalibur の描画・演出
@@ -194,10 +194,10 @@ NuisanceSurvival/
 │  ├─ NuisanceAudio.ts             効果音の読み込み・再生 (Excalibur Sound / Web Audio)
 │  └─ effectPresets.ts             イベント → 演出のプリセット (Excalibur を知らない)
 ├─ composables/
-│  ├─ useNuisanceSurvival.ts       進行・ゲーム内の時計・コメント購読・キー入力・記録・演出イベントの受け渡し
+│  ├─ useOshikuraChain.ts       進行・ゲーム内の時計・コメント購読・キー入力・記録・演出イベントの受け渡し
 │  ├─ useNuisanceConfig.ts         コンフィグの読み込み・編集・保存
 │  └─ useTestComments.ts           テストコメントの投稿
-├─ maps/NuisanceSurvivalMessageMap.ts  文言 (日本語)
+├─ maps/OshikuraChainMessageMap.ts  文言 (日本語)
 └─ scripts/                        純粋関数 (テストあり)
    ├─ nuisanceConstants.ts         マス目・時間・記録名などの定数
    ├─ nuisanceConfig.ts            コンフィグのスキーマと範囲
@@ -231,6 +231,6 @@ NuisanceSurvival/
 
 - 主人公の操作にゲームパッドを足す（入力は `HeroInput` に変換する層なので、足しやすい）。
 - 外部コメント（`meta.isExternal`）を、配信中は無視するか。
-- 演出の追加（攻撃・レベルアップ・ボス登場のカットインなど）、効果音、種類ごとのスプライト。
+- 演出の追加（連鎖・ボス登場など）、効果音、種類ごとのスプライト。
 - 自機の画像を指定できるようにする（未指定なら今の表示）。画像は `images/NuisanceSurvival/` にまとめる。
 - 配布パッケージへの登録（`packages/*/console.ts` に loader を 1 行）。
