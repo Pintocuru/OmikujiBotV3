@@ -1,7 +1,7 @@
 # おしくらチェイン 仕様（協力パズル）
 
 LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウで開き、OBS でウィンドウをキャプチャして配信に映す。
-ゲーム名・キーは `OshikuraChain` / `oshikuraChain`。フォルダ名や内部の識別子は、旧名称 `ParticipantIconSurvival` / `ParticipantIcon` に固執せず、ゲームの実態に合う名称へ整理してよい。
+ゲーム名・キーは `OshikuraChain` / `oshikuraChain`。フォルダ名や内部の識別子は、旧名称 `OshikuraChain` / `ParticipantIcon` に固執せず、ゲームの実態に合う名称へ整理してよい。
 
 ## 概要
 
@@ -183,7 +183,7 @@ LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウ
 
 ## 画面
 
-- 上部バー: ゲーム名・残り時間（バーと mm:ss）・ヒートメーター（倍率。上がるほど青 → 黄 → 赤。上限の ×5 では点滅）・連鎖数・経過時間・アイコンの数・コメント購読の状態・やめるボタン（ゲーム中のみ）。
+- 上部バー: ゲーム名・残り時間（バーと mm:ss）・ヒートメーター（倍率。上がるほど青 → 黄 → 赤。上限の ×5 では点滅）・連鎖数・経過時間・アイコンの数（上限の 80% 以上で黄色、上限到達で赤色。上限到達時は新しいアイコンが出現しないことを表示）・コメント購読の状態・やめるボタン（ゲーム中のみ）。
 - 背景（星間旅行）: 盤面の中央から外へ星が広がる（`render/StarField.ts`。奥行き違いの 140 個。外へ行くほど速く、速いほど長い尾を引く）。速さは連鎖数で決まり、0 連鎖でゆっくり、12 連鎖（`CHAIN_FOR_MAX_SPEED`）で最大。上がるときは素早く、連鎖が切れたときは 1 秒ほどかけて戻る。メニュー・結果画面でもゆっくり流れる。見た目だけで、ゲームの進行には影響しない。
 - 盤面（Excalibur）: 主人公、アイコン（アイコン画像、なければ頭文字。巨大化したアイコンは 👑）、ことば（白い札）。
 - 演出（出現）: アイコン・ことばが上から落ちてくる（アイコンは着地で土煙と画面揺れ。巨大化したアイコンは大きく）。
@@ -228,7 +228,7 @@ editor の「テストコメント」と同じ仕組みで、想定ユーザー�
 ## 構成
 
 ```
-ParticipantIconSurvival/
+OshikuraChain/
 ├─ OshikuraChain.vue            組み立てだけ
 ├─ SPEC.md                         この仕様
 ├─ components/                     画面の部品 (TopBar / Field / Menu / Result / TestPanel)
@@ -265,12 +265,12 @@ ParticipantIconSurvival/
 - 状態と演出イベントは別: `advance` は、状態とは別に `events`（`iconSpawn` / `iconRemoved` / `wordSpawn` / `wordGone` / `score` / `chainBreak` / `multiplierUp` / `multiplierReset` / `giftReceived`）を返す。コンポーザブルが溜めて、盤面が `drainEvents` で受け取る。
 - 演出はプリセット（`render/effectPresets.ts`）: イベント → 「何を、どれくらい派手に出すか」だけを決める。Excalibur は `EffectHost`（`shake` / `burst`）の向こうにあり、プリセットは知らない。演出を足すときは、プリセットを足して、イベントに対応させる。
 - 見た目（円・アイコン・輪）は、前の canvas 2D の描き方のまま、Excalibur の `Canvas` グラフィックで描く。
-- `ParticipantIconField.vue` は、起動と破棄（`onMounted` / `onBeforeUnmount`）だけ。
+- `OshikuraChainField.vue` は、起動と破棄（`onMounted` / `onBeforeUnmount`）だけ。
 
 ## 素材（効果音・画像）
 
-- 効果音は `render/stageSounds.ts` の一覧（`land.mp3`（着地）/ `boss-land.mp3`（巨大化したアイコンの着地）/ `explosion.mp3`（アイコン・ことばを画面の外へ押し出したとき。キー `remove`）/ `word-blast.mp3`（ことばの爆発。explosion.mp3 とは別の音にする。キー `wordBlast`）。連鎖の音階には、素材を使わない。`word-blast.mp3` がなければ、ブラウザの音（ノイズと低い音）で代わりに鳴らす。素材は `assets/sounds/<四半期>/ParticipantIconSurvival/` に置く（配布後は `sounds/ParticipantIconSurvival/`）。素材がなければ、その音が鳴らないだけでゲームは動く（コンソールに警告を 1 回出す）。
-- 画像は `images/ParticipantIconSurvival/`（`player/` `effects/` `backgrounds/` `cutins/`）にまとめる。置き場所は、いまは `assets/characters/<四半期>/ParticipantIconSurvival/`（`assets/images/` への名前変更は `docs/work/assets-images-rename.md`）。
+- 効果音は `render/stageSounds.ts` の一覧（`land.mp3`（着地）/ `boss-land.mp3`（巨大化したアイコンの着地）/ `explosion.mp3`（アイコン・ことばを画面の外へ押し出したとき。キー `remove`）/ `word-blast.mp3`（ことばの爆発。explosion.mp3 とは別の音にする。キー `wordBlast`）。タイムアタックのクリア時は `applause.mp3`（キー `timeAttackClear`）を鳴らす。耐久のゲームオーバーは `fail.mp3`。連鎖の音階には、素材を使わない。`word-blast.mp3` がなければ、ブラウザの音（ノイズと低い音）で代わりに鳴らす。素材は `assets/sounds/<四半期>/OshikuraChain/` に置く（配布後は `sounds/OshikuraChain/`）。素材がなければ、その音が鳴らないだけでゲームは動く（コンソールに警告を 1 回出す）。
+- 画像は `images/OshikuraChain/`（`player/` `effects/` `backgrounds/` `cutins/`）にまとめる。置き場所は、いまは `assets/characters/<四半期>/OshikuraChain/`（`assets/images/` への名前変更は `docs/work/assets-images-rename.md`）。
 - URL は `assetBase`（なければ `./`）から作る。開発サーバー（5174）では、Vite のプラグインが `/sounds/` `/images/` を `assets/` から探す。
 
 ## 今後の検討
@@ -278,5 +278,5 @@ ParticipantIconSurvival/
 - 主人公の操作にゲームパッドを足す（入力は `HeroInput` に変換する層なので、足しやすい）。
 - 外部コメント（`meta.isExternal`）を、配信中は無視するか。
 - 演出の追加（連鎖・巨大化したアイコンの登場など）、効果音、種類ごとのスプライト。
-- 自機の画像を指定できるようにする（未指定なら今の表示）。画像は `images/ParticipantIconSurvival/` にまとめる。
+- 自機の画像を指定できるようにする（未指定なら今の表示）。画像は `images/OshikuraChain/` にまとめる。
 - 配布パッケージへの登録（`packages/*/console.ts` に loader を 1 行）。
