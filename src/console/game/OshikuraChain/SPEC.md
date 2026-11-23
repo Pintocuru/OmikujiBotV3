@@ -53,7 +53,7 @@ LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウ
 
 - ゲーム中に届いたコメント 1 件につき 1 個（ギフトを除く）。同じユーザーが何度コメントしても、そのぶん増える。
 - 空いているマス（主人公・他のアイコン・ことば・障害物のいないマス）からランダムに出る。
-- **上限（設定の `maxParticipantIcons`）に達しているとき、空きマスがないときは、アイコンは出ない**（ことばは降る）。出なかったコメントは、出現数にも貢献度にも数えない。
+- **上限（設定の `maxIcons`）に達しているとき、空きマスがないときは、アイコンは出ない**（ことばは降る）。出なかったコメントは、出現数にも貢献度にも数えない。
 - 動かない。大きさは `userId` ごとに少しだけ違う（0.85〜1.15 倍。占めるのは 1 マス）。色も `userId` で決まる（`scripts/participantIconTraits.ts`。乱数を引く順番を変えると、同じ `userId` でも見た目が変わるので、項目は末尾に足す）。
 
 ### 巨大化
@@ -158,7 +158,7 @@ LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウ
 | `iconSeconds` | アイコンの獲得秒数 | 難易度別 |
 | `wordSeconds` | ことばの獲得秒数 | 難易度別 |
 | `multiplierMax` | 倍率の上限（×5） | 全難易度共通 |
-| `maxParticipantIcons` | 同時に存在できるアイコンの上限（30 個） | 全難易度共通 |
+| `maxIcons` | 同時に存在できるアイコンの上限（30 個） | 全難易度共通 |
 | `maxSeconds` | 獲得した残り時間の上限（3600 秒） | 全難易度共通 |
 | `resetMultiplierOnFirst` | 初見コメントによる倍率リセット（既定 ON。耐久のみ。保存済みの旧キー `resetCoefficientOnFirst` も読める） | 設定項目 |
 | `gameMode` | ゲームモード（`endurance` 耐久 / `timeAttack`。既定は耐久） | 設定項目 |
@@ -240,7 +240,7 @@ ParticipantIconSurvival/
 │  └─ draw/                        Canvas 2D の描き方 (board / hero / icon / word の描画関数、imageCache、util)
 ├─ composables/
 │  ├─ useOshikuraChain.ts       進行・ゲーム内の時計・コメント購読・キー入力・記録・演出イベントの受け渡し
-│  ├─ useParticipantIconConfig.ts         コンフィグの読み込み・編集・保存
+│  ├─ useOshikuraChainConfig.ts         コンフィグの読み込み・編集・保存
 │  └─ useTestComments.ts           テストコメントの投稿
 ├─ maps/OshikuraChainMessageMap.ts  文言 (日本語)
 └─ scripts/                        純粋関数 (テストあり)
