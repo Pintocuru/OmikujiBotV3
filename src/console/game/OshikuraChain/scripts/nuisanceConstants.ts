@@ -19,6 +19,9 @@ export const MAX_STEPS_PER_ADVANCE = 6000
  */
 export const MAX_FRAME_SECONDS = 0.25
 
+/** 巨大化するユーザーの出現間隔 (秒) */
+export const GIANT_INTERVAL_SECONDS = 120
+
 // ---- 主人公 ----
 /** 1マス動く間隔 (秒)。キーを押し続けている間、この間隔で動く */
 export const HERO_MOVE_INTERVAL_SECONDS = 0.14
