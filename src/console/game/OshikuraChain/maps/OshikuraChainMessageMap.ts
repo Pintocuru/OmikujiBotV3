@@ -1,6 +1,6 @@
 // src/console/game/OshikuraChain/maps/OshikuraChainMessageMap.ts
 // おしくらチェイン画面の文言 (日本語)。
-import type { ParticipantIconKind } from '../scripts/nuisanceTraits'
+import type { ParticipantIconKind } from '../scripts/participantIconTraits'
 
 export const oshikuraChainMessages = {
   title: 'おしくらチェイン',
