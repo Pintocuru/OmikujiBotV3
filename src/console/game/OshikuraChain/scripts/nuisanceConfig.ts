@@ -43,7 +43,7 @@ export const COMMON_CONFIG = {
   /** 倍率の上限 (×)。残り時間が減る速さは、これ以上は速くならない */
   multiplierMax: 5,
   /** 同時に存在できるアイコンの上限 */
-  maxParticipantIcons: 30,
+  maxIcons: 30,
 } as const
 
 const DifficultySchema = z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])
@@ -69,7 +69,7 @@ export type OshikuraChainConfig = {
   wordSeconds: number
   multiplierRisePerMinute: number
   multiplierMax: number
-  maxParticipantIcons: number
+  maxIcons: number
 }
 
 export const createConfigForDifficulty = (
