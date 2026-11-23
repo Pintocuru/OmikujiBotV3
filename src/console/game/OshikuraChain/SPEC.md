@@ -1,7 +1,7 @@
 # おしくらチェイン 仕様（協力パズル）
 
 LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウで開き、OBS でウィンドウをキャプチャして配信に映す。
-ゲーム名・キーは `OshikuraChain` / `oshikuraChain`。フォルダ名や内部の識別子は、旧名称 `OshikuraChain` / `ParticipantIcon` に固執せず、ゲームの実態に合う名称へ整理してよい。
+ゲーム名・キーは `OshikuraChain` / `oshikuraChain`。フォルダ名や内部の識別子は、旧名称に固執せず、ゲームの実態に合う名称へ整理してよい。
 
 ## 概要
 
