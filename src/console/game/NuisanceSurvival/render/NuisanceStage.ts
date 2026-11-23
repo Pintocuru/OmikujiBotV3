@@ -108,7 +108,7 @@ export class NuisanceStage implements EffectHost {
   private readonly wordViews = new Map<number, WordView>()
   private readonly ghosts: Ghost[] = []
   private readonly popups: PopupView[] = []
-  private readonly obstacleViews = new Map<number, { actor: Actor; obstacle: Obstacle }>()
+  private readonly obstacleViews = new Map<number, Actor>()
   private readonly grid: GridSize
   private heroX = NaN
   private heroY = NaN
@@ -466,33 +466,32 @@ export class NuisanceStage implements EffectHost {
   }
 
   private clearObstacles(): void {
-    for (const v of this.obstacleViews.values()) v.actor.kill()
+    for (const actor of this.obstacleViews.values()) actor.kill()
     this.obstacleViews.clear()
   }
 
   /** 状態の障害物に合わせて、表示を足す・消す。消える直前の 2 秒は点滅する */
   private syncObstacles(state: GameState, clock: number): void {
     const alive = new Set(state.obstacles.map((o) => o.id))
-    for (const [id, v] of this.obstacleViews) {
+    for (const [id, actor] of this.obstacleViews) {
       if (alive.has(id)) continue
-      v.actor.kill()
+      actor.kill()
       this.obstacleViews.delete(id)
     }
     for (const o of state.obstacles) {
-      let v = this.obstacleViews.get(o.id)
-      if (!v) {
+      let actor = this.obstacleViews.get(o.id)
+      if (!actor) {
         const w = o.size * CELL_PX
-        const actor = new Actor({ pos: vec(0, 0), width: w, height: w, z: 5 })
+        actor = new Actor({ pos: vec(0, 0), width: w, height: w, z: 5 })
         actor.graphics.use(
           new Canvas({ width: w, height: w, cache: true, draw: (ctx) => this.drawObstacle(ctx, o, w) })
         )
         this.engine.add(actor)
-        v = { actor, obstacle: o }
-        this.obstacleViews.set(o.id, v)
+        this.obstacleViews.set(o.id, actor)
       }
-      v.actor.pos = vec((o.col + o.size / 2) * CELL_PX, (o.row + o.size / 2) * CELL_PX)
+      actor.pos = vec((o.col + o.size / 2) * CELL_PX, (o.row + o.size / 2) * CELL_PX)
       const left = o.expiresAt - state.elapsed
-      v.actor.graphics.opacity = left < 2 ? 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(clock * 16)) : 1
+      actor.graphics.opacity = left < 2 ? 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(clock * 16)) : 1
     }
   }
 
