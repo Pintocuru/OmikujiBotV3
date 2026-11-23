@@ -31,9 +31,9 @@ export const DIFFICULTY_PROFILES: Record<
 > = {
   1: { initialSeconds: 3600, iconSeconds: 8, wordSeconds: 1.5, coefficientDropPerMinute: 1, estimatedMinutes: 60 },
   2: { initialSeconds: 2400, iconSeconds: 6, wordSeconds: 1.2, coefficientDropPerMinute: 2, estimatedMinutes: 40 },
-  3: { initialSeconds: 1500, iconSeconds: 5, wordSeconds: 1, coefficientDropPerMinute: 3, estimatedMinutes: 25 },
-  4: { initialSeconds: 900, iconSeconds: 3, wordSeconds: 0.6, coefficientDropPerMinute: 5, estimatedMinutes: 15 },
-  5: { initialSeconds: 600, iconSeconds: 2, wordSeconds: 0.4, coefficientDropPerMinute: 8, estimatedMinutes: 10 },
+  3: { initialSeconds: 1200, iconSeconds: 5, wordSeconds: 1, coefficientDropPerMinute: 4, estimatedMinutes: 20 },
+  4: { initialSeconds: 600, iconSeconds: 2, wordSeconds: 0.4, coefficientDropPerMinute: 7, estimatedMinutes: 10 },
+  5: { initialSeconds: 300, iconSeconds: 2, wordSeconds: 0.4, coefficientDropPerMinute: 10, estimatedMinutes: 5 },
 }
 
 /** 全難易度共通の設定 */

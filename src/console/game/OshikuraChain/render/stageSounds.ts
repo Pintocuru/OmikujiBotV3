@@ -8,15 +8,15 @@ export const SOUND_FOLDER = 'NuisanceSurvival/'
 
 export const SOUND_FILES: Record<SoundKey, { file: string; volume: number }> = {
   /** 邪魔者の着地 */
-  land: { file: 'land.mp3', volume: 0.6 },
+  land: { file: 'cute.mp3', volume: 0.6 },
   /** ボスの着地 */
-  bossLand: { file: 'boss-land.mp3', volume: 0.9 },
+  bossLand: { file: 'explosion.mp3', volume: 0.9 },
   /** 爆発して消えた */
   explosion: { file: 'explosion.mp3', volume: 0.9 },
   /** 主人公が取り除いた (アイコン・ことばが、画面の外へ出た) */
   remove: { file: 'explosion.mp3', volume: 0.6 },
   /** ことばの爆発 (explosion.mp3 とは別の音。素材がなければ、ブラウザの音で代わりに鳴らす) */
-  wordBlast: { file: 'word-blast.mp3', volume: 0.9 },
+  wordBlast: { file: 'explosion.mp3', volume: 0.9 },
 }
 
 /** 同じ音を同時に鳴らせる数 (コメントが一気に届いたとき、音が重なって割れないようにする) */

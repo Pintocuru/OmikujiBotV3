@@ -30,13 +30,11 @@ export const oshikuraChainMessages = {
     mode: 'モード',
     modes: { endurance: '耐久', timeAttack: 'タイムアタック' },
     enduranceHint: '残り時間が 0 になるまで、押し出して時間を増やし続けます。',
-    timeAttackHint: (minutes: number) =>
-      `残り時間はなく、係数は常に ×1。獲得秒数の合計が ${minutes} 分に届くまでのタイムを競います。`,
+    timeAttackHint: (minutes: number) => `獲得秒数の合計が ${minutes} 分に届くまでのタイムを競います。`,
     commentSource: 'コメント',
     commentSources: { live: '配信のコメント', auto: 'オート' },
     liveHint: '配信のコメント (わんコメ) が、アイコンとことばになります。',
-    autoHint: (seconds: number) =>
-      `配信のコメントは無視して、${seconds} 秒ごとに架空のコメントが入ります。わんコメへの接続は要りません。`,
+    autoHint: (seconds: number) => `配信のコメントは無視して、${seconds} 秒ごとに架空のコメントが入ります。`,
     startTimeAttack: (difficulty: number) => `スタート（タイムアタック・難易度 ${difficulty}）`,
     config: 'コンフィグ',
     close: '閉じる',
