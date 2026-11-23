@@ -13,7 +13,7 @@
 - `src/console/control/UsersConsole/`: ユーザー一覧・ユーザー操作
 - `src/console/log/GameLog/`: ゲームログやランキング等の閲覧
 - `src/console/game/UserRace/`: ブラウザゲーム「ユーザーレース」（別ウィンドウで開く）
-- `src/console/game/NuisanceSurvival/`: ブラウザゲーム「おしくらチェイン」（別ウィンドウで開く。仕様は同フォルダの `SPEC.md`）
+- `src/console/game/OshikuraChain/`: ブラウザゲーム「おしくらチェイン」（別ウィンドウで開く。仕様は同フォルダの `SPEC.md`）
 - `src/console/common/`・`src/console/types/`: 画面をまたぐ共通部品・型
 - `src/console/maps/ConsoleViewMap.ts`: 全画面の表示名・カテゴリ・起動方式
 - `src/console/consoleRegistry.ts`: 画面のレジストリ（key → loader）
