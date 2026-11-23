@@ -13,5 +13,5 @@ export const registerAllConsoleViews = () =>
     gameLog: () => import('@/console/log/GameLog/GameLog.vue'),
     // game
     userRace: () => import('@/console/game/UserRace/UserRace.vue'),
-    oshikuraChain: () => import('@/console/game/NuisanceSurvival/OshikuraChain.vue'),
+    oshikuraChain: () => import('@/console/game/OshikuraChain/OshikuraChain.vue'),
   } satisfies Record<ConsoleViewKey, ConsoleViewLoader>)
