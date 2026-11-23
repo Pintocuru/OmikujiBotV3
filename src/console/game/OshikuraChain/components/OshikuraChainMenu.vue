@@ -153,8 +153,8 @@
     type DifficultyLevel,
     type GameMode,
     type OshikuraChainConfig,
-  } from '../scripts/nuisanceConfig'
-  import { AUTO_COMMENT_INTERVAL_SECONDS } from '../scripts/nuisanceConstants'
+  } from '../scripts/oshikuraChainConfig'
+  import { AUTO_COMMENT_INTERVAL_SECONDS } from '../scripts/oshikuraChainConstants'
 
   defineProps<{
     draft: OshikuraChainConfig
