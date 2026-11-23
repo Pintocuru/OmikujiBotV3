@@ -58,8 +58,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import UserIcon from '@/console/common/components/UserIcon.vue'
-  import type { Contribution, GameState } from '../scripts/nuisanceEngine'
-  import { formatSurvival } from '../scripts/nuisanceRecord'
+  import type { Contribution, GameState } from '../scripts/oshikuraChainEngine'
+  import { formatSurvival } from '../scripts/oshikuraChainRecord'
   import type { RecordStatus } from '../composables/useOshikuraChain'
   import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
 
