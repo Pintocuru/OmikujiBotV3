@@ -18,6 +18,8 @@
     <main class="relative min-h-0 grow">
       <NuisanceField :source="stageSource" />
 
+      <OshikuraChainTitle v-if="phase === 'idle' && !showMenu" @openMenu="showMenu = true" />
+
       <NuisanceMenu
         v-if="phase === 'idle' && showMenu"
         :draft="configStore.draft"
@@ -51,6 +53,7 @@
 <script setup lang="ts">
   import { onBeforeUnmount, onMounted, ref } from 'vue'
   import NuisanceField from './components/NuisanceField.vue'
+  import OshikuraChainTitle from './components/OshikuraChainTitle.vue'
   import NuisanceMenu from './components/NuisanceMenu.vue'
   import NuisanceResult from './components/NuisanceResult.vue'
   import NuisanceTopBar from './components/NuisanceTopBar.vue'
