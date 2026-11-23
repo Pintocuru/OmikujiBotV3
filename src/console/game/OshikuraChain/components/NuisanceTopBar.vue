@@ -50,7 +50,7 @@
         </span>
       </div>
 
-      <!-- アイコン (コメントした人) の数 -->
+      <!-- アイコンの数 -->
       <div class="flex items-center gap-1" :title="oshikuraChainMessages.bar.nuisancesTitle">
         <Users :size="16" class="opacity-70" />
         <span class="font-mono text-xs opacity-70">{{ state.nuisances.length }} / {{ config?.maxNuisances ?? 0 }}</span>
