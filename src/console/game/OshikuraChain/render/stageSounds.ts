@@ -2,7 +2,7 @@
 // 効果音の一覧。素材は assets/sounds/core/ か assets/sounds/core_more/ のものだけを使う (配布後は sounds/core/ ・ sounds/core_more/)。
 // ファイル名を変えるときは、ここだけを変える。ファイルがなくても、その音が鳴らないだけでゲームは動く
 export type SoundKey =
-  'land' | 'bossLand' | 'explosion' | 'remove' | 'wordBlast' | 'bigChain' | 'heatUp' | 'gameOver' | 'gift'
+  'land' | 'bossLand' | 'explosion' | 'remove' | 'wordBlast' | 'bigChain' | 'heatUp' | 'gameOver' | 'timeAttackClear' | 'gift'
 
 /** sounds/ からの相対フォルダ */
 export type SoundFolder = 'core' | 'core_more'
@@ -24,6 +24,8 @@ export const SOUND_FILES: Record<SoundKey, { file: string; volume: number }> = {
   heatUp: { file: 'collect.mp3', volume: 0.7 },
   /** ゲームオーバー (耐久で、残り時間が 0 になったとき) */
   gameOver: { file: 'fail.mp3', volume: 0.8 },
+  /** タイムアタックをクリアした */
+  timeAttackClear: { file: 'applause.mp3', volume: 0.8 },
   /** ギフトを受け取った */
   gift: { file: 'cash.mp3', volume: 0.8 },
 }
