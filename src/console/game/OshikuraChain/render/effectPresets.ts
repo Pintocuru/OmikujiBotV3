@@ -326,5 +326,5 @@ export const playMultiplierReset = (
 
 /** ゲームオーバー: 耐久で残り時間が 0 になったときだけ、失敗の音を鳴らす (タイムアタックのクリアでは鳴らさない) */
 export const playGameOver = (host: EffectHost, event: Extract<NuisanceEvent, { type: 'gameOver' }>): void => {
-  if (!event.cleared) host.play('gameOver')
+  host.play(event.cleared ? 'timeAttackClear' : 'gameOver')
 }
