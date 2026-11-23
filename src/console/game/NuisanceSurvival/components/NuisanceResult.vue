@@ -56,7 +56,7 @@
   import UserIcon from '@/console/common/components/UserIcon.vue'
   import type { Contribution, GameState } from '../scripts/nuisanceEngine'
   import { formatSurvival } from '../scripts/nuisanceRecord'
-  import type { RecordStatus } from '../composables/useNuisanceSurvival'
+  import type { RecordStatus } from '../composables/useOshikuraChain'
   import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
 
   const props = defineProps<{
