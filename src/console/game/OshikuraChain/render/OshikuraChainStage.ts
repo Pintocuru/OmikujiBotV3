@@ -53,10 +53,10 @@ export type OshikuraChainStageSource = {
 const MOVE_ANIM_SECONDS = 0.15
 /** 同時に出せる浮かぶ文字の数の上限 (連鎖が一気に続いても、画面が文字だらけにならないように) */
 const POPUP_MAX = 40
-/** 邪魔者 1 体ぶんの表示 */
+/** アイコン 1 個ぶんの表示 */
 type ParticipantIconView = {
   actor: Actor
-  nuisance: ParticipantIcon
+  icon: ParticipantIcon
   /** 落下の開始時刻 (描画用の時計の秒)。null なら落下は終わっている */
   fallStartedAt: number | null
   isBoss: boolean
@@ -417,10 +417,10 @@ export class OshikuraChainStage implements EffectHost {
   private applyEvents(events: OshikuraChainEvent[], state: GameState, clock: number): void {
     for (const event of events) {
       if (event.type === 'iconSpawn') {
-        const nuisance = state.icons.find((n) => n.id === event.id)
+        const icon = state.icons.find((n) => n.id === event.id)
         // すでに消えている (出現と同じ更新で撃破された) ものは、落下を見せない
-        if (!nuisance) continue
-        const view = this.createView(nuisance, event.isBoss)
+        if (!icon) continue
+        const view = this.createView(icon, event.isBoss)
         view.fallStartedAt = clock
       } else if (event.type === 'gameOver') {
         playGameOver(this, event)
@@ -486,19 +486,19 @@ export class OshikuraChainStage implements EffectHost {
     }
   }
 
-  private createView(nuisance: ParticipantIcon, isBoss: boolean): ParticipantIconView {
+  private createView(icon: ParticipantIcon, isBoss: boolean): ParticipantIconView {
     const actor = new Actor({ pos: vec(-1000, -1000), width: VIEW_PX, height: VIEW_PX })
-    const view: ParticipantIconView = { actor, nuisance, fallStartedAt: null, isBoss }
+    const view: ParticipantIconView = { actor, icon, fallStartedAt: null, isBoss }
     actor.graphics.use(
       new Canvas({
         width: VIEW_PX,
         height: VIEW_PX,
         cache: false,
-        draw: (ctx) => drawParticipantIcon(ctx, view.nuisance, this.images.get(view.nuisance.profileImage)),
+        draw: (ctx) => drawParticipantIcon(ctx, view.icon, this.images.get(view.icon.profileImage)),
       })
     )
     this.engine.add(actor)
-    this.views.set(nuisance.id, view)
+    this.views.set(icon.id, view)
     return view
   }
 
@@ -513,7 +513,7 @@ export class OshikuraChainStage implements EffectHost {
       alive.add(n.id)
       // イベントを取り逃した (表示を切り替えた直後など) ものは、落下なしで表示する
       const view = this.views.get(n.id) ?? this.createView(n, false)
-      view.nuisance = n
+      view.icon = n
 
       const scale = sizeScaleOf(n)
       const footprint = footprintOf(scale)
