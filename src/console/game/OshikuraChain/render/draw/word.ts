@@ -1,7 +1,7 @@
 // src/console/game/OshikuraChain/render/draw/word.ts
 // ことば (白い札と、消えるまでの円グラフ)
-import { CELL_PX } from '../../scripts/nuisanceConstants'
-import type { Word } from '../../scripts/nuisanceEngine'
+import { CELL_PX } from '../../scripts/oshikuraChainConstants'
+import type { Word } from '../../scripts/oshikuraChainEngine'
 
 /** 白い札に、コメントの一部を 2 行まで書く (1 マスに収まるよう、3 文字ずつで折り返す)。右上に、消えるまでの円グラフ (保護時はシールドアイコン) */
 export const drawWord = (ctx: CanvasRenderingContext2D, word: Word, leftRatio: number, size: number): void => {
