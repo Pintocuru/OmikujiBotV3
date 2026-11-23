@@ -500,7 +500,7 @@ const awardScore = (
   contributionOf(s, body.userId, body.userName, body.profileImage).seconds += seconds
   events.push({
     type: 'score',
-    source: isWord(body) ? 'word' : 'nuisance',
+    source: isWord(body) ? 'word' : 'icon',
     userId: body.userId,
     userName: body.userName,
     seconds,
