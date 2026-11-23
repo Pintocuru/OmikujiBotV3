@@ -1,6 +1,6 @@
 // src/console/game/OshikuraChain/render/draw/hero.ts
 // 主人公
-import { CELL_PX } from '../../scripts/nuisanceConstants'
+import { CELL_PX } from '../../scripts/oshikuraChainConstants'
 
 export const drawHero = (ctx: CanvasRenderingContext2D): void => {
   const cx = CELL_PX / 2
