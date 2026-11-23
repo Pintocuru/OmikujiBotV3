@@ -1,5 +1,5 @@
-<!-- src/console/game/NuisanceSurvival/NuisanceSurvival.vue -->
-<!-- 邪魔者サバイバル: コメントした人が「邪魔者」になり、居残ってライフを減らし続ける。WASD で押して取り除き、生き残る -->
+<!-- src/console/game/NuisanceSurvival/OshikuraChain.vue -->
+<!-- おしくらチェイン: コメントのアイコンや文字を WASD で盤面の外へ押し出し、連鎖で残り時間を増やす -->
 <!-- 画面の部品: NuisanceTopBar / NuisanceField / NuisanceMenu / NuisanceResult / NuisanceTestPanel。ここは組み立てだけ -->
 <!-- 仕様: ./SPEC.md。別ウィンドウで開き、OBS でキャプチャする -->
 <template>
