@@ -25,6 +25,7 @@ import {
   type GameState,
   type GridSize,
   type Nuisance,
+  type NuisanceEvent,
   type SpawnRequest,
   type Word,
 } from './nuisanceEngine'
@@ -39,9 +40,8 @@ const config = (overrides: Partial<NuisanceConfigType> = {}): NuisanceConfigType
   ...overrides,
 })
 
-const spawn = (userId: string, atSeconds = 0, lc?: number, extra: Partial<SpawnRequest> = {}): SpawnRequest => ({
+const spawn = (userId: string, atSeconds = 0, extra: Partial<SpawnRequest> = {}): SpawnRequest => ({
   atSeconds,
-  lc,
   userId,
   userName: `name-${userId}`,
   profileImage: '',
@@ -91,7 +91,7 @@ const run = (state: GameState, cfg: NuisanceConfigType, seconds: number, input =
 const RIGHT = { dx: 1, dy: 0 }
 
 describe('sizeScaleOf / footprintOf', () => {
-  it('アイコンは成長しない。ボスだけが大きい', () => {
+  it('アイコンは成長しない。巨大化したアイコンだけが大きい', () => {
     const n = { traits: getNuisanceTraits('a') }
     expect(sizeScaleOf(n)).toBe(n.traits.baseSize)
     expect(footprintOf(sizeScaleOf(n))).toBe(1)
@@ -167,8 +167,8 @@ describe('advance: 出現', () => {
 })
 
 describe('advance: 残り時間 (追いつき・ゲームオーバー)', () => {
-  it('残り時間は、最大から始まり、1 秒ごとに 1 秒減る', () => {
-    const cfg = config({ maxSeconds: 600 })
+  it('残り時間は、初期値から始まり、1 秒ごとに 1 秒減る', () => {
+    const cfg = config({ initialSeconds: 600 })
     const state = createGame(cfg)
     expect(state.timeLeft).toBe(600)
     expect(run(state, cfg, 30).timeLeft).toBeCloseTo(570, 1)
@@ -195,7 +195,7 @@ describe('advance: 残り時間 (追いつき・ゲームオーバー)', () => {
   })
 
   it('残り時間が 0 になるとゲームオーバー。終了時刻は、0 になった時刻', () => {
-    const cfg = config({ maxSeconds: 60 })
+    const cfg = config({ initialSeconds: 60 })
     const r = advance(createGame(cfg), cfg, 600, NO_INPUT, [spawn('a', 1)], createRng(6))
     expect(r.state.over).toBe(true)
     expect(r.state.timeLeft).toBe(0)
@@ -205,14 +205,14 @@ describe('advance: 残り時間 (追いつき・ゲームオーバー)', () => {
   })
 
   it('ゲームオーバーのあとは、何も変わらない', () => {
-    const cfg = config({ maxSeconds: 60 })
+    const cfg = config({ initialSeconds: 60 })
     const over = advance(createGame(cfg), cfg, 120, NO_INPUT, [spawn('a')], createRng(7)).state
     expect(over.over).toBe(true)
     expect(advance(over, cfg, 240, NO_INPUT, [spawn('c')], createRng(7)).state).toBe(over)
   })
 
   it('刻みの上限で止まったら、reachedStepLimit が立つ。続きを呼べば追いつく', () => {
-    const cfg = config({ maxSeconds: 3600 })
+    const cfg = config({ initialSeconds: 3600 })
     const first = advance(createGame(cfg), cfg, 100, NO_INPUT, [], createRng(8), 100)
     expect(first.reachedStepLimit).toBe(true)
     expect(first.state.elapsed).toBeCloseTo(100 * STEP_SECONDS)
@@ -389,7 +389,7 @@ describe('advance: 初見さんで係数が戻る', () => {
   it('isFirst のコメントが届くと、その時刻から係数が 1 に戻る。目立って下がっていたときだけ、イベントが返る', () => {
     const cfg = config({ coefficientDropPerMinute: 10 })
     const state = { ...createGame(cfg), elapsed: 120, timeLeft: 100 }
-    const r = advance(state, cfg, 121, NO_INPUT, [spawn('a', 120.5, undefined, { isFirst: true })], createRng(1))
+    const r = advance(state, cfg, 121, NO_INPUT, [spawn('a', 120.5, { isFirst: true })], createRng(1))
     expect(r.state.coefficientResetAt).toBeGreaterThan(120.3) // コメントが届いた刻み
     expect(r.state.coefficientResetAt).toBeLessThanOrEqual(120.5 + STEP_SECONDS)
     expect(coefficientOf(r.state.elapsed, r.state.coefficientResetAt, cfg)).toBeGreaterThan(0.99)
@@ -401,7 +401,7 @@ describe('advance: 初見さんで係数が戻る', () => {
       cfg,
       1,
       NO_INPUT,
-      [spawn('b', 0.2, undefined, { isFirst: true })],
+      [spawn('b', 0.2, { isFirst: true })],
       createRng(1)
     )
     expect(fresh.events.some((e) => e.type === 'coefficientReset')).toBe(false)
@@ -416,7 +416,7 @@ describe('advance: 初見さんで係数が戻る', () => {
       cfg,
       121,
       NO_INPUT,
-      [spawn('a', 120.5, undefined, { isFirst: true })],
+      [spawn('a', 120.5, { isFirst: true })],
       createRng(1)
     ).state
     expect(ignored.ignoredCount).toBe(1)
@@ -426,77 +426,77 @@ describe('advance: 初見さんで係数が戻る', () => {
       cfg,
       121,
       NO_INPUT,
-      [spawn('b', 120.5, undefined, { isFirst: true, giftPrice: 100 })],
+      [spawn('b', 120.5, { isFirst: true, giftPrice: 100 })],
       createRng(1)
     ).state
     expect(gift.coefficientResetAt).toBeGreaterThan(120)
     const notFirst = advance(state, cfg, 121, NO_INPUT, [spawn('c', 120.5)], createRng(1)).state
     expect(notFirst.coefficientResetAt).toBe(0)
   })
+
+  it('初見リセットを無効にすると、係数は戻らず通知も出ない', () => {
+    const cfg = config({ coefficientDropPerMinute: 10, resetCoefficientOnFirst: false })
+    const state = { ...createGame(cfg), elapsed: 120, timeLeft: 100 }
+    const result = advance(state, cfg, 121, NO_INPUT, [spawn('first', 120.5, { isFirst: true })], createRng(1))
+    expect(result.state.coefficientResetAt).toBe(0)
+    expect(result.events.some((event) => event.type === 'coefficientReset')).toBe(false)
+  })
 })
 
-describe('advance: ボス', () => {
+describe('advance: 巨大化', () => {
   const grid: GridSize = { cols: 7, rows: 5 }
-  const bossAt = (cfg: NuisanceConfigType, lc: number | undefined, g = grid) =>
-    advance(createGame(cfg, g), cfg, 0.1, NO_INPUT, [spawn('boss', 0, lc)], createRng(31)).state
 
-  it('lc が間隔の倍数のコメントだけが、ボスになる。ボスは大きい', () => {
-    const cfg = config({ bossInterval: 10 })
-    expect(bossAt(cfg, 10).nuisances[0].traits.kind).toBe('boss')
-    expect(bossAt(cfg, 30).nuisances[0].traits.kind).toBe('boss')
-    expect(bossAt(cfg, 11).nuisances[0].traits.kind).toBe('static')
-    expect(bossAt(cfg, 0).nuisances[0].traits.kind).toBe('static') // 0 は不明
-    expect(bossAt(cfg, undefined).nuisances[0].traits.kind).toBe('static')
-    const boss = bossAt(cfg, 10).nuisances[0]
-    expect(footprintOf(sizeScaleOf(boss))).toBe(2)
+  it('ゲーム開始から2分後、最初に出現したユーザーが巨大化する', () => {
+    const cfg = config()
+    const before = advance(createGame(cfg, grid), cfg, 120, NO_INPUT, [spawn('before', 119.8)], createRng(31)).state
+    expect(before.nuisances[0].traits.kind).toBe('static')
+
+    const result = advance(before, cfg, 120.2, NO_INPUT, [spawn('giant', 120.1)], createRng(32))
+    expect(result.state.nuisances.find((n) => n.userId === 'giant')?.traits.kind).toBe('boss')
+    expect(result.events).toContainEqual(expect.objectContaining({ type: 'enemySpawn', userId: 'giant', isBoss: true }))
+    expect(footprintOf(sizeScaleOf(result.state.nuisances.find((n) => n.userId === 'giant')!))).toBe(2)
   })
 
-  it('間隔 0 なら、ボスは出ない', () => {
-    expect(bossAt(config({ bossInterval: 0 }), 100).nuisances[0].traits.kind).toBe('static')
+  it('巨大化は2分ごと。コメント数 lc は参照しない', () => {
+    const cfg = config()
+    const first = advance(createGame(cfg, grid), cfg, 120.2, NO_INPUT, [spawn('giant', 120.1)], createRng(31)).state
+    const normal = advance(first, cfg, 121, NO_INPUT, [spawn('normal', 120.5)], createRng(32)).state
+    expect(normal.nuisances.find((n) => n.userId === 'normal')?.traits.kind).toBe('static')
+    const secondGiant = advance(normal, cfg, 240.2, NO_INPUT, [spawn('giant-2', 240.1)], createRng(33)).state
+    expect(secondGiant.nuisances.find((n) => n.userId === 'giant-2')?.traits.kind).toBe('boss')
   })
 
-  it('上限のときや、大きさぶんの空きがないときは、ボスは出ない (無視する)', () => {
-    const capped = config({ bossInterval: 10, maxNuisances: 1 })
-    const state = advance(
-      createGame(capped, grid),
-      capped,
-      0.1,
-      NO_INPUT,
-      [spawn('a', 0, 1), spawn('boss', 0, 10)],
-      createRng(32)
-    ).state
-    expect(state.nuisances.map((n) => n.userId)).toEqual(['a'])
-    expect(state.ignoredCount).toBe(1)
+  it('巨大化できる空きがなければ通常サイズで出し、次のユーザーへ巨大化を持ち越す', () => {
+    const cfg = config()
+    const tiny: GridSize = { cols: 2, rows: 1 }
+    const first = advance(createGame(cfg, tiny), cfg, 120.2, NO_INPUT, [spawn('normal', 120.1)], createRng(31)).state
+    expect(first.nuisances[0].traits.kind).toBe('static')
+    expect(first.nextGiantAt).toBe(120)
 
-    const tiny: GridSize = { cols: 2, rows: 1 } // 主人公 + 空き 1 マスでは、2x2 のボスは入らない
-    const none = bossAt(config({ bossInterval: 10 }), 10, tiny)
-    expect(none.nuisances).toHaveLength(0)
-    expect(none.ignoredCount).toBe(1)
+    const larger: GridSize = { cols: 7, rows: 5 }
+    const second = { ...createGame(cfg, larger), elapsed: 120 }
+    const giant = advance(second, cfg, 120.2, NO_INPUT, [spawn('giant', 120.1)], createRng(32)).state
+    expect(giant.nuisances[0].traits.kind).toBe('boss')
+    expect(giant.nextGiantAt).toBe(240)
   })
 
-  it('ボスは動かず、爆発もしない。押し出すと、アイコンと同じ秒数になる', () => {
-    const cfg = config({ bossInterval: 10, iconSeconds: 5 })
-    const state = bossAt(cfg, 10)
-    const boss = state.nuisances[0]
-    const later = run(state, cfg, 120)
-    expect(later.nuisances.map((n) => [n.col, n.row])).toEqual([[boss.col, boss.row]])
-    expect(later.over).toBe(false)
-  })
-
-  it('大きいボスは、押し出すとき、触れた全体が動く (2 マスぶん)', () => {
+  it('巨大化したアイコンも通常と同じ獲得秒数で得点する', () => {
     const cfg = config({ iconSeconds: 5 })
-    const grid2: GridSize = { cols: 9, rows: 5 }
-    let state = withNuisance(createGame(cfg, grid2), 'boss', 6, 1, true) // 2x2: (6..7, 1..2)
-    state = { ...state, hero: { col: 5, row: 1, cooldown: 0 }, timeLeft: 100 }
-    const r = advance(state, cfg, STEP_SECONDS, RIGHT, [], createRng(1)).state
-    expect([r.hero.col, r.nuisances[0].col]).toEqual([6, 7])
+    const scoreOf = (giant: boolean) => {
+      let state = withNuisance(createGame(cfg, grid), giant ? 'giant' : 'normal', giant ? 5 : 6, 1, giant)
+      state = { ...state, hero: { col: giant ? 4 : 5, row: 1, cooldown: 0 }, timeLeft: 100 }
+      const result = advance(state, cfg, STEP_SECONDS, RIGHT, [], createRng(1))
+      return result.events.find((event): event is Extract<NuisanceEvent, { type: 'score' }> => event.type === 'score')
+    }
+    expect(scoreOf(true)).toMatchObject({ source: 'nuisance', seconds: 5 })
+    expect(scoreOf(false)).toMatchObject({ source: 'nuisance', seconds: 5 })
   })
 })
 
 describe('決定性', () => {
   it('同じ乱数・同じコメントなら、同じ結果になる', () => {
     const cfg = config()
-    const spawns = [spawn('a', 0.5), spawn('b', 2, 100), spawn('c', 4)]
+    const spawns = [spawn('a', 0.5), spawn('b', 2), spawn('c', 4)]
     const a = advance(createGame(cfg), cfg, 20, RIGHT, spawns, createRng(77)).state
     const b = advance(createGame(cfg), cfg, 20, RIGHT, spawns, createRng(77)).state
     expect(JSON.stringify(a)).toBe(JSON.stringify(b))
@@ -512,9 +512,9 @@ describe('advance: 演出用のイベント', () => {
     expect(spawns[0]).toMatchObject({ userId: 'a', isBoss: false, kind: 'static' })
   })
 
-  it('lc が bossInterval の倍数なら、isBoss が立つ', () => {
-    const cfg = config({ bossInterval: 10 })
-    const r = advance(createGame(cfg), cfg, 0.1, NO_INPUT, [spawn('a', 0, 10)], createRng(1))
+  it('2分経過後の最初のユーザーは巨大化イベントを出す', () => {
+    const cfg = config()
+    const r = advance(createGame(cfg), cfg, 120.2, NO_INPUT, [spawn('a', 120.1)], createRng(1))
     expect(r.events).toMatchObject([{ type: 'enemySpawn', isBoss: true, kind: 'boss' }])
   })
 
@@ -545,7 +545,7 @@ describe('advance: ギフト障害物', () => {
   })
 
   it('一定時間で消える。主人公のマスには置かれない', () => {
-    const cfg = config({ maxSeconds: 3600 })
+    const cfg = config({ initialSeconds: 3600 })
     const r = place(cfg, createGame(cfg, grid), gift('a', 100))
     const o = r.obstacles[0]
     expect(
@@ -772,7 +772,7 @@ describe('advance: ことばの爆発', () => {
     expect(r.contributions.a).toBeUndefined()
   })
 
-  it('主人公と障害物は、爆発に巻き込まれない。大きいボスは、一部が範囲に入れば消える', () => {
+  it('主人公と障害物は、爆発に巻き込まれない。巨大化したアイコンは、一部が範囲に入れば消える', () => {
     let state = createGame(cfg, grid)
     state = { ...state, hero: { col: 4, row: 2, cooldown: 0 } }
     state = {
