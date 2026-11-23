@@ -12,7 +12,7 @@ import { MAX_GAME_LOGS_PER_APPEND } from '@/types/api'
 import type { OmikenCommentType } from '@/types/OmikenComment'
 import { collectAutoSpawns } from '../scripts/autoComment'
 import { isMoveKey, resolveInput } from '../scripts/heroInput'
-import type { OshikuraChainConfig } from '../scripts/nuisanceConfig'
+import type { OshikuraChainConfig } from '../scripts/oshikuraChainConfig'
 import {
   AUTO_COMMENT_INTERVAL_SECONDS,
   AUTO_COMMENT_USER_COUNT,
@@ -20,7 +20,7 @@ import {
   MAX_FRAME_SECONDS,
   SURVIVAL_EVENT_KEY,
   TIME_ATTACK_EVENT_KEY,
-} from '../scripts/nuisanceConstants'
+} from '../scripts/oshikuraChainConstants'
 import {
   advance,
   createGame,
@@ -29,8 +29,8 @@ import {
   type GameState,
   type OshikuraChainEvent,
   type SpawnRequest,
-} from '../scripts/nuisanceEngine'
-import { buildContributionLogs, buildSurvivalLog, buildTimeAttackLog } from '../scripts/nuisanceRecord'
+} from '../scripts/oshikuraChainEngine'
+import { buildContributionLogs, buildSurvivalLog, buildTimeAttackLog } from '../scripts/oshikuraChainRecord'
 import { createRng, type Rng } from '../scripts/rng'
 import { useOshikuraChainConfig } from './useOshikuraChainConfig'
 
