@@ -16,7 +16,7 @@ export const oshikuraChainMessages = {
   },
   menu: {
     description:
-      'ロケットのエンジン内部に降ってくるユーザーのコメントを、外へ押し出そう！押し出すと燃料が投下され、残り時間が増えます。連続で押し出して、連鎖ボーナスを狙いましょう。',
+      'エンジン内部に降ってくるユーザーやコメントを、外へ押し出そう！押し出すことで燃料が投下され、残り時間が増えます。連続で押し出して、連鎖ボーナスを狙おう。',
     howTo: '操作：',
     start: (difficulty: number, minutes: number) => `スタート（難易度 ${difficulty}・目安 約${minutes}分）`,
     difficulty: '難易度',
@@ -28,7 +28,8 @@ export const oshikuraChainMessages = {
     resetConfig: '初期値に戻す',
     configNote: '変更は、スタートしたときに保存されます',
     resetCoefficientOnFirst: '初見コメントで係数をリセットする',
-    resetCoefficientHint: '有効にすると、初見コメントが届いたとき係数が100%に戻ります。ゲーム時間は目安より長くなる場合があります。',
+    resetCoefficientHint:
+      '有効にすると、初見コメントが届いたとき係数が100%に戻ります。ゲーム時間は目安より長くなる場合があります。',
     configLoadError: (message: string) => `設定を読み込めませんでした (初期値で始めます): ${message}`,
     configSaveError: (message: string) => `設定を保存できませんでした: ${message}`,
     offline: 'サーバーに接続できません。設定は保存されず、結果も記録できません',

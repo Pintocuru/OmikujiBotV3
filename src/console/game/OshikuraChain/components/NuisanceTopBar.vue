@@ -6,8 +6,6 @@
     :class="phase === 'idle' ? 'cursor-pointer hover:bg-base-200' : ''"
     @click="emit('toggle')"
   >
-    <span class="font-bold">{{ oshikuraChainMessages.title }}</span>
-
     <template v-if="state && phase !== 'idle'">
       <div class="flex items-center gap-2">
         <span class="text-xs opacity-70">{{ oshikuraChainMessages.bar.timeLeft }}</span>
