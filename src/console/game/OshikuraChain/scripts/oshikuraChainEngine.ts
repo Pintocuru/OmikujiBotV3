@@ -19,7 +19,7 @@ import {
 } from './oshikuraChainConstants'
 import type { GameMode, OshikuraChainConfig } from './oshikuraChainConfig'
 import { NO_INPUT, type HeroInput } from './heroInput'
-import { getGiantIconTraits, getParticipantIconTraits, type ParticipantIconTraits } from './nuisanceTraits'
+import { getGiantIconTraits, getParticipantIconTraits, type ParticipantIconTraits } from './participantIconTraits'
 import { giftCoolAmountOf, giftProtectSecondsOf } from './oshikuraChainGift'
 import type { Rng } from './rng'
 
