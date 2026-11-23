@@ -59,7 +59,7 @@
   import NuisanceTestPanel from './components/NuisanceTestPanel.vue'
   import NuisanceTopBar from './components/NuisanceTopBar.vue'
   import { useOshikuraChain } from './composables/useOshikuraChain'
-  import type { StageSource } from './render/NuisanceStage'
+  import type { OshikuraChainStageSource } from './render/OshikuraChainStage'
 
   const {
     phase,
@@ -82,7 +82,7 @@
   } = useOshikuraChain()
 
   // 盤面 (Excalibur) が毎フレーム読み取る窓口。読み取り専用で、ゲームには何も返さない
-  const stageSource: StageSource = {
+  const stageSource: OshikuraChainStageSource = {
     getState: () => state.value,
     getConfig: () => activeConfig.value,
     getClock,
