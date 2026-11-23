@@ -32,9 +32,9 @@ import {
 } from '../scripts/nuisanceEngine'
 import { buildContributionLogs, buildSurvivalLog, buildTimeAttackLog } from '../scripts/nuisanceRecord'
 import { createRng, type Rng } from '../scripts/rng'
-import { useParticipantIconConfig } from './useParticipantIconConfig'
+import { useOshikuraChainConfig } from './useOshikuraChainConfig'
 
-export type ParticipantIconPhase = 'idle' | 'running' | 'over'
+export type OshikuraChainPhase = 'idle' | 'running' | 'over'
 /** ゲームログへの記録の状態 */
 export type RecordStatus = 'idle' | 'saving' | 'saved' | 'error'
 export type CommentStatus = 'connecting' | 'ready' | 'error'
@@ -61,9 +61,9 @@ const isTyping = (target: EventTarget | null) =>
  *   耐久: 貢献度 (実コメントのときだけ) + 生存時間 / タイムアタック: クリアしたときだけ、クリアタイム (やめたときは記録しない)
  */
 export function useOshikuraChain() {
-  const configStore = useParticipantIconConfig()
+  const configStore = useOshikuraChainConfig()
 
-  const phase = ref<ParticipantIconPhase>('idle')
+  const phase = ref<OshikuraChainPhase>('idle')
   /** メニュー (タイトル・コンフィグ・スタート) を出すか。上部バーのクリックで開閉する */
   const showMenu = ref(false)
   const state = shallowRef<GameState | null>(null)
