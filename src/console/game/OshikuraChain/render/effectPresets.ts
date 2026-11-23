@@ -249,15 +249,54 @@ export const playChainBreak = (host: EffectHost, event: Extract<NuisanceEvent, {
   })
 }
 
-/** 初見さんのコメントで、下がっていた係数が 1 に戻った */
-export const playCoefficientReset = (
+/** 倍率の段階ごとの、ヒートアップの文言と色 (段階が上がるほど、赤く危なくなる) */
+const HEAT_STYLES: Record<number, { text: string; color: string; hue: number }> = {
+  2: { text: 'エンジン温度上昇！', color: '#ffd84a', hue: 48 },
+  3: { text: 'ヒートアップ！', color: '#ffa53a', hue: 32 },
+  4: { text: 'オーバーヒート寸前！', color: '#ff6a3a', hue: 18 },
+  5: { text: '限界突破！ 最大ヒート！', color: '#ff3a3a', hue: 4 },
+}
+
+/** 倍率が上がった (エンジンがヒートアップした): 段階が上がるほど、揺れ・火の粉・音が強くなる */
+export const playMultiplierUp = (host: EffectHost, event: Extract<NuisanceEvent, { type: 'multiplierUp' }>): void => {
+  const style = HEAT_STYLES[Math.min(5, Math.max(2, event.level))]
+  host.popup({
+    x: host.boardSize.width / 2,
+    y: host.boardSize.height * 0.45,
+    text: `${style.text} ×${event.level}`,
+    size: 32 + event.level * 4,
+    color: style.color,
+    delayMs: 0,
+    lifeMs: 1800,
+    rise: 20,
+  })
+  host.burst({
+    x: host.boardSize.width / 2,
+    y: host.boardSize.height * 0.45,
+    count: 14 + event.level * 8,
+    hue: style.hue,
+    saturation: 95,
+    lightness: 58,
+    minSpeed: 90,
+    maxSpeed: 300,
+    minSize: 4,
+    maxSize: 12,
+    lifeMs: 800,
+    radius: 30,
+  })
+  host.shake(event.level * 1.5, 300 + event.level * 60)
+  host.playNote(110 * event.level, 0)
+}
+
+/** 初見さんのコメントで、上がっていた倍率が 1 に戻った (エンジンが冷えた) */
+export const playMultiplierReset = (
   host: EffectHost,
-  event: Extract<NuisanceEvent, { type: 'coefficientReset' }>
+  event: Extract<NuisanceEvent, { type: 'multiplierReset' }>
 ): void => {
   host.popup({
     x: host.boardSize.width / 2,
     y: host.boardSize.height * 0.18,
-    text: `${event.userName} さん初見！ 係数リセット！`,
+    text: `${event.userName} さん初見！ エンジン冷却！`,
     size: 28,
     color: '#7ee8ff',
     delayMs: 0,

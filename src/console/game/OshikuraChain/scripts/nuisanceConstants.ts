@@ -3,7 +3,7 @@
 
 // ---- マス目 (横長: 横 11 × 縦 8) ----
 export const GRID_COLS = 11
-export const GRID_ROWS = 8
+export const GRID_ROWS = 7
 /** 1マスの描画の大きさ (px。画面の大きさに合わせて、縮尺は自動で変わる) */
 export const CELL_PX = 64
 
@@ -35,8 +35,8 @@ export const AUTO_COMMENT_USER_COUNT = 50
 // ---- 主人公 ----
 /** 1マス動く間隔 (秒)。キーを押し続けている間、この間隔で動く */
 export const HERO_MOVE_INTERVAL_SECONDS = 0.14
-/** 初見さんのコメントで係数が戻ったことを、演出で知らせるのは、係数がこの値を下回っていたとき (わずかな下がりでは知らせない) */
-export const COEFFICIENT_RESET_NOTICE_BELOW = 0.95
+/** 初見さんのコメントで倍率が戻ったことを、演出で知らせるのは、倍率がこの値を上回っていたとき (わずかな上がりでは知らせない) */
+export const MULTIPLIER_RESET_NOTICE_ABOVE = 1.5
 /** 画面の外へ押し出して得点したあと、次に動けるまでの間隔 (秒。クールダウン。得点のリズムになる) */
 export const HERO_PUSH_INTERVAL_SECONDS = 0.5
 /** 連鎖して押されるとき、1 つ後ろにつき動き出しを遅らせる秒数 (ウェーブ状に見せる。見た目だけで、位置は即座に変わる) */

@@ -41,7 +41,7 @@
             {{
               draft.gameMode === 'timeAttack'
                 ? oshikuraChainMessages.menu.timeAttackHint(Math.round(draft.targetSeconds / 60))
-                : oshikuraChainMessages.menu.enduranceHint
+                : oshikuraChainMessages.menu.enduranceHint(draft.multiplierMax)
             }}
           </p>
         </div>
@@ -105,12 +105,12 @@
             <input
               type="checkbox"
               class="checkbox checkbox-primary checkbox-sm"
-              :checked="draft.resetCoefficientOnFirst"
-              @change="emit('resetCoefficient', ($event.target as HTMLInputElement).checked)"
+              :checked="draft.resetMultiplierOnFirst"
+              @change="emit('resetMultiplier', ($event.target as HTMLInputElement).checked)"
             />
-            <span class="text-sm">{{ oshikuraChainMessages.menu.resetCoefficientOnFirst }}</span>
+            <span class="text-sm">{{ oshikuraChainMessages.menu.resetMultiplierOnFirst }}</span>
           </label>
-          <p class="mt-2 text-xs opacity-60">{{ oshikuraChainMessages.menu.resetCoefficientHint }}</p>
+          <p class="mt-2 text-xs opacity-60">{{ oshikuraChainMessages.menu.resetMultiplierHint }}</p>
         </template>
         <div class="mt-3 flex items-center justify-between gap-2">
           <span class="text-xs opacity-60">{{ oshikuraChainMessages.menu.configNote }}</span>
@@ -166,7 +166,7 @@
     difficulty: [value: DifficultyLevel]
     gameMode: [value: GameMode]
     commentSource: [value: CommentSource]
-    resetCoefficient: [enabled: boolean]
+    resetMultiplier: [enabled: boolean]
   }>()
 
   const showConfig = ref(false)

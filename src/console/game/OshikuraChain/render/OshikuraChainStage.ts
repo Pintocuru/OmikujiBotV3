@@ -18,7 +18,8 @@ import {
   FALL_EXTRA_CELLS,
   FALL_SECONDS,
   playChainBreak,
-  playCoefficientReset,
+  playMultiplierReset,
+  playMultiplierUp,
   playDeath,
   playLand,
   playScore,
@@ -484,8 +485,10 @@ export class OshikuraChainStage implements EffectHost {
         playScore(this, event, { x: (event.col + 0.5) * CELL_PX, y: (event.row + 0.5) * CELL_PX })
       } else if (event.type === 'chainBreak') {
         playChainBreak(this, event)
-      } else if (event.type === 'coefficientReset') {
-        playCoefficientReset(this, event)
+      } else if (event.type === 'multiplierUp') {
+        playMultiplierUp(this, event)
+      } else if (event.type === 'multiplierReset') {
+        playMultiplierReset(this, event)
       } else if (event.type === 'enemyDeath') {
         const size = event.footprint * CELL_PX
         const at = {

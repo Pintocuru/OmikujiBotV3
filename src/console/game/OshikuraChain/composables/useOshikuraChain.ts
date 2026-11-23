@@ -108,7 +108,7 @@ export function useOshikuraChain() {
     frameId = 0
   }
 
-  /** オートモードの架空のコメント 1 件 (初見扱いにはしない。係数のリセットは、実コメントのときだけ) */
+  /** オートモードの架空のコメント 1 件 (初見扱いにはしない。倍率のリセットは、実コメントのときだけ) */
   const makeAutoSpawn = (atSeconds: number): SpawnRequest => {
     const user = autoPool!.pick('regular')
     return {
@@ -272,7 +272,7 @@ export function useOshikuraChain() {
         userId: omiken.userId,
         userName: omiken.userName,
         profileImage: omiken.profileImage,
-        isFirst: omiken.meta.tc === 1, // その人の最初のコメント (初見さん)。係数リセットの判定に使う
+        isFirst: omiken.meta.tc === 1, // その人の最初のコメント (初見さん)。倍率リセットの判定に使う
         comment: omiken.comment, // 文字数に応じて、「ことば」が降ってくる
         giftPrice: omiken.giftPrice ?? undefined, // ギフトなら、邪魔者ではなく障害物になる
       })

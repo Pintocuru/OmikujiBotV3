@@ -1,7 +1,5 @@
 <!-- src/console/game/OshikuraChain/OshikuraChain.vue -->
 <!-- おしくらチェイン: コメントのアイコンや文字を WASD で盤面の外へ押し出し、連鎖で残り時間を増やす -->
-<!-- 画面の部品: NuisanceTopBar / NuisanceField / NuisanceMenu / NuisanceResult / NuisanceTestPanel。ここは組み立てだけ -->
-<!-- 仕様: ./SPEC.md。別ウィンドウで開き、OBS でキャプチャする -->
 <template>
   <div class="flex h-screen flex-col bg-neutral text-neutral-content">
     <NuisanceTopBar
@@ -32,7 +30,7 @@
         @difficulty="configStore.setDifficulty"
         @gameMode="configStore.setGameMode"
         @commentSource="configStore.setCommentSource"
-        @resetCoefficient="configStore.setResetCoefficientOnFirst"
+        @resetMultiplier="configStore.setResetMultiplierOnFirst"
       />
 
       <NuisanceResult

@@ -23,25 +23,25 @@ export const DIFFICULTY_PROFILES: Record<
     iconSeconds: number
     /** ことばを押し出したときの基本獲得秒数 */
     wordSeconds: number
-    /** 係数が 1 分ごとに下がる割合 (%) */
-    coefficientDropPerMinute: number
-    /** 表示用の所要時間目安 (分)。初見コメントによる係数リセットを含まない */
+    /** 倍率 (残り時間が減る速さ) が 1 分ごとに上がる量 */
+    multiplierRisePerMinute: number
+    /** 表示用の所要時間目安 (分)。初見コメントによる倍率リセットを含まない */
     estimatedMinutes: number
   }
 > = {
-  1: { initialSeconds: 3600, iconSeconds: 8, wordSeconds: 1.5, coefficientDropPerMinute: 1, estimatedMinutes: 60 },
-  2: { initialSeconds: 2400, iconSeconds: 6, wordSeconds: 1.2, coefficientDropPerMinute: 2, estimatedMinutes: 40 },
-  3: { initialSeconds: 1200, iconSeconds: 5, wordSeconds: 1, coefficientDropPerMinute: 4, estimatedMinutes: 20 },
-  4: { initialSeconds: 600, iconSeconds: 2, wordSeconds: 0.4, coefficientDropPerMinute: 7, estimatedMinutes: 10 },
-  5: { initialSeconds: 300, iconSeconds: 2, wordSeconds: 0.4, coefficientDropPerMinute: 10, estimatedMinutes: 5 },
+  1: { initialSeconds: 3600, iconSeconds: 8, wordSeconds: 1.5, multiplierRisePerMinute: 0.05, estimatedMinutes: 60 },
+  2: { initialSeconds: 2400, iconSeconds: 6, wordSeconds: 1.2, multiplierRisePerMinute: 0.1, estimatedMinutes: 40 },
+  3: { initialSeconds: 1200, iconSeconds: 5, wordSeconds: 1, multiplierRisePerMinute: 0.2, estimatedMinutes: 20 },
+  4: { initialSeconds: 600, iconSeconds: 2, wordSeconds: 0.4, multiplierRisePerMinute: 0.35, estimatedMinutes: 10 },
+  5: { initialSeconds: 300, iconSeconds: 2, wordSeconds: 0.4, multiplierRisePerMinute: 0.5, estimatedMinutes: 5 },
 }
 
 /** 全難易度共通の設定 */
 export const COMMON_CONFIG = {
   /** 残り時間の上限 (秒)。獲得した時間はこの値を超えない */
   maxSeconds: 3600,
-  /** 係数の下限 (%) */
-  coefficientFloorPercent: 10,
+  /** 倍率の上限 (×)。残り時間が減る速さは、これ以上は速くならない */
+  multiplierMax: 5,
   /** 同時に存在できるアイコンの上限 */
   maxNuisances: 30,
 } as const
@@ -50,15 +50,15 @@ const DifficultySchema = z.union([z.literal(1), z.literal(2), z.literal(3), z.li
 
 export const NuisanceConfigSchema = z.object({
   difficulty: DifficultySchema.default(3),
-  /** 初見コメントによる係数リセット。既定で有効 */
-  resetCoefficientOnFirst: z.boolean().default(true),
+  /** 初見コメントによる倍率リセット。既定で有効 */
+  resetMultiplierOnFirst: z.boolean().default(true),
   gameMode: z.enum(GAME_MODES).default('endurance'),
   commentSource: z.enum(COMMENT_SOURCES).default('live'),
 })
 
 export type NuisanceConfigType = {
   difficulty: DifficultyLevel
-  resetCoefficientOnFirst: boolean
+  resetMultiplierOnFirst: boolean
   gameMode: GameMode
   commentSource: CommentSource
   /** タイムアタックの目標 (獲得秒数の合計) */
@@ -67,14 +67,14 @@ export type NuisanceConfigType = {
   maxSeconds: number
   iconSeconds: number
   wordSeconds: number
-  coefficientDropPerMinute: number
-  coefficientFloorPercent: number
+  multiplierRisePerMinute: number
+  multiplierMax: number
   maxNuisances: number
 }
 
 export const createConfigForDifficulty = (
   difficulty: DifficultyLevel,
-  resetCoefficientOnFirst = true,
+  resetMultiplierOnFirst = true,
   gameMode: GameMode = 'endurance',
   commentSource: CommentSource = 'live'
 ): NuisanceConfigType => {
@@ -84,9 +84,9 @@ export const createConfigForDifficulty = (
     initialSeconds: profile.initialSeconds,
     iconSeconds: profile.iconSeconds,
     wordSeconds: profile.wordSeconds,
-    coefficientDropPerMinute: profile.coefficientDropPerMinute,
+    multiplierRisePerMinute: profile.multiplierRisePerMinute,
     ...COMMON_CONFIG,
-    resetCoefficientOnFirst,
+    resetMultiplierOnFirst,
     gameMode,
     commentSource,
     targetSeconds: TIME_ATTACK_TARGET_SECONDS,
@@ -95,16 +95,25 @@ export const createConfigForDifficulty = (
 
 export const createDefaultConfig = (): NuisanceConfigType => createConfigForDifficulty(3)
 
+/** 保存済みの設定の、古いキー名 (係数 → 倍率に変えた) を、新しいキー名に読み替える */
+const migrateLegacyKeys = (raw: unknown): unknown => {
+  if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return raw
+  const { resetCoefficientOnFirst, ...rest } = raw as Record<string, unknown>
+  return resetCoefficientOnFirst !== undefined && !('resetMultiplierOnFirst' in rest)
+    ? { ...rest, resetMultiplierOnFirst: resetCoefficientOnFirst }
+    : rest
+}
+
 export const parseConfig = (raw: unknown): { config: NuisanceConfigType; error: string | null } => {
-  const result = NuisanceConfigSchema.safeParse(raw)
+  const result = NuisanceConfigSchema.safeParse(migrateLegacyKeys(raw))
   if (!result.success) {
     const issue = result.error.issues[0]
     const path = issue.path.join('.')
     return { config: createDefaultConfig(), error: path ? `${path}: ${issue.message}` : issue.message }
   }
-  const { difficulty, resetCoefficientOnFirst, gameMode, commentSource } = result.data
+  const { difficulty, resetMultiplierOnFirst, gameMode, commentSource } = result.data
   return {
-    config: createConfigForDifficulty(difficulty, resetCoefficientOnFirst, gameMode, commentSource),
+    config: createConfigForDifficulty(difficulty, resetMultiplierOnFirst, gameMode, commentSource),
     error: null,
   }
 }
@@ -116,7 +125,7 @@ export const sanitizeConfig = (draft: Partial<NuisanceConfigType>): NuisanceConf
     : 3
   return createConfigForDifficulty(
     difficulty,
-    typeof draft.resetCoefficientOnFirst === 'boolean' ? draft.resetCoefficientOnFirst : true,
+    typeof draft.resetMultiplierOnFirst === 'boolean' ? draft.resetMultiplierOnFirst : true,
     GAME_MODES.includes(draft.gameMode as GameMode) ? (draft.gameMode as GameMode) : 'endurance',
     COMMENT_SOURCES.includes(draft.commentSource as CommentSource) ? (draft.commentSource as CommentSource) : 'live'
   )

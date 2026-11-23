@@ -2,11 +2,11 @@
 // おしくらチェイン (協力パズル) の進行を決める純粋関数 (画面・通信・時計に依存しない。乱数・入力・コメントは外から渡す)
 //
 // 遊び方: コメントした人のアイコンと、コメントの文字 (ことば) が盤面に降ってくる。主人公が画面の外へ押し出すと、
-// 残り時間が増える (獲得秒数 × 連鎖数 × 係数)。残り時間は、1 秒ごとに 1 秒減り、0 になるとゲームオーバー。
+// 残り時間が増える (獲得秒数 × 連鎖数)。残り時間は、1 秒ごとに「倍率」秒減り、0 になるとゲームオーバー。
 // - 連鎖: 画面の外へ押し出して得点するたびに +1。得点しない動き (空きマスへの移動など) をすると、切れる。止まっただけでは切れない
-// - 係数: 時間が経つほど下がる (下限あり)。初見コメントのリセット設定が有効なら、初見さんのコメントで 1 に戻る
+// - 倍率: 残り時間が減る速さ (エンジンのヒートアップ)。1 から始まり、時間が経つほど上がる (上限あり)。初見コメントのリセット設定が有効なら、初見さんのコメントで 1 に戻る
 // - 残り時間には上限 (maxSeconds) がある
-// タイムアタック (config.gameMode === 'timeAttack'): 残り時間はなく、係数は常に 1。獲得秒数の合計が targetSeconds に届いた時刻でクリアになる
+// タイムアタック (config.gameMode === 'timeAttack'): 残り時間はなく、倍率は常に 1。獲得秒数の合計が targetSeconds に届いた時刻でクリアになる
 //
 // 時間は固定の刻み (STEP_SECONDS) で進める。画面が隠れて更新が止まっていた間も、
 // 「前回から今まで」の時間を、必要な回数だけ刻んで追いつく (advance)。
@@ -25,7 +25,7 @@ import {
   PUSH_WAVE_DELAY_SECONDS,
   STEP_SECONDS,
   GIANT_INTERVAL_SECONDS,
-  COEFFICIENT_RESET_NOTICE_BELOW,
+  MULTIPLIER_RESET_NOTICE_ABOVE,
   WORD_CHARS_PER_ITEM,
   WORD_MAX,
   WORD_MAX_PER_COMMENT,
@@ -113,7 +113,7 @@ export type Contribution = {
   userId: string
   userName: string
   profileImage: string
-  /** 生んだ秒数 (獲得秒数 × 連鎖数 × 係数の合計。残り時間が上限のときも、数える) */
+  /** 生んだ秒数 (獲得秒数 × 連鎖数の合計。残り時間が上限のときも、数える) */
   seconds: number
   /** 出現したアイコンの数 (無視されたコメントは数えない) */
   spawned: number
@@ -139,8 +139,10 @@ export type GameState = {
   chainTotal: number
   /** 最大の連鎖数 */
   bestChain: number
-  /** 係数が 1 だった時刻 (開始からの秒)。初見コメントによるリセット時に更新する */
-  coefficientResetAt: number
+  /** 倍率が 1 だった時刻 (開始からの秒)。初見コメントによるリセット時に更新する */
+  multiplierResetAt: number
+  /** 演出で知らせた倍率の段階 (1〜。倍率の整数部分。上がったときだけ知らせ、リセットで 1 に戻る) */
+  multiplierLevel: number
   /** 次に巨大化するユーザーを選ぶ時刻 (開始からの秒) */
   nextGiantAt: number
   /** 残り時間に足した秒数の合計 (上限で切られた分は含まない)。タイムアタックでは、獲得した秒数の合計 (目標との比較に使う) */
@@ -163,7 +165,7 @@ export type SpawnRequest = {
   userId: string
   userName: string
   profileImage: string
-  /** 初見さん (その人の最初のコメント) か。設定が有効なら係数が 1 に戻る */
+  /** 初見さん (その人の最初のコメント) か。設定が有効なら倍率が 1 に戻る */
   isFirst?: boolean
   /** コメントの本文。あれば、文字数に応じて「ことば」が降ってくる (ギフトのときは降らない) */
   comment?: string
@@ -232,14 +234,13 @@ export type NuisanceEvent =
       source: 'nuisance' | 'word'
       userId: string
       userName: string
-      /** 得た秒数 (獲得秒数 × 連鎖数 × 係数。上限で切られる前の値) */
+      /** 得た秒数 (獲得秒数 × 連鎖数。上限で切られる前の値) */
       seconds: number
       /** 実際に、残り時間に足した秒数 (上限のとき、seconds より小さい) */
       applied: number
       /** この得点を含めた連鎖数と、その連鎖の秒数の合計 */
       chain: number
       chainTotal: number
-      coefficient: number
       col: number
       row: number
       /** 連鎖のウェーブに合わせて、演出を遅らせる秒 */
@@ -252,8 +253,14 @@ export type NuisanceEvent =
       total: number
     }
   | {
-      /** 初見さんのコメントで、下がっていた係数が 1 に戻った */
-      type: 'coefficientReset'
+      /** 倍率が、次の整数の段階に上がった (エンジンがヒートアップした)。isMax: 上限に達した */
+      type: 'multiplierUp'
+      level: number
+      isMax: boolean
+    }
+  | {
+      /** 初見さんのコメントで、上がっていた倍率が 1 に戻った (エンジンが冷えた) */
+      type: 'multiplierReset'
       userName: string
     }
   | {
@@ -284,7 +291,8 @@ export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_
   chain: 0,
   chainTotal: 0,
   bestChain: 0,
-  coefficientResetAt: 0,
+  multiplierResetAt: 0,
+  multiplierLevel: 1,
   nextGiantAt: GIANT_INTERVAL_SECONDS,
   gainedSeconds: 0,
   removedCount: 0,
@@ -311,18 +319,21 @@ const measure = (n: Nuisance) => {
 const covers = (n: { col: number; row: number }, footprint: number, col: number, row: number): boolean =>
   col >= n.col && col < n.col + footprint && row >= n.row && row < n.row + footprint
 
-// ---- 係数 ----
+// ---- 倍率 ----
 
 /**
- * 係数 (得点に掛かる倍率)。タイムアタックでは常に 1。耐久では、1 から始まり、時間が経つほど下がる (1 分ごとに coefficientDropPerMinute %、下限は coefficientFloorPercent %)
- * resetAt: 係数が 1 だった時刻 (初見さんのコメントが届いた時刻)
+ * 倍率 (残り時間が減る速さ。エンジンのヒートアップ)。タイムアタックでは常に 1。
+ * 耐久では、1 から始まり、時間が経つほど上がる (1 分ごとに multiplierRisePerMinute、上限は multiplierMax)
+ * resetAt: 倍率が 1 だった時刻 (初見さんのコメントが届いた時刻)
  */
-export const coefficientOf = (elapsed: number, resetAt: number, config: NuisanceConfigType): number => {
-  if (config.gameMode === 'timeAttack') return 1 // タイムアタックは、時間が経っても下がらない
-  const floor = config.coefficientFloorPercent / 100
-  const dropped = (config.coefficientDropPerMinute / 100) * (Math.max(0, elapsed - resetAt) / 60)
-  return Math.max(floor, 1 - dropped)
+export const multiplierOf = (elapsed: number, resetAt: number, config: NuisanceConfigType): number => {
+  if (config.gameMode === 'timeAttack') return 1 // タイムアタックは、時間が経っても上がらない
+  const risen = config.multiplierRisePerMinute * (Math.max(0, elapsed - resetAt) / 60)
+  return Math.min(config.multiplierMax, 1 + risen)
 }
+
+/** 倍率の段階 (整数部分。×2 になったら 2)。わずかな計算誤差で、段階を取りこぼさない */
+export const multiplierLevelOf = (multiplier: number): number => Math.floor(multiplier + 1e-9)
 
 // ---- 状態の複製 ----
 
@@ -481,12 +492,13 @@ const spawnOne = (
   rng: Rng,
   events: NuisanceEvent[]
 ): void => {
-  // 初見コメントによる係数リセットは、設定で無効にできる
-  if (config.resetCoefficientOnFirst && request.isFirst) {
-    if (coefficientOf(s.elapsed, s.coefficientResetAt, config) < COEFFICIENT_RESET_NOTICE_BELOW) {
-      events.push({ type: 'coefficientReset', userName: request.userName })
+  // 初見コメントによる倍率リセットは、設定で無効にできる
+  if (config.resetMultiplierOnFirst && request.isFirst) {
+    if (multiplierOf(s.elapsed, s.multiplierResetAt, config) > MULTIPLIER_RESET_NOTICE_ABOVE) {
+      events.push({ type: 'multiplierReset', userName: request.userName })
     }
-    s.coefficientResetAt = s.elapsed
+    s.multiplierResetAt = s.elapsed
+    s.multiplierLevel = 1
   }
   // ギフトは、アイコンではなく障害物になる
   if (request.giftPrice !== undefined) {
@@ -542,7 +554,7 @@ const hitsObstacle = (s: GameState, footprint: number, col: number, row: number)
     (o) => col < o.col + o.size && col + footprint > o.col && row < o.row + o.size && row + footprint > o.row
   )
 
-/** 画面の外へ押し出されたもの 1 つぶんの得点。連鎖数が 1 増え、獲得秒数 × 連鎖数 × 係数が、残り時間に足される (上限あり) */
+/** 画面の外へ押し出されたもの 1 つぶんの得点。連鎖数が 1 増え、獲得秒数 × 連鎖数が、残り時間に足される (上限あり) */
 const awardScore = (
   s: GameState,
   config: NuisanceConfigType,
@@ -552,8 +564,7 @@ const awardScore = (
 ): void => {
   s.chain++
   s.bestChain = Math.max(s.bestChain, s.chain)
-  const coefficient = coefficientOf(s.elapsed, s.coefficientResetAt, config)
-  const seconds = (isWord(body) ? config.wordSeconds : config.iconSeconds) * s.chain * coefficient
+  const seconds = (isWord(body) ? config.wordSeconds : config.iconSeconds) * s.chain
   // 耐久: 残り時間に足す (上限あり)。タイムアタック: 残り時間はなく、獲得秒数を、そのまま合計する
   const applied =
     config.gameMode === 'timeAttack' ? seconds : Math.max(0, Math.min(seconds, config.maxSeconds - s.timeLeft))
@@ -570,7 +581,6 @@ const awardScore = (
     applied,
     chain: s.chain,
     chainTotal: s.chainTotal,
-    coefficient,
     col: body.col,
     row: body.row,
     delaySeconds,
@@ -779,15 +789,24 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, ev
     return
   }
 
-  // 残り時間: 1 秒ごとに 1 秒減る。0 になった時刻で、ゲームオーバー
+  // 倍率: 時間が経つほど上がる。整数の段階を超えたら、演出に知らせる (エンジンのヒートアップ)
+  const multiplier = multiplierOf(s.elapsed, s.multiplierResetAt, config)
+  const level = multiplierLevelOf(multiplier)
+  if (level > s.multiplierLevel) {
+    events.push({ type: 'multiplierUp', level, isMax: multiplier >= config.multiplierMax - 1e-9 })
+    s.multiplierLevel = level
+  }
+
+  // 残り時間: 1 秒ごとに「倍率」秒減る。0 になった時刻 (実時間) で、ゲームオーバー
   const before = s.timeLeft
-  if (before - dt <= 0) {
+  const drain = dt * multiplier
+  if (before - drain <= 0) {
     s.timeLeft = 0
     s.over = true
-    s.endedAt = s.elapsed + Math.max(0, before)
+    s.endedAt = s.elapsed + Math.max(0, before) / multiplier
     s.elapsed = s.endedAt
   } else {
-    s.timeLeft = before - dt
+    s.timeLeft = before - drain
     s.elapsed += dt
   }
 }

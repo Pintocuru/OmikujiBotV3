@@ -49,7 +49,7 @@ export function useNuisanceConfig() {
     try {
       await gameConfigApi.saveConfig(CONFIG_GAME_KEY, {
         difficulty: config.difficulty,
-        resetCoefficientOnFirst: config.resetCoefficientOnFirst,
+        resetMultiplierOnFirst: config.resetMultiplierOnFirst,
         gameMode: config.gameMode,
         commentSource: config.commentSource,
       })
@@ -63,15 +63,15 @@ export function useNuisanceConfig() {
 
   const reset = () => assign(createDefaultConfig())
   const setDifficulty = (difficulty: DifficultyLevel) =>
-    assign(createConfigForDifficulty(difficulty, draft.resetCoefficientOnFirst, draft.gameMode, draft.commentSource))
+    assign(createConfigForDifficulty(difficulty, draft.resetMultiplierOnFirst, draft.gameMode, draft.commentSource))
   const setGameMode = (gameMode: GameMode) => {
     draft.gameMode = gameMode
   }
   const setCommentSource = (commentSource: CommentSource) => {
     draft.commentSource = commentSource
   }
-  const setResetCoefficientOnFirst = (enabled: boolean) => {
-    draft.resetCoefficientOnFirst = enabled
+  const setResetMultiplierOnFirst = (enabled: boolean) => {
+    draft.resetMultiplierOnFirst = enabled
   }
 
   return {
@@ -85,6 +85,6 @@ export function useNuisanceConfig() {
     setDifficulty,
     setGameMode,
     setCommentSource,
-    setResetCoefficientOnFirst,
+    setResetMultiplierOnFirst,
   }
 }
