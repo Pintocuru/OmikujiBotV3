@@ -9,7 +9,7 @@ import { createRng } from './rng'
 
 /** a・b・c が、それぞれ決まった秒数を生んで終わったゲーム (a: 2 体のアイコン、b: 1 体) */
 const finished = (): GameState => {
-  const config = { ...createDefaultConfig(), maxSeconds: 60, maxNuisances: 100 }
+  const config = { ...createDefaultConfig(), initialSeconds: 60, maxSeconds: 60, maxNuisances: 100 }
   const spawns = ['a', 'a', 'b', 'c'].map((userId) => ({
     atSeconds: 0,
     userId,
