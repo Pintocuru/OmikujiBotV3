@@ -4,7 +4,7 @@
 // 遊び方: コメントした人のアイコンと、コメントの文字 (ことば) が盤面に降ってくる。主人公が画面の外へ押し出すと、
 // 残り時間が増える (獲得秒数 × 連鎖数 × 係数)。残り時間は、1 秒ごとに 1 秒減り、0 になるとゲームオーバー。
 // - 連鎖: 画面の外へ押し出して得点するたびに +1。得点しない動き (空きマスへの移動など) をすると、切れる。止まっただけでは切れない
-// - 係数: 時間が経つほど下がる (下限あり)。初見さんのコメントが届くと、1 に戻る
+// - 係数: 時間が経つほど下がる (下限あり)。初見コメントのリセット設定が有効なら、初見さんのコメントで 1 に戻る
 // - 残り時間には上限 (maxSeconds) がある
 //
 // 時間は固定の刻み (STEP_SECONDS) で進める。画面が隠れて更新が止まっていた間も、
@@ -23,6 +23,7 @@ import {
   MAX_STEPS_PER_ADVANCE,
   PUSH_WAVE_DELAY_SECONDS,
   STEP_SECONDS,
+  GIANT_INTERVAL_SECONDS,
   COEFFICIENT_RESET_NOTICE_BELOW,
   WORD_CHARS_PER_ITEM,
   WORD_MAX,
@@ -135,8 +136,10 @@ export type GameState = {
   chainTotal: number
   /** 最大の連鎖数 */
   bestChain: number
-  /** 係数が 1 だった時刻 (開始からの秒)。初見さんのコメントが届くと、その時刻になる */
+  /** 係数が 1 だった時刻 (開始からの秒)。初見コメントによるリセット時に更新する */
   coefficientResetAt: number
+  /** 次に巨大化するユーザーを選ぶ時刻 (開始からの秒) */
+  nextGiantAt: number
   /** 残り時間に足した秒数の合計 (上限で切られた分は含まない) */
   gainedSeconds: number
   /** 押し出したアイコン / ことばの数 / 上限などで無視したコメントの数 */
@@ -155,9 +158,7 @@ export type SpawnRequest = {
   userId: string
   userName: string
   profileImage: string
-  /** 配信枠のコメント数 (lc)。コンフィグの間隔の倍数のとき、ボスになる。分からなければ省略 */
-  lc?: number
-  /** 初見さん (その人の最初のコメント) か。そうなら、係数が 1 に戻る */
+  /** 初見さん (その人の最初のコメント) か。設定が有効なら係数が 1 に戻る */
   isFirst?: boolean
   /** コメントの本文。あれば、文字数に応じて「ことば」が降ってくる (ギフトのときは降らない) */
   comment?: string
@@ -267,7 +268,7 @@ const DIRECTIONS: readonly (readonly [number, number])[] = [
 export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_GRID): GameState => ({
   grid,
   elapsed: 0,
-  timeLeft: config.maxSeconds,
+  timeLeft: config.initialSeconds,
   hero: { col: Math.floor(grid.cols / 2), row: Math.floor(grid.rows / 2), cooldown: 0 },
   nuisances: [],
   obstacles: [],
@@ -278,6 +279,7 @@ export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_
   chainTotal: 0,
   bestChain: 0,
   coefficientResetAt: 0,
+  nextGiantAt: GIANT_INTERVAL_SECONDS,
   gainedSeconds: 0,
   removedCount: 0,
   removedWordCount: 0,
@@ -288,7 +290,7 @@ export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_
 
 // ---- 大きさ ----
 
-/** アイコンの大きさ (倍率)。成長しない (ボスだけが大きい) */
+/** アイコンの大きさ (倍率)。成長しない (巨大化したアイコンだけが大きい) */
 export const sizeScaleOf = (n: Pick<Nuisance, 'traits'>): number => n.traits.baseSize
 
 /** 占めるマスの一辺 (大きさの倍率を四捨五入して、1〜MAX_FOOTPRINT) */
@@ -471,8 +473,8 @@ const spawnOne = (
   rng: Rng,
   events: NuisanceEvent[]
 ): void => {
-  // 初見さんのコメントで、係数が 1 に戻る (盤面が満杯で、アイコンが出なくても戻る)
-  if (request.isFirst) {
+  // 初見コメントによる係数リセットは、設定で無効にできる
+  if (config.resetCoefficientOnFirst && request.isFirst) {
     if (coefficientOf(s.elapsed, s.coefficientResetAt, config) < COEFFICIENT_RESET_NOTICE_BELOW) {
       events.push({ type: 'coefficientReset', userName: request.userName })
     }
@@ -485,17 +487,20 @@ const spawnOne = (
   }
   // コメントの文字数に応じて、「ことば」も降ってくる (アイコンが上限で出なくても降る)
   dropWords(s, request, rng, events)
-  // lc がキリ番のコメントは、ボスになる。上限・空きなしのときは、ボスも出ない (普通のアイコンにもならない)
-  const isBoss =
-    config.bossInterval > 0 && request.lc !== undefined && request.lc > 0 && request.lc % config.bossInterval === 0
-  const traits = isBoss ? getBossTraits(request.userId) : getNuisanceTraits(request.userId)
-
-  // 上限・空きマスなし: コメントは無視する
-  const cell = s.nuisances.length >= config.maxNuisances ? null : pickFreeCell(s, rng, footprintOf(traits.baseSize))
+  // 2 分経過するごとに、その後最初に出現するユーザーを巨大化する
+  const canSpawn = s.nuisances.length < config.maxNuisances
+  const isGiantDue = request.atSeconds >= s.nextGiantAt
+  const giantTraits = isGiantDue ? getBossTraits(request.userId) : null
+  const giantCell = canSpawn ? (giantTraits ? pickFreeCell(s, rng, footprintOf(giantTraits.baseSize)) : null) : null
+  // 巨大化できる空きがなければ通常サイズで出す。巨大化の権利は次のユーザーへ持ち越す
+  const isBoss = giantCell !== null
+  const traits = isBoss ? giantTraits! : getNuisanceTraits(request.userId)
+  const cell = !canSpawn ? null : (giantCell ?? pickFreeCell(s, rng, footprintOf(traits.baseSize)))
   if (!cell) {
     s.ignoredCount++
     return
   }
+  if (isBoss) s.nextGiantAt += GIANT_INTERVAL_SECONDS
 
   s.nuisances.push({
     id: s.nextId++,
