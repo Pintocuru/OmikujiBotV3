@@ -6,7 +6,7 @@ import { createRng, hashString } from './rng'
 /**
  * アイコンの種類
  * - static: 動かない (基本。コメントした人のアイコン)
- * - boss: lc がキリ番のコメントで出る。大きい (その分、並べると連鎖が増える)
+ * - boss: 2 分経過後の最初のユーザーが巨大化する (その分、並べると連鎖が増える)
  */
 export type NuisanceKind = 'static' | 'boss'
 
@@ -18,7 +18,7 @@ export type NuisanceTraits = {
   hue: number
 }
 
-/** ボスの性質 (大きい) */
+/** 巨大化したアイコンの性質 (大きい) */
 export const BOSS_TRAITS = {
   baseSize: 2.2,
 } as const
@@ -45,7 +45,7 @@ export const getNuisanceTraits = (userId: string): NuisanceTraits => {
   }
 }
 
-/** ボスの性質。見た目の色だけ、userId で決まる */
+/** 巨大化したアイコンの性質。見た目の色だけ、userId で決まる */
 export const getBossTraits = (userId: string): NuisanceTraits => ({
   ...getNuisanceTraits(userId),
   kind: 'boss',
