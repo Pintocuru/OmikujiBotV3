@@ -1,4 +1,4 @@
-<!-- src/console/game/NuisanceSurvival/components/NuisanceField.vue -->
+<!-- src/console/game/OshikuraChain/components/NuisanceField.vue -->
 <!-- 盤面の表示。Excalibur の起動と破棄だけを担当する (描画・演出は ../render/OshikuraChainStage.ts)。画面の大きさに合わせて縮尺が変わる -->
 <template>
   <div class="h-full w-full">

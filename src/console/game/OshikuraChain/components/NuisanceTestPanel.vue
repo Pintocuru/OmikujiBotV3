@@ -1,4 +1,4 @@
-<!-- src/console/game/NuisanceSurvival/components/NuisanceTestPanel.vue -->
+<!-- src/console/game/OshikuraChain/components/NuisanceTestPanel.vue -->
 <!-- テストコメント: 想定ユーザー数でコメントを投稿して、邪魔者を出す (H キーで隠せる。OBS でキャプチャするとき用) -->
 <template>
   <div class="card absolute bottom-2 left-2 w-64 border border-base-300 bg-base-200 text-base-content shadow-lg">

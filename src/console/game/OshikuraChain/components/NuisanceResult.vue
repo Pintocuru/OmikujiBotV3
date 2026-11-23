@@ -1,4 +1,4 @@
-<!-- src/console/game/NuisanceSurvival/components/NuisanceResult.vue -->
+<!-- src/console/game/OshikuraChain/components/NuisanceResult.vue -->
 <!-- ゲームオーバーの結果: 生存時間・最大連鎖・押し出した数・時間を生んだ人。ユーザーの得点は変えない (結果は、ゲームログに記録する) -->
 <template>
   <div class="absolute inset-0 flex items-center justify-center bg-black/55 p-4">

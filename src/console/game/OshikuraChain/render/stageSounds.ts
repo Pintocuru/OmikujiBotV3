@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/render/stageSounds.ts
+// src/console/game/OshikuraChain/render/stageSounds.ts
 // 効果音の一覧。素材は assets/sounds/<四半期>/NuisanceSurvival/ に置く (配布後は sounds/NuisanceSurvival/)。
 // ファイル名を変えるときは、ここだけを変える。ファイルがなくても、その音が鳴らないだけでゲームは動く
 export type SoundKey = 'land' | 'bossLand' | 'explosion' | 'remove' | 'wordBlast'

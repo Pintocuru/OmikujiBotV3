@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/nuisanceEngine.test.ts
+// src/console/game/OshikuraChain/scripts/nuisanceEngine.test.ts
 import { describe, expect, it } from 'vitest'
 import { createDefaultConfig, type NuisanceConfigType } from './nuisanceConfig'
 import {

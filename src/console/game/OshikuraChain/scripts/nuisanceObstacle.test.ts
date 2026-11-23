@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/nuisanceObstacle.test.ts
+// src/console/game/OshikuraChain/scripts/nuisanceObstacle.test.ts
 import { describe, expect, it } from 'vitest'
 import { OBSTACLE_SECONDS, OBSTACLE_SECONDS_MAX } from './nuisanceConstants'
 import { formatObstaclePrice, obstacleColorOf, obstacleSecondsOf, obstacleSizeOf } from './nuisanceObstacle'

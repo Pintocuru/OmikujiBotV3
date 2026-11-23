@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/rng.ts
+// src/console/game/OshikuraChain/scripts/rng.ts
 // 種から作る乱数と、文字列のハッシュ (純粋関数。同じ入力なら同じ値になる)
 
 export type Rng = () => number

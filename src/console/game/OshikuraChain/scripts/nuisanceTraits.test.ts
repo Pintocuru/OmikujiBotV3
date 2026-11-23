@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/nuisanceTraits.test.ts
+// src/console/game/OshikuraChain/scripts/nuisanceTraits.test.ts
 import { describe, expect, it } from 'vitest'
 import { BOSS_TRAITS, TRAIT_RANGES, getBossTraits, getNuisanceTraits } from './nuisanceTraits'
 

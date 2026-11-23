@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/composables/useNuisanceConfig.ts
+// src/console/game/OshikuraChain/composables/useNuisanceConfig.ts
 // コンフィグの読み込み・編集・保存 (サーバーの game-configs/oshikuraChain.json)
 import { computed, reactive, ref } from 'vue'
 import { gameConfigApi } from '@/manager/services/gameConfigApi'

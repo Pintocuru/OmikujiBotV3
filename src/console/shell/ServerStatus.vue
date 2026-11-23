@@ -29,6 +29,8 @@
   const { state, canSwitch, switching, modeName, nextModeName, toggleMode } = useServerConnection()
 
   const statusLabel = computed(() => ({ online: '接続中', offline: '未接続', checking: '確認中' })[state.value])
-  const dotClass = computed(() => ({ online: 'bg-success', offline: 'bg-error', checking: 'bg-warning animate-pulse' })[state.value])
+  const dotClass = computed(
+    () => ({ online: 'bg-success', offline: 'bg-error', checking: 'bg-warning animate-pulse' })[state.value]
+  )
   const switchTitle = computed(() => `${nextModeName.value}に切り替え`)
 </script>

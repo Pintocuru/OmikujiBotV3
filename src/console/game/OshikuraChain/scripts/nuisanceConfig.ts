@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/nuisanceConfig.ts
+// src/console/game/OshikuraChain/scripts/nuisanceConfig.ts
 // おしくらチェインのコンフィグ (サーバーに保存する。形はここのスキーマが決める)
 import { z } from 'zod'
 

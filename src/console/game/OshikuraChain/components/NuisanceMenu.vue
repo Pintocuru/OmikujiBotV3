@@ -1,4 +1,4 @@
-<!-- src/console/game/NuisanceSurvival/components/NuisanceMenu.vue -->
+<!-- src/console/game/OshikuraChain/components/NuisanceMenu.vue -->
 <!-- メニュー: タイトル・操作の説明・コンフィグ・スタート。上部バーのクリックで開く -->
 <template>
   <div class="absolute inset-0 flex items-center justify-center bg-black/55 p-4" @click.self="emit('close')">

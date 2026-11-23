@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/nuisanceRecord.ts
+// src/console/game/OshikuraChain/scripts/nuisanceRecord.ts
 // 結果の表示用の整形と、ゲームログ (GameLog) に残す記録の組み立て (純粋関数)
 import type { GameLogType } from '@/types/api'
 import { PLAYER_USER_ID, PLAYER_USER_NAME } from './nuisanceConstants'

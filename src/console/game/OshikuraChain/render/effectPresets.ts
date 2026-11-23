@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/render/effectPresets.ts
+// src/console/game/OshikuraChain/render/effectPresets.ts
 // 演出のプリセット。イベント (NuisanceEvent) に対して「何を、どれくらい派手に出すか」だけを決める。
 // 描画の実体 (Excalibur) は EffectHost の向こう側にあり、ここは Excalibur を知らない
 import type { NuisanceEvent } from '../scripts/nuisanceEngine'

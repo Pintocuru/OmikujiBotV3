@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/heroInput.ts
+// src/console/game/OshikuraChain/scripts/heroInput.ts
 // WASD の入力 (押している順の配列) から、主人公の進む向きを決める (純粋関数)
 
 export type HeroInput = { dx: -1 | 0 | 1; dy: -1 | 0 | 1 }

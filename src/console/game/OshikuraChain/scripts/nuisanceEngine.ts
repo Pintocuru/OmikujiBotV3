@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/nuisanceEngine.ts
+// src/console/game/OshikuraChain/scripts/nuisanceEngine.ts
 // おしくらチェイン (協力パズル) の進行を決める純粋関数 (画面・通信・時計に依存しない。乱数・入力・コメントは外から渡す)
 //
 // 遊び方: コメントした人のアイコンと、コメントの文字 (ことば) が盤面に降ってくる。主人公が画面の外へ押し出すと、

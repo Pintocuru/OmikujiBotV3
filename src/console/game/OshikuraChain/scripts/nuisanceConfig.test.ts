@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/nuisanceConfig.test.ts
+// src/console/game/OshikuraChain/scripts/nuisanceConfig.test.ts
 import { describe, expect, it } from 'vitest'
 import {
   CONFIG_LIMITS,

@@ -1,3 +1,4 @@
+// server/core/handlers/gameStateHandler.ts
 import { ApiResult } from '@server/types'
 import * as fileSystem from '@server/core/services/fileSystemService'
 import { ok, badRequest, fail, guard } from '@server/core/utils/result'

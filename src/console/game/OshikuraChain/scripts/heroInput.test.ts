@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/heroInput.test.ts
+// src/console/game/OshikuraChain/scripts/heroInput.test.ts
 import { describe, expect, it } from 'vitest'
 import { NO_INPUT, isMoveKey, resolveInput } from './heroInput'
 

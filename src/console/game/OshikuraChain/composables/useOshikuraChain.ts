@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/composables/useOshikuraChain.ts
+// src/console/game/OshikuraChain/composables/useOshikuraChain.ts
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import { gameStateApi } from '@/manager/services/gameStateApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'

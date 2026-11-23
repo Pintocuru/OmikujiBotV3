@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/render/OshikuraChainAudio.ts
+// src/console/game/OshikuraChain/render/OshikuraChainAudio.ts
 // 効果音の読み込み・再生。盤面の描画やゲーム進行から独立させる。
 import { Sound } from 'excalibur'
 import { getSoundPath } from '@/common/AppEnv'

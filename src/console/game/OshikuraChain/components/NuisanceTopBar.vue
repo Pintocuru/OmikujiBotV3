@@ -1,4 +1,4 @@
-<!-- src/console/game/NuisanceSurvival/components/NuisanceTopBar.vue -->
+<!-- src/console/game/OshikuraChain/components/NuisanceTopBar.vue -->
 <!-- 上部バー。待機中はクリックでメニュー (タイトル・コンフィグ・スタート) を開く。ゲーム中は、残り時間・係数・連鎖・経過時間を表示する -->
 <template>
   <header

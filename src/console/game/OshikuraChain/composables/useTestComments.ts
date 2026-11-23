@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/composables/useTestComments.ts
+// src/console/game/OshikuraChain/composables/useTestComments.ts
 // テストコメント: 想定ユーザー数のプールから投稿者を選び、わんコメにコメントを投稿する
 // 投稿したコメントは、本番と同じ経路 (わんコメ → OneSDK の購読) でゲームに届く (editor の TestComment と同じ仕組み)
 import { onBeforeUnmount, ref, shallowRef, watch } from 'vue'

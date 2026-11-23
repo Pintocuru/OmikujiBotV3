@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/nuisanceTraits.ts
+// src/console/game/OshikuraChain/scripts/nuisanceTraits.ts
 // userId から、アイコン (コメントした人) の見た目を決める (純粋関数。同じ userId なら、いつも同じ見た目)
 // ※ 乱数を引く順番を変えると、同じ userId でも見た目が変わる。項目を足すときは、末尾に足すこと
 import { createRng, hashString } from './rng'

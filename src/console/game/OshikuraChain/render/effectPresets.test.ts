@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/render/effectPresets.test.ts
+// src/console/game/OshikuraChain/render/effectPresets.test.ts
 import { describe, expect, it } from 'vitest'
 import type { NuisanceEvent } from '../scripts/nuisanceEngine'
 import {

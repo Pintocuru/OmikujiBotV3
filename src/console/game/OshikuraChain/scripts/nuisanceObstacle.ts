@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/nuisanceObstacle.ts
+// src/console/game/OshikuraChain/scripts/nuisanceObstacle.ts
 // ギフト障害物の純粋関数 (金額 → 大きさ・残る時間・色・表示)
 import {
   OBSTACLE_SECONDS,

@@ -1,17 +1,7 @@
-// src/console/game/NuisanceSurvival/render/OshikuraChainStage.ts
+// src/console/game/OshikuraChain/render/OshikuraChainStage.ts
 // Excalibur による盤面の描画・演出。ゲームの状態 (GameState) を毎フレーム読み取って映すだけで、ゲームには何も返さない。
 // 進行 (nuisanceEngine) からは呼ばれない。受け取るのは source (読み取り専用の窓口) だけ
-import {
-  Actor,
-  Canvas,
-  Color,
-  DisplayMode,
-  Engine,
-  EmitterType,
-  ParticleEmitter,
-  vec,
-  type Scene,
-} from 'excalibur'
+import { Actor, Canvas, Color, DisplayMode, Engine, EmitterType, ParticleEmitter, vec, type Scene } from 'excalibur'
 import { CELL_PX, HERO_MOVE_INTERVAL_SECONDS, MAX_FOOTPRINT } from '../scripts/nuisanceConstants'
 import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
 import {

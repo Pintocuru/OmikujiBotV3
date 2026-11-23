@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/scripts/nuisanceRecord.test.ts
+// src/console/game/OshikuraChain/scripts/nuisanceRecord.test.ts
 import { describe, expect, it } from 'vitest'
 import { createDefaultConfig } from './nuisanceConfig'
 import { PLAYER_USER_ID } from './nuisanceConstants'
