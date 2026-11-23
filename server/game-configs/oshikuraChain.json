@@ -1,1 +1,1 @@
-{"gameKey":"oshikuraChain","config":{"difficulty":5,"resetCoefficientOnFirst":false},"updatedAt":1795406824448}
+{"gameKey":"oshikuraChain","config":{"difficulty":5,"resetCoefficientOnFirst":true,"gameMode":"timeAttack","commentSource":"auto"},"updatedAt":1795410487175}

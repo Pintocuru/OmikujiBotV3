@@ -28,6 +28,8 @@
         @close="showMenu = false"
         @resetConfig="configStore.reset"
         @difficulty="configStore.setDifficulty"
+        @gameMode="configStore.setGameMode"
+        @commentSource="configStore.setCommentSource"
         @resetCoefficient="configStore.setResetCoefficientOnFirst"
       />
 
@@ -42,8 +44,6 @@
         @toMenu="toMenu"
         @retryRecord="record"
       />
-
-      <NuisanceTestPanel v-if="!hideTools" />
     </main>
   </div>
 </template>
@@ -53,7 +53,6 @@
   import NuisanceField from './components/NuisanceField.vue'
   import NuisanceMenu from './components/NuisanceMenu.vue'
   import NuisanceResult from './components/NuisanceResult.vue'
-  import NuisanceTestPanel from './components/NuisanceTestPanel.vue'
   import NuisanceTopBar from './components/NuisanceTopBar.vue'
   import { useOshikuraChain } from './composables/useOshikuraChain'
   import type { OshikuraChainStageSource } from './render/OshikuraChainStage'

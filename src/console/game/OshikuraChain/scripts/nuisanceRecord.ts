@@ -43,6 +43,22 @@ export const buildContributionLogs = (state: GameState, runId: string, createdAt
     }))
 
 /**
+ * タイムアタックのクリアタイムのログ (1 件。クリアしたときだけ記録する)。プレイヤー (配信者) の記録なので、固定の ID で残す
+ * - score: クリアまでの秒 (小数第1位まで)。小さいほど良い記録
+ */
+export const buildTimeAttackLog = (state: GameState, runId: string, createdAt: number = Date.now()): GameLogType => {
+  const seconds = state.endedAt ?? state.elapsed
+  return {
+    id: `${runId}:${PLAYER_USER_ID}`,
+    userId: PLAYER_USER_ID,
+    userName: PLAYER_USER_NAME,
+    score: Math.round(seconds * 10) / 10,
+    item: formatSurvival(seconds),
+    createdAt,
+  }
+}
+
+/**
  * ゲーム全体の生存時間のログ (1 件)。プレイヤー (配信者) は、ユーザーリストにいないので固定の ID で残す
  * - score: 生存秒 (小数第1位まで)。自己ベストが、そのまま最長記録になる
  */

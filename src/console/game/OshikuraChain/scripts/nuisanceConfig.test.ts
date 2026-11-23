@@ -30,12 +30,24 @@ describe('難易度設定', () => {
     }
   })
 
-  it('既定値は中間難易度で、初見コメントの係数リセットは有効', () => {
+  it('既定値は中間難易度で、初見コメントの係数リセットは有効。耐久・配信のコメントで始まる', () => {
     expect(createDefaultConfig()).toMatchObject({
       difficulty: 3,
       resetCoefficientOnFirst: true,
+      gameMode: 'endurance',
+      commentSource: 'live',
       initialSeconds: 1500,
     })
+  })
+
+  it('タイムアタックの目標は、全難易度で同じ (仮: 3600 秒)', () => {
+    for (const level of DIFFICULTY_LEVELS) {
+      expect(createConfigForDifficulty(level, true, 'timeAttack', 'auto')).toMatchObject({
+        gameMode: 'timeAttack',
+        commentSource: 'auto',
+        targetSeconds: 3600,
+      })
+    }
   })
 })
 
@@ -55,6 +67,20 @@ describe('parseConfig', () => {
       initialSeconds: 600,
       resetCoefficientOnFirst: false,
     })
+  })
+
+  it('モードとコメントの源を読み込む。保存していない旧設定は、耐久・配信のコメントになる', () => {
+    expect(parseConfig({ difficulty: 2, gameMode: 'timeAttack', commentSource: 'auto' }).config).toMatchObject({
+      difficulty: 2,
+      gameMode: 'timeAttack',
+      commentSource: 'auto',
+    })
+    expect(parseConfig({ difficulty: 2, resetCoefficientOnFirst: false }).config).toMatchObject({
+      gameMode: 'endurance',
+      commentSource: 'live',
+    })
+    expect(parseConfig({ gameMode: 'speedrun' }).error).toContain('gameMode')
+    expect(parseConfig({ commentSource: 'mock' }).error).toContain('commentSource')
   })
 
   it('不正な難易度・型違いは既定値で始めて理由を返す', () => {
@@ -81,11 +107,25 @@ describe('sanitizeConfig', () => {
     expect(config).toEqual(createConfigForDifficulty(5, false))
   })
 
+  it('モードとコメントの源を引き継ぐ。不正な値は、耐久・配信のコメントに戻す', () => {
+    expect(sanitizeConfig({ gameMode: 'timeAttack', commentSource: 'auto' })).toMatchObject({
+      gameMode: 'timeAttack',
+      commentSource: 'auto',
+    })
+    expect(sanitizeConfig({ gameMode: 'x' as never, commentSource: 'y' as never })).toMatchObject({
+      gameMode: 'endurance',
+      commentSource: 'live',
+    })
+  })
+
   it('不正な難易度は中間難易度に戻す', () => {
     expect(sanitizeConfig({ difficulty: 99 as never }).difficulty).toBe(3)
   })
 
   it('スキーマは保存する設定のみを受け付ける', () => {
     expect(NuisanceConfigSchema.safeParse({ difficulty: 3, resetCoefficientOnFirst: true }).success).toBe(true)
+    expect(
+      NuisanceConfigSchema.safeParse({ difficulty: 3, gameMode: 'timeAttack', commentSource: 'auto' }).success
+    ).toBe(true)
   })
 })

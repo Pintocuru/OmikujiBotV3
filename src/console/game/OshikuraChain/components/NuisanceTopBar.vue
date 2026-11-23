@@ -8,7 +8,9 @@
   >
     <template v-if="state && phase !== 'idle'">
       <div class="flex items-center gap-2">
-        <span class="text-xs opacity-70">{{ oshikuraChainMessages.bar.timeLeft }}</span>
+        <span class="text-xs opacity-70">
+          {{ isTimeAttack ? oshikuraChainMessages.bar.gained : oshikuraChainMessages.bar.timeLeft }}
+        </span>
         <div class="h-3 w-44 overflow-hidden rounded bg-base-100">
           <div
             class="h-full transition-[width] duration-150"
@@ -16,21 +18,26 @@
             :style="{ width: `${timePercent}%` }"
           />
         </div>
-        <span class="w-12 font-mono text-sm">{{ formatClock(state.timeLeft) }}</span>
+        <span class="font-mono text-sm" :class="isTimeAttack ? 'w-24' : 'w-12'">{{ barLabel }}</span>
       </div>
-      <span class="font-mono text-sm">{{ oshikuraChainMessages.bar.coefficient(coefficient) }}</span>
+      <span v-if="!isTimeAttack" class="font-mono text-sm">{{
+        oshikuraChainMessages.bar.coefficient(coefficient)
+      }}</span>
       <span class="font-mono text-sm">{{
         oshikuraChainMessages.bar.chain(state.chain, formatGain(state.chainTotal))
       }}</span>
-      <span class="text-xs opacity-70">{{ oshikuraChainMessages.bar.elapsed(formatClock(clockSeconds)) }}</span>
+      <span :class="isTimeAttack ? 'font-mono text-sm' : 'text-xs opacity-70'">
+        {{ oshikuraChainMessages.bar.elapsed(formatClock(clockSeconds)) }}
+      </span>
       <span class="text-xs opacity-70">
         {{ oshikuraChainMessages.bar.nuisances(state.nuisances.length, config?.maxNuisances ?? 0) }}
       </span>
     </template>
     <span v-else class="text-xs opacity-60">{{ oshikuraChainMessages.bar.openHint }}</span>
 
-    <!-- コメントの購読の状態 (つながっていないと、コメントが邪魔者にならない) -->
+    <!-- コメントの購読の状態 (つながっていないと、コメントが邪魔者にならない。オートモードでは使わないので出さない) -->
     <span class="grow" />
+    <span v-if="isAuto" class="badge badge-outline badge-sm">{{ oshikuraChainMessages.bar.auto }}</span>
     <!-- やめる: 配信中の押し間違いを防ぐため、2 回押しで終了する (3 秒で元に戻る) -->
     <button
       v-if="phase === 'running'"
@@ -41,7 +48,8 @@
     >
       {{ confirming ? oshikuraChainMessages.bar.abortConfirm : oshikuraChainMessages.bar.abort }}
     </button>
-    <span v-if="commentStatus === 'connecting'" class="text-xs opacity-60">
+    <span v-if="isAuto" />
+    <span v-else-if="commentStatus === 'connecting'" class="text-xs opacity-60">
       {{ oshikuraChainMessages.comments.connecting }}
     </span>
     <span v-else-if="commentStatus === 'error'" class="text-error flex items-center gap-2 text-xs" @click.stop>
@@ -92,12 +100,35 @@
     () => resetConfirm()
   )
 
-  const timePercent = computed(() =>
-    props.state && props.config ? Math.max(0, Math.min(100, (props.state.timeLeft / props.config.maxSeconds) * 100)) : 0
-  )
+  const isTimeAttack = computed(() => props.state?.gameMode === 'timeAttack')
+  const isAuto = computed(() => props.config?.commentSource === 'auto')
+
+  // 耐久: 残り時間 (少ないほど赤) / タイムアタック: 目標までの獲得秒数 (増えていく)
+  const timePercent = computed(() => {
+    if (!props.state || !props.config) return 0
+    const ratio = isTimeAttack.value
+      ? props.state.gainedSeconds / props.config.targetSeconds
+      : props.state.timeLeft / props.config.maxSeconds
+    return Math.max(0, Math.min(100, ratio * 100))
+  })
   const timeColor = computed(() =>
-    timePercent.value > 50 ? 'bg-success' : timePercent.value > 25 ? 'bg-warning' : 'bg-error'
+    isTimeAttack.value
+      ? 'bg-info'
+      : timePercent.value > 50
+        ? 'bg-success'
+        : timePercent.value > 25
+          ? 'bg-warning'
+          : 'bg-error'
   )
+  const barLabel = computed(() => {
+    if (!props.state || !props.config) return ''
+    return isTimeAttack.value
+      ? oshikuraChainMessages.bar.gainedValue(
+          formatClock(props.state.gainedSeconds),
+          formatClock(props.config.targetSeconds)
+        )
+      : formatClock(props.state.timeLeft)
+  })
   const coefficient = computed(() =>
     props.state && props.config ? coefficientOf(props.state.elapsed, props.state.coefficientResetAt, props.config) : 1
   )

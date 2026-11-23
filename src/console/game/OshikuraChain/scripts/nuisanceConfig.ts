@@ -1,9 +1,18 @@
 // src/console/game/OshikuraChain/scripts/nuisanceConfig.ts
 // おしくらチェインの難易度設定 (サーバーに保存する。ゲーム内の調整値は難易度から導出する)
 import { z } from 'zod'
+import { TIME_ATTACK_TARGET_SECONDS } from './nuisanceConstants'
 
 export const DIFFICULTY_LEVELS = [1, 2, 3, 4, 5] as const
 export type DifficultyLevel = (typeof DIFFICULTY_LEVELS)[number]
+
+/** ゲームモード: endurance = 耐久 (残り時間が 0 になるまで) / timeAttack = 目標の獲得秒数に届くまでのタイムを競う */
+export const GAME_MODES = ['endurance', 'timeAttack'] as const
+export type GameMode = (typeof GAME_MODES)[number]
+
+/** コメントの源: live = 配信のコメント (わんコメ) / auto = 一定間隔で架空のコメントを入れる (実コメントは無視する) */
+export const COMMENT_SOURCES = ['live', 'auto'] as const
+export type CommentSource = (typeof COMMENT_SOURCES)[number]
 
 export const DIFFICULTY_PROFILES: Record<
   DifficultyLevel,
@@ -43,11 +52,17 @@ export const NuisanceConfigSchema = z.object({
   difficulty: DifficultySchema.default(3),
   /** 初見コメントによる係数リセット。既定で有効 */
   resetCoefficientOnFirst: z.boolean().default(true),
+  gameMode: z.enum(GAME_MODES).default('endurance'),
+  commentSource: z.enum(COMMENT_SOURCES).default('live'),
 })
 
 export type NuisanceConfigType = {
   difficulty: DifficultyLevel
   resetCoefficientOnFirst: boolean
+  gameMode: GameMode
+  commentSource: CommentSource
+  /** タイムアタックの目標 (獲得秒数の合計) */
+  targetSeconds: number
   initialSeconds: number
   maxSeconds: number
   iconSeconds: number
@@ -59,7 +74,9 @@ export type NuisanceConfigType = {
 
 export const createConfigForDifficulty = (
   difficulty: DifficultyLevel,
-  resetCoefficientOnFirst = true
+  resetCoefficientOnFirst = true,
+  gameMode: GameMode = 'endurance',
+  commentSource: CommentSource = 'live'
 ): NuisanceConfigType => {
   const profile = DIFFICULTY_PROFILES[difficulty]
   return {
@@ -70,6 +87,9 @@ export const createConfigForDifficulty = (
     coefficientDropPerMinute: profile.coefficientDropPerMinute,
     ...COMMON_CONFIG,
     resetCoefficientOnFirst,
+    gameMode,
+    commentSource,
+    targetSeconds: TIME_ATTACK_TARGET_SECONDS,
   }
 }
 
@@ -82,7 +102,11 @@ export const parseConfig = (raw: unknown): { config: NuisanceConfigType; error: 
     const path = issue.path.join('.')
     return { config: createDefaultConfig(), error: path ? `${path}: ${issue.message}` : issue.message }
   }
-  return { config: createConfigForDifficulty(result.data.difficulty, result.data.resetCoefficientOnFirst), error: null }
+  const { difficulty, resetCoefficientOnFirst, gameMode, commentSource } = result.data
+  return {
+    config: createConfigForDifficulty(difficulty, resetCoefficientOnFirst, gameMode, commentSource),
+    error: null,
+  }
 }
 
 /** UI から受け取った難易度を安全な範囲に収める */
@@ -92,6 +116,8 @@ export const sanitizeConfig = (draft: Partial<NuisanceConfigType>): NuisanceConf
     : 3
   return createConfigForDifficulty(
     difficulty,
-    typeof draft.resetCoefficientOnFirst === 'boolean' ? draft.resetCoefficientOnFirst : true
+    typeof draft.resetCoefficientOnFirst === 'boolean' ? draft.resetCoefficientOnFirst : true,
+    GAME_MODES.includes(draft.gameMode as GameMode) ? (draft.gameMode as GameMode) : 'endurance',
+    COMMENT_SOURCES.includes(draft.commentSource as CommentSource) ? (draft.commentSource as CommentSource) : 'live'
   )
 }

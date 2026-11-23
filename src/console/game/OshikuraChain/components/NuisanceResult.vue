@@ -3,15 +3,19 @@
 <template>
   <div class="absolute inset-0 flex items-center justify-center bg-black/55 p-4">
     <div class="rounded-box w-full max-w-md bg-base-100 p-6 text-base-content shadow-2xl">
-      <h2 class="text-center text-2xl font-black">{{ oshikuraChainMessages.result.title }}</h2>
+      <h2 class="text-center text-2xl font-black">{{ title }}</h2>
 
       <p class="mt-3 text-center">
-        <span class="text-xs opacity-70">{{ oshikuraChainMessages.result.survived }}</span>
+        <span class="text-xs opacity-70">{{ timeLabel }}</span>
         <span class="ml-2 text-3xl font-black">{{ formatSurvival(survivalSeconds) }}</span>
       </p>
       <p class="mt-1 text-center text-xs opacity-70">
         {{ oshikuraChainMessages.result.bestChain(state.bestChain) }} /
         {{ oshikuraChainMessages.result.removed(state.removedCount, state.removedWordCount) }}
+      </p>
+
+      <p v-if="isTimeAttack && !state.cleared" class="mt-2 text-center text-xs opacity-60">
+        {{ oshikuraChainMessages.result.timeAttack.notRecorded }}
       </p>
 
       <h3 class="mt-4 text-sm font-bold">{{ oshikuraChainMessages.result.ranking }}</h3>
@@ -70,6 +74,22 @@
 
   const MEDALS = ['🥇', '🥈', '🥉']
   const TOP_COUNT = 5
+  const isTimeAttack = computed(() => props.state.gameMode === 'timeAttack')
+  // 耐久: ゲームオーバー / 生存時間。タイムアタック: クリア / クリアタイム (目標に届かずやめたときは、ゲーム終了 / プレイ時間)
+  const title = computed(() =>
+    !isTimeAttack.value
+      ? oshikuraChainMessages.result.title
+      : props.state.cleared
+        ? oshikuraChainMessages.result.timeAttack.cleared
+        : oshikuraChainMessages.result.timeAttack.aborted
+  )
+  const timeLabel = computed(() =>
+    !isTimeAttack.value
+      ? oshikuraChainMessages.result.survived
+      : props.state.cleared
+        ? oshikuraChainMessages.result.timeAttack.time
+        : oshikuraChainMessages.result.timeAttack.playTime
+  )
   const survivalSeconds = computed(() => props.state.endedAt ?? props.state.elapsed)
   const top = computed(() => props.ranking.filter((c) => Math.round(c.seconds) > 0).slice(0, TOP_COUNT))
 </script>

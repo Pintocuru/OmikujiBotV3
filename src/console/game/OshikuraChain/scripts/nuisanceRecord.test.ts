@@ -4,7 +4,14 @@ import { createDefaultConfig } from './nuisanceConfig'
 import { PLAYER_USER_ID } from './nuisanceConstants'
 import { NO_INPUT } from './heroInput'
 import { advance, createGame, type GameState } from './nuisanceEngine'
-import { buildContributionLogs, buildSurvivalLog, formatClock, formatGain, formatSurvival } from './nuisanceRecord'
+import {
+  buildContributionLogs,
+  buildSurvivalLog,
+  buildTimeAttackLog,
+  formatClock,
+  formatGain,
+  formatSurvival,
+} from './nuisanceRecord'
 import { createRng } from './rng'
 
 /** a・b・c が、それぞれ決まった秒数を生んで終わったゲーム (a: 2 体のアイコン、b: 1 体) */
@@ -70,5 +77,19 @@ describe('formatGain', () => {
     expect(formatGain(0.25)).toBe('0.3')
     expect(formatGain(12.4)).toBe('12')
     expect(formatGain(-1)).toBe('0')
+  })
+})
+
+describe('buildTimeAttackLog', () => {
+  it('クリアタイムを、配信者の記録 1 件にする (小数第 1 位まで。小さいほど良い)', () => {
+    const state = { ...finished(), gameMode: 'timeAttack' as const, cleared: true, endedAt: 1234.56 }
+    expect(buildTimeAttackLog(state, 'run-1', 1000)).toEqual({
+      id: `run-1:${PLAYER_USER_ID}`,
+      userId: PLAYER_USER_ID,
+      userName: '配信者',
+      score: 1234.6,
+      item: '20分34秒',
+      createdAt: 1000,
+    })
   })
 })

@@ -22,6 +22,53 @@
         {{ oshikuraChainMessages.menu.configSaveError(saveError) }}
       </p>
 
+      <section class="mt-5 flex flex-col gap-3">
+        <div class="flex flex-col gap-1">
+          <span class="text-sm font-bold">{{ oshikuraChainMessages.menu.mode }}</span>
+          <div class="join w-full">
+            <button
+              v-for="mode in GAME_MODES"
+              :key="mode"
+              type="button"
+              class="btn btn-sm join-item flex-1"
+              :class="draft.gameMode === mode ? 'btn-primary' : ''"
+              @click="emit('gameMode', mode)"
+            >
+              {{ oshikuraChainMessages.menu.modes[mode] }}
+            </button>
+          </div>
+          <p class="text-xs opacity-70">
+            {{
+              draft.gameMode === 'timeAttack'
+                ? oshikuraChainMessages.menu.timeAttackHint(Math.round(draft.targetSeconds / 60))
+                : oshikuraChainMessages.menu.enduranceHint
+            }}
+          </p>
+        </div>
+        <div class="flex flex-col gap-1">
+          <span class="text-sm font-bold">{{ oshikuraChainMessages.menu.commentSource }}</span>
+          <div class="join w-full">
+            <button
+              v-for="source in COMMENT_SOURCES"
+              :key="source"
+              type="button"
+              class="btn btn-sm join-item flex-1"
+              :class="draft.commentSource === source ? 'btn-primary' : ''"
+              @click="emit('commentSource', source)"
+            >
+              {{ oshikuraChainMessages.menu.commentSources[source] }}
+            </button>
+          </div>
+          <p class="text-xs opacity-70">
+            {{
+              draft.commentSource === 'auto'
+                ? oshikuraChainMessages.menu.autoHint(AUTO_COMMENT_INTERVAL_SECONDS)
+                : oshikuraChainMessages.menu.liveHint
+            }}
+          </p>
+        </div>
+      </section>
+
       <section class="mt-5 flex flex-col gap-2">
         <div class="flex items-center justify-between">
           <span class="text-sm font-bold">{{ oshikuraChainMessages.menu.difficulty }}</span>
@@ -40,23 +87,31 @@
           <span>やさしい</span>
           <span>むずかしい</span>
         </div>
-        <p class="text-center text-sm font-semibold">
+        <p v-if="draft.gameMode === 'endurance'" class="text-center text-sm font-semibold">
           {{ oshikuraChainMessages.menu.estimate(DIFFICULTY_PROFILES[draft.difficulty].estimatedMinutes) }}
         </p>
-        <p class="text-center text-xs opacity-60">{{ oshikuraChainMessages.menu.difficultyHint }}</p>
+        <p class="text-center text-xs opacity-60">
+          {{
+            draft.gameMode === 'endurance'
+              ? oshikuraChainMessages.menu.difficultyHint
+              : oshikuraChainMessages.menu.difficultyHintTimeAttack
+          }}
+        </p>
       </section>
 
       <section v-if="showConfig" class="mt-4 rounded-box bg-base-200 p-3">
-        <label class="flex cursor-pointer items-center gap-3">
-          <input
-            type="checkbox"
-            class="checkbox checkbox-primary checkbox-sm"
-            :checked="draft.resetCoefficientOnFirst"
-            @change="emit('resetCoefficient', ($event.target as HTMLInputElement).checked)"
-          />
-          <span class="text-sm">{{ oshikuraChainMessages.menu.resetCoefficientOnFirst }}</span>
-        </label>
-        <p class="mt-2 text-xs opacity-60">{{ oshikuraChainMessages.menu.resetCoefficientHint }}</p>
+        <template v-if="draft.gameMode === 'endurance'">
+          <label class="flex cursor-pointer items-center gap-3">
+            <input
+              type="checkbox"
+              class="checkbox checkbox-primary checkbox-sm"
+              :checked="draft.resetCoefficientOnFirst"
+              @change="emit('resetCoefficient', ($event.target as HTMLInputElement).checked)"
+            />
+            <span class="text-sm">{{ oshikuraChainMessages.menu.resetCoefficientOnFirst }}</span>
+          </label>
+          <p class="mt-2 text-xs opacity-60">{{ oshikuraChainMessages.menu.resetCoefficientHint }}</p>
+        </template>
         <div class="mt-3 flex items-center justify-between gap-2">
           <span class="text-xs opacity-60">{{ oshikuraChainMessages.menu.configNote }}</span>
           <button type="button" class="btn btn-ghost btn-xs" @click="emit('resetConfig')">
@@ -67,7 +122,11 @@
 
       <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
         <button type="button" class="btn btn-primary" @click="emit('start')">
-          {{ oshikuraChainMessages.menu.start(draft.difficulty, DIFFICULTY_PROFILES[draft.difficulty].estimatedMinutes) }}
+          {{
+            draft.gameMode === 'timeAttack'
+              ? oshikuraChainMessages.menu.startTimeAttack(draft.difficulty)
+              : oshikuraChainMessages.menu.start(draft.difficulty, DIFFICULTY_PROFILES[draft.difficulty].estimatedMinutes)
+          }}
         </button>
         <button type="button" class="btn btn-outline" @click="showConfig = !showConfig">
           {{ oshikuraChainMessages.menu.config }}
@@ -83,7 +142,16 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
-  import { DIFFICULTY_PROFILES, type DifficultyLevel, type NuisanceConfigType } from '../scripts/nuisanceConfig'
+  import {
+    COMMENT_SOURCES,
+    DIFFICULTY_PROFILES,
+    GAME_MODES,
+    type CommentSource,
+    type DifficultyLevel,
+    type GameMode,
+    type NuisanceConfigType,
+  } from '../scripts/nuisanceConfig'
+  import { AUTO_COMMENT_INTERVAL_SECONDS } from '../scripts/nuisanceConstants'
 
   defineProps<{
     draft: NuisanceConfigType
@@ -96,6 +164,8 @@
     close: []
     resetConfig: []
     difficulty: [value: DifficultyLevel]
+    gameMode: [value: GameMode]
+    commentSource: [value: CommentSource]
     resetCoefficient: [enabled: boolean]
   }>()
 

@@ -22,6 +22,16 @@ export const MAX_FRAME_SECONDS = 0.25
 /** 巨大化するユーザーの出現間隔 (秒) */
 export const GIANT_INTERVAL_SECONDS = 120
 
+// ---- タイムアタック ----
+/** タイムアタックの目標 (獲得秒数の合計)。これに届くまでのタイムを競う (仮の値。プレイして調整する) */
+export const TIME_ATTACK_TARGET_SECONDS = 3600
+
+// ---- コメントオートモード (実コメントの代わりに、一定間隔で架空のコメントを入れる) ----
+/** コメントを入れる間隔 (ゲーム内の時計の秒。きっちり、この間隔) */
+export const AUTO_COMMENT_INTERVAL_SECONDS = 5
+/** オートモードの投稿者のプールの人数 (テストコメントの「想定ユーザー数」と同じ考え方) */
+export const AUTO_COMMENT_USER_COUNT = 50
+
 // ---- 主人公 ----
 /** 1マス動く間隔 (秒)。キーを押し続けている間、この間隔で動く */
 export const HERO_MOVE_INTERVAL_SECONDS = 0.14
@@ -70,6 +80,8 @@ export const OBSTACLE_SIZE_TIERS: readonly { minPrice: number; size: number }[] 
 export const CONTRIBUTION_EVENT_KEY = 'oshikuraChainSeconds'
 /** ゲーム全体の生存時間の eventKey (貢献度とは別にして、ランキングを混ぜない) */
 export const SURVIVAL_EVENT_KEY = 'oshikuraChainTime'
+/** タイムアタックのクリアタイムの eventKey (生存時間とは別にして、ランキングを混ぜない。小さいほど良い記録) */
+export const TIME_ATTACK_EVENT_KEY = 'oshikuraChainTimeAttack'
 /** 生存時間の記録に使う、プレイヤー (配信者) の userId と表示名。ユーザーリストにはいない */
 export const PLAYER_USER_ID = 'player'
 export const PLAYER_USER_NAME = '配信者'

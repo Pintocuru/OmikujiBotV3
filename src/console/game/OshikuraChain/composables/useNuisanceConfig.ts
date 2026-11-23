@@ -8,7 +8,9 @@ import {
   createConfigForDifficulty,
   parseConfig,
   sanitizeConfig,
+  type CommentSource,
   type DifficultyLevel,
+  type GameMode,
   type NuisanceConfigType,
 } from '../scripts/nuisanceConfig'
 import { CONFIG_GAME_KEY } from '../scripts/nuisanceConstants'
@@ -16,7 +18,7 @@ import { CONFIG_GAME_KEY } from '../scripts/nuisanceConstants'
 const messageOf = (error: unknown) => (error instanceof Error ? error.message : String(error))
 
 export function useNuisanceConfig() {
-  /** 難易度と初見コメントの設定。ゲーム中は commit 済みの値を使う */
+  /** 難易度・ゲームモード・コメントの源・初見コメントの設定。ゲーム中は commit 済みの値を使う */
   const draft = reactive<NuisanceConfigType>(createDefaultConfig())
   const online = ref(true)
   const loadError = ref('')
@@ -48,6 +50,8 @@ export function useNuisanceConfig() {
       await gameConfigApi.saveConfig(CONFIG_GAME_KEY, {
         difficulty: config.difficulty,
         resetCoefficientOnFirst: config.resetCoefficientOnFirst,
+        gameMode: config.gameMode,
+        commentSource: config.commentSource,
       })
       online.value = true
     } catch (error) {
@@ -59,7 +63,13 @@ export function useNuisanceConfig() {
 
   const reset = () => assign(createDefaultConfig())
   const setDifficulty = (difficulty: DifficultyLevel) =>
-    assign(createConfigForDifficulty(difficulty, draft.resetCoefficientOnFirst))
+    assign(createConfigForDifficulty(difficulty, draft.resetCoefficientOnFirst, draft.gameMode, draft.commentSource))
+  const setGameMode = (gameMode: GameMode) => {
+    draft.gameMode = gameMode
+  }
+  const setCommentSource = (commentSource: CommentSource) => {
+    draft.commentSource = commentSource
+  }
   const setResetCoefficientOnFirst = (enabled: boolean) => {
     draft.resetCoefficientOnFirst = enabled
   }
@@ -73,6 +83,8 @@ export function useNuisanceConfig() {
     commit,
     reset,
     setDifficulty,
+    setGameMode,
+    setCommentSource,
     setResetCoefficientOnFirst,
   }
 }

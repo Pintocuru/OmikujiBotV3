@@ -6,6 +6,7 @@
 // - 連鎖: 画面の外へ押し出して得点するたびに +1。得点しない動き (空きマスへの移動など) をすると、切れる。止まっただけでは切れない
 // - 係数: 時間が経つほど下がる (下限あり)。初見コメントのリセット設定が有効なら、初見さんのコメントで 1 に戻る
 // - 残り時間には上限 (maxSeconds) がある
+// タイムアタック (config.gameMode === 'timeAttack'): 残り時間はなく、係数は常に 1。獲得秒数の合計が targetSeconds に届いた時刻でクリアになる
 //
 // 時間は固定の刻み (STEP_SECONDS) で進める。画面が隠れて更新が止まっていた間も、
 // 「前回から今まで」の時間を、必要な回数だけ刻んで追いつく (advance)。
@@ -31,7 +32,7 @@ import {
   WORD_SECONDS_MAX,
   WORD_SECONDS_MIN,
 } from './nuisanceConstants'
-import type { NuisanceConfigType } from './nuisanceConfig'
+import type { GameMode, NuisanceConfigType } from './nuisanceConfig'
 import { NO_INPUT, type HeroInput } from './heroInput'
 import { getBossTraits, getNuisanceTraits, type NuisanceTraits } from './nuisanceTraits'
 import { obstacleSecondsOf, obstacleSizeOf } from './nuisanceObstacle'
@@ -119,10 +120,12 @@ export type Contribution = {
 }
 
 export type GameState = {
+  /** このゲームのモード (スタート時の設定。結果の表示に使う) */
+  gameMode: GameMode
   grid: GridSize
   /** 開始からの経過秒 (ゲームオーバーのあとは、残り時間が 0 になった時刻) */
   elapsed: number
-  /** 残り時間 (秒)。0 になるとゲームオーバー */
+  /** 残り時間 (秒)。0 になるとゲームオーバー (タイムアタックでは使わず、常に 0) */
   timeLeft: number
   hero: Hero
   nuisances: Nuisance[]
@@ -140,13 +143,15 @@ export type GameState = {
   coefficientResetAt: number
   /** 次に巨大化するユーザーを選ぶ時刻 (開始からの秒) */
   nextGiantAt: number
-  /** 残り時間に足した秒数の合計 (上限で切られた分は含まない) */
+  /** 残り時間に足した秒数の合計 (上限で切られた分は含まない)。タイムアタックでは、獲得した秒数の合計 (目標との比較に使う) */
   gainedSeconds: number
   /** 押し出したアイコン / ことばの数 / 上限などで無視したコメントの数 */
   removedCount: number
   removedWordCount: number
   ignoredCount: number
   over: boolean
+  /** タイムアタックで、目標の獲得秒数に届いて終わった (やめたときは false) */
+  cleared: boolean
   /** 終わった時刻 (開始からの秒)。残り時間が 0 になった時刻、またはプレイヤーがやめた時刻。ゲームオーバーでなければ null */
   endedAt: number | null
 }
@@ -266,9 +271,10 @@ const DIRECTIONS: readonly (readonly [number, number])[] = [
 ]
 
 export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_GRID): GameState => ({
+  gameMode: config.gameMode,
   grid,
   elapsed: 0,
-  timeLeft: config.initialSeconds,
+  timeLeft: config.gameMode === 'timeAttack' ? 0 : config.initialSeconds,
   hero: { col: Math.floor(grid.cols / 2), row: Math.floor(grid.rows / 2), cooldown: 0 },
   nuisances: [],
   obstacles: [],
@@ -285,6 +291,7 @@ export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_
   removedWordCount: 0,
   ignoredCount: 0,
   over: false,
+  cleared: false,
   endedAt: null,
 })
 
@@ -307,10 +314,11 @@ const covers = (n: { col: number; row: number }, footprint: number, col: number,
 // ---- 係数 ----
 
 /**
- * 係数 (得点に掛かる倍率)。1 から始まり、時間が経つほど下がる (1 分ごとに coefficientDropPerMinute %、下限は coefficientFloorPercent %)
+ * 係数 (得点に掛かる倍率)。タイムアタックでは常に 1。耐久では、1 から始まり、時間が経つほど下がる (1 分ごとに coefficientDropPerMinute %、下限は coefficientFloorPercent %)
  * resetAt: 係数が 1 だった時刻 (初見さんのコメントが届いた時刻)
  */
 export const coefficientOf = (elapsed: number, resetAt: number, config: NuisanceConfigType): number => {
+  if (config.gameMode === 'timeAttack') return 1 // タイムアタックは、時間が経っても下がらない
   const floor = config.coefficientFloorPercent / 100
   const dropped = (config.coefficientDropPerMinute / 100) * (Math.max(0, elapsed - resetAt) / 60)
   return Math.max(floor, 1 - dropped)
@@ -546,8 +554,10 @@ const awardScore = (
   s.bestChain = Math.max(s.bestChain, s.chain)
   const coefficient = coefficientOf(s.elapsed, s.coefficientResetAt, config)
   const seconds = (isWord(body) ? config.wordSeconds : config.iconSeconds) * s.chain * coefficient
-  const applied = Math.max(0, Math.min(seconds, config.maxSeconds - s.timeLeft))
-  s.timeLeft += applied
+  // 耐久: 残り時間に足す (上限あり)。タイムアタック: 残り時間はなく、獲得秒数を、そのまま合計する
+  const applied =
+    config.gameMode === 'timeAttack' ? seconds : Math.max(0, Math.min(seconds, config.maxSeconds - s.timeLeft))
+  if (config.gameMode !== 'timeAttack') s.timeLeft += applied
   s.gainedSeconds += applied
   s.chainTotal += seconds
   contributionOf(s, body.userId, body.userName, body.profileImage).seconds += seconds
@@ -756,6 +766,18 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, ev
   if (s.obstacles.some((o) => o.expiresAt <= s.elapsed))
     s.obstacles = s.obstacles.filter((o) => o.expiresAt > s.elapsed)
   explodeWords(s, events)
+
+  // タイムアタック: 残り時間はない。獲得秒数の合計が目標に届いた時刻 (得点した刻み) で、クリア
+  if (config.gameMode === 'timeAttack') {
+    if (s.gainedSeconds >= config.targetSeconds) {
+      s.over = true
+      s.cleared = true
+      s.endedAt = s.elapsed
+    } else {
+      s.elapsed += dt
+    }
+    return
+  }
 
   // 残り時間: 1 秒ごとに 1 秒減る。0 になった時刻で、ゲームオーバー
   const before = s.timeLeft

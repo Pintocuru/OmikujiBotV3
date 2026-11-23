@@ -836,6 +836,83 @@ describe('advance: ことばの爆発', () => {
   })
 })
 
+describe('タイムアタック', () => {
+  const grid: GridSize = { cols: 9, rows: 3 }
+  const timeAttack = (overrides: Partial<NuisanceConfigType> = {}) =>
+    config({ gameMode: 'timeAttack', targetSeconds: 3600, ...overrides })
+  /** 主人公 (7,1) の右 (8,1) にアイコンがいて、右へ押せば、外へ出る状態 */
+  const ready = (cfg: NuisanceConfigType): GameState => ({
+    ...withNuisance(createGame(cfg, grid), 'a', 8, 1),
+    hero: { col: 7, row: 1, cooldown: 0 },
+  })
+
+  it('係数は、時間が経っても常に 1 (耐久では下がる設定でも)', () => {
+    const cfg = timeAttack({ coefficientDropPerMinute: 10 })
+    expect(coefficientOf(0, 0, cfg)).toBe(1)
+    expect(coefficientOf(600, 0, cfg)).toBe(1)
+    expect(coefficientOf(600, 0, { ...cfg, gameMode: 'endurance' })).toBeLessThan(1)
+  })
+
+  it('残り時間はない。時間が経っても、減らず、終わらない (経過時間だけが進む)', () => {
+    const cfg = timeAttack({ initialSeconds: 10, maxSeconds: 10 })
+    const state = createGame(cfg, grid)
+    expect(state).toMatchObject({ gameMode: 'timeAttack', timeLeft: 0, cleared: false, over: false })
+    const later = run(state, cfg, 100)
+    expect(later.over).toBe(false)
+    expect(later.timeLeft).toBe(0)
+    expect(later.elapsed).toBeCloseTo(100)
+  })
+
+  it('押し出すと、獲得秒数 × 連鎖数 (係数 1) が、獲得秒数の合計に足される。残り時間には足さない', () => {
+    const cfg = timeAttack({ iconSeconds: 5, coefficientDropPerMinute: 10 })
+    let state = createGame(cfg, grid)
+    state = withNuisance(state, 'a', 8, 1)
+    state = withNuisance(state, 'b', 7, 1)
+    state = { ...state, hero: { col: 6, row: 1, cooldown: 0 }, elapsed: 600 }
+    const r = advance(state, cfg, 600 + 2, RIGHT, [], createRng(1)) // 右を押し続けて、先頭 → 続けて 2 体目の順に、外へ押し出す
+    // 5 × 1 + 5 × 2 = 15 (600 秒経っていても、係数は 1)
+    expect(r.state.gainedSeconds).toBeCloseTo(15)
+    expect(r.state.timeLeft).toBe(0)
+    expect(r.state.over).toBe(false)
+  })
+
+  it('獲得秒数は、残り時間の上限 (maxSeconds) で切られない', () => {
+    const cfg = timeAttack({ iconSeconds: 5000, maxSeconds: 3600, targetSeconds: 99999 })
+    const r = advance(ready(cfg), cfg, STEP_SECONDS, RIGHT, [], createRng(1))
+    expect(r.state.gainedSeconds).toBeCloseTo(5000)
+    expect(r.events).toContainEqual(expect.objectContaining({ type: 'score', seconds: 5000, applied: 5000 }))
+  })
+
+  it('獲得秒数の合計が目標に届いた時刻でクリアになる (終わったあとは進まない)', () => {
+    const cfg = timeAttack({ iconSeconds: 5, targetSeconds: 5 })
+    const state = { ...ready(cfg), elapsed: 42 }
+    const r = advance(state, cfg, 100, RIGHT, [spawn('late', 50)], createRng(1))
+    expect(r.state).toMatchObject({ over: true, cleared: true, endedAt: 42 })
+    expect(r.pending).toEqual([]) // 終わったあとのコメントは捨てる
+    expect(advance(r.state, cfg, 200).state).toBe(r.state)
+  })
+
+  it('目標に届く前は、クリアにならない', () => {
+    const cfg = timeAttack({ iconSeconds: 5, targetSeconds: 6 })
+    const r = advance(ready(cfg), cfg, STEP_SECONDS, RIGHT, [], createRng(1))
+    expect(r.state.gainedSeconds).toBeCloseTo(5)
+    expect(r.state.over).toBe(false)
+    expect(r.state.cleared).toBe(false)
+  })
+
+  it('途中でやめたときは、クリアにならない', () => {
+    const cfg = timeAttack()
+    const ended = endGame({ ...createGame(cfg, grid), elapsed: 30 })
+    expect(ended).toMatchObject({ over: true, cleared: false, endedAt: 30 })
+  })
+
+  it('耐久は、これまでどおり (クリアはなく、時間切れで終わる)', () => {
+    const cfg = config({ initialSeconds: 1, maxSeconds: 1 })
+    const state = run(createGame(cfg, grid), cfg, 5)
+    expect(state).toMatchObject({ gameMode: 'endurance', over: true, cleared: false })
+  })
+})
+
 describe('endGame (やめる)', () => {
   it('いまの時刻で終わりにする (ゲームオーバーと同じ扱い)', () => {
     const config = createDefaultConfig()

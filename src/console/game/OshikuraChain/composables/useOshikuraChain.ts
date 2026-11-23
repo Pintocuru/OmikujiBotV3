@@ -4,13 +4,23 @@ import { gameStateApi } from '@/manager/services/gameStateApi'
 import { ConnectionError } from '@/manager/services/baseApiClient'
 import { createStreamId } from '@/console/common/scripts/streamId'
 import { createOmikenHistory } from '@/common/OmikenHistory'
+import { getAvatarUrl } from '@/common/DiceBear/getAvatarUrl'
+import { createMockUserPool, pickTestComment, type MockUserPool } from '@/common/MockUser'
 import { POST_SETTINGS } from '@/sdk/PostSettings'
 import { GetOmikenComments } from '@/sdk/subscribe/OmikenComment/GetOmikenComments'
 import { MAX_GAME_LOGS_PER_APPEND } from '@/types/api'
 import type { OmikenCommentType } from '@/types/OmikenComment'
+import { collectAutoSpawns } from '../scripts/autoComment'
 import { isMoveKey, resolveInput } from '../scripts/heroInput'
 import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
-import { CONTRIBUTION_EVENT_KEY, MAX_FRAME_SECONDS, SURVIVAL_EVENT_KEY } from '../scripts/nuisanceConstants'
+import {
+  AUTO_COMMENT_INTERVAL_SECONDS,
+  AUTO_COMMENT_USER_COUNT,
+  CONTRIBUTION_EVENT_KEY,
+  MAX_FRAME_SECONDS,
+  SURVIVAL_EVENT_KEY,
+  TIME_ATTACK_EVENT_KEY,
+} from '../scripts/nuisanceConstants'
 import {
   advance,
   createGame,
@@ -20,7 +30,7 @@ import {
   type NuisanceEvent,
   type SpawnRequest,
 } from '../scripts/nuisanceEngine'
-import { buildContributionLogs, buildSurvivalLog } from '../scripts/nuisanceRecord'
+import { buildContributionLogs, buildSurvivalLog, buildTimeAttackLog } from '../scripts/nuisanceRecord'
 import { createRng, type Rng } from '../scripts/rng'
 import { useNuisanceConfig } from './useNuisanceConfig'
 
@@ -45,8 +55,10 @@ const isTyping = (target: EventTarget | null) =>
  * - 時間は、フレームごとの経過時間 (上限つき) を足したゲーム内の時計で進める。更新は requestAnimationFrame だけから呼ぶので、
  *   ウィンドウが非表示の間は、ゲームも止まる (再表示されたら、そのときの状態から続ける)
  * - コメントは OneSDK の購読で受け取り、届いた時刻をつけて溜める。ゲーム中のコメントだけが邪魔者になる (履歴・BOT・非表示中は除く)
+ * - コメントオートモードでは、実コメントを無視して、ゲーム内の時計で一定間隔 (AUTO_COMMENT_INTERVAL_SECONDS) ごとに架空のコメントを入れる
  * - 進行で起きたこと (出現・撃破) は、演出用のイベントとして溜める。演出側が drainEvents で受け取る (ゲームから演出は操作しない)
  * - 結果は、終わったときに自動でゲームログ (GameLog) に記録する。ユーザーの得点 (update-user-stats) は変えない
+ *   耐久: 貢献度 (実コメントのときだけ) + 生存時間 / タイムアタック: クリアしたときだけ、クリアタイム (やめたときは記録しない)
  */
 export function useOshikuraChain() {
   const configStore = useNuisanceConfig()
@@ -70,6 +82,9 @@ export function useOshikuraChain() {
   let lastFrameAt = 0
   let recordedAt = 0
   let pendingSpawns: SpawnRequest[] = []
+  /** コメントオートモード: 架空の投稿者のプールと、次にコメントを入れる時刻 (ゲーム内の時計の秒)。オートでないときは null */
+  let autoPool: MockUserPool | null = null
+  let nextAutoAt = 0
   let eventQueue: NuisanceEvent[] = []
   const heldCodes: string[] = []
   let frameId = 0
@@ -93,10 +108,29 @@ export function useOshikuraChain() {
     frameId = 0
   }
 
+  /** オートモードの架空のコメント 1 件 (初見扱いにはしない。係数のリセットは、実コメントのときだけ) */
+  const makeAutoSpawn = (atSeconds: number): SpawnRequest => {
+    const user = autoPool!.pick('regular')
+    return {
+      atSeconds,
+      userId: user.userId,
+      userName: user.userName,
+      profileImage: getAvatarUrl(user.userName),
+      isFirst: false,
+      comment: pickTestComment('chat'),
+    }
+  }
+
   const pump = () => {
     const current = state.value
     const config = activeConfig.value
     if (phase.value !== 'running' || !current || !config) return
+    if (autoPool) {
+      // ゲーム内の時計で、きっちり一定間隔。非表示の間は時計が止まるので、コメントも入らない
+      const due = collectAutoSpawns(nextAutoAt, gameClock, AUTO_COMMENT_INTERVAL_SECONDS, makeAutoSpawn)
+      nextAutoAt = due.nextAt
+      if (due.spawns.length) pendingSpawns = [...pendingSpawns, ...due.spawns]
+    }
     const result = advance(current, config, gameClock, resolveInput(heldCodes), pendingSpawns, rng)
     pendingSpawns = result.pending
     if (result.events.length) eventQueue = [...eventQueue, ...result.events].slice(-MAX_QUEUED_EVENTS)
@@ -129,6 +163,8 @@ export function useOshikuraChain() {
     runId = `run-${Date.now().toString(36)}-${Math.floor(rng() * 0x10000).toString(36)}`
     state.value = createGame(config)
     pendingSpawns = []
+    autoPool = config.commentSource === 'auto' ? createMockUserPool(AUTO_COMMENT_USER_COUNT) : null
+    nextAutoAt = AUTO_COMMENT_INTERVAL_SECONDS
     heldCodes.length = 0
     recordStatus.value = 'idle'
     recordError.value = ''
@@ -170,24 +206,39 @@ export function useOshikuraChain() {
 
   // ---- 記録 ----
 
-  /** 結果をゲームログに記録する (同じ内容を何度送っても、サーバーが二重に保存しない。失敗したら再試行できる) */
+  /**
+   * 結果をゲームログに記録する (同じ内容を何度送っても、サーバーが二重に保存しない。失敗したら再試行できる)
+   * - 耐久: ユーザーごとの貢献度 (実コメントのときだけ。オートの架空ユーザーは、ランキングに混ぜない) と、配信者の生存時間
+   * - タイムアタック: クリアしたときだけ、配信者のクリアタイム (やめたときは記録しない)
+   */
   const record = async () => {
     const finished = state.value
-    if (!finished?.over || !runId || recordStatus.value === 'saving' || recordStatus.value === 'saved') return
+    const config = activeConfig.value
+    if (!finished?.over || !config || !runId || recordStatus.value === 'saving' || recordStatus.value === 'saved')
+      return
+    if (finished.gameMode === 'timeAttack' && !finished.cleared) return
     const id = runId
     recordStatus.value = 'saving'
     recordError.value = ''
     try {
-      // ユーザーごとの貢献度 (1 回に送れる件数の上限があるので、分けて送る) と、全体の生存時間は、別の eventKey に記録する
-      const contributionLogs = buildContributionLogs(finished, id, recordedAt)
-      for (let i = 0; i < contributionLogs.length; i += MAX_GAME_LOGS_PER_APPEND) {
-        await gameStateApi.appendGameLogs(
-          streamId,
-          CONTRIBUTION_EVENT_KEY,
-          contributionLogs.slice(i, i + MAX_GAME_LOGS_PER_APPEND)
-        )
+      if (finished.gameMode === 'timeAttack') {
+        await gameStateApi.appendGameLogs(streamId, TIME_ATTACK_EVENT_KEY, [
+          buildTimeAttackLog(finished, id, recordedAt),
+        ])
+      } else {
+        if (config.commentSource === 'live') {
+          // ユーザーごとの貢献度 (1 回に送れる件数の上限があるので、分けて送る) と、全体の生存時間は、別の eventKey に記録する
+          const contributionLogs = buildContributionLogs(finished, id, recordedAt)
+          for (let i = 0; i < contributionLogs.length; i += MAX_GAME_LOGS_PER_APPEND) {
+            await gameStateApi.appendGameLogs(
+              streamId,
+              CONTRIBUTION_EVENT_KEY,
+              contributionLogs.slice(i, i + MAX_GAME_LOGS_PER_APPEND)
+            )
+          }
+        }
+        await gameStateApi.appendGameLogs(streamId, SURVIVAL_EVENT_KEY, [buildSurvivalLog(finished, id, recordedAt)])
       }
-      await gameStateApi.appendGameLogs(streamId, SURVIVAL_EVENT_KEY, [buildSurvivalLog(finished, id, recordedAt)])
       if (id === runId) recordStatus.value = 'saved'
     } catch (error) {
       if (id !== runId) return // 保存中に、次のゲームが始まっていた
@@ -210,7 +261,9 @@ export function useOshikuraChain() {
     // (覚えておかないと、あとから再配信されたときに、新規コメントとして邪魔者になる)
     const newOmikens = addOmikens(omikens)
     // 邪魔者になるのは、ゲーム中に届いた新規コメントだけ (非表示の間は、ゲームが止まっているので無視する)
-    if (isFirstLoad || phase.value !== 'running' || document.hidden) return
+    // コメントオートモードでは、実コメントは無視する (履歴への登録は上で済ませてあるので、あとで再配信されても出ない)
+    if (isFirstLoad || phase.value !== 'running' || document.hidden || activeConfig.value?.commentSource === 'auto')
+      return
     const atSeconds = gameClock
     for (const omiken of newOmikens) {
       if (omiken.userId === POST_SETTINGS.botUserId) continue // おみくじBOT自身の投稿は、ユーザーではない
