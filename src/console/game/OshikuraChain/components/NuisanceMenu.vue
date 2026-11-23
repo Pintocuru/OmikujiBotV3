@@ -11,7 +11,7 @@
         <kbd class="kbd kbd-sm">A</kbd>
         <kbd class="kbd kbd-sm">S</kbd>
         <kbd class="kbd kbd-sm">D</kbd>
-        <span>で移動。コメントにぶつかると押し出せます。</span>
+        <span>コメントにぶつかると押し出せます。</span>
       </p>
 
       <p v-if="!online" class="alert alert-warning mt-3 py-2 text-xs">{{ oshikuraChainMessages.menu.offline }}</p>
@@ -125,7 +125,10 @@
           {{
             draft.gameMode === 'timeAttack'
               ? oshikuraChainMessages.menu.startTimeAttack(draft.difficulty)
-              : oshikuraChainMessages.menu.start(draft.difficulty, DIFFICULTY_PROFILES[draft.difficulty].estimatedMinutes)
+              : oshikuraChainMessages.menu.start(
+                  draft.difficulty,
+                  DIFFICULTY_PROFILES[draft.difficulty].estimatedMinutes
+                )
           }}
         </button>
         <button type="button" class="btn btn-outline" @click="showConfig = !showConfig">

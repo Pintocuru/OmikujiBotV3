@@ -237,6 +237,11 @@ export type NuisanceEvent =
       userName: string
     }
   | {
+      /** ゲームが終わった (残り時間が 0 になった / タイムアタックで目標に届いた)。やめたとき (endGame) は出さない */
+      type: 'gameOver'
+      cleared: boolean
+    }
+  | {
       /** ギフト効果の発動 (ワード保護とエンジン冷却) */
       type: 'giftReceived'
       userName: string
@@ -691,6 +696,7 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, ev
       s.over = true
       s.cleared = true
       s.endedAt = s.elapsed
+      events.push({ type: 'gameOver', cleared: true })
     } else {
       s.elapsed += dt
     }
@@ -713,6 +719,7 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, ev
     s.over = true
     s.endedAt = s.elapsed + Math.max(0, before) / multiplier
     s.elapsed = s.endedAt
+    events.push({ type: 'gameOver', cleared: false })
   } else {
     s.timeLeft = before - drain
     s.elapsed += dt

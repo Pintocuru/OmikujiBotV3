@@ -1,6 +1,7 @@
 // src/console/game/OshikuraChain/render/effectPresets.ts
 // 演出のプリセット。イベント (NuisanceEvent) に対して「何を、どれくらい派手に出すか」だけを決める。
 // 描画の実体 (Excalibur) は EffectHost の向こう側にあり、ここは Excalibur を知らない
+import { BIG_CHAIN_MIN } from '../scripts/nuisanceConstants'
 import type { NuisanceEvent } from '../scripts/nuisanceEngine'
 import { formatGain } from '../scripts/nuisanceRecord'
 import type { SoundKey } from './stageSounds'
@@ -234,9 +235,10 @@ export const playScore = (
   if (event.chain >= 5) host.shake(Math.min(event.chain, 12) * 0.4, 140)
 }
 
-/** 連鎖が切れた: 2 連鎖以上なら、その連鎖で得た秒数の合計を大きく見せる */
+/** 連鎖が切れた: 2 連鎖以上なら、その連鎖で得た秒数の合計を大きく見せる。BIG_CHAIN_MIN 以上の大連鎖なら、祝いの音も鳴らす */
 export const playChainBreak = (host: EffectHost, event: Extract<NuisanceEvent, { type: 'chainBreak' }>): void => {
   if (event.chain < 2) return
+  if (event.chain >= BIG_CHAIN_MIN) host.play('bigChain')
   host.popup({
     x: host.boardSize.width / 2,
     y: host.boardSize.height * 0.32,
@@ -286,6 +288,7 @@ export const playMultiplierUp = (host: EffectHost, event: Extract<NuisanceEvent,
   })
   host.shake(event.level * 1.5, 300 + event.level * 60)
   host.playNote(110 * event.level, 0)
+  host.play('heatUp')
 }
 
 /** 初見さんのコメントで、上がっていた倍率が 1 に戻った (エンジンが冷えた) */
@@ -317,4 +320,11 @@ export const playMultiplierReset = (
     lifeMs: 800,
     radius: 40,
   })
+}
+
+// ---- ゲームオーバー (gameOver) ----
+
+/** ゲームオーバー: 耐久で残り時間が 0 になったときだけ、失敗の音を鳴らす (タイムアタックのクリアでは鳴らさない) */
+export const playGameOver = (host: EffectHost, event: Extract<NuisanceEvent, { type: 'gameOver' }>): void => {
+  if (!event.cleared) host.play('gameOver')
 }

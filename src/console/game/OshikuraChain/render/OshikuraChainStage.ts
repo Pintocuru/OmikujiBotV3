@@ -21,6 +21,7 @@ import {
   playMultiplierReset,
   playMultiplierUp,
   playDeath,
+  playGameOver,
   playLand,
   playScore,
   playWordBlast,
@@ -421,7 +422,10 @@ export class OshikuraChainStage implements EffectHost {
         if (!nuisance) continue
         const view = this.createView(nuisance, event.isBoss)
         view.fallStartedAt = clock
+      } else if (event.type === 'gameOver') {
+        playGameOver(this, event)
       } else if (event.type === 'giftReceived') {
+        this.play('gift')
         this.showGiftNotice(event.userName, event.price, event.protectSeconds, event.coolAmount)
       } else if (event.type === 'wordSpawn') {
         const word = state.words.find((w) => w.id === event.id)

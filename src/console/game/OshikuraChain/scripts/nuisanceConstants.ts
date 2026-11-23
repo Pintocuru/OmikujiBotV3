@@ -32,6 +32,10 @@ export const AUTO_COMMENT_INTERVAL_SECONDS = 5
 /** オートモードの投稿者のプールの人数 (テストコメントの「想定ユーザー数」と同じ考え方) */
 export const AUTO_COMMENT_USER_COUNT = 50
 
+// ---- 演出 ----
+/** 大連鎖として祝う連鎖数 (連鎖がこの数以上で終わったとき、祝いの音を鳴らす。音階が 1 オクターブ上のドになる 8 連鎖を目安にした) */
+export const BIG_CHAIN_MIN = 8
+
 // ---- 主人公 ----
 /** 1マス動く間隔 (秒)。キーを押し続けている間、この間隔で動く */
 export const HERO_MOVE_INTERVAL_SECONDS = 0.14

@@ -3,7 +3,7 @@
 import { Sound } from 'excalibur'
 import { getSoundPath } from '@/common/AppEnv'
 import { resolveAsset } from '@/common/sounds'
-import { MAX_CONCURRENT_PER_SOUND, SOUND_FILES, SOUND_FOLDER, type SoundKey } from './stageSounds'
+import { MAX_CONCURRENT_PER_SOUND, SOUND_FILES, type SoundKey } from './stageSounds'
 
 export class OshikuraChainAudio {
   /** 読み込めた効果音 (素材がないものは null。一度だけ試して、再試行しない) */
@@ -21,7 +21,8 @@ export class OshikuraChainAudio {
 
   private loadSounds(): void {
     for (const key of Object.keys(SOUND_FILES) as SoundKey[]) {
-      const url = resolveAsset(getSoundPath(SOUND_FOLDER + SOUND_FILES[key].file))
+      const { file } = SOUND_FILES[key]
+      const url = resolveAsset(getSoundPath(`core/${file}`))
       const sound = new Sound({ paths: [url], maxConcurrentTracks: MAX_CONCURRENT_PER_SOUND })
       sound
         .load()
@@ -39,7 +40,7 @@ export class OshikuraChainAudio {
     if (sound) {
       void sound.play({ volume: SOUND_FILES[key].volume })
     } else if (sound === null && key === 'wordBlast') {
-      // 素材 (word-blast.mp3) がなければ、ブラウザの音で代わりに鳴らす
+      // 素材 (explosion.mp3) がなければ、ブラウザの音で代わりに鳴らす
       this.playBlastFallback()
     }
   }

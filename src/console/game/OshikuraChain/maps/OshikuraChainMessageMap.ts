@@ -21,7 +21,7 @@ export const oshikuraChainMessages = {
   },
   menu: {
     description:
-      'エンジン内部に降ってくるユーザーやコメントを、外へ押し出そう！押し出すことで燃料が投下され、残り時間が増えます。連続で押し出して、連鎖ボーナスを狙おう。',
+      'エンジン内部に降ってくるユーザーやコメントを、外へ押し出そう！押し出すことで燃料が放出され、残り時間が増えます。連続で押し出して、連鎖ボーナスを狙おう。',
     howTo: '操作：',
     start: (difficulty: number, minutes: number) => `スタート（難易度 ${difficulty}・目安 約${minutes}分）`,
     difficulty: '難易度',
