@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
   import { onBeforeUnmount, onMounted, ref } from 'vue'
-  import { DEFAULT_GRID } from '../scripts/nuisanceEngine'
+  import { DEFAULT_GRID } from '../scripts/oshikuraChainEngine'
   import { OshikuraChainStage, type OshikuraChainStageSource } from '../render/OshikuraChainStage'
 
   const props = defineProps<{ source: OshikuraChainStageSource }>()
