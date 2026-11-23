@@ -195,7 +195,8 @@ NuisanceSurvival/
 │  ├─ OshikuraChainStage.ts             状態を読み取って映す・イベントから演出を出す
 │  ├─ StarField.ts                 背景の星 (中央から広がる。連鎖数で速さが変わる)
 │  ├─ OshikuraChainAudio.ts             効果音の読み込み・再生 (Excalibur Sound / Web Audio)
-│  └─ effectPresets.ts             イベント → 演出のプリセット (Excalibur を知らない)
+│  ├─ effectPresets.ts             イベント → 演出のプリセット (Excalibur を知らない)
+│  └─ draw/                        Canvas 2D の描き方 (board / hero / nuisance / word / obstacle の描画関数、imageCache、util)
 ├─ composables/
 │  ├─ useOshikuraChain.ts       進行・ゲーム内の時計・コメント購読・キー入力・記録・演出イベントの受け渡し
 │  ├─ useNuisanceConfig.ts         コンフィグの読み込み・編集・保存

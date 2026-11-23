@@ -2,7 +2,7 @@
 // Excalibur による盤面の描画・演出。ゲームの状態 (GameState) を毎フレーム読み取って映すだけで、ゲームには何も返さない。
 // 進行 (nuisanceEngine) からは呼ばれない。受け取るのは source (読み取り専用の窓口) だけ
 import { Actor, Canvas, Color, DisplayMode, Engine, EmitterType, ParticleEmitter, vec, type Scene } from 'excalibur'
-import { CELL_PX, HERO_MOVE_INTERVAL_SECONDS, MAX_FOOTPRINT } from '../scripts/nuisanceConstants'
+import { CELL_PX, HERO_MOVE_INTERVAL_SECONDS } from '../scripts/nuisanceConstants'
 import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
 import {
   footprintOf,
@@ -11,11 +11,9 @@ import {
   type GridSize,
   type Nuisance,
   type NuisanceEvent,
-  type Obstacle,
   type Word,
 } from '../scripts/nuisanceEngine'
 import { formatObstaclePrice, obstacleColorOf } from '../scripts/nuisanceObstacle'
-import type { NuisanceKind } from '../scripts/nuisanceTraits'
 import {
   FALL_EXTRA_CELLS,
   FALL_SECONDS,
@@ -32,6 +30,13 @@ import {
 } from './effectPresets'
 import { OshikuraChainAudio } from './OshikuraChainAudio'
 import { StarField } from './StarField'
+import { BOARD_BACKGROUND, drawBoard } from './draw/board'
+import { drawHero } from './draw/hero'
+import { ImageCache } from './draw/imageCache'
+import { drawNuisance, VIEW_PX } from './draw/nuisance'
+import { drawObstacle } from './draw/obstacle'
+import { clamp, hslToRgb, lerp } from './draw/util'
+import { drawWord } from './draw/word'
 import type { SoundKey } from './stageSounds'
 
 /** 盤面が読み取るゲームの窓口 (読み取り専用。ゲームを操作するものは入れない) */
@@ -45,20 +50,8 @@ export type OshikuraChainStageSource = {
 }
 
 const MOVE_ANIM_SECONDS = 0.15
-/** 盤面の背景色 (宇宙の暗い青) */
-const BOARD_BACKGROUND = '#0b1022'
 /** 同時に出せる浮かぶ文字の数の上限 (連鎖が一気に続いても、画面が文字だらけにならないように) */
 const POPUP_MAX = 40
-/** 邪魔者 1 体を描く canvas の一辺。最大の大きさ + 赤い輪・緑の輪の分の余白 */
-const VIEW_PX = CELL_PX * MAX_FOOTPRINT + 32
-const KIND_GLYPH: Record<NuisanceKind, string> = {
-  static: '',
-  boss: '👑',
-}
-
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
-
 /** 邪魔者 1 体ぶんの表示 */
 type NuisanceView = {
   actor: Actor
@@ -95,7 +88,7 @@ type Ghost = {
 export class OshikuraChainStage implements EffectHost {
   private readonly engine: Engine
   private readonly views = new Map<number, NuisanceView>()
-  private readonly images = new Map<string, HTMLImageElement | null>()
+  private readonly images = new ImageCache()
   private readonly audio: OshikuraChainAudio
   private readonly heroActor: Actor
   private readonly starField: StarField
@@ -127,7 +120,7 @@ export class OshikuraChainStage implements EffectHost {
     })
 
     const board = new Actor({ pos: vec(width / 2, height / 2), width, height, z: 0 })
-    board.graphics.use(new Canvas({ width, height, cache: true, draw: (ctx) => this.drawBoard(ctx, width, height) }))
+    board.graphics.use(new Canvas({ width, height, cache: true, draw: (ctx) => drawBoard(ctx, this.grid, width, height) }))
     this.engine.add(board)
 
     // 背景の星: 盤面の上、アクターの下。毎フレーム描き直す (速さは sync で連鎖数から決める)
@@ -138,7 +131,7 @@ export class OshikuraChainStage implements EffectHost {
 
     this.heroActor = new Actor({ pos: vec(-1000, -1000), width: CELL_PX, height: CELL_PX, z: 1000 })
     this.heroActor.graphics.use(
-      new Canvas({ width: CELL_PX, height: CELL_PX, cache: false, draw: (ctx) => this.drawHero(ctx) })
+      new Canvas({ width: CELL_PX, height: CELL_PX, cache: false, draw: (ctx) => drawHero(ctx) })
     )
     this.heroActor.graphics.isVisible = false
     this.engine.add(this.heroActor)
@@ -339,7 +332,7 @@ export class OshikuraChainStage implements EffectHost {
     const view: WordView = { actor, word, fallStartedAt: null, leftRatio: 1 }
     // 円グラフ (消えるまでの時間) が毎フレーム変わるので、キャッシュしない (ことばは最大 30 個で、軽い)
     actor.graphics.use(
-      new Canvas({ width: CELL_PX, height: CELL_PX, cache: false, draw: (ctx) => this.drawWord(ctx, view, size) })
+      new Canvas({ width: CELL_PX, height: CELL_PX, cache: false, draw: (ctx) => drawWord(ctx, view.word, view.leftRatio, size) })
     )
     this.engine.add(actor)
     this.wordViews.set(word.id, view)
@@ -381,53 +374,6 @@ export class OshikuraChainStage implements EffectHost {
       if (alive.has(id)) continue
       view.actor.kill()
       this.wordViews.delete(id)
-    }
-  }
-
-  /** 白い札に、コメントの一部を 2 行まで書く (1 マスに収まるよう、3 文字ずつで折り返す)。右上に、消えるまでの円グラフ */
-  private drawWord(ctx: CanvasRenderingContext2D, view: WordView, size: number): void {
-    const word = view.word
-    const offset = (CELL_PX - size) / 2
-    ctx.fillStyle = '#ffffff'
-    ctx.strokeStyle = 'rgba(0,0,0,0.25)'
-    ctx.lineWidth = 2
-    ctx.beginPath()
-    ctx.roundRect(offset, offset, size, size, 8)
-    ctx.fill()
-    ctx.stroke()
-    const chars = Array.from(word.text)
-    const lines =
-      chars.length <= 3
-        ? [chars.join('')]
-        : [chars.slice(0, Math.ceil(chars.length / 2)).join(''), chars.slice(Math.ceil(chars.length / 2)).join('')]
-    ctx.fillStyle = '#222222'
-    ctx.font = 'bold 18px sans-serif'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    const lineHeight = 22
-    lines.forEach((line, i) =>
-      ctx.fillText(line, CELL_PX / 2, CELL_PX / 2 + 2 + (i - (lines.length - 1) / 2) * lineHeight, size - 6)
-    )
-
-    // 円グラフ: 札の右上の角に、残りの割合ぶんの扇を描く (時計回りに減る。残りが少ないほど、緑から赤へ)
-    const radius = 8
-    const cx = CELL_PX - offset - radius - 1
-    const cy = offset + radius + 1
-    const ratio = view.leftRatio
-    ctx.fillStyle = '#ffffff'
-    ctx.strokeStyle = 'rgba(0,0,0,0.35)'
-    ctx.lineWidth = 1.5
-    ctx.beginPath()
-    ctx.arc(cx, cy, radius + 1.5, 0, Math.PI * 2)
-    ctx.fill()
-    ctx.stroke()
-    if (ratio > 0) {
-      ctx.fillStyle = `hsl(${Math.round(ratio * 120)}, 80%, 48%)`
-      ctx.beginPath()
-      ctx.moveTo(cx, cy)
-      ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * ratio)
-      ctx.closePath()
-      ctx.fill()
     }
   }
 
@@ -486,7 +432,7 @@ export class OshikuraChainStage implements EffectHost {
         const w = o.size * CELL_PX
         actor = new Actor({ pos: vec(0, 0), width: w, height: w, z: 5 })
         actor.graphics.use(
-          new Canvas({ width: w, height: w, cache: true, draw: (ctx) => this.drawObstacle(ctx, o, w) })
+          new Canvas({ width: w, height: w, cache: true, draw: (ctx) => drawObstacle(ctx, o, w) })
         )
         this.engine.add(actor)
         this.obstacleViews.set(o.id, actor)
@@ -495,22 +441,6 @@ export class OshikuraChainStage implements EffectHost {
       const left = o.expiresAt - state.elapsed
       actor.graphics.opacity = left < 2 ? 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(clock * 16)) : 1
     }
-  }
-
-  private drawObstacle(ctx: CanvasRenderingContext2D, o: Obstacle, w: number): void {
-    const color = obstacleColorOf(o.price)
-    ctx.fillStyle = color.background
-    ctx.strokeStyle = '#ffffff'
-    ctx.lineWidth = 4
-    ctx.beginPath()
-    ctx.roundRect(3, 3, w - 6, w - 6, 10)
-    ctx.fill()
-    ctx.stroke()
-    ctx.fillStyle = color.text
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.font = `bold ${Math.round(14 + o.size * 4)}px sans-serif`
-    ctx.fillText(formatObstaclePrice(o.price), w / 2, w / 2)
   }
 
   private measureCtx: CanvasRenderingContext2D | null = null
@@ -590,7 +520,7 @@ export class OshikuraChainStage implements EffectHost {
         width: VIEW_PX,
         height: VIEW_PX,
         cache: false,
-        draw: (ctx) => this.drawNuisance(ctx, view),
+        draw: (ctx) => drawNuisance(ctx, view.nuisance, this.images.get(view.nuisance.profileImage)),
       })
     )
     this.engine.add(actor)
@@ -657,116 +587,4 @@ export class OshikuraChainStage implements EffectHost {
     this.heroActor.pos = vec(this.heroX, this.heroY)
     this.heroActor.graphics.isVisible = true
   }
-
-  // ---- 描き方 (Canvas 2D。見た目は前の実装のまま) ----
-
-  private drawBoard(ctx: CanvasRenderingContext2D, width: number, height: number): void {
-    ctx.fillStyle = BOARD_BACKGROUND
-    ctx.fillRect(0, 0, width, height)
-    ctx.strokeStyle = 'rgba(255,255,255,0.07)'
-    ctx.lineWidth = 1
-    ctx.beginPath()
-    for (let c = 0; c <= this.grid.cols; c++) {
-      ctx.moveTo(c * CELL_PX + 0.5, 0)
-      ctx.lineTo(c * CELL_PX + 0.5, height)
-    }
-    for (let r = 0; r <= this.grid.rows; r++) {
-      ctx.moveTo(0, r * CELL_PX + 0.5)
-      ctx.lineTo(width, r * CELL_PX + 0.5)
-    }
-    ctx.stroke()
-  }
-
-  private getImage(url: string): HTMLImageElement | null {
-    if (!/^(https?:|data:image\/)/.test(url)) return null
-    const cached = this.images.get(url)
-    if (cached === undefined) {
-      const image = new Image()
-      // CORS つきで読み込む (つけないと、描いた canvas が汚染されて、WebGL がテクスチャにできず Fatal になる)。
-      // 相手のサーバーが CORS を許可していない画像は、読み込みに失敗して、頭文字の表示になる
-      image.crossOrigin = 'anonymous'
-      image.onerror = () => this.images.set(url, null) // 読み込めなかった画像は、再試行しない
-      image.src = url
-      this.images.set(url, image)
-      return null
-    }
-    return cached && cached.complete && cached.naturalWidth > 0 ? cached : null
-  }
-
-  private drawNuisance(ctx: CanvasRenderingContext2D, view: NuisanceView): void {
-    const n = view.nuisance
-    const scale = sizeScaleOf(n)
-    const footprint = footprintOf(scale)
-    const cx = VIEW_PX / 2
-    const cy = VIEW_PX / 2
-    const radius = (CELL_PX * clamp(scale, footprint - 0.5, footprint) * 0.9) / 2
-    const { hue } = n.traits
-
-    // 本体
-    ctx.fillStyle = `hsl(${hue} 65% 52%)`
-    ctx.strokeStyle = `hsl(${hue} 70% 25%)`
-    ctx.lineWidth = 3
-    ctx.beginPath()
-    ctx.arc(cx, cy, radius, 0, Math.PI * 2)
-    ctx.fill()
-    ctx.stroke()
-
-    // アイコン (なければ頭文字)
-    const image = this.getImage(n.profileImage)
-    if (image) {
-      const iconRadius = radius * 0.72
-      ctx.save()
-      ctx.beginPath()
-      ctx.arc(cx, cy, iconRadius, 0, Math.PI * 2)
-      ctx.clip()
-      ctx.drawImage(image, cx - iconRadius, cy - iconRadius, iconRadius * 2, iconRadius * 2)
-      ctx.restore()
-    } else {
-      ctx.fillStyle = 'rgba(255,255,255,0.95)'
-      ctx.font = `bold ${Math.round(radius * 0.9)}px sans-serif`
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      ctx.fillText(Array.from(n.userName)[0] ?? '?', cx, cy)
-    }
-
-    // 種類のしるし
-    const glyph = KIND_GLYPH[n.traits.kind]
-    if (glyph) {
-      ctx.font = `${Math.round(CELL_PX * 0.3)}px sans-serif`
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      ctx.fillText(glyph, cx + radius * 0.72, cy - radius * 0.72)
-    }
-  }
-
-  private drawHero(ctx: CanvasRenderingContext2D): void {
-    const cx = CELL_PX / 2
-    const cy = CELL_PX / 2
-    const radius = CELL_PX * 0.34
-    ctx.fillStyle = '#f5f7fa'
-    ctx.strokeStyle = '#2d6cdf'
-    ctx.lineWidth = 4
-    ctx.beginPath()
-    ctx.arc(cx, cy, radius, 0, Math.PI * 2)
-    ctx.fill()
-    ctx.stroke()
-    // 目
-    ctx.fillStyle = '#1b2230'
-    ctx.beginPath()
-    ctx.arc(cx - radius * 0.35, cy - radius * 0.1, radius * 0.12, 0, Math.PI * 2)
-    ctx.arc(cx + radius * 0.35, cy - radius * 0.1, radius * 0.12, 0, Math.PI * 2)
-    ctx.fill()
-  }
-}
-
-/** 色相・彩度・明るさ (0〜360 / 0〜100 / 0〜100) を、Excalibur の Color が受け取る RGB (0〜255) に直す */
-const hslToRgb = (h: number, s: number, l: number): [number, number, number] => {
-  const sat = s / 100
-  const light = l / 100
-  const a = sat * Math.min(light, 1 - light)
-  const f = (n: number) => {
-    const k = (n + h / 30) % 12
-    return light - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))
-  }
-  return [Math.round(f(0) * 255), Math.round(f(8) * 255), Math.round(f(4) * 255)]
 }
