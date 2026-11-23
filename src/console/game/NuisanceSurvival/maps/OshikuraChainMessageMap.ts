@@ -1,4 +1,4 @@
-// src/console/game/NuisanceSurvival/maps/NuisanceSurvivalMessageMap.ts
+// src/console/game/NuisanceSurvival/maps/OshikuraChainMessageMap.ts
 // おしくらチェイン画面の文言 (日本語)。画面のコンポーネントは、文字をここから取る。
 // i18n 化するときは、この map を翻訳ファイルに置き換える (関数の項目は、引数つきの文言)。
 import type { ConfigPresetId, NuisanceConfigKey } from '../scripts/nuisanceConfig'
