@@ -2,7 +2,7 @@
 <!-- おしくらチェイン: コメントのアイコンや文字を WASD で盤面の外へ押し出し、連鎖で残り時間を増やす -->
 <template>
   <div class="flex h-screen flex-col bg-neutral text-neutral-content">
-    <NuisanceTopBar
+    <OshikuraChainTopBar
       :phase="phase"
       :state="state"
       :config="activeConfig"
@@ -14,11 +14,11 @@
     />
 
     <main class="relative min-h-0 grow">
-      <NuisanceField :source="stageSource" />
+      <OshikuraChainField :source="stageSource" />
 
       <OshikuraChainTitle v-if="phase === 'idle' && !showMenu" @openMenu="showMenu = true" />
 
-      <NuisanceMenu
+      <OshikuraChainMenu
         v-if="phase === 'idle' && showMenu"
         :draft="configStore.draft"
         :online="configStore.online.value"
@@ -33,7 +33,7 @@
         @resetMultiplier="configStore.setResetMultiplierOnFirst"
       />
 
-      <NuisanceResult
+      <OshikuraChainResult
         v-if="phase === 'over' && state"
         :state="state"
         :ranking="ranking"
@@ -50,11 +50,11 @@
 
 <script setup lang="ts">
   import { onBeforeUnmount, onMounted, ref } from 'vue'
-  import NuisanceField from './components/NuisanceField.vue'
+  import OshikuraChainField from './components/OshikuraChainField.vue'
   import OshikuraChainTitle from './components/OshikuraChainTitle.vue'
-  import NuisanceMenu from './components/NuisanceMenu.vue'
-  import NuisanceResult from './components/NuisanceResult.vue'
-  import NuisanceTopBar from './components/NuisanceTopBar.vue'
+  import OshikuraChainMenu from './components/OshikuraChainMenu.vue'
+  import OshikuraChainResult from './components/OshikuraChainResult.vue'
+  import OshikuraChainTopBar from './components/OshikuraChainTopBar.vue'
   import { useOshikuraChain } from './composables/useOshikuraChain'
   import type { OshikuraChainStageSource } from './render/OshikuraChainStage'
 
