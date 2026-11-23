@@ -1,4 +1,4 @@
-<!-- src/console/game/OshikuraChain/components/NuisanceField.vue -->
+<!-- src/console/game/OshikuraChain/components/OshikuraChainField.vue -->
 <!-- 盤面の表示。Excalibur の起動と破棄だけを担当する (描画・演出は ../render/OshikuraChainStage.ts)。画面の大きさに合わせて縮尺が変わる -->
 <template>
   <div class="h-full w-full">
@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
   import { onBeforeUnmount, onMounted, ref } from 'vue'
-  import { DEFAULT_GRID } from '../scripts/nuisanceEngine'
+  import { DEFAULT_GRID } from '../scripts/oshikuraChainEngine'
   import { OshikuraChainStage, type OshikuraChainStageSource } from '../render/OshikuraChainStage'
 
   const props = defineProps<{ source: OshikuraChainStageSource }>()

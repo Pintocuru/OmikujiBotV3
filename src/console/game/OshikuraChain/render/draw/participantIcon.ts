@@ -1,18 +1,18 @@
-// src/console/game/OshikuraChain/render/draw/nuisance.ts
+// src/console/game/OshikuraChain/render/draw/participantIcon.ts
 // アイコン (邪魔者) 1 体
-import { CELL_PX, MAX_FOOTPRINT } from '../../scripts/nuisanceConstants'
-import { footprintOf, sizeScaleOf, type Nuisance } from '../../scripts/nuisanceEngine'
-import type { NuisanceKind } from '../../scripts/nuisanceTraits'
+import { CELL_PX, MAX_FOOTPRINT } from '../../scripts/oshikuraChainConstants'
+import { footprintOf, sizeScaleOf, type ParticipantIcon } from '../../scripts/oshikuraChainEngine'
+import type { ParticipantIconKind } from '../../scripts/participantIconTraits'
 import { clamp } from './util'
 
 /** アイコン 1 体を描く canvas の一辺。最大の大きさ + 赤い輪・緑の輪の分の余白 */
 export const VIEW_PX = CELL_PX * MAX_FOOTPRINT + 32
-const KIND_GLYPH: Record<NuisanceKind, string> = {
+const KIND_GLYPH: Record<ParticipantIconKind, string> = {
   static: '',
   boss: '👑',
 }
 
-export const drawNuisance = (ctx: CanvasRenderingContext2D, n: Nuisance, image: HTMLImageElement | null): void => {
+export const drawParticipantIcon = (ctx: CanvasRenderingContext2D, n: ParticipantIcon, image: HTMLImageElement | null): void => {
   const scale = sizeScaleOf(n)
   const footprint = footprintOf(scale)
   const cx = VIEW_PX / 2

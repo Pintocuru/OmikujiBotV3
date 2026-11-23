@@ -1,4 +1,4 @@
-<!-- src/console/game/OshikuraChain/components/NuisanceTopBar.vue -->
+<!-- src/console/game/OshikuraChain/components/OshikuraChainTopBar.vue -->
 <!-- 上部バー。待機中はクリックでメニューを開く。ゲーム中は、アイコンで 残り時間・ヒート倍率・連鎖・経過時間・アイコン数 を表示し、「やめる」ボタン (2 回押し) を出す -->
 <template>
   <header
@@ -51,9 +51,9 @@
       </div>
 
       <!-- アイコンの数 -->
-      <div class="flex items-center gap-1" :title="oshikuraChainMessages.bar.nuisancesTitle">
-        <Users :size="16" class="opacity-70" />
-        <span class="font-mono text-xs opacity-70">{{ state.nuisances.length }} / {{ config?.maxNuisances ?? 0 }}</span>
+      <div class="flex items-center gap-1" :title="iconCountTitle">
+        <Users :size="16" :class="iconCountClass" />
+        <span class="font-mono text-xs" :class="iconCountClass">{{ state.icons.length }} / {{ config?.maxIcons ?? 0 }}</span>
       </div>
     </template>
     <span v-else class="flex items-center gap-2 text-xs opacity-60">
@@ -102,16 +102,16 @@
 <script setup lang="ts">
   import { computed, onBeforeUnmount, ref, watch } from 'vue'
   import { Bot, Clock, Flame, Hourglass, Loader, Menu, RefreshCw, Target, Users, WifiOff, X } from '@lucide/vue'
-  import { formatClock } from '../scripts/nuisanceRecord'
-  import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
-  import { multiplierOf, type GameState } from '../scripts/nuisanceEngine'
-  import type { CommentStatus, NuisancePhase } from '../composables/useOshikuraChain'
+  import { formatClock } from '../scripts/oshikuraChainRecord'
+  import type { OshikuraChainConfig } from '../scripts/oshikuraChainConfig'
+  import { multiplierOf, type GameState } from '../scripts/oshikuraChainEngine'
+  import type { CommentStatus, OshikuraChainPhase } from '../composables/useOshikuraChain'
   import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
 
   const props = defineProps<{
-    phase: NuisancePhase
+    phase: OshikuraChainPhase
     state: GameState | null
-    config: NuisanceConfigType | null
+    config: OshikuraChainConfig | null
     commentStatus: CommentStatus
     getClock: () => number
   }>()
@@ -141,6 +141,24 @@
 
   const isTimeAttack = computed(() => props.state?.gameMode === 'timeAttack')
   const isAuto = computed(() => props.config?.commentSource === 'auto')
+
+  // 上限の 80% から警告し、上限到達時は新しいアイコンが出現しないことを示す
+  const iconCount = computed(() => props.state?.icons.length ?? 0)
+  const maxIcons = computed(() => props.config?.maxIcons ?? 0)
+  const isAtIconLimit = computed(() => maxIcons.value > 0 && iconCount.value >= maxIcons.value)
+  const isNearIconLimit = computed(
+    () => maxIcons.value > 0 && !isAtIconLimit.value && iconCount.value / maxIcons.value >= 0.8
+  )
+  const iconCountClass = computed(() =>
+    isAtIconLimit.value ? 'text-error' : isNearIconLimit.value ? 'text-warning' : 'opacity-70'
+  )
+  const iconCountTitle = computed(() =>
+    isAtIconLimit.value
+      ? oshikuraChainMessages.bar.iconsAtLimit
+      : isNearIconLimit.value
+        ? oshikuraChainMessages.bar.iconsNearLimit
+        : oshikuraChainMessages.bar.iconsTitle
+  )
 
   // 耐久: 残り時間 (少ないほど赤) / タイムアタック: 目標までの獲得秒数 (増えていく)
   const timePercent = computed(() => {

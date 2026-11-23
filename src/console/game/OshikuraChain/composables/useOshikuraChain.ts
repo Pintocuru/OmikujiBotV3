@@ -12,7 +12,7 @@ import { MAX_GAME_LOGS_PER_APPEND } from '@/types/api'
 import type { OmikenCommentType } from '@/types/OmikenComment'
 import { collectAutoSpawns } from '../scripts/autoComment'
 import { isMoveKey, resolveInput } from '../scripts/heroInput'
-import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
+import type { OshikuraChainConfig } from '../scripts/oshikuraChainConfig'
 import {
   AUTO_COMMENT_INTERVAL_SECONDS,
   AUTO_COMMENT_USER_COUNT,
@@ -20,21 +20,21 @@ import {
   MAX_FRAME_SECONDS,
   SURVIVAL_EVENT_KEY,
   TIME_ATTACK_EVENT_KEY,
-} from '../scripts/nuisanceConstants'
+} from '../scripts/oshikuraChainConstants'
 import {
   advance,
   createGame,
   endGame,
   getContributionRanking,
   type GameState,
-  type NuisanceEvent,
+  type OshikuraChainEvent,
   type SpawnRequest,
-} from '../scripts/nuisanceEngine'
-import { buildContributionLogs, buildSurvivalLog, buildTimeAttackLog } from '../scripts/nuisanceRecord'
+} from '../scripts/oshikuraChainEngine'
+import { buildContributionLogs, buildSurvivalLog, buildTimeAttackLog } from '../scripts/oshikuraChainRecord'
 import { createRng, type Rng } from '../scripts/rng'
-import { useNuisanceConfig } from './useNuisanceConfig'
+import { useOshikuraChainConfig } from './useOshikuraChainConfig'
 
-export type NuisancePhase = 'idle' | 'running' | 'over'
+export type OshikuraChainPhase = 'idle' | 'running' | 'over'
 /** ゲームログへの記録の状態 */
 export type RecordStatus = 'idle' | 'saving' | 'saved' | 'error'
 export type CommentStatus = 'connecting' | 'ready' | 'error'
@@ -61,14 +61,14 @@ const isTyping = (target: EventTarget | null) =>
  *   耐久: 貢献度 (実コメントのときだけ) + 生存時間 / タイムアタック: クリアしたときだけ、クリアタイム (やめたときは記録しない)
  */
 export function useOshikuraChain() {
-  const configStore = useNuisanceConfig()
+  const configStore = useOshikuraChainConfig()
 
-  const phase = ref<NuisancePhase>('idle')
+  const phase = ref<OshikuraChainPhase>('idle')
   /** メニュー (タイトル・コンフィグ・スタート) を出すか。上部バーのクリックで開閉する */
   const showMenu = ref(false)
   const state = shallowRef<GameState | null>(null)
   /** ゲーム中に使っている設定 (スタートしたときの値。ゲーム中は変わらない) */
-  const activeConfig = shallowRef<NuisanceConfigType | null>(null)
+  const activeConfig = shallowRef<OshikuraChainConfig | null>(null)
   const commentStatus = ref<CommentStatus>('connecting')
   const recordStatus = ref<RecordStatus>('idle')
   const recordError = ref('')
@@ -85,7 +85,7 @@ export function useOshikuraChain() {
   /** コメントオートモード: 架空の投稿者のプールと、次にコメントを入れる時刻 (ゲーム内の時計の秒)。オートでないときは null */
   let autoPool: MockUserPool | null = null
   let nextAutoAt = 0
-  let eventQueue: NuisanceEvent[] = []
+  let eventQueue: OshikuraChainEvent[] = []
   const heldCodes: string[] = []
   let frameId = 0
 
@@ -95,7 +95,7 @@ export function useOshikuraChain() {
   const getClock = () => (phase.value === 'running' ? gameClock : (state.value?.elapsed ?? 0))
 
   /** 溜まった演出用のイベントを渡して、空にする (受け取り手がいなくても溜まり続けないよう、上限がある) */
-  const drainEvents = (): NuisanceEvent[] => {
+  const drainEvents = (): OshikuraChainEvent[] => {
     const events = eventQueue
     eventQueue = []
     return events

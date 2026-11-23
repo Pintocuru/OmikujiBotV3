@@ -1,12 +1,12 @@
 // src/console/game/OshikuraChain/render/effectPresets.ts
-// 演出のプリセット。イベント (NuisanceEvent) に対して「何を、どれくらい派手に出すか」だけを決める。
+// 演出のプリセット。イベント (OshikuraChainEvent) に対して「何を、どれくらい派手に出すか」だけを決める。
 // 描画の実体 (Excalibur) は EffectHost の向こう側にあり、ここは Excalibur を知らない
-import { BIG_CHAIN_MIN } from '../scripts/nuisanceConstants'
-import type { NuisanceEvent } from '../scripts/nuisanceEngine'
-import { formatGain } from '../scripts/nuisanceRecord'
+import { BIG_CHAIN_MIN } from '../scripts/oshikuraChainConstants'
+import type { OshikuraChainEvent } from '../scripts/oshikuraChainEngine'
+import { formatGain } from '../scripts/oshikuraChainRecord'
 import type { SoundKey } from './stageSounds'
 
-/** 演出を出す側 (NuisanceStage が実装する) */
+/** 演出を出す側 (OshikuraChainStage が実装する) */
 export interface EffectHost {
   /** 画面を揺らす (強さは盤面の px、時間はミリ秒) */
   shake(magnitude: number, durationMs: number): void
@@ -58,14 +58,14 @@ export type BurstOptions = {
   radius: number
 }
 
-// ---- 落下 (enemySpawn) ----
+// ---- 落下 (iconSpawn) ----
 
 /** 落ちてくる時間 (秒)。上から降って、着地する */
 export const FALL_SECONDS = 0.45
 /** 落ち始める高さ (盤面の上端より、さらに上のマス数) */
 export const FALL_EXTRA_CELLS = 1.5
 
-// ---- 着地 (enemySpawn の続き) ----
+// ---- 着地 (iconSpawn の続き) ----
 
 /** 着地: 土煙と画面揺れ。ボスは大きく揺らす */
 export const playLand = (host: EffectHost, at: { x: number; y: number; size: number; isBoss: boolean }): void => {
@@ -87,12 +87,12 @@ export const playLand = (host: EffectHost, at: { x: number; y: number; size: num
   host.play(at.isBoss ? 'bossLand' : 'land')
 }
 
-// ---- 撃破 (enemyDeath) ----
+// ---- 撃破 (iconRemoved) ----
 
 /** アイコンが消えたとき: 押し出されて画面の外へ出たなら、アイコンの色の小さな破片と効果音。ことばの爆発に巻き込まれたなら、少し大きな破片だけ (音は爆発の音) */
 export const playDeath = (
   host: EffectHost,
-  event: Extract<NuisanceEvent, { type: 'enemyDeath' }>,
+  event: Extract<OshikuraChainEvent, { type: 'iconRemoved' }>,
   at: { x: number; y: number; size: number }
 ): void => {
   if (event.cause === 'exploded') {
@@ -205,7 +205,7 @@ const chainColor = (chain: number): string => `hsl(${Math.round(55 - Math.min(ch
 /** 得点: 音階の音と、「N連鎖！」「+◯秒」の文字 (どちらも、連鎖のウェーブに合わせて、少し遅れて出る) */
 export const playScore = (
   host: EffectHost,
-  event: Extract<NuisanceEvent, { type: 'score' }>,
+  event: Extract<OshikuraChainEvent, { type: 'score' }>,
   at: { x: number; y: number }
 ): void => {
   const delayMs = event.delaySeconds * 1000
@@ -236,7 +236,7 @@ export const playScore = (
 }
 
 /** 連鎖が切れた: 2 連鎖以上なら、その連鎖で得た秒数の合計を大きく見せる。BIG_CHAIN_MIN 以上の大連鎖なら、祝いの音も鳴らす */
-export const playChainBreak = (host: EffectHost, event: Extract<NuisanceEvent, { type: 'chainBreak' }>): void => {
+export const playChainBreak = (host: EffectHost, event: Extract<OshikuraChainEvent, { type: 'chainBreak' }>): void => {
   if (event.chain < 2) return
   if (event.chain >= BIG_CHAIN_MIN) host.play('bigChain')
   host.popup({
@@ -260,7 +260,7 @@ const HEAT_STYLES: Record<number, { text: string; color: string; hue: number }> 
 }
 
 /** 倍率が上がった (エンジンがヒートアップした): 段階が上がるほど、揺れ・火の粉・音が強くなる */
-export const playMultiplierUp = (host: EffectHost, event: Extract<NuisanceEvent, { type: 'multiplierUp' }>): void => {
+export const playMultiplierUp = (host: EffectHost, event: Extract<OshikuraChainEvent, { type: 'multiplierUp' }>): void => {
   const style = HEAT_STYLES[Math.min(5, Math.max(2, event.level))]
   host.popup({
     x: host.boardSize.width / 2,
@@ -294,7 +294,7 @@ export const playMultiplierUp = (host: EffectHost, event: Extract<NuisanceEvent,
 /** 初見さんのコメントで、上がっていた倍率が 1 に戻った (エンジンが冷えた) */
 export const playMultiplierReset = (
   host: EffectHost,
-  event: Extract<NuisanceEvent, { type: 'multiplierReset' }>
+  event: Extract<OshikuraChainEvent, { type: 'multiplierReset' }>
 ): void => {
   host.popup({
     x: host.boardSize.width / 2,
@@ -325,6 +325,6 @@ export const playMultiplierReset = (
 // ---- ゲームオーバー (gameOver) ----
 
 /** ゲームオーバー: 耐久で残り時間が 0 になったときだけ、失敗の音を鳴らす (タイムアタックのクリアでは鳴らさない) */
-export const playGameOver = (host: EffectHost, event: Extract<NuisanceEvent, { type: 'gameOver' }>): void => {
-  if (!event.cleared) host.play('gameOver')
+export const playGameOver = (host: EffectHost, event: Extract<OshikuraChainEvent, { type: 'gameOver' }>): void => {
+  host.play(event.cleared ? 'timeAttackClear' : 'gameOver')
 }

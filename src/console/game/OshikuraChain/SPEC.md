@@ -53,8 +53,8 @@ LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウ
 
 - ゲーム中に届いたコメント 1 件につき 1 個（ギフトを除く）。同じユーザーが何度コメントしても、そのぶん増える。
 - 空いているマス（主人公・他のアイコン・ことば・障害物のいないマス）からランダムに出る。
-- **上限（設定の `maxNuisances`）に達しているとき、空きマスがないときは、アイコンは出ない**（ことばは降る）。出なかったコメントは、出現数にも貢献度にも数えない。
-- 動かない。大きさは `userId` ごとに少しだけ違う（0.85〜1.15 倍。占めるのは 1 マス）。色も `userId` で決まる（`scripts/nuisanceTraits.ts`。乱数を引く順番を変えると、同じ `userId` でも見た目が変わるので、項目は末尾に足す）。
+- **上限（設定の `maxIcons`）に達しているとき、空きマスがないときは、アイコンは出ない**（ことばは降る）。出なかったコメントは、出現数にも貢献度にも数えない。
+- 動かない。大きさは `userId` ごとに少しだけ違う（0.85〜1.15 倍。占めるのは 1 マス）。色も `userId` で決まる（`scripts/participantIconTraits.ts`。乱数を引く順番を変えると、同じ `userId` でも見た目が変わるので、項目は末尾に足す）。
 
 ### 巨大化
 
@@ -68,7 +68,7 @@ LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウ
 
 ### 取り除く
 
-盤面の外へ押し出す（上の「主人公の操作」）。押し出したアイコンは、`enemyDeath` の演出で消える。
+盤面の外へ押し出す（上の「主人公の操作」）。押し出したアイコンは、`iconRemoved` の演出で消える。
 
 ## 残り時間・連鎖・倍率（ヒート）
 
@@ -87,10 +87,10 @@ LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウ
 - **爆発（妨害）**: 押されないまま `WORD_SECONDS_MIN`〜`WORD_SECONDS_MAX`（5〜20 秒のランダム。降ってからの長さが `lifeSeconds`）たつと、爆発する。
   - 周囲 8 マス（一部でも重なるアイコン、ことば）を消す。巨大化したアイコンは、2×2 のうち 1 マスでも範囲に入れば消える。主人公・障害物は、巻き込まれない。
   - **得点にならない**。連鎖も切れず、残り時間も増えない（並べたアイコンが減るだけ）。巻き込まれたことばは、連鎖して爆発はしない。
-  - 画面が揺れ、橙の爆発と、explosion.mp3 とは別の爆発音（`word-blast.mp3`。素材がなければ、ブラウザの音で代わりに鳴らす）が出る。巻き込まれたアイコンは破片になる（`enemyDeath` の `cause: 'exploded'`）。
+  - 画面が揺れ、橙の爆発と、explosion.mp3 とは別の爆発音（`word-blast.mp3`。素材がなければ、ブラウザの音で代わりに鳴らす）が出る。巻き込まれたアイコンは破片になる（`iconRemoved` の `cause: 'exploded'`）。
   - **押されると、爆発までの時間が最初の長さに戻る**（連鎖の途中で爆発しない）。連鎖で押された先のことばも戻る。
 - 札の右上の**円グラフ**で、爆発までの残り時間を見せる（時計回りに減り、残りが少ないほど緑から赤へ）。爆発の直前の 2 秒は点滅。
-- 同時に出せる数 `WORD_MAX`（超えたら、古いものから、爆発させずに消す）。降る数・時間は `nuisanceConstants.ts` の定数（コンフィグには出していない）。
+- 同時に出せる数 `WORD_MAX`（超えたら、古いものから、爆発させずに消す）。降る数・時間は `oshikuraChainConstants.ts` の定数（コンフィグには出していない）。
 - 演出イベント: `wordSpawn`（降ってきた）・`wordGone`（押し出されて外へ出た）・`wordExplode`（爆発した。`victims` は巻き込まれたことばの id）。
 
 ## コメントの受け取り
@@ -141,14 +141,14 @@ LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウ
 - 更新は `requestAnimationFrame` だけから呼ぶ（非表示の間は呼ばれない）。タイマーでの補助更新はしない。
 - 非表示の間に届いたコメントは、無視する（アイコンにもことばにもならず、初見の判定にも使わない）。
 - ゲームオーバーの時刻は、その刻みの途中で「残り時間が 0 になった時刻」で決まる。
-- 進行の関数（`scripts/nuisanceEngine.ts`）は、時計・通信・画面に依存しない純粋関数。乱数・入力・コメントは外から渡す。
+- 進行の関数（`scripts/oshikuraChainEngine.ts`）は、時計・通信・画面に依存しない純粋関数。乱数・入力・コメントは外から渡す。
 
 ## コンフィグ
 
 - 上部バーをクリック → メニュー（タイトル・説明・コンフィグ・スタート）が開く。ゲーム中は、バーを押しても何も起きない（メニューでゲームが止まることはない）。
 - ゲーム中は、上部バーの右に「やめる」ボタンが出る。押し間違い防止のため 2 回押し（1 回目で「もう一度押すと終了」に変わり、3 秒で元に戻る）。やめると、その時刻で終わりにして（`endGame`。`endedAt` はやめた時刻）、時間切れと同じく結果画面を出し、ゲームログに記録する（「もう一度」「メニューへ」が使える）。ウィンドウを閉じた場合は、記録しない。
 - 変更した値は、**スタートしたときに**範囲に収めて、サーバーに保存する。保存に失敗しても、ゲームは始められる。
-- 保存先: `server/game-configs/oshikuraChain.json`（API: `load-game-config` / `save-game-config`）。サーバーは中身を知らず、形は `scripts/nuisanceConfig.ts` のスキーマが決める。
+- 保存先: `server/game-configs/oshikuraChain.json`（API: `load-game-config` / `save-game-config`）。サーバーは中身を知らず、形は `scripts/oshikuraChainConfig.ts` のスキーマが決める。
 - 読み込んだ値の形が違うときは、初期値で始めて理由を表示する（黙って直さない）。項目が足りないだけなら、足りない項目だけが初期値になる。
 
 | 項目                      | 内容                                                                                                     | 共通 / 難易度別 |
@@ -183,7 +183,7 @@ LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウ
 
 ## 画面
 
-- 上部バー: ゲーム名・残り時間（バーと mm:ss）・ヒートメーター（倍率。上がるほど青 → 黄 → 赤。上限の ×5 では点滅）・連鎖数・経過時間・アイコンの数・コメント購読の状態・やめるボタン（ゲーム中のみ）。
+- 上部バー: ゲーム名・残り時間（バーと mm:ss）・ヒートメーター（倍率。上がるほど青 → 黄 → 赤。上限の ×5 では点滅）・連鎖数・経過時間・アイコンの数（上限の 80% 以上で黄色、上限到達で赤色。上限到達時は新しいアイコンが出現しないことを表示）・コメント購読の状態・やめるボタン（ゲーム中のみ）。
 - 背景（星間旅行）: 盤面の中央から外へ星が広がる（`render/StarField.ts`。奥行き違いの 140 個。外へ行くほど速く、速いほど長い尾を引く）。速さは連鎖数で決まり、0 連鎖でゆっくり、12 連鎖（`CHAIN_FOR_MAX_SPEED`）で最大。上がるときは素早く、連鎖が切れたときは 1 秒ほどかけて戻る。メニュー・結果画面でもゆっくり流れる。見た目だけで、ゲームの進行には影響しない。
 - 盤面（Excalibur）: 主人公、アイコン（アイコン画像、なければ頭文字。巨大化したアイコンは 👑）、ことば（白い札）。
 - 演出（出現）: アイコン・ことばが上から落ちてくる（アイコンは着地で土煙と画面揺れ。巨大化したアイコンは大きく）。
@@ -229,6 +229,7 @@ editor の「テストコメント」と同じ仕組みで、想定ユーザー�
 
 ```
 OshikuraChain/
+OshikuraChain/
 ├─ OshikuraChain.vue            組み立てだけ
 ├─ SPEC.md                         この仕様
 ├─ components/                     画面の部品 (TopBar / Field / Menu / Result / TestPanel)
@@ -237,19 +238,19 @@ OshikuraChain/
 │  ├─ StarField.ts                 背景の星 (中央から広がる。連鎖数で速さが変わる)
 │  ├─ OshikuraChainAudio.ts             効果音の読み込み・再生 (Excalibur Sound / Web Audio)
 │  ├─ effectPresets.ts             イベント → 演出のプリセット (Excalibur を知らない)
-│  └─ draw/                        Canvas 2D の描き方 (board / hero / nuisance / word の描画関数、imageCache、util)
+│  └─ draw/                        Canvas 2D の描き方 (board / hero / icon / word の描画関数、imageCache、util)
 ├─ composables/
 │  ├─ useOshikuraChain.ts       進行・ゲーム内の時計・コメント購読・キー入力・記録・演出イベントの受け渡し
-│  ├─ useNuisanceConfig.ts         コンフィグの読み込み・編集・保存
+│  ├─ useOshikuraChainConfig.ts         コンフィグの読み込み・編集・保存
 │  └─ useTestComments.ts           テストコメントの投稿
 ├─ maps/OshikuraChainMessageMap.ts  文言 (日本語)
 └─ scripts/                        純粋関数 (テストあり)
-   ├─ nuisanceConstants.ts         マス目・時間・記録名などの定数
-   ├─ nuisanceConfig.ts            コンフィグのスキーマと範囲
-   ├─ nuisanceTraits.ts            userId → アイコンの見た目 (大きさ・色)
-   ├─ nuisanceEngine.ts            進行 (出現・押す・連鎖・倍率・残り時間) と演出用イベント
-   ├─ nuisanceGift.ts              金額 → ワード保護時間・倍率冷却量・表示
-   ├─ nuisanceRecord.ts            記録の組み立て・表示用の整形
+   ├─ oshikuraChainConstants.ts         マス目・時間・記録名などの定数
+   ├─ oshikuraChainConfig.ts            コンフィグのスキーマと範囲
+   ├─ participantIconTraits.ts            userId → アイコンの見た目 (大きさ・色)
+   ├─ oshikuraChainEngine.ts            進行 (出現・押す・連鎖・倍率・残り時間) と演出用イベント
+   ├─ oshikuraChainGift.ts              金額 → ワード保護時間・倍率冷却量・表示
+   ├─ oshikuraChainRecord.ts            記録の組み立て・表示用の整形
    ├─ autoComment.ts               コメントオートモード (一定間隔の到着時刻を作る)
    ├─ heroInput.ts                 WASD → 向き
    └─ rng.ts                       種から作る乱数・ハッシュ
@@ -259,13 +260,13 @@ OshikuraChain/
 
 ## 描画と演出（Excalibur）
 
-描画と演出だけを Excalibur（`excalibur`）で行う。進行は、これまでどおり純粋関数（`nuisanceEngine.ts`）が決める。ゲームの進行を Excalibur に載せない理由は、固定刻み・種からの決定性・テストを保つため。
+描画と演出だけを Excalibur（`excalibur`）で行う。進行は、これまでどおり純粋関数（`oshikuraChainEngine.ts`）が決める。ゲームの進行を Excalibur に載せない理由は、固定刻み・種からの決定性・テストを保つため。
 
 - 役割: ゲームロジック = `scripts/`、描画・演出 = `render/`、つなぎ = `OshikuraChainStageSource`（読み取り専用の窓口。`getState` / `getConfig` / `getClock` / `drainEvents`）。ゲームの側から Excalibur は操作しない。
-- 状態と演出イベントは別: `advance` は、状態とは別に `events`（`enemySpawn` / `enemyDeath` / `wordSpawn` / `wordGone` / `score` / `chainBreak` / `multiplierUp` / `multiplierReset` / `giftReceived`）を返す。コンポーザブルが溜めて、盤面が `drainEvents` で受け取る。
+- 状態と演出イベントは別: `advance` は、状態とは別に `events`（`iconSpawn` / `iconRemoved` / `wordSpawn` / `wordGone` / `score` / `chainBreak` / `multiplierUp` / `multiplierReset` / `giftReceived`）を返す。コンポーザブルが溜めて、盤面が `drainEvents` で受け取る。
 - 演出はプリセット（`render/effectPresets.ts`）: イベント → 「何を、どれくらい派手に出すか」だけを決める。Excalibur は `EffectHost`（`shake` / `burst`）の向こうにあり、プリセットは知らない。演出を足すときは、プリセットを足して、イベントに対応させる。
 - 見た目（円・アイコン・輪）は、前の canvas 2D の描き方のまま、Excalibur の `Canvas` グラフィックで描く。
-- `NuisanceField.vue` は、起動と破棄（`onMounted` / `onBeforeUnmount`）だけ。
+- `OshikuraChainField.vue` は、起動と破棄（`onMounted` / `onBeforeUnmount`）だけ。
 
 ## 素材（効果音・画像）
 
@@ -278,5 +279,6 @@ OshikuraChain/
 - 主人公の操作にゲームパッドを足す（入力は `HeroInput` に変換する層なので、足しやすい）。
 - 外部コメント（`meta.isExternal`）を、配信中は無視するか。
 - 演出の追加（連鎖・巨大化したアイコンの登場など）、効果音、種類ごとのスプライト。
+- 自機の画像を指定できるようにする（未指定なら今の表示）。画像は `images/OshikuraChain/` にまとめる。
 - 自機の画像を指定できるようにする（未指定なら今の表示）。画像は `images/OshikuraChain/` にまとめる。
 - 配布パッケージへの登録（`packages/*/console.ts` に loader を 1 行）。

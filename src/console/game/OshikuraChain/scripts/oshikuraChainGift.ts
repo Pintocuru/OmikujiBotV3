@@ -1,6 +1,6 @@
-// src/console/game/OshikuraChain/scripts/nuisanceGift.ts
+// src/console/game/OshikuraChain/scripts/oshikuraChainGift.ts
 // ギフト効果の純粋関数 (金額 → 保護時間・冷却量・表示色)
-import { GIFT_COOL_PRICE_UNIT, GIFT_PROTECT_TIERS } from './nuisanceConstants'
+import { GIFT_COOL_PRICE_UNIT, GIFT_PROTECT_TIERS } from './oshikuraChainConstants'
 
 /** 金額に応じたワード保護秒数 */
 export const giftProtectSecondsOf = (price: number): number => {

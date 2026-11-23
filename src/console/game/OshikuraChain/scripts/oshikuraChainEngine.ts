@@ -1,4 +1,4 @@
-// src/console/game/OshikuraChain/scripts/nuisanceEngine.ts
+// src/console/game/OshikuraChain/scripts/oshikuraChainEngine.ts
 // おしくらチェインの進行を決める純粋関数
 import {
   GRID_COLS,
@@ -16,11 +16,11 @@ import {
   WORD_MAX_PER_COMMENT,
   WORD_SECONDS_MAX,
   WORD_SECONDS_MIN,
-} from './nuisanceConstants'
-import type { GameMode, NuisanceConfigType } from './nuisanceConfig'
+} from './oshikuraChainConstants'
+import type { GameMode, OshikuraChainConfig } from './oshikuraChainConfig'
 import { NO_INPUT, type HeroInput } from './heroInput'
-import { getBossTraits, getNuisanceTraits, type NuisanceTraits } from './nuisanceTraits'
-import { giftCoolAmountOf, giftProtectSecondsOf } from './nuisanceGift'
+import { getGiantIconTraits, getParticipantIconTraits, type ParticipantIconTraits } from './participantIconTraits'
+import { giftCoolAmountOf, giftProtectSecondsOf } from './oshikuraChainGift'
 import type { Rng } from './rng'
 
 export type GridSize = { cols: number; rows: number }
@@ -34,12 +34,12 @@ export type Hero = {
 }
 
 /** アイコン (コメントした人)。動かない。押し出せる */
-export type Nuisance = {
+export type ParticipantIcon = {
   id: number
   userId: string
   userName: string
   profileImage: string
-  traits: NuisanceTraits
+  traits: ParticipantIconTraits
   /** 占めるマスの左上 */
   col: number
   row: number
@@ -76,7 +76,7 @@ export type Word = {
 }
 
 /** 押し出せるもの (アイコン・ことば) */
-type Body = Nuisance | Word
+type Body = ParticipantIcon | Word
 
 const isWord = (b: Body): b is Word => 'text' in b
 
@@ -100,7 +100,7 @@ export type GameState = {
   /** 残り時間 (秒)。0 になるとゲームオーバー (タイムアタックでは使わず、常に 0) */
   timeLeft: number
   hero: Hero
-  nuisances: Nuisance[]
+  icons: ParticipantIcon[]
   /** コメントの文字 (ことば) */
   words: Word[]
   nextId: number
@@ -150,19 +150,19 @@ export type SpawnRequest = {
  * 演出に渡すイベント (ゲームの状態とは別。進行の結果として起きたことだけを知らせる)
  * 座標はマス単位 (占めるマスの左上)。演出側は、この情報だけで描く
  */
-export type NuisanceEvent =
+export type OshikuraChainEvent =
   | {
-      type: 'enemySpawn'
+      type: 'iconSpawn'
       id: number
       userId: string
       col: number
       row: number
-      kind: NuisanceTraits['kind']
+      kind: ParticipantIconTraits['kind']
       isBoss: boolean
     }
   | {
       /** アイコンが、画面の外へ押し出された */
-      type: 'enemyDeath'
+      type: 'iconRemoved'
       id: number
       userId: string
       col: number
@@ -194,7 +194,7 @@ export type NuisanceEvent =
       delaySeconds: number
     }
   | {
-      /** 「ことば」が爆発した。周囲 8 マスのことば (victims) は、巻き込まれて消えた (アイコンは enemyDeath の cause 'exploded') */
+      /** 「ことば」が爆発した。周囲 8 マスのことば (victims) は、巻き込まれて消えた (アイコンは iconRemoved の cause 'exploded') */
       type: 'wordExplode'
       id: number
       col: number
@@ -204,7 +204,7 @@ export type NuisanceEvent =
   | {
       /** 得点した (アイコンまたはことばが、画面の外へ押し出された) */
       type: 'score'
-      source: 'nuisance' | 'word'
+      source: 'icon' | 'word'
       userId: string
       userName: string
       /** 得た秒数 (獲得秒数 × 連鎖数。上限で切られる前の値) */
@@ -250,13 +250,13 @@ export type NuisanceEvent =
       coolAmount: number
     }
 
-export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_GRID): GameState => ({
+export const createGame = (config: OshikuraChainConfig, grid: GridSize = DEFAULT_GRID): GameState => ({
   gameMode: config.gameMode,
   grid,
   elapsed: 0,
   timeLeft: config.gameMode === 'timeAttack' ? 0 : config.initialSeconds,
   hero: { col: Math.floor(grid.cols / 2), row: Math.floor(grid.rows / 2), cooldown: 0 },
-  nuisances: [],
+  icons: [],
   words: [],
   nextId: 1,
   contributions: {},
@@ -279,12 +279,12 @@ export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_
 // ---- 大きさ ----
 
 /** アイコンの大きさ (倍率)。成長しない (巨大化したアイコンだけが大きい) */
-export const sizeScaleOf = (n: Pick<Nuisance, 'traits'>): number => n.traits.baseSize
+export const sizeScaleOf = (n: Pick<ParticipantIcon, 'traits'>): number => n.traits.baseSize
 
 /** 占めるマスの一辺 (大きさの倍率を四捨五入して、1〜MAX_FOOTPRINT) */
 export const footprintOf = (scale: number): number => Math.min(MAX_FOOTPRINT, Math.max(1, Math.round(scale)))
 
-const measure = (n: Nuisance) => {
+const measure = (n: ParticipantIcon) => {
   const scale = sizeScaleOf(n)
   return { scale, footprint: footprintOf(scale) }
 }
@@ -299,7 +299,7 @@ const covers = (n: { col: number; row: number }, footprint: number, col: number,
  * 耐久では、1 から始まり、時間が経つほど上がる (1 分ごとに multiplierRisePerMinute、上限は multiplierMax)
  * resetAt: 倍率が 1 だった時刻 (初見さんのコメントが届いた時刻)
  */
-export const multiplierOf = (elapsed: number, resetAt: number, config: NuisanceConfigType): number => {
+export const multiplierOf = (elapsed: number, resetAt: number, config: OshikuraChainConfig): number => {
   if (config.gameMode === 'timeAttack') return 1 // タイムアタックは、時間が経っても上がらない
   const risen = config.multiplierRisePerMinute * (Math.max(0, elapsed - resetAt) / 60)
   return Math.min(config.multiplierMax, 1 + risen)
@@ -313,7 +313,7 @@ export const multiplierLevelOf = (multiplier: number): number => Math.floor(mult
 const cloneState = (s: GameState): GameState => ({
   ...s,
   hero: { ...s.hero },
-  nuisances: s.nuisances.map((n) => ({ ...n })),
+  icons: s.icons.map((n) => ({ ...n })),
   words: s.words.map((w) => ({ ...w })),
   contributions: Object.fromEntries(Object.entries(s.contributions).map(([id, c]) => [id, { ...c }])),
 })
@@ -336,7 +336,7 @@ const pickFreeCell = (
 ): { col: number; row: number } | null => {
   const occupied = new Set<number>()
   occupied.add(s.hero.row * s.grid.cols + s.hero.col)
-  for (const n of s.nuisances) {
+  for (const n of s.icons) {
     const { footprint } = measure(n)
     for (let r = n.row; r < n.row + footprint; r++) {
       for (let c = n.col; c < n.col + footprint; c++) occupied.add(r * s.grid.cols + c)
@@ -359,7 +359,7 @@ const pickFreeCell = (
 }
 
 /** コメントの文字を、5 文字ごとの「ことば」にして降らせる (最大 WORD_MAX_PER_COMMENT 個)。空きマスがなければ、そこで止める */
-const dropWords = (s: GameState, request: SpawnRequest, rng: Rng, events: NuisanceEvent[]): void => {
+const dropWords = (s: GameState, request: SpawnRequest, rng: Rng, events: OshikuraChainEvent[]): void => {
   const chars = Array.from((request.comment ?? '').replace(/\s+/g, ''))
   if (!chars.length) return
   const count = Math.min(WORD_MAX_PER_COMMENT, Math.ceil(chars.length / WORD_CHARS_PER_ITEM))
@@ -392,10 +392,10 @@ const dropWords = (s: GameState, request: SpawnRequest, rng: Rng, events: Nuisan
 
 const spawnOne = (
   s: GameState,
-  config: NuisanceConfigType,
+  config: OshikuraChainConfig,
   request: SpawnRequest,
   rng: Rng,
-  events: NuisanceEvent[]
+  events: OshikuraChainEvent[]
 ): void => {
   // 初見コメントによる倍率リセットは、設定で無効にできる
   if (config.resetMultiplierOnFirst && request.isFirst) {
@@ -440,13 +440,13 @@ const spawnOne = (
   // コメントの文字数に応じて、「ことば」も降ってくる (アイコンが上限で出なくても降る)
   dropWords(s, request, rng, events)
   // 2 分経過するごとに、その後最初に出現するユーザーを巨大化する
-  const canSpawn = s.nuisances.length < config.maxNuisances
+  const canSpawn = s.icons.length < config.maxIcons
   const isGiantDue = request.atSeconds >= s.nextGiantAt
-  const giantTraits = isGiantDue ? getBossTraits(request.userId) : null
+  const giantTraits = isGiantDue ? getGiantIconTraits(request.userId) : null
   const giantCell = canSpawn ? (giantTraits ? pickFreeCell(s, rng, footprintOf(giantTraits.baseSize)) : null) : null
   // 巨大化できる空きがなければ通常サイズで出す。巨大化の権利は次のユーザーへ持ち越す
   const isBoss = giantCell !== null
-  const traits = isBoss ? giantTraits! : getNuisanceTraits(request.userId)
+  const traits = isBoss ? giantTraits! : getParticipantIconTraits(request.userId)
   const cell = !canSpawn ? null : (giantCell ?? pickFreeCell(s, rng, footprintOf(traits.baseSize)))
   if (!cell) {
     s.ignoredCount++
@@ -454,7 +454,7 @@ const spawnOne = (
   }
   if (isBoss) s.nextGiantAt += GIANT_INTERVAL_SECONDS
 
-  s.nuisances.push({
+  s.icons.push({
     id: s.nextId++,
     userId: request.userId,
     userName: request.userName,
@@ -467,7 +467,7 @@ const spawnOne = (
     movedAt: s.elapsed,
   })
   events.push({
-    type: 'enemySpawn',
+    type: 'iconSpawn',
     id: s.nextId - 1,
     userId: request.userId,
     col: cell.col,
@@ -483,10 +483,10 @@ const spawnOne = (
 /** 画面の外へ押し出されたもの 1 つぶんの得点。連鎖数が 1 増え、獲得秒数 × 連鎖数が、残り時間に足される (上限あり) */
 const awardScore = (
   s: GameState,
-  config: NuisanceConfigType,
+  config: OshikuraChainConfig,
   body: Body,
   delaySeconds: number,
-  events: NuisanceEvent[]
+  events: OshikuraChainEvent[]
 ): void => {
   s.chain++
   s.bestChain = Math.max(s.bestChain, s.chain)
@@ -500,7 +500,7 @@ const awardScore = (
   contributionOf(s, body.userId, body.userName, body.profileImage).seconds += seconds
   events.push({
     type: 'score',
-    source: isWord(body) ? 'word' : 'nuisance',
+    source: isWord(body) ? 'word' : 'icon',
     userId: body.userId,
     userName: body.userName,
     seconds,
@@ -513,19 +513,19 @@ const awardScore = (
   })
 }
 
-const breakChain = (s: GameState, events: NuisanceEvent[]): void => {
+const breakChain = (s: GameState, events: OshikuraChainEvent[]): void => {
   if (s.chain > 0) events.push({ type: 'chainBreak', chain: s.chain, total: s.chainTotal })
   s.chain = 0
   s.chainTotal = 0
 }
 
 const deathEvent = (
-  n: Nuisance,
+  n: ParticipantIcon,
   footprint: number,
   cause: 'removed' | 'exploded',
   push?: { dx: number; dy: number; delaySeconds: number }
-): NuisanceEvent => ({
-  type: 'enemyDeath',
+): OshikuraChainEvent => ({
+  type: 'iconRemoved',
   id: n.id,
   userId: n.userId,
   col: n.col,
@@ -545,13 +545,13 @@ const deathEvent = (
  */
 const pushChain = (
   s: GameState,
-  config: NuisanceConfigType,
+  config: OshikuraChainConfig,
   col: number,
   row: number,
   dx: number,
   dy: number,
   removed: Set<number>,
-  events: NuisanceEvent[]
+  events: OshikuraChainEvent[]
 ): number | null => {
   const sizes = new Map<number, number>()
   const footprintById = (b: Body) => {
@@ -560,7 +560,7 @@ const pushChain = (
     if (f === undefined) sizes.set(b.id, (f = measure(b).footprint))
     return f
   }
-  const all: Body[] = [...s.nuisances, ...s.words]
+  const all: Body[] = [...s.icons, ...s.words]
   // 幅優先で集める (先頭からの段数 = ウェーブの遅れ)
   const depth = new Map<number, number>()
   const pushing: Body[] = []
@@ -623,14 +623,14 @@ const pushChain = (
  * 得点にはならず、連鎖も切れない (消えたぶん、並べたアイコンが減る)。巻き込まれたことばは、連鎖して爆発はしない。
  * 主人公は巻き込まれない。ギフトで保護された (protected) ことばは爆発しない。
  */
-const explodeWords = (s: GameState, events: NuisanceEvent[]): void => {
+const explodeWords = (s: GameState, events: OshikuraChainEvent[]): void => {
   const due = s.words.filter((w) => !w.protected && w.expiresAt <= s.elapsed)
   if (!due.length) return
   const gone = new Set<number>()
   for (const w of due) {
     if (gone.has(w.id)) continue // 先に爆発したことばに、巻き込まれて消えた
     gone.add(w.id)
-    for (const n of s.nuisances) {
+    for (const n of s.icons) {
       if (gone.has(n.id)) continue
       const { footprint } = measure(n)
       const overlaps =
@@ -650,13 +650,13 @@ const explodeWords = (s: GameState, events: NuisanceEvent[]): void => {
     }
     events.push({ type: 'wordExplode', id: w.id, col: w.col, row: w.row, victims })
   }
-  s.nuisances = s.nuisances.filter((n) => !gone.has(n.id))
+  s.icons = s.icons.filter((n) => !gone.has(n.id))
   s.words = s.words.filter((w) => !gone.has(w.id))
 }
 
 // ---- 1 刻み ----
 
-const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, events: NuisanceEvent[]): void => {
+const stepOnce = (s: GameState, config: OshikuraChainConfig, input: HeroInput, events: OshikuraChainEvent[]): void => {
   const dt = STEP_SECONDS
 
   // 主人公: 向きのマスが空いていれば動く。アイコン・ことばがいれば、連鎖して 1 マス押し出す
@@ -683,7 +683,7 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, ev
     }
   }
   if (removed.size) {
-    s.nuisances = s.nuisances.filter((n) => !removed.has(n.id))
+    s.icons = s.icons.filter((n) => !removed.has(n.id))
     s.words = s.words.filter((w) => !removed.has(w.id))
   }
 
@@ -739,7 +739,7 @@ export type AdvanceResult = {
   /** 刻みの上限で止まった (まだ追いついていない)。すぐにもう一度 advance を呼ぶ */
   reachedStepLimit: boolean
   /** この呼び出しで起きたこと (時系列順)。演出に渡す。ゲームの状態には含めない */
-  events: NuisanceEvent[]
+  events: OshikuraChainEvent[]
 }
 
 /**
@@ -750,7 +750,7 @@ export type AdvanceResult = {
  */
 export const advance = (
   state: GameState,
-  config: NuisanceConfigType,
+  config: OshikuraChainConfig,
   untilSeconds: number,
   input: HeroInput = NO_INPUT,
   spawns: readonly SpawnRequest[] = [],
@@ -764,7 +764,7 @@ export const advance = (
 
   const s = cloneState(state)
   const queue = [...spawns].sort((a, b) => a.atSeconds - b.atSeconds)
-  const events: NuisanceEvent[] = []
+  const events: OshikuraChainEvent[] = []
   let next = 0
   let steps = 0
   while (!s.over && s.elapsed + STEP_SECONDS <= untilSeconds + 1e-9 && steps < maxSteps) {

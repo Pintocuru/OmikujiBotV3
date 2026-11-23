@@ -1,7 +1,7 @@
 // src/console/game/OshikuraChain/render/draw/board.ts
 // 盤面の背景とマス目
-import { CELL_PX } from '../../scripts/nuisanceConstants'
-import type { GridSize } from '../../scripts/nuisanceEngine'
+import { CELL_PX } from '../../scripts/oshikuraChainConstants'
+import type { GridSize } from '../../scripts/oshikuraChainEngine'
 
 /** 盤面の背景色 (宇宙の暗い青) */
 export const BOARD_BACKGROUND = '#0b1022'

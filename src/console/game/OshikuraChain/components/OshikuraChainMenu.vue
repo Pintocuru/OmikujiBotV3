@@ -1,4 +1,4 @@
-<!-- src/console/game/OshikuraChain/components/NuisanceMenu.vue -->
+<!-- src/console/game/OshikuraChain/components/OshikuraChainMenu.vue -->
 <!-- メニュー: 説明・難易度・コンフィグ・スタート -->
 <template>
   <div class="absolute inset-0 flex items-center justify-center bg-black/55 p-4" @click.self="emit('close')">
@@ -152,12 +152,12 @@
     type CommentSource,
     type DifficultyLevel,
     type GameMode,
-    type NuisanceConfigType,
-  } from '../scripts/nuisanceConfig'
-  import { AUTO_COMMENT_INTERVAL_SECONDS } from '../scripts/nuisanceConstants'
+    type OshikuraChainConfig,
+  } from '../scripts/oshikuraChainConfig'
+  import { AUTO_COMMENT_INTERVAL_SECONDS } from '../scripts/oshikuraChainConstants'
 
   defineProps<{
-    draft: NuisanceConfigType
+    draft: OshikuraChainConfig
     online: boolean
     loadError: string
     saveError: string

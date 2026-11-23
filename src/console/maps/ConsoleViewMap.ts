@@ -18,7 +18,7 @@ export const consoleViewMap = {
     launch: 'window',
     windowSize: { width: 960, height: 540 },
   },
-  // 盤面は横 11 × 縦 8 マス (1マス 64px = 704×512) + 上部バー 40px。マス数は oshikuraChain/scripts/nuisanceConstants.ts (縮尺は画面に合わせて自動)
+  // 盤面は横 11 × 縦 8 マス (1マス 64px = 704×512) + 上部バー 40px。マス数は oshikuraChain/scripts/oshikuraChainConstants.ts (縮尺は画面に合わせて自動)
   oshikuraChain: {
     label: 'おしくらチェイン',
     icon: 'Swords',

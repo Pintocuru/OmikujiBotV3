@@ -1,4 +1,4 @@
-// src/console/game/OshikuraChain/composables/useNuisanceConfig.ts
+// src/console/game/OshikuraChain/composables/useOshikuraChainConfig.ts
 // コンフィグの読み込み・編集・保存 (サーバーの game-configs/oshikuraChain.json)
 import { reactive, ref } from 'vue'
 import { gameConfigApi } from '@/manager/services/gameConfigApi'
@@ -11,20 +11,20 @@ import {
   type CommentSource,
   type DifficultyLevel,
   type GameMode,
-  type NuisanceConfigType,
-} from '../scripts/nuisanceConfig'
-import { CONFIG_GAME_KEY } from '../scripts/nuisanceConstants'
+  type OshikuraChainConfig,
+} from '../scripts/oshikuraChainConfig'
+import { CONFIG_GAME_KEY } from '../scripts/oshikuraChainConstants'
 
 const messageOf = (error: unknown) => (error instanceof Error ? error.message : String(error))
 
-export function useNuisanceConfig() {
+export function useOshikuraChainConfig() {
   /** 難易度・ゲームモード・コメントの源・初見コメントの設定。ゲーム中は commit 済みの値を使う */
-  const draft = reactive<NuisanceConfigType>(createDefaultConfig())
+  const draft = reactive<OshikuraChainConfig>(createDefaultConfig())
   const online = ref(true)
   const loadError = ref('')
   const saveError = ref('')
 
-  const assign = (config: NuisanceConfigType) => Object.assign(draft, config)
+  const assign = (config: OshikuraChainConfig) => Object.assign(draft, config)
 
   const load = async () => {
     loadError.value = ''
@@ -42,7 +42,7 @@ export function useNuisanceConfig() {
   }
 
   /** 設定を保存する。保存に失敗してもゲームは開始できる */
-  const commit = async (): Promise<NuisanceConfigType> => {
+  const commit = async (): Promise<OshikuraChainConfig> => {
     const config = sanitizeConfig(draft)
     assign(config)
     saveError.value = ''

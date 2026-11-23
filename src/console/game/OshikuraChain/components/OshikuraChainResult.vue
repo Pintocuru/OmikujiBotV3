@@ -1,4 +1,4 @@
-<!-- src/console/game/OshikuraChain/components/NuisanceResult.vue -->
+<!-- src/console/game/OshikuraChain/components/OshikuraChainResult.vue -->
 <!-- ゲームオーバーの結果: 生存時間・最大連鎖・押し出した数・時間を生んだ人。ユーザーの得点は変えない (結果は、ゲームログに記録する) -->
 <template>
   <div class="absolute inset-0 flex items-center justify-center bg-black/55 p-4">
@@ -58,8 +58,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import UserIcon from '@/console/common/components/UserIcon.vue'
-  import type { Contribution, GameState } from '../scripts/nuisanceEngine'
-  import { formatSurvival } from '../scripts/nuisanceRecord'
+  import type { Contribution, GameState } from '../scripts/oshikuraChainEngine'
+  import { formatSurvival } from '../scripts/oshikuraChainRecord'
   import type { RecordStatus } from '../composables/useOshikuraChain'
   import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
 

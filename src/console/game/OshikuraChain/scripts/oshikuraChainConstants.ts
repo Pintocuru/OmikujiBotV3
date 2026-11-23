@@ -1,4 +1,4 @@
-// src/console/game/OshikuraChain/scripts/nuisanceConstants.ts
+// src/console/game/OshikuraChain/scripts/oshikuraChainConstants.ts
 // おしくらチェインの定数。マス目・時間の刻み・記録の名前は、ここだけを変える
 
 // ---- マス目 (横長: 横 11 × 縦 8) ----

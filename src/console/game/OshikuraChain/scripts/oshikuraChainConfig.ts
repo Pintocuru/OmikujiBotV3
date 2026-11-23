@@ -1,7 +1,7 @@
-// src/console/game/OshikuraChain/scripts/nuisanceConfig.ts
+// src/console/game/OshikuraChain/scripts/oshikuraChainConfig.ts
 // おしくらチェインの難易度設定 (サーバーに保存する。ゲーム内の調整値は難易度から導出する)
 import { z } from 'zod'
-import { TIME_ATTACK_TARGET_SECONDS } from './nuisanceConstants'
+import { TIME_ATTACK_TARGET_SECONDS } from './oshikuraChainConstants'
 
 export const DIFFICULTY_LEVELS = [1, 2, 3, 4, 5] as const
 export type DifficultyLevel = (typeof DIFFICULTY_LEVELS)[number]
@@ -43,12 +43,12 @@ export const COMMON_CONFIG = {
   /** 倍率の上限 (×)。残り時間が減る速さは、これ以上は速くならない */
   multiplierMax: 5,
   /** 同時に存在できるアイコンの上限 */
-  maxNuisances: 30,
+  maxIcons: 30,
 } as const
 
 const DifficultySchema = z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])
 
-export const NuisanceConfigSchema = z.object({
+export const OshikuraChainConfigSchema = z.object({
   difficulty: DifficultySchema.default(3),
   /** 初見コメントによる倍率リセット。既定で有効 */
   resetMultiplierOnFirst: z.boolean().default(true),
@@ -56,7 +56,7 @@ export const NuisanceConfigSchema = z.object({
   commentSource: z.enum(COMMENT_SOURCES).default('live'),
 })
 
-export type NuisanceConfigType = {
+export type OshikuraChainConfig = {
   difficulty: DifficultyLevel
   resetMultiplierOnFirst: boolean
   gameMode: GameMode
@@ -69,7 +69,7 @@ export type NuisanceConfigType = {
   wordSeconds: number
   multiplierRisePerMinute: number
   multiplierMax: number
-  maxNuisances: number
+  maxIcons: number
 }
 
 export const createConfigForDifficulty = (
@@ -77,7 +77,7 @@ export const createConfigForDifficulty = (
   resetMultiplierOnFirst = true,
   gameMode: GameMode = 'endurance',
   commentSource: CommentSource = 'live'
-): NuisanceConfigType => {
+): OshikuraChainConfig => {
   const profile = DIFFICULTY_PROFILES[difficulty]
   return {
     difficulty,
@@ -93,7 +93,7 @@ export const createConfigForDifficulty = (
   }
 }
 
-export const createDefaultConfig = (): NuisanceConfigType => createConfigForDifficulty(3)
+export const createDefaultConfig = (): OshikuraChainConfig => createConfigForDifficulty(3)
 
 /** 保存済みの設定の、古いキー名 (係数 → 倍率に変えた) を、新しいキー名に読み替える */
 const migrateLegacyKeys = (raw: unknown): unknown => {
@@ -104,8 +104,8 @@ const migrateLegacyKeys = (raw: unknown): unknown => {
     : rest
 }
 
-export const parseConfig = (raw: unknown): { config: NuisanceConfigType; error: string | null } => {
-  const result = NuisanceConfigSchema.safeParse(migrateLegacyKeys(raw))
+export const parseConfig = (raw: unknown): { config: OshikuraChainConfig; error: string | null } => {
+  const result = OshikuraChainConfigSchema.safeParse(migrateLegacyKeys(raw))
   if (!result.success) {
     const issue = result.error.issues[0]
     const path = issue.path.join('.')
@@ -119,7 +119,7 @@ export const parseConfig = (raw: unknown): { config: NuisanceConfigType; error: 
 }
 
 /** UI から受け取った難易度を安全な範囲に収める */
-export const sanitizeConfig = (draft: Partial<NuisanceConfigType>): NuisanceConfigType => {
+export const sanitizeConfig = (draft: Partial<OshikuraChainConfig>): OshikuraChainConfig => {
   const difficulty = DIFFICULTY_LEVELS.includes(draft.difficulty as DifficultyLevel)
     ? (draft.difficulty as DifficultyLevel)
     : 3

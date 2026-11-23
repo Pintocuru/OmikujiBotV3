@@ -1,19 +1,19 @@
 // src/console/game/OshikuraChain/render/OshikuraChainStage.ts
 // Excalibur による盤面の描画・演出。ゲームの状態 (GameState) を毎フレーム読み取って映すだけで、ゲームには何も返さない。
-// 進行 (nuisanceEngine) からは呼ばれない。受け取るのは source (読み取り専用の窓口) だけ
+// 進行 (oshikuraChainEngine) からは呼ばれない。受け取るのは source (読み取り専用の窓口) だけ
 import { Actor, Canvas, Color, DisplayMode, Engine, EmitterType, ParticleEmitter, vec, type Scene } from 'excalibur'
-import { CELL_PX, HERO_MOVE_INTERVAL_SECONDS } from '../scripts/nuisanceConstants'
-import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
+import { CELL_PX, HERO_MOVE_INTERVAL_SECONDS } from '../scripts/oshikuraChainConstants'
+import type { OshikuraChainConfig } from '../scripts/oshikuraChainConfig'
 import {
   footprintOf,
   sizeScaleOf,
   type GameState,
   type GridSize,
-  type Nuisance,
-  type NuisanceEvent,
+  type ParticipantIcon,
+  type OshikuraChainEvent,
   type Word,
-} from '../scripts/nuisanceEngine'
-import { formatGiftPrice, giftColorOf } from '../scripts/nuisanceGift'
+} from '../scripts/oshikuraChainEngine'
+import { formatGiftPrice, giftColorOf } from '../scripts/oshikuraChainGift'
 import {
   FALL_EXTRA_CELLS,
   FALL_SECONDS,
@@ -35,7 +35,7 @@ import { StarField } from './StarField'
 import { BOARD_BACKGROUND, drawBoard } from './draw/board'
 import { drawHero } from './draw/hero'
 import { ImageCache } from './draw/imageCache'
-import { drawNuisance, VIEW_PX } from './draw/nuisance'
+import { drawParticipantIcon, VIEW_PX } from './draw/participantIcon'
 import { clamp, hslToRgb, lerp } from './draw/util'
 import { drawWord } from './draw/word'
 import type { SoundKey } from './stageSounds'
@@ -43,20 +43,20 @@ import type { SoundKey } from './stageSounds'
 /** 盤面が読み取るゲームの窓口 (読み取り専用。ゲームを操作するものは入れない) */
 export type OshikuraChainStageSource = {
   getState: () => GameState | null
-  getConfig: () => NuisanceConfigType | null
+  getConfig: () => OshikuraChainConfig | null
   /** 描画用の時計 (開始からの秒) */
   getClock: () => number
   /** 溜まった演出用イベントを受け取って、空にする */
-  drainEvents: () => NuisanceEvent[]
+  drainEvents: () => OshikuraChainEvent[]
 }
 
 const MOVE_ANIM_SECONDS = 0.15
 /** 同時に出せる浮かぶ文字の数の上限 (連鎖が一気に続いても、画面が文字だらけにならないように) */
 const POPUP_MAX = 40
-/** 邪魔者 1 体ぶんの表示 */
-type NuisanceView = {
+/** アイコン 1 個ぶんの表示 */
+type ParticipantIconView = {
   actor: Actor
-  nuisance: Nuisance
+  icon: ParticipantIcon
   /** 落下の開始時刻 (描画用の時計の秒)。null なら落下は終わっている */
   fallStartedAt: number | null
   isBoss: boolean
@@ -88,7 +88,7 @@ type Ghost = {
 
 export class OshikuraChainStage implements EffectHost {
   private readonly engine: Engine
-  private readonly views = new Map<number, NuisanceView>()
+  private readonly views = new Map<number, ParticipantIconView>()
   private readonly images = new ImageCache()
   private readonly audio: OshikuraChainAudio
   private readonly heroActor: Actor
@@ -282,7 +282,7 @@ export class OshikuraChainStage implements EffectHost {
     }
 
     this.applyEvents(events, state, clock)
-    this.syncNuisances(state, clock)
+    this.syncParticipantIcons(state, clock)
     this.syncHero(state, dt)
     this.syncWords(state, clock)
     this.syncGhosts(clock)
@@ -414,13 +414,13 @@ export class OshikuraChainStage implements EffectHost {
 
   private measureCtx: CanvasRenderingContext2D | null = null
 
-  private applyEvents(events: NuisanceEvent[], state: GameState, clock: number): void {
+  private applyEvents(events: OshikuraChainEvent[], state: GameState, clock: number): void {
     for (const event of events) {
-      if (event.type === 'enemySpawn') {
-        const nuisance = state.nuisances.find((n) => n.id === event.id)
+      if (event.type === 'iconSpawn') {
+        const icon = state.icons.find((n) => n.id === event.id)
         // すでに消えている (出現と同じ更新で撃破された) ものは、落下を見せない
-        if (!nuisance) continue
-        const view = this.createView(nuisance, event.isBoss)
+        if (!icon) continue
+        const view = this.createView(icon, event.isBoss)
         view.fallStartedAt = clock
       } else if (event.type === 'gameOver') {
         playGameOver(this, event)
@@ -460,7 +460,7 @@ export class OshikuraChainStage implements EffectHost {
         playMultiplierUp(this, event)
       } else if (event.type === 'multiplierReset') {
         playMultiplierReset(this, event)
-      } else if (event.type === 'enemyDeath') {
+      } else if (event.type === 'iconRemoved') {
         const size = event.footprint * CELL_PX
         const at = {
           x: (event.col + event.footprint / 2) * CELL_PX,
@@ -486,19 +486,19 @@ export class OshikuraChainStage implements EffectHost {
     }
   }
 
-  private createView(nuisance: Nuisance, isBoss: boolean): NuisanceView {
+  private createView(icon: ParticipantIcon, isBoss: boolean): ParticipantIconView {
     const actor = new Actor({ pos: vec(-1000, -1000), width: VIEW_PX, height: VIEW_PX })
-    const view: NuisanceView = { actor, nuisance, fallStartedAt: null, isBoss }
+    const view: ParticipantIconView = { actor, icon, fallStartedAt: null, isBoss }
     actor.graphics.use(
       new Canvas({
         width: VIEW_PX,
         height: VIEW_PX,
         cache: false,
-        draw: (ctx) => drawNuisance(ctx, view.nuisance, this.images.get(view.nuisance.profileImage)),
+        draw: (ctx) => drawParticipantIcon(ctx, view.icon, this.images.get(view.icon.profileImage)),
       })
     )
     this.engine.add(actor)
-    this.views.set(nuisance.id, view)
+    this.views.set(icon.id, view)
     return view
   }
 
@@ -507,13 +507,13 @@ export class OshikuraChainStage implements EffectHost {
     this.views.clear()
   }
 
-  private syncNuisances(state: GameState, clock: number): void {
+  private syncParticipantIcons(state: GameState, clock: number): void {
     const alive = new Set<number>()
-    for (const n of state.nuisances) {
+    for (const n of state.icons) {
       alive.add(n.id)
       // イベントを取り逃した (表示を切り替えた直後など) ものは、落下なしで表示する
       const view = this.views.get(n.id) ?? this.createView(n, false)
-      view.nuisance = n
+      view.icon = n
 
       const scale = sizeScaleOf(n)
       const footprint = footprintOf(scale)

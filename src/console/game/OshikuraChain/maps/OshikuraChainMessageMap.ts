@@ -1,6 +1,6 @@
 // src/console/game/OshikuraChain/maps/OshikuraChainMessageMap.ts
 // おしくらチェイン画面の文言 (日本語)。
-import type { NuisanceKind } from '../scripts/nuisanceTraits'
+import type { ParticipantIconKind } from '../scripts/participantIconTraits'
 
 export const oshikuraChainMessages = {
   title: 'おしくらチェイン',
@@ -12,7 +12,9 @@ export const oshikuraChainMessages = {
     heatTitle: (value: number) => `残り時間が ${value.toFixed(2)} 倍の速さで減っています (エンジンのヒートアップ)`,
     chainTitle: '連鎖数 / この連鎖で得た秒数',
     elapsedTitle: '経過時間',
-    nuisancesTitle: 'アイコンの数 / 上限',
+    iconsTitle: 'アイコンの数 / 上限',
+    iconsNearLimit: 'アイコン数が上限に近づいています',
+    iconsAtLimit: 'アイコンの上限です。これ以上、新しいアイコンは出現しません',
     gained: '獲得',
     gainedValue: (gained: string, target: string) => `${gained} / ${target}`,
     auto: 'オート',
@@ -21,7 +23,7 @@ export const oshikuraChainMessages = {
   },
   menu: {
     description:
-      'エンジン内部に降ってくるユーザーやコメントを、外へ押し出そう！押し出すことで燃料が放出され、残り時間が増えます。連続で押し出して、連鎖ボーナスを狙おう。',
+      '盤面に降ってくるユーザーのアイコンやコメントを、外へ押し出そう！押し出すことで燃料が放出され、残り時間が増えます。連続で押し出して、連鎖ボーナスを狙おう。',
     howTo: '操作：',
     start: (difficulty: number, minutes: number) => `スタート（難易度 ${difficulty}・目安 約${minutes}分）`,
     difficulty: '難易度',
@@ -58,7 +60,7 @@ export const oshikuraChainMessages = {
   kinds: {
     static: 'アイコン',
     boss: '巨大化',
-  } satisfies Record<NuisanceKind, string>,
+  } satisfies Record<ParticipantIconKind, string>,
   result: {
     title: 'ゲームオーバー',
     survived: '生存時間',

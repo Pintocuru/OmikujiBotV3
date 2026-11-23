@@ -1,8 +1,8 @@
-// src/console/game/OshikuraChain/scripts/nuisanceRecord.ts
+// src/console/game/OshikuraChain/scripts/oshikuraChainRecord.ts
 // 結果の表示用の整形と、ゲームログ (GameLog) に残す記録の組み立て (純粋関数)
 import type { GameLogType } from '@/types/api'
-import { PLAYER_USER_ID, PLAYER_USER_NAME } from './nuisanceConstants'
-import { getContributionRanking, type GameState } from './nuisanceEngine'
+import { PLAYER_USER_ID, PLAYER_USER_NAME } from './oshikuraChainConstants'
+import { getContributionRanking, type GameState } from './oshikuraChainEngine'
 
 /** 'mm:ss' (1時間を超えても、分を増やして表示する) */
 export const formatClock = (seconds: number): string => {
