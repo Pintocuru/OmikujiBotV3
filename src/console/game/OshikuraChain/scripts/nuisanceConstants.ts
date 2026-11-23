@@ -57,23 +57,21 @@ export const WORD_MAX = 30
 export const WORD_SECONDS_MIN = 5
 export const WORD_SECONDS_MAX = 20
 
-// ---- ギフト障害物 (プレイヤーは取り除けない。ダメージはなく、通行と押し出しを妨げる) ----
-/** 障害物が残る時間 (秒)。基本はこの秒数で、金額が大きいほど伸びる (OBSTACLE_SECONDS_FULL_PRICE 以上で最大) */
-export const OBSTACLE_SECONDS = 15
-export const OBSTACLE_SECONDS_MAX = 25
-export const OBSTACLE_SECONDS_FULL_PRICE = 10000
-/** 障害物を置いたあと、主人公が (敵を無視して) 動ける範囲がこのマス数を下回る場所には置かない (閉じ込め防止) */
-export const MIN_HERO_REACHABLE_CELLS = 20
-/** 同時に置ける障害物の数。超えたら、古いものから消す */
-export const MAX_OBSTACLES = 5
-/** 障害物が占めるマスの合計の上限 (盤面を埋めて、ゲームが成立しなくならないようにする) */
-export const MAX_OBSTACLE_CELLS = 20
-/** 金額と大きさ (一辺のマス数)。金額が大きいほど大きい。金額 0 (無料ギフトなど) も 1 マスで置く */
-export const OBSTACLE_SIZE_TIERS: readonly { minPrice: number; size: number }[] = [
-  { minPrice: 0, size: 1 },
-  { minPrice: 500, size: 2 },
-  { minPrice: 2000, size: 3 },
+// ---- ギフト効果 (ワード保護・倍率冷却) ----
+/** 金額に応じたワード保護時間 (秒) */
+export const GIFT_PROTECT_TIERS: readonly { minPrice: number; seconds: number }[] = [
+  { minPrice: 10001, seconds: 60 },
+  { minPrice: 5001, seconds: 40 },
+  { minPrice: 2001, seconds: 30 },
+  { minPrice: 1001, seconds: 20 },
+  { minPrice: 501, seconds: 15 },
+  { minPrice: 201, seconds: 10 },
+  { minPrice: 1, seconds: 5 },
+  { minPrice: 0, seconds: 0 },
 ]
+
+/** ギフト金額による倍率引き下げ係数 (金額 / この値 だけ倍率を下げる。1000円で ×1.0 低下) */
+export const GIFT_COOL_PRICE_UNIT = 1000
 
 // ---- 記録 (GameLog) ----
 /** ユーザーごとの貢献度 (その人のものが生んだ秒数) の eventKey。生存時間とは別のランキングにする */

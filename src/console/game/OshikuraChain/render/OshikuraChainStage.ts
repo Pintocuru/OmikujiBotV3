@@ -13,7 +13,7 @@ import {
   type NuisanceEvent,
   type Word,
 } from '../scripts/nuisanceEngine'
-import { formatObstaclePrice, obstacleColorOf } from '../scripts/nuisanceObstacle'
+import { formatGiftPrice, giftColorOf } from '../scripts/nuisanceGift'
 import {
   FALL_EXTRA_CELLS,
   FALL_SECONDS,
@@ -35,7 +35,6 @@ import { BOARD_BACKGROUND, drawBoard } from './draw/board'
 import { drawHero } from './draw/hero'
 import { ImageCache } from './draw/imageCache'
 import { drawNuisance, VIEW_PX } from './draw/nuisance'
-import { drawObstacle } from './draw/obstacle'
 import { clamp, hslToRgb, lerp } from './draw/util'
 import { drawWord } from './draw/word'
 import type { SoundKey } from './stageSounds'
@@ -96,7 +95,6 @@ export class OshikuraChainStage implements EffectHost {
   private readonly wordViews = new Map<number, WordView>()
   private readonly ghosts: Ghost[] = []
   private readonly popups: PopupView[] = []
-  private readonly obstacleViews = new Map<number, Actor>()
   private readonly grid: GridSize
   private heroX = NaN
   private heroY = NaN
@@ -148,7 +146,6 @@ export class OshikuraChainStage implements EffectHost {
     this.engine.stop()
     this.engine.dispose()
     this.views.clear()
-    this.obstacleViews.clear()
     this.wordViews.clear()
     this.ghosts.length = 0
     this.popups.length = 0
@@ -275,7 +272,6 @@ export class OshikuraChainStage implements EffectHost {
     if (!state || !config) {
       // ゲーム前・メニュー中: 盤面を空にする
       this.clearViews()
-      this.clearObstacles()
       this.clearWords()
       this.clearGhosts()
       this.clearPopups()
@@ -287,7 +283,6 @@ export class OshikuraChainStage implements EffectHost {
     this.applyEvents(events, state, clock)
     this.syncNuisances(state, clock)
     this.syncHero(state, dt)
-    this.syncObstacles(state, clock)
     this.syncWords(state, clock)
     this.syncGhosts(clock)
     this.syncPopups(dt)
@@ -365,8 +360,8 @@ export class OshikuraChainStage implements EffectHost {
         if (fallT >= 1) view.fallStartedAt = null
       }
       const left = w.expiresAt - state.elapsed
-      view.leftRatio = clamp(left / w.lifeSeconds, 0, 1)
-      if (left < 2) opacity *= 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(clock * 16))
+      view.leftRatio = w.protected ? 1 : clamp(left / w.lifeSeconds, 0, 1)
+      if (!w.protected && left < 2) opacity *= 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(clock * 16))
       view.actor.pos = vec(x, y)
       view.actor.graphics.opacity = opacity
     }
@@ -378,13 +373,15 @@ export class OshikuraChainStage implements EffectHost {
     }
   }
 
-  // ---- ギフト障害物 ----
+  // ---- ギフト通知 ----
 
-  /** 障害物を置けなかったギフトの金額を、盤面の上のほうに少しの間だけ出す (無視しない) */
-  private showGiftNotice(userName: string, price: number): void {
-    const color = obstacleColorOf(price)
-    const label = `${userName} ${formatObstaclePrice(price)}`
-    const width = Math.min(this.grid.cols * CELL_PX, Math.max(180, label.length * 24 + 32))
+  /** ギフト受信時に、名前・金額・保護効果を盤面の上のほうに出す */
+  private showGiftNotice(userName: string, price: number, protectSeconds: number, coolAmount: number): void {
+    const color = giftColorOf(price)
+    const coolText = coolAmount > 0 ? ` 冷却 -×${coolAmount.toFixed(1)}` : ''
+    const protectText = protectSeconds > 0 ? ` ワード保護 ${protectSeconds}秒` : ''
+    const label = `${userName} ${formatGiftPrice(price)}！${protectText}${coolText}`
+    const width = Math.min(this.grid.cols * CELL_PX, Math.max(180, label.length * 20 + 32))
     const height = 48
     const actor = new Actor({
       pos: vec((this.grid.cols * CELL_PX) / 2, 36 + Math.random() * 40),
@@ -403,7 +400,7 @@ export class OshikuraChainStage implements EffectHost {
           ctx.roundRect(2, 2, width - 4, height - 4, 14)
           ctx.fill()
           ctx.fillStyle = color.text
-          ctx.font = 'bold 22px sans-serif'
+          ctx.font = 'bold 20px sans-serif'
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
           ctx.fillText(label, width / 2, height / 2)
@@ -412,36 +409,6 @@ export class OshikuraChainStage implements EffectHost {
     )
     this.engine.add(actor)
     actor.actions.delay(2500).fade(0, 700).die()
-  }
-
-  private clearObstacles(): void {
-    for (const actor of this.obstacleViews.values()) actor.kill()
-    this.obstacleViews.clear()
-  }
-
-  /** 状態の障害物に合わせて、表示を足す・消す。消える直前の 2 秒は点滅する */
-  private syncObstacles(state: GameState, clock: number): void {
-    const alive = new Set(state.obstacles.map((o) => o.id))
-    for (const [id, actor] of this.obstacleViews) {
-      if (alive.has(id)) continue
-      actor.kill()
-      this.obstacleViews.delete(id)
-    }
-    for (const o of state.obstacles) {
-      let actor = this.obstacleViews.get(o.id)
-      if (!actor) {
-        const w = o.size * CELL_PX
-        actor = new Actor({ pos: vec(0, 0), width: w, height: w, z: 5 })
-        actor.graphics.use(
-          new Canvas({ width: w, height: w, cache: true, draw: (ctx) => drawObstacle(ctx, o, w) })
-        )
-        this.engine.add(actor)
-        this.obstacleViews.set(o.id, actor)
-      }
-      actor.pos = vec((o.col + o.size / 2) * CELL_PX, (o.row + o.size / 2) * CELL_PX)
-      const left = o.expiresAt - state.elapsed
-      actor.graphics.opacity = left < 2 ? 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(clock * 16)) : 1
-    }
   }
 
   private measureCtx: CanvasRenderingContext2D | null = null
@@ -454,8 +421,8 @@ export class OshikuraChainStage implements EffectHost {
         if (!nuisance) continue
         const view = this.createView(nuisance, event.isBoss)
         view.fallStartedAt = clock
-      } else if (event.type === 'obstacleSkipped') {
-        this.showGiftNotice(event.userName, event.price)
+      } else if (event.type === 'giftReceived') {
+        this.showGiftNotice(event.userName, event.price, event.protectSeconds, event.coolAmount)
       } else if (event.type === 'wordSpawn') {
         const word = state.words.find((w) => w.id === event.id)
         if (!word) continue

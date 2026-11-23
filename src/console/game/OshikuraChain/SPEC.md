@@ -116,16 +116,21 @@ LiveConsole の `game` カテゴリのブラウザゲーム。別ウィンドウ
 - ゲーム内の時計で進めるので、ウィンドウが非表示の間は、コメントも入らない。
 - 記録: 架空のユーザーは、ユーザーごとの貢献度のランキングに混ぜない。**配信者の記録だけ**を残す（「記録」の節）。
 
-## ギフト障害物
+## ギフト効果（ワード保護・倍率冷却）
 
-- ギフト（`giftPrice` が null でない。0 円も含む。下限なし）を受け取ると、アイコンではなく**障害物**を 1 つ置く（そのコメントのアイコン・ことばは出ない）。
-- 置き場所は、空いているマスからランダム（主人公・アイコン・ことば・他の障害物のマスには置かない）。
-- 大きさは金額で決まる（`OBSTACLE_SIZE_TIERS`: 〜499 円=1 マス、500 円〜=2 マス、2000 円〜=3 マス）。色は YouTube のスーパーチャットに合わせて金額帯ごとに変わり、金額を表示する。
-- 残る時間は、基本 `OBSTACLE_SECONDS`（15 秒）で、金額に比例して伸びる（`OBSTACLE_SECONDS_FULL_PRICE`＝10000 円以上で `OBSTACLE_SECONDS_MAX`＝25 秒）。最後の 2 秒は点滅して消える。プレイヤーは取り除けない。
-- 主人公は障害物のマスに入れない。押し出すとき、押す先（連鎖を含む）に障害物があれば、まるごと押せない。盤面の外へ出る押し出しは、障害物があっても得点になる。
-- 同時に置けるのは `MAX_OBSTACLES`（5 つ）まで、マスの合計は `MAX_OBSTACLE_CELLS`（20 マス）まで。超えるときは、古いものから消す。
-- 閉じ込め防止: 置いたあとに、主人公が（アイコンを無視して）動ける範囲が `MIN_HERO_REACHABLE_CELLS`（20 マス）を下回る場所には置かない。置けなければ、小さくして試す。
-- それでも置けないギフトは、無視しない。障害物の代わりに、名前と金額を盤面の上に少しの間だけ表示する（`obstacleSkipped` イベント）。
+- ギフト（`giftPrice` が 1 円以上）を受け取ると、以下の効果が発動する。
+  1. **盤面上のすべてのワードを保護**: 現在盤面にあるすべてのことば（`Word`）を保護状態にする。保護されたワードは、時間経過で爆発しない。保護効果の終了後も永久に爆発しない状態を維持する。
+  2. **新規ワードの保護**: 保護時間のあいだに新しく出現したワードも自動的に保護対象にする。
+  3. **エンジンの冷却（倍率引き下げ）**: 現在の倍率（残り時間が減る速さ）を `ギフト金額 ÷ 1000` だけ引き下げる（下限は ×1.0。例: 1,000円で ×1.0 低下）。
+- 金額と保護時間（`GIFT_PROTECT_TIERS`）:
+  - 1〜200 円: 5 秒
+  - 201〜500 円: 10 秒
+  - 501〜1,000 円: 15 秒
+  - 1,001〜2,000 円: 20 秒
+  - 2,001〜5,000 円: 30 秒
+  - 5,001〜10,000 円: 40 秒
+  - 10,001 円以上: 60 秒
+- 演出: ギフト受信時に、名前・金額・保護時間・冷却量を画面上部に通知表示する（`giftReceived` イベント）。保護されたワードは右上タイマーが★マークになり爆発しない。
 
 ## 時間の進め方（非表示の間は止まる）
 
@@ -232,7 +237,7 @@ NuisanceSurvival/
 │  ├─ StarField.ts                 背景の星 (中央から広がる。連鎖数で速さが変わる)
 │  ├─ OshikuraChainAudio.ts             効果音の読み込み・再生 (Excalibur Sound / Web Audio)
 │  ├─ effectPresets.ts             イベント → 演出のプリセット (Excalibur を知らない)
-│  └─ draw/                        Canvas 2D の描き方 (board / hero / nuisance / word / obstacle の描画関数、imageCache、util)
+│  └─ draw/                        Canvas 2D の描き方 (board / hero / nuisance / word の描画関数、imageCache、util)
 ├─ composables/
 │  ├─ useOshikuraChain.ts       進行・ゲーム内の時計・コメント購読・キー入力・記録・演出イベントの受け渡し
 │  ├─ useNuisanceConfig.ts         コンフィグの読み込み・編集・保存
@@ -243,7 +248,7 @@ NuisanceSurvival/
    ├─ nuisanceConfig.ts            コンフィグのスキーマと範囲
    ├─ nuisanceTraits.ts            userId → アイコンの見た目 (大きさ・色)
    ├─ nuisanceEngine.ts            進行 (出現・押す・連鎖・倍率・残り時間) と演出用イベント
-   ├─ nuisanceObstacle.ts          金額 → 障害物の大きさ・表示
+   ├─ nuisanceGift.ts              金額 → ワード保護時間・倍率冷却量・表示
    ├─ nuisanceRecord.ts            記録の組み立て・表示用の整形
    ├─ autoComment.ts               コメントオートモード (一定間隔の到着時刻を作る)
    ├─ heroInput.ts                 WASD → 向き
@@ -257,7 +262,7 @@ NuisanceSurvival/
 描画と演出だけを Excalibur（`excalibur`）で行う。進行は、これまでどおり純粋関数（`nuisanceEngine.ts`）が決める。ゲームの進行を Excalibur に載せない理由は、固定刻み・種からの決定性・テストを保つため。
 
 - 役割: ゲームロジック = `scripts/`、描画・演出 = `render/`、つなぎ = `OshikuraChainStageSource`（読み取り専用の窓口。`getState` / `getConfig` / `getClock` / `drainEvents`）。ゲームの側から Excalibur は操作しない。
-- 状態と演出イベントは別: `advance` は、状態とは別に `events`（`enemySpawn` / `enemyDeath` / `wordSpawn` / `wordGone` / `score` / `chainBreak` / `multiplierUp` / `multiplierReset` / `obstacleSkipped`）を返す。コンポーザブルが溜めて、盤面が `drainEvents` で受け取る。
+- 状態と演出イベントは別: `advance` は、状態とは別に `events`（`enemySpawn` / `enemyDeath` / `wordSpawn` / `wordGone` / `score` / `chainBreak` / `multiplierUp` / `multiplierReset` / `giftReceived`）を返す。コンポーザブルが溜めて、盤面が `drainEvents` で受け取る。
 - 演出はプリセット（`render/effectPresets.ts`）: イベント → 「何を、どれくらい派手に出すか」だけを決める。Excalibur は `EffectHost`（`shake` / `burst`）の向こうにあり、プリセットは知らない。演出を足すときは、プリセットを足して、イベントに対応させる。
 - 見た目（円・アイコン・輪）は、前の canvas 2D の描き方のまま、Excalibur の `Canvas` グラフィックで描く。
 - `NuisanceField.vue` は、起動と破棄（`onMounted` / `onBeforeUnmount`）だけ。

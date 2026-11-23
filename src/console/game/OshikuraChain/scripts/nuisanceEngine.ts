@@ -1,26 +1,11 @@
 // src/console/game/OshikuraChain/scripts/nuisanceEngine.ts
-// おしくらチェイン (協力パズル) の進行を決める純粋関数 (画面・通信・時計に依存しない。乱数・入力・コメントは外から渡す)
-//
-// 遊び方: コメントした人のアイコンと、コメントの文字 (ことば) が盤面に降ってくる。主人公が画面の外へ押し出すと、
-// 残り時間が増える (獲得秒数 × 連鎖数)。残り時間は、1 秒ごとに「倍率」秒減り、0 になるとゲームオーバー。
-// - 連鎖: 画面の外へ押し出して得点するたびに +1。得点しない動き (空きマスへの移動など) をすると、切れる。止まっただけでは切れない
-// - 倍率: 残り時間が減る速さ (エンジンのヒートアップ)。1 から始まり、時間が経つほど上がる (上限あり)。初見コメントのリセット設定が有効なら、初見さんのコメントで 1 に戻る
-// - 残り時間には上限 (maxSeconds) がある
-// タイムアタック (config.gameMode === 'timeAttack'): 残り時間はなく、倍率は常に 1。獲得秒数の合計が targetSeconds に届いた時刻でクリアになる
-//
-// 時間は固定の刻み (STEP_SECONDS) で進める。画面が隠れて更新が止まっていた間も、
-// 「前回から今まで」の時間を、必要な回数だけ刻んで追いつく (advance)。
-// コメントは到着した時刻 (開始からの秒) をつけて渡すので、追いつく途中の正しい時刻に出現する。
-// 進行の結果は、状態 (GameState) とは別に、演出用のイベント (NuisanceEvent) としても返す。
+// おしくらチェインの進行を決める純粋関数
 import {
   GRID_COLS,
   GRID_ROWS,
   HERO_MOVE_INTERVAL_SECONDS,
   HERO_PUSH_INTERVAL_SECONDS,
   MAX_FOOTPRINT,
-  MAX_OBSTACLE_CELLS,
-  MAX_OBSTACLES,
-  MIN_HERO_REACHABLE_CELLS,
   MAX_STEPS_PER_ADVANCE,
   PUSH_WAVE_DELAY_SECONDS,
   STEP_SECONDS,
@@ -35,7 +20,7 @@ import {
 import type { GameMode, NuisanceConfigType } from './nuisanceConfig'
 import { NO_INPUT, type HeroInput } from './heroInput'
 import { getBossTraits, getNuisanceTraits, type NuisanceTraits } from './nuisanceTraits'
-import { obstacleSecondsOf, obstacleSizeOf } from './nuisanceObstacle'
+import { giftCoolAmountOf, giftProtectSecondsOf } from './nuisanceGift'
 import type { Rng } from './rng'
 
 export type GridSize = { cols: number; rows: number }
@@ -64,26 +49,11 @@ export type Nuisance = {
   movedAt: number
 }
 
-/** ギフト障害物 (一定時間だけ盤面に残る。取り除けず、通行と押し出しを妨げる) */
-export type Obstacle = {
-  id: number
-  userId: string
-  userName: string
-  /** ギフトの金額 (表示に使う) */
-  price: number
-  /** 占めるマスの左上と、一辺のマス数 */
-  col: number
-  row: number
-  size: number
-  /** 置かれた時刻と、消える時刻 (開始からの秒) */
-  placedAt: number
-  expiresAt: number
-}
-
 /**
  * コメントの文字 (「ことば」)。コメントの文字数に応じて降ってくる。1 マスを占める。
  * 主人公が押し出せる (押された先のアイコンも連鎖する)。押されないまま時間が経つと、爆発して、周囲 8 マスのアイコン・ことばを消す
- * (得点にはならない。連鎖の邪魔になる)。押されると、爆発までの時間は最初の長さに戻る
+ * (得点にはならない。連鎖の邪魔になる)。押されると、爆発までの時間は最初の長さに戻る。
+ * ギフト効果により protected が true になったワードは時間経過で爆発しない。
  */
 export type Word = {
   id: number
@@ -101,6 +71,8 @@ export type Word = {
   /** 爆発する時刻 (開始からの秒)。押されるたびに、いまの時刻 + lifeSeconds になる。円グラフで、残り時間を見せる */
   expiresAt: number
   lifeSeconds: number
+  /** ギフトで保護されているか (保護されたワードは爆発しない) */
+  protected?: boolean
 }
 
 /** 押し出せるもの (アイコン・ことば) */
@@ -129,7 +101,6 @@ export type GameState = {
   timeLeft: number
   hero: Hero
   nuisances: Nuisance[]
-  obstacles: Obstacle[]
   /** コメントの文字 (ことば) */
   words: Word[]
   nextId: number
@@ -139,12 +110,14 @@ export type GameState = {
   chainTotal: number
   /** 最大の連鎖数 */
   bestChain: number
-  /** 倍率が 1 だった時刻 (開始からの秒)。初見コメントによるリセット時に更新する */
+  /** 倍率が 1 だった時刻 (開始からの秒)。初見コメントによるリセットやギフト冷却時に更新する */
   multiplierResetAt: number
   /** 演出で知らせた倍率の段階 (1〜。倍率の整数部分。上がったときだけ知らせ、リセットで 1 に戻る) */
   multiplierLevel: number
   /** 次に巨大化するユーザーを選ぶ時刻 (開始からの秒) */
   nextGiantAt: number
+  /** ギフトによるワード保護効果の終了時刻 (開始からの経過秒) */
+  wordProtectUntil: number
   /** 残り時間に足した秒数の合計 (上限で切られた分は含まない)。タイムアタックでは、獲得した秒数の合計 (目標との比較に使う) */
   gainedSeconds: number
   /** 押し出したアイコン / ことばの数 / 上限などで無視したコメントの数 */
@@ -167,9 +140,9 @@ export type SpawnRequest = {
   profileImage: string
   /** 初見さん (その人の最初のコメント) か。設定が有効なら倍率が 1 に戻る */
   isFirst?: boolean
-  /** コメントの本文。あれば、文字数に応じて「ことば」が降ってくる (ギフトのときは降らない) */
+  /** コメントの本文。あれば、文字数に応じて「ことば」が降ってくる */
   comment?: string
-  /** ギフトの金額。指定があれば、アイコンではなく障害物を置く (0 も置く。ギフトでなければ省略) */
+  /** ギフトの金額。指定があれば、ワードを保護し、倍率を下げる (ギフトでなければ省略) */
   giftPrice?: number
 }
 
@@ -264,18 +237,13 @@ export type NuisanceEvent =
       userName: string
     }
   | {
-      /** 置ける場所がなく、障害物を置けなかったギフト (金額だけ表示する。無視はしない) */
-      type: 'obstacleSkipped'
+      /** ギフト効果の発動 (ワード保護とエンジン冷却) */
+      type: 'giftReceived'
       userName: string
       price: number
+      protectSeconds: number
+      coolAmount: number
     }
-
-const DIRECTIONS: readonly (readonly [number, number])[] = [
-  [1, 0],
-  [-1, 0],
-  [0, 1],
-  [0, -1],
-]
 
 export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_GRID): GameState => ({
   gameMode: config.gameMode,
@@ -284,7 +252,6 @@ export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_
   timeLeft: config.gameMode === 'timeAttack' ? 0 : config.initialSeconds,
   hero: { col: Math.floor(grid.cols / 2), row: Math.floor(grid.rows / 2), cooldown: 0 },
   nuisances: [],
-  obstacles: [],
   words: [],
   nextId: 1,
   contributions: {},
@@ -294,6 +261,7 @@ export const createGame = (config: NuisanceConfigType, grid: GridSize = DEFAULT_
   multiplierResetAt: 0,
   multiplierLevel: 1,
   nextGiantAt: GIANT_INTERVAL_SECONDS,
+  wordProtectUntil: 0,
   gainedSeconds: 0,
   removedCount: 0,
   removedWordCount: 0,
@@ -341,7 +309,6 @@ const cloneState = (s: GameState): GameState => ({
   ...s,
   hero: { ...s.hero },
   nuisances: s.nuisances.map((n) => ({ ...n })),
-  obstacles: s.obstacles.map((o) => ({ ...o })),
   words: s.words.map((w) => ({ ...w })),
   contributions: Object.fromEntries(Object.entries(s.contributions).map(([id, c]) => [id, { ...c }])),
 })
@@ -364,11 +331,6 @@ const pickFreeCell = (
 ): { col: number; row: number } | null => {
   const occupied = new Set<number>()
   occupied.add(s.hero.row * s.grid.cols + s.hero.col)
-  for (const o of s.obstacles) {
-    for (let r = o.row; r < o.row + o.size; r++) {
-      for (let c = o.col; c < o.col + o.size; c++) occupied.add(r * s.grid.cols + c)
-    }
-  }
   for (const n of s.nuisances) {
     const { footprint } = measure(n)
     for (let r = n.row; r < n.row + footprint; r++) {
@@ -391,75 +353,12 @@ const pickFreeCell = (
   return free.length ? free[Math.floor(rng() * free.length)] : null
 }
 
-/** 障害物を足したあとに、主人公が (アイコンを無視して) 動けるマスの数 */
-const reachableCellsFrom = (s: GameState, extra: { col: number; row: number; size: number }): number => {
-  const blocked = (c: number, r: number) =>
-    s.obstacles.some((o) => c >= o.col && c < o.col + o.size && r >= o.row && r < o.row + o.size) ||
-    (c >= extra.col && c < extra.col + extra.size && r >= extra.row && r < extra.row + extra.size)
-  const seen = new Set<number>([s.hero.row * s.grid.cols + s.hero.col])
-  const queue: [number, number][] = [[s.hero.col, s.hero.row]]
-  while (queue.length) {
-    const [c, r] = queue.pop()!
-    for (const [dx, dy] of DIRECTIONS) {
-      const nc = c + dx
-      const nr = r + dy
-      if (nc < 0 || nr < 0 || nc >= s.grid.cols || nr >= s.grid.rows || blocked(nc, nr)) continue
-      const key = nr * s.grid.cols + nc
-      if (seen.has(key)) continue
-      seen.add(key)
-      queue.push([nc, nr])
-    }
-  }
-  return seen.size
-}
-
-/** 障害物を置く。同時数・マスの合計の上限を超えるときは、古いものから消す。置ける場所がなければ置かない */
-const placeObstacle = (s: GameState, request: SpawnRequest, rng: Rng, events: NuisanceEvent[]): void => {
-  const price = request.giftPrice ?? 0
-  const wanted = Math.min(obstacleSizeOf(price), s.grid.cols, s.grid.rows)
-  const cells = () => s.obstacles.reduce((sum, o) => sum + o.size * o.size, 0)
-  while (
-    s.obstacles.length > 0 &&
-    (s.obstacles.length >= MAX_OBSTACLES || cells() + wanted * wanted > MAX_OBSTACLE_CELLS)
-  ) {
-    s.obstacles.shift()
-  }
-  // 置ける場所がなければ、小さくして試す。主人公が閉じ込められる場所には置かない
-  let cell: { col: number; row: number } | null = null
-  let size = wanted
-  for (; size >= 1 && !cell; size--) {
-    const trySize = size
-    cell = pickFreeCell(
-      s,
-      rng,
-      trySize,
-      (col, row) => reachableCellsFrom(s, { col, row, size: trySize }) >= MIN_HERO_REACHABLE_CELLS
-    )
-    if (cell) break
-  }
-  if (!cell) {
-    // 置けなくても、無視はしない (金額は、画面に表示する)
-    events.push({ type: 'obstacleSkipped', userName: request.userName, price })
-    return
-  }
-  s.obstacles.push({
-    id: s.nextId++,
-    userId: request.userId,
-    userName: request.userName,
-    price,
-    col: cell.col,
-    row: cell.row,
-    size,
-    placedAt: s.elapsed,
-    expiresAt: s.elapsed + obstacleSecondsOf(price),
-  })
-}
-
 /** コメントの文字を、5 文字ごとの「ことば」にして降らせる (最大 WORD_MAX_PER_COMMENT 個)。空きマスがなければ、そこで止める */
 const dropWords = (s: GameState, request: SpawnRequest, rng: Rng, events: NuisanceEvent[]): void => {
   const chars = Array.from((request.comment ?? '').replace(/\s+/g, ''))
   if (!chars.length) return
   const count = Math.min(WORD_MAX_PER_COMMENT, Math.ceil(chars.length / WORD_CHARS_PER_ITEM))
+  const isProtected = s.elapsed < s.wordProtectUntil
   for (let i = 0; i < count; i++) {
     // 上限を超えるときは、古いものから消す
     while (s.words.length >= WORD_MAX) s.words.shift()
@@ -480,6 +379,7 @@ const dropWords = (s: GameState, request: SpawnRequest, rng: Rng, events: Nuisan
       movedAt: s.elapsed,
       expiresAt: s.elapsed + lifeSeconds,
       lifeSeconds,
+      protected: isProtected ? true : undefined,
     })
     events.push({ type: 'wordSpawn', id, col: cell.col, row: cell.row })
   }
@@ -500,10 +400,37 @@ const spawnOne = (
     s.multiplierResetAt = s.elapsed
     s.multiplierLevel = 1
   }
-  // ギフトは、アイコンではなく障害物になる
-  if (request.giftPrice !== undefined) {
-    placeObstacle(s, request, rng, events)
-    return
+
+  // ギフト効果: 既存ワードの保護・新規ワード保護時間の延長・倍率の冷却 (引き下げ)
+  if (request.giftPrice !== undefined && request.giftPrice > 0) {
+    const price = request.giftPrice
+    const protectSeconds = giftProtectSecondsOf(price)
+    const coolAmount = giftCoolAmountOf(price)
+
+    // 1. 盤面上にあるすべてのワードを保護する (効果終了後も爆発しない)
+    for (const w of s.words) {
+      w.protected = true
+    }
+    // 2. 保護時間中は、新しく出現するワードも保護対象にする
+    const currentProtectLeft = Math.max(0, s.wordProtectUntil - s.elapsed)
+    s.wordProtectUntil = s.elapsed + currentProtectLeft + protectSeconds
+
+    // 3. 倍率を 金額/1000 だけ引き下げる (冷却効果)
+    if (coolAmount > 0 && config.multiplierRisePerMinute > 0 && config.gameMode !== 'timeAttack') {
+      const currentMultiplier = multiplierOf(s.elapsed, s.multiplierResetAt, config)
+      const targetMultiplier = Math.max(1, currentMultiplier - coolAmount)
+      const targetElapsedOffset = ((targetMultiplier - 1) / config.multiplierRisePerMinute) * 60
+      s.multiplierResetAt = Math.max(0, s.elapsed - targetElapsedOffset)
+      s.multiplierLevel = multiplierLevelOf(targetMultiplier)
+    }
+
+    events.push({
+      type: 'giftReceived',
+      userName: request.userName,
+      price,
+      protectSeconds,
+      coolAmount,
+    })
   }
   // コメントの文字数に応じて、「ことば」も降ってくる (アイコンが上限で出なくても降る)
   dropWords(s, request, rng, events)
@@ -547,12 +474,6 @@ const spawnOne = (
 }
 
 // ---- 押し出し ----
-
-/** footprint 四方の範囲が、障害物と重なるか */
-const hitsObstacle = (s: GameState, footprint: number, col: number, row: number): boolean =>
-  s.obstacles.some(
-    (o) => col < o.col + o.size && col + footprint > o.col && row < o.row + o.size && row + footprint > o.row
-  )
 
 /** 画面の外へ押し出されたもの 1 つぶんの得点。連鎖数が 1 増え、獲得秒数 × 連鎖数が、残り時間に足される (上限あり) */
 const awardScore = (
@@ -660,14 +581,6 @@ const pushChain = (
       }
     }
   }
-  // 押す先に障害物があれば、まるごと押せない (盤面の外へ出るものは、障害物の影響を受けない)
-  for (const n of pushing) {
-    const f = footprintById(n)
-    const nextCol = n.col + dx
-    const nextRow = n.row + dy
-    const inside = nextCol >= 0 && nextRow >= 0 && nextCol + f <= s.grid.cols && nextRow + f <= s.grid.rows
-    if (inside && hitsObstacle(s, f, nextCol, nextRow)) return null
-  }
   let scored = 0
   for (const n of pushing) {
     const f = footprintById(n)
@@ -703,10 +616,10 @@ const pushChain = (
 /**
  * 爆発までの時間が来たことばを、爆発させる。周囲 8 マスにある (一部でも重なる) アイコン・ことばを消す。
  * 得点にはならず、連鎖も切れない (消えたぶん、並べたアイコンが減る)。巻き込まれたことばは、連鎖して爆発はしない。
- * 主人公・障害物は、巻き込まれない
+ * 主人公は巻き込まれない。ギフトで保護された (protected) ことばは爆発しない。
  */
 const explodeWords = (s: GameState, events: NuisanceEvent[]): void => {
-  const due = s.words.filter((w) => w.expiresAt <= s.elapsed)
+  const due = s.words.filter((w) => !w.protected && w.expiresAt <= s.elapsed)
   if (!due.length) return
   const gone = new Set<number>()
   for (const w of due) {
@@ -749,10 +662,7 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, ev
     const col = hero.col + input.dx
     const row = hero.row + input.dy
     if (col >= 0 && row >= 0 && col < s.grid.cols && row < s.grid.rows) {
-      const free = !s.obstacles.some(
-        (o) => col >= o.col && col < o.col + o.size && row >= o.row && row < o.row + o.size
-      )
-      const scored = free ? pushChain(s, config, col, row, input.dx, input.dy, removed, events) : null
+      const scored = pushChain(s, config, col, row, input.dx, input.dy, removed, events)
       if (scored !== null) {
         hero.col = col
         hero.row = row
@@ -772,9 +682,7 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, ev
     s.words = s.words.filter((w) => !removed.has(w.id))
   }
 
-  // 障害物: 時間が来たら消える。ことば: 時間が来たら (押されていなければ) 爆発する
-  if (s.obstacles.some((o) => o.expiresAt <= s.elapsed))
-    s.obstacles = s.obstacles.filter((o) => o.expiresAt > s.elapsed)
+  // ことば: 時間が来たら (押されておらず、保護されていなければ) 爆発する
   explodeWords(s, events)
 
   // タイムアタック: 残り時間はない。獲得秒数の合計が目標に届いた時刻 (得点した刻み) で、クリア
