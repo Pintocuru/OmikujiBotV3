@@ -1,9 +1,9 @@
 // src/console/game/OshikuraChain/render/OshikuraChainStage.ts
 // Excalibur による盤面の描画・演出。ゲームの状態 (GameState) を毎フレーム読み取って映すだけで、ゲームには何も返さない。
-// 進行 (nuisanceEngine) からは呼ばれない。受け取るのは source (読み取り専用の窓口) だけ
+// 進行 (oshikuraChainEngine) からは呼ばれない。受け取るのは source (読み取り専用の窓口) だけ
 import { Actor, Canvas, Color, DisplayMode, Engine, EmitterType, ParticleEmitter, vec, type Scene } from 'excalibur'
-import { CELL_PX, HERO_MOVE_INTERVAL_SECONDS } from '../scripts/nuisanceConstants'
-import type { OshikuraChainConfig } from '../scripts/nuisanceConfig'
+import { CELL_PX, HERO_MOVE_INTERVAL_SECONDS } from '../scripts/oshikuraChainConstants'
+import type { OshikuraChainConfig } from '../scripts/oshikuraChainConfig'
 import {
   footprintOf,
   sizeScaleOf,
@@ -12,8 +12,8 @@ import {
   type ParticipantIcon,
   type OshikuraChainEvent,
   type Word,
-} from '../scripts/nuisanceEngine'
-import { formatGiftPrice, giftColorOf } from '../scripts/nuisanceGift'
+} from '../scripts/oshikuraChainEngine'
+import { formatGiftPrice, giftColorOf } from '../scripts/oshikuraChainGift'
 import {
   FALL_EXTRA_CELLS,
   FALL_SECONDS,
@@ -35,7 +35,7 @@ import { StarField } from './StarField'
 import { BOARD_BACKGROUND, drawBoard } from './draw/board'
 import { drawHero } from './draw/hero'
 import { ImageCache } from './draw/imageCache'
-import { drawParticipantIcon, VIEW_PX } from './draw/nuisance'
+import { drawParticipantIcon, VIEW_PX } from './draw/participantIcon'
 import { clamp, hslToRgb, lerp } from './draw/util'
 import { drawWord } from './draw/word'
 import type { SoundKey } from './stageSounds'
