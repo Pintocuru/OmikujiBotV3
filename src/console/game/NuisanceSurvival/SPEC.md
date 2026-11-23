@@ -191,6 +191,7 @@ NuisanceSurvival/
 ├─ components/                     画面の部品 (TopBar / Field / Menu / Result / TestPanel)
 ├─ render/                         Excalibur の描画・演出
 │  ├─ NuisanceStage.ts             状態を読み取って映す・イベントから演出を出す
+│  ├─ NuisanceAudio.ts             効果音の読み込み・再生 (Excalibur Sound / Web Audio)
 │  └─ effectPresets.ts             イベント → 演出のプリセット (Excalibur を知らない)
 ├─ composables/
 │  ├─ useNuisanceSurvival.ts       進行・ゲーム内の時計・コメント購読・キー入力・記録・演出イベントの受け渡し
