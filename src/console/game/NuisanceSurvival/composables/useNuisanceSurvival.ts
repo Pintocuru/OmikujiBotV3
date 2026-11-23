@@ -10,8 +10,7 @@ import { MAX_GAME_LOGS_PER_APPEND } from '@/types/api'
 import type { OmikenCommentType } from '@/types/OmikenComment'
 import { isMoveKey, resolveInput } from '../scripts/heroInput'
 import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
-import { BUBBLE_MAX, CONTRIBUTION_EVENT_KEY, MAX_FRAME_SECONDS, SURVIVAL_EVENT_KEY } from '../scripts/nuisanceConstants'
-import type { CommentBubble } from '../scripts/nuisanceBubble'
+import { CONTRIBUTION_EVENT_KEY, MAX_FRAME_SECONDS, SURVIVAL_EVENT_KEY } from '../scripts/nuisanceConstants'
 import {
   advance,
   createGame,
@@ -71,7 +70,6 @@ export function useNuisanceSurvival() {
   let recordedAt = 0
   let pendingSpawns: SpawnRequest[] = []
   let eventQueue: NuisanceEvent[] = []
-  let bubbleQueue: CommentBubble[] = []
   const heldCodes: string[] = []
   let frameId = 0
 
@@ -85,13 +83,6 @@ export function useNuisanceSurvival() {
     const events = eventQueue
     eventQueue = []
     return events
-  }
-
-  /** 溜まった吹き出しの依頼を渡して、空にする (上限あり) */
-  const drainBubbles = (): CommentBubble[] => {
-    const bubbles = bubbleQueue
-    bubbleQueue = []
-    return bubbles
   }
 
   // ---- 進行 ----
@@ -142,7 +133,6 @@ export function useNuisanceSurvival() {
     recordError.value = ''
     gameClock = 0
     eventQueue = []
-    bubbleQueue = []
     phase.value = 'running'
     showMenu.value = false
     startDriver()
@@ -213,8 +203,6 @@ export function useNuisanceSurvival() {
     const atSeconds = gameClock
     for (const omiken of newOmikens) {
       if (omiken.userId === POST_SETTINGS.botUserId) continue // おみくじBOT自身の投稿は、ユーザーではない
-      // 吹き出しは、コメントごとに必ず出す (邪魔者が上限などで出なくても、視界は妨害される)
-      bubbleQueue = [...bubbleQueue, { userName: omiken.userName, comment: omiken.comment }].slice(-BUBBLE_MAX)
       pendingSpawns.push({
         atSeconds,
         userId: omiken.userId,
@@ -282,7 +270,6 @@ export function useNuisanceSurvival() {
     configStore,
     getClock,
     drainEvents,
-    drainBubbles,
     start,
     toMenu,
     toggleMenu,

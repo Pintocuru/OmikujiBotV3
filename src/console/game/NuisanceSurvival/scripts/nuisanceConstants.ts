@@ -38,25 +38,11 @@ export const MAX_FOOTPRINT = 3
 export const WORD_CHARS_PER_ITEM = 5
 /** 1 コメントから降ってくる「ことば」の上限 */
 export const WORD_MAX_PER_COMMENT = 5
-/** 同時に盤面にある「ことば」の上限。超えたら、古いものから消す */
+/** 同時に盤面にある「ことば」の上限。超えたら、古いものから (爆発させずに) 消す */
 export const WORD_MAX = 30
-/** 「ことば」が残る時間 (秒)。この範囲でランダム */
+/** 「ことば」が爆発するまでの時間 (秒)。この範囲でランダム (押されるたびに、最初の長さに戻る) */
 export const WORD_SECONDS_MIN = 5
 export const WORD_SECONDS_MAX = 20
-
-// ---- 吹き出し (視界妨害。見た目だけで、ゲームの当たり判定には影響しない) ----
-/** 吹き出しが出ている時間 (秒。フェードを含む) */
-export const BUBBLE_SECONDS = 5
-/** 現れる・消えるときのフェード (秒) */
-export const BUBBLE_FADE_SECONDS = 0.4
-/** 吹き出しの透明度 (1 で不透明) */
-export const BUBBLE_ALPHA = 0.85
-/** 同時に出せる吹き出しの数。超えたら、古いものから消す */
-export const BUBBLE_MAX = 10
-/** 主人公のまわり、何マスまでの範囲に出すか (主人公を隠すため、主人公の近くに出る) */
-export const BUBBLE_SPREAD_CELLS = 2
-/** 吹き出しに出す文字数の上限 (超えたら省略) */
-export const BUBBLE_MAX_CHARS = 20
 
 // ---- ギフト障害物 (プレイヤーは取り除けない。ダメージはなく、通行と押し出しを妨げる) ----
 /** 障害物が残る時間 (秒)。基本はこの秒数で、金額が大きいほど伸びる (OBSTACLE_SECONDS_FULL_PRICE 以上で最大) */

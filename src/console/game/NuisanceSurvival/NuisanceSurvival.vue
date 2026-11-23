@@ -74,7 +74,6 @@
     configStore,
     getClock,
     drainEvents,
-    drainBubbles,
     start,
     toMenu,
     toggleMenu,
@@ -88,7 +87,6 @@
     getConfig: () => activeConfig.value,
     getClock,
     drainEvents,
-    drainBubbles,
   }
 
   // テストコメントは、OBS でキャプチャするときに隠せる (H キーで戻す)

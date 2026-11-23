@@ -15,16 +15,7 @@ import {
 } from 'excalibur'
 import { getSoundPath } from '@/common/AppEnv'
 import { resolveAsset } from '@/common/sounds'
-import {
-  BUBBLE_ALPHA,
-  BUBBLE_FADE_SECONDS,
-  BUBBLE_MAX,
-  BUBBLE_SECONDS,
-  CELL_PX,
-  HERO_MOVE_INTERVAL_SECONDS,
-  MAX_FOOTPRINT,
-} from '../scripts/nuisanceConstants'
-import { bubbleLabel, pickBubbleCenter, type CommentBubble } from '../scripts/nuisanceBubble'
+import { CELL_PX, HERO_MOVE_INTERVAL_SECONDS, MAX_FOOTPRINT } from '../scripts/nuisanceConstants'
 import type { NuisanceConfigType } from '../scripts/nuisanceConfig'
 import {
   footprintOf,
@@ -46,6 +37,7 @@ import {
   playDeath,
   playLand,
   playScore,
+  playWordBlast,
   playWordGone,
   type BurstOptions,
   type EffectHost,
@@ -61,8 +53,6 @@ export type StageSource = {
   getClock: () => number
   /** 溜まった演出用イベントを受け取って、空にする */
   drainEvents: () => NuisanceEvent[]
-  /** 溜まった吹き出しの依頼を受け取って、空にする */
-  drainBubbles: () => CommentBubble[]
 }
 
 const MOVE_ANIM_SECONDS = 0.15
@@ -111,9 +101,6 @@ type Ghost = {
   onEnd?: () => void
 }
 
-/** 吹き出し 1 つぶんの表示 (視界妨害。見た目だけで、ゲームには影響しない) */
-type BubbleView = { actor: Actor; remaining: number }
-
 export class NuisanceStage implements EffectHost {
   private readonly engine: Engine
   private readonly views = new Map<number, NuisanceView>()
@@ -121,7 +108,6 @@ export class NuisanceStage implements EffectHost {
   /** 読み込めた効果音 (素材がないものは null。一度だけ試して、再試行しない) */
   private readonly sounds = new Map<SoundKey, Sound | null>()
   private readonly heroActor: Actor
-  private readonly bubbles: BubbleView[] = []
   private readonly wordViews = new Map<number, WordView>()
   private readonly ghosts: Ghost[] = []
   private readonly popups: PopupView[] = []
@@ -172,7 +158,6 @@ export class NuisanceStage implements EffectHost {
     this.engine.stop()
     this.engine.dispose()
     this.views.clear()
-    this.bubbles.length = 0
     this.obstacleViews.clear()
     this.wordViews.clear()
     this.ghosts.length = 0
@@ -201,7 +186,50 @@ export class NuisanceStage implements EffectHost {
   // ---- EffectHost (演出の実体) ----
 
   play(key: SoundKey): void {
-    void this.sounds.get(key)?.play({ volume: SOUND_FILES[key].volume })
+    const sound = this.sounds.get(key)
+    if (sound) {
+      void sound.play({ volume: SOUND_FILES[key].volume })
+    } else if (sound === null && key === 'wordBlast') {
+      // 素材 (word-blast.mp3) がなければ、ブラウザの音で代わりに鳴らす
+      this.playBlastFallback()
+    }
+  }
+
+  /** 爆発の代わりの音: 低く落ちていく音と、短いノイズ (素材なし) */
+  private playBlastFallback(): void {
+    try {
+      const audio = (this.audio ??= new AudioContext())
+      if (audio.state === 'suspended') void audio.resume()
+      const now = audio.currentTime
+      const length = 0.5
+      const noise = audio.createBuffer(1, Math.floor(audio.sampleRate * length), audio.sampleRate)
+      const data = noise.getChannelData(0)
+      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length)
+      const source = audio.createBufferSource()
+      source.buffer = noise
+      const filter = audio.createBiquadFilter()
+      filter.type = 'lowpass'
+      filter.frequency.setValueAtTime(1800, now)
+      filter.frequency.exponentialRampToValueAtTime(200, now + length)
+      const noiseGain = audio.createGain()
+      noiseGain.gain.setValueAtTime(0.5, now)
+      noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + length)
+      source.connect(filter).connect(noiseGain).connect(audio.destination)
+      source.start(now)
+
+      const boom = audio.createOscillator()
+      const boomGain = audio.createGain()
+      boom.type = 'sine'
+      boom.frequency.setValueAtTime(170, now)
+      boom.frequency.exponentialRampToValueAtTime(38, now + length)
+      boomGain.gain.setValueAtTime(0.5, now)
+      boomGain.gain.exponentialRampToValueAtTime(0.0001, now + length)
+      boom.connect(boomGain).connect(audio.destination)
+      boom.start(now)
+      boom.stop(now + length + 0.02)
+    } catch {
+      // 音が出せなくても、ゲームは動く
+    }
   }
 
   get boardSize(): { width: number; height: number } {
@@ -326,7 +354,6 @@ export class NuisanceStage implements EffectHost {
   private sync(dt: number): void {
     if (this.disposed) return
     const events = this.source.drainEvents()
-    const bubbleRequests = this.source.drainBubbles()
     const state = this.source.getState()
     const config = this.source.getConfig()
     const clock = this.source.getClock()
@@ -334,7 +361,6 @@ export class NuisanceStage implements EffectHost {
     if (!state || !config) {
       // ゲーム前・メニュー中: 盤面を空にする
       this.clearViews()
-      this.clearBubbles()
       this.clearObstacles()
       this.clearWords()
       this.clearGhosts()
@@ -351,7 +377,6 @@ export class NuisanceStage implements EffectHost {
     this.syncWords(state, clock)
     this.syncGhosts(clock)
     this.syncPopups(dt)
-    this.syncBubbles(state, bubbleRequests, dt)
   }
 
   // ---- 押し出されて消えるもの (ウェーブ) ----
@@ -569,67 +594,7 @@ export class NuisanceStage implements EffectHost {
     ctx.fillText(formatObstaclePrice(o.price), w / 2, w / 2)
   }
 
-  // ---- 吹き出し (視界妨害) ----
-
   private measureCtx: CanvasRenderingContext2D | null = null
-
-  private clearBubbles(): void {
-    for (const b of this.bubbles) b.actor.kill()
-    this.bubbles.length = 0
-  }
-
-  /** 新しい吹き出しを足し、時間が来たものを消す。濃さは、現れる・消えるときだけフェードする */
-  private syncBubbles(state: GameState, requests: CommentBubble[], dt: number): void {
-    for (const request of requests) this.addBubble(state, request)
-    for (let i = this.bubbles.length - 1; i >= 0; i--) {
-      const b = this.bubbles[i]
-      b.remaining -= dt
-      if (b.remaining <= 0) {
-        b.actor.kill()
-        this.bubbles.splice(i, 1)
-        continue
-      }
-      const age = BUBBLE_SECONDS - b.remaining
-      const fade = clamp(Math.min(age, b.remaining) / BUBBLE_FADE_SECONDS, 0, 1)
-      b.actor.graphics.opacity = BUBBLE_ALPHA * fade
-    }
-  }
-
-  private addBubble(state: GameState, request: CommentBubble): void {
-    const label = bubbleLabel(request)
-    if (!label) return
-    const font = 'bold 22px sans-serif'
-    this.measureCtx ??= document.createElement('canvas').getContext('2d')
-    if (this.measureCtx) this.measureCtx.font = font
-    const textWidth = this.measureCtx?.measureText(label).width ?? label.length * 22
-    const width = Math.ceil(textWidth) + 32
-    const height = 48
-    const { x, y } = pickBubbleCenter(state.hero, this.grid, Math.random)
-    const actor = new Actor({ pos: vec(x, y), width, height, z: 1500 })
-    actor.graphics.use(
-      new Canvas({
-        width,
-        height,
-        cache: true,
-        draw: (ctx) => {
-          ctx.fillStyle = '#ffffff'
-          ctx.beginPath()
-          ctx.roundRect(2, 2, width - 4, height - 4, 14)
-          ctx.fill()
-          ctx.fillStyle = '#222222'
-          ctx.font = font
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.fillText(label, width / 2, height / 2)
-        },
-      })
-    )
-    actor.graphics.opacity = 0
-    this.engine.add(actor)
-    this.bubbles.push({ actor, remaining: BUBBLE_SECONDS })
-    // 上限を超えたら、古いものから消す
-    while (this.bubbles.length > BUBBLE_MAX) this.bubbles.shift()!.actor.kill()
-  }
 
   private applyEvents(events: NuisanceEvent[], state: GameState, clock: number): void {
     for (const event of events) {
@@ -652,6 +617,20 @@ export class NuisanceStage implements EffectHost {
         const at = { x: (event.col + 0.5) * CELL_PX, y: (event.row + 0.5) * CELL_PX, size: CELL_PX }
         // 連鎖のウェーブが届いたら外へ滑って、白い破片になる
         this.slideOut(view.actor, at.x, at.y, event, clock, () => playWordGone(this, at))
+      } else if (event.type === 'wordExplode') {
+        // 巻き込まれたことばは、その場で白い破片になって消える (表示は、ここで外す)
+        const victims = event.victims.flatMap((id) => {
+          const view = this.wordViews.get(id)
+          if (!view) return []
+          this.wordViews.delete(id)
+          view.actor.kill()
+          return [{ x: view.actor.pos.x, y: view.actor.pos.y, size: CELL_PX }]
+        })
+        const view = this.wordViews.get(event.id)
+        const at = view
+          ? { x: view.actor.pos.x, y: view.actor.pos.y, size: CELL_PX }
+          : { x: (event.col + 0.5) * CELL_PX, y: (event.row + 0.5) * CELL_PX, size: CELL_PX }
+        playWordBlast(this, at, victims)
       } else if (event.type === 'score') {
         playScore(this, event, { x: (event.col + 0.5) * CELL_PX, y: (event.row + 0.5) * CELL_PX })
       } else if (event.type === 'chainBreak') {

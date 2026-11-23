@@ -5,7 +5,9 @@ import {
   chainNoteFrequency,
   playChainBreak,
   playCoefficientReset,
+  playDeath,
   playScore,
+  playWordBlast,
   playWordGone,
   type BurstOptions,
   type EffectHost,
@@ -19,9 +21,10 @@ const makeHost = () => {
     popups: [] as PopupOptions[],
     bursts: [] as BurstOptions[],
     shakes: [] as number[],
+    plays: [] as string[],
   }
   const host: EffectHost = {
-    play: () => undefined,
+    play: (key) => calls.plays.push(key),
     playNote: (frequency, delaySeconds) => calls.notes.push({ frequency, delaySeconds }),
     popup: (options) => calls.popups.push(options),
     burst: (options) => calls.bursts.push(options),
@@ -122,10 +125,52 @@ describe('playChainBreak / playCoefficientReset / playWordGone', () => {
     expect(calls.bursts).toHaveLength(1)
   })
 
-  it('ことばが外へ出たときは、白い破片が飛ぶ', () => {
+  it('ことばが外へ出たときは、白い破片が飛び、アイコンと同じ explosion.mp3 (remove) が鳴る', () => {
     const { host, calls } = makeHost()
     playWordGone(host, { x: 10, y: 10, size: 64 })
     expect(calls.bursts).toHaveLength(1)
     expect(calls.bursts[0].lightness).toBeGreaterThan(90)
+    expect(calls.plays).toEqual(['remove'])
+  })
+})
+
+describe('playWordBlast / playDeath (exploded)', () => {
+  it('ことばの爆発: 大きな爆発、強い画面揺れ、別の爆発音 (wordBlast)。explosion.mp3 は鳴らさない', () => {
+    const { host, calls } = makeHost()
+    playWordBlast(host, { x: 100, y: 100, size: 64 }, [])
+    expect(calls.plays).toEqual(['wordBlast'])
+    expect(calls.plays).not.toContain('explosion')
+    expect(calls.shakes[0]).toBeGreaterThanOrEqual(8)
+    expect(calls.bursts).toHaveLength(1)
+  })
+
+  it('巻き込まれたことばは、その場で白い破片になる (音は鳴らさない)', () => {
+    const { host, calls } = makeHost()
+    playWordBlast(host, { x: 100, y: 100, size: 64 }, [
+      { x: 164, y: 100, size: 64 },
+      { x: 100, y: 164, size: 64 },
+    ])
+    expect(calls.bursts).toHaveLength(3)
+    expect(calls.plays).toEqual(['wordBlast'])
+  })
+
+  it('爆発に巻き込まれたアイコンは、破片だけ。押し出されたときの音 (remove) は鳴らさない', () => {
+    const { host, calls } = makeHost()
+    const event = {
+      type: 'enemyDeath',
+      id: 1,
+      userId: 'a',
+      col: 1,
+      row: 1,
+      footprint: 1,
+      hue: 120,
+      cause: 'exploded',
+    } as const
+    playDeath(host, event, { x: 10, y: 10, size: 64 })
+    expect(calls.bursts).toHaveLength(1)
+    expect(calls.plays).toEqual([])
+    const removed = makeHost()
+    playDeath(removed.host, { ...event, cause: 'removed' }, { x: 10, y: 10, size: 64 })
+    expect(removed.calls.plays).toEqual(['remove'])
   })
 })

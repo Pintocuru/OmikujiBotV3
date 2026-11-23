@@ -685,7 +685,7 @@ describe('advance: コメントの文字 (ことば)', () => {
     expect(r.events.filter((e) => e.type === 'wordSpawn')).toHaveLength(2)
   })
 
-  it('消える時間は、5〜20 秒のランダム。時間が来ると消える (降ってからの長さも持つ。円グラフ用)', () => {
+  it('爆発までの時間は、5〜20 秒のランダム (降ってからの長さも持つ。円グラフ用)', () => {
     const r = first([comment('あ'.repeat(25))]).state
     for (const w of r.words) {
       expect(w.lifeSeconds).toBeGreaterThanOrEqual(WORD_SECONDS_MIN)
@@ -694,8 +694,6 @@ describe('advance: コメントの文字 (ことば)', () => {
       expect(w.expiresAt).toBeGreaterThanOrEqual(WORD_SECONDS_MIN)
       expect(w.expiresAt).toBeLessThanOrEqual(WORD_SECONDS_MAX + STEP_SECONDS)
     }
-    const later = run(r, { ...cfg, maxSeconds: 3600 }, WORD_SECONDS_MAX + 1)
-    expect(later.words).toHaveLength(0)
   })
 
   it('同時に出せる数には上限があり、超えたら古いものから消える', () => {
@@ -733,5 +731,106 @@ describe('advance: コメントの文字 (ことば)', () => {
     expect(r.chain).toBe(2)
     expect(r.removedCount).toBe(1)
     expect(r.removedWordCount).toBe(1)
+  })
+})
+
+describe('advance: ことばの爆発', () => {
+  const grid: GridSize = { cols: 9, rows: 5 }
+  const cfg = config({ maxSeconds: 3600 })
+  const boom = (state: GameState, seconds: number, input = NO_INPUT) =>
+    advance(state, cfg, seconds, input, [], createRng(1))
+
+  it('押されないまま時間が来ると爆発して、周囲 8 マスのアイコン・ことばを消す (外のマスは消えない)', () => {
+    let state = createGame(cfg, grid) // 主人公 (4,2)
+    state = { ...state, hero: { col: 0, row: 0, cooldown: 0 } }
+    state = withWord(state, 'w', 5, 2, { expiresAt: 1, lifeSeconds: 10 }) // 爆発するもの
+    state = withNuisance(state, 'a', 6, 3) // 斜めの隣 → 消える
+    state = withNuisance(state, 'far', 7, 2) // 2 マス先 → 消えない
+    state = withWord(state, 'other', 4, 1) // 隣のことば → 消える (連鎖して爆発はしない)
+    const r = boom(state, 1.2)
+    expect(r.state.nuisances.map((n) => n.userId)).toEqual(['far'])
+    expect(r.state.words).toHaveLength(0)
+    const explode = r.events.find((e) => e.type === 'wordExplode')
+    expect(explode).toMatchObject({ type: 'wordExplode', col: 5, row: 2 })
+    expect(r.events.filter((e) => e.type === 'wordExplode')).toHaveLength(1) // 巻き込まれたことばは、爆発しない
+    expect(r.events).toContainEqual(expect.objectContaining({ type: 'enemyDeath', cause: 'exploded', userId: 'a' }))
+  })
+
+  it('爆発は、得点にならず、連鎖も切れない。残り時間も増えない。撃破数にも数えない', () => {
+    let state = createGame(cfg, grid)
+    state = { ...state, hero: { col: 0, row: 0, cooldown: 0 }, chain: 3, chainTotal: 30, bestChain: 3, timeLeft: 100 }
+    state = withWord(state, 'w', 5, 2, { expiresAt: 1, lifeSeconds: 10 })
+    state = withNuisance(state, 'a', 6, 2)
+    const r = boom(state, 1.2).state
+    expect(r.nuisances).toHaveLength(0)
+    expect(r.chain).toBe(3)
+    expect(r.chainTotal).toBe(30)
+    expect(r.removedCount).toBe(0)
+    expect(r.gainedSeconds).toBe(0)
+    expect(r.timeLeft).toBeCloseTo(100 - 1.2, 1)
+    expect(r.contributions.a).toBeUndefined()
+  })
+
+  it('主人公と障害物は、爆発に巻き込まれない。大きいボスは、一部が範囲に入れば消える', () => {
+    let state = createGame(cfg, grid)
+    state = { ...state, hero: { col: 4, row: 2, cooldown: 0 } }
+    state = {
+      ...state,
+      obstacles: [
+        { id: 90, userId: 'x', userName: 'x', price: 0, col: 5, row: 2, size: 1, placedAt: 0, expiresAt: 1e6 },
+      ],
+    }
+    state = withWord(state, 'w', 5, 3, { expiresAt: 1, lifeSeconds: 10 })
+    state = withNuisance(state, 'boss', 6, 1, true) // 2x2: (6..7, 1..2)。(6,2) が爆発の範囲 (4..6, 2..4) に入る
+    const r = boom(state, 1.2).state
+    expect(r.nuisances).toHaveLength(0)
+    expect([r.hero.col, r.hero.row]).toEqual([4, 2])
+    expect(r.obstacles).toHaveLength(1)
+  })
+
+  it('押されると、爆発までの時間が最初の長さに戻る (連鎖の途中で爆発しない)', () => {
+    let state = createGame(cfg, grid) // 主人公 (4,2)
+    state = withWord(state, 'w', 5, 2, { expiresAt: 3, lifeSeconds: 10 })
+    const r = advance(state, cfg, STEP_SECONDS, RIGHT, [], createRng(1)).state
+    expect(r.words[0].col).toBe(6)
+    expect(r.words[0].expiresAt).toBeCloseTo(r.elapsed - STEP_SECONDS + 10, 5)
+    // 時間が来ていたことばも、同じ刻みで押されれば、爆発しない
+    let due = createGame(cfg, grid)
+    due = withWord(due, 'w', 5, 2, { expiresAt: STEP_SECONDS / 2, lifeSeconds: 10 })
+    const saved = advance(due, cfg, STEP_SECONDS, RIGHT, [], createRng(1))
+    expect(saved.events.some((e) => e.type === 'wordExplode')).toBe(false)
+    expect(saved.state.words).toHaveLength(1)
+  })
+
+  it('押されたことばだけが戻る。連鎖で押された先のことばも戻る。ほかは、そのまま数えられる', () => {
+    let state = createGame(cfg, grid)
+    state = withWord(state, 'a', 5, 2, { expiresAt: 3, lifeSeconds: 10 })
+    state = withWord(state, 'b', 6, 2, { expiresAt: 4, lifeSeconds: 10 })
+    state = withWord(state, 'c', 5, 4, { expiresAt: 5, lifeSeconds: 10 })
+    const r = advance(state, cfg, STEP_SECONDS, RIGHT, [], createRng(1)).state
+    const byUser = Object.fromEntries(r.words.map((w) => [w.userId, w.expiresAt]))
+    expect(byUser.a).toBeGreaterThan(9)
+    expect(byUser.b).toBeGreaterThan(9)
+    expect(byUser.c).toBe(5)
+  })
+
+  it('画面の外へ押し出したことばは、爆発せずに得点になる', () => {
+    let state = createGame(cfg, grid)
+    state = { ...state, hero: { col: 7, row: 2, cooldown: 0 }, timeLeft: 100 }
+    state = withWord(state, 'w', 8, 2, { expiresAt: STEP_SECONDS / 2, lifeSeconds: 10 })
+    const r = advance(state, cfg, STEP_SECONDS, RIGHT, [], createRng(1))
+    expect(r.events.some((e) => e.type === 'wordExplode')).toBe(false)
+    expect(r.events.some((e) => e.type === 'score')).toBe(true)
+  })
+
+  it('同時に時間が来たことばは、それぞれ爆発する。先の爆発に巻き込まれたものは、爆発しない', () => {
+    let state = createGame(cfg, grid)
+    state = { ...state, hero: { col: 0, row: 4, cooldown: 0 } }
+    state = withWord(state, 'a', 2, 2, { expiresAt: 1, lifeSeconds: 10 })
+    state = withWord(state, 'b', 3, 2, { expiresAt: 1, lifeSeconds: 10 }) // a の爆発の範囲内
+    state = withWord(state, 'c', 7, 0, { expiresAt: 1, lifeSeconds: 10 }) // 離れている
+    const r = boom(state, 1.2)
+    expect(r.events.filter((e) => e.type === 'wordExplode')).toHaveLength(2)
+    expect(r.state.words).toHaveLength(0)
   })
 })

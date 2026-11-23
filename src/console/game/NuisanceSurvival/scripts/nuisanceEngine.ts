@@ -80,7 +80,8 @@ export type Obstacle = {
 
 /**
  * コメントの文字 (「ことば」)。コメントの文字数に応じて降ってくる。1 マスを占める。
- * 主人公が押し出せる (押された先のアイコンも連鎖する)。時間が経つと消える
+ * 主人公が押し出せる (押された先のアイコンも連鎖する)。押されないまま時間が経つと、爆発して、周囲 8 マスのアイコン・ことばを消す
+ * (得点にはならない。連鎖の邪魔になる)。押されると、爆発までの時間は最初の長さに戻る
  */
 export type Word = {
   id: number
@@ -95,7 +96,7 @@ export type Word = {
   prevCol: number
   prevRow: number
   movedAt: number
-  /** 消える時刻 (開始からの秒)。降ってきてから消えるまでの長さは lifeSeconds (円グラフで、残り時間を見せるため) */
+  /** 爆発する時刻 (開始からの秒)。押されるたびに、いまの時刻 + lifeSeconds になる。円グラフで、残り時間を見せる */
   expiresAt: number
   lifeSeconds: number
 }
@@ -187,7 +188,8 @@ export type NuisanceEvent =
       row: number
       footprint: number
       hue: number
-      cause: 'removed'
+      /** removed: 主人公が画面の外へ押し出した (得点) / exploded: ことばの爆発に巻き込まれて消えた (得点なし) */
+      cause: 'removed' | 'exploded'
       /** 連鎖の途中で押し出されたとき: 押された向きと、動き出すまでの秒 (演出が、ウェーブに合わせて消すため) */
       pushDx?: number
       pushDy?: number
@@ -209,6 +211,14 @@ export type NuisanceEvent =
       pushDx: number
       pushDy: number
       delaySeconds: number
+    }
+  | {
+      /** 「ことば」が爆発した。周囲 8 マスのことば (victims) は、巻き込まれて消えた (アイコンは enemyDeath の cause 'exploded') */
+      type: 'wordExplode'
+      id: number
+      col: number
+      row: number
+      victims: number[]
     }
   | {
       /** 得点した (アイコンまたはことばが、画面の外へ押し出された) */
@@ -561,6 +571,7 @@ const breakChain = (s: GameState, events: NuisanceEvent[]): void => {
 const deathEvent = (
   n: Nuisance,
   footprint: number,
+  cause: 'removed' | 'exploded',
   push?: { dx: number; dy: number; delaySeconds: number }
 ): NuisanceEvent => ({
   type: 'enemyDeath',
@@ -570,7 +581,7 @@ const deathEvent = (
   row: n.row,
   footprint,
   hue: n.traits.hue,
-  cause: 'removed',
+  cause,
   // 連鎖の途中で押し出されたものだけ、ウェーブに合わせて演出を遅らせるための情報をつける
   ...(push && push.delaySeconds > 0 ? { pushDx: push.dx, pushDy: push.dy, delaySeconds: push.delaySeconds } : {}),
 })
@@ -646,7 +657,7 @@ const pushChain = (
         events.push({ type: 'wordGone', id: n.id, col: n.col, row: n.row, pushDx: dx, pushDy: dy, delaySeconds })
       } else {
         s.removedCount++
-        events.push(deathEvent(n, f, { dx, dy, delaySeconds }))
+        events.push(deathEvent(n, f, 'removed', { dx, dy, delaySeconds }))
       }
       awardScore(s, config, n, delaySeconds, events)
       continue
@@ -656,8 +667,48 @@ const pushChain = (
     n.movedAt = s.elapsed + delaySeconds
     n.col = nextCol
     n.row = nextRow
+    // 押されたことばは、爆発までの時間が最初の長さに戻る (連鎖の途中で爆発しない)
+    if (isWord(n)) n.expiresAt = s.elapsed + n.lifeSeconds
   }
   return scored
+}
+
+// ---- ことばの爆発 ----
+
+/**
+ * 爆発までの時間が来たことばを、爆発させる。周囲 8 マスにある (一部でも重なる) アイコン・ことばを消す。
+ * 得点にはならず、連鎖も切れない (消えたぶん、並べたアイコンが減る)。巻き込まれたことばは、連鎖して爆発はしない。
+ * 主人公・障害物は、巻き込まれない
+ */
+const explodeWords = (s: GameState, events: NuisanceEvent[]): void => {
+  const due = s.words.filter((w) => w.expiresAt <= s.elapsed)
+  if (!due.length) return
+  const gone = new Set<number>()
+  for (const w of due) {
+    if (gone.has(w.id)) continue // 先に爆発したことばに、巻き込まれて消えた
+    gone.add(w.id)
+    for (const n of s.nuisances) {
+      if (gone.has(n.id)) continue
+      const { footprint } = measure(n)
+      const overlaps =
+        n.col <= w.col + 1 &&
+        n.col + footprint - 1 >= w.col - 1 &&
+        n.row <= w.row + 1 &&
+        n.row + footprint - 1 >= w.row - 1
+      if (!overlaps) continue
+      gone.add(n.id)
+      events.push(deathEvent(n, footprint, 'exploded'))
+    }
+    const victims: number[] = []
+    for (const other of s.words) {
+      if (gone.has(other.id) || Math.abs(other.col - w.col) > 1 || Math.abs(other.row - w.row) > 1) continue
+      gone.add(other.id)
+      victims.push(other.id)
+    }
+    events.push({ type: 'wordExplode', id: w.id, col: w.col, row: w.row, victims })
+  }
+  s.nuisances = s.nuisances.filter((n) => !gone.has(n.id))
+  s.words = s.words.filter((w) => !gone.has(w.id))
 }
 
 // ---- 1 刻み ----
@@ -696,10 +747,10 @@ const stepOnce = (s: GameState, config: NuisanceConfigType, input: HeroInput, ev
     s.words = s.words.filter((w) => !removed.has(w.id))
   }
 
-  // 障害物・ことば: 時間が来たら消える
+  // 障害物: 時間が来たら消える。ことば: 時間が来たら (押されていなければ) 爆発する
   if (s.obstacles.some((o) => o.expiresAt <= s.elapsed))
     s.obstacles = s.obstacles.filter((o) => o.expiresAt > s.elapsed)
-  if (s.words.some((w) => w.expiresAt <= s.elapsed)) s.words = s.words.filter((w) => w.expiresAt > s.elapsed)
+  explodeWords(s, events)
 
   // 残り時間: 1 秒ごとに 1 秒減る。0 になった時刻で、ゲームオーバー
   const before = s.timeLeft

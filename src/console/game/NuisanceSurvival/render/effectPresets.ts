@@ -88,12 +88,29 @@ export const playLand = (host: EffectHost, at: { x: number; y: number; size: num
 
 // ---- 撃破 (enemyDeath) ----
 
-/** 押し出されて画面の外へ出たとき: アイコンの色の小さな破片 */
+/** アイコンが消えたとき: 押し出されて画面の外へ出たなら、アイコンの色の小さな破片と効果音。ことばの爆発に巻き込まれたなら、少し大きな破片だけ (音は爆発の音) */
 export const playDeath = (
   host: EffectHost,
   event: Extract<NuisanceEvent, { type: 'enemyDeath' }>,
   at: { x: number; y: number; size: number }
 ): void => {
+  if (event.cause === 'exploded') {
+    host.burst({
+      x: at.x,
+      y: at.y,
+      count: 28,
+      hue: event.hue,
+      saturation: 80,
+      lightness: 60,
+      minSpeed: 90,
+      maxSpeed: 300,
+      minSize: 6,
+      maxSize: 18,
+      lifeMs: 650,
+      radius: at.size * 0.3,
+    })
+    return
+  }
   host.burst({
     x: at.x,
     y: at.y,
@@ -114,8 +131,8 @@ export const playDeath = (
 
 // ---- ことばが外へ出たとき ----
 
-/** ことばが押し出されて画面の外へ出たとき: 白い札の小さな破片 (アイコンより軽く) */
-export const playWordGone = (host: EffectHost, at: { x: number; y: number; size: number }): void => {
+/** 白い札の小さな破片 (ことばが消えるとき) */
+const burstWordShards = (host: EffectHost, at: { x: number; y: number; size: number }): void => {
   host.burst({
     x: at.x,
     y: at.y,
@@ -130,7 +147,38 @@ export const playWordGone = (host: EffectHost, at: { x: number; y: number; size:
     lifeMs: 520,
     radius: at.size * 0.3,
   })
+}
+
+/** ことばが押し出されて画面の外へ出たとき: 白い札の破片と、アイコンと同じ explosion.mp3 */
+export const playWordGone = (host: EffectHost, at: { x: number; y: number; size: number }): void => {
+  burstWordShards(host, at)
   host.shake(1.5, 100)
+  host.play('remove')
+}
+
+/** ことばの爆発: 橙の大きな爆発と、強い画面揺れ、爆発の音 (explosion.mp3 とは別)。巻き込まれたことばは、白い破片になる */
+export const playWordBlast = (
+  host: EffectHost,
+  at: { x: number; y: number; size: number },
+  victims: { x: number; y: number; size: number }[]
+): void => {
+  host.burst({
+    x: at.x,
+    y: at.y,
+    count: 48,
+    hue: 22,
+    saturation: 95,
+    lightness: 58,
+    minSpeed: 100,
+    maxSpeed: 380,
+    minSize: 8,
+    maxSize: 26,
+    lifeMs: 800,
+    radius: at.size * 1.2,
+  })
+  for (const v of victims) burstWordShards(host, v)
+  host.shake(9, 380)
+  host.play('wordBlast')
 }
 
 // ---- 連鎖の音階 (score) ----
