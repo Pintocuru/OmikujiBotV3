@@ -102,9 +102,9 @@
 <script setup lang="ts">
   import { computed, onBeforeUnmount, ref, watch } from 'vue'
   import { Bot, Clock, Flame, Hourglass, Loader, Menu, RefreshCw, Target, Users, WifiOff, X } from '@lucide/vue'
-  import { formatClock } from '../scripts/nuisanceRecord'
-  import type { OshikuraChainConfig } from '../scripts/nuisanceConfig'
-  import { multiplierOf, type GameState } from '../scripts/nuisanceEngine'
+  import { formatClock } from '../scripts/oshikuraChainRecord'
+  import type { OshikuraChainConfig } from '../scripts/oshikuraChainConfig'
+  import { multiplierOf, type GameState } from '../scripts/oshikuraChainEngine'
   import type { CommentStatus, OshikuraChainPhase } from '../composables/useOshikuraChain'
   import { oshikuraChainMessages } from '../maps/OshikuraChainMessageMap'
 
