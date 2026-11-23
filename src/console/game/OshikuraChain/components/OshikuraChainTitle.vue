@@ -9,15 +9,15 @@
   >
     <img
       v-if="!imageUnavailable"
-      class="pointer-events-none h-full w-full object-contain"
+      class="pointer-events-none object-contain"
       :src="titleImagePath"
       alt=""
       aria-hidden="true"
       @error="imageUnavailable = true"
     />
-    <span v-else class="pointer-events-none text-5xl font-black tracking-widest">
-      おしくらチェイン
-    </span>
+    <span v-else class="pointer-events-none text-5xl font-black tracking-widest"> おしくらチェイン </span>
+
+    <!-- TODO:ここにSTART on push とかの文字 -->
   </button>
 </template>
 
