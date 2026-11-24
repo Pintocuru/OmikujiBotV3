@@ -21,8 +21,9 @@
       </div>
 
       <!-- メッセージ -->
-      <!-- TODO:英訳 -->
-      <p class="text-sm" :style="{ color: currentColor.text }">こんにちは！色の見え方はこんな感じです。</p>
+      <p class="text-sm" :style="{ color: currentColor.text }">
+        {{ t('characterService.cards.colorSample') }}
+      </p>
     </div>
   </div>
 
@@ -32,6 +33,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import { CharacterColorSchema, type CharacterColorType } from '@/types/OmikujiData'
   import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
 
@@ -43,6 +45,8 @@
   const emit = defineEmits<{
     'update:modelValue': [value: CharacterColorType]
   }>()
+
+  const { t } = useI18n()
 
   const currentColor = computed(() => props.modelValue ?? CharacterColorSchema.parse({}))
 </script>
