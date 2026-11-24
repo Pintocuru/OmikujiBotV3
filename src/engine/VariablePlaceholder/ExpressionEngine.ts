@@ -1,5 +1,4 @@
 // src/engine/VariablePlaceholder/ExpressionEngine.ts
-import { KeyValueMap } from '@/engine/KeyValue/KeyValueMap'
 import { Parser } from 'expr-eval-fork'
 
 const MAX_VALUE = 999999999
@@ -45,7 +44,7 @@ export function normalizeExpressionText(code: string): string {
 /**
  * expr-eval-fork ベースの式評価エンジン
  */
-export class ExpressionEngine extends KeyValueMap {
+export class ExpressionEngine extends Map<string, string | number> {
   private readonly parser: Parser
 
   constructor() {
@@ -176,7 +175,7 @@ export class ExpressionEngine extends KeyValueMap {
    */
   private buildContext(): Record<string, string | number> {
     const context: Record<string, string | number> = {}
-    for (const [key, value] of Object.entries(this.getAll())) {
+    for (const [key, value] of this) {
       if (typeof value === 'number') {
         context[key] = value
       } else {
