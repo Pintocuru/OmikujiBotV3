@@ -18,7 +18,6 @@ export class PlaceholderVariable implements PlaceholderVariableType {
     return this.evaluator
   }
 
-
   clear(): void {
     this.evaluator.clear()
   }
