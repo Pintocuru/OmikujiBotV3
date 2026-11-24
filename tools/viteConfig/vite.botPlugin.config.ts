@@ -16,7 +16,6 @@ const projectRoot = path.resolve(__dirname, '../../')
 // tsconfig.json からエイリアスを生成
 export const alias = { ...createViteAliases(projectRoot) }
 
-
 export default defineConfig({
   root: projectRoot,
   resolve: { alias },
@@ -25,7 +24,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(projectRoot, 'src/plugin/plugin.ts'),
       name: 'Plugin',
-      fileName: () => `EditorPlugin-${APP_VERSION}/plugin.js`,
+      fileName: () => `OmikujiBotPlugin-${APP_VERSION}/plugin.js`,
       formats: ['cjs'], // 出力形式は CommonJS
     },
 

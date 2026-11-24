@@ -27,7 +27,6 @@
 
 <script setup lang="ts">
   import { computed, markRaw, type Component } from 'vue'
-  import { isDev } from '@/common/AppEnv'
   import type { ContentTab } from '@/editor/types/apps'
   import SubSection from '@/editor/parts/SubSection.vue'
   import IconRadioGroup from '@/editor/parts/IconRadioGroup.vue'
@@ -37,6 +36,8 @@
   import FontFamilyEditor from './common/FontFamilyEditor.vue'
   import UnusedUiSettingsEditor from './conditions/UnusedUiSettingsEditor.vue'
   import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
+  import { isFullRegistered } from '../registrationState'
+  import { isDev } from '@/common/AppEnv'
 
   type UiEditorSection = {
     section: string
@@ -65,9 +66,8 @@
       descriptionKey: 'uiSettings.editorSections.common.description',
       component: markRaw(FontFamilyEditor),
     },
-    // 開発時のみ: レイアウト / 未使用UIの整理(タブはまとめて 1 つ)
-    // TODO:レイアウト選択は、フルパッケージでもONにする
-    ...(isDev
+    // フルパッケージ: レイアウト
+    ...(isFullRegistered.value || isDev
       ? [
           {
             section: 'dev',
@@ -76,6 +76,11 @@
             descriptionKey: 'uiSettings.editorSections.layout.description',
             component: markRaw(LayoutEditor),
           },
+        ]
+      : []),
+    // 開発時:  未使用UIの整理
+    ...(isDev
+      ? [
           {
             section: 'dev',
             icon: 'LayoutGrid' as const,
