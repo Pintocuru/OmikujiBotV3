@@ -7,10 +7,10 @@ import { registerAllUiEditor } from './registerUiEditor'
 
 export const registerAll = () => {
   // UI・レイアウト・gameScript の登録(ジェネレーターと共通)
-  registerAllUi()
   registerAllLayouts()
-  registerAllGameScripts()
+  registerAllUi()
   registerAllUiEditor()
+  registerAllGameScripts()
 
   // 全部入りの印(DataPacks など、全 UI 前提の機能の表示に使う)
   isFullRegistered.value = true
