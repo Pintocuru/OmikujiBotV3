@@ -1,11 +1,9 @@
 // src/engine/ContentPlaceholder/context.ts
-import { KeyValueMap } from '@/engine/KeyValue/KeyValueMap'
-
 /**
  * プレースホルダーのコンテキスト値を管理
  * ユーザー名、日付など、動的に設定される値を保持
  */
-export class PlaceholderContext extends KeyValueMap {
+export class PlaceholderContext extends Map<string, string | number> {
   /**
    * コンテキスト値を更新
    */
