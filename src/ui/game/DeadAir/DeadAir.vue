@@ -29,7 +29,10 @@
   const variableLabelMap = computed(() => toDeadAirVariableLabelMap(settings.value))
   const { counters } = useStreamCounters(variableLabelMap)
 
+  // メタ取得が完了するまでは、カウンターの初期値を増加として扱わない
+  const countersReady = computed(() => appStore.serviceMetaStore.getStatus() === 'ready')
+
   // 本番は常に等倍(ペナルティで加速させるときは、第3引数に speed の ref を渡して書き換える)
   const { phase, formattedTime, isWarning, isCritical, currentLives, bonusFraction, lifeFraction, optionalValue } =
-    useDeadAirLogic(settings, counters)
+    useDeadAirLogic(settings, counters, undefined, countersReady)
 </script>
