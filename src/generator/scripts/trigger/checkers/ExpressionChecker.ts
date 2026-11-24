@@ -14,7 +14,7 @@ function buildVariableContext(): TriggerExpressionContext {
   const store = useAppStore()
   const context: TriggerExpressionContext = {}
 
-  for (const [key, value] of Object.entries(store.placeholderVariable.getAll())) {
+  for (const [key, value] of store.placeholderVariable.getEvaluator().entries()) {
     if (typeof value === 'number') {
       context[key] = value
     } else {
