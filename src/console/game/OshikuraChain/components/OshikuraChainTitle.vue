@@ -3,28 +3,23 @@
 <template>
   <button
     type="button"
-    class="absolute inset-0 z-10 cursor-pointer"
+    class="absolute inset-0 z-10 flex cursor-pointer flex-col items-center justify-center gap-6"
     aria-label="スタートメニューを開く"
     @click="emit('openMenu')"
   >
     <img
       v-if="!imageUnavailable"
-      class="pointer-events-none absolute inset-0 m-auto max-h-full max-w-full object-contain"
+      class="max-h-[75%] max-w-full object-contain"
       :src="titleImagePath"
       alt=""
       aria-hidden="true"
       @error="imageUnavailable = true"
     />
-    <span
-      v-else
-      class="pointer-events-none absolute inset-0 flex items-center justify-center text-5xl font-black tracking-widest"
-    >
-      おしくらチェイン
-    </span>
 
-    <!-- PUSH START(点滅)。画像と独立して下段中央に固定 -->
+    <span v-else class="text-5xl font-black tracking-widest"> おしくらチェイン </span>
+
     <span
-      class="pointer-events-none absolute inset-x-0 bottom-[8%] animate-pulse text-center text-xl font-bold tracking-[0.5em] text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+      class="animate-pulse text-xl font-bold tracking-[0.5em] text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
     >
       PUSH START
     </span>
