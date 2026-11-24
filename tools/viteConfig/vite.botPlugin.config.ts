@@ -7,6 +7,8 @@ import { builtinModules } from 'module'
 import { fileURLToPath } from 'url'
 import { createViteAliases } from './CreateViteAliases'
 import { APP_VERSION } from '../../src/version'
+import fs from 'node:fs'
+import { ZipArchive } from 'archiver'
 
 // projectRoot の設定
 const __filename = fileURLToPath(import.meta.url)
@@ -20,6 +22,42 @@ export default defineConfig({
   root: projectRoot,
   resolve: { alias },
   define: { 'import.meta.url': '__importMetaUrl' },
+
+  plugins: [
+    {
+      name: 'zip-plugin-output',
+
+      async closeBundle() {
+        const folderName = `OmikujiBotPlugin-${APP_VERSION}`
+
+        const sourceDir = path.resolve(projectRoot, 'dist', folderName)
+        const zipDir = path.resolve(projectRoot, 'dist/distZipped')
+        const zipPath = path.resolve(zipDir, `${folderName}.zip`)
+
+        // ZIP 出力先を作成
+        await fs.promises.mkdir(zipDir, { recursive: true })
+
+        await new Promise<void>((resolve, reject) => {
+          const output = fs.createWriteStream(zipPath)
+          const archive = new ZipArchive({
+            zlib: { level: 9 },
+          })
+
+          output.on('close', resolve)
+          output.on('error', reject)
+          archive.on('error', reject)
+
+          archive.pipe(output)
+
+          // フォルダ構造を維持して ZIP 化
+          archive.directory(sourceDir, folderName)
+
+          archive.finalize()
+        })
+      },
+    },
+  ],
+
   build: {
     lib: {
       entry: path.resolve(projectRoot, 'src/plugin/plugin.ts'),

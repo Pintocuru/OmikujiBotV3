@@ -1,16 +1,5 @@
 // server/api/actions.ts
-// クライアント (src/manager/services) とサーバ (server/core/router.ts) が共有する API 契約。
-// アクションを追加するときは、ここに1行足してからルーターとクライアントを実装する。
-// ※ クライアントからも import されるため、Node 依存の import は置かないこと。
-
-/**
- * API のバージョン (health で返す。クライアントとサーバー (プラグイン) の組み合わせ確認に使う)
- * - 互換性のない変更 (アクションの削除・リクエスト/レスポンスの必須項目の変更など) のときだけ +1 する
- * - アクションや応答項目を足すだけなら上げない (古いクライアントはそのまま動くため)
- * - プラグインは更新されないまま、コンソールだけ新しくなることがある。クライアントは API_VERSION より
- *   小さい (apiVersion が無いときは 0 とみなす) サーバーに、新しいアクションを呼ばないこと
- */
-export const API_VERSION = 1 // TODO:これってアプリバージョンといっしょにしていいの?
+// クライアント (src/manager/services) とサーバ (server/core/router.ts) が共有する API
 
 export const API_ACTION = {
   // GET
