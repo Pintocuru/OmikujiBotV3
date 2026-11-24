@@ -14,4 +14,5 @@ export const registerAllConsoleViews = () =>
     // game
     userRace: () => import('@/console/game/UserRace/UserRace.vue'),
     oshikuraChain: () => import('@/console/game/OshikuraChain/OshikuraChain.vue'),
+    wordAlchemy: () => import('@/console/game/WordAlchemy/WordAlchemy.vue'),
   } satisfies Record<ConsoleViewKey, ConsoleViewLoader>)

@@ -26,6 +26,14 @@ export const consoleViewMap = {
     launch: 'window',
     windowSize: { width: 704, height: 552 },
   },
+  // 盤面は横 12 × 縦 8 マス (1マス 64px = 768×512) + 上部バー 40px。マス数は wordAlchemy/scripts/wordAlchemyConstants.ts
+  wordAlchemy: {
+    label: '言葉の錬金術',
+    icon: 'Sparkles',
+    category: 'game',
+    launch: 'window',
+    windowSize: { width: 768, height: 552 },
+  },
 } as const satisfies Record<string, ConsoleViewMeta>
 
 export type ConsoleViewKey = keyof typeof consoleViewMap
