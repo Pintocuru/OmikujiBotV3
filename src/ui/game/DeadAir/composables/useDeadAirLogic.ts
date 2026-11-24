@@ -30,7 +30,8 @@ export const toDeadAirVariableLabelMap = (settings: DeadAirType): Record<string,
 export function useDeadAirLogic(
   settings: Ref<DeadAirType>,
   counters: MaybeRefOrGetter<Readonly<Record<string, number>>>,
-  speed: Ref<number> = ref(1)
+  speed: Ref<number> = ref(1),
+  countersReady: MaybeRefOrGetter<boolean> = true
 ) {
   const maxSeconds = computed(() => settings.value.initialMinutes * 60)
   const phase = ref<DeadAirPhase>('running')
@@ -117,15 +118,20 @@ export function useDeadAirLogic(
     else currentLives.value = Math.min(currentLives.value + rule.value, settings.value.initialLives)
   }
 
-  // カウンターが増えた分だけ効果を発動する。基準値 (lastSeen) は、最初の値から始める。
-  // (useStreamCounters の値は最初から入っているので、マウント直後の初期値を「増加」と誤認することはない)
+  // メタ取得完了前は値の変化を基準値に反映するだけにし、取得完了時の初期値を増加扱いしない。
   let lastSeen: Record<string, number> = { ...toValue(counters) }
+  let wasReady = toValue(countersReady)
 
   const unwatchCounters = watch(
-    () => ({ ...toValue(counters) }),
-    (current) => {
+    () => ({ current: { ...toValue(counters) }, ready: toValue(countersReady) }),
+    ({ current, ready }) => {
       const prev = lastSeen
       lastSeen = { ...current }
+      if (!ready || !wasReady) {
+        wasReady = ready
+        return
+      }
+      wasReady = ready
       if (phase.value === 'gameOver') return
       for (const rule of settings.value.eventRules) {
         const key = rule.counterKey
@@ -147,6 +153,7 @@ export function useDeadAirLogic(
     currentLives.value = settings.value.initialLives
     bonusAccumSeconds.value = 0
     lastSeen = { ...toValue(counters) }
+    wasReady = toValue(countersReady)
     startTimer()
   }
 
