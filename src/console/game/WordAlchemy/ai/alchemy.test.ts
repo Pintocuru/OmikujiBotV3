@@ -34,15 +34,12 @@ describe('acceptsWord', () => {
 })
 
 describe('isWithinMaterials', () => {
-  it('省略できない鍋は、すべて使う (並べ替え・結合は可)', () => {
-    expect(isWithinMaterials('ぴんせすん', ['せすぴん'], 'mizutaki')).toBe(false) // ん が 1 つ多い
+  it('材料の文字を並べ替え・結合・省略できる。材料にない文字・多すぎる回数は不可', () => {
     expect(isWithinMaterials('ぴんせす', ['せすぴん'], 'mizutaki')).toBe(true)
-    expect(isWithinMaterials('せす', ['せすぴん'], 'mizutaki')).toBe(false)
-  })
-  it('省略できる鍋は、一部だけ使える。ただし材料にない文字・多すぎる回数は不可', () => {
-    expect(isWithinMaterials('せす', ['せすぴん'], 'pressure')).toBe(true)
-    expect(isWithinMaterials('せせ', ['せすぴん'], 'pressure')).toBe(false)
+    expect(isWithinMaterials('せす', ['せすぴん'], 'mizutaki')).toBe(true)
+    expect(isWithinMaterials('せせ', ['せすぴん'], 'mizutaki')).toBe(false)
     expect(isWithinMaterials('せか', ['せすぴん'], 'pressure')).toBe(false)
+    expect(isWithinMaterials('ぴんせすん', ['せすぴん'], 'mizutaki')).toBe(false)
   })
   it('かな変換・清濁変換は、許可した鍋だけ', () => {
     expect(isWithinMaterials('セスピン', ['せすぴん'], 'kana')).toBe(true)
@@ -73,9 +70,10 @@ describe('validateResult', () => {
     expect(validateResult(json('せ'.repeat(13)), ['せ'.repeat(15)], 'pressure').ok).toBe(false)
     expect(validateResult(json('ねこ'), M, 'pressure').ok).toBe(false)
   })
-  it('全部使う鍋は、12 文字を超えても、材料の文字をすべて使っていれば通る', () => {
+  it('どの鍋でも、名前は 12 文字以内', () => {
     const materials = ['あいうえお', 'かきくけこ', 'さしすせそ']
-    expect(validateResult(json('あいうえおかきくけこさしすせそ'), materials, 'mizutaki').ok).toBe(true)
+    expect(validateResult(json('あいうえおかきくけこさし'), materials, 'mizutaki').ok).toBe(true)
+    expect(validateResult(json('あいうえおかきくけこさしす'), materials, 'mizutaki').ok).toBe(false)
   })
   it('パレット外の色は、ランダムで置き換える', () => {
     const checked = validateResult(json('せす', 'B', '虹'), ['せすぴん'], 'pressure', seq(0))
@@ -89,7 +87,6 @@ describe('buildPrompt', () => {
     expect(prompt).toContain('材料: ["a,\\"b\\"","c","d"]')
     expect(prompt).toContain('圧力鍋')
     expect(prompt).toContain('12 文字以内')
-    expect(buildPrompt(['a', 'b', 'c'], 'mizutaki')).not.toContain('12 文字以内')
   })
 })
 

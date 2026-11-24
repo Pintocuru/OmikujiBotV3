@@ -8,6 +8,12 @@ export const BOARD_BACKGROUND = '#1c1511'
 export const drawBoard = (ctx: CanvasRenderingContext2D, width: number, height: number): void => {
   ctx.fillStyle = BOARD_BACKGROUND
   ctx.fillRect(0, 0, width, height)
+  // 縁 (外周 1 マス) は、ことばが入ると消える場所。少し明るくして、見分けがつくようにする
+  ctx.fillStyle = 'rgba(255,255,255,0.05)'
+  ctx.fillRect(0, 0, width, CELL_PX)
+  ctx.fillRect(0, height - CELL_PX, width, CELL_PX)
+  ctx.fillRect(0, CELL_PX, CELL_PX, height - 2 * CELL_PX)
+  ctx.fillRect(width - CELL_PX, CELL_PX, CELL_PX, height - 2 * CELL_PX)
   ctx.strokeStyle = 'rgba(255,255,255,0.07)'
   ctx.lineWidth = 1
   ctx.beginPath()

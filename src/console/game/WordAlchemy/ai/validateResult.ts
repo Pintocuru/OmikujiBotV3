@@ -1,6 +1,6 @@
 // src/console/game/WordAlchemy/ai/validateResult.ts
 // AI の出力の検証 (純粋関数)。通ったものだけをゲームが使う
-import { potMap, type PotKey } from '../maps/WordAlchemyPotMap'
+import type { PotKey } from '../maps/WordAlchemyPotMap'
 import { canonicalChar } from '../scripts/potRules'
 import { NAME_FREE_CHARS, NAME_MAX_LENGTH } from '../scripts/wordAlchemyConstants'
 import {
@@ -31,7 +31,6 @@ const isFree = (char: string) => NAME_FREE_CHARS.includes(char)
 /**
  * 名前が、材料の文字の範囲に収まっているか (鍋が許可する変換で同じになる文字は、同じ文字として数える)
  * - 材料の文字を、材料にある回数まで使える (並べ替え・結合)。足りない文字・多すぎる文字は不可
- * - 省略できない鍋では、材料の文字をすべて使う必要がある
  * - NAME_FREE_CHARS (・) は、材料になくても使える
  */
 export const isWithinMaterials = (name: string, materials: readonly string[], pot: PotKey): boolean => {
@@ -48,7 +47,7 @@ export const isWithinMaterials = (name: string, materials: readonly string[], po
     if (left <= 0) return false
     pool.set(key, left - 1)
   }
-  return potMap[pot].omit || [...pool.values()].every((left) => left === 0)
+  return true
 }
 
 export const validateResult = (
@@ -70,8 +69,7 @@ export const validateResult = (
   if (typeof n !== 'string') return { ok: false, reason: '名前がない' }
   const name = n.normalize('NFC')
   if (name === '') return { ok: false, reason: '名前が空' }
-  // 長さの上限は、省略できる鍋だけ (すべて使う鍋の長さは、材料で決まる。3 つで最大 15 文字になり、上限を超えうる)
-  if (potMap[pot].omit && Array.from(name).length > NAME_MAX_LENGTH) return { ok: false, reason: '名前が長すぎる' }
+  if (Array.from(name).length > NAME_MAX_LENGTH) return { ok: false, reason: '名前が長すぎる' }
   if (!isWithinMaterials(name, materials, pot)) return { ok: false, reason: '名前が材料の文字の範囲に収まっていない' }
 
   // パレット外の色は、失敗にせず、ランダムで置き換える

@@ -32,7 +32,7 @@ export const MOVE_ANIM_SECONDS = 0.15
 export const WORD_CHARS_PER_ITEM = 5
 /** 1 コメントから降ってくる「ことば」の上限 */
 export const WORD_MAX_PER_COMMENT = 5
-/** 同時に盤面にある「ことば」の上限。超えたら、古いものから消す */
+/** 同時に盤面にある「ことば」の上限。超えたら、古いものから消す (ことばは、縁を除いた内側のマスに降る) */
 export const WORD_MAX = 30
 /** 降ってくる演出 (秒と、盤面の上へはみ出すマス数) */
 export const FALL_SECONDS = 0.45

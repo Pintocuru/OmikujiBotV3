@@ -10,7 +10,7 @@ export const buildPrompt = (materials: readonly string[], pot: PotKey): string =
     `鍋: ${potMap[pot].instruction}`,
     '',
     '材料と鍋にない文字・単語の追加は禁止。',
-    ...(potMap[pot].omit ? [`名前は ${NAME_MAX_LENGTH} 文字以内。`] : []),
+    `名前は ${NAME_MAX_LENGTH} 文字以内。`,
     '分類: A生物 B食物 C道具 Dガラクタ(完成物の性質で判断)。',
     `色: ${ALCHEMY_PALETTE.join('')} から 1 つ。`,
     '出力は {"c":"A|B|C|D","k":"色","n":"名前"} のみのJSON。',

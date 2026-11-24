@@ -33,12 +33,14 @@ const toggleVoicing = (c: string): string => {
 }
 
 export const mockAlchemy = (materials: readonly string[], pot: PotKey, rng: Rng = Math.random): AlchemyResult => {
-  const { omit, kana, dakuten } = potMap[pot]
+  const { short, kana, dakuten } = potMap[pot]
   // 材料の文字 (許可リストの記号は、数えない)
   let chars = Array.from(materials.join('').normalize('NFC')).filter((c) => !NAME_FREE_CHARS.includes(c))
   chars = shuffle(chars, rng)
-  // 省略できる鍋は、半分ほどに短くする (上限以内に収める)。すべて使う鍋は、材料の文字をすべて使う
-  if (omit) chars = chars.slice(0, Math.min(NAME_MAX_LENGTH, Math.max(1, Math.ceil(chars.length / 2))))
+  // 材料の文字を一部だけ使う。短くまとめる鍋は半分ほどに、ほかの鍋は半分〜上限までの長さにする (上限は NAME_MAX_LENGTH)
+  const min = Math.max(1, Math.ceil(chars.length / 2))
+  const max = Math.max(min, Math.min(NAME_MAX_LENGTH, chars.length))
+  chars = chars.slice(0, Math.min(NAME_MAX_LENGTH, short ? min : min + Math.floor(rng() * (max - min + 1))))
   const name = chars
     .map((c) => {
       let out = c

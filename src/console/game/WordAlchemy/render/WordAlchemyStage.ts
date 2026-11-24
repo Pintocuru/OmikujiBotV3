@@ -50,7 +50,7 @@ type Word = {
   movedAt: number
   /** 落下の開始時刻。null なら落下は終わっている */
   fallStartedAt: number | null
-  /** 盤面の外 / 鍋へ向かっている途中。動き終わったら消える (マスは占めない) */
+  /** 縁 (外周) / 鍋へ向かっている途中。動き終わったら消える (マスは占めない) */
   exit: 'out' | 'pot' | null
   /** 鍋が受け付けなかった (消える代わりに、空いているマスへ投げ飛ばされる) */
   rejected: boolean
@@ -60,6 +60,8 @@ type Word = {
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v))
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 const inGrid = (col: number, row: number) => col >= 0 && row >= 0 && col < GRID_COLS && row < GRID_ROWS
+/** 外周の 1 マス (縁)。主人公の通り道で、ことばは入れない (押し込まれたことばは、ここで消える) */
+const isRing = (col: number, row: number) => col === 0 || row === 0 || col === GRID_COLS - 1 || row === GRID_ROWS - 1
 const inPot = (col: number, row: number) =>
   col >= POT_COL && col < POT_COL + POT_SIZE && row >= POT_ROW && row < POT_ROW + POT_SIZE
 const isTyping = (target: EventTarget | null) =>
@@ -211,7 +213,8 @@ export class WordAlchemyStage {
 
   /**
    * (dx, dy) へ 1 マス動く。鍋と盤面の外へは動けない。向きにことばが並んでいれば、まとめて 1 マス押す (連鎖)。
-   * 押した列の先が、盤面の外なら一番先のことばが消え、鍋なら一番先のことばが鍋に入る
+   * 押した列の先が、縁 (外周) なら一番先のことばが消え、鍋なら一番先のことばが鍋に入る
+   * (縁に入ったことばは、縁に沿ってしか動かせず、鍋に入れられなくなるため。ことばは縁に置かない)
    */
   private tryMove(dx: number, dy: number): void {
     const hero = this.hero
@@ -229,7 +232,7 @@ export class WordAlchemyStage {
     }
     chain.forEach((w, i) => this.moveWord(w, w.col + dx, w.row + dy, i * PUSH_WAVE_DELAY_SECONDS))
     const last = chain[chain.length - 1]
-    if (last && !inGrid(c, r)) last.exit = 'out'
+    if (last && isRing(c, r)) last.exit = 'out'
     else if (last && inPot(c, r)) this.intake(last)
 
     hero.col = col
@@ -256,7 +259,7 @@ export class WordAlchemyStage {
     for (let row = 0; row < GRID_ROWS; row++) {
       for (let col = 0; col < GRID_COLS; col++) {
         const isHero = col === this.hero.col && row === this.hero.row
-        if (!isHero && !inPot(col, row) && !this.wordAt(col, row)) free.push({ col, row })
+        if (!isHero && !isRing(col, row) && !inPot(col, row) && !this.wordAt(col, row)) free.push({ col, row })
       }
     }
     return free.length ? free[Math.floor(Math.random() * free.length)] : null
