@@ -20,7 +20,7 @@ export const processTestPlaceholder = (
     const contentPlaceholder = new ContentPlaceholder(placeholders)
     const context = new PlaceholderContext()
     context.updateValues(getDefaultPlaceholdersShortLabels((key) => i18n.global.t(key)))
-    contentPlaceholder.updateResolvedValues(context.getAll())
+    contentPlaceholder.updateResolvedValues(Object.fromEntries(context))
     const withPlaceholders = contentPlaceholder.processText(message)
 
     // 参照 [[変数]]
