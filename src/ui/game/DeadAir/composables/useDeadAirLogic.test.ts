@@ -67,4 +67,29 @@ describe('useDeadAirLogic (useStreamCounters の counters で動かす)', () => 
     await nextTick()
     expect(byViewer.formattedTime.value).toBe('05:00')
   })
+
+  it('メタ取得完了時の初期値は増加扱いせず、その後の増加は検知する', async () => {
+    const settings = ref(
+      DeadAirSchema.parse({
+        initialMinutes: 5,
+        initialLives: 3,
+        eventRules: [{ counterKey: 'viewer', effect: 'life', value: 1, threshold: 1 }],
+      })
+    )
+    const counters = ref({ viewer: 0 })
+    const countersReady = ref(false)
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    const logic = effectScope().run(() => useDeadAirLogic(settings, counters, undefined, countersReady))!
+
+    counters.value.viewer = 52
+    await nextTick()
+    countersReady.value = true
+    await nextTick()
+    expect(logic.currentLives.value).toBe(3)
+
+    counters.value.viewer = 53
+    await nextTick()
+    expect(logic.currentLives.value).toBe(4)
+  })
 })
