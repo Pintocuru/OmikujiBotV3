@@ -26,6 +26,7 @@ export const toDeadAirVariableLabelMap = (settings: DeadAirType): Record<string,
  * @param counters useStreamCounters の counters(computed)か、プレビュー用の仮カウンター(reactive)
  * @param speed 1 秒あたりに進める秒数の倍率。本番は 1、プレビューは 1 / 10 を切り替える。
  *              ペナルティで加速させたいときは、この ref を書き換える。
+ * @param countersReady カウンターの初期値が確定しているか。本番ではメタ取得完了後に true にする。
  */
 export function useDeadAirLogic(
   settings: Ref<DeadAirType>,
