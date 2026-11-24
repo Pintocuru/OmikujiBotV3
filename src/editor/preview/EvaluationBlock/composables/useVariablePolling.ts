@@ -15,7 +15,7 @@ export function useVariablePolling(onChanged: (keys: string[]) => void) {
   let timer: ReturnType<typeof setInterval> | null = null
 
   function refresh() {
-    const next = Object.entries(appStore.placeholderVariable.getAll()).sort(([a], [b]) => a.localeCompare(b))
+    const next = Array.from(appStore.placeholderVariable.getEvaluator().entries()).sort(([a], [b]) => a.localeCompare(b))
 
     // 前回から増えた・変わった変数を通知
     const changed = next.filter(([key, value]) => prev.get(key) !== value).map(([key]) => key)
@@ -31,7 +31,7 @@ export function useVariablePolling(onChanged: (keys: string[]) => void) {
   }
 
   function remove(key: string) {
-    appStore.placeholderVariable.remove(key)
+    appStore.placeholderVariable.delete(key)
     refresh()
   }
 
