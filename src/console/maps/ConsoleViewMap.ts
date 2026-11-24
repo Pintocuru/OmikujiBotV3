@@ -24,7 +24,7 @@ export const consoleViewMap = {
     icon: 'Swords',
     category: 'game',
     launch: 'window',
-    windowSize: { width: 704, height: 552 },
+    windowSize: { width: 704, height: 488 },
   },
   // 盤面は横 12 × 縦 8 マス (1マス 64px = 768×512) + 上部バー 40px。マス数は wordAlchemy/scripts/wordAlchemyConstants.ts
   wordAlchemy: {
