@@ -29,6 +29,6 @@ describe('ExpressionEngine.evaluateExpression', () => {
   it('全角スペースが混ざっていても評価できる', () => {
     const engine = new ExpressionEngine()
     engine.evaluateExpression('a\u3000=\u30001 + 2')
-    expect(engine.getAll()).toMatchObject({ a: 3 })
+    expect(Object.fromEntries(engine)).toMatchObject({ a: 3 })
   })
 })
