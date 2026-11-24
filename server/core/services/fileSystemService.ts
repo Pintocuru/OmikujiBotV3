@@ -1,7 +1,7 @@
 // server/core/services/fileSystemService.ts
 import fs from 'fs/promises'
 import path from 'path'
-import { randomUUID } from 'node:crypto'
+import { nanoid } from 'nanoid'
 import { FileItem } from '@server/types'
 import { MetaDataSchema, type MetaDataType } from '@/types/core/MetaDataSchema'
 import { ensureDirectory } from './directoryService'
@@ -38,8 +38,7 @@ function resolveSafePath(baseDir: string, fileName: string): string {
  * 同じ場所の一時ファイルに書き切ってから rename する。一時ファイルは .json で終わらないので、一覧には出ない
  */
 async function writeFileAtomic(filePath: string, data: string): Promise<void> {
-  // TODO:nanoId つかったほうがいいかもしれない(cryptoはいい思い出がない)
-  const tmpPath = `${filePath}.${randomUUID()}.tmp`
+  const tmpPath = `${filePath}.${nanoid()}.tmp`
   try {
     const handle = await fs.open(tmpPath, 'w')
     try {
