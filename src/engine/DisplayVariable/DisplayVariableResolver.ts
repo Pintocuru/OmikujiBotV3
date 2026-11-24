@@ -53,6 +53,6 @@ export class DisplayVariableResolver {
    */
   resolve(text?: string): string {
     if (!text) return ''
-    return replaceDisplayVariables(text, this.context.getAll())
+    return replaceDisplayVariables(text, Object.fromEntries(this.context.getEvaluator()))
   }
 }
