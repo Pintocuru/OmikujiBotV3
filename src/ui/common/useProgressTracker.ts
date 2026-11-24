@@ -1,6 +1,7 @@
 // src/ui/common/useProgressTracker.ts
 import { onBeforeUnmount, onMounted, ref, type Ref } from 'vue'
 import { useAppStore } from '@/generator/stores/useAppStore'
+import { readBuiltinCounter } from './useStreamCounters'
 import type { ProgressCounterKey, ProgressSourceType } from '@/types/ui'
 import {
   createProgressState,
@@ -42,22 +43,7 @@ const useStoreReader = (): ProgressValueReader => {
   const appStore = useAppStore()
 
   return {
-    counter: (key: ProgressCounterKey) => {
-      switch (key) {
-        case 'syoken':
-        case 'totalComments':
-        case 'totalPrice':
-          return toNumber(appStore.streamStats.getStats()[key])
-        case 'commenter':
-          return toNumber(appStore.userStats.getUniqueCount())
-        case 'reaction':
-          return toNumber(appStore.reactionStats.getGrandTotal())
-        case 'follower':
-        case 'upVote':
-        case 'viewer':
-          return toNumber(appStore.serviceMetaStore.getCurrent()?.[key])
-      }
-    },
+    counter: (key: ProgressCounterKey) => toNumber(readBuiltinCounter(appStore, key)),
     variable: (name: string) => toNumber(appStore.placeholderVariable.getEvaluator().get(name)),
   }
 }

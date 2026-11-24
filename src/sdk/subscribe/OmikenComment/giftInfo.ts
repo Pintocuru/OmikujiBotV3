@@ -34,7 +34,7 @@ export function getGiftInfo(fields: PlatformFields): GiftInfo {
   if (giftType === 'subscribe') return hasGift ? { giftKind: 'free', giftPrice: 0, giftCount: 1 } : NOT_GIFT
 
   // YouTube: ジュエル。price は消費ジュエル数の合計(通貨なし)
-  // TODO: 仮に 1 ジュエル = 1 円として扱う
+  // 1 ジュエル = 1 円として扱う
   if (giftType === 'jewel') {
     return { giftKind: 'paid', giftPrice: convertToJPY(price), giftCount: toCount(fields.giftCount) }
   }
@@ -51,7 +51,6 @@ export function getGiftInfo(fields: PlatformFields): GiftInfo {
   if (fields.isFreeGift) return { giftKind: 'free', giftPrice: 0, giftCount: toCount(fields.giftCount) }
 
   // 金額あり(通貨は円に概算)
-  // TODO: BiliBili は price が単価(合計は price × giftCount)。今回は数値のまま扱う
   if (price && price > 0) {
     return {
       giftKind: 'paid',

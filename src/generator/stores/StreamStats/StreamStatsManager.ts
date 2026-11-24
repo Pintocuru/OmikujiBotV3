@@ -12,7 +12,7 @@ export interface StreamStats {
  * 配信全体の集計値を管理するクラス
  */
 export class StreamStatsManager {
-  private onReset: (() => void) | null = null
+  private readonly changeListeners = new Set<() => void>()
 
   private liveComments = 0
   private totalPrice = 0
@@ -36,6 +36,7 @@ export class StreamStatsManager {
 
     this.liveComments = lc
     this.totalPrice += giftPrice
+    this.notifyChange()
   }
 
   getStats(): StreamStats {
@@ -47,8 +48,13 @@ export class StreamStatsManager {
     }
   }
 
-  setOnReset(callback: (() => void) | null): void {
-    this.onReset = callback
+  /**
+   * 集計値が変わったとき(コメントの記録・リセット)に呼ばれるリスナーを登録する (解除用関数を返す)
+   * 複数の UI が同時に購読できる。
+   */
+  onChange(listener: () => void): () => void {
+    this.changeListeners.add(listener)
+    return () => this.changeListeners.delete(listener)
   }
 
   reset(): void {
@@ -57,6 +63,17 @@ export class StreamStatsManager {
     this.syoken = 0
     this.totalComments = 0
     this.seenUsers.clear()
-    this.onReset?.()
+    this.notifyChange()
+  }
+
+  private notifyChange(): void {
+    // 1 つの購読者の失敗で、コメントの記録を止めない
+    this.changeListeners.forEach((l) => {
+      try {
+        l()
+      } catch (error) {
+        console.error('[StreamStatsManager] 変更通知の購読者でエラー:', error)
+      }
+    })
   }
 }
