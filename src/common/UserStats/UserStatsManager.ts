@@ -9,9 +9,14 @@ type StatsEventListener = (record: UserStatsRecord) => void
  * コメント受信のたびに更新され、lastVisit・liveComments を保持する
  */
 export class UserStatsManager {
-  private readonly stats = new Map<string, UserStatsRecord>()
   private readonly listeners = new Set<StatsEventListener>()
-  private readonly changeListeners = new Set<() => void>()
+
+  /**
+   * @param stats 記録の保存先。既定は普通の Map (サーバー側はこれ。Vue に依存しない)。
+   *   画面から変更を追跡したい generator は、shallowReactive(new Map()) を渡す。
+   *   記録は更新のたびに新しいオブジェクトで差し替えるので、shallow で足りる。
+   */
+  constructor(private readonly stats: Map<string, UserStatsRecord> = new Map()) {}
 
   // コメントを受け取った時に呼び出す
   recordComment(omiken: OmikenCommentType): UserStatsRecord {
@@ -50,7 +55,6 @@ export class UserStatsManager {
 
     this.stats.set(userId, record)
     this.notifyListeners(record)
-    this.notifyChange()
 
     return record
   }
@@ -58,7 +62,6 @@ export class UserStatsManager {
   // 記録をそのまま登録する (開発用のダミーユーザーなど。通常はコメントから recordComment で作る)
   upsert(record: UserStatsRecord): void {
     this.stats.set(record.userId, record)
-    this.notifyChange()
   }
 
   // stats からランダムに 1 人を選出 (全員が同じ確率。全員をコピーして並べ替えることはしない)
@@ -103,41 +106,24 @@ export class UserStatsManager {
     if (!existing) return null
     const updated = { ...existing, ...patch }
     this.stats.set(userId, updated)
-    this.notifyChange()
     return updated
   }
 
   // 指定ユーザーを削除 (手動で追加したユーザーを消すときなど)
   remove(userId: string): boolean {
-    const removed = this.stats.delete(userId)
-    if (removed) this.notifyChange()
-    return removed
+    return this.stats.delete(userId)
   }
 
   // セッションリセット
   reset(): void {
     this.stats.clear()
-    this.notifyChange()
   }
 
-  // イベントリスナーを登録（解除用関数を返す）
+  // コメントで記録が作られた・更新されたときのリスナーを登録（解除用関数を返す。UserStatsControlSync が使う）
+  // 画面の再描画に使う必要はない (保存先がリアクティブなので、get / getAll / getUniqueCount を computed で読めばよい)
   onUpdate(listener: StatsEventListener): () => void {
     this.listeners.add(listener)
     return () => this.listeners.delete(listener)
-  }
-
-  /**
-   * 記録が変わったとき (コメント・更新・削除・リセット) に呼ばれるリスナーを登録する (解除用関数を返す)
-   * onUpdate は「コメントで記録が作られた・更新された」だけの通知で、UserStatsControlSync が使う。
-   * こちらは画面の再描画用で、UserStatsControlSync による更新も含む。
-   */
-  onChange(listener: () => void): () => void {
-    this.changeListeners.add(listener)
-    return () => this.changeListeners.delete(listener)
-  }
-
-  private notifyChange(): void {
-    this.changeListeners.forEach((l) => l())
   }
 
   private notifyListeners(record: UserStatsRecord): void {

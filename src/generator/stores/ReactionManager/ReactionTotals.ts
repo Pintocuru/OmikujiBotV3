@@ -1,11 +1,18 @@
 // src/generator/stores/ReactionManager/ReactionTotals.ts
+import { shallowReactive } from 'vue'
 import { reactionKeys } from '@/types/OmikujiData'
 import type { YoutubeReactionType } from '@/types/OmikujiData'
 import { REACTION_HISTORY_MAX } from '@/generator/GeneratorConstants'
 
+/**
+ * リアクションの累計。累計 (total) は Vue のリアクティブな状態として持つ (getTotal / getGrandTotal を computed で読める)。
+ * history は内部の判定用で、リアクティブにしない。
+ */
 export class ReactionTotals {
   private history: { timestamp: number; type: YoutubeReactionType }[] = []
-  private total = Object.fromEntries(reactionKeys.map((k) => [k, 0])) as Record<YoutubeReactionType, number>
+  private readonly total = shallowReactive(
+    Object.fromEntries(reactionKeys.map((k) => [k, 0])) as Record<YoutubeReactionType, number>
+  )
 
   add(reactions: Record<string, number>, now: number): number {
     let sum = 0

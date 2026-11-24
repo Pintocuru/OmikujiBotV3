@@ -1,44 +1,40 @@
 # カウンター(useStreamCounters)の残課題
 
-`useStreamCounters` は Service(streamStats / reactionStats / userStats / serviceMetaStore)のスナップショットを共有し、各 Service の変更通知で更新する。
-この方式で解決しない問題と、次にやることをまとめる。β 版のうちに判断したい。
+画面に出す値は、Service が Vue のリアクティブな状態として持つ(正本は Service のみ)。`useStreamCounters` は値を持たず、Service の値から作る computed。
+この方式で残っている課題をまとめる。
 
-## 1. 通知の取り決めが暗黙のまま(根治案あり)
+## 1. DeadAir: 配信メタの取得前後で、同接などが「増加」とみなされる
 
-- Service に統計を足す・カウンターのキーを足すたびに、次の 3 か所を揃える必要がある。揃え忘れても、エラーにならず「値が古いまま」になる。
-  - `BUILTIN_COUNTER_KEYS`(useStreamCounters.ts)
-  - `readBuiltinCounter` の switch(同上)
-  - `acquireShared` の購読(同上。新しい Service なら `onChange` も作る)
-- 根治案: Service の状態を Vue のリアクティブ状態(ref / shallowReactive)で持ち、counters を純粋な computed にする。コピーも購読も要らなくなる。
-- 影響範囲が広い。`UserStatsManager`(src/common)は他からも使われる。`ServiceMetaStore` は Pinia の外のシングルトンで、内部の更新は自分自身(this)に書き込む。
-- 判断: 新しいカウンターや統計を増やす予定があるなら、リリース前に着手する価値がある。増やさないなら現状で足りる。
+- `serviceMetaStore.getCurrent()` は、取得が終わるまで `null`。カウンターは `upVote` / `viewer` / `follower` を 0 として返す。
+- DeadAir のルールに `viewer` などを使っていると、メタの取得が終わった瞬間に「0 → 実際の値」を増加として数え、効果が発動しうる。
+- 以前から同じ(armed の待ち時間は、マウント直後の 1 回分しか守っていなかった)。悪化はしていない。
+- 対策案: メタが未取得のあいだは、`useDeadAirLogic` の基準値を更新するだけにする。`useStreamCounters` から「メタが取得済みか」を渡す形が候補。
 
-## 2. Service が Pinia ストア経由だと「部分的にリアクティブ」になる(要調査)
+## 2. Pinia のストア経由だと、Service のインスタンスを Vue がプロキシで包む
 
-- `appStore.streamStats.record()` のように **ストア経由で書くと、読み取り側の watchEffect / computed に依存追跡が効く**。Pinia が返すクラスのインスタンスを、Vue がプロキシで包むため(実験で確認済み)。
-- 一方、生のインスタンスに書くと通知されない。該当: `createAppServices` の `resetStreamData`、`ServiceMetaStore` の内部更新、`UserStatsControlSync`。
-- つまり「どこから書いたか」でリアクティブかどうかが変わる。今回の変更は明示通知に寄せたが、他のコードがこの偶発的な挙動に依存していないかは未調査。
-- 次にやること:
-  - `createAppServices` の戻り値を `markRaw` して挙動を一貫させる案を試す(ストア経由でもプロキシにならなくなる)。
-  - src/ 配下で、`appStore.xxx` の読み取りを computed / watch の中で直接使っている箇所を洗い出す。
-  - `useProgressTracker` の「reactive ではない」というコメントは、上の事情と食い違っている。
+- 値の追跡は、Service の中のリアクティブな状態が担う。ストア経由かどうかには依存しない(createAppServices.test.ts が両方の経路で確認している)。
+- ただし Pinia のストア経由では、Service のインスタンス全体(ExpressionEngine の `parser`、ReactionTotals の `history` など)も、アクセスのたびにプロキシで包まれる。動作には影響しないが、無駄な処理ではある。
+- `markRaw` で包まない理由: いまは「通知をごまかす」ためではなく、純粋な最適化にとどまる。負荷が問題になるまで入れなくてよい。
 
-## 3. 変数カウンター(評価ブロック)の更新契機が弱い
+## 3. 新しい Service・状態を足すときの決まり
 
-- 現在の再取得の契機は、`botMessages` の増減と、組み込みカウンターの更新のみ。
-- 評価ブロックの変数が、コメントも bot メッセージも伴わずに変わったとき(タイマー発火で variable ステップだけ動くなど)は、次の契機まで反映されない可能性がある。
-- 対策案: 変数の更新を通知する仕組みを別途設け、revision を進める。現在は標準の `Map` を直接使用しているため、通知を追加する場合は更新 API の設計も合わせて検討する。
+- 画面に出す値は、Service の中でリアクティブな状態にする(`shallowReactive`)。
+- engine・common のように Vue に依存しないクラスは、保存先を引数で受け取り、`createAppServices` がリアクティブにして渡す。
+  - `UserStatsManager`: `shallowReactive(new Map())`
+  - 変数 (`PlaceholderVariable`): `shallowReactive(new ExpressionEngine())`。ExpressionEngine は `Map` を継承していて、Vue は Map の継承クラスも Map として追跡する。
+  - 新しい `PlaceholderVariable` を `createAppServices` の外で作ると、リアクティブにならない。
+- 新しいカウンターは、`BUILTIN_COUNTER_KEYS` と `readBuiltinCounter` に足す。購読や更新通知は要らない。
+- 守る仕組みは、createAppServices.test.ts(Service ごとの確認)と、useStreamCounters.test.ts(キー一覧の一致)。**新しい Service は、自動では検査されない**ので、テストに 1 件足すこと。
 
-## 4. 回避策・ポーリングの整理
+## 4. ReactionStatsManager の burst / peak はリアクティブではない
 
-- `useDeadAirLogic` の `armed` + `nextTick` は、「マウント後に初期値が入って増加と誤検知される」ための回避策。初期値を setup 時に入れるようにしたので、不要になった可能性がある。DeadAir の挙動を確認してから外す。
-- `useProgressTracker` の 1 秒ポーリングは、`onChange` の購読で置き換えられる可能性がある(値の読み取りは `readBuiltinCounter` に共通化済み)。
-- `useSandAccumulator` は、配信開始時刻のために `serviceMetaStore` を別に購読している。
+- リアクションの累計は追跡できるが、バーストレベルとピークは、これまでどおりイベント(`onBurstLevelChange`)で扱う。
+- 画面にバーストレベルを出したくなったら、同じ方法(`shallowReactive`)で状態にする。
 
-## 5. 同じキー列が複数ある
+## 5. ServiceMetaStore はシングルトンのまま
 
-- `BUILTIN_COUNTER_KEYS`(useStreamCounters.ts)、`DEAD_AIR_BUILTIN_COUNTER_KEYS`(src/types/ui/game/DeadAirSchema.ts)、`PROGRESS_COUNTER_KEYS`(src/types/ui/common/ProgressSourceSchema.ts)。
-- 型側(src/types)は UI のコードを import できないため、現状は手で揃えている。
+- engine 側(PostOmikujiService)と仮想配信パネルが `getInstance()` で直接使っているため。
+- リアクティブにするのに、シングルトンをやめる必要はなかった。やめるなら、engine への受け渡し方を先に決める。
 
 ## 6. StreamStatsManager.seenUsers と UserStatsManager の重複
 

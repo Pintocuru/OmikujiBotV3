@@ -1,5 +1,5 @@
 // src/ui/game/DeadAir/composables/useDeadAirLogic.ts
-import { computed, nextTick, onMounted, onUnmounted, ref, watch, type Ref } from 'vue'
+import { computed, onUnmounted, ref, toValue, watch, type MaybeRefOrGetter, type Ref } from 'vue'
 import { DEAD_AIR_BUILTIN_COUNTER_KEYS, type DeadAirEventRuleType, type DeadAirType } from '@/types/ui'
 
 export type DeadAirPhase = 'running' | 'gameOver'
@@ -23,13 +23,13 @@ export const toDeadAirVariableLabelMap = (settings: DeadAirType): Record<string,
 
 /**
  * DeadAir の状態機械。本番(DeadAir.vue)とエディタのプレビューで共有する。
- * @param counters useStreamCounters の counters(reactive)か、プレビュー用の仮カウンター
+ * @param counters useStreamCounters の counters(computed)か、プレビュー用の仮カウンター(reactive)
  * @param speed 1 秒あたりに進める秒数の倍率。本番は 1、プレビューは 1 / 10 を切り替える。
  *              ペナルティで加速させたいときは、この ref を書き換える。
  */
 export function useDeadAirLogic(
   settings: Ref<DeadAirType>,
-  counters: Readonly<Record<string, number>>,
+  counters: MaybeRefOrGetter<Readonly<Record<string, number>>>,
   speed: Ref<number> = ref(1)
 ) {
   const maxSeconds = computed(() => settings.value.initialMinutes * 60)
@@ -48,7 +48,7 @@ export function useDeadAirLogic(
 
   const optionalValue = computed(() => {
     const key = settings.value.optionalCounterKey
-    return key ? (counters[key] ?? 0) : null
+    return key ? (toValue(counters)[key] ?? 0) : null
   })
 
   const formattedTime = computed(() => {
@@ -117,17 +117,16 @@ export function useDeadAirLogic(
     else currentLives.value = Math.min(currentLives.value + rule.value, settings.value.initialLives)
   }
 
-  // マウント直後に useStreamCounters が初期値(同接など)を流し込むため、
-  // その変化を「増加」とみなして効果を発動しないよう、落ち着くまでは基準値の更新だけ行う。
-  let armed = false
-  let lastSeen: Record<string, number> = { ...counters }
+  // カウンターが増えた分だけ効果を発動する。基準値 (lastSeen) は、最初の値から始める。
+  // (useStreamCounters の値は最初から入っているので、マウント直後の初期値を「増加」と誤認することはない)
+  let lastSeen: Record<string, number> = { ...toValue(counters) }
 
   const unwatchCounters = watch(
-    () => ({ ...counters }),
+    () => ({ ...toValue(counters) }),
     (current) => {
       const prev = lastSeen
       lastSeen = { ...current }
-      if (!armed || phase.value === 'gameOver') return
+      if (phase.value === 'gameOver') return
       for (const rule of settings.value.eventRules) {
         const key = rule.counterKey
         if (!key) continue
@@ -147,20 +146,13 @@ export function useDeadAirLogic(
     remainSeconds.value = maxSeconds.value
     currentLives.value = settings.value.initialLives
     bonusAccumSeconds.value = 0
-    lastSeen = { ...counters }
+    lastSeen = { ...toValue(counters) }
     startTimer()
   }
 
   const unwatchSettings = watch(() => [settings.value.initialMinutes, settings.value.initialLives], reset)
 
   startTimer()
-
-  onMounted(() => {
-    lastSeen = { ...counters }
-    void nextTick(() => {
-      armed = true
-    })
-  })
 
   onUnmounted(() => {
     stopTimer()

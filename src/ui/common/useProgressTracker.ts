@@ -1,5 +1,5 @@
 // src/ui/common/useProgressTracker.ts
-import { onBeforeUnmount, onMounted, ref, type Ref } from 'vue'
+import { ref, shallowRef, watch, type Ref } from 'vue'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import { readBuiltinCounter } from './useStreamCounters'
 import type { ProgressCounterKey, ProgressSourceType } from '@/types/ui'
@@ -10,9 +10,6 @@ import {
   type ProgressState,
   type ProgressValueReader,
 } from './progressSource'
-
-/** store の値を確認する間隔(ミリ秒) */
-const POLL_INTERVAL_MS = 1000
 
 /**
  * 項目ごとの「自動の進捗」を持つもの
@@ -37,7 +34,7 @@ const toNumber = (value: unknown): number => {
 
 /**
  * 配信中の数値(統計・サービスの情報)と、評価ブロックの変数を読む
- * これらは reactive ではないので、一定間隔で確認する(bot メッセージが出ないときも更新される)
+ * どちらも Service のリアクティブな状態なので、watch の中で読めば、変わったときに通知される
  */
 const useStoreReader = (): ProgressValueReader => {
   const appStore = useAppStore()
@@ -51,28 +48,28 @@ const useStoreReader = (): ProgressValueReader => {
 export const useProgressTracker = (): ProgressTracker => {
   const reader = useStoreReader()
   const values = ref<number[]>([])
-  let states: ProgressState[] = []
-  let timer: ReturnType<typeof setInterval> | undefined
+  const states = shallowRef<ProgressState[]>([])
 
-  const tick = () => {
-    values.value = states.map((state) => stepProgress(state, readSource(reader, state.source)))
+  const sync = () => {
+    values.value = states.value.map((state) => stepProgress(state, readSource(reader, state.source)))
   }
 
+  // 読んでいる値 (配信の数値・変数) が変わったら、その場で進捗に反映する。bot メッセージが出ないときも更新される。
+  // (viewer の最大値も、取りこぼさず拾える)
+  watch(() => states.value.map((state) => readSource(reader, state.source)), sync)
+
   const rebase = (sources: ProgressSourceType[]) => {
-    states = sources.map((source) => createProgressState(source, readSource(reader, source)))
-    tick()
+    states.value = sources.map((source) => createProgressState(source, readSource(reader, source)))
+    sync()
   }
 
   const rebaseCell = (index: number, source: ProgressSourceType) => {
-    if (index < 0 || index >= states.length) return
-    states[index] = createProgressState(source, readSource(reader, source))
-    tick()
+    if (index < 0 || index >= states.value.length) return
+    const next = [...states.value]
+    next[index] = createProgressState(source, readSource(reader, source))
+    states.value = next
+    sync()
   }
-
-  onMounted(() => {
-    timer = setInterval(tick, POLL_INTERVAL_MS)
-  })
-  onBeforeUnmount(() => clearInterval(timer))
 
   return { values, rebase, rebaseCell }
 }

@@ -1,18 +1,19 @@
-// src/editor/preview/EvaluationBlock/composables/useVariablePolling.ts
-import { onMounted, onUnmounted, ref, shallowRef } from 'vue'
+// src/editor/preview/EvaluationBlock/composables/useVariableEntries.ts
+import { onMounted, ref, shallowRef, watch } from 'vue'
 import { useAppStore } from '@/generator/stores/useAppStore'
 import type { VarEntry, VarValue } from '../evaluationStats'
 
-// PlaceholderVariable はリアクティブではないため、一定間隔で読み直す
-const POLL_MS = 500
-
-export function useVariablePolling(onChanged: (keys: string[]) => void) {
+/**
+ * 評価ブロックの変数の一覧
+ * PlaceholderVariable の保存先がリアクティブなので、変数が変わったら、その場で一覧を更新する。
+ * paused の間は一覧を止めておき、戻したときに最新へ更新する。
+ */
+export function useVariableEntries(onChanged: (keys: string[]) => void) {
   const appStore = useAppStore()
   const entries = shallowRef<VarEntry[]>([])
   const paused = ref(false)
 
   let prev = new Map<string, VarValue>()
-  let timer: ReturnType<typeof setInterval> | null = null
 
   function refresh() {
     const next = Array.from(appStore.placeholderVariable.getEvaluator().entries()).sort(([a], [b]) => a.localeCompare(b))
@@ -35,16 +36,17 @@ export function useVariablePolling(onChanged: (keys: string[]) => void) {
     refresh()
   }
 
-  onMounted(() => {
-    refresh()
-    timer = setInterval(() => {
+  watch(
+    () => Array.from(appStore.placeholderVariable.getEvaluator().entries()),
+    () => {
       if (!paused.value) refresh()
-    }, POLL_MS)
+    }
+  )
+  watch(paused, (isPaused) => {
+    if (!isPaused) refresh()
   })
 
-  onUnmounted(() => {
-    if (timer) clearInterval(timer)
-  })
+  onMounted(refresh)
 
   return { entries, paused, set, remove }
 }

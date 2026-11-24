@@ -12,7 +12,12 @@ export interface PlaceholderVariableType {
  * セッション単位で利用する
  */
 export class PlaceholderVariable implements PlaceholderVariableType {
-  private readonly evaluator = new ExpressionEngine()
+  /**
+   * @param evaluator 式の評価と変数の保存を担う ExpressionEngine (Map を継承している)。
+   *   画面から変数の変化を追跡したいとき (generator) は、呼び出し側が shallowReactive(new ExpressionEngine()) を渡す。
+   *   engine は Vue に依存しないので、リアクティブにするかどうかは渡す側が決める。
+   */
+  constructor(private readonly evaluator: ExpressionEngine = new ExpressionEngine()) {}
 
   getEvaluator(): ExpressionEngine {
     return this.evaluator

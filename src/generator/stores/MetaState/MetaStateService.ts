@@ -1,4 +1,5 @@
 // src/generator/stores/MetaState/MetaStateService.ts
+import { shallowReactive } from 'vue'
 import { MetaFetchStatus, MetaUpdateEvent, NormalizedMeta, ServiceMetaStoreType } from '@/types/generator'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
 import { ServiceMetaWatcher } from '@/sdk/subscribe/GetServiceMeta'
@@ -14,14 +15,31 @@ const DEV_DEFAULT_META: NormalizedMeta = {
   startTime: Date.now(),
 }
 
+/** 外から読む値 (Vue のリアクティブな状態として持つ) */
+type MetaState = {
+  current: NormalizedMeta | null
+  previous: NormalizedMeta | null
+  peak: { upVote: number; viewer: number }
+  status: MetaFetchStatus
+  lastError: unknown | null
+}
+
 export class ServiceMetaStore implements ServiceMetaStoreType {
   private static instance: ServiceMetaStore | null = null
-  private current: NormalizedMeta | null = null
-  private previous: NormalizedMeta | null = null
-  private peak = { upVote: 0, viewer: 0 }
+  /**
+   * 現在値・ピーク・ステータスは、Vue のリアクティブな状態として持つ。
+   * getCurrent() などを computed / watch の中で読めば、値が変わったときに画面へ反映される。
+   * (値は新しいオブジェクトで差し替えるので、shallow で足りる)
+   * 遷移を知りたいとき (配信が始まった瞬間など、前回の値との比較が要るとき) は subscribe を使う。
+   */
+  private readonly state = shallowReactive<MetaState>({
+    current: null,
+    previous: null,
+    peak: { upVote: 0, viewer: 0 },
+    status: 'idle',
+    lastError: null,
+  })
   private subscribers: Array<(meta: MetaUpdateEvent) => void> = []
-  private lastError: unknown | null = null
-  private status: MetaFetchStatus = 'idle'
   private errorSubscribers: Array<(error: unknown) => void> = []
   private isVirtual = false // 仮想配信パネルから値を上書き中(配信が始まるまで実データで上書きしない)
   private offlineStreak = 0 // 配信中のあと、連続で「配信していない」と取得した回数
@@ -66,7 +84,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
           }
           if (this.shouldHoldLive(incoming)) return
           this.handleMeta(this.normalize(incoming))
-          if (this.status === 'loading') this.setStatus('ready')
+          if (this.state.status === 'loading') this.setStatus('ready')
         } catch (e) {
           this.notifyError(e)
         }
@@ -85,7 +103,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
    * ステータスの更新
    */
   private setStatus(next: MetaFetchStatus) {
-    this.status = next
+    this.state.status = next
   }
 
   /**
@@ -95,7 +113,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
    * @returns true のあいだは、取得した値を反映せず前回の値を保つ
    */
   private shouldHoldLive(incoming: ServiceMeta | null): boolean {
-    if (incoming?.isLive || !this.current?.isLive) {
+    if (incoming?.isLive || !this.state.current?.isLive) {
       this.offlineStreak = 0
       return false
     }
@@ -108,8 +126,8 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
    */
   private handleMeta(normalized: NormalizedMeta) {
     this.offlineStreak = 0
-    this.previous = this.current
-    this.current = normalized
+    this.state.previous = this.state.current
+    this.state.current = normalized
 
     const peakChanged = this.updatePeak(normalized)
     this.notifySubscribers(peakChanged)
@@ -132,13 +150,19 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
    * ピークの更新
    */
   private updatePeak(meta: NormalizedMeta) {
+    const { peak } = this.state
     const peakChanged = {
-      upVote: meta.upVote > this.peak.upVote,
-      viewer: meta.viewer > this.peak.viewer,
+      upVote: meta.upVote > peak.upVote,
+      viewer: meta.viewer > peak.viewer,
     }
 
-    if (peakChanged.upVote) this.peak.upVote = meta.upVote
-    if (peakChanged.viewer) this.peak.viewer = meta.viewer
+    // 新しいオブジェクトで差し替える (通知した event が、あとから書き換わらないようにもなる)
+    if (peakChanged.upVote || peakChanged.viewer) {
+      this.state.peak = {
+        upVote: peakChanged.upVote ? meta.upVote : peak.upVote,
+        viewer: peakChanged.viewer ? meta.viewer : peak.viewer,
+      }
+    }
 
     return peakChanged
   }
@@ -147,14 +171,10 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
    * サブスクライバーに通知する
    */
   private notifySubscribers(peakChanged: { upVote: boolean; viewer: boolean }) {
-    if (!this.current) return
+    const { current, previous, peak } = this.state
+    if (!current) return
 
-    const event: MetaUpdateEvent = {
-      current: this.current,
-      previous: this.previous,
-      peak: this.peak,
-      peakChanged,
-    }
+    const event: MetaUpdateEvent = { current, previous, peak, peakChanged }
 
     for (const fn of this.subscribers) {
       try {
@@ -187,7 +207,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
    * エラー通知
    */
   private notifyError(error: unknown) {
-    this.lastError = error
+    this.state.lastError = error
     this.setStatus('error')
     console.error('[MetaStateService]', error)
 
@@ -212,28 +232,28 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
    * ステータスの取得
    */
   getStatus(): MetaFetchStatus {
-    return this.status
+    return this.state.status
   }
 
   /**
    * エラーの取得
    */
   getLastError(): unknown {
-    return this.lastError
+    return this.state.lastError
   }
 
   /**
    * メタの取得
    */
   getCurrent(): NormalizedMeta | null {
-    return this.current
+    return this.state.current
   }
 
   /**
    * ピークの取得
    */
   getPeak() {
-    return { ...this.peak }
+    return { ...this.state.peak }
   }
 
   /**
@@ -241,7 +261,7 @@ export class ServiceMetaStore implements ServiceMetaStoreType {
    * - 配信中(isLive=true)は実データを優先するため何もしない
    */
   _devSetMeta(partial: Partial<NormalizedMeta>) {
-    const base = this.current ?? DEV_DEFAULT_META
+    const base = this.state.current ?? DEV_DEFAULT_META
     if (base.isLive) return
     this.isVirtual = true
     this.handleMeta({ ...base, ...partial, isLive: false })

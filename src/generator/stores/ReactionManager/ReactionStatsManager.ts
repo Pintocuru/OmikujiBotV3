@@ -9,14 +9,12 @@ export class ReactionStatsManager implements ReactionStatsManagerType {
   private totals = new ReactionTotals()
   private peak = new PeakRateTracker()
   private burst = new BurstLevelMachine()
-  private readonly changeListeners = new Set<() => void>()
 
   record(reactions: Record<string, number>): void {
     const now = Date.now()
     const count = this.totals.add(reactions, now)
     this.peak.update(now, count)
     this.burst.add(count, this.peak.value)
-    this.notifyChange()
   }
 
   getBurstState(): BurstState {
@@ -56,30 +54,9 @@ export class ReactionStatsManager implements ReactionStatsManagerType {
     return this.totals.getHistory()
   }
 
-  /**
-   * リアクションの集計が変わったとき(記録・リセット)に呼ばれるリスナーを登録する (解除用関数を返す)
-   * バーストレベルの変化は onBurstLevelChange を使う。
-   */
-  onChange(listener: () => void): () => void {
-    this.changeListeners.add(listener)
-    return () => this.changeListeners.delete(listener)
-  }
-
   reset(): void {
     this.totals.reset()
     this.peak.reset()
     this.burst.reset()
-    this.notifyChange()
-  }
-
-  private notifyChange(): void {
-    // 1 つの購読者の失敗で、リアクションの記録を止めない
-    this.changeListeners.forEach((l) => {
-      try {
-        l()
-      } catch (error) {
-        console.error('[ReactionStatsManager] 変更通知の購読者でエラー:', error)
-      }
-    })
   }
 }

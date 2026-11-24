@@ -28,7 +28,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useFlashKeys } from './composables/useFlashKeys'
-  import { useVariablePolling } from './composables/useVariablePolling'
+  import { useVariableEntries } from './composables/useVariableEntries'
   import { useVariableSearch } from './composables/useVariableSearch'
   import { useVariableForm } from './composables/useVariableForm'
   import EvaluationHeader from './components/EvaluationHeader.vue'
@@ -40,7 +40,7 @@
   const collapsed = ref(false)
 
   const { flashKeys, flash } = useFlashKeys()
-  const { entries, paused, set, remove } = useVariablePolling(flash)
+  const { entries, paused, set, remove } = useVariableEntries(flash)
   const { query, filteredEntries, summary } = useVariableSearch(entries)
   const form = useVariableForm(set)
 </script>
