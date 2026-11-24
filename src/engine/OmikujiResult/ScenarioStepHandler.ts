@@ -78,9 +78,9 @@ export class ScenarioStepHandler {
     defaultPlaceholders: Record<string, string | number>
   ): ScenarioStepType[] {
     this.placeContext.updateValues(defaultPlaceholders)
-    this.placeProcess.updateResolvedValues(this.placeContext.getAll())
+    this.placeProcess.updateResolvedValues(Object.fromEntries(this.placeContext))
     // <<id_[[変数名]]>> の [[変数名]] は、このステップの時点の変数値で置き換える
-    this.placeProcess.updateVariables(this.variable.getAll())
+    this.placeProcess.updateVariables(Object.fromEntries(this.variable.getEvaluator()))
     const placeholderResolved = this.placeProcess.processSteps(steps)
     this.placeContext.clear()
 
