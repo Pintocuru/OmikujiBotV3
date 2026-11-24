@@ -23,7 +23,7 @@ describe('ExpressionEngine.evaluateExpression', () => {
   it('末尾に不可視文字だけの文があっても、エラーにならない', () => {
     const engine = new ExpressionEngine()
     expect(() => engine.evaluateExpression("a = 1;b = 'x';\u200C")).not.toThrow()
-    expect(engine.getAll()).toMatchObject({ a: 1, b: 'x' })
+    expect(Object.fromEntries(engine)).toMatchObject({ a: 1, b: 'x' })
   })
 
   it('全角スペースが混ざっていても評価できる', () => {
