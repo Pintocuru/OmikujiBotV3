@@ -3,9 +3,8 @@ import { ExpressionEngine } from '../VariablePlaceholder/ExpressionEngine'
 
 export interface PlaceholderVariableType {
   getEvaluator(): ExpressionEngine
-  getAll(): Record<string, string | number>
   clear(): void
-  remove(key: string): void
+  delete(key: string): boolean
 }
 
 /**
@@ -19,15 +18,12 @@ export class PlaceholderVariable implements PlaceholderVariableType {
     return this.evaluator
   }
 
-  getAll(): Record<string, string | number> {
-    return this.evaluator.getAll()
-  }
 
   clear(): void {
     this.evaluator.clear()
   }
 
-  remove(key: string): void {
-    this.evaluator.remove(key)
+  delete(key: string): boolean {
+    return this.evaluator.delete(key)
   }
 }
