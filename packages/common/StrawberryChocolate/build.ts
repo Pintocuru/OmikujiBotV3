@@ -18,10 +18,16 @@ const PROJECT: PackageProject = {
   ],
   boothId: '7733810',
   licenseLabel: 'CC-BY 4.0',
-  extraFiles: [{ from: 'assets/images/common/chocolate/', to: 'images/chocolate/' }],
 }
 
 // バリエーション定義 (項目の意味は 2026-Q4/LifeHourglass/build.ts を参照)
-const VARIANTS: PackageVariant[] = [{ variant: '', withEditor: true, withConsole: true }]
+const VARIANTS: PackageVariant[] = [
+  {
+    variant: '',
+    withEditor: true,
+    withConsole: true,
+    extraFiles: [{ from: 'assets/images/common/chocolate/', to: 'images/chocolate/' }],
+  },
+]
 
 export default definePackage(import.meta.url, PROJECT, VARIANTS)
