@@ -65,7 +65,19 @@ export const playSpawn = (host: EffectHost): void => host.play('land')
 
 /** ことばの着地: 小さな土煙 */
 export const playLand = (host: EffectHost, at: At): void =>
-  host.burst(burstAt(at, { count: 6, hue: 35, saturation: 25, lightness: 62, lifeMs: 450, radius: 10, maxSpeed: 90, minSize: 3, maxSize: 8 }))
+  host.burst(
+    burstAt(at, {
+      count: 6,
+      hue: 35,
+      saturation: 25,
+      lightness: 62,
+      lifeMs: 450,
+      radius: 10,
+      maxSpeed: 90,
+      minSize: 3,
+      maxSize: 8,
+    })
+  )
 
 /** ことばが縁に押し込まれて消えた: 白い札の破片 */
 export const playWordGone = (host: EffectHost, at: At): void => {
@@ -76,7 +88,15 @@ export const playWordGone = (host: EffectHost, at: At): void => {
 /** ことばが鍋に入った: 泡と、材料の数 (n/3) */
 export const playIntake = (host: EffectHost, pot: { top: At; center: At }, count: number): void => {
   host.burst(burstAt(pot.center, { count: 10, hue: 130, saturation: 60, lightness: 70, lifeMs: 500, radius: 18 }))
-  host.popup({ x: pot.top.x, y: pot.top.y, text: `${count}/${POT_INGREDIENTS}`, size: 24, color: '#ffe9a8', lifeMs: 900, rise: 24 })
+  host.popup({
+    x: pot.top.x,
+    y: pot.top.y,
+    text: `${count}/${POT_INGREDIENTS}`,
+    size: 24,
+    color: '#ffe9a8',
+    lifeMs: 900,
+    rise: 24,
+  })
   host.play('intake')
 }
 
@@ -129,14 +149,42 @@ export const playSteam = (host: EffectHost, at: At): void =>
 /** 煮込み完了: 新種は派手に (金の粒・画面揺れ・ファンファーレ)、既発見は控えめに、抽選エラーは紫の煙 */
 export const playBrewDone = (host: EffectHost, kind: 'new' | 'known' | 'lost', at: At): void => {
   if (kind === 'new') {
-    host.burst(burstAt(at, { count: 60, hue: 48, saturation: 95, lightness: 62, lifeMs: 900, radius: 30, minSpeed: 120, maxSpeed: 380, minSize: 5, maxSize: 16 }))
+    host.burst(
+      burstAt(at, {
+        count: 60,
+        hue: 48,
+        saturation: 95,
+        lightness: 62,
+        lifeMs: 900,
+        radius: 30,
+        minSpeed: 120,
+        maxSpeed: 380,
+        minSize: 5,
+        maxSize: 16,
+      })
+    )
     host.shake(6, 300)
     host.play('discoverNew')
   } else if (kind === 'known') {
-    host.burst(burstAt(at, { count: 18, hue: 210, saturation: 15, lightness: 78, lifeMs: 600, radius: 24, maxSpeed: 150 }))
+    host.burst(
+      burstAt(at, { count: 18, hue: 210, saturation: 15, lightness: 78, lifeMs: 600, radius: 24, maxSpeed: 150 })
+    )
     host.play('discoverKnown')
   } else {
-    host.burst(burstAt(at, { count: 30, hue: 270, saturation: 60, lightness: 55, lifeMs: 800, radius: 30, minSpeed: 30, maxSpeed: 140, minSize: 6, maxSize: 16 }))
+    host.burst(
+      burstAt(at, {
+        count: 30,
+        hue: 270,
+        saturation: 60,
+        lightness: 55,
+        lifeMs: 800,
+        radius: 30,
+        minSpeed: 30,
+        maxSpeed: 140,
+        minSize: 6,
+        maxSize: 16,
+      })
+    )
     host.play('lost')
   }
 }

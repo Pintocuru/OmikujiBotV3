@@ -56,7 +56,11 @@ export function useWordAlchemy() {
   const recordError = ref('')
 
   /** 発見をゲームログに記録する (材料を出したユーザーごとに 1 件。同じ内容を再送しても二重にならない)。オートの架空ユーザーは記録しない */
-  const recordDiscovery = async (found: { name: string; isNew: boolean; users: { userId: string; userName: string }[] }) => {
+  const recordDiscovery = async (found: {
+    name: string
+    isNew: boolean
+    users: { userId: string; userName: string }[]
+  }) => {
     if (commentSource.value === 'auto') return
     const createdAt = Date.now()
     const logs = buildDiscoveryLogs({
@@ -70,7 +74,11 @@ export function useWordAlchemy() {
       recordError.value = ''
     } catch (error) {
       recordError.value =
-        error instanceof ConnectionError ? 'サーバーに接続できません' : error instanceof Error ? error.message : String(error)
+        error instanceof ConnectionError
+          ? 'サーバーに接続できません'
+          : error instanceof Error
+            ? error.message
+            : String(error)
     }
   }
 

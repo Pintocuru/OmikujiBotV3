@@ -1,3 +1,4 @@
+<!-- src/console/game/WordAlchemy/WordAlchemy.vue -->
 <!-- 言葉の錬金術 (別ウィンドウで開く。仕様は SPEC.md)。画面の組み立てだけを行い、進行は useWordAlchemy が持つ -->
 <template>
   <div class="flex h-screen flex-col bg-neutral text-neutral-content">

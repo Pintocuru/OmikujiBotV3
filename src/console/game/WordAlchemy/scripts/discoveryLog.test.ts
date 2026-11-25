@@ -16,7 +16,13 @@ describe('buildDiscoveryLogs', () => {
   })
   it('新種は高い貢献点・フラグ・「(新種)」付き。既発見は低い貢献点', () => {
     const [fresh] = buildDiscoveryLogs({ discoveryId: 'd1', name: 'ねこ', isNew: true, users, createdAt: 10 })
-    expect(fresh).toMatchObject({ score: DISCOVERY_SCORE.new, item: 'ねこ(新種)', flag: true, userName: 'A', createdAt: 10 })
+    expect(fresh).toMatchObject({
+      score: DISCOVERY_SCORE.new,
+      item: 'ねこ(新種)',
+      flag: true,
+      userName: 'A',
+      createdAt: 10,
+    })
     const [known] = buildDiscoveryLogs({ discoveryId: 'd2', name: 'いぬ', isNew: false, users, createdAt: 11 })
     expect(known).toMatchObject({ score: DISCOVERY_SCORE.known, item: 'いぬ', flag: false })
     expect(DISCOVERY_SCORE.new).toBeGreaterThan(DISCOVERY_SCORE.known)

@@ -21,7 +21,11 @@
       </label>
       <div v-if="forms[slot].enabled" class="mt-2 grid grid-cols-[6.5rem_1fr] items-center gap-x-2 gap-y-2 text-sm">
         <span>{{ messages.provider }}</span>
-        <select v-model="forms[slot].provider" class="select select-bordered select-sm" @change="onProviderChange(slot)">
+        <select
+          v-model="forms[slot].provider"
+          class="select select-bordered select-sm"
+          @change="onProviderChange(slot)"
+        >
           <option v-for="key in AI_PROVIDERS" :key="key" :value="key">{{ messages.providers[key] }}</option>
         </select>
         <span>{{ messages.baseUrl }}</span>
@@ -50,7 +54,13 @@
 <script setup lang="ts">
   import { X } from '@lucide/vue'
   import { reactive, ref } from 'vue'
-  import { AI_SLOT_KEYS, type AiProviderType, type AiSlotKeyType, type LoadAiSettingsResponseType, type SaveAiSettingsRequestType } from '@/types/api'
+  import {
+    AI_SLOT_KEYS,
+    type AiProviderType,
+    type AiSlotKeyType,
+    type LoadAiSettingsResponseType,
+    type SaveAiSettingsRequestType,
+  } from '@/types/api'
   import { wordAlchemyMessages } from '../maps/WordAlchemyMessageMap'
 
   const props = defineProps<{ settings: LoadAiSettingsResponseType | null; busy: boolean; error: string }>()
@@ -103,7 +113,12 @@
         problem.value = messages.needKey(messages.slot[slot])
         return
       }
-      request[slot] = { provider: form.provider, baseUrl: form.baseUrl.trim(), model: form.model.trim(), apiKey: form.apiKey.trim() }
+      request[slot] = {
+        provider: form.provider,
+        baseUrl: form.baseUrl.trim(),
+        model: form.model.trim(),
+        apiKey: form.apiKey.trim(),
+      }
     }
     emit('save', request)
     // 保存したあとは、入力欄のキーを消す (画面に残さない)

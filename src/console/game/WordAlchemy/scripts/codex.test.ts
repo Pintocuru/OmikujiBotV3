@@ -11,7 +11,13 @@ import {
   recordDiscovery,
 } from './codex'
 
-const found = (name: string, at = 1, userNames: string[] = ['A'], itemId = 'a-red') => ({ itemId, name, at, userNames, pot: 'pressure' })
+const found = (name: string, at = 1, userNames: string[] = ['A'], itemId = 'a-red') => ({
+  itemId,
+  name,
+  at,
+  userNames,
+  pot: 'pressure',
+})
 
 describe('recordDiscovery', () => {
   it('初めてなら新種。初回の名前と発見履歴が入る', () => {
@@ -63,8 +69,13 @@ describe('parseCodex', () => {
     expect(parseCodex(JSON.parse(JSON.stringify(saved)))).toEqual({ codex: saved, discarded: false })
   })
   it('バージョン違い・壊れたデータは、捨てて初期化する', () => {
-    expect(parseCodex({ dataVersion: CODEX_DATA_VERSION + 1, entries: {}, history: [] })).toEqual({ codex: createEmptyCodex(), discarded: true })
-    expect(parseCodex({ dataVersion: CODEX_DATA_VERSION, entries: { x: { firstName: 1 } }, history: [] }).discarded).toBe(true)
+    expect(parseCodex({ dataVersion: CODEX_DATA_VERSION + 1, entries: {}, history: [] })).toEqual({
+      codex: createEmptyCodex(),
+      discarded: true,
+    })
+    expect(
+      parseCodex({ dataVersion: CODEX_DATA_VERSION, entries: { x: { firstName: 1 } }, history: [] }).discarded
+    ).toBe(true)
     expect(parseCodex({ foo: 1 }).discarded).toBe(true)
   })
 })

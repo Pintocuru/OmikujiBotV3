@@ -1,6 +1,16 @@
 // src/console/game/WordAlchemy/render/effectPresets.test.ts
 import { describe, expect, it } from 'vitest'
-import { playBrewDone, playBrewStart, playIntake, playReject, playSpawn, playWordGone, type BurstOptions, type EffectHost, type PopupOptions } from './effectPresets'
+import {
+  playBrewDone,
+  playBrewStart,
+  playIntake,
+  playReject,
+  playSpawn,
+  playWordGone,
+  type BurstOptions,
+  type EffectHost,
+  type PopupOptions,
+} from './effectPresets'
 import type { SoundKey } from './stageSounds'
 
 const recorder = () => {

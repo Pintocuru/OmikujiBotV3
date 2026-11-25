@@ -1,13 +1,21 @@
 <!-- src/ui/counter/StreamCounter/parts/MiniCounterList.vue -->
 <template>
-  <div class="flex w-fit gap-0.5" :class="direction === 'column' ? 'flex-col items-start' : 'flex-row flex-wrap items-center'">
+  <div
+    class="flex w-fit gap-0.5"
+    :class="direction === 'column' ? 'flex-col items-start' : 'flex-row flex-wrap items-center'"
+  >
     <div
       v-for="item in items"
       :key="item.key"
       class="inline-flex items-center gap-0.5 rounded px-1 py-px leading-none whitespace-nowrap"
       :style="{ backgroundColor: item.color.background }"
     >
-      <component :is="item.label" v-if="isComponent(item.label)" class="size-3.5 shrink-0" :style="{ color: item.color.name }" />
+      <component
+        :is="item.label"
+        v-if="isComponent(item.label)"
+        class="size-3.5 shrink-0"
+        :style="{ color: item.color.name }"
+      />
       <span v-else class="text-xs font-bold" :style="{ color: item.color.name }">{{ item.label }}</span>
       <span class="text-sm font-bold" :style="{ color: item.color.text }">{{ item.value }}</span>
     </div>

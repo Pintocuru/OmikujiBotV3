@@ -1,3 +1,4 @@
+// packages/common/OmikujiBot/register.ts
 import type { UiKind, UiLayoutType } from '@/types/OmikujiData'
 import { registerLayout, registerUi, type UiLoader } from '@/ui/uiRegistry'
 import { registerGameScript } from '@/games/gameScriptRegistry'

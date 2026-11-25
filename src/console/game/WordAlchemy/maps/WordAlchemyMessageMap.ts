@@ -42,7 +42,13 @@ export const wordAlchemyMessages = {
     needFields: (slot: string) => `${slot}: ベース URL とモデルを入力してください`,
     needKey: (slot: string) => `${slot}: API キーを入力してください`,
     /** 上部バーの、AI の状態の表示 */
-    status: { main: 'AI (メイン)', sub: 'AI (サブ)', mock: 'Mock', failed: 'Mock (AI 失敗)', limited: 'Mock (上限超過)' },
+    status: {
+      main: 'AI (メイン)',
+      sub: 'AI (サブ)',
+      mock: 'Mock',
+      failed: 'Mock (AI 失敗)',
+      limited: 'Mock (上限超過)',
+    },
     usage: (ai: number, mock: number) => `AI ${ai} 回 / Mock ${mock} 回`,
   },
   recordFailed: 'ゲームログを保存できません',

@@ -6,4 +6,5 @@ const miniColumnComponents = {
   miniColumn: { labelKey: 'uiComponents.streamCounter.miniColumn.label', loader: () => import('./MiniColumn.vue') },
 } satisfies Record<StreamComponentOf<'miniColumn'>, StreamCounterComponent>
 
-export const registerMiniColumnStreamComponents = () => registerStreamCounterComponents({ miniColumn: miniColumnComponents })
+export const registerMiniColumnStreamComponents = () =>
+  registerStreamCounterComponents({ miniColumn: miniColumnComponents })

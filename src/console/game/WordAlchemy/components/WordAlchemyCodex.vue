@@ -31,8 +31,17 @@
             :title="titleOf(item)"
           >
             <template v-if="codex.entries[item.id]">
-              <img v-if="item.image" :src="`images/WordAlchemy/items/${item.image}`" class="h-8 w-8 [image-rendering:pixelated]" alt="" />
-              <div v-else class="h-8 w-8 rounded border border-white/20" :style="{ backgroundColor: colorCssMap[item.color] }" />
+              <img
+                v-if="item.image"
+                :src="`images/WordAlchemy/items/${item.image}`"
+                class="h-8 w-8 [image-rendering:pixelated]"
+                alt=""
+              />
+              <div
+                v-else
+                class="h-8 w-8 rounded border border-white/20"
+                :style="{ backgroundColor: colorCssMap[item.color] }"
+              />
               <span class="w-full truncate text-center text-xs">{{ latestName(item.id) }}</span>
               <span class="text-[10px] opacity-60">{{ messages.finds(countFinds(codex, item.id)) }}</span>
             </template>
