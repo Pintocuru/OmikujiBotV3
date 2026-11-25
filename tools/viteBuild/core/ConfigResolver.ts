@@ -66,7 +66,7 @@ function resolveVariant(def: PackageDefinition, v: PackageVariant): ResolvedPack
     json: v.jsonFileName === null ? undefined : resolveJson(v.jsonFileName ?? `${key}.json`),
 
     filesToCopy: [
-      ...(project.extraFiles ?? []),
+      ...(v.extraFiles ?? []),
       ...DEFAULT_FILES_TO_COPY,
       ...(withEditor ? EDITOR_FILES_TO_COPY : []),
       ...(withConsole ? CONSOLE_FILES_TO_COPY : []),
