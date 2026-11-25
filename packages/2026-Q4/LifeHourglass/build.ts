@@ -15,9 +15,20 @@ const PROJECT: PackageProject = {
 // - withEditor: editor.ts (エディター) を同梱する
 // - withConsole: console.ts (LiveConsole。ポン出し・ユーザー操作・ゲームの記録) を同梱する
 // - jsonFileName: 読み込むプリセットJSON (既定: `${key}.json`。null ならJSONなし = アップデート用)
+// - extraFiles: このバリエーションに追加でコピーするファイル/フォルダ
 const VARIANTS: PackageVariant[] = [
-  { variant: '', withEditor: false, jsonFileName: 'LifeHourglass.json' },
-  { variant: 'Adv', withEditor: true, jsonFileName: 'LifeHourglass.json' },
+  {
+    variant: '',
+    withEditor: false,
+    jsonFileName: 'LifeHourglass.json',
+    extraFiles: [{ from: 'packages/2026-Q4/LifeHourglass/thumb/LifeHourglass.gif', to: 'thumb.gif' }],
+  },
+  {
+    variant: 'Adv',
+    withEditor: true,
+    jsonFileName: 'LifeHourglass.json',
+    extraFiles: [{ from: 'packages/2026-Q4/LifeHourglass/thumb/LifeHourglassAdv.gif', to: 'thumb.gif' }],
+  },
 ]
 
 export default definePackage(import.meta.url, PROJECT, VARIANTS)
