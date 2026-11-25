@@ -18,7 +18,6 @@
 - `src/console/maps/ConsoleViewMap.ts`: 全画面の表示名・カテゴリ・起動方式
 - `src/console/consoleRegistry.ts`: 画面のレジストリ（key → loader）
 - `src/register/registerConsoleViews.ts`: 開発用の全部入り登録
-- `tools/viteConfig/vite.console.config.ts`: Vite設定
 
 画面はカテゴリ（`control`: 配信中の操作 / `log`: 記録・閲覧 / `game`: ブラウザゲーム）のフォルダに置きます。カテゴリはフォルダ分けだけに使い、フォルダ名は UI（`src/ui`）に合わせて PascalCase、画面の本体は `<フォルダ名>/<フォルダ名>.vue` です。
 
