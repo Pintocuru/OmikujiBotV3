@@ -27,7 +27,7 @@ export async function executePackageBuild(config: ResolvedPackageBuildConfig): P
       console.log(`  [Copy] Extended files: ${config.filesToCopy.length} items`)
     }
 
-    // ポストビルド処理（JSON、readme.txt、thumb.png などを生成）
+    // ポストビルド処理 (JSON、readme.txt などを生成)
     await processPostBuild(config, outputSubDir)
     console.log(`  [Post-Build] Completed`)
 
