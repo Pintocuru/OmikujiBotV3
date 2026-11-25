@@ -74,7 +74,12 @@ export class WordAlchemyStage {
   private readonly words: Word[] = []
   private readonly held: string[] = []
   private readonly hero = { col: HERO_START.col, row: HERO_START.row, cooldown: 0 }
-  private readonly pot = { ingredients: [] as string[], brewing: false, endsAt: 0, result: undefined as string | undefined }
+  private readonly pot = {
+    ingredients: [] as string[],
+    brewing: false,
+    endsAt: 0,
+    result: undefined as string | undefined,
+  }
   private heroX = NaN
   private heroY = NaN
   /** ゲーム内の時計 (秒)。更新が止まっている間 (非表示) は進まない */
@@ -99,7 +104,9 @@ export class WordAlchemyStage {
     })
 
     const board = new Actor({ pos: vec(BOARD_W / 2, BOARD_H / 2), width: BOARD_W, height: BOARD_H, z: 0 })
-    board.graphics.use(new Canvas({ width: BOARD_W, height: BOARD_H, cache: true, draw: (ctx) => drawBoard(ctx, BOARD_W, BOARD_H) }))
+    board.graphics.use(
+      new Canvas({ width: BOARD_W, height: BOARD_H, cache: true, draw: (ctx) => drawBoard(ctx, BOARD_W, BOARD_H) })
+    )
     this.engine.add(board)
 
     const potSize = POT_SIZE * CELL_PX
@@ -406,6 +413,9 @@ export class WordAlchemyStage {
       })
     )
     this.engine.add(actor)
-    actor.actions.delay(RESULT_SHOW_SECONDS * 1000).fade(0, 700).die()
+    actor.actions
+      .delay(RESULT_SHOW_SECONDS * 1000)
+      .fade(0, 700)
+      .die()
   }
 }

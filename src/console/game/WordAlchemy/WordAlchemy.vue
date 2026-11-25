@@ -23,5 +23,6 @@
   import WordAlchemyTopBar from './components/WordAlchemyTopBar.vue'
   import { useWordAlchemy } from './composables/useWordAlchemy'
 
-  const { phase, potType, commentSource, commentStatus, stageOptions, setStage, start, abort, connectComments } = useWordAlchemy()
+  const { phase, potType, commentSource, commentStatus, stageOptions, setStage, start, abort, connectComments } =
+    useWordAlchemy()
 </script>

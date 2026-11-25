@@ -92,12 +92,19 @@ describe('buildPrompt', () => {
 
 describe('mockAlchemy', () => {
   it('どの鍋でも、どんな材料でも、結果は検証を通る', () => {
-    const materialSets = [M, ['wwwww', 'wwwww', 'wwwww'], ['ガギグゲゴ', 'ぱぴぷぺぽ', 'あ'], ['😀😀', '12345', '!?・!?']]
+    const materialSets = [
+      M,
+      ['wwwww', 'wwwww', 'wwwww'],
+      ['ガギグゲゴ', 'ぱぴぷぺぽ', 'あ'],
+      ['😀😀', '12345', '!?・!?'],
+    ]
     for (const pot of POT_KEYS) {
       for (const materials of materialSets) {
         for (let i = 0; i < 50; i++) {
           const result = mockAlchemy(materials, pot)
-          expect(validateResult(JSON.stringify(result), materials, pot).ok, `${pot} ${materials} ${result.n}`).toBe(true)
+          expect(validateResult(JSON.stringify(result), materials, pot).ok, `${pot} ${materials} ${result.n}`).toBe(
+            true
+          )
         }
       }
     }
@@ -124,10 +131,19 @@ describe('runAlchemy', () => {
   })
   it('429 は、やり直さず Mock にして、上限超過を知らせる。通信の失敗も Mock', async () => {
     let calls = 0
-    const limited = { complete: async () => { calls++; throw new AlchemyRateLimitError() } }
+    const limited = {
+      complete: async () => {
+        calls++
+        throw new AlchemyRateLimitError()
+      },
+    }
     expect(await runAlchemy(M, 'pressure', limited)).toMatchObject({ source: 'mock', rateLimited: true })
     expect(calls).toBe(1)
-    const broken = { complete: async () => { throw new Error('network') } }
+    const broken = {
+      complete: async () => {
+        throw new Error('network')
+      },
+    }
     expect(await runAlchemy(M, 'pressure', broken)).toMatchObject({ source: 'mock', rateLimited: false })
   })
 })

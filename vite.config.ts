@@ -27,13 +27,11 @@ export default defineConfig({
       overlay: { initialIsOpen: 'error' },
       terminal: true,
     }),
+    // common/ または YYYY-QN/ フォルダから探して返す独自プラグイン
     imageAssetsPlugin(projectRoot),
     soundAssetsPlugin(projectRoot),
   ],
   resolve: { alias },
-  css: {
-    postcss: path.resolve(__dirname, '../../postcss.config.js'),
-  },
   server: {
     watch: {
       ignored: [

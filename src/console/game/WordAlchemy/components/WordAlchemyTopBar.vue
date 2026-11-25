@@ -23,7 +23,12 @@
   import { potMap, type PotKey } from '../maps/WordAlchemyPotMap'
   import type { CommentSource, CommentStatus, WordAlchemyPhase } from '../composables/useWordAlchemy'
 
-  defineProps<{ potType: PotKey; phase: WordAlchemyPhase; commentSource: CommentSource; commentStatus: CommentStatus }>()
+  defineProps<{
+    potType: PotKey
+    phase: WordAlchemyPhase
+    commentSource: CommentSource
+    commentStatus: CommentStatus
+  }>()
   const emit = defineEmits<{ abort: []; reconnect: [] }>()
 
   const confirming = ref(false)

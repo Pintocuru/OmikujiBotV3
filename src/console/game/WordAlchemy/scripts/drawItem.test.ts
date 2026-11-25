@@ -3,14 +3,25 @@ import { describe, expect, it } from 'vitest'
 import type { ItemDefinition } from '../maps/WordAlchemyItemMap'
 import { drawItem } from './drawItem'
 
-const item = (id: string, category: ItemDefinition['category'], color: ItemDefinition['color'], weight = 1): ItemDefinition => ({
+const item = (
+  id: string,
+  category: ItemDefinition['category'],
+  color: ItemDefinition['color'],
+  weight = 1
+): ItemDefinition => ({
   id,
   category,
   color,
   image: null,
   weight,
 })
-const ITEMS = [item('a-red', 'A', '赤'), item('a-blue', 'A', '青'), item('a-blue2', 'A', '青', 3), item('b-red', 'B', '赤'), item('c-zero', 'C', '赤', 0)]
+const ITEMS = [
+  item('a-red', 'A', '赤'),
+  item('a-blue', 'A', '青'),
+  item('a-blue2', 'A', '青', 3),
+  item('b-red', 'B', '赤'),
+  item('c-zero', 'C', '赤', 0),
+]
 
 describe('drawItem', () => {
   it('分類と色が合うものから抽選する', () => {

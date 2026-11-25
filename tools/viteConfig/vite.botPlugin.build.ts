@@ -1,4 +1,4 @@
-// tools/viteConfig/vite.botPlugin.config.ts
+// tools/viteConfig/vite.botPlugin.build.ts
 // わんコメ用プラグイン (src/plugin/plugin.ts) を CommonJS 1ファイルにビルドする: npm run build:plugin
 // ※ 設定ファイルの読み込み時は tsconfig の paths (@/ や @tools/) が解決されないため、import は相対パスで書くこと
 import { defineConfig } from 'vite'

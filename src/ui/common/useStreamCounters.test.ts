@@ -21,7 +21,14 @@ import { BUILTIN_COUNTER_KEYS, useStreamCounters } from './useStreamCounters'
 const services = useAppStore()
 
 const comment = (userId: string, tc: number, lc: number, giftPrice = 0) =>
-  ({ userId, userName: userId, profileImage: '', timestamp: 1000 + lc, giftPrice, meta: { tc, lc, no: lc } }) as OmikenCommentType
+  ({
+    userId,
+    userName: userId,
+    profileImage: '',
+    timestamp: 1000 + lc,
+    giftPrice,
+    meta: { tc, lc, no: lc },
+  }) as OmikenCommentType
 
 const mount = (labels: Record<string, string> = {}) => {
   const variableLabelMap = ref(labels)
@@ -64,7 +71,14 @@ describe('useStreamCounters', () => {
     })
 
     services.resetStreamData()
-    expect(counters.value).toMatchObject({ lc: 0, syoken: 0, totalComments: 0, totalPrice: 0, commenter: 0, reaction: 3 })
+    expect(counters.value).toMatchObject({
+      lc: 0,
+      syoken: 0,
+      totalComments: 0,
+      totalPrice: 0,
+      commenter: 0,
+      reaction: 3,
+    })
   })
 
   it('インスタンスが複数あっても、それぞれ最新の値を返す', () => {

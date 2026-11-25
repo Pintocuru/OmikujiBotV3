@@ -19,7 +19,14 @@ setActivePinia(createPinia())
 const store = defineStore('createAppServices-test', () => services)()
 
 const comment = (userId: string, tc: number, lc: number, giftPrice = 0) =>
-  ({ userId, userName: userId, profileImage: '', timestamp: 1000 + lc, giftPrice, meta: { tc, lc, no: lc } }) as OmikenCommentType
+  ({
+    userId,
+    userName: userId,
+    profileImage: '',
+    timestamp: 1000 + lc,
+    giftPrice,
+    meta: { tc, lc, no: lc },
+  }) as OmikenCommentType
 
 // 読み取り側は、ストア経由と生のインスタンスの両方で作る (どちらで読んでも追跡される)
 const readers = <T>(read: (s: typeof services) => T) => {

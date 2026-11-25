@@ -14,7 +14,12 @@ export const acceptsWord = (pot: PotKey, word: string): boolean =>
 
 /** 清音にする (が→か、ぱ→は)。かな以外は変えない */
 const stripVoicing = (c: string): string =>
-  /[\u3040-\u30ff]/.test(c) ? c.normalize('NFD').replace(/[\u3099\u309a]/g, '').normalize('NFC') : c
+  /[\u3040-\u30ff]/.test(c)
+    ? c
+        .normalize('NFD')
+        .replace(/[\u3099\u309a]/g, '')
+        .normalize('NFC')
+    : c
 
 /** 鍋が許可する変換で同じになる文字を、同じ文字にそろえる (同値クラスの代表) */
 export const canonicalChar = (pot: PotKey, char: string): string => {

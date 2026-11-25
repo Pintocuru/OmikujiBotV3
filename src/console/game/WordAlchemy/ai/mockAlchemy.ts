@@ -27,7 +27,8 @@ const toggleKana = (c: string): string => {
 /** 清音 ↔ 濁音・半濁音を入れ替える (が→か、か→が)。濁点が付かない文字は、そのまま */
 const toggleVoicing = (c: string): string => {
   const decomposed = c.normalize('NFD')
-  if (/[\u3040-\u30ff]/.test(c) && /[\u3099\u309a]/.test(decomposed)) return decomposed.replace(/[\u3099\u309a]/g, '').normalize('NFC')
+  if (/[\u3040-\u30ff]/.test(c) && /[\u3099\u309a]/.test(decomposed))
+    return decomposed.replace(/[\u3099\u309a]/g, '').normalize('NFC')
   const voiced = (c + '\u3099').normalize('NFC')
   return Array.from(voiced).length === 1 ? voiced : c
 }

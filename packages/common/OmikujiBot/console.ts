@@ -1,4 +1,4 @@
-// packages/common/StrawberryChocolate/console.ts
+// packages/common/OmikujiBot/console.ts
 import LiveConsole from '@/console/App.vue'
 import { createBaseApp } from '@/common/EntryCore/core'
 import { registerConsoleView } from '@/console/consoleRegistry'

@@ -26,6 +26,9 @@ describe('DwarfBomb execute', () => {
     const variable = new PlaceholderVariable()
     new VariablePlaceholderProcessor(variable).run(first.message)
 
-    expect(Object.keys(Object.fromEntries(variable.getEvaluator())).sort()).toEqual(['dwarfbomb_day_u7', 'dwarfbomb_payout_u7'])
+    expect(Object.keys(Object.fromEntries(variable.getEvaluator())).sort()).toEqual([
+      'dwarfbomb_day_u7',
+      'dwarfbomb_payout_u7',
+    ])
   })
 })

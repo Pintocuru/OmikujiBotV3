@@ -16,7 +16,9 @@ export function useVariableEntries(onChanged: (keys: string[]) => void) {
   let prev = new Map<string, VarValue>()
 
   function refresh() {
-    const next = Array.from(appStore.placeholderVariable.getEvaluator().entries()).sort(([a], [b]) => a.localeCompare(b))
+    const next = Array.from(appStore.placeholderVariable.getEvaluator().entries()).sort(([a], [b]) =>
+      a.localeCompare(b)
+    )
 
     // 前回から増えた・変わった変数を通知
     const changed = next.filter(([key, value]) => prev.get(key) !== value).map(([key]) => key)
