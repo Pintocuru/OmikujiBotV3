@@ -134,7 +134,7 @@ export function useWordAlchemy() {
       autoTimer = window.setInterval(() => {
         if (document.hidden) return
         const user = pool.pick('regular')
-        stage.value?.spawn({ userId: user.userId, userName: user.userName, comment: pickTestComment('chat') })
+        stage.value?.spawn({ userId: user.userId, userName: user.userName, comment: pickTestComment('all') })
       }, AUTO_COMMENT_INTERVAL_SECONDS * 1000)
     }
     stage.value.start()

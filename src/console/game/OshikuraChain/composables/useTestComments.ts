@@ -49,7 +49,7 @@ export function useTestComments() {
           comment: CommentPickSchema.parse({
             userId: user.userId,
             name: user.userName,
-            comment: pickTestComment('chat'),
+            comment: pickTestComment('all'),
             profileImage: getAvatarUrl(user.userName),
           }),
         },

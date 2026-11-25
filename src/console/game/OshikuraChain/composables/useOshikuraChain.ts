@@ -117,7 +117,7 @@ export function useOshikuraChain() {
       userName: user.userName,
       profileImage: getAvatarUrl(user.userName),
       isFirst: false,
-      comment: pickTestComment('chat'),
+      comment: pickTestComment('all'),
     }
   }
 

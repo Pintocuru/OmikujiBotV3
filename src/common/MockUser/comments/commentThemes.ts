@@ -122,6 +122,7 @@ export const COMMENT_THEMES = {
 } as const satisfies Record<string, CommentTheme>
 
 export type CommentThemeKey = keyof typeof COMMENT_THEMES
+export type CommentThemeOrAll = CommentThemeKey | 'all'
 
 export const COMMENT_THEME_KEYS = Object.keys(COMMENT_THEMES) as CommentThemeKey[]
 
@@ -130,12 +131,15 @@ const COMMON_RATE = 0.25
 
 const pick = <T>(list: readonly T[]): T => list[Math.floor(Math.random() * list.length)]
 
+const ALL_COMMENTS = COMMENT_THEME_KEYS.flatMap((k) => COMMENT_THEMES[k].comments)
+
 /**
  * テーマに沿ったコメントを1件選ぶ
  * - customComments が渡されたら、そちらだけから選ぶ(共通コメントも混ぜない)
  */
-export function pickTestComment(theme: CommentThemeKey, customComments?: readonly string[]): string {
+export function pickTestComment(theme: CommentThemeOrAll, customComments?: readonly string[]): string {
   if (customComments && customComments.length > 0) return pick(customComments)
   if (Math.random() < COMMON_RATE) return pick(COMMON_COMMENTS)
+  if (theme === 'all') return pick(ALL_COMMENTS)
   return pick(COMMENT_THEMES[theme].comments)
 }
