@@ -9,7 +9,7 @@
     "fix": "tsx tools/runFix.ts",
     "tsc": "npx vue-tsc --noEmit",
     "build": "tsx packages/build.ts",
-    "build:plugin": "vite build --config tools/viteConfig/vite.botPlugin.config.ts"
+    "build:plugin": "vite build --config tools/viteConfig/vite.botPlugin.build.ts"
   },
   "type": "module",
   "author": "Pintocuru",
