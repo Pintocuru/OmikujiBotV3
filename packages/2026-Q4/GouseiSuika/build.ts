@@ -10,9 +10,24 @@ const PROJECT: PackageProject = {
   licenseLabel: '利用規約に従う',
 }
 
+// バリエーション定義
+const extraFiles = [{ from: 'packages/2026-Q4/LifeHourglass/LifeHourglass.gif', to: 'thumb.gif' }]
+
 const VARIANTS: PackageVariant[] = [
-  { variant: '', withEditor: false, withConsole: true, jsonFileName: 'GouseiSuika.json' },
-  { variant: 'Adv', withEditor: true, withConsole: true, jsonFileName: 'GouseiSuika.json' },
+  {
+    variant: '',
+    withEditor: false,
+    withConsole: true,
+    jsonFileName: 'GouseiSuika.json',
+    extraFiles,
+  },
+  {
+    variant: 'Adv',
+    withEditor: true,
+    withConsole: true,
+    jsonFileName: 'GouseiSuika.json',
+    extraFiles,
+  },
 ]
 
 export default definePackage(import.meta.url, PROJECT, VARIANTS)

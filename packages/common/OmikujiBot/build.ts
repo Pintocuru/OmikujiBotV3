@@ -11,6 +11,8 @@ const PROJECT: PackageProject = {
 }
 
 // アップデート用: プリセットJSONを持たない (jsonFileName: null)
-const VARIANTS: PackageVariant[] = [{ variant: '', withEditor: true, withConsole: true, jsonFileName: null }]
+const VARIANTS: PackageVariant[] = [
+  { variant: '', withEditor: true, withConsole: true, jsonFileName: null, extraFiles: [] },
+]
 
 export default definePackage(import.meta.url, PROJECT, VARIANTS)
