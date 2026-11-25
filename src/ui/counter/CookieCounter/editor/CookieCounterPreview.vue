@@ -29,7 +29,7 @@
   import CookieCounterSelector from '@/ui/counter/CookieCounter/CookieCounterSelector.vue'
   import HudPreview from '@/editor/parts/HudPreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { usePreviewCounters } from '@/ui/counter/StreamCounter/editor/usePreviewCounters'
+  import { usePreviewCounters } from './usePreviewCounters'
   import { useCharacterLookup } from '@/editor/helpers/CharacterChanger/composables/useCharacterLookup'
   import { resolveCookieCharacters } from '../composables/resolveCookieCharacters'
 

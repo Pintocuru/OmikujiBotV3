@@ -131,7 +131,6 @@ export const UiMessageSpecs = {
   labelMaker: { bubble: false, slots: {} }, // TODO: 投稿の受け取り方(slot の有無)は未決定。slots が空だと editor の投稿先に出ない
   cookieCounter: { bubble: false, slots: {} },
   deadAir: { bubble: false, slots: {} },
-  streamCounter: { bubble: false, slots: {} },
   lifeHourglass: { bubble: false, slots: {} },
   liverBingo: { bubble: false, slots: {} },
   luckyDraw: { bubble: false, slots: LuckyDrawSlotMap },

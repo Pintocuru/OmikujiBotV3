@@ -20,6 +20,13 @@ const standardComponents = {
     maxCharacters: 0,
     loader: () => import('./Block3d.vue'),
   },
+  pixelBadge: {
+    labelKey: 'uiComponents.cookieCounter.pixelBadge.label',
+    maxCounters: 8,
+    isColor: true,
+    maxCharacters: 0,
+    loader: () => import('./PixelBadge.vue'),
+  },
 } satisfies Record<CookieComponentOf<'standard'>, CookieCounterComponent>
 
 export const registerStandardCookieComponents = () => registerCookieCounterComponents({ standard: standardComponents })

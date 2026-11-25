@@ -1,16 +1,13 @@
-// src/ui/counter/StreamCounter/composables/useStreamCounterDisplay.ts
+// src/ui/counter/CookieCounter/composables/useStreamCounterDisplay.ts
 import { computed, type Ref } from 'vue'
-import type { StreamCounterType } from '@/types/ui'
+import type { CookieCounterType } from '@/types/ui'
 import type { CharacterColorType } from '@/types/OmikujiData/'
 
 /**
- * 表示するカウンターのキー(標準 → 評価ブロックの順)
+ * 表示するカウンターのキー(counters 配列の target の順)
  */
-export function useStreamCounterDisplay(settings: Ref<StreamCounterType>) {
-  const allKeys = computed(() => [
-    ...(settings.value.defaultCounters as string[]),
-    ...settings.value.variableCounters.map((c) => c.target),
-  ])
+export function useStreamCounterDisplay(settings: Ref<CookieCounterType>) {
+  const allKeys = computed(() => settings.value.counters.map((c) => c.target))
 
   return { allKeys }
 }

@@ -22,12 +22,10 @@
   />
 
   <!-- カラー設定 -->
-  <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description">
-    <ColorPicker :modelValue="cookieCounter.color" @update:modelValue="(val) => updateField('color', val)" />
-  </SettingItem>
+  <CounterColorEditor :colors="cookieCounter.color" @update:colors="(v) => updateField('color', v)" />
 
   <!-- キャラクター指定（maxCharacters が 1 以上のコンポーネントのみ。リセットで未選択に戻る） -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+  <div v-if="characterSlots.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
     <SettingItem
       v-for="index in characterSlots"
       :key="index"
@@ -57,12 +55,12 @@
   import CookieCounterPreview from './CookieCounterPreview.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
   import DisplayStyleSelector from '@/ui/common/DisplayStyleSelector.vue'
-  import ColorPicker from '@/editor/parts/ColorPicker/ColorPicker.vue'
+  import CounterColorEditor from './CounterColorEditor.vue'
   import CharacterIconPicker from '@/editor/parts/CharacterPicker/CharacterIconPicker.vue'
   import type { SelectPayload } from '@/editor/parts/CharacterPicker/types'
 
-  import CounterSelectorPanel from '@/ui/counter/StreamCounter/editor/CounterSelector/CounterSelectorPanel.vue'
-  import { CounterItem } from '@/ui/counter/StreamCounter/editor/CounterSelector/counterTypes'
+  import CounterSelectorPanel from './CounterSelector/CounterSelectorPanel.vue'
+  import type { CounterItem } from './CounterSelector/counterTypes'
   import SettingItem from '@/editor/parts/SettingItem.vue'
 
   const { data } = storeToRefs(useOmikujiStore())

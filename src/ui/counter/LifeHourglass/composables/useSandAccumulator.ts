@@ -10,7 +10,7 @@ const VIEWER_INTERVAL_SECONDS = 1
 
 /**
  * 砂粒の加算(同接・ギフト)と保存。
- * 数値の取得は StreamCounter と同じく useStreamCounters を使う(新しい取得処理は作らない)。
+ * 数値の取得は CookieCounter と同じく useStreamCounters を使う(新しい取得処理は作らない)。
  * - 同接ぶん: 一定間隔で「同接 × 経過秒数」をまとめて加算
  * - ギフトぶん: ギフトの累計金額が増えた時点で「増分 × 6 粒」を加算
  * - 取得できないときは加算を止めて、エラーにしない

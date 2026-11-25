@@ -1,5 +1,5 @@
 // src/i18n/ui/UiSettingsDisplayMessages.ts
-// UI 設定の翻訳: userBoard / toastWidgets / commentBubble / streamCounter / counterSelector / liveClock
+// UI 設定の翻訳: userBoard / toastWidgets / commentBubble / counterSelector / liveClock
 export const uiSettingsDisplay = {
   ja: {
     uiSettings: {
@@ -52,12 +52,6 @@ export const uiSettingsDisplay = {
           userName: 'テストユーザー',
           sample1: 'これはプレビュー表示です。',
           sample2: '実際の表示タイプと同じ配置で確認できます。',
-        },
-      },
-      streamCounter: {
-        color: {
-          add: '色を追加',
-          remove: 'この色を削除',
         },
       },
       counterSelector: {
@@ -149,12 +143,6 @@ export const uiSettingsDisplay = {
           userName: 'Test user',
           sample1: 'This is a preview.',
           sample2: 'You can check it with the same layout as the actual display type.',
-        },
-      },
-      streamCounter: {
-        color: {
-          add: 'Add color',
-          remove: 'Remove this color',
         },
       },
       counterSelector: {

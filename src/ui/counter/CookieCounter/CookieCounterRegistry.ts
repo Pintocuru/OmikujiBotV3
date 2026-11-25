@@ -13,9 +13,9 @@ const UI_NAME = 'cookieCounter'
 
 /** この UI 固有のメタ。 */
 type Meta = {
-  maxCounters: number // 設定できるカウンターの最大数
-  isColor: boolean // カラー設定を使うか(TODO: 現状どこからも参照されていない)
-  maxCharacters: number // 設定できるキャラクターの数(0 ならキャラクターを使わない)
+  maxCounters?: number // 設定できるカウンターの最大数 (未設定時は 8)
+  isColor?: boolean // カラー設定を使うか
+  maxCharacters?: number // 設定できるキャラクターの数(0 ならキャラクターを使わない)
 }
 
 // 登録に必要な共通型

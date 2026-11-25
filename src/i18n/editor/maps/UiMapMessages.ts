@@ -38,8 +38,8 @@ export const uiMapMessages = {
           description: 'スイカゲームなどの結果をランキング形式で表示',
         },
         cookieCounter: {
-          label: 'クッキーカウンター',
-          description: '配信の数値をクッキー風カウンターで表示',
+          label: 'ライバーカウンター',
+          description: '同時接続数や高評価数などを表示',
         },
         deadAir: {
           label: '15分後に初見が来ないと',
@@ -85,10 +85,6 @@ export const uiMapMessages = {
         liveClock: {
           label: 'ライブクロック',
           description: '時計とメッセージを表示',
-        },
-        streamCounter: {
-          label: 'ライバーカウンター',
-          description: '同時接続数や高評価数などを表示',
         },
         toastWidgets: {
           label: 'トーストメッセージ',
@@ -141,8 +137,8 @@ export const uiMapMessages = {
           description: 'Displays results from games such as Suika Game in a ranking board.',
         },
         cookieCounter: {
-          label: 'Cookie counter',
-          description: 'Displays stream counts in a cookie-themed counter.',
+          label: 'Liver counter',
+          description: 'Displays metrics such as concurrent viewers and likes.',
         },
         deadAir: {
           label: 'Dead air',
@@ -185,10 +181,6 @@ export const uiMapMessages = {
         liveClock: {
           label: 'Live clock',
           description: 'Displays a clock and messages.',
-        },
-        streamCounter: {
-          label: 'Stream counter',
-          description: 'Displays metrics such as concurrent viewers and likes.',
         },
         toastWidgets: {
           label: 'Toast notifications',

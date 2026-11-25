@@ -6,7 +6,7 @@
 
 - 規約: `docs/conventions/ui-component-registry.md`(先に読む)
 - 雛形: `src/ui/bot/KujibikiPanel` と同じ構造にする(別紙「UI内コンポーネントレジストリ移行指示」と同じ規則)。
-- 同接・ギフトの数値の取得: **`src/ui/counter/StreamCounter` と `@/ui/common/useStreamCounters` を参照する**(§5)。
+- 同接・ギフトの数値の取得: **`src/ui/counter/CookieCounter` と `@/ui/common/useStreamCounters` を参照する**(§5)。
 - 参照してよい UI: `CookieCounter`(数値表示や増加演出)、`GameRanking`(本体 / Selector / editor / layouts の構成)。
 - `src/types/ui` と `src/types/api` は許可なく変更してよい。それ以外の `src/types` は変更しない。
 

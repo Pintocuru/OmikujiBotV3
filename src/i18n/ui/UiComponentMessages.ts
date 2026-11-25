@@ -60,6 +60,15 @@ export const uiComponentMessages = {
         block3d: {
           label: 'ブロックツイン',
         },
+        pixelBadge: {
+          label: 'ピクセルバッジ',
+        },
+        miniColumn: {
+          label: 'ミニ(縦)',
+        },
+        miniRow: {
+          label: 'ミニ(横)',
+        },
       },
       gameRanking: {
         standard: {
@@ -151,17 +160,6 @@ export const uiComponentMessages = {
         },
         disco: {
           label: 'ディスコ',
-        },
-      },
-      streamCounter: {
-        pixelBadge: {
-          label: 'ピクセルバッジ',
-        },
-        miniColumn: {
-          label: 'ミニ(縦)',
-        },
-        miniRow: {
-          label: 'ミニ(横)',
         },
       },
       toastWidgets: {
@@ -258,6 +256,15 @@ export const uiComponentMessages = {
         block3d: {
           label: 'Block twin',
         },
+        pixelBadge: {
+          label: 'Pixel badge',
+        },
+        miniColumn: {
+          label: 'Mini (vertical)',
+        },
+        miniRow: {
+          label: 'Mini (horizontal)',
+        },
       },
       gameRanking: {
         standard: {
@@ -349,17 +356,6 @@ export const uiComponentMessages = {
         },
         disco: {
           label: 'Disco',
-        },
-      },
-      streamCounter: {
-        pixelBadge: {
-          label: 'Pixel badge',
-        },
-        miniColumn: {
-          label: 'Mini (vertical)',
-        },
-        miniRow: {
-          label: 'Mini (horizontal)',
         },
       },
       toastWidgets: {

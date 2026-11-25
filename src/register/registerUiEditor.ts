@@ -35,7 +35,6 @@ export const registerAllUiEditor = () => {
       editor: () => import('@/ui/bot/LiveClock/editor/LiveClockEditor.vue'),
       preview: () => import('@/ui/bot/LiveClock/editor/LiveClockMessagePreview.vue'),
     },
-    streamCounter: () => import('@/ui/counter/StreamCounter/editor/StreamCounterEditor.vue'),
     toastWidgets: {
       editor: () => import('@/ui/bot/ToastWidgets/editor/ToastWidgetsEditor.vue'),
       preview: () => import('@/ui/bot/ToastWidgets/editor/ToastWidgetsMessagePreview.vue'),

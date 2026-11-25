@@ -1,13 +1,20 @@
 <!-- src/ui/counter/CookieCounter/CookieCounterSelector.vue -->
 <template>
   <div class="w-full bg-base-100 transparent-bg">
+    <div v-if="allKeys.length === 0" class="flex flex-col items-center">
+      <div class="badge badge-error font-bold">表示するカウンターはありません</div>
+    </div>
+
+    <!-- コンポーネント切り替え -->
     <component
       :is="currentComponent"
-      v-if="currentComponent"
+      v-else-if="currentComponent"
+      :keys="allKeys"
       :counters="counters"
       :counter-defs="settings.counters"
       :variable-labels="variableLabels"
       :color="settings.color"
+      :colors="settings.color"
       :characters="shownCharacters"
     />
     <div v-else-if="editorPreview && loadError" class="alert alert-error" role="alert">
@@ -17,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-  import { shallowRef, watch, type Component } from 'vue'
+  import { computed, shallowRef, watch, type Component } from 'vue'
   import type { CookieCounterType, ShownCharacter } from '@/types/ui'
   import { getCookieCounterComponent } from './CookieCounterRegistry'
   import { notifyCookieCounterComponentIssue } from './notifyCookieCounterComponentIssue'
@@ -32,6 +39,8 @@
     }>(),
     { editorPreview: false }
   )
+
+  const allKeys = computed(() => props.settings.counters.map((c) => c.target))
 
   // 未登録・読み込み失敗のときは null のまま(配信画面は無表示。わんコメへ一度だけ通知する)
   const currentComponent = shallowRef<Component | null>(null)
@@ -49,7 +58,7 @@
         if (!props.editorPreview) {
           notifyCookieCounterComponentIssue(
             id,
-            `クッキーカウンターの表示タイプ「${id}」は、このバージョンには含まれていません`
+            `ライバーカウンターの表示タイプ「${id}」は、このバージョンには含まれていません`
           )
         }
         return
@@ -63,7 +72,7 @@
         console.error(`[CookieCounter] Component load failed: ${id}`, error)
         loadError.value = { key: 'uiSettings.common.loadError.loadFailed', id }
         if (!props.editorPreview) {
-          notifyCookieCounterComponentIssue(id, `クッキーカウンターの表示タイプ「${id}」の読み込みに失敗しました`)
+          notifyCookieCounterComponentIssue(id, `ライバーカウンターの表示タイプ「${id}」の読み込みに失敗しました`)
         }
       }
     },

@@ -8,12 +8,11 @@ import { registerStandardRankingComponents } from '@/ui/game/GameRanking/compone
 import { registerStandardDeadAirComponents } from '@/ui/game/DeadAir/components/standard/register'
 import { registerStandardClockComponents } from '@/ui/bot/LiveClock/components/standard/register'
 import { registerStandardFlashBannerComponents } from '@/ui/bot/FlashBanner/components/standard/register'
-import { registerStandardStreamComponents } from '@/ui/counter/StreamCounter/components/standard/register'
-import { registerMiniColumnStreamComponents } from '@/ui/counter/StreamCounter/components/miniColumn/register'
-import { registerMiniRowStreamComponents } from '@/ui/counter/StreamCounter/components/miniRow/register'
 import { registerStandardToastComponents } from '@/ui/bot/ToastWidgets/components/standard/register'
 import { registerStandardBoardComponents } from '@/ui/user/UserBoard/components/standard/register'
 import { registerStandardCookieComponents } from '@/ui/counter/CookieCounter/components/standard/register'
+import { registerMiniColumnCookieComponents } from '@/ui/counter/CookieCounter/components/miniColumn/register'
+import { registerMiniRowCookieComponents } from '@/ui/counter/CookieCounter/components/miniRow/register'
 import { registerStandardKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/standard/register'
 import { registerFortuneKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/fortune/register'
 import { registerSpecialKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/special/register'
@@ -40,7 +39,6 @@ const registerUiKinds = () =>
     liverBingo: () => import('@/ui/game/LiverBingo/LiverBingo.vue'),
     luckyDraw: () => import('@/ui/user/LuckyDraw/LuckyDraw.vue'),
     snipeTimer: () => import('@/ui/counter/SnipeTimer/SnipeTimer.vue'),
-    streamCounter: () => import('@/ui/counter/StreamCounter/StreamCounter.vue'),
     toastWidgets: () => import('@/ui/bot/ToastWidgets/ToastWidgets.vue'),
     userBoard: () => import('@/ui/user/UserBoard/UserBoard.vue'),
     userComment: () => import('@/ui/comment/UserComment/UserComment.vue'),
@@ -57,6 +55,11 @@ const registerRankingComponents = () => {
   registerStandardRankingComponents()
 }
 
+// DeadAir
+const registerDeadAirComponents = () => {
+  registerStandardDeadAirComponents()
+}
+
 // LiveClock
 const registerClockComponents = () => {
   registerStandardClockComponents()
@@ -65,13 +68,6 @@ const registerClockComponents = () => {
 // FlashBanner
 const registerFlashBannerComponents = () => {
   registerStandardFlashBannerComponents()
-}
-
-// StreamCounter
-const registerStreamComponents = () => {
-  registerStandardStreamComponents()
-  registerMiniColumnStreamComponents()
-  registerMiniRowStreamComponents()
 }
 
 // ToastWidgets
@@ -87,6 +83,8 @@ const registerBoardComponents = () => {
 // CookieCounter
 const registerCookieComponents = () => {
   registerStandardCookieComponents()
+  registerMiniColumnCookieComponents()
+  registerMiniRowCookieComponents()
 }
 
 // KujibikiPanel
@@ -96,24 +94,19 @@ const registerKujibikiComponents = () => {
   registerSpecialKujibikiComponents()
 }
 
-// LifeHourglass
-const registerLifeHourglassComponents = () => {
-  registerStandardLifeHourglassComponents()
-}
-
 // LabelMaker
 const registerLabelMakerComponents = () => {
   registerStandardLabelMakerComponents()
 }
 
+// LifeHourglass
+const registerLifeHourglassComponents = () => {
+  registerStandardLifeHourglassComponents()
+}
+
 // SnipeTimer
 const registerSnipeTimerComponents = () => {
   registerStandardSnipeTimerComponents()
-}
-
-// DeadAir
-const registerDeadAirComponents = () => {
-  registerStandardDeadAirComponents()
 }
 
 // FlightSeat
@@ -122,26 +115,24 @@ const registerFlightSeatComponents = () => {
 }
 
 // LuckyDraw
-const registerLuckyDrawComponentSets = () => {
+const registerLuckyDrawComponents = () => {
   registerStandardLuckyDrawComponents()
 }
 
-/** UI 関係を全部登録 */
 export const registerAllUi = () => {
   registerUiKinds()
   registerBubbleComponents()
   registerRankingComponents()
-  registerKujibikiComponents()
+  registerDeadAirComponents()
   registerClockComponents()
-  registerCookieComponents()
   registerFlashBannerComponents()
-  registerStreamComponents()
   registerToastComponents()
   registerBoardComponents()
-  registerLifeHourglassComponents()
+  registerCookieComponents()
+  registerKujibikiComponents()
   registerLabelMakerComponents()
+  registerLifeHourglassComponents()
   registerSnipeTimerComponents()
   registerFlightSeatComponents()
-  registerDeadAirComponents()
-  registerLuckyDrawComponentSets()
+  registerLuckyDrawComponents()
 }

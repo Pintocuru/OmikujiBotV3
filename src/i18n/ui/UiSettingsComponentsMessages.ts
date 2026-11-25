@@ -50,6 +50,10 @@ export const uiSettingsComponents = {
           label: 'キャラクター{n}',
           description: '表示するキャラクターと表情。回転などの動きは表情の設定に従います',
         },
+        color: {
+          add: '色を追加',
+          remove: 'この色を削除',
+        },
       },
       fontFamily: {
         label: 'フォントファミリー',
@@ -147,6 +151,10 @@ export const uiSettingsComponents = {
         character: {
           label: 'Character {n}',
           description: 'The character and emotion to show. Motion such as rotation follows the emotion settings',
+        },
+        color: {
+          add: 'Add color',
+          remove: 'Remove this color',
         },
       },
       fontFamily: {

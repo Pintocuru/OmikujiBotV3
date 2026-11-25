@@ -1,4 +1,4 @@
-<!-- src/ui/counter/StreamCounter/components/standard/PixelBadge.vue -->
+<!-- src/ui/counter/CookieCounter/components/standard/PixelBadge.vue -->
 <template>
   <!-- 並べ方: 横並び(折り返しあり) -->
   <div class="flex flex-wrap justify-center gap-4 py-2">

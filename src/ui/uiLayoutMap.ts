@@ -43,7 +43,6 @@ export const uiLayoutMap: Record<NonNullable<UiLayoutType>, UiKind[]> = {
     'liverBingo',
     'luckyDraw',
     'snipeTimer',
-    'streamCounter',
     'toastWidgets',
     'userBoard',
     'userComment',

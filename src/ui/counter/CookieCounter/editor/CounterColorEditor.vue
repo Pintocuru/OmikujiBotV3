@@ -10,7 +10,7 @@
         <button
           class="btn btn-ghost btn-sm mt-3"
           :disabled="colors.length <= 1"
-          :title="t('uiSettings.streamCounter.color.remove')"
+          :title="t('uiSettings.cookieCounter.color.remove')"
           @click="removeAt(index)"
         >
           <Trash2 class="h-4 w-4" />
@@ -19,7 +19,7 @@
 
       <button class="btn btn-outline btn-sm self-start" :disabled="colors.length >= maxColors" @click="add">
         <Plus class="h-4 w-4" />
-        {{ t('uiSettings.streamCounter.color.add') }}
+        {{ t('uiSettings.cookieCounter.color.add') }}
       </button>
     </div>
   </SettingItem>

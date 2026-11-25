@@ -1,6 +1,6 @@
-<!-- src/ui/counter/StreamCounter/components/miniColumn/MiniColumn.vue -->
+<!-- src/ui/counter/CookieCounter/components/miniRow/MiniRow.vue -->
 <template>
-  <MiniCounterList direction="column" v-bind="props" />
+  <MiniCounterList direction="row" v-bind="props" />
 </template>
 
 <script setup lang="ts">
