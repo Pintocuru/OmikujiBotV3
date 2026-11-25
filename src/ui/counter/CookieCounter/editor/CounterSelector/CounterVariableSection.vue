@@ -1,4 +1,4 @@
-<!-- src/ui/counter/StreamCounter/editor/CounterSelector/CounterVariableSection.vue -->
+<!-- src/ui/counter/CookieCounter/editor/CounterSelector/CounterVariableSection.vue -->
 <template>
   <SettingItem
     labelKey="uiSettings.counterSelector.variable.label"

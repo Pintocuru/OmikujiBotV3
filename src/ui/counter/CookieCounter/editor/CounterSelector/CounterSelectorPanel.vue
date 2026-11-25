@@ -1,4 +1,4 @@
-<!-- src/ui/counter/StreamCounter/editor/CounterSelector/CounterSelectorPanel.vue -->
+<!-- src/ui/counter/CookieCounter/editor/CounterSelector/CounterSelectorPanel.vue -->
 <template>
   <!-- 標準カウンター -->
   <SettingItem

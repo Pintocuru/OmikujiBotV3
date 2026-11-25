@@ -131,7 +131,9 @@
   }>()
 
   // CharacterColorSchema の4色(name/text/background/accent)を CSS 変数として定義
-  const primaryColor = computed(() => props.color[0] ?? { name: '#000000', text: '#ffffff', background: '#000000', accent: '#ff0000' })
+  const primaryColor = computed(
+    () => props.color[0] ?? { name: '#000000', text: '#ffffff', background: '#000000', accent: '#ff0000' }
+  )
   const rootStyle = computed(() => ({
     '--ck-name': primaryColor.value.name,
     '--ck-text': primaryColor.value.text,

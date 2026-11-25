@@ -1,4 +1,4 @@
-<!-- src/ui/counter/StreamCounter/editor/CounterColorEditor.vue -->
+<!-- src/ui/counter/CookieCounter/editor/CounterColorEditor.vue -->
 <template>
   <SettingItem labelKey="uiSettings.common.color.label" descriptionKey="uiSettings.common.color.description">
     <div class="flex flex-col gap-3">

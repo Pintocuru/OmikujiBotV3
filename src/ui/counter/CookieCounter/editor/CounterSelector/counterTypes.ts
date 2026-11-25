@@ -1,4 +1,4 @@
-// src/ui/counter/StreamCounter/editor/CounterSelector/counterTypes.ts
+// src/ui/counter/CookieCounter/editor/CounterSelector/counterTypes.ts
 export interface CounterItem {
   id: string
   type: 'default' | 'event' | 'variable'

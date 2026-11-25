@@ -1,4 +1,4 @@
-<!-- src/ui/counter/StreamCounter/parts/MiniCounterList.vue -->
+<!-- src/ui/counter/CookieCounter/parts/MiniCounterList.vue -->
 <template>
   <div
     class="flex w-fit gap-0.5"

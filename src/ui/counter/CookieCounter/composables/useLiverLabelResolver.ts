@@ -1,4 +1,4 @@
-// src/ui/counter/StreamCounter/composables/useLiverLabelResolver.ts
+// src/ui/counter/CookieCounter/composables/useLiverLabelResolver.ts
 import type { Component, Ref } from 'vue'
 import { StreamDefaultKey } from '@/types/ui'
 import { LIVER_EMOJI_LABELS, LIVER_LUCIDE_LABELS, LIVER_TEXT_LABELS } from './DefaultLabels'
