@@ -45,7 +45,7 @@ export const useAppStore = defineStore('app', () => {
     const result = normalizeData(newData)
     data.value = result.data
     dataIssues.value = result.issues
-    logParseIssues('エディタープラグイン', result.issues)
+    logParseIssues('プラグイン', result.issues)
     hasData.value = true
     dataErrorDetail.value = null
     console.log('✅ loadData: 完了')

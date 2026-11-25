@@ -55,7 +55,7 @@ export function useAppInitializer() {
       if (!isInit) {
         setStatus('error')
       } else {
-        // エディタープラグインからデータを読み込む
+        // プラグインからデータを読み込む
         await syncWithServer()
         // omikujiData.js もサーバーもデータなし: 画面(App.vue)に表示し、わんコメにも伝える
         if (!appStore.hasData) {
@@ -133,14 +133,12 @@ async function syncWithServer() {
     if (!serverData) return // プラグインなし = null → ここで静かに終了
 
     appStore.loadData(serverData)
-    // 配信画面には出さない(視聴者に見えるため)
-    console.info(`エディタープラグイン から ${appStore.data.meta.name} のデータを読み込みました`)
+    console.info(`プラグイン から ${appStore.data.meta.name} のデータを読み込みました`)
   } catch (err) {
     // ここに来る時点で「本当に予期せぬエラー」のみ
-    const msg = `エディタープラグインからデータ読み込みに失敗しました: ${err}`
+    const msg = `プラグインからデータ読み込みに失敗しました: ${err}`
     console.error(msg)
     if (!appStore.hasData) appStore.dataErrorDetail = String(err)
-    // 起動時に1回だけ。omikujiData.js のデータで動き続けるときも、サーバーのデータを使えていないことを伝える
     postSystemMessage(msg, { username: 'error', speech: false, throttle: true })
   }
 }
