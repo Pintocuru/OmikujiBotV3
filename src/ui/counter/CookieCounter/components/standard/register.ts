@@ -6,20 +6,6 @@ import { registerCookieCounterComponents, type CookieCounterComponent } from '..
  * CookieCounter 標準セット
  */
 const standardComponents = {
-  sakura: {
-    labelKey: 'uiComponents.cookieCounter.sakura.label',
-    maxCounters: 2,
-    isColor: false,
-    maxCharacters: 2,
-    loader: () => import('./Sakura.vue'),
-  },
-  block3d: {
-    labelKey: 'uiComponents.cookieCounter.block3d.label',
-    maxCounters: 2,
-    isColor: true,
-    maxCharacters: 0,
-    loader: () => import('./Block3d.vue'),
-  },
   pixelBadge: {
     labelKey: 'uiComponents.cookieCounter.pixelBadge.label',
     maxCounters: 8,
