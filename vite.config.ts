@@ -1,5 +1,5 @@
 // vite.config.ts
-import { defineConfig, mergeConfig, UserConfig } from 'vite'
+import { defineConfig } from 'vite'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import vue from '@vitejs/plugin-vue'
@@ -13,31 +13,13 @@ import { soundAssetsPlugin } from './tools/viteConfig/soundAssetsPlugin.ts'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const projectRoot = path.resolve(__dirname)
-const base = baseViteConfig(projectRoot)
 
 // tsconfig.json からエイリアスを生成
 export const alias = { ...createViteAliases(projectRoot) }
 
-export default defineConfig(() => {
-  const overrideConfig: UserConfig = {
-    plugins: [imageAssetsPlugin(projectRoot), soundAssetsPlugin(projectRoot)],
-    resolve: { alias },
-    server: {
-      watch: {
-        ignored: [
-          path.resolve(projectRoot, 'server/presets/**'),
-          path.resolve(projectRoot, 'server/streams/**'),
-          path.resolve(projectRoot, 'server/userStats.json'),
-          path.resolve(projectRoot, 'server/game-configs/**'),
-        ],
-      },
-    },
-  }
-  return mergeConfig(base, overrideConfig)
-})
-
-export function baseViteConfig(childDir: string) {
-  const plugins = [
+export default defineConfig({
+  root: projectRoot,
+  plugins: [
     vue(),
     tailwindcss(),
     checker({
@@ -45,13 +27,21 @@ export function baseViteConfig(childDir: string) {
       overlay: { initialIsOpen: 'error' },
       terminal: true,
     }),
-  ]
-
-  return defineConfig({
-    root: childDir,
-    plugins,
-    css: {
-      postcss: path.resolve(__dirname, '../../postcss.config.js'),
+    imageAssetsPlugin(projectRoot),
+    soundAssetsPlugin(projectRoot),
+  ],
+  resolve: { alias },
+  css: {
+    postcss: path.resolve(__dirname, '../../postcss.config.js'),
+  },
+  server: {
+    watch: {
+      ignored: [
+        path.resolve(projectRoot, 'server/presets/**'),
+        path.resolve(projectRoot, 'server/streams/**'),
+        path.resolve(projectRoot, 'server/userStats.json'),
+        path.resolve(projectRoot, 'server/game-configs/**'),
+      ],
     },
-  })
-}
+  },
+})
