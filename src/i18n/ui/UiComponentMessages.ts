@@ -157,6 +157,12 @@ export const uiComponentMessages = {
         pixelBadge: {
           label: 'ピクセルバッジ',
         },
+        miniColumn: {
+          label: 'ミニ(縦)',
+        },
+        miniRow: {
+          label: 'ミニ(横)',
+        },
       },
       toastWidgets: {
         standard: {
@@ -348,6 +354,12 @@ export const uiComponentMessages = {
       streamCounter: {
         pixelBadge: {
           label: 'Pixel badge',
+        },
+        miniColumn: {
+          label: 'Mini (vertical)',
+        },
+        miniRow: {
+          label: 'Mini (horizontal)',
         },
       },
       toastWidgets: {

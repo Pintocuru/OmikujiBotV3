@@ -8,6 +8,8 @@ import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
  */
 export const streamComponentSets = {
   standard: ['pixelBadge'],
+  miniColumn: ['miniColumn'],
+  miniRow: ['miniRow'],
 } as const
 
 export type StreamComponentSets = typeof streamComponentSets

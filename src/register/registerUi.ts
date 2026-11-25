@@ -9,6 +9,8 @@ import { registerStandardDeadAirComponents } from '@/ui/game/DeadAir/components/
 import { registerStandardClockComponents } from '@/ui/bot/LiveClock/components/standard/register'
 import { registerStandardFlashBannerComponents } from '@/ui/bot/FlashBanner/components/standard/register'
 import { registerStandardStreamComponents } from '@/ui/counter/StreamCounter/components/standard/register'
+import { registerMiniColumnStreamComponents } from '@/ui/counter/StreamCounter/components/miniColumn/register'
+import { registerMiniRowStreamComponents } from '@/ui/counter/StreamCounter/components/miniRow/register'
 import { registerStandardToastComponents } from '@/ui/bot/ToastWidgets/components/standard/register'
 import { registerStandardBoardComponents } from '@/ui/user/UserBoard/components/standard/register'
 import { registerStandardCookieComponents } from '@/ui/counter/CookieCounter/components/standard/register'
@@ -68,6 +70,8 @@ const registerFlashBannerComponents = () => {
 // StreamCounter
 const registerStreamComponents = () => {
   registerStandardStreamComponents()
+  registerMiniColumnStreamComponents()
+  registerMiniRowStreamComponents()
 }
 
 // ToastWidgets
