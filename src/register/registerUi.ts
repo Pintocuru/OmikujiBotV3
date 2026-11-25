@@ -11,7 +11,7 @@ import { registerStandardFlashBannerComponents } from '@/ui/bot/FlashBanner/comp
 import { registerStandardToastComponents } from '@/ui/bot/ToastWidgets/components/standard/register'
 import { registerStandardBoardComponents } from '@/ui/user/UserBoard/components/standard/register'
 import { registerStandardCookieComponents } from '@/ui/counter/CookieCounter/components/standard/register'
-import { registerCookieComponents } from '@/ui/counter/CookieCounter/components/cookie/register'
+import { registerCookieComponents as registerCookieSetComponents } from '@/ui/counter/CookieCounter/components/cookie/register'
 import { registerMiniCookieComponents } from '@/ui/counter/CookieCounter/components/mini/register'
 import { registerStandardKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/standard/register'
 import { registerFortuneKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/fortune/register'
@@ -83,7 +83,7 @@ const registerBoardComponents = () => {
 // CookieCounter
 const registerCookieComponents = () => {
   registerStandardCookieComponents()
-  registerCookieComponents()
+  registerCookieSetComponents()
   registerMiniCookieComponents()
 }
 
