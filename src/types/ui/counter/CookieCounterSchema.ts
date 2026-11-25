@@ -10,9 +10,9 @@ import { CharacterColorSchema } from '../../OmikujiData/assets/CharacterSchema'
 
 // CookieCounter のコンポーネントセット
 export const cookieComponentSets = {
-  standard: ['sakura', 'block3d', 'pixelBadge'],
-  miniColumn: ['miniColumn'],
-  miniRow: ['miniRow'],
+  standard: ['pixelBadge'],
+  cookie: ['sakura', 'block3d'],
+  mini: ['miniColumn', 'miniRow'],
 } as const
 
 export type CookieComponentSets = typeof cookieComponentSets
