@@ -13,7 +13,6 @@ export type PackageProject = {
   licenseLabel: string
   /** README・バナーの置き場所のシリーズ名 (既定: key) */
   series?: string
-  extraFiles?: CopyFileItem[]
 }
 
 /**
@@ -28,6 +27,8 @@ export interface PackageVariant {
   withConsole?: boolean
   /** 読み込むプリセットJSONのファイル名 (既定: `${key}.json`。null なら JSON を使わない = アップデート用) */
   jsonFileName?: string | null
+  /** このバリエーションに追加でコピーするファイル/フォルダ */
+  extraFiles?: CopyFileItem[]
 }
 
 /**
