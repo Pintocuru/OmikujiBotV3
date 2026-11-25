@@ -4,7 +4,7 @@ import { createAppNotOneSDK } from '@/common/EntryCore/editorCore'
 import { registerLayout, registerUi } from '@/ui/uiRegistry'
 import { registerGameScript } from '@/games/gameScriptRegistry'
 import { registerUiEditor } from '@/editor/ui/uiEditorRegistry'
-import { isFullRegistered } from '@/editor/registrationState'
+import { markFullBuild } from '@/common/buildValidation/fullBuild'
 
 import '@assets/styles/DaisyUi.css'
 import { registerBubbleBubbleComponents } from '@/ui/bot/CommentBubble/components/bubble/register'
@@ -67,8 +67,8 @@ registerGameScript({
   DwarfBomb: () => import('@/games/scripts/game/DwarfBomb/execute'),
 })
 
-// 全部入りの印(DataPacks など、全 UI 前提の機能の表示に使う)
-isFullRegistered.value = true
+// 全部入りの印(これまでリリースしたもの全部。DataPacks のダウンロード、レイアウト選択の表示に使う)
+markFullBuild()
 
 window.OmikujiBot = window.OmikujiBot ?? {}
 window.OmikujiBot.mountEditor = () => {

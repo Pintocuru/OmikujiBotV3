@@ -36,7 +36,7 @@
   import FontFamilyEditor from './common/FontFamilyEditor.vue'
   import UnusedUiSettingsEditor from './conditions/UnusedUiSettingsEditor.vue'
   import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
-  import { isFullRegistered } from '../registrationState'
+  import { isFullBuild } from '@/common/buildValidation/fullBuild'
   import { isDev } from '@/common/AppEnv'
 
   type UiEditorSection = {
@@ -67,7 +67,7 @@
       component: markRaw(FontFamilyEditor),
     },
     // フルパッケージ: レイアウト
-    ...(isFullRegistered.value || isDev
+    ...(isFullBuild() || isDev
       ? [
           {
             section: 'dev',

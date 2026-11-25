@@ -16,7 +16,7 @@ import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
 import { categoryContentMap, type CategoryContentDef } from '@/editor/maps/category/CategoryContentMap'
 import { useGetAssetData } from '@/editor/stores/useGetAssetData'
 import { useGetEventData } from '@/editor/stores/useGetEventData'
-import { isFullRegistered } from '@/editor/registrationState'
+import { isFullBuild } from '@/common/buildValidation/fullBuild'
 import { templateList } from '@/editor/constants'
 
 export const useCategoryUtils = () => {
@@ -45,8 +45,8 @@ export const useCategoryUtils = () => {
     // 開発者のみの機能
     if (!isDev) excludeKeys.push('jsonMerge')
 
-    // 全部入り(registerAll)でないビルドでは、全 UI 前提の DataPacks を出さない
-    if (!isFullRegistered.value) excludeKeys.push('dataPacks')
+    // 全部入りでないビルドでは、DataPacks(パッケージのダウンロード)を出さない
+    if (!isFullBuild()) excludeKeys.push('dataPacks')
 
     return Object.fromEntries(
       Object.entries(categoryContentMap).filter(([key]) => !excludeKeys.includes(key as CategoryType))
