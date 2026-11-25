@@ -13,12 +13,17 @@ import { registerStandardRankingComponents } from '@/ui/game/GameRanking/compone
 import { registerStandardKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/standard/register'
 import { registerFortuneKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/fortune/register'
 import { registerSpecialKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/special/register'
+import { registerStandardLifeHourglassComponents } from '@/ui/counter/LifeHourglass/components/standard/register'
 
 // レイアウト
 registerLayout({
+  // common
   commentBubble: () => import('@/layout/common/CommentBubble/CommentBubble.vue'),
   gameRanking: () => import('@/layout/common/GameRanking/GameRanking.vue'),
   kujibikiPanel: () => import('@/layout/common/KujibikiPanel/KujibikiPanel.vue'),
+
+  // 2026-Q4
+  lifeHourglass: () => import('@/layout/2026-Q4/LifeHourglass/LifeHourglass.vue'),
 })
 
 // UI
@@ -27,6 +32,7 @@ registerUi({
   commentBubble: () => import('@/ui/bot/CommentBubble/CommentBubble.vue'),
   gameRanking: () => import('@/ui/game/GameRanking/GameRanking.vue'),
   kujibikiPanel: () => import('@/ui/bot/KujibikiPanel/KujibikiPanel.vue'),
+  lifeHourglass: () => import('@/ui/counter/LifeHourglass/LifeHourglass.vue'),
 })
 
 // UIの各コンポーネント
@@ -41,6 +47,9 @@ registerStandardRankingComponents()
 registerStandardKujibikiComponents()
 registerFortuneKujibikiComponents()
 registerSpecialKujibikiComponents()
+
+// LifeHourglass
+registerStandardLifeHourglassComponents()
 
 // エディター
 registerUiEditor({
@@ -58,6 +67,7 @@ registerUiEditor({
     editor: () => import('@/ui/bot/KujibikiPanel/editor/KujibikiPanelEditor.vue'),
     preview: () => import('@/ui/bot/KujibikiPanel/editor/KujibikiPanelMessagePreview.vue'),
   },
+  lifeHourglass: () => import('@/ui/counter/LifeHourglass/editor/LifeHourglassEditor.vue'),
 })
 
 // スクリプト

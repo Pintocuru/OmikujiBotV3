@@ -20,13 +20,15 @@ const PROJECT: PackageProject = {
   licenseLabel: 'CC-BY 4.0',
 }
 
-// バリエーション定義 (項目の意味は 2026-Q4/LifeHourglass/build.ts を参照)
+// バリエーション定義
+const extraFiles = [{ from: 'assets/images/common/chocolate/', to: 'images/chocolate/' }]
+
 const VARIANTS: PackageVariant[] = [
   {
     variant: '',
     withEditor: true,
     withConsole: true,
-    extraFiles: [{ from: 'assets/images/common/chocolate/', to: 'images/chocolate/' }],
+    extraFiles,
   },
 ]
 

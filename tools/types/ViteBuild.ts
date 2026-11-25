@@ -17,18 +17,18 @@ export type PackageProject = {
 
 /**
  * パッケージのバリエーション定義
+   variant: パッケージ名に付ける識別子
+   withEditor: editor.ts (エディター) を同梱する
+   withConsole: console.ts (LiveConsole。ポン出し・ユーザー操作・ゲームの記録) を同梱する
+   jsonFileName: 読み込むプリセットJSON (既定: `${key}.json`。null ならJSONなし = アップデート用)
+   extraFiles: このバリエーションに追加でコピーするファイル/フォルダ
  */
 export interface PackageVariant {
-  /** パッケージ名に付ける識別子 ('' = なし) */
   variant: string
-  /** editor.ts (エディター) を同梱する (既定: false) */
   withEditor?: boolean
-  /** console.ts (LiveConsole) を同梱する (既定: false) */
   withConsole?: boolean
-  /** 読み込むプリセットJSONのファイル名 (既定: `${key}.json`。null なら JSON を使わない = アップデート用) */
   jsonFileName?: string | null
-  /** このバリエーションに追加でコピーするファイル/フォルダ */
-  extraFiles?: CopyFileItem[]
+  extraFiles: CopyFileItem[]
 }
 
 /**
