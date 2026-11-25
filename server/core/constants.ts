@@ -18,6 +18,7 @@ export const FILE_NAME = {
   generator: 'generator.json',
   omikujiData: 'omikujiData.js',
   userStats: 'userStats.json', // ブラウザから操作したユーザー統計 (server 直下)
+  aiSettings: 'ai-settings.json', // 生成 AI の接続先 (server 直下)。API キーを含むので、画面・ログ・配布物・Git に出さない
 } as const
 
 // 開発用 API サーバー設定 (src/common/AppEnv.ts の SERVER_EXPRESS_URL とポートを揃えること)
@@ -35,7 +36,9 @@ export const HTTP = {
   NOT_FOUND: 404,
   METHOD_NOT_ALLOWED: 405,
   CONFLICT: 409,
+  TOO_MANY_REQUESTS: 429,
   INTERNAL_ERROR: 500,
+  BAD_GATEWAY: 502,
 } as const
 
 // 内部エラーコード (パス検証失敗)

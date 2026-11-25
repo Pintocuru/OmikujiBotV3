@@ -15,9 +15,24 @@
     <span v-if="recordError" class="badge badge-warning badge-sm" :title="recordError">{{
       wordAlchemyMessages.recordFailed
     }}</span>
+    <span
+      class="badge badge-sm"
+      :class="aiUsage.last === 'failed' || aiUsage.last === 'limited' ? 'badge-warning' : 'badge-ghost'"
+      :title="wordAlchemyMessages.ai.usage(aiUsage.ai, aiUsage.mock)"
+    >
+      {{ wordAlchemyMessages.ai.status[aiUsage.last] }}
+    </span>
     <button class="btn btn-ghost btn-xs ml-auto gap-1" @click="emit('openCodex')">
       <BookOpen :size="14" />
       {{ wordAlchemyMessages.codex.discovered(found, total) }}
+    </button>
+    <button
+      class="btn btn-ghost btn-square btn-xs"
+      :aria-label="wordAlchemyMessages.ai.open"
+      :title="wordAlchemyMessages.ai.open"
+      @click="emit('openAiSettings')"
+    >
+      <KeyRound :size="14" />
     </button>
     <button v-if="phase === 'running'" class="btn btn-ghost btn-xs" @click="onAbort" @blur="confirming = false">
       {{ confirming ? wordAlchemyMessages.bar.abortConfirm : wordAlchemyMessages.bar.abort }}
@@ -26,13 +41,14 @@
 </template>
 
 <script setup lang="ts">
-  import { BookOpen } from '@lucide/vue'
+  import { BookOpen, KeyRound } from '@lucide/vue'
   import { ref } from 'vue'
   import { wordAlchemyMessages } from '../maps/WordAlchemyMessageMap'
   import { potMap, type PotKey } from '../maps/WordAlchemyPotMap'
-  import type { CommentSource, CommentStatus, WordAlchemyPhase } from '../composables/useWordAlchemy'
+  import type { AiLast, CommentSource, CommentStatus, WordAlchemyPhase } from '../composables/useWordAlchemy'
 
   defineProps<{
+    aiUsage: { last: AiLast; ai: number; mock: number }
     recordError: string
     found: number
     total: number
@@ -42,7 +58,7 @@
     commentSource: CommentSource
     commentStatus: CommentStatus
   }>()
-  const emit = defineEmits<{ abort: []; reconnect: []; openCodex: [] }>()
+  const emit = defineEmits<{ abort: []; reconnect: []; openCodex: []; openAiSettings: [] }>()
 
   const confirming = ref(false)
   const onAbort = () => {

@@ -9,6 +9,7 @@ import * as padHandler from './handlers/padHandler'
 import * as bingoHandler from './handlers/bingoHandler'
 import * as bingoPatternHandler from './handlers/bingoPatternHandler'
 import * as gameConfigHandler from './handlers/gameConfigHandler'
+import * as aiHandler from './handlers/aiHandler'
 import { API_ACTION } from '@server/api/actions'
 import { API_VERSION, APP_VERSION } from '@/version'
 import { HTTP } from './constants'
@@ -97,6 +98,9 @@ async function handleGetRequest(
     case API_ACTION.loadGameConfig.action:
       return gameConfigHandler.loadGameConfig(params.gameKey)
 
+    case API_ACTION.loadAiSettings.action:
+      return aiHandler.loadAiSettings()
+
     default:
       return fail(HTTP.NOT_FOUND, `Unknown GET action: ${action}`)
   }
@@ -176,6 +180,12 @@ async function handlePostRequest(
 
     case API_ACTION.saveGameConfig.action:
       return gameConfigHandler.saveGameConfig(body)
+
+    case API_ACTION.saveAiSettings.action:
+      return aiHandler.saveAiSettings(body)
+
+    case API_ACTION.askAi.action:
+      return aiHandler.askAi(body)
 
     default:
       return fail(HTTP.NOT_FOUND, `Unknown POST action: ${action}`)

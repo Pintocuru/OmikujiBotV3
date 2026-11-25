@@ -25,3 +25,5 @@ server/streams/
 server/bingo-patterns/
 server/game-configs/
 server/userStats.json
+# 生成 AI の接続先 (API キーを含む)
+server/ai-settings.json

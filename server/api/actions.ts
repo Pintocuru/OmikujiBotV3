@@ -18,6 +18,7 @@ export const API_ACTION = {
   listBingoPatterns: { method: 'GET', action: 'list-bingo-patterns' },
   loadBingoPattern: { method: 'GET', action: 'load-bingo-pattern' },
   loadGameConfig: { method: 'GET', action: 'load-game-config' },
+  loadAiSettings: { method: 'GET', action: 'load-ai-settings' },
 
   // POST
   move: { method: 'POST', action: 'move' },
@@ -41,6 +42,8 @@ export const API_ACTION = {
   saveBingoPattern: { method: 'POST', action: 'save-bingo-pattern' },
   deleteBingoPattern: { method: 'POST', action: 'delete-bingo-pattern' },
   saveGameConfig: { method: 'POST', action: 'save-game-config' },
+  saveAiSettings: { method: 'POST', action: 'save-ai-settings' },
+  askAi: { method: 'POST', action: 'ask-ai' },
 } as const
 
 type ApiActionEntry = (typeof API_ACTION)[keyof typeof API_ACTION]

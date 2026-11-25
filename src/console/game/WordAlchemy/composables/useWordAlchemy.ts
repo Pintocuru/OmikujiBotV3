@@ -1,6 +1,6 @@
 // src/console/game/WordAlchemy/composables/useWordAlchemy.ts
 // 言葉の錬金術の進行 (idle ↔ running) と、コメントの受け取り。盤面の進行そのものは render/WordAlchemyStage.ts が持つ
-import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
+import { onBeforeUnmount, onMounted, reactive, ref, shallowRef } from 'vue'
 import { ConnectionError } from '@/manager/services/baseApiClient'
 import { gameStateApi } from '@/manager/services/gameStateApi'
 import { createStreamId } from '@/console/common/scripts/streamId'
@@ -8,7 +8,9 @@ import { createOmikenHistory } from '@/common/OmikenHistory'
 import { createMockUserPool, pickTestComment, type MockUserPool } from '@/common/MockUser'
 import { POST_SETTINGS } from '@/sdk/PostSettings'
 import { GetOmikenComments } from '@/sdk/subscribe/OmikenComment/GetOmikenComments'
+import type { AiSlotKeyType } from '@/types/api'
 import type { OmikenCommentType } from '@/types/OmikenComment'
+import { createAiClient } from '../ai/aiClient'
 import { runAlchemy } from '../ai/alchemy'
 import { itemList } from '../maps/WordAlchemyItemMap'
 import { wordAlchemyMessages } from '../maps/WordAlchemyMessageMap'
@@ -17,12 +19,15 @@ import type { BrewHandler, StageOptions, WordAlchemyStage } from '../render/Word
 import { drawItem } from '../scripts/drawItem'
 import { buildDiscoveryLogs, WORD_ALCHEMY_EVENT_KEY } from '../scripts/discoveryLog'
 import { acceptsWord } from '../scripts/potRules'
+import { useAiSettings } from './useAiSettings'
 import { useCodex } from './useCodex'
 import { AUTO_COMMENT_INTERVAL_SECONDS, AUTO_COMMENT_USER_COUNT } from '../scripts/wordAlchemyConstants'
 
 export type WordAlchemyPhase = 'idle' | 'running'
 export type CommentSource = 'live' | 'auto'
 export type CommentStatus = 'connecting' | 'ready' | 'error'
+/** 直近の完成品の判定に使ったもの (main / sub: その接続先の AI / mock: キー未設定 / failed: AI が失敗して Mock / limited: 上限超過で Mock) */
+export type AiLast = 'main' | 'sub' | 'mock' | 'failed' | 'limited'
 
 /**
  * - コメントは OneSDK の購読で受け取り、ゲーム中に届いた新規コメントだけを盤面へ渡す (履歴・BOT・非表示中は除く)
@@ -36,9 +41,13 @@ export function useWordAlchemy() {
   /** 鍋の種類 (1 ゲーム 1 鍋。ゲーム中は変えない)。コンフィグができるまでは、タイトルで選ぶ */
   const potType = ref<PotKey>(DEFAULT_POT)
 
+  const aiSettings = useAiSettings()
+  /** 画面に出す、AI の状態 (直近の判定に使ったものと、このウィンドウを開いてからの回数) */
+  const aiUsage = reactive({ last: 'mock' as AiLast, ai: 0, mock: 0 })
+
   /**
-   * 盤面に渡す設定。完成品は runAlchemy で決める。AI の通信 (サーバーの中継ハンドラ) はまだないので、client は null (Mock だけ)
-   * TODO(AI): 中継ハンドラと API キーの設定ができたら、AlchemyClient をここで渡す
+   * 盤面に渡す設定。完成品は runAlchemy で決める。
+   * AI の接続先が設定されていれば、サーバーの中継ハンドラ経由で聞く (メイン → サブの切り替えはサーバーが行う)。未設定なら Mock だけ
    */
   const codex = useCodex()
   /** ゲームログの保存先 (1配信 = 1ファイル)。このウィンドウを開いている間は、同じファイルに残す */
@@ -68,11 +77,20 @@ export function useWordAlchemy() {
   /** 煮込み: 完成品の判定 (名前・分類・色) → アイテムの抽選 → 図鑑に記録。抽選できなければ、アイテムは生成せずメッセージだけ出す */
   const brew: BrewHandler = async (materials) => {
     const pot = potType.value
-    const { result } = await runAlchemy(
+    let usedSlot: AiSlotKeyType = 'main'
+    const client = aiSettings.configured.value ? createAiClient((slot) => (usedSlot = slot)) : null
+    const { result, source, rateLimited } = await runAlchemy(
       materials.map((m) => m.text),
       pot,
-      null
+      client
     )
+    if (source === 'ai') {
+      aiUsage.ai++
+      aiUsage.last = usedSlot
+    } else {
+      aiUsage.mock++
+      aiUsage.last = rateLimited ? 'limited' : client ? 'failed' : 'mock'
+    }
     const item = drawItem(itemList, result.c, result.k)
     if (!item) {
       const lost = wordAlchemyMessages.lost
@@ -155,6 +173,7 @@ export function useWordAlchemy() {
   onMounted(() => {
     void connectComments()
     void codex.load()
+    void aiSettings.load()
   })
   onBeforeUnmount(stopAuto)
 
@@ -164,6 +183,8 @@ export function useWordAlchemy() {
     commentStatus,
     potType,
     codex,
+    aiSettings,
+    aiUsage,
     recordError,
     stageOptions,
     setStage: (value: WordAlchemyStage) => (stage.value = value),
