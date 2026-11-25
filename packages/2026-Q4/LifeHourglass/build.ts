@@ -3,11 +3,11 @@ import { definePackage } from '@tools/viteBuild'
 import { PackageProject, PackageVariant } from '@tools/types'
 
 const PROJECT: PackageProject = {
-  title: '命の砂時計',
+  title: '命の砂時計 LifeHourglass',
   description: 'リスナーが配信を閲覧した時間を「砂粒」として表示する、砂時計ジェネレーター',
-  tags: ['命の砂時計', 'カウントアップ', '閲覧数チェック', 'ギフト'],
-  boothId: '7733810',
-  licenseLabel: 'CC-BY 4.0',
+  tags: ['命の砂時計', 'LifeHourglass', 'カウントアップ', '閲覧数チェック', 'ギフト'],
+  boothId: '9219010',
+  licenseLabel: '利用規約に準拠',
 }
 
 // バリエーション定義
