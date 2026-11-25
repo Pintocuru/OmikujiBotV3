@@ -1,15 +1,23 @@
 // src/console/game/WordAlchemy/composables/useWordAlchemy.ts
 // 言葉の錬金術の進行 (idle ↔ running) と、コメントの受け取り。盤面の進行そのものは render/WordAlchemyStage.ts が持つ
 import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
+import { ConnectionError } from '@/manager/services/baseApiClient'
+import { gameStateApi } from '@/manager/services/gameStateApi'
+import { createStreamId } from '@/console/common/scripts/streamId'
 import { createOmikenHistory } from '@/common/OmikenHistory'
 import { createMockUserPool, pickTestComment, type MockUserPool } from '@/common/MockUser'
 import { POST_SETTINGS } from '@/sdk/PostSettings'
 import { GetOmikenComments } from '@/sdk/subscribe/OmikenComment/GetOmikenComments'
 import type { OmikenCommentType } from '@/types/OmikenComment'
 import { runAlchemy } from '../ai/alchemy'
+import { itemList } from '../maps/WordAlchemyItemMap'
+import { wordAlchemyMessages } from '../maps/WordAlchemyMessageMap'
 import { DEFAULT_POT, type PotKey } from '../maps/WordAlchemyPotMap'
-import type { StageOptions, WordAlchemyStage } from '../render/WordAlchemyStage'
+import type { BrewHandler, StageOptions, WordAlchemyStage } from '../render/WordAlchemyStage'
+import { drawItem } from '../scripts/drawItem'
+import { buildDiscoveryLogs, WORD_ALCHEMY_EVENT_KEY } from '../scripts/discoveryLog'
 import { acceptsWord } from '../scripts/potRules'
+import { useCodex } from './useCodex'
 import { AUTO_COMMENT_INTERVAL_SECONDS, AUTO_COMMENT_USER_COUNT } from '../scripts/wordAlchemyConstants'
 
 export type WordAlchemyPhase = 'idle' | 'running'
@@ -32,10 +40,54 @@ export function useWordAlchemy() {
    * 盤面に渡す設定。完成品は runAlchemy で決める。AI の通信 (サーバーの中継ハンドラ) はまだないので、client は null (Mock だけ)
    * TODO(AI): 中継ハンドラと API キーの設定ができたら、AlchemyClient をここで渡す
    */
-  const stageOptions: StageOptions = {
-    brew: async (ingredients) => (await runAlchemy(ingredients, potType.value, null)).result.n,
-    accepts: (text) => acceptsWord(potType.value, text),
+  const codex = useCodex()
+  /** ゲームログの保存先 (1配信 = 1ファイル)。このウィンドウを開いている間は、同じファイルに残す */
+  const streamId = createStreamId()
+  /** ゲームログへの記録に失敗したときの理由 (成功したら空) */
+  const recordError = ref('')
+
+  /** 発見をゲームログに記録する (材料を出したユーザーごとに 1 件。同じ内容を再送しても二重にならない)。オートの架空ユーザーは記録しない */
+  const recordDiscovery = async (found: { name: string; isNew: boolean; users: { userId: string; userName: string }[] }) => {
+    if (commentSource.value === 'auto') return
+    const createdAt = Date.now()
+    const logs = buildDiscoveryLogs({
+      ...found,
+      discoveryId: `d-${createdAt.toString(36)}-${Math.floor(Math.random() * 0x10000).toString(36)}`,
+      createdAt,
+    })
+    if (!logs.length) return
+    try {
+      await gameStateApi.appendGameLogs(streamId, WORD_ALCHEMY_EVENT_KEY, logs)
+      recordError.value = ''
+    } catch (error) {
+      recordError.value =
+        error instanceof ConnectionError ? 'サーバーに接続できません' : error instanceof Error ? error.message : String(error)
+    }
   }
+
+  /** 煮込み: 完成品の判定 (名前・分類・色) → アイテムの抽選 → 図鑑に記録。抽選できなければ、アイテムは生成せずメッセージだけ出す */
+  const brew: BrewHandler = async (materials) => {
+    const pot = potType.value
+    const { result } = await runAlchemy(
+      materials.map((m) => m.text),
+      pot,
+      null
+    )
+    const item = drawItem(itemList, result.c, result.k)
+    if (!item) {
+      const lost = wordAlchemyMessages.lost
+      return { title: lost[Math.floor(Math.random() * lost.length)], kind: 'lost' }
+    }
+    const isNew = codex.record({ itemId: item.id, name: result.n, userNames: materials.map((m) => m.userName), pot })
+    void recordDiscovery({ name: result.n, isNew, users: materials })
+    return {
+      title: result.n,
+      subtitle: isNew ? wordAlchemyMessages.outcome.new : wordAlchemyMessages.outcome.known,
+      kind: isNew ? 'new' : 'known',
+    }
+  }
+
+  const stageOptions: StageOptions = { brew, accepts: (text) => acceptsWord(potType.value, text) }
 
   let autoPool: MockUserPool | null = null
   let autoTimer = 0
@@ -100,7 +152,10 @@ export function useWordAlchemy() {
     }
   }
 
-  onMounted(() => void connectComments())
+  onMounted(() => {
+    void connectComments()
+    void codex.load()
+  })
   onBeforeUnmount(stopAuto)
 
   return {
@@ -108,6 +163,8 @@ export function useWordAlchemy() {
     commentSource,
     commentStatus,
     potType,
+    codex,
+    recordError,
     stageOptions,
     setStage: (value: WordAlchemyStage) => (stage.value = value),
     start,

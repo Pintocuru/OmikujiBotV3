@@ -11,25 +11,38 @@
     <button v-else-if="commentStatus === 'error'" class="btn btn-error btn-xs" @click="emit('reconnect')">
       {{ wordAlchemyMessages.comments.error }} / {{ wordAlchemyMessages.comments.retry }}
     </button>
-    <button v-if="phase === 'running'" class="btn btn-ghost btn-xs ml-auto" @click="onAbort" @blur="confirming = false">
+    <span v-if="codexOffline" class="badge badge-warning badge-sm">{{ wordAlchemyMessages.codex.offline }}</span>
+    <span v-if="recordError" class="badge badge-warning badge-sm" :title="recordError">{{
+      wordAlchemyMessages.recordFailed
+    }}</span>
+    <button class="btn btn-ghost btn-xs ml-auto gap-1" @click="emit('openCodex')">
+      <BookOpen :size="14" />
+      {{ wordAlchemyMessages.codex.discovered(found, total) }}
+    </button>
+    <button v-if="phase === 'running'" class="btn btn-ghost btn-xs" @click="onAbort" @blur="confirming = false">
       {{ confirming ? wordAlchemyMessages.bar.abortConfirm : wordAlchemyMessages.bar.abort }}
     </button>
   </header>
 </template>
 
 <script setup lang="ts">
+  import { BookOpen } from '@lucide/vue'
   import { ref } from 'vue'
   import { wordAlchemyMessages } from '../maps/WordAlchemyMessageMap'
   import { potMap, type PotKey } from '../maps/WordAlchemyPotMap'
   import type { CommentSource, CommentStatus, WordAlchemyPhase } from '../composables/useWordAlchemy'
 
   defineProps<{
+    recordError: string
+    found: number
+    total: number
+    codexOffline: boolean
     potType: PotKey
     phase: WordAlchemyPhase
     commentSource: CommentSource
     commentStatus: CommentStatus
   }>()
-  const emit = defineEmits<{ abort: []; reconnect: [] }>()
+  const emit = defineEmits<{ abort: []; reconnect: []; openCodex: [] }>()
 
   const confirming = ref(false)
   const onAbort = () => {
