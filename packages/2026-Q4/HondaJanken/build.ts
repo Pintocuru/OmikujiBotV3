@@ -8,9 +8,15 @@ const PROJECT: PackageProject = {
   tags: ['じゃんけん'],
   boothId: '7383088',
   licenseLabel: '利用規約に従う',
-  extraFiles: [{ from: 'assets/images/2026-Q4/HondaJanken/', to: 'images/HondaJanken/' }],
 }
 
-const VARIANTS: PackageVariant[] = [{ variant: '', withEditor: true, jsonFileName: 'HondaJanken.json' }]
+const VARIANTS: PackageVariant[] = [
+  {
+    variant: '',
+    withEditor: true,
+    jsonFileName: 'HondaJanken.json',
+    extraFiles: [{ from: 'assets/images/2026-Q4/HondaJanken/', to: 'images/HondaJanken/' }],
+  },
+]
 
 export default definePackage(import.meta.url, PROJECT, VARIANTS)
