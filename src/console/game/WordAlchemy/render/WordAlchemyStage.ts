@@ -20,7 +20,6 @@ import {
   POT_ROW,
   POT_SIZE,
   PUSH_WAVE_DELAY_SECONDS,
-  STEAM_INTERVAL,
   WORD_MAX,
 } from '../scripts/wordAlchemyConstants'
 import { splitWords } from '../scripts/words'

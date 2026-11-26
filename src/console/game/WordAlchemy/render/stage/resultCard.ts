@@ -28,10 +28,11 @@ const wrapText = (ctx: CanvasRenderingContext2D, text: string, maxWidth: number)
   return lines
 }
 
-let probe: CanvasRenderingContext2D | null = null
+/** 文字幅の測定用のコンテキスト (モジュールで 1 つ) */
+let probeContext: CanvasRenderingContext2D | null = null
 
 export const showResultCard = (engine: Engine, outcome: BrewOutcome, x: number, y: number): void => {
-  const probe = (probe ??= document.createElement('canvas').getContext('2d')!)
+  const probe = (probeContext ??= document.createElement('canvas').getContext('2d')!)
   const titleFont = 'bold 28px sans-serif'
   const subFont = 'bold 16px sans-serif'
   const lineHeight = 34
