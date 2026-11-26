@@ -69,10 +69,6 @@
 
 ### エディター関連
 
-#### Q. エディターのカラーを変更するには
-
-(TODO:ここを書く)
-
 #### Q. 元に戻す（Undo）はできる？
 
 A. Undo 機能は付いていません。こまめに保存していただくようお願いします。
@@ -110,7 +106,6 @@ A. 配布データをそのまま再配布することは禁止です。内容�
 
 - DiceBear <https://www.dicebear.com/>
   - [Thumbs](https://www.dicebear.com/styles/thumbs/) - CC0 1.0
-  - [Avataaars](https://www.dicebear.com/styles/avataaars/) - "Free for personal and commercial use"
   - [Bottts](https://www.dicebear.com/styles/bottts/) - "Free for personal and commercial use"
   - [Lorelei](https://www.dicebear.com/styles/lorelei/) - CC0 1.0
   - [Notionists](https://www.dicebear.com/styles/notionists/) - CC0 1.0
