@@ -14,7 +14,7 @@
 - `src/console/log/GameLog/`: ゲームログやランキング等の閲覧
 - `src/console/game/UserRace/`: ブラウザゲーム「ユーザーレース」（別ウィンドウで開く）
 - `src/console/game/OshikuraChain/`: ブラウザゲーム「おしくらチェイン」（別ウィンドウで開く。仕様は同フォルダの `SPEC.md`）
-- `src/console/game/WordAlchemy/`: ブラウザゲーム「WordAlchemy」（別ウィンドウで開く）
+- `src/console/game/WordAlchemy/`: ブラウザゲーム「ワードアルケミー」（別ウィンドウで開く）
 - `src/console/common/`・`src/console/types/`: 画面をまたぐ共通部品・型
 - `src/console/maps/ConsoleViewMap.ts`: 全画面の表示名・カテゴリ・起動方式
 - `src/console/consoleRegistry.ts`: 画面のレジストリ（key → loader）
@@ -77,6 +77,10 @@ UIの登録（`uiRegistry.ts` と `UiKind`）と同じ考え方です。
 - 終了時に、ユーザーごとの貢献度（`eventKey`: `oshikuraChainSeconds`）と、全体の生存時間（`eventKey`: `oshikuraChainTime`）を GameLog に記録します。タイムアタックはクリアしたときだけ、クリアタイム（`eventKey`: `oshikuraChainTimeAttack`）を記録します。オートモードでは、貢献度は記録しません。ユーザーの得点は変えません。
 - 仕様・設計・調整できる定数は、`src/console/game/OshikuraChain/SPEC.md` を参照してください。
 - 配布パッケージに入れるときは、そのパッケージの `console.ts` に `oshikuraChain` の loader を1行足します（既定では入っていません）。
+
+### ワードアルケミー`WordAlchemy`）
+
+言葉の破片を鍋にぶち込んで新しい錬金だ
 
 ## ユーザーの得点
 
