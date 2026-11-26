@@ -1,5 +1,5 @@
 <!-- src/console/game/WordAlchemy/components/WordAlchemyTopBar.vue -->
-<!-- 上部バー。ゲーム名、オートの表示、コメント接続の状態、やめる (誤操作防止に 2 回押し) -->
+<!-- 上部バー。ゲーム名、オートの表示、コメント接続の状態、やめる (誤操作防止に 2 回押し。Esc キーでも確認を解除できる) -->
 <template>
   <header class="flex h-10 shrink-0 items-center gap-3 bg-base-300 px-3 text-sm">
     <span class="font-bold">{{ wordAlchemyMessages.title }}</span>
@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
   import { BookOpen, KeyRound } from '@lucide/vue'
-  import { ref } from 'vue'
+  import { onBeforeUnmount, onMounted, ref } from 'vue'
   import { wordAlchemyMessages } from '../maps/WordAlchemyMessageMap'
   import { potMap, type PotKey } from '../maps/WordAlchemyPotMap'
   import type { AiLast, CommentSource, CommentStatus, WordAlchemyPhase } from '../composables/useWordAlchemy'
@@ -69,4 +69,15 @@
     confirming.value = false
     emit('abort')
   }
+
+  const isTyping = (target: EventTarget | null) =>
+    target instanceof HTMLElement &&
+    (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))
+
+  /** Esc キーでも、中止の確認を解除する (入力欄でタイプしているときは除く) */
+  const onKeydown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape' && !isTyping(event.target)) confirming.value = false
+  }
+  onMounted(() => window.addEventListener('keydown', onKeydown))
+  onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 </script>

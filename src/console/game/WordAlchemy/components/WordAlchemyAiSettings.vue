@@ -1,5 +1,5 @@
 <!-- src/console/game/WordAlchemy/components/WordAlchemyAiSettings.vue -->
-<!-- AI の接続先の設定。メインとサブの 2 つ。キーは伏せ字の入力欄で、保存したあとは画面に戻ってこない (末尾 4 文字のヒントだけ) -->
+<!-- AI の接続先の設定。メインとサブの 2 つ。キーは伏せ字の入力欄で、保存が成功したあとは画面に戻ってこない (末尾 4 文字のヒントだけ) -->
 <template>
   <div class="absolute inset-0 z-30 flex flex-col gap-3 overflow-y-auto bg-base-300/95 p-4 text-base-content">
     <div class="flex items-center gap-3">
@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
   import { X } from '@lucide/vue'
-  import { reactive, ref } from 'vue'
+  import { reactive, ref, watch } from 'vue'
   import {
     AI_SLOT_KEYS,
     type AiProviderType,
@@ -97,6 +97,8 @@
 
   const problem = ref('')
   const saved = ref(false)
+  /** 保存の結果待ち。成功が分かるまで、入力欄のキーは消さない */
+  let saving = false
 
   const onSave = () => {
     problem.value = ''
@@ -121,8 +123,24 @@
       }
     }
     emit('save', request)
-    // 保存したあとは、入力欄のキーを消す (画面に残さない)
-    for (const slot of AI_SLOT_KEYS) forms[slot].apiKey = ''
-    saved.value = true
+    saving = true
   }
+
+  // 保存の結果は、親 (useAiSettings) の設定が書き換わった (成功) か、エラー文言が出た (失敗) ことで受ける
+  watch(
+    () => props.settings,
+    () => {
+      if (!saving || props.busy || props.error) return
+      saving = false
+      // 保存に成功したら、入力欄のキーを消す (画面に残さない)
+      for (const slot of AI_SLOT_KEYS) forms[slot].apiKey = ''
+      saved.value = true
+    }
+  )
+  watch(
+    () => props.error,
+    () => {
+      if (saving && props.error) saving = false
+    }
+  )
 </script>

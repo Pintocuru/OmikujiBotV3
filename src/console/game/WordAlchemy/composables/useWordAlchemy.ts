@@ -1,6 +1,7 @@
 // src/console/game/WordAlchemy/composables/useWordAlchemy.ts
 // 言葉の錬金術の進行 (idle ↔ running) と、コメントの受け取り。盤面の進行そのものは render/WordAlchemyStage.ts が持つ
 import { onBeforeUnmount, onMounted, reactive, ref, shallowRef } from 'vue'
+import { nanoid } from 'nanoid'
 import { ConnectionError } from '@/manager/services/baseApiClient'
 import { gameStateApi } from '@/manager/services/gameStateApi'
 import { createStreamId } from '@/console/common/scripts/streamId'
@@ -67,7 +68,7 @@ export function useWordAlchemy() {
     const createdAt = Date.now()
     const logs = buildDiscoveryLogs({
       ...found,
-      discoveryId: `d-${createdAt.toString(36)}-${Math.floor(Math.random() * 0x10000).toString(36)}`,
+      discoveryId: `d-${createdAt.toString(36)}-${nanoid(8)}`,
       createdAt,
     })
     if (!logs.length) return
@@ -86,7 +87,8 @@ export function useWordAlchemy() {
 
   /**
    * 煮込み: 完成品の判定 (名前・分類・色) → アイテムの抽選 → 図鑑に記録。抽選できなければ、アイテムは生成せずメッセージだけ出す。
-   * 闇鍋は、煮込みごとに 1 回、ほかの鍋から指示を引く (煮込み中は伏せて、完成のカードで明かす)
+   * 闇鍋は、煮込みごとに 1 回、ほかの鍋から指示を引く (煮込み中は伏せて、完成のカードで明かす)。
+   * 中止・やり直しをしたゲームについても、煮込みが完了していたものは、図鑑とゲームログに記録される (中止以降は盤面に出ない)
    */
   const brew: BrewHandler = async (materials) => {
     const pot = potType.value
