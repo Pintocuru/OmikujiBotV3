@@ -48,22 +48,38 @@ const buildRequest = (
   slot: AiSlotConfig,
   prompt: string,
   tokenParam: 'max_tokens' | 'max_completion_tokens'
-): { url: string; headers: Record<string, string>; body: unknown; reasoning_effort: 'low' } => {
+): { url: string; headers: Record<string, string>; body: unknown } => {
   const base = trimBase(slot.baseUrl)
   const messages = [{ role: 'user', content: prompt }]
+
   if (slot.provider === 'anthropic') {
     return {
       url: base.endsWith('/v1') ? `${base}/messages` : `${base}/v1/messages`,
-      headers: { 'content-type': 'application/json', 'x-api-key': slot.apiKey, 'anthropic-version': '2023-06-01' },
-      reasoning_effort: 'low',
-      body: { model: slot.model, max_tokens: MAX_TOKENS, messages },
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': slot.apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: {
+        model: slot.model,
+        max_tokens: MAX_TOKENS,
+        messages,
+      },
     }
   }
+
   return {
     url: `${base}/chat/completions`,
-    headers: { 'content-type': 'application/json', authorization: `Bearer ${slot.apiKey}` },
-    reasoning_effort: 'low',
-    body: { model: slot.model, [tokenParam]: MAX_TOKENS, messages },
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${slot.apiKey}`,
+    },
+    body: {
+      model: slot.model,
+      [tokenParam]: MAX_TOKENS,
+      ...(slot.baseUrl.includes('api.groq.com') ? { reasoning_effort: 'low' } : {}),
+      messages,
+    },
   }
 }
 
