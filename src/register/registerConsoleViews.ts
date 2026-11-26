@@ -9,6 +9,7 @@ export const registerAllConsoleViews = () =>
     eventPads: () => import('@/console/control/EventPads/EventPads.vue'),
     bingoConsole: () => import('@/console/control/BingoConsole/BingoConsole.vue'),
     usersConsole: () => import('@/console/control/UsersConsole/UsersConsole.vue'),
+    amidakuji: () => import('@/console/control/Amidakuji/Amidakuji.vue'),
     // log
     gameLog: () => import('@/console/log/GameLog/GameLog.vue'),
     // game

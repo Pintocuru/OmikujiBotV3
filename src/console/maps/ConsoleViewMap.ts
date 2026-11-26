@@ -8,6 +8,13 @@ export const consoleViewMap = {
   eventPads: { label: 'ポン出し', icon: 'Zap', category: 'control', launch: 'embedded' },
   bingoConsole: { label: 'ビンゴ', icon: 'LayoutGrid', category: 'control', launch: 'embedded' },
   usersConsole: { label: 'ユーザー操作', icon: 'Users', category: 'control', launch: 'embedded' },
+  amidakuji: {
+    label: 'あみだくじ',
+    icon: 'Shuffle',
+    category: 'control',
+    launch: 'window',
+    windowSize: { width: 960, height: 540 },
+  },
   // log: 記録・閲覧
   gameLog: { label: 'ゲームの記録', icon: 'FileText', category: 'log', launch: 'embedded' },
   // game: ブラウザゲーム (OBS でウィンドウをキャプチャするので、別ウィンドウで開く)
