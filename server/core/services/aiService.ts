@@ -16,7 +16,7 @@ const TIMEOUT_MS = 20_000
 const RETRY_503_MAX = 2
 const RETRY_503_DELAY_MS = 2_000
 /** 返事の長さの上限 (出力は {"c","k","n"} だけなので、小さくてよい) */
-const MAX_TOKENS = 1000
+const MAX_TOKENS = 1500
 /** 上限超過 (429) した接続先を休ませる時間。Retry-After があればそれに従う (上限つき) */
 const COOLDOWN_RATE_LIMIT_MS = 20_000
 const COOLDOWN_RATE_LIMIT_MAX_MS = 10 * 60_000
@@ -51,17 +51,35 @@ const buildRequest = (
 ): { url: string; headers: Record<string, string>; body: unknown } => {
   const base = trimBase(slot.baseUrl)
   const messages = [{ role: 'user', content: prompt }]
+
   if (slot.provider === 'anthropic') {
     return {
       url: base.endsWith('/v1') ? `${base}/messages` : `${base}/v1/messages`,
-      headers: { 'content-type': 'application/json', 'x-api-key': slot.apiKey, 'anthropic-version': '2023-06-01' },
-      body: { model: slot.model, max_tokens: MAX_TOKENS, messages },
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': slot.apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: {
+        model: slot.model,
+        max_tokens: MAX_TOKENS,
+        messages,
+      },
     }
   }
+
   return {
     url: `${base}/chat/completions`,
-    headers: { 'content-type': 'application/json', authorization: `Bearer ${slot.apiKey}` },
-    body: { model: slot.model, [tokenParam]: MAX_TOKENS, messages },
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${slot.apiKey}`,
+    },
+    body: {
+      model: slot.model,
+      [tokenParam]: MAX_TOKENS,
+      ...(slot.baseUrl.includes('api.groq.com') ? { reasoning_effort: 'low' } : {}),
+      messages,
+    },
   }
 }
 
@@ -228,9 +246,27 @@ export class AiRelay {
       return { ok: false, kind: 'error' }
     }
   }
-  private send(slot: AiSlotConfig, prompt: string, tokenParam: 'max_tokens' | 'max_completion_tokens') {
+  private async send(slot: AiSlotConfig, prompt: string, tokenParam: 'max_tokens' | 'max_completion_tokens') {
     const { url, headers, body } = buildRequest(slot, prompt, tokenParam)
-    return this.post(url, body, headers, TIMEOUT_MS)
+    // 診断用: APIキー/ヘッダーは出さず、実際のリクエスト body を表示する。
+    console.debug(`AI (${slot.provider}) request`)
+    console.dir({ url, body }, { depth: null })
+    const response = await this.post(url, body, headers, TIMEOUT_MS)
+    const data = response.data as Record<string, unknown> | null
+    const choices = Array.isArray(data?.choices) ? data?.choices : undefined
+    const choice = choices?.[0] as Record<string, unknown> | undefined
+    const message = choice?.message as Record<string, unknown> | undefined
+    const content = message?.content
+    const reasoning = message?.reasoning
+    console.debug(`AI (${slot.provider}) response diagnostics`, {
+      status: response.status,
+      finishReason: choice?.finish_reason,
+      content: typeof content === 'string' ? content : undefined,
+      reasoningLength: typeof reasoning === 'string' ? reasoning.length : undefined,
+      usage: data?.usage,
+      usageBreakdown: data?.usage_breakdown,
+    })
+    return response
   }
 }
 
