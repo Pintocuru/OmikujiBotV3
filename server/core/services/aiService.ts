@@ -163,13 +163,13 @@ export class AiRelay {
       if (response.status === 400 && slot.provider === 'openai' && wantsCompletionTokens(response.data)) {
         response = await this.send(slot, prompt, 'max_completion_tokens')
       }
-      if (response.status === 429) return { ok: false, kind: 'rateLimited', retryAfterMs: parseRetryAfterMs(response.headers) }
-      if (response.status === 401 || response.status === 403) return { ok: false, kind: 'unauthorized' }
       if (response.status < 200 || response.status >= 300) {
         console.error(`AI (${slot.provider}) HTTP failure`, {
           status: response.status,
           error: errorDetails(response.data),
         })
+        if (response.status === 429) return { ok: false, kind: 'rateLimited', retryAfterMs: parseRetryAfterMs(response.headers) }
+        if (response.status === 401 || response.status === 403) return { ok: false, kind: 'unauthorized' }
         return { ok: false, kind: 'error' }
       }
       const text = extractText(slot.provider, response.data)
