@@ -1,11 +1,7 @@
 <!-- src/console/game/OshikuraChain/components/OshikuraChainTopBar.vue -->
 <!-- 上部バー。待機中はクリックでメニューを開く。ゲーム中は、アイコンで 残り時間・ヒート倍率・連鎖・経過時間・アイコン数 を表示し、「やめる」ボタン (2 回押し) を出す -->
 <template>
-  <header
-    class="flex h-10 shrink-0 items-center gap-4 bg-base-300 px-3 text-base-content select-none"
-    :class="phase === 'idle' ? 'cursor-pointer hover:bg-base-200' : ''"
-    @click="emit('toggle')"
-  >
+  <ToolTopBar :class="phase === 'idle' ? 'cursor-pointer hover:bg-base-200' : ''" @click="emit('toggle')">
     <template v-if="state && phase !== 'idle'">
       <!-- 残り時間 (耐久) / 獲得秒数 (タイムアタック) -->
       <div
@@ -63,46 +59,44 @@
       {{ oshikuraChainMessages.bar.openHint }}
     </span>
 
-    <span class="grow" />
+    <template #actions>
+      <!-- オートモード (実コメントは使わないので、購読の状態は出さない) -->
+      <span v-if="isAuto" class="badge badge-outline badge-sm gap-1" :title="oshikuraChainMessages.bar.auto">
+        <Bot :size="12" />
+        {{ oshikuraChainMessages.bar.auto }}
+      </span>
 
-    <!-- オートモード (実コメントは使わないので、購読の状態は出さない) -->
-    <span v-if="isAuto" class="badge badge-outline badge-sm gap-1" :title="oshikuraChainMessages.bar.auto">
-      <Bot :size="12" />
-      {{ oshikuraChainMessages.bar.auto }}
-    </span>
-
-    <!-- やめる: 配信中の押し間違いを防ぐため、2 回押しで終了する (3 秒で元に戻る) -->
-    <button
-      v-if="phase === 'running'"
-      type="button"
-      class="btn btn-xs gap-1"
-      :class="confirming ? 'btn-warning' : 'btn-ghost'"
-      :title="oshikuraChainMessages.bar.abortConfirm"
-      @click.stop="onAbortClick"
-    >
-      <X :size="14" />
-      {{ confirming ? oshikuraChainMessages.bar.abortConfirm : oshikuraChainMessages.bar.abort }}
-    </button>
-
-    <!-- コメント購読の状態 (つながっていないと、コメントがアイコンにならない。言葉でないと伝わらないので文字も出す) -->
-    <span v-if="isAuto" />
-    <span v-else-if="commentStatus === 'connecting'" class="flex items-center gap-1 text-xs opacity-60">
-      <Loader :size="14" class="animate-spin" />
-      {{ oshikuraChainMessages.comments.connecting }}
-    </span>
-    <span v-else-if="commentStatus === 'error'" class="text-error flex items-center gap-2 text-xs" @click.stop>
-      <WifiOff :size="14" />
-      {{ oshikuraChainMessages.comments.error }}
-      <button type="button" class="btn btn-xs gap-1" @click="emit('reconnect')">
-        <RefreshCw :size="12" />
-        {{ oshikuraChainMessages.comments.retry }}
-      </button>
-    </span>
-  </header>
+      <!-- コメント購読の状態 (つながっていないと、コメントがアイコンにならない。言葉でないと伝わらないので文字も出す) -->
+      <span v-if="isAuto" />
+      <span v-else-if="commentStatus === 'connecting'" class="flex items-center gap-1 text-xs opacity-60">
+        <Loader :size="14" class="animate-spin" />
+        {{ oshikuraChainMessages.comments.connecting }}
+      </span>
+      <span v-else-if="commentStatus === 'error'" class="text-error flex items-center gap-2 text-xs" @click.stop>
+        <WifiOff :size="14" />
+        {{ oshikuraChainMessages.comments.error }}
+        <button type="button" class="btn btn-xs gap-1" @click="emit('reconnect')">
+          <RefreshCw :size="12" />
+          {{ oshikuraChainMessages.comments.retry }}
+        </button>
+      </span>
+      <!-- やめる: 配信中の押し間違いを防ぐため、2 回押しで終了する -->
+      <ConfirmButton
+        v-if="phase === 'running'"
+        :label="oshikuraChainMessages.bar.abort"
+        :confirm-label="oshikuraChainMessages.bar.abortConfirm"
+        @confirm="emit('abort')"
+      >
+        <template #icon><X :size="14" /></template>
+      </ConfirmButton>
+    </template>
+  </ToolTopBar>
 </template>
 
 <script setup lang="ts">
   import { computed, onBeforeUnmount, ref, watch } from 'vue'
+  import ConfirmButton from '@/console/parts/ConfirmButton.vue'
+  import ToolTopBar from '@/console/parts/ToolTopBar.vue'
   import { Bot, Clock, Flame, Hourglass, Loader, Menu, RefreshCw, Target, Users, WifiOff, X } from '@lucide/vue'
   import { formatClock } from '../scripts/oshikuraChainRecord'
   import type { OshikuraChainConfig } from '../scripts/oshikuraChainConfig'
@@ -118,28 +112,6 @@
     getClock: () => number
   }>()
   const emit = defineEmits<{ toggle: []; reconnect: []; abort: [] }>()
-
-  // やめる (2 回押し)
-  const CONFIRM_MS = 3000
-  const confirming = ref(false)
-  let confirmTimer = 0
-  const resetConfirm = () => {
-    clearTimeout(confirmTimer)
-    confirming.value = false
-  }
-  const onAbortClick = () => {
-    if (!confirming.value) {
-      confirming.value = true
-      confirmTimer = window.setTimeout(resetConfirm, CONFIRM_MS)
-      return
-    }
-    resetConfirm()
-    emit('abort')
-  }
-  watch(
-    () => props.phase,
-    () => resetConfirm()
-  )
 
   const isTimeAttack = computed(() => props.state?.gameMode === 'timeAttack')
   const isAuto = computed(() => props.config?.commentSource === 'auto')
@@ -212,6 +184,5 @@
   watch(() => [props.phase, props.state?.over], refreshClock, { immediate: true })
   onBeforeUnmount(() => {
     clearInterval(timer)
-    clearTimeout(confirmTimer)
   })
 </script>

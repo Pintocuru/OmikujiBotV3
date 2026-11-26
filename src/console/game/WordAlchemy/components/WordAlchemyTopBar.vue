@@ -1,8 +1,7 @@
 <!-- src/console/game/WordAlchemy/components/WordAlchemyTopBar.vue -->
-<!-- 上部バー。ゲーム名、鍋 (ゲーム中も変えられる)、オートの表示、コメント接続の状態、やめる (誤操作防止に 2 回押し。Esc キーでも確認を解除できる) -->
+<!-- 上部バー。ゲーム名、鍋 (ゲーム中も変えられる)、オートの表示、コメント接続の状態、やめる (誤操作防止に 2 回押し) -->
 <template>
-  <header class="flex h-10 shrink-0 items-center gap-3 bg-base-300 px-3 text-sm">
-    <span class="font-bold">{{ wordAlchemyMessages.title }}</span>
+  <ToolTopBar :title="wordAlchemyMessages.title">
     <span v-if="phase === 'running'" class="tooltip tooltip-bottom" :data-tip="wordAlchemyMessages.bar.potChange">
       <!-- 選んだあと、フォーカスを外す (入力欄扱いで、WASD や Enter / Esc が効かなくなるのを防ぐ) -->
       <select
@@ -35,27 +34,33 @@
     >
       {{ wordAlchemyMessages.ai.status[aiUsage.last] }}
     </span>
-    <button class="btn btn-ghost btn-xs ml-auto gap-1" @click="emit('openCodex')">
-      <BookOpen :size="14" />
-      {{ wordAlchemyMessages.codex.discovered(found, total) }}
-    </button>
-    <button
-      class="btn btn-ghost btn-square btn-xs"
-      :aria-label="wordAlchemyMessages.ai.open"
-      :title="wordAlchemyMessages.ai.open"
-      @click="emit('openAiSettings')"
-    >
-      <KeyRound :size="14" />
-    </button>
-    <button v-if="phase === 'running'" class="btn btn-ghost btn-xs" @click="onAbort" @blur="confirming = false">
-      {{ confirming ? wordAlchemyMessages.bar.abortConfirm : wordAlchemyMessages.bar.abort }}
-    </button>
-  </header>
+    <template #actions>
+      <button class="btn btn-ghost btn-xs gap-1" @click="emit('openCodex')">
+        <BookOpen :size="14" />
+        {{ wordAlchemyMessages.codex.discovered(found, total) }}
+      </button>
+      <button
+        class="btn btn-ghost btn-square btn-xs"
+        :aria-label="wordAlchemyMessages.ai.open"
+        :title="wordAlchemyMessages.ai.open"
+        @click="emit('openAiSettings')"
+      >
+        <KeyRound :size="14" />
+      </button>
+      <ConfirmButton
+        v-if="phase === 'running'"
+        :label="wordAlchemyMessages.bar.abort"
+        :confirm-label="wordAlchemyMessages.bar.abortConfirm"
+        @confirm="emit('abort')"
+      />
+    </template>
+  </ToolTopBar>
 </template>
 
 <script setup lang="ts">
   import { BookOpen, KeyRound } from '@lucide/vue'
-  import { onBeforeUnmount, onMounted, ref } from 'vue'
+  import ConfirmButton from '@/console/parts/ConfirmButton.vue'
+  import ToolTopBar from '@/console/parts/ToolTopBar.vue'
   import { wordAlchemyMessages } from '../maps/WordAlchemyMessageMap'
   import { POT_KEYS, potMap, type PotKey } from '../maps/WordAlchemyPotMap'
   import type { AiLast, CommentSource, CommentStatus, WordAlchemyPhase } from '../composables/useWordAlchemy'
@@ -73,25 +78,4 @@
   /** 鍋の種類 (ゲーム中に変えると、鍋の中身は捨てられる) */
   const potType = defineModel<PotKey>('potType', { required: true })
   const emit = defineEmits<{ abort: []; reconnect: []; openCodex: []; openAiSettings: [] }>()
-
-  const confirming = ref(false)
-  const onAbort = () => {
-    if (!confirming.value) {
-      confirming.value = true
-      return
-    }
-    confirming.value = false
-    emit('abort')
-  }
-
-  const isTyping = (target: EventTarget | null) =>
-    target instanceof HTMLElement &&
-    (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))
-
-  /** Esc キーでも、中止の確認を解除する (入力欄でタイプしているときは除く) */
-  const onKeydown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' && !isTyping(event.target)) confirming.value = false
-  }
-  onMounted(() => window.addEventListener('keydown', onKeydown))
-  onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 </script>

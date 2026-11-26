@@ -1,20 +1,14 @@
 <!-- src/console/control/Amidakuji/components/AmidakujiTopBar.vue -->
 <template>
-  <header class="flex h-12 shrink-0 items-center justify-between border-b border-base-300 bg-base-200 px-4 select-none">
-    <div class="flex items-center gap-3">
-      <span class="font-bold text-base tracking-wide flex items-center gap-2">
-        <span class="inline-block w-2.5 h-2.5 rounded-full bg-primary"></span>
-        あみだくじ
-      </span>
-      <div class="badge badge-neutral text-xs gap-1">
-        参加者: <span class="font-mono font-bold">{{ playerCount }}</span>人
-      </div>
-      <div class="badge text-xs" :class="phaseBadgeClass">
-        {{ phaseLabel }}
-      </div>
+  <ToolTopBar title="あみだくじ">
+    <div class="badge badge-neutral text-xs gap-1">
+      参加者: <span class="font-mono font-bold">{{ playerCount }}</span>人
+    </div>
+    <div class="badge text-xs" :class="phaseBadgeClass">
+      {{ phaseLabel }}
     </div>
 
-    <div class="flex items-center gap-2">
+    <template #actions>
       <!-- ズーム操作 -->
       <div class="join">
         <button type="button" class="btn btn-xs join-item" title="縮小" @click="emit('zoom-out')">－</button>
@@ -43,12 +37,13 @@
       <button v-if="phase !== 'setup'" type="button" class="btn btn-xs btn-warning font-bold" @click="emit('reset')">
         もう一度
       </button>
-    </div>
-  </header>
+    </template>
+  </ToolTopBar>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import ToolTopBar from '@/console/parts/ToolTopBar.vue'
   import type { AmidakujiPhase } from '../composables/useAmidakuji'
 
   const props = defineProps<{
