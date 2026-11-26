@@ -4,7 +4,7 @@ import { PackageProject, PackageVariant } from '@tools/types'
 
 const PROJECT: PackageProject = {
   title: '命の砂時計 LifeHourglass',
-  description: 'リスナーが配信を閲覧した時間を「砂粒」として表示する、砂時計ジェネレーター',
+  description: 'リスナーの視聴時間を「砂粒」として結晶化し、ギフトによる加算にも対応した砂時計ジェネレーター',
   tags: ['命の砂時計', 'LifeHourglass', 'カウントアップ', '閲覧数チェック', 'ギフト'],
   boothId: '9219010',
   licenseLabel: '利用規約に準拠',
