@@ -94,6 +94,20 @@ const errorDetails = (data: unknown): unknown => {
   }
 }
 
+/** HTTP エラー本文の診断用ログ (長さ制限と秘密情報のマスキングを行う) */
+const safeErrorBody = (data: unknown): string => {
+  let raw: string
+  try {
+    raw = typeof data === 'string' ? data : JSON.stringify(data)
+  } catch {
+    raw = String(data)
+  }
+  return raw
+    .replace(/(Bearer\\s+)[^\\s"']+/gi, '$1[REDACTED]')
+    .replace(/(api[_-]?key["'\\s:=]+)[^\\s,"'&]+/gi, '$1[REDACTED]')
+    .slice(0, 2000)
+}
+
 /** 成功レスポンスでも、想定した形式でテキストを取り出せない場合に形式情報だけをログに出す */
 const responseShape = (data: unknown): unknown => {
   if (!data || typeof data !== 'object') return { type: typeof data }
@@ -167,6 +181,11 @@ export class AiRelay {
         console.error(`AI (${slot.provider}) HTTP failure`, {
           status: response.status,
           error: errorDetails(response.data),
+          rawBody: safeErrorBody(response.data),
+          headers: {
+            contentType: response.headers['content-type'],
+            requestId: response.headers['x-goog-request-id'] ?? response.headers['x-request-id'],
+          },
         })
         if (response.status === 429) return { ok: false, kind: 'rateLimited', retryAfterMs: parseRetryAfterMs(response.headers) }
         if (response.status === 401 || response.status === 403) return { ok: false, kind: 'unauthorized' }
