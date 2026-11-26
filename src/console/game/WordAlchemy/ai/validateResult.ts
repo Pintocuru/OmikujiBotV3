@@ -1,6 +1,7 @@
 // src/console/game/WordAlchemy/ai/validateResult.ts
 // AI の出力の検証 (純粋関数)。通ったものだけをゲームが使う。
-// 名前の文字・長さは検証しない (錬金術は不安定なので、材料にない文字が出ても、長くなってもよい)。見るのは JSON の形式・分類・色だけ
+// 名前の文字は検証しない (錬金術は不安定なので、材料にない文字が出てもよい)。長さもスタイルとしては検証しないが、長すぎる部分は切り落とす (保存・表示の保険)
+import { ALCHEMY_NAME_MAX } from '../scripts/wordAlchemyConstants'
 import {
   ALCHEMY_CATEGORIES,
   ALCHEMY_PALETTE,
@@ -24,6 +25,9 @@ const parseJson = (raw: string): unknown => {
   }
 }
 
+/** 長すぎる名前は、コードポイント単位で切り落とす */
+const truncateName = (name: string) => Array.from(name).slice(0, ALCHEMY_NAME_MAX).join('')
+
 export const validateResult = (raw: string, rng: Rng = Math.random): ValidationResult => {
   let data: unknown
   try {
@@ -43,5 +47,5 @@ export const validateResult = (raw: string, rng: Rng = Math.random): ValidationR
   const color = ALCHEMY_PALETTE.includes(k as AlchemyColor)
     ? (k as AlchemyColor)
     : ALCHEMY_PALETTE[Math.floor(rng() * ALCHEMY_PALETTE.length)]
-  return { ok: true, result: { c: c as AlchemyCategory, k: color, n: name } }
+  return { ok: true, result: { c: c as AlchemyCategory, k: color, n: truncateName(name) } }
 }

@@ -47,3 +47,5 @@ export const AUTO_COMMENT_USER_COUNT = 50
 export const PRESSURE_POT_NAME_LENGTH = 6
 /** AI の出力の検証に失敗したときの、やり直しの上限 (それでも失敗したら Mock にフォールバック) */
 export const ALCHEMY_MAX_RETRIES = 2
+/** 名前の長さの上限 (文字数)。超えた部分は検証で切り落とす (スタイルの検証ではなく、長すぎる出力をそのまま保存・表示しないための保険) */
+export const ALCHEMY_NAME_MAX = 20
