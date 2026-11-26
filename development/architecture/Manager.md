@@ -2,69 +2,62 @@
 
 ## 役割
 
-Editorから利用するデータ管理機能です。
+Managerは、設定ファイルや配信データをAPI経由で読み書きするクライアント側の機能です。
 
-サーバーAPIを通じて設定ファイルや配信データなどを読み書きし、Editor側の状態管理と操作を担当します。
-
-Managerはデータの永続化やAPI処理本体を担当しません。それらはServerが担当し、ManagerはAPIクライアントを通じて利用します。
+データの保存やAPIリクエストの実処理はServer側が担当し、ManagerはAPIサービスとPinia Storeを通じて利用します。
 
 ## 構成
 
-- `src/manager/ManagerView.vue`: 保存データを開くためのボタンとダイアログの表示管理
-- `src/manager/services/`: APIクライアント
-  - `baseApiClient.ts`: API接続先、共通通信処理、エラーハンドリング
-  - その他のファイル: ドメイン別のAPI操作
-- `src/manager/stores/`: Piniaによる状態管理と操作
-  - `useManagerStore.ts`: Manager全体のStore
-  - `useManagerState.ts`: 管理状態
-  - `useManagerActions.ts`: ファイル操作・保存・読み込みなどのアクション
+- `src/manager/ManagerView.vue`: 上部バーの「開く」ボタン。サーバー接続時はManagerダイアログを遅延読み込みして表示し、未接続時はローカルの `omikujiData.js` を開く
+- `src/manager/components/`: Managerダイアログなどの画面コンポーネント
+- `src/manager/services/`: API通信サービス
+  - `baseApiClient.ts`: 接続先の切り替え、共通HTTP通信、エラーハンドリング
+  - `configApi.ts`、`generatorApi.ts`、`omikujiApi.ts` など: APIの用途ごとの操作
+- `src/manager/stores/`: Pinia Storeと状態・操作の組み立て
+  - `useManagerStore.ts`: 状態・ゲッター・アクションを統合するStore
+  - `useManagerState.ts`: Managerの状態
   - `useManagerGetters.ts`: 状態から導出する値
-- `src/manager/composables/`: Manager関連の補助処理
+  - `useManagerActions.ts`: Managerの操作
+  - `useApiCore.ts`、`useApiFileActions.ts`、`useApiLoadActions.ts`、`useApiSaveActions.ts`: API操作の共通処理とファイル操作
+- `src/manager/composables/`: Manager画面で利用する補助処理
 - `src/manager/types/`: Manager固有の型
 
 ## API通信
 
-API通信は `src/manager/services/` が担当します。
+API通信は `src/manager/services/` が担当します。各ドメインのAPIクラスは `BaseApiClient` を継承し、共通のGET/POST処理とレスポンス処理を利用します。
 
-`BaseApiClient` を基盤として、ドメイン別のAPIクラスが各種操作を提供します。
+主なサービスは次のとおりです。
 
-主なAPIの対象は次のとおりです。
+- `aiApi.ts`: AI設定・問い合わせ
+- `bingoApi.ts`: ビンゴ
+- `configApi.ts`: 設定ファイル
+- `gameConfigApi.ts`、`gameStateApi.ts`: ゲーム設定・状態
+- `generatorApi.ts`: Generator設定・パッケージ
+- `omikujiApi.ts`: おみくじデータ
+- `padApi.ts`: ポン出し
+- `userStatsApi.ts`: ユーザー統計
 
-- 設定ファイル
-- Generator設定・パッケージ
-- おみくじデータ
-- ゲームログ・ゲームステート
-- ユーザー統計・ユーザーリスト
-- ポン出しの状態・操作
-- ビンゴの進行・パターン
-- ブラウザゲームの設定
-- AI設定・問い合わせ
+接続先は次の2種類です。
 
-APIの接続先は次の2種類です。
-
-- 本番環境: わんコメプラグイン(Rest API)
+- 本番環境: わんコメプラグインのREST API
 - 開発環境: Express API
 
-開発環境では接続先を切り替えて動作確認できます。本番環境ではわんコメプラグインを使用します。
+開発環境ではAPIモードを切り替えて接続先を変更できます。本番環境ではわんコメプラグインに接続します。
 
 ## 状態管理
 
-Managerの画面状態や操作はPinia Storeで管理します。
+Managerの状態・ゲッター・アクションはPinia Storeで管理します。
 
-`useManagerStore` を入口として、状態・アクション・ゲッターを分離しています。
-
-API通信とEditor側の状態管理を分離し、Storeから各APIサービスを利用する構成です。
+`useManagerStore` が `useManagerState`、`useManagerGetters`、`useManagerActions` を組み合わせます。APIを利用するファイル操作は、共通の非同期処理や読み込み・保存などの処理に分割されています。
 
 ## Serverとの関係
 
-ManagerはAPIの呼び出し元であり、データ管理の実処理はServerに委譲します。
+ManagerはAPIの呼び出し元であり、APIリクエストの受付やデータ処理・保存はServer側が担当します。
 
 通信経路は次のようになります。
 
 - 本番環境: Manager → わんコメプラグイン → Server
 - 開発環境: Manager → Express API → Server
-
-本番環境では、わんコメプラグインがAPIリクエストを受け付けます。開発環境ではExpress APIが同じ共通処理へ接続します。
 
 Server側のAPI処理や保存処理については [Server](./Server.md)、プラグインの役割については [Plugin](./Plugin.md) を参照してください。
 
