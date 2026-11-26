@@ -125,8 +125,7 @@ const responseShape = (data: unknown): unknown => {
 }
 
 export type AiAskOutcome =
-  | { ok: true; text: string; slot: AiSlotKeyType }
-  | { ok: false; reason: 'notConfigured' | 'rateLimited' | 'failed' }
+  { ok: true; text: string; slot: AiSlotKeyType } | { ok: false; reason: 'notConfigured' | 'rateLimited' | 'failed' }
 
 export class AiRelay {
   private readonly post: AiHttpPost
@@ -187,7 +186,8 @@ export class AiRelay {
             requestId: response.headers['x-goog-request-id'] ?? response.headers['x-request-id'],
           },
         })
-        if (response.status === 429) return { ok: false, kind: 'rateLimited', retryAfterMs: parseRetryAfterMs(response.headers) }
+        if (response.status === 429)
+          return { ok: false, kind: 'rateLimited', retryAfterMs: parseRetryAfterMs(response.headers) }
         if (response.status === 401 || response.status === 403) return { ok: false, kind: 'unauthorized' }
         return { ok: false, kind: 'error' }
       }
@@ -207,7 +207,10 @@ export class AiRelay {
           error: error.response ? errorDetails(error.response.data) : undefined,
         })
       } else {
-        console.error(`AI (${slot.provider}) unexpected error`, error instanceof Error ? error.message.slice(0, 500) : typeof error)
+        console.error(
+          `AI (${slot.provider}) unexpected error`,
+          error instanceof Error ? error.message.slice(0, 500) : typeof error
+        )
       }
       return { ok: false, kind: 'error' }
     }
@@ -219,6 +222,7 @@ export class AiRelay {
 }
 
 const cooldownMs = (failure: { kind: FailureKind; retryAfterMs?: number }): number => {
-  if (failure.kind === 'rateLimited') return Math.min(failure.retryAfterMs ?? COOLDOWN_RATE_LIMIT_MS, COOLDOWN_RATE_LIMIT_MAX_MS)
+  if (failure.kind === 'rateLimited')
+    return Math.min(failure.retryAfterMs ?? COOLDOWN_RATE_LIMIT_MS, COOLDOWN_RATE_LIMIT_MAX_MS)
   return failure.kind === 'unauthorized' ? COOLDOWN_AUTH_MS : COOLDOWN_ERROR_MS
 }
