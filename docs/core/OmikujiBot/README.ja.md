@@ -8,11 +8,13 @@
 
 - [おみくじBOT ストロベリーショコラ OmikujiBot StrawberryChocolate](https://pintocuru.booth.pm/items/7733810)
 
+
 ## はじめに（Intro）
 
 - [わんコメ](https://onecomme.com/) の機能を前提としたソフトウェアです。
 - 本ソフトウェアの利用は自己責任でお願いいたします。
 - 仕様は予告なく変更される場合があります。
+
 
 ## このテンプレートは何？（Features）
 
@@ -59,16 +61,16 @@
 - 幅の最大値は `2xl = 42rem`（672px）、最小値は `10rem`（160px）です。
   - この範囲を外れると、はみ出しなどの表示崩れが起こる可能性があります。
 
-### おみくじBOT エディターの新規導入
+### おみくじBOT のアップグレード / おみくじBOT エディターの新規導入
 
 > 現在のバージョンは **おみくじBOT エディター** から確認できます。
-> パッケージに「おみくじBOT エディター」が含まれていない場合でも、**このアップグレード手順を実行すれば新規導入として利用できます。**
+> パッケージに「おみくじBOT エディター」が含まれていない場合でも、**このアップグレード手順を実行すれば新規導入として利用できます。**無料です!
 
 #### アップグレード手順
 
 ![](../../images/installation-1792770461531.webp)
 
-1. GitHub から [最新バージョン](https://github.com/Pintocuru/OmikujiBot-Docs/releases/latest) をダウンロードします。
+1. GitHub から [最新バージョン](https://github.com/Pintocuru/OmikujiBotV3/releases/latest) をダウンロードします。
 2. リリースノート下部の **「Assets」** から、 **「OmikujiBot_core\_」** と書かれたファイルをダウンロードします。
 3. ダウンロードした ZIP ファイルを **解凍** します。
 
@@ -81,39 +83,36 @@
 
 - **注意**：アップグレード後、一部設定がデフォルトに戻る場合があります。バックアップは必ず行って下さい。
 
+
 ## つかいかた (Usage)
 
 > パッケージによって、利用シーンは様々です。詳しくは、下記の Readme をご覧ください。
 
 - [おみくじBOT ストロベリーショコラ OmikujiBot StrawberryChocolate README](/common/StrawberryChocolate/README.md)
 
+
 ## カスタマイズ（Customization）
 
 ### 「おみくじBOT エディター」で自由におみくじを編集できる
 
-![「おみくじBOT エディターで自由におみくじを編集できる」の画面](../../images/customization-1792727159845.webp)
+![](../../images/customization-1795668624968.webp)
 
 - 一部の配布パッケージには、**おみくじBOT エディター**（おみくじデータ編集用アプリ）が付属しています。
 - アプリと同じフォルダにある **`editor.html`** を開くと起動できます。
 - 詳しくは [おみくじBOT エディター README](/core/ConfigEditor/README.md) をご覧ください。
 
+
 ## よくある質問 (FAQ)
 
 わんコメの機能については [よくある質問](https://onecomme.com/docs/faq) または [導入ガイド](https://onecomme.com/docs/guide) をご参照ください。
 
+
 > おみくじの内容、エディター関連についての内容は [おみくじBOT エディター README](/core/ConfigEditor/README.md) の [よくある質問](/core/ConfigEditor/README.md#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F-faq) をご覧ください。
-
-### コメントテスターで「初見コメント」を確認するには
-
-(TODO:ここを書く)
-
-### Q. Omiken って何？
-
-A: おみくじ (omikuji)＋初見 (syoken) から取ってます。前作「[初見判定ちゃん](https://booth.pm/ja/items/5471598) 」の名残です。
 
 ## トラブルシューティング (Troubleshooting)
 
 わんコメの機能については [トラブルシューティング](https://onecomme.com/docs/trouble-shooting) または [導入ガイド](https://onecomme.com/docs/guide) をご参照ください。
+
 
 ### 設定・表示・音声関連
 
@@ -126,6 +125,7 @@ A: おみくじ (omikuji)＋初見 (syoken) から取ってます。前作「[�
 - [Q. コメントでおみくじが反応しない](/template/jp/troubleshooting/12_infoOmikujiBot/trouble_1204_CommentOmikuji.md)
 - [Q. おみくじが YouTube のコメントに反映されていない](/template/jp/troubleshooting/12_infoOmikujiBot/trouble_1205_OmikujiPlatform.md)
 
+
 ## クレジット（Credits）
 
 ### ♫ 効果音・ジングル
@@ -136,6 +136,7 @@ A: おみくじ (omikuji)＋初見 (syoken) から取ってます。前作「[�
 それぞれのパッケージでは、各種イラスト素材を使用しています。詳しくは、下記の Readme をご覧ください。
 
 - [おみくじBOT ストロベリーショコラ OmikujiBot StrawberryChocolate README](/common/StrawberryChocolate/README.md)
+
 
 ## ライセンス（License）
 
@@ -153,9 +154,11 @@ A: おみくじ (omikuji)＋初見 (syoken) から取ってます。前作「[�
 - 効果音には CC0 ライセンスの素材を使用しています。
 - 詳細は おみくじBOT 本体のクレジット をご確認ください。
 
+
 ### パッケージデータ
 
 パッケージごとにライセンス形態（商用利用可否・改変可否など）が異なります。詳しくは各パッケージの README または商品ページをご確認ください。
+
 
 ## バージョン情報 (Version)
 

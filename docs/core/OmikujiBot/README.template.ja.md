@@ -71,14 +71,6 @@
 
 > おみくじの内容、エディター関連についての内容は [おみくじBOT エディター README](/core/ConfigEditor/README.md) の [よくある質問](/core/ConfigEditor/README.md#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F-faq) をご覧ください。
 
-### コメントテスターで「初見コメント」を確認するには
-
-(TODO:ここを書く)
-
-### Q. Omiken って何？
-
-A: おみくじ (omikuji)＋初見 (syoken) から取ってます。前作「[初見判定ちゃん](https://booth.pm/ja/items/5471598) 」の名残です。
-
 ![troubleshooting_91_OmikujiBotSet](../../template/jp/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
 
 ## クレジット（Credits）

@@ -7,9 +7,9 @@
 
 ### 🎯 成功系 Positive（6 種）
 
-#### `congrats`
+#### `applause`
 
-- Congrats [https://freesound.org/people/Fupicat/sounds/607207/](https://freesound.org/people/Fupicat/sounds/607207/)
+- Voice_Crowd_Small_Expression_Applause_Cheer_Stereo [https://freesound.org/people/Nox_Sound/sounds/752709/](https://freesound.org/people/Nox_Sound/sounds/752709/)
 
 #### `baseball`
 
@@ -19,6 +19,10 @@
 
 - fasching fanfare - Karnevals Tusch Tataa (short) [https://freesound.org/people/Audeption/sounds/418525/](https://freesound.org/people/Audeption/sounds/418525/)
 
+#### `congrats`
+
+- Congrats [https://freesound.org/people/Fupicat/sounds/607207/](https://freesound.org/people/Fupicat/sounds/607207/)
+
 #### `fanfare`
 
 - Success Fanfare Trumpets.mp3 [https://freesound.org/people/FunWithSound/sounds/456966/](https://freesound.org/people/FunWithSound/sounds/456966/)
@@ -27,53 +31,53 @@
 
 - Success Jingle [https://freesound.org/people/Kastenfrosch/sounds/521949/](https://freesound.org/people/Kastenfrosch/sounds/521949/)
 
-#### `applause`
-
-- Voice_Crowd_Small_Expression_Applause_Cheer_Stereo [https://freesound.org/people/Nox_Sound/sounds/752709/](https://freesound.org/people/Nox_Sound/sounds/752709/)
-
 ---
 
-### 🎯 否定系 Negative（5 種）
-
-#### `cancel`
-
-- High-Tech UI Cancel [https://freesound.org/people/plasterbrain/sounds/419494/](https://freesound.org/people/plasterbrain/sounds/419494/)
-
-#### `warn`
-
-- Sonic Skid [https://freesound.org/people/Fupicat/sounds/802738/](https://freesound.org/people/Fupicat/sounds/802738/)
+### 🎯 否定系 Negative（6 種）
 
 #### `bounce`
 
 - Bounce - Boing - Jump - Hit - Cartoon - Comedy - Jews - Jaw - Harp.wav [https://freesound.org/people/td6d/sounds/533946/](https://freesound.org/people/td6d/sounds/533946/)
 
-#### `negative`
+#### `cancel`
 
-- negative_beeps.wav [https://freesound.org/people/themusicalnomad/sounds/253886/](https://freesound.org/people/themusicalnomad/sounds/253886/)
+- High-Tech UI Cancel [https://freesound.org/people/plasterbrain/sounds/419494/](https://freesound.org/people/plasterbrain/sounds/419494/)
+
+#### `explosion`
+
+- Gunshot 4.wav [https://freesound.org/people/ShawnyBoy/sounds/166191/](https://freesound.org/people/ShawnyBoy/sounds/166191/)
 
 #### `fail`
 
 - twanger with banjo hit.aif [https://freesound.org/people/scola/sounds/51616/](https://freesound.org/people/scola/sounds/51616/)
 
+#### `negative`
+
+- negative_beeps.wav [https://freesound.org/people/themusicalnomad/sounds/253886/](https://freesound.org/people/themusicalnomad/sounds/253886/)
+
+#### `warn`
+
+- Sonic Skid [https://freesound.org/people/Fupicat/sounds/802738/](https://freesound.org/people/Fupicat/sounds/802738/)
+
 ---
 
 ### 🎬 告知系 Announcement（7 種）
-
-#### `collect`
-
-- collect.wav [https://freesound.org/people/Wagna/sounds/325805/](https://freesound.org/people/Wagna/sounds/325805/)
-
-#### `decision`
-
-- Success2.wav [https://freesound.org/people/Kagateni/sounds/404359/](https://freesound.org/people/Kagateni/sounds/404359/)
 
 #### `bubble`
 
 - pop effect [https://freesound.org/people/ninoing/sounds/693363/](https://freesound.org/people/ninoing/sounds/693363/)
 
+#### `collect`
+
+- collect.wav [https://freesound.org/people/Wagna/sounds/325805/](https://freesound.org/people/Wagna/sounds/325805/)
+
 #### `cute`
 
 - Cute Question Mark [https://freesound.org/people/plasterbrain/sounds/396195/](https://freesound.org/people/plasterbrain/sounds/396195/)
+
+#### `decision`
+
+- Success2.wav [https://freesound.org/people/Kagateni/sounds/404359/](https://freesound.org/people/Kagateni/sounds/404359/)
 
 #### `news`
 
@@ -89,7 +93,11 @@
 
 ---
 
-### 🎬 演出系 Flavor（6 種）
+### 🎬 演出系 Flavor（3 種）
+
+#### `cash`
+
+- Buying Sounds.wav [https://freesound.org/people/wobesound/sounds/488377/](https://freesound.org/people/wobesound/sounds/488377/)
 
 #### `nya`
 
@@ -99,26 +107,14 @@
 
 - fairy-twinklemp3 [https://freesound.org/people/sparklepunk_/sounds/620672/](https://freesound.org/people/sparklepunk_/sounds/620672/)
 
+---
+
+### ✉️ core_more: 2 種(標準では入っていません)
+
 #### `drum_hit`
 
 - Drum Roll Please.wav [https://freesound.org/people/Scheffler/sounds/201211/](https://freesound.org/people/Scheffler/sounds/201211/)
 
-#### `explosion`
-
-- Gunshot 4.wav [https://freesound.org/people/ShawnyBoy/sounds/166191/](https://freesound.org/people/ShawnyBoy/sounds/166191/)
-
-#### `cash`
-
-- Buying Sounds.wav [https://freesound.org/people/wobesound/sounds/488377/](https://freesound.org/people/wobesound/sounds/488377/)
-
 #### `reveal`/`reveal_full`
 
 - TaDa!.aif [https://freesound.org/people/jimhancock/sounds/256128/](https://freesound.org/people/jimhancock/sounds/256128/)
-
----
-
-### ✉️ テキスト送り音: 1 種
-
-#### `rpg_voice_a5`
-
-- Text Scroll A#5 200 OpenMpt (Echo Pan).wav <https://freesound.org/people/EVRetro/sounds/524478/>
