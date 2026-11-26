@@ -81,6 +81,35 @@ const parseRetryAfterMs = (headers: Record<string, unknown>): number | undefined
 /** 本文に、トークン数の指定名の違いを示す文があるか (新しい OpenAI のモデルは max_tokens を受け付けず、max_completion_tokens を求める) */
 const wantsCompletionTokens = (data: unknown): boolean => JSON.stringify(data ?? '').includes('max_completion_tokens')
 
+/** API エラー本文から、診断に必要な情報だけを取り出す (レスポンス本文全体や生成内容はログに出さない) */
+const errorDetails = (data: unknown): unknown => {
+  if (!data || typeof data !== 'object') return undefined
+  const error = (data as Record<string, unknown>).error
+  if (!error || typeof error !== 'object') return undefined
+  const details = error as Record<string, unknown>
+  return {
+    code: typeof details.code === 'string' || typeof details.code === 'number' ? details.code : undefined,
+    status: typeof details.status === 'string' ? details.status : undefined,
+    message: typeof details.message === 'string' ? details.message.slice(0, 1000) : undefined,
+  }
+}
+
+/** 成功レスポンスでも、想定した形式でテキストを取り出せない場合に形式情報だけをログに出す */
+const responseShape = (data: unknown): unknown => {
+  if (!data || typeof data !== 'object') return { type: typeof data }
+  const d = data as Record<string, unknown>
+  const choices = Array.isArray(d.choices) ? d.choices : undefined
+  const first = choices?.[0] as Record<string, unknown> | undefined
+  const message = first?.message as Record<string, unknown> | undefined
+  return {
+    keys: Object.keys(d),
+    choicesCount: choices?.length,
+    finishReason: first?.finish_reason,
+    messageKeys: message && Object.keys(message),
+    contentType: typeof message?.content,
+  }
+}
+
 export type AiAskOutcome =
   | { ok: true; text: string; slot: AiSlotKeyType }
   | { ok: false; reason: 'notConfigured' | 'rateLimited' | 'failed' }
