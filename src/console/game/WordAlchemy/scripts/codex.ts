@@ -9,6 +9,8 @@ export const CODEX_GAME_KEY = 'wordAlchemyCodex'
 export const CODEX_DATA_VERSION = 1
 /** 残す名前の履歴の件数 (初回の名前とは別に、直近のもの) */
 export const CODEX_NAME_HISTORY_MAX = 5
+/** 残す発見履歴の件数 (これを超えると、古いものから捨てる。図鑑ファイルが育ちすぎないようにする) */
+export const CODEX_HISTORY_MAX = 500
 
 const EntrySchema = z.object({
   /** 初回に発見したときの名前 */
@@ -29,7 +31,7 @@ export const CodexSchema = z.object({
   dataVersion: z.literal(CODEX_DATA_VERSION),
   /** 発見したアイテム (キーはアイテム ID。再発見しても 1 件) */
   entries: z.record(z.string(), EntrySchema),
-  /** 発見履歴 (再発見も含める。件数の上限なし) */
+  /** 発見履歴 (再発見も含める。直近 CODEX_HISTORY_MAX 件まで。古いものから捨てる) */
   history: z.array(DiscoverySchema),
 })
 
@@ -48,7 +50,7 @@ export const parseCodex = (raw: unknown): { codex: Codex; discarded: boolean } =
 
 /**
  * 発見を記録する。初めてのアイテムなら isNew (新種)。
- * 図鑑本体は 1 件のまま、名前の履歴 (直近 5 件) と発見履歴を更新する
+ * 図鑑本体は 1 件のまま、名前の履歴 (直近 5 件) と発見履歴 (直近 500 件) を更新する
  */
 export const recordDiscovery = (
   codex: Codex,
@@ -66,7 +68,7 @@ export const recordDiscovery = (
       history: [
         ...codex.history,
         { itemId: found.itemId, at: found.at, userNames: [...new Set(found.userNames)], pot: found.pot },
-      ],
+      ].slice(-CODEX_HISTORY_MAX),
     },
   }
 }

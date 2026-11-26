@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { itemList } from '../maps/WordAlchemyItemMap'
 import {
   CODEX_DATA_VERSION,
+  CODEX_HISTORY_MAX,
   CODEX_NAME_HISTORY_MAX,
   countDiscovered,
   countFinds,
@@ -36,13 +37,19 @@ describe('recordDiscovery', () => {
     expect(codex.history).toHaveLength(2)
     expect(countFinds(codex, 'a-red')).toBe(2)
   })
-  it('名前の履歴は直近 5 件。発見履歴には上限がない', () => {
+  it('名前の履歴は直近 5 件。発見履歴は直近 500 件 (超えたら、古いものから捨てる)', () => {
     let codex = createEmptyCodex()
     for (let i = 0; i < 8; i++) codex = recordDiscovery(codex, found(`n${i}`, i)).codex
     expect(codex.entries['a-red'].names).toEqual(['n3', 'n4', 'n5', 'n6', 'n7'])
     expect(codex.entries['a-red'].names).toHaveLength(CODEX_NAME_HISTORY_MAX)
     expect(codex.history).toHaveLength(8)
     expect(codex.entries['a-red'].firstName).toBe('n0')
+
+    let big = createEmptyCodex()
+    for (let i = 0; i < CODEX_HISTORY_MAX + 10; i++) big = recordDiscovery(big, found('n', i)).codex
+    expect(big.history).toHaveLength(CODEX_HISTORY_MAX)
+    expect(big.history[0].at).toBe(10)
+    expect(big.history[CODEX_HISTORY_MAX - 1].at).toBe(CODEX_HISTORY_MAX + 9)
   })
   it('元の図鑑は書き換えない', () => {
     const base = createEmptyCodex()

@@ -1,6 +1,7 @@
 // src/console/game/WordAlchemy/ai/alchemy.test.ts
 import { describe, expect, it } from 'vitest'
 import { POT_KEYS, potMap } from '../maps/WordAlchemyPotMap'
+import { ALCHEMY_NAME_MAX, PRESSURE_POT_NAME_LENGTH } from '../scripts/wordAlchemyConstants'
 import { resolveBrewPot } from '../scripts/potRules'
 import { splitWords } from '../scripts/words'
 import { AlchemyRateLimitError, runAlchemy } from './alchemy'
@@ -55,12 +56,15 @@ describe('validateResult', () => {
     expect(validateResult('{"c":"A","k":"赤"}').ok).toBe(false)
     expect(validateResult(json('')).ok).toBe(false)
   })
-  it('名前の文字・長さは検証しない (材料にない文字も、長い名前もそのまま通る)', () => {
+  it('名前の文字は検証しない。長すぎる名前は、上限 (ALCHEMY_NAME_MAX) に切り落とす', () => {
     expect(validateResult(json('ねこ')).result).toMatchObject({ n: 'ねこ' })
     const long = 'あ'.repeat(40)
-    expect(validateResult(json(long)).result).toMatchObject({ n: long })
-    // 圧力鍋の 6 文字も、指示文で伝えるだけ。超えても通る
-    expect(validateResult(json('あいうえおかき')).ok).toBe(true)
+    expect(validateResult(json(long))).toEqual({
+      ok: true,
+      result: { c: 'A', k: '赤', n: 'あ'.repeat(ALCHEMY_NAME_MAX) },
+    })
+    // 圧力鍋の 6 文字も、指示文で伝えるだけ。超えても失敗にはしない
+    expect(validateResult(json('あ'.repeat(PRESSURE_POT_NAME_LENGTH + 1))).ok).toBe(true)
   })
   it('パレット外の色は、ランダムで置き換える', () => {
     const checked = validateResult(json('せす', 'B', '虹'), seq(0))
@@ -71,7 +75,7 @@ describe('validateResult', () => {
 describe('buildPrompt', () => {
   it('材料は JSON 配列で、コメントの引用符やカンマで壊れない', () => {
     const prompt = buildPrompt(['a,"b"', 'c', 'd'], 'pressure')
-    expect(prompt).toContain('材料:["a,\\"b\\"","c","d"]')
+    expect(prompt).toContain('材料:["a,\"b\"","c","d"]')
     expect(prompt).toContain('6文字以内')
     expect(prompt).toContain('出力JSONのみ:{"n":"名前","c":"A|B|C|D","k":"色"}')
   })
