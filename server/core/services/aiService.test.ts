@@ -83,7 +83,7 @@ describe('AiRelay: メインからサブへの切り替え', () => {
     expect(calls).toHaveLength(2)
   })
   it('メインが通信エラー・5xx・認証エラー・本文なしでも、サブに切り替える', async () => {
-    for (const first of [new Error('ECONNRESET'), status(503), status(401), status(200)]) {
+    for (const first of [new Error('ECONNRESET'), status(500), status(401), status(200)]) {
       const { post } = fake(first, anthropicOk('from-sub'))
       expect(await new AiRelay({ post }).ask(both, 'p')).toMatchObject({ ok: true, slot: 'sub' })
     }
