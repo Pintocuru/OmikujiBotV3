@@ -12,6 +12,9 @@ const SLOT_ORDER: readonly AiSlotKeyType[] = ['main', 'sub']
 
 /** 1 回の呼び出しを待つ上限 (ミリ秒) */
 const TIMEOUT_MS = 20_000
+/** 503 の場合のみ、最大 2 回まで再試行する */
+const RETRY_503_MAX = 2
+const RETRY_503_DELAY_MS = 2_000
 /** 返事の長さの上限 (出力は {"c","k","n"} だけなので、小さくてよい) */
 const MAX_TOKENS = 200
 /** 上限超過 (429) した接続先を休ませる時間。Retry-After があればそれに従う (上限つき) */
@@ -130,12 +133,14 @@ export type AiAskOutcome =
 export class AiRelay {
   private readonly post: AiHttpPost
   private readonly now: () => number
+  private readonly wait: (ms: number) => Promise<void>
   /** 休ませている接続先 (メモリだけ。サーバーを再起動したら、全部試し直す) */
   private readonly cooldowns = new Map<AiSlotKeyType, { until: number; kind: FailureKind }>()
 
-  constructor(deps: { post?: AiHttpPost; now?: () => number } = {}) {
+  constructor(deps: { post?: AiHttpPost; now?: () => number; wait?: (ms: number) => Promise<void> } = {}) {
     this.post = deps.post ?? axiosPost
     this.now = deps.now ?? Date.now
+    this.wait = deps.wait ?? ((ms) => new Promise((resolve) => setTimeout(resolve, ms)))
   }
 
   /** 接続先の設定を変えたら、休ませていたものも試し直す */
@@ -172,9 +177,15 @@ export class AiRelay {
 
   private async callSlot(slot: AiSlotConfig, prompt: string): Promise<ProviderOutcome> {
     try {
-      let response = await this.send(slot, prompt, 'max_tokens')
-      if (response.status === 400 && slot.provider === 'openai' && wantsCompletionTokens(response.data)) {
-        response = await this.send(slot, prompt, 'max_completion_tokens')
+      let response: AiHttpResponse
+      for (let attempt = 0; ; attempt++) {
+        response = await this.send(slot, prompt, 'max_tokens')
+        if (response.status === 400 && slot.provider === 'openai' && wantsCompletionTokens(response.data)) {
+          response = await this.send(slot, prompt, 'max_completion_tokens')
+        }
+        if (response.status !== 503 || attempt >= RETRY_503_MAX) break
+        console.warn(`AI (${slot.provider}) returned 503; retrying (${attempt + 1}/${RETRY_503_MAX}) after ${RETRY_503_DELAY_MS}ms`)
+        await this.wait(RETRY_503_DELAY_MS)
       }
       if (response.status < 200 || response.status >= 300) {
         console.error(`AI (${slot.provider}) HTTP failure`, {
