@@ -16,7 +16,7 @@ const TIMEOUT_MS = 20_000
 const RETRY_503_MAX = 2
 const RETRY_503_DELAY_MS = 2_000
 /** 返事の長さの上限 (出力は {"c","k","n"} だけなので、小さくてよい) */
-const MAX_TOKENS = 200
+const MAX_TOKENS = 1500
 /** 上限超過 (429) した接続先を休ませる時間。Retry-After があればそれに従う (上限つき) */
 const COOLDOWN_RATE_LIMIT_MS = 60_000
 const COOLDOWN_RATE_LIMIT_MAX_MS = 10 * 60_000
@@ -48,19 +48,21 @@ const buildRequest = (
   slot: AiSlotConfig,
   prompt: string,
   tokenParam: 'max_tokens' | 'max_completion_tokens'
-): { url: string; headers: Record<string, string>; body: unknown } => {
+): { url: string; headers: Record<string, string>; body: unknown; reasoning_effort: 'low' } => {
   const base = trimBase(slot.baseUrl)
   const messages = [{ role: 'user', content: prompt }]
   if (slot.provider === 'anthropic') {
     return {
       url: base.endsWith('/v1') ? `${base}/messages` : `${base}/v1/messages`,
       headers: { 'content-type': 'application/json', 'x-api-key': slot.apiKey, 'anthropic-version': '2023-06-01' },
+      reasoning_effort: 'low',
       body: { model: slot.model, max_tokens: MAX_TOKENS, messages },
     }
   }
   return {
     url: `${base}/chat/completions`,
     headers: { 'content-type': 'application/json', authorization: `Bearer ${slot.apiKey}` },
+    reasoning_effort: 'low',
     body: { model: slot.model, [tokenParam]: MAX_TOKENS, messages },
   }
 }
@@ -184,7 +186,9 @@ export class AiRelay {
           response = await this.send(slot, prompt, 'max_completion_tokens')
         }
         if (response.status !== 503 || attempt >= RETRY_503_MAX) break
-        console.warn(`AI (${slot.provider}) returned 503; retrying (${attempt + 1}/${RETRY_503_MAX}) after ${RETRY_503_DELAY_MS}ms`)
+        console.warn(
+          `AI (${slot.provider}) returned 503; retrying (${attempt + 1}/${RETRY_503_MAX}) after ${RETRY_503_DELAY_MS}ms`
+        )
         await this.wait(RETRY_503_DELAY_MS)
       }
       if (response.status < 200 || response.status >= 300) {
