@@ -6,21 +6,36 @@ export const wordAlchemyMessages = {
   pot: '鍋',
   startLive: 'スタート',
   startAuto: 'コメントオートで試す',
-  bar: { auto: 'オート', abort: 'やめる', abortConfirm: 'もう一度押してやめる' },
+  bar: {
+    auto: 'オート',
+    abort: 'やめる',
+    abortConfirm: 'もう一度押してやめる',
+    /** ゲーム中に鍋を変えると、鍋の中身は捨てる */
+    potChange: '鍋を変えると、入っている材料は捨てられます',
+  },
   codex: {
     title: '図鑑',
     open: '図鑑',
     discovered: (found: number, total: number) => `発見 ${found}/${total}`,
-    finds: (count: number) => `${count} 回`,
     close: '閉じる',
     reset: 'リセット',
-    resetConfirm: '図鑑をすべて削除します (発見履歴も消えます。元に戻せません)',
+    resetConfirm: 'すべての鍋の図鑑を削除します (元に戻せません)',
     resetDo: '削除する',
     resetCancel: 'やめる',
-    firstName: '初回',
-    recent: '直近',
+    /** 図鑑のホバー (tooltip) の見出し: 材料のことばと、それを出した視聴者 */
+    materials: '素材元',
     offline: '図鑑を保存できません',
     discarded: '保存されていた図鑑を読めなかったので、初期化しました',
+  },
+  /** すでに図鑑にある枠へ、また同じアイテムが出たときの、新旧の選択 */
+  replace: {
+    title: 'すでに図鑑にあるアイテムです。どちらを残しますか?',
+    old: '図鑑にあるもの',
+    next: '今回のもの',
+    keepOld: '古いほうを残す',
+    useNew: '新しいほうにする',
+    hint: '選ばずに閉じると、古いほうが残ります',
+    close: '閉じる (古いほうを残す)',
   },
   ai: {
     title: 'AI の設定',

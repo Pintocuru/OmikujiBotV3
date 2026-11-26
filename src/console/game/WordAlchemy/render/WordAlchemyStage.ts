@@ -165,11 +165,15 @@ export class WordAlchemyStage implements EffectHost {
     this.heroActor.graphics.isVisible = false
   }
 
-  /** コメントを「ことば」にして、空いているマスに降らせる (ゲーム中だけ) */
+  /**
+   * コメントを「ことば」にして、空いているマスに降らせる (ゲーム中だけ)。
+   * 盤面が満載 (WORD_MAX 個、または空きマスなし) のときは、古いことばを消さず、新しいことばを降らせない
+   */
   spawn(request: WordSpawnRequest): void {
     if (!this.running) return
     let added = false
     for (const text of splitWords(request.comment)) {
+      if (this.words.filter((w) => !w.exit).length >= WORD_MAX) break
       const cell = this.randomFreeCell()
       if (!cell) break
       this.addWord(request.userId, request.userName, text, cell)
@@ -189,6 +193,19 @@ export class WordAlchemyStage implements EffectHost {
     const ingredients = this.pot.ingredients.splice(0)
     if (yes) this.startBrew(ingredients)
     else playReject(this, POT_CENTER)
+  }
+
+  /**
+   * 鍋の中身を捨てる (鍋の種類を変えるとき)。入っている材料・押し込み中のことば・煮込みの確認が消える。盤面のことばは残る。
+   * 煮込み中のもの (材料はすでに使われている) は、そのまま続ける
+   */
+  clearPot(): void {
+    const pot = this.pot
+    const had = pot.ingredients.length > 0 || pot.reserved > 0
+    for (const w of [...this.words]) if (w.exit === 'pot') this.removeWord(w)
+    if (pot.confirming) this.options.onConfirmChange?.(null)
+    Object.assign(pot, { ingredients: [], confirming: false, reserved: 0 })
+    if (had) playReject(this, POT_CENTER)
   }
 
   dispose(): void {
@@ -364,12 +381,6 @@ export class WordAlchemyStage implements EffectHost {
 
   /** 盤面の上から落ちてくる */
   private addWord(userId: string, userName: string, text: string, cell: { col: number; row: number }): void {
-    // 上限を超えるときは、古いものから消す
-    while (this.words.filter((w) => !w.exit).length >= WORD_MAX) {
-      const oldest = this.words.find((w) => !w.exit)
-      if (!oldest) break
-      this.removeWord(oldest)
-    }
     const actor = new Actor({ pos: vec(-1000, -1000), width: CELL_PX, height: CELL_PX, z: 50 })
     actor.graphics.use(new Canvas({ width: CELL_PX, height: CELL_PX, cache: true, draw: (ctx) => drawWord(ctx, text) }))
     this.engine.add(actor)
@@ -488,5 +499,6 @@ export class WordAlchemyStage implements EffectHost {
     pot.brewing = false
     playBrewDone(this, pot.result.kind, POT_CENTER)
     showResultCard(this.engine, pot.result, POT_TOP.x, POT_TOP.y)
+    pot.result.onShown?.()
   }
 }

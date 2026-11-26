@@ -1,9 +1,22 @@
 <!-- src/console/game/WordAlchemy/components/WordAlchemyTopBar.vue -->
-<!-- 上部バー。ゲーム名、オートの表示、コメント接続の状態、やめる (誤操作防止に 2 回押し。Esc キーでも確認を解除できる) -->
+<!-- 上部バー。ゲーム名、鍋 (ゲーム中も変えられる)、オートの表示、コメント接続の状態、やめる (誤操作防止に 2 回押し。Esc キーでも確認を解除できる) -->
 <template>
   <header class="flex h-10 shrink-0 items-center gap-3 bg-base-300 px-3 text-sm">
     <span class="font-bold">{{ wordAlchemyMessages.title }}</span>
-    <span v-if="phase === 'running'" class="opacity-80">{{ potMap[potType].label }}</span>
+    <span v-if="phase === 'running'" class="tooltip tooltip-bottom" :data-tip="wordAlchemyMessages.bar.potChange">
+      <!-- 選んだあと、フォーカスを外す (入力欄扱いで、WASD や Enter / Esc が効かなくなるのを防ぐ) -->
+      <select
+        v-model="potType"
+        class="select select-ghost select-xs w-auto"
+        :aria-label="wordAlchemyMessages.pot"
+        @change="($event.target as HTMLSelectElement).blur()"
+        @keyup.esc="($event.target as HTMLSelectElement).blur()"
+      >
+        <option v-for="key in POT_KEYS" :key="key" :value="key" class="text-base-content">
+          {{ potMap[key].label }}
+        </option>
+      </select>
+    </span>
     <span v-if="phase === 'running' && commentSource === 'auto'" class="badge badge-warning badge-sm">
       {{ wordAlchemyMessages.bar.auto }}
     </span>
@@ -44,7 +57,7 @@
   import { BookOpen, KeyRound } from '@lucide/vue'
   import { onBeforeUnmount, onMounted, ref } from 'vue'
   import { wordAlchemyMessages } from '../maps/WordAlchemyMessageMap'
-  import { potMap, type PotKey } from '../maps/WordAlchemyPotMap'
+  import { POT_KEYS, potMap, type PotKey } from '../maps/WordAlchemyPotMap'
   import type { AiLast, CommentSource, CommentStatus, WordAlchemyPhase } from '../composables/useWordAlchemy'
 
   defineProps<{
@@ -53,11 +66,12 @@
     found: number
     total: number
     codexOffline: boolean
-    potType: PotKey
     phase: WordAlchemyPhase
     commentSource: CommentSource
     commentStatus: CommentStatus
   }>()
+  /** 鍋の種類 (ゲーム中に変えると、鍋の中身は捨てられる) */
+  const potType = defineModel<PotKey>('potType', { required: true })
   const emit = defineEmits<{ abort: []; reconnect: []; openCodex: []; openAiSettings: [] }>()
 
   const confirming = ref(false)

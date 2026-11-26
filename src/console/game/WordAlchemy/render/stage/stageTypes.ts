@@ -6,8 +6,11 @@ import type { PotLook } from '../../maps/WordAlchemyPotMap'
 export type WordSpawnRequest = { userId: string; userName: string; comment: string }
 /** 鍋に入れた材料 (ことばと、それを出した視聴者名) */
 export type BrewMaterial = { text: string; userId: string; userName: string }
-/** 煮込みの結果。鍋の上に出すカード (new: 新種 / known: 既発見 / lost: 抽選エラー) */
-export type BrewOutcome = { title: string; subtitle?: string; kind: 'new' | 'known' | 'lost' }
+/**
+ * 煮込みの結果。鍋の上に出すカード (new: 新種 / known: 既発見 / lost: 抽選エラー)。
+ * onShown: カードを出した瞬間に呼ぶ (結果を出す前に、画面へ先出ししないため。中止・やり直しで結果が捨てられたときは呼ばない)
+ */
+export type BrewOutcome = { title: string; subtitle?: string; kind: 'new' | 'known' | 'lost'; onShown?: () => void }
 /** 材料から完成品を決める (非同期。reject しない前提。万一 reject したら、抽選エラーと同じ扱い) */
 export type BrewHandler = (materials: BrewMaterial[]) => Promise<BrewOutcome>
 export type StageOptions = {

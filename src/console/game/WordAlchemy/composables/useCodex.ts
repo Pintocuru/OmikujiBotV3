@@ -1,6 +1,6 @@
 // src/console/game/WordAlchemy/composables/useCodex.ts
-// 図鑑の読み込み・記録・保存・リセット (サーバーの game-configs/wordAlchemyCodex.json。配信者ごとに 1 つ)
-import { computed, ref } from 'vue'
+// 図鑑 (鍋ごと) の読み込み・記録・保存・リセット (サーバーの game-configs/wordAlchemyCodex.json。配信者ごとに 1 つ)
+import { ref } from 'vue'
 import { ConnectionError } from '@/manager/services/baseApiClient'
 import { gameConfigApi } from '@/manager/services/gameConfigApi'
 import { itemList } from '../maps/WordAlchemyItemMap'
@@ -8,9 +8,11 @@ import {
   CODEX_GAME_KEY,
   countDiscovered,
   createEmptyCodex,
+  getEntry,
   parseCodex,
-  recordDiscovery,
+  setEntry,
   type Codex,
+  type CodexEntry,
 } from '../scripts/codex'
 
 export function useCodex() {
@@ -21,7 +23,8 @@ export function useCodex() {
   const discarded = ref(false)
   const saveError = ref('')
 
-  const found = computed(() => countDiscovered(codex.value, itemList))
+  /** その鍋で発見したアイテムの数 (分母は total) */
+  const foundIn = (pot: string) => countDiscovered(codex.value, pot, itemList)
   const total = itemList.length
 
   // 読み込み前に記録・リセットが起きたら、あとから届いた保存データで上書きしない
@@ -61,16 +64,20 @@ export function useCodex() {
     return queue
   }
 
-  /** 発見を記録して保存する。新種なら true */
-  const record = (found: { itemId: string; name: string; userNames: readonly string[]; pot: string }): boolean => {
+  /** その鍋の図鑑の枠 (なければ undefined) */
+  const entryOf = (pot: string, itemId: string): CodexEntry | undefined => getEntry(codex.value, pot, itemId)
+
+  /**
+   * 枠に入れて保存する。空の枠 (新種) への登録にも、すでにある枠の置き換え (新旧のどちらを残すかの選択で、新しいほうを選んだとき) にも使う。
+   * 置き換えるかどうかは、呼び出し側が決める (ここでは、渡されたものをそのまま入れる)
+   */
+  const store = (pot: string, itemId: string, entry: CodexEntry): void => {
     touched = true
-    const result = recordDiscovery(codex.value, { ...found, at: Date.now() })
-    codex.value = result.codex
+    codex.value = setEntry(codex.value, pot, itemId, entry)
     void persist()
-    return result.isNew
   }
 
-  /** 発見履歴を含め、図鑑をすべて削除する (保存を、初期状態で上書きする) */
+  /** 全部の鍋の図鑑を削除する (保存を、初期状態で上書きする) */
   const reset = () => {
     touched = true
     codex.value = createEmptyCodex()
@@ -78,5 +85,5 @@ export function useCodex() {
     return persist()
   }
 
-  return { codex, found, total, offline, discarded, saveError, load, record, reset }
+  return { codex, foundIn, total, offline, discarded, saveError, load, entryOf, store, reset }
 }

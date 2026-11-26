@@ -3,12 +3,12 @@
 <template>
   <div class="flex h-screen flex-col bg-neutral text-neutral-content">
     <WordAlchemyTopBar
-      :found="codex.found.value"
+      v-model:pot-type="potType"
+      :found="codex.foundIn(potType)"
       :total="codex.total"
       :codex-offline="codex.offline.value"
       :record-error="recordError"
       :ai-usage="aiUsage"
-      :pot-type="potType"
       :phase="phase"
       :comment-source="commentSource"
       :comment-status="commentStatus"
@@ -21,6 +21,12 @@
       <WordAlchemyField :options="stageOptions" @ready="setStage" />
       <WordAlchemyTitle v-if="phase === 'idle'" v-model:pot-type="potType" @start="start" />
       <WordAlchemyBrewConfirm v-if="pending" :materials="pending" @answer="confirm" />
+      <WordAlchemyReplaceChoice
+        v-if="replaceChoice"
+        :choice="replaceChoice"
+        :esc-enabled="!pending"
+        @answer="resolveReplace"
+      />
       <WordAlchemyAiSettings
         v-if="showAiSettings"
         :settings="aiSettings.settings.value"
@@ -32,7 +38,8 @@
       <WordAlchemyCodex
         v-if="showCodex"
         :codex="codex.codex.value"
-        :found="codex.found.value"
+        :pot="potType"
+        :found-in="codex.foundIn"
         :total="codex.total"
         :offline="codex.offline.value"
         :discarded="codex.discarded.value"
@@ -48,6 +55,7 @@
   import WordAlchemyAiSettings from './components/WordAlchemyAiSettings.vue'
   import WordAlchemyBrewConfirm from './components/WordAlchemyBrewConfirm.vue'
   import WordAlchemyCodex from './components/WordAlchemyCodex.vue'
+  import WordAlchemyReplaceChoice from './components/WordAlchemyReplaceChoice.vue'
   import WordAlchemyField from './components/WordAlchemyField.vue'
   import WordAlchemyTitle from './components/WordAlchemyTitle.vue'
   import WordAlchemyTopBar from './components/WordAlchemyTopBar.vue'
@@ -57,6 +65,7 @@
     phase,
     potType,
     pending,
+    replaceChoice,
     codex,
     aiSettings,
     aiUsage,
@@ -68,6 +77,7 @@
     start,
     abort,
     confirm,
+    resolveReplace,
     connectComments,
   } = useWordAlchemy()
   const showCodex = ref(false)

@@ -168,7 +168,7 @@ describe('runAlchemy', () => {
 describe('splitWords', () => {
   it('5 文字ずつ・最大 5 個・空白だけなら空', () => {
     expect(splitWords('あいうえおかきく')).toEqual(['あいうえお', 'かきく'])
-    expect(splitWords('あ'.repeat(40))).toHaveLength(5)
+    expect(splitWords('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほ')).toHaveLength(5)
     expect(splitWords('  \n ')).toEqual([])
   })
 })

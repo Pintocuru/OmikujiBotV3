@@ -1,6 +1,6 @@
 // src/console/game/WordAlchemy/composables/useWordAlchemy.ts
 // 言葉の錬金術の進行 (idle ↔ running) と、コメントの受け取り。盤面の進行そのものは render/WordAlchemyStage.ts が持つ
-import { onBeforeUnmount, onMounted, reactive, ref, shallowRef } from 'vue'
+import { onBeforeUnmount, onMounted, reactive, ref, shallowRef, watch } from 'vue'
 import { nanoid } from 'nanoid'
 import { ConnectionError } from '@/manager/services/baseApiClient'
 import { gameStateApi } from '@/manager/services/gameStateApi'
@@ -13,10 +13,12 @@ import type { AiSlotKeyType } from '@/types/api'
 import type { OmikenCommentType } from '@/types/OmikenComment'
 import { createAiClient } from '../ai/aiClient'
 import { runAlchemy } from '../ai/alchemy'
+import type { AlchemyCategory, AlchemyColor } from '../ai/alchemyTypes'
 import { itemList } from '../maps/WordAlchemyItemMap'
 import { wordAlchemyMessages } from '../maps/WordAlchemyMessageMap'
 import { DEFAULT_POT, potMap, type PotKey } from '../maps/WordAlchemyPotMap'
 import type { BrewHandler, BrewMaterial, StageOptions, WordAlchemyStage } from '../render/WordAlchemyStage'
+import type { CodexEntry } from '../scripts/codex'
 import { drawItem } from '../scripts/drawItem'
 import { buildDiscoveryLogs, WORD_ALCHEMY_EVENT_KEY } from '../scripts/discoveryLog'
 import { resolveBrewPot } from '../scripts/potRules'
@@ -27,6 +29,15 @@ import { AUTO_COMMENT_INTERVAL_SECONDS, AUTO_COMMENT_USER_COUNT } from '../scrip
 export type WordAlchemyPhase = 'idle' | 'running'
 export type CommentSource = 'live' | 'auto'
 export type CommentStatus = 'connecting' | 'ready' | 'error'
+/** すでに図鑑にある枠へ、また同じアイテムが出たときの、新旧どちらを残すかの選択待ち */
+export type ReplaceChoice = {
+  pot: PotKey
+  itemId: string
+  category: AlchemyCategory
+  color: AlchemyColor
+  old: CodexEntry
+  next: CodexEntry
+}
 /** 直近の完成品の判定に使ったもの (main / sub: その接続先の AI / mock: キー未設定 / failed: AI が失敗して Mock / limited: 上限超過で Mock) */
 export type AiLast = 'main' | 'sub' | 'mock' | 'failed' | 'limited'
 
@@ -39,10 +50,12 @@ export function useWordAlchemy() {
   const commentSource = ref<CommentSource>('live')
   const commentStatus = ref<CommentStatus>('connecting')
   const stage = shallowRef<WordAlchemyStage | null>(null)
-  /** 鍋の種類 (1 ゲーム 1 鍋。ゲーム中は変えない)。コンフィグができるまでは、タイトルで選ぶ */
+  /** 鍋の種類。タイトルでも、ゲーム中の上部バーでも変えられる (ゲーム中に変えると、鍋の中身は捨てる) */
   const potType = ref<PotKey>(DEFAULT_POT)
   /** 煮込みの確認の答え待ちの材料 (なければ null)。確認の表示に使う */
   const pending = ref<BrewMaterial[] | null>(null)
+  /** 新旧どちらを残すかの選択待ち (なければ null)。選ばずに閉じた・次が出た・ゲームをやめたときは、古いほうが残る */
+  const replaceChoice = ref<ReplaceChoice | null>(null)
 
   const aiSettings = useAiSettings()
   /** 画面に出す、AI の状態 (直近の判定に使ったものと、このウィンドウを開いてからの回数) */
@@ -112,13 +125,32 @@ export function useWordAlchemy() {
       const lost = wordAlchemyMessages.lost
       return { title: lost[Math.floor(Math.random() * lost.length)], kind: 'lost' }
     }
-    const isNew = codex.record({ itemId: item.id, name: result.n, userNames: materials.map((m) => m.userName), pot })
+    const entry: CodexEntry = {
+      name: result.n,
+      materials: materials.map((m) => ({ text: m.text, userName: m.userName })),
+      at: Date.now(),
+    }
+    const existing = codex.entryOf(pot, item.id)
+    const isNew = !existing
+    if (isNew) codex.store(pot, item.id, entry)
     void recordDiscovery({ name: result.n, isNew, users: materials })
     const outcome = isNew ? wordAlchemyMessages.outcome.new : wordAlchemyMessages.outcome.known
     return {
       title: result.n,
       subtitle: brewPot === pot ? outcome : `${outcome} (${wordAlchemyMessages.potReveal(potMap[brewPot].label)})`,
       kind: isNew ? 'new' : 'known',
+      // 既発見のときだけ、完成のカードを出した瞬間に、新旧の選択を出す (結果を先出ししない)
+      onShown: existing
+        ? () =>
+            (replaceChoice.value = {
+              pot,
+              itemId: item.id,
+              category: item.category,
+              color: item.color,
+              old: existing,
+              next: entry,
+            })
+        : undefined,
     }
   }
 
@@ -126,6 +158,16 @@ export function useWordAlchemy() {
     brew,
     onConfirmChange: (materials) => (pending.value = materials),
     potLook: () => potMap[potType.value].look,
+  }
+
+  /** 鍋を変えたら、鍋の中身 (入った材料・押し込み中のことば・煮込みの確認) は捨てる。煮込み中のものは、変更前の鍋の結果として続ける */
+  watch(potType, () => stage.value?.clearPot())
+
+  /** 新旧の選択への答え (新しいほうを選んだときだけ、図鑑の枠を置き換える。閉じたときは古いほうが残る) */
+  const resolveReplace = (useNew: boolean) => {
+    const choice = replaceChoice.value
+    replaceChoice.value = null
+    if (choice && useNew) codex.store(choice.pot, choice.itemId, choice.next)
   }
 
   /** 煮込みの確認への答え (盤面のボタンから。キーの答えは盤面が直接受ける) */
@@ -160,6 +202,7 @@ export function useWordAlchemy() {
   const abort = () => {
     if (phase.value !== 'running') return
     stopAuto()
+    replaceChoice.value = null
     stage.value?.stop()
     phase.value = 'idle'
   }
@@ -207,6 +250,7 @@ export function useWordAlchemy() {
     commentStatus,
     potType,
     pending,
+    replaceChoice,
     codex,
     aiSettings,
     aiUsage,
@@ -216,6 +260,7 @@ export function useWordAlchemy() {
     start,
     abort,
     confirm,
+    resolveReplace,
     connectComments,
   }
 }
