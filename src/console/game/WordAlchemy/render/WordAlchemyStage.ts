@@ -49,8 +49,8 @@ export type BrewOutcome = { title: string; subtitle?: string; kind: 'new' | 'kno
 export type BrewHandler = (materials: BrewMaterial[]) => Promise<BrewOutcome>
 export type StageOptions = {
   brew: BrewHandler
-  /** 鍋が受け付けることばか (受け付けなければ、鍋が投げ飛ばす)。既定は何でも受け付ける */
-  accepts?: (text: string) => boolean
+  /** 煮込みの確認の出し入れ (材料が揃ったら材料を、答えが出たら・ゲームをやめたら null を渡す)。答えは confirm(yes) で返す */
+  onConfirmChange?: (materials: BrewMaterial[] | null) => void
 }
 
 const BOARD_W = GRID_COLS * CELL_PX
@@ -77,8 +77,6 @@ type Word = {
   fallStartedAt: number | null
   /** 縁 (外周) / 鍋へ向かっている途中。動き終わったら消える (マスは占めない) */
   exit: 'out' | 'pot' | null
-  /** 鍋が受け付けなかった (消える代わりに、空いているマスへ投げ飛ばされる) */
-  rejected: boolean
   actor: Actor
 }
 
@@ -110,6 +108,21 @@ const isTyping = (target: EventTarget | null) =>
   target instanceof HTMLElement &&
   (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))
 
+/** 文字を、maxWidth に収まるように折り返す (ctx.font は呼び出し側で設定済み。名前に上限がないため) */
+const wrapText = (ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] => {
+  const lines: string[] = []
+  let line = ''
+  for (const char of Array.from(text)) {
+    if (line !== '' && ctx.measureText(line + char).width > maxWidth) {
+      lines.push(line)
+      line = ''
+    }
+    line += char
+  }
+  lines.push(line)
+  return lines
+}
+
 export class WordAlchemyStage implements EffectHost {
   private readonly engine: Engine
   private readonly heroActor: Actor
@@ -121,6 +134,8 @@ export class WordAlchemyStage implements EffectHost {
   private readonly hero = { col: HERO_START.col, row: HERO_START.row, cooldown: 0 }
   private readonly pot = {
     ingredients: [] as BrewMaterial[],
+    /** 材料が揃って、「この内容で煮込みますか?」の答え待ち */
+    confirming: false,
     brewing: false,
     endsAt: 0,
     result: undefined as BrewOutcome | undefined,
@@ -209,6 +224,19 @@ export class WordAlchemyStage implements EffectHost {
       added = true
     }
     if (added) playSpawn(this)
+  }
+
+  /**
+   * 煮込みの確認への答え。yes なら煮込みを始め、no なら 3 つの材料は消える (消費される)。確認中でなければ何もしない。
+   * 確認の間も、盤面は止まらない (ことばは降り続け、主人公も動ける)
+   */
+  confirm(yes: boolean): void {
+    if (!this.running || !this.pot.confirming) return
+    this.pot.confirming = false
+    this.options.onConfirmChange?.(null)
+    const ingredients = this.pot.ingredients.splice(0)
+    if (yes) this.startBrew(ingredients)
+    else playReject(this, POT_CENTER)
   }
 
   dispose(): void {
@@ -312,6 +340,14 @@ export class WordAlchemyStage implements EffectHost {
   // ---- キー入力 (WASD) ----
 
   private readonly onKeydown = (event: KeyboardEvent) => {
+    // 煮込みの確認: Enter で煮込む / Esc でやめる (盤面のボタンでも答えられる)
+    if (this.running && this.pot.confirming && !isTyping(event.target)) {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter' || event.code === 'Escape') {
+        event.preventDefault()
+        this.confirm(event.code !== 'Escape')
+        return
+      }
+    }
     if (!isMoveKey(event.code) || isTyping(event.target)) return
     if (this.running) event.preventDefault()
     if (!this.held.includes(event.code)) this.held.push(event.code)
@@ -330,7 +366,15 @@ export class WordAlchemyStage implements EffectHost {
   private reset(): void {
     for (const w of this.words) w.actor.kill()
     this.words.length = 0
-    Object.assign(this.pot, { ingredients: [], brewing: false, endsAt: 0, result: undefined, reserved: 0 })
+    if (this.pot.confirming) this.options.onConfirmChange?.(null)
+    Object.assign(this.pot, {
+      ingredients: [],
+      confirming: false,
+      brewing: false,
+      endsAt: 0,
+      result: undefined,
+      reserved: 0,
+    })
     for (const p of this.popups) p.actor.kill()
     this.popups.length = 0
     Object.assign(this.hero, { col: HERO_START.col, row: HERO_START.row, cooldown: 0 })
@@ -377,8 +421,10 @@ export class WordAlchemyStage implements EffectHost {
       c += dx
       r += dy
     }
-    chain.forEach((w, i) => this.moveWord(w, w.col + dx, w.row + dy, i * PUSH_WAVE_DELAY_SECONDS))
     const last = chain[chain.length - 1]
+    // 鍋が閉じている (確認待ち・煮込み中・材料が揃う予定) ときは、鍋へ押しても動かない (鍋は障害物のまま)
+    if (last && inPot(c, r) && !this.canIntake()) return
+    chain.forEach((w, i) => this.moveWord(w, w.col + dx, w.row + dy, i * PUSH_WAVE_DELAY_SECONDS))
     if (last && isRing(c, r)) last.exit = 'out'
     else if (last && inPot(c, r)) this.intake(last)
 
@@ -412,14 +458,8 @@ export class WordAlchemyStage implements EffectHost {
     return free.length ? free[Math.floor(Math.random() * free.length)] : null
   }
 
-  /** from があれば、そのマスから動いてくる (投げ飛ばし)。なければ、盤面の上から落ちてくる */
-  private addWord(
-    userId: string,
-    userName: string,
-    text: string,
-    cell: { col: number; row: number },
-    from?: { col: number; row: number }
-  ): void {
+  /** 盤面の上から落ちてくる */
+  private addWord(userId: string, userName: string, text: string, cell: { col: number; row: number }): void {
     // 上限を超えるときは、古いものから消す
     while (this.words.filter((w) => !w.exit).length >= WORD_MAX) {
       const oldest = this.words.find((w) => !w.exit)
@@ -435,12 +475,11 @@ export class WordAlchemyStage implements EffectHost {
       text,
       col: cell.col,
       row: cell.row,
-      prevCol: from?.col ?? cell.col,
-      prevRow: from?.row ?? cell.row,
+      prevCol: cell.col,
+      prevRow: cell.row,
       movedAt: this.clock,
-      fallStartedAt: from ? null : this.clock,
+      fallStartedAt: this.clock,
       exit: null,
-      rejected: false,
       actor,
     })
   }
@@ -450,23 +489,19 @@ export class WordAlchemyStage implements EffectHost {
     this.words.splice(this.words.indexOf(w), 1)
   }
 
-  /**
-   * 動き終わった (縁へ出た・鍋に入った) ことばを片付ける。
-   * 鍋が受け付けなかったものは、空いているマスへ投げ飛ばす (なければ消える)。受け付けたものは、ここで材料になる
-   */
+  /** 動き終わった (縁へ出た・鍋に入った) ことばを片付ける。鍋に入ったものは、ここで材料になる。材料が揃ったら、煮込みの確認を出す */
   private finishExit(w: Word): void {
     this.removeWord(w)
     if (w.exit === 'out') {
       playWordGone(this, cellCenter(w.col, w.row))
-    } else if (w.rejected) {
-      playReject(this, POT_CENTER)
-      const cell = this.randomFreeCell()
-      if (cell) this.addWord(w.userId, w.userName, w.text, cell, { col: w.col, row: w.row })
-    } else {
-      this.pot.reserved--
-      this.pot.ingredients.push({ text: w.text, userId: w.userId, userName: w.userName })
-      playIntake(this, { top: POT_TOP, center: POT_CENTER }, this.pot.ingredients.length)
-      if (this.pot.ingredients.length >= POT_INGREDIENTS) this.startBrew()
+      return
+    }
+    this.pot.reserved--
+    this.pot.ingredients.push({ text: w.text, userId: w.userId, userName: w.userName })
+    playIntake(this, { top: POT_TOP, center: POT_CENTER }, this.pot.ingredients.length)
+    if (this.pot.ingredients.length >= POT_INGREDIENTS) {
+      this.pot.confirming = true
+      this.options.onConfirmChange?.([...this.pot.ingredients])
     }
   }
 
@@ -512,17 +547,20 @@ export class WordAlchemyStage implements EffectHost {
 
   // ---- 鍋 ----
 
-  /** 鍋に押し込まれたことば。煮込み中・受け付けないことばは、材料にならず、あとで投げ飛ばす */
-  private intake(w: Word): void {
-    w.exit = 'pot'
-    // 煮込み中・材料が揃う予定のとき (動いている途中のものを含む) は、受け付けない
-    const full = this.pot.brewing || this.pot.ingredients.length + this.pot.reserved >= POT_INGREDIENTS
-    w.rejected = full || !(this.options.accepts?.(w.text) ?? true)
-    if (!w.rejected) this.pot.reserved++
+  /** 鍋が、ことばを受け付けられるか。確認待ち・煮込み中・材料が揃う予定 (動いている途中のものを含む) のときは、受け付けない */
+  private canIntake(): boolean {
+    return (
+      !this.pot.confirming && !this.pot.brewing && this.pot.ingredients.length + this.pot.reserved < POT_INGREDIENTS
+    )
   }
 
-  private startBrew(): void {
-    const ingredients = this.pot.ingredients.splice(0)
+  /** 鍋に押し込まれたことば (canIntake を確かめたあと)。動き終わったら、材料になる */
+  private intake(w: Word): void {
+    w.exit = 'pot'
+    this.pot.reserved++
+  }
+
+  private startBrew(ingredients: BrewMaterial[]): void {
     const run = this.runId
     playBrewStart(this, { top: POT_TOP, center: POT_CENTER })
     this.lastSteamAt = this.clock
@@ -548,20 +586,22 @@ export class WordAlchemyStage implements EffectHost {
     this.showResult(pot.result, POT_TOP.x, POT_TOP.y)
   }
 
-  /** 鍋の上に、結果のカード (名前と、新種・既発見の表示) を出して、しばらくして消す */
+  /** 鍋の上に、結果のカード (名前と、新種・既発見の表示) を出して、しばらくして消す。名前が長いときは、折り返す */
   private showResult(outcome: BrewOutcome, x: number, y: number): void {
     const probe = (this.probe ??= document.createElement('canvas').getContext('2d')!)
     const titleFont = 'bold 28px sans-serif'
     const subFont = 'bold 16px sans-serif'
+    const lineHeight = 34
     probe.font = titleFont
-    const titleWidth = probe.measureText(outcome.title).width
+    const lines = wrapText(probe, outcome.title, BOARD_W - 64)
+    const titleWidth = Math.max(...lines.map((line) => probe.measureText(line).width))
     probe.font = subFont
     const subWidth = outcome.subtitle ? probe.measureText(outcome.subtitle).width : 0
     const width = Math.min(BOARD_W, Math.ceil(Math.max(titleWidth, subWidth)) + 32)
-    const height = outcome.subtitle ? 76 : 48
+    const height = 14 + lines.length * lineHeight + (outcome.subtitle ? 28 : 0)
     const accent = RESULT_ACCENT[outcome.kind]
     const actor = new Actor({
-      pos: vec(clamp(x, width / 2, BOARD_W - width / 2), y - (height - 48) / 2),
+      pos: vec(clamp(x, width / 2, BOARD_W - width / 2), Math.max(height / 2, y - (height - 48) / 2)),
       width,
       height,
       z: 1700,
@@ -583,7 +623,7 @@ export class WordAlchemyStage implements EffectHost {
           ctx.textBaseline = 'middle'
           ctx.fillStyle = '#ffffff'
           ctx.font = titleFont
-          ctx.fillText(outcome.title, width / 2, outcome.subtitle ? 28 : height / 2, width - 24)
+          lines.forEach((line, i) => ctx.fillText(line, width / 2, 24 + i * lineHeight, width - 24))
           if (outcome.subtitle) {
             ctx.fillStyle = accent
             ctx.font = subFont

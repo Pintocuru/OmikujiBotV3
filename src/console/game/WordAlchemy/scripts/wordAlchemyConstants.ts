@@ -11,7 +11,7 @@ export const CELL_PX = 64
 export const POT_SIZE = 2
 export const POT_COL = GRID_COLS / 2 - 1
 export const POT_ROW = GRID_ROWS / 2 - 1
-/** 煮込みが始まる材料の数 */
+/** 煮込みの確認が出る材料の数 (材料がこの数になったら、「この内容で煮込みますか?」を出す) */
 export const POT_INGREDIENTS = 3
 /** 煮込みの最短時間 (秒)。結果が先に届いても、この時間は待つ */
 export const BREW_SECONDS = 5
@@ -43,9 +43,7 @@ export const AUTO_COMMENT_INTERVAL_SECONDS = 5
 export const AUTO_COMMENT_USER_COUNT = 50
 
 // ---- 完成品の判定 ----
-/** 完成品の名前の長さの上限 (文字数) */
-export const NAME_MAX_LENGTH = 12
-/** 名前に、材料になくても使ってよい記号 (許可リスト。材料の文字数には数えない) */
-export const NAME_FREE_CHARS = '・'
+/** 圧力鍋の名前の長さ (文字数)。指示文で伝えるだけで、超えても検証では弾かない。ほかの鍋に上限はない */
+export const PRESSURE_POT_NAME_LENGTH = 6
 /** AI の出力の検証に失敗したときの、やり直しの上限 (それでも失敗したら Mock にフォールバック) */
 export const ALCHEMY_MAX_RETRIES = 2

@@ -1,12 +1,12 @@
 // src/console/game/WordAlchemy/ai/alchemy.test.ts
 import { describe, expect, it } from 'vitest'
-import { POT_KEYS } from '../maps/WordAlchemyPotMap'
-import { acceptsWord } from '../scripts/potRules'
+import { POT_KEYS, potMap } from '../maps/WordAlchemyPotMap'
+import { resolveBrewPot } from '../scripts/potRules'
 import { splitWords } from '../scripts/words'
 import { AlchemyRateLimitError, runAlchemy } from './alchemy'
 import { buildPrompt } from './buildPrompt'
 import { mockAlchemy } from './mockAlchemy'
-import { isWithinMaterials, validateResult } from './validateResult'
+import { validateResult } from './validateResult'
 
 const M = ['カレーは辛', 'の空気清浄', 'せすぴん']
 const json = (n: string, c = 'A', k = '赤') => JSON.stringify({ c, k, n })
@@ -16,67 +16,45 @@ const seq = (...values: number[]) => {
   return () => values[i++ % values.length]
 }
 
-describe('acceptsWord', () => {
-  it('水炊き・圧力は、数字だけ・記号だけを投げる', () => {
-    for (const pot of ['mizutaki', 'pressure'] as const) {
-      expect(acceptsWord(pot, '12345')).toBe(false)
-      expect(acceptsWord(pot, '!?!?!')).toBe(false)
-      expect(acceptsWord(pot, '😀😀')).toBe(false)
-      expect(acceptsWord(pot, 'wwwww')).toBe(true)
-      expect(acceptsWord(pot, 'abc12')).toBe(true)
-    }
+describe('resolveBrewPot', () => {
+  it('闇鍋以外は、そのまま', () => {
+    for (const pot of POT_KEYS.filter((key) => !potMap[key].random)) expect(resolveBrewPot(pot, () => 0.5)).toBe(pot)
   })
-  it('闇鍋は何でも、カナ鍋は記号だけを投げる', () => {
-    expect(acceptsWord('yami', '!?!?!')).toBe(true)
-    expect(acceptsWord('kana', '12345')).toBe(true)
-    expect(acceptsWord('kana', '!?!?!')).toBe(false)
+  it('闇鍋は、闇鍋自身を除く全ての鍋から引く', () => {
+    const others = POT_KEYS.filter((key) => !potMap[key].random)
+    expect(resolveBrewPot('yami', () => 0)).toBe(others[0])
+    expect(resolveBrewPot('yami', () => 0.999999)).toBe(others[others.length - 1])
+    for (let i = 0; i < 100; i++) expect(resolveBrewPot('yami')).not.toBe('yami')
   })
-})
-
-describe('isWithinMaterials', () => {
-  it('材料の文字を並べ替え・結合・省略できる。材料にない文字・多すぎる回数は不可', () => {
-    expect(isWithinMaterials('ぴんせす', ['せすぴん'], 'mizutaki')).toBe(true)
-    expect(isWithinMaterials('せす', ['せすぴん'], 'mizutaki')).toBe(true)
-    expect(isWithinMaterials('せせ', ['せすぴん'], 'mizutaki')).toBe(false)
-    expect(isWithinMaterials('せか', ['せすぴん'], 'pressure')).toBe(false)
-    expect(isWithinMaterials('ぴんせすん', ['せすぴん'], 'mizutaki')).toBe(false)
-  })
-  it('かな変換・清濁変換は、許可した鍋だけ', () => {
-    expect(isWithinMaterials('セスピン', ['せすぴん'], 'kana')).toBe(true)
-    expect(isWithinMaterials('セズピン', ['せすぴん'], 'kana')).toBe(false) // 濁点の追加は、かな変換では不可
-    expect(isWithinMaterials('セスピン', ['せすぴん'], 'yami')).toBe(false)
-    expect(isWithinMaterials('せずびん', ['せすぴん'], 'yami')).toBe(true)
-    expect(isWithinMaterials('せずびん', ['せすぴん'], 'mizutaki')).toBe(false)
-  })
-  it('「・」は材料になくても使える', () => {
-    expect(isWithinMaterials('せす・ぴん', ['せすぴん'], 'mizutaki')).toBe(true)
-  })
-  it('NFC に正規化して比べる', () => {
-    expect(isWithinMaterials('が', ['\u304b\u3099'], 'mizutaki')).toBe(true)
+  it('鍋は 8 種で、闇鍋以外は指示文を持つ (圧力鍋だけ名前の長さを指示する)', () => {
+    expect(POT_KEYS).toHaveLength(8)
+    for (const key of POT_KEYS.filter((k) => !potMap[k].random)) expect(potMap[key].instruction).not.toBe('')
+    expect(potMap.pressure.instruction).toContain('6文字以内')
+    expect(potMap.mizutaki.instruction).not.toMatch(/文字以内/)
   })
 })
 
 describe('validateResult', () => {
   it('コードフェンス・前後の文があっても読める', () => {
-    const fenced = '```json\n' + json('ぴんせすん'.slice(0, 4)) + '\n```'
-    expect(validateResult(fenced, ['せすぴん'], 'mizutaki').ok).toBe(true)
-    expect(validateResult('どうぞ: ' + json('ぴんせす') + ' 以上', ['せすぴん'], 'mizutaki').ok).toBe(true)
+    const fenced = '```json\n' + json('ぴんせす') + '\n```'
+    expect(validateResult(fenced).ok).toBe(true)
+    expect(validateResult('どうぞ: ' + json('ぴんせす') + ' 以上').ok).toBe(true)
   })
-  it('JSON でない・分類が不正・名前がない/空/長すぎる・範囲外は失敗', () => {
-    expect(validateResult('できました', M, 'pressure').ok).toBe(false)
-    expect(validateResult(json('せす', 'E'), M, 'pressure').ok).toBe(false)
-    expect(validateResult('{"c":"A","k":"赤"}', M, 'pressure').ok).toBe(false)
-    expect(validateResult(json(''), M, 'pressure').ok).toBe(false)
-    expect(validateResult(json('せ'.repeat(13)), ['せ'.repeat(15)], 'pressure').ok).toBe(false)
-    expect(validateResult(json('ねこ'), M, 'pressure').ok).toBe(false)
+  it('JSON でない・分類が不正・名前がない/空は失敗', () => {
+    expect(validateResult('できました').ok).toBe(false)
+    expect(validateResult(json('せす', 'E')).ok).toBe(false)
+    expect(validateResult('{"c":"A","k":"赤"}').ok).toBe(false)
+    expect(validateResult(json('')).ok).toBe(false)
   })
-  it('どの鍋でも、名前は 12 文字以内', () => {
-    const materials = ['あいうえお', 'かきくけこ', 'さしすせそ']
-    expect(validateResult(json('あいうえおかきくけこさし'), materials, 'mizutaki').ok).toBe(true)
-    expect(validateResult(json('あいうえおかきくけこさしす'), materials, 'mizutaki').ok).toBe(false)
+  it('名前の文字・長さは検証しない (材料にない文字も、長い名前もそのまま通る)', () => {
+    expect(validateResult(json('ねこ')).result).toMatchObject({ n: 'ねこ' })
+    const long = 'あ'.repeat(40)
+    expect(validateResult(json(long)).result).toMatchObject({ n: long })
+    // 圧力鍋の 6 文字も、指示文で伝えるだけ。超えても通る
+    expect(validateResult(json('あいうえおかき')).ok).toBe(true)
   })
   it('パレット外の色は、ランダムで置き換える', () => {
-    const checked = validateResult(json('せす', 'B', '虹'), ['せすぴん'], 'pressure', seq(0))
+    const checked = validateResult(json('せす', 'B', '虹'), seq(0))
     expect(checked).toEqual({ ok: true, result: { c: 'B', k: '赤', n: 'せす' } })
   })
 })
@@ -84,9 +62,17 @@ describe('validateResult', () => {
 describe('buildPrompt', () => {
   it('材料は JSON 配列で、コメントの引用符やカンマで壊れない', () => {
     const prompt = buildPrompt(['a,"b"', 'c', 'd'], 'pressure')
-    expect(prompt).toContain('材料: ["a,\\"b\\"","c","d"]')
-    expect(prompt).toContain('圧力鍋')
-    expect(prompt).toContain('12 文字以内')
+    expect(prompt).toContain('材料:["a,\\"b\\"","c","d"]')
+    expect(prompt).toContain('6文字以内')
+    expect(prompt).toContain('出力JSONのみ:{"n":"名前","c":"A|B|C|D","k":"色"}')
+  })
+  it('鍋の表示名は送らず、指示文だけを送る。名前の長さの共通の行もない', () => {
+    for (const key of POT_KEYS.filter((k) => !potMap[k].random)) {
+      const prompt = buildPrompt(M, key)
+      expect(prompt).not.toContain(potMap[key].label)
+      expect(prompt).toContain(potMap[key].instruction)
+    }
+    expect(buildPrompt(M, 'chuka')).not.toContain('12')
   })
 })
 
@@ -102,11 +88,17 @@ describe('mockAlchemy', () => {
       for (const materials of materialSets) {
         for (let i = 0; i < 50; i++) {
           const result = mockAlchemy(materials, pot)
-          expect(validateResult(JSON.stringify(result), materials, pot).ok, `${pot} ${materials} ${result.n}`).toBe(
-            true
-          )
+          expect(result.n, `${pot} ${materials}`).not.toBe('')
+          expect(validateResult(JSON.stringify(result)).ok, `${pot} ${materials} ${result.n}`).toBe(true)
         }
       }
+    }
+  })
+  it('圧力鍋だけ短く (最大 6 文字)、ほかの鍋は材料の半分以上', () => {
+    const materials = ['あいうえお', 'かきくけこ', 'さしすせそ']
+    for (let i = 0; i < 50; i++) {
+      expect(Array.from(mockAlchemy(materials, 'pressure').n).length).toBeLessThanOrEqual(6)
+      expect(Array.from(mockAlchemy(materials, 'mizutaki').n).length).toBeGreaterThanOrEqual(8)
     }
   })
 })
@@ -122,6 +114,18 @@ describe('runAlchemy', () => {
     const outcome = await runAlchemy(['せすぴん'], 'pressure', client)
     expect(outcome.source).toBe('ai')
     expect(calls).toBe(3)
+  })
+  it('やり直しでも、同じプロンプト (同じ鍋の指示) を使う', async () => {
+    const prompts: string[] = []
+    const client = {
+      complete: async (prompt: string) => {
+        prompts.push(prompt)
+        return '壊れた'
+      },
+    }
+    await runAlchemy(M, 'witch', client)
+    expect(prompts).toHaveLength(3)
+    expect(new Set(prompts).size).toBe(1)
   })
   it('3 回とも失敗したら Mock', async () => {
     let calls = 0

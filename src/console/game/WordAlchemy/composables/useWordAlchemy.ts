@@ -14,11 +14,11 @@ import { createAiClient } from '../ai/aiClient'
 import { runAlchemy } from '../ai/alchemy'
 import { itemList } from '../maps/WordAlchemyItemMap'
 import { wordAlchemyMessages } from '../maps/WordAlchemyMessageMap'
-import { DEFAULT_POT, type PotKey } from '../maps/WordAlchemyPotMap'
-import type { BrewHandler, StageOptions, WordAlchemyStage } from '../render/WordAlchemyStage'
+import { DEFAULT_POT, potMap, type PotKey } from '../maps/WordAlchemyPotMap'
+import type { BrewHandler, BrewMaterial, StageOptions, WordAlchemyStage } from '../render/WordAlchemyStage'
 import { drawItem } from '../scripts/drawItem'
 import { buildDiscoveryLogs, WORD_ALCHEMY_EVENT_KEY } from '../scripts/discoveryLog'
-import { acceptsWord } from '../scripts/potRules'
+import { resolveBrewPot } from '../scripts/potRules'
 import { useAiSettings } from './useAiSettings'
 import { useCodex } from './useCodex'
 import { AUTO_COMMENT_INTERVAL_SECONDS, AUTO_COMMENT_USER_COUNT } from '../scripts/wordAlchemyConstants'
@@ -40,6 +40,8 @@ export function useWordAlchemy() {
   const stage = shallowRef<WordAlchemyStage | null>(null)
   /** 鍋の種類 (1 ゲーム 1 鍋。ゲーム中は変えない)。コンフィグができるまでは、タイトルで選ぶ */
   const potType = ref<PotKey>(DEFAULT_POT)
+  /** 煮込みの確認の答え待ちの材料 (なければ null)。確認の表示に使う */
+  const pending = ref<BrewMaterial[] | null>(null)
 
   const aiSettings = useAiSettings()
   /** 画面に出す、AI の状態 (直近の判定に使ったものと、このウィンドウを開いてからの回数) */
@@ -82,14 +84,18 @@ export function useWordAlchemy() {
     }
   }
 
-  /** 煮込み: 完成品の判定 (名前・分類・色) → アイテムの抽選 → 図鑑に記録。抽選できなければ、アイテムは生成せずメッセージだけ出す */
+  /**
+   * 煮込み: 完成品の判定 (名前・分類・色) → アイテムの抽選 → 図鑑に記録。抽選できなければ、アイテムは生成せずメッセージだけ出す。
+   * 闇鍋は、煮込みごとに 1 回、ほかの鍋から指示を引く (煮込み中は伏せて、完成のカードで明かす)
+   */
   const brew: BrewHandler = async (materials) => {
     const pot = potType.value
+    const brewPot = resolveBrewPot(pot)
     let usedSlot: AiSlotKeyType = 'main'
     const client = aiSettings.configured.value ? createAiClient((slot) => (usedSlot = slot)) : null
     const { result, source, rateLimited } = await runAlchemy(
       materials.map((m) => m.text),
-      pot,
+      brewPot,
       client
     )
     if (source === 'ai') {
@@ -106,14 +112,18 @@ export function useWordAlchemy() {
     }
     const isNew = codex.record({ itemId: item.id, name: result.n, userNames: materials.map((m) => m.userName), pot })
     void recordDiscovery({ name: result.n, isNew, users: materials })
+    const outcome = isNew ? wordAlchemyMessages.outcome.new : wordAlchemyMessages.outcome.known
     return {
       title: result.n,
-      subtitle: isNew ? wordAlchemyMessages.outcome.new : wordAlchemyMessages.outcome.known,
+      subtitle: brewPot === pot ? outcome : `${outcome} (${wordAlchemyMessages.potReveal(potMap[brewPot].label)})`,
       kind: isNew ? 'new' : 'known',
     }
   }
 
-  const stageOptions: StageOptions = { brew, accepts: (text) => acceptsWord(potType.value, text) }
+  const stageOptions: StageOptions = { brew, onConfirmChange: (materials) => (pending.value = materials) }
+
+  /** 煮込みの確認への答え (盤面のボタンから。キーの答えは盤面が直接受ける) */
+  const confirm = (yes: boolean) => stage.value?.confirm(yes)
 
   let autoPool: MockUserPool | null = null
   let autoTimer = 0
@@ -190,6 +200,7 @@ export function useWordAlchemy() {
     commentSource,
     commentStatus,
     potType,
+    pending,
     codex,
     aiSettings,
     aiUsage,
@@ -198,6 +209,7 @@ export function useWordAlchemy() {
     setStage: (value: WordAlchemyStage) => (stage.value = value),
     start,
     abort,
+    confirm,
     connectComments,
   }
 }

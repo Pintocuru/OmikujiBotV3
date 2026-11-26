@@ -21,7 +21,10 @@ export type AlchemyOutcome = {
   rateLimited: boolean
 }
 
-/** client が null (キー未設定) のときは、Mock だけで進む。通信の失敗は、やり直さず Mock にする */
+/**
+ * pot は、煮込みに使う鍋 (闇鍋は、呼び出し側で resolveBrewPot を通した鍋。やり直しでも同じ鍋の指示を使う)。
+ * client が null (キー未設定) のときは、Mock だけで進む。通信の失敗は、やり直さず Mock にする
+ */
 export const runAlchemy = async (
   materials: readonly string[],
   pot: PotKey,
@@ -37,7 +40,7 @@ export const runAlchemy = async (
   const prompt = buildPrompt(materials, pot)
   for (let attempt = 0; attempt <= ALCHEMY_MAX_RETRIES; attempt++) {
     try {
-      const checked = validateResult(await client.complete(prompt), materials, pot, rng)
+      const checked = validateResult(await client.complete(prompt), rng)
       if (checked.ok) return { result: checked.result, source: 'ai', rateLimited: false }
     } catch (error) {
       return fallback(error instanceof AlchemyRateLimitError)

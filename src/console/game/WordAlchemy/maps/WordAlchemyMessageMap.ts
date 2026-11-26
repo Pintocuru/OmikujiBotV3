@@ -54,6 +54,10 @@ export const wordAlchemyMessages = {
   recordFailed: 'ゲームログを保存できません',
   category: { A: '生物', B: '食物', C: '道具', D: 'ガラクタ' },
   outcome: { new: '新種発見！', known: '既発見' },
+  /** 闇鍋が引いた鍋を、完成のときに明かす (煮込み中は伏せる) */
+  potReveal: (label: string) => `${label}だった`,
+  /** 材料が揃ったときの、煮込みの確認 (どの鍋でも同じ文言) */
+  confirm: { question: 'この内容で煮込みますか?', yes: '煮込む', no: 'やめる', yesKey: 'Enter', noKey: 'Esc' },
   /** 分類と色に合うアイテムがなく、抽選できなかったときに、ランダムで 1 つ出す */
   lost: [
     '魔法のように消えてしまった！',

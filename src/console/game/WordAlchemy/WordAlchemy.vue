@@ -20,6 +20,7 @@
     <main class="relative min-h-0 grow">
       <WordAlchemyField :options="stageOptions" @ready="setStage" />
       <WordAlchemyTitle v-if="phase === 'idle'" v-model:pot-type="potType" @start="start" />
+      <WordAlchemyBrewConfirm v-if="pending" :materials="pending" @answer="confirm" />
       <WordAlchemyAiSettings
         v-if="showAiSettings"
         :settings="aiSettings.settings.value"
@@ -45,6 +46,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import WordAlchemyAiSettings from './components/WordAlchemyAiSettings.vue'
+  import WordAlchemyBrewConfirm from './components/WordAlchemyBrewConfirm.vue'
   import WordAlchemyCodex from './components/WordAlchemyCodex.vue'
   import WordAlchemyField from './components/WordAlchemyField.vue'
   import WordAlchemyTitle from './components/WordAlchemyTitle.vue'
@@ -54,6 +56,7 @@
   const {
     phase,
     potType,
+    pending,
     codex,
     aiSettings,
     aiUsage,
@@ -64,6 +67,7 @@
     setStage,
     start,
     abort,
+    confirm,
     connectComments,
   } = useWordAlchemy()
   const showCodex = ref(false)
