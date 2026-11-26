@@ -18,7 +18,7 @@ Generatorから呼び出されるゲームスクリプト群です。おみく�
 
 ## 実行の流れ
 
-`src/registerRuntime.ts` などの登録処理で、利用可能なスクリプトの動的ローダーをRegistryに登録します。Generator側の `GameScriptManager` はスクリプトIDからローダーを取得し、初回に読み込んだインスタンスをキャッシュします。
+`src/register/registerGameScripts.ts` の `registerAllGameScripts()` が、利用可能なスクリプトの動的ローダーを `gameScriptRegistry` に登録します。この登録処理は `src/register/registerAll.ts` から呼び出されます。`GameScriptManager` はスクリプトIDからローダーを取得し、初回に読み込んだインスタンスをキャッシュします。
 
 スクリプトは `run` を実装し、`ScriptResult` としてステップ列とランキングメッセージを返します。任意でサンプル実行やゲーム状態取得にも対応します。
 
