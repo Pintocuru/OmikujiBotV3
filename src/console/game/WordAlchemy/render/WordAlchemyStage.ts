@@ -1,6 +1,6 @@
 // src/console/game/WordAlchemy/render/WordAlchemyStage.ts
-// 盤面。Excalibur のアクターがそのままゲームの状態になる (進行・描画・演出を、ここ 1 か所で持つ)。
-// 外とのやりとりは、start / stop / spawn と、材料から名前を作る brew (非同期) だけ。
+// 盤面。Excalibur のアクターがそのままゲームの状態になる (進行と、外とのやりとりを、ここ 1 か所で持つ)。
+// 外との契約 (型)・寸法と座標の補助・演出の層 (浮かぶ文字・完成のカード) は、stage/ に分離した。
 // 非表示の間は rAF が止まり、再表示の最初のフレームも Excalibur が丸める (200ms 超は 1ms) ので、ゲームも止まる
 import { Actor, Canvas, Color, DisplayMode, EmitterType, Engine, ParticleEmitter, vec } from 'excalibur'
 import { isMoveKey, resolveInput } from '../../common/heroInput'
@@ -20,11 +20,12 @@ import {
   POT_ROW,
   POT_SIZE,
   PUSH_WAVE_DELAY_SECONDS,
-  RESULT_SHOW_SECONDS,
+  STEAM_INTERVAL,
   WORD_MAX,
 } from '../scripts/wordAlchemyConstants'
 import { splitWords } from '../scripts/words'
 import { BOARD_BACKGROUND, drawBoard, drawHero, drawPot, drawWord } from './draw'
+import { loadTileSheet } from './boardTiles'
 import {
   playBrewDone,
   playBrewStart,
@@ -38,94 +39,30 @@ import {
   type EffectHost,
   type PopupOptions,
 } from './effectPresets'
-import { loadTileSheet } from './boardTiles'
 import type { SoundKey } from './stageSounds'
 import { WordAlchemyAudio } from './WordAlchemyAudio'
+import {
+  BOARD_H,
+  BOARD_W,
+  POT_CENTER,
+  POT_TOP,
+  cellCenter,
+  clamp,
+  hslToRgb,
+  inGrid,
+  inPot,
+  isRing,
+  isTyping,
+  lerp,
+} from './stage/stageGeometry'
+import type { BrewHandler, BrewMaterial, BrewOutcome, StageOptions, Word, WordSpawnRequest } from './stage/stageTypes'
+import { PopupLayer } from './stage/popupLayer'
+import { showResultCard } from './stage/resultCard'
 
-export type WordSpawnRequest = { userId: string; userName: string; comment: string }
-/** 鍋に入れた材料 (ことばと、それを出した視聴者名) */
-export type BrewMaterial = { text: string; userId: string; userName: string }
-/** 煮込みの結果。鍋の上に出すカード (new: 新種 / known: 既発見 / lost: 抽選エラー) */
-export type BrewOutcome = { title: string; subtitle?: string; kind: 'new' | 'known' | 'lost' }
-/** 材料から完成品を決める (非同期。reject しない前提。万一 reject したら、抽選エラーと同じ扱い) */
-export type BrewHandler = (materials: BrewMaterial[]) => Promise<BrewOutcome>
-export type StageOptions = {
-  brew: BrewHandler
-  /** 鍋の見た目 (毎フレーム読む。鍋の種類は、ゲームごとに変わる)。なければ、既定の色 */
-  potLook?: () => PotLook
-  /** 煮込みの確認の出し入れ (材料が揃ったら材料を、答えが出たら・ゲームをやめたら null を渡す)。答えは confirm(yes) で返す */
-  onConfirmChange?: (materials: BrewMaterial[] | null) => void
-}
+export type { BrewHandler, BrewMaterial, BrewOutcome, StageOptions, WordSpawnRequest } from './stage/stageTypes'
 
-const BOARD_W = GRID_COLS * CELL_PX
-/** 結果のカードの縁の色 (新種は金、既発見は灰、抽選エラーは紫) */
-const RESULT_ACCENT: Readonly<Record<BrewOutcome['kind'], string>> = {
-  new: '#ffd34d',
-  known: '#9aa4b2',
-  lost: '#b07cff',
-}
-const BOARD_H = GRID_ROWS * CELL_PX
-
-/** 盤面の「ことば」1 つ。位置はマス単位 (動き出す時刻までは、直前のマスにいるように見せる) */
-type Word = {
-  userId: string
-  userName: string
-  text: string
-  col: number
-  row: number
-  prevCol: number
-  prevRow: number
-  /** 動き出す時刻 (clock の秒。連鎖のウェーブでは未来) */
-  movedAt: number
-  /** 落下の開始時刻。null なら落下は終わっている */
-  fallStartedAt: number | null
-  /** 縁 (外周) / 鍋へ向かっている途中。動き終わったら消える (マスは占めない) */
-  exit: 'out' | 'pot' | null
-  actor: Actor
-}
-
-/** 浮かぶ文字の同時数の上限 (一度に続いても、画面が文字だらけにならないように) */
-const POPUP_MAX = 20
 /** 煮込み中の湯気を出す間隔 (秒) */
 const STEAM_INTERVAL_SECONDS = 0.3
-const POT_CENTER = { x: (POT_COL + POT_SIZE / 2) * CELL_PX, y: (POT_ROW + POT_SIZE / 2) * CELL_PX }
-const POT_TOP = { x: POT_CENTER.x, y: POT_ROW * CELL_PX - 4 }
-const cellCenter = (col: number, row: number) => ({ x: (col + 0.5) * CELL_PX, y: (row + 0.5) * CELL_PX })
-
-const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v))
-/** 色相 0〜360・彩度・明るさ 0〜100 → RGB (0〜255) */
-const hslToRgb = (h: number, s: number, l: number): [number, number, number] => {
-  const sat = s / 100
-  const light = l / 100
-  const k = (n: number) => (n + h / 30) % 12
-  const a = sat * Math.min(light, 1 - light)
-  const f = (n: number) => Math.round(255 * (light - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)))))
-  return [f(0), f(8), f(4)]
-}
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-const inGrid = (col: number, row: number) => col >= 0 && row >= 0 && col < GRID_COLS && row < GRID_ROWS
-/** 外周の 1 マス (縁)。主人公の通り道で、ことばは入れない (押し込まれたことばは、ここで消える) */
-const isRing = (col: number, row: number) => col === 0 || row === 0 || col === GRID_COLS - 1 || row === GRID_ROWS - 1
-const inPot = (col: number, row: number) =>
-  col >= POT_COL && col < POT_COL + POT_SIZE && row >= POT_ROW && row < POT_ROW + POT_SIZE
-const isTyping = (target: EventTarget | null) =>
-  target instanceof HTMLElement &&
-  (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))
-
-/** 文字を、maxWidth に収まるように折り返す (ctx.font は呼び出し側で設定済み。名前に上限がないため) */
-const wrapText = (ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] => {
-  const lines: string[] = []
-  let line = ''
-  for (const char of Array.from(text)) {
-    if (line !== '' && ctx.measureText(line + char).width > maxWidth) {
-      lines.push(line)
-      line = ''
-    }
-    line += char
-  }
-  lines.push(line)
-  return lines
-}
 
 export class WordAlchemyStage implements EffectHost {
   private readonly engine: Engine
@@ -133,7 +70,7 @@ export class WordAlchemyStage implements EffectHost {
   private readonly audio = new WordAlchemyAudio()
   /** 盤面の素材 (読み込めるまでは null) */
   private tileSheet: HTMLImageElement | null = null
-  private readonly popups: { actor: Actor; options: PopupOptions; age: number; baseY: number }[] = []
+  private readonly popups = new PopupLayer()
   private lastSteamAt = 0
   private readonly words: Word[] = []
   private readonly held: string[] = []
@@ -154,7 +91,6 @@ export class WordAlchemyStage implements EffectHost {
   private running = false
   /** やめた・始め直したあとに、前のゲームの煮込みの結果が届いても無視するための番号 */
   private runId = 0
-  private probe: CanvasRenderingContext2D | null = null
   private disposed = false
 
   constructor(
@@ -264,7 +200,7 @@ export class WordAlchemyStage implements EffectHost {
     window.removeEventListener('blur', this.clearKeys)
     this.engine.stop()
     this.engine.dispose()
-    this.popups.length = 0
+    this.popups.clear()
   }
 
   // ---- EffectHost (演出の実体。何を出すかは effectPresets.ts が決める) ----
@@ -304,54 +240,7 @@ export class WordAlchemyStage implements EffectHost {
   }
 
   popup(o: PopupOptions): void {
-    const probe = (this.probe ??= document.createElement('canvas').getContext('2d')!)
-    const font = `bold ${o.size}px sans-serif`
-    probe.font = font
-    const width = Math.ceil(probe.measureText(o.text).width) + 24
-    const height = o.size + 18
-    const x = clamp(o.x, width / 2, Math.max(width / 2, BOARD_W - width / 2))
-    const y = clamp(o.y, height / 2, BOARD_H)
-    const actor = new Actor({ pos: vec(x, y), width, height, z: 1600 })
-    actor.graphics.use(
-      new Canvas({
-        width,
-        height,
-        cache: true,
-        draw: (ctx) => {
-          ctx.font = font
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.lineJoin = 'round'
-          ctx.lineWidth = Math.max(4, o.size / 6)
-          ctx.strokeStyle = 'rgba(20,20,30,0.85)'
-          ctx.strokeText(o.text, width / 2, height / 2)
-          ctx.fillStyle = o.color
-          ctx.fillText(o.text, width / 2, height / 2)
-        },
-      })
-    )
-    this.engine.add(actor)
-    this.popups.push({ actor, options: o, age: 0, baseY: y })
-    while (this.popups.length > POPUP_MAX) this.popups.shift()!.actor.kill()
-  }
-
-  /** 浮かぶ文字を進める: 出たら少し弾んで、上へ浮かびながら、最後に薄くなって消える */
-  private syncPopups(dt: number): void {
-    for (let i = this.popups.length - 1; i >= 0; i--) {
-      const p = this.popups[i]
-      p.age += dt * 1000
-      const t = p.age / p.options.lifeMs
-      if (t >= 1) {
-        p.actor.kill()
-        this.popups.splice(i, 1)
-        continue
-      }
-      const eased = 1 - (1 - t) * (1 - t)
-      const pop = 1 + 0.35 * Math.max(0, 1 - t * 8)
-      p.actor.pos = vec(p.actor.pos.x, p.baseY - p.options.rise * eased)
-      p.actor.scale = vec(pop, pop)
-      p.actor.graphics.opacity = t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3
-    }
+    this.popups.add(this.engine, o)
   }
 
   // ---- キー入力 (WASD) ----
@@ -392,8 +281,7 @@ export class WordAlchemyStage implements EffectHost {
       result: undefined,
       reserved: 0,
     })
-    for (const p of this.popups) p.actor.kill()
-    this.popups.length = 0
+    this.popups.clear()
     Object.assign(this.hero, { col: HERO_START.col, row: HERO_START.row, cooldown: 0 })
     this.heroX = NaN
     this.held.length = 0
@@ -407,7 +295,7 @@ export class WordAlchemyStage implements EffectHost {
       this.stepHero(dt)
       this.stepPot()
     }
-    this.syncPopups(dt)
+    this.popups.sync(dt)
     this.syncWords()
     this.syncHero(dt)
   }
@@ -600,59 +488,6 @@ export class WordAlchemyStage implements EffectHost {
     if (!pot.brewing || pot.result === undefined || this.clock < pot.endsAt) return
     pot.brewing = false
     playBrewDone(this, pot.result.kind, POT_CENTER)
-    this.showResult(pot.result, POT_TOP.x, POT_TOP.y)
-  }
-
-  /** 鍋の上に、結果のカード (名前と、新種・既発見の表示) を出して、しばらくして消す。名前が長いときは、折り返す */
-  private showResult(outcome: BrewOutcome, x: number, y: number): void {
-    const probe = (this.probe ??= document.createElement('canvas').getContext('2d')!)
-    const titleFont = 'bold 28px sans-serif'
-    const subFont = 'bold 16px sans-serif'
-    const lineHeight = 34
-    probe.font = titleFont
-    const lines = wrapText(probe, outcome.title, BOARD_W - 64)
-    const titleWidth = Math.max(...lines.map((line) => probe.measureText(line).width))
-    probe.font = subFont
-    const subWidth = outcome.subtitle ? probe.measureText(outcome.subtitle).width : 0
-    const width = Math.min(BOARD_W, Math.ceil(Math.max(titleWidth, subWidth)) + 32)
-    const height = 14 + lines.length * lineHeight + (outcome.subtitle ? 28 : 0)
-    const accent = RESULT_ACCENT[outcome.kind]
-    const actor = new Actor({
-      pos: vec(clamp(x, width / 2, BOARD_W - width / 2), Math.max(height / 2, y - (height - 48) / 2)),
-      width,
-      height,
-      z: 1700,
-    })
-    actor.graphics.use(
-      new Canvas({
-        width,
-        height,
-        cache: true,
-        draw: (ctx) => {
-          ctx.fillStyle = 'rgba(20,20,30,0.88)'
-          ctx.strokeStyle = accent
-          ctx.lineWidth = 3
-          ctx.beginPath()
-          ctx.roundRect(2, 2, width - 4, height - 4, 14)
-          ctx.fill()
-          ctx.stroke()
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.fillStyle = '#ffffff'
-          ctx.font = titleFont
-          lines.forEach((line, i) => ctx.fillText(line, width / 2, 24 + i * lineHeight, width - 24))
-          if (outcome.subtitle) {
-            ctx.fillStyle = accent
-            ctx.font = subFont
-            ctx.fillText(outcome.subtitle, width / 2, height - 20, width - 24)
-          }
-        },
-      })
-    )
-    this.engine.add(actor)
-    actor.actions
-      .delay(RESULT_SHOW_SECONDS * 1000)
-      .fade(0, 700)
-      .die()
+    showResultCard(this.engine, pot.result, POT_TOP.x, POT_TOP.y)
   }
 }
