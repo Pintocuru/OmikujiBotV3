@@ -165,15 +165,34 @@ export class AiRelay {
       }
       if (response.status === 429) return { ok: false, kind: 'rateLimited', retryAfterMs: parseRetryAfterMs(response.headers) }
       if (response.status === 401 || response.status === 403) return { ok: false, kind: 'unauthorized' }
-      if (response.status < 200 || response.status >= 300) return { ok: false, kind: 'error' }
+      if (response.status < 200 || response.status >= 300) {
+        console.error(`AI (${slot.provider}) HTTP failure`, {
+          status: response.status,
+          error: errorDetails(response.data),
+        })
+        return { ok: false, kind: 'error' }
+      }
       const text = extractText(slot.provider, response.data)
-      return text ? { ok: true, text } : { ok: false, kind: 'error' }
-    } catch {
-      // 通信エラー・タイムアウト (エラーの中身は、キーを含みうるのでログに出さない)
+      if (!text) {
+        console.error(`AI (${slot.provider}) response parsing failed`, responseShape(response.data))
+        return { ok: false, kind: 'error' }
+      }
+      return { ok: true, text }
+    } catch (error: unknown) {
+      // 通信エラー・タイムアウト: URL・キー・プロンプト・レスポンス本文はログに出さない
+      if (axios.isAxiosError(error)) {
+        console.error(`AI (${slot.provider}) request error`, {
+          code: error.code,
+          message: error.message.slice(0, 500),
+          status: error.response?.status,
+          error: error.response ? errorDetails(error.response.data) : undefined,
+        })
+      } else {
+        console.error(`AI (${slot.provider}) unexpected error`, error instanceof Error ? error.message.slice(0, 500) : typeof error)
+      }
       return { ok: false, kind: 'error' }
     }
   }
-
   private send(slot: AiSlotConfig, prompt: string, tokenParam: 'max_tokens' | 'max_completion_tokens') {
     const { url, headers, body } = buildRequest(slot, prompt, tokenParam)
     return this.post(url, body, headers, TIMEOUT_MS)
