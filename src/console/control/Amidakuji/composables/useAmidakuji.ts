@@ -9,20 +9,8 @@ import {
   PLAYER_MIN,
   type FollowSpeed,
 } from '../scripts/amidakujiConstants'
-import {
-  generateAutoRungs,
-  toggleRung,
-  traceAll,
-  type Rung,
-  type TracePath,
-  type TraceStep,
-} from '../scripts/ladder'
-import {
-  countTotalPrizes,
-  generateShuffledGoals,
-  type GoalItem,
-  type PrizeInput,
-} from '../scripts/goals'
+import { generateAutoRungs, toggleRung, traceAll, type Rung, type TracePath, type TraceStep } from '../scripts/ladder'
+import { countTotalPrizes, generateShuffledGoals, type GoalItem, type PrizeInput } from '../scripts/goals'
 import { useJoinComments, type AmidakujiPlayer } from './useJoinComments'
 
 export type AmidakujiPhase = 'setup' | 'revealing' | 'completed'
@@ -41,9 +29,7 @@ export function useAmidakuji() {
   const players = ref<AmidakujiPlayer[]>([])
 
   // 当たりリスト
-  const prizes = ref<PrizeInput[]>([
-    { id: '1', name: '当たり', count: 1 },
-  ])
+  const prizes = ref<PrizeInput[]>([{ id: '1', name: '当たり', count: 1 }])
   const loseLabel = ref(DEFAULT_LOSE_LABEL)
   const hideGoalsBeforeReveal = ref(true)
 
@@ -144,12 +130,7 @@ export function useAmidakuji() {
   const generateAuto = () => {
     if (phase.value !== 'setup') return
     // 手動の横線を維持しつつ、密度に合わせて autoRungs を再生成
-    autoRungs.value = generateAutoRungs(
-      manualRungs.value,
-      colCount.value,
-      rowCount.value,
-      rungDensity.value
-    ).filter(
+    autoRungs.value = generateAutoRungs(manualRungs.value, colCount.value, rowCount.value, rungDensity.value).filter(
       (r) => !manualRungs.value.some((m) => m.col === r.col && m.row === r.row)
     )
   }
@@ -179,11 +160,7 @@ export function useAmidakuji() {
     commentJoin.stopRecruiting()
 
     // ゴールを確定・シャッフル
-    shuffledGoals.value = generateShuffledGoals(
-      prizes.value,
-      colCount.value,
-      loseLabel.value
-    )
+    shuffledGoals.value = generateShuffledGoals(prizes.value, colCount.value, loseLabel.value)
 
     // 全経路を計算
     activePaths.value = traceAll(colCount.value, allRungs.value, rowCount.value)
@@ -300,9 +277,7 @@ export function useAmidakuji() {
   // 一人ずつモードで次の人を辿る
   const nextPlayerReveal = () => {
     if (phase.value !== 'revealing' || revealMode.value !== 'individual') return
-    const unrevealedIdx = players.value.findIndex(
-      (_, idx) => !results.value.some((r) => r.startCol === idx)
-    )
+    const unrevealedIdx = players.value.findIndex((_, idx) => !results.value.some((r) => r.startCol === idx))
     if (unrevealedIdx >= 0) {
       currentRevealingPlayerIndex.value = unrevealedIdx
       runSingleReveal(unrevealedIdx)

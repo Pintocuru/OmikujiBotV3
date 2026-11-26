@@ -70,72 +70,68 @@
       />
 
       <!-- 完了時の結果オーバーレイ表示 -->
-      <ResultList
-        v-if="phase === 'completed'"
-        :results="results"
-        @reset="resetToSetup"
-      />
+      <ResultList v-if="phase === 'completed'" :results="results" @reset="resetToSetup" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import AmidakujiTopBar from './components/AmidakujiTopBar.vue'
-import SetupPanel from './components/SetupPanel.vue'
-import LadderBoard from './components/LadderBoard.vue'
-import ResultList from './components/ResultList.vue'
-import { useAmidakuji } from './composables/useAmidakuji'
-import { useLadderView } from './composables/useLadderView'
+  import { ref } from 'vue'
+  import AmidakujiTopBar from './components/AmidakujiTopBar.vue'
+  import SetupPanel from './components/SetupPanel.vue'
+  import LadderBoard from './components/LadderBoard.vue'
+  import ResultList from './components/ResultList.vue'
+  import { useAmidakuji } from './composables/useAmidakuji'
+  import { useLadderView } from './composables/useLadderView'
 
-const {
-  phase,
-  players,
-  prizes,
-  loseLabel,
-  hideGoalsBeforeReveal,
-  allRungs,
-  rungDensity,
-  followSpeed,
-  revealMode,
-  activePaths,
-  shuffledGoals,
-  currentRevealingPlayerIndex,
-  playerProgress,
-  results,
-  totalPrizes,
-  rowCount,
-  canStartReveal,
-  commentJoin,
-  addManualPlayers,
-  removePlayer,
-  addPrize,
-  removePrize,
-  onToggleRung,
-  generateAuto,
-  resetAutoRungs,
-  resetAllRungs,
-  startReveal,
-  nextPlayerReveal,
-  selectPlayerReveal,
-  resetToSetup,
-} = useAmidakuji()
+  const {
+    phase,
+    players,
+    prizes,
+    loseLabel,
+    hideGoalsBeforeReveal,
+    allRungs,
+    rungDensity,
+    followSpeed,
+    revealMode,
+    activePaths,
+    shuffledGoals,
+    currentRevealingPlayerIndex,
+    playerProgress,
+    results,
+    totalPrizes,
+    rowCount,
+    canStartReveal,
+    commentJoin,
+    addManualPlayers,
+    removePlayer,
+    addPrize,
+    removePrize,
+    onToggleRung,
+    generateAuto,
+    resetAutoRungs,
+    resetAllRungs,
+    startReveal,
+    nextPlayerReveal,
+    selectPlayerReveal,
+    resetToSetup,
+  } = useAmidakuji()
 
-const {
-  zoom,
-  panX,
-  panY,
-  isPanning,
-  zoomIn,
-  zoomOut,
-  resetView,
-  handleWheel,
-  startDrag,
-  onDrag,
-  endDrag,
-  focusPoint,
-  transformStyle,
-} = useLadderView()
+  const {
+    zoom,
+    panX,
+    panY,
+    isPanning,
+    zoomIn,
+    zoomOut,
+    resetView,
+    handleWheel,
+    startDrag,
+    onDrag,
+    endDrag,
+    focusPoint,
+    transformStyle,
+  } = useLadderView()
 
-const showSetup = ref(true)
+  const showSetup = ref(true)
 </script>

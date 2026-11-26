@@ -17,39 +17,15 @@
     <div class="flex items-center gap-2">
       <!-- ズーム操作 -->
       <div class="join">
-        <button
-          type="button"
-          class="btn btn-xs join-item"
-          title="縮小"
-          @click="emit('zoom-out')"
-        >
-          －
-        </button>
-        <button
-          type="button"
-          class="btn btn-xs join-item font-mono"
-          title="全体に戻す"
-          @click="emit('zoom-reset')"
-        >
+        <button type="button" class="btn btn-xs join-item" title="縮小" @click="emit('zoom-out')">－</button>
+        <button type="button" class="btn btn-xs join-item font-mono" title="全体に戻す" @click="emit('zoom-reset')">
           {{ Math.round(zoom * 100) }}%
         </button>
-        <button
-          type="button"
-          class="btn btn-xs join-item"
-          title="拡大"
-          @click="emit('zoom-in')"
-        >
-          ＋
-        </button>
+        <button type="button" class="btn btn-xs join-item" title="拡大" @click="emit('zoom-in')">＋</button>
       </div>
 
       <!-- 設定パネルの折りたたみトグル (OBS配信用の配慮) -->
-      <button
-        v-if="phase === 'setup'"
-        type="button"
-        class="btn btn-xs btn-outline"
-        @click="emit('toggle-setup')"
-      >
+      <button v-if="phase === 'setup'" type="button" class="btn btn-xs btn-outline" @click="emit('toggle-setup')">
         {{ showSetup ? '設定を隠す' : '設定を表示' }}
       </button>
 
@@ -64,12 +40,7 @@
       </button>
 
       <!-- リセット / もう一度 -->
-      <button
-        v-if="phase !== 'setup'"
-        type="button"
-        class="btn btn-xs btn-warning font-bold"
-        @click="emit('reset')"
-      >
+      <button v-if="phase !== 'setup'" type="button" class="btn btn-xs btn-warning font-bold" @click="emit('reset')">
         もう一度
       </button>
     </div>
@@ -77,45 +48,45 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { AmidakujiPhase } from '../composables/useAmidakuji'
+  import { computed } from 'vue'
+  import type { AmidakujiPhase } from '../composables/useAmidakuji'
 
-const props = defineProps<{
-  phase: AmidakujiPhase
-  playerCount: number
-  zoom: number
-  showSetup: boolean
-  revealMode: 'simultaneous' | 'individual'
-}>()
+  const props = defineProps<{
+    phase: AmidakujiPhase
+    playerCount: number
+    zoom: number
+    showSetup: boolean
+    revealMode: 'simultaneous' | 'individual'
+  }>()
 
-const emit = defineEmits<{
-  (e: 'zoom-in'): void
-  (e: 'zoom-out'): void
-  (e: 'zoom-reset'): void
-  (e: 'toggle-setup'): void
-  (e: 'next-player'): void
-  (e: 'reset'): void
-}>()
+  const emit = defineEmits<{
+    (e: 'zoom-in'): void
+    (e: 'zoom-out'): void
+    (e: 'zoom-reset'): void
+    (e: 'toggle-setup'): void
+    (e: 'next-player'): void
+    (e: 'reset'): void
+  }>()
 
-const phaseLabel = computed(() => {
-  switch (props.phase) {
-    case 'setup':
-      return '準備中'
-    case 'revealing':
-      return '発表中'
-    case 'completed':
-      return '完了'
-  }
-})
+  const phaseLabel = computed(() => {
+    switch (props.phase) {
+      case 'setup':
+        return '準備中'
+      case 'revealing':
+        return '発表中'
+      case 'completed':
+        return '完了'
+    }
+  })
 
-const phaseBadgeClass = computed(() => {
-  switch (props.phase) {
-    case 'setup':
-      return 'badge-info'
-    case 'revealing':
-      return 'badge-warning animate-pulse'
-    case 'completed':
-      return 'badge-success'
-  }
-})
+  const phaseBadgeClass = computed(() => {
+    switch (props.phase) {
+      case 'setup':
+        return 'badge-info'
+      case 'revealing':
+        return 'badge-warning animate-pulse'
+      case 'completed':
+        return 'badge-success'
+    }
+  })
 </script>

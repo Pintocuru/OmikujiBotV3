@@ -145,11 +145,7 @@ export type TracePath = {
  * row は 0 から rowCount までの格子点を通過する。
  * 各 row において、左右に横線があるかを判定し、あれば横移動する。
  */
-export const traceLadder = (
-  startCol: number,
-  rungs: readonly Rung[],
-  rowCount: number
-): TracePath => {
+export const traceLadder = (startCol: number, rungs: readonly Rung[], rowCount: number): TracePath => {
   // 高速参照用に row -> rungs のマップを作成
   const rungsByRow = new Map<number, number[]>()
   for (const rung of rungs) {
@@ -192,11 +188,7 @@ export const traceLadder = (
 /**
  * 全参加者 (0 〜 colCount - 1) の経路をトレースする
  */
-export const traceAll = (
-  colCount: number,
-  rungs: readonly Rung[],
-  rowCount: number
-): TracePath[] => {
+export const traceAll = (colCount: number, rungs: readonly Rung[], rowCount: number): TracePath[] => {
   const result: TracePath[] = []
   for (let c = 0; c < colCount; c++) {
     result.push(traceLadder(c, rungs, rowCount))

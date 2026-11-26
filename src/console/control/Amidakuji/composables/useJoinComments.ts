@@ -11,27 +11,18 @@ export type AmidakujiPlayer = {
   isManual?: boolean
 }
 
-export function useJoinComments(
-  onPlayerJoin: (player: AmidakujiPlayer) => boolean
-) {
+export function useJoinComments(onPlayerJoin: (player: AmidakujiPlayer) => boolean) {
   const isRecruiting = ref(false)
   const keyword = ref('')
   const isSubscribed = ref(false)
 
-  const handleComments = (
-    comments: OmikenCommentType[],
-    _isReset: boolean,
-    isFirstLoad: boolean
-  ) => {
+  const handleComments = (comments: OmikenCommentType[], _isReset: boolean, isFirstLoad: boolean) => {
     // 履歴コメントや募集停止中は無視
     if (isFirstLoad || !isRecruiting.value) return
 
     for (const comment of comments) {
       // BOT 自身の投稿は除く
-      if (
-        comment.userId === POST_SETTINGS.botUserId ||
-        comment.userName === POST_SETTINGS.botDefaultName
-      ) {
+      if (comment.userId === POST_SETTINGS.botUserId || comment.userName === POST_SETTINGS.botDefaultName) {
         continue
       }
 

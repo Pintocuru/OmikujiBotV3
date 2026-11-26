@@ -1,13 +1,6 @@
 // src/console/control/Amidakuji/scripts/ladder.test.ts
 import { describe, expect, it } from 'vitest'
-import {
-  canPlaceRung,
-  generateAutoRungs,
-  toggleRung,
-  traceAll,
-  traceLadder,
-  type Rung,
-} from './ladder'
+import { canPlaceRung, generateAutoRungs, toggleRung, traceAll, traceLadder, type Rung } from './ladder'
 import { generateShuffledGoals, type PrizeInput } from './goals'
 import { calculateRowCount } from './amidakujiConstants'
 
@@ -115,8 +108,6 @@ describe('goals (ゴールの生成・シャッフル)', () => {
 
   it('当たりが多すぎるときはエラー', () => {
     const prizes: PrizeInput[] = [{ id: '1', name: '特賞', count: 5 }]
-    expect(() => generateShuffledGoals(prizes, 4)).toThrow(
-      /当たりの数\(5\)が参加者数\(4\)を超えています/
-    )
+    expect(() => generateShuffledGoals(prizes, 4)).toThrow(/当たりの数\(5\)が参加者数\(4\)を超えています/)
   })
 })
