@@ -233,7 +233,8 @@ export class AiRelay {
   private async send(slot: AiSlotConfig, prompt: string, tokenParam: 'max_tokens' | 'max_completion_tokens') {
     const { url, headers, body } = buildRequest(slot, prompt, tokenParam)
     // 診断用: APIキー/ヘッダーは出さず、実際のリクエスト body を表示する。
-    console.debug(`AI (${slot.provider}) request`, { url, body })
+    console.debug(`AI (${slot.provider}) request`)
+    console.dir({ url, body }, { depth: null })
     const response = await this.post(url, body, headers, TIMEOUT_MS)
     const data = response.data as Record<string, unknown> | null
     const choices = Array.isArray(data?.choices) ? data.choices : undefined
