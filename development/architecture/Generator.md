@@ -11,9 +11,9 @@
 - OneSDKを利用する起動処理: `src/common/EntryCore/core.ts`
 - 初期化: `src/generator/composables/useAppInitializer.ts`
 
-パッケージ側で `registerAll()` を実行してUI・レイアウト・ゲームスクリプトなどを登録した後、`mountGenerator` からOneSDKの準備完了を待ってアプリをマウントします。
+`packages/common/OmikujiBot/main.ts` は起動時に `registerMain()` を呼び出し、リリース対象のUI・レイアウト・コンポーネント・ゲームスクリプトを登録します。`mountGenerator()` は `createAppOneSDK()` を呼び、OneSDKの `ready()` 完了後に `App.vue` をマウントします。
 
-初期化ではコメント取得を開始し、サーバーから設定を同期します。設定が利用可能になると状態をreadyにし、タイマー・サービス・リアクション・ポン出しの各イベント処理を開始します。
+`useAppInitializer` は初期化中にコメント取得を開始します。初回コメントの受信後、サーバーからGenerator設定を同期し、ユーザー統計のポーリングを開始してから状態を `ready` にします。初回ロード時のコメントは統計に記録しますが、コメントイベントへの応答は行いません。
 
 ## イベント処理
 
