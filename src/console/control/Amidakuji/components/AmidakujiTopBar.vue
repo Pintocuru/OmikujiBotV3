@@ -2,7 +2,8 @@
 <template>
   <ToolTopBar title="あみだくじ">
     <div class="badge badge-neutral text-xs gap-1">
-      参加者: <span class="font-mono font-bold">{{ playerCount }}</span>人
+      参加者: <span class="font-mono font-bold">{{ players.length }}</span
+      >人
     </div>
     <div class="badge text-xs" :class="phaseBadgeClass">
       {{ phaseLabel }}
@@ -11,30 +12,40 @@
     <template #actions>
       <!-- ズーム操作 -->
       <div class="join">
-        <button type="button" class="btn btn-xs join-item" title="縮小" @click="emit('zoom-out')">－</button>
-        <button type="button" class="btn btn-xs join-item font-mono" title="全体に戻す" @click="emit('zoom-reset')">
-          {{ Math.round(zoom * 100) }}%
+        <button type="button" class="btn btn-xs join-item" title="縮小" @click="zoomOut">－</button>
+        <button type="button" class="btn btn-xs join-item font-mono" title="全体に戻す" @click="resetView">
+          {{ zoomPercent }}%
         </button>
-        <button type="button" class="btn btn-xs join-item" title="拡大" @click="emit('zoom-in')">＋</button>
+        <button type="button" class="btn btn-xs join-item" title="拡大" @click="zoomIn">＋</button>
       </div>
 
-      <!-- 設定パネルの折りたたみトグル (OBS配信用の配慮) -->
-      <button v-if="phase === 'setup'" type="button" class="btn btn-xs btn-outline" @click="emit('toggle-setup')">
+      <!-- 設定パネルの折りたたみ (OBS でキャプチャするときに映さないため) -->
+      <button v-if="phase === 'setup'" type="button" class="btn btn-xs btn-outline" @click="showSetup = !showSetup">
         {{ showSetup ? '設定を隠す' : '設定を表示' }}
       </button>
 
-      <!-- 一人ずつモードでの「次の人」ボタン -->
+      <!-- 一人ずつ: 辿っている間は押せない -->
       <button
         v-if="phase === 'revealing' && revealMode === 'individual'"
         type="button"
         class="btn btn-xs btn-primary font-bold"
-        @click="emit('next-player')"
+        :disabled="busy"
+        @click="nextPlayerReveal"
       >
         次の人へ
       </button>
 
-      <!-- リセット / もう一度 -->
-      <button v-if="phase !== 'setup'" type="button" class="btn btn-xs btn-warning font-bold" @click="emit('reset')">
+      <!-- 完了後: 結果は、ここで開くまで出さない (着地を配信に映すため) -->
+      <button
+        v-if="phase === 'completed' && !showResult"
+        type="button"
+        class="btn btn-xs btn-success font-bold"
+        @click="showResult = true"
+      >
+        結果を見る
+      </button>
+
+      <button v-if="phase !== 'setup'" type="button" class="btn btn-xs btn-warning font-bold" @click="resetToSetup">
         もう一度
       </button>
     </template>
@@ -44,27 +55,15 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import ToolTopBar from '@/console/parts/ToolTopBar.vue'
-  import type { AmidakujiPhase } from '../composables/useAmidakuji'
+  import { useAmidakujiContext } from '../composables/useAmidakujiContext'
 
-  const props = defineProps<{
-    phase: AmidakujiPhase
-    playerCount: number
-    zoom: number
-    showSetup: boolean
-    revealMode: 'simultaneous' | 'individual'
-  }>()
-
-  const emit = defineEmits<{
-    (e: 'zoom-in'): void
-    (e: 'zoom-out'): void
-    (e: 'zoom-reset'): void
-    (e: 'toggle-setup'): void
-    (e: 'next-player'): void
-    (e: 'reset'): void
-  }>()
+  const ctx = useAmidakujiContext()
+  const { phase, players, revealMode, showSetup, showResult, nextPlayerReveal, resetToSetup } = ctx
+  const { busy } = ctx.anim
+  const { zoomPercent, zoomIn, zoomOut, resetView } = ctx.view
 
   const phaseLabel = computed(() => {
-    switch (props.phase) {
+    switch (phase.value) {
       case 'setup':
         return '準備中'
       case 'revealing':
@@ -75,7 +74,7 @@
   })
 
   const phaseBadgeClass = computed(() => {
-    switch (props.phase) {
+    switch (phase.value) {
       case 'setup':
         return 'badge-info'
       case 'revealing':

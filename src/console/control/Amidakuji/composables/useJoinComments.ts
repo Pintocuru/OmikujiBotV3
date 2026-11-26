@@ -11,10 +11,15 @@ export type AmidakujiPlayer = {
   isManual?: boolean
 }
 
-export function useJoinComments(onPlayerJoin: (player: AmidakujiPlayer) => boolean) {
+/** 参加者の追加結果。'full' (上限) のときだけ、同じ回のコメントの処理を打ち切る */
+export type JoinResult = 'added' | 'duplicate' | 'full'
+
+export function useJoinComments(onPlayerJoin: (player: AmidakujiPlayer) => JoinResult) {
   const isRecruiting = ref(false)
   const keyword = ref('')
+  const error = ref('')
   const isSubscribed = ref(false)
+  let isConnecting = false
 
   const handleComments = (comments: OmikenCommentType[], _isReset: boolean, isFirstLoad: boolean) => {
     // 履歴コメントや募集停止中は無視
@@ -26,41 +31,49 @@ export function useJoinComments(onPlayerJoin: (player: AmidakujiPlayer) => boole
         continue
       }
 
-      const text = comment.comment.trim()
       const targetKeyword = keyword.value.trim()
-
-      if (targetKeyword !== '' && !text.includes(targetKeyword)) {
+      if (targetKeyword !== '' && !comment.comment.trim().includes(targetKeyword)) {
         continue
       }
 
-      const player: AmidakujiPlayer = {
+      const result = onPlayerJoin({
         id: comment.userId,
         name: comment.userName,
         avatarUrl: comment.profileImage,
         isManual: false,
-      }
-
-      const added = onPlayerJoin(player)
-      if (!added) {
-        // PLAYER_MAX に達したなどの理由で追加できなかった場合はループ終了
-        break
-      }
+      })
+      // 参加済み・削除済みのユーザーは飛ばして、あとの人の処理を続ける。上限のときだけ打ち切る
+      if (result === 'full') break
     }
   }
 
-  const startListening = async () => {
-    if (isSubscribed.value) return
+  // OneSDK の購読は 1 回だけ (解除の手段がないため)
+  const ensureSubscribed = async (): Promise<boolean> => {
+    if (isSubscribed.value) return true
+    if (isConnecting) return false
+    isConnecting = true
     try {
-      await GetOmikenComments(handleComments)
+      const ok = await GetOmikenComments(handleComments)
+      if (!ok) throw new Error('購読に失敗しました')
       isSubscribed.value = true
+      return true
     } catch (e) {
       console.error('[useJoinComments] コメント購読エラー:', e)
+      return false
+    } finally {
+      isConnecting = false
     }
   }
 
   const startRecruiting = async () => {
+    error.value = ''
+    const ok = await ensureSubscribed()
+    if (!ok) {
+      isRecruiting.value = false
+      error.value = 'コメントの購読に失敗しました。わんコメとの接続を確認してください'
+      return
+    }
     isRecruiting.value = true
-    await startListening()
   }
 
   const stopRecruiting = () => {
@@ -74,6 +87,7 @@ export function useJoinComments(onPlayerJoin: (player: AmidakujiPlayer) => boole
   return {
     isRecruiting,
     keyword,
+    error,
     startRecruiting,
     stopRecruiting,
   }

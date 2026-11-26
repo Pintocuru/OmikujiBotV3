@@ -6,7 +6,7 @@
     >
       <div class="flex items-center justify-between pb-3 border-b border-base-200">
         <h2 class="text-xl font-black flex items-center gap-2"><span>🎉</span> 結果発表</h2>
-        <button type="button" class="btn btn-sm btn-warning font-bold" @click="emit('reset')">もう一度あそぶ</button>
+        <button type="button" class="btn btn-sm btn-outline font-bold" @click="showResult = false">盤面に戻る</button>
       </div>
 
       <div class="flex-1 overflow-y-auto my-4 pr-1 flex flex-col gap-2">
@@ -29,21 +29,19 @@
         </div>
       </div>
 
-      <div class="pt-2 border-t border-base-200 flex justify-end">
-        <button type="button" class="btn btn-primary btn-sm font-bold w-full" @click="emit('reset')">設定に戻る</button>
+      <div class="pt-2 border-t border-base-200">
+        <button type="button" class="btn btn-warning btn-sm font-bold w-full" @click="resetToSetup">
+          もう一度(設定に戻る)
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import type { ResultEntry } from '../composables/useAmidakuji'
+  import { useAmidakujiContext } from '../composables/useAmidakujiContext'
 
-  defineProps<{
-    results: ResultEntry[]
-  }>()
-
-  const emit = defineEmits<{
-    (e: 'reset'): void
-  }>()
+  const ctx = useAmidakujiContext()
+  const { showResult, resetToSetup } = ctx
+  const { results } = ctx.anim
 </script>

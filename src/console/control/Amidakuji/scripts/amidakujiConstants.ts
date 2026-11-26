@@ -17,11 +17,17 @@ export const calculateRowCount = (colCount: number): number => {
   return Math.max(12, colCount * 2)
 }
 
-/** 辿る速度設定 (秒換算またはスピード乗数用) */
 export type FollowSpeed = 'slow' | 'normal' | 'fast'
 
-export const FOLLOW_SPEED_MS: Record<FollowSpeed, number> = {
-  slow: 80,
-  normal: 40,
-  fast: 15,
+/** 盤面を上から下まで辿りきるまでの時間 (秒)。全員同時でも一人ずつでも同じ */
+export const FOLLOW_DURATION_SEC: Record<FollowSpeed, number> = {
+  slow: 12,
+  normal: 6,
+  fast: 2.5,
 }
+
+/** 横線を渡る間に進む高さ (行数換算)。横線の高さを中心に、前後へ半分ずつ */
+export const RUNG_CROSS_ROWS = 0.3
+
+/** 一人ずつ発表するときの、辿る線への拡大率 */
+export const FOLLOW_ZOOM = 1.6

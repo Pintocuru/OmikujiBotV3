@@ -15,11 +15,17 @@ export type GoalItem = {
   isHit: boolean
 }
 
+/** 個数を 0 以上の整数にそろえる (空欄・NaN・小数・負数の入力対策) */
+export const normalizeCount = (count: unknown): number => {
+  const n = Number(count)
+  return Number.isFinite(n) ? Math.max(0, Math.floor(n)) : 0
+}
+
 /**
  * 当たりの合計個数を計算
  */
 export const countTotalPrizes = (prizes: readonly PrizeInput[]): number => {
-  return prizes.reduce((sum, p) => sum + Math.max(0, p.count), 0)
+  return prizes.reduce((sum, p) => sum + normalizeCount(p.count), 0)
 }
 
 /**
@@ -42,7 +48,7 @@ export const generateShuffledGoals = (
 
   // 当たりを追加
   for (const prize of prizes) {
-    const validCount = Math.max(0, prize.count)
+    const validCount = normalizeCount(prize.count)
     for (let i = 0; i < validCount; i++) {
       goals.push({
         id: `prize-${prize.id}-${i}-${seq++}`,
