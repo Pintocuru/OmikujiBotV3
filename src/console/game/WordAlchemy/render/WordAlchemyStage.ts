@@ -4,6 +4,7 @@
 // 非表示の間は rAF が止まり、再表示の最初のフレームも Excalibur が丸める (200ms 超は 1ms) ので、ゲームも止まる
 import { Actor, Canvas, Color, DisplayMode, EmitterType, Engine, ParticleEmitter, vec } from 'excalibur'
 import { isMoveKey, resolveInput } from '../../common/heroInput'
+import type { PotLook } from '../maps/WordAlchemyPotMap'
 import {
   BREW_SECONDS,
   CELL_PX,
@@ -37,6 +38,7 @@ import {
   type EffectHost,
   type PopupOptions,
 } from './effectPresets'
+import { loadTileSheet } from './boardTiles'
 import type { SoundKey } from './stageSounds'
 import { WordAlchemyAudio } from './WordAlchemyAudio'
 
@@ -49,6 +51,8 @@ export type BrewOutcome = { title: string; subtitle?: string; kind: 'new' | 'kno
 export type BrewHandler = (materials: BrewMaterial[]) => Promise<BrewOutcome>
 export type StageOptions = {
   brew: BrewHandler
+  /** 鍋の見た目 (毎フレーム読む。鍋の種類は、ゲームごとに変わる)。なければ、既定の色 */
+  potLook?: () => PotLook
   /** 煮込みの確認の出し入れ (材料が揃ったら材料を、答えが出たら・ゲームをやめたら null を渡す)。答えは confirm(yes) で返す */
   onConfirmChange?: (materials: BrewMaterial[] | null) => void
 }
@@ -127,6 +131,8 @@ export class WordAlchemyStage implements EffectHost {
   private readonly engine: Engine
   private readonly heroActor: Actor
   private readonly audio = new WordAlchemyAudio()
+  /** 盤面の素材 (読み込めるまでは null) */
+  private tileSheet: HTMLImageElement | null = null
   private readonly popups: { actor: Actor; options: PopupOptions; age: number; baseY: number }[] = []
   private lastSteamAt = 0
   private readonly words: Word[] = []
@@ -165,10 +171,20 @@ export class WordAlchemyStage implements EffectHost {
     })
 
     const board = new Actor({ pos: vec(BOARD_W / 2, BOARD_H / 2), width: BOARD_W, height: BOARD_H, z: 0 })
-    board.graphics.use(
-      new Canvas({ width: BOARD_W, height: BOARD_H, cache: true, draw: (ctx) => drawBoard(ctx, BOARD_W, BOARD_H) })
-    )
+    const boardCanvas = new Canvas({
+      width: BOARD_W,
+      height: BOARD_H,
+      cache: true,
+      draw: (ctx) => drawBoard(ctx, BOARD_W, BOARD_H, this.tileSheet),
+    })
+    board.graphics.use(boardCanvas)
     this.engine.add(board)
+    // 素材は、読み込めたら描き直す (読み込めなければ、仮の見た目のまま)
+    void loadTileSheet().then((sheet) => {
+      if (!sheet || this.disposed) return
+      this.tileSheet = sheet
+      boardCanvas.flagDirty()
+    })
 
     const potSize = POT_SIZE * CELL_PX
     const potActor = new Actor({
@@ -182,7 +198,8 @@ export class WordAlchemyStage implements EffectHost {
         width: potSize,
         height: potSize,
         cache: false,
-        draw: (ctx) => drawPot(ctx, this.pot.ingredients.length, this.pot.brewing, this.clock),
+        draw: (ctx) =>
+          drawPot(ctx, this.pot.ingredients.length, this.pot.brewing, this.clock, this.options.potLook?.()),
       })
     )
     this.engine.add(potActor)

@@ -26,6 +26,15 @@ describe('resolveBrewPot', () => {
     expect(resolveBrewPot('yami', () => 0.999999)).toBe(others[others.length - 1])
     for (let i = 0; i < 100; i++) expect(resolveBrewPot('yami')).not.toBe('yami')
   })
+  it('どの鍋も見た目の色を持ち、闇鍋は、ほかの鍋と色が重ならない', () => {
+    const hex = /^#[0-9a-f]{6}$/
+    for (const key of POT_KEYS) {
+      expect(potMap[key].look.body).toMatch(hex)
+      expect(potMap[key].look.liquid).toMatch(hex)
+    }
+    const bodies = POT_KEYS.map((key) => potMap[key].look.body)
+    expect(new Set(bodies).size).toBe(POT_KEYS.length)
+  })
   it('鍋は 8 種で、闇鍋以外は指示文を持つ (圧力鍋だけ名前の長さを指示する)', () => {
     expect(POT_KEYS).toHaveLength(8)
     for (const key of POT_KEYS.filter((k) => !potMap[k].random)) expect(potMap[key].instruction).not.toBe('')

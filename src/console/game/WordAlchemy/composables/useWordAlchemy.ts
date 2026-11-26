@@ -120,7 +120,11 @@ export function useWordAlchemy() {
     }
   }
 
-  const stageOptions: StageOptions = { brew, onConfirmChange: (materials) => (pending.value = materials) }
+  const stageOptions: StageOptions = {
+    brew,
+    onConfirmChange: (materials) => (pending.value = materials),
+    potLook: () => potMap[potType.value].look,
+  }
 
   /** 煮込みの確認への答え (盤面のボタンから。キーの答えは盤面が直接受ける) */
   const confirm = (yes: boolean) => stage.value?.confirm(yes)
