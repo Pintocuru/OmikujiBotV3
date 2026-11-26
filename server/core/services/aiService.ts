@@ -237,7 +237,7 @@ export class AiRelay {
     console.dir({ url, body }, { depth: null })
     const response = await this.post(url, body, headers, TIMEOUT_MS)
     const data = response.data as Record<string, unknown> | null
-    const choices = Array.isArray(data?.choices) ? data.choices : undefined
+    const choices = Array.isArray(data?.choices) ? data?.choices : undefined
     const choice = choices?.[0] as Record<string, unknown> | undefined
     const message = choice?.message as Record<string, unknown> | undefined
     const content = message?.content
