@@ -56,6 +56,25 @@ describe('AiRelay: 接続先ごとの呼び出し', () => {
   })
 })
 
+describe('AiRelay: 503 の再試行', () => {
+  it('503 の後、2 秒待って再試行し、成功したら返す', async () => {
+    const { post, calls } = fake(status(503), openaiOk('recovered'))
+    const delays: number[] = []
+    const relay = new AiRelay({ post, wait: async (ms) => { delays.push(ms) } })
+    expect(await relay.ask({ main, sub: null }, 'p')).toEqual({ ok: true, text: 'recovered', slot: 'main' })
+    expect(calls).toHaveLength(2)
+    expect(delays).toEqual([2000])
+  })
+  it('503 が続いても、再試行は 2 回まで (合計 3 回) で止める', async () => {
+    const { post, calls } = fake(status(503), status(503), status(503), openaiOk('unused'))
+    const delays: number[] = []
+    const relay = new AiRelay({ post, wait: async (ms) => { delays.push(ms) } })
+    expect(await relay.ask({ main, sub: null }, 'p')).toEqual({ ok: false, reason: 'failed' })
+    expect(calls).toHaveLength(3)
+    expect(delays).toEqual([2000, 2000])
+  })
+})
+
 describe('AiRelay: メインからサブへの切り替え', () => {
   it('メインが 429 なら、サブに切り替える', async () => {
     const { post, calls } = fake(status(429), anthropicOk('from-sub'))
