@@ -92,7 +92,7 @@ A. 配布データをそのまま再配布することは禁止です。内容�
 - 「設定を出力 (js)」ボタンを押して出力したファイルを、元のファイルに上書き保存する必要があります。
   - 詳しくは「つかいかた (Usage)」の「【重要】設定の保存方法」をご覧ください。
 - 専用の「おみくじBOT プラグイン」を併用すると、保存作業を大幅に簡略化できます。
-  - [おみくじBOT ManagerPlugin の README](/core/ManagerPlugin/README.md)
+  - [おみくじBOT ManagerPlugin の README](../../core/ManagerPlugin/README.ja.md)
 
 ## クレジット・ライセンス（Credits/License）
 
