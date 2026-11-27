@@ -4,7 +4,7 @@
 
 ## このテンプレートは何？（Features）
 
-■ リスナーの視聴時間、結晶化します！
+### リスナーの視聴時間、結晶化します
 
 - 視聴中のリスナーの滞在時間（秒数）を「砂粒」として数値化する砂時計ジェネレーターです。
 - 同時接続数から秒数を計算し、リスナーと一緒に砂粒を積み上げていきます。
@@ -29,13 +29,7 @@
 
 ## インストール (Installation)
 
-![installation_PluginPage](../../template/jp/installation/installation_PluginPage.md)
-
-## つかいかた (Usage)
-
-### 命の砂時計
-
-- これまでに投稿したコメント数を、わんコメが起動していた配信枠の範囲でカウントし、結果をトースト通知で表示します。
+![installation_ProPackage](../../template/jp/installation/installation_ProPackage.md)
 
 ## カスタマイズ（Customization）
 
