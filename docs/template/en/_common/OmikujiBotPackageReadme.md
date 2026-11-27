@@ -1,1 +1,0 @@
-- [OmikujiBot StrawberryChocolate README](/common/StrawberryChocolate/README.md)

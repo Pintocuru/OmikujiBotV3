@@ -1,1 +1,0 @@
-Designed for "OneComme", the comment app for streamers, this is

@@ -1,1 +1,0 @@
-- For details on features, installation, and customization, see the [OmikujiBot README](/core/OmikujiBot/README.md).
