@@ -1,9 +1,9 @@
-[English](README.md) | 日本語
+English](README.md) | 日本語
 
 # OmikujiBot
 
 OmikujiBotは、配信向けアプリ「わんコメ」で動作するアプリケーションを構築・提供するソフトウェアです。
-共通の OmikujiBot エンジンは、Generator、Console、Plugin などで構成され、配布パッケージごとに用途や機能が異なります。Plugin を必要とせず Generator 単体で動作するパッケージもあれば、Plugin とサーバーを利用して Console などの機能を提供するパッケージもあります。
+共通の OmikujiBot エンジンは、Generator、Console、Plugin をはじめとする各種コンポーネントや共通機能で構成され、配布パッケージごとに用途や機能が異なります。Plugin を必要とせず Generator 単体で動作するパッケージもあれば、Plugin とサーバーを利用して Console などの機能を提供するパッケージもあります。
 
 ## 構成
 
