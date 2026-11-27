@@ -12,7 +12,7 @@
 
 ![intro_Disclaimer](../../template/jp/intro/intro_Disclaimer.md)
 
-## このテンプレートは何？（Features）
+## このアプリは何？（Features）
 
 ![](../../images/OmikujiBot-1792770376331.webp)
 
@@ -77,7 +77,7 @@
 
 ![faq_OneComme](../../template/jp/faq/faq_OneComme.md)
 
-> おみくじの内容、エディター関連についての内容は [おみくじBOT エディター README](/core/ConfigEditor/README.md) の [よくある質問](/core/ConfigEditor/README.md#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F-faq) をご覧ください。
+> おみくじの内容、エディター関連についての内容は [おみくじBOT エディター README](/core/ConfigEditor/README.ja.md) の [よくある質問](/core/ConfigEditor/README.ja.md#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F-faq) をご覧ください。
 
 ![troubleshooting_OmikujiBotSection](../../template/jp/troubleshooting/troubleshooting_OmikujiBotSection.md)
 
@@ -97,14 +97,6 @@
 ### アプリ本体（ジェネレーター・エディター・プラグイン）
 
 ![license_App](../../template/jp/license/license_App.md)
-
-### 効果音
-
-![license_SoundEffect](../../template/jp/license/license_SoundEffect.md)
-
-### パッケージデータ
-
-![license_PackageGeneric](../../template/jp/license/license_PackageGeneric.md)
 
 ## バージョン情報 (Version)
 
