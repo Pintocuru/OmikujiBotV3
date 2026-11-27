@@ -2,9 +2,9 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-配信者のためのコメントアプリ「わんコメ」で使用できる、ジェネレーター BOT 「おみくじBOT」のデータを編集できるアプリケーションです。
+配信者向けコメントアプリ「わんコメ」で使用するジェネレーター BOT「おみくじBOT」のデータを編集するためのアプリケーションです。
 
-この内容は、BOOTH または Github で配布している、下記に同梱している 「おみくじBOT エディター」 の readme となります。
+本 README は、BOOTH または GitHub で配布している、おみくじBOTのパッケージに同梱された「おみくじBOT エディター」の説明書です。
 
 ![common_StrawberryChocolateBooth](../../template/jp/_common/common_StrawberryChocolateBooth.md)
 
