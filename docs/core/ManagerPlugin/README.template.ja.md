@@ -2,9 +2,11 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![intro_11](../../template/jp/intro/intro_11.md) 「おみくじBOT」 の補助プラグインです。
+配信者のためのコメントアプリ「わんコメ」で使用できる、「おみくじBOT」 の補助プラグインです。
 
-![intro_22_IntroOneComme](../../template/jp/intro/intro_22_IntroOneComme.md)
+## はじめに（Intro）
+
+![intro_Disclaimer](../../template/jp/intro/intro_Disclaimer.md)
 
 ## このプラグインは何？（Features）
 
@@ -25,7 +27,7 @@
 
 ## インストール (Installation)
 
-- [わんコメにプラグインをインストールする](../../template/jp/installation/Installation_93_PluginSet.md)
+- [わんコメにプラグインをインストールする](../../template/jp/installation/installation_PluginPage.md)
 
 ## つかいかた (Usage)
 
@@ -50,7 +52,7 @@
 
 ## よくある質問 (FAQ)
 
-![faq_11_infoOneComme](../../template/jp/faq/faq_11_infoOneComme.md)
+![faq_OneComme](../../template/jp/faq/faq_OneComme.md)
 
 ### Q. 「サーバーに保存」されたデータはどこにある？
 
@@ -69,7 +71,7 @@
 
 ## トラブルシューティング (Troubleshooting)
 
-![troubleshooting_11_infoOneComme](../../template/jp/troubleshooting/troubleshooting_11_infoOneComme.md)
+![troubleshooting_OneComme](../../template/jp/troubleshooting/troubleshooting_OneComme.md)
 
 ### Q. プラグインを入れたのにアナウンスが出ません
 
@@ -94,12 +96,24 @@
 - また、ジェネレーター側で保存したデータがある場合、エディター起動時に自動でサーバーから読み込みます。
 - 反映されない場合は、サーバー連携機能の **「サーバーから読み込み」** を押してみてください。
 
-![license_91_AppLicense](../../template/jp/license/license_91_AppLicense.md)
+## ライセンス（License）
+
+### アプリ本体（ジェネレーター・エディター・プラグイン）
+
+![license_App](../../template/jp/license/license_App.md)
+
+### 効果音
+
+![license_SoundEffect](../../template/jp/license/license_SoundEffect.md)
+
+### パッケージデータ
+
+![license_PackageGeneric](../../template/jp/license/license_PackageGeneric.md)
 
 ## バージョン情報 (Version)
 
-> 詳細な変更履歴は [Releases](https://github.com/Pintocuru/OmikujiBot-Docs/releases) をご覧ください。
+![version_ReleasesLink](../../template/jp/version/version_ReleasesLink.md)
 
-![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)
+![contact_Author](../../template/jp/contact/contact_Author.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

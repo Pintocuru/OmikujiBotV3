@@ -4,19 +4,35 @@
 
 ## つかいかた (Usage)
 
-![usage_92_OmikujiActivation](../../template/jp/usage/usage_92_OmikujiActivation.md)
+### おみくじを発動させるには
 
-![usage_MaidenOmikuji](../../template/jp/usage/usage_MaidenOmikujiNormal.md)
+![usage_OmikujiActivation](../../template/jp/usage/usage_OmikujiActivation.md)
 
-![](../../template/jp/usage/usage_TarotCard.md)
+### 巫女さんのおみくじ (ノーマル)
+
+![usage_MaidenOmikujiNormal](../../template/jp/usage/usage_MaidenOmikujiNormal.md)
+
+### タロットカード
+
+![usage_TarotCard](../../template/jp/usage/usage_TarotCard.md)
+
+### じゃんけん
 
 ![usage_JankenHonda](../../template/jp/usage/usage_JankenHonda.md)
 
+### 初見判定ちゃん
+
 ![usage_FirstCounter](../../template/jp/usage/usage_FirstCounter.md)
+
+### ギフトのお礼
 
 ![usage_Gift](../../template/jp/usage/usage_Gift.md)
 
+### コメント数チェック (配信内・個人総合)
+
 ![usage_CountStream](../../template/jp/usage/usage_CountStream.md)
+
+### コメント数を確認する
 
 ![usage_CheckNumber](../../template/jp/usage/usage_CheckNumber.md)
 
@@ -24,10 +40,26 @@
 
 配信で盛り上がる！ミニゲームシリーズが同梱されています。
 
-![](../../template/jp/usage/usage_GouseiSuika.md)
+### スイカジェネレーター
 
-![](../../template/jp/usage/usage_BomberSpin.md)
+![usage_GouseiSuika](../../template/jp/usage/usage_GouseiSuika.md)
 
-![](../../template/jp/usage/usage_DwarfBomb.md)
+### カボチャジェネレーター
 
-![](../../template/jp/usage/usage_MultiplyBonanza.md)
+![usage_GouseiPumpkin](../../template/jp/usage/usage_GouseiPumpkin.md)
+
+### クジラジェネレーター
+
+![usage_GouseiWhale](../../template/jp/usage/usage_GouseiWhale.md)
+
+### ボンバースロット
+
+![usage_BomberSpin](../../template/jp/usage/usage_BomberSpin.md)
+
+### うさぎスロット
+
+![usage_DwarfBomb](../../template/jp/usage/usage_DwarfBomb.md)
+
+### 桜吹雪スロット
+
+![usage_MultiplyBonanza](../../template/jp/usage/usage_MultiplyBonanza.md)

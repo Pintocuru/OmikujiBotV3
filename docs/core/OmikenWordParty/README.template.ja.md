@@ -2,14 +2,16 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![intro_11](../../template/jp/intro/intro_11.md) WordParty テンプレートです。
+配信者のためのコメントアプリ「わんコメ」で使用できる、WordParty テンプレートです。
 
 - このテンプレートは、下記の「おみくじBOT」シリーズのパッケージでのみ使用可能です。
 - それぞれ、最新版で使用できます。バージョンが古い場合、正常に機能しない可能性があります。
 
-![OmikujiBotPackageBOOTH](../../template/jp/_common/OmikujiBotPackageBOOTH.md)
+![common_StrawberryChocolateBooth](../../template/jp/_common/common_StrawberryChocolateBooth.md)
 
-![intro_22_IntroOneComme](../../template/jp/intro/intro_22_IntroOneComme.md)
+## はじめに（Intro）
+
+![intro_Disclaimer](../../template/jp/intro/intro_Disclaimer.md)
 
 ## このテンプレートは何？（Features）
 
@@ -25,7 +27,7 @@
 
 ## インストール方法 (Installation)
 
-![Installation_41_GotoTemplate](/template/jp/installation/Installation_41_GotoTemplate.md)
+![installation_TemplateGuide](../../template/jp/installation/installation_TemplateGuide.md)
 
 - WordParty のテンプレートは、他のジェネレーターと同様の導入が可能です。
 - 音声を OBS に乗せる場合、追加の設定が必要です。詳細は、わんコメ公式 [音声を配信にのせる方法](https://onecomme.com/docs/feature/wordparty#%E9%9F%B3%E5%A3%B0%E3%82%92%E9%85%8D%E4%BF%A1%E3%81%AB%E3%81%AE%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95) をご覧ください。
@@ -39,7 +41,7 @@
 
 WordParty に関する内容は、[コメントによる演出 - WordParty](https://onecomme.com/docs/feature/wordparty) をご参照ください。
 
-![faq_11_infoOneComme](../../template/jp/faq/faq_11_infoOneComme.md)
+![faq_OneComme](../../template/jp/faq/faq_OneComme.md)
 
 ### 設定関連
 
@@ -56,7 +58,7 @@ WordParty に関する内容は、[コメントによる演出 - WordParty](http
 
 ## トラブルシューティング (Troubleshooting)
 
-![troubleshooting_11_infoOneComme](../../template/jp/troubleshooting/troubleshooting_11_infoOneComme.md)
+![troubleshooting_OneComme](../../template/jp/troubleshooting/troubleshooting_OneComme.md)
 
 ### WordParty エディターで開けない
 
@@ -101,6 +103,6 @@ A: [仕様](https://onecomme.com/docs/feature/wordparty#%E3%81%9D%E3%81%AE%E4%BB
 - 「おみくじBOT」「おみくじBOT エディター」と揃えるため、バージョニングを揃えることにしました。
 - 過去のリリースノートは [こちら](https://github.com/Pintocuru/OmikujiBot-Docs/releases/tag/v1.0.0-OmikujiBotWordParty)
 
-![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)
+![contact_Author](../../template/jp/contact/contact_Author.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

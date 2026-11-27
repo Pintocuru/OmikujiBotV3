@@ -6,9 +6,11 @@
 
 このテンプレートは、下記のパッケージの内容を含みます。
 
-![OmikujiBotPackageBOOTH](../../template/jp/_common/OmikujiBotPackageBOOTH.md)
+![common_StrawberryChocolateBooth](../../template/jp/_common/common_StrawberryChocolateBooth.md)
 
-![intro_22_IntroOneComme](../../template/jp/intro/intro_22_IntroOneComme.md)
+## はじめに（Intro）
+
+![intro_Disclaimer](../../template/jp/intro/intro_Disclaimer.md)
 
 ## このテンプレートは何？（Features）
 
@@ -55,23 +57,29 @@
 - 幅の最大値は `2xl = 42rem`（672px）、最小値は `10rem`（160px）です。
   - この範囲を外れると、はみ出しなどの表示崩れが起こる可能性があります。
 
-![Installation_52_VersionUp](../../template/jp/installation/Installation_52_VersionUp.md)
+### おみくじBOT のアップグレード / おみくじBOT エディターの新規導入
+
+![installation_VersionUp](../../template/jp/installation/installation_VersionUp.md)
 
 ## つかいかた (Usage)
 
 > パッケージによって、利用シーンは様々です。詳しくは、下記の Readme をご覧ください。
 
-![OmikujiBotPackageReadme](../../template/jp/_common/OmikujiBotPackageReadme.md)
+![common_StrawberryChocolateReadme](../../template/jp/_common/common_StrawberryChocolateReadme.md)
 
-![customization_21_ConfigEditor](../../template/jp/customization/customization_21_ConfigEditor.md)
+## カスタマイズ（Customization）
+
+### 「おみくじBOT エディター」で自由におみくじを編集できる
+
+![customization_ConfigEditor](../../template/jp/customization/customization_ConfigEditor.md)
 
 ## よくある質問 (FAQ)
 
-![faq_11_infoOneComme](../../template/jp/faq/faq_11_infoOneComme.md)
+![faq_OneComme](../../template/jp/faq/faq_OneComme.md)
 
 > おみくじの内容、エディター関連についての内容は [おみくじBOT エディター README](/core/ConfigEditor/README.md) の [よくある質問](/core/ConfigEditor/README.md#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F-faq) をご覧ください。
 
-![troubleshooting_91_OmikujiBotSet](../../template/jp/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![troubleshooting_OmikujiBotSection](../../template/jp/troubleshooting/troubleshooting_OmikujiBotSection.md)
 
 ## クレジット（Credits）
 
@@ -82,14 +90,26 @@
 
 それぞれのパッケージでは、各種イラスト素材を使用しています。詳しくは、下記の Readme をご覧ください。
 
-![OmikujiBotPackageReadme](../../template/jp/_common/OmikujiBotPackageReadme.md)
+![common_StrawberryChocolateReadme](../../template/jp/_common/common_StrawberryChocolateReadme.md)
 
-![license_91_AppLicense](../../template/jp/license/license_91_AppLicense.md)
+## ライセンス（License）
+
+### アプリ本体（ジェネレーター・エディター・プラグイン）
+
+![license_App](../../template/jp/license/license_App.md)
+
+### 効果音
+
+![license_SoundEffect](../../template/jp/license/license_SoundEffect.md)
+
+### パッケージデータ
+
+![license_PackageGeneric](../../template/jp/license/license_PackageGeneric.md)
 
 ## バージョン情報 (Version)
 
-> 詳細な変更履歴は [Releases](https://github.com/Pintocuru/OmikujiBot-Docs/releases) をご覧ください。
+![version_ReleasesLink](../../template/jp/version/version_ReleasesLink.md)
 
-![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)
+![contact_Author](../../template/jp/contact/contact_Author.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

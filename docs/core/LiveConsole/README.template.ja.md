@@ -2,9 +2,11 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![](../../template/jp/intro/intro_11.md) 「おみくじBOT」のデータ閲覧・操作用ビューアプリです。
+配信者のためのコメントアプリ「わんコメ」で使用できる、「おみくじBOT」のデータ閲覧・操作用ビューアプリです。
 
-![](../../template/jp/intro/intro_22_IntroOneComme.md)
+## はじめに（Intro）
+
+![intro_Disclaimer](../../template/jp/intro/intro_Disclaimer.md)
 
 ## このアプリは何？（Features）
 
@@ -34,7 +36,7 @@
 
 このアプリは、前提アプリとして 【おみくじBOT プラグイン】 が必要です。
 
-- [わんコメにプラグインをインストールする](../../template/jp/installation/Installation_93_PluginSet.md)
+- [わんコメにプラグインをインストールする](../../template/jp/installation/installation_PluginPage.md)
 
 ## つかいかた (Usage)
 
@@ -60,7 +62,7 @@
 
 ## よくある質問 (FAQ)
 
-![](../../template/jp/faq/faq_11_infoOneComme.md)
+![faq_OneComme](../../template/jp/faq/faq_OneComme.md)
 
 ### Q. エディターと同時に使えますか？
 
@@ -73,7 +75,7 @@
 
 ## トラブルシューティング (Troubleshooting)
 
-![](../../template/jp/troubleshooting/troubleshooting_11_infoOneComme.md)
+![troubleshooting_OneComme](../../template/jp/troubleshooting/troubleshooting_OneComme.md)
 
 ### Q. 「読み込み中...」のまま、何も表示されません
 
@@ -85,11 +87,23 @@
 - おみくじやゲームが、まだ一度も実行されていない可能性があります。
 - コメントテスターで、おみくじを一度実行してみてください。
 
-![](../../template/jp/license/license_91_AppLicense.md)
+## ライセンス（License）
+
+### アプリ本体（ジェネレーター・エディター・プラグイン）
+
+![license_App](../../template/jp/license/license_App.md)
+
+### 効果音
+
+![license_SoundEffect](../../template/jp/license/license_SoundEffect.md)
+
+### パッケージデータ
+
+![license_PackageGeneric](../../template/jp/license/license_PackageGeneric.md)
 
 ## バージョン情報 (Version)
 
-> 詳細な変更履歴は [Releases](https://github.com/Pintocuru/OmikujiBot-Docs/releases) をご覧ください。
+![version_ReleasesLink](../../template/jp/version/version_ReleasesLink.md)
 
 ### コンソール
 
@@ -98,6 +112,6 @@
   - 利用には、前提アプリとしてプラグインが必要です。
   - ジェネレーターの UI を操作する機能も備えています。
 
-![](../../template/jp/credits/credits_99_sesupin.md)
+![contact_Author](../../template/jp/contact/contact_Author.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

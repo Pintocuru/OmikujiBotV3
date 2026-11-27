@@ -2,11 +2,13 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![intro_11](../../template/jp/intro/intro_11.md) テンプレートです。
+配信者のためのコメントアプリ「わんコメ」で使用できる、テンプレートです。
 
 この内容は、BOOTH で配布している、 [おみくじBOT ストロベリーショコラ OmikujiBot StrawberryChocolate](https://pintocuru.booth.pm/items/7733810) の readme となります。
 
-![intro_22_IntroOneComme](../../template/jp/intro/intro_22_IntroOneComme.md)
+## はじめに（Intro）
+
+![intro_Disclaimer](../../template/jp/intro/intro_Disclaimer.md)
 
 ## このテンプレートは何？（Features）
 
@@ -18,7 +20,9 @@
 - ピンとくる企画のオリジナルキャラクター「ストロベリーショコラ」を BOT キャラクターにしました。
   - 世話好きでお姉さんらしい雰囲気を持ち、甘く丁寧な接客が魅力です。
 
-![features_11_HowToPlay](../../template/jp/features/features_11_HowToPlay.md)
+### シーン別・活用例
+
+![features_SceneOmikuji](../../template/jp/features/features_SceneOmikuji.md)
 
 ### ストロベリーショコラのキャラクター設定
 
@@ -33,29 +37,47 @@
   - 呼びかけは「〜さん」と親しみを込めつつ、少し甘えさせてくれるようなニュアンスを持っています。
     - 悪いことをすると「～ちゃん」とからかうことも？
 
-![Installation_92_OmikujiBotPROSet](../../template/jp/installation/Installation_92_OmikujiBotPROSet.md)
+## インストール (Installation)
+
+![installation_ProPackage](../../template/jp/installation/installation_ProPackage.md)
 
 ## つかいかた (Usage)
 
-![usage_92_OmikujiActivation](../../template/jp/usage/usage_92_OmikujiActivation.md)
+### おみくじを発動させるには
+
+![usage_OmikujiActivation](../../template/jp/usage/usage_OmikujiActivation.md)
+
+### じゃんけん
 
 ![usage_JankenHonda](../../template/jp/usage/usage_JankenHonda.md)
 
+### 初見判定ちゃん
+
 ![usage_FirstCounter](../../template/jp/usage/usage_FirstCounter.md)
+
+### ギフトのお礼
 
 ![usage_Gift](../../template/jp/usage/usage_Gift.md)
 
+### コメント数チェック (配信内・個人総合)
+
 ![usage_CountStream](../../template/jp/usage/usage_CountStream.md)
+
+### コメント数を確認する
 
 ![usage_CheckNumber](../../template/jp/usage/usage_CheckNumber.md)
 
-![customization_21_ConfigEditor](../../template/jp/customization/customization_21_ConfigEditor.md)
+## カスタマイズ（Customization）
 
-![customization_11_illust](../../template/jp/customization/customization_11_illust.md)
+### 「おみくじBOT エディター」で自由におみくじを編集できる
 
-![faq_91_OmikujiBotSet](../../template/jp/faq/faq_91_OmikujiBotSet.md)
+![customization_ConfigEditor](../../template/jp/customization/customization_ConfigEditor.md)
 
-![troubleshooting_91_OmikujiBotSet](../../template/jp/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![customization_CharacterCopyright](../../template/jp/customization/customization_CharacterCopyright.md)
+
+![faq_OmikujiBotSection](../../template/jp/faq/faq_OmikujiBotSection.md)
+
+![troubleshooting_OmikujiBotSection](../../template/jp/troubleshooting/troubleshooting_OmikujiBotSection.md)
 
 ## クレジット（Credits）
 
@@ -69,7 +91,23 @@
 
 あたしぃのデータはサンプル用だからぁ、自由に置き換えしてもらって結構よぉ♡
 
-![license_92_PackageLicense](../../template/jp/license/license_92_PackageLicense.md)
+## ライセンス（License）
+
+### JSON データ
+
+![license_PackageJson](../../template/jp/license/license_PackageJson.md)
+
+### 画像・イラスト等について
+
+![license_PackageImage](../../template/jp/license/license_PackageImage.md)
+
+### アプリ本体（ジェネレーター・エディター・プラグイン）
+
+![license_App](../../template/jp/license/license_App.md)
+
+### 効果音
+
+![license_SoundEffect](../../template/jp/license/license_SoundEffect.md)
 
 ## バージョン情報 (Version)
 
@@ -102,6 +140,6 @@
   - 今後のリリースは、このバージョンを唯一の PRO 版（ライセンスキー付き）にする予定です
   - 他のリリースは「通常版」のほかに「支援版」として提供する場合もありますが、ライセンスキーはこのバージョンのみです。
 
-![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)
+![contact_Author](../../template/jp/contact/contact_Author.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

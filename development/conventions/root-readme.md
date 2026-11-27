@@ -16,3 +16,4 @@
 - Templater の実行タグや埋め込み記法を、通常の Markdown リンクへ不用意に書き換えない。
 - 生成後の `README.md` / `README.<lang>.md` は、GitHub で表示できる通常の Markdown とする。
 - インストール手順などの共通説明は、既存の部品を利用し、各 README で重複して記述しない。
+- 部品・テンプレートの編集、命名、見出しのルールは [readme-template-rules.md](./readme-template-rules.md) に従う。

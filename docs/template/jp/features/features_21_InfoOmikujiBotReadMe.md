@@ -1,1 +1,0 @@
-- インストールやカスタマイズ等、機能に関する内容は [おみくじBOT OmikujiBot README](/core/OmikujiBot/README.md) をご覧ください。

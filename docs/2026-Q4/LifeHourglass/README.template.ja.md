@@ -27,7 +27,9 @@
 
 配信を開始するとカウントが0から始まり、配信中の同時接続数と経過時間に応じて砂粒が増えていきます。ギフトを受け取った場合も、金額に応じた砂粒が加算されます。
 
-![Installation_92_OmikujiBotPROSet](../../template/jp/installation/Installation_92_OmikujiBotPROSet.md)
+## インストール (Installation)
+
+![installation_PluginPage](../../template/jp/installation/installation_PluginPage.md)
 
 ## つかいかた (Usage)
 
@@ -35,13 +37,33 @@
 
 - これまでに投稿したコメント数を、わんコメが起動していた配信枠の範囲でカウントし、結果をトースト通知で表示します。
 
-![customization_21_ConfigEditor](../../template/jp/customization/customization_21_ConfigEditor.md)
+## カスタマイズ（Customization）
 
-![faq_91_OmikujiBotSet](../../template/jp/faq/faq_91_OmikujiBotSet.md)
+### 「おみくじBOT エディター」で自由におみくじを編集できる
 
-![troubleshooting_91_OmikujiBotSet](../../template/jp/troubleshooting/troubleshooting_91_OmikujiBotSet.md)
+![customization_ConfigEditor](../../template/jp/customization/customization_ConfigEditor.md)
 
-![license_92_PackageLicense](../../template/jp/license/license_92_PackageLicense.md)
+![faq_OmikujiBotSection](../../template/jp/faq/faq_OmikujiBotSection.md)
+
+![troubleshooting_OmikujiBotSection](../../template/jp/troubleshooting/troubleshooting_OmikujiBotSection.md)
+
+## ライセンス（License）
+
+### JSON データ
+
+![license_PackageJson](../../template/jp/license/license_PackageJson.md)
+
+### 画像・イラスト等について
+
+![license_PackageImage](../../template/jp/license/license_PackageImage.md)
+
+### アプリ本体（ジェネレーター・エディター・プラグイン）
+
+![license_App](../../template/jp/license/license_App.md)
+
+### 効果音
+
+![license_SoundEffect](../../template/jp/license/license_SoundEffect.md)
 
 ## バージョン情報 (Version)
 
@@ -50,6 +72,6 @@
 - **おみくじBOT のバージョン**: v3.0.0-beta3
 - 新規作成
 
-![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)
+![contact_Author](../../template/jp/contact/contact_Author.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>

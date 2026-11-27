@@ -1,5 +1,3 @@
-### うさぎスロット
-
 > 発動ワード : `うさぎ` / `ウサギ`/ `ドワーフ`/ `rabbit`/ `dwarf`/ `usagi`
 
 - Nolimit City 「Fire in the Hole」 をイメージした、スロット風おみくじ。得点の高さを競います。

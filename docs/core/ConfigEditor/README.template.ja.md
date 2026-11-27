@@ -2,13 +2,15 @@
 
 最終更新日：<% tp.date.now('YYYY/MM/DD') %>
 
-![intro_11](../../template/jp/intro/intro_11.md) ジェネレーター BOT 「おみくじBOT」のデータを編集できるアプリケーションです。
+配信者のためのコメントアプリ「わんコメ」で使用できる、ジェネレーター BOT 「おみくじBOT」のデータを編集できるアプリケーションです。
 
-![intro_12](../../template/jp/intro/intro_12.md) 下記に同梱している 「おみくじBOT エディター」 の readme となります。
+この内容は、BOOTH または Github で配布している、下記に同梱している 「おみくじBOT エディター」 の readme となります。
 
-![OmikujiBotPackageBOOTH](../../template/jp/_common/OmikujiBotPackageBOOTH.md)
+![common_StrawberryChocolateBooth](../../template/jp/_common/common_StrawberryChocolateBooth.md)
 
-![intro_22_IntroOneComme](../../template/jp/intro/intro_22_IntroOneComme.md)
+## はじめに（Intro）
+
+![intro_Disclaimer](../../template/jp/intro/intro_Disclaimer.md)
 
 ## このアプリは何？（Features）
 
@@ -37,7 +39,7 @@
 
 ## インストール (Installation)
 
-### [1. おみくじBOT のアップグレード / おみくじBOT エディターの新規導入](../../template/jp/installation/Installation_52_VersionUp.md)
+### [1. おみくじBOT のアップグレード / おみくじBOT エディターの新規導入](../../template/jp/installation/installation_VersionUp.md)
 
 - おみくじBOT エディターは、一部のおみくじBOT のパッケージに付属しています。
 - 付属していない場合でも、無料で おみくじBOT エディターの導入が可能です。
@@ -65,7 +67,7 @@
 1. 「設定を出力 (js)」ボタンを押すと、ブラウザから「omikujiData.js」というファイルが保存されます。
 2. おみくじBOT エディターと同じフォルダに、ダウンロードした「omikujiData.js」を上書き保存します。
 
-![faq_91_OmikujiBotSet](../../template/jp/faq/faq_91_OmikujiBotSet.md)
+![faq_OmikujiBotSection](../../template/jp/faq/faq_OmikujiBotSection.md)
 
 ### エディター関連
 
@@ -112,12 +114,24 @@ A. 配布データをそのまま再配布することは禁止です。内容�
   - [Open Peeps](https://www.dicebear.com/styles/open-peeps/) - CC0 1.0
   - [Pixel Art](https://www.dicebear.com/styles/pixel-art/) - CC0 1.0
 
-![license_91_AppLicense](../../template/jp/license/license_91_AppLicense.md)
+## ライセンス（License）
+
+### アプリ本体（ジェネレーター・エディター・プラグイン）
+
+![license_App](../../template/jp/license/license_App.md)
+
+### 効果音
+
+![license_SoundEffect](../../template/jp/license/license_SoundEffect.md)
+
+### パッケージデータ
+
+![license_PackageGeneric](../../template/jp/license/license_PackageGeneric.md)
 
 ## バージョン情報
 
-> 詳細な変更履歴は [Releases](https://github.com/Pintocuru/OmikujiBot-Docs/releases) をご覧ください。
+![version_ReleasesLink](../../template/jp/version/version_ReleasesLink.md)
 
-![credits_99_sesupin](../../template/jp/credits/credits_99_sesupin.md)
+![contact_Author](../../template/jp/contact/contact_Author.md)
 
 <%* await tp.user.expandEmbeds(tp,'ja') %>
