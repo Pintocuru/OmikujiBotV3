@@ -231,7 +231,9 @@
   type Slot = { col: number; row: number }
   const hoverSlot = ref<Slot | null>(null)
   const rungKeys = computed(() => new Set(allRungs.value.map((r) => rungKey(r.col, r.row))))
-  const hoverHasRung = computed(() => !!hoverSlot.value && rungKeys.value.has(rungKey(hoverSlot.value.col, hoverSlot.value.row)))
+  const hoverHasRung = computed(
+    () => !!hoverSlot.value && rungKeys.value.has(rungKey(hoverSlot.value.col, hoverSlot.value.row))
+  )
 
   /** 画面の座標から、横線を引ける場所 (縦線の間 × 行) を求める */
   const slotAt = (clientX: number, clientY: number): Slot | null => {
@@ -350,5 +352,4 @@
     const p = tip(i)
     ctx.view.focusPoint(colToX(p.col), rowProgressToY(p.row))
   })
-
 </script>

@@ -2,8 +2,7 @@
 <template>
   <ToolTopBar title="あみだくじ">
     <div class="badge badge-neutral text-xs gap-1">
-      参加者: <span class="font-mono font-bold">{{ players.length }}</span
-      >人
+      参加者: <span class="font-mono font-bold">{{ players.length }}</span>人
     </div>
     <div class="badge text-xs" :class="phaseBadgeClass">
       {{ phaseLabel }}
