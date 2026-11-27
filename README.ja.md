@@ -2,14 +2,14 @@
 
 # OmikujiBot
 
-OmikujiBotは、配信向けアプリ「わんコメ」専用のおみくじBOTを作るプロジェクトです。
-BOT本体の「Generator」と、その設定データを作成・編集する「Editor」を中心に、配信画面UIやゲームスクリプト、データ管理機能などで構成されています。
+OmikujiBotは、配信向けアプリ「わんコメ」で動作するアプリケーションを構築・提供するソフトウェアです。
+共通の OmikujiBot エンジンは、Generator、Console、Plugin などで構成され、配布パッケージごとに用途や機能が異なります。Plugin を必要とせず Generator 単体で動作するパッケージもあれば、Plugin とサーバーを利用して Console などの機能を提供するパッケージもあります。
 
 ## 構成
 
-### Generator : BOT本体 (`src/generator`)
+### Generator : 表示・生成機能 (`src/generator`)
 
-設定データを読み込み、コメントやタイマーなどのイベントを処理します。トリガー条件に応じておみくじを抽選し、ステップやゲームスクリプトを実行して、配信画面に表示するメッセージを生成します。
+設定データを読み込み、コメントやタイマーなどのイベントを処理します。トリガー条件に応じて抽選や各種処理を実行し、配信画面に表示するメッセージなどを生成します。Generator は Plugin がなくても利用できます。
 
 [詳細: Generator](docs/architecture/Generator.md)
 
@@ -39,13 +39,13 @@ Generatorから実行されるゲーム・ツール用スクリプトです。�
 
 ### Plugin : わんコメプラグイン (`src/plugin`)
 
-OmikujiBot専用のわんコメプラグインです。Managerなどが利用するAPIの窓口となり、ゲーム結果やユーザー情報などのデータ管理を支えます。
+OmikujiBot 専用のわんコメプラグインです。サーバー API を提供し、Generator の情報やユーザー情報などの管理、Console との連携、機能拡張を担います。
 
 [詳細: Plugin](docs/architecture/Plugin.md)
 
-### Console : ライブコンソール (`src/console`)
+### Console : 操作・管理環境 (`src/console`)
 
-ポン出し、ユーザー操作、ゲームの記録閲覧などをブラウザから行うWebアプリです。
+ユーザー管理、Generator の情報閲覧、ゲームなどをブラウザから操作・管理する汎用 Web アプリです。利用には Plugin とサーバーが必要です。
 
 [詳細: Console](docs/architecture/Console.md)
 
