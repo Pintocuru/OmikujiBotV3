@@ -104,12 +104,6 @@
 
 ![version_ReleasesLink](../../template/jp/version/version_ReleasesLink.md)
 
-### コンソール
-
-- おみくじBOT ライブコンソール（OmikujiBot LiveConsole）を追加しました。
-  - プラグインに保存されたおみくじ結果を閲覧できるアプリです。
-  - 利用には、前提アプリとしてプラグインが必要です。
-  - ジェネレーターの UI を操作する機能も備えています。
 
 ![contact_Author](../../template/jp/contact/contact_Author.md)
 
