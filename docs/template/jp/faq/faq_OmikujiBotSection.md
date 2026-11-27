@@ -30,4 +30,4 @@
 - [Q. 評価ブロックとは](/core/ConfigEditor/sub/VariablePlaceholder.md)
 - [Q. 評価ブロック チートシート](/core/ConfigEditor/sub/VariablePlaceholderCheatSheet.md)
 - [Q. おみくじ表示時、好きなサウンドを鳴らすには](/template/jp/faq/OmikujiEdit/faq_OmikujiSoundPage.md)
-- [Q. おみくじ表示時にWordpartyを鳴らす](/template/jp/faq/OmikujiEdit/faq_OmikujiWordPartyPage.md)
+- [Q. おみくじ表示時にWordPartyを鳴らす](/template/jp/faq/OmikujiEdit/faq_OmikujiWordPartyPage.md)
