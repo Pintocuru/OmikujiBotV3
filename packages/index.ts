@@ -23,3 +23,17 @@ export default [
   // MaidenOmikuji, // 巫女さんのおみくじ
   // GouseiSuika, // スイカジェネレーター
 ]
+
+/**
+
+TODO:
+// packages/index.ts
+import OmikujiBot from './common/OmikujiBot/build'
+import StrawberryChocolate from './common/StrawberryChocolate/build'
+
+export default [
+  OmikujiBot,
+  StrawberryChocolate,
+]
+
+ */
