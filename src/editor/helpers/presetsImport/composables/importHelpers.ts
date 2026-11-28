@@ -8,7 +8,6 @@ import {
   UiKind,
   assetCategory,
   eventCategory,
-  uiKinds,
 } from '@/types/OmikujiData/'
 
 // データを持つ全カテゴリ(Events + Assets)
@@ -83,7 +82,7 @@ export const generateComponentPreview = (
 ): Partial<Record<UiKind, ComponentImportConfig>> => {
   const componentConfigs: Partial<Record<UiKind, ComponentImportConfig>> = {}
 
-  uiKinds.forEach((kind) => {
+  ;(Object.keys(importData.ui?.settings ?? {}) as UiKind[]).forEach((kind) => {
     if (currentData.ui.settings[kind] && importData.ui.settings[kind]) {
       componentConfigs[kind] = { enabled: true, useImported: false }
     }
