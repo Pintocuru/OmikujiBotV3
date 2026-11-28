@@ -72,7 +72,7 @@ UIの登録（`uiRegistry.ts` と `UiKind`）と同じ考え方です。
 - コメントは OneSDK の購読（`GetOmikenComments`）で受け取ります。わんコメへの接続が前提です。
 - ゲーム進行は固定刻みの純粋関数（`scripts/oshikuraChainEngine.ts`）、描画・演出は Excalibur（`render/`）が担当します。
 - ウィンドウが非表示の間はゲームも停止し、再表示後に停止中の時間をまとめて進めることはありません。
-- 設定は `game-configs/oshikuraChain.json` に保存します（`load-game-config` / `save-game-config`）。
+- 設定は `data/game-configs/oshikuraChain.json` に保存します（`load-game-config` / `save-game-config`）。
 - ゲームモードは、耐久とタイムアタック（獲得秒数の合計が目標に届くまでのタイムを競う）。コメントの源は、配信のコメントと、5 秒ごとに架空のコメントを入れるオートモード（配信のコメントは無視）から選べます。
 - 終了時に、ユーザーごとの貢献度（`eventKey`: `oshikuraChainSeconds`）と、全体の生存時間（`eventKey`: `oshikuraChainTime`）を GameLog に記録します。タイムアタックはクリアしたときだけ、クリアタイム（`eventKey`: `oshikuraChainTimeAttack`）を記録します。オートモードでは、貢献度は記録しません。ユーザーの得点は変えません。
 - 仕様・設計・調整できる定数は、`src/console/game/OshikuraChain/SPEC.md` を参照してください。
