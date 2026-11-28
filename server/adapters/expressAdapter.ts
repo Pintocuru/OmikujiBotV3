@@ -3,13 +3,14 @@ import { Request, Response, Application } from 'express'
 import { RequestContext, UnifiedRequest, ApiResult } from '@server/types'
 import { routeRequest } from '@server/core/router'
 import { SERVER_ROOT } from '@server/constants'
+import path from 'path'
 import { HTTP } from '@server/core/constants'
 
 /**
  * Express(開発用)の実行環境
  */
 const EXPRESS_CONTEXT: RequestContext = {
-  omikujiOutputDir: SERVER_ROOT,
+  omikujiOutputDir: path.join(SERVER_ROOT, 'data'),
   allowMock: true, // 開発サーバーにはわんコメがないため、ダミーデータを追加するアクションを許可する
 }
 
