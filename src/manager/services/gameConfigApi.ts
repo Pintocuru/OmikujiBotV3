@@ -9,7 +9,7 @@ import {
 import { BaseApiClient } from './baseApiClient'
 
 /**
- * LiveConsole のゲームの設定 (server/game-configs/<gameKey>.json) の API
+ * LiveConsole のゲームの設定 (server/data/game-configs/<gameKey>.json) の API
  * 中身の検証は、ゲーム側のスキーマで行う (ここでは、オブジェクトであることだけを見る)
  */
 class GameConfigApiService extends BaseApiClient {
