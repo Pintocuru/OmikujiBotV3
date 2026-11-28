@@ -1,0 +1,3 @@
+[submodule "products"]
+	path = products
+	url = git@github.com:Pintocuru/OmikujiBotV3-Product.git
