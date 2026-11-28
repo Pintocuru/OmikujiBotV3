@@ -4,7 +4,7 @@
 
 非公開 Submodule `OmikujiBotV3-Product` の商品データを、四半期単位かつ商品単位で管理する構成（案B）が、現在の `OmikujiBotV3` の実装で実現可能かを調査する。
 
-この文書は他のエージェントに調査を依頼するためのもの。**実装・ファイル移動・設定変更は行わない。**
+この文書は、他のエージェントに調査を依頼するためのもの。**実装・ファイル移動・設定変更は行わない。**
 
 ## 前提・合意事項
 
@@ -67,6 +67,7 @@ OmikujiBotV3/
 案Bの `products/2026-Q4/<key>/build.ts` では、親ディレクトリ名から得られるcategoryは `2026-Q4` となる。現在のcategoryの意味・README URL・バナーURLなどと整合するかを調べる必要がある。
 
 検討事項：
+
 - category / key / dir を明示的に指定するAPIにするべきか。
 - `dir` はSubmodule内の商品ディレクトリを指すだけでよいか。
 - 既存商品の呼び出し方との後方互換性をどう保つか。
@@ -76,6 +77,7 @@ OmikujiBotV3/
 対象：`tools/viteBuild/core/ConfigResolver.ts`
 
 確認できた現状：
+
 - `packageRoot` は `PROJECT_ROOT`。
 - entry point は `definePackage()` が返す商品 `dir` を基準に解決。
 - プリセットJSONのルートは `PROJECT_ROOT/server/presets/` 固定。
@@ -83,6 +85,7 @@ OmikujiBotV3/
 - README / banner URL はcategoryとseriesから組み立てている。
 
 検討事項：
+
 - 商品ディレクトリとビルド基盤のルートを別々に扱えるか。
 - `extraFiles.from` の相対パスの基準をどう定義するか。現状の指定例にはPublicルート基準のパスがある。
 - 出力先、README、バナー、商品識別子の組み立てをどう保つか。
@@ -91,17 +94,20 @@ OmikujiBotV3/
 ### 3. Vite画像・音声アセット探索
 
 対象：
+
 - `tools/viteConfig/imageAssetsPlugin.ts`
 - `tools/viteConfig/soundAssetsPlugin.ts`
 - `vite.config.ts`
 
 確認できた現状：
+
 - 開発サーバー向けのmiddleware plugin。
 - 画像はPublicルートの `assets/images/`、音声はPublicルートの `assets/sounds/` を探索する。
 - 画像・音声とも中間フォルダ名から `common` / `wip` / 四半期フォルダ等を探索する方式。
 - URLは `/images/...` / `/sounds/...` の形を維持する。
 
 検討事項：
+
 - 商品ディレクトリ内の `assets/images` / `assets/sounds` をどのように探索対象に加えるか。
 - 商品名を含むURLにするか、既存の短いURLを維持するか。
 - 同名素材が複数商品にある場合の衝突回避。
@@ -111,15 +117,18 @@ OmikujiBotV3/
 ### 4. TypeScript / Vite alias
 
 対象：
+
 - `tsconfig.json`
 - `tools/viteConfig/CreateViteAliases.ts`
 - Vite設定・ビルド時のalias生成処理
 
 確認できた現状：
+
 - TypeScriptのpathsはPublicルートの `src/`、`assets/`、`packages/`、`server/`、`tools/` を基準にしている。
 - includeにはPublic側の `packages/**/*.ts`、`server/**/*.ts`、`tools/**/*.ts` などが指定されている。
 
 検討事項：
+
 - Submodule側の商品コードからPublic側の共通ソースをimportできるか。
 - Submodule側のコードや設定ファイルも型チェック対象に含められるか。
 - Submodule未取得でもPublic側の型チェックを成立させられるか。
@@ -129,6 +138,7 @@ OmikujiBotV3/
 ### 5. ビルド入口とビルド基盤
 
 対象：
+
 - `packages/build.ts`
 - `packages/index.ts`
 - `tools/viteBuild/buildPackages.ts`
@@ -136,12 +146,14 @@ OmikujiBotV3/
 - `tools/viteBuild/buildOptions/`
 
 確認できた現状：
+
 - Public側のビルド入口は `packages/build.ts`。
 - ビルド対象は `packages/index.ts` のimport/exportで管理。
 - `buildPackages()` は `PROJECT_ROOT` を出力先・検査対象などに使用する。
 - `PROJECT_ROOT` は共通ビルド基盤のファイル位置からPublicリポジトリルートを算出している。
 
 検討事項：
+
 - Public用のビルド入口とProduct用のビルド入口を分離する具体案。
 - Product用入口からSubmodule内の `build.ts` を読み込む方法。
 - `buildPackages()` が複数の商品root / repository root を扱えるようにする必要があるか。
@@ -154,6 +166,7 @@ OmikujiBotV3/
 案Bでは商品ディレクトリに `main.ts` などが置かれるが、商品固有のVue/TS実装をSubmoduleへ移すとは限らない。ユーザー方針として商品専用 `src/` は置かない。
 
 調査対象：
+
 - 商品の `main.ts` / `editor.ts` / `console.ts` からPublic側 `src/` へのimport。
 - Public側の `src/` に置かれている商品固有UI・ゲーム・スキーマ・型・i18nとの依存。
 - 商品専用コードと共通機能の境界。
