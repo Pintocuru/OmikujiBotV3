@@ -31,9 +31,7 @@
   })
 
   const message = computed(() =>
-    items.value
-      ? formatBuildMismatchMessage(items.value, translate)
-      : t('uiSettings.common.buildMismatch.missing')
+    items.value ? formatBuildMismatchMessage(items.value, translate) : t('uiSettings.common.buildMismatch.missing')
   )
 
   // 表示と同時に、わんコメにも通知する(表示のたびに連投しないよう throttle)

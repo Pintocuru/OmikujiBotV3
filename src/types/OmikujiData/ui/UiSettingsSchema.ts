@@ -4,12 +4,7 @@ import { CharacterStageSchema, CommentBubbleSchema, KujibikiPanelSchema } from '
 import { GameRankingSchema } from '@/types/ui/game'
 
 /** Public に残す UI 種別 */
-export const knownUiKinds = [
-  'characterStage',
-  'commentBubble',
-  'kujibikiPanel',
-  'gameRanking',
-] as const
+export const knownUiKinds = ['characterStage', 'commentBubble', 'kujibikiPanel', 'gameRanking'] as const
 
 export type KnownUiKind = (typeof knownUiKinds)[number]
 export type UiKind = KnownUiKind | (string & {})

@@ -9,5 +9,4 @@ export const uiKindIcons: Partial<Record<UiKind, LucideIconName>> = {
   kujibikiPanel: 'Sparkles',
 }
 
-export const registerUiKindIcons = (icons: Partial<Record<UiKind, LucideIconName>>) =>
-  Object.assign(uiKindIcons, icons)
+export const registerUiKindIcons = (icons: Partial<Record<UiKind, LucideIconName>>) => Object.assign(uiKindIcons, icons)

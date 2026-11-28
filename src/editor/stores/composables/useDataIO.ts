@@ -10,7 +10,8 @@ import { reportDataMismatch, validateAgainstBuild } from '@/common/buildValidati
 import i18n from '@/i18n/editorI18n'
 
 const t = (key: string) => i18n.global.t(key)
-const translateBuildMismatch = (key: string, values?: Record<string, string>) => String(i18n.global.t(key, values ?? {}))
+const translateBuildMismatch = (key: string, values?: Record<string, string>) =>
+  String(i18n.global.t(key, values ?? {}))
 
 /**
  * データの入出力（読み込み・保存・エクスポート）を提供

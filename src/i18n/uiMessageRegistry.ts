@@ -1,3 +1,4 @@
+// src/i18n/uiMessageRegistry.ts
 export type UiMessageModules = Record<string, Record<string, unknown>>
 
 const registeredUiMessages: UiMessageModules = {}

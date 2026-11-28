@@ -18,9 +18,7 @@ export const uiLayoutMap: Partial<Record<NonNullable<UiLayoutType>, UiKind[]>> =
 
   // おみくじ
   kujibikiPanel: ['kujibikiPanel', 'characterStage'],
-
 }
 
-export const registerUiLayoutMap = (
-  layouts: Partial<Record<NonNullable<UiLayoutType>, UiKind[]>>
-) => Object.assign(uiLayoutMap, layouts)
+export const registerUiLayoutMap = (layouts: Partial<Record<NonNullable<UiLayoutType>, UiKind[]>>) =>
+  Object.assign(uiLayoutMap, layouts)

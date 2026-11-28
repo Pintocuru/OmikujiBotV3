@@ -1,3 +1,4 @@
+// src/i18n/ui/UiSettingsDisplayMessages.ts
 export const uiSettingsDisplay = {
   ja: {
     uiSettings: {

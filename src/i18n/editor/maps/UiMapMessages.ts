@@ -1,3 +1,4 @@
+// src/i18n/editor/maps/UiMapMessages.ts
 export const uiMapMessages = {
   ja: {
     mapText: {

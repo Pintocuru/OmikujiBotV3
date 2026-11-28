@@ -1,3 +1,4 @@
+// src/i18n/ui/UiComponentMessages.ts
 export const uiComponentMessages = {
   ja: {
     uiComponents: {

@@ -12,5 +12,4 @@ export const gameScriptKeys = knownGameScriptKeys
 // スキーマと型の定義
 export const GameScriptKeySchema = z.string()
 
-export const isGameScriptKey = (value: string): value is GameScriptKey =>
-  typeof value === 'string' && value.length > 0
+export const isGameScriptKey = (value: string): value is GameScriptKey => typeof value === 'string' && value.length > 0
