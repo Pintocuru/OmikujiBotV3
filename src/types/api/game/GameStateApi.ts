@@ -10,7 +10,7 @@ export const StreamIdSchema = z.string().regex(/^[A-Za-z0-9_-]{1,100}$/, '英数
 export type StreamIdType = z.infer<typeof StreamIdSchema>
 
 /**
- * 1配信ぶんの保存ファイル (server/streams/<streamId>.json)
+ * 1配信ぶんの保存ファイル (server/data/streams/<streamId>.json)
  * states は eventKey ごとの GameState
  */
 export const StreamGameFileSchema = z.object({
