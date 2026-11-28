@@ -10,9 +10,6 @@ _archive
 .obsidian
 distZipped
 
-# おみくじデータ(omikujiData.js)
-server/omikujiData.js
-
 # Editor directories and files
 .vscode/*
 .DS_Store
@@ -25,5 +22,5 @@ server/streams/
 server/bingo-patterns/
 server/game-configs/
 server/userStats.json
-# 生成 AI の接続先 (API キーを含む)
+server/omikujiData.js
 server/ai-settings.json
