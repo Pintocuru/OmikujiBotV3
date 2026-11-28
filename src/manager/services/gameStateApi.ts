@@ -14,7 +14,7 @@ import {
 import { BaseApiClient } from './baseApiClient'
 
 /**
- * 配信ごとのゲームステート (server/streams/<streamId>.json) の API
+ * 配信ごとのゲームステート (server/data/streams/<streamId>.json) の API
  */
 class GameStateApiService extends BaseApiClient {
   /**
