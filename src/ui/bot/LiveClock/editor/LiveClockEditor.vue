@@ -68,7 +68,7 @@
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
 
-  const liveClock = computed(() => data.value.ui.settings.liveClock ?? LiveClockSchema.parse({}))
+  const liveClock = computed(() => LiveClockSchema.parse(data.value.ui.settings.liveClock ?? {}))
 
   // 登録済みコンポーネントの選択肢(選択中の ID が未登録なら、その旨を先頭に出す)
   const componentOptions = computed(() => {

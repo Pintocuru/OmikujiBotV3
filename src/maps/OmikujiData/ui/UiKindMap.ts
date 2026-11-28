@@ -2,7 +2,7 @@
 import type { UiKind } from '@/types/OmikujiData'
 import { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
-export const uiKindIcons: Record<UiKind, LucideIconName> = {
+export const uiKindIcons: Partial<Record<UiKind, LucideIconName>> = {
   characterStage: 'UserSquare',
   commentBubble: 'MessageSquare',
   gameRanking: 'Trophy',

@@ -10,7 +10,7 @@ const RAW = `${DOCS}/raw/main`
  * ゲームスクリプトのアイコン
  * label は src/i18n/editor/maps/ScenarioMapMessages.ts にあります
  */
-export const gameIcons: Record<GameScriptKey, LucideIconName> = {
+export const gameIcons: Partial<Record<GameScriptKey, LucideIconName>> = {
   GouseiSuika: 'Apple',
   BomberSpin: 'Bomb',
   DwarfBomb: 'Rabbit',
@@ -25,7 +25,7 @@ export const gameIcons: Record<GameScriptKey, LucideIconName> = {
 /**
  * ゲームスクリプトのリンク情報
  */
-export const gameLinksMap: Record<GameScriptKey, { url: string; banner: string }> = {
+export const gameLinksMap: Partial<Record<GameScriptKey, { url: string; banner: string }>> = {
   GouseiSuika: {
     url: `${MAIN}/2025-Q4/GouseiSuika/GouseiSuika.md`,
     banner: `${RAW}/2025-Q4/GouseiSuika/GouseiSuika.webp`,

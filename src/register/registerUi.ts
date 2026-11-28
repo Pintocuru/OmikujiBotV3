@@ -42,7 +42,7 @@ const registerUiKinds = () =>
     toastWidgets: () => import('@/ui/bot/ToastWidgets/ToastWidgets.vue'),
     userBoard: () => import('@/ui/user/UserBoard/UserBoard.vue'),
     userComment: () => import('@/ui/comment/UserComment/UserComment.vue'),
-  } satisfies Record<UiKind, UiLoader>)
+  } satisfies Partial<Record<UiKind, UiLoader>>)
 
 // CommentBubble
 const registerBubbleComponents = () => {

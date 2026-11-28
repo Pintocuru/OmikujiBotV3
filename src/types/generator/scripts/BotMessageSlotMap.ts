@@ -135,14 +135,15 @@ export const UiMessageSpecs = {
   liverBingo: { bubble: false, slots: {} },
   luckyDraw: { bubble: false, slots: LuckyDrawSlotMap },
   snipeTimer: { bubble: false, slots: SnipeTimerSlotMap },
-} as const satisfies Record<UiKind, UiMessageSpec>
+} as const satisfies Partial<Record<UiKind, UiMessageSpec>>
 
-export const getUiMessageSpec = (kind: UiKind): UiMessageSpec => UiMessageSpecs[kind]
+export const getUiMessageSpec = (kind: UiKind): UiMessageSpec | undefined =>
+  (UiMessageSpecs as Partial<Record<UiKind, UiMessageSpec>>)[kind]
 
 /** 投稿を受け取れる UI か (editor の UI 選択に出すか) */
 export const acceptsPost = (kind: UiKind): boolean => {
   const spec = getUiMessageSpec(kind)
-  return !!spec.bubble || Object.keys(spec.slots).length > 0
+  return !!spec?.bubble || Object.keys(spec?.slots ?? {}).length > 0
 }
 
 export const postUiKinds = (Object.keys(UiMessageSpecs) as UiKind[]).filter(acceptsPost)

@@ -1,5 +1,5 @@
 // src/common/buildValidation/validateAgainstBuild.ts
-import { uiKinds, isGameScriptKey, type OmikujiDataType } from '@/types/OmikujiData'
+import { uiKinds, isGameScriptKey, type OmikujiDataType, type UiKind } from '@/types/OmikujiData'
 import { getLayoutLoader, getUiLoader } from '@/ui/uiRegistry'
 import { getGameScriptLoader } from '@/games/gameScriptRegistry'
 import { dialog } from '@/common/Dialog/dialogState'
@@ -43,6 +43,21 @@ const collectGameScriptKeys = (node: unknown, found: Set<string>): void => {
   Object.values(record).forEach((child) => collectGameScriptKeys(child, found))
 }
 
+/** データ内の step(kind: 'message')から uiKey を集める。assets 配下のどこにあっても拾える */
+const collectUiKeys = (node: unknown, found: Set<string>): void => {
+  if (Array.isArray(node)) {
+    node.forEach((child) => collectUiKeys(child, found))
+    return
+  }
+  if (node === null || typeof node !== 'object') return
+
+  const record = node as Record<string, unknown>
+  if (record.kind === 'message' && typeof record.uiKey === 'string' && record.uiKey) {
+    found.add(record.uiKey)
+  }
+  Object.values(record).forEach((child) => collectUiKeys(child, found))
+}
+
 /**
  * データが、このビルドで未登録のキーを使っていないか検証する
  * @returns 未対応キーの一覧(空配列なら問題なし)
@@ -50,14 +65,23 @@ const collectGameScriptKeys = (node: unknown, found: Set<string>): void => {
 export const validateAgainstBuild = (data: OmikujiDataType): UnsupportedKey[] => {
   const unsupported: UnsupportedKey[] = []
 
-  // UI 種別: src/types の uiKinds から列挙。settings に設定がある種別だけが「使用中」
-  for (const kind of uiKinds) {
+  // UI 種別: settings に設定がある種別だけが「使用中」
+  for (const kind of Object.keys(data.ui.settings) as UiKind[]) {
     if (data.ui.settings[kind] && !getUiLoader(kind)) unsupported.push({ type: 'ui', key: kind })
   }
 
   // レイアウト
   const { layout } = data.ui
   if (layout && !getLayoutLoader(layout)) unsupported.push({ type: 'layout', key: layout })
+
+  // シナリオステップで指定された UI 種別
+  const uiKeys = new Set<string>()
+  collectUiKeys(data.assets, uiKeys)
+  for (const uiKey of uiKeys) {
+    if (!getUiLoader(uiKey as UiKind) && !unsupported.some((u) => u.type === 'ui' && u.key === uiKey)) {
+      unsupported.push({ type: 'ui', key: uiKey })
+    }
+  }
 
   // gameScript: scriptKey は文字列なので、gameScriptKeys にない値も未対応として扱う
   const scriptKeys = new Set<string>()

@@ -1,5 +1,5 @@
 // src/editor/assets/scenarios/items/stepChoice.ts
-import { uiKinds, type ScenarioStepKind, type UiKind } from '@/types/OmikujiData'
+import { scenarioStepKinds, type ScenarioStepKind, type UiKind } from '@/types/OmikujiData'
 import { scenarioStepKindIcons, uiKindIcons } from '@/maps/OmikujiData'
 import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
 
@@ -10,10 +10,11 @@ import type { LucideIconName } from '@/common/LucideIcon/useLucideIcon'
  */
 export type StepChoice = Exclude<ScenarioStepKind, 'message'> | UiKind
 
-export const isUiKindChoice = (choice: StepChoice): choice is UiKind => (uiKinds as readonly string[]).includes(choice)
+export const isUiKindChoice = (choice: StepChoice): choice is UiKind =>
+  !scenarioStepKinds.includes(choice as ScenarioStepKind)
 
 /** 選択肢のアイコン (UiKind と kind のキーは重ならない) */
-export const stepChoiceIcons: Record<StepChoice, LucideIconName> = { ...scenarioStepKindIcons, ...uiKindIcons }
+export const stepChoiceIcons: Partial<Record<StepChoice, LucideIconName>> = { ...scenarioStepKindIcons, ...uiKindIcons }
 
 /**
  * 選択肢の i18n base (`<base>.label` / `.description`)

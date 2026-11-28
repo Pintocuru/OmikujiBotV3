@@ -12,7 +12,7 @@ import { commentBotMeta } from '@/games/scripts/tool/CommentBot/meta'
 import { snipeTimerMeta } from '@/games/scripts/tool/SnipeTimer/meta'
 
 // 入出力の宣言 (GameScriptKey の全キーに必須)
-const metas: Record<GameScriptKey, GameScriptMeta> = {
+const metas: Partial<Record<GameScriptKey, GameScriptMeta>> = {
   GouseiSuika: gouseiSuikaMeta,
   BomberSpin: bomberSpinMeta,
   DwarfBomb: dwarfBombMeta,
@@ -24,4 +24,4 @@ const metas: Record<GameScriptKey, GameScriptMeta> = {
   SnipeTimer: snipeTimerMeta,
 }
 
-export const getGameScriptMeta = (key: GameScriptKey): GameScriptMeta => metas[key]
+export const getGameScriptMeta = (key: GameScriptKey): GameScriptMeta | undefined => metas[key]

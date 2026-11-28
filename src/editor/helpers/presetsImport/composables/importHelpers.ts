@@ -80,7 +80,7 @@ export const generateCategoryPreview = (currentData: OmikujiDataType, importData
 export const generateComponentPreview = (
   currentData: OmikujiDataType,
   importData: OmikujiDataType
-): Record<UiKind, ComponentImportConfig> => {
+): Partial<Record<UiKind, ComponentImportConfig>> => {
   const componentConfigs: Partial<Record<UiKind, ComponentImportConfig>> = {}
 
   uiKinds.forEach((kind) => {
@@ -89,5 +89,5 @@ export const generateComponentPreview = (
     }
   })
 
-  return componentConfigs as Record<UiKind, ComponentImportConfig>
+  return componentConfigs
 }

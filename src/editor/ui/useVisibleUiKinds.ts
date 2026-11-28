@@ -12,8 +12,9 @@ export const useVisibleUiKinds = () => {
 
   return computed(() => {
     const kinds: readonly UiKind[] = uiLayoutMap[data.value.ui.layout]
-    return Object.entries(getUiEditorEntries())
-      .filter(([kind]) => kinds.includes(kind as UiKind))
-      .map(([kind, entry]) => ({ kind: kind as UiKind, entry }))
+    const entries = getUiEditorEntries()
+    return (Object.keys(entries) as UiKind[])
+      .filter((kind) => kinds.includes(kind) && entries[kind] !== undefined)
+      .map((kind) => ({ kind, entry: entries[kind]! }))
   })
 }

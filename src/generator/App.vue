@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted } from 'vue'
-  import { uiKinds } from '@/types/OmikujiData'
+  import { uiKinds, type UiKind } from '@/types/OmikujiData'
   import { useFontFamily } from '@/common/FontFamily/fontFamily'
   import { useAppInitializer } from '@/generator/composables/useAppInitializer'
   import { useRuleProcessor } from '@/generator/composables/useRuleProcessor'
@@ -72,7 +72,7 @@
 
   const activeComponents = computed(() => {
     const { settings } = appStore.data.ui
-    return uiKinds
+    return (Object.keys(settings) as UiKind[])
       .filter((kind) => settings[kind])
       .flatMap((kind) => {
         const loader = getUiLoader(kind)

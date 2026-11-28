@@ -25,7 +25,7 @@ export function createBotMessagesFromStep(
   const user = omiken ? UserNameSchema.parse(omiken) : undefined
   const slots = Object.keys(step.slots).length > 0 ? (step.slots as BotMessageSlotsType) : undefined
 
-  if (spec.bubble) {
+  if (spec?.bubble) {
     // 本文が空でも作る (空メッセージを弾くのは UI 側の責務)
     const message = step.message || ''
     return [createBubbleMessage(step, message, delaySeconds, characterResolver, user, slots)]

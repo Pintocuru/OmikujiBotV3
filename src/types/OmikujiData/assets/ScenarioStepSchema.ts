@@ -3,7 +3,6 @@ import { z } from 'zod'
 import { normalizedRecord } from '@/types/core/ParsedDefault'
 import { WeightValuesArraySchema } from '@/types/OmikujiData/assets/PlaceholderSchema'
 import { soundKeys } from '@/types/OmikujiData/assets/SoundKey'
-import { UiKindSchema } from '@/types/OmikujiData/ui/UiSettingsSchema'
 
 /**
  * シナリオステップの kind
@@ -32,7 +31,7 @@ const SoundMixin = {
 // ScenarioStep Message
 export const ScenarioStepMessageSchema = ScenarioStepBaseSchema.extend({
   kind: z.literal('message').default('message'),
-  uiKey: UiKindSchema.default('commentBubble').catch('commentBubble'), // 表示先の UI
+  uiKey: z.string().default('commentBubble'), // 表示先の UI
   slots: z.record(z.string(), z.string()).default({}).catch({}), // slotN の値 (UiMessageSpecs の map で意味が決まる)
   characterKey: z.string().default('').catch(''), // 空文字はキャラなし
   iconKey: z.string().default('default').catch('default'),

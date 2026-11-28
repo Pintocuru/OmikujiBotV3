@@ -2,22 +2,15 @@
 import { z } from 'zod'
 
 /**
- * ゲームスクリプトのキー
+ * Public に残すゲームスクリプトのキー
  */
-export const gameScriptKeys = [
-  'GouseiSuika',
-  'BomberSpin',
-  'DwarfBomb',
-  'MultiplyBonanza',
-  'GoogolClover',
-  'HugEmAll',
-  'FortuneRanking',
-  'CommentBot',
-  'SnipeTimer',
-] as const
+export const knownGameScriptKeys = ['GouseiSuika', 'CommentBot'] as const
+export type KnownGameScriptKey = (typeof knownGameScriptKeys)[number]
+export type GameScriptKey = KnownGameScriptKey | (string & {})
+export const gameScriptKeys = knownGameScriptKeys
 
 // スキーマと型の定義
-export const GameScriptKeySchema = z.enum(gameScriptKeys)
-export type GameScriptKey = z.infer<typeof GameScriptKeySchema>
+export const GameScriptKeySchema = z.string()
 
-export const isGameScriptKey = (value: string): value is GameScriptKey => GameScriptKeySchema.safeParse(value).success
+export const isGameScriptKey = (value: string): value is GameScriptKey =>
+  typeof value === 'string' && value.length > 0

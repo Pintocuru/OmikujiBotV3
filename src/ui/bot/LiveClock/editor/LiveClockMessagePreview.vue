@@ -34,7 +34,7 @@
 
   const { data } = storeToRefs(useOmikujiStore())
   const fontFamily = computed(() => useFontFamily(data.value.ui.fontFamily ?? 'default'))
-  const settings = computed(() => data.value.ui.settings.liveClock ?? LiveClockSchema.parse({}))
+  const settings = computed(() => LiveClockSchema.parse(data.value.ui.settings.liveClock ?? {}))
 
   // 投稿されたメッセージが出ている状態(コメント表示)で見せる
   const isMounted = ref(false)

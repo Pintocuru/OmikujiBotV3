@@ -45,5 +45,5 @@ export const registerAllUiEditor = () => {
     liverBingo: () => import('@/ui/game/LiverBingo/editor/LiverBingoEditor.vue'),
     luckyDraw: () => import('@/ui/user/LuckyDraw/editor/LuckyDrawEditor.vue'),
     snipeTimer: () => import('@/ui/counter/SnipeTimer/editor/SnipeTimerEditor.vue'),
-  } satisfies Record<UiKind, EditorDef>)
+  } satisfies Partial<Record<UiKind, EditorDef>>)
 }

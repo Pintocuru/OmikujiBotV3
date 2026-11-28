@@ -70,7 +70,7 @@
 
   const variableInput = reactive({ target: '', label: '' })
 
-  const cookieCounter = computed(() => data.value.ui.settings.cookieCounter ?? CookieCounterSchema.parse({}))
+  const cookieCounter = computed(() => CookieCounterSchema.parse(data.value.ui.settings.cookieCounter ?? {}))
   const counters = computed(() =>
     cookieCounter.value.counters.map((counter) =>
       counter.type === 'default'

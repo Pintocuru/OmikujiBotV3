@@ -50,7 +50,7 @@
       .map((kind) => ({
         key: kind,
         title: t(`mapText.uiKind.${kind}.label`),
-        icon: uiKindIcons[kind],
+        icon: uiKindIcons[kind] ?? 'Package',
         description: t(`mapText.uiKind.${kind}.description`),
       }))
   )
@@ -72,7 +72,7 @@
       .map((key) => ({
         key,
         title: t(`mapText.gameMeta.${key}.label`),
-        icon: gameIcons[key],
+        icon: gameIcons[key] ?? 'Package',
         description: t(`mapText.gameMeta.${key}.description`),
       }))
   )

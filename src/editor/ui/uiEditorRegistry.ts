@@ -24,7 +24,7 @@ export const registerUiEditor = (defs: Partial<Record<UiKind, Loader | UiEditorD
   for (const [kind, def] of Object.entries(defs) as [UiKind, Loader | UiEditorDef][]) {
     const { editor, slotsEditor, preview }: UiEditorDef = typeof def === 'function' ? { editor: def } : def
     entries[kind] = {
-      icon: uiKindIcons[kind],
+      icon: uiKindIcons[kind] ?? 'Package',
       component: defineGuardedAsyncComponent(editor, { type: 'ui', key: kind }),
       slotsEditor: slotsEditor && defineAsyncComponent(slotsEditor),
       preview: preview && defineAsyncComponent(preview),

@@ -123,6 +123,11 @@ export const scenarioStepMessages = {
         invalid: '(不正な処理です)',
         noMessage: '(メッセージなし)',
       },
+      unregisteredUi: {
+        title: '未登録のUI',
+        message: 'UI「{uiKey}」はこのビルドで未登録です',
+        description: '対応するビルドまたはプラグインで開いてください',
+      },
       tests: {
         sound: 'サウンドをテスト',
         wordParty: 'WordPartyをテスト',
@@ -277,6 +282,11 @@ export const scenarioStepMessages = {
         none: 'No preview for this step',
         invalid: '(Invalid step)',
         noMessage: '(No message)',
+      },
+      unregisteredUi: {
+        title: 'Unregistered UI',
+        message: 'UI "{uiKey}" is not registered in this build',
+        description: 'Please open with a compatible build or plugin',
       },
       tests: {
         sound: 'Test sound',

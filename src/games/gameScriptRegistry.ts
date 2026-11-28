@@ -10,5 +10,5 @@ export const registerGameScript = (map: Partial<Record<GameScriptKey, GameScript
 
 export const getGameScriptLoader = (key: GameScriptKey) => loaders[key]
 
-// 登録済みのキーだけ(gameScriptKeys の並び順を維持)
-export const getRegisteredGameScriptKeys = (): GameScriptKey[] => gameScriptKeys.filter((key) => key in loaders)
+// 登録済みのキーだけ
+export const getRegisteredGameScriptKeys = (): GameScriptKey[] => Object.keys(loaders) as GameScriptKey[]

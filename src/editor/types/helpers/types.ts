@@ -22,7 +22,7 @@ export interface ComponentImportConfig {
 
 export interface ImportPreview {
   recordCategories: Record<DataCategoryType, CategoryImportConfig>
-  componentConfigs: Record<UiKind, ComponentImportConfig>
+  componentConfigs: Partial<Record<UiKind, ComponentImportConfig>>
   /** 読み込み側にのみ存在する UI 設定のキー(componentConfigs には enabled / useImported=true で登録済み) */
   importOnlyComponents: UiKind[]
   totalItems: number

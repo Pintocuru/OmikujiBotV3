@@ -57,7 +57,7 @@
       i18nBaseOf?: (
         key: K
       ) => string /** キーごとに `<base>.label` / `.description` の base を変える(省略時は `<prefix>.<key>`) */
-      icons: Record<K, LucideIconName> /** 言語非依存のアイコン定義 */
+      icons: Partial<Record<K, LucideIconName>> /** 言語非依存のアイコン定義 */
       keys: readonly K[]
       ariaLabel?: string
       allowEmpty?: boolean

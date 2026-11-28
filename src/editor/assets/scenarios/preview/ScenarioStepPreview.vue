@@ -62,7 +62,9 @@
   import WordPartyTestButton from './WordPartyTestButton.vue'
   import { processTestPlaceholder } from '@/editor/helpers/shared/processTestPlaceholder'
   import CommentBubbleMessagePreview from './CommentBubbleMessagePreview.vue'
+  import UnregisteredUiNotice from './UnregisteredUiNotice.vue'
   import { getUiPreview } from '@/editor/ui/uiEditorRegistry'
+  import { getUiLoader } from '@/ui/uiRegistry'
   import { GameScriptManager } from '@/engine/GameScriptPlay/GameScriptManager'
   import { replaceUserIconMarkup } from '@/common/UserIconMarkup/userIconMarkup'
 
@@ -113,14 +115,17 @@
   )
 
   // message / gameScript を UI のプレビューに渡す。gameScript は CommentBubbleMessagePreview 固定
-  const previewComponent = computed<Component>(() =>
-    props.step.kind === 'message'
-      ? (getUiPreview(props.step.uiKey) ?? CommentBubbleMessagePreview)
-      : CommentBubbleMessagePreview
-  )
+  const previewComponent = computed<Component>(() => {
+    if (props.step.kind !== 'message') return CommentBubbleMessagePreview
+    if (!getUiLoader(props.step.uiKey)) return UnregisteredUiNotice
+    return getUiPreview(props.step.uiKey) ?? CommentBubbleMessagePreview
+  })
   const previewProps = computed(() => {
     const a = props.step
     if (a.kind === 'message') {
+      if (!getUiLoader(a.uiKey)) {
+        return { uiKey: a.uiKey }
+      }
       return { message: processedMessage.value, slots: a.slots, characterKey: a.characterKey, iconKey: a.iconKey }
     }
     if (a.kind === 'gameScript') {
