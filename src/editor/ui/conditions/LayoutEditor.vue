@@ -35,17 +35,20 @@
   import { getLayoutLoader } from '@/ui/uiRegistry'
   import SettingItem from '@/editor/parts/SettingItem.vue'
   import { useOmikujiStore } from '@/editor/stores/useOmikujiStore'
-  import { formatBuildMismatchMessage } from '@/common/buildValidation/validateAgainstBuild'
+  import { formatBuildMismatchMessage, type BuildMismatchTranslate } from '@/common/buildValidation/validateAgainstBuild'
 
   const { t } = useI18n()
+  const translate: BuildMismatchTranslate = (key, values) => String(t(key, values ?? {}))
 
   const omikujiStore = useOmikujiStore()
   const { data } = storeToRefs(omikujiStore)
 
   const layout = computed(() => data.value.ui.layout)
   const availableLayouts = uiLayouts.filter((key) => getLayoutLoader(key))
-  const isLayoutAvailable = computed(() => availableLayouts.includes(layout.value))
-  const mismatchMessage = computed(() => formatBuildMismatchMessage([{ type: 'layout', key: layout.value }]))
+  const isLayoutAvailable = computed(() => availableLayouts.some((key) => key === layout.value))
+  const mismatchMessage = computed(() =>
+    formatBuildMismatchMessage([{ type: 'layout', key: layout.value }], translate)
+  )
 
   const updateLayout = (key: UiLayoutType) => omikujiStore.updateUi({ layout: key })
 </script>

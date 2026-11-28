@@ -11,7 +11,7 @@ export const useVisibleUiKinds = () => {
   const { data } = storeToRefs(useOmikujiStore())
 
   return computed(() => {
-    const kinds: readonly UiKind[] = uiLayoutMap[data.value.ui.layout]
+    const kinds: readonly UiKind[] = uiLayoutMap[data.value.ui.layout] ?? []
     const entries = getUiEditorEntries()
     return (Object.keys(entries) as UiKind[])
       .filter((kind) => kinds.includes(kind) && entries[kind] !== undefined)

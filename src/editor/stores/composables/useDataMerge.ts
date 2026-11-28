@@ -16,6 +16,7 @@ import { reportDataMismatch, validateAgainstBuild } from '@/common/buildValidati
 import i18n from '@/i18n/editorI18n'
 
 const t = (key: string) => i18n.global.t(key)
+const translateBuildMismatch = (key: string, values?: Record<string, string>) => String(i18n.global.t(key, values ?? {}))
 
 /**
  * データマージ機能
@@ -35,7 +36,7 @@ export function useDataMerge(data: Ref<OmikujiDataType>, hasChanged: Ref<boolean
       // loadData と同様、このビルドで未対応のキー(gameScript など)を含むデータは取り込まない
       const unsupported = validateAgainstBuild(result)
       if (unsupported.length > 0) {
-        reportDataMismatch(unsupported)
+        reportDataMismatch(unsupported, { translate: translateBuildMismatch })
         return false
       }
 

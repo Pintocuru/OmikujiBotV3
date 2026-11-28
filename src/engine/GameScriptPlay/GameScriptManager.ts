@@ -4,8 +4,16 @@ import { ScenarioStepGameScriptType, GameScriptKey, isGameScriptKey } from '@/ty
 import { OmikenCommentType } from '@/types/OmikenComment'
 import { getGameScriptLoader, getRegisteredGameScriptKeys } from '@/games/gameScriptRegistry'
 import { GameStateType } from '@/types/api'
-import { BuildMismatchError, reportDataMismatch } from '@/common/buildValidation/validateAgainstBuild'
+import {
+  BuildMismatchError,
+  formatBuildMismatchMessage,
+  reportDataMismatch,
+} from '@/common/buildValidation/validateAgainstBuild'
+import i18n from '@/i18n/editorI18n'
 import { postSystemMessage } from '@/sdk/post/PostOneComme'
+
+const translateBuildMismatch = (key: string, values?: Record<string, string>) =>
+  String(i18n.global.t(key, values ?? {}))
 
 export class GameScriptManager {
   private scriptInstances: Record<string, ScriptClass> = {}
@@ -47,7 +55,7 @@ export class GameScriptManager {
     } catch (error) {
       // データ不一致: 画面表示 + わんコメへのシステムメッセージ(コンソールエラーの代わり)
       if (error instanceof BuildMismatchError) {
-        reportDataMismatch(error.unsupported, { display: 'toast', throttle: true })
+        reportDataMismatch(error.unsupported, { display: 'toast', throttle: true, translate: translateBuildMismatch })
         return null
       }
       console.error(`スクリプトエラー (${scriptKey}):`, error)
@@ -63,7 +71,9 @@ export class GameScriptManager {
     try {
       script = await this.loadScript(scriptKey)
     } catch (error) {
-      if (error instanceof BuildMismatchError) return error.message
+      if (error instanceof BuildMismatchError) {
+        return formatBuildMismatchMessage(error.unsupported, translateBuildMismatch)
+      }
       console.error(`スクリプトロードエラー (${scriptKey}):`, error)
       return 'スクリプトが正常に稼働できません'
     }

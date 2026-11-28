@@ -9,10 +9,4 @@ export const registerAllLayouts = () =>
     commentBubble: () => import('@/layout/common/CommentBubble/CommentBubble.vue'),
     gameRanking: () => import('@/layout/common/GameRanking/GameRanking.vue'),
     kujibikiPanel: () => import('@/layout/common/KujibikiPanel/KujibikiPanel.vue'),
-
-    // 2026-Q4
-    lifeHourglass: () => import('@/layout/2026-Q4/LifeHourglass/LifeHourglass.vue'),
-
-    // 管理者用
-    sesupinTest: () => import('@/layout/common/SesupinTest/SesupinTest.vue'),
-  } satisfies Record<UiLayoutType, UiLoader>)
+  } satisfies Partial<Record<UiLayoutType, UiLoader>>)

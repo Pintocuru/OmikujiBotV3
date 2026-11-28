@@ -1,4 +1,3 @@
-// src/i18n/editor/maps/UiMapMessages.ts
 export const uiMapMessages = {
   ja: {
     mapText: {
@@ -10,14 +9,6 @@ export const uiMapMessages = {
         gameRanking: {
           label: 'ゲームランキング',
           description: 'ゲーム結果をランキング形式で表示',
-        },
-        sesupinTest: {
-          label: 'せすぴん(管理者)用',
-          description: 'すべてのUIを表示するレイアウト',
-        },
-        lifeHourglass: {
-          label: '命の砂時計',
-          description: 'リスナーが配信を閲覧した時間を「砂粒」として表示する、砂時計ジェネレーター',
         },
         kujibikiPanel: {
           label: 'くじ引きパネル',
@@ -37,62 +28,9 @@ export const uiMapMessages = {
           label: 'ゲームランキング',
           description: 'スイカゲームなどの結果をランキング形式で表示',
         },
-        cookieCounter: {
-          label: 'ライバーカウンター',
-          description: '同時接続数や高評価数などを表示',
-        },
-        deadAir: {
-          label: '15分後に初見が来ないと',
-          description: '条件未達成で爆発する爆弾タイマー。コメントや配信の数値で時間を回復できます',
-        },
-        flightSeat: {
-          label: 'フライトシート',
-          description: '投稿されたユーザーを座席に座らせて、座席表のように表示',
-        },
         kujibikiPanel: {
           label: 'くじ引きパネル',
           description: 'おみくじ・占いの結果をパネル形式で表示します。',
-        },
-        lifeHourglass: {
-          label: '命の砂時計',
-          description: '時間経過で数字が増えるカウントアップカウンター',
-        },
-        liverBingo: {
-          label: 'ライバービンゴ',
-          description: '配信中に進めるビンゴカード。お題と達成目標を決めて、クリックで進めます',
-        },
-        labelMaker: {
-          label: 'ユーザーラベル',
-          description: '投稿で届いたユーザーを、名前ラベルのリストで表示します',
-        },
-        snipeTimer: {
-          label: 'スナイプタイマー',
-          description:
-            'コメントの時刻(例: 30秒後・21:30)でカウントダウンを始めるタイマー。クリックで手動操作もできます',
-        },
-        flashBanner: {
-          label: 'ニュースフラッシュ',
-          description: '速報風のバナーにメッセージを流す',
-        },
-        userComment: {
-          label: 'ユーザーコメント',
-          description: 'おみくじが反応したコメントと結果を、レス風に縦に並べて表示',
-        },
-        luckyDraw: {
-          label: 'リスナー抽選機',
-          description: '参加者の中から、ランダムに1名または複数名を選んで表示します(カップリング・ランキング風の表示)',
-        },
-        liveClock: {
-          label: 'ライブクロック',
-          description: '時計とメッセージを表示',
-        },
-        toastWidgets: {
-          label: 'トーストメッセージ',
-          description: '通知メッセージをトースト形式で表示',
-        },
-        userBoard: {
-          label: 'ユーザーボード',
-          description: 'ユーザーの得点・チームをリストやスコアボードで表示',
         },
       },
     },
@@ -108,18 +46,9 @@ export const uiMapMessages = {
           label: 'Game rankings',
           description: 'Displays results from games such as Suika Game in a ranking board.',
         },
-        sesupinTest: {
-          label: 'Test layout (admin only)',
-          description: 'A layout that displays all UI items.',
-        },
         kujibikiPanel: {
           label: 'Lottery panel',
           description: 'Displays omikuji and fortune-telling results in a panel.',
-        },
-        lifeHourglass: {
-          label: 'Life hourglass',
-          description:
-            'An hourglass generator that shows the time listeners spend watching your stream as grains of sand.',
         },
       },
       uiKind: {
@@ -136,59 +65,9 @@ export const uiMapMessages = {
           label: 'Game rankings',
           description: 'Displays results from games such as Suika Game in a ranking board.',
         },
-        cookieCounter: {
-          label: 'Liver counter',
-          description: 'Displays metrics such as concurrent viewers and likes.',
-        },
-        deadAir: {
-          label: 'Dead air',
-          description:
-            'A bomb timer that explodes when the stream goes quiet. Comments and stream counts can restore time.',
-        },
-        flightSeat: {
-          label: 'Flight seat',
-          description: 'Seats the users of posted messages in a seating chart.',
-        },
         kujibikiPanel: {
           label: 'Lottery panel',
           description: 'Displays omikuji and fortune-telling results in a panel.',
-        },
-        lifeHourglass: {
-          label: 'Life hourglass',
-          description: 'A count-up counter whose number increases as time passes.',
-        },
-        liverBingo: {
-          label: 'Liver bingo',
-          description: 'A bingo card you play during the stream. Set topics and targets, then click to progress.',
-        },
-        labelMaker: {
-          label: 'Label maker',
-          description: 'Shows the users who posted as a list of name labels',
-        },
-        snipeTimer: {
-          label: 'Snipe timer',
-          description:
-            'A countdown timer started by a time in a comment (e.g. 30s later, 21:30). Click to control it manually.',
-        },
-        flashBanner: {
-          label: 'News flash',
-          description: 'Scrolls messages in a news-flash style banner.',
-        },
-        userComment: {
-          label: 'User comments',
-          description: 'Lists the comments that triggered a reaction, with their results, in a thread style.',
-        },
-        liveClock: {
-          label: 'Live clock',
-          description: 'Displays a clock and messages.',
-        },
-        toastWidgets: {
-          label: 'Toast notifications',
-          description: 'Displays notification messages as toast notifications.',
-        },
-        userBoard: {
-          label: 'User board',
-          description: 'Displays user scores and teams in score lists, team bars, and leaderboards.',
         },
       },
     },

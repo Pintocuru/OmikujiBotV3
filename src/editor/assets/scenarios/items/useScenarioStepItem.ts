@@ -60,7 +60,7 @@ export const useScenarioStepItem = (props: Props, emit: Emit) => {
   // 表示先の UI: 現在のレイアウトで投稿を受け取れるもの
   // 現在のステップの表示先が含まれない場合(レイアウト変更など)も、選択状態を見せるため末尾に足す
   const selectableUiKinds = computed<UiKind[]>(() => {
-    const kinds = uiLayoutMap[omikujiStore.data.ui.layout].filter((kind) => postUiKinds.includes(kind))
+    const kinds = (uiLayoutMap[omikujiStore.data.ui.layout] ?? []).filter((kind) => postUiKinds.includes(kind))
     const current = props.step.kind === 'message' ? props.step.uiKey : undefined
     return current && !kinds.includes(current) ? [...kinds, current] : kinds
   })

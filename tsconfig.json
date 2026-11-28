@@ -16,6 +16,7 @@
     "jsx": "preserve",
     "paths": {
       "@/*": ["./src/*"],
+      "@product/*": ["./products/src/*"],
       "@assets/*": ["./assets/*"],
       "@packages/*": ["./packages/*"],
       "@server/*": ["./server/*"],
@@ -27,6 +28,8 @@
     "src/**/*.d.ts",
     "src/**/*.vue",
     "packages/**/*.ts",
+    "products/**/*.ts",
+    "products/**/*.vue",
     "server/**/*.ts",
     "tools/**/*.ts",
     "*.ts"

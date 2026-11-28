@@ -10,6 +10,7 @@ import { reportDataMismatch, validateAgainstBuild } from '@/common/buildValidati
 import i18n from '@/i18n/editorI18n'
 
 const t = (key: string) => i18n.global.t(key)
+const translateBuildMismatch = (key: string, values?: Record<string, string>) => String(i18n.global.t(key, values ?? {}))
 
 /**
  * データの入出力（読み込み・保存・エクスポート）を提供
@@ -23,7 +24,7 @@ export function useDataIO(data: Ref<OmikujiDataType>, dataSource: Ref<DataSource
 
       const unsupported = validateAgainstBuild(normalized)
       if (unsupported.length > 0) {
-        reportDataMismatch(unsupported)
+        reportDataMismatch(unsupported, { translate: translateBuildMismatch })
         return false
       }
 

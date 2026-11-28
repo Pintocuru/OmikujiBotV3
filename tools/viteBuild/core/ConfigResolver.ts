@@ -63,7 +63,7 @@ function resolveVariant(def: PackageDefinition, v: PackageVariant): ResolvedPack
     },
 
     // jsonFileName: null (アップデート用) は omikujiData.js を出さないので JSON を読まない
-    json: v.jsonFileName === null ? undefined : resolveJson(v.jsonFileName ?? `${key}.json`),
+    json: v.jsonFileName === null ? undefined : resolveJson(v.jsonFileName ?? `${key}.json`, dir),
 
     filesToCopy: [
       ...(v.extraFiles ?? []),
@@ -81,7 +81,14 @@ function resolveEntry(dir: string, fileName: string): string {
   return entry
 }
 
-function resolveJson(jsonFileName: string) {
-  const jsonPathRoot = path.resolve(PROJECT_ROOT, 'server/presets/')
+function resolveJson(jsonFileName: string, packageDir: string) {
+  const productsRoot = path.resolve(PROJECT_ROOT, 'products')
+  const relativeToProducts = path.relative(productsRoot, packageDir)
+  const isProductPackage =
+    relativeToProducts !== '' && !relativeToProducts.startsWith('..') && !path.isAbsolute(relativeToProducts)
+  const publicPresetRoot = path.resolve(PROJECT_ROOT, 'server/presets/')
+  const productPresetRoot = path.resolve(PROJECT_ROOT, 'products/server/presets/')
+  const hasProductPreset = isProductPackage && fs.existsSync(path.resolve(productPresetRoot, jsonFileName))
+  const jsonPathRoot = hasProductPreset ? productPresetRoot : publicPresetRoot
   return { jsonPathRoot, jsonPath: findJsonPath(jsonPathRoot, jsonFileName) }
 }

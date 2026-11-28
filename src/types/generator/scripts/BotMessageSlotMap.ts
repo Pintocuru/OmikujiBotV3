@@ -66,79 +66,18 @@ export const CharacterStageSlotMap = {
 export type CharacterStageSlotKey = keyof typeof CharacterStageSlotMap
 
 /**
- * liveClock(ライブクロック)
- * - message: 時計の下に出し続けるメッセージ(次の slot0 が届くまで保持。空の slot0 では更新しない)
- */
-export const LiveClockSlotMap = {
-  message: { slot: 'slot0' },
-} as const satisfies Record<string, SlotMeta>
-export type LiveClockSlotKey = keyof typeof LiveClockSlotMap
-
-/**
- * snipeTimer(スナイプタイマー)
- * - targetAt: 目標時刻(エポックミリ秒)。通常は SnipeTimer ゲームスクリプトがコメントから決めて渡す
- */
-export const SnipeTimerSlotMap = {
-  targetAt: { slot: 'slot0' },
-} as const satisfies Record<string, SlotMeta>
-export type SnipeTimerSlotKey = keyof typeof SnipeTimerSlotMap
-
-/**
- * flashBanner(ニュースフラッシュ)
- * - defaultMessage: コメントがないときに流す文言。プレースホルダーが使える。
- *   最後に届いたものを使い、何も届いていないときは何も表示しない
- */
-export const FlashBannerSlotMap = {
-  defaultMessage: { slot: 'slot0' },
-} as const satisfies Record<string, SlotMeta>
-export type FlashBannerSlotKey = keyof typeof FlashBannerSlotMap
-
-/**
- * luckyDraw(抽選)
- * - action: 'join'(参加者に追加。メッセージの user が参加者) / 'draw'(参加者から抽選) / 'reset'(参加者を空にする)
- * - count: 'draw' のときの当選人数(空なら設定値)
- */
-export const LuckyDrawSlotMap = {
-  action: { slot: 'slot0' },
-  count: { slot: 'slot1' },
-} as const satisfies Record<string, SlotMeta>
-export type LuckyDrawSlotKey = keyof typeof LuckyDrawSlotMap
-
-/**
  * UI ごとの「投稿メッセージの仕様」
- * - bubble: キャラ・本文(吹き出し)を使うか
- *     'comment' = キャラ + 本文 / 'character' = キャラだけ(本文は使わない) / false = 使わない
- *   空メッセージを弾くのは UI 側(useFilteredBotMessages など)の責務。エンジンは弾かない
- * - slots: slotN の意味 (editor の入力欄になる)
- * 全 UiKind 分を必須にする(UiKind を足したときの追加漏れはコンパイルエラーになる)。
- * 投稿を受け取らない UI は bubble: false かつ slots: {} (editor の UI 選択には出ない)。
  */
 export type UiMessageSpec = { bubble: 'comment' | 'character' | false; slots: Record<string, SlotMeta> }
 
-export const UiMessageSpecs = {
+export const UiMessageSpecs: Partial<Record<UiKind, UiMessageSpec>> = {
   characterStage: { bubble: 'character', slots: CharacterStageSlotMap },
   commentBubble: { bubble: 'comment', slots: {} },
-  toastWidgets: { bubble: 'comment', slots: {} },
-  // userComment: 投稿の origin(元コメント)と bubble.message(結果)をペアで表示する。comment イベント以外(origin なし)は表示しない
-  userComment: { bubble: 'comment', slots: {} },
-  liveClock: { bubble: 'comment', slots: LiveClockSlotMap },
-  flashBanner: { bubble: 'comment', slots: FlashBannerSlotMap },
   kujibikiPanel: { bubble: 'comment', slots: KujibikiSlotMap },
   gameRanking: { bubble: false, slots: RankingSlotMap },
-  // flightSeat: 投稿先に選べるよう bubble を 'comment' にしている(本文は使わない。着席させるのは投稿の user)
-  flightSeat: { bubble: 'comment', slots: {} },
-  userBoard: { bubble: false, slots: {} },
-  labelMaker: { bubble: false, slots: {} }, // TODO: 投稿の受け取り方(slot の有無)は未決定。slots が空だと editor の投稿先に出ない
-  cookieCounter: { bubble: false, slots: {} },
-  deadAir: { bubble: false, slots: {} },
-  lifeHourglass: { bubble: false, slots: {} },
-  liverBingo: { bubble: false, slots: {} },
-  luckyDraw: { bubble: false, slots: LuckyDrawSlotMap },
-  snipeTimer: { bubble: false, slots: SnipeTimerSlotMap },
-} as const satisfies Partial<Record<UiKind, UiMessageSpec>>
+}
 
-export const getUiMessageSpec = (kind: UiKind): UiMessageSpec | undefined =>
-  (UiMessageSpecs as Partial<Record<UiKind, UiMessageSpec>>)[kind]
+export const getUiMessageSpec = (kind: UiKind): UiMessageSpec | undefined => UiMessageSpecs[kind]
 
 /** 投稿を受け取れる UI か (editor の UI 選択に出すか) */
 export const acceptsPost = (kind: UiKind): boolean => {
@@ -146,4 +85,15 @@ export const acceptsPost = (kind: UiKind): boolean => {
   return !!spec?.bubble || Object.keys(spec?.slots ?? {}).length > 0
 }
 
-export const postUiKinds = (Object.keys(UiMessageSpecs) as UiKind[]).filter(acceptsPost)
+export const postUiKinds: UiKind[] = []
+
+const refreshPostUiKinds = () => {
+  postUiKinds.splice(0, postUiKinds.length, ...(Object.keys(UiMessageSpecs) as UiKind[]).filter(acceptsPost))
+}
+
+refreshPostUiKinds()
+
+export const registerUiMessageSpecs = (specs: Partial<Record<UiKind, UiMessageSpec>>) => {
+  Object.assign(UiMessageSpecs, specs)
+  refreshPostUiKinds()
+}

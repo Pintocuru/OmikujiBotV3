@@ -1,14 +1,15 @@
 // src/i18n/editorI18n.ts
 import { createI18n } from 'vue-i18n'
 import { messageModules } from '@/i18n/editor'
+import { getRegisteredUiMessages } from './uiMessageRegistry'
 
 // 対応ロケール。翻訳ファイルの export のうち、これらをキーに持つオブジェクトだけをメッセージとして扱う
 const LOCALES = ['ja', 'en'] as const
 
 type Messages = Record<string, any>
 
-// 1. src/i18n/editor/ 以下の翻訳ファイル (messageModules.ts に列挙)
-const modules = messageModules
+// registerUiMessages() は、Private UI の翻訳を含める場合にこのモジュールが読み込まれる前に呼び出す
+const modules = { ...messageModules, ...getRegisteredUiMessages() }
 
 const isPlainObject = (v: unknown): v is Messages => typeof v === 'object' && v !== null && !Array.isArray(v)
 

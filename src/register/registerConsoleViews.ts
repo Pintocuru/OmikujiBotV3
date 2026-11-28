@@ -7,13 +7,7 @@ export const registerAllConsoleViews = () =>
   registerConsoleView({
     // control
     eventPads: () => import('@/console/control/EventPads/EventPads.vue'),
-    bingoConsole: () => import('@/console/control/BingoConsole/BingoConsole.vue'),
     usersConsole: () => import('@/console/control/UsersConsole/UsersConsole.vue'),
-    amidakuji: () => import('@/console/control/Amidakuji/Amidakuji.vue'),
     // log
     gameLog: () => import('@/console/log/GameLog/GameLog.vue'),
-    // game
-    userRace: () => import('@/console/game/UserRace/UserRace.vue'),
-    oshikuraChain: () => import('@/console/game/OshikuraChain/OshikuraChain.vue'),
-    wordAlchemy: () => import('@/console/game/WordAlchemy/WordAlchemy.vue'),
-  } satisfies Record<ConsoleViewKey, ConsoleViewLoader>)
+  } satisfies Partial<Record<ConsoleViewKey, ConsoleViewLoader>>)

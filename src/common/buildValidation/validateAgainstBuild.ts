@@ -25,8 +25,19 @@ const formatUnsupportedKeys = (items: UnsupportedKey[]): string =>
   items.map(({ type, key }) => `${typeLabel[type]}: ${key}`).join('、')
 
 /** ユーザー向けの「データ不一致」文言 */
-export const formatBuildMismatchMessage = (items: UnsupportedKey[]): string =>
-  `このデータは、このビルドで未対応の機能(${formatUnsupportedKeys(items)})を含んでいます。対応するビルドで開いてください`
+export type BuildMismatchTranslate = (key: string, values?: Record<string, string>) => string
+
+export const formatBuildMismatchMessage = (items: UnsupportedKey[], translate?: BuildMismatchTranslate): string => {
+  if (!translate) {
+    return `このデータは、このビルドで未対応の機能(${formatUnsupportedKeys(items)})を含んでいます。対応するビルドで開いてください`
+  }
+
+  const key = 'uiSettings.common.buildMismatch'
+  const details = items
+    .map(({ type, key: itemKey }) => translate(`${key}.types.${type}`, { key: itemKey }))
+    .join(translate(`${key}.separator`))
+  return translate(`${key}.message`, { details })
+}
 
 /** データ内の step(kind: 'gameScript')から scriptKey を集める。assets 配下のどこにあっても拾える */
 const collectGameScriptKeys = (node: unknown, found: Set<string>): void => {
@@ -114,6 +125,7 @@ type ReportOptions = {
   display?: 'modal' | 'toast'
   /** わんコメへの連続投稿を抑える(3秒に1回) */
   throttle?: boolean
+  translate?: BuildMismatchTranslate
 }
 
 /**
@@ -122,10 +134,10 @@ type ReportOptions = {
  */
 export const reportDataMismatch = (
   items: UnsupportedKey[],
-  { display = 'modal', throttle = false }: ReportOptions = {}
+  { display = 'modal', throttle = false, translate }: ReportOptions = {}
 ) => {
-  const text = formatBuildMismatchMessage(items)
-  const title = 'データが不一致です'
+  const text = formatBuildMismatchMessage(items, translate)
+  const title = translate?.('uiSettings.common.buildMismatch.title') ?? 'データが不一致です'
 
   // toast は実行中(OBS の配信画面など)の表示なので、配信画面向け(stage)に出す
   if (display === 'toast') notify.error(title, { text, scope: 'stage' })

@@ -7,37 +7,9 @@ export const scenarioMapMessages = {
           label: 'スイカジェネレーター',
           description: '米兜科技 - 合成大西瓜風のおみくじ',
         },
-        BomberSpin: {
-          label: 'ボンバースロット',
-          description: 'APPLI - BOMBERSPIN2風のおみくじ',
-        },
-        DwarfBomb: {
-          label: 'うさぎスロット',
-          description: 'Nolimit City - Fire in the Hole風のおみくじ',
-        },
-        MultiplyBonanza: {
-          label: '桜吹雪スロット',
-          description: 'Wing - FURAIJIN風のおみくじ',
-        },
-        GoogolClover: {
-          label: 'グーゴルクローバー',
-          description: 'Future Friends Games - CloverPit風のおみくじ',
-        },
-        HugEmAll: {
-          label: 'ダンジョンスロット',
-          description: 'Nolimit City - Kill Em All風のおみくじ',
-        },
-        FortuneRanking: {
-          label: '占いランキング',
-          description: '果物などの順位を作成する拡張スクリプト',
-        },
         CommentBot: {
           label: 'コメントBOT',
           description: 'BOTとしてわんコメにコメントを自動投稿する拡張スクリプト',
-        },
-        SnipeTimer: {
-          label: 'スナイプタイマー',
-          description: 'コメントの時刻(例: 30秒後・21:30)でカウントダウンを始める拡張スクリプト',
         },
       },
       // ゲームの入力欄・出力変数の説明 (宣言は src/games/scripts/**/meta.ts)
@@ -46,55 +18,15 @@ export const scenarioMapMessages = {
           mode: { label: 'モード', description: '遊ぶ果物の種類' },
           life: { label: 'ライフ', description: 'ゲームのライフ (1〜99)。空欄なら 3' },
         },
-        BomberSpin: {
-          symbol: { label: '絵柄', description: '指定する絵柄。空欄なら指定なし' },
-          spin: { label: 'スピン数', description: '3〜8。空欄なら指定なし' },
-        },
-        DwarfBomb: {
-          mode: {
-            label: '開始時のアイテム',
-            description: '最初のドワーフが持つアイテム。空欄なら、なしで始まります',
-          },
-        },
-        MultiplyBonanza: {
-          mode: { label: 'モード', description: '空欄なら通常' },
-        },
-        HugEmAll: {
-          mode: {
-            label: 'モード',
-            description:
-              '空欄: 通常 / lucky: 初期体力+1・クリティカル確率UP / berserker: ダメージ2倍・体力消費2倍 / shield: 体力消費なし・ダメージ半減',
-          },
-        },
-        FortuneRanking: {
-          projectName: { label: 'プロジェクト名', description: '変数名の頭に付く名前。空欄なら fortune' },
-          fruits: {
-            label: '項目',
-            description: '「ラベル:キー」をカンマ区切りで指定 (例: いちご:strawberry,ぶどう:grape)。空欄なら既定の10種',
-          },
-        },
         CommentBot: {
           theme: { label: 'テーマ', description: '投稿するコメントの種類' },
           name: { label: '投稿者名', description: '空欄ならランダム' },
           comments: { label: 'コメント', description: 'カンマ区切りで指定。空欄ならテーマから選びます' },
           users: { label: '人数', description: '投稿者の人数 (範囲外は自動で丸めます)' },
         },
-        SnipeTimer: {
-          min: { label: '最低秒数', description: '目標時刻までの最低秒数 (これより近い時刻は引き上げます)' },
-          max: {
-            label: '最大秒数',
-            description: '目標時刻までの最大秒数 (これより遠い時刻は引き下げます。最大 43200)',
-          },
-          adjust: { label: '丸める単位', description: '目標時刻の秒をこの単位に切り上げます' },
-        },
       },
       gameOutputs: {
         GouseiSuika: { gouseisuika_points: '得点' },
-        BomberSpin: { bomberspin_payout: '獲得額' },
-        DwarfBomb: { dwarfbomb_payout: '獲得額', dwarfbomb_day: '経過日数' },
-        MultiplyBonanza: { multiplybonanza_payout: '獲得額' },
-        HugEmAll: { hugemall_payout: '獲得額' },
-        GoogolClover: { googolclover_score: '得点' },
       },
       scenarioStepKind: {
         message: {
@@ -173,37 +105,9 @@ export const scenarioMapMessages = {
           label: 'Watermelon Suika Generator',
           description: 'Mi Dou Technology - Omikuji inspired by Watermelon Suika Game',
         },
-        BomberSpin: {
-          label: 'Bomber Slot',
-          description: 'APPLI - Omikuji inspired by BOMBERSPIN2',
-        },
-        DwarfBomb: {
-          label: 'Rabbit Slot',
-          description: 'Nolimit City - Omikuji inspired by Fire in the Hole',
-        },
-        MultiplyBonanza: {
-          label: 'Cherry Blossom Slot',
-          description: 'Wing - Omikuji inspired by FURAIJIN',
-        },
-        GoogolClover: {
-          label: 'Googol Clover',
-          description: 'Future Friends Games - Omikuji inspired by CloverPit',
-        },
-        HugEmAll: {
-          label: 'Dungeon Slot',
-          description: 'Nolimit City - Omikuji inspired by Kill Em All',
-        },
-        FortuneRanking: {
-          label: 'Fortune Ranking',
-          description: 'Extension script that creates rankings (e.g. fruits)',
-        },
         CommentBot: {
           label: 'Comment Bot',
           description: 'Extension script that automatically posts comments to OneComme as the BOT',
-        },
-        SnipeTimer: {
-          label: 'Snipe Timer',
-          description: 'Extension script that starts a countdown from a time in a comment (e.g. 30s later, 21:30)',
         },
       },
       // Descriptions for game inputs and output variables (declared in src/games/scripts/**/meta.ts)
@@ -212,55 +116,15 @@ export const scenarioMapMessages = {
           mode: { label: 'Mode', description: 'Fruit to play with' },
           life: { label: 'Life', description: 'Life of the game (1-99). Empty means 3' },
         },
-        BomberSpin: {
-          symbol: { label: 'Symbol', description: 'Symbol to specify. Empty means not specified' },
-          spin: { label: 'Spins', description: '3-8. Empty means not specified' },
-        },
-        DwarfBomb: {
-          mode: {
-            label: 'Starting item',
-            description: 'Item the first dwarf starts with. Leave empty to start with none',
-          },
-        },
-        MultiplyBonanza: {
-          mode: { label: 'Mode', description: 'Empty means normal' },
-        },
-        HugEmAll: {
-          mode: {
-            label: 'Mode',
-            description:
-              'Empty: normal / lucky: +1 starting HP, higher crit chance / berserker: 2x damage, 2x HP cost / shield: no HP cost, half damage',
-          },
-        },
-        FortuneRanking: {
-          projectName: { label: 'Project name', description: 'Prefix of the variable names. Empty means fortune' },
-          fruits: {
-            label: 'Items',
-            description: 'Comma-separated "label:key" (e.g. apple:apple,grape:grape). Empty uses the 10 defaults',
-          },
-        },
         CommentBot: {
           theme: { label: 'Theme', description: 'Kind of comments to post' },
           name: { label: 'Poster name', description: 'Empty means random' },
           comments: { label: 'Comments', description: 'Comma-separated. Empty picks from the theme' },
           users: { label: 'Users', description: 'Number of posters (out-of-range values are clamped)' },
         },
-        SnipeTimer: {
-          min: { label: 'Min seconds', description: 'Minimum seconds until the target (nearer times are pushed back)' },
-          max: {
-            label: 'Max seconds',
-            description: 'Maximum seconds until the target (farther times are pulled in; up to 43200)',
-          },
-          adjust: { label: 'Round to', description: 'Round the target time up to a multiple of this many seconds' },
-        },
       },
       gameOutputs: {
         GouseiSuika: { gouseisuika_points: 'Score' },
-        BomberSpin: { bomberspin_payout: 'Payout' },
-        DwarfBomb: { dwarfbomb_payout: 'Payout', dwarfbomb_day: 'Days elapsed' },
-        MultiplyBonanza: { multiplybonanza_payout: 'Payout' },
-        HugEmAll: { hugemall_payout: 'Payout' },
-        GoogolClover: { googolclover_score: 'Score' },
       },
       scenarioStepKind: {
         message: {

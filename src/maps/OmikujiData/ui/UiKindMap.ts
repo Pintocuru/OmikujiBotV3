@@ -6,18 +6,8 @@ export const uiKindIcons: Partial<Record<UiKind, LucideIconName>> = {
   characterStage: 'UserSquare',
   commentBubble: 'MessageSquare',
   gameRanking: 'Trophy',
-  cookieCounter: 'Hash',
-  deadAir: 'Bomb',
-  flightSeat: 'Armchair',
   kujibikiPanel: 'Sparkles',
-  labelMaker: 'Tags',
-  liveClock: 'Clock',
-  flashBanner: 'Megaphone',
-  toastWidgets: 'Bell',
-  userBoard: 'Users',
-  userComment: 'MessagesSquare',
-  lifeHourglass: 'Hourglass',
-  liverBingo: 'LayoutGrid',
-  luckyDraw: 'Gift',
-  snipeTimer: 'Timer',
 }
+
+export const registerUiKindIcons = (icons: Partial<Record<UiKind, LucideIconName>>) =>
+  Object.assign(uiKindIcons, icons)

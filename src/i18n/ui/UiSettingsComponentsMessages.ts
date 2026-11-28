@@ -1,5 +1,5 @@
 // src/i18n/ui/UiSettingsComponentsMessages.ts
-// UI 設定の翻訳: kujibikiPanel / gameRanking / cookieCounter / fontFamily / layout / unused / editorSections
+// UI 設定の翻訳: kujibikiPanel / gameRanking / fontFamily / layout / unused / editorSections
 export const uiSettingsComponents = {
   ja: {
     uiSettings: {
@@ -42,17 +42,6 @@ export const uiSettingsComponents = {
         preview: {
           add: 'ダミーのデータを1件追加',
           clear: 'データを空にする(未記録の表示を確認)',
-        },
-      },
-      cookieCounter: {
-        incrementAll: '🎲 全て +1',
-        character: {
-          label: 'キャラクター{n}',
-          description: '表示するキャラクターと表情。回転などの動きは表情の設定に従います',
-        },
-        color: {
-          add: '色を追加',
-          remove: 'この色を削除',
         },
       },
       fontFamily: {
@@ -145,16 +134,6 @@ export const uiSettingsComponents = {
         preview: {
           add: 'Add one dummy entry',
           clear: 'Clear all entries (check the empty display)',
-        },
-      },
-      cookieCounter: {
-        character: {
-          label: 'Character {n}',
-          description: 'The character and emotion to show. Motion such as rotation follows the emotion settings',
-        },
-        color: {
-          add: 'Add color',
-          remove: 'Remove this color',
         },
       },
       fontFamily: {

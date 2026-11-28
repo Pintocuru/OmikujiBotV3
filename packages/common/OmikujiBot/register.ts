@@ -1,5 +1,5 @@
 // packages/common/OmikujiBot/register.ts
-import type { UiKind, UiLayoutType } from '@/types/OmikujiData'
+import type { UiKind } from '@/types/OmikujiData'
 import { registerLayout, registerUi, type UiLoader } from '@/ui/uiRegistry'
 import { registerGameScript } from '@/games/gameScriptRegistry'
 import { registerUiEditor } from '@/editor/ui/uiEditorRegistry'
@@ -12,16 +12,10 @@ import { registerStandardRankingComponents } from '@/ui/game/GameRanking/compone
 import { registerStandardKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/standard/register'
 import { registerFortuneKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/fortune/register'
 import { registerSpecialKujibikiComponents } from '@/ui/bot/KujibikiPanel/components/special/register'
-import { registerStandardLifeHourglassComponents } from '@/ui/counter/LifeHourglass/components/standard/register'
 
 // リリース対象
-type ReleaseUiKind = 'characterStage' | 'commentBubble' | 'gameRanking' | 'kujibikiPanel' | 'lifeHourglass'
-
-// レイアウトが存在する4種類
-type ReleaseLayoutKey = Extract<
-  NonNullable<UiLayoutType>,
-  'commentBubble' | 'gameRanking' | 'kujibikiPanel' | 'lifeHourglass'
->
+type ReleaseUiKind = 'characterStage' | 'commentBubble' | 'gameRanking' | 'kujibikiPanel'
+type ReleaseLayoutKey = 'commentBubble' | 'gameRanking' | 'kujibikiPanel'
 
 // UI本体
 const uiLoaders = {
@@ -29,7 +23,6 @@ const uiLoaders = {
   commentBubble: () => import('@/ui/bot/CommentBubble/CommentBubble.vue'),
   gameRanking: () => import('@/ui/game/GameRanking/GameRanking.vue'),
   kujibikiPanel: () => import('@/ui/bot/KujibikiPanel/KujibikiPanel.vue'),
-  lifeHourglass: () => import('@/ui/counter/LifeHourglass/LifeHourglass.vue'),
 } satisfies Record<ReleaseUiKind, UiLoader>
 
 // レイアウト
@@ -37,7 +30,6 @@ const layoutLoaders = {
   commentBubble: () => import('@/layout/common/CommentBubble/CommentBubble.vue'),
   gameRanking: () => import('@/layout/common/GameRanking/GameRanking.vue'),
   kujibikiPanel: () => import('@/layout/common/KujibikiPanel/KujibikiPanel.vue'),
-  lifeHourglass: () => import('@/layout/2026-Q4/LifeHourglass/LifeHourglass.vue'),
 } satisfies Record<ReleaseLayoutKey, UiLoader>
 
 // エディター
@@ -56,7 +48,6 @@ const uiEditors = {
     editor: () => import('@/ui/bot/KujibikiPanel/editor/KujibikiPanelEditor.vue'),
     preview: () => import('@/ui/bot/KujibikiPanel/editor/KujibikiPanelMessagePreview.vue'),
   },
-  lifeHourglass: () => import('@/ui/counter/LifeHourglass/editor/LifeHourglassEditor.vue'),
 } satisfies Record<ReleaseUiKind, Parameters<typeof registerUiEditor>[0][UiKind]>
 
 export const registerMain = () => {
@@ -75,14 +66,10 @@ export const registerMain = () => {
   registerFortuneKujibikiComponents()
   registerSpecialKujibikiComponents()
 
-  // LifeHourglass
-  registerStandardLifeHourglassComponents()
-
   // スクリプト
   registerGameScript({
     GouseiSuika: () => import('@/games/scripts/game/GouseiSuika/execute'),
-    BomberSpin: () => import('@/games/scripts/game/BomberSpin/execute'),
-    DwarfBomb: () => import('@/games/scripts/game/DwarfBomb/execute'),
+    CommentBot: () => import('@/games/scripts/tool/CommentBot/execute'),
   })
 
   // 「これまでリリースしたもの全部入り」のビルド

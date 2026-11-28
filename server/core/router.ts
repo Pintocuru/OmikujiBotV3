@@ -7,13 +7,36 @@ import * as gameStateHandler from './handlers/gameStateHandler'
 import * as userStatsHandler from './handlers/userStatsHandler'
 import * as padHandler from './handlers/padHandler'
 import * as bingoHandler from './handlers/bingoHandler'
-import * as bingoPatternHandler from './handlers/bingoPatternHandler'
 import * as gameConfigHandler from './handlers/gameConfigHandler'
 import * as aiHandler from './handlers/aiHandler'
 import { API_ACTION } from '@server/api/actions'
 import { API_VERSION, APP_VERSION } from '@/version'
 import { HTTP } from './constants'
 import { ok, fail, badRequest } from './utils/result'
+
+type ApiRouteHandler = (
+  params: Record<string, string>,
+  body: Record<string, any>,
+  ctx: RequestContext
+) => Promise<ApiResult>
+
+type ExtendedApiRoutes = Partial<Record<'GET' | 'POST', Record<string, ApiRouteHandler>>>
+
+const extendedApiRoutes: Record<'GET' | 'POST', Map<string, ApiRouteHandler>> = {
+  GET: new Map(),
+  POST: new Map(),
+}
+
+export const registerApiRoutes = (routes: ExtendedApiRoutes): void => {
+  for (const method of ['GET', 'POST'] as const) {
+    for (const [action, handler] of Object.entries(routes[method] ?? {})) {
+      if (extendedApiRoutes[method].has(action)) {
+        throw new Error(`API route already registered: ${method} ${action}`)
+      }
+      extendedApiRoutes[method].set(action, handler)
+    }
+  }
+}
 
 /**
  * 統合ルーター
@@ -89,12 +112,6 @@ async function handleGetRequest(
     case API_ACTION.loadBingoSnapshot.action:
       return bingoHandler.loadBingoSnapshot()
 
-    case API_ACTION.listBingoPatterns.action:
-      return bingoPatternHandler.listBingoPatterns()
-
-    case API_ACTION.loadBingoPattern.action:
-      return bingoPatternHandler.loadBingoPattern(params.id)
-
     case API_ACTION.loadGameConfig.action:
       return gameConfigHandler.loadGameConfig(params.gameKey)
 
@@ -102,6 +119,9 @@ async function handleGetRequest(
       return aiHandler.loadAiSettings()
 
     default:
+      if (extendedApiRoutes.GET.has(action)) {
+        return extendedApiRoutes.GET.get(action)!(params, {}, ctx)
+      }
       return fail(HTTP.NOT_FOUND, `Unknown GET action: ${action}`)
   }
 }
@@ -172,12 +192,6 @@ async function handlePostRequest(
     case API_ACTION.saveBingoSnapshot.action:
       return bingoHandler.saveBingoSnapshot(body)
 
-    case API_ACTION.saveBingoPattern.action:
-      return bingoPatternHandler.saveBingoPattern(body)
-
-    case API_ACTION.deleteBingoPattern.action:
-      return bingoPatternHandler.deleteBingoPattern(params.id || body.id)
-
     case API_ACTION.saveGameConfig.action:
       return gameConfigHandler.saveGameConfig(body)
 
@@ -188,6 +202,9 @@ async function handlePostRequest(
       return aiHandler.askAi(body)
 
     default:
+      if (extendedApiRoutes.POST.has(action)) {
+        return extendedApiRoutes.POST.get(action)!(params, body, ctx)
+      }
       return fail(HTTP.NOT_FOUND, `Unknown POST action: ${action}`)
   }
 }

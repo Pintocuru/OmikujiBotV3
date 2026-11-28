@@ -8,7 +8,6 @@ import '@assets/styles/DaisyUi.css'
 // このパッケージに同梱する画面。使わない画面は、ここから消すと配布物から外れる
 registerConsoleView({
   eventPads: () => import('@/console/control/EventPads/EventPads.vue'),
-  bingoConsole: () => import('@/console/control/BingoConsole/BingoConsole.vue'),
   usersConsole: () => import('@/console/control/UsersConsole/UsersConsole.vue'),
   gameLog: () => import('@/console/log/GameLog/GameLog.vue'),
 })

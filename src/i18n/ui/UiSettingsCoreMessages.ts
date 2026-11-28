@@ -1,5 +1,5 @@
 // src/i18n/ui/UiSettingsCoreMessages.ts
-// UI 設定の翻訳: common / characterStage / lifeHourglass / slots
+// UI 設定の翻訳: common / characterStage / slots
 export const uiSettingsCore = {
   ja: {
     uiSettings: {
@@ -25,6 +25,17 @@ export const uiSettingsCore = {
         loadError: {
           unregistered: '未登録の表示タイプ: {id}',
           loadFailed: '表示タイプ「{id}」の読み込みに失敗しました',
+        },
+        buildMismatch: {
+          title: 'データが不一致です',
+          message: 'このデータは、このビルドで未対応の機能({details})を含んでいます。対応するビルドで開いてください',
+          missing: 'このビルドでは、このデータの表示に必要な機能を読み込めませんでした',
+          types: {
+            ui: 'UI: {key}',
+            layout: 'レイアウト: {key}',
+            gameScript: 'ゲームスクリプト: {key}',
+          },
+          separator: '、',
         },
       },
       characterStage: {
@@ -66,23 +77,6 @@ export const uiSettingsCore = {
           },
         },
       },
-      lifeHourglass: {
-        carryOver: {
-          label: '前回までの砂粒を引き継ぐ',
-          descriptionOn: 'ON: 前回までの通算を表示します / OFF: 今回の配信ぶんだけを表示します',
-          descriptionUnavailable: 'サーバーがないため、現在は使用できません(起動しごとに 0 に戻ります)',
-        },
-        preview: {
-          viewer: '同接',
-          time: '時間',
-          gift: 'ギフト',
-          reset: 'リセット',
-          add10s: '+10秒',
-          add1m: '+1分',
-          add10m: '+10分',
-          add1h: '+1時間',
-        },
-      },
       slots: {
         gameRanking: {
           gameKey: {
@@ -122,35 +116,6 @@ export const uiSettingsCore = {
           subDetail: {
             title: 'サブ解説',
             description: '例: 神様の後押しで愛が深まる',
-          },
-        },
-        liveClock: {
-          message: {
-            title: '下部メッセージ',
-            description: '時計の下に出し続けるメッセージ。次に届くまで保持(空欄なら更新しない)',
-          },
-        },
-        flashBanner: {
-          defaultMessage: {
-            title: 'コメントがないときの文言',
-            description: 'コメントが来ていない間に流す文言。プレースホルダーが使えます(最後に届いたものを使います)',
-          },
-        },
-        snipeTimer: {
-          targetAt: {
-            title: '目標時刻',
-            description: 'エポックミリ秒。通常は SnipeTimer ゲームスクリプトがコメントから決めて渡します',
-          },
-        },
-        luckyDraw: {
-          action: {
-            title: '操作',
-            description:
-              'join(参加者に追加。メッセージのユーザーが参加者になります) / draw(抽選する) / reset(参加者を空にする)',
-          },
-          count: {
-            title: '当選人数',
-            description: 'draw のときの人数。空なら設定の当選人数を使います',
           },
         },
         characterStage: {
@@ -214,6 +179,17 @@ export const uiSettingsCore = {
           description: 'Choose the display format',
         },
         unregistered: 'Unregistered: {id}',
+        buildMismatch: {
+          title: 'Data mismatch',
+          message: 'This data uses features unsupported by this build ({details}). Open it with a compatible build.',
+          missing: 'This build could not load a feature required to display this data.',
+          types: {
+            ui: 'UI: {key}',
+            layout: 'Layout: {key}',
+            gameScript: 'Game script: {key}',
+          },
+          separator: ', ',
+        },
       },
     },
   },

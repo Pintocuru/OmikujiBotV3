@@ -12,14 +12,7 @@ const RAW = `${DOCS}/raw/main`
  */
 export const gameIcons: Partial<Record<GameScriptKey, LucideIconName>> = {
   GouseiSuika: 'Apple',
-  BomberSpin: 'Bomb',
-  DwarfBomb: 'Rabbit',
-  MultiplyBonanza: 'Flower2',
-  GoogolClover: 'Clover',
-  HugEmAll: 'Swords',
-  FortuneRanking: 'Sparkles',
   CommentBot: 'Bot',
-  SnipeTimer: 'Timer',
 }
 
 /**
@@ -30,24 +23,13 @@ export const gameLinksMap: Partial<Record<GameScriptKey, { url: string; banner: 
     url: `${MAIN}/2025-Q4/GouseiSuika/GouseiSuika.md`,
     banner: `${RAW}/2025-Q4/GouseiSuika/GouseiSuika.webp`,
   },
-  BomberSpin: {
-    url: `${MAIN}/2025-Q4/BomberSpin/BomberSpin.md`,
-    banner: `${RAW}/2025-Q4/BomberSpin/BomberSpin.webp`,
-  },
-  DwarfBomb: {
-    url: `${MAIN}/2025-Q4/BomberSpin/DwarfBomb.md`,
-    banner: `${RAW}/2025-Q4/BomberSpin/BomberSpinDwarf.webp`,
-  },
-  MultiplyBonanza: {
-    url: `${MAIN}/2025-Q4/BomberSpin/MultiplyBonanza.md`,
-    banner: `${RAW}/2025-Q4/BomberSpin/BomberSpinSakura.webp`,
-  },
-  GoogolClover: {
-    url: `${MAIN}/GoogolClover/GoogolClover.md`,
-    banner: `${RAW}/GoogolClover/GoogolClover.webp`,
-  },
-  HugEmAll: { url: '', banner: '' },
-  FortuneRanking: { url: '', banner: '' },
   CommentBot: { url: '', banner: '' },
-  SnipeTimer: { url: '', banner: '' },
+}
+
+export const registerGameScriptMetadata = (
+  icons: Partial<Record<GameScriptKey, LucideIconName>>,
+  links: Partial<Record<GameScriptKey, { url: string; banner: string }>>
+) => {
+  Object.assign(gameIcons, icons)
+  Object.assign(gameLinksMap, links)
 }

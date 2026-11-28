@@ -9,7 +9,7 @@ import { uiLayoutMap } from '@/ui/uiLayoutMap'
 export const findUnusedUiKinds = (ui: OmikujiDataType['ui'] | undefined): UiKind[] => {
   // ビルドでは zod を通る前の生 JSON が来るため、ui / settings が無い場合も考慮する
   if (!ui?.settings) return []
-  const used = uiLayoutMap[ui.layout]
+  const used = uiLayoutMap[ui.layout] ?? []
   if (!used) return [] // 未知のレイアウトでは何も消さない
   return (Object.keys(ui.settings) as UiKind[]).filter(
     (kind) => ui.settings[kind] !== undefined && !used.includes(kind)
