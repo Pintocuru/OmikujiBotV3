@@ -18,9 +18,4 @@ distZipped
 *.mp4
 
 # 実行時に生成される server のデータ
-server/streams/
-server/bingo-patterns/
-server/game-configs/
-server/userStats.json
-server/omikujiData.js
-server/ai-settings.json
+server/data/
