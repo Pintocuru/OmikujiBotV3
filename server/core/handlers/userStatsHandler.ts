@@ -24,7 +24,7 @@ import {
 const LOCK_KEY = 'user-stats'
 
 /**
- * 保存ファイル (server/userStats.json) の形
+ * 保存ファイル (server/data/userStats.json) の形
  * - revision: 変更のたびに +1 される通し番号
  * - baseRevision: 最後にリセットされたときの revision。これより古い since は差分で渡せない
  */
@@ -46,7 +46,7 @@ async function getState(): Promise<StoreState> {
   if (cache) return cache
 
   try {
-    const file = UserStatsFileSchema.parse(await loadFile(null, FILE_NAME.userStats))
+    const file = UserStatsFileSchema.parse(await loadFile('data', FILE_NAME.userStats))
     cache = { revision: file.revision, baseRevision: file.baseRevision, users: new Map(Object.entries(file.users)) }
   } catch (error: any) {
     if (error?.code !== 'ENOENT') await backupUnreadableFile(error)
@@ -63,7 +63,7 @@ async function backupUnreadableFile(cause: unknown): Promise<void> {
   const backupName = FILE_NAME.userStats.replace(/\.json$/, `.corrupt-${Date.now()}.json`)
   console.error(`User stats file is unreadable, backing up to ${backupName} and starting empty:`, cause)
   try {
-    await moveFile(null, FILE_NAME.userStats, backupName)
+    await moveFile('data', FILE_NAME.userStats, backupName)
   } catch (error) {
     console.error('Failed to back up unreadable user stats file:', error)
   }
@@ -74,7 +74,7 @@ async function backupUnreadableFile(cause: unknown): Promise<void> {
  */
 async function commit(next: StoreState): Promise<void> {
   const file = { revision: next.revision, baseRevision: next.baseRevision, users: Object.fromEntries(next.users) }
-  await saveFile(null, FILE_NAME.userStats, JSON.stringify(file))
+  await saveFile('data', FILE_NAME.userStats, JSON.stringify(file))
   cache = next
 }
 
