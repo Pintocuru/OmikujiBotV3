@@ -1,5 +1,5 @@
 // server/core/handlers/aiHandler.ts
-// 生成 AI の接続先の設定 (server/ai-settings.json) と、AI への中継
+// 生成 AI の接続先の設定 (server/data/ai-settings.json) と、AI への中継
 import { z } from 'zod'
 import { ApiResult } from '@server/types'
 import * as fileSystem from '@server/core/services/fileSystemService'
@@ -34,7 +34,7 @@ const EMPTY: AiSettingsStored = { main: null, sub: null }
 /** 保存されている設定を読む (まだない・読めないときは、接続先なし) */
 async function readStored(): Promise<AiSettingsStored> {
   try {
-    const parsed = StoredSettingsSchema.safeParse(await fileSystem.loadFile(null, FILE_NAME.aiSettings))
+    const parsed = StoredSettingsSchema.safeParse(await fileSystem.loadFile('data', FILE_NAME.aiSettings))
     return parsed.success ? parsed.data : EMPTY
   } catch (error: any) {
     if (error?.code !== 'ENOENT') console.error('Load AI settings error:', error?.code ?? 'unknown')
@@ -82,7 +82,7 @@ export async function saveAiSettings(body: unknown): Promise<ApiResult> {
         if (!apiKey) return badRequest(`${key}.apiKey: API キーを入力してください`)
         next[key] = { provider: input.provider, baseUrl: input.baseUrl, model: input.model, apiKey }
       }
-      await fileSystem.saveFile(null, FILE_NAME.aiSettings, JSON.stringify(next))
+      await fileSystem.saveFile('data', FILE_NAME.aiSettings, JSON.stringify(next))
       relay.resetCooldowns()
       console.info('💾 Saved AI settings')
       return ok(toResponse(next))
