@@ -2,7 +2,7 @@
 import { z } from 'zod'
 
 /**
- * LiveConsole のゲームの設定 (server/game-configs/<gameKey>.json) の API
+ * LiveConsole のゲームの設定 (server/data/game-configs/<gameKey>.json) の API
  * - サーバーは、設定の中身を知らない (ゲームごとの形は、ゲーム側のスキーマで検証する)
  * - gameKey は、ゲームの画面のキー (ConsoleViewKey)。ファイル名になるため、英数字だけ
  */
