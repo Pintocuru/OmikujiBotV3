@@ -3,13 +3,14 @@ import { PluginRequest, PluginResponse } from '@onecomme.com/onesdk/types/Plugin
 import { RequestContext, UnifiedRequest } from '@server/types'
 import { routeRequest } from '@server/core/router'
 import { SERVER_ROOT } from '@server/constants'
+import path from 'path'
 import { HTTP } from '@server/core/constants'
 
 /**
  * プラグインの実行環境: omikujiData.js はプラグインと同じ位置(server)に出力する
  */
 const PLUGIN_CONTEXT: RequestContext = {
-  omikujiOutputDir: SERVER_ROOT,
+  omikujiOutputDir: path.join(SERVER_ROOT, 'data'),
 }
 
 /**
