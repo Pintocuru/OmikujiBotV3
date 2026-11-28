@@ -8,6 +8,10 @@ import { SERVER_ROOT } from './constants'
 import { DEV_API, DIR_NAME } from './core/constants'
 import { seedCommentUsers } from './core/services/userListService'
 import { generateDummyUserStats } from '@/common/MockUser/MockGenerators'
+import { registerPrivateServerRoutes } from '@product/server/registerPrivateRoutes'
+
+// Product独自のAPIルートを開発用APIサーバーに追加
+registerPrivateServerRoutes()
 
 let server: Server | null = null
 
